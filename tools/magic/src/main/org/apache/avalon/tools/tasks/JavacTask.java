@@ -40,7 +40,7 @@ public class JavacTask extends SystemTask
 {
 
     public static final String DEBUG_KEY = "java.compile.debug";
-    public static final boolean DEBUG_VALUE = false;
+    public static final boolean DEBUG_VALUE = true;
 
     public static final String FORK_KEY = "java.compile.fork";
     public static final boolean FORK_VALUE = false;
