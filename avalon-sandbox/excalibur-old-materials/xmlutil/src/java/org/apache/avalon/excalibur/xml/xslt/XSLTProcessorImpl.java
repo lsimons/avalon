@@ -64,7 +64,7 @@ import org.xml.sax.XMLFilter;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.18 2002/11/07 04:40:52 donaldp Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.19 2002/12/07 00:38:56 mirceatoma Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
@@ -81,6 +81,7 @@ public final class XSLTProcessorImpl
     private Store m_store;
 
     /** The trax TransformerFactory this component uses */
+    private String m_transformerFactory;
     private SAXTransformerFactory m_factory;
 
     /** Is the store turned on? (default is off) */
@@ -123,6 +124,7 @@ public final class XSLTProcessorImpl
         throws Exception
     {
         m_errorHandler = new TraxErrorHandler( getLogger() );
+        m_factory = getTransformerFactory( m_transformerFactory );
     }
 
     public void dispose()
@@ -140,7 +142,7 @@ public final class XSLTProcessorImpl
     {
         m_useStore = params.getParameterAsBoolean( "use-store", this.m_useStore );
         m_incrementalProcessing = params.getParameterAsBoolean( "incremental-processing", this.m_incrementalProcessing );
-        m_factory = getTransformerFactory( params.getParameter( "transformer-factory", null ) );
+        m_transformerFactory = params.getParameter( "transformer-factory", null );
         if( !m_useStore )
         {
             m_store = null;
