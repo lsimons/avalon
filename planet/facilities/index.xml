@@ -60,7 +60,7 @@
     <info>
       <group>jetty</group>
       <name>org.mortbay.jetty</name>
-      <version>4.2.15</version>
+      <version>SNAPSHOT</version>
       <type>jar</type>
     </info>
   </resource>
@@ -87,6 +87,7 @@
     <dependencies>
       <include key="avalon-http-api"/>
       <include key="avalon-composition-api" runtime="false"/>
+      <include key="org.mortbay.jetty"/>
     </dependencies>
   </project>
 
