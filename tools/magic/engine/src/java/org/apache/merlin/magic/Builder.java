@@ -101,12 +101,9 @@ public class Builder
     
     private File findSystemDir()
     {
-        String classpath = System.getProperty( "java.class.path" );
-        File f = new File( classpath );
-        f = f.getParentFile();
-        String dir = f.getParent();
-        File system = new File( dir );
-        return system.getAbsoluteFile();
+        String system = System.getProperty( "magic.system.dir" );
+        File systemDir = new File( system );
+        return systemDir;
     }
     
     private void loadAllPlugins( PluginServiceManager sm )

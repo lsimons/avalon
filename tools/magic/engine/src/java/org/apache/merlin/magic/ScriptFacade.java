@@ -59,13 +59,11 @@ public class ScriptFacade extends AbstractLogEnabled
         
         BshClassManager classman = bsh.getClassManager();
         
-        getLogger().info( "Class: " + classname + "   --> " + classman.classExists( classname ) );
         if( ! classman.classExists( classname ) )
         {
             bsh.eval( m_Script );
         }
         String expr1 = "import org.apache.merlin.magic.Plugin;  Plugin plugin = new " + classname + "();";
-        System.out.println( expr1 );
         bsh.eval( expr1 );
         m_Plugin = (Plugin) bsh.get( "plugin" );
         return m_Plugin;
