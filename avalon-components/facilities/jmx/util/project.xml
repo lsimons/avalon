@@ -2,7 +2,7 @@
 
 <project>
 
-  <extend>${basedir}/../project.xml</extend>
+  <extend>${basedir}/../common-project.xml</extend>
   <id>avalon-jmx-util</id>
   <name>Merlin JMX Utility</name>
   <package>org.apache.avalon.merlin.jmx.util</package>

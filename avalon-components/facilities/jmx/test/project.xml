@@ -2,7 +2,7 @@
 
 <project>
 
-  <extend>${basedir}/../project.xml</extend>
+  <extend>${basedir}/../common-project.xml</extend>
   <id>avalon-jmx-test</id>
   <name>JMX Facility Test</name>
   <package>org.apache.avalon.playground.jmxtest</package>

@@ -2,23 +2,24 @@
 
 <project>
 
-  <extend>${basedir}/../../project.xml</extend>
+  <extend>${basedir}/../common-project.xml</extend>
 
-  <groupId>avalon-http</groupId>
-  <name>Avalon HTTP</name>
-  
-  <shortDescription>Avalon HTTP Project Template.</shortDescription>
+  <groupId>avalon-mds</groupId>
+  <name>Avalon MDS</name>
+
+  <shortDescription>Avalon MDS Project</shortDescription>
 
   <packageGroups>
     <packageGroup>
-      <title>Avalon HTTP API</title>
-      <packages>org.apache.avalon.http</packages>
+      <title>Avalon MDS API</title>
+      <packages>org.apache.avalon.mds</packages>
     </packageGroup>
     <packageGroup>
-      <title>Avalon HTTP Implementation</title>
+      <title>Avalon MDS Implementation</title>
       <packages>org.apache.avalon.http.*</packages>
     </packageGroup>
   </packageGroups>
+
 
   <build>
 
@@ -36,7 +37,7 @@
       <resources>
         <resource>
           <directory>${basedir}/src/test</directory>
-          <includes> 
+          <includes>
             <include>**/*.dtd</include>
             <include>**/*.properties</include>
             <include>**/*.x*</include>
@@ -44,7 +45,7 @@
         </resource>
       </resources>
     </unitTest>
-    
+
     <resources>
       <resource>
         <directory>${basedir}/src/java</directory>
@@ -62,7 +63,7 @@
         </includes>
       </resource>
     </resources>
-    
+
     <jars></jars>
   </build>
 

@@ -2,9 +2,8 @@
 
 <project>
 
-  <extend>${basedir}/../../../project.xml</extend>
+  <extend>${basedir}/../common-project.xml</extend>
 
-  <groupId>avalon-http</groupId>
   <id>avalon-http-spi</id>
   <name>Avalon HTTP SPI</name>
   <package>org.apache.avalon.http</package>
@@ -26,7 +25,7 @@
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-api</artifactId>
-      <version>${pom.currentVersion}</version>
+      <version>3.3.0</version>
     </dependency>
 
   </dependencies>

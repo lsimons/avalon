@@ -2,9 +2,8 @@
 
 <project>
 
-  <extend>${basedir}/../../../project.xml</extend>
+  <extend>${basedir}/../common-project.xml</extend>
 
-  <groupId>avalon-http</groupId>
   <id>avalon-http-util</id>
   <name>Avalon HTTP Util</name>
 
@@ -17,6 +16,7 @@
       <artifactId>servletapi</artifactId>
       <version>2.3</version>
     </dependency>
+    
     <dependency>
       <groupId>avalon-http</groupId>
       <artifactId>avalon-http-api</artifactId>
