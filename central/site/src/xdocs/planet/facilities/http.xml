@@ -50,11 +50,13 @@
           First of all you need to declare the HTTP Facility, and that is done
           by a simple component declaration in a suitable container;
         </p>
-<source>
-  <component name="http-server" class="org.apache.avalon.http.impl.DefaultServer"/>
+<source><![CDATA[
+  <component name="http-server" 
+             class="org.apache.avalon.http.impl.DefaultServer"/>
   
-  <component name="model-listener" class="org.apache.avalon.http.impl.DefaultModelListener"/>
-</source>          
+  <component name="model-listener" 
+             class="org.apache.avalon.http.impl.DefaultModelListener"/>
+]]></source>          
         <p>
           You may of course either use configurations together with the 
           declaration, or in separate profile files (recommended).
@@ -66,8 +68,7 @@
           of the formal description. The configuration below is for the 
           <em>http-server</em> component, not the <em>model-listener</em>
         </p>
-<source>
-<![CDATA[
+<source><![CDATA[
 <configuration>
   
   <listeners>
