@@ -69,7 +69,7 @@ import org.xml.sax.InputSource;
  * <p><image src="doc-files/TypeBuilder.gif" border="0"/></p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 08:15:25 $
+ * @version $Revision: 1.2 $ $Date: 2003/11/25 23:58:55 $
  */
 public final class TypeBuilder
 {
@@ -182,7 +182,7 @@ public final class TypeBuilder
         if( null == inputStream )
         {
             final String message =
-                REZ.getString( "builder.missing-info.error" );
+                REZ.getString( "builder.missing-info.error", path );
             throw new Exception( message );
         }
 
