@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<system>
+
+  <import index="../central/system/index.xml"/>
+
+  <project basedir="tutorials/hello" key="avalon-tutorial-hello">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>hello</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="tutorials/dynamics" key="avalon-tutorial-dynamics">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>dynamics</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+      <include key="avalon-framework-impl"/>
+      <include key="avalon-composition-api"/>
+      <include key="avalon-meta-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+</system>
