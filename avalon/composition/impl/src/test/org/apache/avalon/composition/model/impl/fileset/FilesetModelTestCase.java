@@ -31,7 +31,6 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
 
 public class FilesetModelTestCase extends TestCase
 {
-    private DefaultFilesetModel m_model;
     private ConsoleLogger m_logger;
     private File m_root;
 
@@ -42,7 +41,6 @@ public class FilesetModelTestCase extends TestCase
     {
         m_root = new File( System.getProperty( "basedir" ) );
         m_logger = new ConsoleLogger( ConsoleLogger.LEVEL_INFO );
-        m_model = new DefaultFilesetModel( m_logger );
     }
 
     /**
@@ -50,7 +48,6 @@ public class FilesetModelTestCase extends TestCase
      */
     public void tearDown() throws Exception
     {
-        m_model = null;
         m_logger = null;
     }
 
@@ -72,13 +69,12 @@ public class FilesetModelTestCase extends TestCase
         // make up a *bad* fileset directory attribute
         FilesetDirective fsd = new FilesetDirective( "junk", includes, excludes );
 
-        // set the fileset model's anchor directory and set of includes/excludes
+        // create the fileset model's anchor directory
         File anchor = new File( m_root, fsd.getBaseDirectory() );
-        m_model.setBaseDirectory( anchor );
-        m_model.setIncludeDirectives( fsd.getIncludes() );
-        m_model.setExcludeDirectives( fsd.getExcludes() );
-        m_model.setDefaultIncludes( null );
-        m_model.setDefaultExcludes( null );
+
+        // create the Fileset Model
+        DefaultFilesetModel m_model = new DefaultFilesetModel( anchor, fsd.getIncludes(),
+            fsd.getExcludes(), null, null, m_logger );
 
         // do the test...
         try
@@ -118,13 +114,12 @@ public class FilesetModelTestCase extends TestCase
         final String dir = "target/test";
         FilesetDirective fsd = new FilesetDirective( dir, includes, excludes );
 
-        // set the fileset model's anchor directory and set of includes/excludes
+        // create the fileset model's anchor directory
         File anchor = new File( m_root, fsd.getBaseDirectory() );
-        m_model.setBaseDirectory( anchor );
-        m_model.setIncludeDirectives( fsd.getIncludes() );
-        m_model.setExcludeDirectives( fsd.getExcludes() );
-        m_model.setDefaultIncludes( null );
-        m_model.setDefaultExcludes( null );
+
+        // create the Fileset Model
+        DefaultFilesetModel m_model = new DefaultFilesetModel( anchor, fsd.getIncludes(),
+            fsd.getExcludes(), null, null, m_logger );
 
         // do the test...
         try
@@ -182,13 +177,12 @@ public class FilesetModelTestCase extends TestCase
         final String dir = "target/test/ext";
         FilesetDirective fsd = new FilesetDirective( dir, includes, excludes );
 
-        // set the fileset model's anchor directory and set of includes/excludes
+        // create the fileset model's anchor directory
         File anchor = new File( m_root, fsd.getBaseDirectory() );
-        m_model.setBaseDirectory( anchor );
-        m_model.setIncludeDirectives( fsd.getIncludes() );
-        m_model.setExcludeDirectives( fsd.getExcludes() );
-        m_model.setDefaultIncludes( null );
-        m_model.setDefaultExcludes( null );
+
+        // create the Fileset Model
+        DefaultFilesetModel m_model = new DefaultFilesetModel( anchor, fsd.getIncludes(),
+            fsd.getExcludes(), null, null, m_logger );
 
         // do the test...
         try
@@ -252,13 +246,12 @@ public class FilesetModelTestCase extends TestCase
         final String dir = "target/test/ext";
         FilesetDirective fsd = new FilesetDirective( dir, includes, excludes );
 
-        // set the fileset model's anchor directory and set of includes/excludes
+        // create the fileset model's anchor directory
         File anchor = new File( m_root, fsd.getBaseDirectory() );
-        m_model.setBaseDirectory( anchor );
-        m_model.setIncludeDirectives( fsd.getIncludes() );
-        m_model.setExcludeDirectives( fsd.getExcludes() );
-        m_model.setDefaultIncludes( null );
-        m_model.setDefaultExcludes( null );
+
+        // create the Fileset Model
+        DefaultFilesetModel m_model = new DefaultFilesetModel( anchor, fsd.getIncludes(),
+            fsd.getExcludes(), null, null, m_logger );
 
         // do the test...
         try
@@ -323,13 +316,12 @@ public class FilesetModelTestCase extends TestCase
         final String dir = "target/test";
         FilesetDirective fsd = new FilesetDirective( dir, includes, excludes );
 
-        // set the fileset model's anchor directory and set of includes/excludes
+        // create the fileset model's anchor directory
         File anchor = new File( m_root, fsd.getBaseDirectory() );
-        m_model.setBaseDirectory( anchor );
-        m_model.setIncludeDirectives( fsd.getIncludes() );
-        m_model.setExcludeDirectives( fsd.getExcludes() );
-        m_model.setDefaultIncludes( null );
-        m_model.setDefaultExcludes( null );
+
+        // create the Fileset Model
+        DefaultFilesetModel m_model = new DefaultFilesetModel( anchor, fsd.getIncludes(),
+            fsd.getExcludes(), null, null, m_logger );
 
         // do the test...
         try
