@@ -14,10 +14,14 @@
     <person name="Eung-ju Park" email="colus@apache.org" id="EP"/>
     <person name="Carston Ziegler" email="cziegler@apache.org" id="CZ"/>
     <person name="Peter Royal" email="proyal@apache.org" id="PR"/>
+    <person name="Vadim Gritsenko" email="vgritsenko@apache.org" id="VG"/>
   </devs>
   <release version="@version@" date="@date@">
+    <action dev="VG" type="add">
+      Added Saxon XPath processors to the xmlutil
+    </action>
     <action dev="PR" type="fix">
-        Fixing proxy-based datasource code.
+      Fixing proxy-based datasource code.
     </action>
     <action dev="PR" type="fix">
       PriorityFilterTargetFactory throws a ConfigurationException
