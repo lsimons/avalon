@@ -57,7 +57,7 @@ import org.apache.avalon.framework.Version;
  * TestCase for {@link Version}.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.1 $ $Date: 2004/01/11 22:17:19 $
+ * @version CVS $Revision: 1.2 $ $Date: 2004/01/11 22:34:26 $
  */
 public class VersionTestCase
     extends TestCase
@@ -77,6 +77,16 @@ public class VersionTestCase
 
         final Version v3 = Version.getVersion( "78.10.03" );
         assertTrue( new Version( 78, 10, 3 ).equals( v3 ) );
+
+
+        try
+        {
+            final Version v4 = Version.getVersion( null );
+
+            fail( "Expected an exception!" );
+        }
+        catch( NullPointerException th )
+        {}
     }
 
     public void testInvalidVersionString()
@@ -122,6 +132,8 @@ public class VersionTestCase
         assertTrue(   v3.complies( v1 ) );
         assertTrue( ! v1.complies( v4 ) );
         assertTrue( ! v4.complies( v1 ) );
+
+        assertTrue( ! v4.complies( null ) );
     }
     
     public void testHashCode()
@@ -159,6 +171,26 @@ public class VersionTestCase
         
         assertEquals( -1, v3.compareTo(v4) );
         assertEquals( 1, v4.compareTo(v3) );
+
+        try
+        {
+            v4.compareTo(null);
+            fail( "Expected an exception!" );
+        }
+        catch( NullPointerException th )
+        {}
+    }
+
+    public void testEquals()
+    {
+        assertFalse( new Version( 1, 0, 0 ).equals( this ) );
+        assertFalse( new Version( 1, 0, 0 ).equals( null ) );
+    }
+
+    public void testToString()
+    {
+        assertEquals( "1.0.0", new Version( 1, 0, 0 ).toString() );
+        assertEquals( "230.21.-123456", new Version( 230, 21, -123456 ).toString() );
     }
 
     private int calculateHash(final Version v) {
