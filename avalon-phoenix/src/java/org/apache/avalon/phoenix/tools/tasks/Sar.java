@@ -22,9 +22,7 @@ public class Sar
     extends Jar
 {
     private File m_config;
-
     private File m_assembly;
-
     private File m_environment;
 
     public Sar()
@@ -35,7 +33,7 @@ public class Sar
 
     public void setSarfile( final File file )
     {
-        setZipfile( file );
+        setDestFile( file );
     }
 
     public void setConfig( final File config )
