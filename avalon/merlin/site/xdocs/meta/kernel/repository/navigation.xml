@@ -74,6 +74,7 @@
             <item name="proxy" href="/meta/kernel/repository/proxy.html"/>
             <item name="hosts" href="/meta/kernel/repository/hosts.html"/>
           </item>
+          <item name="parameters" href="/meta/kernel/parameters/index.html" />
         </item>
         <item name="block.xml" href="/meta/block/index.html"/>
         <item name="config.xml" href="/meta/config/index.html"/>

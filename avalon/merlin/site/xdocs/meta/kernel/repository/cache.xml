@@ -58,19 +58,23 @@
   </header>
 
   <body>
-    <section name="Proxy">
+    <section name="Cache">
 
       <subsection name="Description">
-        <p>A local directory to be used as the cache.  If not
-        declared, the value defaults to '[MERLIN-HOME]/repository'.</p>
+        <p>
+          A local directory to be used as the cache.  If not
+          declared, the value defaults to '[MERLIN-HOME]/repository'.
+        </p>
       </subsection>
 
       <subsection name="Sample XML">
 
 <source><![CDATA[
+ <kernel>
    <repository>
      <cache>C:/maven/repository</cache>
    </repository>
+ </kernel>
 ]]></source>
 
      </subsection>
