@@ -8,8 +8,24 @@
  <body>
 
   <section name="News and Information">
-
    <!-- insert new news items as a subsection here -->
+   <subsection name="12-FEB-2004: Avalon Adopts JIRA">
+     <p>
+      The Avalon project has migrated from Bugzilla to
+      <a href="http://issues.apache.org/jira">JIRA</a> for
+      issue tracking and managing bugs and patches.
+     </p>
+   </subsection>
+
+   <subsection name="18-JAN-2004: MerlinDeveloper Graduates From Incubator">
+    <p>
+     The <a href="http://marc.theaimsgroup.com/?l=avalon-dev&amp;m=107443966427714&amp;w=2">
+     vote</a> passed and MerlinDeveloper now has a new home in Avalon.
+     Special thanks to Leo Simons for helping the project through
+     the incubator and Andreas for his work on the new project.
+    </p>
+   </subsection>
+
    <subsection name="06-DEC-2003: New Wiki Site">
     <p>
       Thanks to Leo Simons and the other good folks of Apache Infrastructure,

@@ -9,13 +9,16 @@
     <section name="News and Information">
        <ul>
          <li>
-	   12/06/2003 : <a href="news.html">New Wiki Site</a>
+	   02/12/2004 : <a href="news.html#12-FEB-2004: Avalon Adopts JIRA">Avalon Adopts JIRA</a>
+	 </li>
+	 <li>
+	   01/18/2004 : <a href="news.html#18-JAN-2004: MerlinDeveloper Graduates From Incubator">MerlinDeveloper graduates from Apache Incubator</a>
 	 </li>
          <li>
-           10/29/2003 : <a href="news.html">New Avalon Site Goes Live</a>
-         </li>
+	   12/06/2003 : <a href="news.html#06-DEC-2003: New Wiki Site">New Wiki Site</a>
+	 </li>
          <li>
-           09/26/2003 : <a href="news.html">Merlin 3.0 beta 1 release</a>
+           10/29/2003 : <a href="news.html#29-OCT-2003: New Avalon Site">New Avalon Site Goes Live</a>
          </li>
        </ul>
     </section>
