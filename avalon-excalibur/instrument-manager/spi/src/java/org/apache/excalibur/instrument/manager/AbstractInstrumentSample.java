@@ -50,6 +50,7 @@
 package org.apache.excalibur.instrument.manager;
 
 import java.util.StringTokenizer;
+import java.util.Calendar;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -63,13 +64,16 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleUtils;
  *  InstrumentSamples.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/11/09 16:36:32 $
+ * @version CVS $Revision: 1.2 $ $Date: 2004/01/30 06:39:00 $
  * @since 4.1
  */
 abstract class AbstractInstrumentSample
     extends AbstractLogEnabled
     implements InstrumentSample
 {
+    /** Stores the time-zone offset for this JVM. */
+    private static long m_zoneOffset;
+    
     /** The InstrumentProxy which owns the InstrumentSample. */
     private InstrumentProxy m_instrumentProxy;
 
@@ -121,6 +125,15 @@ abstract class AbstractInstrumentSample
     /** State Version. */
     private int m_stateVersion;
 
+    /*---------------------------------------------------------------
+     * Static Initializer
+     *-------------------------------------------------------------*/
+    static
+    {
+        Calendar now = Calendar.getInstance();
+        m_zoneOffset = now.get( Calendar.ZONE_OFFSET );
+    }
+    
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -742,7 +755,12 @@ abstract class AbstractInstrumentSample
      */
     private long calculateSampleTime( long time )
     {
-        return ( time / m_interval ) * m_interval;
+        // We want this to round to the nearest interval.  For intervals
+        //  over an hour, the current time zone needs to be taken into
+        //  account so the interval will be alligned correctly.
+        // The timezone offset is calculated once when the class is loaded.
+        long offset = ( time + m_zoneOffset ) % m_interval;
+        return time - offset;
     }
 
     /**
