@@ -48,7 +48,7 @@
       and have different release cycles, we have decided to break
       Avalon into the smaller projects mentioned above.  That move also
       enables new developers to understand and learn Avalon in distinct
-      chunks-something that was almost impossible before.
+      chunks&mdash;something that was almost impossible before.
     </para>
     <section>
       <title>Framework</title>
