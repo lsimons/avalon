@@ -47,75 +47,98 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.excalibur.xfc.modules;
+package org.apache.excalibur.xfc.modules.fortress;
 
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.apache.avalon.framework.Version;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.configuration.DefaultConfigurationSerializer;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.configuration.DefaultConfiguration;
 
-import org.apache.excalibur.xfc.Module;
+import org.apache.excalibur.xfc.model.Definition;
+import org.apache.excalibur.xfc.model.Instance;
 import org.apache.excalibur.xfc.model.Model;
+import org.apache.excalibur.xfc.model.RoleRef;
+
+import org.apache.excalibur.xfc.modules.Constants;
 
 /**
- * Abstract {@link Module} class which provides common operations/constants
- * to prospective subclasses.
+ * Simple class providing normalized mappings for Fortress Component
+ * handler names.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: AbstractModule.java,v 1.3 2002/10/14 16:17:50 crafterm Exp $
+ * @version CVS $Id: HandlerMapper.java,v 1.1 2002/10/16 16:20:38 crafterm Exp $
  */
-public abstract class AbstractModule
-    extends AbstractLogEnabled
-    implements Module
+public final class HandlerMapper implements Constants
 {
-    // normalized component handler names
-    protected static final String     TRANSIENT = "transient";
-    protected static final String     THREAD    = "thread";
-    protected static final String     POOLED    = "pooled";
-    protected static final String     SINGLETON = "singleton";
+    // ComponentHandler constants
+    private static final String FACTORY =
+        "org.apache.excalibur.fortress.handler.FactoryComponentHandler";
+    private static final String PERTHREAD =
+        "org.apache.excalibur.fortress.handler.PerThreadComponentHandler";
+    private static final String POOLABLE =
+        "org.apache.excalibur.fortress.handler.PoolableComponentHandler";
+    private static final String THREADSAFE =
+        "org.apache.excalibur.fortress.handler.ThreadSafeComponentHandler";
 
-    protected static final char       CONTEXT_SEPARATOR = ':';
+    // Map of fortress/type handlers
+    private static final Map m_handlers = new HashMap();
 
-    protected static final String     COMPONENT = "component";
-
-    protected final DefaultConfigurationSerializer m_serializer;
-    protected final DefaultConfigurationBuilder m_builder;
-
-    /**
-     * Creates a new {@link AbstractModule} instance.
-     */
-    public AbstractModule()
+    // Normalized mappings for Fortress component handlers
+    static
     {
-        m_builder = new DefaultConfigurationBuilder();
-        m_serializer = new DefaultConfigurationSerializer();
+        // Fortress -> Normalized
+        m_handlers.put( FACTORY, TRANSIENT );
+        m_handlers.put( PERTHREAD, THREAD );
+        m_handlers.put( POOLABLE, POOLED );
+        m_handlers.put( THREADSAFE, SINGLETON );
 
-        // enable pretty printing of output
-        m_serializer.setIndent( true );
+        // Normalized -> Fortress
+        m_handlers.put( TRANSIENT, FACTORY );
+        m_handlers.put( THREAD, PERTHREAD );
+        m_handlers.put( POOLED, POOLABLE );
+        m_handlers.put( SINGLETON, THREADSAFE );
     }
 
     /**
-     * Abstract method for generating a {@link Model} from an
-     * input context
+     * Method for extracting a role's ComponentHandler name.
      *
-     * @param context a <code>String</code> value
-     * @return a {@link Model} value
-     * @exception Exception if an error occurs
+     * @return the role's normalized handler name
      */
-    public abstract Model generate( final String context )
-        throws Exception;
+    public static String getHandler( final String handler )
+    {
+        return getLifestyleType( handler, FACTORY );
+    }
 
     /**
-     * Abstract method for serializing a given {@link Model} to
-     * an output context.
+     * Helper method to convert known Fortress ComponentHandler types to meta
+     * REVISIT: meta should define transient/thread/pooled/etc as constants.
      *
-     * @param model a {@link Model} value
-     * @param context a <code>String</code> value
-     * @exception Exception if an error occurs
+     * @param handler a <code>String</code> value
+     * @param defaultValue a <code>String</code> default value if handler
+     *                     type cannot be found
+     * @return a <code>String</code> value
      */
-    public abstract void serialize( final Model model, final String context )
-        throws Exception;
+    private static String getLifestyleType( String handler, String defaultValue )
+    {
+        if ( handler != null )
+        {
+            String type = (String) m_handlers.get( handler );
+
+            if ( type != null )
+                return type;
+        }
+
+        /*
+        if ( getLogger().isWarnEnabled() )
+        {
+            getLogger().warn(
+                "Custom or unknown handler " + handler +
+                " defined, defaulting to " + defaultValue
+            );
+        }
+        */
+
+        return defaultValue;
+    }
 }

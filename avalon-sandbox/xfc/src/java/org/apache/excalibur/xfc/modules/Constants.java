@@ -47,48 +47,38 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.excalibur.xfc.test.util;
-
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.logger.Logger;
-
-import org.apache.excalibur.xfc.model.RoleRef;
-
-import org.apache.excalibur.xfc.modules.fortress.Fortress;
-import org.apache.excalibur.xfc.modules.fortress.FortressSerializer;
+package org.apache.excalibur.xfc.modules;
 
 /**
- * Fortress Module Test Rig. This class extends Fortress and provides several accessor
- * methods to internal Fortress methods that are otherwise not available from the normal
- * Module API.
+ * Constants common to all {@link Module}s.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: FortressTestRig.java,v 1.2 2002/10/16 16:21:06 crafterm Exp $
+ * @version CVS $Id: Constants.java,v 1.1 2002/10/16 16:21:07 crafterm Exp $
  */
-public final class FortressTestRig extends Fortress
+public interface Constants
 {
-    private FortressSerializerTestRig m_serializerRig = new FortressSerializerTestRig();
+    // normalized component handler names
+    String TRANSIENT            = "transient";
+    String THREAD               = "thread";
+    String POOLED               = "pooled";
+    String SINGLETON            = "singleton";
 
-    public Configuration buildRole( final RoleRef roleref )
-        throws Exception
-    {
-        return m_serializerRig.buildRole( roleref );
-    }
+    // character used to separate context entries
+    char   CONTEXT_SEPARATOR    = ':';
 
-    public void enableLogging( final Logger logger )
-    {
-        super.enableLogging( logger );
-        m_serializerRig.enableLogging( logger );
-    }
+    // ExcaliburComponentSelector class name
+    String ECS = "org.apache.avalon.excalibur.component.ExcaliburComponentSelector";
 
-    class FortressSerializerTestRig extends FortressSerializer
-    {
-        public Configuration buildRole( final RoleRef roleref )
-            throws Exception
-        {
-            return super.buildRole( roleref );
-        }
-    }
+    // general strings used in .roles/.xconf files.
+    String COMPONENT            = "component";
+    String COMPONENT_INSTANCE   = "component-instance";
+    String ROLELIST             = "role-list";
+    String SHORTHAND            = "shorthand";
+    String CLASS                = "class";
+    String NAME                 = "name";
+    String DEFAULT              = "default-class";
+    String HINT                 = "hint";
+    String ROLE                 = "role";
+    String ID                   = "id";
+    String HANDLER              = "handler";
 }
-
-

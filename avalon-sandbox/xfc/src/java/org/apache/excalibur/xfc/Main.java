@@ -64,7 +64,7 @@ import org.apache.avalon.excalibur.cli.CLUtil;
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
  * (parts also taken from the Excalibur CLI example)
- * @version CVS $Id: Main.java,v 1.1 2002/10/02 17:32:28 crafterm Exp $
+ * @version CVS $Id: Main.java,v 1.2 2002/10/16 16:21:07 crafterm Exp $
  */
 public final class Main
 {
@@ -263,17 +263,17 @@ public final class Main
     {
         if ( "ecm".equalsIgnoreCase( clazz ) )
         {
-            return Class.forName( "org.apache.excalibur.xfc.modules.ECM" );
+            return Class.forName( "org.apache.excalibur.xfc.modules.ecm.ECM" );
         }
 
         if ( "fortress".equalsIgnoreCase( clazz ) )
         {
-            return Class.forName( "org.apache.excalibur.xfc.modules.Fortress" );
+            return Class.forName( "org.apache.excalibur.xfc.modules.fortress.Fortress" );
         }
 
         if ( "merlin".equalsIgnoreCase( clazz ) )
         {
-            return Class.forName( "org.apache.excalibur.xfc.modules.Merlin" );
+            return Class.forName( "org.apache.excalibur.xfc.modules.merlin.Merlin" );
         }
 
         // assume custom module
