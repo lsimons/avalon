@@ -18,32 +18,32 @@
 package org.apache.avalon.composition.model;
 
 /**
- * Exception raised in response to a model assembly failure.
+ * Exception raised in response to a model provider resolution failure.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/03/07 22:10:39 $
+ * @version $Revision: 1.1 $ $Date: 2004/03/07 22:10:39 $
  */
-public class AssemblyException
-        extends ModelException
+public final class ProviderNotFoundException
+        extends AssemblyException
 {
 
     /**
-     * Construct a new <code>AssemblyException</code> instance.
+     * Construct a new <code>ProviderNotFoundException</code> instance.
      *
      * @param message The detail message for this exception.
      */
-    public AssemblyException( final String message )
+    public ProviderNotFoundException( final String message )
     {
         this( message, null );
     }
 
     /**
-     * Construct a new <code>AssemblyException</code> instance.
+     * Construct a new <code>ProviderNotFoundException</code> instance.
      *
      * @param message The detail message for this exception.
      * @param throwable the root cause of the exception
      */
-    public AssemblyException( final String message, final Throwable throwable )
+    public ProviderNotFoundException( final String message, final Throwable throwable )
     {
         super( message, throwable );
     }
