@@ -61,4 +61,20 @@ Legal:
     </xdoclet>
   </target>
 
+  <!-- runs xdoclet if need be -->
+  <target name="test-xdoclet">
+    <taskdef name="phoenix-blocks" 
+             classname="org.apache.avalon.phoenix.tools.xdoclet.PhoenixXDoclet" 
+             classpathref="project.class.path"/>
+
+    <phoenix-blocks sourcepath="${java.dir}" destdir="${gen.dir}" classpathref="project.class.path">
+      <fileset dir="${java.dir}">
+        <include name="**/*.java" />
+      </fileset>
+      <blockinfo/>
+      <manifest manifestFile="manifest.mf" />
+    </phoenix-blocks>
+
+  </target>
+
 </project>
