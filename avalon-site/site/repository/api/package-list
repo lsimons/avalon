@@ -1,4 +1,5 @@
 org.apache.avalon.repository
+org.apache.avalon.repository.cli
 org.apache.avalon.repository.impl
 org.apache.avalon.repository.main
 org.apache.avalon.repository.meta
