@@ -80,7 +80,6 @@ public class DefaultDataSourceSelector
     }
 
     public void dispose()
-        throws Exception
     {
         final Iterator keys = m_dataSources.keySet().iterator();
         while ( keys.hasNext() )
