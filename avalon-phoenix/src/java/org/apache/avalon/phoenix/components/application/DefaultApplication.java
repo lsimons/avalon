@@ -12,11 +12,15 @@ import java.util.HashMap;
 import java.util.List;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.phoenix.ApplicationListener;
+import org.apache.avalon.phoenix.BlockListener;
+import org.apache.avalon.phoenix.components.lifecycle.LifecycleHelper;
+import org.apache.avalon.phoenix.components.lifecycle.LifecycleException;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.interfaces.ApplicationException;
@@ -24,9 +28,6 @@ import org.apache.avalon.phoenix.interfaces.ApplicationMBean;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
-import org.apache.avalon.phoenix.components.lifecycle.LifecycleHelper;
-import org.apache.avalon.phoenix.ApplicationListener;
-import org.apache.avalon.phoenix.BlockListener;
 import org.apache.excalibur.threadcontext.ThreadContext;
 
 /**
@@ -439,7 +440,6 @@ public final class DefaultApplication
         }
     }
 
-
     /**
      * Method to run a <code>Block</code> through it's startup phase.
      * This will involve notification of <code>BlockListener</code>
@@ -490,6 +490,7 @@ public final class DefaultApplication
      * @param entry the entry containing Block
      */
     public void shutdown( final BlockEntry entry )
+        throws LifecycleException
     {
         entry.setState( State.DESTROYING );
 
