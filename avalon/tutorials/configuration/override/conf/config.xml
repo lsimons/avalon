@@ -1,8 +1,0 @@
-
-<targets>
-  <target path="/tutorial/hello">
-    <configuration>
-      <source>Custom configuration target.</source>
-    </configuration>
-  </target>
-</targets>
