@@ -202,7 +202,11 @@ public class WorkerThread
     }
 
     /**
-	 * 
+	 * Clears the interrupt flag for this thread.  Since Java does
+     * not provide a method that does this for an external thread,
+     * we have to verify that we are in the WorkerThread.  If the
+     * code calling this method does not originate from this thread,
+     * we set a flag and wait for it to be called internally.
 	 */
 	public void clearInterruptFlag()
     {
