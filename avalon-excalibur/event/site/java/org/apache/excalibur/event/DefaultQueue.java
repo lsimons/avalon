@@ -274,7 +274,7 @@ public final class DefaultQueue extends AbstractQueue
         return element;
     }
 
-    private final static class DefaultPreparedEnqueue implements PreparedEnqueue
+    private static final class DefaultPreparedEnqueue implements PreparedEnqueue
     {
         private final DefaultQueue m_parent;
         private QueueElement[] m_elements;

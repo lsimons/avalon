@@ -117,7 +117,7 @@ public class CommandManager implements EventPipeline
         return m_eventHandler;
     }
 
-    private final static class CommandEventHandler implements EventHandler
+    private static final class CommandEventHandler implements EventHandler
     {
         private final Map m_signalHandlers;
         private final Buffer m_delayedCommands = new VariableSizeBuffer();
@@ -217,7 +217,7 @@ public class CommandManager implements EventPipeline
         }
     }
 
-    private final static class DelayedCommandInfo
+    private static final class DelayedCommandInfo
     {
         protected DelayedCommand m_command;
         protected long m_nextRunTime;

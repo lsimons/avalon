@@ -170,7 +170,7 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
         }
     }
 
-    public final static class PipelineRunner implements Runnable
+    public static final class PipelineRunner implements Runnable
     {
         private final EventPipeline m_pipeline;
 
