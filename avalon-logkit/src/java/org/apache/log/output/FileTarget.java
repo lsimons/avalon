@@ -59,9 +59,10 @@ public class FileTarget
             throw new NullPointerException( "file property must not be null" );
         }
 
-        if( !file.getParentFile().exists() )
+        final File parent = file.getParentFile();
+        if( !parent.exists() )
         {
-            file.mkdirs();
+            parent.mkdirs();
         }
 
         final FileOutputStream outputStream = 
