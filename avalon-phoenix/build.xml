@@ -169,7 +169,7 @@ Legal:
 
 
     <!-- Compiles the source code -->
-    <target name="compile" depends="prepare" description="compiles the source code">
+    <target name="compile" depends="prepare,checkstyle" description="compiles the source code">
 
         <mkdir dir="${build.classes}"/>
 
