@@ -33,7 +33,7 @@ public class Sar
 
     public void setSarfile( final File file )
     {
-        setFile( file );
+        setZipfile( file );
     }
 
     public void setConfig( final File config ) 
@@ -42,12 +42,12 @@ public class Sar
 
         if( !m_config.exists() )
         {
-            throw new BuildException("Config descriptor: " + m_config + " does not exist.");
+            throw new BuildException( "Config descriptor: " + m_config + " does not exist." );
         }
 
         if( !m_config.isFile() )
         {
-            throw new BuildException("Config descriptor: " + m_config + " is not a file.");
+            throw new BuildException( "Config descriptor: " + m_config + " is not a file." );
         }
     }
 
@@ -57,12 +57,12 @@ public class Sar
 
         if( !m_assembly.exists() )
         {
-            throw new BuildException("Assembly descriptor: " + m_assembly + " does not exist.");
+            throw new BuildException( "Assembly descriptor: " + m_assembly + " does not exist." );
         }
 
         if( !m_assembly.isFile() )
         {
-            throw new BuildException("Assembly descriptor: " + m_assembly + " is not a file.");
+            throw new BuildException( "Assembly descriptor: " + m_assembly + " is not a file." );
         }
     }
 
@@ -72,24 +72,18 @@ public class Sar
 
         if( !m_server.exists() )
         {
-            throw new BuildException("Server descriptor: " + m_server + " does not exist.");
+            throw new BuildException( "Server descriptor: " + m_server + " does not exist." );
         }
 
         if( !m_server.isFile() )
         {
-            throw new BuildException("Server descriptor: " + m_server + " is not a file.");
+            throw new BuildException( "Server descriptor: " + m_server + " is not a file." );
         }
-    }
-
-    public void addBlocks( final ZipFileSet zipFileSet )
-    {
-        zipFileSet.setPrefix( "blocks");
-        super.addFileset( zipFileSet );
     }
 
     public void addLib( final ZipFileSet zipFileSet )
     {
-        zipFileSet.setPrefix( "lib");
+        zipFileSet.setPrefix( "SAR-INF/lib");
         super.addFileset( zipFileSet );
     }
 
@@ -108,9 +102,9 @@ public class Sar
             throw new BuildException( "server attribute is required", location );
         }
 
-        pushFile( "conf/config.xml", m_config );
-        pushFile( "conf/assembly.xml", m_assembly );
-        pushFile( "conf/server.xml", m_server );
+        pushFile( "SAR-INF/config.xml", m_config );
+        pushFile( "SAR-INF/assembly.xml", m_assembly );
+        pushFile( "SAR-INF/server.xml", m_server );
 
         super.execute();
     }
