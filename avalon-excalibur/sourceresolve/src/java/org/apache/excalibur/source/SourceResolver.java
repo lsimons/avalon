@@ -39,7 +39,7 @@ import org.apache.avalon.framework.component.Component;
  * like Composable, Initializable, Disposable etc.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/19 08:36:15 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/02/22 10:54:46 $
  */
 
 public interface SourceResolver
@@ -51,19 +51,19 @@ public interface SourceResolver
      * the content. It is up to the protocol implementation ({@link
      * SourceFactory}) to support this or not
      */
-    String METHOD = "org.apache.avalon.excalibur.source.Source.uri.method";
+    String METHOD = Source.class.getName()+".uri.method";
 
     /** With this parameter you can specify additional request parameters which are
      *  appended  to the URI. It is up to the protocol implementation ({@link
      * SourceFactory}) to support this or not.
      */
-    String URI_PARAMETERS = "org.apache.excalibur.source.Source.uri.parameters";
+    String URI_PARAMETERS = Source.class.getName()+".uri.parameters";
 
     /** With this parameter you can specify the encoding to use for encoding
      * the additional request parameters the URI. It is up to the protocol
      * implementation ({@link SourceFactory}) to support this or not.
      */
-    String URI_ENCODING = "org.apache.excalibur.source.Source.uri.encoding";
+    String URI_ENCODING = Source.class.getName()+".uri.encoding";
 	
     /**
      * Get a {@link Source} object. This is a shortcut for {@link #resolveURI
@@ -76,12 +76,6 @@ public interface SourceResolver
     Source resolveURI( String location )
         throws MalformedURLException, IOException;
 
-    /** With this parameter you can specify the encoding to use for encoding
-     * the additional request parameters the URI. It is up to the protocol
-     * implementation ({@link SourceFactory}) to support this or not.
-     */
-    String URI_ENCODING = "org.apache.excalibur.source.Source.uri.encoding";
-	
     /**
      * Get a {@link Source} object.
      * @param location - the URI to resolve. If this is relative it is either
@@ -108,4 +102,3 @@ public interface SourceResolver
      */
     void release( Source source );
 }
-
