@@ -62,7 +62,7 @@ import org.xml.sax.XMLFilter;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.11 2002/07/10 09:27:50 donaldp Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.12 2002/07/10 09:36:54 donaldp Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
@@ -109,6 +109,11 @@ public final class XSLTProcessorImpl
         m_xmlizer = (XMLizer)manager.lookup( XMLizer.ROLE );
         m_errorHandler = new TraxErrorHandler( getLogger() );
         m_resolver = (SourceResolver)manager.lookup( SourceResolver.ROLE );
+
+        if( manager.hasComponent( Store.TRANSIENT_STORE ) )
+        {
+            m_store = (Store)manager.lookup( Store.TRANSIENT_STORE );
+        }
     }
 
     /**
@@ -136,19 +141,16 @@ public final class XSLTProcessorImpl
         m_useStore = params.getParameterAsBoolean( "use-store", this.m_useStore );
         m_incrementalProcessing = params.getParameterAsBoolean( "incremental-processing", this.m_incrementalProcessing );
         m_factory = getTransformerFactory( params.getParameter( "transformer-factory", null ) );
-        if( m_useStore )
+        if( !m_useStore )
         {
-            try
-            {
-                m_store = (Store)m_manager.lookup( Store.TRANSIENT_STORE );
-            }
-            catch( final ComponentException ce )
-            {
-                final String message =
-                    "XSLTProcessor: use-store is set to true, " +
-                    "but the lookup of the Store failed.";
-                throw new ParameterException( message, ce );
-            }
+            m_store = null;
+        }
+        else if( null == m_store )
+        {
+            final String message =
+                "XSLTProcessor: use-store is set to true, " +
+                "but unable to aquire the Store.";
+            throw new ParameterException( message );
         }
     }
 
@@ -296,10 +298,10 @@ public final class XSLTProcessorImpl
         }
         else
         {
-                final InputStream inputStream = source.getInputStream();
-                final String mimeType = source.getMimeType();
-                final String systemId = source.getSystemId();
-                m_xmlizer.toSAX( inputStream, mimeType, systemId, handler );
+            final InputStream inputStream = source.getInputStream();
+            final String mimeType = source.getMimeType();
+            final String systemId = source.getSystemId();
+            m_xmlizer.toSAX( inputStream, mimeType, systemId, handler );
         }
     }
 
@@ -594,7 +596,7 @@ public final class XSLTProcessorImpl
                     else
                     {
                         xslSource = m_resolver.resolveURI( base.substring( 0, lastPathElementPos )
-                                                              + "/" + href );
+                                                           + "/" + href );
                     }
                 }
                 else
