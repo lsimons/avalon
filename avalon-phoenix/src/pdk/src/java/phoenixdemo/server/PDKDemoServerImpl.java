@@ -15,7 +15,7 @@ import phoenixdemo.api.PDKDemoServer;
 
 /**
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class PDKDemoServerImpl
     implements PDKDemoServer
@@ -37,7 +37,7 @@ public class PDKDemoServerImpl
             {
             }
 
-            System.out.println( "String passed = " + string );
+            message(string);
             ois.close();
             socket.close();
         }
@@ -46,6 +46,12 @@ public class PDKDemoServerImpl
             System.out.println( "Unexpected IO Exception" );
         }
     }
+
+    public void message(String string)
+    {
+        System.out.println( "String passed = " + string );
+    }
+
 
     public static void main( final String[] args )
         throws IOException

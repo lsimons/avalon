@@ -33,7 +33,7 @@
     <echo>This sub project is not intended to be built in situ.</echo>
     <echo>It is supposed to be self contained and part of a separate PDK distribution</echo>
     <echo>Run the make-pdk target in the Phoenix project to make the PDK</echo>
-    <fail>Build aborted.</fail>
+    <fail message="Build aborted."/>
   </target>  
 
   <!-- Compiles project -->
