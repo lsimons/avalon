@@ -139,15 +139,13 @@ public class DefaultClassLoaderManager
      *               or else the same as baseDirectory)
      * @param homeDirectory the base directory of application
      * @param workDirectory the work directory of application
-     * @param classPath the list of URLs in applications deployment
      * @return the ClassLoader created
      * @throws Exception if an error occurs
      */
     public ClassLoader createClassLoader( final Configuration environment,
                                           final File source,
                                           final File homeDirectory,
-                                          final File workDirectory,
-                                          final String[] classPath )
+                                          final File workDirectory )
         throws Exception
     {
         //Configure policy

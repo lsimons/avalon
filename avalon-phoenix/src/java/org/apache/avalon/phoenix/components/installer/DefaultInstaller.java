@@ -14,7 +14,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -36,7 +35,7 @@ import org.apache.avalon.phoenix.interfaces.Installer;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2002/10/02 11:25:55 $
+ * @version $Revision: 1.11 $ $Date: 2002/11/01 01:15:40 $
  */
 public class DefaultInstaller
     extends AbstractLogEnabled
@@ -245,25 +244,20 @@ public class DefaultInstaller
         //this directory is created?
         directory.mkdirs();
 
-        final ArrayList jars = new ArrayList();
-
         final File workDir = getRelativeWorkDir( name );
         boolean success = false;
         try
         {
-            expandZipFile( zipFile, directory, workDir, jars, url );
-            //Prepare and create Installation
-            final String[] classPath =
-                (String[]) jars.toArray( new String[ jars.size() ] );
+            expandZipFile( zipFile, directory, workDir, url );
 
+            //Prepare and create Installation
             final String assembly = getURLAsString( new File( directory, FS_ASSEMBLY_XML ) );
             final String config = getURLAsString( new File( directory, FS_CONFIG_XML ) );
             final String environment = getURLAsString( new File( directory, FS_ENV_XML ) );
 
             success = true;
             return new Installation( file, directory, workDir,
-                                     config, assembly, environment,
-                                     classPath );
+                                     config, assembly, environment );
         }
         finally
         {
@@ -281,14 +275,12 @@ public class DefaultInstaller
      * @param directory the directory where to extract non-jar,
      *        non-classes files
      * @param workDir the directory to extract classes/jar files
-     * @param classpath the list to add classpath entries to
      * @param url the url of deployment (for error reporting purposes)
      * @throws InstallationException if an error occurs extracting files
      */
     private void expandZipFile( final ZipFile zipFile,
                                 final File directory,
                                 final File workDir,
-                                final ArrayList classpath,
                                 final URL url )
         throws InstallationException
     {
@@ -311,13 +303,12 @@ public class DefaultInstaller
             if( handleClasses( zipFile,
                                entry,
                                name,
-                               workDir,
-                               classpath ) )
+                               workDir ) )
             {
                 continue;
             }
 
-            if( handleJars( zipFile, entry, name, workDir, classpath ) )
+            if( handleJars( zipFile, entry, name, workDir ) )
             {
                 continue;
             }
@@ -361,23 +352,18 @@ public class DefaultInstaller
      * @param entry the entry to extract
      * @param name the normalized name of entry
      * @param workDir the working directory to extract to
-     * @param jars the classpath list
      * @return true if handled, false otherwise
      */
     private boolean handleJars( final ZipFile zipFile,
                                 final ZipEntry entry,
                                 final String name,
-                                final File workDir,
-                                final ArrayList jars )
+                                final File workDir )
         throws InstallationException
     {
         if( name.startsWith( LIB )
             && name.endsWith( ".jar" )
             && LIB.length() == name.lastIndexOf( "/" ) )
         {
-            final File jar = new File( workDir, name );
-            jars.add( getURLAsString( jar ) );
-
             final File file = new File( workDir, name );
             expandFile( zipFile, entry, file );
             return true;
@@ -395,14 +381,12 @@ public class DefaultInstaller
      * @param entry the entry to extract
      * @param name the normalized name of entry
      * @param workDir the working directory to extract to
-     * @param jars the classpath list
      * @return true if handled, false otherwise
      */
     private boolean handleClasses( final ZipFile zipFile,
                                    final ZipEntry entry,
                                    final String name,
-                                   final File workDir,
-                                   final ArrayList jars )
+                                   final File workDir )
         throws InstallationException
     {
         if( name.startsWith( CLASSES ) )
@@ -410,7 +394,6 @@ public class DefaultInstaller
             final File classDir = new File( workDir, FS_CLASSES );
             if( !classDir.exists() )
             {
-                jars.add( getURLAsString( classDir ) );
                 final File file = new File( workDir, name );
                 expandFile( zipFile, entry, file );
             }

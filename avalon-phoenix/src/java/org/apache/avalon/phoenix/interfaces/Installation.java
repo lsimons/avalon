@@ -16,7 +16,7 @@ import java.io.File;
  * jars in Classpath, config files and installation directory.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/09/21 02:36:03 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/01 01:15:40 $
  */
 public final class Installation
 {
@@ -38,16 +38,12 @@ public final class Installation
     ///URL to application configuration data
     private final String m_environment;
 
-    ///ClassPath for application
-    private final String[] m_classPath;
-
     public Installation( final File source,
                          final File directory,
                          final File workDirectory,
                          final String config,
                          final String assembly,
-                         final String environment,
-                         final String[] classPath )
+                         final String environment )
     {
         m_source = source;
         m_directory = directory;
@@ -55,7 +51,6 @@ public final class Installation
         m_config = config;
         m_assembly = assembly;
         m_environment = environment;
-        m_classPath = classPath;
     }
 
     /**
@@ -118,15 +113,5 @@ public final class Installation
     public String getEnvironment()
     {
         return m_environment;
-    }
-
-    /**
-     * Retrieve ClassPath for application.
-     *
-     * @return the classpath
-     */
-    public String[] getClassPath()
-    {
-        return m_classPath;
     }
 }

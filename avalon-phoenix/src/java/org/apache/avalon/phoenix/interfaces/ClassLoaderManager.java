@@ -38,7 +38,7 @@ public interface ClassLoaderManager
     ClassLoader createClassLoader( Configuration environment,
                                    File source,
                                    File baseDirectory,
-                                   File workDirectory,
-                                   String[] classPath )
+                                   File workDirectory
+                                   )
         throws Exception;
 }
