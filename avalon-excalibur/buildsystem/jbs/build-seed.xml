@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+<!-- 
+Copyright 2004 The Apache Software Foundation
+Licensed  under the  Apache License,  Version 2.0  (the "License");
+you may not use  this file  except in  compliance with the License.
+You may obtain a copy of the License at 
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed  under the  License is distributed on an "AS IS" BASIS,
+WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+implied.
+
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<project name="JBS -- setup new projects..." default="start" basedir=".">
+    <target name="start">
+<echo>=======================================================================
+  Seeding new project...
+=======================================================================</echo>
+        <script language="javascript"><![CDATA[
+            importClass(java.lang.Character);
+
+            msg =  " You can create two types of projects:\n";
+            msg += "   1) a single-build project with a single source tree\n";
+            msg += "                     -or-\n";
+            msg += "   2) a project where the API is split from the\n";
+            msg += "      implementation (with two source trees)\n";
+            msg += "\n";
+            msg += " Please pick one? (default is 1)\n";
+            msg += " > ";
+            
+            input = project.createTask("input");
+            input.setMessage( msg );
+            input.setAddproperty( "seed.reactor" );
+            input.execute();
+            
+            seedReactor = project.getProperty("seed.reactor");
+            
+            two = new Character("2".charAt(0));
+
+            if( seedReactor.length() > 0 &&
+                two.equals( new Character( seedReactor.charAt(0) ) ) )
+            {
+                // run seed-reactor
+                seedreactor.execute();
+            }
+            else
+            {
+                // run normal seed
+                seed.execute();
+            }
+        ]]>
+        </script>
+    </target>
+    
+    <target name="seed">
+<echo>=======================================================================
+  Creating a single-build project with a single source tree...
+=======================================================================</echo>
+        <mkdir dir="src"/>
+        <mkdir dir="src/java"/>
+        <mkdir dir="src/test"/>
+        <script language="javascript"><![CDATA[
+            importClass(java.lang.Character);
+
+            //
+            // 1. Gather info
+            //
+            
+            msg =  " What should be the name (artifact id) of the project?\n";
+            msg += " (by convention, use only lowercase letters, numbers,\n";
+            msg += " dash (-) and underscore (_) characters)";
+            
+            input = project.createTask("input");
+            input.setMessage( msg );
+            input.setAddproperty( "project.name" );
+            input.execute();
+            
+            projectName = project.getProperty("project.name");
+            
+            if( projectName.length() <= 0 )
+            {
+                fail = project.createTask("fail");
+                fail.setMessage(
+                        "You didn't specify a correct project name!" );
+            }
+            
+            msg =  " Do you want to set a version for the project?\n";
+            msg += " If so, enter it now (by convention, use only\n";
+            msg += " lowercase letters, numbers, dash (-), underscore (_)\n"
+            msg += " and dot (.) characters)\n";
+            msg += " If you don't want to specify a version (JBS will use \n";
+            msg += " the date of build execution as a default if no version\n";
+            msg += " is set), just press enter.";
+            
+            input = project.createTask("input");
+            input.setMessage( msg );
+            input.setAddproperty( "project.version" );
+            input.execute();
+            
+            projectVersion = project.getProperty("project.version");
+            
+            msg =  " What will be the package name for the project?\n";
+            msg += " If you don't want to specify a package name (gump\n";
+            msg += " integration might complain a little), just press enter.";
+            
+            input = project.createTask("input");
+            input.setMessage( msg );
+            input.setAddproperty( "project.package" );
+            input.execute();
+            
+            projectPackage = project.getProperty("project.package");
+            
+            //
+            // 2. write project.properties file
+            //
+
+            propertiesMsg = "project.name=" + projectName + "\n";
+            
+            if( projectVersion.length() > 0 )
+            {
+                propertiesMsg += "project.version=" + projectVersion + "\n";
+            }
+            if( projectPackage.length() > 0 )
+            {
+                propertiesMsg += "project.package=" + projectPackage + "\n";
+            }
+            
+            project.setProperty("project.properties", propertiesMsg);
+        ]]>
+        </script>
+        <echo>base dir: ${basedir} AAAAAAAAAAAAAARGH!</echo>
+        <echo file="${basedir}/project.properties" message="${project.properties}"/>
+    </target>
+    
+    <target name="seedreactor">
+<echo>=======================================================================
+  Creating a project where the API is split from the implementation...
+=======================================================================</echo>
+    </target>
+</project>

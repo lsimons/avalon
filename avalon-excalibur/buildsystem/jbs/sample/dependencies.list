@@ -1,0 +1,6 @@
+# Dependencies (test file)
+#
+# artifact-id version groupid repository
+#
+commons-lang 1.0
+dna-api 1.0 dna http://dist.codehaus.org jcontainer-dna-api optional,runtime,inherit
