@@ -7,22 +7,17 @@ merlin lifecycle extension API.
 
 To build with maven:
 
-  - include http://jadetower.sf.net/dist in your remote repository list
-  - make sure you have the avalon meta plugin
+  - make sure you have the avalon meta plugin installed
+
   - RUN:
+
      maven jar:jar
 
-To run in merlin:
-
-  - make sure your kernel.xml file includes the host listed above
-  - run
+To startup the server:
 
     merlin.sh target/avalon-exporter-0.1.jar
 
-To run standalone client
-
-  - follow maven directions above
-  - now run:
+After the server has started, invoke the standalone client using the following command:
 
     maven exporter:run
 
