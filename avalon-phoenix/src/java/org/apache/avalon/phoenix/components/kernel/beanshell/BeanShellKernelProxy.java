@@ -7,43 +7,43 @@
  */
 package org.apache.avalon.phoenix.components.kernel.beanshell;
 
-import org.apache.avalon.phoenix.interfaces.Kernel;
-import org.apache.avalon.phoenix.interfaces.Application;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.phoenix.interfaces.Application;
+import org.apache.avalon.phoenix.interfaces.Kernel;
+import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Hierarchy;
 
-public class BeanShellKernelProxy implements Kernel
+public class BeanShellKernelProxy
+    implements Kernel
 {
     private transient Kernel m_kernel;
 
     /**
      * Construct a Proxy to the Kernel that does not implement all methods.
-     *
      */
-    public BeanShellKernelProxy(Kernel kernel)
+    public BeanShellKernelProxy( final Kernel kernel )
     {
         m_kernel = kernel;
     }
 
-    public void addApplication(SarMetaData metaData,
-                               ClassLoader classLoader,
-                               Hierarchy hierarchy,
-                               Configuration server)
-            throws Exception
+    public void addApplication( SarMetaData metaData,
+                                ClassLoader classLoader,
+                                Hierarchy hierarchy,
+                                Configuration server )
+        throws Exception
     {
-        throw new UnsupportedOperationException("This is not supported for non-kernel visitors");
+        throw new UnsupportedOperationException( "This is not supported for non-kernel visitors" );
     }
 
-    public void removeApplication(String name)
-            throws Exception
+    public void removeApplication( final String name )
+        throws Exception
     {
-        m_kernel.removeApplication(name);
+        m_kernel.removeApplication( name );
     }
 
-    public Application getApplication(String name)
+    public Application getApplication( final String name )
     {
-        return m_kernel.getApplication(name);
+        return m_kernel.getApplication( name );
     }
 
     public String[] getApplicationNames()
