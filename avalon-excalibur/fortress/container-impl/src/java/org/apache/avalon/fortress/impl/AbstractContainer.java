@@ -53,19 +53,19 @@ import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.fortress.Container;
 import org.apache.avalon.fortress.MetaInfoEntry;
 import org.apache.avalon.fortress.MetaInfoManager;
-import org.apache.avalon.fortress.RoleManager;
 import org.apache.avalon.fortress.impl.extensions.InstrumentableCreator;
-import org.apache.avalon.fortress.impl.handler.*;
-import org.apache.avalon.fortress.impl.lookup.FortressServiceManager;
-import org.apache.avalon.fortress.impl.lookup.FortressServiceSelector;
-import org.apache.avalon.fortress.impl.role.FortressRoleManager;
-import org.apache.avalon.fortress.impl.role.Role2MetaInfoManager;
-import org.apache.avalon.fortress.impl.role.ServiceMetaManager;
 import org.apache.avalon.fortress.impl.factory.ProxyManager;
 import org.apache.avalon.fortress.impl.handler.ComponentFactory;
+import org.apache.avalon.fortress.impl.handler.ComponentHandler;
+import org.apache.avalon.fortress.impl.handler.LEAwareComponentHandler;
+import org.apache.avalon.fortress.impl.handler.PrepareHandlerCommand;
+import org.apache.avalon.fortress.impl.lookup.FortressServiceManager;
+import org.apache.avalon.fortress.impl.lookup.FortressServiceSelector;
 import org.apache.avalon.fortress.util.CompositeException;
 import org.apache.avalon.fortress.util.LifecycleExtensionManager;
-import org.apache.avalon.fortress.util.dag.*;
+import org.apache.avalon.fortress.util.dag.CyclicDependencyException;
+import org.apache.avalon.fortress.util.dag.DirectedAcyclicGraphVerifier;
+import org.apache.avalon.fortress.util.dag.Vertex;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -96,7 +96,7 @@ import java.util.*;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.28 $ $Date: 2003/05/20 20:26:08 $
+ * @version CVS $Revision: 1.29 $ $Date: 2003/05/27 18:39:46 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled
@@ -186,15 +186,47 @@ public abstract class AbstractContainer
 
         // get optional services, or a default if the service isn't provided
 
+        setupExtensionManager( serviceManager );
+
+        if ( serviceManager.hasService( Queue.ROLE ) )
+        {
+            m_commandQueue = (Queue) serviceManager.lookup( Queue.ROLE );
+        }
+        else
+        {
+            final String message =
+                "No " + Queue.ROLE + " is given, all " +
+                "management will be performed synchronously";
+            getLogger().warn( message );
+        }
+
+        m_metaManager = (MetaInfoManager) serviceManager.lookup( MetaInfoManager.ROLE );
+
+        // set up our ServiceManager
+        m_serviceManager = new FortressServiceManager( this, serviceManager );
+    }
+
+    /**
+     * Set up the Lifecycle Extension Manager.
+     *
+     * @param serviceManager  The serviceManager we are using to determine if the extension manager is being passed.
+     * @throws ServiceException  if the ServiceManager does not live up to its contract.
+     */
+    private void setupExtensionManager( final ServiceManager serviceManager ) throws ServiceException
+    {
+        final Logger extLogger = m_loggerManager.getLoggerForCategory( "system.extensions" );
         if ( serviceManager.hasService( LifecycleExtensionManager.ROLE ) )
         {
             m_extManager =
                 (LifecycleExtensionManager) serviceManager.lookup( LifecycleExtensionManager.ROLE );
+
+            extLogger.debug( "Found the LifecycleExtensionManager" );
         }
         else
         {
             m_extManager = new LifecycleExtensionManager();
-            m_extManager.enableLogging( getLogger() );
+            m_extManager.enableLogging( extLogger );
+            m_extManager.addCreatorExtension( new InstrumentableCreator( m_instrumentManager ) );
 
             if ( getLogger().isDebugEnabled() )
             {
@@ -221,88 +253,9 @@ public abstract class AbstractContainer
 
         if ( !isInstrumentEnabled )
         {
+            extLogger.debug("No Instrumentable Creator was found.  We are adding a new one.");
             m_extManager.addCreatorExtension( new InstrumentableCreator( m_instrumentManager ) );
         }
-
-        if ( serviceManager.hasService( Queue.ROLE ) )
-        {
-            m_commandQueue = (Queue) serviceManager.lookup( Queue.ROLE );
-        }
-        else
-        {
-            final String message =
-                "No Container.COMMAND_QUEUE is given, all " +
-                "management will be performed synchronously";
-            getLogger().warn( message );
-        }
-
-        try
-        {
-            if ( serviceManager.hasService( MetaInfoManager.ROLE ) )
-            {
-                m_metaManager = (MetaInfoManager) serviceManager.lookup( MetaInfoManager.ROLE );
-
-                if ( serviceManager.hasService( RoleManager.ROLE ) )
-                {
-                    getLogger().warn( "MetaInfoManager found, ignoring RoleManager" );
-                }
-            }
-            else if ( serviceManager.hasService( RoleManager.ROLE ) )
-            {
-                m_metaManager = createMetaManager(
-                    new Role2MetaInfoManager(
-                        (RoleManager) serviceManager.lookup( RoleManager.ROLE ) ) );
-            }
-            else
-            {
-                m_metaManager = createDefaultMetaManager();
-            }
-        }
-        catch ( ServiceException se )
-        {
-            throw se;
-        }
-        catch ( Exception e )
-        {
-            final String message = "Unable to create default role manager";
-            throw new ServiceException( MetaInfoManager.ROLE, message, e );
-        }
-
-        // set up our ServiceManager
-        m_serviceManager = new FortressServiceManager( this, serviceManager );
-    }
-
-    /**
-     * Create a default RoleManager that can be used to addRole system.
-     *
-     * @return the default role manager
-     * @throws Exception if unable to create role manager
-     */
-    private MetaInfoManager createDefaultMetaManager()
-        throws Exception
-    {
-        final FortressRoleManager roleManager =
-            new FortressRoleManager( null, m_classLoader );
-        ContainerUtil.enableLogging( roleManager, getLogger().getChildLogger( "roles" ) );
-        ContainerUtil.initialize( roleManager );
-        return createMetaManager( new Role2MetaInfoManager( roleManager ) );
-    }
-
-    /**
-     * Create a default RoleManager that can be used to addRole system.
-     *
-     * @return the default role manager
-     * @throws Exception if unable to create role manager
-     */
-    private ServiceMetaManager createMetaManager( final MetaInfoManager root )
-        throws Exception
-    {
-        final ServiceMetaManager metaManager =
-            new ServiceMetaManager( root, m_classLoader );
-        final Logger mmLogger = m_loggerManager.getLoggerForCategory( "system.meta" );
-        ContainerUtil.enableLogging( metaManager, mmLogger );
-        ContainerUtil.initialize( metaManager );
-        return metaManager;
     }
 
     /**
