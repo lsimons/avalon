@@ -107,6 +107,7 @@ Legal:
   <path id="tools.class.path">
     <pathelement location="${xerces.jar}"/>
     <pathelement location="${testlet.jar}"/>
+    <pathelement location="${java.home}/../lib/tools.jar"/>
     <fileset dir="${tools.dir}/lib">
       <include name="*.jar" />
       <exclude name="testlet.jar"/>
@@ -235,10 +236,8 @@ Legal:
       </fileset>
     </copy>
 
-    <copy todir="${build.docs}" filtering="off">
-      <fileset dir="${context.dir}/resources">
-        <include name="**/images/**"/>
-      </fileset>
+    <copy todir="${build.context}/resources" filtering="off">
+      <fileset dir="${context.dir}/resources"/>
     </copy>
 
     <java classname="org.apache.cocoon.Main" fork="true">
@@ -247,9 +246,13 @@ Legal:
       <arg value="-w${build.dir}/work"/>
       <arg value="-l${build.dir}/work/cocoon.log"/>
       <arg value="-uINFO"/>
-      <arg line="index.html features.html authors/index.html history/index.html developing/index.html license.html mail.html history/call-to-vote.html history/changes.html history/what-is-a-server.html history/need-for-avalon.html authors/bloritsch.html authors/donaldp.html authors/stefano.html code-standards.html framework/index.html developing/changes.html developing/introduction.html developing/decomposing.html developing/framework.html developing/implementing.html developing/conclusion.html framework/changes.html framework/patterns.html framework/reuse-standards.html framework/inversion-of-control.html framework/separation-of-concerns.html framework/security.html framework/what-is-a-component.html framework/what-is-a-composer.html framework/designing-a-component.html framework/lifecycle.html"/>
+      <arg value="-f${context.dir}/root.uris"/>
+      <arg value="-f${context.dir}/authors.uris"/>
+      <arg value="-f${context.dir}/developing.uris"/>
+      <arg value="-f${context.dir}/framework.uris"/>
+      <arg value="-f${context.dir}/history.uris"/>
       <classpath>
-        <path refid="test.class.path"/>
+        <path refid="tools.class.path"/>
 	<fileset dir="${build.lib}"/>
       </classpath>
     </java>
@@ -454,6 +457,7 @@ Legal:
   <!-- Completely build all dists -->
   <target name="distributions">
     <mkdir dir="${dist.base}"/>
+    <copy file="${build.lib}/avalon-framework.jar" tofile="${tools.dir}/lib/avalon-framework.jar"/>
 
     <antcall target="dist">
       <param name="dist.dir" value="${dist.name}" />
