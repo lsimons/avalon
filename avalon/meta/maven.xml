@@ -291,7 +291,7 @@ The complete set of target include:
 #     $ maven avalon:setup                                          #
 #                                                                   #
 #####################################################################</ant:echo>
-      <attainGoal name="avalon:repo-plugin-install"/>
+      <attainGoal name="avalon:setup"/>
     </j:if>
   </postGoal>
 
