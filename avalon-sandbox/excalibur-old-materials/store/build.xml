@@ -263,7 +263,7 @@
 
     <!-- Creates the distribution -->
     <target name="dist"
-        depends="dist-jar, test-reports, checkstyle-report, site"
+        depends="dist-jar, test-reports, checkstyle-report, docs, javadocs"
         description="Generates a distribution (jar + docs + javadocs + unit tests + checkstyle reports)">
 
         <copy file="${build.conf}/LICENSE.txt" todir="${dist.dir}"/>
@@ -356,6 +356,7 @@
         <delete file="checkstyle.cache"/>
         <delete dir="${build.dir}" />
         <delete dir="${dist.dir}" />
+        <delete dir="${docs.dir}" />
         <delete dir="test" /> <!-- unit testing output directory -->
         <delete>
             <fileset dir="." includes="**/*~" defaultexcludes="no"/>

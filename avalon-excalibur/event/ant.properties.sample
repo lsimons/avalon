@@ -10,7 +10,7 @@
 # It is overridden by ../ant.properties and ~/build.properties
 # It overrides all default.properties files and ~/.ant.properties
 #
-# $Id: ant.properties.sample,v 1.7 2002/04/12 10:03:12 jefft Exp $
+# $Id: ant.properties.sample,v 1.8 2002/08/10 21:14:34 hammant Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Control Flags -----
@@ -50,10 +50,10 @@ excalibur-concurrent.home=${basedir}/../concurrent/dist
 excalibur-concurrent.lib=${excalibur-concurrent.home}
 excalibur-concurrent.jar=${excalibur-concurrent.lib}/excalibur-concurrent-1.0.jar
 
-# ----- Excalibur Pool, version 1.0 or later -----
+# ----- Excalibur Pool, version 1.1 or later -----
 excalibur-pool.home=${basedir}/../pool/dist
 excalibur-pool.lib=${excalibur-pool.home}
-excalibur-pool.jar=${excalibur-pool.lib}/excalibur-pool-1.0.jar
+excalibur-pool.jar=${excalibur-pool.lib}/excalibur-pool-1.1.jar
 
 # ----- Excalibur Util, version 1.0 or later -----
 excalibur-util.home=${basedir}/../util/build/lib
