@@ -169,6 +169,9 @@ Legal:
     </available>
     <available property="servlet.present" classname="javax.servlet.Servlet">
       <classpath refid="project.class.path"/>
+    <available property="jaxen.present" classname="org.jaxen.dom.XPath">
+      <classpath refid="project.class.path"/>
+    </available>
     </available>
     <available property="jms.present" classname="javax.jms.Queue">
       <classpath refid="project.class.path"/>
@@ -238,6 +241,9 @@ Legal:
       <exclude name="org/apache/avalon/excalibur/datasource/InformixDataSource.java"
                unless="informix.present"/>
       <exclude name="org/apache/avalon/excalibur/datasource/Jdbc2Connection.java"/>
+      <exclude name="**/Jaxen*"              unless="jaxen.present"/>
+      <exclude name="org/apache/avalon/excalibur/xml/xpath/XPathProcessorImpl.java"
+               unless="xpath.present"/>
       <exclude name="org/apache/avalon/excalibur/datasource/Jdbc3Connection.java"/>
       <exclude name="org/apache/avalon/excalibur/logger/factory/ServletTargetFactory.java"
                unless="servlet.present"/>
@@ -255,8 +261,6 @@ Legal:
            optimize="${build.optimize}"
            deprecation="${build.deprecation}">
       <classpath refid="project.class.path" />
-      <exclude name="org/apache/avalon/excalibur/i18n/XMLResourceBundle.java"
-               unless="xpath.present"/>
     </javac>
 
     <rmic base="${build.classes}"
