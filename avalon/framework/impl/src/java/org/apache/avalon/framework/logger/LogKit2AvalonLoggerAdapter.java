@@ -66,7 +66,7 @@ import org.apache.log.Priority;
  * components.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2003/02/11 07:08:56 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/02/11 15:58:41 $
  */
 public final class LogKit2AvalonLoggerAdapter
     implements LogTarget

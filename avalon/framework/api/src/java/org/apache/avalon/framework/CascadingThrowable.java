@@ -59,7 +59,7 @@ package org.apache.avalon.framework;
  * Allows recording of nested exceptions.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version 1.0
+ * @version CVS $Revision: 1.13 $ $Date: 2003/02/11 15:58:37 $
  */
 public interface CascadingThrowable
 {

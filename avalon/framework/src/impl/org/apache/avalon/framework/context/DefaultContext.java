@@ -63,6 +63,7 @@ import java.util.Map;
  * This implementation is a static hierarchial store.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.25 $ $Date: 2003/02/11 15:58:40 $
  */
 public class DefaultContext
     implements Context

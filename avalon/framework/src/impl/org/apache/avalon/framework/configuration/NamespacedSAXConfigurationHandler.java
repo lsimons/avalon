@@ -69,7 +69,7 @@ import org.xml.sax.helpers.NamespaceSupport;
  * including namespace information.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version 1.0
+ * @version CVS $Revision: 1.17 $ $Date: 2003/02/11 15:58:39 $
  */
 public class NamespacedSAXConfigurationHandler
     extends SAXConfigurationHandler

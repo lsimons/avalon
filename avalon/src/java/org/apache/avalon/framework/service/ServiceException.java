@@ -61,6 +61,7 @@ import org.apache.avalon.framework.CascadingException;
  * It is usually thrown by ServiceManager or ServiceSelector.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.19 $ $Date: 2003/02/11 15:58:42 $
  */
 public class ServiceException
     extends CascadingException

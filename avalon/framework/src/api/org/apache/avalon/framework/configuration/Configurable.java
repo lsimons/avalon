@@ -67,7 +67,7 @@ package org.apache.avalon.framework.configuration;
  * Note that this interface is incompatible with Parameterizable.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version 1.0
+ * @version CVS $Revision: 1.16 $ $Date: 2003/02/11 15:58:38 $
  */
 public interface Configurable
 {

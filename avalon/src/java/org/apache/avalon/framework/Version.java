@@ -87,6 +87,7 @@ import java.util.StringTokenizer;
  * </ul>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.25 $ $Date: 2003/02/11 15:58:37 $
  */
 public final class Version
     implements Serializable
