@@ -30,7 +30,7 @@ import org.apache.avalon.meta.info.InfoDescriptor;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:14:22 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/14 21:33:55 $
  */
 public class TransientLifestyleManager extends AbstractLifestyleManager
 {
@@ -91,7 +91,7 @@ public class TransientLifestyleManager extends AbstractLifestyleManager
      * @return the resolved object
      * @throws Exception if an error occurs
      */
-    public Object resolve() throws Exception
+    protected Object handleResolve() throws Exception
     {
         Object instance = getComponentFactory().incarnate();
         Reference reference = getReference( instance );
@@ -103,9 +103,8 @@ public class TransientLifestyleManager extends AbstractLifestyleManager
      * Release an object
      *
      * @param instance the object to be released
-     * @param finalized if TRUE the lifestyle handler cannot reuse the instance
      */
-    public void release( Object instance )
+    protected void handleRelease( Object instance )
     {
         finalize( instance );
     }

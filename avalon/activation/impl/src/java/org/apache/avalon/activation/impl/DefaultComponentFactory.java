@@ -62,7 +62,7 @@ import org.apache.avalon.repository.Artifact;
  * A factory enabling the establishment of runtime handlers.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:19:15 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/14 21:33:55 $
  */
 public class DefaultComponentFactory implements ComponentFactory
 {
@@ -88,6 +88,11 @@ public class DefaultComponentFactory implements ComponentFactory
     // constructor
     //-------------------------------------------------------------------
 
+   /**
+    * Creation of a new component factory.
+    * @param system the system context
+    * @param model the component model
+    */
     public DefaultComponentFactory( SystemContext system, ComponentModel model )
     {
         m_system = system;
@@ -100,16 +105,9 @@ public class DefaultComponentFactory implements ComponentFactory
     // ComponentFactory
     //-------------------------------------------------------------------
 
-    private Context getTargetContext()
-    {
-       ContextModel model = m_model.getContextModel();
-       if( null == model ) return null;
-       return model.getContext();
-    }
-
    /**
     * Creation of a new instance including all deployment stage handling.
-    * @return the new instance
+    * @return the new incarnated instance
     */
     public Object incarnate() throws LifecycleException
     {
@@ -128,11 +126,58 @@ public class DefaultComponentFactory implements ComponentFactory
         }
     }
 
+
+   /**
+    * Termination of the instance including all end-of-life processing.
+    * @param instance the component instance to etherialize
+    * @return the new instance
+    */
+    public void etherialize( Object instance )
+    {
+        try
+        {
+            applyCreateStage( instance, false );
+        }
+        catch( Throwable e )
+        {
+            // will not happen
+        }
+        finally
+        {
+            try
+            {
+                ContainerUtil.shutdown( instance );
+            }
+            catch( Throwable e )
+            {
+                if( getLogger().isWarnEnabled() )
+                {
+                    final String warning = 
+                      "Ignoring component source shutdown error.";
+                    getLogger().warn( warning, e );
+                }
+            }
+        }
+    }
+
+    //-------------------------------------------------------------------
+    // protected implementation
+    //-------------------------------------------------------------------
+
+    protected Logger getLogger()
+    {
+        return m_logger;
+    }
+
+    //-------------------------------------------------------------------
+    // private implementation
+    //-------------------------------------------------------------------
+
    /**
     * Creation of a new instance including all deployment stage handling.
     * @return the new instance
     */
-    public Object doIncarnation() throws LifecycleException
+    private Object doIncarnation() throws LifecycleException
     {
         Class clazz = m_model.getDeploymentClass();
         Logger logger = m_model.getLogger();
@@ -182,51 +227,12 @@ public class DefaultComponentFactory implements ComponentFactory
         }
     }
 
-   /**
-    * Termination of the instance including all end-of-life processing.
-    * @param model the component model
-    * @return the new instance
-    */
-    public void etherialize( Object instance )
+    private Context getTargetContext()
     {
-        try
-        {
-            applyCreateStage( instance, false );
-        }
-        catch( Throwable e )
-        {
-            // will not happen
-        }
-        finally
-        {
-            try
-            {
-                ContainerUtil.shutdown( instance );
-            }
-            catch( Throwable e )
-            {
-                if( getLogger().isWarnEnabled() )
-                {
-                    final String warning = 
-                      "Ignoring component source shutdown error.";
-                    getLogger().warn( warning, e );
-                }
-            }
-        }
+       ContextModel model = m_model.getContextModel();
+       if( null == model ) return null;
+       return model.getContext();
     }
-
-    //-------------------------------------------------------------------
-    // protected implementation
-    //-------------------------------------------------------------------
-
-    protected Logger getLogger()
-    {
-        return m_logger;
-    }
-
-    //-------------------------------------------------------------------
-    // private implementation
-    //-------------------------------------------------------------------
 
     private Object instantiate( 
       Class clazz, Logger logger, Configuration config, Parameters params, 

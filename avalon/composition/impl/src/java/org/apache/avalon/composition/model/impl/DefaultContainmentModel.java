@@ -98,7 +98,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.32 $ $Date: 2004/02/12 05:59:41 $
+ * @version $Revision: 1.33 $ $Date: 2004/02/14 21:33:56 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -605,9 +605,8 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     * Addition of a new subsidiary model within
     * the containment context.
     *
-    * @param profile a containment or deployment profile 
-    * @return the model based on the supplied profile
-    * @exception ModelException if an error occurs during model establishment
+    * @param model a containment or component model 
+    * @return the supplied model
     */
     public DeploymentModel addModel( DeploymentModel model )
     {

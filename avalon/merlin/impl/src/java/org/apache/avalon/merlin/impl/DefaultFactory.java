@@ -402,7 +402,7 @@ public class DefaultFactory implements Factory
         // create the system context
         //
 
-        Artifact runtime = getRuntimeArtifact( criteria );
+        Artifact runtime = criteria.getRuntimeImplementation();
         File anchor = criteria.getAnchorDirectory();
 
         DefaultSystemContext system = 
@@ -426,25 +426,13 @@ public class DefaultFactory implements Factory
         return system;
     }
 
-    private Artifact getRuntimeArtifact( KernelCriteria criteria )
-    {
-        if( criteria.isCodeSecurityEnabled() )
-        {
-            return criteria.getSecureRuntimeImplementation();
-        }
-        else
-        {
-            return criteria.getRuntimeImplementation();
-        }
-    }
-
     private ContainmentModel createApplicationModel( 
       SystemContext system, Configuration config ) throws Exception
     {
         getLogger().info( "building application model" );
         LoggingManager logging = system.getLoggingManager();
         final Logger logger = logging.getLoggerForCategory("");
-        ClassLoader api = system.getCommonClassLoader();
+        ClassLoader api = system.getAPIClassLoader();
         ContainmentProfile profile = getContainmentProfile( config );
         ContainmentContext context = 
           createContainmentContext( system, logger, api, profile );
@@ -863,7 +851,7 @@ public class DefaultFactory implements Factory
 
         buffer.append( 
           "\n  ${merlin.runtime} == " 
-          + getRuntimeArtifact( criteria ).toString() );
+          + criteria.getRuntimeImplementation() );
 
         buffer.append( 
           "\n  ${merlin.override} == " 

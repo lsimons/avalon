@@ -59,7 +59,7 @@ import org.apache.commons.cli.Options;
  * Merlin command line handler.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.16 $
+ * @version $Revision: 1.17 $
  */
 public class Main 
 {
@@ -533,7 +533,7 @@ public class Main
 
    /**
     * Return the merlin home directory.
-    * @return the merlin install directory
+    * @return the merlin installation directory
     */
     private static File getMerlinHome()
     {
@@ -542,7 +542,7 @@ public class Main
 
    /**
     * Return the merlin home directory path.
-    * @return the merlin install directory path
+    * @return the merlin installation directory path
     */
     private static String getMerlinHomePath()
     {
@@ -572,7 +572,7 @@ public class Main
     * the ${basedir} system property, and as a last resort, returns the 
     * JVM ${user.dir} value.
     *
-    * @return the merlin install directory
+    * @return the base directory
     */
     private static File getBaseDirectory()
     {

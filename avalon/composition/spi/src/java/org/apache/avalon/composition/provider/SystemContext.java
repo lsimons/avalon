@@ -33,7 +33,7 @@ import org.apache.avalon.framework.parameters.Parameters;
  * Defintion of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:23:35 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/14 21:33:56 $
  */
 public interface SystemContext extends Context
 {
@@ -84,18 +84,18 @@ public interface SystemContext extends Context
     boolean isTraceEnabled();
 
    /**
-    * Return the system classloader.
+    * Return the SPI classloader.
     *
-    * @return the system classloader
+    * @return the SPI classloader
     */
-    ClassLoader getSystemClassLoader();
+    ClassLoader getSPIClassLoader();
 
    /**
-    * Return the system classloader.
+    * Return the API classloader.
     *
-    * @return the system classloader
+    * @return the API classloader
     */
-    ClassLoader getCommonClassLoader();
+    ClassLoader getAPIClassLoader();
 
    /**
     * Return the logging manager.

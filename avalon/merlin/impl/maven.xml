@@ -27,7 +27,7 @@ merlin.logging.implementation = ${merlin.logging.implementation}
 
 #
 # runtime implementation
-merlin.runtime.implementation = ${merlin.runtime.implementation}
+merlin.runtime.standard.implementation = ${merlin.runtime.standard.implementation}
 
 #
 # runtime code secure implementation

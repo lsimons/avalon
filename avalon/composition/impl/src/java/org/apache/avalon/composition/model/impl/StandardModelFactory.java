@@ -57,7 +57,7 @@ import org.apache.avalon.meta.info.Type;
  * A factory enabling the establishment of new composition model instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:23:34 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/14 21:33:56 $
  */
 public class StandardModelFactory 
   implements ModelFactory
@@ -250,7 +250,7 @@ public class StandardModelFactory
             Repository repository = m_system.getRepository();
             File base = m_system.getBaseDirectory();
 
-            ClassLoader root = m_system.getCommonClassLoader();
+            ClassLoader root = m_system.getAPIClassLoader();
             ClassLoaderDirective classLoaderDirective = 
               profile.getClassLoaderDirective();
 

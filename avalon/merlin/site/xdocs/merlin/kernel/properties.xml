@@ -135,6 +135,13 @@ Merlin 3.2 introduces a complete property configuration model as part of the uni
             channels are assigned the DEBUG logging priority.</td>
           </tr>
           <tr>
+            <td>merlin.audit</td>
+            <td>false</td>
+            <td>The audit generation policy.  If 'true' a description
+            of the assembled model witll be loogged during startup.
+            Since 3.3</td>
+          </tr>
+          <tr>
             <td>merlin.server</td>
             <td>true</td>
             <td>
@@ -157,6 +164,65 @@ Merlin 3.2 introduces a complete property configuration model as part of the uni
             <td>
             The path to a configuration override targets file. Relative 
             path statements will be resolved relative to ${merlin.dir}.</td>
+          </tr>
+          <tr>
+            <td>merlin.logging.config</td>
+            <td></td>
+            <td>
+            Location of an external logging configuration file (since version 3.3).
+            </td>
+          </tr>
+          <tr>
+            <td>merlin.logging.implementation</td>
+            <td></td>
+            <td>
+            Artifact referennce to the logging system to be used.  The artifact
+            must reference a factory that supports the LoggingCriteria parameter
+            interface and must return a LoggingManager implementation. Since 3.3.
+            </td>
+          </tr>
+          <tr>
+            <td>merlin.runtime</td>
+            <td></td>
+            <td>
+            Artifact reference.
+            Overrides the automatic selection of the underlying runtime activation
+            framework. If undeclared a default runtime wil be assigned based on the 
+            standing security policy.  Since 3.3.
+            </td>
+          </tr>
+          <tr>
+            <td>merlin.runtime.standard.implementation</td>
+            <td></td>
+            <td>
+            Artifact reference.
+            Override the standard non-secure implementation.  Since 3.3.
+            </td>
+          </tr>
+          <tr>
+            <td>merlin.runtime.csi.implementation</td>
+            <td></td>
+            <td>
+            Artifact reference.
+            Override the code-secure implementation.  Since 3.3.
+            </td>
+          </tr>
+          <tr>
+            <td>merlin.code.security.enabled</td>
+            <td>false</td>
+            <td>
+            If true the code-secure runtime will be assigned as ${merlin.runtime}.
+            Since 3.3.
+            </td>
+          </tr>
+          <tr>
+            <td>merlin.deployment.timeout</td>
+            <td></td>
+            <td>
+            The default per component deployment timeout duration in 
+            milliseconds.
+            Since 3.3.
+            </td>
           </tr>
         </table>
       </subsection>

@@ -19,11 +19,12 @@ package org.apache.avalon.composition.data;
 import java.io.Serializable;
 
 /**
- * A DependencyDirective contains information describing how a 
- * depedency should be resolved.  
+ * A SelectionDirectivecontains information describing how a 
+ * depedency should be resolved relative to a set of supplied
+ * features and qualified values.  
  *
  * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/01/24 23:25:24 $
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/14 21:33:56 $
  */
 public final class SelectionDirective implements Serializable
 {

@@ -41,10 +41,6 @@
             <td><a href="repository/index.html">repository</a></td><td>0..1</td>
             <td>Defintion of the repository sub-system including proxy settings, cache directory and remote host list.</td>
           </tr>
-          <tr>
-            <td><a href="parameters/index.html">parameters</a></td><td>0..1</td>
-            <td>For kernel-level parameterization.</td>
-          </tr>
         </table>
       </subsection>
 
@@ -67,8 +63,8 @@
 
    <repository>
      <hosts>
-       <host>http://www.ibiblio.org/merlin/</host>
-       <host>http://www.ibiblio.org/maven/</host>
+       <host>http://dpml.net</host>
+       <host>http://ibiblio.org/maven/</host>
      </hosts>
    </repository>
 

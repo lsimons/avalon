@@ -40,7 +40,7 @@ import org.apache.avalon.framework.logger.Logger;
  * by one, some or all of it's interfaces.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/12 05:59:41 $
+ * @version $Revision: 1.3 $ $Date: 2004/02/14 21:33:55 $
  */
 public final class ApplianceInvocationHandler implements InvocationHandler
 {
@@ -65,7 +65,8 @@ public final class ApplianceInvocationHandler implements InvocationHandler
    /**
     * Create a proxy invocation handler.
     *
-    * @param instance the underlying provider 
+    * @param appliance the runtime appliance
+    * @param logger the assigned logging channel 
     */
     protected ApplianceInvocationHandler( DefaultAppliance appliance, Logger logger )
     {
