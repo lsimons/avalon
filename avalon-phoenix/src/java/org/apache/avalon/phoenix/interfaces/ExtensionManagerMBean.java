@@ -7,11 +7,13 @@
  */
 package org.apache.avalon.phoenix.interfaces;
 
+import java.io.File;
+
 /**
  * Management interface to ExtensionManager.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/02/17 11:15:28 $
+ * @version $Revision: 1.4 $ $Date: 2002/07/14 01:36:30 $
  */
 public interface ExtensionManagerMBean
 {
@@ -25,7 +27,7 @@ public interface ExtensionManagerMBean
      *
      * @return the list of paths to search in
      */
-    String[] getPaths();
+    File[] getPaths();
 
     /**
      * Force the ExtensionManager to rescan the paths
