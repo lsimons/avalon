@@ -32,7 +32,7 @@ import org.apache.avalon.framework.context.Contextualizable;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.8 $ $Date: 2002/06/18 14:25:47 $
+ * @version CVS $Revision: 1.9 $ $Date: 2002/07/05 09:59:10 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
@@ -59,6 +59,11 @@ public class ExcaliburComponentManager
 
     /** Used to map roles to ComponentHandlers. */
     private final BucketMap m_componentHandlers = new BucketMap();
+
+    /** added component handlers before initialization to maintain
+     *  the order of initialization
+     */
+    private final List m_newComponentHandlers = new ArrayList();
 
     /** RoleInfos. */
     private RoleManager m_roles;
@@ -144,14 +149,10 @@ public class ExcaliburComponentManager
         {
             m_initialized = true;
 
-            List keys = new ArrayList( m_componentHandlers.keySet() );
-
-            for( int i = 0; i < keys.size(); i++ )
+            for (int i = 0; i < m_newComponentHandlers.size(); i++ )
             {
-                final Object key = keys.get( i );
                 final ComponentHandler handler =
-                    (ComponentHandler)m_componentHandlers.get( key );
-
+                    (ComponentHandler)m_newComponentHandlers.get( i );
                 try
                 {
                     handler.initialize();
@@ -164,8 +165,33 @@ public class ExcaliburComponentManager
                                            "the component handler.", e );
                     }
                 }
-
             }
+
+            List keys = new ArrayList( m_componentHandlers.keySet() );
+
+            for( int i = 0; i < keys.size(); i++ )
+            {
+                final Object key = keys.get( i );
+                final ComponentHandler handler =
+                    (ComponentHandler)m_componentHandlers.get( key );
+
+                if ( !m_newComponentHandlers.contains( handler ) )
+                {
+                    try
+                    {
+                        handler.initialize();
+                    }
+                    catch( Exception e )
+                    {
+                        if( getLogger().isErrorEnabled() )
+                        {
+                            getLogger().error( "Caught an exception trying to initialize " +
+                                               "the component handler.", e );
+                        }
+                    }
+                }
+            }
+            m_newComponentHandlers.clear();
         }
     }
 
@@ -645,6 +671,7 @@ public class ExcaliburComponentManager
             handler.setLogger( getLogkitLogger() );
             handler.enableLogging( getLogger() );
             m_componentHandlers.put( role, handler );
+            m_newComponentHandlers.add( handler );
         }
         catch( final Exception e )
         {
