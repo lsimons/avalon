@@ -8,7 +8,7 @@
   # the implementation artifact.                                    #
   ###################################################################
   -->
-
+  <!--
   <postGoal name="java:compile">
     <ant:echo file="${maven.build.dir}/classes/merlin.implementation">
 #===================================================================#
@@ -26,6 +26,7 @@ avalon.artifact.version = ${merlin.implementation.version}
 #
 </ant:echo>
   </postGoal>
+  -->
 
   <preGoal name="jar:jar">
     <j:forEach var="dep" items="${pom.dependencies}">
