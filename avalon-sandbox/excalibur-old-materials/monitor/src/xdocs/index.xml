@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<document>
+  <header>
+    <title>Excalibur Resource Monitor - Overview</title>
+    <authors>
+      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Introduction">
+      <p>
+        Avalon Excalibur's resource management code allows you to
+        be notified when a resource has changed.  There are two
+        methods of resource management: active and passive.  Passive
+        resource management acts as a holder for resources, and after
+        the resource has been modified through it's normal API,
+        notification goes to all listeners.  Active resource management
+        does the same, but it also polls the resources periodically
+        to see if the resource was modified through an external method.
+        Active resource management is perfect for monitoring files
+        because they can be modified by external programs, and your
+        program will be notified when the change occurs instead of
+        constantly polling it.
+      </p>
+      <p>
+        The resource management API uses regular JavaBeans property
+        change event handling.
+      </p>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2002/04/05 06:36:51 $
+    </legal>
+  </footer>
+</document>
