@@ -22,7 +22,7 @@ import java.util.Set;
  * last modified property will be enough.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: Resource.java,v 1.16 2002/09/09 21:24:19 donaldp Exp $
+ * @version $Id: Resource.java,v 1.17 2002/10/03 03:36:07 bloritsch Exp $
  */
 public abstract class Resource
     implements Modifiable
@@ -216,5 +216,10 @@ public abstract class Resource
     protected final PropertyChangeSupport getEventSupport()
     {
         return m_eventSupport;
+    }
+
+    public String toString()
+    {
+        return m_resourceKey;
     }
 }

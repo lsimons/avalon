@@ -17,7 +17,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * The standard interface for DataSources in Avalon.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/03/16 00:05:40 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/10/03 03:36:06 $
  * @since 4.0
  */
 public interface DataSourceComponent
@@ -30,6 +30,8 @@ public interface DataSourceComponent
 
     /**
      * Gets the Connection to the database
+     *
+     * @return Connection  a valid connection for you to use
      *
      * @throws NoValidConnectionException when there is no valid Connection wrapper
      *         available in the classloader.
