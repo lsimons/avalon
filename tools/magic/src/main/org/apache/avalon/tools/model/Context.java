@@ -181,6 +181,123 @@ public class Context extends Task
         return context;
     }
 
+   /**
+    * Return a file using a supplied root and path.  If the path is absolute
+    * an absolute file is retured relative to the supplied path otherwise the 
+    * path is resolved relative to the supplied root directory.
+    *
+    * @param root the root directory
+    * @param the absolute or relative file path
+    * @return the file instance
+    */ 
+    public static File getFile( final File root, final String path )
+    {
+        return getFile( root, path, false );
+    }
+
+   /**
+    * Return a file using a supplied root and path.  If the path is absolute
+    * an absolute file is retured relative to the supplied path otherwise the 
+    * path is resolved relative to the supplied root directory.  If the create 
+    * parameter is TRUE then the file will be created if it does not exist.
+    *
+    * @param root the root directory
+    * @param the absolute or relative file path
+    * @param create flag to indicate creation policy if the file does not exists 
+    * @return the file instance
+    */ 
+    public static File getFile( final File root, final String path, boolean create )
+    {
+        if( null == path )
+        {
+            throw new NullPointerException( "path" );
+        }
+        final File file = new File( path );
+        if( file.isAbsolute() ) return getCanonicalFile( file, create );
+        if( null == root )
+        {
+            throw new NullPointerException( "root" );
+        }
+        return getCanonicalFile( new File( root, path ), create );
+    }
+
+   /**
+    * Return the concatonal variant of a file.
+    * @param file the file argument
+    * @return the concatonal variant
+    */
+    public static File getCanonicalFile( final File file ) throws BuildException
+    {
+        return getCanonicalFile( file, false );
+    }
+
+   /**
+    * Return the concatonal variant of a file and create it if it does not exist.
+    * @param file the file argument
+    * @return the concatonal variant
+    */
+    public static File getCanonicalFile( final File file, boolean create ) throws BuildException
+    {
+        try
+        {
+            File result = file.getCanonicalFile();
+            if( create )
+            {
+                if( result.isDirectory() )
+                {
+                    result.mkdirs();
+                }
+                else
+                {
+                    result.getParentFile().mkdirs();
+                }
+            }
+            return result;
+        }
+        catch( IOException ioe )
+        {
+            throw new BuildException( ioe );
+        }
+    }
+
+   /**
+    * Return the concatonal path of a file.
+    * @param file the file argument
+    * @return the concatonal path
+    */
+    public static String getCanonicalPath( final File file ) throws BuildException
+    {
+        try
+        {
+            return file.getCanonicalPath();
+        }
+        catch( IOException ioe )
+        {
+            throw new BuildException( ioe );
+        }
+    }
+
+   /**
+    * Return the UTC YYMMDD.HHMMSSS signature.
+    * @return the UTC date-stamp
+    */
+    public static String getSignature()
+    {
+        return getSignature( new Date() );
+    }
+
+   /**
+    * Return the UTC YYMMDD.HHMMSSS signature of a date.
+    * @param the date
+    * @return the UTC date-stamp signature
+    */
+    public static String getSignature( final Date date )
+    {
+        final SimpleDateFormat sdf = new SimpleDateFormat( "yyyyMMdd.HHmmss" );
+        sdf.setTimeZone( TimeZone.getTimeZone( "UTC" ) );
+        return sdf.format( date );
+    }
+
     private final Map m_map = new Hashtable();
 
     private String m_key;
@@ -198,21 +315,10 @@ public class Context extends Task
     private File m_temp;
     private File m_docs;
     private File m_test;
-    
+
    /**
-    * Set the unique key for this project.
-    * @param key the unique key
+    * Creation of the context and association ofnthe context under the KEY key.
     */
-    public void setKey( final String key )
-    {
-        m_key = key;
-    }
-
-    public void setFile( final File file )
-    {
-        m_file = file;
-    }
-
     public void execute()
     {
         final Project project = getProject();
@@ -250,89 +356,109 @@ public class Context extends Task
 
     }
 
+   /**
+    * Return the unique key for this project.
+    * @return the project key
+    */
     public String getKey()
     {
         return m_key;
     }
 
-    public String resolveKey()
-    {
-        if( null != m_key )
-        {
-            return m_key;
-        }
-        else
-        {
-            final String key = getProject().getProperty( "project.key" );
-            if( null != key )
-            {
-                return key;            
-            }
-            else
-            {
-                final String name = getProject().getProperty( "project.name" );
-                if( null != name )
-                {
-                    return name;            
-                }
-                else
-                {
-                    return getProject().getName();
-                }
-            }
-        }
-    }
-
+   /**
+    * Reuturn the project src directory.
+    * @return the src directory
+    */
     public File getSrcDirectory()
     {
         return m_src;
     }
 
+   /**
+    * Reuturn the project etc directory.
+    * @return the etc directory
+    */
     public File getEtcDirectory()
     {
         return m_etc;
     }
 
+   /**
+    * Reuturn the project target directory.
+    * @return the target directory
+    */
     public File getTargetDirectory()
     {
         return m_target;
     }
 
+   /**
+    * Reuturn the project target build directory.
+    * @return the target build directory
+    */
     public File getBuildDirectory()
     {
         return m_build;
     }
 
+   /**
+    * Reuturn the project deliverables directory.
+    * @return the target deliverables directory
+    */
     public File getDeliverablesDirectory()
     {
         return m_deliverables;
     }
 
+   /**
+    * Reuturn the project classes directory.
+    * @return the target classes directory
+    */
     public File getClassesDirectory()
     {
         return m_classes;
     }
 
+   /**
+    * Reuturn the project test classes directory.
+    * @return the target test classes directory
+    */
     public File getTestClassesDirectory()
     {
         return m_testClasses;
     }
 
+   /**
+    * Reuturn the project test reports directory.
+    * @return the target test reports directory
+    */
     public File getTestReportsDirectory()
     {
         return m_testReports;
     }
 
+   /**
+    * Reuturn the project temp directory.
+    * @return the target temp directory
+    */
     public File getTempDirectory()
     {
         return m_temp;
     }
 
+   /**
+    * Reuturn the project test directory.
+    * @return the target test directory
+    */
     public File getTestDirectory()
     {
         return m_test;
     }
 
+   /**
+    * Reuturn the project docs directory.
+    * @return the target docs directory
+    */
     public File getDocsDirectory()
     {
         return m_docs;
@@ -389,9 +515,44 @@ public class Context extends Task
         }
     }
 
-    public File getTargetDirectory( final String path )
+    //--------------------------------------------------------------------
+    // internal
+    //--------------------------------------------------------------------
+
+    private File getTargetDirectory( final String path )
     {
         return new File( m_target, path );
+    }
+
+    private String resolveKey()
+    {
+        if( null != m_key )
+        {
+            return m_key;
+        }
+        else
+        {
+            final String key = getProject().getProperty( "project.key" );
+            if( null != key )
+            {
+                m_key = key;
+                return key;            
+            }
+            else
+            {
+                final String name = getProject().getProperty( "project.name" );
+                if( null != name )
+                {
+                    m_key = name;
+                    return name;            
+                }
+                else
+                {
+                    m_key = getProject().getName();
+                    return m_key;
+                }
+            }
+        }
     }
 
     private static File setupSrc( final File basedir, final String path )
@@ -438,79 +599,6 @@ public class Context extends Task
         props.setFile( file );
         props.init();
         props.execute();
-    }
-
-    public static File getFile( final File root, final String path )
-    {
-        return getFile( root, path, false );
-    }
-
-    public static File getFile( final File root, final String path, boolean create )
-    {
-        if( null == path )
-        {
-            throw new NullPointerException( "path" );
-        }
-        final File file = new File( path );
-        if( file.isAbsolute() ) return getCanonicalFile( file, create );
-        if( null == root )
-        {
-            throw new NullPointerException( "root" );
-        }
-        return getCanonicalFile( new File( root, path ), create );
-    }
-
-    public static File getCanonicalFile( final File file ) throws BuildException
-    {
-        return getCanonicalFile( file, false );
-    }
-
-    public static File getCanonicalFile( final File file, boolean create ) throws BuildException
-    {
-        try
-        {
-            File result = file.getCanonicalFile();
-            if( create )
-            {
-                if( result.isDirectory() )
-                {
-                    result.mkdirs();
-                }
-                else
-                {
-                    result.getParentFile().mkdirs();
-                }
-            }
-            return result;
-        }
-        catch( IOException ioe )
-        {
-            throw new BuildException( ioe );
-        }
-    }
-
-    public static String getCanonicalPath( final File file ) throws BuildException
-    {
-        try
-        {
-            return file.getCanonicalPath();
-        }
-        catch( IOException ioe )
-        {
-            throw new BuildException( ioe );
-        }
-    }
-
-    public static String getSignature()
-    {
-        return getSignature( new Date() );
-    }
-
-    public static String getSignature( final Date date )
-    {
-        final SimpleDateFormat sdf = new SimpleDateFormat( "yyyyMMdd.HHmmss" );
-        sdf.setTimeZone( TimeZone.getTimeZone( "UTC" ) );
-        return sdf.format( date );
     }
 
 }
