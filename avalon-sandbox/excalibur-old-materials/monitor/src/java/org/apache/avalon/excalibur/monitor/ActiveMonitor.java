@@ -38,7 +38,7 @@ import java.util.HashMap;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ActiveMonitor.java,v 1.6 2002/02/15 16:18:15 bloritsch Exp $
+ * @version $Id: ActiveMonitor.java,v 1.7 2002/02/21 05:43:16 leif Exp $
  */
 public final class ActiveMonitor extends AbstractLogEnabled
     implements Monitor, Startable, ThreadSafe, Configurable, Runnable
@@ -171,12 +171,12 @@ public final class ActiveMonitor extends AbstractLogEnabled
         {
             long currentTestTime = System.currentTimeMillis();
             long sleepTillTime = currentTestTime + m_frequency;
-
-            while ( System.currentTimeMillis() < sleepTillTime )
+            
+            while ( ( currentTestTime = System.currentTimeMillis() ) < sleepTillTime )
             {
                 try
                 {
-                    Thread.sleep( sleepTillTime - System.currentTimeMillis() );
+                    Thread.sleep( sleepTillTime - currentTestTime );
                 }
                 catch ( InterruptedException e )
                 {
