@@ -404,7 +404,7 @@ Legal:
   </target>
 
   <!-- Create the source distribution -->
-  <target name="src-dist" depends="setup-properties,xdocs">
+  <target name="src-dist" depends="xdocs">
 
     <mkdir dir="${src.dist.dir}" />
 
