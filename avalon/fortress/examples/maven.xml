@@ -70,7 +70,7 @@
                 todir="${maven.build.dir}/servlet/WEB-INF/lib"
                 excludes="servletapi,junit,avalon-fortress-tools"/>
 
-        <copy todir="${build.dir}/servlet/WEB-INF"
+        <copy todir="${maven.build.dir}/servlet/WEB-INF"
               file="${maven.src.dir}/conf/web.xml"/>
 
         <jar jarfile="${maven.build.dir}/${maven.final.name}-servlet.war"
