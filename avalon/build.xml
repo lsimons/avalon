@@ -206,7 +206,7 @@ Legal:
 
     <echo message="Performing Unit Tests" />
     <junit fork="true" printsummary="yes" dir="${build.reports}">
-      <formatter type="plain"/>
+      <formatter type="plain" usefile="false"/>
       <classpath>
         <path refid="test.class.path"/>
         <pathelement location="${build.classes}"/>
