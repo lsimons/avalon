@@ -396,6 +396,7 @@
   <target name="dist" description="Generates the distribution">
 
     <mkdir dir="${dist.base}"/>
+
     <antcall target="bin-dist" inheritall="false">
       <param name="bin.dist.dir" value="${dist.name}" />
     </antcall>
@@ -446,15 +447,9 @@
 
     <mkdir dir="${dist.base}/phoenix-apps"/>
 
-    <ant antfile="build.xml" dir="apps/demo" target="dist" inheritall="false">
-      <property name="bin.dist.dir" value="${dist.name}" />
-    </ant>
-    <ant antfile="build.xml" dir="apps/ftpserver" target="check" inheritall="false">
-      <property name="dist.dir" value="${dist.name}" />
-    </ant>
-    <ant antfile="build.xml" dir="apps/jesktop" target="check" inheritall="false">
-      <property name="dist.dir" value="${dist.name}" />
-    </ant>
+    <ant antfile="build.xml" dir="apps/demo" target="dist" inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/ftpserver" target="check" inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/jesktop" target="check" inheritall="false"/>
 
     <copy todir="${dist.base}/phoenix-apps" flatten="true">
       <fileset dir="apps">
