@@ -277,7 +277,7 @@
 
     <!-- Creates the distribution -->
     <target name="dist"
-        depends="dist-jar, test-reports, checkstyle-report, docs, javadocs"
+        depends="dist-jar, docs, test-reports, checkstyle-report, javadocs"
         description="Generates a distribution (jar + docs + javadocs + unit tests + checkstyle reports)">
 
         <copy file="${build.conf}/LICENSE.txt" todir="${dist.dir}"/>
