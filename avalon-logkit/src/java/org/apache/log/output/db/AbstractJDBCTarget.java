@@ -37,7 +37,7 @@ public abstract class AbstractJDBCTarget
      *
      * @param event the log event
      */
-    protected void doProcessEvent( final LogEvent event )
+    protected synchronized void doProcessEvent( final LogEvent event )
         throws Exception
     {
         checkConnection();
@@ -60,7 +60,7 @@ public abstract class AbstractJDBCTarget
      * Startup log session.
      *
      */
-    protected void open()
+    protected synchronized void open()
     {
         if( !isOpen() )
         {
@@ -90,7 +90,7 @@ public abstract class AbstractJDBCTarget
      *
      * @return the Connection
      */
-    protected final Connection getConnection()
+    protected final synchronized Connection getConnection()
     {
         return m_connection;
     }
@@ -98,7 +98,7 @@ public abstract class AbstractJDBCTarget
     /**
      * Utility method to check connection and bring it back up if necessary.
      */
-    protected final void checkConnection()
+    protected final synchronized void checkConnection()
     {
         if( isStale() )
         {
@@ -112,7 +112,7 @@ public abstract class AbstractJDBCTarget
      *
      * @return true if connection is stale, false otherwise
      */
-    protected boolean isStale()
+    protected synchronized boolean isStale()
     {
         if( null == m_connection ) return true;
 
@@ -133,7 +133,7 @@ public abstract class AbstractJDBCTarget
      * Attempting to write to target after close() will cause errors to be logged.
      *
      */
-    public void close()
+    public synchronized void close()
     {
         if( isOpen() )
         {
@@ -161,16 +161,5 @@ public abstract class AbstractJDBCTarget
 
             m_connection = null;
         }
-    }
-
-    /**
-     * Helper method to retrieve tail for log session.
-     * TODO: Extract from formatter
-     *
-     * @return the head string
-     */
-    private String getTail()
-    {
-        return null;
     }
 }

@@ -52,7 +52,7 @@ public abstract class AbstractJMSTarget
      * Startup log session.
      *
      */
-    protected void open()
+    protected synchronized void open()
     {
         if( !isOpen() )
         {
@@ -66,7 +66,7 @@ public abstract class AbstractJMSTarget
      * Attempting to write to target after close() will cause errors to be logged.
      *
      */
-    public void close()
+    public synchronized void close()
     {
         if( isOpen() )
         {

@@ -31,12 +31,12 @@ public abstract class AbstractTarget
      *
      * @param errorHandler the errorHandler
      */
-    public void setErrorHandler( final ErrorHandler errorHandler )
+    public synchronized void setErrorHandler( final ErrorHandler errorHandler )
     {
         m_errorHandler = errorHandler;
     }
 
-    protected boolean isOpen()
+    protected synchronized boolean isOpen()
     {
         return m_isOpen;
     }
@@ -44,7 +44,7 @@ public abstract class AbstractTarget
     /**
      * Startup log session.
      */
-    protected void open()
+    protected synchronized void open()
     {
         if( !isOpen() )
         {
@@ -57,7 +57,7 @@ public abstract class AbstractTarget
      *
      * @param event the log event
      */
-    public void processEvent( final LogEvent event )
+    public synchronized void processEvent( final LogEvent event )
     {
         if( !isOpen() )
         {
@@ -89,7 +89,7 @@ public abstract class AbstractTarget
      * Attempting to write to target after close() will cause errors to be logged.
      *
      */
-    public void close()
+    public synchronized void close()
     {
         if( isOpen() )
         {
