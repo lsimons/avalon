@@ -80,7 +80,7 @@
     <map:serialize/>
    </map:match>
 
-   <map:match pattern="developing-with-avalon.pdf">
+   <map:match pattern="**developing-with-avalon.pdf">
      <map:generate src="xdocs/developing/index.xml"/>
      <map:transform type="xinclude"/>
      <map:transform src="stylesheets/docbook2fo.xsl"/>
