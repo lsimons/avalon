@@ -8,7 +8,7 @@
 package org.apache.avalon.framework.service;
 
 /**
- * A servicable is a class that need to connect to software components using
+ * A Serviceable is a class that need to connect to software components using
  * a "role" abstraction, thus not depending on particular implementations
  * but on behavioral interfaces.
  * <br />
@@ -32,13 +32,13 @@ package org.apache.avalon.framework.service;
 public interface Serviceable
 {
     /**
-     * Pass the <code>ServiceManager</code> to the <code>servicable</code>.
-     * The <code>Servicable</code> implementation should use the specified
+     * Pass the <code>ServiceManager</code> to the <code>Serviceable</code>.
+     * The <code>Serviceable</code> implementation should use the specified
      * <code>ServiceManager</code> to acquire the components it needs for
      * execution.
      *
      * @param manager The <code>ServiceManager</code> which this
-     *                <code>Servicable</code> uses.
+     *                <code>Serviceable</code> uses.
      */
     void service( ServiceManager manager )
         throws ServiceException;
