@@ -2,11 +2,11 @@
                Building The Phoenix Application Server
                =======================================
 
-This subproject contains the source code @Name@ @version@, a container 
-that implements a Service API similar to the API under development in the JSR 111, 
-Services Framework.  In order to build a binary distribution version of the 
-container from a source distribution, you must have a Java Development Kit (JDK) 
-for version 1.3 (or later) downloaded and installed (version 1.3.1 recommended), 
+This subproject contains the source code Phoenix @version@, a container
+that implements a Service API similar to the API under development in the JSR 111,
+Services Framework.  In order to build a binary distribution version of the
+container from a source distribution, you must have a Java Development Kit (JDK)
+for version 1.3 (or later) downloaded and installed (version 1.3.1 recommended),
 and do the following:
 
 (0) Download and Install a Java Development Kit
@@ -72,7 +72,7 @@ to be accessible as a win32 Service or a unix daemon.
 
     http://wrapper.sourceforge.net/
 
-* Unpack the product into a convenient location so that it resides in 
+* Unpack the product into a convenient location so that it resides in
   its own subdirectory.
 
 (4) Customize Build Properties For This Subproject
@@ -102,21 +102,21 @@ each developer will have their own version.
 
 Open a command line shell, and issue the following commands:
 
-  cd @name@-@version@
+  cd @dist.name@
   ant -projecthelp
 
 If everything is installed correctly, you should see a list of the Ant
 "targets" that represent different commands you might wish to build.  By
-convention, the "dist-lite" target creates a binary distribution minus 
-the javadocs and other documentation.  To execute it, type the following 
+convention, the "dist-lite" target creates a binary distribution minus
+the javadocs and other documentation.  To execute it, type the following
 commands:
 
-  cd @name@-@version@
+  cd @dist.name@
   ant dist-lite
 
-This will create a binary distribution of the project (equivalent in structure 
-to the corresponding binary distribution downloadable from the Jakarta web 
-site minus the docs/ directory), in the "@name@-@version@/dist" directory.  It 
+This will create a binary distribution of the project (equivalent in structure
+to the corresponding binary distribution downloadable from the Jakarta web
+site minus the docs/ directory), in the "@name@-@version@/dist" directory.  It
 will have the contents described in the corresponding "README.txt" file.
 
 See the document RUNNING.txt for instructions on how to start up and shut down
