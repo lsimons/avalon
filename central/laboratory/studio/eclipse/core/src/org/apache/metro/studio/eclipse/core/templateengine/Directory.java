@@ -17,15 +17,18 @@
  */
 package org.apache.metro.studio.eclipse.core.templateengine;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Vector;
 
+import org.apache.metro.studio.eclipse.core.MetroStudioCore;
 import org.apache.metro.studio.eclipse.core.tools.ClassNameAnalyzer;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Metro Development Team </a>
@@ -37,7 +40,6 @@ public class Directory
 
     private String name;
     private boolean isSource = false;
-    private List libraries = new ArrayList();
     private transient IFolder eclipseFolder;
 
     /**
@@ -82,40 +84,6 @@ public class Directory
         this.name = name;
     }
 
-    public void addLibrary(Library library)
-    {
-
-        libraries.add(library);
-    }
-
-    public List getLibraries()
-    {
-
-        return libraries;
-    }
-
-    /**
-     * Collect all library names
-     * @return
-     */
-    public Vector getLibraryNames()
-    {
-
-        Vector libraries = new Vector();
-        Iterator it = getLibraries().iterator();
-        while (it.hasNext())
-        {
-            Library lib = (Library)it.next();
-            String name;
-            name = lib.getName();
-            if(lib.getVersion() != null){
-                name = name + "-"+lib.getVersion();
-            }
-            libraries.add(name+".jar");
-        }
-        return libraries;
-    }
-
     /**
      * Create a directory under the given project.
      * 
@@ -153,6 +121,11 @@ public class Directory
                     folder.create(false, true, null);
                     eclipseFolder = folder;
                 }
+                if(isSource())
+                {
+                    IClasspathEntry entry = JavaCore.newSourceEntry(project.getFullPath().append(folder.getName()));
+                    addClasspath(project, entry);
+                }
             }
 
         } catch (CoreException e)
@@ -162,6 +135,39 @@ public class Directory
 
     }
     
+
+    /**
+     * @param project
+     */
+    private void addClasspath(IProject project, IClasspathEntry entry)
+    {
+        try
+        {
+            Vector libraries = new Vector();
+            
+            IJavaProject javaProject = JavaCore.create(project);
+            IClasspathEntry[] current = javaProject.getResolvedClasspath(true);
+
+            for(int i=0; i<current.length; i++)
+            {
+                // don't add the project to the classpath!
+                if( ! current[i].getPath().toString().equals(project.getFullPath().toString()))
+                {
+                libraries.add(current[i]);  
+                }
+            }
+            libraries.add(entry);
+            
+            javaProject.setRawClasspath((IClasspathEntry[]) libraries
+                    .toArray(new IClasspathEntry[libraries.size()]),
+                    javaProject.getOutputLocation(), null);
+
+
+        } catch (JavaModelException e)
+        {
+            MetroStudioCore.log(e, "could not add libraries to project");
+        }
+    }
 
     /**
      * append a directory.

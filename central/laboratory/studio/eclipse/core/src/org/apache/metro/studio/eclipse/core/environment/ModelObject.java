@@ -17,28 +17,44 @@ limitations under the License.
 */
 package org.apache.metro.studio.eclipse.core.environment;
 
+import java.util.Hashtable;
+
+
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Metro Development Team</a>
- * 19.08.2004
+ * 20.08.2004
  * last change:
  * 
  */
-public class ServerEnvironment
+public class ModelObject
 {
 
-    public static final String DEFAULT_LANG = "de";
-    public static final boolean DEFAULT_DEBUG = true;
-    public static final boolean DEFAULT_DEPLOY = false;
-    public static final boolean DEFAULT_SERVER = false;
-    public static final boolean DEFAULT_SECURITY = true;
-    
+    Hashtable table = new Hashtable();
     /**
      * 
      */
-    public ServerEnvironment()
+    public ModelObject()
     {
         super();
-        // TODO Auto-generated constructor stub
+    }
+    
+    public void put(Object key, Object value)
+    {
+        table.put(key, value);
+    }
+    public boolean hasOption(String option)
+    {
+        return table.containsKey(option);
+    }
+    
+    public String getOptionValue(String option)
+    {
+        return (String)table.get(option);
+    }
+    
+    public String[] getArgs()
+    {
+        return null;
     }
 
 }

@@ -45,19 +45,6 @@ public class DirectoryTemplate
     }
     
     /**
-     * Collect all LibraryNames
-     * @return
-     */
-    public Vector getLibraryNames(){
-        
-        Vector libraries = new Vector();
-        Iterator it = directories.iterator();
-        while(it.hasNext()){
-            libraries.addAll(((Directory)it.next()).getLibraryNames());
-        }
-        return libraries;
-    }
-    /**
      * Create all directories in Project
      * @param project
      */

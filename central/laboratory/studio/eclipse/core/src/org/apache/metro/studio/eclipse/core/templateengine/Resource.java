@@ -114,6 +114,10 @@ public class Resource
 
         try
         {
+            if(map==null)
+            {
+                map = new DynProjectParam();
+            }
             InputStream input = new FileInputStream(new File(templateName));
             InputStreamReader file = new InputStreamReader(input);
             BufferedReader reader = new BufferedReader(file);
@@ -159,7 +163,7 @@ public class Resource
 
     private String replaceParam(String line, DynProjectParam map)
     {
-
+        if(map==null)return line;
         Iterator it = map.keySet().iterator();
         String key;
 

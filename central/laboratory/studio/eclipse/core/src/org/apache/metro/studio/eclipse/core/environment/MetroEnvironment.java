@@ -18,7 +18,6 @@
 package org.apache.metro.studio.eclipse.core.environment;
 
 import java.io.IOException;
-import java.util.Properties;
 
 import org.apache.avalon.util.defaults.DefaultsBuilder;
 import org.apache.metro.studio.eclipse.core.MetroStudioCore;
@@ -60,10 +59,6 @@ public class MetroEnvironment
         String path;
         try
         {
-            Properties prop = merlinBuilder.getUserProperties();
-            prop = merlinBuilder.getDirProperties();
-            prop = merlinBuilder.getHomeProperties();
-
             path = merlinBuilder.getHomeDirectory().getCanonicalPath();
         } catch (IOException e)
         {
