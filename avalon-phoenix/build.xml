@@ -170,19 +170,6 @@ Legal:
         <untar src="mx4j/mx4j.tar" dest="mx4j"/>
     </target>
 
-
-    <target name="pretty">
-        <taskdef name="pretty"
-            classname="org.acm.seguin.ant.Pretty"
-            classpath="${jrefactory.jar}" />
-        <pretty settingsDir="tools/etc" cvs="true" compileDir="${target.classes}">
-            <fileset dir="${src.dir}">
-                <include name="**/*.java" />
-                <!--<exclude name="org/**/*.java" />-->
-            </fileset>
-        </pretty>
-    </target>
-
     <target name="changelog">
         <!-- specific to ant1.5.1 -->
         <cvschangelog dir="."
