@@ -28,11 +28,15 @@
     
   <component name="server" class="org.apache.avalon.http.impl.HttpServerImpl" />
   
+  <component name="mimetypes" class="org.apache.avalon.http.impl.SystemMimeTypes" />
+  
   <component name="context" class="org.apache.avalon.http.impl.HttpContextImpl" >
     <configuration>
       <context-path>/niclas/testing</context-path>
     </configuration>
   </component>
+  
+  
 <!--  
   <component name="security-handler" class="org.apache.avalon.http.impl.SecurityHandler" >
     <parameters>
