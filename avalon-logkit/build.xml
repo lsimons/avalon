@@ -155,6 +155,14 @@ Legal:
                classname="org.apache.avalon.framework.CascadingThrowable"
                classpathref="project.class.path" />
 
+    <available property="javax.sql.present"
+               classname="javax.sql.DataSource"
+               classpathref="project.class.path" />
+
+    <available property="javax.jms.present"
+               classname="javax.jms.TopicConnection"
+               classpathref="project.class.path" />
+
     <javac srcdir="${java.dir}"
            destdir="${build.classes}"
            debug="${debug}"
@@ -167,6 +175,12 @@ Legal:
                unless="servlet.present"/>
       <exclude name="org/apache/log/format/AvalonFormatter.java"
                unless="avalon-framework.present"/>
+      <exclude name="org/apache/log/output/db/**"
+               unless="javax.sql.present"/>
+      <exclude name="org/apache/log/output/jms/**"
+               unless="javax.jms.present"/>
+      <exclude name="org/apache/log/output/test/DBTargetTestlet.java"
+               unless="javax.sql.present"/>
     </javac>
 
     <copy todir="${build.classes}">
