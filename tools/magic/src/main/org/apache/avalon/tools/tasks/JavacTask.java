@@ -38,8 +38,6 @@ import java.io.File;
  */
 public class JavacTask extends SystemTask
 {
-    public static final String BUILD_CLASSES_KEY = "classes";
-    public static final String BUILD_CLASSES_PATH = "classes";
 
     public static final String DEBUG_KEY = "java.compile.debug";
     public static final boolean DEBUG_VALUE = false;
@@ -55,9 +53,6 @@ public class JavacTask extends SystemTask
             final Project project = getProject();
             project.setNewProperty( DEBUG_KEY, "" + DEBUG_VALUE );
             project.setNewProperty( FORK_KEY, "" + FORK_VALUE );
-            getContext().setBuildPath( 
-              BUILD_CLASSES_KEY, 
-              BUILD_CLASSES_PATH );
         }
     }
 
@@ -69,7 +64,7 @@ public class JavacTask extends SystemTask
 
         if( main.exists() )
         {
-            final File classes = getContext().getBuildPath( BUILD_CLASSES_KEY );
+            final File classes = getContext().getClassesDirectory();
             mkDir( classes );
 
             final ResourceRef ref = new ResourceRef( getKey() );

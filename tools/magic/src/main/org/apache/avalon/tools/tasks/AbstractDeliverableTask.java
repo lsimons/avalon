@@ -64,9 +64,10 @@ public class AbstractDeliverableTask extends SystemTask
         }
 
         final String gpg = getProject().getProperty( GPG_EXE_KEY );
+
         if(( null != gpg ) && !"".equals( gpg ) )
         {
-            log( "Creating asc signature using '" + gpg + "']" );
+            log( "Creating asc signature using '" + gpg + "'." );
             final ExecTask execute = (ExecTask) getProject().createTask( "exec" );
 
             execute.setExecutable( gpg );

@@ -43,6 +43,8 @@ public class Context extends Task
 
     public static final String TARGET = "target";
     public static final String BUILD = "build";
+    public static final String CLASSES = "classes";
+    public static final String TEST_CLASSES = "test-classes";
     public static final String TEMP = "temp";
     public static final String TEST = "test";
     public static final String DELIVERABLES = "deliverables";
@@ -50,7 +52,6 @@ public class Context extends Task
 
     private static final String USER_PROPERTIES = "user.properties";
     private static final String BUILD_PROPERTIES = "build.properties";
-
 
     public static final String SRC_KEY = "project.src";
     public static final String SRC_VALUE = "src";
@@ -97,6 +98,8 @@ public class Context extends Task
     private File m_target;
     private File m_build;
     private File m_deliverables;
+    private File m_classes;
+    private File m_testClasses;
     private File m_temp;
     private File m_docs;
     private File m_test;
@@ -137,8 +140,10 @@ public class Context extends Task
         m_target = new File( basedir, TARGET );
         m_build = setBuildPath( BUILD );
         m_deliverables = setBuildPath( DELIVERABLES );
+        m_classes = setBuildPath( CLASSES );
         m_temp = setBuildPath( TEMP );
         m_test = setBuildPath( TEST );
+        m_testClasses = setBuildPath( TEST_CLASSES );
         m_docs = setBuildPath( DOCS );
 
         project.addReference( KEY, this );
@@ -201,6 +206,16 @@ public class Context extends Task
     public File getDeliverablesDirectory()
     {
         return m_deliverables;
+    }
+
+    public File getClassesDirectory()
+    {
+        return m_classes;
+    }
+
+    public File getTestClassesDirectory()
+    {
+        return m_testClasses;
     }
 
     public File getTempDirectory()
