@@ -1,13 +1,54 @@
 /*
- * Copyright (C) The Apache Software Foundation. All rights reserved.
- *
- * This software is published under the terms of the Apache Software License
- * version 1.1, a copy of which has been included with this distribution in
- * the LICENSE.txt file.
- */
+
+ ============================================================================
+                   The Apache Software License, Version 1.1
+ ============================================================================
+
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without modifica-
+ tion, are permitted provided that the following conditions are met:
+
+ 1. Redistributions of  source code must  retain the above copyright  notice,
+    this list of conditions and the following disclaimer.
+
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+ 3. The end-user documentation included with the redistribution, if any, must
+    include  the following  acknowledgment:  "This product includes  software
+    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
+    Alternately, this  acknowledgment may  appear in the software itself,  if
+    and wherever such third-party acknowledgments normally appear.
+
+ 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"
+    must not be used to endorse or promote products derived from this  software
+    without  prior written permission. For written permission, please contact
+    apache@apache.org.
+
+ 5. Products  derived from this software may not  be called "Apache", nor may
+    "Apache" appear  in their name,  without prior written permission  of the
+    Apache Software Foundation.
+
+ THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
+ INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
+ APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
+ INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
+ DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
+ ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
+ (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ This software  consists of voluntary contributions made  by many individuals
+ on  behalf of the Apache Software  Foundation. For more  information on the
+ Apache Software Foundation, please see <http://www.apache.org/>.
+
+*/
 package org.apache.avalon.excalibur.component;
 
-import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.excalibur.pool.Poolable;
 import org.apache.avalon.excalibur.pool.ResourceLimitingPool;
 import org.apache.avalon.framework.activity.Disposable;
@@ -15,8 +56,6 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.logger.LogKitLogger;
-import org.apache.log.Logger;
 
 /**
  * The PoolableComponentHandler to make sure that poolable components are initialized
@@ -42,10 +81,10 @@ import org.apache.log.Logger;
  * Configuration Attributes:
  * <ul>
  * <li>The <code>pool-max</code> attribute is used to set the maximum number of components which
- *  will be pooled.  See the <code>pool-max-scrict</code> and <code>pool-blocking</code>
+ *  will be pooled.  See the <code>pool-max-strict</code> and <code>pool-blocking</code>
  *  attributes.  (Defaults to "8")</li>
  *
- * <li>The <code>pool-max-scrict</code> attribute is used to configure whether the Component
+ * <li>The <code>pool-max-strict</code> attribute is used to configure whether the Component
  *  Manager should allow more than <code>pool-max</code> Poolables to be looked up at the same
  *  time.  Setting this to true will throw an exception if the <code>pool-blocking</code> attribute
  *  is false.  A value of false will allow additional instances of the Component to be created
@@ -55,7 +94,7 @@ import org.apache.log.Logger;
  *  should block or throw an Exception when more than <code>pool-max</code> Poolables are looked
  *  up at the same time.  Setting this to true will cause requests to block until another thread
  *  releases a Poolable back to the Component Manager.  False will cause an exception to be thrown.
- *  This attribute is ignored if <code>pool-max-scrict</code> is false.  (Defaults to "true")</li>
+ *  This attribute is ignored if <code>pool-max-strict</code> is false.  (Defaults to "true")</li>
  *
  * <li>The <code>pool-timeout</code> attribute is used to specify the maximum amount of time in
  *  milliseconds that a lookup will block for if Poolables are unavailable.  If the timeout expires
@@ -79,13 +118,16 @@ import org.apache.log.Logger;
  *
  * </ul>
  *
+ * @deprecated ECM is no longer supported
+ *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
+ * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 05:09:02 $
+ * @version CVS $Revision: 1.1.1.1 $ $Date: 2003/11/09 12:44:17 $
  * @since 4.0
  */
-public class PoolableComponentHandler extends ComponentHandler
+public class PoolableComponentHandler
+    extends ComponentHandler
 {
     /** The default max size of the pool */
     public static final int DEFAULT_MAX_POOL_SIZE = 8;
@@ -107,16 +149,17 @@ public class PoolableComponentHandler extends ComponentHandler
      * whether a Component is ThreadSafe, Poolable, or SingleThreaded.
      * It falls back to SingleThreaded if not specified.
      */
-    protected PoolableComponentHandler( final Class componentClass,
+    protected PoolableComponentHandler( final String role,
+                                        final Class componentClass,
                                         final Configuration config,
                                         final ComponentManager manager,
                                         final Context context,
                                         final RoleManager roles,
-                                        final LogKitManager logkit )
+                                        final LogkitLoggerManager logkit )
         throws Exception
     {
         this(
-            new DefaultComponentFactory( componentClass, config, manager, context, roles, logkit ),
+            new DefaultComponentFactory( role, componentClass, config, manager, context, roles, logkit ),
             config );
     }
 
@@ -142,17 +185,8 @@ public class PoolableComponentHandler extends ComponentHandler
 
         m_pool = new ResourceLimitingPool( m_factory, poolMax, poolMaxStrict, poolBlocking,
                                            poolTimeout, poolTrimInterval );
-    }
-
-    /**
-     * Sets the logger that the ComponentHandler will use.
-     */
-    public void setLogger( final Logger logger )
-    {
-        m_factory.setLogger( logger );
-        m_pool.enableLogging( new LogKitLogger( logger ) );
-
-        super.setLogger( logger );
+        // Initialize the Instrumentable elements.
+        addChildInstrumentable( m_pool );
     }
 
     /**
@@ -164,6 +198,10 @@ public class PoolableComponentHandler extends ComponentHandler
         {
             return;
         }
+
+        m_factory.setLogger( getLogkitLogger() );
+        m_factory.enableLogging( getLogger() );
+        m_pool.enableLogging( getLogger() );
 
         if( getLogger().isDebugEnabled() )
         {

@@ -1,10 +1,52 @@
 /*
- * Copyright (C) The Apache Software Foundation. All rights reserved.
- *
- * This software is published under the terms of the Apache Software License
- * version 1.1, a copy of which has been included with this distribution in
- * the LICENSE.txt file.
- */
+
+ ============================================================================
+                   The Apache Software License, Version 1.1
+ ============================================================================
+
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without modifica-
+ tion, are permitted provided that the following conditions are met:
+
+ 1. Redistributions of  source code must  retain the above copyright  notice,
+    this list of conditions and the following disclaimer.
+
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+ 3. The end-user documentation included with the redistribution, if any, must
+    include  the following  acknowledgment:  "This product includes  software
+    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
+    Alternately, this  acknowledgment may  appear in the software itself,  if
+    and wherever such third-party acknowledgments normally appear.
+
+ 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"
+    must not be used to endorse or promote products derived from this  software
+    without  prior written permission. For written permission, please contact
+    apache@apache.org.
+
+ 5. Products  derived from this software may not  be called "Apache", nor may
+    "Apache" appear  in their name,  without prior written permission  of the
+    Apache Software Foundation.
+
+ THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
+ INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
+ APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
+ INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
+ DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
+ ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
+ (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ This software  consists of voluntary contributions made  by many individuals
+ on  behalf of the Apache Software  Foundation. For more  information on the
+ Apache Software Foundation, please see <http://www.apache.org/>.
+
+*/
 package org.apache.avalon.excalibur.component.servlet;
 
 import java.io.IOException;
@@ -18,14 +60,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.avalon.excalibur.logger.LoggerManager;
-
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.logger.Logger;
-
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.excalibur.instrument.CounterInstrument;
 import org.apache.excalibur.instrument.Instrument;
-import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.instrument.InstrumentManager;
+import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.instrument.ValueInstrument;
 
 /**
@@ -33,8 +73,10 @@ import org.apache.excalibur.instrument.ValueInstrument;
  *  to enable servlets to have access to a ServiceManager as well as logging
  *  and instrumentation features.
  *
+ * @deprecated ECM is no longer supported
+ *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/11/07 09:50:41 $
+ * @version CVS $Revision: 1.1.1.1 $ $Date: 2003/11/09 12:44:17 $
  * @since 4.2
  */
 public abstract class AbstractServiceManagerServlet
@@ -44,7 +86,7 @@ public abstract class AbstractServiceManagerServlet
     private String m_referenceName;
     private ServiceManager m_serviceManager;
     private Logger m_logger;
-    
+
     /** Instrumentable Name assigned to this Instrumentable */
     private String m_instrumentableName;
 
@@ -56,13 +98,13 @@ public abstract class AbstractServiceManagerServlet
 
     /** Flag which is to used to keep track of when the Instrumentable has been registered. */
     private boolean m_registered;
-    
+
     /** Counts the number of times the service is requested. */
     private CounterInstrument m_instrumentRequests;
-    
+
     /** Records the amount of time execute takes to be processed. */
     private ValueInstrument m_instrumentTime;
-    
+
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -77,18 +119,18 @@ public abstract class AbstractServiceManagerServlet
     {
         //System.out.println( "AbstractServiceManagerServlet( " + referenceName + " )" );
         m_referenceName = referenceName;
-        
+
         // Set up Instrumentable like AbstractInstrumentable
         m_registered = false;
         m_instrumentList = new ArrayList();
         m_childList = new ArrayList();
-        
+
         // Create the instruments
         setInstrumentableName( referenceName );
         addInstrument( m_instrumentRequests = new CounterInstrument( "requests" ) );
         addInstrument( m_instrumentTime = new ValueInstrument( "time" ) );
     }
-    
+
     /*---------------------------------------------------------------
      * HttpServlet Methods
      *-------------------------------------------------------------*/
@@ -115,12 +157,12 @@ public abstract class AbstractServiceManagerServlet
         }
         Logger logger = loggerManager.getLoggerForCategory( "servlet" );
         m_logger = logger.getChildLogger( m_referenceName );
-        
+
         if ( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "servlet.init( config )" );
         }
-        
+
         // Obtain a reference to the ServiceManager
         m_serviceManager =
             (ServiceManager)context.getAttribute( ServiceManager.class.getName() );
@@ -129,7 +171,7 @@ public abstract class AbstractServiceManagerServlet
             throw new IllegalStateException(
                 "The ExcaliburComponentManagerServlet servlet was not correctly initialized." );
         }
-        
+
         // Register this servlet with the InstrumentManager if it exists.
         InstrumentManager instrumentManager =
             (InstrumentManager)context.getAttribute( InstrumentManager.class.getName() );
@@ -146,12 +188,12 @@ public abstract class AbstractServiceManagerServlet
                     "Unable to register the servlet with the instrument manager.", e );
             }
         }
-        
+
         // Do this last so the subclasses will be able to access these objects in their
         //  init method.
         super.init( config );
     }
-    
+
     /**
      * Called by the servlet container to indicate to a servlet that the servlet
      *  is being taken out of service.
@@ -162,15 +204,15 @@ public abstract class AbstractServiceManagerServlet
         {
             getLogger().debug( "servlet.destroy()" );
         }
-        
+
         // Release the ServiceManager by removing its reference.
         m_serviceManager = null;
-        
+
         super.destroy();
-        
+
         // Make sure that the component manager gets collected.
         System.gc();
-        
+
         // Give the system time for the Gc to complete.  This is necessary to make sure that
         //  the ECMServlet has time to dispose all of its managers before the Tomcat server
         //  invalidates the current class loader.
@@ -182,7 +224,7 @@ public abstract class AbstractServiceManagerServlet
         {
         }
     }
-    
+
     /**
      * Receives standard HTTP requests from the public service method and dispatches
      *  them to the doXXX methods defined in this class.
@@ -205,24 +247,24 @@ public abstract class AbstractServiceManagerServlet
                 sb.append( "?" );
                 sb.append( query );
             }
-            
+
             getLogger().debug( "Request: " + sb.toString() );
         }
-        
+
         long start = System.currentTimeMillis();
-        
+
         // Notify the Instrument Manager
         m_instrumentRequests.increment();
-        
+
         super.service( request, response );
-        
+
         // Notify the Instrument Manager how long the service took.
         if ( m_instrumentTime.isActive() )
         {
             m_instrumentTime.setValue( (int)( System.currentTimeMillis() - start ) );
         }
     }
-    
+
     /*---------------------------------------------------------------
      * Instrumentable Methods
      *-------------------------------------------------------------*/
@@ -303,7 +345,7 @@ public abstract class AbstractServiceManagerServlet
             return instruments;
         }
     }
-    
+
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
@@ -343,7 +385,7 @@ public abstract class AbstractServiceManagerServlet
         }
         m_childList.add( child );
     }
-    
+
     /**
      * Obtain a reference to the servlet's logger.
      *
@@ -353,7 +395,7 @@ public abstract class AbstractServiceManagerServlet
     {
         return m_logger;
     }
-    
+
     /**
      * Returns the current ServiceManager.
      *

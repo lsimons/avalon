@@ -6,7 +6,7 @@
 
 <project name="example-instrument-manager" default="main" basedir=".">
 
-    <!--property name="avalon-framework.home" value="${basedir}/../../../../jakarta-avalon"/-->
+    <!--property name="avalon-framework.home" value="${basedir}/../../../../avalon"/-->
     <!--
       Give user a chance to override without editing this file
       (and without typing -D each time he compiles it)
@@ -44,17 +44,6 @@
     <target name="help" depends="usage"/>
 
     <!-- =================================================================== -->
-    <!-- Dependency Checker                                                  -->
-    <!-- =================================================================== -->
-    <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkComponent"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkAltrmiServer"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkAltrmiCommon"/>
-    </target>
-    
-    <!-- =================================================================== -->
     <!-- Help on usage                                                       -->
     <!-- =================================================================== -->
     <target name="collect-jars">
@@ -85,8 +74,18 @@
         <copy file="${excalibur-component.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
 
+        <!-- Avalon Excalibur Container -->
+        <!--
+        <copy file="${excalibur-container.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        -->
+
         <!-- Avalon Excalibur Logger -->
         <copy file="${excalibur-logger.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+
+        <!-- Avalon Excalibur i18n -->
+        <copy file="${excalibur-i18n.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
 
         <!-- Avalon Excalibur Pool -->
@@ -96,17 +95,27 @@
         <!-- Avalon Excalibur Instrument -->
         <copy file="${excalibur-instrument.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Avalon Excalibur Instrument Manager-->
         <copy file="${excalibur-instrument-manager.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
         <copy file="${excalibur-instrument-manager-interfaces.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
 
         <!-- Altrmi Jars -->
-        <copy file="${excalibur-altrmi-common.jar}"
+        <copy file="${altrmi-common.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
-        <copy file="${excalibur-altrmi-server-impl.jar}"
+        <copy file="${altrmi-server-impl.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
-        <copy file="${excalibur-altrmi-server-interfaces.jar}"
+        <copy file="${altrmi-server-interfaces.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Doug Lea's Concurrent Utils -->
+        <copy file="${util.concurrent.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Commons collections -->
+        <copy file="${commons-collections.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
     </target>
 
@@ -176,6 +185,11 @@
                 <param name="-windowtitle" value="${Name} API"/>
                 <param name="-bottom"
                     value="&quot;Copyright &#169; 2001 Apache Jakarta Project. All Rights Reserved.&quot;"/>
+                <param name="-tag" value="avalon.component:t:Avalon Component:"/>
+                <param name="-tag" value="avalon.service:t:Avalon Service:"/>
+                <param name="-tag" value="x-avalon.info:t:Avalon Component Information:"/>
+                <param name="-tag" value="x-avalon.lifestyle:t:Avalon Component Lifestyle:"/>
+                <param name="-tag" value="avalon.dependency:m:Avalon Component Dependency:"/>
             </doclet>
         </javadoc>
     </target>

@@ -1,19 +1,60 @@
 /*
- * Copyright (C) The Apache Software Foundation. All rights reserved.
- *
- * This software is published under the terms of the Apache Software License
- * version 1.1, a copy of which has been included with this distribution in
- * the LICENSE.txt file.
- */
+
+ ============================================================================
+                   The Apache Software License, Version 1.1
+ ============================================================================
+
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without modifica-
+ tion, are permitted provided that the following conditions are met:
+
+ 1. Redistributions of  source code must  retain the above copyright  notice,
+    this list of conditions and the following disclaimer.
+
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+ 3. The end-user documentation included with the redistribution, if any, must
+    include  the following  acknowledgment:  "This product includes  software
+    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
+    Alternately, this  acknowledgment may  appear in the software itself,  if
+    and wherever such third-party acknowledgments normally appear.
+
+ 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"
+    must not be used to endorse or promote products derived from this  software
+    without  prior written permission. For written permission, please contact
+    apache@apache.org.
+
+ 5. Products  derived from this software may not  be called "Apache", nor may
+    "Apache" appear  in their name,  without prior written permission  of the
+    Apache Software Foundation.
+
+ THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
+ INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
+ APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
+ INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
+ DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
+ ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
+ (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ This software  consists of voluntary contributions made  by many individuals
+ on  behalf of the Apache Software  Foundation. For more  information on the
+ Apache Software Foundation, please see <http://www.apache.org/>.
+
+*/
 package org.apache.avalon.excalibur.component;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
-
+import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -22,12 +63,12 @@ import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.LogKitLogger;
-
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.WrapperServiceManager;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.instrument.manager.DefaultInstrumentManager;
-
 import org.apache.log.Hierarchy;
 import org.apache.log.Priority;
 
@@ -54,12 +95,16 @@ import org.apache.log.Priority;
  *     m_componentManagerCreator = null;
  * </pre>
  *
- * The ComponentManager or any of the other managers can be accessed using their
- *  getter methods.  getComponentManager() for example.
+ * The ServiceManager (ComponentManager) or any of the other managers can be accessed
+ *  using their getter methods.  getServiceManager() for example.  Note that
+ *  while the ComponentManager is still available, it has been deprecated in favor
+ *  of the ServiceManager interface.
+ *
+ * @deprecated ECM is no longer supported
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/16 03:44:14 $
- * @since 4.1
+ * @version CVS $Revision: 1.1.1.1 $ $Date: 2003/11/09 12:44:16 $
+ * @since 4.2
  */
 public class ExcaliburComponentManagerCreator
     implements Disposable
@@ -67,26 +112,28 @@ public class ExcaliburComponentManagerCreator
     /** Internal logger set once the LoggerManager has been initialized.
      * Always call getLogger() to get the best available logger. */
     private Logger m_logger;
-    
+
     /** Simple logger which can be used until the LoggerManager has been setup.
      * Always call getLogger() to get the best available logger. */
     private final Logger m_primordialLogger;
-    
+
     /** Context to create the ComponentManager with. */
     private Context m_context;
-    
+
     /** Internal logger manager. */
     private LoggerManager m_loggerManager;
-    
+
     /** Internal role manager. */
     private RoleManager m_roleManager;
-    
+
     /** Internal component manager. */
     private ComponentManager m_componentManager;
-    
+
+    /** Internal service manager. */
+    private ServiceManager m_serviceManager;
+
     /** Internal instrument manager. */
     private InstrumentManager m_instrumentManager;
-    
     /*---------------------------------------------------------------
      * Static Methods
      *-------------------------------------------------------------*/
@@ -99,7 +146,7 @@ public class ExcaliburComponentManagerCreator
         context.makeReadOnly();
         return context;
     }
-    
+
     /**
      * Creates a Configuration object from data read from an InputStream.
      *
@@ -112,7 +159,7 @@ public class ExcaliburComponentManagerCreator
     private static Configuration readConfigurationFromStream( InputStream is )
         throws Exception
     {
-        if ( is == null )
+        if( is == null )
         {
             return null;
         }
@@ -123,11 +170,11 @@ public class ExcaliburComponentManagerCreator
             return config;
         }
     }
-    
+
     /**
      * Creates a Configuration object from data read from an InputStream.
      *
-     * @param is InputStream from which the Configuration is created.
+     * @param file InputStream from which the Configuration is created.
      *
      * @return Configuration created from the InputStream
      *
@@ -136,7 +183,7 @@ public class ExcaliburComponentManagerCreator
     private static Configuration readConfigurationFromFile( File file )
         throws Exception
     {
-        if ( file == null )
+        if( file == null )
         {
             return null;
         }
@@ -153,7 +200,7 @@ public class ExcaliburComponentManagerCreator
             }
         }
     }
-    
+
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -182,7 +229,7 @@ public class ExcaliburComponentManagerCreator
                                              Configuration instrumentManagerConfig )
         throws Exception
     {
-        if ( context == null )
+        if( context == null )
         {
             m_context = createDefaultContext();
         }
@@ -190,7 +237,7 @@ public class ExcaliburComponentManagerCreator
         {
             m_context = context;
         }
-        
+
         // The primordial logger is used for all output up until the point
         //  where the Logger manager has been initialized.  However it is set
         //  into objects used to load the configuration resource files.  Any
@@ -199,13 +246,22 @@ public class ExcaliburComponentManagerCreator
         //  be displayed, so turn it off by default.
         //  Unfortunately, there is not a very good place to make this settable.
         m_primordialLogger = new ConsoleLogger( ConsoleLogger.LEVEL_INFO );
-        
-        initializeLoggerManager( loggerManagerConfig );
-        initializeRoleManager( roleManagerConfig );
-        initializeInstrumentManager( instrumentManagerConfig );
-        initializeComponentManager( componentManagerConfig );
+
+        try
+        {
+            initializeLoggerManager( loggerManagerConfig );
+            initializeRoleManager( roleManagerConfig );
+            initializeInstrumentManager( instrumentManagerConfig );
+            initializeComponentManager( componentManagerConfig );
+        }
+        catch( Exception e )
+        {
+            // Clean up after the managers which were set up.
+            dispose();
+            throw e;
+        }
     }
-    
+
     /**
      * Create a new ExcaliburComponentManagerCreator using Input Streams.
      *
@@ -235,13 +291,13 @@ public class ExcaliburComponentManagerCreator
                                              InputStream instrumentManagerConfigStream )
         throws Exception
     {
-        this ( context,
-            readConfigurationFromStream( loggerManagerConfigStream ),
-            readConfigurationFromStream( roleManagerConfigStream ),
-            readConfigurationFromStream( componentManagerConfigStream ),
-            readConfigurationFromStream( instrumentManagerConfigStream ) );
+        this( context,
+              readConfigurationFromStream( loggerManagerConfigStream ),
+              readConfigurationFromStream( roleManagerConfigStream ),
+              readConfigurationFromStream( componentManagerConfigStream ),
+              readConfigurationFromStream( instrumentManagerConfigStream ) );
     }
-    
+
     /**
      * Create a new ExcaliburComponentManagerCreator using Files.
      *
@@ -270,13 +326,13 @@ public class ExcaliburComponentManagerCreator
                                              File instrumentManagerConfigFile )
         throws Exception
     {
-        this ( context,
-            readConfigurationFromFile( loggerManagerConfigFile ),
-            readConfigurationFromFile( roleManagerConfigFile ),
-            readConfigurationFromFile( componentManagerConfigFile ),
-            readConfigurationFromFile( instrumentManagerConfigFile ) );
+        this( context,
+              readConfigurationFromFile( loggerManagerConfigFile ),
+              readConfigurationFromFile( roleManagerConfigFile ),
+              readConfigurationFromFile( componentManagerConfigFile ),
+              readConfigurationFromFile( instrumentManagerConfigFile ) );
     }
-    
+
     /*---------------------------------------------------------------
      * Disposable Methods
      *-------------------------------------------------------------*/
@@ -289,12 +345,27 @@ public class ExcaliburComponentManagerCreator
         // Clean up all of the objects that we created in the propper order.
         try
         {
-            ContainerUtil.shutdown( m_componentManager );
-            ContainerUtil.shutdown( m_instrumentManager );
-            ContainerUtil.shutdown( m_roleManager );
-            ContainerUtil.shutdown( m_loggerManager );
+            if( m_componentManager != null )
+            {
+                ContainerUtil.shutdown( m_componentManager );
+            }
+
+            if( m_instrumentManager != null )
+            {
+                ContainerUtil.shutdown( m_instrumentManager );
+            }
+
+            if( m_roleManager != null )
+            {
+                ContainerUtil.shutdown( m_roleManager );
+            }
+
+            if( m_loggerManager != null )
+            {
+                ContainerUtil.shutdown( m_loggerManager );
+            }
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             getLogger().error( "Unexpected error disposing managers.", e );
         }
@@ -312,17 +383,7 @@ public class ExcaliburComponentManagerCreator
     {
         return m_loggerManager;
     }
-    
-    /**
-     * Returns the configured RoleManager.
-     *
-     * @return The configured RoleManager.
-     */
-    public RoleManager getRoleManager()
-    {
-        return m_roleManager;
-    }
-    
+
     /**
      * Returns the configured InstrumentManager.  May be null if an instrument
      *  configuration was not specified in the constructor.
@@ -333,29 +394,42 @@ public class ExcaliburComponentManagerCreator
     {
         return m_instrumentManager;
     }
-    
+
     /**
      * Returns the configured ComponentManager.
      *
      * @return The configured ComponentManager.
+     *
+     * @deprecated The ComponentManager interface has been deprecated.
+     *             Please use the getServiceManager method.
      */
     public ComponentManager getComponentManager()
     {
         return m_componentManager;
     }
-    
+
+    /**
+     * Returns the configured ServiceManager.
+     *
+     * @return The configured ServiceManager.
+     */
+    public ServiceManager getServiceManager()
+    {
+        return m_serviceManager;
+    }
+
     /**
      * Returns the logger for internal use.
      */
     private Logger getLogger()
     {
-        if ( m_logger != null )
+        if( m_logger != null )
         {
             return m_logger;
         }
         return m_primordialLogger;
     }
-    
+
     private void initializeLoggerManager( Configuration loggerManagerConfig )
         throws Exception
     {
@@ -365,7 +439,7 @@ public class ExcaliburComponentManagerCreator
         // Resolve a name for the logger, taking the logPrefix into account
         String lmDefaultLoggerName;
         String lmLoggerName;
-        if ( logPrefix == null )
+        if( logPrefix == null )
         {
             lmDefaultLoggerName = "";
             lmLoggerName = loggerManagerConfig.getAttribute( "logger", "system.logkit" );
@@ -397,7 +471,7 @@ public class ExcaliburComponentManagerCreator
         loggerManager.contextualize( m_context );
         loggerManager.configure( loggerManagerConfig );
         m_loggerManager = loggerManager;
-        
+
         // Since we now have a LoggerManager, we can update the m_logger field
         //  if it is null and start logging to the "right" logger.
         if( m_logger == null )
@@ -424,12 +498,12 @@ public class ExcaliburComponentManagerCreator
     private void initializeInstrumentManager( Configuration instrumentManagerConfig )
         throws Exception
     {
-        if ( instrumentManagerConfig != null )
+        if( instrumentManagerConfig != null )
         {
             // Get the logger for the instrument manager
             Logger imLogger = m_loggerManager.getLoggerForCategory(
                 instrumentManagerConfig.getAttribute( "logger", "system.instrument" ) );
-        
+
             // Set up the Instrument Manager
             DefaultInstrumentManager instrumentManager = new DefaultInstrumentManager();
             instrumentManager.enableLogging( imLogger );
@@ -459,6 +533,10 @@ public class ExcaliburComponentManagerCreator
         componentManager.configure( componentManagerConfig );
         componentManager.initialize();
         m_componentManager = componentManager;
+
+        // Now wrap the ComponentManager so that we can provide access to it as
+        //  a ServiceManager.
+        m_serviceManager = new WrapperServiceManager( m_componentManager );
     }
 }
 
