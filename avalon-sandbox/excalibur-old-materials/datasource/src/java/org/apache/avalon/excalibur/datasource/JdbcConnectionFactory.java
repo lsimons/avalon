@@ -3,34 +3,34 @@
  ============================================================================
                    The Apache Software License, Version 1.1
  ============================================================================
- 
+
  Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
- 
+
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
- 
+
  1. Redistributions of  source code must  retain the above copyright  notice,
     this list of conditions and the following disclaimer.
- 
+
  2. Redistributions in binary form must reproduce the above copyright notice,
     this list of conditions and the following disclaimer in the documentation
     and/or other materials provided with the distribution.
- 
+
  3. The end-user documentation included with the redistribution, if any, must
     include  the following  acknowledgment:  "This product includes  software
     developed  by the  Apache Software Foundation  (http://www.apache.org/)."
     Alternately, this  acknowledgment may  appear in the software itself,  if
     and wherever such third-party acknowledgments normally appear.
- 
- 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"  
-    must not be used to endorse or promote products derived from this  software 
-    without  prior written permission. For written permission, please contact 
+
+ 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"
+    must not be used to endorse or promote products derived from this  software
+    without  prior written permission. For written permission, please contact
     apache@apache.org.
- 
+
  5. Products  derived from this software may not  be called "Apache", nor may
     "Apache" appear  in their name,  without prior written permission  of the
     Apache Software Foundation.
- 
+
  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -41,16 +41,15 @@
  ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
  (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
  This software  consists of voluntary contributions made  by many individuals
- on  behalf of the Apache Software  Foundation. For more  information on the 
+ on  behalf of the Apache Software  Foundation. For more  information on the
  Apache Software Foundation, please see <http://www.apache.org/>.
- 
+
 */
 package org.apache.avalon.excalibur.datasource;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -65,7 +64,7 @@ import org.apache.avalon.framework.logger.LogEnabled;
  * The Factory implementation for JdbcConnections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.18 $ $Date: 2003/03/05 18:59:01 $
+ * @version CVS $Revision: 1.19 $ $Date: 2003/04/08 18:34:34 $
  * @since 4.0
  */
 public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectFactory
@@ -146,7 +145,7 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
                 m_firstConnection = DriverManager.getConnection( m_dburl, m_username, m_password );
             }
 
-            init( m_firstConnection );
+            init();
         }
         catch( Exception e )
         {
@@ -157,7 +156,7 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
         }
     }
 
-    private void init( Connection connection ) throws Exception
+    private void init() throws Exception
     {
         String className = m_connectionClass;
         if( null == className )
@@ -195,7 +194,7 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
         {
             try
             {
-                init( connection );
+                init();
             }
             catch( Exception e )
             {
@@ -209,7 +208,7 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
 
         try
         {
-            jdbcConnection = getProxy(connection, this.m_keepAlive);
+            jdbcConnection = getProxy( connection, this.m_keepAlive );
         }
         catch( Exception e )
         {
@@ -221,7 +220,7 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
             throw new NoValidConnectionException( e.getMessage() );
         }
 
-        ContainerUtil.enableLogging(jdbcConnection, getLogger());
+        ContainerUtil.enableLogging( jdbcConnection, getLogger() );
 
         // Not all drivers are friendly to explicitly setting autocommit
         if( jdbcConnection.getAutoCommit() != m_autoCommit )
@@ -244,33 +243,45 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
 
     public void decommission( Object object ) throws Exception
     {
-        if( object instanceof AbstractJdbcConnection )
+        if( object instanceof Disposable )
         {
-            ( (AbstractJdbcConnection)object ).dispose();
+            ( (Disposable)object ).dispose();
+
+            if( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "JdbcConnection object disposed" );
+            }
         }
     }
-    
-    private Connection getProxy(Connection conn, String keepAlive)
+
+    private Connection getProxy( Connection conn, String keepAlive )
     {
-        InvocationHandler handler = null;
-        
+        ProxiedJdbcConnection handler = null;
+
         try
         {
-            Constructor builder = m_class.getConstructor(new Class[]{Connection.class, String.class});
-            handler = (InvocationHandler)builder.newInstance(new Object[]{conn, keepAlive});
+            Constructor builder = m_class.getConstructor( new Class[]{Connection.class,
+                                                                      String.class} );
+            handler = (ProxiedJdbcConnection)builder.newInstance( new Object[]{conn, keepAlive} );
         }
-        catch (Exception e)
+        catch( Exception e )
         {
-            getLogger().error("Could not create the proper invocation handler, defaulting to AbstractJdbcConnection", e);
-            handler = new AbstractJdbcConnection(conn, keepAlive);
+            final String msg = "Could not create the proper invocation handler, "
+                    + "defaulting to AbstractJdbcConnection";
+            getLogger().error( msg, e );
+            handler = new AbstractJdbcConnection( conn, keepAlive );
         }
-        
-        return (Connection) Proxy.newProxyInstance(
+
+        final Connection connection = (Connection)Proxy.newProxyInstance(
                 m_class.getClassLoader(),
                 new Class[]{Connection.class,
                             LogEnabled.class,
                             PoolSettable.class,
                             Disposable.class},
-                handler);
+                handler );
+
+        handler.setProxiedConnection( connection );
+
+        return connection;
     }
 }

@@ -3,34 +3,34 @@
  ============================================================================
                    The Apache Software License, Version 1.1
  ============================================================================
- 
+
  Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
- 
+
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
- 
+
  1. Redistributions of  source code must  retain the above copyright  notice,
     this list of conditions and the following disclaimer.
- 
+
  2. Redistributions in binary form must reproduce the above copyright notice,
     this list of conditions and the following disclaimer in the documentation
     and/or other materials provided with the distribution.
- 
+
  3. The end-user documentation included with the redistribution, if any, must
     include  the following  acknowledgment:  "This product includes  software
     developed  by the  Apache Software Foundation  (http://www.apache.org/)."
     Alternately, this  acknowledgment may  appear in the software itself,  if
     and wherever such third-party acknowledgments normally appear.
- 
- 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"  
-    must not be used to endorse or promote products derived from this  software 
-    without  prior written permission. For written permission, please contact 
+
+ 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"
+    must not be used to endorse or promote products derived from this  software
+    without  prior written permission. For written permission, please contact
     apache@apache.org.
- 
+
  5. Products  derived from this software may not  be called "Apache", nor may
     "Apache" appear  in their name,  without prior written permission  of the
     Apache Software Foundation.
- 
+
  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -41,16 +41,17 @@
  ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
  (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
  This software  consists of voluntary contributions made  by many individuals
- on  behalf of the Apache Software  Foundation. For more  information on the 
+ on  behalf of the Apache Software  Foundation. For more  information on the
  Apache Software Foundation, please see <http://www.apache.org/>.
- 
+
 */
 package org.apache.avalon.excalibur.datasource;
 
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.lang.reflect.InvocationHandler;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -63,6 +64,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.avalon.excalibur.pool.Pool;
+import org.apache.avalon.excalibur.pool.Poolable;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
@@ -72,30 +74,33 @@ import org.apache.avalon.framework.logger.Logger;
  * object.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.26 $ $Date: 2003/03/06 19:47:47 $
+ * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
+ * @version CVS $Revision: 1.27 $ $Date: 2003/04/08 18:34:33 $
  * @since 4.1
  */
 public class AbstractJdbcConnection
-    extends AbstractLogEnabled
-    implements PoolSettable, Disposable,  InvocationHandler
+        extends AbstractLogEnabled
+        implements PoolSettable, Disposable, ProxiedJdbcConnection
 {
     protected Connection m_connection;
+    private Object m_proxy;
     protected Pool m_pool;
     protected PreparedStatement m_testStatement;
     protected SQLException m_testException;
     protected long m_lastUsed = System.currentTimeMillis();
     private static final Map m_methods;
-    
-    static {
+
+    static
+    {
         m_methods = new HashMap();
         Method[] methods = AbstractJdbcConnection.class.getDeclaredMethods();
-        
-        for ( int i = 0; i < methods.length; i++ )
+
+        for( int i = 0; i < methods.length; i++ )
         {
-            m_methods.put(methods[i].getName(), methods[i]);
+            m_methods.put( methods[i].getName(), methods[i] );
         }
     }
-    
+
     /**
      * Contains Statements created on the original jdbc connection
      * between a {@link JdbcDataSource#getConnection} and {@link
@@ -189,8 +194,18 @@ public class AbstractJdbcConnection
         }
     }
 
+    public void setProxiedConnection( Object proxy )
+    {
+        m_proxy = proxy;
+    }
+
+    public Connection getConnection()
+    {
+        return m_connection;
+    }
+
     public boolean isClosed()
-        throws SQLException
+            throws SQLException
     {
         if( m_connection.isClosed() )
         {
@@ -198,11 +213,14 @@ public class AbstractJdbcConnection
         }
 
         long age = System.currentTimeMillis() - m_lastUsed;
-        if( age > 1000 * 60 * 60 ) // over an hour?
-        {
-            this.dispose();
-            return true;
-        }
+// Commenting out the hour check since it was to check an hour since last use, but since the
+// last-use time is not being updated anywhere, it has turned into "all connections expire after
+// an hour"
+//        if( age > 1000 * 60 * 60 ) // over an hour?
+//        {
+//            this.dispose();
+//            return true;
+//        }
 
         if( m_testStatement != null && age > ( 5 * 1000 ) ) // over 5 seconds ago
         {
@@ -228,15 +246,15 @@ public class AbstractJdbcConnection
     }
 
     public void close()
-        throws SQLException
+            throws SQLException
     {
         try
         {
             clearAllocatedStatements();
             m_connection.clearWarnings();
-            m_pool.put( this );
+            m_pool.put( (Poolable)m_proxy );
         }
-        catch ( SQLException se )
+        catch( SQLException se )
         {
             // gets rid of connections that throw SQLException during
             // clean up
@@ -267,7 +285,7 @@ public class AbstractJdbcConnection
                 final Iterator iterator = m_allocatedStatements.iterator();
                 while( iterator.hasNext() )
                 {
-                    Statement stmt = (Statement) iterator.next();
+                    Statement stmt = (Statement)iterator.next();
                     stmt.close();
                 }
             }
@@ -305,22 +323,37 @@ public class AbstractJdbcConnection
             }
         }
     }
-    
-    public Object invoke(Object proxy, Method method, Object[] args)
-              throws Throwable
+
+    public boolean equals( Object obj )
+    {
+        if( Proxy.isProxyClass( obj.getClass() ) )
+        {
+            final InvocationHandler handler = Proxy.getInvocationHandler(obj );
+
+            if( handler instanceof ProxiedJdbcConnection )
+            {
+                return m_connection.equals( ( (ProxiedJdbcConnection)handler ).getConnection() );
+            }
+        }
+
+        return false;
+    }
+
+    public Object invoke( Object proxy, Method method, Object[] args )
+            throws Throwable
     {
         Object retVal = null;
-        Method executeMethod = (Method)m_methods.get(method.getName());
-        
-        if ( null == executeMethod )
+        Method executeMethod = (Method)m_methods.get( method.getName() );
+
+        if( null == executeMethod )
         {
-            retVal = method.invoke(m_connection, args);
+            retVal = method.invoke( m_connection, args );
         }
         else
         {
-            retVal = executeMethod.invoke(this, args);
+            retVal = executeMethod.invoke( this, args );
         }
-        
+
         return retVal;
     }
 }
