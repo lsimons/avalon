@@ -9,6 +9,7 @@
   xmlns:j="jelly:core" 
   xmlns:util="jelly:util" 
   xmlns:ant="jelly:ant"
+  xmlns:meta="avalon:meta"
   >
   <ant:property file="${avalon.buildsystem}/project.properties" />
 
