@@ -51,6 +51,7 @@
 package org.apache.avalon.phoenix.interfaces;
 
 import java.io.File;
+import java.util.Map;
 import org.apache.avalon.framework.configuration.Configuration;
 
 /**
@@ -70,12 +71,14 @@ public interface ClassLoaderManager
      * Create a {@link ClassLoaderSet} for a specific application.
      *
      * @param environment the configuration "environment.xml" for the application
+     * @param data the context data used when expanding config files
      * @param baseDirectory the base directory of application
      * @param workDirectory the work directory of application
      * @return the ClassLoaderSet created
      * @throws Exception if an error occurs
      */
     ClassLoaderSet createClassLoaderSet( Configuration environment,
+                                         Map data,
                                          File baseDirectory,
                                          File workDirectory )
         throws Exception;

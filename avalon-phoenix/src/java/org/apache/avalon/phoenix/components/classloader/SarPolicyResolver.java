@@ -53,46 +53,29 @@ package org.apache.avalon.phoenix.components.classloader;
 import java.io.File;
 import java.net.URL;
 import java.security.Policy;
-import java.util.HashMap;
 import java.util.Map;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.CascadingException;
 import org.apache.avalon.framework.container.ContainerUtil;
-import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.phoenix.BlockContext;
-import org.apache.avalon.phoenix.components.util.PropertyUtil;
 import org.apache.avalon.phoenix.components.util.ResourceUtil;
-import org.apache.excalibur.policy.builder.PolicyResolver;
+import org.realityforge.xmlpolicy.builder.PolicyResolver;
 
 /**
  * A basic resolver that resolves Phoenix specific features.
  * (like remapping URLs).
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003/04/05 04:25:42 $
+ * @version $Revision: 1.10 $ $Date: 2003/04/25 01:38:37 $
  */
 class SarPolicyResolver
     extends AbstractLogEnabled
     implements PolicyResolver
 {
-    private final static Resources REZ =
-        ResourceManager.getPackageResources( SarPolicyResolver.class );
-
     private final File m_baseDirectory;
     private final File m_workDirectory;
-    private final DefaultContext m_context;
 
     SarPolicyResolver( final File baseDirectory,
                        final File workDirectory )
     {
-        final HashMap map = new HashMap();
-        map.putAll( System.getProperties() );
-        m_context = new DefaultContext( map );
-        m_context.put( "/", File.separator );
-        //m_context.put( BlockContext.APP_NAME, sarName );
-        m_context.put( BlockContext.APP_HOME_DIR, baseDirectory );
         m_workDirectory = workDirectory;
         m_baseDirectory = baseDirectory;
     }
@@ -115,41 +98,10 @@ class SarPolicyResolver
         }
         else
         {
-            location = expand( location );
             location = ResourceUtil.expandSarURL( location,
                                                   m_baseDirectory,
                                                   m_workDirectory );
             return new URL( location );
-        }
-    }
-
-    public String resolveTarget( final String target )
-    {
-        try
-        {
-            return expand( target );
-        }
-        catch( Exception e )
-        {
-            final String message = "Error resolving: " + target;
-            getLogger().warn( message, e );
-            return target;
-        }
-    }
-
-    private String expand( final String value )
-        throws Exception
-    {
-        try
-        {
-            final Object resolvedValue =
-                PropertyUtil.resolveProperty( value, m_context, false );
-            return resolvedValue.toString();
-        }
-        catch( final Exception e )
-        {
-            final String message = REZ.getString( "policy.error.property.resolve", value );
-            throw new CascadingException( message, e );
         }
     }
 }

@@ -319,6 +319,10 @@ public class DefaultDeployer
             final File workDirectory =
                 (File)installation.get( ContainerConstants.INSTALL_WORK );
 
+            final Map data = new HashMap();
+            data.put( BlockContext.APP_NAME, name );
+            data.put( BlockContext.APP_HOME_DIR, homeDirectory );
+
             final DefaultContext context = new DefaultContext();
             context.put( BlockContext.APP_NAME, name );
             context.put( BlockContext.APP_HOME_DIR, homeDirectory );
@@ -333,6 +337,7 @@ public class DefaultDeployer
 
             final ClassLoaderSet classLoaderSet =
                 m_classLoaderManager.createClassLoaderSet( environment,
+                                                           data,
                                                            homeDirectory,
                                                            workDirectory );
             final ClassLoader classLoader = classLoaderSet.getDefaultClassLoader();

@@ -2,6 +2,7 @@ package org.apache.avalon.phoenix.components.classloader;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Map;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderSet;
@@ -17,6 +18,7 @@ public class ContextClassLoaderManager
     implements ClassLoaderManager
 {
     public ClassLoaderSet createClassLoaderSet( final Configuration environment,
+                                                final Map data,
                                                 final File baseDirectory,
                                                 final File workDirectory )
         throws Exception
