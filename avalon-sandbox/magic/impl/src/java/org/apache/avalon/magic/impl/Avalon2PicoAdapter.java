@@ -127,7 +127,7 @@ import org.apache.avalon.framework.parameters.Parameters;
  * used by avalon containers internally to automagicallly support
  * PicoContainer-compatible components.
  *
- * @version $Id: Avalon2PicoAdapter.java,v 1.2 2003/08/21 20:58:31 leosimons Exp $
+ * @version $Id: Avalon2PicoAdapter.java,v 1.3 2003/08/21 21:13:51 leosimons Exp $
  */
 public class Avalon2PicoAdapter implements InvocationHandler
 {
@@ -402,28 +402,28 @@ public class Avalon2PicoAdapter implements InvocationHandler
             if( paramTypes[i].isAssignableFrom( Parameters.class ) )
             {
                 args.add( i, Parameters.fromConfiguration( getConfiguration() ) );
-                break;
+                continue;
             }
             if( paramTypes[i].isAssignableFrom( Configuration.class ) )
             {
                 args.add( i, getConfiguration() );
-                break;
+                continue;
             }
             if( paramTypes[i].isAssignableFrom( ServiceManager.class ) )
             {
                 args.add( i, getServiceManager() );
-                break;
+                continue;
             }
             if( getServiceManager().hasService( getRole( paramTypes[i] ) ) )
             {
                 Object comp = getServiceManager().lookup( paramTypes[i].getName() );
                 args.add( i, comp );
-                break;
+                continue;
             }
             if( paramTypes[i].isAssignableFrom( Context.class ) )
             {
                 args.add( i, getContext() );
-                break;
+                continue;
             }
 
             Object comp = null;
@@ -439,12 +439,12 @@ public class Avalon2PicoAdapter implements InvocationHandler
             if( comp != null )
             {
                 args.add( i, comp );
-                break;
+                continue;
             }
             if( paramTypes[i].isAssignableFrom( Logger.class ) )
             {
                 args.add( i, getLog() );
-                break;
+                continue;
             }
 
             throw new ServiceException( paramTypes[i].getName(), "Missing dependency!" );
