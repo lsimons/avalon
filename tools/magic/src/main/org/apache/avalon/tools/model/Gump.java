@@ -20,7 +20,8 @@ package org.apache.avalon.tools.model;
 import org.apache.tools.ant.BuildException;
 
 /**
- * Project info.
+ * An immutable data object holding supplimentary information required for
+ * the creation fo gump project defintions.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
@@ -34,6 +35,16 @@ public class Gump
     private boolean m_ignore;
     private boolean m_classpath;
 
+   /**
+    * Creation of a new gump supplementation definition.
+    * @param alias a name used by gump when referring to a magic key
+    * @param id a buuild id used by gump when referencing projects that declare 
+    *    multiple jar file deliverables
+    * @param classpath if TRUE then the defintion to which this object is associated will
+    *   referenced as a gump classpath reference
+    * @param ignore if TRUE magic can ignore this project when generating a gump project 
+    *   descriptor
+    */
     public Gump( final String alias, final String id, boolean classpath, boolean ignore )
     {
         m_alias = alias;
@@ -44,6 +55,7 @@ public class Gump
 
    /**
     * Gump alias name.
+    * @return the alias name
     */
     public String getAlias()
     {
@@ -51,7 +63,8 @@ public class Gump
     }
 
    /**
-    * Gump project artifact id.
+    * Gump project jar id.
+    * @return the gump jar id
     */
     public String getId()
     {
@@ -61,6 +74,7 @@ public class Gump
    /**
     * Return true if this defintion can be ignored when 
     * building a gump project dependency.
+    * @return the ignorable status
     */
     public boolean isIgnorable()
     {
@@ -70,6 +84,7 @@ public class Gump
    /**
     * Return true if this defintion is required as part of the 
     * classpath established by gump.
+    * @return TRUE if this is a classpath entry
     */
     public boolean isClasspathEntry()
     {
