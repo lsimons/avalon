@@ -31,8 +31,9 @@ import org.apache.avalon.framework.context.Context;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @avalon.component name="test" lifestyle="singleton"
  * @avalon.service type="org.apache.avalon.activation.impl.test.components.TestService"
- * @avalon.security.permission class="java.util.PropertyPermission" 
- *     name="java.version" actions="read,write"
+ * @avalon.security.permission class="java.io.FilePermission" 
+ *                             name="urn:avalon:home"
+ *                             actions="read,write"
  */
 public class TestComponent extends AbstractLogEnabled 
   implements Contextualizable, TestService
@@ -74,12 +75,20 @@ public class TestComponent extends AbstractLogEnabled
     {
         m_home.delete();
     }
-    
+
+    /**    
+     * @avalon.security.permission class="java.util.PropertyPermission" 
+     *     name="java.version" actions="read"
+     */
     public String getJavaVersion()
     {
         return System.getProperty( "java.version" );
     }
 
+    /**    
+     * @avalon.security.permission class="java.util.PropertyPermission" 
+     *     name="java.version" actions="write"
+     */
     public void setJavaVersion( String newVer )
     {
         System.setProperty( "java.version", newVer );
