@@ -1,5 +1,5 @@
 
-bsh.help.suspendapp = "usage: resumeapp( appName ), resumes the blocks for an app";
+bsh.help.resumeapp = "usage: resumeapp( appName ), resumes the blocks for an app";
 
 /*
 	By Paul Hammant : Specifically for Phoenix
@@ -8,11 +8,19 @@ resumeapp( String appName ) {
 
     kernel = this.interpreter.get("phoenix-kernel");
     String[] blocks = kernel.getApplication(appName).getBlockNames();
+    int ct =0;
     for (int i = 0; i < blocks.length; i++) {
       if (blocks[i] instanceof org.apache.avalon.framework.activity.Suspendable) {
         blocks[i].resumeapp();
+        ct++;
       }
-    }
-    
+    }  
+    print(ct + " blocks stopped for '" + appName + "'");    
+}
+
+resumeapp( int appNo ) {
+    kernel = this.interpreter.get("phoenix-kernel");
+    String[] apps = kernel.getApplicationNames();
+    resumeapp(apps[appNo]);
 }
 

@@ -1,5 +1,5 @@
 
-bsh.help.prtblocks = "usage: rmvapp( appName ), remove an app";
+bsh.help.rmvapp = "usage: rmvapp( appName ), remove an app";
 
 /*
 	By Paul Hammant : Specifically for Phoenix
