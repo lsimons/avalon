@@ -56,7 +56,7 @@ package org.apache.avalon.fortress;
  * to enable "self-healing" configuration files.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.11 $ $Date: 2003/04/18 20:02:29 $
+ * @version $Revision: 1.12 $ $Date: 2003/04/21 17:40:17 $
  */
 public final class RoleEntry
 {
@@ -76,7 +76,7 @@ public final class RoleEntry
      * @param  handlerClass    <code>Class</code> to instantiate the
      *                         component handler
      *
-     * @exception IllegalArgumentException if any argument is <code>null</code>.
+     * @exception NullPointerException if any argument is <code>null</code>.
      */
     public RoleEntry( final String role,
                       final String shortName,
@@ -85,19 +85,19 @@ public final class RoleEntry
     {
         if ( null == role )
         {
-            throw new IllegalArgumentException( "\"role\" cannot be null." );
+            throw new NullPointerException( "\"role\" cannot be null." );
         }
         if ( null == shortName )
         {
-            throw new IllegalArgumentException( "\"shortname\" cannot be null." );
+            throw new NullPointerException( "\"shortname\" cannot be null." );
         }
         if ( null == componentClass )
         {
-            throw new IllegalArgumentException( "\"componentClass\" cannot be null." );
+            throw new NullPointerException( "\"componentClass\" cannot be null." );
         }
         if ( null == handlerClass )
         {
-            throw new IllegalArgumentException( "\"handlerClass\" cannot be null." );
+            throw new NullPointerException( "\"handlerClass\" cannot be null." );
         }
 
         m_role = role;
