@@ -32,7 +32,7 @@ import com.clarkware.junitperf.Timer;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:18 $
+ * @version CVS $Revision: 1.4 $ $Date: 2004/02/26 14:21:17 $
  * @since 4.1
  */
 public final class ResourceLimitingPoolMultithreadTestCase
@@ -99,33 +99,39 @@ public final class ResourceLimitingPoolMultithreadTestCase
 
     public static void oneTimeTearDown() throws Exception
     {
-        // The timing of this test makes it so the pool should grow to 4 elements
-        assertEquals( "1) Pool Ready Size", 4, m_pool.getReadySize() );
-        assertEquals( "1) Pool Size", 4, m_pool.getSize() );
+        // The timing of this test makes it so the pool should grow to 5 elements
+        assertEquals( "1) Pool Ready Size", 5, m_pool.getReadySize() );
+        assertEquals( "1) Pool Size", 5, m_pool.getSize() );
 
         // Make sure that each of the objects are uniqe by checking them all back out.
         Poolable p1 = m_pool.get();
         Poolable p2 = m_pool.get();
         Poolable p3 = m_pool.get();
         Poolable p4 = m_pool.get();
+        Poolable p5 = m_pool.get();
 
         assertEquals( "2) Pool Ready Size", 0, m_pool.getReadySize() );
-        assertEquals( "2) Pool Size", 4, m_pool.getSize() );
+        assertEquals( "2) Pool Size", 5, m_pool.getSize() );
 
         assertTrue( "p1 != p2", p1 != p2 );
         assertTrue( "p1 != p3", p1 != p3 );
         assertTrue( "p1 != p4", p1 != p4 );
+        assertTrue( "p1 != p4", p1 != p5 );
         assertTrue( "p2 != p3", p2 != p3 );
         assertTrue( "p2 != p4", p2 != p4 );
+        assertTrue( "p2 != p4", p2 != p5 );
         assertTrue( "p3 != p4", p3 != p4 );
+        assertTrue( "p3 != p4", p3 != p5 );
+        assertTrue( "p3 != p4", p4 != p5 );
 
         m_pool.put( p1 );
         m_pool.put( p2 );
         m_pool.put( p3 );
         m_pool.put( p4 );
+        m_pool.put( p5 );
 
-        assertEquals( "3) Pool Ready Size", 4, m_pool.getReadySize() );
-        assertEquals( "3) Pool Size", 4, m_pool.getSize() );
+        assertEquals( "3) Pool Ready Size", 5, m_pool.getReadySize() );
+        assertEquals( "3) Pool Size", 5, m_pool.getSize() );
 
         m_pool.dispose();
 
