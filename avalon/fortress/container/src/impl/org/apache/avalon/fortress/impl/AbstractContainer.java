@@ -66,6 +66,7 @@ import org.apache.avalon.fortress.util.LifecycleExtensionManager;
 import org.apache.avalon.fortress.util.dag.CyclicDependencyException;
 import org.apache.avalon.fortress.util.dag.DirectedAcyclicGraphVerifier;
 import org.apache.avalon.fortress.util.dag.Vertex;
+import org.apache.avalon.framework.CascadingException;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -96,7 +97,7 @@ import java.util.*;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.38 $ $Date: 2003/06/23 12:51:20 $
+ * @version CVS $Revision: 1.39 $ $Date: 2003/06/23 15:09:54 $
  */
 public abstract class AbstractContainer
         extends AbstractLogEnabled
@@ -670,6 +671,20 @@ public abstract class AbstractContainer
                         }
                         break;
                 }
+            }
+            catch ( final CascadingException e )
+            {
+                final String cName = entry.getMetaData().getName();
+
+                if ( getLogger().isWarnEnabled() )
+                {
+                    final String message = "Could not initialize component " + cName;
+                    getLogger().warn( message, e );
+
+                    final String cause = "Cause for exception";
+                    getLogger().warn( cause, e.getCause() );
+                }
+                buffer.add( e );
             }
             catch ( final Exception e )
             {
