@@ -64,23 +64,12 @@
           innocent.
         </p>
       </s2>
-      <s2 title="Class Heirarchies Should be Deep and Narrow">
-        <p>
-          Basically, this rule is saying it is better to start with an
-          Abstract object, and specialize off of that than it is to
-          reimplement the interface for each object.  For example, in
-          a GUI you will have an HTMLTextBox that extends PlainTextBox
-          that extends AbstractTextBox that extends AbstractControl.
-          You do that instead of an HTMLTextBox that implements the
-          Control interface. (You get the point).
-        </p>
-      </s2>
       <s2 title="The Top of the Class Heirarchy Should be Abstract">
         <p>
-          Always provide an abstract base class to extend for your
-          specializations.  The majority of the functionality and
-          behavior is well defined in those cases--making it easier
-          to deciphor what the intents of the interface designer were.
+          In many cases it is beneficial to provide an abstract base class 
+          to extend for your specializations.  The majority of the 
+          functionality and behavior is well defined. This makes it easier
+          to decipher what the intents of the interface designer were.
         </p>
       </s2>
       <s2 title="Minimize Accesses to Variables">
@@ -93,11 +82,11 @@
       </s2>
       <s2 title="Subclasses Should be Specializations">
         <p>
-          Think a subclass &quot;is a&quot; [superclass].  If what you
+          A [subclass] &quot;is a&quot; [superclass].  If what you
           are trying to do is make a Component into a ComponentManager,
           then you are violating the spirit of the framework.  A better
-          approach is to use containment in that case (i.e. a class
-          &quot;has a&quot; external class).
+          approach is to use containment in that case (i.e. a [class]
+          &quot;has a&quot; [external class]).
         </p>
       </s2>
       <s2 title="Split Large Classes">
@@ -166,11 +155,11 @@ class DefaultExampleDocument
   // skip some code ...
   public void output(Example structure) 
   {
-     ExampleFormatter output = 
+     ExampleFormatter formatter = 
        (ExampleFormatter) manager.lookup(Roles.FORMATTER);
      if( null != structure ) 
      {
-       output.format(structure);
+       formatter.format(structure);
      }
   }
 }
@@ -197,7 +186,7 @@ class DefaultExampleDocument
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.3 $ $Date: 2001/03/02 03:14:05 $
+      $Revision: 1.4 $ $Date: 2001/05/12 08:09:26 $
     </legal>
   </footer>
 </document>
