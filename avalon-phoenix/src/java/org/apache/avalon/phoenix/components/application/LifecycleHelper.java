@@ -59,21 +59,21 @@ class LifecycleHelper
         ResourceManager.getPackageResources( LifecycleHelper.class );
 
     //Constants to designate stages
-    private final static int STAGE_CREATE = 0;
-    private final static int STAGE_LOGGER = 1;
-    private final static int STAGE_CONTEXT = 2;
-    private final static int STAGE_COMPOSE = 3;
-    private final static int STAGE_CONFIG = 4;
-    private final static int STAGE_PARAMETER = 5;
-    private final static int STAGE_INIT = 6;
-    private final static int STAGE_START = 7;
-    private final static int STAGE_STOP = 8;
-    private final static int STAGE_DISPOSE = 9;
-    private final static int STAGE_DESTROY = 10;
+    private static final int STAGE_CREATE = 0;
+    private static final int STAGE_LOGGER = 1;
+    private static final int STAGE_CONTEXT = 2;
+    private static final int STAGE_COMPOSE = 3;
+    private static final int STAGE_CONFIG = 4;
+    private static final int STAGE_PARAMETER = 5;
+    private static final int STAGE_INIT = 6;
+    private static final int STAGE_START = 7;
+    private static final int STAGE_STOP = 8;
+    private static final int STAGE_DISPOSE = 9;
+    private static final int STAGE_DESTROY = 10;
 
     //Constants to designate type of component
-    private final static int TYPE_BLOCK = 0;
-    private final static int TYPE_LISTENER = 1;
+    private static final int TYPE_BLOCK = 0;
+    private static final int TYPE_LISTENER = 1;
 
     ///Frame in which block executes
     private ApplicationContext m_context;
@@ -92,7 +92,8 @@ class LifecycleHelper
     /**
      * Object to support notification of ApplicationListeners.
      */
-    private ApplicationListenerSupport m_applicationListenerSupport = new ApplicationListenerSupport();
+    private ApplicationListenerSupport m_applicationListenerSupport =
+        new ApplicationListenerSupport();
 
     /**
      * Construct helper object for specified application,
@@ -205,17 +206,7 @@ class LifecycleHelper
 
             //LogEnabled stage
             stage = STAGE_LOGGER;
-            if( block instanceof Loggable )
-            {
-                notice( name, stage );
-                ( (Loggable)block ).setLogger( m_context.getLogger( name ) );
-            }
-            else if( block instanceof LogEnabled )
-            {
-                notice( name, stage );
-                final Logger logger = new LogKitLogger( m_context.getLogger( name ) );
-                ( (LogEnabled)block ).enableLogging( logger );
-            }
+            setupLogging( name, block, stage );
 
             //Contextualize stage
             stage = STAGE_CONTEXT;
@@ -291,6 +282,21 @@ class LifecycleHelper
         {
             entry.setState( State.FAILED );
             fail( name, stage, t );
+        }
+    }
+
+    private void setupLogging( final String name, final Block block, int stage )
+    {
+        if( block instanceof Loggable )
+        {
+            notice( name, stage );
+            ( (Loggable)block ).setLogger( m_context.getLogger( name ) );
+        }
+        else if( block instanceof LogEnabled )
+        {
+            notice( name, stage );
+            final Logger logger = new LogKitLogger( m_context.getLogger( name ) );
+            ( (LogEnabled)block ).enableLogging( logger );
         }
     }
 
