@@ -34,10 +34,14 @@
 
   <goal name="merlin:update">
     <attainGoal name="merlin:install"/>
+    <attainGoal name="merlin:replicate"/>
+  </goal>
+
+  <goal name="merlin:dist">
+    <attainGoal name="merlin:install"/>
     <attainGoal name="merlin:tutorials"/>
     <attainGoal name="merlin:site"/>
     <attainGoal name="merlin:package"/>
-    <attainGoal name="merlin:replicate"/>
   </goal>
 
   <goal name="merlin:replicate">
@@ -381,6 +385,10 @@
       banner="Cleaning subproject:"
       ignoreFailures="true"/>
   </goal>
+
+  <goal name="avalon:build" prereqs="merlin:build"/>
+  <goal name="avalon:dist" prereqs="merlin:dist"/>
+  <goal name="avalon:clean" prereqs="merlin:clean"/>
 
   <goal name="merlin-clean" prereqs="merlin:clean"/>
   <goal name="merlin-dist" prereqs="merlin:install"/>
