@@ -2,17 +2,31 @@
 
 <project default="java:jar"
     xmlns:j="jelly:core"
-    xmlns:ant="jelly:ant">
+    xmlns:ant="jelly:ant"
+    xmlns:deploy="deploy">
 
     <!-- include the excalibur-wide custom project properties -->
     <property file="${basedir}/project.properties"/>
     <property file="${basedir}/../project.properties"/>
-    <property file="${basedir}/../../project.properties"/>
-    <property file="${basedir}/../../../project.properties"/>
-    <property file="${basedir}/../../../../project.properties"/>
 
-    <!-- include the excalibur-wide custom goal decorators from maven-common.xml -->
-    <j:import file="${basedir}/../maven-common.xml" inherit="true"/>
+    <goal name="check">
+        <!-- friendly error in case file is not available -->
+        <ant:available file="${avalon.buildsystem}/maven-common.xml"
+                property="buildsystem.available"/>
+            <ant:fail unless="buildsystem.available">
+            ===================================================================
+            BUILD SYSTEM FAILURE!
+            ===================================================================
+
+            a required file, ${avalon.buildsystem}/maven-common.xml, cannot be
+            found. Try setting the avalon.buildsystem property in
+            project.properties to the correct location.
+            </ant:fail>
+    </goal>
+
+    <!-- include the avalon-wide custom goal decorators from maven-common.xml -->
+    <j:import file="${avalon.buildsystem}/maven-common.xml" inherit="true"/>
+
 
     <!-- copy additional test resources -->
     <postGoal name="test:prepare-filesystem">
@@ -27,5 +41,37 @@
                 <exclude name="**/package.html"/>
             </fileset>
         </copy>
+    </postGoal>
+
+    <postGoal name="java:jar">
+        <!-- build big jar -->
+        <ant:mkdir dir="${maven.build.dir}/libs"/>
+        <deploy:copy-deps
+                todir="${maven.build.dir}/libs"
+                excludes="junit,avalon-fortress-tools,ant,qdox,xalan,concurrent,commons-collections"/>
+
+        <ant:jar destfile="${maven.build.dir}/${pom.artifactId}-complete-${pom.currentVersion}.jar" duplicate="preserve">
+            <ant:manifest>
+                <ant:attribute name="Extension-Name" value="${pom.aritfactId}-complete"/>
+                <ant:attribute name="Specification-Vendor" value="Apache Software Foundation"/>
+                <ant:attribute name="Specification-Version" value="${pom.currentVersion}"/>
+                <ant:attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+                <ant:attribute name="Implementation-Version" value="${pom.currentVersion}"/>
+            </ant:manifest>
+
+            <ant:zipfileset src="${maven.build.dir}/${maven.final.name}.jar"/>
+            <ant:zipgroupfileset dir="${maven.build.dir}/libs" includes="*.zip"/>
+        </ant:jar>
+    </postGoal>
+
+    <postGoal name="avalon:deploy-upload">
+        <!-- upload big jar -->
+        <ant:exec dir="." executable="${maven.scp.executable}">
+            <ant:arg line="${scpopts} target/${pom.artifactId}-complete-${pom.currentVersion}.jar ${repo}/${pom.groupId}/jars/"/>
+        </ant:exec>
+    </postGoal>
+
+    <postGoal name="clean">
+        <ant:delete dir="${maven.src.dir}/java"/>
     </postGoal>
 </project>
