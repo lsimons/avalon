@@ -52,7 +52,6 @@ package org.apache.avalon.fortress.impl.role;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler;
 
 /**
  * Configurable RoleManager implementation.  It populates the RoleManager
@@ -60,7 +59,7 @@ import org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler;
  * in the org.apache.avalon.component package.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/07 16:08:12 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/25 15:23:47 $
  * @since 4.1
  */
 public class ConfigurableRoleManager

@@ -8,21 +8,21 @@
 
 package org.apache.excalibur.event.seda.example1;
 
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.excalibur.event.seda.StageManager;
-import org.apache.excalibur.fortress.ContainerManager;
-import org.apache.excalibur.fortress.DefaultContainerManager;
-import org.apache.excalibur.fortress.container.DefaultContainer;
-import org.apache.excalibur.fortress.util.ContextBuilder;
-import org.apache.excalibur.fortress.util.ContextManager;
+import org.apache.avalon.fortress.impl.DefaultContainerManager;
+import org.apache.avalon.fortress.impl.DefaultContainer;
+import org.apache.avalon.fortress.util.ContextBuilder;
+import org.apache.avalon.fortress.util.ContextManager;
 
 
 /**
  * Tests the stage container default implementation 
  * by setting up the container manager.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author  <a href="mailto:schierma@users.sourceforge.net">schierma</a>
  */
 public class StageManagerExample
@@ -32,7 +32,7 @@ public class StageManagerExample
     /** A logger to log messages to */
     private static Logger m_logger = null;
     /** The container manager */
-    private static ContainerManager m_containerManager = null;
+    private static DefaultContainerManager m_containerManager = null;
     /** The context manager */
     private static ContextManager m_contextManager = null;
     /** The container instance */
@@ -53,8 +53,8 @@ public class StageManagerExample
         // Runs the example
         run();
 
-        m_containerManager.dispose();
-        m_contextManager.dispose();
+        ContainerUtil.dispose(m_containerManager);
+        ContainerUtil.dispose(m_contextManager);
     }
     
     /** 
@@ -91,7 +91,7 @@ public class StageManagerExample
         // then set the context manager to be used by the container's manager
         m_containerManager = new DefaultContainerManager(m_contextManager);
         // init the manager
-        m_containerManager.initialize();
+        ContainerUtil.initialize(m_containerManager);
 
         m_container = (DefaultContainer) m_containerManager.getContainer();
 

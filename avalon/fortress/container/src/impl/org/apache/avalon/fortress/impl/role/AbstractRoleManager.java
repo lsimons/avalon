@@ -49,17 +49,14 @@
 */
 package org.apache.avalon.fortress.impl.role;
 
-import java.util.Hashtable;
-import java.util.Map;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler;
 
 /**
  * The Excalibur Role Manager is used for Excalibur Role Mappings.  All of
  * the information is hard-coded.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/07 16:08:12 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/25 15:23:47 $
  * @since 4.1
  */
 public abstract class AbstractRoleManager
