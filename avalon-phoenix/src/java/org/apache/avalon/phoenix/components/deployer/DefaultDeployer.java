@@ -122,7 +122,7 @@ public class DefaultDeployer
      * Deploy an application from an installation.
      *
      * @param name the name of application
-     * @param directory the directory to deploy from
+     * @param location the location to deploy from
      * @exception DeploymentException if an error occurs
      */
     public void deploy( final String name, final URL location )
