@@ -3,9 +3,7 @@
 <document>
   <header>
     <title>Guide - Creating a Server Application</title>
-
-      <person id="PD" name="Peter Donald" email="peter@apache.org"/>
-
+      <author name="Peter Donald" email="peter@apache.org"/>
   </header>
   <body>
     <section name="Introduction">
@@ -73,7 +71,7 @@
         <li><a href="guide-assemblers-what-is-a-server-application.html">What is a Server Application?</a></li>
         <li>How do I create a Server Application?</li>
         <li><a href="reference-config-xml-specification.html">config.xml specification</a></li>
-	<li><a href="reference-assembly-xml-specification.html">assembly.xml specification</a></li>
+        <li><a href="reference-assembly-xml-specification.html">assembly.xml specification</a></li>
         <li><a href="reference-environment-xml-specification.html">environment.xml specification</a></li>
        </ol>
       </section>
