@@ -245,6 +245,10 @@
         <include name="avalon-demo-server.xml"/>
       </zipfileset>
 
+      <zipfileset dir="${conf.dir}" fullpath="conf/config.xml">
+        <include name="avalon-demo-config.xml"/>
+      </zipfileset>
+
       <zipfileset dir="${conf.dir}" fullpath="conf/keyStore">
         <include name="keystore"/>
       </zipfileset>
