@@ -315,10 +315,7 @@ public class DefaultEmbeddor
         final String logPriority =
             m_parameters.getParameter( "log-priority", "INFO" );
 
-        //After next avalon release uncomment parameter (PD)
-        final AvalonFormatter formatter = new AvalonFormatter( /*DEFAULT_FORMAT*/ );
-        formatter.setFormat( DEFAULT_FORMAT );
-
+        final AvalonFormatter formatter = new AvalonFormatter( DEFAULT_FORMAT );
         final File file = new File( logDestination );
         final FileTarget logTarget = new FileTarget( file, false, formatter );
 
