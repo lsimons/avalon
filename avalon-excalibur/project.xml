@@ -105,6 +105,11 @@
       <id>stefano</id>
       <email>stefano@apache.org</email>
     </developer>
+    <developer>
+      <name>Carsten Ziegeler</name>
+      <id>cziegeler</id>
+      <email>cziegeler@apache.org</email>
+    </developer>
   </developers>
 
   <contributors>
