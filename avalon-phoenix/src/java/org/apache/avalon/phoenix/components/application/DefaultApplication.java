@@ -63,7 +63,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.ApplicationListener;
 import org.apache.avalon.phoenix.BlockListener;
-import org.apache.avalon.phoenix.components.ContainerConstants;
+import org.apache.avalon.phoenix.interfaces.ContainerConstants;
 import org.apache.avalon.phoenix.components.util.ComponentMetaDataConverter;
 import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleException;
 import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleHelper;

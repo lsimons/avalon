@@ -65,7 +65,7 @@ import org.apache.avalon.framework.logger.AvalonFormatter;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.phoenix.components.ContainerConstants;
+import org.apache.avalon.phoenix.interfaces.ContainerConstants;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;

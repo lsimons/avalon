@@ -58,7 +58,7 @@ import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
 import org.apache.avalon.phoenix.containerkit.factory.ComponentFactory;
 import org.apache.avalon.phoenix.containerkit.factory.ComponentBundle;
 import org.apache.avalon.phoenix.components.assembler.Assembler;
-import org.apache.avalon.phoenix.components.ContainerConstants;
+import org.apache.avalon.phoenix.interfaces.ContainerConstants;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.framework.info.ComponentInfo;
@@ -69,7 +69,7 @@ import java.util.ArrayList;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003/03/22 12:07:09 $
+ * @version $Revision: 1.6 $ $Date: 2003/03/23 00:19:48 $
  */
 public class PhoenixProfileBuilder
     extends AbstractLogEnabled

@@ -58,13 +58,13 @@ import org.apache.avalon.phoenix.test.data.Service2;
 import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
 import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
 import org.apache.avalon.phoenix.containerkit.metadata.DependencyMetaData;
-import org.apache.avalon.phoenix.components.ContainerConstants;
+import org.apache.avalon.phoenix.interfaces.ContainerConstants;
 
 /**
  *  An basic test case for the LogManager.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2003/03/22 12:07:18 $
+ * @version $Revision: 1.12 $ $Date: 2003/03/23 00:19:49 $
  */
 public class AssemblerTestCase
     extends AbstractContainerTestCase
