@@ -143,7 +143,7 @@ public final class ContextMap
      * Get an entry from the context.
      *
      * @param key the key to map
-     * @param default a default object to return if key does not exist
+     * @param defaultObject a default object to return if key does not exist
      * @return the object in context
      */
     public Object get( final String key, final Object defaultObject )
