@@ -33,15 +33,6 @@ Legal:
   <property name="status" value="final"/>
   <property name="release" value="2nd"/>
   <property name="short.version" value="4.0"/>
-  <!--
-    these are here only for those who use jikes compiler. For other
-    developers this part makes no difference.
-  -->
-  <property name="build.compiler.emacs" value="on"/>
-  <property name="build.compiler.warnings" value="true"/>
-  <property name="build.compiler.pedantic" value="true"/>
-  <property name="build.compiler.depend" value="true"/>
-  <property name="build.compiler.fulldepend" value="true"/>
 
   <property name="debug" value="on"/>
   <property name="optimize" value="off"/>
