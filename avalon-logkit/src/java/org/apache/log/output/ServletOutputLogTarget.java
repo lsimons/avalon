@@ -9,7 +9,7 @@ import org.apache.log.LogEvent;
  * @author <a href="mailto:Tommy.Santoso@osa.de">Tommy Santoso</a>
  */
 public class ServletOutputLogTarget
-    extends DefaultOutputLogTarget
+    extends DefaultOutputLogTarget //will extend AbstractOutputTarget in future
 {
     ///The servlet context written to (may be null in which case it won't log at all)
     private ServletContext m_context;
@@ -32,11 +32,12 @@ public class ServletOutputLogTarget
      */
     protected void write( final String message )
     {
-        if( null != m_context )
+        final ServletContext context = m_context;
+        if( null != context )
         {
-            synchronized( m_context )
+            synchronized( context )
             {
-                m_context.log( message );
+                context.log( message );
             }
         }
     }

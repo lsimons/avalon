@@ -9,7 +9,7 @@ package org.apache.log.format.test;
 
 import org.apache.log.ContextStack;
 import org.apache.log.ContextMap;
-import org.apache.log.Formatter;
+import org.apache.log.format.Formatter;
 import org.apache.log.LogEvent;
 import org.apache.log.Priority;
 import org.apache.log.format.RawFormatter;

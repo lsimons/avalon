@@ -25,10 +25,10 @@ import org.apache.log.*;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.16 $ $Date: 2001/07/30 15:25:01 $
+ * @version CVS $Revision: 1.17 $ $Date: 2001/07/31 02:24:01 $
  */
 public class PatternFormatter
-    implements Formatter
+    implements Formatter, org.apache.log.Formatter
 {
     private final static int     TYPE_TEXT            = 1;
     private final static int     TYPE_CATEGORY        = 2;

@@ -13,7 +13,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import org.apache.log.format.PatternFormatter;
 import org.apache.log.Hierarchy;
-import org.apache.log.Formatter;
+import org.apache.log.format.Formatter;
 import org.apache.log.output.io.WriterTarget;
 
 /**
@@ -21,8 +21,9 @@ import org.apache.log.output.io.WriterTarget;
  * The format is specified via a string.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @deprecated Use WriterTarget or StreamTarget as appropriate as this class 
- *             encourages unsafe behaviour
+ * @deprecated Use org.apache.log.output.io.WriterTarget or 
+ *             org.apache.log.output.io.StreamTarget as appropriate 
+ *             as this class encourages unsafe behaviour
  */
 public class DefaultOutputLogTarget
     extends WriterTarget

@@ -7,7 +7,6 @@
  */
 package org.apache.log.format;
 
-import org.apache.log.Formatter;
 import org.apache.log.LogEvent;
 import org.apache.log.Priority;
 
@@ -18,7 +17,7 @@ import org.apache.log.Priority;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class SyslogFormatter
-    implements Formatter
+    implements Formatter, org.apache.log.Formatter
 {
     public static final int         PRIORITY_DEBUG    = 7;
     public static final int         PRIORITY_INFO     = 6;
