@@ -153,6 +153,18 @@ public final class Version
         }
     }
 
+    public boolean equals( final Object other )
+    {
+        if ( other instanceof Version )
+        {
+            return equals( (Version)other );
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     /**
      * Check this <code>Version</code> against another for compliancy
      * (compatibility).
