@@ -95,7 +95,6 @@ class PolicyClassLoader
         if( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "getPermissions(" + codeSource + ")" );
-            //getLogger().debug( "= " + m_policy.getPermissions( codeSource ) );
         }
         return m_policy.getPermissions( codeSource );
     }
@@ -176,7 +175,6 @@ class PolicyClassLoader
             urls.add( url );
         }
 
-        //System.out.println( "Created urls: " + urls );
         return (URL[])urls.toArray( new URL[ 0 ] );
     }
 
