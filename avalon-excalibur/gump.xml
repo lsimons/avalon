@@ -273,6 +273,7 @@
         <depend project="checkstyle"/>
         <depend project="excalibur-collections"/>
         <depend project="excalibur-concurrent"/>
+        <depend project="excalibur-threadcontext"/>
         <work nested="event/build/classes"/>
 
         <home nested="event"/>
