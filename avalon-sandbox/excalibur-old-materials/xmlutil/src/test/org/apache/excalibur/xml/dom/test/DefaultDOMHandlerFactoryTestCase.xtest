@@ -31,8 +31,6 @@
 		<parser logger="test">
 			<parameter name="namespace-prefixes" value="false"/>
 		</parser>
-		<domhandler-factory logger="test">
-			<namespace-aware>false</namespace-aware>
-		</domhandler-factory>
+		<domhandler-factory logger="test"/>
 	</components>
 </testcase>

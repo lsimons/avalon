@@ -7,16 +7,20 @@
  */
 package org.apache.excalibur.xml.dom;
 
+import org.w3c.dom.Document;
+
 /**
  * The factory creates a DOMHandler encapsulating a DOM document. The document
  * behaviour is setup by the factory.
  *
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/16 10:42:36 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/09/03 20:29:53 $
  */
 public interface DOMHandlerFactory
 {
     String ROLE = DOMHandlerFactory.class.getName();
 
     DOMHandler createDOMHandler() throws Exception;
+
+    DOMHandler createDOMHandler(Document document) throws Exception;
 }
