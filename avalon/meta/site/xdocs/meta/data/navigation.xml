@@ -14,7 +14,6 @@
 
     <menu name="About Avalon Meta">
       <item name="Overview" href="/index.html"/>
-      <item name="Getting Started" href="/tutorial/index.html"/>
       <item name="Meta Model" href="/meta/index.html">
         <item name="Descriptors" href="/meta/info/index.html"/>
         <item name="Directives" href="/meta/data/index.html"/>

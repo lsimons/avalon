@@ -45,11 +45,13 @@ The Avalon Plugin for Maven provides support for developers in the management of
     <build>
       <!-- more stuff -->
       <resources>
-        <!-- include the generated meta-info descriptors into you jar file -->
+        <!-- include the generated meta-info 
+            descriptors into you jar file -->
         <resource>
           <directory>${basedir}/target/src</directory> 
           <includes>
-            <include>**/*.x*</include> <!-- meta info desriptors -->
+            <!-- meta info desriptors -->
+            <include>**/*.x*</include> 
           </includes>
         </resource>
       </resources>
