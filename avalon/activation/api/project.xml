@@ -5,7 +5,7 @@
 
 <project>
 
-  <extend>${basedir}/../../project.xml</extend>
+  <extend>${basedir}/../../project-common.xml</extend>
 
   <groupId>&avalon-activation-id;</groupId>
   <id>&avalon-activation-api-id;</id>
@@ -38,6 +38,13 @@ An API supporting component assembly and deployment and decommissioning.
       <groupId>&avalon-meta-id;</groupId>
       <artifactId>&avalon-meta-api-id;</artifactId>
       <version>&avalon-meta-api-version;</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-plugin-id;</artifactId>
+      <version>&avalon-util-plugin-version;</version>
+      <type>plugin</type>
     </dependency>
 
   </dependencies>
