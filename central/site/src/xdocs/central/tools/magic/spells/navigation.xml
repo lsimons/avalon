@@ -23,10 +23,6 @@
 
  <body>
     <menu>
-      <item name="Casting Spells" href="spells/index.html"/>
-      <item name="System Model" href="model/index.html"/>
-      <item name="Templates" href="templates/index.html"/>
-      <item name="Tasks" href="tasks/index.html"/>
     </menu>
  </body>
 
