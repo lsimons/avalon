@@ -21,7 +21,7 @@
     <name>Avalon-LogKit</name>
     <id>logkit</id>
     <groupId>logkit</groupId>
-    <currentVersion>2.0-dev</currentVersion>
+    <currentVersion>2.0</currentVersion>
     <inceptionYear>2003</inceptionYear>
     <shortDescription>The Avalon-LogKit logging utility</shortDescription>
     <description>
@@ -44,11 +44,13 @@ Avalon LogKit is the logging utility used by default in all Avalon systems.
         <version>2.3</version>
       </dependency>
       <dependency>
-        <id>javamail</id>
-        <version>1.2</version>
+        <groupId>javamail</groupId>
+        <artifactId>mailapi</artifactId>
+        <version>1.3.1</version>
       </dependency>
       <dependency>
-        <id>jms</id>
+        <groupId>jms</groupId>
+        <artifactId>jms</artifactId>
         <version>1.1</version>
       </dependency>
 

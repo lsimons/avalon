@@ -177,6 +177,9 @@ public final class ContextMap
      */
     public Object get( final String key )
     {
+        if( key == null )
+            return null;
+            
         final Object result = m_map.get( key );
 
         if( null == result && null != m_parent )
