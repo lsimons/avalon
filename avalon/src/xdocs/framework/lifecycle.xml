@@ -53,8 +53,8 @@
         <li>Configurable</li>
         <li>Parameterizable</li>
         <li>Initializable</li>
-        <li>Executable</li>
-        <li>Interruptable</li>
+        <li>Startable</li>
+        <li>Suspendable</li>
         <li>Recontextualizable</li>
         <li>Recomposable</li>
         <li>Reconfigurable</li>
@@ -62,10 +62,6 @@
         <li>Stoppable</li>
         <li>Disposable</li>
       </ol>
-      <note>
-        <strong>Note:</strong>Executable replaces the deprecated Startable/Stoppable duo.
-        Interruptable replaces the deprecated Suspendable/Resumable duo.<br />
-      </note>
       <note>
         <strong>Note:</strong>java.lang.Runnable has also been in use as a lifecycle
         interface. This is not recommended and is not supported by Avalon. Instead,
@@ -111,7 +107,6 @@
           <li>parameterize</li>
           <li>initialize</li>
           <li>start</li>
-          <li>run</li>
           <li>
             <ol>
               <li>suspend</li>
@@ -148,20 +143,19 @@
         </p>
         <ul>
           <li>start</li>
-          <li>run</li>
           <li>stop</li>
         </ul>
       </s2>
-      <s2 title="The Interruptable phase">
+      <s2 title="The Suspendable Interface">
         <p>
           The methods suspend() and resume() are not guaranteed to be called at all,
           even when implemented. They can be called more than once, but only after
-          one another and between start() (or run() when used) and stop(). The reason
-          they exist is so the container can notify the Component it
-          needs to come to temporary stop any operations. The container may need to
-          perform some synchronized operation on one of the Components used by this
-          Component, or it may wish to call any of the following methods, which can
-          also be called zero or more times, and only between a suspend() and a resume().
+          one another and between start() and stop(). The reason they exist is so 
+          the container can notify the Component it needs to come to temporary stop 
+          any operations. The container may need to perform some synchronized operation 
+          on one of the Components used by this Component, or it may wish to call any 
+          of the following methods, which can also be called zero or more times, and 
+          only between a suspend() and a resume().
         </p>
         <ul>
           <li>recontextualize()</li>
@@ -170,6 +164,7 @@
           <li>reparameterize()</li>
         </ul>
       </s2>
+<!--
       <s2 title="The Command Pattern">
         <p>
           The most advanced, most complicated and most flexible option is to use
@@ -214,12 +209,13 @@ System.gc(); // finalize() is called on myComponent, which allows it to perform 
           threads.
         </p>
       </s2>
+-->
     </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/04/26 19:40:56 $
+      $Revision: 1.2 $ $Date: 2001/05/12 08:09:26 $
     </legal>
   </footer>
 </document>

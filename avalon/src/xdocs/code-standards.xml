@@ -116,34 +116,32 @@ top of the file. For java files the preferred Javadoc format is:
           to wrap a line.
      </li>
         <li>
-          We focus on readability over performance, at least in the first
-          phase, leaving source code optimization the last resource to give
-          out some milliseconds from my code. If the code is not performing then
-          it is better to re-engineer it rather than to expand loops, take
-          out variable declarations and such things. If the code is
-          performing well and you know what the core methods are then, in the
-          end of the process, try to give out the best from them.
+          We focus on readability over performance, at least initially. Source code 
+          optimization is the last thing to be done to increase performance.
+          If the code is not performing then it is better to re-engineer it rather 
+          than to expand loops, take out variable declarations etc. When the code
+          is stable and has a well defined purpose and interface it may be appropriate 
+          to do source code optimization.
         </li>
         <li>
-          Try to javadoc-comment all methods and public/default/protected
-          attributes adding code comments only when you think it's really
-          needed (like assumptions).
+          Try to javadoc all methods and variables, especially public, protected 
+          and default access methods and member variables. Also add code comments 
+          when you think it's necessary (like assumptions).
         </li>
 <li>
 Variables are declared in the inner scope.
 <source>
 while( myListIterator.hasNext() ) 
 {
-    final String myString = (String)myLstIterator.nextElement();
+    final String myString = (String)myListIterator.nextElement();
 }
 </source>
 </li>
 <li>
-Variable names are every time descriptive. The cases where this rule is
-not applied include; manipulating exceptions (only uppercase class 
-exception letters), loop declaring variables (mostly I use i,j,k and t) 
-and other established shortenings (like init() for initialize, sb for 
-StringBuffer etc). ie.
+Variable should be descriptive and ideally english words. The exceptions
+being; loop counters (usually use i, j and k), exceptions (use concaternation
+of word separating characters - ie SocketException is abbreviated as se) and
+other commonly used abbreviations (ie sb for StringBuffer).
 <source><![CDATA[
 try 
 {
@@ -163,9 +161,9 @@ catch( final IndexOutOfBoundsException ioobe )
 ]]></source>
 </li>
 <li>
-Use only String concatenation unlesss you really need
-StringBuffer methods leaving to the compiler optimization
-the stuff to replace it with StringBuffer, so use:
+Use String concatenation except in extremely performance sensitive 
+sections. This leaves StringBuffer optimization to the compiler.
+So use:
 <source>
 final String myString = "test " + "for " + "performances";
 </source>
@@ -192,11 +190,10 @@ If you are within a static method, then you may have to create
 a static object whose sole purpose in life is to provide the
 lock you need. Alternatively you could use the Class object for 
 the class you are in. That is, if you're in class MyClass, use 
-"MyClass.class".  That gets the object of type java.lang.Class 
-that corresponds to your class MyClass.
+"MyClass.class".  
 </li>
 <li>
-Have the names of all class fields start with the prefix "m_".
+Have the names of all member instance fields start with the prefix "m_".
 Example:
 <source>
 class MyClass
