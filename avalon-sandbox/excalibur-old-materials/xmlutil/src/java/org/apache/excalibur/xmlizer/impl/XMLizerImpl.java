@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
  * the transformation to the registered on.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/07/07 06:15:20 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/07/07 06:16:34 $
  */
 public class XMLizerImpl
     extends DefaultComponentSelector
@@ -91,7 +91,7 @@ public class XMLizerImpl
             throw new ComponentException( message );
         }
 
-        final XMLizer realXMLizer = (XMLizer)this.select( mimeType );
+        final XMLizer realXMLizer = (XMLizer)select( mimeType );
         try
         {
             realXMLizer.toSAX( stream, mimeType, systemID, handler );
