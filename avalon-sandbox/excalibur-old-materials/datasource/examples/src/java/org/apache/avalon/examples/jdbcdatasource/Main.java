@@ -31,7 +31,7 @@ import org.apache.log.Priority;
  * Note, this code ignores exceptions to keep the code simple.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/10/03 03:36:06 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/11/07 05:20:09 $
  * @since 4.1
  */
 public class Main
@@ -40,12 +40,12 @@ public class Main
      * Constructors
      *-------------------------------------------------------------*/
     private Main() {}
-    
+
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
     /**
-     * Creates and initializes the component manager using config files.
+     * Creates and initializes the component m_manager using config files.
      *
      * @return the ECM for use.
      *
@@ -58,43 +58,43 @@ public class Main
         DefaultContext context = new DefaultContext();
         // Add any context variables here.
         context.makeReadOnly();
-        
+
         // Create a ConfigurationBuilder to parse the config files.
         DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
-        
+
         // Load in the configuration files
         Configuration logKitConfig     = builder.build( "../conf/logkit.xml" );
         Configuration rolesConfig      = builder.build( "../conf/roles.xml" );
         Configuration componentsConfig = builder.build( "../conf/components.xml" );
-        
+
         // Setup the LogKitManager
         DefaultLogKitManager logManager = new DefaultLogKitManager();
         Logger lmLogger = Hierarchy.getDefaultHierarchy().
             getLoggerFor( logKitConfig.getAttribute( "logger", "lm" ) );
-        lmLogger.setPriority( 
+        lmLogger.setPriority(
             Priority.getPriorityForName( logKitConfig.getAttribute( "log-level", "INFO" ) ) );
         logManager.setLogger( lmLogger );
         logManager.configure( logKitConfig );
-        
+
         // Setup the RoleManager
         DefaultRoleManager roleManager = new DefaultRoleManager();
-        roleManager.setLogger( 
+        roleManager.setLogger(
             logManager.getLogger( rolesConfig.getAttribute( "logger", "rm" ) ) );
         roleManager.configure( rolesConfig );
-        
+
         // Set up the ComponentManager
         ExcaliburComponentManager manager = new ExcaliburComponentManager();
-        manager.setLogger( 
+        manager.setLogger(
             logManager.getLogger( componentsConfig.getAttribute( "logger", "cm" ) ) );
         manager.setLogKitManager( logManager );
         manager.contextualize( context );
         manager.setRoleManager( roleManager );
         manager.configure( componentsConfig );
         manager.initialize();
-        
+
         return manager;
     }
-    
+
     /**
      * Loop and handle requests from the user.
      *
@@ -105,7 +105,7 @@ public class Main
         System.out.println();
         System.out.println( "Please enter a title to be added to the database" );
         System.out.println( "    (RESET deletes all titles, LIST lists all titles, QUIT or EXIT to quit)" );
-        
+
         BufferedReader in = new BufferedReader( new InputStreamReader( System.in ) );
         String title;
         boolean quit = false;
@@ -120,7 +120,7 @@ public class Main
             {
                 title = "";
             }
-            
+
             if ( title.length() > 0 )
             {
                 if ( title.equalsIgnoreCase( "RESET" ) )
@@ -145,10 +145,10 @@ public class Main
             }
         }
         while ( !quit );
-        
+
         System.out.println();
     }
-    
+
     /*---------------------------------------------------------------
      * Main method
      *-------------------------------------------------------------*/
@@ -163,7 +163,7 @@ public class Main
         throws Exception
     {
         System.out.println( "Running the JdbcDataSource Example Application" );
-        
+
         // Create the ComponentManager
         ExcaliburComponentManager manager = createComponentManager();
         try
@@ -186,7 +186,7 @@ public class Main
             // Dispose the ComponentManager
             manager.dispose();
         }
-        
+
         System.out.println();
         System.out.println( "Exiting..." );
         System.exit(0);
