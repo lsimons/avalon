@@ -98,7 +98,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class DefaultInitialContext extends AbstractBuilder implements InitialContext
 {
@@ -113,11 +113,47 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     */
     public static final String AVALON = "avalon.properties";
 
+   /**
+    * Return the Avalon system common directory.  This directory is 
+    * is used as the default root directory against which the 
+    * default application repository is established.  
+    * 
+    * @return the avalon system home directory.
+    */
+    public static File getAvalonHome()
+    {
+        try
+        {
+            String path = 
+              System.getProperty( "avalon.home", Env.getEnvVariable( "AVALON_HOME" ) );
+
+            if( null != path )
+            {
+                return new File( path ).getCanonicalFile();
+            }
+            else
+            {
+                return new File(
+                  System.getProperty( "user.home" ) 
+                  + File.separator 
+                  + ".avalon" ).getCanonicalFile();
+            }
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Internal error while attempting to access symbol AVALON_HOME.";
+            final String message = 
+              ExceptionHelper.packException( error, e, true );
+            throw new RuntimeException( message );
+        }
+    }
+
     //------------------------------------------------------------------
-    // static 
+    // private static 
     //------------------------------------------------------------------
 
-    private static final String AVALON_IMPLEMENTATION = 
+    private static final String AVALON_IMPL_PROPERTIES = 
        "avalon.implementation";
 
     private static final File USER_HOME = 
@@ -401,7 +437,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     */
     private static Properties createDefaultProperties()
     {
-        final String path = AVALON_IMPLEMENTATION;
+        final String path = AVALON_IMPL_PROPERTIES;
         try
         {
             Properties properties = new Properties();
@@ -459,32 +495,23 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     {
         String homeValue = home.getProperty( HOSTS_KEY );
         String workValue = work.getProperty( HOSTS_KEY, homeValue );
-        String value = System.getProperty( CACHE_KEY , workValue );
+        String value = System.getProperty( HOSTS_KEY , workValue );
         if( null == value ) return DEFAULT_INITIAL_HOSTS;
         return expandHosts( value );
     }
 
     private static File setupDefaultCache( Properties home, Properties work )
     {
-        try
-        {
-            String env = Env.getEnvVariable( "AVALON_HOME" );
-            String avalon = System.getProperty( "avalon.home", env );
-            String homeValue = home.getProperty( CACHE_KEY, avalon );
-            String workValue = work.getProperty( CACHE_KEY, homeValue );
-            String value = System.getProperty( CACHE_KEY , workValue );
-            if( null != value ) return new File( value  );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Internal error while attempting to access environment.";
-            final String message = 
-              ExceptionHelper.packException( error, e, true );
-            System.err.println( message );
-            return null;
-        }
-        return new File( USER_HOME, ".avalon" ); 
+        String homeValue = home.getProperty( CACHE_KEY );
+        String workValue = work.getProperty( CACHE_KEY, homeValue );
+        String value = System.getProperty( CACHE_KEY , workValue );
+        if( null != value ) return new File( value  );
+        return getDefaultCache();
+    }
+
+    private static File getDefaultCache()
+    {
+        return new File( getAvalonHome(), "repository" );
     }
 
     private static File getBaseDirectory()
