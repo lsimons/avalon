@@ -143,7 +143,8 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
         m_threadPool.setMinimumPoolSize( 2 ); // at least two threads
         m_threadPool.setMaximumPoolSize( maxPoolSize );
         m_threadPool.waitWhenBlocked();
-        if (maxPoolSize == 2) {
+        if( maxPoolSize == 2 )
+        {
             // The PooledExecutor has an inherent race condition between releasing threads
             // and adding new tasks (when using the waitWhenBlocked policy):
             // it could be that a thread is being released while a new
@@ -155,7 +156,9 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
             // As a solution to this problem, the one available work-thread we have in this case
             // is set to never expire.
             m_threadPool.setKeepAliveTime( -1 );
-        } else {
+        }
+        else
+        {
             m_threadPool.setKeepAliveTime( m_keepAliveTime );
         }
 
