@@ -26,7 +26,7 @@ import org.apache.avalon.excalibur.instrument.manager.client.InstrumentSampleDes
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/03/26 11:32:23 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/03/28 03:15:40 $
  * @since 4.1
  */
 class InstrumentClientFrame
@@ -208,6 +208,24 @@ class InstrumentClientFrame
         {
             return (InstrumentManagerConnection)m_connections.get( key );
         }
+    }
+    
+    void showConnectDialog()
+    {
+        SwingUtilities.invokeLater( new Runnable()
+        {
+            public void run()
+            {
+                ConnectDialog dialog = new ConnectDialog( InstrumentClientFrame.this );
+                dialog.setHost( "localhost" );
+                dialog.setPort( 15555 );
+                dialog.show();
+                if ( dialog.getAction() == ConnectDialog.BUTTON_OK )
+                {
+                    openInstrumentManagerConnection( dialog.getHost(), dialog.getPort() );
+                }
+            }
+        } );
     }
     
     void openInstrumentManagerConnection( String host, int port )
