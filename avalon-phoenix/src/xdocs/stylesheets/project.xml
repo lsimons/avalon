@@ -39,7 +39,6 @@
             <!-- <item name="Get Involved" href="/getinvolved.html"/> -->
             <item name="Changes" href="/changes.html"/>
             <item name="Coding standards" href="http://avalon.apache.org/code-standards.html"/>
-            <item name="Project Structure" href="/for-developers-project-structure.html"/>
             <item name="CVS Repositories" href="http://jakarta.apache.org/site/cvsindex.html"/>
             <item name="Mailing Lists" href="http://jakarta.apache.org/site/mail.html"/>
             <item name="TODO"  href="http://nagoya.apache.org/bugzilla/buglist.cgi?bug_status=UNCONFIRMED&amp;bug_status=NEW&amp;bug_status=ASSIGNED&amp;bug_status=REOPENED&amp;bug_status=RESOLVED&amp;product=Avalon&amp;component=Phoenix"/>
