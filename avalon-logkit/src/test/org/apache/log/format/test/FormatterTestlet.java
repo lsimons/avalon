@@ -8,6 +8,7 @@
 package org.apache.log.format.test;
 
 import org.apache.log.ContextStack;
+import org.apache.log.ContextMap;
 import org.apache.log.Formatter;
 import org.apache.log.LogEvent;
 import org.apache.log.Priority;
@@ -44,9 +45,13 @@ public final class FormatterTestlet
     private static Priority P2 = Priority.ERROR;
     private static Priority P3 = Priority.WARN;
 
-    private static LogEvent E1 = createEvent( C1, M1, null, T1, P1, null );
-    private static LogEvent E2 = createEvent( C2, M2, null, T2, P2, null );
-    private static LogEvent E3 = createEvent( C3, M3, null, T3, P3, null );
+    private static boolean mapsConfigured;
+    private static ContextMap CM1 = new ContextMap();
+    private static ContextMap CM2 = new ContextMap();
+
+    private static LogEvent E1 = createEvent( C1, M1, null, T1, P1, null, CM1 );
+    private static LogEvent E2 = createEvent( C2, M2, null, T2, P2, null, CM2 );
+    private static LogEvent E3 = createEvent( C3, M3, null, T3, P3, null, null );
 
     private static String E1_XML =  "<log-entry>" + EOL + 
         "  <time>" + T1 + "</time>" + EOL + 
@@ -105,13 +110,50 @@ public final class FormatterTestlet
     private static String E2_PATTERN5 = "[" + C2 + "]: " + M2 + "\n";
     private static String E3_PATTERN5 = "[" + C3 + "]: " + M3 + "\n";
 
+    private static String PATTERN6 = "[%{context}]: %{message}\\n";
+    private static String E1_PATTERN6 = "[]: " + M1 + "\n";
+    private static String E2_PATTERN6 = "[]: " + M2 + "\n";
+    private static String E3_PATTERN6 = "[]: " + M3 + "\n";
+
+    private static String PATTERN7 = "[%{context:stack}]: %{message}\\n";
+    private static String E1_PATTERN7 = "[]: " + M1 + "\n";
+    private static String E2_PATTERN7 = "[]: " + M2 + "\n";
+    private static String E3_PATTERN7 = "[]: " + M3 + "\n";
+
+    private static String PATTERN8 = "[%{context:method}]: %{message}\\n";
+    private static String E1_PATTERN8 = "[com.biz.MyObject.myMethod(MyObject:53)]: " + M1 + "\n";
+    private static String E2_PATTERN8 = "[]: " + M2 + "\n";
+    private static String E3_PATTERN8 = "[]: " + M3 + "\n";
+
+    private static String CLASS_PREFIX = FormatterTestlet.class.getName() + ".";
+
+    private static String PATTERN9 = "[%{method}]: %{message}\\n";
+    private static String E1_PATTERN9 = "[com.biz.MyObject.myMethod(MyObject:53)]: " + M1 + "\n";
+    private static String E2_PATTERN9_START = "[" + CLASS_PREFIX +"testPattern9Formatter(";
+    private static String E2_PATTERN9_END = ")]: " + M2 + "\n";
+    private static String E3_PATTERN9_START = "[" + CLASS_PREFIX +"testPattern9Formatter(";
+    private static String E3_PATTERN9_END = ")]: " + M3 + "\n";
+
+    private static String PATTERN10 = "[%{context:method}]: %{message}\\n";
+    private static String E1_PATTERN10 = "[com.biz.MyObject.myMethod(MyObject:53)]: " + M1 + "\n";
+    private static String E2_PATTERN10 = "[]: " + M2 + "\n";
+    private static String E3_PATTERN10 = "[]: " + M3 + "\n";
+
+    private static String PATTERN11 = "[%{context:method}]: %{message}\\n";
+    private static String E1_PATTERN11 = "[com.biz.MyObject.myMethod(MyObject:53)]: " + M1 + "\n";
+    private static String E2_PATTERN11 = "[]: " + M2 + "\n";
+    private static String E3_PATTERN11 = "[]: " + M3 + "\n";
+
     private static LogEvent createEvent( final String category,
                                          final String message,
                                          final Throwable throwable,
                                          final long time,
                                          final Priority priority,
-                                         final ContextStack contextStack )
+                                         final ContextStack contextStack,
+                                         final ContextMap contextMap )
     {
+        setupContext();
+
         final LogEvent event = new LogEvent();
         event.setCategory( category );
         event.setMessage( message );
@@ -119,7 +161,26 @@ public final class FormatterTestlet
         event.setTime( time );
         event.setPriority( priority );
         event.setContextStack( contextStack );
+        event.setContextMap( contextMap );
         return event;
+    }
+
+    private static void setupContext()
+    {
+        if( !mapsConfigured )
+        {
+            mapsConfigured = true;
+            CM1.set( "method", "com.biz.MyObject.myMethod(MyObject:53)" );
+            CM1.set( "hostname", "helm.realityforge.org" );
+            CM1.set( "interface", "127.0.0.1" );
+            CM1.set( "user", "barney" );
+            CM1.makeReadOnly();
+
+            CM2.set( "hostname", "helm.realityforge.org" );
+            CM2.set( "interface", "127.0.0.1" );
+            CM2.set( "user", "barney" );
+            CM2.makeReadOnly();
+        }
     }
 
     public void testRawFormatter()
@@ -237,5 +298,89 @@ public final class FormatterTestlet
         assertEquality( "Pattern5 formatting of E1", E1_PATTERN5, result1 );
         assertEquality( "Pattern5 formatting of E2", E2_PATTERN5, result2 );
         assertEquality( "Pattern5 formatting of E3", E3_PATTERN5, result3 );
+    }
+
+    public void testPattern6Formatter()
+    {
+        final Formatter formatter = new PatternFormatter( PATTERN6 );
+        
+        final String result1 = formatter.format( E1 );
+        final String result2 = formatter.format( E2 );
+        final String result3 = formatter.format( E3 );
+
+        assertEquality( "Pattern6 formatting of E1", E1_PATTERN6, result1 );
+        assertEquality( "Pattern6 formatting of E2", E2_PATTERN6, result2 );
+        assertEquality( "Pattern6 formatting of E3", E3_PATTERN6, result3 );
+    }
+
+    public void testPattern7Formatter()
+    {
+        final Formatter formatter = new PatternFormatter( PATTERN7 );
+        
+        final String result1 = formatter.format( E1 );
+        final String result2 = formatter.format( E2 );
+        final String result3 = formatter.format( E3 );
+
+        assertEquality( "Pattern7 formatting of E1", E1_PATTERN7, result1 );
+        assertEquality( "Pattern7 formatting of E2", E2_PATTERN7, result2 );
+        assertEquality( "Pattern7 formatting of E3", E3_PATTERN7, result3 );
+    }
+
+    public void testPattern8Formatter()
+    {
+        final Formatter formatter = new PatternFormatter( PATTERN8 );
+        
+        final String result1 = formatter.format( E1 );
+        final String result2 = formatter.format( E2 );
+        final String result3 = formatter.format( E3 );
+
+        assertEquality( "Pattern8 formatting of E1", E1_PATTERN8, result1 );
+        assertEquality( "Pattern8 formatting of E2", E2_PATTERN8, result2 );
+        assertEquality( "Pattern8 formatting of E3", E3_PATTERN8, result3 );
+    }
+/*
+    public void testPattern9Formatter()
+    {
+        final Formatter formatter = new PatternFormatter( PATTERN9 );
+        
+        final String result1 = formatter.format( E1 );
+        final String result2 = formatter.format( E2 );
+        final String result3 = formatter.format( E3 );
+
+        System.out.println( "results1: " + result1 );
+        System.out.println( "results2: " + result2 );
+        System.out.println( "results3: " + result3 );
+
+        assertEquality( "Pattern9 formatting of E1", E1_PATTERN9, result1 );
+        assert( "Pattern9 formatting of E2", result2.startsWith( E2_PATTERN9_START ) );
+        assert( "Pattern9 end formatting of E2", result2.endsWith( E2_PATTERN9_END ) );
+        assert( "Pattern9 formatting of E3", result3.startsWith( E3_PATTERN9_START ) );
+        assert( "Pattern9 end formatting of E3", result3.endsWith( E3_PATTERN9_END ) );
+    }
+*/
+    public void testPattern10Formatter()
+    {
+        final Formatter formatter = new PatternFormatter( PATTERN10 );
+        
+        final String result1 = formatter.format( E1 );
+        final String result2 = formatter.format( E2 );
+        final String result3 = formatter.format( E3 );
+
+        assertEquality( "Pattern10 formatting of E1", E1_PATTERN10, result1 );
+        assertEquality( "Pattern10 formatting of E2", E2_PATTERN10, result2 );
+        assertEquality( "Pattern10 formatting of E3", E3_PATTERN10, result3 );
+    }
+
+    public void testPattern11Formatter()
+    {
+        final Formatter formatter = new PatternFormatter( PATTERN11 );
+        
+        final String result1 = formatter.format( E1 );
+        final String result2 = formatter.format( E2 );
+        final String result3 = formatter.format( E3 );
+
+        assertEquality( "Pattern11 formatting of E1", E1_PATTERN11, result1 );
+        assertEquality( "Pattern11 formatting of E2", E2_PATTERN11, result2 );
+        assertEquality( "Pattern11 formatting of E3", E3_PATTERN11, result3 );
     }
 }
