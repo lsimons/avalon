@@ -7,12 +7,12 @@
  */
 package org.apache.excalibur.xmlizer.impl;
 
-import java.io.InputStream;
 import java.io.IOException;
-import org.apache.excalibur.xmlizer.XMLizer;
-import org.apache.avalon.framework.component.ComponentException;
+import java.io.InputStream;
 import org.apache.avalon.excalibur.component.DefaultComponentSelector;
+import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.excalibur.xmlizer.XMLizer;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
@@ -24,60 +24,81 @@ import org.xml.sax.SAXException;
  * the transformation to the registered on.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/24 07:46:30 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/07/07 06:04:00 $
  */
-
 public class XMLizerImpl
     extends DefaultComponentSelector
     implements XMLizer, ThreadSafe
 {
-
     /** The default mimeType used when no mimeType is given */
-    protected String defaultMimeType = "text/xml";
+    private final String m_defaultMimeType;
+
+    public XMLizerImpl()
+    {
+        this( "text/xml" );
+    }
+
+    public XMLizerImpl( final String defaultMimeType )
+    {
+        m_defaultMimeType = defaultMimeType;
+    }
 
     /**
      * Generates SAX events from the given input stream
      * <b>NOTE</b> : if the implementation can produce lexical events, care should be taken
-     * that <code>handler</code> can actually be a {@link XMLConsumer} that accepts such
+     * that <code>handler</code> can actually be a
+     * {@link org.apache.avalon.excalibur.xml.XMLConsumer} that accepts such
      * events or directly implements the LexicalHandler interface!
      * @param stream    the data
      * @param mimeType  the mime-type for the data
      * @param systemID  the URI defining the data (this is optional and can be null)
      * @throws ComponentException if no suitable converter is found
      */
-    public void toSAX( InputStream    stream,
-                       String         mimeType,
-                       String         systemID,
-                       ContentHandler handler )
+    public void toSAX( final InputStream stream,
+                       final String mimeType,
+                       final String systemID,
+                       final ContentHandler handler )
         throws SAXException, IOException, ComponentException
     {
-        if ( null == stream ) {
-            throw new ComponentException("Stream must not be null.");
+        if( null == stream )
+        {
+            final String message = "Stream must not be null.";
+            throw new ComponentException( message );
         }
-        if ( null == handler ) {
-            throw new ComponentException("Handler must not be null.");
+
+        if( null == handler )
+        {
+            final String message = "Handler must not be null.";
+            throw new ComponentException( message );
         }
-        if ( null == mimeType ) {
-            if ( this.getLogger().isDebugEnabled() ) {
-                this.getLogger().debug("No mime-type for xmlizing " + systemID + ", guessing " + this.defaultMimeType);
+
+        if( null == mimeType )
+        {
+            if( getLogger().isDebugEnabled() )
+            {
+                final String message =
+                    "No mime-type for xmlizing " + systemID +
+                    ", guessing " + m_defaultMimeType;
+                getLogger().debug( message );
             }
-            mimeType = this.defaultMimeType;
+            mimeType = m_defaultMimeType;
         }
 
-        if ( !this.hasComponent ( mimeType ) ) {
-            throw new ComponentException("No XMLizer registered for mimeType " + mimeType);
+        if( !hasComponent( mimeType ) )
+        {
+            final String message = "No XMLizer registered for mimeType " + mimeType;
+            throw new ComponentException( message );
         }
 
-        XMLizer realXMLizer = null;
+        final XMLizer realXMLizer = (XMLizer)this.select( mimeType );
         try
         {
-            realXMLizer = (XMLizer) this.select( mimeType );
             realXMLizer.toSAX( stream, mimeType, systemID, handler );
-        } finally {
-            this.release( realXMLizer );
         }
-
+        finally
+        {
+            release( realXMLizer );
+        }
     }
-
 }
 
