@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.engine;
+package org.apache.avalon.phoenix.components.application;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -30,13 +30,13 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
+import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
+import org.apache.avalon.phoenix.components.frame.DefaultApplicationFrame;
 import org.apache.avalon.phoenix.components.phases.BlockDAG;
 import org.apache.avalon.phoenix.components.phases.BlockVisitor;
 import org.apache.avalon.phoenix.components.phases.ShutdownPhase;
 import org.apache.avalon.phoenix.components.phases.StartupPhase;
-import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
-import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
-import org.apache.avalon.phoenix.components.frame.DefaultApplicationFrame;
 import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
 import org.apache.avalon.phoenix.engine.blocks.RoleEntry;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
@@ -112,7 +112,7 @@ public final class DefaultServerApplication
 
     /**
      * Initialize application.
-     * This involves setting up the phases, the ApplicationFrame and the DAG used to run phases. 
+     * This involves setting up the phases, the ApplicationFrame and the DAG used to run phases.
      *
      * @exception Exception if an error occurs
      */
