@@ -25,42 +25,41 @@ import org.apache.log.*;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.15 $ $Date: 2001/07/30 12:34:29 $
+ * @version CVS $Revision: 1.16 $ $Date: 2001/07/30 15:25:01 $
  */
 public class PatternFormatter
     implements Formatter
 {
-    private final static int           TYPE_TEXT            = 1;
-    private final static int           TYPE_CATEGORY        = 2;
-    private final static int           TYPE_CONTEXT         = 3;
-    private final static int           TYPE_MESSAGE         = 4;
-    private final static int           TYPE_TIME            = 5;
-    private final static int           TYPE_RELATIVE_TIME   = 6;
-    private final static int           TYPE_THROWABLE       = 7;
-    private final static int           TYPE_PRIORITY        = 8;
+    private final static int     TYPE_TEXT            = 1;
+    private final static int     TYPE_CATEGORY        = 2;
+    private final static int     TYPE_CONTEXT         = 3;
+    private final static int     TYPE_MESSAGE         = 4;
+    private final static int     TYPE_TIME            = 5;
+    private final static int     TYPE_RELATIVE_TIME   = 6;
+    private final static int     TYPE_THROWABLE       = 7;
+    private final static int     TYPE_PRIORITY        = 8;
 
     /**
      * The maximum value used for TYPEs. Subclasses can define their own TYPEs
      * starting at <code>MAX_TYPE + 1</code>.
      */
-    protected final static int         MAX_TYPE             = TYPE_PRIORITY;
+    protected final static int   MAX_TYPE               = TYPE_PRIORITY;
 
-    private final static String        TYPE_CATEGORY_STR      = "category";
-    private final static String        TYPE_CONTEXT_STR       = "context";
-    private final static String        TYPE_MESSAGE_STR       = "message";
-    private final static String        TYPE_TIME_STR          = "time";
-    private final static String        TYPE_RELATIVE_TIME_STR = "rtime";
-    private final static String        TYPE_THROWABLE_STR     = "throwable";
-    private final static String        TYPE_PRIORITY_STR      = "priority";
+    private final static String  TYPE_CATEGORY_STR      = "category";
+    private final static String  TYPE_CONTEXT_STR       = "context";
+    private final static String  TYPE_MESSAGE_STR       = "message";
+    private final static String  TYPE_TIME_STR          = "time";
+    private final static String  TYPE_RELATIVE_TIME_STR = "rtime";
+    private final static String  TYPE_THROWABLE_STR     = "throwable";
+    private final static String  TYPE_PRIORITY_STR      = "priority";
 
-    private final static String        SPACE_16               = "                ";
-    private final static String        SPACE_8                = "        ";
-    private final static String        SPACE_4                = "    ";
-    private final static String        SPACE_2                = "  ";
-    private final static String        SPACE_1                = " ";
+    private final static String  SPACE_16               = "                ";
+    private final static String  SPACE_8                = "        ";
+    private final static String  SPACE_4                = "    ";
+    private final static String  SPACE_2                = "  ";
+    private final static String  SPACE_1                = " ";
 
-    private final static String        EOL                    = 
-        System.getProperty( "line.separator", "\n" );
+    private final static String  EOL                    = System.getProperty( "line.separator", "\n" );
 
     protected static class PatternRun
     {
@@ -74,13 +73,17 @@ public class PatternFormatter
 
     private PatternRun                      m_formatSpecification[];
 
+    /**
+     * @deprecated Use constructor PatternFormatter(String pattern) as this does not 
+     *             correctly initialize object
+     */
     public PatternFormatter()
     {
     }
 
-    public PatternFormatter( final String format )
+    public PatternFormatter( final String pattern )
     {
-        setFormat( format );
+        parse( pattern );
     }
 
     /**
@@ -91,9 +94,9 @@ public class PatternFormatter
      * @param index the start of pattern run
      * @return the number of characters in pattern run
      */
-    protected int addPatternRun( final Stack stack,
-                                 final char pattern[],
-                                 int index )
+    private int addPatternRun( final Stack stack,
+                               final char pattern[],
+                               int index )
     {
         final PatternRun run = new PatternRun();
         final int start = index++;
@@ -193,9 +196,9 @@ public class PatternFormatter
      * @param index the start of the text run
      * @return the number of characters in run
      */
-    protected int addTextRun( final Stack stack,
-                              final char pattern[],
-                              int index )
+    private int addTextRun( final Stack stack,
+                            final char pattern[],
+                            int index )
     {
         final PatternRun run = new PatternRun();
         final int start = index;
@@ -236,11 +239,11 @@ public class PatternFormatter
      * @param rightJustify true if the string is to be right justified in it's box.
      * @param output the input string
      */
-    protected void append( final StringBuffer sb,
-                           final int minSize,
-                           final int maxSize,
-                           final boolean rightJustify,
-                           final String output )
+    private void append( final StringBuffer sb,
+                         final int minSize,
+                         final int maxSize,
+                         final boolean rightJustify,
+                         final String output )
     {
         final int size = output.length();
 
@@ -281,7 +284,7 @@ public class PatternFormatter
      * @param sb the StringBuffer
      * @param length the number of spaces to append
      */
-    protected void appendWhiteSpace( final StringBuffer sb, int length )
+    private void appendWhiteSpace( final StringBuffer sb, int length )
     {
         while( length >= 16 )
         {
@@ -524,7 +527,7 @@ public class PatternFormatter
      *
      * @param patternString the pattern
      */
-    protected void parse( final String patternString )
+    protected final void parse( final String patternString )
     {
         final Stack stack = new Stack();
         final int size = patternString.length();
@@ -552,7 +555,7 @@ public class PatternFormatter
 
         for( int i = 0; i < elementCount; i++ )
         {
-            m_formatSpecification[ i ] = (PatternRun) stack.elementAt( i );
+            m_formatSpecification[ i ] = (PatternRun)stack.elementAt( i );
         }
     }
 
