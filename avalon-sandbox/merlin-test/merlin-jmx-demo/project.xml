@@ -60,14 +60,14 @@
         </includes>
       </resource>
       <resource>
-        <directory>${maven.conf.dir}</directory>
+        <directory>${basedir}/conf</directory>
         <targetPath>BLOCK-INF</targetPath>
         <includes>
           <include>block.xml</include>
         </includes>
       </resource>
       <resource>
-        <directory>${maven.conf.dir}</directory>
+        <directory>${basedir}/conf</directory>
         <includes>
           <include>jndi.properties</include>
           <include>mbeans.mlet</include>

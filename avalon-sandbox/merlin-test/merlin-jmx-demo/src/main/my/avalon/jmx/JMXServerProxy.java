@@ -16,7 +16,9 @@ import javax.management.*;
  * @avalon.component version="1.0" name="jmx-server" lifestyle="singleton"
  * @avalon.service type="javax.management.MBeanServer"
  */
-public class JMXServerProxy extends AbstractLogEnabled implements Initializable, MBeanServer {
+public class JMXServerProxy extends AbstractLogEnabled 
+implements Initializable, MBeanServer 
+{
     private MBeanServer server_;
 
     /**

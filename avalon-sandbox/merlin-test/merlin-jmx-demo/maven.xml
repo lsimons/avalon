@@ -4,4 +4,10 @@
     <attainGoal name="avalon:meta"/>
   </preGoal>
 
+  <!--
+  <postGoal name="jar:jar">
+    <attainGoal name="merlin:deploy"/>
+  </preGoal>
+  -->
+
 </project>
