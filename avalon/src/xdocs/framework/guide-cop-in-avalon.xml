@@ -195,6 +195,13 @@ final Formatter formatter = (Formatter)selector.select( myURL );
           instantiate objects as well.  It takes an object (a hint), and returns the
           specific Component based on that hint.
         </p>
+
+	<note>
+	Discussions are currently taking place about the ComponentSelector interface and
+	concept. It might be deprecated at some point in the future. There are indications
+	that usage of the ComponentSelector is only required when an application is
+	badly designed.
+	</note>
       </s2>
       <s2 title="When you are done with the Component">
         <p>
@@ -272,11 +279,29 @@ finally
         </p>
       </s2>
     </s1>
+    <s1 title="The Container">
+    	<p>
+		The Container is the entity that manages your Components. It handles
+		things like loading of configuration files, resolution of dependencies,
+		component management, component isolation, and lifecycle support.
+	</p>
+	<p>
+		The Container is not formalized in the form of an interface or contract
+		within Avalon Framework, though it might be at some point in the future.
+		The informal contract for the container is that it has the ability to
+		host any fully avalon-framework compliant component. Most current containers
+		place additional requirments on the component.
+	</p>
+	<p>
+		For a list of containers implementations,
+		<link href="reference-containers.xml">look here</link>.
+	</p>
+    </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/05/03 10:19:53 $
+      $Revision: 1.2 $ $Date: 2002/07/14 13:42:14 $
     </legal>
   </footer>
 </document>

@@ -7,56 +7,119 @@
     <title>Avalon Framework - Containers</title>
     <authors>
       <person id="PH" name="Paul Hammant" email="Paul_Hammant@yahoo.com"/>
+      <person name="Leo Simons" email="leosimons@apache.org"/>
     </authors>
   </header>
   <body>
     <s1 title="Introduction">
-      <p> 
-        There are various container that are aware of the Avalon-Framework interfaces.  
-        They either support all or some of the interfaces.  They either add 
-        <link href="guide-patterns-ioc.html">Inversion-of-Control</link> type interfaces 
-        of their own constituting a specialized API, or do not, making them general 
-        containers.
-      </p>      
-    </s1>      
-    <s1 title="General Containers">
+      <p>
+        There are various containers that are aware of the Avalon Framework interfaces.
+	This is a sort-of comprehensive list.
+      </p>
+    </s1>
+    <s1 title="Standalone Containers">
       <p>
         These typically run from the command line and are launched via a legacy main() method.
       </p>
       <s2 title="Avalon Phoenix">
         <p>
-          This is a sister project to Avalon Framework.  It provides an environment 
-          for launching of more or less unrestricted server applications as hosted 
-          components.  These comps will be things like web-server, rdbms, EJB-server.
+          This is a sister project to Avalon Framework.  It provides an environment
+          for launching of multiple, isolate, more or less unrestricted server applications
+	  as hosted components.  These can be applications like a web server, RDBMS or
+	  EJB server. It provides many advanced features like automatic management, at the
+	  cost of a bit of complexity.
           See <link href="@PHOENIX_BASE@/index.html">Phoenix</link>.
         </p>
+
+	<p>
+	  Phoenix is the oldest of the Avalon Containers; it is probably the most powerful
+	  and most widely used. While still in alpha, this hints at the fact that we find it
+	  to be not completely future complete, rather than an infantile project.
+	</p>
       </s2>
+
+	<s2 title="Avalon Excalibur's Tweety">
+	<p>
+	Tweety is almost the opposite of Phoenix. It is a recent development and written
+	exclusively as a teaching tool. It has no features whatsoever besides basic support
+	for the avalon lifecycle. This results in a complete distribution the size of the
+	phoenix bootstrapper.
+	See <link href="@AVALON_BASE@/excalibur/tweety">Tweety</link>
+	</p>
+	</s2>
+
+	<s2 title="Myrmidon">
+	<p>
+	Myrmidon is a proposal for the kernel of
+	<link href="http://jakarta.apache.org/ant">Apache Ant</link> 2.
+	See <link href="http://cvs.apache.org/viewcvs.cgi/jakarta-ant/proposal/myrmidon/">Myrmidon</link>
+	</p>
+	</s2>
     </s1>
-    <s1 title="Specialized Containers">
+    <s1 title="Embedded Containers">
       <p>
-        These typically run inside something else and are launched by that something else.
+        These run inside another application (like a servlet engine) and are controlled by it.
       </p>
       <s2 title="Excalibur Component Manager">
         <p>
-          This is used by various applications like Cocoon. Cocoon is run inside the 
-          Sun specified servlet context of a web-app.  It is designed for such 
-          Servlet-context reuse.  See TODO.
+          This is used by various applications like Cocoon. Cocoon is run inside the
+          Sun specified servlet context of a web-app.  It is designed for such
+          Servlet-context reuse. ECM is the most stable of the containers (it is the
+	  only one with a stable release); it is also arguably the worst design.
+	  See <link href="@AVALON_BASE@/excalibur/component/">ECM</link>.
         </p>
+      </s2>
+      <s2 title="Fortress">
+        <p>
+          Fortress is ment as a future replacement of ECM. It fixes several of ECMs flaws
+	  like a mixup of concerns. It is built to be very extensible, and it includes
+	  support for custom lifecycle extensions. Fortress is still pre-alpha.
+	  See <link href="@AVALON_BASE@/excalibur/fortress/">Fortress</link>.
+        </p>
+      </s2>
+      <s2 title="Merlin">
+        <p>
+          Another recent development is Merlin, which has a client API very similar to
+	  Phoenix (applications that can run within phoenix can run within merlin as
+	  well). Merlin is still pre-alpha.
+	</p>
+	<p>
+	  See <link href="http://home.osm.net/doc/merlin/index.html">Merlin</link>.
+        </p>
+      </s2>
+      <s2 title="Plexus">
+        <p>
+          Plexus is a container under development that will become the basis of the
+	  services framework for a sister project to avalon,
+	  <link href="http://jakarta.apache.org/turbine">Turbine</link>.
+        </p>
+	<p>
+		See <link href="http://tambora.zenplex.org/cgi-bin/cvsweb.cgi/plexus/">Plexus</link>.
+	</p>
+	<note>
+	Plexus is being developed outside of avalon itself as an external project.
+	</note>
       </s2>
       <s2 title="Enterprise Object Broker (EOB)">
         <p>
-          The reference implementation of the EJB-replacement container runs on top of 
+          The reference implementation of this EJB-replacement container runs on top of
           Phoenix.  EOB supports a subset of the Avalon Framework interfaces but allows
           RPC publishing of arbitary interfaces apparent in a hosted components object
-          model.  See <link href="http://eob.sourceforge.net/">EOB</link>.
+          model.
         </p>
-      </s2>      
-    </s1>    
+	<p>
+		  See <link href="http://eob.sourceforge.net/">EOB</link>.
+	</p>
+	<note>
+	EOB is an being developed outside of avalon itself as an external project.
+	</note>
+      </s2>
+     </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/06/09 19:34:59 $
+      $Revision: 1.2 $ $Date: 2002/07/14 13:42:14 $
     </legal>
   </footer>
 </document>

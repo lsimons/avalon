@@ -44,7 +44,7 @@
         in software development and even more uncommon in auto-organized open
         source projects. The main goal of this project is to design a way for
         different projects to share resources avoiding as much as possible efforts
-        duplication. 
+        duplication.
       </p>
       <p>
         The Avalon Team are proud to announce a new whitepaper that covers how
@@ -58,11 +58,11 @@
       <p>
         There are several distinct sub-projects that together form the Avalon project:
       </p>
-      
+
       <s2 title="Framework">
         <p>
-          <link href="framework/index.html">Framework</link> provides a specification of 
-          design patterns and rules in the form of interfaces. Also provided are default 
+          <link href="framework/index.html">Framework</link> provides a specification of
+          design patterns and rules in the form of interfaces. Also provided are default
           implementations of those interfaces.
         </p>
         <p>
@@ -70,14 +70,14 @@
           a collection of code design patterns, rules, guidelines and suggestions on how to
           write software that "plugs" into the framework. The framework does not
           impose restrictions on the application that uses it, but rather precious guidelines to
-          help the developers reuse as much work they can from other solutions. 
+          help the developers reuse as much work they can from other solutions.
         </p>
       </s2>
 
       <s2 title="Excalibur">
         <p>
-          <link href="@EXCALIBUR_BASE@/index.html">Excalibur</link> is a collection of 
-          implementations and common code based on and implementing the 
+          <link href="@EXCALIBUR_BASE@/index.html">Excalibur</link> is a collection of
+          implementations and common code based on and implementing the
           <link href="framework/index.html">Avalon Framework</link>.
         </p>
       </s2>
@@ -87,16 +87,9 @@
           <link href="@PHOENIX_BASE@/index.html">Phoenix</link> is a server oriented
           Application Server. Applications and Services that conform to the framework
           rules can be hosted in Phoenix. The Application server manages the applications
-          classloader, security and logging needs. It also provides a JMX-based management 
+          classloader, security and logging needs. It also provides a JMX-based management
           facility.
         </p>
-      </s2>
-
-      <s2 title="LogKit">
-        <p>
-          <link href="@LOGKIT_BASE@/index.html">LogKit</link> is the preferred logging toolkit 
-          used by the Avalon subprojects.
-        </p> 
       </s2>
 
       <s2 title="Cornerstone">
@@ -104,45 +97,48 @@
           <link href="@CORNERSTONE_BASE@/index.html">Cornerstone</link> is a repository.
           for what we call <link href="@PHOENIX_BASE@/what-is-a-block.html">blocks</link>,
           which provide services vital to server applications. The blocks include blocks for
-          services such as scheduling and socket management. 
+          services such as scheduling and socket management.
         </p>
       </s2>
 
-      <s2 title="Testlet">
-        <note>
-      As of August 1, 2001 the Avalon Development Team has decided to
-      discontinue development of <link href="@TESTLET_BASE@/index.html">Testlet</link> in favor of the
-      <link href="http://www.junit.org">JUnit</link> testing framework.
-      We will continue to reference this project until all tests are
-      converted to JUnit TestCases.
-    </note>
-
-      </s2>
       <s2 title="Applications">
         <p>
-          <link href="@APPS_BASE@/index.html">Applications</link> is a repository of  
+          <link href="@APPS_BASE@/index.html">Applications</link> is a repository of
           Phoenix blocks.  Some are simple self-contained demos of Phoenix applications,
           others are complete standalone products, and a few are ambitious works in progress.
           If you are looking for a starting point for a Phoenix block or a complete server,
           then these applications could be good inspiration.
         </p>
       </s2>
+
+      <s2 title="LogKit">
+        <p>
+          <link href="@LOGKIT_BASE@/index.html">LogKit</link> is the preferred logging toolkit
+          used by the Avalon subprojects.
+
+	  <note>
+	  It is quite possible to use the other avalon subprojects without committing to logkit.
+	  We support log4j and JDK 1.4 logging as well.
+	  </note>
+        </p>
+      </s2>
+
     </s1>
-      
+
     <s1 title="Supporting Technologies">
         <p>
-           <link href="http://krysalis.org/"><img src="skin/images/centipede-logo-small.gif" alt="Krysalis Logo" border="0"/></link> 
-           <link href="http://xml.apache.org/cocoon/"><img src="skin/images/built-with-cocoon.gif" alt="Cocoon Logo" border="0"/></link> 
-           <link href="http://jakarta.apache.org/ant/"><img src="skin/images/ant_logo_small.gif" alt="Ant Logo" border="0"/></link> 
+           <link href="http://krysalis.org/"><img src="skin/images/centipede-logo-small.gif" alt="Krysalis Logo" border="0"/></link>
+           <link href="http://xml.apache.org/cocoon/"><img src="skin/images/built-with-cocoon.gif" alt="Cocoon Logo" border="0"/></link>
+           <link href="http://jakarta.apache.org/ant/"><img src="skin/images/ant_logo_small.gif" alt="Ant Logo" border="0"/></link>
         </p>
-      
+
     </s1>
     
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.13 $ $Date: 2002/07/13 10:04:00 $
+      $Revision: 1.14 $ $Date: 2002/07/14 13:42:14 $
     </legal>
   </footer>
 </document>
