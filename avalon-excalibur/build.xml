@@ -1,0 +1,48 @@
+<project default="main" basedir=".">
+
+  <target name="main" depends="mega-jar"/>
+
+  <target name="dist" description="Create binary distributions of all the products">
+
+    <ant dir="all"/>
+    <ant dir="cli"/>
+    <ant dir="extension"/>
+    <ant dir="i18n"/>
+    <ant dir="io"/>
+    <ant dir="naming"/>
+
+  </target>
+
+  <!-- Generate one mega jar-ball -->
+  <target name="mega-jar" description="Generate one large jar for all the products">
+
+    <ant dir="all" target="all"/>
+    <ant dir="cli" target="jar"/>
+    <ant dir="extension" target="jar"/>
+    <ant dir="i18n" target="jar"/>
+    <ant dir="io" target="jar"/>
+    <ant dir="naming" target="jar"/>
+   
+    <jlink compress="false" outfile="excalibur-all.jar">
+      <mergefiles>
+        <fileset dir=".">
+          <include name="*/build/lib/*.jar"/>
+        </fileset>
+      </mergefiles>
+    </jlink>
+
+  </target>
+
+  <target name="clean">
+
+    <ant dir="all" target="real-clean"/>
+    <ant dir="cli" target="real-clean"/>
+    <ant dir="extension" target="real-clean"/>
+    <ant dir="i18n" target="real-clean"/>
+    <ant dir="io" target="real-clean"/>
+    <ant dir="naming" target="real-clean"/>
+
+  </target>
+
+</project>
+
