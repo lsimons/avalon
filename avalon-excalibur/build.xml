@@ -25,8 +25,8 @@
         <ant dir="threadcontext" target="dist"/>
         <ant dir="sourceresolve" target="dist"/>
         <ant dir="monitor" target="dist"/>
-        <ant dir="store" target="dist"/>             
-        
+        <ant dir="store" target="dist"/>
+
         <!-- Sub projects with dependencies. -->
         <ant dir="pool" target="dist"/>               <!-- collections, concurrent, instrument -->
         <ant dir="thread" target="dist"/>             <!-- lang, instrument, threadcontext, pool -->
@@ -35,9 +35,7 @@
         <ant dir="util" target="dist"/>               <!-- component -->
         <ant dir="testcase" target="dist"/>           <!-- logger, component -->
         <ant dir="event" target="dist"/>              <!-- collections, concurrent, lang, pool, thread, util, event -->
-        <ant dir="instrument-manager" target="dist"/> <!-- altrmi, collections, instrument, logger, pool, component -->
-        <ant dir="instrument-client" target="dist"/>  <!-- instrument-manager -->
-        
+
 
         <ant dir="baxter" target="dist"/>
         <ant dir="bzip2" target="dist"/>
@@ -59,15 +57,13 @@
             <pathelement location="altrmi/src/java"/>
             <pathelement location="altrmi/src/test"/>
             <pathelement location="instrument/src/java"/>
+            <pathelement location="instrument/src/client"/>
+            <pathelement location="instrument/src/manager"/>
             <pathelement location="instrument/src/test"/>
             <pathelement location="concurrent/src/java"/>
             <pathelement location="concurrent/src/test"/>
             <pathelement location="collections/src/java"/>
             <pathelement location="collections/src/test"/>
-            <pathelement location="instrument-manager/src/java"/>
-            <pathelement location="instrument-manager/src/test"/>
-            <pathelement location="instrument-client/src/java"/>
-            <pathelement location="instrument-client/src/test"/>
             <pathelement location="baxter/src/java"/>
             <pathelement location="baxter/src/test"/>
             <pathelement location="bzip2/src/java"/>
@@ -165,8 +161,6 @@
         <ant dir="naming" target="dist-jar"/>
         <ant dir="monitor" target="dist-jar"/>
         <ant dir="altrmi" target="dist-jar"/>
-        <ant dir="instrument-manager" target="dist-jar"/>
-        <ant dir="instrument-client" target="dist-jar"/>
 
         <!-- Jump through hoops to avoid jlink size bug.  -->
 
@@ -203,8 +197,6 @@
                     <include name="monitor/dist/*.jar"/>
                     <include name="store/dist/*.jar"/>
                     <!-- These jars should not be in avalon-excalibur.jar as they are quite large.
-                    <include name="instrument-manager/dist/*.jar"/>
-                    <include name="instrument-client/dist/*.jar"/>
                     <include name="altrmi/dist/*.jar"/>
                     -->
                     <exclude name="*/dist/*a.jar"/> <!-- Exclude alpha quality jars -->
@@ -239,8 +231,8 @@
         <ant dir="threadcontext" target="jar"/>
         <ant dir="sourceresolve" target="jar"/>
         <ant dir="monitor" target="jar"/>
-        <ant dir="store" target="jar"/>              
-        
+        <ant dir="store" target="jar"/>
+
         <!-- Sub projects with dependencies. -->
         <ant dir="pool" target="jar"/>               <!-- collections, concurrent, instrument, sourceresolve -->
         <ant dir="datasource" target="jar"/>         <!-- pool -->
@@ -250,9 +242,7 @@
         <ant dir="util" target="jar"/>               <!-- component -->
         <ant dir="testcase" target="jar"/>           <!-- logger, component -->
         <ant dir="event" target="jar"/>              <!-- collections, concurrent, lang, pool, thread, util, event -->
-        <ant dir="instrument-manager" target="jar"/> <!-- altrmi, collections, instrument, logger, pool, component -->
-        <ant dir="instrument-client" target="jar"/>  <!-- instrument-manager -->
-        
+
         <ant dir="baxter" target="jar"/>
         <ant dir="bzip2" target="jar"/>
         <ant dir="cache" target="jar"/>
@@ -268,7 +258,7 @@
             <mergefiles>
                 <fileset dir=".">
                     <include name="*/build/lib/*.jar"/>
-                    <include name="altrmi/**"/>                    
+                    <include name="altrmi/**"/>
                 </fileset>
             </mergefiles>
         </jlink>
@@ -287,26 +277,24 @@
 
     <!-- Generate all docs -->
     <target name="docs" description="Generate all the docs">
-	<ant dir="site" target="docs"/>
-	<!--
+    <ant dir="site" target="docs"/>
+    <!--
         <ant dir="fortress" target="docs"/>
         <ant dir="instrument" target="docs"/>
-        <ant dir="instrument-client" target="docs"/>
-        <ant dir="instrument-manager" target="docs"/>
-        <ant dir="altrmi" target="docs"/> 
+        <ant dir="altrmi" target="docs"/>
         <ant dir="baxter" target="docs"/>
         <ant dir="bzip2" target="docs"/>
-        <ant dir="cache" target="docs"/> 
+        <ant dir="cache" target="docs"/>
         <ant dir="cli" target="docs"/>
-        <ant dir="collections" target="docs"/> 
-        <ant dir="component" target="docs"/>  
-        <ant dir="concurrent" target="docs"/>  
+        <ant dir="collections" target="docs"/>
+        <ant dir="component" target="docs"/>
+        <ant dir="concurrent" target="docs"/>
         <ant dir="datasource" target="docs"/>
-        <ant dir="event" target="docs"/>  
+        <ant dir="event" target="docs"/>
         <ant dir="extension" target="docs"/>
-        <ant dir="extension" target="docs"/> 
-        <ant dir="i18n" target="docs"/> 
-        <ant dir="io" target="docs"/> 
+        <ant dir="extension" target="docs"/>
+        <ant dir="i18n" target="docs"/>
+        <ant dir="io" target="docs"/>
         <ant dir="threadcontext" target="docs"/>
         <ant dir="logger" target="docs"/>
         <ant dir="monitor" target="docs"/>
@@ -327,38 +315,36 @@
     <target name="site" depends="mega-jar" description="Generate all the docs for site">
 
         <ant dir="site" target="site"/>
-    
-        <!-- 
+
+        <!--
           All have to be compiled in correct dependancy order first as the javadocs
           targets require copiled classes as sanity check.  The compilation must
           be done in the correct for thesake of dependancies.  However, the 'site'
-          targets invoked below are alphabetical because compilations havealready 
+          targets invoked below are alphabetical because compilations havealready
           been done.
         -->
-            
+
         <!--<ant dir="fortress" target="site"/> -->
         <!--<ant dir="instrument" target="site"/>  -->
-        <!--<ant dir="instrument-client" target="site"/-->  <!-- depends on instrument-manager -->
-		<!--<ant dir="instrument-manager" target="site"/>  --> <!-- depends on instrument, all -->
-		<!--
-        <ant dir="altrmi" target="site"/> 
+        <!--
+        <ant dir="altrmi" target="site"/>
         <ant dir="baxter" target="site"/>
         <ant dir="bzip2" target="site"/>
         <ant dir="cache" target="site"/>
         <ant dir="cli" target="site"/>
-        <ant dir="collections" target="site"/> 
+        <ant dir="collections" target="site"/>
         <ant dir="component" target="site"/>
-        <ant dir="concurrent" target="site"/>  
+        <ant dir="concurrent" target="site"/>
         <ant dir="datasource" target="site"/>
-        <ant dir="event" target="site"/>  
+        <ant dir="event" target="site"/>
         <ant dir="extension" target="site"/>
-        <ant dir="extension" target="site"/> 
-        <ant dir="i18n" target="site"/> 
-        <ant dir="io" target="site"/> 
+        <ant dir="extension" target="site"/>
+        <ant dir="i18n" target="site"/>
+        <ant dir="io" target="site"/>
         <ant dir="threadcontext" target="site"/>
         <ant dir="logger" target="site"/>
         <ant dir="monitor" target="site"/>
-        <ant dir="naming" target="site"/> 
+        <ant dir="naming" target="site"/>
         <ant dir="pool" target="site"/>
         <ant dir="sourceresolve" target="site"/>
         <ant dir="store" target="site"/>
@@ -367,12 +353,12 @@
         <ant dir="thread" target="site"/>
         <ant dir="util" target="site"/>
         <ant dir="xmlbundle" target="site"/>
-        <ant dir="zip" target="site"/>               
-	-->
+        <ant dir="zip" target="site"/>
+    -->
     </target>
 
     <!-- Generate all docs -->
-    <target name="site-docs" depends="site" description="Generate all the docs for site and Copy to site CVS">    
+    <target name="site-docs" depends="site" description="Generate all the docs for site and Copy to site CVS">
         <ant dir="site" target="site-docs"/>
     </target>
 
@@ -389,15 +375,13 @@
         <ant dir="component" target="real-clean"/>
         <ant dir="concurrent" target="real-clean"/>
         <ant dir="datasource" target="real-clean"/>
-        <ant dir="event" target="real-clean"/>  
+        <ant dir="event" target="real-clean"/>
         <ant dir="extension" target="real-clean"/>
         <ant dir="fortress" target="real-clean"/>
         <ant dir="i18n" target="real-clean"/>
         <ant dir="instrument" target="real-clean"/>
-        <ant dir="instrument-client" target="real-clean"/>
-        <ant dir="instrument-manager" target="real-clean"/>
         <ant dir="io" target="real-clean"/>
-        <ant dir="logger" target="real-clean"/>        
+        <ant dir="logger" target="real-clean"/>
         <ant dir="monitor" target="real-clean"/>
         <ant dir="naming" target="real-clean"/>
         <ant dir="pool" target="real-clean"/>
@@ -410,7 +394,7 @@
         <ant dir="threadcontext" target="real-clean"/>
         <ant dir="util" target="real-clean"/>
         <ant dir="xmlbundle" target="real-clean"/>
-        <ant dir="zip" target="real-clean"/>   
+        <ant dir="zip" target="real-clean"/>
 
     </target>
 
