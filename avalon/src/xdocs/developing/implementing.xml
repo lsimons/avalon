@@ -109,7 +109,8 @@ implements DocumentRepository , Configurable, Composable, Initializable,
      */
     public final void configure(Configuration conf)
     throws ConfigurationException {
-        if (!initialized || disposed) {
+        if (initialized || disposed) {
+	
             throw new IllegalStateException ("Illegal call");
         }
 
@@ -152,7 +153,7 @@ implements DocumentRepository , Configurable, Composable, Initializable,
     }
 
     public final Document getDocument(Principal requestor, int refId) {
-        if (initialized || disposed) {
+        if (!initialized || disposed) {
             throw new IllegalStateException("Illegal call");
         }
 
