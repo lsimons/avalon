@@ -15,20 +15,36 @@ import java.security.Permissions;
 import java.security.Policy;
 
 /**
- * Classloader that applies correct policy information.
+ * Classloader that uses a specified <code>Policy</code> object
+ * rather than system <code>Policy</code> object.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class PolicyClassLoader
     extends URLClassLoader
 {
-    private Policy      m_policy;
+    ///Policy to use to define permissions for classes loaded in classloader
+    private final Policy  m_policy;
 
+    /**
+     * Construct a ClassLoader using specified URLs, parent 
+     * ClassLoader and Policy object.
+     *
+     * @param urls the URLs to load resources from
+     * @param classLoader the parent ClassLoader
+     * @param policy the Policy object
+     */
     public PolicyClassLoader( final URL[] urls,
                               final ClassLoader classLoader,
                               final Policy policy )
     {
         super( urls, classLoader );
+
+        if( null == policy )
+        {
+            throw new NullPointerException( "policy" );
+        }
+
         m_policy = policy;
     }
 
@@ -41,15 +57,6 @@ public class PolicyClassLoader
      */
     protected PermissionCollection getPermissions( final CodeSource codeSource )
     {
-        if( null == m_policy )
-        {
-            final Permissions permissions = new Permissions();
-            permissions.add( new java.security.AllPermission() );
-            return permissions;
-        }
-        else
-        {
-            return m_policy.getPermissions( codeSource );
-        }
+        return m_policy.getPermissions( codeSource );
     }
 }
