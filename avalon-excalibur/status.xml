@@ -17,8 +17,12 @@
     <person name="Vadim Gritsenko" email="vgritsenko@apache.org" id="VG"/>
   </devs>
   <release version="@version@" date="@date@">
+    <action dev="VG" type="fix">
+      Fix Jisp based persistent store: close database and index files on shutdown
+      and re-use existing files on startup.
+    </action>
     <action dev="VG" type="add">
-      Added Saxon XPath processors to the xmlutil
+      Added Saxon XPath processors to the xmlutil.
     </action>
     <action dev="PR" type="fix">
       Fixing proxy-based datasource code.

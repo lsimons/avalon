@@ -56,10 +56,12 @@ import com.coyotegulch.jisp.BTreeIndex;
 import com.coyotegulch.jisp.IndexedObjectDatabase;
 import com.coyotegulch.jisp.KeyNotFound;
 
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.excalibur.store.Store;
 
 /**
  * This store is based on the Jisp library
@@ -68,12 +70,13 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  *
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: JispFilesystemStore.java,v 1.2 2003/07/14 19:06:08 cziegeler Exp $
+ * @version CVS $Id: JispFilesystemStore.java,v 1.3 2003/08/12 15:55:34 vgritsenko Exp $
  */
 public class JispFilesystemStore extends AbstractJispFilesystemStore
-    implements org.apache.excalibur.store.Store,
+    implements Store,
                ThreadSafe,
-               Parameterizable {
+               Parameterizable,
+               Disposable {
 
     /**
      *  Configure the Component.<br>
@@ -122,18 +125,22 @@ public class JispFilesystemStore extends AbstractJispFilesystemStore
             getLogger().debug("Initializing JispFilesystemStore");
         }
 
-        try {
+        try
+        {
             final boolean isOld = databaseFile.exists();
             if (getLogger().isDebugEnabled()) 
             {
                 getLogger().debug("initialize(): Datafile exists: " + isOld);
             }
 
-            m_Index = new BTreeIndex(indexFile.toString(),
-                                      order, super.getNullKey(), false);
+            if (!isOld) {
+                m_Index = new BTreeIndex(indexFile.toString(),
+                                         order, super.getNullKey(), false);
+            } else {
+                m_Index = new BTreeIndex(indexFile.toString());
+            }
             m_Database = new IndexedObjectDatabase(databaseFile.toString(), !isOld);
             m_Database.attachIndex(m_Index);
-
         } 
         catch (KeyNotFound ignore) 
         {
@@ -144,4 +151,25 @@ public class JispFilesystemStore extends AbstractJispFilesystemStore
         }
     }
 
+    public void dispose()
+    {
+        try
+        {
+            getLogger().debug("Disposing");
+
+            if (m_Index != null)
+            {
+                m_Index.close();
+            }
+
+            if (m_Database != null)
+            {
+                m_Database.close();
+            }
+        }
+        catch (Exception e) 
+        {
+            getLogger().error("dispose(..) Exception", e);
+        }
+    }
 }

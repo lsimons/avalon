@@ -63,7 +63,7 @@ import com.coyotegulch.jisp.KeyObject;
  * IT'S NOT FINISHED YET, PLEASE DON'T USE IT !!!!
  * 
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Id: JispKey.java,v 1.3 2003/07/14 18:17:23 cziegeler Exp $
+ * @version CVS $Id: JispKey.java,v 1.4 2003/08/12 15:55:34 vgritsenko Exp $
  */
 public final class JispKey extends KeyObject 
 {
@@ -181,6 +181,3 @@ public final class JispKey extends KeyObject
         return m_Key;
     }
 }
-
-
-
