@@ -6,5 +6,5 @@ avalon-logging-spi
 avalon-logging-impl
 avalon-util-criteria
 avalon-util-i18n
-excalibur-configuration
+avalon-util-configuration
 log4j

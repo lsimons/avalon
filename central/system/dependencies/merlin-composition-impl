@@ -16,5 +16,5 @@ avalon-repository-spi
 avalon-logging-api
 avalon-logging-spi
 avalon-logging-impl
-excalibur-configuration
+avalon-util-configuration
 excalibur-lifecycle-api
