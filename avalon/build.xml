@@ -44,9 +44,9 @@ Legal:
   <property name="build.src" value="${build.dir}/src"/>
   <property name="build.classes" value="${build.dir}/classes"/>
   <property name="build.javadocs" value="${build.dir}/javadocs"/>
+  <property name="build.docs" value="${build.dir}/docs"/>
   <property name="build.testdocs" value="${build.docs}/test"/>
   <property name="build.reports" value="${build.dir}/reports"/>
-  <property name="build.docs" value="${build.dir}/docs"/>
   <property name="build.context" value="${build.dir}/documentation"/>
 
   <!-- Set the properties for source directories -->
