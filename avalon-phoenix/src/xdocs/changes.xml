@@ -61,7 +61,7 @@
     </action>
     <action dev="PD" type="change">
         Moved the default location of DTDs to be based in directory
-        http://jakarta.apache.org/avalon/dtds/phoenix/* rather than
+        http://avalon.apache.org/dtds/phoenix/* rather than
         http://jakarta.apache.org/phoenix/*. Old style DTD URIs are
         still supported.
     </action>

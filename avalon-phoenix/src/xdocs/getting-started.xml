@@ -17,7 +17,7 @@
     This document provides developers with simple documentation for getting
     started with Phoenix. For information about the overall structure of
     Avalon Framework (on which Phoenix is based), please refer to the
-    <a href="http://jakarta.apache.org/avalon/framework/index.html">Framework documentation</a>.
+    <a href="http://avalon.apache.org/framework/index.html">Framework documentation</a>.
 </p>
 
 <p>
@@ -57,8 +57,8 @@
 <p>
     Firstly you will need to get the demo-helloword.sar file and drop it into
     the apps directory of Phoenix.  Get it from <a href="TODO">TODO</a> or build
-    it from its CVS - <a href="http://cvs.apache.org/viewcvs/jakarta-avalon-apps/demo/">
-    http://cvs.apache.org/viewcvs/jakarta-avalon-apps/demo/</a>.
+    it from its CVS - <a href="http://cvs.apache.org/viewcvs/avalon-apps/demo/">
+    http://cvs.apache.org/viewcvs/avalon-apps/demo/</a>.
 </p>
 <p>
     Then fire up phoenix with the following command:
@@ -111,7 +111,7 @@
 </p>
 <p>
     The Phoenix development kit originates in Phoenix's CVS, but for convenience is downloadable
-    from <a href="TODO">TODO</a>.  When you have that file, unzip it and immediately launch
+    from <a href="http://avalon.apache.org/bindownload.cgi">here</a>.  When you have that file, unzip it and immediately launch
     ant to make the jars and sars.  There are four:
     <ol>
       <li>phoenix-demo.sar - the server app in Phoenix form</li>

@@ -76,7 +76,7 @@ public class FtpServerImpl extends AbstractLogEnabled
                 <source><![CDATA[
 <?xml version="1.0"?>
 <!DOCTYPE mxinfo PUBLIC "-//PHOENIX/Mx Info DTD Version 1.0//EN"
-                  "http://jakarta.apache.org/avalon/dtds/phoenix/mxinfo_1_0.dtd">
+                  "http://avalon.apache.org/dtds/phoenix/mxinfo_1_0.dtd">
 
 <mxinfo>
 
