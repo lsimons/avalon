@@ -31,7 +31,7 @@ public class DefaultConnectionManager
     extends AbstractLogEnabled
     implements ConnectionManager, Serviceable, Disposable
 {
-    private HashMap m_connections = new HashMap();
+    private final HashMap m_connections = new HashMap();
     private ThreadManager m_threadManager;
 
     /**
@@ -54,7 +54,8 @@ public class DefaultConnectionManager
             }
             catch( final Exception e )
             {
-                getLogger().warn( "Error disconnecting " + names[ i ], e );
+                final String message = "Error disconnecting " + names[ i ];
+                getLogger().warn( message, e );
             }
         }
     }
@@ -70,16 +71,16 @@ public class DefaultConnectionManager
      * @param threadPool the thread pool to use
      * @exception Exception if an error occurs
      */
-    public void connect( String name,
-                         ServerSocket socket,
-                         ConnectionHandlerFactory handlerFactory,
-                         ThreadPool threadPool )
+    public synchronized void connect( String name,
+                                      ServerSocket socket,
+                                      ConnectionHandlerFactory handlerFactory,
+                                      ThreadPool threadPool )
         throws Exception
     {
         if( null != m_connections.get( name ) )
         {
-            throw new IllegalArgumentException( "Connection already exists with name " +
-                                                name );
+            final String message = "Connection already exists with name " + name;
+            throw new IllegalArgumentException( message );
         }
 
         //Make sure timeout is specified for socket.
@@ -88,7 +89,8 @@ public class DefaultConnectionManager
             socket.setSoTimeout( 500 );
         }
 
-        final Connection runner = new Connection( socket, handlerFactory, threadPool );
+        final Connection runner =
+            new Connection( socket, handlerFactory, threadPool );
         setupLogger( runner );
         m_connections.put( name, runner );
         threadPool.execute( runner );
@@ -133,14 +135,15 @@ public class DefaultConnectionManager
      * @param tearDown if true will forcefully tear down all handlers
      * @exception Exception if an error occurs
      */
-    public void disconnect( final String name, final boolean tearDown )
+    public synchronized void disconnect( final String name, final boolean tearDown )
         throws Exception
     {
         final Connection connection = (Connection)m_connections.remove( name );
         if( null == connection )
         {
-            throw new IllegalArgumentException( "No such connection with name " +
-                                                name );
+            final String message =
+                "No such connection with name " + name;
+            throw new IllegalArgumentException( message );
         }
 
         //TODO: Stop ignoring tearDown
