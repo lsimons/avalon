@@ -53,12 +53,12 @@ package org.apache.avalon.excalibur.thread.impl;
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.excalibur.pool.Pool;
 import org.apache.avalon.excalibur.thread.ThreadPool;
+import org.apache.avalon.excalibur.thread.ThreadControl;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Executable;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.excalibur.thread.ThreadControl;
 import org.apache.excalibur.thread.impl.AbstractThreadPool;
 import org.apache.excalibur.thread.impl.WorkerThread;
 import org.apache.excalibur.threadcontext.ThreadContext;
@@ -192,7 +192,9 @@ class BasicThreadPool
      */
     public ThreadControl execute( final Executable work )
     {
-        return execute( new ExecutableExecuteable( work ) );
+        return
+            new WrappedThreadControl(
+                execute( new ExecutableExecuteable( work ) ) );
     }
 
     /**

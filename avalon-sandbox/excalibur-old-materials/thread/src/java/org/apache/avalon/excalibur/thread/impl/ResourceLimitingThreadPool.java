@@ -71,7 +71,7 @@ import org.apache.excalibur.threadcontext.ThreadContext;
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.12 $ $Date: 2003/02/07 16:08:55 $
+ * @version CVS $Revision: 1.13 $ $Date: 2003/03/04 14:34:38 $
  * @since 4.1
  */
 public class ResourceLimitingThreadPool
@@ -289,9 +289,9 @@ public class ResourceLimitingThreadPool
      * @param work the work to be executed.
      * @return the ThreadControl
      */
-    public ThreadControl execute( final Executable work )
+    public org.apache.avalon.excalibur.thread.ThreadControl execute( final Executable work )
     {
-        return m_pool.execute( work );
+        return new WrappedThreadControl( m_pool.execute( work ) );
     }
 
     /**

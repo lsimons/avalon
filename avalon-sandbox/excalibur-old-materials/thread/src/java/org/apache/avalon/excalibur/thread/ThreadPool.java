@@ -51,7 +51,6 @@
 package org.apache.avalon.excalibur.thread;
 
 import org.apache.avalon.framework.activity.Executable;
-import org.apache.excalibur.thread.ThreadControl;
 
 /**
  * This class is the public frontend for the thread pool code.

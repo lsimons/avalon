@@ -53,6 +53,7 @@ package org.apache.avalon.excalibur.thread.impl;
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.excalibur.pool.SoftResourceLimitingPool;
 import org.apache.avalon.excalibur.thread.ThreadPool;
+import org.apache.avalon.excalibur.thread.ThreadControl;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Executable;
 import org.apache.avalon.framework.container.ContainerUtil;
@@ -60,7 +61,6 @@ import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.excalibur.thread.ThreadControl;
 import org.apache.excalibur.threadcontext.ThreadContext;
 
 /**
@@ -148,7 +148,8 @@ public class DefaultThreadPool
      */
     public ThreadControl execute( final Executable work )
     {
-        return m_pool.execute( work );
+        return new WrappedThreadControl(
+            m_pool.execute( new ExecutableExecuteable( work ) ) );
     }
 
     /**
@@ -158,7 +159,7 @@ public class DefaultThreadPool
      * @param work the work to be executed.
      * @return the ThreadControl
      */
-    public ThreadControl execute( final Runnable work )
+    public org.apache.excalibur.thread.ThreadControl execute( final Runnable work )
     {
         return m_pool.execute( work );
     }
@@ -170,7 +171,7 @@ public class DefaultThreadPool
      * @param work the work to be executed.
      * @return the ThreadControl
      */
-    public ThreadControl execute( final org.apache.excalibur.thread.Executable work )
+    public org.apache.excalibur.thread.ThreadControl execute( final org.apache.excalibur.thread.Executable work )
     {
         return m_pool.execute( work );
     }
