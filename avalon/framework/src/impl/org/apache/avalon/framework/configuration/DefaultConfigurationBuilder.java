@@ -100,7 +100,7 @@ import org.xml.sax.XMLReader;
  * </p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.29 $ $Date: 2003/06/11 14:13:36 $
+ * @version CVS $Revision: 1.30 $ $Date: 2003/06/16 16:53:00 $
  */
 public class DefaultConfigurationBuilder
 {
@@ -243,7 +243,7 @@ public class DefaultConfigurationBuilder
      * supplying a systemId to make messages about all
      * kinds of errors more meaningfull.
      * @param inputStream an <code>InputStream</code> value
-     * @param the systemId to set on the intermediate sax
+     * @param systemId the systemId to set on the intermediate sax
      *         inputSource
      * @return a <code>Configuration</code> object
      * @throws SAXException if a parsing error occurs
