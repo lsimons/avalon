@@ -48,6 +48,7 @@
 namespace Apache.Avalon.Castle.ManagementExtensions
 {
 	using System;
+	using System.IO;
 	using System.Collections;
 	using System.Configuration;
 	using System.Security.Policy;
@@ -116,9 +117,11 @@ namespace Apache.Avalon.Castle.ManagementExtensions
 				
 				AppDomain currentDomain = AppDomain.CurrentDomain;
 
+				String baseDir = new FileInfo(currentDomain.BaseDirectory).FullName;
+
 				String configFile =  String.Format(
-					"{0}{1}.config", 
-					currentDomain.BaseDirectory, domain); 
+					"{0}/{1}.config", 
+					baseDir, domain); 
 
 				AppDomainSetup setup = new AppDomainSetup();
 
