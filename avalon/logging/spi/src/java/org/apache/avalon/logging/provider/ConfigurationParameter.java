@@ -15,16 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.logging.logkit;
+package org.apache.avalon.logging.provider;
 
 import java.io.File;
 import java.net.URL;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 
 import org.apache.avalon.util.criteria.Parameter;
 import org.apache.avalon.util.criteria.CriteriaException;
@@ -34,19 +31,16 @@ import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * A parameter descriptor that supports transformation of a 
- * a string url or file to a configuration instance.
+ * a string url to an URL instance.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.1 $
  */
 public class ConfigurationParameter extends Parameter
 {
     //--------------------------------------------------------------
     // static
     //--------------------------------------------------------------
-
-    private static final DefaultConfigurationBuilder BUILDER =
-      new DefaultConfigurationBuilder();
 
     private static final Resources REZ =
       ResourceManager.getPackageResources( ConfigurationParameter.class );
@@ -60,10 +54,9 @@ public class ConfigurationParameter extends Parameter
     * @param key the parameter key
     * @param defaults the default string array
     */
-    public ConfigurationParameter( 
-      final String key, final Configuration defaults ) 
+    public ConfigurationParameter( final String key ) 
     {
-        super( key, Configuration.class, defaults );
+        super( key, URL.class );
     }
 
    /**
@@ -74,26 +67,20 @@ public class ConfigurationParameter extends Parameter
     public Object resolve( Object value ) 
       throws CriteriaException
     {
-        if( value == null ) return null;
-        if( value instanceof Configuration )
+        if( value == null ) 
+            return null;
+        if( value instanceof URL )
         {
             return value;
         }
         if( value instanceof String )
         {
-            try
-            {
-                return resolve( super.resolve( File.class, value ) );
-            }
-            catch( CriteriaException ce )
-            {
-                return resolve( super.resolve( URL.class, value ) );
-            }
+            return resolve( super.resolve( URL.class, value ) );
         }
         else if( value instanceof File )
         {
             File file = (File) value;
-            if( !file.exists() )
+            if( ! file.exists() )
             {
                 final String error = 
                   REZ.getString( 
@@ -104,8 +91,7 @@ public class ConfigurationParameter extends Parameter
 
             try
             {
-                String path = file.toURL().toString();
-                return BUILDER.build( path );
+                return file.toURL();
             }
             catch( Throwable e )
             {
@@ -116,28 +102,12 @@ public class ConfigurationParameter extends Parameter
                 throw new CriteriaException( error );
             }
         }
-        else if( value instanceof URL )
-        {
-            try
-            {
-                String path = value.toString();
-                return BUILDER.build( path );
-            }
-            catch( Throwable e )
-            {
-                final String error = 
-                  REZ.getString( 
-                    "parameter.configuration.url.error", 
-                    value.toString() );
-                throw new CriteriaException( error );
-            }
-        }
         else
         {
             final String error = 
               REZ.getString( 
                 "parameter.unknown", 
-                value.getClass().getName(), Configuration.class.getName() );
+                value.getClass().getName(), URL.class.getName() );
             throw new CriteriaException( error );
         }
     }

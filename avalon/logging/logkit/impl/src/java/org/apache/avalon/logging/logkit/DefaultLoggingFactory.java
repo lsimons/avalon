@@ -18,6 +18,8 @@
 package org.apache.avalon.logging.logkit;
 
 import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -27,12 +29,12 @@ import java.lang.reflect.InvocationTargetException ;
 import java.lang.reflect.Method ;
 
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 
+import org.apache.avalon.logging.provider.ConsoleLogger;
 import org.apache.avalon.logging.provider.LoggingCriteria;
 import org.apache.avalon.logging.provider.LoggingFactory;
 import org.apache.avalon.logging.provider.LoggingException;
@@ -114,7 +116,7 @@ public class DefaultLoggingFactory implements LoggingFactory
     */
     public LoggingCriteria createDefaultLoggingCriteria()
     {
-        return new DefaultLoggingCriteria( m_context );
+        return new LoggingCriteria( m_context );
     }
 
    /**
@@ -184,7 +186,24 @@ public class DefaultLoggingFactory implements LoggingFactory
         // and bootstrap logger and setup the primary managers
         //
 
-        final Configuration config = criteria.getConfiguration();
+        DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+        
+        URL configURL = criteria.getLoggingConfiguration();
+        Configuration config;
+        if( configURL != null )
+        {
+            config = builder.build( configURL.toExternalForm() );
+        }
+        else
+        {
+            InputStream defaultConf = 
+              getClass().getClassLoader().
+                getResourceAsStream( 
+                  "org/apache/avalon/logging/logkit/default-logging.xml" 
+                );
+            config = builder.build( defaultConf );
+        }
+        
         m_logger = setUpBootstrapLogger( criteria, config );
         m_basedir = criteria.getBaseDirectory();
 

@@ -27,11 +27,6 @@ import java.lang.reflect.InvocationTargetException ;
 import java.lang.reflect.Method ;
 
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.DefaultConfiguration;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 
 import org.apache.avalon.logging.provider.LoggingCriteria;
 import org.apache.avalon.logging.provider.LoggingException;
@@ -48,7 +43,6 @@ import org.apache.avalon.repository.provider.Factory;
 
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.excalibur.configuration.ConfigurationUtil;
 
 import org.apache.log.LogTarget;
 import org.apache.log.output.io.StreamTarget;
