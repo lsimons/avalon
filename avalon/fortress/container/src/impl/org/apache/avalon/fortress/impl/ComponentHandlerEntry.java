@@ -13,8 +13,8 @@ import org.apache.avalon.fortress.impl.handler.ComponentHandler;
  * This is the impl of runtime information about a
  * ComponentHandler.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/27 16:55:41 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.2 $ $Date: 2003/02/07 16:08:11 $
  */
 class ComponentHandlerEntry
 {

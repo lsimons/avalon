@@ -59,8 +59,8 @@ import org.apache.avalon.fortress.RoleEntry;
  * This is the default implementation of {@link org.apache.avalon.fortress.Container},
  * adding configuration markup semantics to the {@link AbstractContainer}.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/01/27 17:48:49 $
+ * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/07 16:08:11 $
  */
 public class DefaultContainer
     extends AbstractContainer

@@ -14,7 +14,7 @@ import java.lang.reflect.Method;
 /**
  * InvocationHandler that just passes on all methods to target object.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 final class PassThroughInvocationHandler
     implements InvocationHandler

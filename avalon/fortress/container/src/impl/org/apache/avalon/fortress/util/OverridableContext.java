@@ -56,8 +56,8 @@ import org.apache.avalon.framework.context.DefaultContext;
  * The OverridableContext allows you to "null" out entries, even if they are
  * in a parent context.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/27 16:55:43 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/07 16:08:12 $
  */
 public final class OverridableContext
     extends DefaultContext

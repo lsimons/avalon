@@ -92,8 +92,8 @@ import org.apache.excalibur.mpool.PoolManager;
  * It exposes a protected getServiceManager() method so that the
  * Container's Manager can expose that to the instantiating class.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/02/05 19:00:52 $
+ * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
+ * @version CVS $Revision: 1.9 $ $Date: 2003/02/07 16:08:01 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled

@@ -13,8 +13,8 @@ import org.apache.excalibur.mpool.ObjectFactory;
  * An ObjectFactory that delegates to another ObjectFactory
  * and proxies results of that factory.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/27 16:55:41 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.2 $ $Date: 2003/02/07 16:08:12 $
  */
 public class ProxyObjectFactory
     implements ObjectFactory

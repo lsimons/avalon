@@ -100,8 +100,8 @@ package org.apache.avalon.fortress;
  * </code>
  * </pre>
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/27 16:55:40 $
+ * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/07 16:08:01 $
  * @see ContainerManagerConstants for the contract surrounding the ContainerManager context
  */
 public interface ContainerManager
