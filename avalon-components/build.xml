@@ -19,7 +19,7 @@
   <property name="build.deprecation" value="off"/>
 
   <!-- Set the installation variables for Cornerstone/Phoenix -->
-  <property name="phoenix.home" value="../jakarta-avalon-phoenix/dist"/>
+  <property name="phoenix.home" value="../avalon-phoenix/dist"/>
   <property name="install.dir" value="${phoenix.home}"/>
 
   <!-- Set the properties for intermediate directory -->
@@ -40,9 +40,9 @@
   <property name="test.dir" value="${src.dir}/test"/>
   <property name="manifest.dir" value="${src.dir}/manifest"/>
   <property name="conf.dir" value="${src.dir}/conf"/>
-  <property name="tools.dir" location="../jakarta-avalon/tools"/>
+  <property name="tools.dir" location="../avalon/tools"/>
   <property name="docs.dir" value="docs"/>
-  <property name="www.dir" value="../jakarta-avalon-site/docs/cornerstone"/>
+  <property name="www.dir" value="../avalon-site/docs/cornerstone"/>
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>
   <property name="jakarta-site.dir" value="../jakarta-site"/>
 
@@ -132,9 +132,13 @@
                unless="DocumentBuilderFactory.present" />
       <exclude name="org/apache/avalon/cornerstone/blocks/sax/**.java"
                unless="SAXParserFactory.present" />
+      <exclude name="org/apache/avalon/cornerstone/blocks/masterstore/xml/XMLFilePersistentObjectRepository.java"
+               unless="LTPJB.present" />
       <exclude name="org/apache/avalon/cornerstone/services/sax/**.java"
                unless="SAXParserFactory.present" />
       <exclude name="org/apache/avalon/cornerstone/services/channels/*.java"
+               unless="nio.present" />
+      <exclude name="org/apache/avalon/cornerstone/blocks/channels/*.java"
                unless="nio.present" />
     </javac>
   </target>
