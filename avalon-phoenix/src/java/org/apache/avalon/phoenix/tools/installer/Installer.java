@@ -469,7 +469,10 @@ public class Installer
      * @param digests the digests for the expanded files.
      * @exception IOException if an error occurs
      */
-    private void expandZipEntry( final ZipFile zipFile, final ZipEntry entry, final File file, final ArrayList digests )
+    private void expandZipEntry( final ZipFile zipFile, 
+                                 final ZipEntry entry, 
+                                 final File file, 
+                                 final ArrayList digests )
         throws InstallationException
     {        
         if( entry.isDirectory() ) return;
