@@ -80,7 +80,7 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Test
 		public void TestServerCreation()
 		{
 			MConnectorServer serverConn = 
-					   MConnectorServerFactory.CreateServer( "provider:http:binary:test.rem", null, server );
+					   MConnectorServerFactory.CreateServer( "provider:http:binary:test.rem", null, null );
 
 			AssertNotNull( serverConn );
 
