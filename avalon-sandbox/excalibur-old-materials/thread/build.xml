@@ -176,7 +176,7 @@
                 <param name="-windowtitle" value="${Name} API"/>
                 <param name="-link" value="http://java.sun.com/j2se/1.4/docs/api/"/>
                 <param name="-link" value="http://java.sun.com/j2ee/sdk_1.3/techdocs/api/"/>
-                <param name="-link" value="http://jakarta.apache.org/avalon/api/"/>
+                <param name="-link" value="http://avalon.apache.org/api/"/>
                 <param name="-bottom"
                     value="&quot;Copyright &#169; ${year} Apache Jakarta Project. All Rights Reserved.&quot;"/>
             </doclet>
