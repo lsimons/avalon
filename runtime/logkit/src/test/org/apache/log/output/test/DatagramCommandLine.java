@@ -29,7 +29,7 @@ import org.apache.log.output.net.DatagramOutputTarget;
  *
  * @author Peter Donald
  */
-public final class DatagramTest
+public final class DatagramCommandLine
 {
     public static void main( final String[] args )
     {
