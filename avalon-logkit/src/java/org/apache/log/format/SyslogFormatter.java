@@ -31,7 +31,6 @@ public class SyslogFormatter
     /*
      * Constants for facility.
      */   
-
     public static final int         FACILITY_KERN     = ( 0<<3);
     public static final int         FACILITY_USER     = ( 1<<3);
     public static final int         FACILITY_MAIL     = ( 2<<3);
