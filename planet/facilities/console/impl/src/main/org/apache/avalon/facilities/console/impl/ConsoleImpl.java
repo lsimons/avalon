@@ -20,10 +20,12 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import org.apache.avalon.composition.model.ContainmentModel;
@@ -34,6 +36,10 @@ import org.apache.avalon.facilities.console.ConsoleCommand;
 
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
+
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
@@ -46,7 +52,42 @@ import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 
 
-/**
+/** This is the main component for the Console facility.
+ *
+ * <p>Parameters, default values are shown below.</p>
+ * <pre>
+ *   &lt;parameters&gt;
+ *     &lt;parameter name="port" value="3333" /&gt;
+ *     &lt;parameter name="allow-deny" value="false" /&gt;
+ *     &lt;parameter name="welcome-text" value="type 'help' form more info." /&gt;
+ *   &lt;/parameters&gt;
+ * </pre>
+ * <p> If <i>allow-deny</i> is set to true, then the connection is allowed
+ * if the host does not exist in the deny list, otherwise it is not allowed
+ * unless the host exist in the allow list.
+ * </p>
+ *
+ * <p>Configuration</p>
+ * <pre>
+ *   &lt;configuration&gt;
+ *     &lt;connections&gt;
+ *       &lt;allow&gt;127.0.0.1&gt;
+ *       &lt;allow&gt;10.0.0.23&gt;
+ *       &lt;allow&gt;10.0.0.24&gt;
+ *     &lt;/connections&gt;
+ *   &lt;/configuration&gt;
+ * </pre>
+ * <p>or in some circumstances, one sets the <i>allow-deny</i> parameter to
+ * true, and have a deny list in the configuration.</p>
+ * <pre>
+ *   &lt;configuration&gt;
+ *     &lt;connections&gt;
+ *       &lt;deny&gt;211.24.132.24&gt;
+ *       &lt;deny&gt;211.24.132.29&gt;
+ *     &lt;/connections&gt;
+ *   &lt;/configuration&gt;
+ * </pre>
+ *
  * @avalon.component name="console-impl" lifestyle="singleton"
  * @avalon.service type="org.apache.avalon.facilities.console.Console"
  */
@@ -61,6 +102,16 @@ public class ConsoleImpl extends AbstractLogEnabled
     private ArrayList   m_Interpreters;
     private String      m_Welcome;    
     private ContainmentModel m_RootModel;
+    
+    private boolean     m_Allow;
+    private HashSet     m_Allows;
+    private HashSet     m_Denies;
+    
+    public ConsoleImpl()
+    {
+        m_Allows = new HashSet();
+        m_Denies = new HashSet();
+    }
     
     /**
      * Contextulaization of the listener by the container during 
@@ -80,12 +131,92 @@ public class ConsoleImpl extends AbstractLogEnabled
     {
         m_RootModel = (ContainmentModel) ctx.get( "urn:composition:containment.model" );
     }
-    
+
+    /**
+     * <p>Parameters, default values are shown below.</p>
+     * <pre>
+     *   &lt;parameters&gt;
+     *     &lt;parameter name="port" value="3333" /&gt;
+     *     &lt;parameter name="allow-deny" value="false" /&gt;
+     *     &lt;parameter name="welcome-text" value="type 'help' form more info." /&gt;
+     *   &lt;/parameters&gt;
+     * </pre>
+     */     
     public void parameterize( Parameters params )
         throws ParameterException
     {
         m_Port = params.getParameterAsInteger( "port", 3333 );
         m_Welcome = params.getParameter( "welcome-text", "type 'help' form more info." );
+        m_Allow = params.getParameterAsBoolean( "deny-allow", false );
+    }
+    
+    /**
+     * <p>Configuration</p>
+     * <pre>
+     *   &lt;configuration&gt;
+     *     &lt;connections&gt;
+     *       &lt;allow&gt;127.0.0.1&gt;
+     *       &lt;allow&gt;10.0.0.23&gt;
+     *       &lt;allow&gt;10.0.0.24&gt;
+     *     &lt;/connections&gt;
+     *   &lt;/configuration&gt;
+     * </pre>
+     * <p>or in some circumstances, one sets the <i>allow-deny</i> parameter to
+     * true, and have a deny list in the configuration.</p>
+     * <pre>
+     *   &lt;configuration&gt;
+     *     &lt;connections&gt;
+     *       &lt;deny&gt;211.24.132.24&gt;
+     *       &lt;deny&gt;211.24.132.29&gt;
+     *     &lt;/connections&gt;
+     *   &lt;/configuration&gt;
+     * </pre>
+     */
+    public void configure( Configuration conf )
+        throws ConfigurationException
+    {
+        Configuration child = conf.getChild( "connections" );
+        configureConnections( child );
+    }
+    
+    private void configureConnections( Configuration conf )
+        throws ConfigurationException
+    {
+        Configuration[] allows = conf.getChildren( "allow" );
+        for( int i=0 ; i < allows.length ; i++ )
+            configureAllow( allows[i] );        
+            
+        Configuration[] denies = conf.getChildren( "deny" );
+        for( int i=0 ; i < denies.length ; i++ )
+            configureDeny( denies[i] );        
+    }
+    
+    private void configureAllow( Configuration allow )
+        throws ConfigurationException
+    {
+        String address = allow.getValue();
+        try
+        {
+            InetAddress allowAddr = InetAddress.getByName( address );
+            m_Allows.add( allowAddr );
+        } catch( UnknownHostException e )
+        {
+            throw new ConfigurationException( "Unknown host: " + address, e );
+        }
+    }
+    
+    private void configureDeny( Configuration deny )
+        throws ConfigurationException
+    {
+        String address = deny.getValue();
+        try
+        {
+            InetAddress denyAddr = InetAddress.getByName( address );
+            m_Denies.add( denyAddr );
+        } catch( UnknownHostException e )
+        {
+            throw new ConfigurationException( "Unknown host: " + address, e );
+        }
     }
     
     public void initialize()
@@ -181,6 +312,7 @@ public class ConsoleImpl extends AbstractLogEnabled
             try
             {
                 Socket socket = m_ServerSocket.accept();
+                validateHost( socket.getInetAddress() );
                 CommandInterpreterImpl intp = new CommandInterpreterImpl( socket, m_Welcome, m_Commands, m_RootModel );
                 synchronized( m_Interpreters )
                 {
@@ -190,6 +322,9 @@ public class ConsoleImpl extends AbstractLogEnabled
             } catch( IOException e )
             {
                 running = false;
+            } catch( DeniedHostException e )
+            {
+                getLogger().warn( e.getMessage() );
             } catch( Exception e )
             {
                 getLogger().warn( "", e );
@@ -207,6 +342,21 @@ public class ConsoleImpl extends AbstractLogEnabled
         {
             CommandInterpreterImpl intp = (CommandInterpreterImpl) list.next();
             intp.interrupt();
+        }
+    }
+    
+    private void validateHost( InetAddress host )
+        throws DeniedHostException
+    {
+        if( m_Allow )
+        {
+            if( m_Denies.contains( host ) )
+                throw new DeniedHostException( host.toString() );
+        }
+        else
+        {
+            if( ! m_Allows.contains( host ) )
+                throw new DeniedHostException( host.toString() );
         }
     }
 }
