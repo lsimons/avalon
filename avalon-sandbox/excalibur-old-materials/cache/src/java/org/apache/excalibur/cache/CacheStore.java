@@ -9,6 +9,7 @@ package org.apache.avalon.excalibur.cache;
 
 /**
  * Store cached objects.
+ * Key and value are must not be <code>null</code>.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
@@ -35,8 +36,8 @@ public interface CacheStore
     boolean isFull();
 
     /**
-     * @param key must not null
-     * @param value must not null
+     * @param key
+     * @param value
      */
     Object put( Object key, Object value );
 

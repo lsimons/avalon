@@ -37,6 +37,11 @@ public class DefaultCache
 
     public Object put( final Object key, final Object value )
     {
+        if ( null == key || null == value )
+        {
+            return null;
+        }
+
         final Object oldValue = remove( key );
 
         if( m_store.isFull() )
@@ -53,6 +58,11 @@ public class DefaultCache
 
     public Object get( final Object key )
     {
+        if ( null == key )
+        {
+            return null;
+        }
+
         final Object value = m_store.get( key );
         m_policy.hit( key );
 
@@ -61,8 +71,12 @@ public class DefaultCache
 
     public Object remove( final Object key )
     {
-        Object value = null;
+        if ( null == key )
+        {
+            return null;
+        }
 
+        Object value = null;
         if( m_store.containsKey( key ) )
         {
             value = m_store.remove( key );
@@ -71,11 +85,6 @@ public class DefaultCache
         }
 
         return value;
-    }
-
-    public boolean containsKey( final Object key )
-    {
-        return m_store.containsKey( key );
     }
 
     public void clear()

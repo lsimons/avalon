@@ -11,7 +11,7 @@ import org.apache.avalon.framework.component.Component;
 
 /**
  * This is a cache that caches objects for reuse.
- * Key and value are must not <code>null</code>.
+ * Key and value are must not be <code>null</code>.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
@@ -70,15 +70,6 @@ public interface Cache
      * @return the value removed. null if old value not exists
      */
     Object remove( Object key );
-
-    /**
-     * Returns true if this cache contains a specified key.
-     *
-     * @param key key whose presence in this map is to be tested
-     * @return true if matching item in the cache
-     * @deprecated unnecessary
-     */
-    boolean containsKey( Object key );
 
     /**
      * Clear cache.
