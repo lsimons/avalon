@@ -840,13 +840,15 @@ public class DefaultFactory implements Factory
     {
         try
         {
-            if( path.indexOf( ":" ) > 0 )
+            if( path.indexOf( ":/" ) > 0 )
             {
                 return new URL( path );
             }
             else
             {
-                return new File( base, path ).toURL();      
+                return 
+                  new File( 
+                    base, path ).getCanonicalFile().toURL();      
             }
         }
         catch( Throwable e )
