@@ -157,8 +157,10 @@ public class Parameters
             throw new ParameterException( "The parameter '" + name +
                                           "' does not contain a value" );
         }
-
-        return test;
+	else
+	{
+	    return test;
+	}
     }
 
     /**
@@ -169,17 +171,56 @@ public class Parameters
      *
      * @param name the name of parameter
      * @param defaultValue the default value, returned if parameter does not exist
+     *        or parameter's name is null
      * @return the value of parameter
      */
     public String getParameter( final String name, final String defaultValue )
     {
-        try
-        {
-            return getParameter( name );
-        }
-        catch( final ParameterException pe )
+        if( name == null )
         {
             return defaultValue;
+        }
+
+        final String test = (String)m_parameters.get( name );
+
+        if( test == null )
+        {
+            return defaultValue;
+        }
+	else
+	{
+	    return test;
+	}
+    }
+
+    /**
+     * Parses string represenation of the <code>int</code> value.
+     * <p />
+     * Hexadecimal numbers begin with 0x, Octal numbers begin with 0o and binary
+     * numbers begin with 0b, all other values are assumed to be decimal.
+     *
+     * @param value the value to parse
+     * @return the integer value
+     * @throws NumberFormatException if the specified value can not be parsed
+     */
+    private int parseInt ( final String value )
+        throws NumberFormatException
+    {
+        if( value.startsWith( "0x" ) )
+        {
+            return Integer.parseInt( value.substring(2), 16 );
+        }
+        else if( value.startsWith( "0o" ) )
+        {
+            return Integer.parseInt( value.substring(2), 8 );
+        }
+        else if( value.startsWith( "0b" ) )
+        {
+            return Integer.parseInt( value.substring(2), 2 );
+        }
+        else
+        {
+            return Integer.parseInt( value );
         }
     }
 
@@ -194,32 +235,16 @@ public class Parameters
      * @param name the name of parameter
      * @return the integer parameter type
      * @throws ParameterException if the specified parameter cannot be found
+     *         or is not an Integer value
      */
     public int getParameterAsInteger( final String name )
         throws ParameterException
     {
         try
         {
-            final String value = getParameter( name );
-
-            if( value.startsWith( "0x" ) )
-            {
-                return Integer.parseInt( value.substring(2), 16 );
-            }
-            else if( value.startsWith( "0o" ) )
-            {
-                return Integer.parseInt( value.substring(2), 8 );
-            }
-            else if( value.startsWith( "0b" ) )
-            {
-                return Integer.parseInt( value.substring(2), 2 );
-            }
-            else
-            {
-                return Integer.parseInt( value );
-            }
+            return parseInt( getParameter( name ) );
         }
-        catch( final Exception e )
+        catch( final NumberFormatException e )
         {
             throw new ParameterException( "Could not return an integer value", e );
         }
@@ -242,11 +267,48 @@ public class Parameters
     {
         try
         {
-            return getParameterAsInteger( name );
+            final String value = getParameter( name, null );
+            if ( value == null ) 
+	    {
+                return defaultValue;
+            }
+
+            return parseInt( value );
         }
-        catch( final ParameterException pe )
+        catch( final NumberFormatException e )
         {
             return defaultValue;
+        }
+    }
+
+    /**
+     * Parses string represenation of the <code>long</code> value.
+     * <p />
+     * Hexadecimal numbers begin with 0x, Octal numbers begin with 0o and binary
+     * numbers begin with 0b, all other values are assumed to be decimal.
+     *
+     * @param value the value to parse
+     * @return the long value
+     * @throws NumberFormatException if the specified value can not be parsed
+     */
+    private long parseLong ( final String value )
+        throws NumberFormatException
+    {
+        if( value.startsWith( "0x" ) )
+        {
+            return Long.parseLong( value.substring(2), 16 );
+        }
+        else if( value.startsWith( "0o" ) )
+        {
+            return Long.parseLong( value.substring(2), 8 );
+        }
+        else if( value.startsWith( "0b" ) )
+        {
+            return Long.parseLong( value.substring(2), 2 );
+        }
+        else
+        {
+            return Long.parseLong( value );
         }
     }
 
@@ -261,32 +323,16 @@ public class Parameters
      * @param name the name of parameter
      * @return the long parameter type
      * @throws ParameterException  if the specified parameter cannot be found
+     *         or is not a Long value.
      */
     public long getParameterAsLong( final String name )
         throws ParameterException
     {
         try
         {
-            final String value = getParameter( name );
-
-            if( value.startsWith( "0x" ) )
-            {
-                return Long.parseLong( value.substring(2), 16 );
-            }
-            else if( value.startsWith( "0o" ) )
-            {
-                return Long.parseLong( value.substring(2), 8 );
-            }
-            else if( value.startsWith( "0b" ) )
-            {
-                return Long.parseLong( value.substring(2), 2 );
-            }
-            else
-            {
-                return Long.parseLong( value );
-            }
+            return parseLong( getParameter( name ) );
         }
-        catch( final Exception e )
+        catch( final NumberFormatException e )
         {
             throw new ParameterException( "Could not return a long value", e );
         }
@@ -309,9 +355,15 @@ public class Parameters
     {
         try
         {
-            return getParameterAsLong( name );
+            final String value = getParameter( name, null );
+            if( value == null ) 
+	    {
+                return defaultValue;
+            }
+
+            return parseLong( value );
         }
-        catch( final ParameterException pe )
+        catch( final NumberFormatException e )
         {
             return defaultValue;
         }
@@ -325,6 +377,7 @@ public class Parameters
      * @param name the parameter name
      * @return the value
      * @throws ParameterException if the specified parameter cannot be found
+     *         or is not a Float value
      */
     public float getParameterAsFloat( final String name )
         throws ParameterException
@@ -333,7 +386,7 @@ public class Parameters
         {
             return Float.parseFloat( getParameter( name ) );
         }
-        catch( final Exception e )
+        catch( final NumberFormatException e )
         {
             throw new ParameterException( "Could not return a float value", e );
         }
@@ -353,9 +406,15 @@ public class Parameters
     {
         try
         {
-            return getParameterAsFloat( name );
+            final String value = getParameter( name, null );
+            if( value == null ) 
+	    {
+                return defaultValue;
+            }
+
+            return Float.parseFloat( value );
         }
-        catch( final ParameterException pe )
+        catch( final NumberFormatException pe )
         {
             return defaultValue;
         }
@@ -369,7 +428,7 @@ public class Parameters
      * @param name the parameter name
      * @return the value
      * @exception ParameterException if an error occurs
-     * @exception ParemterException
+     * @exception ParameterException
      */
     public boolean getParameterAsBoolean( final String name )
         throws ParameterException
@@ -402,11 +461,20 @@ public class Parameters
      */
     public boolean getParameterAsBoolean( final String name, final boolean defaultValue )
     {
-        try
-        {
-            return getParameterAsBoolean( name );
+        final String value = getParameter( name, null );
+        if ( value == null ) {
+            return defaultValue;
         }
-        catch( final ParameterException e )
+
+        if( value.equalsIgnoreCase( "true" ) )
+        {
+            return true;
+        }
+        else if( value.equalsIgnoreCase( "false" ) )
+        {
+            return false;
+        }
+        else
         {
             return defaultValue;
         }
@@ -427,7 +495,7 @@ public class Parameters
 
         while( names.hasNext() )
         {
-            final String name = (String) names.next();
+            final String name = (String)names.next();
             String value = null;
             try
             {
