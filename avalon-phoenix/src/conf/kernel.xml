@@ -118,7 +118,7 @@
             -->
 
         <component role="org.apache.avalon.phoenix.interfaces.ConfigurationValidator"
-            class="org.apache.avalon.phoenix.components.configuration.validator.DefaultConfigurationValidator"
+            class="org.apache.avalon.phoenix.components.validator.DefaultConfigurationValidator"
             logger="validator">
             <schema-type name="relax-ng" uri="http://relaxng.org/ns/structure/1.0"/>
         </component>
