@@ -20,6 +20,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 /**
  * Default implementation of ThreadManager.
  *
+ * @phoenix:block
  * @phoenix:service name="org.apache.avalon.cornerstone.services.threads.ThreadManager"
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>

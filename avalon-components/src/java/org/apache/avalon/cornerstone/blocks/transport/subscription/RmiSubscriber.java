@@ -12,10 +12,11 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.excalibur.altrmi.client.impl.rmi.RmiHostContext;
 
 /**
+ * @phoenix:block
  * @phoenix:service name="org.apache.excalibur.altrmi.client.AltrmiInterfaceLookup"
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class RmiSubscriber
     extends AbstractSubscriber

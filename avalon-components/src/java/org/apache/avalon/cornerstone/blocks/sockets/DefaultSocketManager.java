@@ -24,6 +24,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 /**
  * Implementation of SocketManager.
  *
+ * @phoenix:block
  * @phoenix:service name="org.apache.avalon.cornerstone.services.sockets.SocketManager"
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>

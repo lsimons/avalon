@@ -18,6 +18,7 @@ import org.apache.avalon.cornerstone.services.security.RoleManager;
  * which could be wrong. It could be that roles are a primary
  * aspect and
  *
+ * @phoenix:block
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class DefaultRoleManager

@@ -19,6 +19,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * Block implementation of the DocumentBuilderFactory service.  That service being
  * a non abstract/static clone of the javax.xml.parsers class of the same name.
  *
+ * @phoenix:block
  * @phoenix:service name="org.apache.avalon.cornerstone.services.dom.DocumentBuilderFactory"
  *
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</a>

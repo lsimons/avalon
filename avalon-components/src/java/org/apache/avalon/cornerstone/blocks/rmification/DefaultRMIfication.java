@@ -28,10 +28,11 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * FIXME: INPROGRESS and NOT TESTED
  * Default implementation of <code>RMIfication</code>.
  *
+ * @phoenix:block
  * @phoenix:service name="org.apache.avalon.cornerstone.services.rmification.RMIfication"
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class DefaultRMIfication
     extends AbstractLogEnabled

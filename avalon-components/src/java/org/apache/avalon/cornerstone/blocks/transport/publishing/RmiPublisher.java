@@ -14,10 +14,11 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.excalibur.altrmi.server.impl.rmi.RmiServer;
 
 /**
+ * @phoenix:block
  * @phoenix:service name="org.apache.excalibur.altrmi.server.AltrmiPublisher"
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class RmiPublisher
     extends AbstractPublisher
