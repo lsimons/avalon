@@ -50,10 +50,8 @@
 package org.apache.avalon.fortress.test.data;
 
 /**
- * @x-avalon.role
- *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003/04/11 07:37:58 $
+ * @version $Revision: 1.8 $ $Date: 2003/04/11 20:39:38 $
  */
 public interface Role4
     extends org.apache.avalon.fortress.test.data.BaseRole

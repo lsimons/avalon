@@ -63,7 +63,7 @@ import org.apache.excalibur.mpool.PoolManager;
 
 /**
  * Helper class to create a m_context for the ContextManager.
- * @version CVS $Revision: 1.12 $ $Date: 2003/04/11 07:38:30 $
+ * @version CVS $Revision: 1.13 $ $Date: 2003/04/11 20:39:38 $
  */
 public class FortressConfig
 {
@@ -134,7 +134,7 @@ public class FortressConfig
         defaultContext.put( ClassLoader.class.getName(), classLoader );
         defaultContext.put( ContextManagerConstants.CONFIGURATION_URI, "conf/system.xconf" );
         defaultContext.put( ContextManagerConstants.LOGGER_MANAGER_CONFIGURATION_URI, "conf/logkit.xconf" );
-        defaultContext.put( ContextManagerConstants.ROLE_MANAGER_CONFIGURATION_URI, "resource://ext/system.roles" );
+        //defaultContext.put( ContextManagerConstants.ROLE_MANAGER_CONFIGURATION_URI, "resource://ext/system.roles" );
         defaultContext.put( ContextManagerConstants.ASSEMBLY_CONFIGURATION_URI, "resource://ext/assembly.xml" );
 
         defaultContext.makeReadOnly();

@@ -67,7 +67,7 @@ import org.apache.avalon.framework.service.ServiceManager;
  * A testcase for the different handlers.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003/04/11 07:37:57 $
+ * @version $Revision: 1.11 $ $Date: 2003/04/11 20:39:38 $
  */
 public class HandlersTestCase extends TestCase
 {
@@ -223,7 +223,6 @@ public class HandlersTestCase extends TestCase
         final String BASE = "resource://org/apache/avalon/fortress/test/data/";
         config.setContainerConfiguration( BASE + "test1.xconf" );
         config.setLoggerManagerConfiguration( BASE + "test1.xlog" );
-        //config.setRoleManagerConfiguration( BASE + "test1.roles" );
 
         final ContainerManager cm = new DefaultContainerManager( config.getContext() );
         ContainerUtil.initialize( cm );
