@@ -13,6 +13,7 @@ import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceSelector;
+import org.apache.avalon.framework.service.WrapperServiceSelector;
 
 /**
  *  * This is a {@link ComponentManager} implementation that can wrap around a
@@ -20,7 +21,7 @@ import org.apache.avalon.framework.service.ServiceSelector;
  * interface to a {@link ComponentManager} interface.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/11/07 09:06:13 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/07 15:50:06 $
  */
 public class WrapperComponentManager
     implements ComponentManager
@@ -94,6 +95,15 @@ public class WrapperComponentManager
      */
     public void release( final Component component )
     {
+        if( component instanceof WrapperServiceSelector )
+        {
+            m_manager.
+                release( ( (WrapperComponentSelector)component ).getWrappedServiceSelector() );
+        }
+        else
+        {
+            m_manager.release( (Component)component );
+        }
         m_manager.release( component );
     }
 }
