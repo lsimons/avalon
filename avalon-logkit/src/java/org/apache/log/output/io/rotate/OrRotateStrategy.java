@@ -77,6 +77,7 @@ public class OrRotateStrategy
 
     /**
      * Constructor
+     * @param strategies the set of rotation strategies 
      */
     public OrRotateStrategy( final RotateStrategy[] strategies )
     {
@@ -102,6 +103,7 @@ public class OrRotateStrategy
      *  strategy object. If a rotation is needed, this result is returned.
      *  If not the next rotation strategy object is asked and so on.
      *  @param data the last message written to the log system
+     *  @param file ???
      *  @return boolean return true if log rotation is neccessary, else false
      */
     public boolean isRotationNeeded( final String data, final File file )

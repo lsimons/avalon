@@ -84,6 +84,7 @@ public class RotatingFileTarget
      * @param formatter Formatter to be used
      * @param rotateStrategy RotateStrategy to be used
      * @param fileStrategy FileStrategy to be used
+     * @exception IOException if a file access or write related error occurs
      */
     public RotatingFileTarget( final Formatter formatter,
                                final RotateStrategy rotateStrategy,
@@ -100,6 +101,7 @@ public class RotatingFileTarget
      * @param formatter Formatter to be used
      * @param rotateStrategy RotateStrategy to be used
      * @param fileStrategy FileStrategy to be used
+     * @exception IOException if a file access or write related error occurs
      */
     public RotatingFileTarget( final boolean append,
                                final Formatter formatter,
@@ -116,6 +118,11 @@ public class RotatingFileTarget
         rotate();
     }
 
+   /**
+    * Rote the file - ?? explination needed.
+    * @exception IOException if a file related error occurs
+    * @exception IOException if a file access or write related error occurs
+    */
     protected synchronized void rotate()
         throws IOException
     {
@@ -128,6 +135,7 @@ public class RotatingFileTarget
 
     /**
      * Output the log message, and check if rotation is needed.
+     * @param data the date to write to the target
      */
     protected synchronized void write( final String data )
     {

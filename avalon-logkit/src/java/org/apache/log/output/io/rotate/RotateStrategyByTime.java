@@ -110,6 +110,7 @@ public class RotateStrategyByTime
      * rotation is needed.
      *
      * @param data the last message written to the log system
+     * @param file not used
      * @return boolean return true if log rotation is neccessary, else false
      */
     public boolean isRotationNeeded( final String data, final File file )

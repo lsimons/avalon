@@ -54,9 +54,10 @@
  */
 package org.apache.log.output.lf5;
 
-import org.apache.log.*;
 import org.apache.log.format.Formatter;
 import org.apache.log.format.PatternFormatter;
+import org.apache.log.LogTarget;
+import org.apache.log.LogEvent;
 
 import org.apache.log4j.lf5.viewer.LogBrokerMonitor;
 
@@ -66,7 +67,7 @@ import org.apache.log4j.lf5.viewer.LogBrokerMonitor;
  * Swing GUI.
  *
  * @author <a href="sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/02/04 13:50:33 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/02/05 09:56:26 $
  */
 public class LF5LogTarget implements LogTarget
 {
@@ -84,6 +85,7 @@ public class LF5LogTarget implements LogTarget
 
     /**
      * Create a <code>LogFactorLogTarget</code> on a given <code>LogBrokerMonitor</code>.
+     * @param monitor the monitor
      */
     public LF5LogTarget( final LogBrokerMonitor monitor )
     {
@@ -102,6 +104,7 @@ public class LF5LogTarget implements LogTarget
     /**
      * Sets the {@link Formatter} that will be used to produce the "NDC" (nested diagnostic
      * context) text on the GUI.
+     * @param formatter the message formatter
      */
     public void setNDCFormatter( Formatter formatter )
     {
@@ -110,6 +113,7 @@ public class LF5LogTarget implements LogTarget
 
     /**
      * Get the default <code>LogBrokerMonitor</code> instance.
+     * @return the monitor
      */
     public static synchronized LogBrokerMonitor getDefaultMonitor()
     {
@@ -125,6 +129,7 @@ public class LF5LogTarget implements LogTarget
 
     /**
      * Process a log event.
+     * @param event the log event
      */
     public void processEvent( final LogEvent event )
     {
