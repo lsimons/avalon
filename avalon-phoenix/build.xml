@@ -578,9 +578,12 @@ Legal:
             Place extension jars here.  It is very rare to need to do this.
         </echo>
 
-        <zip zipfile="${dist.base}/${dist.name}-bin.zip"
-            basedir="${dist.name}/.."
-            includes="${dist.name}/**"/>
+        <zip zipfile="${dist.base}/${dist.name}-bin.zip">
+          <fileset dir="${dist.name}/..">
+              <include name="${dist.name}/**"/>
+              <exclude name="${dist.name}/lib/bsh*.jar"/>
+          </fileset>
+        </zip>
 
         <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-bin.tar">
             <tarfileset dir="${dist.name}/.." mode="755" username="avalon" group="avalon">
@@ -589,6 +592,7 @@ Legal:
             <tarfileset dir="${dist.name}/.." username="avalon" group="avalon">
                 <include name="${dist.name}/**"/>
                 <exclude name="${dist.name}/bin/*.sh"/>
+                <exclude name="${dist.name}/lib/bsh*.jar"/>
             </tarfileset>
         </tar>
 
