@@ -23,7 +23,7 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
  * Junit TestCase for the directory resource.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Id: DirectoryTestCase.java,v 1.2 2002/09/13 10:11:41 donaldp Exp $
+ * @version $Id: DirectoryTestCase.java,v 1.3 2002/09/13 10:55:27 donaldp Exp $
  */
 public class DirectoryTestCase
     extends TestCase
@@ -67,12 +67,35 @@ public class DirectoryTestCase
         }
         finally
         {
-            final File[] files = dir.listFiles();
-            for( int i = 0; i < files.length; i++ )
-            {
-                files[ i ].delete();
-            }
+            deleteDir( dir );
         }
+    }
+
+    public void testDirectoryDelete()
+        throws Exception
+    {
+        final File dir = createDir();
+        final DirectoryResource resource =
+            new DirectoryResource( dir.getCanonicalPath() );
+        deleteDir( dir );
+        try
+        {
+            resource.testModifiedAfter( System.currentTimeMillis() );
+        }
+        catch( final Exception e )
+        {
+            fail( "Received exception when dir deleted: " + e );
+        }
+    }
+
+    private void deleteDir( final File dir )
+    {
+        final File[] files = dir.listFiles();
+        for( int i = 0; i < files.length; i++ )
+        {
+            files[ i ].delete();
+        }
+        dir.delete();
     }
 
     private File createDir()
