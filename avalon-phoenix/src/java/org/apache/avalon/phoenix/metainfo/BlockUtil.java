@@ -27,8 +27,11 @@ public final class BlockUtil
     {
         try
         {
+            System.out.println("service.getName() " + service.getName());
+            System.out.println("block.getClass().getName() " + block.getClass().getName());
             final Class clazz = 
                 block.getClass().getClassLoader().loadClass( service.getName() );
+
 
             return clazz.isAssignableFrom( block.getClass() );
         }
