@@ -286,6 +286,7 @@
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml,merlin-extensions/*/project.xml"
+      excludes="merlin-platform/*"
       goals="clean"
       banner="Cleaning subproject:"
       ignoreFailures="false"/>

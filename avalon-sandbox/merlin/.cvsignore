@@ -6,6 +6,7 @@ logs
 build.xml
 activation-spi
 activation
+TODO.TXT
 
 bin
 config
