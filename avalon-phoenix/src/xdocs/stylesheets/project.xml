@@ -6,7 +6,7 @@
 
     <body>
         <item name="Jakarta main" href="http://jakarta.apache.org/"/>
-        <item name="Avalon main" href="@AVALON_BASE@"/>
+        <item name="Avalon main" href="http://jakarta.apache.org/avalon"/>
 
         <menu name="Essentials">
             <item name="Overview" href="/index.html"/>
@@ -37,11 +37,11 @@
         <menu name="For Developers">
             <!-- <item name="Get Involved" href="/getinvolved.html"/> -->
             <item name="Changes" href="/for-developers-changes.html"/>
-            <item name="Coding standards" href="@AVALON_BASE@/code-standards.html"/>
+            <item name="Coding standards" href="http://jakarta.apache.org/avalon/code-standards.html"/>
             <item name="Project Structure" href="/for-developers-project-structure.html"/>
             <item name="CVS Repositories" href="http://jakarta.apache.org/site/cvsindex.html"/>
             <item name="Mailing Lists" href="http://jakarta.apache.org/site/mail.html"/>
-            <item name="TODO"  href="http://nagoya.apache.org/bugzilla/buglist.cgi?bug_status=UNCONFIRMED&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bug_status=RESOLVED&product=Avalon&component=Phoenix"/>
+            <item name="TODO"  href="http://nagoya.apache.org/bugzilla/buglist.cgi?bug_status=UNCONFIRMED&amp;bug_status=NEW&amp;bug_status=ASSIGNED&amp;bug_status=REOPENED&amp;bug_status=RESOLVED&amp;product=Avalon&amp;component=Phoenix"/>
             <item name="Bug Database"  href="http://nagoya.apache.org/bugzilla/enter_bug.cgi?product=Avalon&amp;component=Phoenix"/>
             <item name="Enhancement Requests"  href="http://nagoya.apache.org/bugzilla/enter_bug.cgi?product=Avalon&amp;component=Phoenix&amp;bug_severity=Enhancement"/>
         </menu>
