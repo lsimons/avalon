@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.phoenix.components.application;
 
-import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.components.lifecycle.ComponentEntry;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
@@ -48,11 +47,11 @@ public class BlockEntry
         super.setObject( object );
     }
 
-    public synchronized Block getProxy()
+    public synchronized Object getProxy()
     {
         if( null != m_invocationHandler )
         {
-            return (Block)m_invocationHandler.getProxy();
+            return m_invocationHandler.getProxy();
         }
         else
         {
@@ -86,7 +85,15 @@ public class BlockEntry
             }
         }
 
-        classes[ services.length ] = Block.class;
+        //Note that the proxy is still built using the
+        //Block interface so that ComponentManaers can
+        //still be used to provide blocks with services.
+        //Block extends Component and thus the proxy
+        //extends Component. The magic is that the Block
+        //interface has no methods and thus will never cause
+        //any issues for Proxy class.
+        classes[ services.length ] =
+            org.apache.avalon.phoenix.Block.class;
         return classes;
     }
 }
