@@ -37,7 +37,7 @@ An API supporting component composition.
     <dependency>
       <groupId>&avalon-composition-id;</groupId>
       <artifactId>&avalon-composition-api-id;</artifactId>
-      <version>&avalon-composition-api-id;</version>
+      <version>&avalon-composition-api-version;</version>
     </dependency>
 
     <dependency>
