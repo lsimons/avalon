@@ -73,13 +73,15 @@
   <property name="logkit.jar" value="${lib.dir}/logkit.jar"/>
   <property name="avalonapi.jar" value="${lib.dir}/avalonapi.jar"/>
   <property name="phoenix-client.jar" value="${lib.dir}/phoenix-client.jar"/>
+  <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
 
   <path id="project.class.path">
-    <pathelement path="${java.class.path}" />
     <pathelement location="${avalonapi.jar}"/>
     <pathelement location="${logkit.jar}"/>
+    <pathelement location="${testlet.jar}"/>
     <pathelement location="${xerces.jar}"/>
     <pathelement location="${phoenix-client.jar}"/>
+    <pathelement path="${java.class.path}" />
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
       <exclude name="phoenix-client.jar"/>
