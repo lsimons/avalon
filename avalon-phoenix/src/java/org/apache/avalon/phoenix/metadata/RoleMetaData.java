@@ -15,17 +15,17 @@ package org.apache.avalon.phoenix.metadata;
 public final class RoleMetaData
 {
     private final String        m_name;
-    private final String        m_interface;
+    private final String        m_role;
 
-    public RoleMetaData( final String name, final String interfaceName )
+    public RoleMetaData( final String name, final String role )
     {
         m_name = name;
-        m_interface = interfaceName;
+        m_role = role;
     }
 
-    public String getInterface()
+    public String getRole()
     {
-        return m_interface;
+        return m_role;
     }
 
     public String getName()

@@ -55,7 +55,7 @@ public class BlockMetaData
     {
         for( int i = 0; i < m_roles.length; i++ )
         {
-            if( m_roles[ i ].getInterface().equals( interfaceName ) )
+            if( m_roles[ i ].getRole().equals( interfaceName ) )
             {
                 return m_roles[ i ];
             }
