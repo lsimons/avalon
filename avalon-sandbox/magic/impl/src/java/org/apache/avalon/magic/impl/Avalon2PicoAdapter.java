@@ -81,14 +81,23 @@ import org.apache.avalon.framework.parameters.Parameters;
 
 /**
  * An InvocationHandler that intercepts calls to the avalon-framework
- * lifecycle methods and saves their arguments for later use. During
- * initialize, an instance is created with the constructor arguments
+ * lifecycle methods and saves their arguments for later use in calling
+ * a pico-style constructor with the provided lifecycle material. During
+ * initialize(), the instance is created with the constructor arguments
  * populated from stuff retrieved from the avalon-framework lifecycle
  * arguments.
+ *
+ * There is a slight difference in semantics between Pico and this
+ * adapter in the way the appropriate constructor is selected. Rather
+ * than require there is only one constructor, this implementation
+ * searches for the constructor with the highest number of arguments.
+ * You can customize this behaviour through modification of the
+ * sortConstructors() method.
  *
  * Usage:
  *
  * <pre>
+ * // a regular pico-style component
  * public class MyComponentImpl implements MyComponent
  * {
  *      Logger m_logger;
@@ -112,7 +121,7 @@ import org.apache.avalon.framework.parameters.Parameters;
  * MyComponent comp = (MyComponent)
  *          AvalonInvocationHandler.getProxy( MyComponentImpl.class );
  *
- * // the container will set up your logger, configuration and
+ * // the container should properly set up your logger, configuration and
  * // all other dependencies for you
  * myAvalonContainer.add( comp );
  *
@@ -175,7 +184,7 @@ import org.apache.avalon.framework.parameters.Parameters;
  *   }
  * </pre>
  *
- * @version $Id: Avalon2PicoAdapter.java,v 1.5 2003/08/21 21:30:40 leosimons Exp $
+ * @version $Id: Avalon2PicoAdapter.java,v 1.6 2003/08/21 21:34:09 leosimons Exp $
  */
 public class Avalon2PicoAdapter implements InvocationHandler
 {
