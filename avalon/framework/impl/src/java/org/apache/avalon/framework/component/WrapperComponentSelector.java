@@ -68,7 +68,7 @@ import org.apache.avalon.framework.service.ServiceException;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/11/07 15:50:06 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/11/07 15:52:11 $
  */
 public class WrapperComponentSelector
     implements ComponentSelector
@@ -165,7 +165,7 @@ public class WrapperComponentSelector
      *
      * @return The {@link ServiceSelector} being wrapped.
      */
-    ServiceSelector getWrappedServiceSelector()
+    ServiceSelector getWrappedSelector()
     {
         return m_selector;
     }
