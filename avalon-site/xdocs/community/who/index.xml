@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Apache Avalon: Who we are</title>
+  </properties> 
+  <body>
+    <section name="Active Committers">
+      <p>
+      The current avalon committers are: bloritsch, colus, cziegeler,
+      jefft, leif, leosimons, leosutic, mirceatoma, mcconnell, neeme,
+      proyal,vinayc, farra
+      </p>
+    </section>
+    <section name="Inactive Committers">
+      <p>
+      The current inactive avalon committers (an inactive committer is
+      someone who hasn't done a cvs commit in three months, or hasn't
+      bothered to move himself from this list to the one above) are:
+      charlesb, ramc, giacomo, rana_b, froehlich, lmccay, jrudd,
+      morpheus, crafterm, huw, ymikulski, mschier, stefano
+      </p>
+    </section>
+    <section name="Emeritus Committers">
+      <p>
+       The current emeritus committers (an emeritus committer is
+      someone who is not active within the avalon project anymore)
+      are: jon, fede
+      </p>
+    </section>
+    <section name="Contributors">
+      <p>
+      We've been rather sloppy in maintaining lists of these
+      peeps. Many, many people help out with avalon in one way or
+      another, be it by providing infrastructure or project resources,
+      guidance and advice, patches, or user feedback. You can find
+      many names in the avalon mailing list archives and in the
+      sources. People, even if we don't keep a list of y'all, thanks
+      for all your good work!
+      </p>
+    </section>
+  </body>
+
+</document>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Apache Avalon: Contributors</title>
+  </properties>
+  <body> 
+    <section name="Stephen Mcconnell">
+      <p>(mcconnell at apache dot org)</p>
+      <p>
+      Stephen was initially drawn to Avalon in respect to the work
+      undertaken in the framework projects.  The consitent and clean
+      component-oriented approach seperated Avalon from may other 
+      projects.  Stephen, as comitter to Avalon, is involved with 
+      framework maintenance and evolution, advanced devopment related 
+      to intelligent service management, the Avalon Apps Enterprise 
+      project, and the Merlin Service Management Architecture.
+      </p>
+    </section>
+  </body>
+</document>
+
