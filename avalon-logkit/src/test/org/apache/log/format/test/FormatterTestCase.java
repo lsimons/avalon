@@ -85,64 +85,64 @@ public final class FormatterTestCase
     private static String E2_SYSLOG_WB = "<" + (3|FACILITY_ID) + "> " + FACILITY_NAME + ": " + M2;
     private static String E3_SYSLOG_WB = "<" + (4|FACILITY_ID) + "> " + FACILITY_NAME + ": " + M3;
 
-    private static String PATTERN1 = "[%8.8{category}]: %{message}\\n";
-    private static String E1_PATTERN1 = "[Category]: " + M1 + "\n";
-    private static String E2_PATTERN1 = "[Category]: " + M2 + "\n";
-    private static String E3_PATTERN1 = "[Category]: " + M3 + "\n";
+    private static String PATTERN1 = "[%8.8{category}]: %{message}" + EOL;
+    private static String E1_PATTERN1 = "[Category]: " + M1 + EOL;
+    private static String E2_PATTERN1 = "[Category]: " + M2 + EOL;
+    private static String E3_PATTERN1 = "[Category]: " + M3 + EOL;
 
-    private static String PATTERN2 = "[%10.{category}]: %{message}\\n";
-    private static String E1_PATTERN2 = "[" + C1 + " ]: " + M1 + "\n";
-    private static String E2_PATTERN2 = "[" + C2 + "]: " + M2 + "\n";
-    private static String E3_PATTERN2 = "[" + C3 + "]: " + M3 + "\n";
+    private static String PATTERN2 = "[%10.{category}]: %{message}"+ EOL;
+    private static String E1_PATTERN2 = "[" + C1 + " ]: " + M1 + EOL;
+    private static String E2_PATTERN2 = "[" + C2 + "]: " + M2 + EOL;
+    private static String E3_PATTERN2 = "[" + C3 + "]: " + M3 + EOL;
 
-    private static String PATTERN3 = "[%.10{category}]: %{message}\\n";
-    private static String E1_PATTERN3 = "[" + C1 + "]: " + M1 + "\n";
-    private static String E2_PATTERN3 = "[Category2C]: " + M2 + "\n";
-    private static String E3_PATTERN3 = "[Category3C]: " + M3 + "\n";
+    private static String PATTERN3 = "[%.10{category}]: %{message}" + EOL;
+    private static String E1_PATTERN3 = "[" + C1 + "]: " + M1 + EOL;
+    private static String E2_PATTERN3 = "[Category2C]: " + M2 + EOL;
+    private static String E3_PATTERN3 = "[Category3C]: " + M3 + EOL;
 
-    private static String PATTERN4 = "[%+10.{category}]: %{message}\\n";
-    private static String E1_PATTERN4 = "[" + C1 + " ]: " + M1 + "\n";
-    private static String E2_PATTERN4 = "[" + C2 + "]: " + M2 + "\n";
-    private static String E3_PATTERN4 = "[" + C3 + "]: " + M3 + "\n";
+    private static String PATTERN4 = "[%+10.{category}]: %{message}" + EOL;
+    private static String E1_PATTERN4 = "[" + C1 + " ]: " + M1 + EOL;
+    private static String E2_PATTERN4 = "[" + C2 + "]: " + M2 + EOL;
+    private static String E3_PATTERN4 = "[" + C3 + "]: " + M3 + EOL;
 
-    private static String PATTERN5 = "[%-10.{category}]: %{message}\\n";
-    private static String E1_PATTERN5 = "[ " + C1 + "]: " + M1 + "\n";
-    private static String E2_PATTERN5 = "[" + C2 + "]: " + M2 + "\n";
-    private static String E3_PATTERN5 = "[" + C3 + "]: " + M3 + "\n";
+    private static String PATTERN5 = "[%-10.{category}]: %{message}" + EOL;
+    private static String E1_PATTERN5 = "[ " + C1 + "]: " + M1 + EOL;
+    private static String E2_PATTERN5 = "[" + C2 + "]: " + M2 + EOL;
+    private static String E3_PATTERN5 = "[" + C3 + "]: " + M3 + EOL;
 
-    private static String PATTERN6 = "[%{context}]: %{message}\\n";
-    private static String E1_PATTERN6 = "[]: " + M1 + "\n";
-    private static String E2_PATTERN6 = "[]: " + M2 + "\n";
-    private static String E3_PATTERN6 = "[]: " + M3 + "\n";
+    private static String PATTERN6 = "[%{context}]: %{message}" + EOL;
+    private static String E1_PATTERN6 = "[]: " + M1 + EOL;
+    private static String E2_PATTERN6 = "[]: " + M2 + EOL;
+    private static String E3_PATTERN6 = "[]: " + M3 + EOL;
 
-    private static String PATTERN7 = "[%{context:stack}]: %{message}\\n";
-    private static String E1_PATTERN7 = "[]: " + M1 + "\n";
-    private static String E2_PATTERN7 = "[]: " + M2 + "\n";
-    private static String E3_PATTERN7 = "[]: " + M3 + "\n";
+    private static String PATTERN7 = "[%{context:stack}]: %{message}" + EOL;
+    private static String E1_PATTERN7 = "[]: " + M1 + EOL;
+    private static String E2_PATTERN7 = "[]: " + M2 + EOL;
+    private static String E3_PATTERN7 = "[]: " + M3 + EOL;
 
-    private static String PATTERN8 = "[%{context:method}]: %{message}\\n";
-    private static String E1_PATTERN8 = "[com.biz.MyObject.myMethod(MyObject:53)]: " + M1 + "\n";
-    private static String E2_PATTERN8 = "[]: " + M2 + "\n";
-    private static String E3_PATTERN8 = "[]: " + M3 + "\n";
+    private static String PATTERN8 = "[%{context:method}]: %{message}" + EOL;
+    private static String E1_PATTERN8 = "[com.biz.MyObject.myMethod(MyObject:53)]: " + M1 + EOL;
+    private static String E2_PATTERN8 = "[]: " + M2 + EOL;
+    private static String E3_PATTERN8 = "[]: " + M3 + EOL;
 
     private static String CLASS_PREFIX = FormatterTestCase.class.getName() + ".";
 
-    private static String PATTERN9 = "[%{method}]: %{message}\\n";
-    private static String E1_PATTERN9 = "[com.biz.MyObject.myMethod(MyObject:53)]: " + M1 + "\n";
+    private static String PATTERN9 = "[%{method}]: %{message}" + EOL;
+    private static String E1_PATTERN9 = "[com.biz.MyObject.myMethod(MyObject:53)]: " + M1 + EOL;
     private static String E2_PATTERN9_START = "[" + CLASS_PREFIX +"testPattern9Formatter(";
-    private static String E2_PATTERN9_END = ")]: " + M2 + "\n";
+    private static String E2_PATTERN9_END = ")]: " + M2 + EOL;
     private static String E3_PATTERN9_START = "[" + CLASS_PREFIX +"testPattern9Formatter(";
-    private static String E3_PATTERN9_END = ")]: " + M3 + "\n";
+    private static String E3_PATTERN9_END = ")]: " + M3 + EOL;
 
-    private static String PATTERN10 = "[%{context:method}]: %{message}\\n";
-    private static String E1_PATTERN10 = "[com.biz.MyObject.myMethod(MyObject:53)]: " + M1 + "\n";
-    private static String E2_PATTERN10 = "[]: " + M2 + "\n";
-    private static String E3_PATTERN10 = "[]: " + M3 + "\n";
+    private static String PATTERN10 = "[%{context:method}]: %{message}" + EOL;
+    private static String E1_PATTERN10 = "[com.biz.MyObject.myMethod(MyObject:53)]: " + M1 + EOL;
+    private static String E2_PATTERN10 = "[]: " + M2 + EOL;
+    private static String E3_PATTERN10 = "[]: " + M3 + EOL;
 
-    private static String PATTERN11 = "[%{context:method}]: %{message}\\n";
-    private static String E1_PATTERN11 = "[com.biz.MyObject.myMethod(MyObject:53)]: " + M1 + "\n";
-    private static String E2_PATTERN11 = "[]: " + M2 + "\n";
-    private static String E3_PATTERN11 = "[]: " + M3 + "\n";
+    private static String PATTERN11 = "[%{context:method}]: %{message}" + EOL;
+    private static String E1_PATTERN11 = "[com.biz.MyObject.myMethod(MyObject:53)]: " + M1 + EOL;
+    private static String E2_PATTERN11 = "[]: " + M2 + EOL;
+    private static String E3_PATTERN11 = "[]: " + M3 + EOL;
 
     private static LogEvent createEvent( final String category,
                                          final String message,
