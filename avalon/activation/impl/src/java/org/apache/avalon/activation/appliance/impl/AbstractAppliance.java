@@ -76,7 +76,7 @@ import org.apache.avalon.framework.logger.Logger;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2.2.1 $ $Date: 2004/01/04 21:28:59 $
+ * @version $Revision: 1.2.2.2 $ $Date: 2004/01/07 12:57:25 $
  */
 public abstract class AbstractAppliance extends AbstractLogEnabled implements Appliance, Disposable
 {
@@ -96,6 +96,7 @@ public abstract class AbstractAppliance extends AbstractLogEnabled implements Ap
     {
         enableLogging( logger );
         m_model = model;
+        m_model.setHandler( this );
     }
 
     //-------------------------------------------------------------------
@@ -115,24 +116,13 @@ public abstract class AbstractAppliance extends AbstractLogEnabled implements Ap
         return m_model;
     }
 
-    /**
-     * Test is this appliance is enabled.  An appliance is enabled unless
-     * explicitly disabled by an assembly directive, or implicity disabled
-     * as a result of an assembly failure.
-     *
-     * @return TRUE if the appliance is enabled.
-     */
-    public boolean isEnabled()
-    {
-        return m_enabled;
-    }
-
     //-------------------------------------------------------------------
     // Disposable
     //-------------------------------------------------------------------
 
     public void dispose()
     {
+        m_model.setHandler( null );
         m_model = null;
         getLogger().debug( "disposal complete" );
     }

@@ -65,7 +65,7 @@ public class RuntimeTestCase extends AbstractTestCase
         //
 
         getLogger().debug( "creating root block" );
-        Block block = AbstractBlock.createRootBlock( m_context, m_model );
+        Block block = AbstractBlock.createRootBlock( m_system, m_model );
         getLogger().debug( "block: " + block );
 
         //
@@ -73,10 +73,7 @@ public class RuntimeTestCase extends AbstractTestCase
         //    are resolved (deployment and runtime)
         //
 
-        if( block instanceof Composite )
-        {
-            ((Composite)block).assemble();
-        }
+        block.getContainmentModel().assemble();
 
         //
         // 3. deploy the block during which any 'activate on startup'
@@ -101,10 +98,7 @@ public class RuntimeTestCase extends AbstractTestCase
         //    appliances established at assembly time are discarded
         //
 
-        if( block instanceof Composite )
-        {
-            ((Composite)block).disassemble();
-        }
+        block.getContainmentModel().disassemble();
 
         //
         // 8. dispose of the appliance during which all subsidiary 

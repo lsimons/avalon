@@ -57,20 +57,19 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Hashtable;
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.ApplianceException;
 import org.apache.avalon.activation.appliance.AssemblyException;
 import org.apache.avalon.activation.appliance.Composite;
 import org.apache.avalon.activation.appliance.Engine;
-import org.apache.avalon.activation.appliance.ServiceContext;
 import org.apache.avalon.activation.lifecycle.ContextualizationHandler;
 import org.apache.avalon.activation.lifecycle.Factory;
 import org.apache.avalon.activation.lifecycle.LifecycleCreateExtension;
 import org.apache.avalon.activation.lifecycle.LifecycleDestroyExtension;
 import org.apache.avalon.activation.lifecycle.LifecycleException;
 import org.apache.avalon.activation.lifestyle.LifestyleHandler;
-import org.apache.avalon.activation.lifestyle.impl.PooledLifestyleHandler;
 import org.apache.avalon.activation.lifestyle.impl.SingletonLifestyleHandler;
 import org.apache.avalon.activation.lifestyle.impl.ThreadLifestyleHandler;
 import org.apache.avalon.activation.lifestyle.impl.TransientLifestyleHandler;
@@ -79,6 +78,7 @@ import org.apache.avalon.composition.logging.LoggingManager;
 import org.apache.avalon.composition.model.ContextModel;
 import org.apache.avalon.composition.model.DependencyModel;
 import org.apache.avalon.composition.model.ComponentModel;
+import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.StageModel;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
@@ -104,10 +104,9 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.15.2.1 $ $Date: 2004/01/04 17:23:16 $
+ * @version $Revision: 1.15.2.2 $ $Date: 2004/01/07 12:57:25 $
  */
-public class DefaultAppliance extends AbstractAppliance
-  implements Composite, DefaultApplianceMBean
+public class DefaultAppliance extends AbstractAppliance implements Appliance
 {
     //-------------------------------------------------------------------
     // static
@@ -142,19 +141,9 @@ public class DefaultAppliance extends AbstractAppliance
     private final Engine m_engine;
 
    /**
-    * The assembled state of the appliance.
-    */
-    private final DefaultState m_assembly = new DefaultState();
-
-   /**
     * The deployed state of the appliance.
     */
     private final DefaultState m_deployment = new DefaultState();
-
-   /**
-    * The system service context. 
-    */
-    private final ServiceContext m_context;
 
    /**
     * The instance factory.
@@ -195,12 +184,11 @@ public class DefaultAppliance extends AbstractAppliance
     //-------------------------------------------------------------------
 
     public DefaultAppliance( 
-      Logger logger, ServiceContext context, ComponentModel model, Engine engine )
+      Logger logger, ComponentModel model, Engine engine )
     {
         super( logger.getChildLogger( "appliance" ), model );
 
         m_logger = logger;
-        m_context = context;
         m_model = (ComponentModel) model;
         m_engine = engine;
     }
@@ -210,6 +198,15 @@ public class DefaultAppliance extends AbstractAppliance
     //-------------------------------------------------------------------
 
     /**
+     * Return the component model assigned to this appliance.
+     * @return the componentn model
+     */
+     private ComponentModel getComponentModel()
+     {
+         return m_model;
+     }
+
+    /**
      * Return the context provider.  This is a component that
      * will be used to apply the contextualization strategy.
      *
@@ -217,7 +214,16 @@ public class DefaultAppliance extends AbstractAppliance
      */
     private Appliance getContextProvider()
     {
-        return m_contextProvider;
+        ContextModel context = getComponentModel().getContextModel();
+        if( null != context )
+        {
+            DeploymentModel provider = context.getProvider();
+            if( null != provider )
+            {
+                return m_engine.locate( provider );
+            }
+        }
+        return null;
     }
 
     /**
@@ -226,236 +232,59 @@ public class DefaultAppliance extends AbstractAppliance
      * @return the stage extension
      * @exception IllegalStateException if the stage provider is unresolvable
      */
-    private Appliance getStageProvider( StageDescriptor stage ) throws IllegalArgumentException
+    private Appliance getStageProvider( StageDescriptor stage ) 
+      throws IllegalArgumentException
     {
         final String key = stage.getKey();
-        Appliance appliance = (Appliance) m_stages.get( key );
-        if( appliance != null ) return appliance;
-
-        final String error = 
-          REZ.getString( 
-            "lifecycle.stage.key.unknown.error",
-            m_model.getQualifiedName(), key );
-        getLogger().error( error );
-
-        throw new IllegalStateException( error );
-    }
-
-    /**
-     * Return the assigned extension providers.
-     *
-     * @return the set of extension provider appliances.
-     */
-    private Appliance[] getStageProviders()
-    {
-        return (Appliance[]) m_stages.values().toArray( new Appliance[0] );
-    }
-
-    //-------------------------------------------------------------------
-    // Composite
-    //-------------------------------------------------------------------
-
-    /**
-     * Returns the assembled state of the appliance.
-     * @return true if this appliance is assembled
-     */
-    public boolean isAssembled()
-    {
-        return m_assembly.isEnabled();
-    }
-
-    /**
-     * Assemble the appliance.
-     * @exception ApplianceException if an error occurs during appliance assembly
-     */
-    public void assemble() throws AssemblyException
-    {
-        synchronized( m_assembly )
+        StageModel model = getComponentModel().getStageModel( stage );
+        if( null != model )
         {
-            if( isAssembled() )
+            DeploymentModel provider = model.getProvider();
+            if( null != provider )
             {
-                return;
+                return m_engine.locate( provider );
             }
-
-            if( getLogger().isDebugEnabled() )
+            else
             {
-                getLogger().debug( "assembly phase" );
+                final String error = 
+                  "Null provider returned for the stage: " + stage;
+                throw new IllegalStateException( error );
             }
-
-            //
-            // check if we need a contextualization handler
-            //
-
-            if( m_model.getContextModel() != null )
-            {
-                Class clazz = m_model.getContextModel().getStrategyClass();
-                if( !clazz.getName().equals( ContextModel.DEFAULT_STRATEGY_CLASSNAME ) )
-                {
-                    //
-                    // we need to load a deployment phase context strategy handler
-                    // using the strategy interface as the extension handler key
-                    //
-
-                    try
-                    {
-                        StageDescriptor stage = 
-                          new StageDescriptor( clazz.getName() );
-                        m_contextProvider = 
-                          m_engine.locate( stage );
-                    }
-                    catch( Throwable e )
-                    {
-                        final String error = 
-                          REZ.getString( 
-                            "assembly.context.error",
-                            getModel().getQualifiedName(), clazz.getName() );
-                        throw new AssemblyException( error, e );
-                    }
-
-                    //
-                    // verify that the stage is a context handler
-                    //
-
-                    //
-                    // TODO - instead of casting we should be able 
-                    // test the appliance if it supports assignment
-                    // from a class via an operation on the Home
-                    // interface
-                    //
-
-                    ComponentModel model = 
-                       (ComponentModel) m_contextProvider.getModel();
-                    Class handler = 
-                      model.getDeploymentClass();
-
-                    if( !ContextualizationHandler.class.isAssignableFrom( handler ) )
-                    {
-                        final String error = 
-                          REZ.getString( 
-                            "assembly.context-strategy.bad-class.error",
-                            handler.getName() );
-                        throw new AssemblyException( error );
-                    }
-
-                    registerListener( m_contextProvider );
-                    if( getLogger().isDebugEnabled() )
-                    {
-                        getLogger().debug( 
-                          "assigning context provider: " + m_contextProvider );
-                    }
-                }
-            }
-
-            //
-            // get the dependency models for the type and resolve providers
-            //
-
-            DependencyModel[] dependencies = m_model.getDependencyModels();
-            for( int i=0; i<dependencies.length; i++ )
-            {
-                DependencyModel dependency = dependencies[i];
-                final String key = dependency.getDependency().getKey();
-                try
-                {
-                    final Appliance appliance = 
-                      m_engine.locate( dependency );
-                    if( null != appliance )
-                    {
-                        registerListener( appliance );
-                        m_providers.put( key, appliance );
-                        if( getLogger().isDebugEnabled() )
-                        {
-                            getLogger().debug( 
-                              "assigning service provider for key (" 
-                              + key + "): " + appliance );
-                        }
-                    }
-                }
-                catch( Throwable e )
-                {
-                    final String error = 
-                      REZ.getString( 
-                        "assembly.dependency.error",
-                        getModel().getQualifiedName(), key );
-                    throw new AssemblyException( error, e );
-                }
-            }
-
-            //
-            // get the stage models for the type and resolve providers
-            //
-
-            StageModel[] stages = m_model.getStageModels();
-            for( int i=0; i<stages.length; i++ )
-            {
-                StageModel stage = stages[i];
-                final String key = stage.getStage().getKey();
-                try
-                {
-                    final Appliance appliance = 
-                      m_engine.locate( stage );
-                    registerListener( appliance );
-                    m_stages.put( key, appliance );
-                    if( getLogger().isDebugEnabled() )
-                    {
-                        getLogger().debug( 
-                          "assigning stage provider (" + key + "): " + appliance );
-                    }
-                }
-                catch( Throwable e )
-                {
-                    final String error = 
-                      REZ.getString( 
-                        "assembly.stage.error",
-                        getModel().getQualifiedName(), key );
-                    throw new AssemblyException( error, e );
-                }
-            }
-            m_assembly.setEnabled( true );
+        }
+        else
+        {
+            final String error = 
+              REZ.getString( 
+                "lifecycle.stage.key.unknown.error",
+                getComponentModel().getQualifiedName(), key );
+            throw new IllegalStateException( error );
         }
     }
 
-    /**
-     * Disassemble the appliance.
-     */
-    public void disassemble()
+    private Map getServiceProviders()
     {
-        synchronized( m_assembly )
+        Hashtable map = new Hashtable();
+        DependencyModel[] deps = 
+          getComponentModel().getDependencyModels();
+        for( int i=0; i<deps.length; i++ )
         {
-           if( !m_assembly.isEnabled() )
-           {
-               final String error = 
-                 REZ.getString( 
-                   "assembly.dissassembly.state.error", 
-                   getModel().getQualifiedName() );
-               throw new IllegalStateException( error );
-           }
-
-           getLogger().debug( "dissassembly phase" );
-
-           m_contextProvider = null;
-           m_stages.clear();
-           m_providers.clear();
-           m_assembly.setEnabled( false );
+            DependencyModel dep = deps[i];
+            DeploymentModel provider = dep.getProvider();
+            if( null != provider )
+            {
+                final String key = 
+                  dep.getDependency().getKey();
+                map.put( key, m_engine.locate( provider ) );
+            }
+            else
+            {
+                final String error = 
+                  "Null provider returned for the service: " 
+                  + dep.getDependency().getKey();
+                throw new IllegalStateException( error );
+            }
         }
-    }
-
-    /**
-     * Return the set of appliances assigned as deployment and runtime providers.
-     * @return the extenernal providers consumed by the appliance
-     * @exception IllegalStateException if invoked prior to 
-     *    the completion of the assembly phase 
-     */
-    public Appliance[] getProviders()
-    {
-        final ArrayList list = new ArrayList();
-        if( m_contextProvider != null )
-        {
-            list.add( m_contextProvider );
-        }
-        list.addAll( m_stages.values() );
-        list.addAll( m_providers.values() );
-        return (Appliance[]) list.toArray( new Appliance[0] );
+        return map;
     }
 
     //-------------------------------------------------------------------
@@ -483,7 +312,8 @@ public class DefaultAppliance extends AbstractAppliance
                   "deployment (" 
                   + lifestyle
                   + "/"
-                  + InfoDescriptor.getCollectionPolicyKey( m_model.getCollectionPolicy() ) 
+                  + InfoDescriptor.getCollectionPolicyKey( 
+                      m_model.getCollectionPolicy() ) 
                   + ") [" 
                   + m_model.getActivationPolicy() + "]" );
             }
@@ -492,6 +322,7 @@ public class DefaultAppliance extends AbstractAppliance
             // setup custom contextualizer if required
             //
 
+            m_contextProvider = getContextProvider();
             if( m_contextProvider != null )
             {
                 m_contextualization = 
@@ -514,7 +345,7 @@ public class DefaultAppliance extends AbstractAppliance
             // component access now
             //
 
-            if( m_model.getActivationPolicy() )
+            if( getComponentModel().getActivationPolicy() )
             {
                 m_instance = resolve();
                 if( getLogger().isDebugEnabled() )
@@ -552,6 +383,7 @@ public class DefaultAppliance extends AbstractAppliance
             if( m_contextProvider != null )
             {
                 m_contextProvider.release( m_contextualization );
+                m_contextProvider = null;
                 m_contextualization = null;
             }
             m_deployment.setEnabled( false );
@@ -763,7 +595,9 @@ public class DefaultAppliance extends AbstractAppliance
                 int id = System.identityHashCode( instance );
                 getLogger().debug( "applying service manager to: " + id );
             }
-            ServiceManager manager = new DefaultServiceManager( getLogger(), m_providers );
+
+            Map providers = getServiceProviders();
+            ServiceManager manager = new DefaultServiceManager( getLogger(), providers );
             ((Serviceable)instance).service( manager );
         }
     }
@@ -1135,13 +969,15 @@ public class DefaultAppliance extends AbstractAppliance
         {
             return new ThreadLifestyleHandler( log, m_factory );
         }
-        else if( lifestyle.equals( InfoDescriptor.POOLED ) )
+        else if( lifestyle.equals( InfoDescriptor.TRANSIENT ) )
         {
-            return new PooledLifestyleHandler( log, m_factory );
+            return new TransientLifestyleHandler( log, m_factory );
         }
         else
         {
-            return new TransientLifestyleHandler( log, m_factory );
+            final String error = 
+              "Unsupported lifestyle [" + lifestyle + "].";
+            throw new IllegalArgumentException( error );
         }
     }
 

@@ -22,7 +22,7 @@ the LICENSE.txt file.
    <profile name="basic">
      <context class="org.apache.avalon.playground.basic.BasicContextImp">
        <entry key="home">
-         <import key="urn:avalon:home.dir"/>
+         <import key="urn:avalon:home"/>
        </entry>
        <entry key="location">
          <constructor>Paris</constructor>

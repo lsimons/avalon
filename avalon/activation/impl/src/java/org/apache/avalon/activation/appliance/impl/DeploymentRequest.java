@@ -59,7 +59,7 @@ import org.apache.avalon.activation.appliance.FatalDeploymentException;
 /**
  * A deployment request handler.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/04 15:23:01 $
+ * @version $Revision: 1.2.2.1 $ $Date: 2004/01/07 12:57:25 $
  */
 class DeploymentRequest
 {
