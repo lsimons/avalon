@@ -77,7 +77,7 @@
     <logging>
       <src>conf/log4j.xml</src>
       <!-- Check for Update once every minute. -->
-      <update>60000</src>
+      <update>60000</update>
     </logging>
 ]]></source>
       </subsection>
