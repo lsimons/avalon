@@ -26,8 +26,6 @@ import org.apache.avalon.util.thread.ThreadPool;
 /**
  * This is the service through which ConnectionManagement occurs.
  *
- * WARNING: This is very early ALPHA and the interface will most likely change.
- * 
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DefaultConnectionManager

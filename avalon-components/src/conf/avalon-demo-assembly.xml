@@ -154,8 +154,17 @@
     </configuration>
   </block>    
 
+  <block class="org.apache.cornerstone.demos.xcommander.XCommanderServer" 
+         name="xcommander-server" >
+
+    <provide name="sockets" role="org.apache.cornerstone.services.sockets.SocketManager"/>
+    <provide name="connections" 
+             role="org.apache.cornerstone.services.connection.ConnectionManager" />
+
+    <!-- Note trailing file separator in destinationURL -->
+    <configuration>
+	  <port>4557</port>
+    </configuration>
+  </block>  
+
 </phoenix>
-
-
-
-
