@@ -441,7 +441,6 @@ public class DefaultEmbeddor
     /**
      * The deployer is used to load the applications from the
      * default-apps-location specified in Parameters.
-     * TODO: load facilities from .fars as well.
      *
      * @throws Exception if an error occurs
      */
