@@ -17,7 +17,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * The Factory implementation for JdbcConnections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.13 $ $Date: 2002/03/26 10:45:22 $
+ * @version CVS $Revision: 1.14 $ $Date: 2002/04/04 07:09:53 $
  * @since 4.0
  */
 public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectFactory
@@ -117,6 +117,9 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
         catch( Exception e )
         {
             // ignore for now
+            // No logger here, so we can't log this.  Really should output something here though
+            //  as it can be a real pain to track down the cause when this happens.
+            //System.out.println( "Unable to get specified connection class: " + e );
         }
 
         this.m_class = clazz;
