@@ -45,65 +45,38 @@
 // Apache Software Foundation, please see <http://www.apache.org/>.
 // ============================================================================
 
-namespace Apache.Avalon.Container.Test
+namespace Apache.Avalon.Container.Test.Components
 {
 	using System;
 	using NUnit.Framework;
 
-	using Apache.Avalon.Container.Test.Components;
+	using Apache.Avalon.Framework;
 
 	/// <summary>
-	/// Summary description for DependencyHandlingTestCase.
+	/// Definition for IBus service.
 	/// </summary>
-	[TestFixture]
-	public class DependencyHandlingTestCase : ContainerTestCase
+	public interface IBus : IVehicle
 	{
-		[Test]
-		public void ShutDownOrderCheck()
-		{
-			Assertion.AssertEquals(6, m_container.ShutDownOrder.Length);
+		void Travel();
+	}
 
-			Assertion.AssertEquals(typeof(IBus).FullName, m_container.ShutDownOrder[0].Name);
-			Assertion.AssertEquals(typeof(IVehicle).FullName, m_container.ShutDownOrder[1].Name);
-			Assertion.AssertEquals(typeof(IRadio).FullName, m_container.ShutDownOrder[2].Name);
-			Assertion.AssertEquals(typeof(IEngine).FullName, m_container.ShutDownOrder[3].Name);
+	[AvalonService( typeof(IBus) )]
+	[AvalonComponent( "IBus", Lifestyle.Transient )]
+	public class Bus : Vehicle, IBus
+	{
+		public Bus()
+		{
 		}
 
-		[Test]
-		public void ComponentWithDependency()
+		public void Travel()
 		{
-			IVehicle vehicle = null;
-			
-			try
+			if (Engine == null)
 			{
-				vehicle = (IVehicle) m_container.LookupManager[ typeof(IVehicle).FullName ];
+				throw new ApplicationException("We should have a engine instance.");
 			}
-			finally
+			if (Radio == null)
 			{
-				if (vehicle != null)
-				{
-					m_container.LookupManager.Release(vehicle);
-				}
-			}
-		}
-
-		[Test]
-		public void ComponentWithInheritedDependency()
-		{
-			IBus bus = null;
-
-			try
-			{
-				bus = (IBus) m_container.LookupManager[ typeof(IBus).FullName ];
-
-				bus.Travel();
-			}
-			finally
-			{
-				if (bus != null)
-				{
-					m_container.LookupManager.Release(bus);
-				}
+				throw new ApplicationException("We should have a radio instance.");
 			}
 		}
 	}
