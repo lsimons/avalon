@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.57 $
+                   Version $Revision: 1.58 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -234,6 +234,32 @@ To use it, type 'ant -f depchecker.xml'
            |   2) Copy the project's ant.properties.sample to ant.properties ${nl}
            |   3) In ant.properties, redefine the avalon-framework.jar property ${nl}
            |      to point to the path of avalon-framework.jar in your ${nl}
+           |      downloaded Avalon."/>
+
+        </ant>
+    </target>
+    <target name="checkFrameworkAPI">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="proj.jar.name" value="avalon-framework-api.jar"/>
+            <property name="path" value="${avalon-framework-api.jar}"/>
+            <property name="remedy" value="1) Download and unpack Avalon Framework from ${nl}
+           | http://jakarta.apache.org/builds/avalon/release/framework ${nl}
+           |   2) Copy the project's ant.properties.sample to ant.properties ${nl}
+           |   3) In ant.properties, redefine the avalon-framework.jar property ${nl}
+           |      to point to the path of avalon-framework-api.jar in your ${nl}
+           |      downloaded Avalon."/>
+
+        </ant>
+    </target>
+    <target name="checkFrameworkImpl">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="proj.jar.name" value="avalon-framework-impl.jar"/>
+            <property name="path" value="${avalon-framework-impl.jar}"/>
+            <property name="remedy" value="1) Download and unpack Avalon Framework from ${nl}
+           | http://jakarta.apache.org/builds/avalon/release/framework ${nl}
+           |   2) Copy the project's ant.properties.sample to ant.properties ${nl}
+           |   3) In ant.properties, redefine the avalon-framework.jar property ${nl}
+           |      to point to the path of avalon-framework-impl.jar in your ${nl}
            |      downloaded Avalon."/>
 
         </ant>
