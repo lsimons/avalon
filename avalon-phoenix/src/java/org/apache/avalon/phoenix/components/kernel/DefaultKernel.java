@@ -91,10 +91,8 @@ public class DefaultKernel
     public Application getApplication( final String name )
     {
         final SarEntry entry = (SarEntry)m_entrys.get( name );
-        if( null == entry )
-            return null;
-        else
-            return entry.getApplication();
+        if( null == entry ) return null;
+        else return entry.getApplication();
     }
 
     /**
@@ -174,6 +172,7 @@ public class DefaultKernel
         {
             final String message = REZ.getString( "kernel.error.entry.start", name );
             getLogger().warn( message, e );
+            throw e;
         }
     }
 
