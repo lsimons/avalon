@@ -17,28 +17,34 @@
 
     <taskdef name="altrmiproxies"
         classname="org.apache.excalibur.altrmi.generator.ant.AltrmiProxyTask">
-        <classpath refid="project.class.path" />
+        <classpath>
+          <path refid="project.class.path" />
+          <pathelement path="${build.manager.classes}"/>
+        </classpath>
     </taskdef>
-        
-    
+
+
     <!-- Generates the altrmi proxies used by the client. -->
     <target name="altrmiproxies">
         <mkdir dir="${build.genjava}"/>
-        
+
         <delete>
             <fileset dir="${build.genjava}" includes="AltrmiGenerated*.java"/>
         </delete>
         <delete>
-            <fileset dir="${build.classes}" includes="AltrmiGenerated*.class"/>
+            <fileset dir="${build.client.classes}" includes="AltrmiGenerated*.class"/>
         </delete>
-        
+
         <altrmiproxies genname="InstrumentManagerClient"
-            srcgendir="${build.genjava}" 
-            classgendir="${build.classes}" 
-            interfaces="org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentManagerClient"
-            additionalfacades="org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentableDescriptor,org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentDescriptor,org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor">
-            <classpath refid="project.class.path" />
-        </altrmiproxies>        
+            srcgendir="${build.genjava}"
+            classgendir="${build.client.classes}"
+            interfaces="org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient"
+            additionalfacades="org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor,org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor,org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor">
+            <classpath>
+              <path refid="project.class.path" />
+              <pathelement path="${build.manager.classes}"/>
+            </classpath>
+        </altrmiproxies>
     </target>
 
 </project>
