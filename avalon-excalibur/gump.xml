@@ -16,7 +16,7 @@
             <depend property="logkit.jar"    project="jakarta-avalon-logkit"/>
             <depend property="excalibur-pool.jar"    project="excalibur-pool"/>
             <depend property="excalibur-collections.jar"    project="excalibur-collections"/>
-            <depend property="excalibur-event.jar"    project="excalibur-event"/>
+            <depend property="avalon-framework.jar"    project="avalon-framework"/>
             <depend property="excalibur-instrument.jar"    project="excalibur-instrument"/>
             <depend property="excalibur-component.jar"    project="excalibur-component"/>
             <depend property="excalibur-event.jar"    project="excalibur-event"/>
