@@ -8,20 +8,38 @@
   <body>
 
   <section name="A container for CLI">
-    <p>Avalon Castle is the last one of a few attempts to deliver a
+    <p>Avalon Castle is a lightweight
     container for the CLI (.Net and Mono) world. Although it can be viewed as
     a port of Avalon, it benefits from several features offered by the
     CLR.</p>
 
     <p>Other important difference of Castle container is its simplicity.
-    Based on Microkernel pattern, the user can easily modified, extend or
+    Based on Microkernel pattern, the user can easily modify, extend or
     adapt it to match his requirements. No hard contracts, no obligations.
     Just good and old Inversion of Control and stills Avalon.</p>
   </section>
 
-  <section name="What's different?">
-    <p>The first difference to be noticed relates to no obligation of
-    using Avalon interfaces or attributes at all. </p>
+  <section name="Microkernel">
+    <p>
+    The Microkernel pattern allowed us to focus on a simple set of classes
+    which constitutes the environment for managed components.
+    </p>
+  </section>
+
+  <section name="DynamicProxy">
+    <p>
+    To overcome some limitations of CLR we had to develop some other tools used 
+    by Avalon Castle. DynamicProxy is a simple implementation that immitates the 
+    Java proxies through Invocation handlers.
+    </p>
+  </section>
+
+  <section name="ManagedExtensions">
+    <p>
+    If one needs a more powerfull container, allowing him to managed his components 
+    through some remote interface, he can use the managed extensions. 
+    In fact the ManagedExtensions can be viewed as a port of JMX for CLI.
+    </p>
   </section>
 
   </body>
