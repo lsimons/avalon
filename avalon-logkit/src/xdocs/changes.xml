@@ -9,7 +9,7 @@
   </devs>
 <release version="1.0-dev" date="Unreleased">
   <action dev="PD" type="update">
-    Deprecated Logger.getCategory as it violate the Inversion Of Control principle.
+    Deprecated Logger.getCategory as it violates the Inversion Of Control principle.
   </action>
   <action dev="PD" type="update">
     Enhanced FileOutputLogTarget to enable it to be used to append to a file, rather than overwrite.
