@@ -34,13 +34,23 @@
         <jar name="avalon-excalibur.jar" id="avalon-excalibur"/>
         <jar name="avalon-scratchpad.jar" id="avalon-scratchpad"/>
         <javadoc nested="build/javadocs" module="jakarta-avalon"/>
+
+        <!-- doesn't work yet. Need to wait till next release of checkstyle
+        then use failureProperty="" to guard printing of the next line -->
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"
+              subject="Audit Failure">
+            <regexp pattern="/Checckstyle Failure/"/>
+        </nag>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
     </project>
 
     <project name="excalibur-baxter">
         <package>org.apache.avalon.excalibur.baxter</package>
 
         <ant basedir="baxter">
-            <depend property="framework.jar" project="jakarta-avalon"/>
             <depend property="junit.jar" project="junit"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -56,13 +66,14 @@
 
         <home nested="baxter"/>
         <jar name="build/lib/excalibur-baxter-@@DATE@@.jar"/>
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
     </project>
 
     <project name="excalibur-bzip2">
         <package>org.apache.avalon.excalibur.bzip2</package>
 
         <ant basedir="bzip2">
-            <depend property="framework.jar" project="jakarta-avalon"/>
             <depend property="junit.jar" project="junit"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -77,6 +88,9 @@
 
         <home nested="bzip2"/>
         <jar name="build/lib/excalibur-bzip2-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
     </project>
 
     <project name="excalibur-cache">
@@ -98,6 +112,9 @@
 
         <home nested="cache"/>
         <jar name="build/lib/excalibur-cache-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
     </project>
 
     <project name="excalibur-cli">
@@ -118,6 +135,9 @@
 
         <home nested="cli"/>
         <jar name="build/lib/excalibur-cli-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
     </project>
 
     <project name="excalibur-extension">
@@ -138,6 +158,9 @@
 
         <home nested="extension"/>
         <jar name="build/lib/excalibur-extension-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
     </project>
 
     <project name="excalibur-i18n">
@@ -158,6 +181,9 @@
 
         <home nested="i18n"/>
         <jar name="build/lib/excalibur-i18n-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
     </project>
 
     <project name="excalibur-io">
@@ -178,6 +204,9 @@
 
         <home nested="io"/>
         <jar name="build/lib/excalibur-io-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
     </project>
 
     <project name="excalibur-naming">
@@ -198,6 +227,9 @@
 
         <home nested="naming"/>
         <jar name="build/lib/excalibur-naming-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
     </project>
 
     <project name="excalibur-tar">
@@ -218,6 +250,9 @@
 
         <home nested="tar"/>
         <jar name="build/lib/excalibur-tar-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
     </project>
 
     <project name="excalibur-zip">
@@ -238,6 +273,9 @@
 
         <home nested="zip"/>
         <jar name="build/lib/excalibur-zip-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
     </project>
 
 </module>
