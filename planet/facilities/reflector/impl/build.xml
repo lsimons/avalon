@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="metro-reflector-impl" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
+
+  <property file="build.properties"/>
+  <import file="${project.system}/build/standard.xml"/>
+
+  <target name="build" depends="standard.build">
+  
+    <x:block name="reflector">
+      <x:component name="impl" class="org.apache.metro.facilities.reflector.impl.ReflectorImpl" />
+      <x:component name="model-registrar" class="org.apache.metro.facilities.reflector.impl.ModelRegistrator" />
+      <x:component name="reflector-http-handler" class="org.apache.metro.facilities.reflector.impl.ReflectionHandler" >
+        <x:parameters>
+          <x:parameter name="handler-index" value="0" />
+          <x:parameter name="context-path" value="/inspect" />
+        </x:parameters>
+      </x:component>
+      <x:include name="http" artifact="block:avalon/http/avalon-http-static#SNAPSHOT" />
+      <x:include name="http-server" artifact="block:avalon/http/avalon-http-server#SNAPSHOT" />
+    </x:block>
+  </target>
+
+</project>

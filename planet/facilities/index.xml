@@ -627,5 +627,34 @@
     </dependencies>
   </project>
 
+  <project basedir="reflector/api">
+    <info>
+      <group>metro/facilities/reflector</group>
+      <name>metro-reflector-api</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+      <type>jar</type>
+    </info>
+  </project>
 
+  <project basedir="reflector/impl">
+    <info>
+      <group>metro/facilities/reflector</group>
+      <name>metro-reflector-impl</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+      <include key="metro-reflector-api"/>
+      <include key="avalon-composition-api"/>
+      <include key="org.mortbay.jetty"/>
+      <include key="avalon-http-spi"/>
+      <include key="avalon-http-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
 </index>
