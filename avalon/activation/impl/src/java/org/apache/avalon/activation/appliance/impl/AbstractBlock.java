@@ -59,7 +59,6 @@ import org.apache.avalon.activation.appliance.ApplianceException;
 import org.apache.avalon.activation.appliance.ApplianceRuntimeException;
 import org.apache.avalon.activation.appliance.AssemblyException;
 import org.apache.avalon.activation.appliance.Block;
-import org.apache.avalon.activation.appliance.BlockContext;
 import org.apache.avalon.activation.appliance.Engine;
 import org.apache.avalon.activation.appliance.NoProviderDefinitionException;
 
@@ -90,7 +89,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.12 $ $Date: 2004/01/13 11:41:22 $
+ * @version $Revision: 1.13 $ $Date: 2004/01/13 18:43:15 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
   implements Block, CompositionEventListener
@@ -110,21 +109,20 @@ public abstract class AbstractBlock extends AbstractAppliance
         {
             throw new NullPointerException( "model" );
         }
-
-        BlockContext context = 
-          new DefaultBlockContext( model, null );
-        return new DefaultBlock( context );
+        return new DefaultBlock( model );
     }
 
     //-------------------------------------------------------------------
     // immmutable state
     //-------------------------------------------------------------------
 
-    private final BlockContext m_context;
+    private final ContainmentModel m_model;
 
     private final DefaultState m_deployment = new DefaultState();
 
     private final DefaultState m_self = new DefaultState();
+
+    private final Engine m_engine;
 
     //-------------------------------------------------------------------
     // constructor
@@ -136,15 +134,14 @@ public abstract class AbstractBlock extends AbstractAppliance
     * @param context the block context
     * @exception ApplianceException if a block creation error occurs
     */
-    AbstractBlock( BlockContext context )
+    AbstractBlock( ContainmentModel model, Engine engine )
     {
-        super( context.getContainmentModel() );
+        super( model );
 
-        m_context = context;
+        m_model = model;
+        m_engine = engine;
 
         m_self.setEnabled( true );
-
-        ContainmentModel model = m_context.getContainmentModel();
         synchronized( model )
         {
             model.addCompositionListener( this );
@@ -161,7 +158,7 @@ public abstract class AbstractBlock extends AbstractAppliance
     */
     public ContainmentModel getContainmentModel() 
     {
-        return m_context.getContainmentModel();
+        return m_model;
     }
 
     //-------------------------------------------------------------------
@@ -254,7 +251,7 @@ public abstract class AbstractBlock extends AbstractAppliance
     */
     public void deploy() throws Exception
     {
-        if( !m_context.getContainmentModel().isAssembled() )
+        if( !getContainmentModel().isAssembled() )
         {
             throw new IllegalStateException( "assembly" );
         }
@@ -400,9 +397,7 @@ public abstract class AbstractBlock extends AbstractAppliance
         {
             getLogger().debug( "creating block: " + path );
             ContainmentModel containment = (ContainmentModel) model;
-            BlockContext context = 
-              new DefaultBlockContext( containment, this );
-            appliance = new CompositeBlock( context );
+            appliance = new DefaultBlock( containment, this );
         }
         else
         {

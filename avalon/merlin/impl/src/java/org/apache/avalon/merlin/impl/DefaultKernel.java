@@ -51,15 +51,20 @@
 package org.apache.avalon.merlin.impl;
 
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.Iterator;
 
 import org.apache.avalon.merlin.Kernel;
-import org.apache.avalon.merlin.KernelCriteria;
+import org.apache.avalon.merlin.KernelContext;
+import org.apache.avalon.merlin.KernelError;
 import org.apache.avalon.merlin.KernelException;
 import org.apache.avalon.merlin.KernelRuntimeException;
+import org.apache.avalon.merlin.event.KernelEventListener;
+import org.apache.avalon.merlin.event.KernelStateEvent;
 
 import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.Block;
-import org.apache.avalon.activation.appliance.impl.AbstractBlock;
+import org.apache.avalon.activation.appliance.impl.DefaultBlock;
 
 import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.logging.LoggingManager;
@@ -69,6 +74,8 @@ import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.util.StringHelper;
 
+import org.apache.avalon.util.exception.ExceptionHelper;
+
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.Logger;
 
@@ -76,52 +83,24 @@ import org.apache.avalon.framework.logger.Logger;
  * Implementation of the default Merlin Kernel.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/13 11:41:27 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/13 18:43:15 $
  */
 public class DefaultKernel implements Kernel
 {
-    //--------------------------------------------------------------
-    // static
-    //--------------------------------------------------------------
-
-    private static final String INITIALIZING = "initializing";
-    private static final String INITIALIZED = "initialized";
-    private static final String STARTING = "starting";
-    private static final String COMPOSITION = "model composition";
-    private static final String ASSEMBLY = "model assembly";
-    private static final String DEPLOYMENT = "block deployment";
-    private static final String STARTED = "started";
-    private static final String STOPPING = "stopping";
-    private static final String DECOMMISSIONING = "decommissioning";
-    private static final String DISSASSEMBLY = "dissassembly";
-    private static final String BLOCK_DISPOSAL = "block disposal";
-    private static final String STOPPED = "stopped";
 
     //--------------------------------------------------------------
     // immutable state
     //--------------------------------------------------------------
 
-    private final Logger m_logger;
+    private final LinkedList m_listeners = new LinkedList();
 
-    private final KernelCriteria m_criteria;
+    private final KernelContext m_context;
 
-    private final SystemContext m_context;
+    private final Block m_application;
 
-    private final ContainmentModel m_model;
+    private final Block m_system;
 
-    private final DefaultState m_self = new DefaultState();
-
-    private final DefaultState m_start = new DefaultState();
-
-    //--------------------------------------------------------------
-    // mutable state
-    //--------------------------------------------------------------
-
-    private String m_stateString = INITIALIZING;
-
-    private long m_stateChangeSequenceId = 0;
-
-    private Block m_application;
+    private final State m_state;
 
     //--------------------------------------------------------------
     // constructor
@@ -129,46 +108,55 @@ public class DefaultKernel implements Kernel
 
    /**
     * Creation of a new Merlin Kernel.
-    * @param logger the assigned logging channel
-    * @param criteria the kernel creation criteria
-    * @param model the application model
-    * @exception KernelException if a kernel creation error occurs
+    * @param context the creation context
+    * @exception KernelException if a kernel initialization error occurs
     */
-    public DefaultKernel( 
-      final Logger logger,
-      final KernelCriteria criteria, 
-      final SystemContext context,
-      final ContainmentModel model ) throws KernelException
+    public DefaultKernel( KernelContext context ) throws KernelException
     {
-        if( logger == null ) 
-          throw new NullPointerException( "logger" );
-        if( criteria == null ) 
-          throw new NullPointerException( "criteria" );
         if( context == null ) 
           throw new NullPointerException( "context" );
-        if( model == null ) 
-          throw new NullPointerException( "model" );
 
-        m_criteria = criteria;
         m_context = context;
-        m_model = model;
-        m_logger = logger;
+        m_state = new State( this );
+
+        setState( INITIALIZING );
+
+        try
+        {
+            ContainmentModel facilities = 
+              context.getFacilitiesModel();
+            facilities.assemble();
+            DefaultBlock system = 
+              new DefaultBlock( facilities );
+            system.deploy();
+            m_system = system;
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Cannot create system facilities.";
+            throw new KernelError( error, e );
+        }
+
+
+        try
+        {
+            m_application = 
+              new DefaultBlock( context.getApplicationModel() );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Cannot create application runtime.";
+            throw new KernelError( error, e );
+        }
 
         setState( INITIALIZED );
-
         if( getLogger().isDebugEnabled() )
         {
-            int count = 
-              m_model.getModels().length;
-            if( count == 0 )
-            {
-                getLogger().debug( "kernel established" );
-            }
-            else
-            {
-                getLogger().debug( "kernel established (" + count + ")" );
-            }
+            m_context.getLogger().debug( "kernel established" );
         }
+        setState( STOPPED );
     }
 
     //--------------------------------------------------------------
@@ -176,17 +164,31 @@ public class DefaultKernel implements Kernel
     //--------------------------------------------------------------
 
    /**
-    * Return the block matching the supplied path.
+    * Add a kernel listener.
+    * @param listener the kernel listener to be added
+    */
+    public void addKernelEventListener( KernelEventListener listener )
+    {
+        m_state.addKernelEventListener( listener );
+    }
+
+   /**
+    * Remove a kernel listener.
+    * @param listener the kernel listener to be removed
+    */
+    public void removeKernelEventListener( KernelEventListener listener )
+    {
+        m_state.removeKernelEventListener( listener );
+    }
+
+   /**
+    * Return the appliance matching the supplied path.
     * @param path an appliance path
     * @return the corresponding appliance
+    * @exception KernelException if the path is unknown
     */
     public Appliance locate( String path ) throws KernelException
     {
-        if( null == m_application )
-        {
-            throw new IllegalStateException( "not-started" );
-        }
-
         try
         {
             return m_application.locate( path );
@@ -223,68 +225,47 @@ public class DefaultKernel implements Kernel
         // instantiate the runtime root application block
         //
 
-        synchronized( m_self )
+        synchronized( m_state )
         {
-            if( m_self.isEnabled() ) return;
-            setState( ASSEMBLY );
-            try
+            if( m_state.getState() != STOPPED ) return;
+
+            if( getLogger().isDebugEnabled() )
             {
                 getLogger().debug( "application assembly" );
-                m_model.assemble();
-            }
-            catch( Throwable e )
-            {
-                final String error = 
-                  "Application assembly failure.";
-                throw new KernelException( error, e );
             }
 
             try
             {
-                m_application = 
-                  AbstractBlock.createRootBlock( m_model );
+                setState( ASSEMBLY );
+                m_application.getModel().assemble();
+            }
+            catch( Throwable e )
+            {
                 setState( INITIALIZED );
-            }
-            catch( Throwable e )
-            {
-                final String error = 
-                  "Application establishment failure.";
+                final String error =
+                  "Cannot assemble application.";
                 throw new KernelException( error, e );
             }
 
-            Throwable cause = null;
-            setState( DEPLOYMENT );
-            try
+            if( getLogger().isDebugEnabled() )
             {
                 getLogger().debug( "application deployment" );
+            }
+
+            try
+            {
+                setState( DEPLOYMENT );
                 m_application.deploy();
-                m_self.setEnabled( true );
             }
             catch( Throwable e )
             {
                 setState( INITIALIZED );
-                cause = e;
-                final String error = 
-                  "Application deployment failure.";
+                final String error =
+                  "Cannot deploy application.";
                 throw new KernelException( error, e );
             }
-            finally
-            {
-                if( cause != null )
-                {
-                    shutdown();
-                }
-                else if( !m_criteria.isServerEnabled() )
-                {
-                    setState( STARTED );
-                    // TODO: add pause parameter
-                    shutdown();
-                }
-                else
-                {
-                    setState( STARTED );
-                }
-            }
+            
+            setState( STARTED );
         }
     }
 
@@ -294,46 +275,44 @@ public class DefaultKernel implements Kernel
     */
     public void shutdown()
     {
-        synchronized( m_self )
+        synchronized( m_state )
         {
-            if( !m_self.isEnabled() ) return;
+            if( m_state.getState() != STARTED ) return;
 
             setState( STOPPING );
 
-
-            if( m_application != null )
+            try
             {
-                try
+                setState( DECOMMISSIONING );
+                m_application.decommission();
+            }
+            catch( Throwable e )
+            {
+                if( getLogger().isWarnEnabled() )
                 {
-                    setState( DECOMMISSIONING );
-                    m_application.decommission();
-                }
-                catch( Throwable e )
-                {
-                    if( getLogger().isWarnEnabled() )
-                    {
-                        final String error =
-                          "Ignoring block decommissioning error.";
-                        getLogger().warn( error, e );
-                    }
-                }
-
-                try
-                {
-                    setState( DISSASSEMBLY );
-                    getLogger().info( "dissassembly phase" );
-                    m_model.disassemble();
-                }
-                catch( Throwable e )
-                {
-                    if( getLogger().isWarnEnabled() )
-                    {
-                        final String error =
-                          "Ignoring application dissassembly error.";
-                        getLogger().warn( error, e );
-                    }
+                    final String error =
+                      "Ignoring block decommissioning error.";
+                    getLogger().warn( error, e );
                 }
             }
+
+            /*
+            try
+            {
+                setState( DISSASSEMBLY );
+                getLogger().info( "dissassembly phase" );
+                m_model.disassemble();
+            }
+            catch( Throwable e )
+            {
+                if( getLogger().isWarnEnabled() )
+                {
+                    final String error =
+                      "Ignoring application dissassembly error.";
+                    getLogger().warn( error, e );
+                }
+            }
+            */
 
             if( getLogger().isDebugEnabled() )
             {
@@ -342,7 +321,6 @@ public class DefaultKernel implements Kernel
             }
 
             setState( STOPPED );
-            m_self.setEnabled( false );
         }
     }
 
@@ -357,46 +335,85 @@ public class DefaultKernel implements Kernel
      *
      * @param state a string representing the new kernel state
      */
-     private void setState( String state )
+     private void setState( int state )
      {
-         if( m_stateString.equals( state ) ) return;
-         getLogger().debug( "state: " + state );
-         String old = m_stateString;
-         m_stateString = state;
-         long id = m_stateChangeSequenceId++;
-         //AttributeChangeNotification notification = 
-         //  new AttributeChangeNotification( 
-         //    this, id, System.currentTimeMillis(),
-         //    "State change", "state", "string", old, state );
-         //sendNotification( notification );
+         if( getLogger().isDebugEnabled() )
+         {
+             getLogger().debug( "state: " + state );
+         }
+         m_state.setState( state );
      }
-
-    private class DefaultState
-    {
-        private boolean m_enabled = false;
-
-       /**
-        * Return the enabled state of the state.
-        * @return TRUE if the state has been enabled else FALSE
-        */
-        public boolean isEnabled()
-        {
-            return m_enabled;
-        }
-
-       /**
-        * Set the enabled state of the state.
-        * @param enabled the enabled state to assign
-        */
-        public void setEnabled( boolean enabled )
-        {
-            m_enabled = enabled;
-        }
-    }
 
     private Logger getLogger()
     {
-        return m_logger;
+        return m_context.getLogger();
     }
 
+
+    private class State
+    {
+        private int m_state = INITIALIZING;
+
+        private LinkedList m_listeners = new LinkedList();
+
+        private final Kernel m_kernel;
+
+        State( Kernel kernel )
+        {
+            m_kernel = kernel;
+        }
+
+        public void addKernelEventListener( KernelEventListener listener )
+        {
+            synchronized( m_listeners )
+            {
+                m_listeners.add( listener );
+            }
+        }
+
+        public void removeKernelEventListener( KernelEventListener listener )
+        {
+            synchronized( m_listeners )
+            {
+                m_listeners.remove( listener );
+            }
+        }
+
+        public int getState()
+        {
+            return m_state;
+        }
+
+        public synchronized void setState( int state )
+        {
+            int oldValue = m_state;
+            int newValue = state;
+
+            m_state = newValue;
+
+            KernelStateEvent event = 
+              new KernelStateEvent( m_kernel, oldValue, newValue );
+            fireStateChangedEvent( event );
+        }
+
+        private void fireStateChangedEvent( final KernelStateEvent event )
+        {
+            Iterator iterator = m_listeners.iterator();
+            while( iterator.hasNext() )
+            {
+                final KernelEventListener listener = 
+                  (KernelEventListener) iterator.next();
+                try
+                {
+                    listener.stateChanged( event );
+                }
+                catch( Throwable e )
+                {
+                    final String error = 
+                      ExceptionHelper.packException( e, true );
+                    getLogger().warn( error );
+                }
+            }
+        }
+    }
 }

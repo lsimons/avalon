@@ -61,7 +61,6 @@ import java.util.ArrayList;
 import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.ApplianceException;
 import org.apache.avalon.activation.appliance.ApplianceRuntimeException;
-import org.apache.avalon.activation.appliance.BlockContext;
 import org.apache.avalon.activation.appliance.Home;
 import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.model.ContainmentModel;
@@ -75,7 +74,7 @@ import org.apache.avalon.framework.logger.Logger;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/01/13 11:41:22 $
+ * @version $Revision: 1.7 $ $Date: 2004/01/13 18:43:15 $
  */
 public class CompositeBlock extends DefaultBlock
 {
@@ -89,9 +88,9 @@ public class CompositeBlock extends DefaultBlock
     * @param context the block context
     * @exception ApplianceException if a block creation error occurs
     */
-    CompositeBlock( BlockContext context )
+    CompositeBlock( ContainmentModel model )
     {
-        super( context );
+        super( model );
     }
 
 }

@@ -62,8 +62,8 @@ import java.util.ArrayList;
 import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.ApplianceException;
 import org.apache.avalon.activation.appliance.ApplianceRuntimeException;
-import org.apache.avalon.activation.appliance.BlockContext;
 import org.apache.avalon.activation.appliance.Home;
+import org.apache.avalon.activation.appliance.Engine;
 
 import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.model.ContainmentModel;
@@ -79,15 +79,13 @@ import org.apache.avalon.framework.logger.Logger;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2004/01/13 11:41:22 $
+ * @version $Revision: 1.9 $ $Date: 2004/01/13 18:43:15 $
  */
 public class DefaultBlock extends AbstractBlock implements Home
 {
     //-------------------------------------------------------------------
     // immmutable state
     //-------------------------------------------------------------------
-
-    private final BlockContext m_context;
 
     private final Object m_proxy;
 
@@ -96,14 +94,23 @@ public class DefaultBlock extends AbstractBlock implements Home
     //-------------------------------------------------------------------
 
    /**
+    * Creation of a new root block.
+    *
+    * @param model the root containment model
+    */
+    public DefaultBlock( ContainmentModel model )
+    {
+        this( model, null );
+    }
+
+   /**
     * Creation of a new block.
     *
     * @param context the block context
     */
-    DefaultBlock( BlockContext context )
+    DefaultBlock( ContainmentModel model, Engine engine )
     {
-        super( context );
-        m_context = context;
+        super( model, engine );
 
         //
         // build the default proxy
@@ -111,7 +118,6 @@ public class DefaultBlock extends AbstractBlock implements Home
 
         try
         {
-            final ContainmentModel model = context.getContainmentModel();
             final Logger log = model.getLogger().getChildLogger( "proxy" );
             final BlockInvocationHandler handler = 
               new BlockInvocationHandler( log, this );
@@ -163,7 +169,7 @@ public class DefaultBlock extends AbstractBlock implements Home
 
     private Class[] getInterfaceClasses() throws Exception
     {
-        ContainmentModel model = m_context.getContainmentModel();
+        ContainmentModel model = getContainmentModel();
         ClassLoader loader = model.getClassLoaderModel().getClassLoader();
         ArrayList list = new ArrayList();
         ServiceModel[] services = model.getServiceModels();
@@ -223,7 +229,7 @@ public class DefaultBlock extends AbstractBlock implements Home
             // delegate the operation to the block
             //
 
-            final ContainmentModel model = m_context.getContainmentModel();
+            final ContainmentModel model = getContainmentModel();
             Class source = method.getDeclaringClass();
             ServiceModel service = model.getServiceModel( source );
             if( null == service )

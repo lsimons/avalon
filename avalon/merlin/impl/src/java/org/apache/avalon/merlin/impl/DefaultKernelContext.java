@@ -48,30 +48,67 @@
 
 */
 
-package org.apache.avalon.activation.appliance;
+package org.apache.avalon.merlin.impl;
+
+import java.net.URL;
+import java.io.File;
 
 import org.apache.avalon.framework.logger.Logger;
+
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.SystemContext;
+
+import org.apache.avalon.merlin.KernelContext;
 
 /**
- * Context object applied to a new block.
- *
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/13 11:41:23 $
+ * The context argument supplied to a new kernel instance.
+ * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version $Revision: 1.1 $ $Date: 2004/01/13 18:43:15 $
  */
-public interface BlockContext
+public class DefaultKernelContext implements KernelContext
 {
-   /**
-    * Returns the containment model assigned to the block.
-    * @return the containment model
-    */
-    ContainmentModel getContainmentModel();
+    private final Logger m_logger;
+    private final ContainmentModel m_facilities;
+    private final ContainmentModel m_application;
 
    /**
-    * Returns the assigned engine.
-    * @return the engine
+    * Creation of a new default kernel context.
+    * @param logger the logging channel to be assigned to the kernel
+    * @param facilities the internal facilities model
+    * @param appliance the application model
     */
-    Engine getEngine();
+    public DefaultKernelContext( 
+      final Logger logger, final ContainmentModel facilities, 
+      final ContainmentModel application )
+    {
+        m_logger = logger;
+        m_facilities = facilities;
+        m_application = application;
+    }
+    
+   /**
+    * Return the assigned logging channel.
+    * @return the loggging channel
+    */
+    public Logger getLogger()
+    {
+        return m_logger;
+    }
 
+   /**
+    * Return the facilities model.
+    * @return the internal container facilities
+    */
+    public ContainmentModel getFacilitiesModel()
+    {
+        return m_facilities;
+    }
+
+   /**
+    * Return the application model.
+    * @return the root application model 
+    */
+    public ContainmentModel getApplicationModel()
+    {
+        return m_application;
+    }
 }

@@ -108,6 +108,7 @@ import org.apache.avalon.merlin.Kernel;
 import org.apache.avalon.merlin.KernelException;
 import org.apache.avalon.merlin.KernelRuntimeException;
 import org.apache.avalon.merlin.KernelCriteria;
+import org.apache.avalon.merlin.KernelContext;
 
 import org.apache.avalon.repository.Repository;
 import org.apache.avalon.repository.provider.CacheManager;
@@ -150,8 +151,6 @@ public class DefaultFactory implements Factory
     private InitialContext m_context;
 
     private ClassLoader m_classloader;
-
-    private Block m_application;
 
     private Block m_system;
 
@@ -313,18 +312,12 @@ public class DefaultFactory implements Factory
         // kernel management logic.
         //
 
-        try
-        {
-            getLogger().debug( "system assembly" );
-            facilities.assemble();
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-             "Facilities assembly failure.";
-            throw new KernelException( error, e );
-        }
+        KernelContext kernelContext = 
+          new DefaultKernelContext( getLogger(), facilities, application );
+        Kernel kernel = new DefaultKernel( kernelContext );
+        setShutdownHook( getLogger(), kernel );
 
+        /*
         try
         {
             m_system = 
@@ -349,6 +342,7 @@ public class DefaultFactory implements Factory
               "System deployment failure.";
             throw new KernelException( error, e );
         }
+        */
 
         //
         // install any blocks declared within the kernel context
@@ -406,9 +400,9 @@ public class DefaultFactory implements Factory
         // instantiate the kernel
         //
 
-        Kernel kernel = 
-          createKernel( getLogger(), criteria, systemContext, application );
-        setShutdownHook( getLogger(), kernel );
+        //Kernel kernel = 
+        //  createKernel( getLogger(), criteria, systemContext, application );
+
         if( criteria.isAutostartEnabled() )
         {
             getLogger().debug( "startup phase" );
@@ -446,6 +440,7 @@ public class DefaultFactory implements Factory
         return kernel;
     }
 
+    /*
     private Kernel createKernel(
       Logger logger, KernelCriteria criteria, SystemContext context, ContainmentModel application )
       throws KernelException
@@ -462,6 +457,7 @@ public class DefaultFactory implements Factory
             throw new KernelException( error, e );
         }
     }
+    */
 
    /**
     * If the kernel criteria includes a language code
