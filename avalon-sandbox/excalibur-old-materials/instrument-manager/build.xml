@@ -139,6 +139,7 @@
                 <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
                 <attribute name="Specification-Version" value="1.0"/>
                 <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+                <attribute name="Implementation-Vendor-Id" value="ASF"/>
                 <attribute name="Implementation-Version" value="${package-version}"/>
             </manifest>
             <exclude name="**/manager/interfaces/**"/>
@@ -156,6 +157,7 @@
                 <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
                 <attribute name="Specification-Version" value="1.0"/>
                 <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+                <attribute name="Implementation-Vendor-Id" value="ASF"/>
                 <attribute name="Implementation-Version" value="${package-version}"/>
             </manifest>
             <include name="**/manager/interfaces/**"/>
