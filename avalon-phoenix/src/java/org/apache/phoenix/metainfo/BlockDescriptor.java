@@ -10,6 +10,7 @@ package org.apache.phoenix.metainfo;
 import java.net.URL;
 import javax.swing.Icon;
 import org.apache.avalon.util.Version;
+import org.apache.avalon.camelot.Descriptor;
 
 /**
  * This descrbes information about the block that is used by administration 
@@ -17,8 +18,8 @@ import org.apache.avalon.util.Version;
  * 
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public interface MetaInfo 
-    extends org.apache.avalon.camelot.MetaInfo
+public interface BlockDescriptor
+    extends Descriptor
 {
     /**
      * Get a list of contributors who helped create block.

@@ -7,22 +7,24 @@
  */
 package org.apache.phoenix.metainfo;
 
+import org.apache.avalon.camelot.Info;
+
 /**
  * This descrbes information about the block that is used by administration tools and kernel.
  * 
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public interface BlockInfo 
-    extends org.apache.avalon.camelot.MetaInfo
+    extends Info
 {
     /**
      * Return meta information that is generallly only required by administration tools.
      *
      * It should be loaded on demand and not always present in memory.
      *
-     * @return the MetaInfo
+     * @return the BlockDescriptor
      */
-    MetaInfo getMetaInfo();
+    BlockDescriptor getBlockDescriptor();
     
     /**
      * This returns a list of Services that this block exports.
