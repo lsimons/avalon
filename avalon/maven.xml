@@ -4,6 +4,8 @@
 ]>
 <project default="avalon:help" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
+  <mkdir dir="target" />
+  
   <ant:property name="avalonTarget" value="avalon:build"/>
 
   <goal name="avalon:help">
