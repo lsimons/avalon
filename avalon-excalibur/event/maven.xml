@@ -23,7 +23,7 @@
   </goal>
 
   <goal name="event:build">
-    
+
     <echo>
 
 Building the package using the default target "event:build".
@@ -76,7 +76,7 @@ The complete set of target include:
   <goal name="event:dist" prereqs="event:build,xdist"/>
 
   <goal
-    name="xdist:prepare-bin-filesystem" 
+    name="xdist:prepare-bin-filesystem"
     description="Builds the jar files.">
 
     <ant:delete dir="${maven.dist.bin.assembly.dir}"/>
@@ -140,7 +140,7 @@ The complete set of target include:
     prereqs="xdist:build"
     description="Build a complete distribution.">
   </goal>
-        
+
   <goal
     name="xdist:build"
     prereqs="xdist:build-bin,xdist:build-src"
@@ -155,7 +155,7 @@ The complete set of target include:
   </goal>
 
   <goal
-    name="xdist:build-bin" 
+    name="xdist:build-bin"
     prereqs="xdist:build-setup,xdist:prepare-bin-filesystem"
     description="Build the binary distribution.">
 
@@ -164,11 +164,11 @@ The complete set of target include:
       <ant:tarfileset dir="${maven.dist.bin.archive.dir}"/>
     </ant:tar>
 
-    <ant:gzip 
+    <ant:gzip
       zipfile="${maven.dist.dir}/${maven.final.name}.tar.gz"
       src="${maven.dist.dir}/${maven.final.name}.tar"
     />
-    
+
     <ant:delete file="${maven.dist.dir}/${maven.final.name}.tar"/>
 
     <!-- Create a zip file -->
@@ -181,17 +181,17 @@ The complete set of target include:
     name="xdist:build-src"
     prereqs="xdist:build-setup,xdist:prepare-src-filesystem"
     description="Build the source distribution.">
- 
+
     <!-- Create a tar.gz file -->
     <ant:tar longfile="gnu" tarfile="${maven.dist.dir}/${maven.final.name}-src.tar">
       <ant:tarfileset dir="${maven.dist.src.archive.dir}"/>
     </ant:tar>
 
-    <ant:gzip 
-      zipfile="${maven.dist.dir}/${maven.final.name}-src.tar.gz" 
+    <ant:gzip
+      zipfile="${maven.dist.dir}/${maven.final.name}-src.tar.gz"
       src="${maven.dist.dir}/${maven.final.name}-src.tar"
     />
-    
+
     <ant:delete file="${maven.dist.dir}/${maven.final.name}-src.tar"/>
 
     <!-- Create a zip file -->
