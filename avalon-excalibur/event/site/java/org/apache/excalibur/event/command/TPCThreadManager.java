@@ -69,7 +69,6 @@ import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
 public final class TPCThreadManager extends AbstractThreadManager implements Parameterizable
 {
     private PooledExecutor m_threadPool;
-    private long m_blockTimeout = 1000L;
     private int m_processors = -1;
     private int m_threadsPerProcessor = 1;
     private boolean m_hardShutdown = false;
@@ -119,7 +118,6 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
             Math.max( parameters.getParameterAsInteger( "threads-per-processor", 1 ), 1 );
 
         setSleepTime( parameters.getParameterAsLong( "sleep-time", 1000L ) );
-        this.m_blockTimeout = parameters.getParameterAsLong( "block-timeout", 1000L );
 
         this.m_hardShutdown = ( parameters.getParameterAsBoolean( "force-shutdown", false ) );
     }
