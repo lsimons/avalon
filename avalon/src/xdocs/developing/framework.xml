@@ -448,6 +448,77 @@ public interface DocumentRepository {
 	  </para>
 	</section>
       </section>
+      <section>
+        <title>Configuration</title>
+	<para>
+	  This group of interfaces describes the concern area of configuration.
+	  If there are any problems like required
+	  <classname>Configuration</classname> elements that are missing, then
+	  you may throw a <classname>ConfigurationException</classname>.
+	</para>
+	<section>
+	  <title>Configurable</title>
+	  <para>
+	    Components that modify their exact behavior based on configurations
+	    must implement this interface to obtain an instance of the
+	    <classname>Configuration</classname> object.  There is one method
+	    associated with this interface: <function>configure</function> with
+	    a <classname>Configuration</classname> object as the only
+	    parameter.
+	  </para>
+	  <para>
+            The contract surrounding this interface is that the
+	    <function>configure</function> method is called once during the
+	    life of the Component.  The <classname>Configuration</classname>
+	    object passed in <emphasis>must not be null</emphasis>.
+	  </para>
+	</section>
+	<section>
+	  <title>Configuration</title>
+	  <para>
+	    The <classname>Configuration</classname> object is a representation
+	    of a tree of configuration elements that have attributes.  In a
+	    way, you can view the configuration object as an overly simplified
+	    DOM.  There are too many methods to cover in this document, so
+	    please review the JavaDocs.  You can get the
+	    <classname>Configuration</classname> object's value as a
+	    <parameter>String</parameter>, <parameter>int</parameter>,
+	    <parameter>long</parameter>, <parameter>float</parameter>, or
+	    <parameter>boolean</parameter>&mdash;all with default values.  You
+	    can do the same for attribute values.  You may also get child
+	    <classname>Configuration</classname> objects.
+	  </para>
+	  <para>
+            There is a contract that says that if a
+	    <classname>Configuration</classname> object has a value that it
+	    should not have any children, and the corollary is also
+	    true&mdash;if there are any children, there should be no value.
+	  </para>
+	  <para>
+            You will notice that you may not get parent
+	    <classname>Configuration</classname> objects.  This is by design.
+	    To reduce the complexity of the <classname>Configuration</classname>
+	    system, containers will most likely pass child configuration
+	    objects to child Components.  The child Components should not have
+	    any access to parent configuration values.  This approach might
+	    provide a little inconvenience, but the Avalon team opted for
+	    security by design in every instance where there was a tradeoff.
+	  </para>
+	</section>
+	<section>
+	  <title>Reconfigurable</title>
+	  <para>
+	    Components that implement this interface behave very similar to
+	    <classname>Recomposable</classname> Components.  It's only method
+	    is named <function>reconfigure</function>.  This design decision is
+	    used to minimize the learning curve of the Re* interfaces.
+	    <classname>Reconfigurable</classname> is to
+	    <classname>Configurable</classname> as
+	    <classname>Recomposable</classname> is to
+	    <classname>Composable</classname>.
+	  </para>
+	</section>
+      </section>
     </section>
   </section>
 </chapter>
