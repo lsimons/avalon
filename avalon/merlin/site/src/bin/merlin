@@ -1,6 +1,7 @@
 #!/bin/sh
 #
 
+
 export MERLIN_VERSION="@MERLIN_CLI_VERSION@"
 
 # Checking for JAVA_HOME is required on *nix due

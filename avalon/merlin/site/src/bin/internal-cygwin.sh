@@ -1,6 +1,7 @@
 #! /bin/sh
 #
 
+
 # For Cygwin, ensure paths are in UNIX format before anything is touched
 JAVA_HOME=`cygpath --unix "$JAVA_HOME"`
 MERLIN_HOME=`cygpath --unix "$MERLIN_HOME"`

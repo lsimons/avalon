@@ -1,4 +1,5 @@
 #! /bin/sh
+#
 
 echo "Starting Merlin $MERLIN_VERSION."
 echo "===================="
