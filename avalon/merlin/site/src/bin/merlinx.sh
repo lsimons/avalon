@@ -28,21 +28,30 @@ fi
 
 # For Cygwin, ensure paths are in UNIX format before anything is touched
 if $cygwin; then
+  # HOME is always in Unix format
   JAVA_HOME=`cygpath --unix "$JAVA_HOME"`
   MERLIN_HOME=`cygpath --unix "$MERLIN_HOME"`
+  [ -n "$MERLIN_HOME_LOCAL" ] && MERLIN_HOME_LOCAL=`cygpath --unix "$MERLIN_HOME_LOCAL"`
   [ -n "$CLASSPATH" ] && CLASSPATH=`cygpath --path --unix "$CLASSPATH"`
 fi
 
+# Checking for REPOSITORY
+if [ "$MAVEN_HOME_LOCAL" = "" ] 
+then
+ REPOSITORY="$HOME/.maven/repository"
+else
+ REPOSITORY="$MAVEN_HOME_LOCAL/repository"
+fi
 JAVA=$JAVA_HOME/bin/java
 
 # switch necessary paths to Windows format before running java
 if $cygwin; then
   JAVA_HOME=`cygpath --windows "$JAVA_HOME"`
   MERLIN_HOME=`cygpath --windows "$MERLIN_HOME"`
+  REPOSITORY=`cygpath --windows "$REPOSITORY"`
   [ -n "$CLASSPATH" ] && CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
 fi
 
-RUN_CMD="\"$JAVA\" \"-Djava.security.policy=$MERLIN_HOME/bin/security.policy\" \"-Djava.ext.dirs=$MERLIN_HOME/ext\" -jar \"$MERLIN_HOME/bin/lib/merlin-cli-3.2.jar\" \"$@\""
+RUN_CMD="\"$JAVA\" \"-Djava.security.policy=$MERLIN_HOME/bin/security.policy\" \"-Davalon.repository.cache=$REPOSITORY\" \"-Djava.ext.dirs=$MERLIN_HOME/ext\" -jar \"$MERLIN_HOME/bin/lib/merlin-cli-3.2.jar\" \"$@\""
 echo "RUN CMD IS: $RUN_CMD"
 exec $RUN_CMD
-
