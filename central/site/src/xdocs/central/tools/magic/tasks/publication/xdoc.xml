@@ -10,6 +10,9 @@
     <section name="Xdoc Task">
       <p>
       </p>
+<source><![CDATA[
+    <x:xdoc/>
+]]></source>
     </section>
   </body>
 

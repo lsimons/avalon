@@ -25,7 +25,7 @@
     <menu>
       <item name="Javadoc" href="javadoc.html"/>
       <item name="Xdoc" href="xdoc.html"/>
-      <item name="Publish" href="xdoc.html"/>
+      <item name="Publish" href="publish.html"/>
     </menu>
  </body>
 

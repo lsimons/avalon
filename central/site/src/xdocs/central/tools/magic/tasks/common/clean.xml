@@ -9,7 +9,19 @@
   <body>
     <section name="Clean Task">
       <p>
+      The clean task deletes the ${basedir}/target directory.
       </p>
+<source><![CDATA[
+    <x:clean/>
+]]></source>
+
+      <p><i>Typical output of the clean task:</i></p>
+
+<source><![CDATA[
+clean:
+  [x:clean] removing target directory
+   [delete] Deleting directory F:\dev\avalon\planet\tutorials\hello\target
+]]></source>
     </section>
   </body>
 

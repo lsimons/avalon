@@ -10,6 +10,9 @@
     <section name="Install Task">
       <p>
       </p>
+<source><![CDATA[
+    <x:install/>
+]]></source>
     </section>
   </body>
 

@@ -10,6 +10,10 @@
     <section name="Plugin Task">
       <p>
       </p>
+<source><![CDATA[
+    <x:plugin/>
+]]></source>
+
     </section>
   </body>
 
