@@ -486,9 +486,15 @@ Legal:
     </delete>
 
     <mkdir dir="${www.dir}"/>
+    
     <copy todir="${www.dir}">
       <fileset dir="${docs.dir}" />
     </copy>
+    
+    <copy todir="${www.dir}/api">
+      <fileset dir="${build.javadocs}" />
+    </copy>
+  
 
   </target>
 
