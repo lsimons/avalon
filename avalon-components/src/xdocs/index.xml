@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Cornerstone Developer Documentation</title>
+    <subtitle>Introduction</subtitle>
+    <authors>
+      <person name="Avalon Documentation Team" email="bloritsch@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Introduction">
+      <p>
+        Cornerstone is a set of services for the Phoenix kernel. It contains "blocks"
+        that plug into Phoenix. Example blocks include ConnectionManager, SocketManager,
+        Scheduler etc.
+      </p>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2001/03/02 04:25:59 $
+    </legal>
+  </footer>
+</document>
