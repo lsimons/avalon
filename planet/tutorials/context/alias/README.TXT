@@ -6,7 +6,7 @@ This tutorial covers usage of standard context entries using
 a constructor supplied context (as opposed to the classic
 Contextualization delivery mecahanism).
 
-$ maven
+$ ant
 $ merlin -execute target\classes
 
 [INFO   ] (tutorial.hello): standard context entries
