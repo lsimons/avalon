@@ -10,17 +10,21 @@ package org.apache.avalon.phoenix.tools.assembler.test;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.avalon.phoenix.metainfo.InterceptorInfo;
 import org.apache.avalon.phoenix.test.AbstractContainerTestCase;
 import org.apache.avalon.phoenix.test.data.Component1;
 import org.apache.avalon.phoenix.test.data.Component2;
 import org.apache.avalon.phoenix.test.data.Component3;
+import org.apache.avalon.phoenix.test.data.Interceptor1;
+import org.apache.avalon.phoenix.test.data.Interceptor2;
 import org.apache.avalon.phoenix.test.data.Service2;
+import org.apache.avalon.phoenix.tools.assembler.AssemblyException;
 
 /**
  *  An basic test case for the LogManager.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2002/10/01 06:17:58 $
+ * @version $Revision: 1.6.4.1 $ $Date: 2002/10/15 22:14:07 $
  */
 public class AssemblerTestCase
     extends AbstractContainerTestCase
@@ -133,5 +137,44 @@ public class AssemblerTestCase
         assertTrue( "Block4 getBlockInfo non null",
                        null != block4.getBlockInfo() );
         assertEquals( "Block4 isDisableProxy", false, block4.isDisableProxy() );
+    }
+
+    public void testInterceptorBasic()
+        throws Exception
+    {
+        final SarMetaData sarMetaData = assembleSar( "assembly3.xml" );
+        final BlockMetaData[] blocks = sarMetaData.getBlocks();
+        assertEquals( "Block Count", 2, blocks.length );
+
+        final BlockMetaData block1 = blocks[ 0 ];
+        final BlockMetaData block2 = blocks[ 1 ];
+        final InterceptorInfo[] interceptor1 = block1.getInterceptors();
+        final InterceptorInfo[] interceptor2 = block2.getInterceptors();
+        
+        assertEquals( "Block1 Interceptor count", 1, interceptor1.length );
+        assertEquals( "Block1 Interceptor class",
+                      Interceptor1.class.getName(),
+                      interceptor1[ 0 ].getClassname() );
+       
+        assertEquals( "Block2 Interceptor count", 2, interceptor2.length );
+        assertEquals( "Block2 Interceptor1 class",
+                      Interceptor1.class.getName(),
+                      interceptor2[ 0 ].getClassname() );
+        assertEquals( "Block2 Interceptor2 class",
+                      Interceptor2.class.getName(),
+                      interceptor2[ 1 ].getClassname() );
+    }
+
+    public void testInterceptorInvalid()
+        throws Exception
+    {
+        try 
+        {
+            /*final SarMetaData sarMetaData =*/ assembleSar( "assembly4.xml" );
+            fail( "Invalid assemble.xml did not fail" );
+        }
+        catch ( AssemblyException expected )
+        {
+        }
     }
 }

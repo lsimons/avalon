@@ -55,12 +55,24 @@ alias   the alias of the block when it is placed in a Map dependency (may not ne
   <!ATTLIST provide alias CDATA #IMPLIED>
 
 <!--
-This indicates whether the block should be proxied.
+This indicates whether the block should be proxied and defines block invocation
+interceptor chain.
 
-disable set this to true to disable proxying of the block implementation
+disable     set this to true to disable proxying of the block implementation
+interceptor configures block invocation interceptor chain. interceptors
+      will be invoked in the order they defined here. disable should be false
+      (or not specified) in order to use interceptors.
 -->
-<!ELEMENT proxy EMPTY>
+<!ELEMENT proxy (interceptor*)>
   <!ATTLIST proxy disable CDATA #REQUIRED>
+
+<!--
+This configures block invocation interceptor.
+
+class           the class of block invocation interceptor
+-->
+<!ELEMENT interceptor EMPTY>
+  <!ATTLIST interceptor class CDATA #REQUIRED>
 
 <!--
 The block element declares a listener exists in the application.
