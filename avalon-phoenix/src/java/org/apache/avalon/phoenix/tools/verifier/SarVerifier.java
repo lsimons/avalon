@@ -59,7 +59,7 @@ import org.apache.excalibur.containerkit.verifier.ComponentVerifier;
  * </ul>
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.23 $ $Date: 2002/06/06 15:19:45 $
+ * @version $Revision: 1.24 $ $Date: 2002/06/23 22:19:24 $
  */
 public class SarVerifier
     extends AbstractLogEnabled
@@ -539,7 +539,7 @@ public class SarVerifier
 
     /**
      * Return true if specified name is valid.
-     * Valid names consist of letters, digits or the '_' character.
+     * Valid names consist of letters, digits or the '-' & '.' characters.
      *
      * @param name the name to check
      * @return true if valid, false otherwise
@@ -551,7 +551,7 @@ public class SarVerifier
         {
             final char ch = name.charAt( i );
 
-            if( !Character.isLetterOrDigit( ch ) && '-' != ch )
+            if( !Character.isLetterOrDigit( ch ) && '-' != ch && '.' != ch)
             {
                 return false;
             }
