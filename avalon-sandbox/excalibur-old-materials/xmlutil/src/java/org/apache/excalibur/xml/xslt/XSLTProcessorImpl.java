@@ -114,11 +114,11 @@ import org.xml.sax.XMLFilter;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.30 2003/04/17 10:51:56 cziegeler Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.31 2003/04/24 12:39:15 leosutic Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
-public final class XSLTProcessorImpl
+public class XSLTProcessorImpl
     extends AbstractLogEnabled
     implements XSLTProcessor,
     Serviceable,
