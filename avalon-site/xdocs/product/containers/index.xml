@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Apache Avalon: Containers</title>
+  </properties>
+
+  <body>
+    <section name="Products">
+      <subsection name="Container Solutions">
+
+      <p>Within Avalon their are a number of container solutions. This 
+      reflects a historical divergence and a present convergence within 
+      the area of containment technology within Avalon. The original 
+      containment solutions ECM and Phoneix focussed on very different 
+      approaches to component management.  The ECM model dealt with 
+      primarily pooled objects used in environments such as 
+      <a href="http://cocoon.apache.org/">Cocoon</a>. The
+      Phoneix model dealt with a strict singleton model supporting 
+      project such as <a href="http://james.apache.org">James</a>.  
+      Recent developments have resulted in the 
+      release of 
+      <a href="http://avalon.apache.org/excalibur/fortress/">Fortress</a> 
+      and <a href="http://avalon.apache.org/merlin/">Merlin</a>.  
+      Fortress replaces the ECM solution
+      and is positioned as a migration vehicle for components to move
+      towards Avalon's latest container - Merlin.  The Merlin container
+      is an attempt at being a flexible and adaptive embedded container
+      that leverages a set of common containment facilities.
+      Merlin provides support for legacy Phoenix components and includes 
+      many of of the lifestyle concepts introduced within Fortress.</p>
+
+      <table>
+        <tr><th>Product</th><th>Description</th></tr>
+        <tr>
+          <td>
+            <p>
+              <a name="merlin"/>
+              <a href="http://avalon.apache.org/merlin/index.html">Avalon Merlin</a>
+            </p>
+          </td>
+          <td>
+            <p>
+                The Merlin project deals with the broad area of service
+                and component management. The Merlin system is a container
+                that provides comprehensive support for the management of
+                complex component-based systems. Merlin uses a component
+                meta-model to facilitate the automated assembly and
+                deployment of simple and composite components.
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>
+              <a name="fortress"/>
+              <a href="http://avalon.apache.org/excalibur/fortress/index.html">Avalon Fortress</a>
+            </p>
+          </td>
+          <td>
+            <p>
+              Fortress contains a framework to help you create your own
+              avalon containers.  It boasts asynchronous management of your
+              component instances, high scalability, easier maintenance of
+              your code, and easy embedding into various environments like
+              servlet engines.
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>
+              <a name="ecm"/>
+              <a href="http://avalon.apache.org/excalibur/component.html">ECM</a>
+            </p>
+          </td>
+          <td>
+            <p>
+            This package contains the ExcaliburComponentManager (ECM). ECM has 
+            been depricated in favour of the new Fortress container.</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>
+              <a name="phoenix"/>
+              <a href="http://avalon.apache.org/phoenix/index.html">Phoenix</a>
+            </p>
+          </td>
+          <td>
+            <p>
+              Phoenix is a micro-kernel designed and implemented on top of 
+              the Avalon framework. It provides a number of facilities to 
+              manage the environment of Server Applications. Such facilities 
+              include log management, classloading, thread management and 
+              security.
+            </p>
+          </td>
+        </tr>
+      </table>
+      </subsection>
+    </section>
+  </body>
+</document>
+ 

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Apache Avalon: Related External</title>
+  </properties> 
+
+  <body>
+    <section name="Related Projects">
+      <subsection name="External Projects">
+        <table>
+	  <tr>
+	    <th width="150">Name</th>
+	    <th>Description</th>
+	  </tr>
+	  <tr>
+	    <td><p><a href="http://jingdao.sourceforge.net">Jing DAO</a></p></td>
+	    <td><p>Jing is a Data Access Object (DAO) framework that supports 
+	        Avalon components and works within Avalon containers.</p></td>
+	  </tr>
+	  <tr>
+	    <td><p><a href="http://open-im.net/">OpenIM Instant Messaging</a></p></td>
+	    <td>
+            <p>The purpose of the OpenIM project is to produce a fast, simple, and highly efficient instant messager server with high modularisation and a codebase that uses the Avalon tools and <a href="http://avalon.apache.org/merlin">Merlin Container</a> created by Apache's Avalon project.</p>
+          </td>
+	  </tr>
+	  <tr>
+	    <td><p><a href="http://picocontainer.org">Picocontainer</a></p></td>
+	    <td><p>Picocontainer is a light weight IoC framework.</p></td>
+	  </tr>
+	  <tr>
+	    <td><p><a href="http://jcrontab.sf.net">Jcrontab</a></p></td>
+	    <td>
+            <p>JCrontab provides a simple Java implementation of the 
+              Unix cron service. An Avalon interface is provided.</p></td>
+	  </tr>
+	  <tr>
+	    <td><p><a
+href="http://cvs.sourceforge.net/viewcvs.py/hibernate/HibernateExt/avalon/">
+Hibernate Wrapper</a></p></td>
+	    <td>
+            <p>Hibernate is a topnotch ORM tool.  An Avalon wrapper has 
+             been written to faciliate using Hibernate in an Avalon 
+             Environment.</p>
+          </td>
+	  </tr>
+	  <tr>
+	    <td><p><a href="http://xingu.sf.net/">Xingu Components</a></p></td>
+	    <td><p>
+            A collection of Avalon components including OJB and Hibernate
+            support, a business object API, ACL component, Messenging 
+            component and more!</p>
+          </td>
+	  </tr>
+	</table>
+      </subsection>
+    </section>
+  </body>
+</document>
+
