@@ -51,6 +51,9 @@ public class StartupPhase
     extends AbstractLoggable
     implements BlockVisitor, Contextualizable, Composable
 {
+    //Repository of configuration data to access
+    private ConfigurationRepository m_repository;
+
     ///Frame in which block executes
     private ApplicationFrame     m_frame;
 
@@ -59,6 +62,9 @@ public class StartupPhase
 
     ///base context used to setup hosted blocks
     private DefaultContext       m_baseBlockContext;
+
+    ///Name of application, phase is running in
+    private String               m_appName;
 
     /**
      * The container (ie kernel) which this phase is associated with.
@@ -70,11 +76,11 @@ public class StartupPhase
         throws ContextException
     {
         final File baseDirectory = (File)context.get( "app.home" );
-        final String name = (String)context.get( "app.name" );
+        m_appName = (String)context.get( "app.name" );
 
         //base contxt that all block contexts inherit from
         final DefaultContext blockContext = new DefaultContext();
-        blockContext.put( BlockContext.APP_NAME, name );
+        blockContext.put( BlockContext.APP_NAME, m_appName );
         blockContext.put( BlockContext.APP_HOME_DIR, baseDirectory );
 
         m_baseBlockContext = blockContext;
@@ -85,6 +91,7 @@ public class StartupPhase
     {
         m_container = (Container)componentManager.lookup( Container.ROLE );
         m_frame = (ApplicationFrame)componentManager.lookup( ApplicationFrame.ROLE );
+        m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
 
         m_factory = new SimpleFactory( m_frame.getClassLoader() );
     }
@@ -148,7 +155,8 @@ public class StartupPhase
             if( object instanceof Configurable )
             {
                 getLogger().debug( "Pre-Configure Stage" );
-                final Configuration configuration = entry.getConfiguration();
+                final Configuration configuration = 
+                    m_repository.getConfiguration( m_appName, name );
                 ((Configurable)object).configure( configuration );
                 getLogger().debug( "Configure successful." );
             }
