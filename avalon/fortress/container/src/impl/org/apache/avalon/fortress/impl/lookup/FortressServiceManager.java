@@ -67,7 +67,7 @@ import java.util.Map;
  * the references.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.15 $ $Date: 2003/04/21 15:15:06 $
+ * @version CVS $Revision: 1.16 $ $Date: 2003/04/21 19:19:09 $
  */
 public class FortressServiceManager
     implements ServiceManager
@@ -81,8 +81,7 @@ public class FortressServiceManager
      * ComponentLocator
      * @param container the impl
      * @param parent the parent service manager
-     * @exception NullPointerException if the supplied impl is null
-     * @exception NullPointerException if the supplied parent is null
+     * @throws NullPointerException if the supplied impl is null
      */
     public FortressServiceManager( final Container container,
                                    final ServiceManager parent ) throws NullPointerException
@@ -90,10 +89,6 @@ public class FortressServiceManager
         if ( null == container )
         {
             throw new NullPointerException( "impl" );
-        }
-        if ( null == parent )
-        {
-            throw new NullPointerException( "parent" );
         }
 
         m_parent = parent;
