@@ -315,6 +315,10 @@
       </tasks>
     </plugin>
 
+    <!--
+    Avalon Test.
+    -->
+
     <project basedir="../../runtime/meta/test/dynamics">
       <info>
         <group>avalon/meta/test</group>
@@ -338,7 +342,42 @@
       <dependencies>
         <projects>
           <projectref key="avalon-framework-impl"/>
+          <projectref key="avalon-util-lifecycle"/>
         </projects>
+        <plugins>
+          <pluginref key="avalon-meta-tools"/>
+        </plugins>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/meta/test/testa">
+      <info>
+        <group>avalon/meta/test</group>
+        <name>avalon-test-testa</name>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-framework-api"/>
+          <projectref key="avalon-util-configuration"/>
+        </projects>
+        <plugins>
+          <pluginref key="avalon-meta-tools"/>
+        </plugins>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/meta/test/testb">
+      <info>
+        <group>avalon/meta/test</group>
+        <name>avalon-test-testb</name>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-framework-api"/>
+        </projects>
+        <plugins>
+          <pluginref key="avalon-meta-tools"/>
+        </plugins>
       </dependencies>
     </project>
 
