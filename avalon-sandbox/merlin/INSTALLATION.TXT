@@ -59,6 +59,6 @@ here:
   %MAVEN_HOME%\plugins\avalon-plugin-1.0.jar
   %MAVEN_HOME%\plugins\merlin-plugin-1.0.jar
 
-You now have everything in place to start using the Merlin Titorial or 
+You now have everything in place to start using the Merlin Tutorial or 
 building you own components.  If you have any problems, please subscribe
 to and post a message to the users@avalon.apache.org list.
