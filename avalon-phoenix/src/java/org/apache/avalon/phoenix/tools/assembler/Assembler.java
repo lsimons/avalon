@@ -30,7 +30,7 @@ import org.apache.avalon.phoenix.tools.infobuilder.BlockInfoBuilder;
  * and is in the format specified for <code>assembly.xml</code> files.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2002/05/10 13:26:00 $
+ * @version $Revision: 1.13 $ $Date: 2002/05/10 13:30:55 $
  */
 public class Assembler
     extends AbstractLogEnabled
@@ -74,7 +74,7 @@ public class Assembler
         final BlockMetaData[] blocks = buildBlocks( blockConfig, classLoader );
 
         final Configuration[] listenerConfig = assembly.getChildren( "listener" );
-        BlockListenerMetaData[] listeners = buildBlockListeners( listenerConfig );
+        final BlockListenerMetaData[] listeners = buildBlockListeners( listenerConfig );
 
         // to be phased out - support for the old block-listener descriptor
         final Configuration[] legacyListenerConfig = assembly.getChildren( "block-listener" );
