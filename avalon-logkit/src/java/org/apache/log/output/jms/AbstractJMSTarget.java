@@ -12,6 +12,7 @@ import javax.jms.Session;
 import javax.jms.TopicConnection;
 import javax.jms.TopicPublisher;
 import javax.jms.TopicSession;
+import org.apache.log.ErrorHandler;
 import org.apache.log.LogEvent;
 import org.apache.log.output.AbstractTarget;
 
@@ -28,6 +29,13 @@ public abstract class AbstractJMSTarget
 
     public AbstractJMSTarget( final MessageBuilder builder )
     {
+        m_builder = builder;
+    }
+
+    public AbstractJMSTarget( final MessageBuilder builder,
+                              final ErrorHandler errorHandler )
+    {
+        super( errorHandler );
         m_builder = builder;
     }
 

@@ -14,6 +14,7 @@ import javax.jms.QueueConnectionFactory;
 import javax.jms.QueueSender;
 import javax.jms.QueueSession;
 import javax.jms.Session;
+import org.apache.log.ErrorHandler;
 
 /**
  * A target that writes to a JMS Queue.
@@ -43,6 +44,17 @@ public class JMSQueueTarget
                            final Queue queue )
     {
         super( builder );
+        m_factory = factory;
+        m_queue = queue;
+        open();
+    }
+
+    public JMSQueueTarget( final MessageBuilder builder,
+                           final QueueConnectionFactory factory,
+                           final Queue queue,
+                           final ErrorHandler handler )
+    {
+        super( builder, handler );
         m_factory = factory;
         m_queue = queue;
         open();
