@@ -8,6 +8,8 @@
   <property name="src.main.dir" value="${src}/${src.main}"/>
   <property name="src.test" value="test"/>
   <property name="src.test.dir" value="${src}/${src.test}"/>
+  <property name="src.library" value="library"/>
+  <property name="src.library.dir" value="${src}/${src.library}"/>
 
   <property name="target" value="target"/>
   <property name="target.classes" value="classes"/>
@@ -37,16 +39,28 @@
   </target>
 
   <target name="install" depends="jar">
-    <copy toDir="${ant.home}/lib" 
+    <mkdir dir="${user.home}/.ant/lib"/>
+    <copy toDir="${user.home}/.ant/lib" 
        file="${target}/${toolkit.jar}"/>
   </target>
 
-  <target name="test">
+  <target name="test-prepare">
     <mkdir dir="${target.test.dir}"/>
     <copy toDir="${target.test.dir}">
-      <fileset dir="${src.test.dir}"/>
+      <fileset dir="${src.test.dir}">
+        <exclude name="**/_svn/**"/>
+        <exclude name="**/.svn/**"/>
+      </fileset>
+      <fileset dir="${src}">
+        <include name="${src.library}/**"/>
+        <exclude name="**/_svn/**"/>
+        <exclude name="**/.svn/**"/>
+      </fileset>
     </copy>
-    <ant dir="${target.test.dir}/projects/demo" />
+  </target>
+
+  <target name="test" depends="test-prepare">
+    <ant dir="${target.test.dir}/projects/gizmo" />
   </target>
 
   <target name="clean">

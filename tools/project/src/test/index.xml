@@ -104,61 +104,6 @@
       </dependencies>
     </project>
 
-    <project basedir="plugins/manager">
-      <info>
-        <group>avalon/magic</group>
-        <name>manager</name>
-        <version>1.0</version>
-        <type>plugin</type>
-      </info>
-      <dependencies>
-        <resources>
-          <resourceref key="avalon-framework-api"/>
-          <resourceref key="avalon-framework-impl"/>
-        </resources>
-      </dependencies>
-    </project>
-
-    <project basedir="plugins/prepare">
-      <info>
-        <group>avalon/magic</group>
-        <name>prepare</name>
-        <version>1.0</version>
-        <type>plugin</type>
-      </info>
-      <dependencies>
-        <resources>
-          <resourceref key="avalon-framework-api"/>
-        </resources>
-        <plugins>
-          <pluginref key="manager"/>
-        </plugins>
-      </dependencies>
-    </project>
-
-    <project basedir="plugins/compile">
-      <info>
-        <group>avalon/magic</group>
-        <name>compile</name>
-        <version>1.0</version>
-        <type>plugin</type>
-      </info>
-      <dependencies>
-        <resources>
-          <resourceref key="avalon-framework-api"/>
-          <resourceref key="avalon-framework-impl"/>
-        </resources>
-        <plugins>
-          <pluginref key="prepare"/>
-        </plugins>
-      </dependencies>
-    </project>
-
   </projects>
-
-
-  <!--
-  Declaration of the local plugins.
-  -->
 
 </system>

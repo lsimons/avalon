@@ -22,6 +22,7 @@ import java.io.IOException;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.taskdefs.Property;
 import org.apache.tools.ant.taskdefs.Sequential;
 import org.apache.tools.ant.types.Path;
 
@@ -36,11 +37,11 @@ import org.apache.avalon.tools.home.Repository;
  */
 public class ProjectTask extends Sequential
 {
+    private static final String BUILD_PROPERTIES = "build.properties";
+
     private File m_index;
 
-    private File m_definition;
-
-    private Home m_home;
+    private File m_props;
 
     private String m_key;
 
@@ -64,17 +65,149 @@ public class ProjectTask extends Sequential
         }
     }
 
+    public void setProperties( File file ) throws BuildException
+    {
+        if( !file.exists() )
+        {
+            final String error = 
+              "Properties file [" + file + "] does not exist.";
+            throw new BuildException( error );
+        }
+        if( file.isAbsolute() )
+        {
+            m_props = getCanonicalFile( file );
+        }
+        else
+        {
+            String path = file.toString();
+            File basedir = getProject().getBaseDir();
+            File index = new File( basedir, path );
+            m_props = getCanonicalFile( index );
+        }
+    }
+
+
     public void execute() throws BuildException 
     {
         //
-        // get the Home defintion
+        // make sure that the build.properties file is loaded
         //
 
+        Property props = (Property) getProject().createTask( "property" );
+        props.setFile( getPropertiesFile() );
+        props.init();
+        props.execute();
+
+        //
+        // make sure we have a common defintion available
+        //
+
+        final String key = getKey();
+        if( !Home.isInitialized() )
+        {
+            log( "index: " + m_index, Project.MSG_INFO );
+            Home.initialize( getProject(), m_index );
+        }
+        Home home = Home.getHome( getProject() );
+
+        //
+        // load the defintion for this project
+        // and populate the project with required properties
+        //
+
+        Definition definition = home.getDefinition( key );
+        setProjectProperties( home, definition );
+        log( "build: " + definition );
+        super.execute();
+
+        /*
+        if( !Home.isInitialized() )
+        {
+            log( "index: " + m_index, Project.MSG_INFO );
+            Home.initialize( getProject(), m_index );
+            Home home = Home.getHome( getProject() );
+
+            //
+            // log the build sequence
+            //
+
+            Definition definition = home.getDefinition( key );
+            Definition[] targets = home.getBuildSequence( definition );
+            log( "build sequence for definition: " + definition + "\n");
+            for( int i=0; i<targets.length; i++ )
+            {
+                Definition def = targets[i];
+                getProject().log( "   target (" + (i+1) + "): " + def ); 
+            }
+            getProject().log( "" );
+
+            //
+            // execute the build sequence
+            //
+
+            for( int i=0; i<targets.length; i++ )
+            {
+                Definition def = targets[i];
+                home.build( def );
+            }
+
+            setProjectProperties( home, definition );
+        }
+        else
+        {
+            Home home = Home.getHome( getProject() );          
+            Definition definition = home.getDefinition( key );
+            buildProject( home, definition );
+        }
+        */
+    }
+
+    private File getPropertiesFile()
+    {
+        if( null == m_props )
+        {
+            return new File( getProject().getBaseDir(), BUILD_PROPERTIES );
+        }
+        else
+        {
+            return m_props;
+        }
+    }
+
+    private void setProjectProperties( Home home, Definition definition )
+    {
+        File root = home.getHomeDirectory();
+        File lib = new File( root, "library" );
+
+        getProject().setProperty( 
+          "avalon.home", root.toString() );
+        getProject().setProperty( 
+          "avalon.library", lib.toString() );
+
+        getProject().setProperty( 
+          "avalon.project.key", definition.getKey() );
+        getProject().setProperty( 
+          "avalon.project.name", definition.getInfo().getName() );
+        getProject().setProperty( 
+          "avalon.project.group", definition.getInfo().getGroup() );
+        getProject().setProperty( 
+          "avalon.project.version", definition.getInfo().getVersion() );
+    }
+
+    private void buildProject( Home home, Definition definition )
+    {
+        log( "build: " + definition );
+        setProjectProperties( home, definition );
+        super.execute();
+    }
+
+    private Home createHome()
+    {
         File index = getIndex();
         log( "index: " + index, Project.MSG_INFO );
         try
         {
-            m_home = new Home( getProject(), index );
+            return new Home( getProject(), index );
         }
         catch( Throwable e )
         {
@@ -82,33 +215,6 @@ public class ProjectTask extends Sequential
               "Error occured while loading system defintion.";
             throw new BuildException( error, e );
         }
-
-        Repository repo = m_home.getRepository();
-        File cache = repo.getCacheDirectory();
-
-        //
-        // get the definition for this project
-        //
-   
-        log( "project: " + getProject().getName(), Project.MSG_DEBUG );
-        log( "basedir: " + getProject().getBaseDir(), Project.MSG_DEBUG );
-
-        final String key = getKey();
-        Definition definition = m_home.getDefinition( key );
-        Info info = definition.getInfo();
-
-        log( "name: " + info.getName(), Project.MSG_DEBUG );
-        log( "group: " + info.getGroup(), Project.MSG_DEBUG );
-        log( "version: " + info.getVersion(), Project.MSG_DEBUG );
-
-        //
-        // Path path = repo.createPath( getProject(), m_home, definition );
-        // log( "path: " + path );
-        //
-
-        m_home.build( definition );
-
-        super.execute();
     }
 
     private String getKey()
