@@ -16,7 +16,7 @@ tag:
   @avalon.dependency type="org.somewhere.MyInterface"
 
 Components that provide services declare the service export using the 
-tag @avalon.service. Merlin build and validates a dependency graph before  
+tag @avalon.service. Merlin builds and validates a dependency graph before  
 component initialization, and ensures that componets are actived in the  
 correct order.  Consumers are always activated after suppliers and 
 deactivated before deactivation of respective suppliers.
@@ -24,7 +24,7 @@ deactivated before deactivation of respective suppliers.
 Build instructions
 ------------------
 
-  $ maven
+  $ ant
 
 Runtime
 -------
@@ -53,12 +53,6 @@ The purpose of this demonstration is to show the following:
 While the demonstration deals with the very simple case of a
 single supplier and a single consumer component, Merlin provides
 complete support for n-to-n relationships across arbitarily deep
-dependency graphs.  Using the Merlin plugin for Maven, you can 
-validate deployment scenarios by simulating deployment as part 
-of a componet suite test and validation phase.  The following 
-command demonstrates Maven based deployment using the Merlin 
-plugin.
-
-  $ maven merlin:simulate
+dependency graphs.
 
 
