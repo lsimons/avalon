@@ -10,7 +10,7 @@ package org.apache.avalon.excalibur.cache;
 /**
  * LRU(Least Recently Used) replacement policy.
  *
- * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
+ * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
 public class LRUCachePolicy
     extends ListCachePolicy

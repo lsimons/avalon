@@ -10,7 +10,9 @@ package org.apache.avalon.excalibur.cache;
 import java.util.EventListener;
 
 /**
- * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
+ * Receive notifications about <code>Cache</code>.
+ *
+ * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
 public interface CacheListener
     extends EventListener

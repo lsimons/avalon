@@ -10,7 +10,9 @@ package org.apache.avalon.excalibur.cache;
 import java.util.EventObject;
 
 /**
- * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
+ * This is the class used to deliver notifications about <code>Cache</code>.
+ *
+ * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
 public class CacheEvent
     extends EventObject
