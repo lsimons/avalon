@@ -71,7 +71,7 @@ import org.apache.commons.httpclient.protocol.SecureProtocolSocketFactory;
  * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HTTPSClientSourceFactory.java,v 1.3 2003/07/14 12:52:56 crafterm Exp $
+ * @version CVS $Id: HTTPSClientSourceFactory.java,v 1.4 2003/10/02 15:43:51 crafterm Exp $
  */
 public class HTTPSClientSourceFactory extends HTTPClientSourceFactory
 {
@@ -115,9 +115,18 @@ public class HTTPSClientSourceFactory extends HTTPClientSourceFactory
     private void setProvider( final Parameters params )
         throws ParameterException
     {
-        Security.addProvider(
-            (Provider) getInstance( params.getParameter( SSL_PROVIDER ) )
-        );
+        String provider = null;
+
+        try
+        {
+            provider = params.getParameter( SSL_PROVIDER );
+        }
+        catch ( final ParameterException e )
+        {
+            return; // this is ok, means no custom SSL provider
+        }
+
+        Security.addProvider( (Provider) getInstance( provider ) );
     }
 
     /**
