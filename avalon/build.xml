@@ -46,6 +46,7 @@ Legal:
   <property name="build.dir" value="build"/>
   <property name="build.lib" value="${build.dir}/lib"/>
   <property name="build.src" value="${build.dir}/src"/>
+  <property name="build.conf" value="${build.dir}/conf"/>
   <property name="build.classes" value="${build.dir}/classes"/>
   <property name="build.javadocs" value="${build.dir}/javadocs"/>
   <property name="build.docs" value="${build.dir}/docs"/>
@@ -58,6 +59,7 @@ Legal:
   <property name="src.dir" value="src"/>
   <property name="java.dir" value="${src.dir}/java"/>
   <property name="test.dir" value="${src.dir}/test"/>
+  <property name="conf.dir" value="${src.dir}/conf"/>
   <property name="lib.dir" value="lib"/>
   <property name="tools.dir" value="tools"/>
   <property name="docs.dir" value="docs"/>
@@ -188,11 +190,25 @@ Legal:
     </javac>
   </target>
 
-  <target name="jar-exceptionutil" depends="compile-exceptionutil">
+  <target name="jar-exceptionutil" depends="compile-exceptionutil, prepare-conf">
+      <copy
+          file="${conf.dir}/MANIFEST.MF"
+          tofile="${build.conf}/MANIFEST-EXCEPTIONUTIL.MF">
+          <filterset>
+              <filter token="name" value="avalon-exceptionutil"/>
+              <filter token="version" value="${version}"/>
+          </filterset>
+      </copy>
     <mkdir dir="${build.lib}"/>
-    <jar jarfile="${build.lib}/exceptionutil.jar" basedir="${build.classes}" compress="${compress.jars}">
+    <jar jarfile="${build.lib}/exceptionutil.jar"
+        basedir="${build.classes}"
+        compress="${compress.jars}"
+        manifest="${build.conf}/MANIFEST-EXCEPTIONUTIL.MF">
       <include name="org/apache/avalon/framework/ExceptionUtil.class" />
       <include name="org/apache/avalon/framework/Cascading*" />
+      <zipfileset dir="${build.conf}" prefix="META-INF/">
+          <include name="LICENSE.txt"/>
+      </zipfileset>
     </jar>
   </target>
 
@@ -439,12 +455,34 @@ Legal:
 
   </target>
 
+  <!-- Copies and filters the manifest and license. Used by jar and dist -->
+  <target name="prepare-conf">
+      <mkdir dir="${build.conf}"/>
+      <copy todir="${build.conf}" flatten="true">
+          <fileset dir="." includes="LICENSE.txt"/>
+          <fileset dir="${conf.dir}" includes="MANIFEST.MF"/> 
+
+          <filterset>
+              <filter token="name" value="${framework.name}"/>
+              <filter token="version" value="${version}"/>
+              <filter token="year" value="${year}"/>
+          </filterset>
+      </copy>
+
+  </target>
+
   <!-- Creates all the .jar files -->
-  <target name="all" depends="compile" description="generates the Avalon jar files">
+  <target name="all" depends="compile, prepare-conf" description="generates the Avalon jar files">
     <mkdir dir="${build.lib}"/>
-    <jar jarfile="${build.lib}/${framework.name}.jar" basedir="${build.classes}" compress="${compress.jars}">
-      <include name="org/apache/avalon/framework/**"/>
+    <jar jarfile="${build.lib}/${framework.name}.jar"
+        basedir="${build.classes}"
+        compress="${compress.jars}"
+        manifest="${build.conf}/MANIFEST.MF">
       <exclude name="**/test/*"/>
+      <include name="org/apache/avalon/framework/**"/>
+      <zipfileset dir="${build.conf}" prefix="META-INF/">
+          <include name="LICENSE.txt"/>
+      </zipfileset>
     </jar>
   </target>
 
