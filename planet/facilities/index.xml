@@ -597,6 +597,7 @@
     </plugins>
   </project>
 
+  <!--
   <project basedir="console/system">
     <info>
       <group>avalon/console</group>
@@ -614,6 +615,7 @@
       <include key="avalon-meta-tools"/>
     </plugins>
   </project>
+  -->
 
   <project basedir="console/commands">
     <info>
