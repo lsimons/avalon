@@ -59,9 +59,9 @@ public class DefaultLoader
     * line arguments, the repository established for runtime deployment
     * may be changed.
     *
-    * @param system the bootstrap repository from which merlin 
+    * @param repository the bootstrap repository from which merlin 
     *   system jar files have been resolved
-    * @param args the set of command line arguments 
+    * @param map the set of kernel context parameters 
     */
     public DefaultLoader( final Repository repository, Map map ) 
       throws Exception

@@ -66,7 +66,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/12 17:12:45 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/13 01:28:26 $
  */
 public interface ContainmentModel extends Model
 {
@@ -141,8 +141,8 @@ public interface ContainmentModel extends Model
     * Addition of a new subsidiary containment model within
     * the containment context using a supplied url.
     *
-    * @param url a url referencing a containment profile
-    * @param url containment configuration targets
+    * @param block a url referencing a containment profile
+    * @param config containment configuration targets
     * @return the model created using the derived profile and configuration
     * @exception ModelException if an error occurs during model establishment
     */
