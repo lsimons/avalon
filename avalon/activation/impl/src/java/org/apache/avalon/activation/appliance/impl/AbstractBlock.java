@@ -51,6 +51,15 @@
 package org.apache.avalon.activation.appliance.impl;
 
 import java.net.URL;
+import java.net.URLClassLoader;
+
+import java.security.AccessControlContext;
+import java.security.CodeSource;
+import java.security.Permission;
+import java.security.Permissions;
+import java.security.ProtectionDomain;
+import java.security.cert.Certificate;
+
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -70,6 +79,7 @@ import org.apache.avalon.composition.event.CompositionEventListener;
 
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.ContainmentModel;
+import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.DependencyModel;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
@@ -89,7 +99,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.14 $ $Date: 2004/01/16 16:39:02 $
+ * @version $Revision: 1.15 $ $Date: 2004/01/19 21:45:06 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
   implements Block, CompositionEventListener
@@ -123,6 +133,7 @@ public abstract class AbstractBlock extends AbstractAppliance
     private final DefaultState m_self = new DefaultState();
 
     private final Engine m_engine;
+    private final AccessControlContext  m_accessControlContext;
 
     //-------------------------------------------------------------------
     // constructor
@@ -137,7 +148,12 @@ public abstract class AbstractBlock extends AbstractAppliance
     AbstractBlock( ContainmentModel model, Engine engine )
     {
         super( model );
-
+        ClassLoaderModel clmodel = model.getClassLoaderModel();
+        if( model.isSecureExecutionEnabled() )
+            m_accessControlContext = createAccessControlContext( clmodel );
+        else
+            m_accessControlContext = null;
+        
         m_model = model;
         m_engine = engine;
 
@@ -239,6 +255,42 @@ public abstract class AbstractBlock extends AbstractAppliance
         }
     }
 
+    protected AccessControlContext getAccessControlContext()
+    {
+        return m_accessControlContext;
+    }
+
+    /**
+     * Creates the AccessControlContext based on the Permissons granted
+     * in the ContainmentModel and the ClassLoader used to load the class.
+     **/
+    private AccessControlContext createAccessControlContext( ClassLoaderModel model )
+    {
+        ClassLoader classloader = model.getClassLoader();
+        if( classloader instanceof URLClassLoader )
+        {
+            Permissions permissionGroup = new Permissions();
+            Permission[] permissions = model.getSecurityPermissions();
+            for( int i=0 ; i < permissions.length ; i++ )
+                permissionGroup.add( permissions[i] );
+            
+            Certificate[] certs = model.getCertificates();
+            URL[] jars = ((URLClassLoader) classloader).getURLs();
+            ProtectionDomain[] domains = new ProtectionDomain[ jars.length ];
+            for( int i=0 ; i < jars.length ; i++ )
+            {
+                CodeSource cs = new CodeSource( jars[i], certs );
+                domains[i] = new ProtectionDomain( cs, permissionGroup );
+            }
+            return new AccessControlContext( domains );    
+        }
+        else
+        {
+            // TODO: No other idea on how to handle this at the moment.
+            throw new SecurityException( "ClassLoader's must inherit from URLClassLoader." );
+        }
+    }
+    
     //-------------------------------------------------------------------
     // Deployable
     //-------------------------------------------------------------------
@@ -270,6 +322,7 @@ public abstract class AbstractBlock extends AbstractAppliance
             //
 
             ContainmentModel model = getContainmentModel();
+            
             DeploymentModel[] startup = model.getStartupGraph();
             long timeout = model.getDeploymentTimeout();
 
@@ -391,7 +444,7 @@ public abstract class AbstractBlock extends AbstractAppliance
         {
             getLogger().debug( "creating appliance: " + path );
             ComponentModel component = (ComponentModel) model;
-            appliance = new DefaultAppliance( component, this );
+            appliance = new DefaultAppliance( component, this, m_accessControlContext );
         }
         else if( model instanceof ContainmentModel )
         {

@@ -65,7 +65,7 @@ import org.apache.avalon.framework.activity.Disposable;
  * serve basis.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/01/16 16:39:02 $
+ * @version $Revision: 1.7 $ $Date: 2004/01/19 21:45:07 $
  * @see DeploymentRequest
  */
 class Deployer
@@ -97,6 +97,7 @@ class Deployer
     Deployer( Logger logger )
     {
         m_logger = logger;
+        
         m_deploymentThread = 
           new Thread( this, "Deployer " + m_ThreadCounter++ );
         m_deploymentThread.start();
