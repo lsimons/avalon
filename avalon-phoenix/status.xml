@@ -40,7 +40,7 @@
              due-to-email="joec@apache.org">Fixed a bug in the Foo class.</action>
     -->
 
-<release version="4.0.3" date="unreleased">
+<release version="4.1alpha" date="unreleased">
     <action dev="NKB" type="update">
        Move to Forrest http://xml.apache.org/forrest/ for document generation.
    </action>       
