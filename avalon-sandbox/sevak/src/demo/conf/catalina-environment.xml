@@ -8,12 +8,11 @@
 <environment>
 
     <logs>
-
       <category name="" target="default"
                 priority="DEBUG" />
 
       <log-target name="default"
-                  location="/logs/multihost-sevak-demo.log" />
+                  location="/logs/avalon-sevak.log" />
     </logs>
 
     <policy>

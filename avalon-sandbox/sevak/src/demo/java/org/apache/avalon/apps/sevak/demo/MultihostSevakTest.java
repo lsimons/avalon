@@ -58,9 +58,10 @@ public class MultihostSevakTest extends AbstractLogEnabled
             String ctxPath = contexts[ i ].getAttribute( "path" );
             ctxPath = ctxPath.replace( '/', File.separatorChar );
             ctxPath = ctxPath.replace( '\\', File.separatorChar );
-            String ctxFullPath = m_context.getBaseDirectory().getAbsolutePath() + File.separatorChar + ctxPath;
+            String ctxFullPath = m_context.getBaseDirectory().getAbsolutePath() + File.separatorChar + "SAR-INF"
+                     + File.separatorChar + "lib" + File.separatorChar + ctxPath;
             //System.out.println("Ctx = " + ctx + ", path = " + ctxFullPath);
-            m_mulihostSevak.deploy( "loclhost", ctx, new File( ctxFullPath ) );
+            m_mulihostSevak.deploy( "localhost", ctx, new File( ctxFullPath ) );
         }
     }
 }
