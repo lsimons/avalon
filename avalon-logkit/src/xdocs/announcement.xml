@@ -1,7 +1,11 @@
 <?xml version="1.0"?>
 
 <announcement>
-  <project>@Name@ @version@</project>
+  <project>
+    <name>@Name@</name>
+    <version>@version@</version>
+  </project>
+  <website href="http://jakarta.apache.org/avalon"/>
   <abstract>
 The Avalon team is proud to announce the @version@ @status@ release of @Name@.</abstract>
   <body>
@@ -14,13 +18,14 @@ formalizes serveral best of breed practices and patterns for
 server side programming.
     </p>
     <subproject site="http://jakarta.apache.org/avalon/@name@">
-      <title>@Name@ @version@</title>
+        <title>@Name@ @version@</title>
       <abstract>
 LogKit is a easy to use logging toolkit designed for secure 
 performance orientated logging. It's design encourages integration 
 into existing products with minimal impact.
       </abstract>
       <changes version="@version@" file="changes.xml"/>
+      <downloads base="http://jakarta.apache.org/builds/jakarta-avalon/@name@"/>
     </subproject>
   </body>
 </announcement>
