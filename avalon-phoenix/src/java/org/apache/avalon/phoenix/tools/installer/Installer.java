@@ -267,8 +267,6 @@ public class Installer
         //this directory is created?
         directory.mkdirs();
 
-        final String baseURL = "sar:/";
-
         final ArrayList digests = new ArrayList();
         final ArrayList jars = new ArrayList();
 
