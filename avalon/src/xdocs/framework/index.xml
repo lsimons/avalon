@@ -19,25 +19,22 @@
         best-of-practice pattern enforcements, and several
         lightweight convenience implementations of the generic components.
       </p>
-      <p>
-        What that means is that we define the central interface <code>Component</code>. 
-        We also define the relationship (contract) a component has with peers, 
-        ancestors and children. This documentation introduces you to those patterns, 
-        interfaces and relationships.
-      </p>
       <s2 title="Target Audience">
         <p>
-          This documentation is aimed towards developers who are interested
-          in the design principles of Avalon, or wish to develop code that
-          will be incorporated into Avalon.
+          This documentation is aimed towards developers who:
+          <ul>
+            <li>are interested in the design principles of Avalon</li>
+            <li>wish to develop code that will be incorporated into Avalon</li>
+            <li>wish to reuse Avalon concepts in their own application</li>
+          </ul>
         </p>
       </s2>
       <s2 title="Theoretical Aspects of Component Development">
         <p>
-          The following documents provide basic theoretical concepts that are applied 
-          through-out Avalon's framework. It would be good for a prospective developer to 
+          The following documents provide basic theoretical concepts that are applied
+          through-out Avalon's framework. It would be good for a prospective developer to
           be at least passingly familiar with the concepts outlined in this document.
-          The documentation also provides links to outside sources which can be consulted 
+          The documentation also provides links to outside sources which can be consulted
           for further information.
         </p>
         <ol>
@@ -45,12 +42,13 @@
           <li><link href="reuse-standards.html">Reuse Standards</link></li>
           <li><link href="inversion-of-control.html">Inversion of Control</link></li>
           <li><link href="separation-of-concerns.html">Separation of Concerns</link></li>
+          <li><link href="separation-of-interface-and-implementation.html">Separation of Interface and Implementation</link></li>
           <li><link href="security.html">Security</link></li>
         </ol>
       </s2>
       <s2 title="Concrete Descriptions of the Avalon Component model">
         <p>
-          This section describes concrete examples of how the theoretical ideas 
+          This section describes concrete examples of how the theoretical ideas
           are applied within the context of Avalon.
         </p>
         <ol>
@@ -65,7 +63,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.7 $ $Date: 2002/01/31 15:43:52 $
+      $Revision: 1.8 $ $Date: 2002/03/31 13:54:35 $
     </legal>
   </footer>
 </document>
