@@ -67,7 +67,7 @@ import org.apache.commons.collections.StaticBucketMap;
  * the references.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/02/27 20:04:53 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/03/19 12:48:49 $
  */
 public class FortressServiceManager
     implements ServiceManager
@@ -104,14 +104,14 @@ public class FortressServiceManager
     public Object lookup( final String role )
         throws ServiceException
     {
-        Lookup lookup = parseRole(role);
+        Lookup lookup = parseRole( role );
 
-        if( !m_container.has( lookup.role, lookup.hint ) )
+        if( !m_container.has( lookup.m_role, lookup.m_hint ) )
         {
             return m_parent.lookup( role );
         }
 
-        final Object result = m_container.get( lookup.role, lookup.hint );
+        final Object result = m_container.get( lookup.m_role, lookup.m_hint );
         if( result instanceof ServiceSelector )
         {
             return result;
@@ -119,7 +119,7 @@ public class FortressServiceManager
 
         if( result instanceof ComponentSelector )
         {
-            return new WrapperServiceSelector( lookup.role, (ComponentSelector)result );
+            return new WrapperServiceSelector( lookup.m_role, (ComponentSelector)result );
         }
 
         if( !( result instanceof ComponentHandler ) )
@@ -132,8 +132,8 @@ public class FortressServiceManager
         {
             final ComponentHandler handler = (ComponentHandler)result;
             final Object component = handler.get();
-            
-            m_used.put( new ComponentKey(component), handler );
+
+            m_used.put( new ComponentKey( component ), handler );
             return component;
         }
         catch( final ServiceException ce )
@@ -152,7 +152,7 @@ public class FortressServiceManager
     {
         Lookup lookup = parseRole( role );
 
-        if( m_container.has( lookup.role, lookup.hint ) )
+        if( m_container.has( lookup.m_role, lookup.m_hint ) )
         {
             return true;
         }
@@ -164,7 +164,7 @@ public class FortressServiceManager
 
     public void release( final Object component )
     {
-        final ComponentHandler handler = (ComponentHandler)m_used.remove( new ComponentKey(component) );
+        final ComponentHandler handler = (ComponentHandler)m_used.remove( new ComponentKey( component ) );
         if( null == handler )
         {
             if( null == m_parent )
@@ -193,22 +193,22 @@ public class FortressServiceManager
     private Lookup parseRole( String role )
     {
         Lookup lookup = new Lookup();
-        lookup.role = role;
-        lookup.hint = AbstractContainer.DEFAULT_ENTRY;
+        lookup.m_role = role;
+        lookup.m_hint = AbstractContainer.DEFAULT_ENTRY;
 
-        if ( role.endsWith("Selector") )
+        if( role.endsWith( "Selector" ) )
         {
-            lookup.role = role.substring(0, role.length() - "Selector".length());
-            lookup.hint = AbstractContainer.SELECTOR_ENTRY;
+            lookup.m_role = role.substring( 0, role.length() - "Selector".length() );
+            lookup.m_hint = AbstractContainer.SELECTOR_ENTRY;
         }
 
-        int index = role.lastIndexOf("/");
+        int index = role.lastIndexOf( "/" );
 
         // needs to be further than the first character
-        if ( index > 0 )
+        if( index > 0 )
         {
-            lookup.role = role.substring(0, index);
-            lookup.hint = role.substring(index + 1);
+            lookup.m_role = role.substring( 0, index );
+            lookup.m_hint = role.substring( index + 1 );
         }
 
         return lookup;
@@ -216,8 +216,7 @@ public class FortressServiceManager
 
     private final static class Lookup
     {
-        public String role;
-        public String hint;
+        String m_role;
+        String m_hint;
     }
-    
 }
