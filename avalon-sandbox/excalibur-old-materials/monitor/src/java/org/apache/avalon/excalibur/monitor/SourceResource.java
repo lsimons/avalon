@@ -14,14 +14,15 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 import org.apache.excalibur.source.Source;
+import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceValidity;
 
 /**
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: SourceResource.java,v 1.2 2002/04/21 21:47:49 donaldp Exp $
+ * @version $Id: SourceResource.java,v 1.3 2002/04/24 12:35:37 cziegeler Exp $
  */
-public final class SourceResource 
+public final class SourceResource
     extends StreamResource
 {
     /** The wrapped source object */
@@ -70,17 +71,23 @@ public final class SourceResource
     /**
      * Sets the resource value with an OutputStream
      */
-    public InputStream getResourceAsStream() 
-	throws IOException
+    public InputStream getResourceAsStream()
+    throws IOException
     {
-        return m_source.getInputStream();
+        try {
+            return m_source.getInputStream();
+        }
+        catch (SourceException se)
+        {
+            throw new IOException("SourceException: " + se.getMessage());
+        }
     }
 
     /**
      * Sets the resource value with a Writer
      */
     public Reader getResourceAsReader()
-	throws IOException
+    throws IOException
     {
         return new InputStreamReader( getResourceAsStream() );
     }
@@ -88,8 +95,8 @@ public final class SourceResource
     /**
      * Sets the resource value with an OutputStream
      */
-    public OutputStream setResourceAsStream() 
-	throws IOException
+    public OutputStream setResourceAsStream()
+    throws IOException
     {
         throw new IOException( "setResourceAsStream() not supported for URLResource" );
     }
@@ -97,8 +104,8 @@ public final class SourceResource
     /**
      * Sets the resource value with a Writer
      */
-    public Writer setResourceAsWriter() 
-	throws IOException
+    public Writer setResourceAsWriter()
+    throws IOException
     {
         throw new IOException( "setResourceAsWriter() not supported for URLResource" );
     }

@@ -17,7 +17,7 @@ import org.apache.excalibur.source.*;
 /**
  * A factory for the Resource protocol
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: ResourceSourceFactory.java,v 1.1 2002/04/19 09:05:37 cziegeler Exp $
+ * @version $Id: ResourceSourceFactory.java,v 1.2 2002/04/24 12:35:37 cziegeler Exp $
  */
 public class ResourceSourceFactory
     extends AbstractLogEnabled
@@ -29,7 +29,7 @@ public class ResourceSourceFactory
      * @param parameters This is optional.
      */
     public Source getSource( String location, Map parameters )
-        throws MalformedURLException, IOException
+        throws MalformedURLException, IOException, SourceException
     {
         if( this.getLogger().isDebugEnabled() )
         {

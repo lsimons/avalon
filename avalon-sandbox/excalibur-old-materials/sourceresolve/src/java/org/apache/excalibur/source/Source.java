@@ -50,7 +50,7 @@ import java.io.InputStream;
  * validity object must be the same until discardValidity is called!
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/04/22 09:13:55 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/04/24 12:35:37 $
  */
 public interface Source {
 
@@ -61,7 +61,7 @@ public interface Source {
      * from two different invocations.
      */
     InputStream getInputStream()
-        throws IOException;
+        throws IOException, SourceException;
 
     /**
      * Return the unique identifer for this source
