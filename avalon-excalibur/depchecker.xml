@@ -268,7 +268,6 @@ To use it, type 'ant -f depchecker.xml'
     <target name="checkRequiredFile" depends="checkIfLocal, checkRequiredFileLocal, checkRequiredFileRemote"/>
 
     <target name="checkIfLocal" if="proj.home">
-        <echo>basedir is ${basedir}</echo>
         <available type="dir" file="${proj.home}" property="local"/>
     </target>
 
