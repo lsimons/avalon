@@ -19,7 +19,8 @@ package org.apache.avalon.framework.configuration;
  * A read/write extension of the Configuration interface.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.1 $ $Date: 2004/01/29 16:27:39 $
+ * @version CVS $Revision: 1.2 $ $Date: 2004/01/29 16:29:27 $
+ * @since 4.1.6
  */
 public interface MutableConfiguration extends Configuration
 {
