@@ -124,7 +124,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.18 $ $Date: 2004/01/16 00:09:12 $
+ * @version $Revision: 1.19 $ $Date: 2004/01/16 01:29:54 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -1279,7 +1279,8 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     private ContainmentModel createContainmentModel( String name, URL url )
       throws ModelException
     {
-        if( url.getProtocol().equals( "artifact" ) )
+        if( url.getProtocol().equals( "artifact" ) 
+          || url.getProtocol().equals( "block" ) )
         {
             try
             {

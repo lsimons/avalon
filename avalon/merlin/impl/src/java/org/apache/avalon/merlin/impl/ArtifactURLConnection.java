@@ -63,37 +63,18 @@ import org.apache.avalon.activation.appliance.CascadingIOException;
 /**
  * Repository URL protocol handler.  
  */
-public class ArtifactURLConnection extends URLConnection
+public class ArtifactURLConnection extends AbstractURLConnection
 {
     /**
-     * the url
-     */
-     private URL m_url;
-
-    /**
      * Creation of a new handler. 
-     * @param context the initial context
+     * @param url the url to establish a connection with
+     * @param type the default type if no type specified
      * @exception NullPointerException if the supplied repository argument is null
      */
      ArtifactURLConnection( URL url ) 
        throws NullPointerException, IOException
      {
          super( url );
-
-         String path = url.getPath();
-         int i = path.lastIndexOf( "/" );
-         if( i<0 )
-         {
-             final String error = 
-               "Artifact specification does not contain a [group]/[name] seperator.";
-             throw new MalformedURLException( error );
-         }
-         m_url = url;
-     }
-
-     public void connect()
-     {
-         // nothing to do
      }
 
     /**
@@ -102,59 +83,38 @@ public class ArtifactURLConnection extends URLConnection
      */
      public Object getContent() throws IOException
      {
+         return super.getContent( "jar" );
+     }
+
+    /**
+     * Return the Artifact specified by this URL.
+     * @return the artifact instance
+     */
+     protected Object getContent( String defaultType ) throws IOException
+     {
          try
          {
-             final String path = m_url.getPath();
+             final String path = getURL().getPath();
              final int i = path.lastIndexOf( "/" );
              final String group = path.substring( 0, i );
              final String name = path.substring( i+1 );
-             final String type = getType( url );
              final String version = getVersion( url );
+             final String type = getType( getURL(), defaultType );
              return Artifact.createArtifact( group, name, version, type );
          }
          catch( Throwable e )
          {
              final String error = 
-               "Unexpected exception while resolving url [" + m_url + "].";
+               "Unexpected exception while resolving url [" + getURL() + "].";
              throw new CascadingIOException( error );
          }
      }
 
-    /**
-     * Return the Artifact specified by this URL.
-     * @param classes a set of classes (ignored)
-     * @return the artifact instance
-     */
-     public Object getContent( Class[] classes ) throws IOException
+     private String getType( URL url, String type )
      {
-         return getContent();
+         return getQueryField( url, "type", type );
      }
 
-     private String getVersion( URL url )
-     {
-         return getQueryField( url, "version", null );
-     } 
 
-     private String getType( URL url )
-     {
-         return getQueryField( url, "type", "jar" );
-     } 
 
-     private String getQueryField( URL url, String field, String fallback )
-     {
-         String query = url.getQuery();
-         if( null != query ) 
-         {
-             StringTokenizer tokenizer = new StringTokenizer( query, "&" );
-             while( tokenizer.hasMoreElements() )
-             {
-                 String token = tokenizer.nextToken();
-                 if( token.startsWith( field + "=" ) )
-                 {
-                     return token.substring( (field.length() + 1) );
-                 }
-             }
-         }
-         return fallback;
-     }
 }
