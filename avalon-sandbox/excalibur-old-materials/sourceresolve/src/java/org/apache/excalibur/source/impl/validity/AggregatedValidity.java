@@ -54,7 +54,6 @@
  */
 package org.apache.excalibur.source.impl.validity;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -64,18 +63,12 @@ import org.apache.excalibur.source.SourceValidity;
  * A validation object using a List.
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/12/15 11:56:48 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/01/10 12:54:37 $
  */
 public final class AggregatedValidity
+    extends AbstractAggregatedValidity
     implements SourceValidity
 {
-    private final List m_list = new ArrayList();
-
-    public void add( final SourceValidity validity )
-    {
-        m_list.add( validity );
-    }
-
     /**
      * Check if the component is still valid.
      * If <code>0</code> is returned the isValid(SourceValidity) must be
@@ -121,15 +114,5 @@ public final class AggregatedValidity
         return false;
     }
 
-    public String toString()
-    {
-        final StringBuffer sb = new StringBuffer( "SourceValidity " );
-        for( final Iterator i = m_list.iterator(); i.hasNext(); )
-        {
-            sb.append( i.next() );
-            if( i.hasNext() ) sb.append( ':' );
-        }
-        return sb.toString();
-    }
 }
 
