@@ -10,15 +10,15 @@ package org.apache.excalibur.util.system;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Properties;
+import java.util.StringTokenizer;
 import org.apache.excalibur.util.CPUParser;
-import org.apache.excalibur.util.StringUtil;
 
 /**
  * Parses the Linux environment--Uses the proc filesystem to determine all the
  * CPU information.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/09/25 14:52:28 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/09/26 12:46:39 $
  */
 public final class Linux implements CPUParser
 {
@@ -40,7 +40,7 @@ public final class Linux implements CPUParser
 
             while( ( line = reader.readLine() ) != null )
             {
-                String[] args = StringUtil.split( line, ":\t" );
+                String[] args = split( line, ":\t" );
 
                 if( args.length > 1 )
                 {
@@ -92,6 +92,26 @@ public final class Linux implements CPUParser
     public String cpuInfo()
     {
         return m_cpuInfo;
+    }
+
+    /**
+     * Splits the string on every token into an array of strings.
+     *
+     * @param string the string
+     * @param onToken the token
+     * @return the resultant array
+     */
+    private static final String[] split( final String string, final String onToken )
+    {
+        final StringTokenizer tokenizer = new StringTokenizer( string, onToken );
+        final String[] result = new String[ tokenizer.countTokens() ];
+
+        for( int i = 0; i < result.length; i++ )
+        {
+            result[ i ] = tokenizer.nextToken();
+        }
+
+        return result;
     }
 }
 
