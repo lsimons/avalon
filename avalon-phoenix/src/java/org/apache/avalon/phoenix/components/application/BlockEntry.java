@@ -35,16 +35,6 @@ public class BlockEntry
         return m_blockMetaData;
     }
 
-    public synchronized Block getBlock()
-    {
-        return (Block)getObject();
-    }
-
-    public synchronized void setBlock( final Block block )
-    {
-        setObject( block );
-    }
-
     public synchronized void setObject( final Object object )
     {
         invalidate();
@@ -53,10 +43,9 @@ public class BlockEntry
         {
             final BlockInfo blockInfo = getMetaData().getBlockInfo();
             final Class[] interfaces = getServiceClasses( object, blockInfo.getServices() );
-
             m_invocationHandler = new BlockInvocationHandler( object, interfaces );
-            super.setObject( object );
         }
+        super.setObject( object );
     }
 
     public synchronized Block getProxy()
