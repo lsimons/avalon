@@ -47,6 +47,21 @@ public class PhoenixEmbeddor
     extends AbstractLoggable
     implements Embeddor
 {
+    private static final String    PHOENIX_HOME         =
+        System.getProperty( "phoenix.home", ".." );
+
+    private static final String    DEFAULT_LOG_FILE     = PHOENIX_HOME + "/logs/phoenix.log";
+    private static final String    DEFAULT_APPS_PATH    = PHOENIX_HOME + "/apps";
+
+    private static final String    DEFAULT_DEPLOYER     = 
+        System.getProperty( "phoenix.deployer", "org.apache.avalon.phoenix.engine.DefaultSarDeployer" );
+
+    private static final String    DEFAULT_KERNEL       =
+        System.getProperty( "phoenix.kernel", "org.apache.avalon.phoenix.engine.PhoenixKernel" );
+
+    private static final String    DEFAULT_MANAGER      =
+        System.getProperty( "phoenix.manager", "org.apache.avalon.phoenix.engine.PhoenixManager" );
+
     private Parameters     m_parameters;
     private Kernel         m_kernel;
     private Deployer       m_deployer;
@@ -310,7 +325,7 @@ public class PhoenixEmbeddor
         try
         {
             final String logDestination =
-                m_parameters.getParameter( "log-destination", null );
+                m_parameters.getParameter( "log-destination", DEFAULT_LOG_FILE );
 
             final String logPriority = 
                 m_parameters.getParameter( "log-priority", "INFO" );
@@ -330,6 +345,7 @@ public class PhoenixEmbeddor
         }
         catch( final Exception e )
         {
+            e.printStackTrace();
             throw new ConfigurationException( "Failed to create Logger", e );
         }
     }
@@ -343,7 +359,8 @@ public class PhoenixEmbeddor
     private Deployer createDeployer()
         throws ConfigurationException
     {
-        final String className = m_parameters.getParameter( "deployer-class", null );
+        final String className = 
+            m_parameters.getParameter( "deployer-class", DEFAULT_DEPLOYER );
         try
         {
             Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
@@ -387,7 +404,7 @@ public class PhoenixEmbeddor
         throws Exception
     {
         final String defaultAppsLocation =
-            m_parameters.getParameter( "applications-directory", null );
+            m_parameters.getParameter( "applications-directory", DEFAULT_APPS_PATH );
 
         if( null != defaultAppsLocation )
         {
@@ -431,7 +448,8 @@ public class PhoenixEmbeddor
     private SystemManager createSystemManager()
         throws ConfigurationException
     {
-        final String className = m_parameters.getParameter( "manager-class", null );
+        final String className = 
+            m_parameters.getParameter( "manager-class", DEFAULT_MANAGER );
         try
         {
             Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
@@ -488,7 +506,7 @@ public class PhoenixEmbeddor
     private Kernel createKernel()
         throws ConfigurationException
     {
-        final String className = m_parameters.getParameter( "kernel-class", null );
+        final String className = m_parameters.getParameter( "kernel-class", DEFAULT_KERNEL );
         try
         {
             Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
