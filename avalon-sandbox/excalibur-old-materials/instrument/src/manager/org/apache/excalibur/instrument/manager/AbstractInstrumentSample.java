@@ -24,7 +24,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  *  InstrumentSamples.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/03 15:00:37 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/08/05 02:53:11 $
  * @since 4.1
  */
 abstract class AbstractInstrumentSample
@@ -63,6 +63,9 @@ abstract class AbstractInstrumentSample
     
     /** The time that the current lease expires. */
     private long m_leaseExpirationTime;
+    
+    /** True if the lease has expired. */
+    private boolean m_expired;
     
     /** The Index into the history arrays. */
     private int m_historyIndex;
@@ -273,6 +276,7 @@ abstract class AbstractInstrumentSample
     
     /**
      * Extends the lease to be lease milliseconds from the current time.
+     *  Ignored if the lease has already expired.
      *
      * @param lease The length of the lease in milliseconds.
      *
@@ -284,7 +288,7 @@ abstract class AbstractInstrumentSample
         synchronized(this)
         {
             // Only extend the lease if it is not permanent.
-            if ( m_leaseExpirationTime > 0 )
+            if ( ( m_leaseExpirationTime > 0 ) && ( !m_expired ) )
             {
                 long newLeaseExpirationTime = System.currentTimeMillis() + lease;
                 m_leaseExpirationTime = Math.max( m_leaseExpirationTime, newLeaseExpirationTime );
@@ -292,6 +296,19 @@ abstract class AbstractInstrumentSample
             
             return m_leaseExpirationTime;
         }
+    }
+    
+    /**
+     * Tells the sample that its lease has expired.  No new references to
+     *  the sample will be made available, but clients which already have
+     *  access to the sample may continue to use it.
+     */
+    public void expire()
+    {
+        // Update to the time that we expire at.
+        update( m_leaseExpirationTime );
+        
+        m_expired = true;
     }
     
     /**
@@ -692,6 +709,12 @@ abstract class AbstractInstrumentSample
     protected boolean update( long time )
     {
         //System.out.println("update(" + time + ")");
+        // If the lease has already expired, then do nothing
+        if ( m_expired )
+        {
+            return false;
+        }
+        
         // See if we are already up to date.
         if ( time - m_time >= m_interval )
         {
