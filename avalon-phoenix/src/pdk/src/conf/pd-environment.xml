@@ -5,7 +5,7 @@
     Basic config file that sets up context for server application.
 
 -->
-<server>
+<environment>
 
     <logs>
 
@@ -37,4 +37,4 @@
       </grant>
     </policy>
 
-</server>
+</environment>

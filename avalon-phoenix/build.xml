@@ -593,10 +593,10 @@ Legal:
   </target>
 
   <!-- Makes the Phoneix Development Kit -->
-  <target name="make-pdk" depends="rmic" description="Generates a dual mode example Phoenix application">
+  <target name="make-pdk" depends="jars" description="Generates thd PDK distribution">
 
     <mkdir dir="${dist.base}"/>
-    <zip file="${dist.base}/phoenix-devkit.zip">
+    <zip file="${dist.base}/phoenix-developers-kit.zip">
       <fileset dir="src/pdk">
         <include name="**"/>
       </fileset>
