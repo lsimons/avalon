@@ -202,6 +202,13 @@
             <include>**/*.properties</include>
           </includes>
         </resource>
+        <!-- This fix makes merlin build with maven-10 again -->
+        <resource>
+          <directory>${basedir}/conf</directory>
+          <includes> 
+            <include>**/*.properties</include>
+          </includes>
+        </resource>
         <resource>
           <directory>${basedir}/src/test/conf</directory>
           <includes> 
