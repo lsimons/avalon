@@ -26,7 +26,7 @@ import org.apache.avalon.framework.container.ContainerUtil;
  * Fortress container example.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Id: Main.java,v 1.9 2004/02/24 22:31:22 niclas Exp $
+ * @version $Id: Main.java,v 1.10 2004/03/08 16:00:22 farra Exp $
  */
 public final class Main
 {
@@ -44,7 +44,10 @@ public final class Main
         config.setContainerClass( SwingContainer.class );
         config.setContainerConfiguration( "resource://org/apache/avalon/fortress/examples/swing/SwingContainer.xconf" );
         config.setLoggerManagerConfiguration( "resource://org/apache/avalon/fortress/examples/swing/SwingContainer.xlog" );
-        config.setInstrumentManagerConfiguration( "resource://org/apache/avalon/fortress/examples/swing/SwingContainer.instruments" );
+
+        // need the altrmi binaries
+
+	//   config.setInstrumentManagerConfiguration( "resource://org/apache/avalon/fortress/examples/swing/SwingContainer.instruments" );
 
         // Get the root container initialized
         ContainerManager cm = new DefaultContainerManager( config.getContext() );
