@@ -19,10 +19,10 @@ import org.apache.avalon.framework.component.DefaultComponentManager;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.avalon.phoenix.components.application.DefaultServerApplication;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
-import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
-import org.apache.avalon.phoenix.engine.DefaultServerApplication;
 import org.apache.avalon.phoenix.engine.ServerApplicationEntry;
+import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
 
 /**
  * The ServerKernel is the core of the Phoenix system.
