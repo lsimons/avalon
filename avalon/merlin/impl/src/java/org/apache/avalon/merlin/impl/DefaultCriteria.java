@@ -55,7 +55,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.27 $
+ * @version $Revision: 1.28 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -606,7 +606,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
     *
     * @return TRUE if code security is enabled - default is false
     */
-    public boolean isCodeSecurityEnabled()
+    public boolean isSecurityEnabled()
     {
         Boolean value = (Boolean) get( MERLIN_CODE_SECURITY_ENABLED );
         if( null != value ) return value.booleanValue();
