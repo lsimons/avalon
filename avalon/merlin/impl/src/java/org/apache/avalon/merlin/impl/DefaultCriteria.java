@@ -26,7 +26,6 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 import java.util.Map;
 
 import org.apache.avalon.merlin.KernelCriteria;
@@ -56,7 +55,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.23 $
+ * @version $Revision: 1.24 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {

@@ -21,7 +21,6 @@ import java.io.File;
 import java.net.URL;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.ConsoleLogger;
@@ -37,7 +36,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * a string url or file to a configuration instance.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class LoggerParameter extends Parameter
 {
