@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <header>
+    <title>Include Directive</title>
+    <authors>
+      <person name="Stephen McConnell" email="mcconnell@apache.org"/>
+    </authors>
+  </header>
+
+  <body>
+
+    <section name="Include Declarations">
+
+      <subsection name="Description">
+       <p>Declaration of a jar files to include within the scope of a fileset.</p>
+      </subsection>
+
+      <subsection name="Attributes">
+
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>name</td><td>yes</td>
+            <td>
+            The name of the file file include.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Sample XML">
+<source>
+&lt;fileset dir="<font color="darkred">lib</font>"&gt;
+  &lt;include name="<font color="darkred">avalon-framework-impl-4.1.5.jar</font>"/&gt;
+  &lt;include name="<font color="darkred">logkit-2.0.jar</font>"/&gt;
+&lt;/fileset&gt;
+</source>
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+
+
