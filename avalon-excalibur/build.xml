@@ -152,6 +152,9 @@ Legal:
 
   <!-- Checks the environment for existing resources -->
   <target name="check-environment">
+    <available property="log4j.present" classname="org.apache.log4j.Category">
+      <classpath refid="project.class.path"/>
+    </available>
     <available property="xpath.present" classname="org.apache.xpath.XPathAPI">
       <classpath refid="project.class.path"/>
     </available>
@@ -247,6 +250,8 @@ Legal:
       <classpath refid="project.class.path" />
       <src path="${test.dir}"/>
       <src path="${build.src}"/>
+      <exclude name="**/Log4J*"
+               unless="log4j.present"/>
       <exclude name="org/apache/avalon/excalibur/datasource/J2eeDataSource.java"
                unless="j2ee.present"/>
       <exclude name="org/apache/avalon/excalibur/datasource/InformixDataSource.java"
