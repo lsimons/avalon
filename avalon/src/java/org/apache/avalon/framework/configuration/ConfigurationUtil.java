@@ -67,16 +67,13 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.CharacterData;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 
 /**
  * This class has a bunch of utility methods to work
  * with configuration objects.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.14 $ $Date: 2003/04/07 08:36:58 $
+ * @version CVS $Revision: 1.15 $ $Date: 2003/05/20 19:52:31 $
  * @since 4.1.4
  */
 public class ConfigurationUtil
