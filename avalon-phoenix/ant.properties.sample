@@ -6,7 +6,7 @@
 # modules that Phoenix depends on.  Copy this file to ".ant.properties"
 # in the top-level source directory, and customize it as needed.
 #
-# $Id: ant.properties.sample,v 1.10 2002/06/11 11:38:45 colus Exp $
+# $Id: ant.properties.sample,v 1.11 2002/06/30 17:46:00 hammant Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Environment Flags -----
@@ -71,6 +71,9 @@ tools.jar=${java.home}/../j2sdk1.3/lib/tools.jar
 #logkit.base=${basedir}/../jakarta-avalon-logkit/dist/docs
 #cornerstone.base=${basedir}/../jakarta-avalon-cornerstone/dist/docs
 #testlet.base=${basedir}/../jakarta-avalon-testlet/dist/docs
+
+# ----- Phoenix home (for installs) -----
+phoenix.home=phoenix-home
 
 # ----- Kernel Type -----
 # Uncomment these two use BeanShell enhanced Kernel.
