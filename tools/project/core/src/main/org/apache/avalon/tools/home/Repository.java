@@ -141,10 +141,16 @@ public class Repository
     public Path createPath( Project project, Definition def )
       throws BuildException
     {
-        return createPath( project, def, false );
+        return createPath( project, def, Policy.ANY );
     }
 
-    public Path createPath( Project project, Definition def, boolean flag )
+    public Path createPath( Project project, Definition def, int policy )
+      throws BuildException
+    {
+        return createPath( project, def, false, policy );
+    }
+
+    private Path createPath( Project project, Definition def, boolean flag, int policy )
       throws BuildException
     {
         Path path = new Path( project );
@@ -165,19 +171,22 @@ public class Repository
         for( int i=0; i<refs.length; i++ )
         {
             ResourceRef ref = refs[i];
-            Resource resource = m_home.getResource( ref );
-            try
+            if( ref.getPolicy().matches( policy ) )
             {
-                getResource( project, resource );
-                FileList file = getResourceFileList( project, resource );
-                path.addFilelist( file );
-            }
-            catch( Throwable e )
-            {
-                k++;
-                buffer.append( "\n" + k );
-                buffer.append( ": " );
-                buffer.append( resource.getInfo() );
+                Resource resource = m_home.getResource( ref );
+                try
+                {
+                    getResource( project, resource );
+                    FileList file = getResourceFileList( project, resource );
+                    path.addFilelist( file );
+                }
+                catch( Throwable e )
+                {
+                    k++;
+                    buffer.append( "\n" + k );
+                    buffer.append( ": " );
+                    buffer.append( resource.getInfo() );
+                }
             }
         }
 
@@ -197,25 +206,23 @@ public class Repository
         for( int i=0; i<projects.length; i++ )
         {
             ProjectRef ref = projects[i];
-            Definition defintion = m_home.getDefinition( ref );
-            Path projectPath = createPath( project, defintion, true );
-            File file = new File( getCacheDirectory(), defintion.getInfo().getPath() );
-            if( file.exists() )
+            if( ref.getPolicy().matches( policy ) )
             {
-                //
-                // TODO make sure the project artifact is up-to-date 
-                // relative to the project src path
-                //
- 
-                path.add( projectPath );
-            }
-            else
-            {
-                final String error = 
-                  "Cannot construct a valid path for the project " 
-                  + def + " because the dependent project " 
-                  + defintion + " has not installed an artifact.";
-                throw new BuildException( error ); 
+                Definition defintion = m_home.getDefinition( ref );
+                Path projectPath = createPath( project, defintion, true, policy );
+                File file = new File( getCacheDirectory(), defintion.getInfo().getPath() );
+                if( file.exists() )
+                {
+                    path.add( projectPath );
+                }
+                else
+                {
+                    final String error = 
+                      "Cannot construct a valid path for the project " 
+                      + def + " because the dependent project " 
+                      + defintion + " has not installed an artifact.";
+                    throw new BuildException( error );
+                }
             }
         }
 
