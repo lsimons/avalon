@@ -34,7 +34,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/01/22 02:31:27 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/02/04 22:03:43 $
  */
 public final class DefaultXMLizer extends AbstractLogEnabled
         implements XMLizer, Serviceable, Configurable, ThreadSafe, Component
@@ -111,6 +111,8 @@ public final class DefaultXMLizer extends AbstractLogEnabled
             final InputSource inputSource = new InputSource( stream );
             inputSource.setSystemId( systemID );
             parser.parse( inputSource, handler, null );
+
+            m_serviceManager.release(parser);
         }
         catch ( ServiceException e )
         {
