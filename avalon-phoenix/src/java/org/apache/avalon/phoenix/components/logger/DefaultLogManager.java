@@ -94,7 +94,7 @@ public class DefaultLogManager
      * Constant used to define LogManager class to use log4j log format and system.
      */
     private static final String VERSION_LOG4J =
-        "org.apache.avalon.excalibur.logger.Log4JConfLoggerManager";
+        "org.apache.avalon.phoenix.components.logger.ExtendedLog4jLoggerManager";
 
     /**
      * Hold the value of phoenix.home
@@ -141,6 +141,7 @@ public class DefaultLogManager
         ContainerUtil.enableLogging( loggerManager, getLogger() );
         ContainerUtil.contextualize( loggerManager, createLoggerManagerContext( context ) );
         ContainerUtil.configure( loggerManager, logs );
+        ContainerUtil.initialize( loggerManager );
         return loggerManager.getDefaultLogger();
     }
 
