@@ -24,7 +24,9 @@
   </map:readers>
 
   <map:serializers default="html">
-   <map:serializer name="html"   mime-type="text/html"        src="org.apache.cocoon.serialization.HTMLSerializer"/>
+   <map:serializer name="html"   mime-type="text/html"        src="org.apache.cocoon.serialization.HTMLSerializer">
+     <encoding>iso8859-1</encoding>
+   </map:serializer>
    <map:serializer name="xml"    mime-type="text/xml"         src="org.apache.cocoon.serialization.XMLSerializer"/>
    <map:serializer name="fo2pdf" mime-type="application/pdf"  src="org.apache.cocoon.serialization.FOPSerializer"/>
 <!--   <map:serializer name="svgxml" mime-type="image/svg-xml"    src="org.apache.cocoon.serialization.XMLSerializer">
