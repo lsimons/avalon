@@ -26,7 +26,10 @@
      </targets>
 
      <categories>
-       <category name="test" log-level="DEBUG">
+       <category name="test" log-level="INFO">
+         <log-target id-ref="root"/>
+       </category>
+       <category name="" log-level="INFO">
          <log-target id-ref="root"/>
        </category>
      </categories>
@@ -46,7 +49,7 @@
     name "passive"
   -->
   <components>
-    <monitors>
+    <monitors logger="test">
       <active-monitor name="active" logger="test">
         <thread priority="10" frequency="1"/>
       </active-monitor>
