@@ -11,7 +11,7 @@ package org.apache.avalon.cornerstone.blocks.transport.publishing;
 
 
 import org.apache.commons.altrmi.server.AltrmiPublisher;
-import org.apache.commons.altrmi.server.AltrmiPublicationException;
+import org.apache.commons.altrmi.server.PublicationException;
 import org.apache.commons.altrmi.server.AltrmiServer;
 import org.apache.commons.altrmi.server.ClassRetriever;
 import org.apache.commons.altrmi.server.AltrmiAuthenticator;
@@ -41,7 +41,7 @@ import java.net.MalformedURLException;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public abstract class AbstractPublisher extends AbstractLogEnabled
         implements AltrmiPublisher, Startable, Composable, Configurable, Initializable, Block
@@ -142,7 +142,7 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      * @throws AltrmiPublicationException
      *
      */
-    public void publish(Object o, String s, Class aClass) throws AltrmiPublicationException
+    public void publish(Object o, String s, Class aClass) throws PublicationException
     {
         m_AltrmiServer.publish(o, s, aClass);
     }
@@ -160,7 +160,7 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      *
      */
     public void publish(Object o, String s, Class aClass, Class aClass1)
-            throws AltrmiPublicationException
+            throws PublicationException
     {
         m_AltrmiServer.publish(o, s, aClass, aClass1);
     }
@@ -178,7 +178,7 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      *
      */
     public void publish(Object o, String s, Class aClass, Class[] classes)
-            throws AltrmiPublicationException
+            throws PublicationException
     {
         m_AltrmiServer.publish(o, s, aClass, classes);
     }
@@ -194,7 +194,7 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      * @throws AltrmiPublicationException
      *
      */
-    public void publish(Object o, String s, Class[] classes) throws AltrmiPublicationException
+    public void publish(Object o, String s, Class[] classes) throws PublicationException
     {
         m_AltrmiServer.publish(o, s, classes);
     }
@@ -212,7 +212,7 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      *
      */
     public void publish(Object o, String s, Class[] classes, Class[] classes1)
-            throws AltrmiPublicationException
+            throws PublicationException
     {
         m_AltrmiServer.publish(o, s, classes, classes1);
     }
@@ -227,7 +227,7 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      * @throws AltrmiPublicationException
      *
      */
-    public void unPublish(Object o, String s) throws AltrmiPublicationException
+    public void unPublish(Object o, String s) throws PublicationException
     {
         m_AltrmiServer.unPublish(o, s);
     }
@@ -243,7 +243,7 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      * @throws AltrmiPublicationException
      *
      */
-    public void replacePublished(Object o, String s, Object o1) throws AltrmiPublicationException
+    public void replacePublished(Object o, String s, Object o1) throws PublicationException
     {
         m_AltrmiServer.replacePublished(o, s, o1);
     }
