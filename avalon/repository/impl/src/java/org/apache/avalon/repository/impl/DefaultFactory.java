@@ -15,31 +15,32 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.repository.impl ;
+package org.apache.avalon.repository.impl;
 
 
-import java.io.File ;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-import java.util.Map ;
-import java.util.ArrayList ;
-import java.util.Properties ;
-import java.net.Authenticator ;
-import java.net.MalformedURLException ;
-import java.net.URL ;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.net.Authenticator;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-import org.apache.avalon.util.defaults.Defaults ;
-import org.apache.avalon.util.defaults.DefaultsFinder ;
-import org.apache.avalon.util.defaults.SimpleDefaultsFinder ;
-import org.apache.avalon.util.defaults.SystemDefaultsFinder ;
+import org.apache.avalon.util.defaults.Defaults;
+import org.apache.avalon.util.defaults.DefaultsFinder;
+import org.apache.avalon.util.defaults.SimpleDefaultsFinder;
+import org.apache.avalon.util.defaults.SystemDefaultsFinder;
 
-import org.apache.avalon.repository.Repository ;
-import org.apache.avalon.repository.RepositoryException ;
+import org.apache.avalon.repository.Repository;
+import org.apache.avalon.repository.RepositoryException;
 import org.apache.avalon.repository.RepositoryRuntimeException;
-import org.apache.avalon.repository.provider.InitialContext ;
-import org.apache.avalon.repository.provider.Factory ;
-import org.apache.avalon.repository.util.RepositoryUtils ;
+import org.apache.avalon.repository.provider.RepositoryCriteria;
+import org.apache.avalon.repository.provider.InitialContext;
+import org.apache.avalon.repository.provider.Factory;
+import org.apache.avalon.repository.util.RepositoryUtils;
 
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
@@ -49,7 +50,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class DefaultFactory implements Factory
 {
@@ -133,18 +134,27 @@ public class DefaultFactory implements Factory
 
         File root = getCache( map );
         String[] hosts = getHosts( map );
-        return new DefaultRepository( root, hosts );
+        boolean online = getOnlineMode( map );
+        return new DefaultRepository( root, hosts, online );
+    }
+
+    private boolean getOnlineMode( Map map )
+    {
+        Boolean value = (Boolean) map.get( 
+            RepositoryCriteria.REPOSITORY_ONLINE_MODE );
+        if( null != value ) return value.booleanValue();
+        return true;
     }
 
     private File getCache( Map map )
     {
         return (File) map.get( 
-            DefaultRepositoryCriteria.REPOSITORY_CACHE_DIR );
+            RepositoryCriteria.REPOSITORY_CACHE_DIR );
     }
 
     private String[] getHosts( Map map )
     {
         return (String[]) map.get( 
-            DefaultRepositoryCriteria.REPOSITORY_REMOTE_HOSTS );
+            RepositoryCriteria.REPOSITORY_REMOTE_HOSTS );
     }
 }

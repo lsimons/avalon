@@ -52,4 +52,13 @@ public class DefaultGizmo implements Gizmo, Contextualizable
         File home = (File) context.get( "urn:avalon:home" );
         m_logger.info( "home: " + home );
     }
+
+   //---------------------------------------------------------
+   // Object
+   //---------------------------------------------------------
+
+   public String toString()
+   {
+       return "[gizmo:" + System.identityHashCode( this ) + "]";
+   }
 }

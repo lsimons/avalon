@@ -29,7 +29,7 @@ import org.apache.avalon.repository.Artifact;
  * new initial context.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public interface InitialContextFactory
 {
@@ -43,9 +43,19 @@ public interface InitialContextFactory
     */
     String[] KEYS = 
       new String[]{
+        InitialContext.ONLINE_KEY,
         InitialContext.IMPLEMENTATION_KEY,
         InitialContext.CACHE_KEY,
         InitialContext.HOSTS_KEY };
+
+   /**
+    * Set the online mode of the repository. The default policy is to 
+    * to enable online access to remote repositories.  Setting the onLine
+    * mode to false disables remote repository access.   
+    *
+    * @param policy the online connected policy
+    */
+    void setOnlineMode( boolean policy );
 
    /**
     * Set the parent classloader.
