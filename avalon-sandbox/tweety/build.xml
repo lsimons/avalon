@@ -59,7 +59,7 @@
   <target name="run" depends="compile"
           description="Runs the program">
 
-    <java classname="org.apache.avalon.excalibur.tweety.Tweety" fork="true" dir="." failonerror="true">
+    <java classname="org.apache.avalon.excalibur.tweety.Main" fork="true" dir="." failonerror="true">
        <classpath refid="project.class.path" />
     </java>
 

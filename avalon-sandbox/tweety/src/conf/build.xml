@@ -28,7 +28,7 @@
 	<!-- =================================================================== -->
 	<target name="run"
 			description="Runs the program">
-		<java classname="org.apache.avalon.excalibur.tweety.Tweety"
+		<java classname="org.apache.avalon.excalibur.tweety.Main"
 				fork="true" dir="." failonerror="true">
 		<classpath refid="project.class.path" />
 	</java>

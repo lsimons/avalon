@@ -9,7 +9,13 @@
   </header>
   <body>
     <s1 title="Introduction">
-		<p>TBD</p>
+		<p>Avalon has <b>a lot</b> of documentation (it has a lot of code, too, but most users
+		don't see this as that much of a problem). It might be difficult for you to see where
+		you should get started. That's why I wrote this little document.</p>
+
+		<p>The place you get started is what we call the avalon framework. This little bit of code
+		(the jar file is about 60k), combined with quite a bit of documentation, will revolutionize
+		(in time) the way you write software.</p>
     </s1>
 
 	<s1 title="Table of Contents">
@@ -19,7 +25,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/06/27 16:57:18 $
+      $Revision: 1.2 $ $Date: 2002/07/05 08:27:04 $
     </legal>
   </footer>
 </document>
