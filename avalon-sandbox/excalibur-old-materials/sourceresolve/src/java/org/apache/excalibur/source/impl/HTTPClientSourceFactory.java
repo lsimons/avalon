@@ -78,9 +78,9 @@ import org.apache.excalibur.source.SourceFactory;
  * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HTTPClientSourceFactory.java,v 1.3 2003/07/03 14:40:48 crafterm Exp $
+ * @version CVS $Id: HTTPClientSourceFactory.java,v 1.4 2003/07/09 09:51:29 crafterm Exp $
  */
-public final class HTTPClientSourceFactory extends AbstractLogEnabled
+public class HTTPClientSourceFactory extends AbstractLogEnabled
     implements SourceFactory, Parameterizable, ThreadSafe
 {
     /**
