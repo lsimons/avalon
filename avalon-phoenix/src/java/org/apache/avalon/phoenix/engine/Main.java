@@ -16,8 +16,6 @@ import org.apache.avalon.excalibur.cli.CLArgsParser;
 import org.apache.avalon.excalibur.cli.CLOption;
 import org.apache.avalon.excalibur.cli.CLOptionDescriptor;
 import org.apache.avalon.excalibur.cli.CLUtil;
-import org.apache.log.LogKit;
-import org.apache.log.Priority;
 
 /**
  * The class to load the kernel and start it running.
@@ -44,8 +42,9 @@ public class Main
     private static final int       LOG_FILE_OPT         = 'l';
     private static final int       APPS_PATH_OPT        = 'a';
 
-    protected String               m_appsPath           = DEFAULT_APPS_PATH;
-    protected String               m_logFile            = DEFAULT_LOG_FILE;
+    private String                 m_appsPath           = DEFAULT_APPS_PATH;
+    private String                 m_logFile            = DEFAULT_LOG_FILE;
+    private boolean                m_debugLog;
 
     /**
      * Main entry point.
@@ -146,13 +145,11 @@ public class Main
                 usage( options );
                 return false;
 
-            case DEBUG_LOG_OPT: debugLog = true; break;
+            case DEBUG_LOG_OPT: m_debugLog = true; break;
             case LOG_FILE_OPT: m_logFile = option.getArgument(); break;
             case APPS_PATH_OPT: m_appsPath = option.getArgument(); break;
             }
         }
-
-        if( !debugLog ) LogKit.setGlobalPriority( Priority.DEBUG );
 
         return true;
     } 
@@ -208,6 +205,12 @@ public class Main
 
         parameters.setParameter( "deployer-class", "org.apache.avalon.phoenix.engine.DefaultSarDeployer" );
         parameters.setParameter( "log-destination", m_logFile );
+
+        if( m_debugLog )
+        {
+            parameters.setParameter( "log-priority", "DEBUG" );
+        }
+
         parameters.setParameter( "applications-directory", m_appsPath );
 
         final PhoenixEmbeddor embeddor = new PhoenixEmbeddor();

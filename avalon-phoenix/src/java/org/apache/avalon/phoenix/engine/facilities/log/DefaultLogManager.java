@@ -18,7 +18,7 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLoggable;
-import org.apache.log.LogKit;
+import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
 import org.apache.log.Priority;
@@ -55,12 +55,6 @@ public class DefaultLogManager
 
         final Configuration[] categories = configuration.getChildren( "category" );
         configureCategories( m_baseName, categories, targetSet );
-
-        /*
-          final String logPriority = configuration.getChild( "global-priority" ).getValue();
-          final Priority.Enum priority = LogKit.getPriorityForName( logPriority );
-          LogKit.setGlobalPriority( priority );
-        */
     }
 
     /**
@@ -83,7 +77,7 @@ public class DefaultLogManager
             name = m_baseName + '.' + category;
         }
 
-        return LogKit.getLoggerFor( name );
+        return Hierarchy.getDefaultHierarchy().getLoggerFor( name );
     }
 
     private HashMap configureTargets( final String baseName,
