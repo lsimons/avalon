@@ -19,7 +19,6 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
 class BlockEntry
 {
     private Object m_object;
-    private State m_state;
 
     private BlockMetaData m_blockMetaData;
     private BlockInvocationHandler m_invocationHandler;
@@ -38,16 +37,6 @@ class BlockEntry
     public BlockMetaData getMetaData()
     {
         return m_blockMetaData;
-    }
-
-    public final synchronized State getState()
-    {
-        return m_state;
-    }
-
-    public final synchronized void setState( final State state )
-    {
-        m_state = state;
     }
 
     public synchronized Object getObject()
@@ -87,7 +76,6 @@ class BlockEntry
             m_invocationHandler.invalidate();
             m_invocationHandler = null;
         }
-        m_state = State.VOID;
         m_object = null;
     }
 

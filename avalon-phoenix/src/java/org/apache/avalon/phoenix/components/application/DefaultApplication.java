@@ -26,9 +26,9 @@ import org.apache.avalon.phoenix.interfaces.ApplicationMBean;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
-import org.apache.excalibur.threadcontext.ThreadContext;
-import org.apache.excalibur.containerkit.lifecycle.LifecycleHelper;
 import org.apache.excalibur.containerkit.lifecycle.LifecycleException;
+import org.apache.excalibur.containerkit.lifecycle.LifecycleHelper;
+import org.apache.excalibur.threadcontext.ThreadContext;
 
 /**
  * This is the basic container of blocks. A server application
@@ -467,29 +467,18 @@ public final class DefaultApplication
     public void startup( final BlockEntry entry )
         throws Exception
     {
-        State state = State.FAILED;
-        try
-        {
-            entry.setState( State.CREATING );
+        final Object block =
+            m_lifecycleHelper.startup( entry.getName(),
+                                       entry,
+                                       m_blockAccessor );
 
-            final Object block =
-                m_lifecycleHelper.startup( entry.getName(),
-                                           entry,
-                                           m_blockAccessor );
+        m_exportHelper.exportBlock( m_context,
+                                    entry.getMetaData(),
+                                    block );
 
-            m_exportHelper.exportBlock( m_context,
-                                        entry.getMetaData(),
-                                        block );
+        entry.setObject( block );
 
-            state = State.CREATED;
-            entry.setObject( block );
-
-            m_listenerSupport.fireBlockAddedEvent( entry );
-        }
-        finally
-        {
-            entry.setState( state );
-        }
+        m_listenerSupport.fireBlockAddedEvent( entry );
     }
 
     /**
@@ -504,8 +493,6 @@ public final class DefaultApplication
     public void shutdown( final BlockEntry entry )
         throws LifecycleException
     {
-        entry.setState( State.DESTROYING );
-
         m_listenerSupport.fireBlockRemovedEvent( entry );
 
         final Object object = entry.getObject();
@@ -523,7 +510,6 @@ public final class DefaultApplication
         finally
         {
             entry.setObject( null );
-            entry.setState( State.DESTROYED );
         }
     }
 
