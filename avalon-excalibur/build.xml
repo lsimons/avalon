@@ -278,8 +278,8 @@ Legal:
     <mkdir dir="${build.reports}"/>
 
     <echo message="Performing Unit Tests" />
-    <junit fork="false" printsummary="yes">
-      <formatter type="plain"/>
+    <junit fork="false" printsummary="withOutAndErr">
+<!--      <formatter type="plain"/> -->
       <classpath>
         <path refid="test.class.path"/>
         <pathelement location="${build.classes}"/>
