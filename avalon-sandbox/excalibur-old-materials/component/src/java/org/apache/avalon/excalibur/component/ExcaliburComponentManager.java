@@ -41,7 +41,7 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.14 $ $Date: 2002/08/22 08:36:57 $
+ * @version CVS $Revision: 1.15 $ $Date: 2002/08/22 22:56:10 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
@@ -150,13 +150,15 @@ public class ExcaliburComponentManager
         {
             if( getLogger().isWarnEnabled() )
             {
-                getLogger().warn( "Looking up component on an uninitialized ComponentLocator: " + role );
+                getLogger().warn(
+                    "Looking up component on an uninitialized ComponentLocator [" + role + "]" );
             }
         }
 
         if( m_disposed )
         {
-            throw new IllegalStateException( "You cannot lookup components on a disposed ComponentLocator" );
+            throw new IllegalStateException(
+                "You cannot lookup components on a disposed ComponentLocator" );
         }
 
         if( null == role )
@@ -203,7 +205,8 @@ public class ExcaliburComponentManager
                 {
                     if( getLogger().isDebugEnabled() )
                     {
-                        getLogger().debug( "Could not find ComponentHandler, attempting to create one for role: " + role );
+                        getLogger().debug( "Could not find ComponentHandler, attempting to create "
+                            + "one for role [" + role + "]" );
                     }
 
                     try
@@ -237,13 +240,14 @@ public class ExcaliburComponentManager
             }
             else
             {
-                getLogger().debug( "Component requested without a RoleManager set.\nThat means thisComponentDirectoryr was not configured." );
+                getLogger().debug( "Component requested without a RoleManager set.\n"
+                    + "That means setRoleManager() was not called during initialization." );
             }
         }
 
         if( null == handler )
         {
-            final String message = "Could not find component for role: " + role;
+            final String message = "Could not find component for role [" + role + "]";
             if( getLogger().isDebugEnabled() )
             {
                 getLogger().debug( message );
@@ -274,7 +278,7 @@ public class ExcaliburComponentManager
                 final String message = "Could not access the Component";
                 if( getLogger().isDebugEnabled() )
                 {
-                    getLogger().debug( message + " for role: " + role, e );
+                    getLogger().debug( message + " for role [" + role + "]", e );
                 }
 
                 throw new ComponentException( role, message, e );
@@ -285,7 +289,7 @@ public class ExcaliburComponentManager
             final String message = "Could not access the Component";
             if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug( message + " for role: " + role, e );
+                getLogger().debug( message + " for role [" + role + "]", e );
             }
 
             throw new ComponentException( role, message, e );
@@ -424,8 +428,8 @@ public class ExcaliburComponentManager
                     {
                         if( getLogger().isDebugEnabled() )
                         {
-                            getLogger().debug( "Adding component (" + role + " = " +
-                                               className + ")" );
+                            getLogger().debug( "Adding component (" + role + " = "
+                                + className + ")" );
                         }
 
                         final Class clazz = m_loader.loadClass( className );
@@ -437,8 +441,9 @@ public class ExcaliburComponentManager
 
                         if( getLogger().isErrorEnabled() )
                         {
-                            getLogger().error( message + className + " for role " + role +
-                                               " on configuration element " + configurations[ i ].getName(), cnfe );
+                            getLogger().error( message + className + " for role " + role
+                                + " on configuration element " + configurations[ i ].getName(),
+                                cnfe );
                         }
 
                         throw new ConfigurationException( message, cnfe );
@@ -449,8 +454,9 @@ public class ExcaliburComponentManager
 
                         if( getLogger().isErrorEnabled() )
                         {
-                            getLogger().error( message + className + " for role " + role +
-                                               " on configuration element " + configurations[ i ].getName(), ce );
+                            getLogger().error( message + className + " for role " + role
+                                + " on configuration element " + configurations[ i ].getName(),
+                                ce );
                         }
 
                         throw new ConfigurationException( message, ce );
@@ -520,8 +526,8 @@ public class ExcaliburComponentManager
                 {
                     if( getLogger().isErrorEnabled() )
                     {
-                        getLogger().error( "Caught an exception trying to initialize " +
-                                           "the component handler.", e );
+                        getLogger().error( "Caught an exception trying to initialize "
+                            + "the component handler.", e );
                     }
                 }
             }
@@ -555,8 +561,8 @@ public class ExcaliburComponentManager
                     {
                         if( getLogger().isErrorEnabled() )
                         {
-                            getLogger().error( "Caught an exception trying to initialize " +
-                                               "the component handler.", e );
+                            getLogger().error( "Caught an exception trying to initialize "
+                                + "the component handler.", e );
                         }
                     }
                 }
@@ -593,8 +599,8 @@ public class ExcaliburComponentManager
                         if( forceDisposal && getLogger().isWarnEnabled() )
                         {
                             getLogger().warn
-                                ( "disposing of handler for unreleased component"
-                                  + " (role: " + role + ")" );
+                                ( "disposing of handler for unreleased component."
+                                  + " role [" + role + "]" );
                         }
 
                         handler.dispose();
@@ -796,14 +802,15 @@ public class ExcaliburComponentManager
     {
         if( m_initialized )
         {
-            throw new ComponentException( role, "Cannot add components to an initialized ComponentLocator" );
+            throw new ComponentException( role,
+                "Cannot add components to an initialized ComponentLocator" );
         }
 
         try
         {
             if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug( "Attempting to get Handler for: " + role );
+                getLogger().debug( "Attempting to get Handler for role [" + role + "]" );
             }
 
             final ComponentHandler handler = getComponentHandler( component,
@@ -836,7 +843,8 @@ public class ExcaliburComponentManager
     {
         if( m_initialized )
         {
-            throw new IllegalStateException( "Cannot add components to an initialized ComponentLocator" );
+            throw new IllegalStateException(
+                "Cannot add components to an initialized ComponentLocator" );
         }
 
         try
@@ -851,7 +859,7 @@ public class ExcaliburComponentManager
         {
             if( getLogger().isWarnEnabled() )
             {
-                getLogger().warn( "Could not set up Component for role: " + role, e );
+                getLogger().warn( "Could not set up Component for role [" + role + "]", e );
             }
         }
     }
