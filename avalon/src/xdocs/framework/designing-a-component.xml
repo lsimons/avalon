@@ -11,10 +11,6 @@
       <person name="Berin Loritsch" email="bloritsch@apache.org"/>
       <person id="LS" name="Leo Simons" email="mail@leosimons.com"/>
     </authors>
-    <notice>
-      Avalon documentation is under construction. Everything you can find
-      outside this page is to be considered obsolete.
-    </notice> 
   </header>
   <body>
       <s1 title="How is the Component Going to be Used?">
@@ -87,7 +83,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/04/26 19:40:53 $
+      $Revision: 1.2 $ $Date: 2001/07/05 15:17:45 $
     </legal>
   </footer>
 </document>
