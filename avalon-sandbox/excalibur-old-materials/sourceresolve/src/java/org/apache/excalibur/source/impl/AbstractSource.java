@@ -19,7 +19,7 @@ import org.apache.excalibur.source.SourceValidity;
  * Abstract base class for a source implementation.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/06/12 09:24:14 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/06/12 10:03:45 $
  */
 
 public abstract class AbstractSource
@@ -153,15 +153,9 @@ public abstract class AbstractSource
      */
     public Iterator getParameterNames() {
         this.checkInfos();
-        return emptyIterator;
+        return java.util.Collections.EMPTY_LIST.iterator();
+
     }
 
-    protected static EmptyIterator emptyIterator = new EmptyIterator();
 
-}
-
-class EmptyIterator implements Iterator {
-    public boolean hasNext() { return false; }
-    public Object next() { return null; }
-    public void remove() {}
 }
