@@ -364,7 +364,6 @@ public class ReadWriteLockTestCase
      */
     public void testDeadLock() throws Exception
     {
-        System.out.println( "testDeadLock():" );
         ReadWriteLock lock = new ReadWriteLock();
         TriesReadLock rla = new TriesReadLock( lock );
         TriesReadLock rlb = new TriesReadLock( lock );
@@ -396,6 +395,12 @@ public class ReadWriteLockTestCase
         //
         lock.release();
 
+        //
+        // Avoid race condition.
+        //
+        rla.join();
+        wla.join();
+        
         //
         // Right, we are in the condition described by Drissman.
         // Now try to aquire, in turn, a read and a write lock.
