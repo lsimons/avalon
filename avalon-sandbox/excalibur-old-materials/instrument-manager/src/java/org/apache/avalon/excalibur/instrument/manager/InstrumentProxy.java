@@ -38,7 +38,7 @@ import org.apache.avalon.framework.logger.Logger;
  *  It is resolved when the Instrumentable actually registers the Instrument.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/04/29 16:50:24 $
+ * @version CVS $Revision: 1.8 $ $Date: 2002/06/13 13:06:27 $
  * @since 4.1
  */
 public class InstrumentProxy
@@ -805,7 +805,7 @@ public class InstrumentProxy
     Configuration saveState( boolean useCompactSamples )
     {
         DefaultConfiguration state = new DefaultConfiguration( "instrument", "-" );
-        state.addAttribute( "name", m_name );
+        state.setAttribute( "name", m_name );
         
         InstrumentSample[] samples = getInstrumentSamples();
         for ( int i = 0; i < samples.length; i++ )

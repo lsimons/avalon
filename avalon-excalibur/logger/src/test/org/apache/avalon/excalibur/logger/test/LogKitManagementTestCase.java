@@ -15,7 +15,7 @@ import org.apache.avalon.excalibur.testcase.ExcaliburTestCase;
  * LogKitManagementTest.
  *
  * @author <a href="mailto:giacomo@apache,org">Giacomo Pati</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 02:34:16 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/06/13 13:11:15 $
  */
 public class LogKitManagementTestCase
     extends ExcaliburTestCase
@@ -30,9 +30,6 @@ public class LogKitManagementTestCase
     public LogKitManagementTestCase( final String name )
     {
         super( name );
-
-        // Set the priority for default log output.
-        m_logPriority = org.apache.log.Priority.INFO;
     }
 
     public void testComponent()

@@ -25,7 +25,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  *  InstrumentSamples.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/04/28 17:05:41 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/06/13 13:06:27 $
  * @since 4.1
  */
 abstract class AbstractInstrumentSample
@@ -442,8 +442,8 @@ abstract class AbstractInstrumentSample
         synchronized(this)
         {
             DefaultConfiguration state = new DefaultConfiguration( "profile-sample", "-" );
-            state.addAttribute( "name", m_name );
-            state.addAttribute( "time", Long.toString( m_time ) );
+            state.setAttribute( "name", m_name );
+            state.setAttribute( "time", Long.toString( m_time ) );
             
             // Save the history samples so that the newest is first.
             DefaultConfiguration samples = new DefaultConfiguration( "history", "-" );

@@ -38,9 +38,6 @@ public class TableIdGeneratorJdbcTestCase
     public TableIdGeneratorJdbcTestCase( String name )
     {
         super( name );
-
-        // Set the priority for default log output.
-        m_logPriority = org.apache.log.Priority.INFO;
     }
 
     /*---------------------------------------------------------------

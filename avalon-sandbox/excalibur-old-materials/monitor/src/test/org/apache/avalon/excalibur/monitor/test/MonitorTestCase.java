@@ -27,7 +27,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * Junit TestCase for all the monitors in Excalibur.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: MonitorTestCase.java,v 1.10 2002/06/13 12:59:10 bloritsch Exp $
+ * @version $Id: MonitorTestCase.java,v 1.11 2002/06/13 13:06:27 bloritsch Exp $
  */
 public class MonitorTestCase extends ExcaliburTestCase
 {
@@ -37,9 +37,6 @@ public class MonitorTestCase extends ExcaliburTestCase
     public MonitorTestCase( String name )
     {
         super( name );
-
-        // Set the priority for default log output.
-        m_logPriority = org.apache.log.Priority.INFO;
     }
 
     public void testActiveMonitor()
