@@ -4,7 +4,7 @@
     <extend>${avalon.buildsystem}/project-common.xml</extend>
 
     <name>Avalon-LogKit</name>
-    <id>logkid</id>
+    <id>logkit</id>
     <groupId>logkit</groupId>
     <currentVersion>1.2.2-dev</currentVersion>
     <inceptionYear>2003</inceptionYear>

@@ -72,19 +72,51 @@ import org.apache.log.output.db.NormalizedJDBCTarget;
 public final class DBTargetTestCase
     extends TestCase
 {
+    private String m_connectString;
+    private String m_userName;
+    private String m_userPassword;
+    private boolean m_doDBTest;
+
     public DBTargetTestCase( final String name )
         throws Exception
     {
         super( name );
+    }
 
-        Class.forName( "org.postgresql.Driver" );
+    public void setUp() throws Exception
+    {
+        String driverName = System.getProperty("test.db.driver");
+        m_connectString = System.getProperty("test.db.jdbc", "");
+        m_userName = System.getProperty( "test.db.user", "" );
+        m_userPassword = System.getProperty( "test.db.pword", "" );
+        m_doDBTest = System.getProperty( "test.db.run", "false" ).equalsIgnoreCase("true");
+
+        if (m_doDBTest)
+        {
+            Class.forName(driverName);
+        }
+        else
+        {
+            System.out.println("[WARNING] Database Testing is not being done");
+            System.out.println();
+            System.out.println("To enable database testing, please provide the");
+            System.out.println("following properties:");
+            System.out.println();
+            System.out.println( "test.db.driver -> Class name for the JDBC driver" );
+            System.out.println( "test.db.jdbc   -> JDBC connect string" );
+            System.out.println( "test.db.user   -> User ID" );
+            System.out.println( "test.db.pword  -> User password" );
+            System.out.println( "test.db.run    -> \"true\"" );
+        }
     }
 
     public void testBasicTarget()
         throws Exception
     {
+        if (! m_doDBTest) return;
+
         final DefaultDataSource dataSource =
-            new DefaultDataSource( "jdbc:postgresql:avalon-logkit", "avalon", "" );
+            new DefaultDataSource( m_connectString, m_userName, m_userPassword );
 
         final ColumnInfo[] columns =
             {
@@ -105,8 +137,10 @@ public final class DBTargetTestCase
     public void testNumericConstants()
         throws Exception
     {
+        if ( !m_doDBTest ) return;
+
         final DefaultDataSource dataSource =
-            new DefaultDataSource( "jdbc:postgresql:avalon-logkit", "avalon", "" );
+                new DefaultDataSource( m_connectString, m_userName, m_userPassword );
 
         final ColumnInfo[] columns =
             {
