@@ -51,7 +51,7 @@ import org.apache.excalibur.source.*;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.3 2002/04/24 12:35:37 cziegeler Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.4 2002/05/01 09:11:47 donaldp Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
@@ -98,9 +98,9 @@ public class SourceResolverImpl
             try
             {
                 m_baseURL = new File( System.getProperty( "user.dir" ) ).toURL();
-                if( this.getLogger().isDebugEnabled() )
+                if( getLogger().isDebugEnabled() )
                 {
-                    this.getLogger().debug( "SourceResolver: Using base URL: " + m_baseURL );
+                    getLogger().debug( "SourceResolver: Using base URL: " + m_baseURL );
                 }
             }
             catch( MalformedURLException mue )
@@ -180,9 +180,9 @@ public class SourceResolverImpl
                               Map parameters )
         throws MalformedURLException, IOException, SourceException
     {
-        if( this.getLogger().isDebugEnabled() )
+        if( getLogger().isDebugEnabled() )
         {
-            this.getLogger().debug( "Resolving '" + location + "' with base '" + baseURI + "' in context '" + m_baseURL + "'" );
+            getLogger().debug( "Resolving '" + location + "' with base '" + baseURI + "' in context '" + m_baseURL + "'" );
         }
         if( location == null ) throw new MalformedURLException( "Invalid System ID" );
         if( null != baseURI && baseURI.indexOf( ':' ) == -1 )
@@ -246,9 +246,9 @@ public class SourceResolverImpl
                 systemID = buffer.toString();
             }
         }
-        if( this.getLogger().isDebugEnabled() )
+        if( getLogger().isDebugEnabled() )
         {
-            this.getLogger().debug( "Resolved to systemID '" + systemID + "'" );
+            getLogger().debug( "Resolved to systemID '" + systemID + "'" );
         }
 
         Source source = null;
@@ -281,7 +281,7 @@ public class SourceResolverImpl
             // no factory found, so usual url handling stuff...
             try
             {
-                if( this.getLogger().isDebugEnabled() == true )
+                if( getLogger().isDebugEnabled() == true )
                 {
                     this.getLogger().debug( "Making URL from " + systemID );
                 }
@@ -304,7 +304,7 @@ public class SourceResolverImpl
             }
             catch( MalformedURLException mue )
             {
-                if( this.getLogger().isDebugEnabled() )
+                if( getLogger().isDebugEnabled() )
                 {
                     this.getLogger().debug( "Making URL - MalformedURLException in getURL:", mue );
                     this.getLogger().debug( "Making URL a File (assuming that it is full path):" + systemID );

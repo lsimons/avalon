@@ -22,9 +22,10 @@ import java.util.Set;
  * last modified property will be enough.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: Resource.java,v 1.6 2002/04/22 15:24:26 bloritsch Exp $
+ * @version $Id: Resource.java,v 1.7 2002/05/01 09:11:47 donaldp Exp $
  */
-public abstract class Resource implements Modifiable
+public abstract class Resource 
+    implements Modifiable
 {
     protected static final String MODIFIED = "last-modified";
     protected PropertyChangeSupport m_eventSupport = new PropertyChangeSupport( this );
