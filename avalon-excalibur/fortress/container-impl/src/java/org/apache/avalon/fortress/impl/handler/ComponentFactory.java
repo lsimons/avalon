@@ -38,6 +38,7 @@ import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.commons.beanutils.BeanUtils;
@@ -50,8 +51,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  * Factory for Avalon components.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.29 $ $Date: 2004/04/02 10:29:03 $
- * @since 4.0
+ * @version CVS $Revision: 1.30 $ $Date: 2004/04/06 11:19:44 $
  */
 public final class ComponentFactory
     extends AbstractLogEnabledInstrumentable
@@ -402,7 +402,8 @@ public final class ComponentFactory
     /**
      * This class collects all information about the components class:
      * - the constructor to use
-     * 
+     * - the parameters to pass into the constructor
+     * - Additional infos about implemented methods
      */
     protected class ClassInfo {
         
@@ -491,7 +492,20 @@ public final class ComponentFactory
                 }
                 else
                 {
-                    throw new Exception("Unknown parameter type for constructor of component: " + current);
+                    // now test if this is a reference to a component!
+                    // FIXME - This works only for thread safe components!
+                    final String role = current.getName();
+                    try
+                    {
+                        final Object component = m_serviceManager.lookup(role);
+                        m_constructorArguments[i] = component;
+                        m_serviceManager.release(component);
+                    } 
+                    catch (Exception e)
+                    {
+                        throw new ServiceException("ComponentFactory", 
+                                         "Unknown parameter type for constructor of component: " + current, e);
+                    }
                 }
             }
             
@@ -525,6 +539,9 @@ public final class ComponentFactory
             }
         }
         
+        /**
+         * Helper method for getting a named method that has one parameter of the given type.
+         */
         protected Method getMethod(String name, Class clazz) throws Exception
         {
             try 
