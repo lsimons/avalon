@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+  <header>
+    <title>Avalon Framework - Guide - Where to Go next</title>
+    <authors>
+      <person name="Leo Simons" email="leosimons@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <section>
+<title>There's a lot more to study</title>
+      <p>
+        Each of the pages in this short guide deserves an entire book, and
+        indeed, most of them have a lot of documentation devoted to them.
+        Here we provide you with pointers where else to look for more
+        information, within and outside of Avalon.
+      </p>
+    </section>
+    <section>
+<title>Creating Components</title>
+      <p>
+        After all the information in this guide has sunk in, you're probably
+        itching to write an Avalon component. Our
+        <link href="http://avalon.apache.org/developing/index.html">Developing with Avalon guide
+        </link> takes you through doing just that. You can download it as a PDF
+        and read at your leisure (it comes down to 56 printed pages). If that's
+        too much for you, we suggest you get the latest
+        <link href="http://avalon.apache.org/excalibur/index.html">Excalibur</link> release and
+        take those components as an example. One application that uses a lot of
+        those components and is in widespread daily use is
+        <link href="http://xml.apache.org/cocoon">Cocoon</link>.
+      </p>
+    </section>
+  </body>
+</document>
