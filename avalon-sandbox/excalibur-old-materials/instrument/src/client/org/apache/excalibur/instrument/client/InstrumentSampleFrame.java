@@ -31,7 +31,7 @@ import org.apache.excalibur.altrmi.common.AltrmiInvocationException;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/29 16:05:19 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/05 02:15:44 $
  * @since 4.1
  */
 class InstrumentSampleFrame
@@ -41,8 +41,8 @@ class InstrumentSampleFrame
     public static final String FRAME_TYPE = "sample-frame";
 
     private InstrumentManagerConnection m_connection;
-    private InstrumentableDescriptor m_instrumentableDescriptor;
-    private InstrumentDescriptor m_instrumentDescriptor;
+    //private InstrumentableDescriptor m_instrumentableDescriptor;
+    //private InstrumentDescriptor m_instrumentDescriptor;
     private InstrumentSampleDescriptor m_instrumentSampleDescriptor;
     private String m_instrumentSampleName;
     private LineChart m_lineChart;
@@ -155,29 +155,109 @@ class InstrumentSampleFrame
      * Methods
      *-------------------------------------------------------------*/
     /**
-     * Sets the title of the frame.
+     * Sets the title of the frame and obtains a reference to the
+     *  InstrumentSampleDescriptor in the process.  The title is made up of the
+     *  descriptions of all the elements up to the sample in reverse order.
      * <p>
      * Only called when synchronized.
      */
-    private void setTitle()
+    private void setTitleAndFindSample()
     {
-        String title;
+        // Initialize the sample reference.
+        m_instrumentSampleDescriptor = null;
+        
         InstrumentManagerClient manager = m_connection.getInstrumentManagerClient();
-        if ( manager == null )
+        StringBuffer sb = new StringBuffer( m_connection.getTitle() );
+        sb.insert( 0, " / " );
+        
+        try
         {
-            title = m_connection.getTitle() + " : " + m_instrumentSampleName;
+            if ( manager == null )
+            {
+                sb.insert( 0, m_instrumentSampleName );
+            }
+            else
+            {
+                // Look for the root Instrumentable from the Instrument Manager.
+                InstrumentableDescriptor instrumentable;
+                try
+                {
+                    instrumentable =
+                        manager.getInstrumentableDescriptor( m_instrumentSampleName );
+                    sb.insert( 0, instrumentable.getDescription() );
+                }
+                catch ( NoSuchInstrumentableException e )
+                {
+                    sb.insert( 0, "Instrumentable Not found (" + m_instrumentSampleName + ")" );
+                    instrumentable = null;
+                }
+                sb.insert( 0, " / " );
+                
+                if ( instrumentable != null )
+                {
+                    boolean foundChild = true;
+                    while ( foundChild )
+                    {
+                        // There may be a child Instrumentable that contains the sample.
+                        try
+                        {
+                            InstrumentableDescriptor childInstrumentable =
+                                instrumentable.getChildInstrumentableDescriptor(
+                                m_instrumentSampleName );
+                            instrumentable = childInstrumentable;
+                            sb.insert( 0, instrumentable.getDescription() );
+                            sb.insert( 0, " / " );
+                        }
+                        catch ( NoSuchInstrumentableException e )
+                        {
+                            foundChild = false;
+                        }
+                    }
+                    
+                    // Now get the Instrument 
+                    InstrumentDescriptor instrument;
+                    try
+                    {
+                        instrument =
+                            instrumentable.getInstrumentDescriptor( m_instrumentSampleName );
+                        sb.insert( 0, instrument.getDescription() );
+                    }
+                    catch ( NoSuchInstrumentException e )
+                    {
+                        sb.insert( 0, "Instrument Not found (" + m_instrumentSampleName + ")" );
+                        instrument = null;
+                    }
+                    sb.insert( 0, " / " );
+                    
+                    if ( instrument != null )
+                    {
+                        // Now get the InstrumentSample
+                        InstrumentSampleDescriptor sample;
+                        try
+                        {
+                            sample =
+                                instrument.getInstrumentSampleDescriptor( m_instrumentSampleName );
+                            sb.insert( 0, sample.getDescription() );
+                        }
+                        catch ( NoSuchInstrumentSampleException e )
+                        {
+                            sb.insert( 0, "Sample Not found (" + m_instrumentSampleName + ")" );
+                            sample = null;
+                        }
+                        m_instrumentSampleDescriptor = sample;
+                    }
+                }
+            }
         }
-        else
+        catch ( AltrmiInvocationException e )
         {
-            title = m_connection.getTitle() + " : " +
-                m_instrumentableDescriptor.getDescription() + " : " +
-                m_instrumentDescriptor.getDescription() + " : " +
-                m_instrumentSampleDescriptor.getDescription();
+            // Connection to the InstrumentManager failed.
+            sb.insert( 0, e.getMessage() );
         }
 
-        setTitle( title );
+        setTitle( sb.toString() );
     }
-
+    
     private void init()
     {
         synchronized (this)
@@ -185,62 +265,26 @@ class InstrumentSampleFrame
             // Clean out the content pane
             getContentPane().removeAll();
 
-            InstrumentManagerClient manager = m_connection.getInstrumentManagerClient();
-            if ( manager == null )
+            // Set the title and locate the InstrumentSampleDescriptor
+            setTitleAndFindSample();
+
+            InstrumentSampleDescriptor sample = m_instrumentSampleDescriptor;
+            if ( sample == null )
             {
                 // Not connected.
-                m_instrumentableDescriptor = null;
-                m_instrumentDescriptor = null;
-                m_instrumentSampleDescriptor = null;
-
                 JLabel label = new JLabel( "Not Connected" );
                 label.setForeground( Color.red );
                 label.setHorizontalAlignment( SwingConstants.CENTER );
                 label.setVerticalAlignment( SwingConstants.CENTER );
-
+                
                 getContentPane().add( label );
             }
             else
             {
                 try
                 {
-                    // Look up the descriptors.
-                    try
-                    {
-                        m_instrumentableDescriptor =
-                            manager.getInstrumentableDescriptor( m_instrumentSampleName );
-                    }
-                    catch ( NoSuchInstrumentableException e )
-                    {
-                        // Frame no longer valid.
-                        hideFrame();
-                        return;
-                    }
-                    try
-                    {
-                        m_instrumentDescriptor = m_instrumentableDescriptor.
-                            getInstrumentDescriptor( m_instrumentSampleName );
-                    }
-                    catch ( NoSuchInstrumentException e )
-                    {
-                        // Frame no longer valid.
-                        hideFrame();
-                        return;
-                    }
-                    try
-                    {
-                        m_instrumentSampleDescriptor = m_instrumentDescriptor.
-                            getInstrumentSampleDescriptor( m_instrumentSampleName );
-                    }
-                    catch ( NoSuchInstrumentSampleException e )
-                    {
-                        // Frame no longer valid.
-                        hideFrame();
-                        return;
-                    }
-
                     // Decide on a line interval based on the interval of the sample.
-                    long interval = m_instrumentSampleDescriptor.getInterval();
+                    long interval = sample.getInterval();
                     int hInterval;
                     String format;
                     String detailFormat;
@@ -286,10 +330,10 @@ class InstrumentSampleFrame
                         format = "{0}/{1} {2}:{3}";
                         detailFormat = "{0}/{1} {2}:{3}";
                     }
-
-                    m_lineChart = new LineChart( hInterval,
-                        m_instrumentSampleDescriptor.getInterval(), format, detailFormat, 20 );
-
+            
+                    m_lineChart = new LineChart( hInterval, sample.getInterval(),
+                        format, detailFormat, 20 );
+            
                     getContentPane().add( m_lineChart );
                 }
                 catch ( AltrmiInvocationException e )
@@ -298,9 +342,6 @@ class InstrumentSampleFrame
                     m_connection.close();
                 }
             }
-
-            // Set the title last so that the descriptors can be reloaded if necessary.
-            setTitle();
         }
 
         update();

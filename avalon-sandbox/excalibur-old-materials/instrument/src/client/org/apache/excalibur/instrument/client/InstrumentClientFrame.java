@@ -26,7 +26,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescri
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/29 16:05:19 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/05 02:15:44 $
  * @since 4.1
  */
 class InstrumentClientFrame
@@ -320,15 +320,13 @@ class InstrumentClientFrame
     }
 
     void openInstrumentSampleFrame( final InstrumentManagerConnection connection,
-                                    final InstrumentableDescriptor instrumentableDescriptor,
-                                    final InstrumentDescriptor instrumentDescriptor,
-                                    final InstrumentSampleDescriptor instrumentSampleDescriptor )
+                                    final InstrumentSampleDescriptor sampleDescriptor )
     {
         SwingUtilities.invokeLater( new Runnable()
         {
             public void run()
             {
-                String sampleName = instrumentSampleDescriptor.getName();
+                String sampleName = sampleDescriptor.getName();
                 InstrumentSampleFrame frame = new InstrumentSampleFrame( connection,
                     sampleName, InstrumentClientFrame.this );
 
@@ -397,7 +395,6 @@ class InstrumentClientFrame
      * Instrument-CreateSample callback.
      */
     void instrumentCreateSample( final InstrumentManagerConnection connection,
-                                 final InstrumentableDescriptor instrumentableDescriptor,
                                  final InstrumentDescriptor instrumentDescriptor )
     {
         SwingUtilities.invokeLater( new Runnable()
@@ -429,8 +426,7 @@ class InstrumentClientFrame
                             dialog.getSampleType() );
 
                     // Show a frame for the new sample
-                    openInstrumentSampleFrame( connection, instrumentableDescriptor,
-                        instrumentDescriptor, sampleDescriptor );
+                    openInstrumentSampleFrame( connection, sampleDescriptor );
                 }
             }
         } );
