@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+
+ <title>Apache Avalon News</title>
+
+ <body>
+    <menu>
+      <item name="2003 - September" href="september/index.html"/>
+      <item name="2003 - October" href="october/index.html"/>
+      <item name="2003 - December" href="december/index.html"/>
+    </menu>
+ </body>
+
+</project>
