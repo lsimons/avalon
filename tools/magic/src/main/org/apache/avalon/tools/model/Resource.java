@@ -161,7 +161,7 @@ public class Resource
         for( int i=0; i<refs.length; i++ )
         {
             final ResourceRef ref = refs[i];
-            if( !visited.contains( ref ) )
+            if( ! visited.contains( ref ) )
             {
                 final Resource resource = getResource( project, ref );
                 final File file = resource.getArtifact( project, resolve );
@@ -310,20 +310,30 @@ public class Resource
 
     public boolean equals( final Object other )
     {
-        if( other instanceof Resource )
+        if( ! ( other instanceof Resource ) )
+            return false;
+            
+        final Resource def = (Resource) other;
+        if( ! getInfo().equals( def.getInfo() ) ) 
+            return false;
+
+        final ResourceRef[] refs = getResourceRefs();
+        final ResourceRef[] references = def.getResourceRefs();
+        for( int i=0; i<refs.length; i++ )
         {
-            final Resource def = (Resource) other;
-            if( !getInfo().equals( def.getInfo() ) ) return false;
-
-            final ResourceRef[] refs = getResourceRefs();
-            final ResourceRef[] references = def.getResourceRefs();
-            for( int i=0; i<refs.length; i++ )
-            {
-                if( !refs[i].equals( references[i] ) ) return false;
-            }
-
-            return true;
+            if( !refs[i].equals( references[i] ) ) 
+                return false;
         }
-        return false;
+
+        return true;
+    }
+    
+    public int hashCode()
+    {
+        int hash = getInfo().hashCode();
+        final ResourceRef[] refs = getResourceRefs();
+        for( int i = 0 ; i < refs.length ; i++ )
+            hash = hash ^ refs[i].hashCode();
+        return hash;
     }
 }

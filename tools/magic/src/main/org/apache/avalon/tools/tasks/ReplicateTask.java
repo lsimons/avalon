@@ -40,7 +40,7 @@ import java.io.File;
 public class ReplicateTask extends Task
 {
     private File m_todir;
-    private String m_id;
+    private Path m_path;
     private Context m_context;
     private Home m_home;
 
@@ -70,9 +70,34 @@ public class ReplicateTask extends Task
    /**
     * The id of a repository based path.
     */
-    public void setRefid( String id )
+    public void setRefid( Path path )
     {
-        m_id = id;
+        m_path = path;
+    }
+    
+   /**
+    * The id of a repository based path.
+    */
+    public void setRefid( String id )
+        throws BuildException
+    {
+        Object ref = getProject().getReference( id );
+        if( null == ref )
+        {
+            final String error = 
+              "Replication path id [" + id + "] is unknown.";
+            throw new BuildException( error );
+        }
+
+        if( !( ref instanceof Path ) )
+        {
+            final String error = 
+              "Replication path id [" + id + "] does not reference a path "
+              + "(class " + ref.getClass().getName() + " is not a Path instance).";
+            throw new BuildException( error );
+        }
+
+        m_path = (Path) ref;
     }
 
    /**
@@ -85,7 +110,7 @@ public class ReplicateTask extends Task
 
     public void execute()
     {
-        if( null == m_id )
+        if( null == m_path )
         {
             final String error = 
               "Required path id attribute is not declared on replicate task.";
@@ -98,25 +123,8 @@ public class ReplicateTask extends Task
             throw new BuildException( error );
         }
 
-        Object ref = getProject().getReference( m_id );
-        if( null == ref )
-        {
-            final String error = 
-              "Replication path id [" + m_id + "] is unknown.";
-            throw new BuildException( error );
-        }
-
-        if( !( ref instanceof Path ) )
-        {
-            final String error = 
-              "Replication path id [" + m_id + "] does not reference a path "
-              + "(class " + ref.getClass().getName() + " is not a Path instance).";
-            throw new BuildException( error );
-        }
-
-        Path path = (Path) ref;
         File cache = getHome().getRepository().getCacheDirectory();
-        FileSet fileset = createFileSet( cache, path );
+        FileSet fileset = createFileSet( cache, m_path );
         copy( m_todir, fileset );
     }
 

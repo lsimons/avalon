@@ -109,8 +109,8 @@
      <setproxy 
          proxyhost="${magic.proxy.host}"
          proxyport="${magic.proxy.port}"
-	   proxyuser="${magic.proxy.user}"
-	   proxypassword="${magic.proxy.password}"/>
+         proxyuser="${magic.proxy.user}"
+         proxypassword="${magic.proxy.password}"/>
   </target>
 
   <available property="magic.junit.available" 
