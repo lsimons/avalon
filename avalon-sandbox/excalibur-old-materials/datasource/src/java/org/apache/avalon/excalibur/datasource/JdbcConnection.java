@@ -58,7 +58,7 @@ import java.sql.Connection;
  * @deprecated No longer necessary due to the dynamic proxies 
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/03/05 18:59:01 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/07/28 18:22:53 $
  * @since 4.0
  */
 public class JdbcConnection
@@ -73,6 +73,22 @@ public class JdbcConnection
     public JdbcConnection( final Connection connection, final String keepAlive )
     {
         super( connection, keepAlive );
+    }
+    
+    /**
+     * @param connection a driver specific JDBC connection to be wrapped.
+     * @param keepAlive a query which will be used to check the statis of the connection after it
+     *                  has been idle.  A null value will cause the keep alive feature to
+     *                  be disabled.
+     * @param keepAliveAge the maximum age in milliseconds since a connection was last
+     *                     used before it must be pinged using the keepAlive query.  Ignored
+     *                     if keepAlive is null.
+     */
+    public JdbcConnection( final Connection connection,
+                           final String keepAlive,
+                           final int keepAliveAge )
+    {
+        super( connection, keepAlive, keepAliveAge );
     }
 }
 
