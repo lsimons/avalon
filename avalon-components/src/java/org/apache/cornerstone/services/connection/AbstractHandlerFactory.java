@@ -15,8 +15,6 @@ import org.apache.avalon.Composer;
 import org.apache.avalon.Context;
 import org.apache.avalon.Contextualizable;
 import org.apache.avalon.Initializable;
-import org.apache.cornerstone.services.connection.ConnectionHandler;
-import org.apache.cornerstone.services.connection.ConnectionHandlerFactory;
 
 public abstract class AbstractHandlerFactory
     extends AbstractLoggable
