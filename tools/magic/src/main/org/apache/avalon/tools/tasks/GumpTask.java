@@ -448,9 +448,9 @@ public class GumpTask extends SystemTask
         writer.write( 
            "\n      <!-- for magic -->" );
         writer.write( 
-           "\n      <property name=\"magic.home\" reference=\"home\"" );
+           "\n      <depend name=\"magic.home\" reference=\"home\"" );
         writer.write( 
-           "\n          project=\"avalon-tools-magic-home\"/>" );
+           "\n          project=\"avalon-tools-magic-bootstrap\"/>" );
         writer.write( 
            "\n      <property name=\"gump.signature\" value=\"@@DATE@@\"/>" );
 
@@ -532,9 +532,6 @@ public class GumpTask extends SystemTask
         {
             writer.write( "\n    <!-- end for -->" );
         }
-
-        writer.write( 
-          "\n    <depend project=\"avalon-tools-magic-bootstrap\" inherit=\"runtime\" runtime=\"true\"/>" );
 
         writer.write( 
           "\n    <home nested=\"" 

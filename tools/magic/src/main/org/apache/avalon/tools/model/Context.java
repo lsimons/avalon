@@ -31,7 +31,8 @@ import java.util.Map;
 import java.util.TimeZone;
 
 /**
- * Build context.
+ * A context contains infomation about a particular project build environment 
+ * including the mapping of inital structure to the immutable magic structure.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
@@ -69,6 +70,14 @@ public class Context extends Task
     public static final String ETC_KEY = "project.etc";
     public static final String ETC_VALUE = "etc";
 
+   /**
+    * If the project does not have a refernce assigned to 
+    * the name 'project.context' then a new context is created and 
+    * assigned.
+    *
+    * @param project the current project
+    * @return the bound context
+    */
     public static Context getContext( final Project project )
     {
         if( null == project )
