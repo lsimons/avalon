@@ -17,13 +17,12 @@
 
 package org.apache.avalon.tools.model;
 
-import java.io.File;
-import java.util.List;
-import java.util.ArrayList;
-
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Path;
-import org.apache.tools.ant.types.FileSet;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Defintion of a project. 
@@ -38,8 +37,8 @@ public class Definition extends Resource
     private File m_basedir;
 
     public Definition( 
-      Home home, String key, File basedir, Info info, 
-      ResourceRef[] resources, ResourceRef[] plugins )
+      final Home home, final String key, final File basedir, final Info info,
+      final ResourceRef[] resources, final ResourceRef[] plugins )
     {
         super( home, key, info );
 
@@ -58,28 +57,28 @@ public class Definition extends Resource
         return m_resources;
     }
 
-    public ResourceRef[] getResourceRefs( int mode, int tag, boolean flag )
+    public ResourceRef[] getResourceRefs( final int mode, final int tag, final boolean flag )
     {
-        ArrayList list = new ArrayList();
+        final ArrayList list = new ArrayList();
         getResourceRefs( list, mode, tag, flag );
         return (ResourceRef[]) list.toArray( new ResourceRef[0] );
     }
 
-    protected void getResourceRefs( List list, int mode, int tag, boolean flag )
+    protected void getResourceRefs( final List list, final int mode, final int tag, final boolean flag )
     {
-        ResourceRef[] refs = getResourceRefs();
+        final ResourceRef[] refs = getResourceRefs();
         for( int i=0; i<refs.length; i++ )
         {
-            ResourceRef ref = refs[i];
+            final ResourceRef ref = refs[i];
             if( !list.contains( ref ) )
             {
-                Policy policy = ref.getPolicy();
+                final Policy policy = ref.getPolicy();
                 if( policy.matches( mode ) && ref.matches( tag ) )
                 {
                     list.add( ref );
                     if( flag && getHome().isaDefinition( ref ) )
                     {
-                        Definition def = getHome().getDefinition( ref );
+                        final Definition def = getHome().getDefinition( ref );
                         def.getResourceRefs( list, mode, ResourceRef.ANY, flag );
                     }
                 }
@@ -92,34 +91,34 @@ public class Definition extends Resource
         return m_plugins;
     }
 
-    public Path getPath( Project project, int mode )
+    public Path getPath( final Project project, final int mode )
     {
         if( null == project )
         {
             throw new NullPointerException( "project" );
         }
 
-        Path path = new Path( project );
-        ResourceRef[] refs = getResourceRefs( mode, ResourceRef.ANY, true );
+        final Path path = new Path( project );
+        final ResourceRef[] refs = getResourceRefs( mode, ResourceRef.ANY, true );
         for( int i=0; i<refs.length; i++ )
         {
-            ResourceRef ref = refs[i];
-            Resource resource = getHome().getResource( ref );
-            File file = resource.getArtifact( project );
+            final ResourceRef ref = refs[i];
+            final Resource resource = getHome().getResource( ref );
+            final File file = resource.getArtifact( project );
             path.createPathElement().setLocation( file );
         }
         
         return path;
     }
 
-    public ResourceRef[] getQualifiedRefs( final List visited, int category )
+    public ResourceRef[] getQualifiedRefs( final List visited, final int category )
     {
-        ArrayList list = new ArrayList();
-        ResourceRef[] refs = 
+        final ArrayList list = new ArrayList();
+        final ResourceRef[] refs =
           getResourceRefs( Policy.RUNTIME, category, true );
         for( int i=0; i<refs.length; i++ )
         {
-            ResourceRef ref = refs[i];
+            final ResourceRef ref = refs[i];
             if( !visited.contains(  ref ) )
             {
                 list.add( ref );
@@ -131,10 +130,10 @@ public class Definition extends Resource
 
     public File getDocDirectory()
     {
-        File cache = getHome().getDocsRepository().getCacheDirectory();
-        File root = new File( cache, getInfo().getGroup() );
-        File artifact = new File( root, getInfo().getName() );
-        String version = getInfo().getVersion();
+        final File cache = getHome().getDocsRepository().getCacheDirectory();
+        final File root = new File( cache, getInfo().getGroup() );
+        final File artifact = new File( root, getInfo().getName() );
+        final String version = getInfo().getVersion();
         if( null == version )
         {
             return artifact;
@@ -150,20 +149,20 @@ public class Definition extends Resource
         return "[" + getInfo().getGroup() + "/" + getInfo().getName() + "]";
     }
 
-    public boolean equals( Object other )
+    public boolean equals( final Object other )
     {
         if( super.equals( other ) && ( other instanceof Definition ))
         {
-            Definition def = (Definition) other;
-            ResourceRef[] refs = getResourceRefs();
-            ResourceRef[] references = def.getResourceRefs();
+            final Definition def = (Definition) other;
+            final ResourceRef[] refs = getResourceRefs();
+            final ResourceRef[] references = def.getResourceRefs();
             for( int i=0; i<refs.length; i++ )
             {
                 if( !refs[i].equals( references[i] ) ) return false;
             }
 
-            ResourceRef[] plugins = getPluginRefs();
-            ResourceRef[] plugins2 = def.getPluginRefs();
+            final ResourceRef[] plugins = getPluginRefs();
+            final ResourceRef[] plugins2 = def.getPluginRefs();
             for( int i=0; i<plugins.length; i++ )
             {
                 if( !plugins[i].equals( plugins2[i] ) ) return false;

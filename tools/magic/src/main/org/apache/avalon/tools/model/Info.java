@@ -29,26 +29,26 @@ public class Info
 {
     public static final String PROTOCOL = "artifact";
 
-    public static Info create( String id )
+    public static Info create( final String id )
     {
-        int i = id.indexOf( ":" );
+        final int i = id.indexOf( ":" );
         if( i<0 )
         {
             final String error =
               "Missing protocol in id [" + id + "]";
             throw new BuildException( error );
         }
-        String protocol = id.substring( 0, i );
-        String spec = id.substring( i+1 );
+        final String protocol = id.substring( 0, i );
+        final String spec = id.substring( i+1 );
         return Info.create( protocol, spec);
     }
 
-    public static Info create( String type, String id )
+    public static Info create( final String type, final String id )
     {
-        int n = getGroupIndex( id );
-        String group = getGroupFromId( id, n );
-        String name = getNameFromId( id, n );
-        String version = getVersionFromId( id );
+        final int n = getGroupIndex( id );
+        final String group = getGroupFromId( id, n );
+        final String name = getNameFromId( id, n );
+        final String version = getVersionFromId( id );
         return new Info( group, name, version, type );
     }
 
@@ -57,7 +57,7 @@ public class Info
     private String m_version;
     private String m_type;
 
-    public Info( String group, String name, String version, String type )
+    public Info( final String group, final String name, final String version, final String type )
     {
         assertNotNull( "group", group );
         assertNotNull( "name", name );
@@ -97,7 +97,7 @@ public class Info
 
     public String getPath()
     {
-        StringBuffer buffer = new StringBuffer( getGroup() );
+        final StringBuffer buffer = new StringBuffer( getGroup() );
         buffer.append( "/" );
         buffer.append( getType() );
         buffer.append( "s/" );
@@ -114,7 +114,7 @@ public class Info
 
     public String getURI()
     {
-        StringBuffer buffer = new StringBuffer( PROTOCOL );
+        final StringBuffer buffer = new StringBuffer( PROTOCOL );
         buffer.append( ":" );
         buffer.append( getType() );
         buffer.append( ":" );
@@ -131,7 +131,7 @@ public class Info
 
     public String getSpec()
     {
-        StringBuffer buffer = new StringBuffer( getGroup() );
+        final StringBuffer buffer = new StringBuffer( getGroup() );
         buffer.append( "/" );
         buffer.append( getName() );
         if( null != getVersion() )
@@ -147,11 +147,11 @@ public class Info
         return getURI();
     }
 
-    public boolean equals( Object other )
+    public boolean equals( final Object other )
     {
         if( other instanceof Info )
         {
-            Info info = (Info) other;
+            final Info info = (Info) other;
             if( !getName().equals( info.getName() ) ) return false;
             if( !getGroup().equals( info.getGroup() ) ) return false;
             if( !getType().equals( info.getType() ) ) return false;
@@ -170,14 +170,14 @@ public class Info
         }
     }
 
-    private void assertNotNull( String key, Object object )
+    private void assertNotNull( final String key, final Object object )
     {
         if( null == object ) throw new NullPointerException( key );
     }
 
-    private static int getGroupIndex( String id )
+    private static int getGroupIndex( final String id )
     {
-        int n = id.lastIndexOf( "/" );
+        final int n = id.lastIndexOf( "/" );
         if( n < 0 )
         {
             final String error = 
@@ -191,14 +191,14 @@ public class Info
         }
     }
 
-    private static String getGroupFromId( String id, int n )
+    private static String getGroupFromId( final String id, final int n )
     {
         return id.substring( 0, n );
     }
 
-    private static String getNameFromId( String id, int n )
+    private static String getNameFromId( final String id, final int n )
     {
-        int j = id.indexOf( "#" );
+        final int j = id.indexOf( "#" );
         if( j < 0 )
         {
             return id.substring( n+1 );
@@ -209,9 +209,9 @@ public class Info
         }
     }
 
-    private static String getVersionFromId( String id )
+    private static String getVersionFromId( final String id )
     {
-        int j = id.indexOf( "#" );
+        final int j = id.indexOf( "#" );
         if( j < 0 )
         {
             return null;

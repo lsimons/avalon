@@ -17,31 +17,29 @@
 
 package org.apache.avalon.tools.model;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.apache.tools.ant.BuildException;
-
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.Document;
-
 import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+
 /**
- *
+ * Utility class supporting DOM content handling.
+ * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
 public class ElementHelper
 {
-    public static Element getRootElement( File definition )
+    public static Element getRootElement( final File definition )
       throws BuildException
     {
         if( !definition.exists() ) 
@@ -60,11 +58,11 @@ public class ElementHelper
 
         try 
         {
-            DocumentBuilderFactory factory = 
+            final DocumentBuilderFactory factory =
               DocumentBuilderFactory.newInstance();
             factory.setValidating( false );
             factory.setNamespaceAware( false );
-            Document document = 
+            final Document document =
               factory.newDocumentBuilder().parse( definition );
             return document.getDocumentElement();
         }
@@ -89,43 +87,42 @@ public class ElementHelper
         }
     }
 
-    public static Element getChild( Element root, String name )
+    public static Element getChild( final Element root, final String name )
     {
         if( null == root ) return null;
-        NodeList list = root.getElementsByTagName( name );
-        int n = list.getLength();
+        final NodeList list = root.getElementsByTagName( name );
+        final int n = list.getLength();
         if( n < 1 ) return null;
         return (Element) list.item( 0 );
     }
 
-    public static Element[] getChildren( Element root, String name )
+    public static Element[] getChildren( final Element root, final String name )
     {
         if( null == root ) return new Element[0];
-        NodeList list = root.getElementsByTagName( name );
-        int n = list.getLength();
-        ArrayList result = new ArrayList();
+        final NodeList list = root.getElementsByTagName( name );
+        final int n = list.getLength();
+        final ArrayList result = new ArrayList();
         for( int i=0; i<n; i++ )
         {
-            Node item = list.item( i );
+            final Node item = list.item( i );
             if( item instanceof Element )
             {
-                Element elem = (Element) item;
                 result.add( item );
             }
         }
         return (Element[]) result.toArray( new Element[0] );
     }
 
-    public static Element[] getChildren( Element root )
+    public static Element[] getChildren( final Element root )
     {
         if( null == root ) return new Element[0];
-        NodeList list = root.getChildNodes();
-        int n = list.getLength();
+        final NodeList list = root.getChildNodes();
+        final int n = list.getLength();
         if( n < 1 ) return new Element[0];
-        ArrayList result = new ArrayList();
+        final ArrayList result = new ArrayList();
         for( int i=0; i<n; i++ )
         {
-            Node item = list.item( i );
+            final Node item = list.item( i );
             if( item instanceof Element )
             {
                 result.add( item );
@@ -134,7 +131,7 @@ public class ElementHelper
         return (Element[]) result.toArray( new Element[0] );
     }
 
-    public static String getValue( Element node )
+    public static String getValue( final Element node )
     {
         if( null == node ) return null;
         if( node.getChildNodes().getLength() > 0 )
@@ -144,28 +141,28 @@ public class ElementHelper
         return node.getNodeValue(); 
     }
 
-    public static String getAttribute( Element node, String key )
+    public static String getAttribute( final Element node, final String key )
     {
         return getAttribute( node, key, null );
     }
 
-    public static String getAttribute( Element node, String key, String def )
+    public static String getAttribute( final Element node, final String key, final String def )
     {
         if( null == node ) return def;
-        String value = node.getAttribute( key );
+        final String value = node.getAttribute( key );
         if( null == value ) return def;
         return value;
     }
 
-    public static boolean getBooleanAttribute( Element node, String key )
+    public static boolean getBooleanAttribute( final Element node, final String key )
     {
         return getBooleanAttribute( node, key, false );
     }
 
-    public static boolean getBooleanAttribute( Element node, String key, boolean def )
+    public static boolean getBooleanAttribute( final Element node, final String key, final boolean def )
     {
         if( null == node ) return def;
-        String value = node.getAttribute( key );
+        final String value = node.getAttribute( key );
         if( null == value ) return def;
         if( value.equals( "" ) ) return def;
         if( value.equals( "true" ) ) return true;

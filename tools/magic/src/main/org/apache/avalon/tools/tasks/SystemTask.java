@@ -17,20 +17,8 @@
 
 package org.apache.avalon.tools.tasks;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.taskdefs.Jar;
-import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.types.Path;
-
 import org.apache.avalon.tools.model.Home;
-import org.apache.avalon.tools.model.Context;
-import org.apache.avalon.tools.model.Definition;
+import org.apache.tools.ant.BuildException;
 
 /**
  * Load a goal. 
@@ -48,7 +36,7 @@ public class SystemTask extends ContextualTask
     *
     * @param id a home id
     */
-    public void setRefid( String id )
+    public void setRefid( final String id )
     {
         m_home = getHomeFromReference( id );
     }
@@ -62,9 +50,9 @@ public class SystemTask extends ContextualTask
         return m_home;
     }
 
-    private Home getHomeFromReference( String id )
+    private Home getHomeFromReference( final String id )
     {
-        Object object = getProject().getReference( id );
+        final Object object = getProject().getReference( id );
         if( null == object )
         {
             final String error = 

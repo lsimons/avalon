@@ -17,13 +17,13 @@
 
 package org.apache.avalon.tools.model;
 
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.taskdefs.Get;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
-
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.taskdefs.Get;
 
 /**
  * Defintion of a resource. 
@@ -33,16 +33,16 @@ import org.apache.tools.ant.taskdefs.Get;
  */
 public class Resource 
 {
-    private String m_key;
+    private final String m_key;
     private Info m_info;
     private Home m_home;
 
-    public Resource( Home home, Info info )
+    public Resource( final Home home, final Info info )
     {
         this( home, null, info );
     }
 
-    public Resource( Home home, String key, Info info )
+    public Resource( final Home home, final String key, final Info info )
     {
         m_key = key;
         m_info = info;
@@ -64,16 +64,16 @@ public class Resource
         return m_home;
     }
 
-    public File getArtifact( Project project )
+    public File getArtifact( final Project project )
     {
         //
         // TODO: add support for snapshot semantics
         // based on a resource feature
         //
 
-        String path = getInfo().getPath();
-        File cache = getHome().getRepository().getCacheDirectory();
-        File target = new File( cache, path );
+        final String path = getInfo().getPath();
+        final File cache = getHome().getRepository().getCacheDirectory();
+        final File target = new File( cache, path );
         if( target.exists() ) 
         {
             return target;
@@ -84,19 +84,19 @@ public class Resource
         }
     }
 
-    private File get( Project project, File target, String path )
+    private File get( final Project project, final File target, final String path )
     {
         target.getParentFile().mkdirs();
-        String[] hosts = getHome().getRepository().getHosts();
+        final String[] hosts = getHome().getRepository().getHosts();
         for( int i=0; i<hosts.length; i++ )
         {
-            String host = hosts[i];
+            final String host = hosts[i];
             try
             {
-                URL url = new URL( host );
-                URL source = new URL( url, path );
+                final URL url = new URL( host );
+                final URL source = new URL( url, path );
 
-                Get get = (Get) project.createTask( "get" );
+                final Get get = (Get) project.createTask( "get" );
                 get.setSrc( source );
                 get.setDest( target );
                 get.setIgnoreErrors( false );
@@ -119,9 +119,9 @@ public class Resource
         return getFilename( getInfo().getType() );
     }
 
-    public String getFilename( String type )
+    public String getFilename( final String type )
     {
-        String name = getInfo().getName();
+        final String name = getInfo().getName();
         if( null != getInfo().getVersion() )
         {
             return name + "-" + getInfo().getVersion() + "." + type;
@@ -138,11 +138,11 @@ public class Resource
         return "[" + getInfo().toString() + "]";
     }
 
-    public boolean equals( Object other )
+    public boolean equals( final Object other )
     {
         if( other instanceof Resource )
         {
-            Resource def = (Resource) other;
+            final Resource def = (Resource) other;
             if( !getInfo().equals( def.getInfo() ) ) return false;
             return true;
         }

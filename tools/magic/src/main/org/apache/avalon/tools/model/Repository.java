@@ -17,33 +17,14 @@
 
 package org.apache.avalon.tools.model;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.util.Hashtable;
-import java.util.Properties;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-import java.net.URL;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.taskdefs.Get;
-import org.apache.tools.ant.types.Path;
-import org.apache.tools.ant.util.FileUtils;
-import org.apache.tools.ant.taskdefs.Sequential;
-import org.apache.tools.ant.types.Path;
-import org.apache.tools.ant.types.FileList;
 import org.apache.tools.ant.taskdefs.optional.net.SetProxy;
 
-import org.apache.avalon.tools.model.Definition;
-import org.apache.avalon.tools.model.ResourceRef;
-import org.apache.avalon.tools.model.Resource;
-import org.apache.avalon.tools.model.Policy;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 /**
  *
@@ -63,7 +44,7 @@ public class Repository
     private final String[] m_hosts;
 
     public Repository( 
-      Project project, File system, String path, String hosts, Home home )
+      final Project project, final File system, final String path, final String hosts, final Home home )
     {
         if( null == system ) 
         {
@@ -95,7 +76,7 @@ public class Repository
         return m_hosts;
     }
 
-    private File getCanonicalFile( File file ) throws BuildException
+    private File getCanonicalFile( final File file ) throws BuildException
     {
         try
         {
@@ -107,18 +88,18 @@ public class Repository
         }
     }
 
-    private String[] getHostsSequence( String path )
+    private String[] getHostsSequence( final String path )
     {
         if( null == path )
         {
             return new String[0];
         }
         
-        StringTokenizer tokenizer = new StringTokenizer( path, ";" );
-        ArrayList list = new ArrayList();
+        final StringTokenizer tokenizer = new StringTokenizer( path, ";" );
+        final ArrayList list = new ArrayList();
         while( tokenizer.hasMoreTokens() )
         {
-            String host = tokenizer.nextToken();
+            final String host = tokenizer.nextToken();
             if( host.endsWith( "/" ) )
             {
                 list.add( host );
@@ -131,22 +112,22 @@ public class Repository
         return (String[]) list.toArray( new String[0] );
     }
 
-    private void setupProxy( Project project )
+    private void setupProxy( final Project project )
     {
-        String host = project.getProperty( PROJECT_PROXY_HOST_KEY );
+        final String host = project.getProperty( PROJECT_PROXY_HOST_KEY );
         if(( null == host ) || "".equals( host ) )
         {
             return;
         }
         else
         {
-            int port = Integer.decode( 
+            final int port = Integer.decode(
               project.getProperty( PROJECT_PROXY_PORT_KEY ) ).intValue();
-            String username = 
+            final String username =
               project.getProperty( PROJECT_PROXY_USERNAME_KEY );
-            String password = 
+            final String password =
               project.getProperty( PROJECT_PROXY_PASSWORD_KEY );
-            SetProxy proxy = 
+            final SetProxy proxy =
               (SetProxy) project.createTask( "setproxy" );
             proxy.init();
             proxy.setProxyHost( host );

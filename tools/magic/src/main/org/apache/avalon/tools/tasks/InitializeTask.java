@@ -17,23 +17,11 @@
 
 package org.apache.avalon.tools.tasks;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Hashtable;
-import java.util.Map;
-
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.taskdefs.Mkdir;
-import org.apache.tools.ant.taskdefs.Property;
-import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.types.FileSet;
-
-import org.apache.avalon.tools.model.Context;
 import org.apache.avalon.tools.model.Definition;
-import org.apache.avalon.tools.model.ResourceRef;
 import org.apache.avalon.tools.model.Resource;
+import org.apache.avalon.tools.model.ResourceRef;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
 
 /**
  * The initialize task loads and plugins that a project
@@ -46,22 +34,22 @@ public class InitializeTask extends SystemTask
 {
     public void execute() throws BuildException 
     {
-        Project project = getProject();
+        final Project project = getProject();
 
         //
         // if the project declares plugin dependencies then install
         // these now
         //
 
-        String key = getContext().getKey();
-        Definition def = getHome().getDefinition( key );
-        ResourceRef[] refs = def.getPluginRefs();
+        final String key = getContext().getKey();
+        final Definition def = getHome().getDefinition( key );
+        final ResourceRef[] refs = def.getPluginRefs();
         for( int i=0; i<refs.length; i++ )
         {
-            ResourceRef ref = refs[i];
-            Resource plugin = getHome().getResource( ref );
-            String path = "plugin:" + plugin.getInfo().getSpec();
-            PluginTask task = new PluginTask();
+            final ResourceRef ref = refs[i];
+            final Resource plugin = getHome().getResource( ref );
+            final String path = "plugin:" + plugin.getInfo().getSpec();
+            final PluginTask task = new PluginTask();
             task.setTaskName( "plugin" );
             task.setProject( project );
             task.setArtifact( path );

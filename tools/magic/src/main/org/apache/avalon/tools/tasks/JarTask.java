@@ -17,27 +17,14 @@
 
 package org.apache.avalon.tools.tasks;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.Project;
+import org.apache.avalon.tools.model.Definition;
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.taskdefs.Delete;
 import org.apache.tools.ant.taskdefs.Jar;
-import org.apache.tools.ant.taskdefs.Mkdir;
-import org.apache.tools.ant.taskdefs.Checksum;
 import org.apache.tools.ant.taskdefs.Manifest;
 import org.apache.tools.ant.taskdefs.ManifestException;
-import org.apache.tools.ant.taskdefs.Execute;
-import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.types.Path;
 
-import org.apache.avalon.tools.model.Context;
-import org.apache.avalon.tools.model.Home;
-import org.apache.avalon.tools.model.Definition;
-import org.apache.avalon.tools.model.ResourceRef;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Load a goal. 
@@ -53,45 +40,37 @@ public class JarTask extends AbstractDeliverableTask
     
     public void execute() throws BuildException 
     {
-        File classes = 
+        final File classes =
           getContext().getBuildPath( JavacTask.BUILD_CLASSES_KEY );
-        File deliverables = 
+        final File deliverables =
           getContext().getDeliverablesDirectory();
 
-        Definition def = getHome().getDefinition( getKey() );
-        File jarFile = getJarFile( deliverables );
+        final Definition def = getHome().getDefinition( getKey() );
+        final File jarFile = getJarFile( deliverables );
         if( classes.exists() )
         {
-            try
+            final boolean modified = jar( def, classes, jarFile );
+            if( modified )
             {
-                boolean modified = jar( def, classes, jarFile );
-                if( modified )
-                {
-                    checksum( jarFile );
-                    asc( jarFile );
-                }
-            }
-            catch( IOException ioe )
-            {
-                throw new BuildException( ioe );
+                checksum( jarFile );
+                asc( jarFile );
             }
         }
         getContext().setBuildPath( "jar", jarFile.toString() );
     }
 
-    public File getJarFile( File deliverables )
+    public File getJarFile( final File deliverables )
     {
-        Project project = getProject();
-        Definition def = getHome().getDefinition( getKey() );
-        String type = def.getInfo().getType();
-        File types = new File( deliverables, type + "s" );
-        String filename = def.getFilename( JAR_EXT );
+        final Definition def = getHome().getDefinition( getKey() );
+        final String type = def.getInfo().getType();
+        final File types = new File( deliverables, type + "s" );
+        final String filename = def.getFilename( JAR_EXT );
         return new File( types, filename );
     }
 
-    private boolean jar( Definition def, File classes, File jarFile )
+    private boolean jar( final Definition def, final File classes, final File jarFile )
     {
-        File dir = jarFile.getParentFile();
+        final File dir = jarFile.getParentFile();
         mkDir( dir );
 
         long modified = -1;
@@ -100,7 +79,7 @@ public class JarTask extends AbstractDeliverableTask
             modified = jarFile.lastModified();
         }
  
-        Jar jar = (Jar) getProject().createTask( "jar" );
+        final Jar jar = (Jar) getProject().createTask( "jar" );
         jar.setDestFile( jarFile );
         jar.setBasedir( classes );
         jar.setIndex( true );
@@ -111,12 +90,12 @@ public class JarTask extends AbstractDeliverableTask
         return jarFile.lastModified() > modified;
     }
 
-    private void addManifest( Jar jar, Definition def )
+    private void addManifest( final Jar jar, final Definition def )
     {
         try
         {
-            Manifest manifest = new Manifest();
-            Manifest.Section main = manifest.getMainSection();
+            final Manifest manifest = new Manifest();
+            final Manifest.Section main = manifest.getMainSection();
 
             addAttribute( main, "Created-By", "Apache Avalon" );
             addAttribute( main, "Built-By", System.getProperty( "user.name" ) );
@@ -150,13 +129,13 @@ public class JarTask extends AbstractDeliverableTask
             addAttribute( 
               main, "Implementation-Version", "UNKNOWN" ); 
 
-            String classpath = getProject().getProperty( JAR_CLASSPATH_KEY );
+            final String classpath = getProject().getProperty( JAR_CLASSPATH_KEY );
             if( null != classpath )
             {
                 addAttribute( main, "Class-Path", classpath );
             }
 
-            String mainClass = getProject().getProperty( JAR_MAIN_KEY );
+            final String mainClass = getProject().getProperty( JAR_MAIN_KEY );
             if( null != mainClass )
             {
                 addAttribute( main, "Main-Class", mainClass );
@@ -171,10 +150,10 @@ public class JarTask extends AbstractDeliverableTask
     }
 
     private void addAttribute( 
-      Manifest.Section section, String name, String value )
+      final Manifest.Section section, final String name, final String value )
       throws ManifestException
     {
-        Manifest.Attribute attribute = new Manifest.Attribute( name, value );
+        final Manifest.Attribute attribute = new Manifest.Attribute( name, value );
         section.addConfiguredAttribute( attribute );
     }
 }

@@ -17,33 +17,20 @@
 
 package org.apache.avalon.tools.tasks;
 
-import java.io.File;
-import java.io.FileFilter;
-
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.taskdefs.Copy;
+import org.apache.tools.ant.types.FileSet;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
-
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.taskdefs.XSLTProcess;
-import org.apache.tools.ant.taskdefs.Mkdir;
-
-import org.apache.avalon.tools.model.Context;
-import org.apache.avalon.tools.model.Home;
+import java.io.File;
+import java.io.FileFilter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class XdocTask extends SystemTask
 {
@@ -92,7 +79,7 @@ public class XdocTask extends SystemTask
     private File m_BaseToDir;    
     private File m_BaseSrcDir;    
 
-    public void setTheme( String theme )
+    public void setTheme( final String theme )
     {
         m_theme = theme;
     }
@@ -102,7 +89,7 @@ public class XdocTask extends SystemTask
         if( !isInitialized() )
         {
             super.init();
-            Project project = getProject();
+            final Project project = getProject();
             project.setNewProperty( ORG_NAME_KEY, ORG_NAME_VALUE );
             project.setNewProperty( XDOC_SRC_KEY, XDOC_SRC_VALUE );
             project.setNewProperty( XDOC_RESOURCES_KEY, XDOC_RESOURCES_VALUE );
@@ -121,7 +108,7 @@ public class XdocTask extends SystemTask
 
     private File getThemesDirectory()
     {
-        File home = getHome().getHomeDirectory();
+        final File home = getHome().getHomeDirectory();
         return new File( home, "themes" );
     }
     
@@ -138,16 +125,16 @@ public class XdocTask extends SystemTask
 
     public void execute()
     {
-        Project project = getProject();
-        File docs = getContext().getDocsDirectory();
+        final Project project = getProject();
+        final File docs = getContext().getDocsDirectory();
 
         //
         // get the directory containing the filtered xdocs source files 
         // (normally target/src/xdocs)
         //
 
-        File build = getContext().getBuildDirectory();
-        String xdocsPath = project.getProperty( XDOC_SRC_KEY );
+        final File build = getContext().getBuildDirectory();
+        final String xdocsPath = project.getProperty( XDOC_SRC_KEY );
         if( null == xdocsPath )
         {
             final String message =
@@ -156,7 +143,7 @@ public class XdocTask extends SystemTask
             return;
         }
 
-        File srcDir = new File( build, xdocsPath );
+        final File srcDir = new File( build, xdocsPath );
         if( !srcDir.exists() ) return;
         log( "Filtered source: " + srcDir.getAbsolutePath() );
 
@@ -165,9 +152,9 @@ public class XdocTask extends SystemTask
         // navigation structure (normally target/temp/xdocs)
         //
 
-        File temp = getContext().getTempDirectory();
-        String tempPath = project.getProperty( XDOC_TEMP_KEY );
-        File destDir = new File( temp, tempPath );
+        final File temp = getContext().getTempDirectory();
+        final String tempPath = project.getProperty( XDOC_TEMP_KEY );
+        final File destDir = new File( temp, tempPath );
         mkDir( destDir );
 
         //
@@ -177,13 +164,13 @@ public class XdocTask extends SystemTask
         log( "Destination: " + docs.getAbsolutePath() );
         mkDir( docs );
 
-        String theme = getTheme();
-        String output = getOutputFormat();
-        File themeRoot = getThemesDirectory();
-        File themeDir = new File( themeRoot, theme + "/" + output );
+        final String theme = getTheme();
+        final String output = getOutputFormat();
+        final File themeRoot = getThemesDirectory();
+        final File themeDir = new File( themeRoot, theme + "/" + output );
         
-        String resourcesPath = project.getProperty( XDOC_RESOURCES_KEY );
-        File resources = new File( build, resourcesPath );
+        final String resourcesPath = project.getProperty( XDOC_RESOURCES_KEY );
+        final File resources = new File( build, resourcesPath );
 
         log( "Year: " + getProject().getProperty( "magic.year" ) );
         log( "Theme: " + themeDir );
@@ -213,51 +200,51 @@ public class XdocTask extends SystemTask
         }
     }
     
-    private void transformNavigation( File themeDir, File source, File dest )
+    private void transformNavigation( final File themeDir, final File source, final File dest )
     {
-        File xslFile = new File( themeDir,  "nav-aggregate.xsl" );
+        final File xslFile = new File( themeDir,  "nav-aggregate.xsl" );
         log( "Transforming navigation." );
         transformTrax( 
           source, dest, xslFile, 
-          "^.*/navigation.xml$", "", ".xml", "xml" );
+          "^.*/navigation.xml$", "", ".xml" );
     }
     
-    private void copySources( File source, File dest )
+    private void copySources( final File source, final File dest )
     {
         copy( source, dest, "**/*", "**/navigation.xml" );
     }
     
-    private void transformXdocs( File themeDir, File build, File docs )
+    private void transformXdocs( final File themeDir, final File build, final File docs )
     {
-        File xslFile = new File( themeDir,  "transform.xsl" );
-        String output = getOutputFormat();
+        final File xslFile = new File( themeDir,  "transform.xsl" );
+        final String output = getOutputFormat();
         log( "Transforming content." );
         transformTrax( 
           build, docs, xslFile, 
-          "^.*\\.xml$", "^.*/navigation.xml$", "." + output, "html" );
+          "^.*\\.xml$", "^.*/navigation.xml$", "." + output );
     }
     
-    private void copySrcResources( File resources, File docs )
+    private void copySrcResources( final File resources, final File docs )
     {
         copy( resources, docs, "**/*", "" );
     }
 
-    private void copyThemeResources( File themeDir, File docs )
+    private void copyThemeResources( final File themeDir, final File docs )
     {
-        File fromDir = new File( themeDir, "resources" );
+        final File fromDir = new File( themeDir, "resources" );
         copy( fromDir, docs, "**/*", "" );
     }
     
-    private void copy( File fromDir, File toDir, String includes, String excludes )
+    private void copy( final File fromDir, final File toDir, final String includes, final String excludes )
     {
-        FileSet from = new FileSet();
+        final FileSet from = new FileSet();
         from.setDir( fromDir );
         from.setIncludes( includes );
         from.setExcludes( excludes );
 
         mkDir( toDir );
         
-        Copy copy = (Copy) getProject().createTask( "copy" );
+        final Copy copy = (Copy) getProject().createTask( "copy" );
         copy.setTodir( toDir );
         copy.addFileset( from );
         copy.setPreserveLastModified( true );
@@ -265,18 +252,18 @@ public class XdocTask extends SystemTask
     }
     
 
-    private void transformTrax( File srcDir, File toDir, File xslFile, 
-                            String includes, String excludes, String extension,
-                            String method )
+    private void transformTrax(
+            final File srcDir, final File toDir, final File xslFile,
+            final String includes, final String excludes, final String extension )
         throws BuildException
     {
         try
         {
-            TransformerFactory factory = TransformerFactory.newInstance();
-            StreamSource xsl = new StreamSource( xslFile );
-            Transformer transformer = factory.newTransformer( xsl );
+            final TransformerFactory factory = TransformerFactory.newInstance();
+            final StreamSource xsl = new StreamSource( xslFile );
+            final Transformer transformer = factory.newTransformer( xsl );
 
-            RegexpFilter filter = new RegexpFilter( includes, excludes );
+            final RegexpFilter filter = new RegexpFilter( includes, excludes );
 
             m_BaseToDir = toDir;
             m_BaseSrcDir = srcDir.getAbsoluteFile();
@@ -288,39 +275,39 @@ public class XdocTask extends SystemTask
         }
     }
 
-    private void transform( Transformer transformer, File srcDir, File toDir,
-        FileFilter filter, String extension )
+    private void transform( final Transformer transformer, final File srcDir, final File toDir,
+        final FileFilter filter, final String extension )
         throws BuildException
     {
-        String year = getProject().getProperty( "magic.year" );
-        String org = getProject().getProperty( ORG_NAME_KEY );
-        String copyright = 
+        final String year = getProject().getProperty( "magic.year" );
+        final String org = getProject().getProperty( ORG_NAME_KEY );
+        final String copyright =
           "Copyright " + year + ", " + org + " All rights reserved.";
 
 
-        File[] content = srcDir.listFiles( filter );
+        final File[] content = srcDir.listFiles( filter );
         for( int i = 0 ; i < content.length ; i++ )
         {
             String base = content[i].getName();
             if( content[i].isDirectory() )
             {
-                File newDest = new File( toDir, base );
+                final File newDest = new File( toDir, base );
                 newDest.mkdirs();
                 transform( transformer, content[i], newDest, filter, extension );
             }
             if( content[i].isFile() )
             {
-                String svnRoot = getProject().getProperty( XDOC_ANCHOR_URL_KEY );
-                String svnSource = svnRoot + getRelSrcPath( srcDir ) + "/" + base;
+                final String svnRoot = getProject().getProperty( XDOC_ANCHOR_URL_KEY );
+                final String svnSource = svnRoot + getRelSrcPath( srcDir ) + "/" + base;
                 
-                int pos = base.lastIndexOf( '.' );
+                final int pos = base.lastIndexOf( '.' );
                 if( pos > 0 )
                     base = base.substring( 0, pos );
                 base = base + extension;
                 
-                File newDest = new File( toDir, base );
-                StreamSource xml = new StreamSource( content[i] );
-                StreamResult out = new StreamResult( newDest );
+                final File newDest = new File( toDir, base );
+                final StreamSource xml = new StreamSource( content[i] );
+                final StreamResult out = new StreamResult( newDest );
                 transformer.clearParameters();
                 
                 transformer.setParameter( "directory", getRelToPath( toDir ) );
@@ -365,17 +352,17 @@ public class XdocTask extends SystemTask
         }
     }
 
-    private String getRelToPath( File dir )
+    private String getRelToPath( final File dir )
     {
-        String basedir = m_BaseToDir.getAbsolutePath();
-        String curdir = dir.getAbsolutePath();
+        final String basedir = m_BaseToDir.getAbsolutePath();
+        final String curdir = dir.getAbsolutePath();
         return curdir.substring( basedir.length() );
     }
 
-    private String getRelSrcPath( File dir )
+    private String getRelSrcPath( final File dir )
     {
-        String basedir = m_BaseSrcDir.getAbsolutePath();
-        String curdir = dir.getAbsolutePath();
+        final String basedir = m_BaseSrcDir.getAbsolutePath();
+        final String curdir = dir.getAbsolutePath();
         return curdir.substring( basedir.length() );
     }
 
@@ -386,15 +373,15 @@ public class XdocTask extends SystemTask
         private Pattern m_Includes;
         private Pattern m_Excludes;
         
-        public RegexpFilter( String includes, String excludes )
+        public RegexpFilter( final String includes, final String excludes )
         {
             m_Includes = Pattern.compile( includes );
             m_Excludes = Pattern.compile( excludes );
         }
         
-        public boolean accept( File file )
+        public boolean accept( final File file )
         {
-            String basename = file.getName();
+            final String basename = file.getName();
         
             if( basename.equals( ".svn" ) )
                 return false;
@@ -405,7 +392,7 @@ public class XdocTask extends SystemTask
             if( file.isDirectory() )
                 return true;
 
-            String fullpath = file.getAbsolutePath().replace( '\\', '/' );
+            final String fullpath = file.getAbsolutePath().replace( '\\', '/' );
 
             Matcher m = m_Includes.matcher( fullpath );
             if( ! m.matches() )

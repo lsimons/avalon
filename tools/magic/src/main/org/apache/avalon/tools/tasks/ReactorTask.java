@@ -17,34 +17,24 @@
 
 package org.apache.avalon.tools.tasks;
 
+import org.apache.avalon.tools.model.Context;
+import org.apache.avalon.tools.model.Definition;
+import org.apache.avalon.tools.model.ResourceRef;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.taskdefs.Ant;
+import org.apache.tools.ant.types.DirSet;
+import org.apache.tools.ant.types.FileList;
+import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.types.Path;
+
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.taskdefs.Ant;
-import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.taskdefs.Delete;
-import org.apache.tools.ant.taskdefs.Jar;
-import org.apache.tools.ant.taskdefs.Mkdir;
-import org.apache.tools.ant.taskdefs.Checksum;
-import org.apache.tools.ant.taskdefs.Execute;
-import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.types.FileList;
-import org.apache.tools.ant.types.DirSet;
-import org.apache.tools.ant.types.Path;
-
-import org.apache.avalon.tools.model.Context;
-import org.apache.avalon.tools.model.Home;
-import org.apache.avalon.tools.model.Plugin;
-import org.apache.avalon.tools.model.Definition;
-import org.apache.avalon.tools.model.ResourceRef;
 
 /**
  * Build a set of projects taking into account dependencies within the 
@@ -136,7 +126,7 @@ public class ReactorTask extends SystemTask
         execute( definition, null );
     }
 
-    public void execute( final Definition definition, String target )
+    public void execute( final Definition definition, final String target )
     {
         final Ant ant = (Ant) getProject().createTask( "ant" );
         ant.setDir( definition.getBasedir() );
@@ -191,7 +181,7 @@ public class ReactorTask extends SystemTask
         final ResourceRef[] refs = def.getResourceRefs();
         for( int i=0; i<refs.length; i++ )
         {
-            ResourceRef ref = refs[i];
+            final ResourceRef ref = refs[i];
             if( getHome().isaDefinition( ref ) )
             {
                 final Definition d = getHome().getDefinition( ref );
@@ -205,7 +195,7 @@ public class ReactorTask extends SystemTask
         final ResourceRef[] plugins = def.getPluginRefs();
         for( int i=0; i<plugins.length; i++ )
         {
-            ResourceRef ref = plugins[i];
+            final ResourceRef ref = plugins[i];
             if( getHome().isaDefinition( ref ) )
             {
                 final Definition plugin = getHome().getPlugin( ref );
@@ -225,25 +215,25 @@ public class ReactorTask extends SystemTask
         final File basedir = project.getBaseDir(); 
         if( null == m_path )
         {
-            return getLocalDefinitions( project, basedir );
+            return getLocalDefinitions( basedir );
         }
         else
         {
-            return getExplicitDefinitions( project, basedir );
+            return getExplicitDefinitions( basedir );
         }
     }
 
-    private List getLocalDefinitions( Project project, File basedir )
+    private List getLocalDefinitions( final File basedir )
     {
         try
         {
             final ArrayList list = new ArrayList();
-            String path = basedir.getCanonicalPath();
-            Definition[] defs = getHome().getDefinitions();
+            final String path = basedir.getCanonicalPath();
+            final Definition[] defs = getHome().getDefinitions();
             for( int i=0; i<defs.length; i++ )
             {
-                Definition def = defs[i];
-                String base = def.getBasedir().getCanonicalPath();
+                final Definition def = defs[i];
+                final String base = def.getBasedir().getCanonicalPath();
                 if( base.startsWith( path ) )
                 {
                     list.add( def );
@@ -257,7 +247,7 @@ public class ReactorTask extends SystemTask
         }
     }
 
-    private List getExplicitDefinitions( Project project, File basedir )
+    private List getExplicitDefinitions( final File basedir )
     {
         final ArrayList list = new ArrayList();
 
@@ -267,13 +257,12 @@ public class ReactorTask extends SystemTask
             final String path = names[i];
             final File file = Context.getFile( basedir, path );
             final File dir = getDir( file );
-            final File props = new File( dir, "build.xml" );
             if( file.exists() )
             {
                 final String key = getProjectName( dir );
                 if( null != key )
                 {
-                    ResourceRef ref = new ResourceRef( key );
+                    final ResourceRef ref = new ResourceRef( key );
                     list.add( getHome().getDefinition( ref ) );
                 }
                 else

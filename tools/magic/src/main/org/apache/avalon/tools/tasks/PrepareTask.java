@@ -17,23 +17,13 @@
 
 package org.apache.avalon.tools.tasks;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Hashtable;
-import java.util.Map;
-
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.Project;
+import org.apache.avalon.tools.model.Context;
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.taskdefs.Mkdir;
-import org.apache.tools.ant.taskdefs.Property;
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.types.FileSet;
 
-import org.apache.avalon.tools.model.Context;
-import org.apache.avalon.tools.model.Definition;
-import org.apache.avalon.tools.model.ResourceRef;
-import org.apache.avalon.tools.model.Plugin;
+import java.io.File;
 
 /**
  * Load a goal. 
@@ -63,7 +53,7 @@ public class PrepareTask extends SystemTask
         if( !isInitialized() )
         {
             super.init();
-            Project project = getProject();
+            final Project project = getProject();
             project.setNewProperty(
               SRC_FILTERED_INCLUDES_KEY, SRC_FILTERED_INCLUDES_VALUE );
             project.setNewProperty(
@@ -75,29 +65,29 @@ public class PrepareTask extends SystemTask
 
     public void execute() throws BuildException 
     {
-        Project project = getProject();
+        final Project project = getProject();
 
         //
         // setup the file system
         //
 
-        File target = getContext().getTargetDirectory();
+        final File target = getContext().getTargetDirectory();
         if( !target.exists() )
         {
             log( "creating target directory" );
             mkDir( target );
         }
-        File src = getContext().getSrcDirectory();
-        File etc = getContext().getEtcDirectory();
-        File build = getContext().getBuildDirectory();
-        File buildEtcDir = new File( build, "etc" );
+        final File src = getContext().getSrcDirectory();
+        final File etc = getContext().getEtcDirectory();
+        final File build = getContext().getBuildDirectory();
+        final File buildEtcDir = new File( build, "etc" );
 
         if( src.exists() )
         {
 
-            String main = getSrcMain();
-            String config = getSrcConfig();
-            String test = getSrcTest();
+            final String main = getSrcMain();
+            final String config = getSrcConfig();
+            final String test = getSrcTest();
             
             prepareMain( src, build, main, Context.SRC_MAIN );
             prepareMain( src, build, config, Context.SRC_CONFIG );
@@ -107,10 +97,10 @@ public class PrepareTask extends SystemTask
             // and any non-standard stuff
             //
 
-            String excludes = 
+            final String excludes =
               main + "/**," + config + "/**," + test + "/**";
 
-            String filters = project.getProperty( SRC_FILTERED_INCLUDES_KEY );
+            final String filters = project.getProperty( SRC_FILTERED_INCLUDES_KEY );
             copy( src, build, true, filters, excludes );
             if( filters.length() > 0 )
             {
@@ -124,8 +114,8 @@ public class PrepareTask extends SystemTask
 
         if( etc.exists() )
         {
-            String includes = project.getProperty( ETC_FILTERED_INCLUDES_KEY );
-            String excludes = project.getProperty( ETC_FILTERED_EXCLUDES_KEY );
+            final String includes = project.getProperty( ETC_FILTERED_INCLUDES_KEY );
+            final String excludes = project.getProperty( ETC_FILTERED_EXCLUDES_KEY );
             copy( etc, buildEtcDir, true, includes, excludes );
             copy( etc, buildEtcDir, false, excludes, "" );
         }
@@ -135,44 +125,44 @@ public class PrepareTask extends SystemTask
         // content to the target/deliverables directory
         //
 
-        File extra = new File( buildEtcDir, "deliverables" );
+        final File extra = new File( buildEtcDir, "deliverables" );
         if( extra.exists() )
         {
-            File deliverables = getContext().getDeliverablesDirectory();
+            final File deliverables = getContext().getDeliverablesDirectory();
             copy( extra, deliverables, false, "**/*", "" );
         }
     }
 
     private String getSrcMain()
     {
-        String path = getProject().getProperty( Context.SRC_MAIN_KEY );
+        final String path = getProject().getProperty( Context.SRC_MAIN_KEY );
         if( null != path ) return path;
         return Context.SRC_MAIN;
     }
 
     private String getSrcConfig()
     {
-        String path = getProject().getProperty( Context.SRC_CONFIG_KEY );
+        final String path = getProject().getProperty( Context.SRC_CONFIG_KEY );
         if( null != path ) return path;
         return Context.SRC_CONFIG;
     }
 
     private String getSrcTest()
     {
-        String path = getProject().getProperty( Context.SRC_TEST_KEY );
+        final String path = getProject().getProperty( Context.SRC_TEST_KEY );
         if( null != path ) return path;
         return Context.SRC_TEST;
     }
 
 
-    private void prepareMain( File projectSrc, File targetMain, String source, String path )
+    private void prepareMain( final File projectSrc, final File targetMain, final String source, final String path )
     {
         if( null == projectSrc ) throw new NullPointerException( "projectSrc" );
         if( null == targetMain ) throw new NullPointerException( "targetMain" );
         if( null == source ) throw new NullPointerException( "source" );
         if( null == path ) throw new NullPointerException( "path" );
 
-        File src = new File( projectSrc, source );
+        final File src = new File( projectSrc, source );
         if( src.exists() )
         {
             log( 
@@ -180,26 +170,26 @@ public class PrepareTask extends SystemTask
               + path + " from " + source, 
               Project.MSG_VERBOSE );
 
-            File dest = new File( targetMain, path );
+            final File dest = new File( targetMain, path );
             mkDir( dest );
-            String filters = getProject().getProperty( SRC_FILTERED_INCLUDES_KEY );
+            final String filters = getProject().getProperty( SRC_FILTERED_INCLUDES_KEY );
             copy( src, dest, true, filters, "" );
             copy( src, dest, false, "**/*.*", filters );
         }
     }
 
     private void copy( 
-       File src, File destination, boolean filtering, String includes, String excludes )
+       final File src, final File destination, final boolean filtering, final String includes, final String excludes )
     {
         mkDir( destination );
 
-        Copy copy = (Copy) getProject().createTask( "copy" );
+        final Copy copy = (Copy) getProject().createTask( "copy" );
         copy.setTodir( destination );
         copy.setFiltering( filtering );
         copy.setOverwrite( false );
         copy.setPreserveLastModified( true );
 
-        FileSet fileset = new FileSet();
+        final FileSet fileset = new FileSet();
         fileset.setDir( src );
         fileset.setIncludes( includes );
         fileset.setExcludes( excludes );

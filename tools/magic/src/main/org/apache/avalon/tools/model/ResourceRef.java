@@ -34,7 +34,7 @@ public class ResourceRef
     private Policy m_policy;
     private int m_tag;
 
-    public static int getCategory( String category )
+    public static int getCategory( final String category )
     {
         if( "api".equals( category ) )
         {
@@ -54,7 +54,7 @@ public class ResourceRef
         }
     }
 
-    public static String getCategoryName( int category )
+    public static String getCategoryName( final int category )
     {
         if( category == API )
         {
@@ -70,12 +70,12 @@ public class ResourceRef
         }
     }
 
-    public ResourceRef( String key )
+    public ResourceRef( final String key )
     {
         this( key, new Policy(), ANY );
     }
 
-    public ResourceRef( String key, Policy policy, int tag )
+    public ResourceRef( final String key, final Policy policy, final int tag )
     {
         m_key = key;
         m_policy = policy;
@@ -97,7 +97,7 @@ public class ResourceRef
         return m_policy;
     }
 
-    public boolean matches( int category )
+    public boolean matches( final int category )
     {
         if(( ANY == category ) || ( ANY == m_tag ))
         {
@@ -109,11 +109,11 @@ public class ResourceRef
         }
     }
 
-    public boolean equals( Object other )
+    public boolean equals( final Object other )
     {
         if( other instanceof ResourceRef )
         {
-            ResourceRef ref = (ResourceRef) other;
+            final ResourceRef ref = (ResourceRef) other;
             if( !getKey().equals( ref.getKey() ) ) return false;
             if( !getPolicy().equals( ref.getPolicy() ) ) return false;
             return true;

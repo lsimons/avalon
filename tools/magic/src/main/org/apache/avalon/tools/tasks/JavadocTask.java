@@ -17,25 +17,23 @@
 
 package org.apache.avalon.tools.tasks;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.util.ArrayList;
 
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.types.DirSet;
-import org.apache.tools.ant.types.Path;
-import org.apache.tools.ant.taskdefs.Javadoc;
-
-import org.apache.avalon.tools.model.Context;
-import org.apache.avalon.tools.model.Home;
 import org.apache.avalon.tools.model.Definition;
 import org.apache.avalon.tools.model.ResourceRef;
 import org.apache.avalon.tools.model.Resource;
+import org.apache.tools.ant.BuildException;
 import org.apache.avalon.tools.model.Policy;
+import org.apache.avalon.tools.model.Home;
+import org.apache.avalon.tools.model.Context;
+
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.taskdefs.Javadoc;
+import org.apache.tools.ant.types.DirSet;
+import org.apache.tools.ant.types.Path;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Build the javadoc for a project. 
@@ -45,9 +43,6 @@ import org.apache.avalon.tools.model.Policy;
  */
 public class JavadocTask extends SystemTask
 {
-    private static final Link J2SE = 
-      new Link( "http://java.sun.com/j2se/1.4/docs/api/" );
-
     public static class Link
     {
         private String m_href;
@@ -60,23 +55,23 @@ public class JavadocTask extends SystemTask
             m_href = null;
         }
 
-        public Link( String href )
+        public Link( final String href )
         {
             this( href, null );
         }
 
-        public Link( String href, File dir )
+        public Link( final String href, final File dir )
         {
             m_href = href;
             m_dir = dir;
         }
 
-        public void setHref( String href )
+        public void setHref( final String href )
         {
             m_href = href;
         }
 
-        public void setTag( String tag )
+        public void setTag( final String tag )
         {
             m_tag = ResourceRef.getCategory( tag );
         }
@@ -86,17 +81,17 @@ public class JavadocTask extends SystemTask
             return m_href;
         }
 
-        public void setKey( String key )
+        public void setKey( final String key )
         {
             m_key = key;
         }
 
-        public void setDir( File dir )
+        public void setDir( final File dir )
         {
             m_dir = dir;
         }
 
-        public File getDir( Home home )
+        public File getDir( final Home home )
         {
             if( null == m_key )
             {
@@ -104,25 +99,25 @@ public class JavadocTask extends SystemTask
             }
             else
             {
-                Resource resource = home.getResource( m_key );
-                File cache = home.getDocsRepository().getCacheDirectory();
-                File group = new File( cache, resource.getInfo().getGroup() );
-                File docs = new File( group, resource.getInfo().getName() );
-                String category = ResourceRef.getCategoryName( m_tag );
-                String version = resource.getInfo().getVersion();
+                final Resource resource = home.getResource( m_key );
+                final File cache = home.getDocsRepository().getCacheDirectory();
+                final File group = new File( cache, resource.getInfo().getGroup() );
+                final File docs = new File( group, resource.getInfo().getName() );
+                final String category = ResourceRef.getCategoryName( m_tag );
+                final String version = resource.getInfo().getVersion();
                 if(( null == version ) || "".equals( version ))
                 {
                     return new File( docs, category );
                 }
                 else
                 {
-                    File vDir = new File( docs, version );
+                    final File vDir = new File( docs, version );
                     return new File( vDir, category );
                 }
             }
         }
 
-        public boolean matches( int category )
+        public boolean matches( final int category )
         {
             if( ResourceRef.ANY == category ) return true;
             if( ResourceRef.ANY == m_tag ) return true;
@@ -159,42 +154,42 @@ public class JavadocTask extends SystemTask
     private List m_links = new ArrayList();
     private boolean m_staged = false;
 
-    public void setId( String id )
+    public void setId( final String id )
     {
         m_id = id;
     }
 
-    public void setTitle( String title )
+    public void setTitle( final String title )
     {
         m_title = title;
     }
 
-    public void setStaged( boolean staged )
+    public void setStaged( final boolean staged )
     {
         m_staged = staged;
     }
 
     public Link createLink()
     {
-        Link link = new Link();
+        final Link link = new Link();
         m_links.add( link );
         return link;
     }
 
     public void execute() throws BuildException
     {
-        Definition def = getReferenceDefinition();
+        final Definition def = getReferenceDefinition();
 
         log( "Generating javadoc for project: " + def, Project.MSG_VERBOSE );
 
-        File root = def.getDocDirectory();
-        Path classpath = def.getPath( getProject(), Policy.RUNTIME );
+        final File root = def.getDocDirectory();
+        final Path classpath = def.getPath( getProject(), Policy.RUNTIME );
 
         if( m_staged )
         {
-            File api = new File( root, "api" );
-            File spi = new File( root, "spi" );
-            File imp = new File( root, "impl" );
+            final File api = new File( root, "api" );
+            final File spi = new File( root, "spi" );
+            final File imp = new File( root, "impl" );
 
             setup( def, classpath, ResourceRef.API, api, false );
             setup( def, classpath, ResourceRef.SPI, spi, false );
@@ -207,26 +202,25 @@ public class JavadocTask extends SystemTask
     }
 
     private void setup( 
-      Definition def, Path classpath, int category, File root, boolean flag )
+      final Definition def, final Path classpath, final int category, final File root, final boolean flag )
     {
-        ResourceRef[] refs = 
+        final ResourceRef[] refs =
           def.getResourceRefs( Policy.RUNTIME, category, true );
         if( flag || ( refs.length > 0 ))
         {
-            String message = ResourceRef.getCategoryName( category );
             generate( def, classpath, refs, category, root, flag );
         }
     }
 
     private void generate( 
-       Definition definition, Path classpath, ResourceRef[] refs, 
-       int category, File root, boolean flag )
+       final Definition definition, final Path classpath, final ResourceRef[] refs,
+       final int category, final File root, final boolean flag )
     {
-        Javadoc javadoc = (Javadoc) getProject().createTask( "javadoc" );
+        final Javadoc javadoc = (Javadoc) getProject().createTask( "javadoc" );
 
         javadoc.init();
         javadoc.setDestdir( root );
-        Path source = javadoc.createSourcepath();
+        final Path source = javadoc.createSourcepath();
         javadoc.createClasspath().add( classpath );
         final String title = getTitle( definition, category );
         javadoc.setDoctitle( title );
@@ -235,12 +229,12 @@ public class JavadocTask extends SystemTask
 
         for( int i=0; i<m_links.size(); i++ )
         {
-            Link link = (Link) m_links.get( i );
+            final Link link = (Link) m_links.get( i );
             if( link.matches( category ) )
             {
-                Javadoc.LinkArgument arg = javadoc.createLink();
+                final Javadoc.LinkArgument arg = javadoc.createLink();
                 arg.setHref( link.getHref() );
-                File dir = link.getDir( getHome() );
+                final File dir = link.getDir( getHome() );
                 if( null != dir )
                 {
                     if( dir.exists() )
@@ -265,18 +259,18 @@ public class JavadocTask extends SystemTask
 
         for( int i=0; i<refs.length; i++ )
         {
-            ResourceRef ref = refs[i];
-            Resource resource = getHome().getResource( ref );
+            final ResourceRef ref = refs[i];
+            final Resource resource = getHome().getResource( ref );
             if( resource instanceof Definition )
             {
-                Definition def = (Definition) resource;
-                File base = def.getBasedir();
-                File src = Context.getFile( base, "target/build/main" );
+                final Definition def = (Definition) resource;
+                final File base = def.getBasedir();
+                final File src = Context.getFile( base, "target/build/main" );
                 if( src.exists() )
                 {
                     log( "Adding src path: " + src );
                     source.createPathElement().setLocation( src );
-                    DirSet packages = new DirSet();
+                    final DirSet packages = new DirSet();
                     packages.setDir( src );
                     packages.setIncludes( "**/**" );
                     javadoc.addPackageset( packages );
@@ -290,12 +284,12 @@ public class JavadocTask extends SystemTask
 
         if( flag )
         {
-            File basedir = definition.getBasedir();
-            File local = new File( basedir, "target/build/main" );
+            final File basedir = definition.getBasedir();
+            final File local = new File( basedir, "target/build/main" );
             if( local.exists() )
             {
                 source.createPathElement().setLocation( local );
-                DirSet packages = new DirSet();
+                final DirSet packages = new DirSet();
                 packages.setDir( local );
                 packages.setIncludes( "**/**" );
                 javadoc.addPackageset( packages );
@@ -305,9 +299,9 @@ public class JavadocTask extends SystemTask
         javadoc.execute();
     }
 
-    private String getTitle( Definition def, int category )
+    private String getTitle( final Definition def, final int category )
     {
-        String extra = getTitleSuppliment( def, category );
+        final String extra = getTitleSuppliment( def, category );
         if( null == m_title )
         {
             return def.getInfo().getName() + extra;
@@ -315,10 +309,10 @@ public class JavadocTask extends SystemTask
         return m_title + extra;
     }
 
-    private String getTitleSuppliment( Definition def, int cat )
+    private String getTitleSuppliment( final Definition def, final int cat )
     {
-        String category = ResourceRef.getCategoryName( cat ).toUpperCase();
-        String version = def.getInfo().getVersion();
+        final String category = ResourceRef.getCategoryName( cat ).toUpperCase();
+        final String version = def.getInfo().getVersion();
         if( null == version )
         {
             return " : " + category;

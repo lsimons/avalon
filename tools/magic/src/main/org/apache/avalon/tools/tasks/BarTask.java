@@ -17,27 +17,15 @@
 
 package org.apache.avalon.tools.tasks;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.Project;
+import org.apache.avalon.tools.model.Definition;
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.taskdefs.Delete;
 import org.apache.tools.ant.taskdefs.Jar;
-import org.apache.tools.ant.taskdefs.Mkdir;
-import org.apache.tools.ant.taskdefs.Checksum;
 import org.apache.tools.ant.taskdefs.Manifest;
 import org.apache.tools.ant.taskdefs.ManifestException;
-import org.apache.tools.ant.taskdefs.Execute;
 import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.types.Path;
 
-import org.apache.avalon.tools.model.Context;
-import org.apache.avalon.tools.model.Home;
-import org.apache.avalon.tools.model.Definition;
-import org.apache.avalon.tools.model.ResourceRef;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Load a goal. 
@@ -51,12 +39,12 @@ public class BarTask extends AbstractDeliverableTask
 
     private String m_name;
 
-    public void setName( String name )
+    public void setName( final String name )
     {
         m_name = name;
     }
     
-    private String getName( Definition def )
+    private String getName( final Definition def )
     {
         if( null == m_name )
         {
@@ -70,35 +58,28 @@ public class BarTask extends AbstractDeliverableTask
 
     public void execute() throws BuildException 
     {
-        File deliverables = 
+        final File deliverables =
           getContext().getDeliverablesDirectory();
-        Definition def = getHome().getDefinition( getKey() );
-        String filename = getName( def );
-        String type = def.getInfo().getType();
-        File types = new File( deliverables, BAR_EXT + "s" );
-        File bar = new File( types, filename );
+        final Definition def = getHome().getDefinition( getKey() );
+        final String filename = getName( def );
+
+        final File types = new File( deliverables, BAR_EXT + "s" );
+        final File bar = new File( types, filename );
 
         if( deliverables.exists() )
         {
-            try
+            final boolean modified = bar( def, deliverables, bar );
+            if( modified )
             {
-                boolean modified = bar( def, deliverables, bar );
-                if( modified )
-                {
-                    checksum( bar );
-                    asc( bar );
-                }
-            }
-            catch( IOException ioe )
-            {
-                throw new BuildException( ioe );
+                checksum( bar );
+                asc( bar );
             }
         }
     }
 
-    private boolean bar( Definition def, File deliverables, File bar )
+    private boolean bar( final Definition def, final File deliverables, final File bar )
     {
-        File dir = bar.getParentFile();
+        final File dir = bar.getParentFile();
         mkDir( dir );
 
         long modified = -1;
@@ -107,12 +88,12 @@ public class BarTask extends AbstractDeliverableTask
             modified = bar.lastModified();
         }
 
-        FileSet fileset = new FileSet();
+        final FileSet fileset = new FileSet();
         fileset.setDir( deliverables );
         fileset.createInclude().setName( "**/*" );
         fileset.createExclude().setName( "**/*." + BAR_EXT + "*" );
  
-        Jar jar = (Jar) getProject().createTask( "jar" );
+        final Jar jar = (Jar) getProject().createTask( "jar" );
         jar.setDestFile( bar );
         jar.addFileset( fileset );
         jar.setIndex( true );
@@ -123,16 +104,16 @@ public class BarTask extends AbstractDeliverableTask
         return bar.lastModified() > modified;
     }
 
-    private void addManifest( Jar jar, Definition def )
+    private void addManifest( final Jar jar, final Definition def )
     {
         try
         {
-            Manifest manifest = new Manifest();
-            Manifest.Section main = manifest.getMainSection();
+            final Manifest manifest = new Manifest();
+            final Manifest.Section main = manifest.getMainSection();
             addAttribute( main, "Created-By", "Apache Avalon" );
             addAttribute( main, "Built-By", System.getProperty( "user.name" ) );    
 
-            Manifest.Section block = new Manifest.Section();
+            final Manifest.Section block = new Manifest.Section();
             block.setName( "Block" );
             addAttribute( block, "Block-Group", def.getInfo().getGroup() );    
             addAttribute( block, "Block-Name", def.getInfo().getName() );
@@ -154,10 +135,10 @@ public class BarTask extends AbstractDeliverableTask
     }
 
     private void addAttribute( 
-      Manifest.Section section, String name, String value )
+      final Manifest.Section section, final String name, final String value )
       throws ManifestException
     {
-        Manifest.Attribute attribute = new Manifest.Attribute( name, value );
+        final Manifest.Attribute attribute = new Manifest.Attribute( name, value );
         section.addConfiguredAttribute( attribute );
     }
 }
