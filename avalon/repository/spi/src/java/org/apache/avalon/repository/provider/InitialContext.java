@@ -30,7 +30,7 @@ import org.apache.avalon.repository.RepositoryException;
  * The initial context established by an initial repository factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13 $ $Date: 2004/02/27 22:39:37 $
+ * @version $Revision: 1.14 $ $Date: 2004/03/04 03:26:41 $
  */
 public interface InitialContext
 {        
@@ -44,6 +44,12 @@ public interface InitialContext
     * The property key used declare the online connection policy.
     */
     String ONLINE_KEY = "avalon.repository.online";
+
+   /**
+    * The property key used when resolving a sequence of factory
+    * artifact references.
+    */
+    String FACTORY_ARTIFACTS_KEY = "avalon.repository.artifacts";
 
    /**
     * The property key used when resolving the default cache directory.
@@ -111,13 +117,6 @@ public interface InitialContext
     * @return the repository
     */
     Repository getRepository();
-
-   /**
-    * Return the factory registry.
-    *
-    * @return the registry
-    */
-    Registry getRegistry();
 
    /**
     * Create a factory builder using a supplied artifact.

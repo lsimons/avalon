@@ -23,7 +23,7 @@ import javax.naming.directory.Attributes ;
 /**
  * A service that provides access to versioned resources.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/24 22:18:23 $
+ * @version $Revision: 1.4 $ $Date: 2004/03/04 03:26:41 $
  */
 public interface Repository
 {
@@ -55,6 +55,14 @@ public interface Repository
      * @return the resource url
      */
     URL getResource( Artifact artifact ) throws RepositoryException;
+
+   /**
+    * Return the set of available artifacts capable of providing the  
+    * supplied service class.
+    *
+    * @return the set of candidate factory artifacts
+    */
+    Artifact[] getCandidates( Class service );
 
     /**
      * Creates a ClassLoader chain returning the lowest ClassLoader containing 

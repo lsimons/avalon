@@ -26,6 +26,7 @@ import java.util.Map;
 import java.net.URL;
 import java.net.MalformedURLException;
 
+import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.RepositoryException;
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.RepositoryCriteria;
@@ -45,7 +46,7 @@ import org.apache.avalon.util.defaults.DefaultsBuilder;
  * for application to a factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class DefaultRepositoryCriteria extends Criteria implements RepositoryCriteria
 {
@@ -70,7 +71,11 @@ public class DefaultRepositoryCriteria extends Criteria implements RepositoryCri
           new PackedParameter( 
             REPOSITORY_REMOTE_HOSTS,
             ",",
-            context.getInitialHosts() ) };
+            context.getInitialHosts() ),
+          new ArtifactSequenceParameter( 
+            REPOSITORY_FACTORY_ARTIFACTS,
+            ",",
+            new Artifact[0] ) };
     }
 
     //--------------------------------------------------------------
@@ -142,6 +147,15 @@ public class DefaultRepositoryCriteria extends Criteria implements RepositoryCri
     {
         put( REPOSITORY_REMOTE_HOSTS, hosts );
     }
+
+    public void setFactoryArtifacts( Artifact[] artifacts )
+    {
+        put( REPOSITORY_FACTORY_ARTIFACTS, artifacts );
+    }
+
+    //--------------------------------------------------------------
+    // Object
+    //--------------------------------------------------------------
 
     public String toString()
     {

@@ -48,7 +48,7 @@ import org.apache.avalon.repository.RepositoryException;
  * artifact references.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class LoaderUtils
 {
@@ -88,7 +88,8 @@ public class LoaderUtils
             else
             {
                 final String error = 
-                  "Artifact [" + artifact + "] does not exist in local cache (repository offline).";
+                  "Artifact [" + artifact 
+                  + "] does not exist in local cache.";
                 throw new RepositoryException( error );
             }
         }
@@ -155,7 +156,8 @@ public class LoaderUtils
 
         Exception cause = null;
 
-        File destination = new File( root, artifact.getPath() + "." + mime );
+        File destination = 
+          new File( root, artifact.getPath() + "." + mime );
         
         if( !m_online )
         {
@@ -168,7 +170,7 @@ public class LoaderUtils
                 final String error = 
                   "Artifact ["
                   + artifact.getPath() + "." + mime 
-                  + "] does not exist in local cache (repository offline).";
+                  + "] does not exist in local cache.";
                 throw new RepositoryException( error );
             }
         }

@@ -81,7 +81,7 @@ import org.apache.avalon.util.defaults.Defaults;
  * </pre>
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class DefaultInitialContextFactory implements InitialContextFactory
 {
@@ -108,8 +108,6 @@ public class DefaultInitialContextFactory implements InitialContextFactory
 
     private final Properties m_properties;
 
-    private final List m_registry = new ArrayList();
-
     //------------------------------------------------------------------
     // mutable state 
     //------------------------------------------------------------------
@@ -131,6 +129,8 @@ public class DefaultInitialContextFactory implements InitialContextFactory
     private String m_proxyPassword;
 
     private boolean m_online;
+
+    private Artifact[] m_registry;
 
     // ------------------------------------------------------------------------
     // constructor
@@ -208,8 +208,7 @@ public class DefaultInitialContextFactory implements InitialContextFactory
 
         m_properties = 
           m_defaults.getConsolidatedProperties(
-            getDefaultProperties(), 
-            KEYS );
+            getDefaultProperties(), KEYS );
         Defaults.macroExpand( 
             m_properties, 
             new Properties[]{ m_properties } );
@@ -240,12 +239,12 @@ public class DefaultInitialContextFactory implements InitialContextFactory
     // ------------------------------------------------------------------------
 
    /**
-    * Register a factory artifict.
-    * @param artifact the artifact reference
+    * Register a set of factory artifacts.
+    * @param artifacts the artifact references
     */
-    public void addFactoryArtifact( Artifact artifact )
+    public void setFactoryArtifacts( Artifact[] artifacts )
     {
-        m_registry.add( artifact );
+        m_registry = artifacts;
     }
 
    /**
@@ -391,7 +390,8 @@ public class DefaultInitialContextFactory implements InitialContextFactory
     */
     public Artifact[] getRegisteredArtifacts()
     {
-        return (Artifact[]) m_registry.toArray( new Artifact[0] );
+        if( null != m_registry ) return m_registry;
+        return new Artifact[0];
     }
 
    /**
