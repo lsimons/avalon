@@ -25,12 +25,13 @@
         <ant dir="threadcontext" target="dist"/>
         <ant dir="sourceresolve" target="dist"/>
         <ant dir="monitor" target="dist"/>
+        <ant dir="store" target="dist"/>             
         
         <!-- Sub projects with dependencies. -->
         <ant dir="pool" target="dist"/>               <!-- collections, concurrent, instrument -->
         <ant dir="thread" target="dist"/>             <!-- lang, instrument, threadcontext, pool -->
         <ant dir="component" target="dist"/>          <!-- collections, logger, instrument, pool -->
-        <ant dir="xmlbundle" target="dist"/>          <!-- component -->
+        <ant dir="xmlbundle" target="dist"/>          <!-- component, store -->
         <ant dir="util" target="dist"/>               <!-- component -->
         <ant dir="testcase" target="dist"/>           <!-- logger, component -->
         <ant dir="event" target="dist"/>              <!-- collections, concurrent, lang, pool, thread, util, event -->
@@ -46,7 +47,6 @@
         <ant dir="extension" target="dist"/>
         <ant dir="i18n" target="dist"/>
         <ant dir="io" target="dist"/>
-        <ant dir="store" target="dist"/>              <!-- io -->
         <ant dir="naming" target="dist"/>
         <ant dir="tar" target="dist"/>
         <ant dir="zip" target="dist"/>
@@ -204,6 +204,7 @@
                     <include name="cli/dist/*.jar"/>
                     <include name="naming/dist/*.jar"/>
                     <include name="monitor/dist/*.jar"/>
+                    <include name="store/dist/*.jar"/>
                     <!--
                     <include name="instrument-manager/dist/*.jar"/>
                     <include name="instrument-client/dist/*.jar"/>
@@ -241,13 +242,14 @@
         <ant dir="threadcontext" target="jar"/>
         <ant dir="sourceresolve" target="jar"/>
         <ant dir="monitor" target="jar"/>
+        <ant dir="store" target="jar"/>              
         
         <!-- Sub projects with dependencies. -->
         <ant dir="pool" target="jar"/>               <!-- collections, concurrent, instrument, sourceresolve -->
         <ant dir="datasource" target="jar"/>         <!-- pool -->
         <ant dir="thread" target="jar"/>             <!-- lang, instrument, threadcontext, pool -->
         <ant dir="component" target="jar"/>          <!-- collections, logger, instrument, pool -->
-        <ant dir="xmlbundle" target="jar"/>          <!-- component -->
+        <ant dir="xmlbundle" target="jar"/>          <!-- component, store -->
         <ant dir="util" target="jar"/>               <!-- component -->
         <ant dir="testcase" target="jar"/>           <!-- logger, component -->
         <ant dir="event" target="jar"/>              <!-- collections, concurrent, lang, pool, thread, util, event -->
@@ -263,7 +265,6 @@
         <ant dir="extension" target="jar"/>
         <ant dir="i18n" target="jar"/>
         <ant dir="io" target="jar"/>
-        <ant dir="store" target="jar"/>              <!-- io -->
         <ant dir="naming" target="jar"/>
         <ant dir="tar" target="jar"/>
         <ant dir="zip" target="jar"/>

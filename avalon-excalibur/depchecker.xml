@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.25 $
+                   Version $Revision: 1.26 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -387,6 +387,13 @@ To use it, type 'ant -f depchecker.xml'
             <property name="name" value="excalibur-io.jar"/>
             <property name="path" value="${excalibur-io.jar}"/>
             <property name="proj.home" value="${basedir}/../io"/>
+        </ant>
+    </target>
+    <target name="checkStore">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-store.jar"/>
+            <property name="path" value="${excalibur-store.jar}"/>
+            <property name="proj.home" value="${basedir}/../store"/>
         </ant>
     </target>
     <target name="checkLogkit">
