@@ -59,7 +59,7 @@ import org.apache.avalon.framework.logger.Loggable;
  * for backwards compatability.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003/02/25 16:28:21 $
+ * @version $Revision: 1.6 $ $Date: 2003/06/27 09:50:54 $
  */
 public class AbstractDualLogEnabled
     extends AbstractLogEnabled
@@ -70,7 +70,10 @@ public class AbstractDualLogEnabled
     public void setLogger( org.apache.log.Logger logger )
     {
         m_logkitLogger = logger;
-        enableLogging( new LogKitLogger( logger ) );
+        // are we already enabled
+        if ( this.getLogger() == null ) {
+            enableLogging( new LogKitLogger( logger ) );
+        }
     }
 
     protected final org.apache.log.Logger getLogkitLogger()
