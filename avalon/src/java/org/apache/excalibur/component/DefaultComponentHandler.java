@@ -7,7 +7,7 @@
  */
 package org.apache.excalibur.component;
 
-import org.apache.avalon.Stoppable;
+import org.apache.avalon.activity.Startable;
 import org.apache.avalon.activity.Disposable;
 import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.component.Component;
@@ -22,7 +22,7 @@ import org.apache.log.Logger;
  * and destroyed correctly.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $ $Date: 2001/04/25 14:24:38 $
+ * @version CVS $Revision: 1.4 $ $Date: 2001/04/25 17:34:28 $
  */
 class DefaultComponentHandler
     extends ComponentHandler

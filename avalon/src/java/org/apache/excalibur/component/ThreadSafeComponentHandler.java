@@ -7,7 +7,7 @@
  */
 package org.apache.excalibur.component;
 
-import org.apache.avalon.Stoppable;
+import org.apache.avalon.activity.Startable;
 import org.apache.avalon.activity.Disposable;
 import org.apache.avalon.component.Component;
 import org.apache.avalon.component.ComponentManager;
@@ -20,7 +20,7 @@ import org.apache.log.Logger;
  * and destroyed correctly.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/04/25 14:24:39 $
+ * @version CVS $Revision: 1.3 $ $Date: 2001/04/25 17:34:28 $
  */
 public class ThreadSafeComponentHandler extends ComponentHandler {
     private Component m_instance;
@@ -139,9 +139,9 @@ public class ThreadSafeComponentHandler extends ComponentHandler {
             }
             else
             {
-                if( m_instance instanceof Stoppable )
+                if( m_instance instanceof Startable )
                 {
-                    ((Stoppable)m_instance).stop();
+                    ((Startable)m_instance).stop();
                 }
 
                 if( m_instance instanceof Disposable )
