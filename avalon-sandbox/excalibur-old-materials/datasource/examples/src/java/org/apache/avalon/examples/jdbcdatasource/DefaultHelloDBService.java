@@ -12,18 +12,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-
 import org.apache.avalon.excalibur.datasource.DataSourceComponent;
-
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.ComponentSelector;
-import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.ServiceSelector;
+import org.apache.avalon.framework.service.Serviceable;
 
 /**
  * This example application creates a conmponent which makes use of a JdbcDataSource to
@@ -33,20 +32,18 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * Note, this code ignores exceptions to keep the code simple.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/10/03 03:36:06 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/11/07 05:19:11 $
  * @since 4.1
  */
 public class DefaultHelloDBService
     extends AbstractLogEnabled
-    implements HelloDBService, Composable, Configurable, Initializable, Disposable
+    implements HelloDBService, Serviceable, Configurable, Initializable, Disposable
 {
     /** ComponentManager which created this component */
-    protected ComponentManager  m_manager;
-
-    private String              m_dataSourceName;
-    private ComponentSelector   m_dbSelector;
+    private String m_dataSourceName;
+    private ServiceSelector m_dbSelector;
     private DataSourceComponent m_dataSource;
-    
+
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -54,7 +51,7 @@ public class DefaultHelloDBService
     public DefaultHelloDBService()
     {
     }
-    
+
     /*---------------------------------------------------------------
      * Private Methods
      *-------------------------------------------------------------*/
@@ -71,7 +68,7 @@ public class DefaultHelloDBService
     {
         return m_dataSource.getConnection();
     }
-    
+
     /**
      * Initializes the database by creating the required table.  Normally
      *   this would not be needed.  But doing this with HSQLDB makes it easier
@@ -100,9 +97,9 @@ public class DefaultHelloDBService
                 conn.close();
             }
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            if ( e.getMessage().startsWith( "Table already exists" ) )
+            if( e.getMessage().startsWith( "Table already exists" ) )
             {
                 // Table is already there.  Must have run the example before.
             }
@@ -112,7 +109,7 @@ public class DefaultHelloDBService
             }
         }
     }
-    
+
     /*---------------------------------------------------------------
      * HelloDBService Methods
      *-------------------------------------------------------------*/
@@ -124,7 +121,7 @@ public class DefaultHelloDBService
     public void addRow( String title )
     {
         getLogger().debug( "DefaultHelloDBService.addRow(" + title + ")" );
-        
+
         try
         {
             Connection conn = getConnection();
@@ -134,14 +131,14 @@ public class DefaultHelloDBService
                     "INSERT INTO titles (title, time) VALUES (?, now())" );
                 stmt.setString( 1, title );
                 int result = stmt.executeUpdate();
-                if ( result == 1 )
+                if( result == 1 )
                 {
                     System.out.println( "Added '" + title + "' to the database." );
                 }
                 else
                 {
                     getLogger().error( "Unable to add title to the database.  database returned " +
-                        result + " inserted." );
+                                       result + " inserted." );
                 }
             }
             finally
@@ -150,19 +147,19 @@ public class DefaultHelloDBService
                 conn.close();
             }
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
             getLogger().error( "Unable to add title to the database.", e );
         }
     }
-    
+
     /**
      * Ask the component to delete all rows in the database.
      */
     public void deleteRows()
     {
         getLogger().debug( "DefaultHelloDBService.deleteRows()" );
-        
+
         try
         {
             Connection conn = getConnection();
@@ -179,12 +176,12 @@ public class DefaultHelloDBService
                 conn.close();
             }
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
             getLogger().error( "Unable to delete old titles from the database.", e );
         }
     }
-    
+
     /**
      * Ask the component to log all of the rows in the database to the logger
      *  with the info log level.
@@ -192,7 +189,7 @@ public class DefaultHelloDBService
     public void logRows()
     {
         getLogger().debug( "DefaultHelloDBService.logRows()" );
-        
+
         try
         {
             Connection conn = getConnection();
@@ -202,16 +199,16 @@ public class DefaultHelloDBService
                     "SELECT title, time FROM titles" );
                 ResultSet rs = stmt.executeQuery();
                 int count = 0;
-                while ( rs.next() )
+                while( rs.next() )
                 {
                     String title = rs.getString( 1 );
                     Timestamp time = rs.getTimestamp( 2 );
-                    
+
                     System.out.println( "    '" + title + "' saved at " + time );
                     count++;
                 }
-                
-                if ( count == 0 )
+
+                if( count == 0 )
                 {
                     System.out.println( "The database does not contain any saved titles." );
                 }
@@ -226,12 +223,12 @@ public class DefaultHelloDBService
                 conn.close();
             }
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
             getLogger().error( "Unable to delete old titles from the database.", e );
         }
     }
-    
+
     /*---------------------------------------------------------------
      * Composable Methods
      *-------------------------------------------------------------*/
@@ -240,14 +237,16 @@ public class DefaultHelloDBService
      *  is controlling it.
      *
      * @param manager which curently owns the component.
+     *
+     * @avalon.service interface="org.apache.avalon.excalibur.datasource.DataSourceComponentSelector"
      */
-    public void compose( ComponentManager manager )
+    public void service( final ServiceManager manager )
+        throws ServiceException
     {
         getLogger().debug( "DefaultHelloDBService.compose()" );
-
-        m_manager = manager;
+        m_dbSelector = (ServiceSelector)manager.lookup( DataSourceComponent.ROLE + "Selector" );
     }
-    
+
     /*---------------------------------------------------------------
      * Configurable Methods
      *-------------------------------------------------------------*/
@@ -266,7 +265,7 @@ public class DefaultHelloDBService
         // Obtain a reference to the configured DataSource
         m_dataSourceName = configuration.getChild( "dbpool" ).getValue();
     }
-    
+
     /*---------------------------------------------------------------
      * Initializable Methods
      *-------------------------------------------------------------*/
@@ -281,13 +280,12 @@ public class DefaultHelloDBService
         getLogger().debug( "DefaultHelloDBService.initialize()" );
 
         // Get a reference to a data source
-        m_dbSelector = (ComponentSelector)m_manager.lookup( DataSourceComponent.ROLE + "Selector" );
         m_dataSource = (DataSourceComponent)m_dbSelector.select( m_dataSourceName );
-        
+
         // Initialize the database.
         initializeDatabase();
     }
-    
+
     /*---------------------------------------------------------------
      * Disposable Methods
      *-------------------------------------------------------------*/
@@ -299,15 +297,13 @@ public class DefaultHelloDBService
         getLogger().debug( "DefaultHelloDBService.dispose()" );
 
         // Free up the data source
-        if ( m_dbSelector != null )
+        if( m_dbSelector != null )
         {
-            if ( m_dataSource != null )
+            if( m_dataSource != null )
             {
                 m_dbSelector.release( m_dataSource );
                 m_dataSource = null;
             }
-
-            m_manager.release( m_dbSelector );
             m_dbSelector = null;
         }
     }
