@@ -66,8 +66,8 @@ package org.apache.avalon.phoenix.framework.info;
  * Attributes are container specific and should not be relied
  * upon to work in all containers.</p>
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:13 $
+ * @author Peter Donald
+ * @version $Revision: 1.4 $ $Date: 2003/12/05 15:14:37 $
  */
 public final class ServiceDescriptor
     extends FeatureDescriptor

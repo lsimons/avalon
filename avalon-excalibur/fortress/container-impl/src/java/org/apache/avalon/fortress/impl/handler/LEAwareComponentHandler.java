@@ -58,8 +58,8 @@ import org.apache.avalon.framework.context.Context;
  * A ComponentHandler that delegates to underlying handler but also
  * calls relevent Lifecycle Extension handlers at the right time.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.14 $ $Date: 2003/05/14 15:54:45 $
+ * @author Peter Donald
+ * @version CVS $Revision: 1.15 $ $Date: 2003/12/05 15:13:03 $
  */
 public final class LEAwareComponentHandler
     implements ComponentHandler, Disposable

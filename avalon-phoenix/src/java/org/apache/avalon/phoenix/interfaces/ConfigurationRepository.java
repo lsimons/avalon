@@ -56,7 +56,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 /**
  * Repository from which all configuration data is retrieved.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public interface ConfigurationRepository
 {

@@ -79,7 +79,7 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
  * represents an aggregation of blocks that act together to form
  * an application.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:leosimons@apache.org">Leo Simons</a>
  */
 public final class DefaultApplication

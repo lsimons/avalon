@@ -59,7 +59,7 @@ import org.apache.avalon.phoenix.interfaces.ContainerConstants;
 /**
  * This is the structure describing each block before it is loaded.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 class BlockEntry
 {

@@ -75,7 +75,7 @@ import org.apache.avalon.repository.impl.DefaultAuthenticator;
 
 /**
  * Embedded kernel implementation.
- *
+
  * @author mcconnell@apache.org
  */
 public class DefaultEmbeddedKernel implements Runnable, Kernel

@@ -63,7 +63,7 @@ import org.apache.avalon.excalibur.io.FileUtil;
 /**
  * This is used to test FileUtil for correctness.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class FileUtilTestCase
     extends TestCase

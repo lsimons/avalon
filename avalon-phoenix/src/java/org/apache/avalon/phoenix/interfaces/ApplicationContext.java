@@ -59,7 +59,7 @@ import org.apache.excalibur.instrument.InstrumentManager;
 /**
  * Manage the "context" in which Applications operate.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public interface ApplicationContext
 {

@@ -62,7 +62,7 @@ package org.apache.log;
  * along chain or that the LogEvents passed alongare modified
  * in some manner.</p>
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @deprecated Interface offered no significant advantage and thus will no
  *             longer be used by new interfaces
  */

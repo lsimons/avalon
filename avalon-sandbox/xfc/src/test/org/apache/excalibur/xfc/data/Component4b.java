@@ -56,8 +56,8 @@ import org.apache.avalon.framework.component.ComponentException;
 /**
  * A component used to test xfc.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/05/03 05:10:06 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003/12/05 15:15:17 $
  */
 public class Component4b
     implements Role4, ThreadSafe

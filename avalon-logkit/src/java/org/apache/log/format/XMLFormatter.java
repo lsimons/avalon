@@ -63,7 +63,7 @@ import org.apache.log.LogEvent;
  * Note that this formatter assumes that the category and context
  * values will produce strings that do not need to be escaped in XML.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class XMLFormatter
     implements Formatter, org.apache.log.Formatter

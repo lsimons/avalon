@@ -68,7 +68,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * Implementation of SocketManager.
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class DefaultSocketManager
     extends AbstractLogEnabled

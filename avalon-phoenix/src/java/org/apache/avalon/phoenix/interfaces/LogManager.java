@@ -58,7 +58,7 @@ import org.realityforge.loggerstore.LoggerStore;
 /**
  * Interface that is used to manage Log objects for a Sar.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public interface LogManager
 {

@@ -56,7 +56,7 @@ package org.apache.avalon.phoenix.interfaces;
  *
  * @phoenix:mx-topic name="Kernel"
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public interface KernelMBean
 {

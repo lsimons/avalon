@@ -64,7 +64,7 @@ import org.apache.log.util.LoggerListener;
  * The hierarchy is essentially a safe wrapper around root logger.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class Hierarchy
 {

@@ -54,7 +54,7 @@ import java.util.HashMap;
 /**
  * Manager for resources.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class ResourceManager
 {

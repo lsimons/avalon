@@ -17,7 +17,7 @@ import java.util.StringTokenizer;
  * A set of utilities that help when writing
  * Launchers.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class LauncherUtils
 {

@@ -83,10 +83,10 @@ import java.net.URL;
  * clean} a directory.
  * </p>
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
  * @author <a href="mailto:nl@novadeck.com">Nicolas Leclerc</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/11/09 15:31:39 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/12/05 15:13:51 $
  * @since 4.0
  */
 public final class FileUtil

@@ -55,8 +55,8 @@ import org.apache.avalon.fortress.RoleManager;
 
 /**
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003/05/29 17:51:16 $
+ * @author Peter Donald
+ * @version $Revision: 1.3 $ $Date: 2003/12/05 15:13:03 $
  */
 public class AbstractRoleManagerTestCase extends TestCase
 {

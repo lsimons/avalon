@@ -62,8 +62,8 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * The interface via which resources required for a component
  * are aquired.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003/03/22 12:07:12 $
+ * @author Peter Donald
+ * @version $Revision: 1.6 $ $Date: 2003/12/05 15:14:37 $
  */
 public interface ResourceProvider
 {

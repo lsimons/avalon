@@ -53,7 +53,7 @@ package org.apache.avalon.phoenix;
 /**
  * Package access to kernel constants.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @deprecated User code should not be directly referencing this class
  */
 public interface Constants

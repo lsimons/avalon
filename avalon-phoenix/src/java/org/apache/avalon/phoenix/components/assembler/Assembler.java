@@ -70,8 +70,8 @@ import org.apache.avalon.phoenix.interfaces.ContainerConstants;
  * object. The Configuration object represents the assembly descriptor
  * and is in the format specified for <tt>assembly.xml</tt> files.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003/04/06 11:23:21 $
+ * @author Peter Donald
+ * @version $Revision: 1.11 $ $Date: 2003/12/05 15:14:35 $
  */
 public class Assembler
     extends AbstractLogEnabled

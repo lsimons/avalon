@@ -72,8 +72,8 @@ package org.apache.avalon.phoenix.framework.info;
  * it is persistent etc. These are all container specific
  * demands.</p>
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:13 $
+ * @author Peter Donald
+ * @version $Revision: 1.4 $ $Date: 2003/12/05 15:14:37 $
  */
 public final class DependencyDescriptor
     extends FeatureDescriptor

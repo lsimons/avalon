@@ -65,8 +65,8 @@ import org.apache.avalon.excalibur.extension.Extension;
  * Java2 Standard Edition package, in file
  * <code>guide/extensions/versioning.html</code></p>.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/04/30 10:03:52 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003/12/05 15:14:36 $
  */
 public interface ExtensionManager
 {

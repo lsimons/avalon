@@ -67,8 +67,8 @@ package org.apache.excalibur.mpool;
  *
  * @author <a href="mailto:bloritach@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/03/22 12:46:28 $
+ * @author Peter Donald
+ * @version CVS $Revision: 1.6 $ $Date: 2003/12/05 15:13:53 $
  * @since 4.0
  */
 public interface Resettable

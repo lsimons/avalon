@@ -64,7 +64,7 @@ import java.util.ResourceBundle;
  *
  * Reworked to mirror behaviour of StringManager from Tomcat (format() to getString()).
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class Resources
 {

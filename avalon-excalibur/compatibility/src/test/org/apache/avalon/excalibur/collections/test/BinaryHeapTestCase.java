@@ -55,7 +55,7 @@ import org.apache.avalon.excalibur.collections.BinaryHeap;
 
 /**
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class BinaryHeapTestCase
     extends TestCase

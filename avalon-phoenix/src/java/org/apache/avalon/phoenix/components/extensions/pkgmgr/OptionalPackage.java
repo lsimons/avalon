@@ -57,7 +57,7 @@ import org.apache.avalon.excalibur.extension.Extension;
  * (formerly known as "Standard Extension") as described in the manifest
  * of a JAR file.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class OptionalPackage
 {

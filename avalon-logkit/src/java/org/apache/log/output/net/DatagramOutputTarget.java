@@ -66,7 +66,7 @@ import org.apache.log.output.AbstractOutputTarget;
  * Useful for writing using custom protocols or writing to syslog daemons.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class DatagramOutputTarget
     extends AbstractOutputTarget

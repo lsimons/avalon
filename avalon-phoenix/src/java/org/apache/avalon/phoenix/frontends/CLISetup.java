@@ -63,7 +63,7 @@ import org.apache.avalon.phoenix.interfaces.SystemManager;
 /**
  * The class prepare parameters based on input options.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mail@leosimons.com">Leo Simons</a>
  */
 class CLISetup

@@ -59,7 +59,7 @@ import org.apache.avalon.excalibur.cli.CLUtil;
  * long form or only short form of an option is capable of
  * being used.
  *
- * @author <a href="peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/cli/
  */
 public class NoAlias

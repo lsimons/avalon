@@ -58,7 +58,7 @@ import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
 /**
  * Factory implementation for vanilla TCP sockets.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  */
 public class DefaultServerSocketFactory

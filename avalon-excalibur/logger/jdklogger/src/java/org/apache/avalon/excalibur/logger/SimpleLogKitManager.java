@@ -79,7 +79,7 @@ import org.apache.log.output.io.FileTarget;
  * <a href="http://jakarta.apache.org/avalon/phoenix">Phoenix</a>.
  *
  * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class SimpleLogKitManager
     extends AbstractLogEnabled

@@ -61,7 +61,7 @@ import java.io.IOException;
 /**
  * This is a basic Output log target that writes to a file.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
  * @deprecated Use org.apache.log.output.io.FileTarget as this class is not thread safe
  */

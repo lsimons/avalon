@@ -64,8 +64,8 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
 /**
  * Convert a {@link ComponentInfo} into a {@link BlockInfo}.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2003/03/22 12:07:11 $
+ * @author Peter Donald
+ * @version $Revision: 1.13 $ $Date: 2003/12/05 15:14:36 $
  */
 public class ComponentInfoConverter
 {

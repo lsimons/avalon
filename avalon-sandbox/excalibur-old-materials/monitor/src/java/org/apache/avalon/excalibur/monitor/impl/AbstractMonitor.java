@@ -62,8 +62,8 @@ import org.apache.avalon.excalibur.monitor.Resource;
  * implementation.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Id: AbstractMonitor.java,v 1.12 2003/06/12 18:57:45 cziegeler Exp $
+ * @author Peter Donald
+ * @version $Id: AbstractMonitor.java,v 1.13 2003/12/05 15:15:15 leosimons Exp $
  */
 public abstract class AbstractMonitor
     implements Monitor

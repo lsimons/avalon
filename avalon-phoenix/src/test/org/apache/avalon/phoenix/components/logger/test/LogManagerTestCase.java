@@ -72,8 +72,8 @@ import org.realityforge.loggerstore.LoggerStore;
 /**
  *  An basic test case for the LogManager.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2003/05/31 00:19:09 $
+ * @author Peter Donald
+ * @version $Revision: 1.13 $ $Date: 2003/12/05 15:14:39 $
  */
 public class LogManagerTestCase
     extends TestCase

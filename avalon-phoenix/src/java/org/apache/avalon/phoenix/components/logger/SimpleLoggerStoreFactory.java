@@ -61,8 +61,8 @@ import org.realityforge.loggerstore.LoggerStore;
  * for the LogKit Logger.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/05/31 00:19:09 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003/12/05 15:14:36 $
  */
 public class SimpleLoggerStoreFactory
     extends AbstractLoggerStoreFactory

@@ -60,8 +60,8 @@ import org.apache.avalon.excalibur.monitor.Resource;
  * is accessed.
  * 
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003/05/23 17:41:04 $
+ * @author Peter Donald
+ * @version $Revision: 1.9 $ $Date: 2003/12/05 15:15:15 $
  */
 public class PassiveMonitor
     extends AbstractMonitor

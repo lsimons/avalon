@@ -60,7 +60,7 @@ import java.io.Serializable;
  * A simple class to test loading an extension that
  * is contained within the .sar.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class ExtensionTestClass1
     implements Serializable

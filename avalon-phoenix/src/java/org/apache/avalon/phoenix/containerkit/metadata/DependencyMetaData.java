@@ -63,9 +63,9 @@ import org.apache.avalon.phoenix.framework.info.FeatureDescriptor;
  *
  * <p>Note that it is invalid to have circular dependencies.</p>
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.5 $ $Date: 2003/03/22 12:07:12 $
+ * @version $Revision: 1.6 $ $Date: 2003/12/05 15:14:37 $
  */
 public final class DependencyMetaData
     extends FeatureDescriptor

@@ -57,8 +57,8 @@ import java.util.Iterator;
  *
  * @deprecated use org.apache.commons.collections.IteratorEnumeration instead
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/11/09 15:31:39 $
+ * @author Peter Donald
+ * @version CVS $Revision: 1.2 $ $Date: 2003/12/05 15:13:51 $
  * @since 4.0
  */
 public final class IteratorEnumeration

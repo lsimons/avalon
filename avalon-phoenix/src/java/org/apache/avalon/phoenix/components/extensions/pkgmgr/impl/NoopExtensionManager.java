@@ -58,8 +58,8 @@ import org.apache.avalon.phoenix.components.extensions.pkgmgr.OptionalPackage;
  * This is for use in certain environments (ala Servlets) that
  * require apps to be be self-contained.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/04/30 10:03:52 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003/12/05 15:14:36 $
  */
 public class NoopExtensionManager
     implements ExtensionManager

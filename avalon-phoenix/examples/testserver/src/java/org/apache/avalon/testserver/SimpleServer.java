@@ -110,7 +110,7 @@ import org.apache.avalon.testserver.extension2.ExtensionTestClass2;
  *
  * @author Charles Benett <charles@benett1.demon.co.uk>
  * @author Federico Barbieri <fede@apache.org>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class SimpleServer
     extends AbstractLogEnabled

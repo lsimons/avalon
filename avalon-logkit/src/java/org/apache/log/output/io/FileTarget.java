@@ -63,7 +63,7 @@ import org.apache.log.format.Formatter;
  * A basic target that writes to a File.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class FileTarget
     extends StreamTarget

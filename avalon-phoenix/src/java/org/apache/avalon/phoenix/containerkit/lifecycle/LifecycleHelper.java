@@ -78,7 +78,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * The implementation provides support for the processing of a component through
  * each lifecycle stage, and manage errors in a consistent way.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
  */
 public class LifecycleHelper

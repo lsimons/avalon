@@ -54,8 +54,8 @@ import org.apache.avalon.framework.component.Component;
 
 /**
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/11/09 14:36:57 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003/12/05 15:13:53 $
  */
 public class ActiveMonitorComponent
     extends ActiveMonitor

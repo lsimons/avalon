@@ -54,8 +54,8 @@ package org.apache.avalon.excalibur.concurrent;
  *
  * @deprecated use EDU.oswego.cs.dl.util.concurrent.Sync instead
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/03/22 12:46:23 $
+ * @author Peter Donald
+ * @version CVS $Revision: 1.5 $ $Date: 2003/12/05 15:15:13 $
  * @since 4.0
  */
 public interface Sync

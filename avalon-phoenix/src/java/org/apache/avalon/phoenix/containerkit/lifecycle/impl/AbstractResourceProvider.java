@@ -86,8 +86,8 @@ import org.apache.avalon.phoenix.framework.info.EntryDescriptor;
  * has been validated (presumably via
  * {@link org.apache.avalon.phoenix.containerkit.verifier.AssemblyVerifier}</p>
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003/04/05 04:25:43 $
+ * @author Peter Donald
+ * @version $Revision: 1.7 $ $Date: 2003/12/05 15:14:37 $
  */
 public abstract class AbstractResourceProvider
     extends AbstractLogEnabled

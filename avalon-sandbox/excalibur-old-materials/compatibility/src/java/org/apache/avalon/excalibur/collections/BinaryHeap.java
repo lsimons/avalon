@@ -59,10 +59,10 @@ import java.util.NoSuchElementException;
  *
  * @deprecated use org.apache.commons.collections.BinaryHeap instead;
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:ram.chidambaram@telus.com">Ram Chidambaram</a>
  * @author <a href="mailto:stansburyc@earthlink.net">Chad Stansbury</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/03/22 12:46:22 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/12/05 15:15:12 $
  * @since 4.0
  */
 public final class BinaryHeap

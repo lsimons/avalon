@@ -76,7 +76,7 @@ import org.apache.avalon.framework.context.Contextualizable;
  * This component is responsible for managing phoenix instance.
  *
  * @author <a href="mail@leosimons.com">Leo Simons</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:Huw@mmlive.com">Huw Roberts</a>
  */
 public class MX4JSystemManager

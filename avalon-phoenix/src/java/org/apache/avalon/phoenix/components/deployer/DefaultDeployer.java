@@ -92,7 +92,7 @@ import org.xml.sax.InputSource;
 /**
  * Deploy .sar files into a kernel using this class.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class DefaultDeployer
     extends AbstractLogEnabled

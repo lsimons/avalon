@@ -55,7 +55,7 @@ import org.apache.avalon.phoenix.metainfo.BlockInfo;
 /**
  * This is the structure describing each block.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class BlockMetaData
 {

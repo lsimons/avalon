@@ -57,7 +57,7 @@ import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
 import org.realityforge.loggerstore.LoggerStore;
 
 /**
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public interface Kernel
 {

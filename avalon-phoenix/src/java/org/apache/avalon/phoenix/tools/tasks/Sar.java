@@ -58,7 +58,7 @@ import org.apache.tools.ant.types.ZipFileSet;
 /**
  * Creates a Sar archive.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:stefan.bodewig@epost.de">Stefan Bodewig</a>
  */
 public class Sar

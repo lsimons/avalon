@@ -52,8 +52,8 @@ package org.apache.avalon.excalibur.cli;
 /**
  * ParserControl is used to control particular behaviour of the parser.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003/04/11 10:25:53 $
+ * @author Peter Donald
+ * @version $Revision: 1.6 $ $Date: 2003/12/05 15:15:12 $
  * @since 4.0
  * @see AbstractParserControl
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/cli/

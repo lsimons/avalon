@@ -53,8 +53,8 @@ import org.apache.avalon.framework.component.ComponentSelector;
 
 /**
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003/05/03 05:07:20 $
+ * @author Peter Donald
+ * @version $Revision: 1.3 $ $Date: 2003/12/05 15:15:17 $
  */
 public interface Role4
     extends ComponentSelector

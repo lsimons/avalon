@@ -69,7 +69,7 @@ import org.apache.log.format.XMLFormatter;
  * Test suite for the formatters.
  * TODO: Incorporate testing for ContextStack and ContextMap
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class FormatterTestCase
     extends TestCase

@@ -56,9 +56,9 @@ package org.apache.avalon.excalibur.pool;
  * It gets called everytime that a Pool tries to go below or above it's minimum or maximum.
  *
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/20 17:09:24 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/12/05 15:15:15 $
  * @since 4.0
  */
 public interface PoolController

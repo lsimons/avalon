@@ -61,8 +61,8 @@ import org.apache.avalon.phoenix.components.extensions.pkgmgr.impl.DelegatingExt
 /**
  * A basic test case for comparator.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003/06/12 15:43:25 $
+ * @author Peter Donald
+ * @version $Revision: 1.3 $ $Date: 2003/12/05 15:14:39 $
  */
 public class ComparatorTestCase
     extends TestCase

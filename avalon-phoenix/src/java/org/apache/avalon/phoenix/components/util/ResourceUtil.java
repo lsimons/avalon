@@ -57,8 +57,8 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 /**
  * A utility class for working with resources in default sar layout.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/03/22 12:07:11 $
+ * @author Peter Donald
+ * @version $Revision: 1.5 $ $Date: 2003/12/05 15:14:36 $
  */
 public class ResourceUtil
 {

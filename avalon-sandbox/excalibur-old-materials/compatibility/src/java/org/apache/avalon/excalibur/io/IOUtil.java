@@ -108,9 +108,9 @@ import java.io.Writer;
  * (or three if the destination stream is also buffered) is pointless, and the unnecessary buffer
  * management hurts performance slightly (about 3%, according to some simple experiments).</p>
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/03/22 12:46:24 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/12/05 15:15:13 $
  * @since 4.0
  */
 

@@ -63,9 +63,9 @@ import java.util.ArrayList;
  * <p><b>UML</b></p>
  * <p><image src="doc-files/DependencyGraph.gif" border="0"/></p>
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/18 00:34:20 $
+ * @version $Revision: 1.3 $ $Date: 2003/12/05 15:13:04 $
  */
 public class DependencyGraph
 {

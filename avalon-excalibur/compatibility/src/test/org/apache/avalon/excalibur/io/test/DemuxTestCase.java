@@ -66,7 +66,7 @@ import org.apache.avalon.excalibur.io.DemuxOutputStream;
 /**
  * Basic unit tests for the multiplexing streams.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class DemuxTestCase
     extends TestCase

@@ -65,8 +65,8 @@ import java.io.Serializable;
  *   names via which services are accessed)</li>
  * </ul>
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:13 $
+ * @author Peter Donald
+ * @version $Revision: 1.4 $ $Date: 2003/12/05 15:14:37 $
  */
 public class ComponentInfo
     implements Serializable

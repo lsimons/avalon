@@ -53,7 +53,7 @@ package org.apache.avalon.phoenix.metadata;
 /**
  * This describs a BlockListener.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class BlockListenerMetaData
 {

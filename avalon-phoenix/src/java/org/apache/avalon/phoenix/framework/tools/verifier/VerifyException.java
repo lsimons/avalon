@@ -53,8 +53,8 @@ package org.apache.avalon.phoenix.framework.tools.verifier;
 /**
  * Exception to indicate error verifying a Block or application.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/03/22 12:07:14 $
+ * @author Peter Donald
+ * @version $Revision: 1.5 $ $Date: 2003/12/05 15:14:38 $
  */
 public final class VerifyException
     extends Exception

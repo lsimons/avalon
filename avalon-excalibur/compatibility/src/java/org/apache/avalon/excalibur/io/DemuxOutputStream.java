@@ -56,8 +56,8 @@ import java.io.OutputStream;
  * Data written to this stream is forwarded to a stream that has been associated
  * with this thread.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/11/09 15:31:39 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003/12/05 15:13:51 $
  */
 public final class DemuxOutputStream
     extends OutputStream

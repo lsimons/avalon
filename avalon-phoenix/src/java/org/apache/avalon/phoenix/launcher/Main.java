@@ -62,7 +62,7 @@ import java.util.Map;
  * PhoenixLoader is the class that bootstraps and sets up engine ClassLoader.
  * It also sets up a default policy that gives full permissions to engine code.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class Main
 {

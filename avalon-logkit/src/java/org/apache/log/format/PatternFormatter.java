@@ -145,10 +145,10 @@ import org.apache.log.Priority;
  * without any size restriction.
  * </p>
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.39 $ $Date: 2003/04/17 09:13:47 $
+ * @version CVS $Revision: 1.40 $ $Date: 2003/12/05 15:14:10 $
  */
 public class PatternFormatter
     implements Formatter, org.apache.log.Formatter

@@ -58,7 +58,7 @@ import org.apache.avalon.phoenix.metainfo.BlockInfo;
  * about Blocks state changes to the {@link org.apache.avalon.phoenix.BlockListener}s
  * of a Server Application.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class BlockEvent
     extends EventObject

@@ -61,8 +61,8 @@ import org.apache.avalon.phoenix.framework.info.FeatureDescriptor;
  * other partitions. Partitions can also be nested one inside
  * each other.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/03/22 12:07:12 $
+ * @author Peter Donald
+ * @version $Revision: 1.5 $ $Date: 2003/12/05 15:14:37 $
  */
 public class PartitionMetaData
     extends FeatureDescriptor

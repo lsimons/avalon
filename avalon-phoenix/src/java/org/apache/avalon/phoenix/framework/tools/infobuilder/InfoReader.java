@@ -59,8 +59,8 @@ import org.apache.avalon.phoenix.framework.info.ComponentInfo;
  * so that the Info objesct could be built from non-XML sources
  * and no XML classes need be in the classpath.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:13 $
+ * @author Peter Donald
+ * @version $Revision: 1.4 $ $Date: 2003/12/05 15:14:38 $
  */
 public interface InfoReader
 {

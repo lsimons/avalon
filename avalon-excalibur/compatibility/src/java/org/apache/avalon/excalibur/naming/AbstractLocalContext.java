@@ -69,8 +69,8 @@ import javax.naming.Referenceable;
  * provide a particular type of Context. These contexts are assumed to be
  * on the same machine.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  */
 public abstract class AbstractLocalContext

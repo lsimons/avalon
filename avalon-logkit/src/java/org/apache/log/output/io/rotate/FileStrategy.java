@@ -62,7 +62,7 @@ import java.io.File;
  * the real file name.
  *
  * @author <a href="mailto:bh22351@i-one.at">Bernhard Huber</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public interface FileStrategy
 {

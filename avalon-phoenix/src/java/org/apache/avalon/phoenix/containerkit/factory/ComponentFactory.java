@@ -67,8 +67,8 @@ package org.apache.avalon.phoenix.containerkit.factory;
  * However in alternative component systems this may designate
  * objects via different mechanisms.</p>
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:11 $
+ * @author Peter Donald
+ * @version $Revision: 1.4 $ $Date: 2003/12/05 15:14:37 $
  */
 public interface ComponentFactory
 {

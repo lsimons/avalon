@@ -64,8 +64,8 @@ import org.apache.tools.ant.types.Path;
  * a component class and verify that the implementation class
  * is compatible with the {@link ComponentInfo}.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/04/05 04:25:43 $
+ * @author Peter Donald
+ * @version $Revision: 1.5 $ $Date: 2003/12/05 15:14:37 $
  */
 public class ComponentVerifierTask
     extends Task

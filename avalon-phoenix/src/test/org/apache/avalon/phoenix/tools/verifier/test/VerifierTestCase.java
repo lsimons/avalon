@@ -58,8 +58,8 @@ import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
 /**
  *  An basic test case for the LogManager.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003/03/22 12:07:18 $
+ * @author Peter Donald
+ * @version $Revision: 1.7 $ $Date: 2003/12/05 15:14:40 $
  */
 public class VerifierTestCase
     extends AbstractContainerTestCase

@@ -64,7 +64,7 @@ import org.apache.log.LogEvent;
  * Basic message factory that stores LogEvent in Message.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class ObjectMessageBuilder
     implements MessageBuilder

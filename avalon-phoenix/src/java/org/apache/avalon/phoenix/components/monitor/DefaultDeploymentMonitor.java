@@ -80,8 +80,8 @@ import org.apache.avalon.phoenix.interfaces.Deployer;
  * directory and deploying, undelploying or redeploying an
  * application as necessary.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003/05/31 00:19:09 $
+ * @author Peter Donald
+ * @version $Revision: 1.9 $ $Date: 2003/12/05 15:14:36 $
  */
 public class DefaultDeploymentMonitor
     extends AbstractLogEnabled

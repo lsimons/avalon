@@ -67,7 +67,7 @@ import org.apache.log.LogEvent;
  * The basic DB target for configurable output formats.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class DefaultJDBCTarget
     extends AbstractJDBCTarget

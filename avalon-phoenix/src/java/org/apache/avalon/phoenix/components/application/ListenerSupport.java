@@ -64,7 +64,7 @@ import org.apache.avalon.phoenix.metainfo.BlockInfo;
  * {@link ApplicationEvent} notifications to these listeners.  Not all
  * events pass an Applicationevent parameter.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</a>
  */
 final class ListenerSupport

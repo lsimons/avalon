@@ -60,7 +60,7 @@ import org.apache.log.util.LoggerListener;
  * The object interacted with by client objects to perform logging.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class Logger
 {
@@ -333,7 +333,7 @@ public class Logger
     }
 
     /**
-     * Determine if messages of priority  will be logged.
+     * Determine if messages of priority ï¿½will be logged.
      * @param priority the priority
      * @return true if messages will be logged
      */

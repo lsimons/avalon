@@ -60,7 +60,7 @@ import org.apache.avalon.excalibur.cli.CLUtil;
  * an argument, optionally supporting an argument or requiring
  * 2 arguments.
  *
- * @author <a href="peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/cli/
  */
 public class OptionArguments

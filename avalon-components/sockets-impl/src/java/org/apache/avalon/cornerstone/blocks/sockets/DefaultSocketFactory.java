@@ -58,7 +58,7 @@ import org.apache.avalon.cornerstone.services.sockets.SocketFactory;
 /**
  * The vanilla implementation of SocketFactory.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class DefaultSocketFactory
     implements SocketFactory

@@ -58,7 +58,7 @@ import org.apache.excalibur.thread.ThreadControl;
  * clients of thread pool.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 final class DefaultThreadControl
     implements ThreadControl

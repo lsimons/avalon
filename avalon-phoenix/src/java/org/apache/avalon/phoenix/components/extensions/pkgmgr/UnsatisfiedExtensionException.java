@@ -54,8 +54,8 @@ import org.apache.avalon.excalibur.extension.Extension;
 /**
  * Exception indicating an extension was not found in Package Repository.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/04/30 10:03:52 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003/12/05 15:14:36 $
  * @see Extension
  */
 public class UnsatisfiedExtensionException

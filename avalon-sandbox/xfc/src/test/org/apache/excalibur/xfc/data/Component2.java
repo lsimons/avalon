@@ -54,8 +54,8 @@ import org.apache.avalon.framework.thread.SingleThreaded;
 /**
  * A component used to test xfc.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/05/03 04:59:27 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003/12/05 15:15:17 $
  */
 public class Component2
     implements Role2, SingleThreaded

@@ -66,8 +66,8 @@ import org.apache.avalon.phoenix.components.util.ResourceUtil;
  * a LoaderResolver that knows about Phoenixs environment,
  * and the way it is split across multiple directories.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003/04/30 10:16:48 $
+ * @author Peter Donald
+ * @version $Revision: 1.9 $ $Date: 2003/12/05 15:14:35 $
  */
 class SarLoaderResolver
     extends DefaultLoaderResolver

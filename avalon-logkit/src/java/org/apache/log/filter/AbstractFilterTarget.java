@@ -63,7 +63,7 @@ import org.apache.log.LogTarget;
  * A concrete implementation has to implement filter method.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public abstract class AbstractFilterTarget
     implements FilterTarget, LogTarget

@@ -58,7 +58,7 @@ package org.apache.log.util;
  * Interface implemented by LogTargets that are capable of being
  * closed.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public interface Closeable
 {

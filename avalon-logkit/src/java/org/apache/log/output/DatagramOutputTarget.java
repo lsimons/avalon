@@ -62,7 +62,7 @@ import org.apache.log.format.Formatter;
  * A datagram output target.
  * Useful for writing using custom protocols or writing to syslog daemons.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author Peter Donald
  * @deprecated Use org.apache.log.output.net.DatagramOutputTarget instead
  */
 public class DatagramOutputTarget

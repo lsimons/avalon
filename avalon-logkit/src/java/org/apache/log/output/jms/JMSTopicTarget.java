@@ -66,7 +66,7 @@ import org.apache.log.ErrorHandler;
 /**
  * A target that writes to a JMS Topic.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class JMSTopicTarget
     extends AbstractJMSTarget

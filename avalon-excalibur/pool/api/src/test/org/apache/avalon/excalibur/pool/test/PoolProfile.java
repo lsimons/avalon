@@ -60,7 +60,7 @@ import org.apache.avalon.framework.logger.Logger;
 /**
  * This is used to profile the Pool implementation.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class PoolProfile
     extends TestCase
