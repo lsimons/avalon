@@ -9,7 +9,10 @@
     <menu-item href="http://avalon.apache.org/excalibur/index.html" label="Excalibur Home"/>
     <menu-item href="http://avalon.apache.org/bindownload.cgi" label="Download"/>
     <menu-item label="API Docs" href="http://avalon.apache.org/excalibur/compatibility/api/"/>
-
+    <menu-item href="http://avalon.apache.org/excalibur/compatibility/api/org/apache/avalon/excalibur/cli/package-summary.html#package_description" label="CLI package"/>
+    <menu-item href="http://avalon.apache.org/excalibur/compatibility/api/org/apache/avalon/excalibur/collections/package-summary.html#package_description" label="Collections package"/>
+    <menu-item href="http://avalon.apache.org/excalibur/compatibility/api/org/apache/avalon/excalibur/concurrent/package-summary.html#package_description" label="Concurrent package"/>
+    <menu-item href="http://avalon.apache.org/excalibur/compatibility/api/org/apache/avalon/excalibur/io/package-summary.html#package_description" label="I/O package"/>
   </menu>
 
 </book>

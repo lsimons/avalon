@@ -5,6 +5,10 @@
     <body bgcolor="white">
         Utility code for parsing command-line options.
        <br><br>
+<p><strong>These classes have all been deprecated in favor of
+the <a href="http://jakarta.apache.org/commons/">Jakarta Commons</a>
+version of the CLI classes.</strong></p>
+
         <h3>Introduction</h3>
         <p>The utilities in <code>org.apache.avalon.excalibur.cli</code> assist
         you in parsing command line options during startup time. It allows you
@@ -34,7 +38,7 @@ public class CLDemo {
     /**
      *  Define the understood options. Each CLOptionDescriptor contains:
      * - The "long" version of the option. Eg, "help" means that "--help" will
-     * be recognised. 
+     * be recognised.
      * - The option flags, governing the option's argument(s).
      * - The "short" version of the option. Eg, 'h' means that "-h" will be
      * recognised.
