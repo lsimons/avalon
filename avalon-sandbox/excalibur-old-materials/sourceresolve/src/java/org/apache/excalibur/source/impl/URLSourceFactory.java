@@ -61,51 +61,45 @@ import java.util.Map;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.excalibur.source.Source;
-import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceFactory;
 
 /**
- * A factory for the Resource protocol
+ * A factory for a {@link URL} wrapper
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: ResourceSourceFactory.java,v 1.9 2003/01/29 16:46:18 cziegeler Exp $
+ * @version $Id: URLSourceFactory.java,v 1.1 2003/01/29 16:46:18 cziegeler Exp $
  */
-public class ResourceSourceFactory
+public class URLSourceFactory
     extends AbstractLogEnabled
     implements SourceFactory, ThreadSafe
 {
+
     /**
-     * Get a {@link Source} object.
-     * The factory creates a new {@link Source} object that can be used
-     * by the application. However, when this source object is not needed
-     * anymore it has to be released again using the {@link #release(Source)}
-     * method.
-     * 
-     * @param location   The URI to resolve - this URI includes the protocol.
-     * @param parameters This is optional.
+     * @see org.apache.excalibur.source.SourceFactory#getSource(java.lang.String, java.util.Map)
      */
-    public Source getSource( String location, Map parameters )
-        throws MalformedURLException, IOException, SourceException
+    public Source getSource(String location, Map parameters)
+        throws MalformedURLException, IOException 
     {
         if( getLogger().isDebugEnabled() )
         {
             final String message = "Creating source object for " + location;
             getLogger().debug( message );
         }
-        return new ResourceSource( location );
+        // FIXME: Some more work to do
+        return null;
     }
-    
+
     /**
-     * Release a {@link Source} object.
+     * @see org.apache.excalibur.source.SourceFactory#release(org.apache.excalibur.source.Source)
      */
-    public void release( Source source ) 
-    {
+    public void release(Source source) {
         if( null != source && getLogger().isDebugEnabled() )
         {
             final String message = "Releasing source object for " + source.getURI();
             getLogger().debug( message );
         }
-    	// do nothing here
+        // do nothing here
     }
-    
+
 }
+
