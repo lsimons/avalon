@@ -15,7 +15,6 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.log.Logger;
 import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
 
-
 /**
  * This is the structure describing each server application before it is loaded.
  *
