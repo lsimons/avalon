@@ -97,6 +97,10 @@ public class RepositoryManager
         }
     }
 
+    public void release( Component component )
+    {
+    }
+
     public Component select( Object hint ) 
         throws ComponentManagerException
     {
