@@ -7,7 +7,7 @@
  */
 package org.apache.phoenix.engine;
 
-import org.apache.avalon.atlantis.SystemManager;
+import org.apache.avalon.atlantis.ManagerException;
 import org.apache.avalon.atlantis.AbstractSystemManager;
 import org.apache.avalon.parameters.ParameterException;
 import org.apache.avalon.parameters.Parameterizable;
@@ -29,7 +29,7 @@ import javax.management.MBeanServer;
  */
 public class PhoenixManager
     extends AbstractSystemManager
-    implements SystemManager, Parameterizable
+    implements Parameterizable
 {
     private Parameters      m_parameters;
     private MBeanServer     m_mBeanServer;
@@ -84,6 +84,51 @@ public class PhoenixManager
         //TODO: Unregister everything here or in embeddor???
         m_rmiAdaptor = null;
         m_mBeanServer = null;
+    }
+
+
+    /**
+     * Export the object to the particular management medium using 
+     * the supplied object and interfaces.
+     * This needs to be implemented by subclasses.
+     *
+     * @param name the name of object
+     * @param object the object
+     * @param interfaces the interfaces
+     * @return the exported object 
+     * @exception ManagerException if an error occurs
+     */
+    protected Object export( final String name, 
+                             final Object object, 
+                             final Class[] interfaces )
+        throws ManagerException
+    {
+        return null;
+    }
+
+    /**
+     * Stop the exported object from being managed.
+     *
+     * @param name the name of object
+     * @param exportedObject the object return by export
+     * @exception ManagerException if an error occurs
+     */
+    protected void unexport( final String name, 
+                             final Object exportedObject )
+        throws ManagerException
+    {
+    }
+
+    /**
+     * Verify that an interface conforms to the requirements of management medium.
+     *
+     * @param clazz the interface class
+     * @exception ManagerException if verification fails
+     */
+    protected void verifyInterface( final Class clazz )
+        throws ManagerException
+    {
+        //check it extends all right things and that it has all the right return types etc
     }
 
     /**
