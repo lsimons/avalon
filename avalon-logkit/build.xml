@@ -71,6 +71,7 @@ Legal:
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
   <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
   <property name="j2ee.jar" value="${cjan.dir}/j2ee.jar"/>
+  <property name="jdbc.driver.jar" value=""/>
 
   <property name="dist.name" value="${Name}-${version}"/>
   <property name="dist.base" value="distributions"/>
@@ -85,6 +86,7 @@ Legal:
     <pathelement location="${testlet.jar}"/>
     <pathelement path="${servlet.jar}" />
     <pathelement path="${j2ee.jar}" />
+    <pathelement path="${jdbc.driver.jar}" />
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
       <exclude name="servlet*.jar" />
@@ -183,6 +185,7 @@ Legal:
        <testlet>org.apache.log.output.test.OutputTargetTestlet</testlet>
        <testlet>org.apache.log.test.InheritanceTestlet</testlet>
        <testlet>org.apache.log.util.test.UtilTestlet</testlet>
+       <!--<testlet>org.apache.log.output.test.DBTargetTestlet</testlet>-->
     </test>
   </target>
 
@@ -190,20 +193,6 @@ Legal:
   <target name="jar" depends="compile">
 
     <mkdir dir="${build.lib}"/>
-
-    <jar jarfile="${build.lib}/${name}-lite.jar" basedir="${build.classes}">
-      <include name="org/apache/log/*" />
-      <include name="org/apache/log/format/Formatter.class" />
-      <include name="org/apache/log/format/PatternFormatter*.class" />
-      <include name="org/apache/log/output/AbstractOutputTarget.class" />
-      <include name="org/apache/log/output/io/StreamTarget.class" />
-
-      <!-- remove them once they are removed from codebase -->
-      <!-- <exclude name="org/apache/log/FilterTarget.class" /> -->
-      <exclude name="org/apache/log/Formatter.class" />
-      <exclude name="org/apache/log/LogKit.class" />
-      <exclude name="**/test/*" />
-    </jar>
 
     <jar jarfile="${build.lib}/${name}.jar" basedir="${build.classes}">
       <include name="org/apache/log/**" />
