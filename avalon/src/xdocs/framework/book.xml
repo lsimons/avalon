@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<book software="Framework" 
+      title="Framework Documentation" 
+      copyright="@year@ The Apache Software Foundation">
+
+  <project label="Back to Avalon" href="@AVALON_BASE@" />
+
+  <menu label="About">
+    <menu-item label="Overview" source="index.xml"/>
+    <menu-item type="external" id="api-docs" label="API Docs" href="api/index.html"/>
+<!--
+    <menu-item label="Features" source="features.xml"/>
+    <menu-item label="Getting Started" source="getting-started.xml"/>
+    <menu-item label="Installation" source="install.xml"/>
+    <menu-item type="changes" label="Changes" source="changes.xml"/>
+-->
+  </menu>
+
+  <menu label="Patterns and Design">
+    <menu-item label="Patterns" source="patterns.xml"/>
+    <menu-item label="Reuse Standards" source="reuse-standards.xml"/>
+    <menu-item label="Inversion of Control" source="inversion-of-control.xml"/>
+    <menu-item label="Separation of Concerns" source="separation-of-concerns.xml"/>
+    <menu-item label="Security" source="security.xml"/>
+  </menu>
+
+  <menu label="Patterns and Design">
+    <menu-item label="Designing a Component" source="components.xml"/>
+    <menu-item label="Understanding the Composer" source="composer.xml"/>
+    <menu-item label="The components Life-Cycle" source="life-cycle.xml"/>
+  </menu>
+
+</book>
+
+
