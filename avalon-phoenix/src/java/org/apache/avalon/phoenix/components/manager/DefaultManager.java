@@ -31,6 +31,8 @@ import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.interfaces.ManagerException;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
+import org.apache.avalon.phoenix.components.kernel.DefaultKernel;
+import org.apache.avalon.phoenix.components.kernel.DefaultKernelMBean;
 import org.apache.jmx.adaptor.RMIAdaptorImpl;
 import org.apache.jmx.introspector.JavaBeanMBean;
 import com.sun.jdmk.comm.HtmlAdaptorServer;
@@ -115,7 +117,7 @@ public class DefaultManager
         }
 
         //TODO: SystemManager itself aswell???
-        register( "Kernel", m_kernel, new Class[] { Kernel.class } );
+        register( "Kernel", m_kernel );
         register( "Embeddor", m_embeddor, new Class[] { Embeddor.class } );
         register( "Deployer", m_deployer, new Class[] { Deployer.class } );
         register( "LogManager", m_logManager );
@@ -174,8 +176,16 @@ public class DefaultManager
     {
         try
         {
-            //TODO: actually take some heed of interfaces parameter
-            final DynamicMBean mBean = new JavaBeanMBean( object, interfaces );
+            Object mBean = null;
+            if( null != interfaces )
+            {
+                mBean = new JavaBeanMBean( object, interfaces );
+            }
+            else
+            {
+                mBean = createMBean( object );
+            }
+
             final ObjectName objectName = 
                 new ObjectName( m_domain + ":type=" + name );
             m_mBeanServer.registerMBean( mBean, objectName );
@@ -187,6 +197,26 @@ public class DefaultManager
             getLogger().error( message, e );
             throw new ManagerException( message, e );
         }
+    }
+
+    /**
+     * Create a MBean for specified object.
+     * The following policy is used top create the MBean...
+     *
+     * @param object the object to create MBean for
+     * @return the MBean to be exported
+     * @exception ManagerException if an error occurs
+     */
+    private Object createMBean( final Object object )
+        throws ManagerException
+    {
+        //HACK: ugly Testing hack!!
+        if( object instanceof DefaultKernel )
+        {
+            return new DefaultKernelMBean( (DefaultKernel)object );
+        }
+
+        return new JavaBeanMBean( object );
     }
 
     /**
