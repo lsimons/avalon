@@ -23,7 +23,7 @@ import java.util.Map;
 public class DefaultServiceManager
     implements ServiceManager
 {
-    private final HashMap               m_components = new HashMap();
+    private final HashMap               m_objects = new HashMap();
     private final ServiceManager        m_parent;
     private boolean                     m_readOnly;
 
@@ -56,11 +56,11 @@ public class DefaultServiceManager
     public Object lookup( final String role )
         throws ServiceException
     {
-        final Object component = m_components.get( role );
+        final Object object = m_objects.get( role );
 
-        if( null != component )
+        if( null != object )
         {
-            return component;
+            return object;
         }
         else if( null != m_parent )
         {
@@ -73,22 +73,22 @@ public class DefaultServiceManager
     }
 
     public boolean hasService( final String role ) {
-        boolean componentExists = false;
+        boolean objectExists = false;
 
         try
         {
             this.lookup(role);
-            componentExists = true;
+            objectExists = true;
         }
         catch (Throwable t)
         {
             // Ignore all throwables--we want a yes or no answer.
         }
-        return componentExists;
+        return objectExists;
     }
 
     /**
-     * Place Component into ComponentManager.
+     * Place Object into ComponentManager.
      *
      * @param role the components role
      * @param component the component
@@ -96,24 +96,24 @@ public class DefaultServiceManager
     public void put( final String role, final Object object )
     {
         checkWriteable();
-        m_components.put( role, object );
+        m_objects.put( role, object );
     }
 
     /**
-     * Build a human readable representation of ComponentManager2.
+     * Build a human readable representation of the ServiceManager.
      *
-     * @return the description of ComponentManager2
+     * @return the description of the ServiceManager
      */
     public String toString()
     {
         final StringBuffer buffer = new StringBuffer();
-        final Iterator components = m_components.keySet().iterator();
+        final Iterator objects = m_objects.keySet().iterator();
         buffer.append( "Services:" );
 
-        while( components.hasNext() )
+        while( objects.hasNext() )
         {
             buffer.append( "[" );
-            buffer.append( components.next() );
+            buffer.append( objects.next() );
             buffer.append( "]" );
         }
 
@@ -131,13 +131,13 @@ public class DefaultServiceManager
     }
 
     /**
-     * Helper method for subclasses to retrieve component map.
+     * Helper method for subclasses to retrieve object map.
      *
-     * @return the component map
+     * @return the object map
      */
-    protected final Map getComponentMap()
+    protected final Map getObjectMap()
     {
-        return m_components;
+        return m_objects;
     }
 
     public void makeReadOnly()
