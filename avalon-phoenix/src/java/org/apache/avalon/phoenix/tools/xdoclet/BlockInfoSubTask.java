@@ -9,6 +9,7 @@ package org.apache.avalon.phoenix.tools.xdoclet;
 
 import com.sun.javadoc.ClassDoc;
 import java.io.File;
+import java.net.URL;
 import xdoclet.TemplateSubTask;
 import xdoclet.XDocletException;
 
@@ -17,7 +18,7 @@ import xdoclet.XDocletException;
  *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/02/26 11:15:48 $
+ * @version $Revision: 1.2 $ $Date: 2002/03/01 07:55:03 $
  */
 public class BlockInfoSubTask 
     extends TemplateSubTask
@@ -77,10 +78,10 @@ public class BlockInfoSubTask
             throw new XDocletException( "'templatePath' attribute is missing ." );
         }
 
-        if( null == getTemplateFile() || 
-            !(getTemplateFile().exists()) || getTemplateFile().isDirectory())
+        final URL template = getTemplateURL();
+        if( null == template )
         {
-            throw new XDocletException( "'template' file is missing parameter missing ." );
+            throw new XDocletException( "'template' is missing." );
         }
 
 
