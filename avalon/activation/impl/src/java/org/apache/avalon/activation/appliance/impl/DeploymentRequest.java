@@ -60,7 +60,7 @@ import org.apache.avalon.composition.model.DeploymentModel;
 /**
  * A deployment request handler.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/16 16:39:02 $
+ * @version $Revision: 1.5 $ $Date: 2004/01/20 03:23:44 $
  */
 class DeploymentRequest
 {
@@ -176,11 +176,19 @@ class DeploymentRequest
     void interrupted()
     {
         m_interrupted = true;
+        synchronized( this )
+        {
+            notify();
+        }
     }
 
     void exception( Throwable e )
     {
         m_exception = e;
+        synchronized( this )
+        {
+            notify();
+        }
     }
 }
 
