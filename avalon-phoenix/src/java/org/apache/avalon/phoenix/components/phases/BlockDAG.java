@@ -18,10 +18,10 @@ import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.Block;
+import org.apache.avalon.phoenix.components.kapi.BlockEntry;
+import org.apache.avalon.phoenix.components.kapi.RoleEntry;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
-import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
-import org.apache.avalon.phoenix.engine.blocks.RoleEntry;
 
 /**
  * This is the dependency graph for blocks.

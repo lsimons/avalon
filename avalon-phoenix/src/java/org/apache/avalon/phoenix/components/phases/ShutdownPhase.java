@@ -16,7 +16,7 @@ import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
-import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
+import org.apache.avalon.phoenix.components.kapi.BlockEntry;
 
 /**
  *

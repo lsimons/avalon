@@ -32,10 +32,10 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.AbstractLoggable;
-import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
-import org.apache.avalon.phoenix.engine.blocks.RoleEntry;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
-import org.apache.avalon.phoenix.engine.ServerApplicationEntry;
+import org.apache.avalon.phoenix.components.kapi.BlockEntry;
+import org.apache.avalon.phoenix.components.kapi.RoleEntry;
+import org.apache.avalon.phoenix.components.kapi.ServerApplicationEntry;
 
 /**
  * Deploy .sar files into a kernel using this class.

@@ -5,13 +5,12 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.engine;
+package org.apache.avalon.phoenix.components.kapi;
 
 import java.io.File;
 import java.net.URL;
 import org.apache.avalon.framework.camelot.Entry;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
 import org.apache.log.Logger;
 
 /**
