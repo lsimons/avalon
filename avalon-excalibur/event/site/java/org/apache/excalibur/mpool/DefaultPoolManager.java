@@ -63,12 +63,11 @@ import org.apache.excalibur.event.command.RepeatedCommand;
  * the constructor.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/10/02 15:39:29 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/11/09 08:48:31 $
  * @since 4.1
  */
 public class DefaultPoolManager implements PoolManager
 {
-    private final long m_managerKey;
     private final Random m_keyGenerator;
     private final Map m_keyMap = new StaticBucketMap();
     private final Map m_factoryMap = new StaticBucketMap();
@@ -81,7 +80,6 @@ public class DefaultPoolManager implements PoolManager
     public DefaultPoolManager( final Sink commandSink )
     {
         m_keyGenerator = new Random();
-        m_managerKey = m_keyGenerator.nextLong();
 
         if( null != commandSink )
         {
