@@ -8,6 +8,7 @@
 package org.apache.avalon.phoenix.components.frame;
 
 import org.apache.avalon.excalibur.thread.ThreadPool;
+import org.apache.avalon.excalibur.lang.ThreadContext;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.log.Logger;
@@ -21,6 +22,13 @@ public interface ApplicationFrame
     extends Component
 {
     String ROLE = "org.apache.avalon.phoenix.components.frame.ApplicationFrame";
+
+    /**
+     * Get ThreadContext for the current application.
+     *
+     * @return the ThreadContext
+     */
+    ThreadContext getThreadContext();
 
     /**
      * Get ClassLoader for the current application.
