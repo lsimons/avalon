@@ -10,7 +10,6 @@ package org.apache.phoenix.engine.facilities;
 import org.apache.avalon.AbstractLoggable;
 import org.apache.avalon.atlantis.Facility;
 import org.apache.avalon.camelot.Entry;
-import org.apache.avalon.camelot.pipeline.LoggerBuilder;
 import org.apache.log.Logger;
 
 /**

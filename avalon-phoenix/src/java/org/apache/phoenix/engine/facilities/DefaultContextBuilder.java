@@ -17,7 +17,6 @@ import org.apache.avalon.Contextualizable;
 import org.apache.avalon.DefaultContext;
 import org.apache.avalon.atlantis.Facility;
 import org.apache.avalon.camelot.Entry;
-import org.apache.avalon.camelot.pipeline.ContextBuilder;
 import org.apache.avalon.util.thread.ThreadManager;
 import org.apache.phoenix.BlockContext;
 import org.apache.phoenix.engine.SarContextResources;

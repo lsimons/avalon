@@ -18,7 +18,6 @@ import org.apache.avalon.atlantis.Facility;
 import org.apache.avalon.camelot.Entry;
 import org.apache.avalon.camelot.Factory;
 import org.apache.avalon.camelot.FactoryException;
-import org.apache.avalon.camelot.pipeline.ComponentBuilder;
 import org.apache.log.Logger;
 import org.apache.phoenix.Block;
 import org.apache.phoenix.engine.blocks.BlockEntry;

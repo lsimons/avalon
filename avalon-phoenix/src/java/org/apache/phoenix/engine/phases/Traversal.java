@@ -9,10 +9,10 @@ package org.apache.phoenix.engine.phases;
 
 import org.apache.avalon.util.Enum;
 
-public class Traversal
+class Traversal
     extends Enum
 {
-    Traversal( final String name )
+    protected Traversal( final String name )
     {
         super( name );
     }

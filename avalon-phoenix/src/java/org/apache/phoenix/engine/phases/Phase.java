@@ -8,23 +8,29 @@
 package org.apache.phoenix.engine.phases;
 
 import org.apache.avalon.Component;
+import org.apache.avalon.camelot.State;
 import org.apache.phoenix.engine.blocks.BlockVisitor;
 
 /**
- * This represents a phase in applications lifecycle. 
+ * This represents a phase in applications lifecycle.
  * Each phase is made up of a number of stages.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public interface Phase
     extends BlockVisitor, Component
-{  
-    Traversal   FORWARD      = new Traversal( "FORWARD" );
-    Traversal   REVERSE      = new Traversal( "REVERSE" );
-    Traversal   LINEAR       = new Traversal( "LINEAR" );
+{
+    State      BASE        = new State( "BASE", 0 );
+    State      STARTEDUP   = new State( "STARTEDUP", 10 );
+    State      SHUTDOWN    = new State( "SHUTDOWN", 20 );
+
+    Traversal  FORWARD     = new Traversal( "FORWARD" );
+    Traversal  REVERSE     = new Traversal( "REVERSE" );
+    Traversal  LINEAR      = new Traversal( "LINEAR" );
 
     /**
      * Retrieve traversal that should be taken.
+     * TODO: remove this method and implement IOC
      *
      * @return the Traversal
      */
