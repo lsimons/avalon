@@ -21,6 +21,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AvalonFormatter;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
@@ -31,8 +32,7 @@ import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
 import org.apache.log.Priority;
-import org.apache.log.format.AvalonFormatter;
-import org.apache.log.output.FileOutputLogTarget;
+import org.apache.log.output.FileTarget;
 
 /**
  * This is the object that is interacted with to create, manage and
@@ -315,10 +315,12 @@ public class DefaultEmbeddor
         final String logPriority =
             m_parameters.getParameter( "log-priority", "INFO" );
 
-        final FileOutputLogTarget logTarget = new FileOutputLogTarget( logDestination );
-        final AvalonFormatter formatter = new AvalonFormatter();
+        //After next avalon release uncomment parameter (PD)
+        final AvalonFormatter formatter = new AvalonFormatter( /*DEFAULT_FORMAT*/ );
         formatter.setFormat( DEFAULT_FORMAT );
-        logTarget.setFormatter( formatter );
+
+        final File file = new File( logDestination );
+        final FileTarget logTarget = new FileTarget( file, false, formatter );
 
         //Create an anonymous hierarchy so no other
         //components can get access to logging hierarchy

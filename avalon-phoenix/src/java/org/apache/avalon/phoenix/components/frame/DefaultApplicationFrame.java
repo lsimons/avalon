@@ -24,13 +24,13 @@ import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AvalonFormatter;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
 import org.apache.log.Priority;
-import org.apache.log.format.AvalonFormatter;
-import org.apache.log.output.FileOutputLogTarget;
+import org.apache.log.output.FileTarget;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 
@@ -276,16 +276,20 @@ public class DefaultApplicationFrame
             if( null != format ) formatter.setFormat( format );
             else formatter.setFormat( DEFAULT_FORMAT );
 
-            //Setup logtarget
-            final FileOutputLogTarget logTarget = new FileOutputLogTarget();
-            logTarget.setFormatter( formatter );
-
             //Specify output location for logging
             final File file = new File( m_baseDirectory, location );
-            try { logTarget.setFilename( file.getAbsolutePath() ); }
+
+            //Setup logtarget
+            FileTarget logTarget = null;
+            
+
+            try
+            {
+                logTarget = new FileTarget( file.getAbsoluteFile(), false, formatter );
+            }
             catch( final IOException ioe )
             {
-                final String message = REZ.format( "frame.error.thread.create", file );
+                final String message = REZ.format( "frame.error.log.create", file );
                 throw new ConfigurationException( message, ioe );
             }
 
