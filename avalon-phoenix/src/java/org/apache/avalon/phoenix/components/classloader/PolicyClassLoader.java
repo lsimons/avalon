@@ -70,7 +70,7 @@ class PolicyClassLoader
             }
         }
 
-        System.out.println( "ClassPath: " + java.util.Arrays.asList( getURLs() ) );
+        //System.out.println( "ClassPath: " + java.util.Arrays.asList( getURLs() ) );
     }
             
     /**
