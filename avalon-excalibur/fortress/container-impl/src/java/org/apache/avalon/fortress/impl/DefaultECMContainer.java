@@ -145,8 +145,12 @@ public class DefaultECMContainer extends DefaultContainer {
                 new ComponentHandlerMetaData( hint, className, element, activation );
 
             // figure out Role
-            final String role = getRole( element );
-
+            String role = getRole( element );
+            final int pos = role.indexOf('/');
+            if ( pos != -1 ) {
+                hint = role.substring(pos+1);
+                role = role.substring(0, pos);
+            }
             try 
             {
                 final MetaInfoEntry metaEntry = m_metaManager.getMetaInfoForClassname( className );
