@@ -277,6 +277,7 @@ Legal:
     <mkdir dir="${build.xdocs}"/>
     <mkdir dir="${build.docs}"/>
     <mkdir dir="${build.docs}/framework"/>
+    <mkdir dir="${build.docs}/excalibur"/>
 
     <filter token="year" value="${year}"/>
     <filter token="AVALON_BASE" value="http://jakarta.apache.org/avalon"/>
@@ -305,6 +306,12 @@ Legal:
 -->
     <stylebook targetdirectory="${build.docs}/framework"
                book="${build.xdocs}/framework/book.xml"
+               skindirectory="${avalon.skin}">
+      <classpath refid="project.class.path" />
+    </stylebook>
+
+    <stylebook targetdirectory="${build.docs}/excalibur"
+               book="${build.xdocs}/excalibur/book.xml"
                skindirectory="${avalon.skin}">
       <classpath refid="project.class.path" />
     </stylebook>
