@@ -25,6 +25,8 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.logging.data.CategoriesDirective;
 import org.apache.avalon.logging.data.CategoryDirective;
 
+import org.apache.avalon.composition.data.DeploymentProfile;
+
 import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;
 
@@ -33,7 +35,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/03/08 11:28:36 $
+ * @version $Revision: 1.5 $ $Date: 2004/03/10 10:52:18 $
  */
 public abstract class XMLProfileCreator
 {
@@ -67,9 +69,9 @@ public abstract class XMLProfileCreator
     * @return TRUE is the value of the activation attribute is 'true' or 'startup'
     *   otherwise the return value is FALSE
     */
-    protected boolean getActivationPolicy( Configuration config )
+    protected int getActivationDirective( Configuration config )
     {
-        return getActivationPolicy( config, false );
+        return getActivationDirective( config, DeploymentProfile.DEFAULT );
     }
 
    /**
@@ -79,7 +81,7 @@ public abstract class XMLProfileCreator
     * @param fallback the default policy
     * @return activation policy
     */
-    protected boolean getActivationPolicy( Configuration config, boolean fallback )
+    protected int getActivationDirective( Configuration config, int fallback )
     {
         final String value = config.getAttribute( "activation", null );
         if( value == null )
@@ -90,15 +92,15 @@ public abstract class XMLProfileCreator
         final String string = value.toLowerCase().trim();
         if( string.equals( "startup" ) || string.equals( "true" ) )
         {
-            return true;
+            return DeploymentProfile.ENABLED;
         }
         else if( string.equals( "lazy" ) || string.equals( "false" ) )
         {
-            return false;
+            return DeploymentProfile.DISABLED;
         }
         else
         {
-            return fallback ;
+            return DeploymentProfile.DEFAULT;
         }
     }
 

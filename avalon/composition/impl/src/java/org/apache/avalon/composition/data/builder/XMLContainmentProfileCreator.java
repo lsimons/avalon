@@ -57,7 +57,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * from a Configuration object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/02/23 13:00:31 $
+ * @version $Revision: 1.10 $ $Date: 2004/03/10 10:52:18 $
  */
 public class XMLContainmentProfileCreator extends XMLProfileCreator
 {
@@ -476,7 +476,7 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
          final String name = config.getAttribute( "name" );
          final String classname = config.getAttribute( "class" );
          final String key = config.getAttribute( "profile" );
-         final boolean activation = getActivationPolicy( config ); 
+         final int activation = getActivationDirective( config ); 
          return new NamedComponentProfile( name, classname, key, activation );
     }
 

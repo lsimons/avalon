@@ -3,7 +3,7 @@
 <targets>
 
   <target path="/tutorial/hello">
-    <categories priority="INFO"/>
+    <categories priority="DEBUG"/>
   </target>
 
 </targets>

@@ -98,7 +98,7 @@ import org.apache.avalon.logging.data.CategoryDirective;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:23 $
+ * @version $Revision: 1.4 $ $Date: 2004/03/10 10:52:17 $
  */
 public class ComponentProfile extends DeploymentProfile
 {
@@ -163,7 +163,7 @@ public class ComponentProfile extends DeploymentProfile
            final String classname )
     {
         this( 
-          name, false, InfoDescriptor.UNDEFINED, classname, null, null, null, null, 
+          name, DeploymentProfile.DEFAULT, InfoDescriptor.UNDEFINED, classname, null, null, null, null, 
           null, null, Mode.IMPLICIT );
     }
 
@@ -176,7 +176,7 @@ public class ComponentProfile extends DeploymentProfile
     {
         this( 
           name, 
-          template.getActivationPolicy(),
+          template.getActivationDirective(),
           template.getCollectionPolicy(),
           template.m_classname,
           template.m_categories,
@@ -190,7 +190,7 @@ public class ComponentProfile extends DeploymentProfile
 
     public ComponentProfile( 
            final String name, 
-           final boolean activation, 
+           final int activation, 
            final int collection, 
            final String classname, 
            final CategoriesDirective categories, 

@@ -42,7 +42,7 @@ public class ComponentProfileTestCase extends TestCase
     private Type m_type;
     private CategoriesDirective m_categories;
     private Mode m_mode;
-    private boolean m_activation;
+    private int m_activation;
     private Parameters m_parameters;
     private Configuration m_configuration;
     private ContextDirective m_context;
@@ -67,7 +67,7 @@ public class ComponentProfileTestCase extends TestCase
         m_dependencies = new DependencyDirective[0];
         m_stages = new StageDirective[0];
         m_parameters = Parameters.fromProperties(System.getProperties());
-        m_activation = true;
+        m_activation = DeploymentProfile.ENABLED;
         m_mode = Mode.IMPLICIT;
         m_categories = new CategoriesDirective( new CategoryDirective[0] );
         m_collection = InfoDescriptor.DEMOCRAT;
@@ -85,7 +85,7 @@ public class ComponentProfileTestCase extends TestCase
         assertEquals( "classname", m_classname, profile.getClassname() );
         assertEquals( "categories", m_categories, profile.getCategories() );
         assertEquals( "mode", m_mode, profile.getMode() );
-        assertEquals( "activation", m_activation, profile.getActivationPolicy() );
+        assertEquals( "activation", m_activation, profile.getActivationDirective() );
         assertEquals( "parameters", m_parameters, profile.getParameters() );
         assertEquals( "configuration", m_configuration, profile.getConfiguration() );
         assertEquals( "context", m_context, profile.getContext() );

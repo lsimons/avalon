@@ -28,7 +28,7 @@ import org.apache.avalon.meta.info.Type;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/03/02 00:12:16 $
+ * @version $Revision: 1.7 $ $Date: 2004/03/10 10:52:17 $
  */
 public interface ComponentModel extends DeploymentModel
 {
@@ -74,11 +74,6 @@ public interface ComponentModel extends DeploymentModel
     * @param policy the activaltion policy
     */
     void setActivationPolicy( boolean policy );
-
-   /**
-    * Set the activation policy for the model to the default value. 
-    */
-    void revertActivationPolicy();
 
    /**
     * Return the class for the deployable target.

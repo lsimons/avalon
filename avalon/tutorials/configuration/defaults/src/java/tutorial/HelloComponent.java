@@ -26,7 +26,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 /**
  * A configurable component.
  *
- * @avalon.component version="1.0" name="simple" lifestyle="singleton"
+ * @avalon.component version="1.0" name="simple"
  */
 public class HelloComponent extends AbstractLogEnabled 
   implements Configurable, Initializable
