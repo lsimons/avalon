@@ -1,5 +1,9 @@
 <?xml version="1.0"?>
 
+<!DOCTYPE project [
+  <!ENTITY check-targets SYSTEM "file:../check-targets.ent">
+]>
+
 <project name="Excalibur Event" default="main" basedir=".">
 
     <property file="${user.home}/build.properties"/>
@@ -18,6 +22,9 @@
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
         <pathelement path="${java.class.path}"/>
+        <fileset dir="${lib.dir}">
+            <include name="*.jar" />
+        </fileset>
     </path>
 
     <path id="tools.class.path">
@@ -37,6 +44,9 @@
         <path refid="project.class.path"/>
     </path>
     <property name="cp" refid="test.class.path"/>
+
+    <target name="check-dependencies" depends="junit-check"/>
+    <target name="import-dependencies" depends="import-junit"/>
 
     <target name="main" depends="jar" description="Build the project"/>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
@@ -391,4 +401,5 @@
         <delete dir="${dist.base}" />
     </target>
 
+    &check-targets;
 </project>

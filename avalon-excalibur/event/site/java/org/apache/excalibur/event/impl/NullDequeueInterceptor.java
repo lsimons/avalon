@@ -47,31 +47,45 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.excalibur.event.test;
+package org.apache.excalibur.event.impl;
 
-import org.apache.excalibur.event.impl.*;
+import org.apache.excalibur.event.DequeueInterceptor;
+import org.apache.excalibur.event.Source;
 
 /**
- * The default queue implementation is a variabl size queue.
+ * The dequeue executable interface describes operations that
+ * are executed before and after elements are pulled from a
+ * queue.
  *
+ * @version $Revision: 1.1 $
+ * @author  <a href="mailto:schierma@users.sourceforge.net">schierma</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public final class FixedSizeQueueTestCase extends AbstractQueueTestCase
+public final class NullDequeueInterceptor implements DequeueInterceptor
 {
-    public FixedSizeQueueTestCase( String name )
-    {
-        super( name );
-    }
 
-    public void testFixedSizeQueue()
-        throws Exception
-    {
-        this.performQueue( new FixedSizeQueue( 32 ) );
-    }
+    /**
+     * An operation executed before dequeing events from
+     * the queue. The size of the queue is passed in so the
+     * implementation can determine to execute based on the
+     * size of the queue.
+     * @since Feb 10, 2003
+     *
+     * @param context
+     *  The source from which the dequeue is performed.
+     */
+    public void before(Source context) {}
 
-    public void testThresholdDefaultQueue()
-        throws Exception
-    {
-        this.performQueue( new DefaultQueue( new ThresholdEnqueuePredicate( 32 ) ) );
-    }
+    /**
+     * An operation executed after dequeing events from
+     * the queue. The size of the queue is passed in so the
+     * implementation can determine to execute based on the
+     * size of the queue.
+     * @since Feb 10, 2003
+     *
+     * @param context
+     *  The source from which the dequeue is performed.
+     */
+    public void after(Source context) {}
+
 }

@@ -47,31 +47,48 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.excalibur.event.test;
+package org.apache.excalibur.event.impl;
 
-import org.apache.excalibur.event.impl.*;
+import org.apache.excalibur.event.EnqueuePredicate;
+import org.apache.excalibur.event.Sink;
 
 /**
- * The default queue implementation is a variabl size queue.
- *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * The ThresholdEnqueuePredicate limits the elements that can be enqueued
+ * based on the size of the Queue.
  */
-public final class FixedSizeQueueTestCase extends AbstractQueueTestCase
+public final class ThresholdEnqueuePredicate implements EnqueuePredicate
 {
-    public FixedSizeQueueTestCase( String name )
+    private final int m_threshold;
+
+    /**
+     * Create a new ThresholdEnqueuePredicate with the supplied limit.
+     *
+     * @param limit  A number greater than zero
+     */
+    public ThresholdEnqueuePredicate(int limit)
     {
-        super( name );
+        m_threshold = limit;
     }
 
-    public void testFixedSizeQueue()
-        throws Exception
+    /**
+     * Returns true if the Sink size + 1 (the element) is less than the
+     * threshold.
+     */
+    public boolean accept(Object element, Sink modifyingSink)
     {
-        this.performQueue( new FixedSizeQueue( 32 ) );
+        if ( m_threshold <=0 ) return true;
+
+        return (modifyingSink.size() + 1) < m_threshold;
     }
 
-    public void testThresholdDefaultQueue()
-        throws Exception
+    /**
+     * Returns true if the Sink size + the number of elements is less than
+     * the threshold.
+     */
+    public boolean accept(Object[] elements, Sink modifyingSink)
     {
-        this.performQueue( new DefaultQueue( new ThresholdEnqueuePredicate( 32 ) ) );
+        if ( m_threshold <=0 ) return true;
+
+        return (modifyingSink.size() + elements.length) < m_threshold;
     }
 }

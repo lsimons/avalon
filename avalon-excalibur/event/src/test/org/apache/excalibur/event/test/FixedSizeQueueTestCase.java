@@ -49,7 +49,7 @@
 */
 package org.apache.excalibur.event.test;
 
-import org.apache.excalibur.event.impl.FixedSizeQueue;
+import org.apache.excalibur.event.impl.*;
 
 /**
  * The default queue implementation is a variabl size queue.
@@ -67,5 +67,11 @@ public final class FixedSizeQueueTestCase extends AbstractQueueTestCase
         throws Exception
     {
         this.performQueue( new FixedSizeQueue( 32 ) );
+    }
+
+    public void testThresholdDefaultQueue()
+        throws Exception
+    {
+        this.performQueue( new DefaultQueue( new ThresholdEnqueuePredicate( 32 ) ) );
     }
 }

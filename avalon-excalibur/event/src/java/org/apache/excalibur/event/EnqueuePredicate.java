@@ -47,31 +47,46 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.excalibur.event.test;
+package org.apache.excalibur.event;
 
-import org.apache.excalibur.event.impl.*;
+import org.apache.excalibur.event.Sink;
 
 /**
- * The default queue implementation is a variabl size queue.
+ * Enqueue predicates allow users to specify a method that
+ * will 'screen' elements being enqueued onto a sink, either
+ * accepting or rejecting them. This mechanism can be used
+ * to implement many interesting load-conditioning policies,
+ * for example, simple thresholding, rate control, credit-based
+ * flow control, and so forth. Note that the enqueue predicate
+ * runs in the context of the <b>caller of enqueue()</b>, which
+ * means it must be simple and fast.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @version $Revision: 1.1 $
+ * @author  <a href="mailto:schierma@users.sourceforge.net">schierma</a>
  */
-public final class FixedSizeQueueTestCase extends AbstractQueueTestCase
+public interface EnqueuePredicate
 {
-    public FixedSizeQueueTestCase( String name )
-    {
-        super( name );
-    }
+    /**
+     * Tests the given element for acceptance onto the m_sink.
+     * @since Feb 10, 2003
+     *
+     * @param  element  The element to enqueue
+     * @param  modifyingSing  The sink that is used for this predicate
+     * @return
+     *  <code>true</code> if the sink accepts the element;
+     *  <code>false</code> otherwise.
+     */
+    boolean accept(Object element, Sink modifyingSink);
 
-    public void testFixedSizeQueue()
-        throws Exception
-    {
-        this.performQueue( new FixedSizeQueue( 32 ) );
-    }
-
-    public void testThresholdDefaultQueue()
-        throws Exception
-    {
-        this.performQueue( new DefaultQueue( new ThresholdEnqueuePredicate( 32 ) ) );
-    }
+    /**
+     * Tests the given element for acceptance onto the m_sink.
+     * @since Feb 10, 2003
+     *
+     * @param  elements  The array of elements to enqueue
+     * @param  modifyingSing  The sink that is used for this predicate
+     * @return
+     *  <code>true</code> if the sink accepts all the elements;
+     *  <code>false</code> otherwise.
+     */
+    boolean accept(Object elements[], Sink modifyingSink);
 }

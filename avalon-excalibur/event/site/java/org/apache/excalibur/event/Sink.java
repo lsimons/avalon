@@ -155,6 +155,8 @@ public interface Sink
      * thresholding, and does not always accurately report maxSize().
      *
      * @return -1 if the sink has no length threshold.
+     *
+     * @deprecated  Use the EnqueuePredicate to control this instead.
      */
     int maxSize();
 
@@ -166,6 +168,8 @@ public interface Sink
      * fail, since the Sink may be serviced in the meantime.
      *
      * @return true if the Sink is full
+     *
+     * @deprecated  Use the EnqueuePredicate to control this instead
      */
     boolean isFull();
 
@@ -175,11 +179,20 @@ public interface Sink
      * <code>maxSize()</code>.  It will return -1 if the sink is unbounded.
      *
      * @return the number of elements the Sink can accept
+     *
+     * @deprecated  Use the EnqueuePredicate to control this instead.
      */
     int canAccept();
 
     /**
      * Returns the number of elements waiting in this Sink.
+     *
+     * <p><span style="color: blue;"><i>Important:</i></span>
+     *   The contract for this method was updated to account for any elements
+     *   that were prepared for enqueueing.  It provides a more predictable
+     *   and consistent environment, as well as making it easier for
+     *   EnqueuePredicates to account for those elements.
+     * </p>
      *
      * @return the number of elements in the Sink
      */

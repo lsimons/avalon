@@ -52,6 +52,7 @@ package org.apache.excalibur.event.impl;
 import org.apache.commons.collections.Buffer;
 import org.apache.commons.collections.UnboundedFifoBuffer;
 import EDU.oswego.cs.dl.util.concurrent.ReentrantLock;
+import org.apache.excalibur.event.EnqueuePredicate;
 import org.apache.excalibur.event.PreparedEnqueue;
 import org.apache.excalibur.event.SinkException;
 import org.apache.excalibur.event.SinkFullException;
@@ -81,22 +82,17 @@ public final class DefaultQueue extends AbstractQueue
      */
     public DefaultQueue( int size )
     {
-        int maxSize;
+        this( new ThresholdEnqueuePredicate( size ) );
+    }
 
-        if( size > 0 )
-        {
-            m_elements = new UnboundedFifoBuffer( size );
-            maxSize = size;
-        }
-        else
-        {
-            m_elements = new UnboundedFifoBuffer();
-            maxSize = -1;
-        }
+    public DefaultQueue( EnqueuePredicate predicate )
+    {
+        setEnqueuePredicate( predicate );
 
         m_mutex = new ReentrantLock();
+        m_elements = new UnboundedFifoBuffer();
         m_reserve = 0;
-        m_maxSize = maxSize;
+        m_maxSize = -1;
     }
 
     /**
@@ -104,17 +100,17 @@ public final class DefaultQueue extends AbstractQueue
      */
     public DefaultQueue()
     {
-        this( -1 );
+        this( new NullEnqueuePredicate() );
     }
 
     /**
      * Return the number of elements currently in the <code>Queue</code>.
      *
-     * @return <code>int</code> representing the number of elements.
+     * @return <code>int</code> representing the number of elements (including the reserved ones).
      */
     public int size()
     {
-        return m_elements.size();
+        return m_elements.size() + m_reserve;
     }
 
     /**
@@ -139,13 +135,14 @@ public final class DefaultQueue extends AbstractQueue
             m_mutex.acquire();
             try
             {
-
-                if( maxSize() > 0 && elements.length + m_reserve + size() > maxSize() )
+                if( getEnqueuePredicate().accept(elements, this) )
+                {
+                    enqueue = new DefaultPreparedEnqueue( this, elements );
+                }
+                else
                 {
                     throw new SinkFullException( "Not enough room to enqueue these elements." );
                 }
-
-                enqueue = new DefaultPreparedEnqueue( this, elements );
             }
             finally
             {
@@ -154,6 +151,10 @@ public final class DefaultQueue extends AbstractQueue
         }
         catch( InterruptedException ie )
         {
+            if ( null == enqueue )
+            {
+                throw new SinkException("The mutex was interrupted before it could be released");
+            }
         }
 
         return enqueue;
@@ -168,14 +169,12 @@ public final class DefaultQueue extends AbstractQueue
             m_mutex.acquire();
             try
             {
+                success = getEnqueuePredicate().accept( element, this );
 
-                if( maxSize() > 0 && 1 + m_reserve + size() > maxSize() )
+                if ( success )
                 {
-                    return false;
+                    m_elements.add( element );
                 }
-
-                m_elements.add( element );
-                success = true;
             }
             finally
             {
@@ -199,7 +198,7 @@ public final class DefaultQueue extends AbstractQueue
             m_mutex.acquire();
             try
             {
-                if( maxSize() > 0 && elements.length + m_reserve + size() > maxSize() )
+                if( ! getEnqueuePredicate().accept( elements, this ) )
                 {
                     throw new SinkFullException( "Not enough room to enqueue these elements." );
                 }
@@ -227,7 +226,7 @@ public final class DefaultQueue extends AbstractQueue
             m_mutex.acquire();
             try
             {
-                if( maxSize() > 0 && 1 + m_reserve + size() > maxSize() )
+                if( ! getEnqueuePredicate().accept(element, this) )
                 {
                     throw new SinkFullException( "Not enough room to enqueue these elements." );
                 }
@@ -246,6 +245,7 @@ public final class DefaultQueue extends AbstractQueue
 
     public Object[] dequeue( final int numElements )
     {
+        getDequeueInterceptor().before(this);
         Object[] elements = EMPTY_ARRAY;
 
         try
@@ -266,13 +266,16 @@ public final class DefaultQueue extends AbstractQueue
         }
         catch( InterruptedException ie )
         {
+            //TODO: exception handling
         }
 
+        getDequeueInterceptor().after(this);
         return elements;
     }
 
     public Object[] dequeueAll()
     {
+        getDequeueInterceptor().before(this);
         Object[] elements = EMPTY_ARRAY;
 
         try
@@ -291,8 +294,10 @@ public final class DefaultQueue extends AbstractQueue
         }
         catch( InterruptedException ie )
         {
+            // TODO: exception hanlding
         }
 
+        getDequeueInterceptor().after(this);
         return elements;
     }
 
@@ -321,6 +326,7 @@ public final class DefaultQueue extends AbstractQueue
 
     public Object dequeue()
     {
+        getDequeueInterceptor().before(this);
         Object element = null;
 
         try
@@ -342,8 +348,10 @@ public final class DefaultQueue extends AbstractQueue
         }
         catch( InterruptedException ie )
         {
+            // TODO: exception handling
         }
 
+        getDequeueInterceptor().after(this);
         return element;
     }
 
@@ -356,6 +364,7 @@ public final class DefaultQueue extends AbstractQueue
         {
             m_parent = parent;
             m_elements = elements;
+            m_parent.m_reserve += elements.length;
         }
 
         public void commit()
@@ -367,8 +376,8 @@ public final class DefaultQueue extends AbstractQueue
 
             try
             {
-                m_parent.enqueue( m_elements );
                 m_parent.m_reserve -= m_elements.length;
+                m_parent.enqueue( m_elements );
                 m_elements = null;
             }
             catch( Exception e )

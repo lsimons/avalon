@@ -47,31 +47,23 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.excalibur.event.test;
+package org.apache.excalibur.event.impl;
 
-import org.apache.excalibur.event.impl.*;
+import org.apache.excalibur.event.EnqueuePredicate;
+import org.apache.excalibur.event.Sink;
 
 /**
- * The default queue implementation is a variabl size queue.
- *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * The NullEnqueuePredicate does nothing to limit a Queue's ability to enqueue.
  */
-public final class FixedSizeQueueTestCase extends AbstractQueueTestCase
+public final class NullEnqueuePredicate implements EnqueuePredicate
 {
-    public FixedSizeQueueTestCase( String name )
+    public boolean accept(Object element, Sink modifyingSink)
     {
-        super( name );
+        return true;
     }
 
-    public void testFixedSizeQueue()
-        throws Exception
+    public boolean accept(Object[] element, Sink modifyingSink)
     {
-        this.performQueue( new FixedSizeQueue( 32 ) );
-    }
-
-    public void testThresholdDefaultQueue()
-        throws Exception
-    {
-        this.performQueue( new DefaultQueue( new ThresholdEnqueuePredicate( 32 ) ) );
+        return true;
     }
 }
