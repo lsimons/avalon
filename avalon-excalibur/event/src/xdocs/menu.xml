@@ -12,8 +12,8 @@
 
     <menu name="Overview">
       <item href="event.html" name="Event"/>
- <!--     <item href="command.html" name="Command"/>
-      <item href="mpool.html" name="MPool"/>
+      <item href="command.html" name="Command"/>
+ <!--     <item href="mpool.html" name="MPool"/>
       <item href="thread.html" name="Thread"/>
       <item href="util.html" name="Util"/>    -->
     </menu>
