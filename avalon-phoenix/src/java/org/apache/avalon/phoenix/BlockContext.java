@@ -45,6 +45,8 @@ public interface BlockContext
      *
      * @param category the category
      * @return the ThreadManager
+     * @deprecated Use ThreadManager service rather than 
+     *             accessing ThreadPool via this method.
      */
     ThreadPool getThreadPool( String category );
 
@@ -53,6 +55,8 @@ public interface BlockContext
      * Equivelent to getThreadPool( "default" );
      *
      * @return the default ThreadPool
+     * @deprecated Use ThreadManager service rather than 
+     *             accessing ThreadPool via this method.
      */
     ThreadPool getDefaultThreadPool();
 
