@@ -8,3 +8,5 @@ excalibur-*
 *.ipr
 *.log
 target
+
+*.iml
