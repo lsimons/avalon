@@ -31,7 +31,6 @@ import org.apache.avalon.phoenix.interfaces.KernelMBean;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
 import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
-import org.apache.log.Hierarchy;
 
 /**
  * The ServerKernel is the core of the Phoenix system.

@@ -49,7 +49,6 @@ import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
 import org.apache.excalibur.containerkit.verifier.VerifyException;
 import org.apache.avalon.phoenix.metainfo.BlockDescriptor;
-import org.apache.log.Hierarchy;
 
 /**
  * Deploy .sar files into a kernel using this class.
