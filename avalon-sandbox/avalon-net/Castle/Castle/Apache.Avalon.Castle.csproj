@@ -139,6 +139,11 @@
                     Project = "{E311F863-2E58-4466-94A2-31A68B341C87}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "Apache.Avalon.DynamicProxy"
+                    AssemblyName = "Apache.Avalon.DynamicProxy"
+                    HintPath = "..\bin\Apache.Avalon.DynamicProxy.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -264,17 +269,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Core\Proxies\AbstractManagedObjectProxy.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Core\Proxies\LoggingManagerProxy.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Core\Proxies\RuntimeProxy.cs"
+                    RelPath = "Core\Proxies\ManagedObjectProxyGenerator.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -320,6 +315,11 @@
                 />
                 <File
                     RelPath = "Default\Repository\DefaultRepository.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Default\Runtime\CastleRuntime.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -29,7 +29,7 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.2 $ $Date: 2004/02/29 18:07:17 $
+	/// <version>  $Revision: 1.3 $ $Date: 2004/03/06 15:44:41 $
 	/// </version>
 	public class StandardModelFactory : IModelFactory
 	{
@@ -75,7 +75,6 @@ namespace Apache.Avalon.Composition.Model.Default
 			{
 				return m_logger;
 			}
-			
 		}
 
 		/// <summary> Creation of a new root containment model using 

@@ -76,7 +76,7 @@
                 />
                 <Reference
                     Name = "System.XML"
-                    AssemblyName = "System.XML"
+                    AssemblyName = "System.Xml"
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
@@ -109,12 +109,22 @@
                     Project = "{F64EB1C1-A909-41AD-AAF8-B17B64D1BE93}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "Apache.Avalon.DynamicProxy"
+                    AssemblyName = "Apache.Avalon.DynamicProxy"
+                    HintPath = "..\..\Castle\bin\Apache.Avalon.DynamicProxy.dll"
+                />
             </References>
         </Build>
         <Files>
             <Include>
                 <File
                     RelPath = "AbstractAppliance.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ApplianceInvocationHandler.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
