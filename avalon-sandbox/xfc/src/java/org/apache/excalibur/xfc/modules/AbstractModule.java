@@ -66,7 +66,7 @@ import org.apache.excalibur.xfc.model.Model;
  * to prospective subclasses.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: AbstractModule.java,v 1.2 2002/10/04 14:46:35 crafterm Exp $
+ * @version CVS $Id: AbstractModule.java,v 1.3 2002/10/14 16:17:50 crafterm Exp $
  */
 public abstract class AbstractModule
     extends AbstractLogEnabled
@@ -79,6 +79,8 @@ public abstract class AbstractModule
     protected static final String     SINGLETON = "singleton";
 
     protected static final char       CONTEXT_SEPARATOR = ':';
+
+    protected static final String     COMPONENT = "component";
 
     protected final DefaultConfigurationSerializer m_serializer;
     protected final DefaultConfigurationBuilder m_builder;

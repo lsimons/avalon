@@ -74,19 +74,21 @@ import junit.textui.TestRunner;
  * XFC TestCase.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: xfcTestCase.java,v 1.5 2002/10/08 15:02:02 crafterm Exp $
+ * @version CVS $Id: xfcTestCase.java,v 1.6 2002/10/14 16:17:50 crafterm Exp $
  */
 public final class xfcTestCase extends TestCase
 {
     // location of ECM roles/xconf configuration data
     private static final String ECM_ROLES =
         "../testclasses/org/apache/excalibur/xfc/test/ecm.roles";
-    private static final String ECM_XCONF = "ecm.xconf";
+    private static final String ECM_XCONF =
+        "../testclasses/org/apache/excalibur/xfc/test/ecm.xconf";
 
     // location of Fortress roles/xconf configuration data
     private static final String FORTRESS_ROLES =
         "../testclasses/org/apache/excalibur/xfc/test/fortress.roles";
-    private static final String FORTRESS_XCONF = "fortress.xconf";
+    private static final String FORTRESS_XCONF =
+        "../testclasses/org/apache/excalibur/xfc/test/fortress.xconf";
 
     // misc internals
     private DefaultConfigurationBuilder m_builder = new DefaultConfigurationBuilder();
@@ -208,7 +210,8 @@ public final class xfcTestCase extends TestCase
     public void testXFC_ECM_serialize()
         throws Exception
     {
-        String ECM_ROLES_GENERATED = "ecm-generated.roles";
+        final String ECM_ROLES_GENERATED = "ecm-generated.roles";
+        final String ECM_XCONF_GENERATED = "ecm-generated.xconf";
 
         // create an ECM module test rig instance
         ECMTestRig ecm = new ECMTestRig();
@@ -218,7 +221,7 @@ public final class xfcTestCase extends TestCase
         Model model = ecm.generate( ECM_ROLES + ":" + ECM_XCONF );
 
         // serialize the model out to a temporary file
-        ecm.serialize( model, ECM_ROLES_GENERATED + ":" + ECM_XCONF );
+        ecm.serialize( model, ECM_ROLES_GENERATED + ":" + ECM_XCONF_GENERATED );
 
         // compare original with generated copy, they should be equal
         Configuration master = m_builder.buildFromFile( ECM_ROLES );
@@ -400,9 +403,6 @@ public final class xfcTestCase extends TestCase
 
         // generate model from predefined ECM configuration
         Model model = ecm.generate( ECM_ROLES + ":" + ECM_XCONF );
-
-        // serialize the model out to a Fortress temporary file
-        //fortress.serialize( model, FORTRESS_ROLES_GENERATED + ":" + FORTRESS_XCONF );
 
         // load the same config and manually verify that model is correct
         Configuration[] rolesREAL =

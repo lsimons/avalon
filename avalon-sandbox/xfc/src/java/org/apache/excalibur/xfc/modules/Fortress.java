@@ -56,6 +56,8 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 
 import org.apache.excalibur.xfc.model.Definition;
+import org.apache.excalibur.xfc.model.Instance;
+import org.apache.excalibur.xfc.model.Model;
 import org.apache.excalibur.xfc.model.RoleRef;
 
 /**
@@ -81,7 +83,7 @@ import org.apache.excalibur.xfc.model.RoleRef;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: Fortress.java,v 1.4 2002/10/08 10:42:32 crafterm Exp $
+ * @version CVS $Id: Fortress.java,v 1.5 2002/10/14 16:17:50 crafterm Exp $
  */
 public class Fortress extends ECM
 {
@@ -159,7 +161,7 @@ public class Fortress extends ECM
                 );
         }
 
-        return new RoleRef( getRole( role ), "UNKNOWN-REVISIT", definitions );
+        return new RoleRef( getRole( role ), "UNKNOWN", definitions );
     }
 
     /**
@@ -208,7 +210,7 @@ public class Fortress extends ECM
     protected String getHandler( final Configuration role )
         throws Exception
     {
-        return getLifestyleType( role.getAttribute( "handler" ), TRANSIENT );
+        return getLifestyleType( role.getAttribute( "handler" ), FACTORY );
     }
 
     /**
@@ -239,6 +241,41 @@ public class Fortress extends ECM
         }
 
         return defaultValue;
+    }
+
+    protected Instance buildInstance( final Configuration i )
+        throws Exception
+    {
+        if ( i.getName().equals( COMPONENT ) )
+        {
+            // build non-role component
+            return buildNonRoleComponentInstance( i );
+        }
+
+        // build role based component
+        return buildRoleComponentInstance( i );
+    }
+
+    protected Instance buildNonRoleComponentInstance( final Configuration i )
+        throws Exception
+    {
+        return new Instance(
+            i.getChildren(),
+            i.getAttribute( "class" ),
+            i.getAttribute( "role" ),
+            null
+        );
+    }
+
+    protected Instance buildRoleComponentInstance( final Configuration i )
+        throws Exception
+    {
+        return new Instance(
+            i.getName(),
+            i.getChildren(),
+            null,
+            null
+        );
     }
 
     /**
@@ -276,7 +313,7 @@ public class Fortress extends ECM
             hint.setAttribute( "shorthand", defs[i].getShorthand() );
             hint.setAttribute( "class", defs[i].getDefaultClass() );
             hint.setAttribute(
-                "handler", getLifestyleType( defs[i].getHandler(), TRANSIENT )
+                "handler", getLifestyleType( defs[i].getHandler(), FACTORY )
             );
 
             role.addChild( hint );
@@ -285,5 +322,161 @@ public class Fortress extends ECM
         role.setAttribute( "name", ref.getRole() );
 
         return role;
+    }
+
+    /**
+     * Serializes a {@link Model} definition, ECM style, to an
+     * output context.
+     *
+     * @param model a {@link Model} instance
+     * @param context ECM output Context
+     * @exception Exception if an error occurs
+     */
+    public void serialize( final Model model, final String context )
+        throws Exception
+    {
+        validateContext( context );
+
+        // create the role file
+        RoleRef[] rolerefs = model.getDefinitions();
+        DefaultConfiguration roles = new DefaultConfiguration( "role-list", "" );
+
+        // for each type object generate a roles file entry
+        for ( int i = 0; i < rolerefs.length; ++i )
+        {
+            roles.addChild( buildRole( rolerefs[i] ) );
+        }
+
+        m_serializer.serializeToFile( getRoleFile( context ), roles );
+
+        // create the xconf file
+        Instance[] instances = model.getInstances();
+        DefaultConfiguration xconf = new DefaultConfiguration( "xconf", "" );
+
+        // for each instance object generate an xconf file entry
+        for ( int j = 0; j < instances.length; ++j )
+        {
+            Configuration[] xconfs = buildXConf( instances[j] );
+
+            for ( int k = 0; k < xconfs.length; ++k )
+            {
+                xconf.addChild( xconfs[k] );
+            }
+        }
+
+        m_serializer.serializeToFile( getConfigurationFile( context ), xconf );
+    }
+
+    protected Configuration[] buildXConf( final Instance i )
+        throws Exception
+    {
+        if ( i.getShorthand() != null )
+        {
+
+            if ( i.getSubInstances() == null )
+            {
+                // has shorthand, single component
+                return new Configuration[] { buildSingleRoleXConf( i ) };
+            }
+
+            // has shorthand, multi component
+            return buildMultiRoleXConf( i );
+        }
+
+        if ( i.getSubInstances() == null )
+        {
+            // has no shorthand, no subinstances
+            return new Configuration[] { buildNonRoleSingleXConf( i ) };
+        }
+
+        // has no shorthand, has subinstances
+        return buildNonRoleMultiXConf( i );
+    }
+
+    private Configuration buildSingleRoleXConf( final Instance i )
+        throws Exception
+    {
+        DefaultConfiguration conf = new DefaultConfiguration( i.getShorthand(), "" );
+
+        if ( i.getConfiguration() != null )
+        {
+            Configuration[] kids = i.getConfiguration();
+
+            for ( int j = 0; j < kids.length; ++j )
+            {
+                conf.addChild( kids[j] );
+            }
+        }
+
+        conf.setAttribute( "id", i.getShorthand() );
+
+        return conf;
+    }
+
+    private Configuration[] buildMultiRoleXConf( final Instance i )
+        throws Exception
+    {
+        Instance[] subinstances = i.getSubInstances();
+        Configuration[] xconf = new Configuration[ subinstances.length ];
+
+        for ( int j = 0; j < subinstances.length; ++j )
+        {
+            xconf[j] = buildSingleRoleXConf( subinstances[j] );
+        }
+
+        return xconf;
+    }
+
+    private Configuration buildNonRoleSingleXConf( final Instance i )
+        throws Exception
+    {
+        DefaultConfiguration conf = new DefaultConfiguration( "component", "" );
+
+        conf.setAttribute( "role", i.getRole() );
+        conf.setAttribute( "class", i.getClassImpl() );
+        conf.setAttribute( "handler", getLifestyleType( i.getHandler(), FACTORY ) );
+        conf.setAttribute( "id", "UNKNOWN" );
+
+        if ( i.getConfiguration() != null )
+        {
+            Configuration[] kids = i.getConfiguration();
+
+            for ( int j = 0; j < kids.length; ++j )
+            {
+                conf.addChild( kids[j] );
+            }
+        }
+
+        return conf;
+    }
+
+    private Configuration[] buildNonRoleMultiXConf( final Instance i )
+    {
+        Instance[] subs = i.getSubInstances();
+        Configuration[] xconfs = new Configuration[ subs.length ];
+
+        for ( int j = 0; j < subs.length; ++j )
+        {
+            DefaultConfiguration conf = new DefaultConfiguration( COMPONENT, "" );
+
+            conf.setAttribute( "role", i.getRole() );
+            conf.setAttribute( "class", subs[j].getClassImpl() );
+            conf.setAttribute( "handler", getLifestyleType( subs[j].getHandler(), FACTORY ) );
+            conf.setAttribute( "id", subs[j].getShorthand() );
+
+            if ( subs[j].getConfiguration() != null )
+            {
+                Configuration[] kids = subs[j].getConfiguration();
+
+                for ( int k = 0; k < kids.length; ++k )
+                {
+                    conf.addChild( kids[k] );
+                }
+            }
+
+            xconfs[j] = conf;
+        }
+
+        return xconfs;
     }
 }
