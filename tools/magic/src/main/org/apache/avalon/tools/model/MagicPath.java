@@ -63,7 +63,7 @@ public class MagicPath extends Path
     * Set the path creation mode. A mode value may be one of 
     * ANY, BUILD, TEST or RUNTIME.
     *
-    * @param key the resource key
+    * @param mode the mode value
     */
     public void setMode( final String mode )
     {
