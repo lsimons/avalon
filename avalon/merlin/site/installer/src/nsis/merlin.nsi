@@ -19,7 +19,7 @@
   Name "Merlin Service Management"
 
   ;General
-  OutFile "..\..\..\..\target\merlin-install-3.4-dev.exe"
+  OutFile "..\..\..\..\target\merlin-install-3.3-SNAPSHOT.exe"
 
   ;Folder selection page
   InstallDir "$PROGRAMFILES\Merlin"
