@@ -1,6 +1,0 @@
-<components logger="system.components">
-    <!-- =============================================================== -->
-    <!-- Application components.                                         -->
-    <!-- =============================================================== -->
-    <example-instrumentable logger="example-instrumentable"/>
-</components>
