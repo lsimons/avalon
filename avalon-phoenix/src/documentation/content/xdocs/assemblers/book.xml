@@ -5,7 +5,7 @@
 <menu-item href="../index.html" label="Overview"/>
 <menu-item href="../features.html" label="Features"/>
 <menu-item href="../getting-started.html" label="Getting started"/>
-<menu-item href="../http://jakarta.apache.org/builds/jakarta-avalon-phoenix" label="Download"/>
+<menu-item href="http://avalon.apache.org/bindownload.cgi" label="Download"/>
 <menu-item href="../install.html" label="Install"/>
 </menu>
 <menu label="Guide">
@@ -28,13 +28,13 @@
 </menu>
 <menu label="For Developers">
 <menu-item href="../changes.html" label="Changes"/>
-<menu-item href="../http://jakarta.apache.org/avalon/code-standards.html" label="Coding standards"/>
+<menu-item href="http://avalon.apache.org/code-standards.html" label="Coding standards"/>
 <menu-item href="../for-developers-project-structure.html" label="Project Structure"/>
-<menu-item href="../http://jakarta.apache.org/site/cvsindex.html" label="CVS Repositories"/>
-<menu-item href="../http://jakarta.apache.org/site/mail.html" label="Mailing Lists"/>
-<menu-item href="../http://nagoya.apache.org/bugzilla/buglist.cgi?bug_status=UNCONFIRMED&amp;bug_status=NEW&amp;bug_status=ASSIGNED&amp;bug_status=REOPENED&amp;bug_status=RESOLVED&amp;product=Avalon&amp;component=Phoenix" label="TODO"/>
-<menu-item href="../http://nagoya.apache.org/bugzilla/enter_bug.cgi?product=Avalon&amp;component=Phoenix" label="Bug Database"/>
-<menu-item href="../http://nagoya.apache.org/bugzilla/enter_bug.cgi?product=Avalon&amp;component=Phoenix&amp;bug_severity=Enhancement" label="Enhancement Requests"/>
+<menu-item href="http://jakarta.apache.org/site/cvsindex.html" label="CVS Repositories"/>
+<menu-item href="http://jakarta.apache.org/site/mail.html" label="Mailing Lists"/>
+<menu-item href="http://nagoya.apache.org/bugzilla/buglist.cgi?bug_status=UNCONFIRMED&amp;bug_status=NEW&amp;bug_status=ASSIGNED&amp;bug_status=REOPENED&amp;bug_status=RESOLVED&amp;product=Avalon&amp;component=Phoenix" label="TODO"/>
+<menu-item href="http://nagoya.apache.org/bugzilla/enter_bug.cgi?product=Avalon&amp;component=Phoenix" label="Bug Database"/>
+<menu-item href="http://nagoya.apache.org/bugzilla/enter_bug.cgi?product=Avalon&amp;component=Phoenix&amp;bug_severity=Enhancement" label="Enhancement Requests"/>
 <menu-item href="../for-developers-alternate-kernel.html" label="Alternate Kernels"/>
 </menu>
 </book>
