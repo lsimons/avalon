@@ -64,7 +64,6 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.excalibur.event.Queue;
 import org.apache.excalibur.event.Sink;
 import org.apache.excalibur.event.impl.DefaultQueue;
 import org.apache.excalibur.instrument.InstrumentManager;
