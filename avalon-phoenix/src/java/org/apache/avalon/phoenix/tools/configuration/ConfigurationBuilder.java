@@ -21,7 +21,7 @@ import org.xml.sax.XMLReader;
  * Utility class used to load Configuration trees from XML files.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2002/07/19 01:13:33 $
+ * @version $Revision: 1.6 $ $Date: 2002/07/30 12:26:33 $
  */
 public class ConfigurationBuilder
 {
@@ -32,7 +32,10 @@ public class ConfigurationBuilder
                      "org/apache/avalon/phoenix/tools/blockinfo.dtd" ),
         new DTDInfo( "-//PHOENIX/Assembly DTD Version 1.0//EN",
                      "http://jakarta.apache.org/phoenix/assembly_1_0.dtd",
-                     "org/apache/avalon/phoenix/tools/assembly.dtd" )
+                     "org/apache/avalon/phoenix/tools/assembly.dtd" ),
+        new DTDInfo( "-//PHOENIX/Mx Info DTD Version 1.0//EN",
+                     "http://jakarta.apache.org/phoenix/mxinfo_1_0.dtd",
+                     "org/apache/avalon/phoenix/tools/mxinfo.dtd" )
     };
 
     private static final DTDResolver c_resolver =
@@ -61,11 +64,19 @@ public class ConfigurationBuilder
      * Internally sets up the XMLReader
      */
     private static void setupXMLReader( final XMLReader reader,
-                                        final SAXConfigurationHandler handler )
+                                        final SAXConfigurationHandler handler,
+                                        final boolean validate)
+        throws SAXException
     {
         reader.setEntityResolver( c_resolver );
         reader.setContentHandler( handler );
         reader.setErrorHandler( handler );
+
+        if (validate)
+        {
+            // Request validation
+            reader.setFeature("http://xml.org/sax/features/validation", true);
+        }
     }
 
     /**
@@ -78,15 +89,35 @@ public class ConfigurationBuilder
     }
 
     /**
+     * Build a configuration object using an URI, and 
+     * optionally validate the xml against the DTD.
+     */
+    public static Configuration build( final String uri, boolean validate )
+        throws SAXException, ParserConfigurationException, IOException
+    {
+        return build( new InputSource( uri ), validate );
+    }
+
+    /**
      * Build a configuration object using an XML InputSource object
      */
     public static Configuration build( final InputSource input )
         throws SAXException, ParserConfigurationException, IOException
     {
+        return build( input, false );
+    }
+
+    /**
+     * Build a configuration object using an XML InputSource object, and 
+     * optionally validate the xml against the DTD.
+     */
+    public static Configuration build( final InputSource input, boolean validate )
+        throws SAXException, ParserConfigurationException, IOException
+    {
         final XMLReader reader = createXMLReader();
         final SAXConfigurationHandler handler = new SAXConfigurationHandler();
-        setupXMLReader( reader, handler );
+        setupXMLReader( reader, handler, validate );
         reader.parse( input );
         return handler.getConfiguration();
-    }
+    }   
 }
