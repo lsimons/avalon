@@ -174,7 +174,7 @@ public class JavadocTask extends SystemTask
         log( "Generating javadoc for project: " + def, Project.MSG_VERBOSE );
 
         final File root = def.getDocDirectory();
-        final Path classpath = def.getPath( getProject(), Policy.RUNTIME );
+        final Path classpath = def.getPath( getProject(), Policy.BUILD );
 
         if( m_staged )
         {

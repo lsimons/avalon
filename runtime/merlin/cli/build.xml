@@ -6,6 +6,8 @@
   <property file="build.properties"/>
   <import file="${project.home}/build/standard.xml"/>
 
+  <property name="merlin.zip" value="avalon-merlin-3.3.1-DEV.zip"/>
+
   <target name="init" depends="standard.init">
     <x:filter key="avalon-merlin-cli" feature="version" 
        token="VERSION"/>
@@ -33,7 +35,6 @@
       <fileset dir="${magic.cache}">
         <include name="avalon/**"/>
         <include name="commons-cli/jars/commons-cli-1.0.jar"/>
-        <include name="servletapi/jars/servletapi-2.3.jar"/>
         <exclude name="avalon/test/**"/>
         <exclude name="avalon/tools/**"/>
       </fileset>
@@ -41,6 +42,22 @@
     <copy todir="target/merlin" file="target/build/etc/merlin.properties.template"/>
     <mkdir dir="target/merlin/config"/>
     <copy todir="target/merlin/config" file="target/build/etc/kernel.xml"/>
+
+    <mkdir dir="target/deliverables/dist"/>
+    <zip zipfile="target/deliverables/dist/${merlin.zip}">
+      <zipfileset dir="target/merlin" prefix="merlin" filemode="755" >
+        <include name="bin/merlin"/>
+        <include name="bin/merlinx"/>
+        <include name="bin/*.sh"/>
+      </zipfileset>
+      <zipfileset dir="target/merlin" prefix="merlin">
+        <include name="**" />
+        <exclude name="bin/merlin"/>
+        <exclude name="bin/merlinx"/>
+        <exclude name="bin/*.sh"/>
+      </zipfileset>
+    </zip>
+
   </target>
 
 </project>

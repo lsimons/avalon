@@ -119,10 +119,10 @@
       <name>avalon-tools-magic</name>
     </info>
     <dependencies>
-      <include key="ant" build="false" test="false" runtime="true"/>
-      <include key="junit" build="false" test="false" runtime="true"/>
-      <include key="ant-junit" build="false" test="false" runtime="true"/>
-      <include key="ant-nodeps" build="false" test="false" runtime="true"/>
+      <include key="ant"/>
+      <include key="junit"/>
+      <include key="ant-junit"/>
+      <include key="ant-nodeps"/>
     </dependencies>
   </project>
 
@@ -153,10 +153,10 @@
     </info>
     <dependencies>
       <include key="avalonx-supplemental" build="false" test="false"/>
-      <include key="log4j" runtime="true"/>
-      <include key="servletapi" runtime="true"/>
-      <include key="mailapi" runtime="true"/>
-      <include key="jms" runtime="true"/>
+      <include key="log4j" runtime="false"/>
+      <include key="servletapi" runtime="false"/>
+      <include key="mailapi" runtime="false"/>
+      <include key="jms" runtime="false"/>
     </dependencies>
   </project>
 
@@ -863,6 +863,10 @@
       <include key="avalon-merlin-api" tag="spi"/>
       <include key="avalon-merlin-impl"/>
       <include key="avalon-merlin-cli"/>
+      <include key="log4j" runtime="false"/>
+      <include key="servletapi"/>
+      <include key="mailapi"/>
+      <include key="jms"/>
     </dependencies>
   </project>
 
