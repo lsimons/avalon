@@ -49,8 +49,6 @@
 */
 package org.apache.avalon.fortress;
 
-import org.apache.avalon.fortress.util.Service;
-
 import java.util.*;
 
 /**
@@ -60,7 +58,7 @@ import java.util.*;
  * to enable "self-healing" configuration files.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2003/06/18 13:16:46 $
+ * @version $Revision: 1.8 $ $Date: 2003/06/18 20:09:48 $
  */
 public final class MetaInfoEntry
 {

@@ -51,7 +51,6 @@ package org.apache.avalon.fortress;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceManager;
-
 import org.apache.excalibur.event.command.CommandFailureHandler;
 
 /**
@@ -60,7 +59,7 @@ import org.apache.excalibur.event.command.CommandFailureHandler;
  * present in the initial context.
  *
  * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/06/11 19:14:42 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/06/18 20:09:48 $
  */
 public interface ContainerManagerConstants extends ContainerConstants
 {
