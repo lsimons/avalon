@@ -19,7 +19,7 @@
     <targets>
        <file id="root">
         <filename>datasource-test.log</filename>
-        <format type="exteded">
+        <format type="extended">
           %7.7{priority} %5.5{time}   [%8.8{category}] (%{context}): %{message}\n%{throwable}
         </format>
        </file>
