@@ -84,10 +84,10 @@
     Avalon Tools.
     -->
 
-    <project basedir="../../tools/project">
+    <project basedir="../../tools/magic">
       <info>
         <group>avalon/tools</group>
-        <name>avalon-tools-project</name>
+        <name>avalon-tools-magic</name>
         <version>1.0.0</version>
       </info>
     </project>
