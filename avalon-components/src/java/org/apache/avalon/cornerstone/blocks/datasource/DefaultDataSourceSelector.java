@@ -44,6 +44,8 @@ import org.apache.avalon.phoenix.Block;
  * &lt;/data-sources&gt;
  * </pre>
  *
+ * @phoenix:service name="org.apache.avalon.cornerstone.services.datasource.DataSourceSelector"
+ *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
 public class DefaultDataSourceSelector

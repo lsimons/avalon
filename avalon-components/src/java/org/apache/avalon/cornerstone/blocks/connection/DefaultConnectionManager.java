@@ -23,9 +23,9 @@ import org.apache.avalon.phoenix.Block;
 /**
  * This is the service through which ConnectionManagement occurs.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- *
  * @phoenix:service name="org.apache.avalon.cornerstone.services.connection.ConnectionManager"
+ *
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class DefaultConnectionManager
     extends AbstractLogEnabled

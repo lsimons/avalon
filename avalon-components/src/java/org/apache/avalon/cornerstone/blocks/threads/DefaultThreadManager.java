@@ -21,6 +21,8 @@ import org.apache.avalon.phoenix.Block;
 /**
  * Default implementation of ThreadManager.
  *
+ * @phoenix:service name="org.apache.avalon.cornerstone.services.threads.ThreadManager"
+ *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class DefaultThreadManager

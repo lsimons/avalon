@@ -9,20 +9,21 @@ package org.apache.avalon.cornerstone.blocks.transport.publishing;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.component.ComponentManager;
+import org.apache.avalon.framework.component.ComponentException;
 import org.apache.excalibur.altrmi.server.impl.rmi.RmiServer;
 
 /**
- * Class RmiPublisher
- *
+ * @phoenix:service name="org.apache.excalibur.altrmi.server.AltrmiPublisher"
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
-public class RmiPublisher extends AbstractPublisher
+public class RmiPublisher
+    extends AbstractPublisher
 {
-
-    private String mHost;
-    private int mPort;
+    private String m_host;
+    private int m_port;
 
     /**
      * Pass the <code>Configuration</code> to the <code>Configurable</code>
@@ -36,8 +37,8 @@ public class RmiPublisher extends AbstractPublisher
 
         super.configure( configuration );
 
-        mPort = configuration.getChild( "port" ).getValueAsInteger();
-        mHost = configuration.getChild( "host" ).getValue();
+        m_port = configuration.getChild( "port" ).getValueAsInteger();
+        m_host = configuration.getChild( "host" ).getValue();
     }
 
     /**
@@ -50,9 +51,18 @@ public class RmiPublisher extends AbstractPublisher
     public void initialize() throws Exception
     {
 
-        m_AbstractServer = new RmiServer( mHost, mPort );
+        m_abstractServer = new RmiServer( m_host, m_port );
 
-        setupLogger( m_AbstractServer );
+        setupLogger( m_abstractServer );
         super.initialize();
+    }
+
+    /**
+     * @phoenix:dependency name="org.apache.excalibur.altrmi.server.AltrmiAuthenticator"
+     */
+    public void compose( ComponentManager manager )
+        throws ComponentException
+    {
+        super.compose( manager );
     }
 }

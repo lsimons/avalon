@@ -8,24 +8,22 @@
 package org.apache.avalon.cornerstone.blocks.transport.authentication;
 
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.Block;
 import org.apache.excalibur.altrmi.common.AltrmiAuthentication;
 import org.apache.excalibur.altrmi.common.AltrmiAuthenticationException;
 import org.apache.excalibur.altrmi.server.AltrmiAuthenticator;
 
 /**
- * Class DefaultAuthenticator
  *
+ * @phoenix:service name="org.apache.excalibur.altrmi.server.AltrmiAuthenticator"
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
-public class DefaultAuthenticator extends AbstractLogEnabled
+public class DefaultAuthenticator
     implements AltrmiAuthenticator, Initializable, Block
 {
-
-    protected AltrmiAuthenticator mAltrmiAuthenticator;
+    private AltrmiAuthenticator m_altrmiAuthenticator;
 
     /**
      * Initialialize the component. Initialization includes
@@ -34,38 +32,21 @@ public class DefaultAuthenticator extends AbstractLogEnabled
      *
      * @exception Exception if an error occurs
      */
-    public void initialize() throws Exception
+    public void initialize()
+        throws Exception
     {
-        mAltrmiAuthenticator = new org.apache.excalibur.altrmi.server.impl.DefaultAuthenticator();
+        m_altrmiAuthenticator =
+            new org.apache.excalibur.altrmi.server.impl.DefaultAuthenticator();
     }
 
-    /**
-     * Method checkAuthority
-     *
-     *
-     * @param authentication
-     * @param publishedName
-     *
-     * @return
-     *
-     * @throws AltrmiAuthenticationException
-     *
-     */
     public void checkAuthority( AltrmiAuthentication authentication, String publishedName )
         throws AltrmiAuthenticationException
     {
-        mAltrmiAuthenticator.checkAuthority( authentication, publishedName );
+        m_altrmiAuthenticator.checkAuthority( authentication, publishedName );
     }
 
-    /**
-     * Method getTextToSign
-     *
-     *
-     * @return
-     *
-     */
     public String getTextToSign()
     {
-        return mAltrmiAuthenticator.getTextToSign();
+        return m_altrmiAuthenticator.getTextToSign();
     }
 }

@@ -12,17 +12,16 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.excalibur.altrmi.client.impl.socket.SocketObjectStreamHostContext;
 
 /**
- * Class SocketObjectStreamSubscriber
- *
+ * @phoenix:service name="org.apache.excalibur.altrmi.client.AltrmiInterfaceLookup"
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
-public class SocketObjectStreamSubscriber extends AbstractSubscriber
+public class SocketObjectStreamSubscriber
+    extends AbstractSubscriber
 {
-
-    private String mHost;
-    private int mPort;
+    private String m_host;
+    private int m_port;
 
     /**
      * Pass the <code>Configuration</code> to the <code>Configurable</code>
@@ -31,13 +30,13 @@ public class SocketObjectStreamSubscriber extends AbstractSubscriber
      *
      * @param configuration the class configurations.
      */
-    public void configure( Configuration configuration ) throws ConfigurationException
+    public void configure( final Configuration configuration )
+        throws ConfigurationException
     {
-
         super.configure( configuration );
 
-        mPort = configuration.getChild( "port" ).getValueAsInteger();
-        mHost = configuration.getChild( "host" ).getValue();
+        m_port = configuration.getChild( "port" ).getValueAsInteger();
+        m_host = configuration.getChild( "host" ).getValue();
     }
 
     /**
@@ -47,11 +46,10 @@ public class SocketObjectStreamSubscriber extends AbstractSubscriber
      *
      * @exception Exception if an error occurs
      */
-    public void initialize() throws Exception
+    public void initialize()
+        throws Exception
     {
-
-        mHostContext = new SocketObjectStreamHostContext( mHost, mPort );
-
+        m_hostContext = new SocketObjectStreamHostContext( m_host, m_port );
         super.initialize();
     }
 }
