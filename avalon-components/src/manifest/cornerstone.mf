@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Created-By: Apache Avalon Project
+
+Name: org/apache/cornerstone/blocks/serversocket/SocketManager.class
+Avalon-Block: true
+
+Name: org/apache/cornerstone/blocks/eventserver/EventServer.class
+Avalon-Block: true
+
+Name: org/apache/cornerstone/blocks/masterstore/RepositoryManager.class
+Avalon-Block: true
+
+Name: org/apache/cornerstone/blocks/scheduler/DefaultJobScheduler.class
+Avalon-Block: true
+
+Name: org/apache/cornerstone/blocks/scheduler/DefaultTimeScheduler.class
+Avalon-Block: true
+
+Name: org/apache/cornerstone/blocks/sockets/DefaultSocketManager.class
+Avalon-Block: true
+
+Name: org/apache/cornerstone/blocks/connection/DefaultConnectionManager.class
+Avalon-Block: true

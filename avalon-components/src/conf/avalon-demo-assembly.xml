@@ -1,0 +1,205 @@
+<?xml version="1.0"?>
+<!--
+                                README!
+
+    All blocks have full defaults so nothing is needed to make them run.
+
+-->
+<avalon>
+
+    <!-- The Storage block -->
+    <block class="org.apache.cornerstone.blocks.masterstore.RepositoryManager" 
+           name="objectstorage" >
+
+        <configuration>
+          <repositories>
+              <repository class="org.apache.cornerstone.blocks.masterstore.File_Persistent_Object_Repository">
+                <protocols>
+                    <protocol> file </protocol>
+                </protocols>
+                <types>
+                    <type> OBJECT </type>
+                </types>
+                <models>
+                    <model> SYNCHRONOUS </model>
+                    <model> ASYNCHRONOUS </model>
+                    <model> CACHE </model>
+                </models>
+              </repository>
+              <repository class="org.apache.cornerstone.blocks.masterstore.File_Persistent_Stream_Repository">
+                <protocols>
+                    <protocol> file </protocol>
+                </protocols>
+                <types>
+                    <type> STREAM </type>
+                </types>
+                <models>
+                    <model> SYNCHRONOUS </model>
+                    <model> ASYNCHRONOUS </model>
+                    <model> CACHE </model>
+                </models>
+              </repository>
+          </repositories>
+        </configuration>
+
+    </block>
+  
+    <!-- The Connection Manager block -->
+    <block class="org.apache.cornerstone.blocks.connection.DefaultConnectionManager" 
+           name="connections" >
+    </block>
+
+    <!-- The Socket Manager block -->
+    <block class="org.apache.cornerstone.blocks.sockets.DefaultSocketManager" name="sockets2" >
+
+        <configuration>
+
+          <server-sockets>
+            <factory name="plain"
+                     class="org.apache.cornerstone.blocks.sockets.DefaultServerSocketFactory" />
+            <!--
+            <factory name="ssl" 
+                     class="org.apache.cornerstone.blocks.sockets.TLSServerSocketFactory">
+              <keystore>
+                <file>conf/keystore</file> 
+                <password>secret</password> 
+                <type>JKS</type> 
+                <protocol>TLS</protocol> 
+                <algorithm>SunX509</algorithm> 
+                <authenticate-client>false</authenticate-client> 
+              </keystore>
+            </factory>
+            -->
+          </server-sockets>
+
+          <client-sockets>
+            <factory name="plain" 
+                     class="org.apache.cornerstone.blocks.sockets.DefaultSocketFactory" />
+          </client-sockets>
+
+        </configuration>
+
+    </block>
+
+    <!-- The Socket Manager block -->
+    <!-- No longer used.. -->
+    <block class="org.apache.cornerstone.blocks.serversocket.SocketManager" name="sockets" >
+
+        <configuration>
+          <listenerDefinition help="These are default socket listener. An
+                application can implement an use its own lstener to perform
+                specific task (ex. MD5Listener etc.)" >
+            <listener type="DEFAULT" class="org.apache.cornerstone.blocks.serversocket.ServerSocketAcceptor">
+            </listener>
+            <listener type="IPFILTERING" class="org.apache.cornerstone.blocks.serversocket.AuthenticatedServerSocketAcceptor">
+                <denied></denied>
+            </listener>
+            <!-- Uncomment this listener, if you want TLS support -->
+            <!--
+                <listener type="TLS"
+                          class="org.apache.cornerstone.blocks.serversocket.TLSServerSocketAcceptor">
+                    <serverKeysFile>avalonTestKeys</serverKeysFile>
+                </listener>
+            -->
+            <!-- End TLS section -->
+          </listenerDefinition>
+        </configuration>
+
+    </block>
+
+    <!-- The Time Manager block -->
+    <block class="org.apache.cornerstone.blocks.eventserver.EventServer" name="scheduler" >
+        <configuration>
+        </configuration>
+    </block>
+
+    <!-- The TimeScheduler block -->
+    <block class="org.apache.cornerstone.blocks.scheduler.DefaultTimeScheduler" 
+           name="scheduler2" >
+    </block>
+
+    <block class="org.apache.cornerstone.demos.helloworldserver.HelloWorldServerImpl" 
+           name="helloworldserver" >
+        <provide name="sockets2" role="org.apache.cornerstone.services.sockets.SocketManager"/>
+        <provide name="connections" 
+                 role="org.apache.cornerstone.services.connection.ConnectionManager" />
+
+        <configuration>
+          <port>8999</port>
+          <bind>127.0.0.1</bind>
+          <helloworldhandler>
+             <connectiontimeout> 360000 </connectiontimeout>
+          </helloworldhandler>
+        </configuration>
+    </block>
+
+    <block class="org.apache.cornerstone.demos.httpproxy.DefaultHttpAuditingProxyServer" 
+           name="httpproxyserver-Auditing" >
+        <provide name="sockets2" role="org.apache.cornerstone.services.sockets.SocketManager"/>
+        <provide name="connections" 
+                 role="org.apache.cornerstone.services.connection.ConnectionManager" />
+
+        <configuration>
+                <listen-port>9997</listen-port>
+                <bind> 127.0.0.1 </bind>
+                <httpproxyhandler-Auditing>
+                    <connectiontimeout> 360000 </connectiontimeout>
+                </httpproxyhandler-Auditing>
+        </configuration>
+    </block>
+    
+    <block class="org.apache.cornerstone.demos.httpproxy.DefaultHttpFilteringProxyServer" 
+           name="httpproxyserver-Filtering" >
+        <provide name="sockets2" role="org.apache.cornerstone.services.sockets.SocketManager"/>
+        <provide name="connections" 
+                 role="org.apache.cornerstone.services.connection.ConnectionManager" />
+
+        <configuration>
+          <listen-port>9998</listen-port>
+          <fforward-to-another-proxy>localhost:9997</fforward-to-another-proxy>  
+          <bind> 127.0.0.1 </bind>
+          <httpproxyhandler-Filtering>
+            <connectiontimeout> 360000 </connectiontimeout>
+          </httpproxyhandler-Filtering>
+          
+          <blocked-domains>
+	    <blocked-domain domain-name="doubleclick.net" />
+            <blocked-domain domain-name="akamai.net" />
+          </blocked-domains>
+          <cookies-allowed-domains>
+             <cookies-allowed-domain domain-name="yahoo.co.uk" />
+             <cookies-allowed-domain domain-name="yahoo.com" />
+           </cookies-allowed-domains>                
+                
+        </configuration>
+
+    </block>    
+
+    <block class="org.apache.cornerstone.demos.simpleserver.SimpleServer" 
+           name="demoblock" >
+
+	<!-- The names here must match the names specified for a Block in some conf.xml file.
+	    The role should be the interface mentioned in the Demo.xinfo  -->
+
+        <provide name="sockets2" role="org.apache.cornerstone.services.sockets.SocketManager"/>
+        <provide name="connections"
+                 role="org.apache.cornerstone.services.connection.ConnectionManager" />
+        <provide name="objectstorage" role="org.apache.cornerstone.services.Store"/>
+        <provide name="scheduler2" 
+                 role="org.apache.cornerstone.services.scheduler.TimeScheduler"/>
+
+	<!-- Note trailing file searator in destinationURL -->
+        <configuration>
+	    <repository destinationURL="file://var/demo/"
+                        type="OBJECT"
+                        model="SYNCHRONOUS">
+            </repository>
+	    <port>4556</port>
+        </configuration>
+    </block>    
+
+</avalon>
+
+
+
+
