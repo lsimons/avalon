@@ -70,7 +70,7 @@ import org.apache.tools.ant.Task;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: XFCTask.java,v 1.1 2002/10/08 16:30:18 crafterm Exp $
+ * @version CVS $Id: XFCTask.java,v 1.2 2002/10/16 16:21:07 crafterm Exp $
  */
 public final class XFCTask extends Task
 {
@@ -180,23 +180,28 @@ public final class XFCTask extends Task
     {
         if ( "ecm".equalsIgnoreCase( clazz ) )
         {
-            return Class.forName( "org.apache.excalibur.xfc.modules.ECM" );
+            return Class.forName( "org.apache.excalibur.xfc.modules.ecm.ECM" );
         }
 
         if ( "fortress".equalsIgnoreCase( clazz ) )
         {
-            return Class.forName( "org.apache.excalibur.xfc.modules.Fortress" );
+            return Class.forName( "org.apache.excalibur.xfc.modules.fortress.Fortress" );
         }
 
         if ( "merlin".equalsIgnoreCase( clazz ) )
         {
-            return Class.forName( "org.apache.excalibur.xfc.modules.Merlin" );
+            return Class.forName( "org.apache.excalibur.xfc.modules.merlin.Merlin" );
         }
 
         // assume custom module
         return Class.forName( clazz );
     }
 
+    /**
+     * Helper method to return the current logging instance, LogEnabled style.
+     *
+     * @return a <code>Logger</code> value
+     */
     private Logger getLogger()
     {
         return m_logger;

@@ -50,9 +50,12 @@
 package org.apache.excalibur.xfc.test.util;
 
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.logger.Logger;
 
 import org.apache.excalibur.xfc.model.RoleRef;
-import org.apache.excalibur.xfc.modules.Fortress;
+
+import org.apache.excalibur.xfc.modules.fortress.Fortress;
+import org.apache.excalibur.xfc.modules.fortress.FortressSerializer;
 
 /**
  * Fortress Module Test Rig. This class extends Fortress and provides several accessor
@@ -60,14 +63,31 @@ import org.apache.excalibur.xfc.modules.Fortress;
  * Module API.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: FortressTestRig.java,v 1.1 2002/10/08 10:39:37 crafterm Exp $
+ * @version CVS $Id: FortressTestRig.java,v 1.2 2002/10/16 16:21:06 crafterm Exp $
  */
 public final class FortressTestRig extends Fortress
 {
+    private FortressSerializerTestRig m_serializerRig = new FortressSerializerTestRig();
+
     public Configuration buildRole( final RoleRef roleref )
         throws Exception
     {
-        return super.buildRole( roleref );
+        return m_serializerRig.buildRole( roleref );
+    }
+
+    public void enableLogging( final Logger logger )
+    {
+        super.enableLogging( logger );
+        m_serializerRig.enableLogging( logger );
+    }
+
+    class FortressSerializerTestRig extends FortressSerializer
+    {
+        public Configuration buildRole( final RoleRef roleref )
+            throws Exception
+        {
+            return super.buildRole( roleref );
+        }
     }
 }
 

@@ -50,8 +50,11 @@
 package org.apache.excalibur.xfc.test.util;
 
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.logger.Logger;
 
-import org.apache.excalibur.xfc.modules.ECM;
+import org.apache.excalibur.xfc.modules.ecm.ECM;
+import org.apache.excalibur.xfc.modules.ecm.ECMSerializer;
+import org.apache.excalibur.xfc.modules.ecm.HandlerAnalyzer;
 import org.apache.excalibur.xfc.model.RoleRef;
 
 /**
@@ -59,20 +62,37 @@ import org.apache.excalibur.xfc.model.RoleRef;
  * internal ECM methods that are otherwise not available from the normal Module API.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECMTestRig.java,v 1.3 2002/10/08 12:49:22 crafterm Exp $
+ * @version CVS $Id: ECMTestRig.java,v 1.4 2002/10/16 16:21:06 crafterm Exp $
  */
 public final class ECMTestRig extends ECM
 {
+    private ECMSerializerTestRig m_serializerRig = new ECMSerializerTestRig();
+
     public Configuration buildRole( final RoleRef roleref )
         throws Exception
     {
-        return super.buildRole( roleref );
+        return m_serializerRig.buildRole( roleref );
     }
 
     public String getHandler( final String classname )
         throws Exception
     {
-        return super.getHandler( classname );
+        return HandlerAnalyzer.getHandler( classname );
+    }
+
+    public void enableLogging( final Logger logger )
+    {
+        super.enableLogging( logger );
+        m_serializerRig.enableLogging( logger );
+    }
+
+    class ECMSerializerTestRig extends ECMSerializer
+    {
+        public Configuration buildRole( final RoleRef roleref )
+            throws Exception
+        {
+            return super.buildRole( roleref );
+        }
     }
 }
 

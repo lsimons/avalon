@@ -57,7 +57,7 @@ import org.apache.avalon.framework.logger.NullLogger;
 
 import org.apache.excalibur.configuration.ConfigurationUtil;
 
-import org.apache.excalibur.xfc.modules.ECM;
+import org.apache.excalibur.xfc.modules.ecm.ECM;
 import org.apache.excalibur.xfc.model.Definition;
 import org.apache.excalibur.xfc.model.Model;
 import org.apache.excalibur.xfc.model.RoleRef;
@@ -74,7 +74,7 @@ import junit.textui.TestRunner;
  * XFC TestCase.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: xfcTestCase.java,v 1.6 2002/10/14 16:17:50 crafterm Exp $
+ * @version CVS $Id: xfcTestCase.java,v 1.7 2002/10/16 16:21:06 crafterm Exp $
  */
 public final class xfcTestCase extends TestCase
 {
