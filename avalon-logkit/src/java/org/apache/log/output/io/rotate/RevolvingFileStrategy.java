@@ -23,28 +23,45 @@ public class RevolvingFileStrategy
     ///revolving suffix formatting pattern. ie. "'.'000000"
     private final static String      PATTERN = "'.'000000";
 
-    ///current revolving suffix
-    private long           m_rotation = 1;
-
-    ///the base file name.
-    private File           m_baseFileName;
-
-    ///starting revolving value. ie. 0
-    private long           m_rotationMinValue = 0;
-
-    ///max revolving value. ie 1000
-    private long           m_maxRotations = 1000;
-
     ///a revolving suffix formatter
     private DecimalFormat  m_decimalFormat;
 
+    ///current revolving suffix
+    private int            m_rotation;
+
+    ///max revolving value. 
+    private int            m_maxRotations;
+
+    ///the base file name.
     private File    m_baseFile;
 
-    public RevolvingFileStrategy( final File baseFile )
+    public RevolvingFileStrategy( final File baseFile, 
+                                  final int initialRotation, 
+                                  final int maxRotations )
     {
-        m_baseFile = baseFile;
-        m_rotation = m_rotationMinValue;
         m_decimalFormat = new DecimalFormat( PATTERN );
+
+        m_baseFile = baseFile;
+        m_rotation = initialRotation;
+        m_maxRotations = maxRotations;
+
+        if( -1 == initialRotation )
+        {
+            ///TODO: Scan filesystem to get current number
+        }
+
+        if( -1 == m_maxRotations )
+        {
+            m_maxRotations = Integer.MAX_VALUE;
+        }
+
+        if( m_rotation > m_maxRotations ) m_rotation = m_maxRotations;
+        if( m_rotation < 0 ) m_rotation = 0;
+    }
+
+    public RevolvingFileStrategy( final File baseFile, final int maxRotations )
+    {
+        this( baseFile, -1, maxRotations );
     }
 
     /**
@@ -61,10 +78,7 @@ public class RevolvingFileStrategy
         final StringBuffer result = m_decimalFormat.format( m_rotation, sb, fp );
         m_rotation += 1;
 
-        if( m_rotation >= m_maxRotations ) 
-        {
-            m_rotation = m_rotationMinValue;
-        }
+        if( m_rotation >= m_maxRotations ) m_rotation = 0;
 
         return new File( result.toString() );
     }

@@ -53,7 +53,7 @@ public class TestRotatingFileOutputLogTarget
         throws Exception
     {
         final File file = new File( "test/size-revolve.log" );
-        final FileStrategy fileStrategy = new RevolvingFileStrategy( file );
+        final FileStrategy fileStrategy = new RevolvingFileStrategy( file, 20 );
         final RotateStrategy rotateStrategy = new RotateStrategyBySize( 128 * 1024 );
         final Logger logger = getLogger( fileStrategy, rotateStrategy );
         
@@ -79,7 +79,7 @@ public class TestRotatingFileOutputLogTarget
         throws Exception
     {
         final File file = new File( "test/time-revolve.log" );
-        final FileStrategy fileStrategy = new RevolvingFileStrategy( file );
+        final FileStrategy fileStrategy = new RevolvingFileStrategy( file, 5 );
         final RotateStrategy rotateStrategy = new RotateStrategyByTime( 3 * 1000 );
         final Logger logger = getLogger( fileStrategy, rotateStrategy );
         
