@@ -20,9 +20,6 @@
       <link rel="stylesheet" type="text/css">
         <xsl:attribute name="href"><xsl:value-of select="$x[position() = last()]" />resources/style.css</xsl:attribute>
       </link>
-      <meta name="directory"><xsl:value-of select="$directory" /></meta>
-      <meta name="file"><xsl:value-of select="$file" /></meta>
-      <meta name="fullpath"><xsl:value-of select="$fullpath" /></meta>
     </head>
       <xsl:apply-templates select="body" />
     </html>    
@@ -74,7 +71,6 @@
       </div>
       
       <div class="menubar" >
-        <span class="dummy" />
         <xsl:apply-templates select="document('navigation.xml', / )/project/body/menu" >
           <xsl:with-param name="dir" select="''" />
         </xsl:apply-templates>
@@ -136,7 +132,6 @@
           <xsl:apply-templates select="menu" >
             <xsl:with-param name="dir" select="concat( $dir, '../')" />
           </xsl:apply-templates>
-          <span class="dummy" />
           <xsl:apply-templates select="item" >
             <xsl:with-param name="dir" select="$dir" />
           </xsl:apply-templates>

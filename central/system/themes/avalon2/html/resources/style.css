@@ -20,7 +20,6 @@ table.logobar
 
 .feather
 {
-    position: absolute;
     border-right: 1px solid #9999FF;
     width: 167px;
     padding: 0;
@@ -35,7 +34,6 @@ table.logobar
 .project
 {
     display: block;
-    text-align: left;
     font-size: 10pt;
     color: white;
     padding-left: 10px;
@@ -132,7 +130,6 @@ table.logobar
 .menuitem
 {
     display: block;
-    width: 100%;
     padding-left: 1em;
     padding-right: 1em;
     margin-left: 1em;
@@ -146,7 +143,6 @@ table.logobar
 .menuitem-selected
 {
     display: block;
-    width: 100%;
     padding-left: 1em;
     padding-right: 1em;
     margin-left: 1em;
@@ -213,9 +209,19 @@ table.logobar
     display: none;
 }
 
-.dummy
+dd
 {
-    display: none;
+    font-weight: bolder;
+    font-style: italic;
+    text-decoration: underline;
+    margin: 0;
+    display: block;
+}
+
+dt
+{
+    margin: 1em;
+    display: block;
 }
 
 pre.source
@@ -232,6 +238,18 @@ div.source-title
     font-style: italic;
     padding-left: 2em;
     padding-top: 0.2em;
+}
+
+table.formatting
+{
+    background-color: white;
+    color: black;
+    border: none;
+    margin: 0;
+    padding: 0;
+    border-spacing: 0;
+    border-collapse: separate;
+    width: 100%;
 }
 
 table
@@ -277,14 +295,14 @@ a.category:link:hover, a.category:visited:hover, a.category:active,
 a.homecategory:link:hover, a.homecategory:visited:hover, a.homecategory:active
 {
     color: black;
-    background-color: #9999FF;
+    background-color: #D0E0F0;
 }
 
 a.category:active, 
 a.homecategory:active
 {
     color: black;
-    background-color: #9999FF;
+    background-color: #D0E0F0;
     border-left: 1px solid #003399;
     border-top: 1px solid #003399;
     border-right: 1px solid #9999FF;
@@ -309,13 +327,13 @@ a.homecategory:focus
 a.menuitem:link:hover, a.menuitem:visited:hover, a.menuitem:active
 {
     color: black;
-    background-color: #9999FF;
+    background-color: #D0E0F0;
 }
 
 a.menuitem:active
 {
     color: black;
-    background-color: #9999FF;
+    background-color: #D0E0F0;
     outline: none;
 }
 
@@ -337,7 +355,7 @@ a.category-selected:link:hover, a.category-selected:visited:hover, a.category-se
 a.homecategory-selected:link:hover, a.homecategory-selected:visited:hover, a.homecategory-selected:active
 {
     color: black;
-    background-color: #9999FF;
+    background-color: #D0E0F0;
     text-decoration: underline;
 }
 
@@ -345,7 +363,7 @@ a.category-selected:active,
 a.homecategory-selected:active
 {
     color: black;
-    background-color: #9999FF;
+    background-color: #D0E0F0;
     border-left: 1px solid #003399;
     border-top: 1px solid #003399;
     border-right: 1px solid #9999FF;
@@ -371,19 +389,19 @@ a.homecategory-selected:focus
 a.menuitem-selected:link:hover, a.menuitem-selected:visited:hover, a.menuitem-selected:active
 {
     color: black;
-    background-color: #9999FF;
+    background-color: #D0E0F0;
 }
 
 a.menuitem-selected:active
 {
     color: black;
-    background-color: #9999FF;
+    background-color: #D0E0F0;
     outline: none;
 }
 
 a.menuitem-selected:link, a.menuitem-selected:visited
 {
-    background-color: #9999FF;
+    background-color: #D0E0F0;
     color: black;
     text-decoration: none;
 }
