@@ -23,7 +23,7 @@ import java.util.HashMap;
  * This is the default <code>Configuration</code> implementation.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.39 $ $Date: 2004/01/26 19:50:32 $
+ * @version CVS $Revision: 1.40 $ $Date: 2004/01/29 16:27:12 $
  */
 public class DefaultConfiguration
     extends AbstractConfiguration
@@ -33,7 +33,7 @@ public class DefaultConfiguration
      * An empty (length zero) array of configuration objects.
      */
     protected static final Configuration[] EMPTY_ARRAY = new Configuration[ 0 ];
-
+    
     private final String m_name;
     private final String m_location;
     private final String m_namespace;
@@ -42,7 +42,7 @@ public class DefaultConfiguration
     private ArrayList m_children;
     private String m_value;
     private boolean m_readOnly;
-
+    
     /**
      * Shallow copy constructor, suitable for craeting a writable clone of
      * a read-only configuration. To modify children, use <code>getChild()</code>, 
@@ -66,7 +66,7 @@ public class DefaultConfiguration
     {
         this( name, null, "", "" );
     }
-
+    
     /**
      * Create a new <code>DefaultConfiguration</code> instance.
      * @param name a <code>String</code> value
@@ -76,7 +76,7 @@ public class DefaultConfiguration
     {
         this( name, location, "", "" );
     }
-
+    
     /**
      * Create a new <code>DefaultConfiguration</code> instance.
      * @param name config node name
@@ -89,16 +89,16 @@ public class DefaultConfiguration
      * @since 4.1
      */
     public DefaultConfiguration( final String name,
-                                 final String location,
-                                 final String ns,
-                                 final String prefix )
+        final String location,
+        final String ns,
+        final String prefix )
     {
         m_name = name;
         m_location = location;
         m_namespace = ns;
         m_prefix = prefix;  // only used as a serialization hint. Cannot be null
     }
-
+    
     /**
      * Returns the name of this configuration element.
      * @return a <code>String</code> value
@@ -107,7 +107,7 @@ public class DefaultConfiguration
     {
         return m_name;
     }
-
+    
     /**
      * Returns the namespace of this configuration element
      * @return a <code>String</code> value
@@ -124,11 +124,11 @@ public class DefaultConfiguration
         {
             throw new ConfigurationException
                 ( "No namespace (not even default \"\") is associated with the "
-                  + "configuration element \"" + getName()
-                  + "\" at " + getLocation() );
+                + "configuration element \"" + getName()
+                + "\" at " + getLocation() );
         }
     }
-
+    
     /**
      * Returns the prefix of the namespace
      * @return a <code>String</code> value
@@ -145,12 +145,12 @@ public class DefaultConfiguration
         {
             throw new ConfigurationException
                 ( "No prefix (not even default \"\") is associated with the "
-                  + "configuration element \"" + getName()
-                  + "\" at " + getLocation() );
+                + "configuration element \"" + getName()
+                + "\" at " + getLocation() );
         }
-
+        
     }
-
+    
     /**
      * Returns a description of location of element.
      * @return a <code>String</code> value
@@ -159,7 +159,7 @@ public class DefaultConfiguration
     {
         return m_location;
     }
-
+    
     /**
      * Returns the value of the configuration element as a <code>String</code>.
      *
@@ -177,7 +177,7 @@ public class DefaultConfiguration
             return defaultValue;
         }
     }
-
+    
     /**
      * Returns the value of the configuration element as a <code>String</code>.
      *
@@ -193,11 +193,11 @@ public class DefaultConfiguration
         else
         {
             throw new ConfigurationException( "No value is associated with the "
-                                              + "configuration element \"" + getName()
-                                              + "\" at " + getLocation() );
+                + "configuration element \"" + getName()
+                + "\" at " + getLocation() );
         }
     }
-
+    
     /**
      * Return an array of all attribute names.
      * @return a <code>String[]</code> value
@@ -213,7 +213,7 @@ public class DefaultConfiguration
             return (String[])m_attributes.keySet().toArray( new String[ 0 ] );
         }
     }
-
+    
     /**
      * Return an array of <code>Configuration</code>
      * elements containing all node children.
@@ -231,7 +231,7 @@ public class DefaultConfiguration
             return (Configuration[])m_children.toArray( new Configuration[ 0 ] );
         }
     }
-
+    
     /**
      * Returns the value of the attribute specified by its name as a
      * <code>String</code>.
@@ -245,7 +245,7 @@ public class DefaultConfiguration
     {
         final String value =
             ( null != m_attributes ) ? (String)m_attributes.get( name ) : null;
-
+        
         if( null != value )
         {
             return value;
@@ -253,12 +253,12 @@ public class DefaultConfiguration
         else
         {
             throw new ConfigurationException(
-               "No attribute named \"" + name + "\" is "
-               + "associated with the configuration element \""
-               + getName() + "\" at " + getLocation() );
+                "No attribute named \"" + name + "\" is "
+                + "associated with the configuration element \""
+                + getName() + "\" at " + getLocation() );
         }
     }
-
+    
     /**
      * Return the first <code>Configuration</code> object child of this
      * associated with the given name.
@@ -280,7 +280,7 @@ public class DefaultConfiguration
                 }
             }
         }
-
+        
         if( createNew )
         {
             return new DefaultConfiguration( name, "<generated>" + getLocation(), m_namespace, m_prefix );
@@ -290,7 +290,7 @@ public class DefaultConfiguration
             return null;
         }
     }
-
+    
     /**
      * Return an array of <code>Configuration</code> objects
      * children of this associated with the given name.
@@ -310,7 +310,7 @@ public class DefaultConfiguration
         {
             final ArrayList children = new ArrayList();
             final int size = m_children.size();
-
+            
             for( int i = 0; i < size; i++ )
             {
                 final Configuration configuration = (Configuration)m_children.get( i );
@@ -319,11 +319,11 @@ public class DefaultConfiguration
                     children.add( configuration );
                 }
             }
-
+            
             return (Configuration[])children.toArray( new Configuration[ 0 ] );
         }
     }
-
+    
     /**
      * Append data to the value of this configuration element.
      *
@@ -333,7 +333,7 @@ public class DefaultConfiguration
     public void appendValueData( final String value )
     {
         checkWriteable();
-
+        
         if( null == m_value )
         {
             m_value = value;
@@ -343,7 +343,7 @@ public class DefaultConfiguration
             m_value += value;
         }
     }
-
+    
     /**
      * Set the value of this <code>Configuration</code> object to the specified string.
      *
@@ -352,7 +352,7 @@ public class DefaultConfiguration
     public void setValue( final String value )
     {
         checkWriteable();
-
+        
         m_value = value;
     }
     
@@ -375,7 +375,7 @@ public class DefaultConfiguration
     {
         setValue( String.valueOf( value ) );
     }
-
+    
     /**
      * Set the value of this <code>Configuration</code> object to the specified boolean.
      *
@@ -405,7 +405,7 @@ public class DefaultConfiguration
     public void setAttribute( final String name, final String value )
     {
         checkWriteable();
-
+        
         if( null != value )
         {
             if( null == m_attributes )
@@ -479,15 +479,15 @@ public class DefaultConfiguration
     public String addAttribute( final String name, String value )
     {
         checkWriteable();
-
+        
         if( null == m_attributes )
         {
             m_attributes = new HashMap();
         }
-
+        
         return (String)m_attributes.put( name, value );
     }
-
+    
     /**
      * Add a child <code>Configuration</code> to this configuration element.
      * @param configuration a <code>Configuration</code> value
@@ -495,15 +495,15 @@ public class DefaultConfiguration
     public void addChild( final Configuration configuration )
     {
         checkWriteable();
-
+        
         if( null == m_children )
         {
             m_children = new ArrayList();
         }
-
+        
         m_children.add( configuration );
     }
-
+    
     /**
      * Add all the attributes, children and value
      * from specified configuration element to current
@@ -514,12 +514,12 @@ public class DefaultConfiguration
     public void addAll( final Configuration other )
     {
         checkWriteable();
-
+        
         setValue( other.getValue( null ) );
         addAllAttributes( other );
         addAllChildren( other );
     }
-
+    
     /**
      * Add all attributes from specified configuration
      * element to current configuration element.
@@ -529,7 +529,7 @@ public class DefaultConfiguration
     public void addAllAttributes( final Configuration other )
     {
         checkWriteable();
-
+        
         final String[] attributes = other.getAttributeNames();
         for( int i = 0; i < attributes.length; i++ )
         {
@@ -538,7 +538,7 @@ public class DefaultConfiguration
             setAttribute( name, value );
         }
     }
-
+    
     /**
      * Add all child <code>Configuration</code> objects from specified
      * configuration element to current configuration element.
@@ -548,14 +548,14 @@ public class DefaultConfiguration
     public void addAllChildren( final Configuration other )
     {
         checkWriteable();
-
+        
         final Configuration[] children = other.getChildren();
         for( int i = 0; i < children.length; i++ )
         {
             addChild( children[ i ] );
         }
     }
-
+    
     /**
      * Remove a child <code>Configuration</code> to this configuration element.
      * @param configuration a <code>Configuration</code> value
@@ -563,14 +563,14 @@ public class DefaultConfiguration
     public void removeChild( final Configuration configuration )
     {
         checkWriteable();
-
+        
         if( null == m_children )
         {
             return;
         }
         m_children.remove( configuration );
     }
-
+    
     /**
      * Return count of children.
      * @return an <code>int</code> value
@@ -581,10 +581,10 @@ public class DefaultConfiguration
         {
             return 0;
         }
-
+        
         return m_children.size();
     }
-
+    
     /**
      * Make this configuration read-only.
      *
@@ -593,11 +593,11 @@ public class DefaultConfiguration
     {
         m_readOnly = true;
     }
-
+    
     /**
-     * heck if this configuration is writeable.
+     * Check if this configuration is writeable.
      *
-     * @throws IllegalStateException if this configuration s read-only
+     * @throws IllegalStateException if this configuration is read-only
      */
     protected final void checkWriteable()
         throws IllegalStateException
@@ -608,7 +608,123 @@ public class DefaultConfiguration
                 ( "Configuration is read only and can not be modified" );
         }
     }
-
+    
+    /**
+     * Returns true iff this DefaultConfiguration has been made read-only.
+     */
+    protected final boolean isReadOnly()
+    {
+        return m_readOnly;
+    }
+    
+    /**
+     * Convenience function to convert a child to a mutable configuration.
+     * If the child is-a MutableConfiguration, and it isn't a read-only DefaultConfiguration 
+     * (which isn't really mutable), the child is cast to MutableConfiguration and returned.
+     * If not, the child is replaced in the m_children array with a new writable DefaultConfiguration
+     * that is a shallow copy of the child, and the new child is returned.
+     */
+    private MutableConfiguration toMutable( Configuration child ) throws ConfigurationException
+    {
+        if (child instanceof MutableConfiguration &&
+            !( child instanceof DefaultConfiguration && ((DefaultConfiguration) child).isReadOnly() )) 
+        {
+            // Child is already mutable - return it.
+            return (MutableConfiguration) child;
+        }
+        
+        // Child isn't mutable. (This is a mutating operation, so let's check
+        // if we're writable.)
+        checkWriteable();
+        
+        DefaultConfiguration config = new DefaultConfiguration( child );
+        
+        // Replace the old child.
+        for( int i = 0; i < m_children.size(); i++)
+        {
+            if( m_children.get(i) == child )
+            {
+                m_children.set( i, config );
+                break;
+            }
+        }        
+        
+        return config;
+    }
+    
+    public MutableConfiguration getMutableChild( final String name ) throws ConfigurationException
+    {
+        return getMutableChild( name, true );
+    }
+    
+    public MutableConfiguration getMutableChild( final String name, boolean autoCreate ) throws ConfigurationException
+    {
+        Configuration child = getChild( name, false );
+        if( child == null ) 
+        {
+            // No child. Create?
+            
+            if( autoCreate )
+            {
+                DefaultConfiguration config = new DefaultConfiguration( name, "-" );
+                addChild( config );
+                return config;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        
+        // Child exists
+        return toMutable( child );
+    }
+    
+    public MutableConfiguration[] getMutableChildren() throws ConfigurationException
+    {
+        if( null == m_children )
+        {
+            return new MutableConfiguration[ 0 ];
+        }
+        else
+        {
+            final ArrayList children = new ArrayList();
+            final int size = m_children.size();
+            
+            for( int i = 0; i < size; i++ )
+            {
+                final Configuration configuration = (Configuration)m_children.get( i );
+                children.add( toMutable( configuration ) );
+            }
+            
+            return (MutableConfiguration[])children.toArray( new MutableConfiguration[ 0 ] );
+        }
+    }
+    
+    public MutableConfiguration[] getMutableChildren( final String name ) throws ConfigurationException
+    {
+        if( null == m_children )
+        {
+            return new MutableConfiguration[ 0 ];
+        }
+        else
+        {
+            final ArrayList children = new ArrayList();
+            final int size = m_children.size();
+            
+            for( int i = 0; i < size; i++ )
+            {
+                final Configuration configuration = (Configuration)m_children.get( i );
+                if( name.equals( configuration.getName() ) )
+                {
+                    children.add( toMutable( configuration ) );
+                }
+            }
+            
+            return (MutableConfiguration[])children.toArray( new MutableConfiguration[ 0 ] );
+        }
+    }
+    
     /**
      * Compare if this configuration is equal to another.
      *
@@ -621,7 +737,7 @@ public class DefaultConfiguration
         if( !( other instanceof Configuration ) ) return false;
         return ConfigurationUtil.equals( this, (Configuration) other );
     }
-
+    
     /**
      * Obtaine the hashcode for this configuration.
      *
