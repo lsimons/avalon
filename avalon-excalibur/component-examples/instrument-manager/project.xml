@@ -86,7 +86,7 @@
         <dependency>
             <!-- for testing only -->
             <id>excalibur-i18n</id>
-            <version>1.2</version>
+            <version>1.2.0-dev</version>
         </dependency>
     </dependencies>
 

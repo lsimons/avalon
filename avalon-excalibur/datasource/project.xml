@@ -86,7 +86,7 @@ necessary issues from there.
         <dependency>
             <groupId>excalibur-i18n</groupId>
             <artifactId>excalibur-i18n</artifactId>
-            <version>1.2</version>
+            <version>1.2.0-dev</version>
         </dependency>
         <dependency>
             <groupId>excalibur-component</groupId>

@@ -86,7 +86,7 @@ limitations under the License.
         </dependency>
         <dependency>
             <id>excalibur-i18n</id>
-            <version>1.2</version>
+            <version>1.2.0-dev</version>
         </dependency>
         <dependency>
             <id>commons-collections</id>
