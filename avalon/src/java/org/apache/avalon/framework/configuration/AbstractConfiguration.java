@@ -15,7 +15,7 @@ package org.apache.avalon.framework.configuration;
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
- * @version CVS $Revision: 1.6 $ $Date: 2001/11/01 09:13:56 $
+ * @version CVS $Revision: 1.7 $ $Date: 2001/11/01 21:04:47 $
  */
 public abstract class AbstractConfiguration
     implements Configuration
@@ -341,7 +341,7 @@ public abstract class AbstractConfiguration
             }
             else
             {
-                return Integer.parseInt( value );
+                return Long.parseLong( value );
             }
         }
         catch( final Exception nfe )
