@@ -21,6 +21,5 @@ package org.apache.avalon.finder.test;
  */
 public interface Widget
 {
-    String ROLE = Widget.class.getName(); // used in the ECM testcase
 }
 

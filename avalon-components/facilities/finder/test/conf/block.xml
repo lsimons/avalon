@@ -5,7 +5,6 @@
       <repository>
         <resource id="avalon-finder:avalon-finder-api" version="0.9.0"/>
         <resource id="avalon-finder:avalon-finder-impl" version="0.9.0"/>
-        <resource id="avalon-finder:avalon-finder-ecm" version="0.9.0"/>
       </repository>
       <fileset dir="target">
         <include name="classes"/>
@@ -16,15 +15,4 @@
 
   <component name="finder" class="org.apache.avalon.finder.impl.DefaultFinder"/>
   
-  <component name="manager" class="org.apache.avalon.finder.ecm.DefaultRoleManager">
-    <configuration>
-      <role name="widget" shorthand="widget" 
-        default-class="org.apache.avalon.finder.test.ECMWidget"/>
-    </configuration>
-  </component>
-
-  <component name="ecm" class="org.apache.avalon.finder.ecm.ECM">
-    <configuration/>
-  </component>
-
 </container>
