@@ -18,10 +18,22 @@ import org.apache.avalon.excalibur.pool.DefaultPoolController;
 /**
  * The Default implementation for DataSources in Avalon.  This uses the
  * normal <code>java.sql.Connection</code> object and
- * <code>java.sql.DriverManager</code>.
+ * <code>java.sql.DriverManager</code>.  The Configuration is like this:
+ *
+ * <pre>
+ *   &lt;jdbc&gt;
+ *     &lt;pool-controller min="<i>5</i>" max="<i>10</i>" connection-class="<i>my.overrided.ConnectionClass</i>"&gt;
+ *       &lt;keep-alive&gt;select 1&lt;/keep-alive&gt;
+ *     &lt;/pool-controller&gt;
+ *     &lt;driver&gt;<i>com.database.jdbc.JdbcDriver</i>&lt;/driver&gt;
+ *     &lt;dburl&gt;<i>jdbc:driver://host/mydb</i>&lt;/dburl&gt;
+ *     &lt;user&gt;<i>username</i>&lt;/user&gt;
+ *     &lt;password&gt;<i>password</i>&lt;/password&gt;
+ *   &lt;/jdbc&gt;
+ * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.7 $ $Date: 2001/08/14 14:30:27 $
+ * @version CVS $Revision: 1.8 $ $Date: 2001/08/14 16:26:09 $
  * @since 4.0
  */
 public class JdbcDataSource
@@ -50,6 +62,7 @@ public class JdbcDataSource
             final String user = configuration.getChild( "user" ).getValue( null );
             final String passwd = configuration.getChild( "password" ).getValue( null );
             final Configuration controller = configuration.getChild( "pool-controller" );
+            String keepAlive = controller.getChild( "keep-alive" ).getValue(null);
 
             final int min = controller.getAttributeAsInteger( "min", 1 );
             final int max = controller.getAttributeAsInteger( "max", 3 );
@@ -122,8 +135,23 @@ public class JdbcDataSource
                 }
             }
 
+            if (oradb)
+            {
+                keepAlive = "SELECT 1 FROM DUAL";
+
+                if (getLogger().isWarnEnabled())
+                {
+                    getLogger().warn("The oradb attribute is deprecated, please use the" +
+                                     "keep-alive element instead.");
+                }
+            }
+            else
+            {
+                keepAlive = "SELECT 1";
+            }
+
             final JdbcConnectionFactory factory =
-                    new JdbcConnectionFactory( dburl, user, passwd, autoCommit, oradb, connectionClass );
+                    new JdbcConnectionFactory( dburl, user, passwd, autoCommit, keepAlive, connectionClass );
             final DefaultPoolController poolController = new DefaultPoolController(l_max / 4);
 
             factory.setLogger(getLogger());

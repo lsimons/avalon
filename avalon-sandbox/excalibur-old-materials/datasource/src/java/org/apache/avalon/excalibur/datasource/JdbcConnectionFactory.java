@@ -18,7 +18,7 @@ import java.sql.Connection;
  * The Factory implementation for JdbcConnections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.4 $ $Date: 2001/08/07 10:57:07 $
+ * @version CVS $Revision: 1.5 $ $Date: 2001/08/14 16:26:09 $
  * @since 4.0
  */
 public class JdbcConnectionFactory extends AbstractLoggable implements ObjectFactory
@@ -27,8 +27,10 @@ public class JdbcConnectionFactory extends AbstractLoggable implements ObjectFac
     private final String m_username;
     private final String m_password;
     private final boolean m_autoCommit;
-    private final boolean m_oradb;
+    private final String m_keepAlive;
     private final String m_connectionClass;
+    private final static String DEFAULT_KEEPALIVE = "SELECT 1";
+    private final static String ORACLE_KEEPALIVE = JdbcConnectionFactory.DEFAULT_KEEPALIVE + " FROM DUAL";
 
     /**
      * @deprecated  Use the new constructor with the connectionClass
@@ -40,14 +42,13 @@ public class JdbcConnectionFactory extends AbstractLoggable implements ObjectFac
                                   final boolean autoCommit,
                                   final boolean oradb )
     {
-        this.m_dburl = url;
-        this.m_username = username;
-        this.m_password = password;
-        this.m_autoCommit = autoCommit;
-        this.m_oradb = oradb;
-        this.m_connectionClass = null;
+        this(url, username, password, autoCommit, oradb, null);
     }
 
+   /**
+    * @ deprecated Use the new constructor with the keepalive and connectionClass
+    *              specified.
+    */
    public JdbcConnectionFactory( final String url,
                                  final String username,
                                  final String password,
@@ -55,11 +56,21 @@ public class JdbcConnectionFactory extends AbstractLoggable implements ObjectFac
                                  final boolean oradb,
                                  final String connectionClass)
    {
+       this(url, username, password, autoCommit, (oradb) ? JdbcConnectionFactory.ORACLE_KEEPALIVE : JdbcConnectionFactory.DEFAULT_KEEPALIVE, connectionClass);
+   }
+
+   public JdbcConnectionFactory( final String url,
+                                 final String username,
+                                 final String password,
+                                 final boolean autoCommit,
+                                 final String keepAlive,
+                                 final String connectionClass)
+   {
        this.m_dburl = url;
        this.m_username = username;
        this.m_password = password;
        this.m_autoCommit = autoCommit;
-       this.m_oradb = oradb;
+       this.m_keepAlive = keepAlive;
        this.m_connectionClass = connectionClass;
    }
 
@@ -79,24 +90,36 @@ public class JdbcConnectionFactory extends AbstractLoggable implements ObjectFac
 
         if ( null == this.m_connectionClass )
         {
-            jdbcConnection = new JdbcConnection(connection, this.m_oradb);
+            jdbcConnection = new JdbcConnection(connection, m_keepAlive);
         }
         else
         {
             try
             {
                 Class clazz = Thread.currentThread().getContextClassLoader().loadClass( this.m_connectionClass );
-                Class[] paramTypes = new Class[] { Connection.class, boolean.class };
-                Object[] params = new Object[] { connection, new Boolean( this.m_oradb ) };
+                Class[] paramTypes = new Class[] { Connection.class, String.class };
+                Object[] params = new Object[] { connection, new Boolean( this.m_keepAlive ) };
 
                 Constructor constructor = clazz.getConstructor( paramTypes );
                 jdbcConnection = (JdbcConnection) constructor.newInstance( params );
             }
             catch ( Exception e )
             {
-                if ( getLogger().isDebugEnabled() )
+                try
                 {
-                    getLogger().debug("Exception in JdbcConnectionFactory.newInstance:", e);
+                    Class clazz = Thread.currentThread().getContextClassLoader().loadClass( this.m_connectionClass );
+                    Class[] paramTypes = new Class[] { Connection.class, boolean.class };
+                    Object[] params = new Object[] { connection, new Boolean( this.m_keepAlive.equalsIgnoreCase(JdbcConnectionFactory.ORACLE_KEEPALIVE) ) };
+
+                    Constructor constructor = clazz.getConstructor( paramTypes );
+                    jdbcConnection = (JdbcConnection) constructor.newInstance( params );
+                }
+                catch ( Exception ie )
+                {
+                    if ( getLogger().isDebugEnabled() )
+                    {
+                        getLogger().debug("Exception in JdbcConnectionFactory.newInstance:", ie);
+                    }
                 }
             }
         }

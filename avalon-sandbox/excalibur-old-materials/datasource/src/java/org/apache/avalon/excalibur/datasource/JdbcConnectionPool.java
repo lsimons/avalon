@@ -21,7 +21,7 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
  * thread to manage the number of SQL Connections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.4 $ $Date: 2001/08/14 14:30:26 $
+ * @version CVS $Revision: 1.5 $ $Date: 2001/08/14 16:26:09 $
  * @since 4.0
  */
 public class JdbcConnectionPool
@@ -75,7 +75,8 @@ public class JdbcConnectionPool
 
         JdbcConnection obj = (JdbcConnection) super.get();
 
-        if (obj.isClosed()) {
+        if (obj.isClosed())
+        {
             if (getLogger().isDebugEnabled())
             {
                 getLogger().debug("JdbcConnection was closed, creating one to take its place");
