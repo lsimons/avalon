@@ -28,9 +28,9 @@ import javax.management.MBeanServerFactory;
 import javax.management.ObjectName;
 import javax.management.ReflectionException;
 
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
@@ -52,9 +52,9 @@ import mx4j.util.StandardMBeanProxy;
  *
  * @avalon.component name="jmx-mx4j-manager" lifestyle="singleton"
  * @avalon.service type="org.apache.avalon.jmx.ComponentRegistrationManager"
+ * @avalon.attribute key="urn:composition:deployment.timeout" value="6000"
  */
 public class MX4JComponentRegistrationManager extends AbstractJMXComponentRegistrationManager 
-    implements Contextualizable, Configurable
 {
     private static final Resources REZ = 
       ResourceManager.getPackageResources( MX4JComponentRegistrationManager.class );
@@ -73,67 +73,34 @@ public class MX4JComponentRegistrationManager extends AbstractJMXComponentRegist
     private String m_password;
     private String m_username;
 
-   /*
-    public MX4JComponentRegistrationManager(
-      final Context context, final Configuration configuration, ServiceManager manager )
-    {
-    }
+   /**
+    * @avalon.entry key="urn:avalon:home" type="java.io.File"
     */
-
-    /**
-     * @avalon.entry key="urn:avalon:home" type="java.io.File"
-     */
-    public void contextualize( Context context ) throws ContextException
+    public MX4JComponentRegistrationManager(
+      final Logger logger, final Context context, final Parameters parameters )
+      throws Exception
     {
+        super( logger );
+
         m_homeDir = ( File ) context.get( "urn:avalon:home" );
-    }
-
-    public void configure( final Configuration configuration ) throws ConfigurationException
-    {
-        m_host = configuration.getChild( "manager-adaptor-host" ).getValue(
-            DEFAULT_HTTPADAPTER_HOST );
-
-        m_port = configuration.getChild( "manager-adaptor-port" ).getValueAsInteger(
-            DEFAULT_HTTPADAPTER_PORT );
-
-        //This is for backwards compatability with old-style
-        //RI JMX implementation
-        m_port = configuration.getChild( "port" ).getValueAsInteger( m_port );
-
+        m_host = parameters.getParameter( "manager-adaptor-host", DEFAULT_HTTPADAPTER_HOST );
+        m_port = parameters.getParameterAsInteger( "manager-adaptor-port", DEFAULT_HTTPADAPTER_PORT );
         getLogger().debug( "MX4J HTTP listener port: " + m_port );
+        m_rmi = parameters.getParameterAsBoolean( "enable-rmi-adaptor", false );
+        m_namingFactory = parameters.getParameter( "rmi-naming-factory", DEFAULT_NAMING_FACTORY );
 
-        m_rmi = configuration.getChild( "enable-rmi-adaptor" ).getValueAsBoolean( false );
-
-        m_namingFactory = configuration.getChild( "rmi-naming-factory" ).getValue(
-            DEFAULT_NAMING_FACTORY );
-
-        final String stylesheets = 
-          configuration.getChild( "stylesheets-dir" ).getValue( null );
+        final String stylesheets = parameters.getParameter( "stylesheets-dir", null );
         if ( null != stylesheets )
         {
             m_stylesheetDir = new File( m_homeDir, stylesheets ).getAbsolutePath();
         }
 
-        /*
-         * <user>
-         *  <name>user</name>
-         *  <password>passwd</password>
-         * </user>
-         */
-        final Configuration userConfig = configuration.getChild( "user" );
-        m_username = userConfig.getChild( "name" ).getValue( null );
-        m_password = userConfig.getChild( "password" ).getValue( null );
-    }
-
-    public void initialize() throws Exception
-    {
-        super.initialize();
+        m_username = parameters.getParameter( "name", null );
+        m_password = parameters.getParameter( "password", null );
 
         final MBeanServer mBeanServer = getMBeanServer();
-
         startHttpAdaptor( mBeanServer );
-
-        if ( m_rmi )
+        if( m_rmi )
         {
             startRMIAdaptor( mBeanServer );
         }
@@ -142,14 +109,11 @@ public class MX4JComponentRegistrationManager extends AbstractJMXComponentRegist
     public void dispose()
     {
         final MBeanServer mBeanServer = getMBeanServer();
-
         stopHttpAdaptor( mBeanServer );
-
         if ( m_rmi )
         {
             stopRMIAdaptor( mBeanServer );
         }
-
         super.dispose();
     }
 

@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.apache.avalon.composition.model.ComponentModel;
 
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.Logger;
 
 import org.apache.avalon.jmx.ComponentRegistrationManager;
 import org.apache.avalon.jmx.ComponentRegistrationException;
@@ -37,7 +37,7 @@ import org.apache.avalon.util.i18n.Resources;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.3 $
  */
-public abstract class AbstractComponentRegistrationManager extends AbstractLogEnabled 
+public abstract class AbstractComponentRegistrationManager 
     implements ComponentRegistrationManager
 {
 
@@ -45,6 +45,14 @@ public abstract class AbstractComponentRegistrationManager extends AbstractLogEn
         AbstractComponentRegistrationManager.class );
 
     private Map m_entries = Collections.synchronizedMap( new HashMap() );
+
+    private final Logger m_logger;
+
+    public AbstractComponentRegistrationManager( final Logger logger )
+      throws Exception
+    {
+        m_logger = logger;
+    }
 
     public void register( ComponentModel componentModel ) 
         throws ComponentRegistrationException
@@ -217,6 +225,11 @@ public abstract class AbstractComponentRegistrationManager extends AbstractLogEn
 
             verifyInterface( clazz );
         }
+    }
+
+    protected Logger getLogger()
+    {
+        return m_logger;
     }
 
 }
