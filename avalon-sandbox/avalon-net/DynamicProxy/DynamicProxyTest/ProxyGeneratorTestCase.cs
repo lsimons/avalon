@@ -262,55 +262,5 @@ namespace Apache.Avalon.DynamicProxy.Test
 		#endregion
 
 	}
-
-
-	/*
-	public class MyTest : IMyInterface
-	{
-		IInvocationHandler handler = null;
-
-		#region IMyInterface Members
-
-		public String Nome
-		{
-			get
-			{
-				// TODO:  Add MyTest.Nome getter implementation
-				return null;
-			}
-			set
-			{
-				// TODO:  Add MyTest.Nome setter implementation
-			}
-		}
-
-		public void Calc(int x, String y)
-		{
-			MethodBase method = MethodBase.GetCurrentMethod();
-			handler.Invoke( this, method, x, y );
-		}
-
-		public void Calc(int x, String y, Single ip)
-		{
-			MethodBase method = MethodBase.GetCurrentMethod();
-			handler.Invoke( this, method, x, y, ip );
-		}
-
-		public int Calc(int x, int y)
-		{
-			MethodBase method = MethodBase.GetCurrentMethod();
-			return (int) handler.Invoke( this, method, x, y );
-		}
-
-		public int Calc(int x, int y, int z, Single h)
-		{
-			MethodBase method = MethodBase.GetCurrentMethod();
-			return (int) handler.Invoke( this, method, x, y, h );
-		}
-
-		#endregion
-
-	}*/
-
 }
 
