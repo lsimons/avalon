@@ -152,7 +152,7 @@ public class ComponentException
         }
         else
         {
-            return super.getMessage() + " (role [" + m_key + "])";
+            return super.getMessage() + " (key [" + m_key + "])";
         }
     }
 }
