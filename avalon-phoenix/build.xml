@@ -339,11 +339,11 @@ Legal:
     </copy>
 
     <copy todir="${src.dist.docs}">
-      <fileset dir="${build.docs}"/>
+      <fileset dir="${build.dir}/docs"/>
     </copy>
 
     <copy todir="${src.dist.javadocs}">
-      <fileset dir="${build.javadocs}"/>
+      <fileset dir="${build.dir}/javadocs"/>
     </copy>
 
     <filter token="version" value="${version}"/>
