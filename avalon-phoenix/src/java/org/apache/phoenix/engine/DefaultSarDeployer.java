@@ -59,8 +59,8 @@ public class DefaultSarDeployer
     extends AbstractDeployer
     implements Composable
 {
-    protected File            m_deployDirectory;
-    protected Container       m_container;
+    private File            m_deployDirectory;
+    private Container       m_container;
 
     /**
      * Default constructor.
@@ -99,7 +99,7 @@ public class DefaultSarDeployer
         }
     }
 
-    protected void expandTo( final File file, final File directory )
+    private void expandTo( final File file, final File directory )
         throws DeploymentException
     {
         final ZipFile zipFile = DeployerUtil.getZipFileFor( file );
@@ -144,18 +144,18 @@ public class DefaultSarDeployer
         }
     }
 
-    protected boolean shouldExpandEntry( final String name )
+    private boolean shouldExpandEntry( final String name )
     {
         if( name.startsWith( "META-INF" ) ) return false;
         else return true;
     }
 
-    protected boolean needsExpanding( final ZipFile zipFile, final File directory )
+    private boolean needsExpanding( final ZipFile zipFile, final File directory )
     {
         return !directory.exists();
     }
 
-    protected File getDestinationFor( final String location, final File file )
+    private File getDestinationFor( final String location, final File file )
     {
         final String name =
             FileUtil.removeExtention( FileUtil.removePath( file.getName() ) );
@@ -170,7 +170,7 @@ public class DefaultSarDeployer
         }
     }
 
-    protected Kernel getKernel()
+    private Kernel getKernel()
         throws DeploymentException
     {
         if( !(m_container instanceof Kernel) )
@@ -183,7 +183,7 @@ public class DefaultSarDeployer
         }
     }
 
-    protected void buildEntry( final String name,
+    private void buildEntry( final String name,
                                final ServerApplicationEntry entry,
                                final File archive,
                                final File directory )
@@ -204,7 +204,7 @@ public class DefaultSarDeployer
         entry.setConfiguration( configuration );
     }
 
-    protected void deployFromDirectory( final File archive,
+    private void deployFromDirectory( final File archive,
                                         final String name,
                                         final File directory )
         throws DeploymentException
@@ -237,26 +237,32 @@ public class DefaultSarDeployer
         final File blocksDirectory = new File( directory, "blocks" );
         CamelotUtil.deployFromDirectory( deployer, blocksDirectory, ".bar" );
 
-        final File file =
-            new File( directory, "conf" + File.separator + "assembly.xml" );
-
-        try
+       try
         {
+            final File file =
+                new File( directory, "conf" + File.separator + "assembly.xml" );
+
             final Configuration configuration = getConfigurationFor( file );
             final Configuration[] blocks = configuration.getChildren( "block" );
-            handleBlocks( application, entry, blocks, registry );
+            assembleBlocks( application, entry, blocks, registry );
         }
         catch( final ComponentException cme )
         {
-            throw new DeploymentException( "Error setting up registries", cme );
+            throw new DeploymentException( "Error Assembling Blocks", cme );
         }
         catch( final ConfigurationException ce )
         {
             throw new DeploymentException( "Error in assembly.xml", ce );
         }
+
+       final File file =
+           new File( directory, "conf" + File.separator + "config.xml" );
+       
+       final Configuration configuration = getConfigurationFor( file );
+       configureBlocks( application, entry, configuration.getChildren() );
     }
 
-    protected void addEntry( final String name, final ServerApplicationEntry entry )
+    private void addEntry( final String name, final ServerApplicationEntry entry )
         throws DeploymentException
     {
         try
@@ -271,7 +277,7 @@ public class DefaultSarDeployer
         getLogger().debug( "Adding " + m_type + "Entry " + name + " as " + entry );
     }
 
-    protected Configuration getConfigurationFor( final File file )
+    private Configuration getConfigurationFor( final File file )
         throws DeploymentException
     {
         try
@@ -285,7 +291,7 @@ public class DefaultSarDeployer
         }
     }
 
-    protected Deployer getBlockDeployer( final ServerApplicationEntry entry, final Registry registry )
+    private Deployer getBlockDeployer( final ServerApplicationEntry entry, final Registry registry )
         throws DeploymentException
     {
         final Deployer deployer = new DefaultBlockDeployer();
@@ -309,7 +315,7 @@ public class DefaultSarDeployer
         return deployer;
     }
 
-    protected void handleBlocks( final Application application,
+    private void assembleBlocks( final Application application,
                                  final ServerApplicationEntry saEntry,
                                  final Configuration[] blocks,
                                  final Registry registry )
@@ -361,7 +367,34 @@ public class DefaultSarDeployer
                 throw new DeploymentException( "Error adding component to container", ce );
             }
 
-            getLogger().debug( "Adding " + m_type + "Entry " + name + " as " + entry );
+            getLogger().debug( "Adding BlockEntry " + name + " as " + entry );
+        }
+    }
+
+    private void configureBlocks( final Application application,
+                                  final ServerApplicationEntry saEntry,
+                                  final Configuration[] configurations )
+        throws DeploymentException
+    {
+        for( int i = 0; i < configurations.length; i++ )
+        {
+            final Configuration configuration = configurations[ i ];
+            final String name = configuration.getName();
+
+            BlockEntry entry = null;
+            try 
+            { 
+                entry = (BlockEntry)application.getEntry( name ); 
+            }
+            catch( final ContainerException ce )
+            {
+                throw new DeploymentException( "Configuration element " + name + 
+                                               " refers to unknown block", ce );
+            }
+
+            entry.setConfiguration( configuration );
+
+            getLogger().debug( "Loaded configuration for block " + name );
         }
     }
 }
