@@ -28,29 +28,28 @@ Components subprojects include:
    threads-impl
    threads-tutorial
 
-The entire suite can be built as follows:
+The default target will build, jar and install the complete component 
+suite into your local maven repository.
 
   $ cd avalon-components
   $ maven
 
-The default target will build, jar and install the component into 
-your local maven repository followind by the generation of the 
-project documetation under the following directory:
-
-  avalon-components/site/target/docs
 
 Other convinience goals avalible within the root avalon-components
 directory include:
 
-  project-install
-  project-site
-  project-clean
+  do-install
+  do-site
+  do-clean
 
-Furthermore, each project can be build indepedendently using
-classic Maven goals.  For example:
+Site documetation generated hy the do-site goal will be placed in 
+the avalon-components/site/target/docs directory.
+
+Each project can be build indepedendently using classic Maven 
+goals.  For example:
 
   $ cd avalon-components/threads-api
-  $ maven jar:install
+  $ maven jar:install-snapshot
 
 For more information please consult the project documentation
 included under the avalon-components/site directory.

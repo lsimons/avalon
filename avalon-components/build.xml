@@ -161,9 +161,12 @@
   </target>
 
   <target name="get-deps" unless="noget" depends="init">
-    <get dest="${lib.dir}/avalon-framework-4.1.4.jar" 
+    <get dest="${lib.dir}/avalon-framework-api-SNAPSHOT.jar" 
        usetimestamp="true" ignoreerrors="true" 
-       src="http://www.ibiblio.org/maven/avalon-framework/jars/avalon-framework-4.1.4.jar"/>
+       src="http://www.ibiblio.org/maven/avalon-framework/jars/avalon-framework-api-SNAPSHOT.jar"/>
+    <get dest="${lib.dir}/avalon-framework-impl-SNAPSHOT.jar" 
+       usetimestamp="true" ignoreerrors="true" 
+       src="http://www.ibiblio.org/maven/avalon-framework/jars/avalon-framework-impl-SNAPSHOT.jar"/>
     <get dest="${lib.dir}/excalibur-datasource-1.1.1.jar" 
        usetimestamp="true" ignoreerrors="true" 
        src="http://www.ibiblio.org/maven/excalibur-datasource/jars/excalibur-datasource-1.1.1.jar"/>

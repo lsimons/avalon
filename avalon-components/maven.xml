@@ -3,22 +3,22 @@
   <property file="${basedir}/../project.properties"/>
 
   <goal name="build">
-    <attainGoal name="project-install"/>
-    <attainGoal name="project-site"/>
+    <attainGoal name="do-install"/>
+    <!--<attainGoal name="do-site"/>-->
   </goal>
 
-  <goal name="project-install" 
+  <goal name="do-install" 
     description="Install the sub-project jars." >
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
       excludes="site/*.*"
-      goals="jar:install"
+      goals="jar:install-snapshot"
       banner="Installing:"
       ignoreFailures="false" />
   </goal>
 
-  <goal name="project-site" 
+  <goal name="do-site" 
     description="Build the project site." >
     <maven:reactor
       basedir="${basedir}"
@@ -28,7 +28,7 @@
       ignoreFailures="false" />
   </goal>
 
-  <goal name="project-clean" 
+  <goal name="do-clean" 
     description="Build the distribution." >
     <maven:reactor
       basedir="${basedir}"

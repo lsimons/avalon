@@ -19,13 +19,13 @@
     <dependency>
       <groupId>cornerstone-sockets</groupId>
       <artifactId>cornerstone-sockets-api</artifactId>
-      <version>1.0</version>
+      <version>SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>cornerstone-threads</groupId>
       <artifactId>cornerstone-threads-api</artifactId>
-      <version>1.0</version>
+      <version>SNAPSHOT</version>
     </dependency>
 
     <!-- excalibur api dependencies -->
@@ -38,8 +38,14 @@
     <!-- avalon dependencies -->
 
     <dependency>
-      <id>avalon-framework</id>
-      <version>4.1.4</version>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-api</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-impl</artifactId>
+      <version>SNAPSHOT</version>
     </dependency>
 
     <!-- pre JDK 1.4 dependencies -->

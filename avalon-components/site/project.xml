@@ -13,11 +13,22 @@
   <shortDescription>Avalon Components Site</shortDescription>
 
   <dependencies>
+
+    <!-- framework dependencies -->
+
     <dependency>
-      <id>avalon-framework</id>
-      <version>4.1.4</version>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-api</artifactId>
+      <version>SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-impl</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
+
     <!-- excalibur dependencies -->
+
     <dependency>
       <id>excalibur-thread</id>
       <version>1.1.1</version>
@@ -30,36 +41,73 @@
       <id>excalibur-datasource</id>
       <version>1.1.1</version>
     </dependency>
+
     <!-- local dependencies -->
+
     <dependency>
       <groupId>cornerstone-threads</groupId>
-      <artifactId>cornerstone-threads</artifactId>
-      <version>1.0</version>
+      <artifactId>cornerstone-threads-api</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>cornerstone-threads</groupId>
+      <artifactId>cornerstone-threads-impl</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>cornerstone-connection</groupId>
+      <artifactId>cornerstone-connection-api</artifactId>
+      <version>SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>cornerstone-connection</groupId>
-      <artifactId>cornerstone-connection</artifactId>
-      <version>1.0</version>
+      <artifactId>cornerstone-connection-impl</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>cornerstone-datasources</groupId>
+      <artifactId>cornerstone-datasources-api</artifactId>
+      <version>SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>cornerstone-datasources</groupId>
-      <artifactId>cornerstone-datasources</artifactId>
-      <version>1.0</version>
+      <artifactId>cornerstone-datasources-impl</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>cornerstone-scheduler</groupId>
+      <artifactId>cornerstone-scheduler-api</artifactId>
+      <version>SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>cornerstone-scheduler</groupId>
-      <artifactId>cornerstone-scheduler</artifactId>
-      <version>1.0</version>
+      <artifactId>cornerstone-scheduler-impl</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>cornerstone-sockets</groupId>
+      <artifactId>cornerstone-sockets-api</artifactId>
+      <version>SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>cornerstone-sockets</groupId>
-      <artifactId>cornerstone-sockets</artifactId>
-      <version>1.0</version>
+      <artifactId>cornerstone-sockets-impl</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>cornerstone-store</groupId>
+      <artifactId>cornerstone-store-api</artifactId>
+      <version>SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>cornerstone-store</groupId>
-      <artifactId>cornerstone-store</artifactId>
-      <version>1.0</version>
+      <artifactId>cornerstone-store-impl</artifactId>
+      <version>SNAPSHOT</version>
     </dependency>
 
   </dependencies>

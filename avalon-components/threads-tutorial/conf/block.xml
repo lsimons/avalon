@@ -14,7 +14,8 @@ Thread Tutorial.
      <engine>
        <classpath>
          <repository>
-           <resource id="cornerstone-threads:cornerstone-threads-api" version="1.0"/>
+           <resource id="avalon-framework:avalon-framework-impl" version="SNAPSHOT"/>
+           <resource id="cornerstone-threads:cornerstone-threads-api" version="SNAPSHOT"/>
            <resource id="excalibur-thread:excalibur-thread" version="1.1.1"/>
            <resource id="excalibur-event:excalibur-event" version="1.0.3"/>
          </repository>
@@ -22,7 +23,7 @@ Thread Tutorial.
      </engine>
 
      <include name="threads">
-       <resource id="cornerstone-threads:cornerstone-threads-impl" version="1.0"/>
+       <resource id="cornerstone-threads:cornerstone-threads-impl" version="SNAPSHOT"/>
      </include>
 
      <component name="test" 
