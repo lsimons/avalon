@@ -44,7 +44,7 @@ import java.io.InputStream;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:proyal at apache.org">Peter Royal</a>
- * @version $Revision: 1.1 $ $Date: 2003/04/06 11:41:55 $
+ * @version $Revision: 1.2 $ $Date: 2003/04/08 18:38:43 $
  * @phoenix.component
  */
 public class DefaultConfigurationValidator
@@ -127,7 +127,9 @@ public class DefaultConfigurationValidator
         }
         catch( Exception e )
         {
-            getLogger().warn( "Failed validation due to: " + e.getMessage(), e );
+            final String msg = component.getMetaData().getName() + " failed validation due to: "
+                    + e.getMessage();
+            getLogger().warn( msg, e );
             return false;
         }
     }
