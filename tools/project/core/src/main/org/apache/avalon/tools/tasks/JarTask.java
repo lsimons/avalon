@@ -42,50 +42,15 @@ import org.apache.avalon.tools.project.Definition;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class JarTask extends ContextualTask
+public class JarTask extends SystemTask
 {
     public static final String MD5_EXT = "md5";
     public static final String JAR_EXT = "jar";
     public static final String ASC_EXT = "asc";
     public static final String GPG_EXE_KEY = "project.gpg.exe";
     
-    private Home m_home;
-
-   /**
-    * Set the home ref id.
-    * @param id a home id
-    */
-    public void setRefid( String id )
-    {
-        Object object = getProject().getReference( id );
-        if( null == object )
-        {
-            final String error = 
-              "Unknown ref id '" + id + "'.";
-            throw new BuildException( error );
-        }
-        if( object instanceof Home )
-        {
-            m_home = (Home) object;
-        }
-        else
-        {
-            final String error = 
-              "Supplied id '" + id + "' does not refer to a Home.";
-            throw new BuildException( error );
-        }
-    }
-
     public void execute() throws BuildException 
     {
-        if( null == m_home ) 
-        {
-            final String error = 
-              "Required system home 'refid' attribute not set in the task definition ["
-              + getTaskName() + "].";
-            throw new BuildException( error );
-        }
-
         File classes = 
           getContext().getBuildPath( JavacTask.BUILD_CLASSES_KEY );
         File deliverables = 
@@ -111,8 +76,8 @@ public class JarTask extends ContextualTask
     public File getJarFile( File deliverables )
     {
         Project project = getProject();
-        Definition def = m_home.getDefinition();
-        String type = m_home.getDefinition().getInfo().getType();
+        Definition def = getHome().getDefinition();
+        String type = getHome().getDefinition().getInfo().getType();
         File types = new File( deliverables, type + "s" );
         String filename = getJarFilename( def );
         return new File( types, filename );

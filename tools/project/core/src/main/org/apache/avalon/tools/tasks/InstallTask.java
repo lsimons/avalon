@@ -33,40 +33,14 @@ import org.apache.avalon.tools.home.Context;
 import org.apache.avalon.tools.project.Definition;
 
 /**
- * Load a goal. 
+ * Install the target/deliverables content into the local repository
+ * cache. 
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class InstallTask extends ContextualTask
+public class InstallTask extends SystemTask
 {
-    private Home m_home;
-
-   /**
-    * Set the home ref id.
-    * @param id a home id
-    */
-    public void setRefid( String id )
-    {
-        Object object = getProject().getReference( id );
-        if( null == object )
-        {
-            final String error = 
-              "Unknown ref id '" + id + "'.";
-            throw new BuildException( error );
-        }
-        if( object instanceof Home )
-        {
-            m_home = (Home) object;
-        }
-        else
-        {
-            final String error = 
-              "Supplied id '" + id + "' does not refer to a Home.";
-            throw new BuildException( error );
-        }
-    }
-
     public void execute() throws BuildException 
     {
         File deliverables = getContext().getDeliverablesDirectory();
@@ -82,9 +56,10 @@ public class InstallTask extends ContextualTask
         fileset.setDir( deliverables );
         fileset.createInclude().setName( "**/*" );
 
-        File cache = m_home.getRepository().getCacheDirectory();
-        String group = m_home.getDefinition().getInfo().getGroup();
+        File cache = getHome().getRepository().getCacheDirectory();
+        String group = getHome().getDefinition().getInfo().getGroup();
         File target = new File( cache, group );
+        mkDir( target );
 
         Copy copy = (Copy) getProject().createTask( "copy" );
         copy.setPreserveLastModified( true );

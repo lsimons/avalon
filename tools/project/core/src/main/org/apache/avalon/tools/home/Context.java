@@ -34,7 +34,6 @@ import org.apache.tools.ant.taskdefs.Property;
 public class Context 
 {
     public static final String KEY = "project.context";
-    public static final String HOME_KEY = "project.home";
 
     public static final String SRC_KEY = "project.src";
     public static final String SRC_VALUE = "src";
@@ -68,21 +67,14 @@ public class Context
 
     public static Context getContext( Project project )
     {
-        return getContext( project, null );
-    }
-
-    public static Context getContext( Project project, File home )
-    {
         Context context = (Context) project.getReference( KEY );
         if( null == context )
         {
-            context = new Context( project, home );
+            context = new Context( project );
             project.addReference( KEY, context );
         }
         return context;
     }
-
-    private final File m_home;
 
     private final File m_src;
     private final File m_target;
@@ -94,7 +86,7 @@ public class Context
     private final Map m_map = new Hashtable();
     private final Map m_resources = new Hashtable();
 
-    private Context( Project project, File home )
+    private Context( Project project )
     {
         setupProperties( project );
 
@@ -118,25 +110,6 @@ public class Context
 
         m_src = setupSrc( basedir, src );
         m_target = setupTarget( basedir, target );
-        if( null == home )
-        {
-            String path = project.getProperty( HOME_KEY );
-            if( null == path ) 
-            {
-                //final String error = 
-                //  "Missing 'project.home' declaration.";
-                //project.log( error );
-                m_home = null;
-            }
-            else
-            {
-                m_home = new File( basedir, path );
-            }
-        }
-        else
-        {
-            m_home = home;
-        }
 
         m_build = 
           setBuildPath( BUILD_KEY, build );
@@ -147,11 +120,6 @@ public class Context
         m_docs = 
           setBuildPath( DOCS_KEY, docs );
     }
-
-    //public File getHomeDirectory()
-    //{
-    //    return m_home;
-    //}
 
     public File getSrcDirectory()
     {
