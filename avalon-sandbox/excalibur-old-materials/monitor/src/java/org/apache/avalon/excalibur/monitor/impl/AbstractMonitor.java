@@ -20,7 +20,7 @@ import org.apache.avalon.excalibur.monitor.Resource;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Id: AbstractMonitor.java,v 1.1 2002/09/07 07:15:56 donaldp Exp $
+ * @version $Id: AbstractMonitor.java,v 1.2 2002/09/07 07:26:35 donaldp Exp $
  */
 public abstract class AbstractMonitor
     implements Monitor
@@ -29,6 +29,19 @@ public abstract class AbstractMonitor
      * The set of resources that the monitor is monitoring.
      */
     private Map m_resources = new HashMap();
+
+    /**
+     * Add an array of resources to monitor.
+     *
+     * @param resources the resources to monitor
+     */
+    public final void addResources( final Resource[] resources )
+    {
+        for( int i = 0; i < resources.length; i++ )
+        {
+            addResource(resources[ i ] );
+        }
+    }
 
     /**
      * Add a resource to monitor.  The resource key referenced in the other
