@@ -6,7 +6,7 @@
 # modules that Phoenix depends on.  Copy this file to ".ant.properties"
 # in the top-level source directory, and customize it as needed.
 #
-# $Id: ant.properties.sample,v 1.9 2002/06/04 22:03:26 hammant Exp $
+# $Id: ant.properties.sample,v 1.10 2002/06/11 11:38:45 colus Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Environment Flags -----
@@ -38,15 +38,15 @@ base.path=/opt
 #wrapper.dll=${wrapper.home}/lib/Wrapper.dll
 
 # ----- Java Management Extensions (JMX) RI, version 1.0.1 or later -----
-jmx.home=${base.path}/jmx-ri_1.0.1/jmx
-jmx.lib=${jmx.home}/lib
-jmxri.jar=${jmx.lib}/jmxri.jar
-jmxtools.jar=${jmx.lib}/jmxtools.jar
+#jmx.home=${base.path}/jmx-1_0_1-ri/jmx
+#jmx.lib=${jmx.home}/lib
+#jmxri.jar=${jmx.lib}/jmxri.jar
+#jmxtools.jar=${jmx.lib}/jmxtools.jar
 
-# ----- MX4J Open JMX Implementation, version 1.0b3 or later -----
-mx4j.home=${base.path}/mx4j-1.0b3
+# ----- MX4J Open JMX Implementation, version 1.1 or later -----
+mx4j.home=${base.path}/mx4j-1.1
 mx4j.lib=${mx4j.home}/lib
-mx4j.jar=${mx4j.lib}/mx4j.jar
+mx4j.jar=${mx4j.lib}/mx4j-jmx.jar
 mx4j-tools.jar=${mx4j.lib}/mx4j-tools.jar
 
 # ----- Checkstyle, version 2.1 or later -----
