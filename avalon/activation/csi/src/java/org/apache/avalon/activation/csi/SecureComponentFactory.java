@@ -62,7 +62,7 @@ import org.apache.avalon.repository.Artifact;
  * A factory enabling the establishment of runtime handlers.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/14 21:33:55 $
+ * @version $Revision: 1.3 $ $Date: 2004/02/22 11:04:45 $
  */
 public class SecureComponentFactory implements ComponentFactory
 {
@@ -575,26 +575,6 @@ public class SecureComponentFactory implements ComponentFactory
                     provider.toString() );
                 throw new LifecycleException( error, e );
             }
-        }
-    }
-
-    private ContextualizationHandler getContextualizationHandler()
-      throws LifecycleException
-    {
-        ContextModel model = m_model.getContextModel();
-        if( null == model ) return null;
-        DeploymentModel provider = model.getProvider();
-        try
-        {
-            return (ContextualizationHandler) provider.resolve();
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              REZ.getString( 
-                "lifestyle.error.contextualization", 
-                provider.toString() );
-            throw new LifecycleException( error, e );
         }
     }
 }
