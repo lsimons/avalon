@@ -48,37 +48,10 @@ import org.w3c.dom.Element;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class PluginTask extends ContextualTask
+public class PluginTask extends SystemTask
 {
     private String m_id;
     private String m_uri;
-    private Home m_home;
-
-   /**
-    * Set the home ref id.
-    * @param id a home id
-    */
-    public void setRefid( String id )
-    {
-        Object object = getProject().getReference( id );
-        if( null == object )
-        {
-            final String error = 
-              "Unknown ref id '" + id + "'.";
-            throw new BuildException( error );
-        }
-        if( object instanceof Home )
-        {
-            m_home = (Home) object;
-        }
-        else
-        {
-            final String error = 
-              "Supplied id '" + id + "' does not refer to a Home.";
-            throw new BuildException( error );
-        }
-    }
-
 
     public void setArtifact( String id )
     {
@@ -101,14 +74,6 @@ public class PluginTask extends ContextualTask
 
     public void execute() throws BuildException 
     {
-        if( null == m_home ) 
-        {
-            final String error = 
-              "Required system home 'refid' attribute not set in the task definition ["
-              + getTaskName() + "].";
-            throw new BuildException( error );
-        }
-
         try
         {
             //
@@ -120,7 +85,7 @@ public class PluginTask extends ContextualTask
             Info info = Info.create( id );
             Project project = getProject();
             Resource resource = new Resource( info );
-            File file = m_home.getRepository().getResource( project, resource );
+            File file = getHome().getRepository().getResource( project, resource );
 
             //
             // create a utility data object from the defintion
@@ -177,7 +142,7 @@ public class PluginTask extends ContextualTask
                 Info info = Info.create( type, value );
                 Resource resource = new Resource( info );
                 File jar = 
-                  m_home.getRepository().getResource( project, resource );
+                  getHome().getRepository().getResource( project, resource );
                 m_path.createPathElement().setLocation( jar );
             }
         }

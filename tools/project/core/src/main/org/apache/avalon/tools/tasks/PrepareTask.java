@@ -45,16 +45,6 @@ public class PrepareTask extends ContextualTask
     private static final String SRC_FILTERED_INCLUDES_VALUE = 
       "**/*.java,**/*.x*,**/*.properties";
 
-    private File m_home;
-
-   /**
-    * Optional setting of the project home.
-    */
-    public void setHome( File home )
-    {
-        m_home = home;
-    }
-
     public void init() throws BuildException 
     {
         if( !isInitialized() )

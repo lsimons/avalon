@@ -2,8 +2,8 @@
 <project name="sample" default="install" basedir="." 
     xmlns:x="antlib:org.apache.avalon.tools" xmlns:d="plugin:demo/demo#1.0" > 
 
-  <x:home id="system" index="../../index.xml">
-    <x:plugin refid="system" artifact="plugin:demo/demo#1.0"/>
+  <x:home index="../../index.xml">
+    <x:plugin artifact="plugin:demo/demo#1.0"/>
   </x:home>
 
   <target name="clean">
@@ -15,20 +15,20 @@
   </target>
 
   <target name="build" depends="prepare">
-    <x:javac refid="system"/>
+    <x:javac/>
     <d:hello/>
   </target>
 
   <target name="package" depends="build">
-    <x:jar refid="system"/>
+    <x:jar/>
   </target>
 
   <target name="test" depends="package">
-    <x:junit refid="system"/>
+    <x:junit/>
   </target>
 
   <target name="install" depends="test">
-    <x:install refid="system"/>
+    <x:install/>
   </target>
 
 </project>

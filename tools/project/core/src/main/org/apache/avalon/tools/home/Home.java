@@ -65,50 +65,21 @@ import org.apache.avalon.tools.util.ElementHelper;
 public class Home extends Sequential
 {
     //-------------------------------------------------------------
-    // static immutable
+    // static
     //-------------------------------------------------------------
 
-    //private static Home HOME;
+    public static final String KEY = "project.home";
 
     //-------------------------------------------------------------
-    // static operations
+    // mutable state
     //-------------------------------------------------------------
 
-    /*
-    public static Home initialize( Task task, File index )
-    {
-        Project project = task.getProject();
-        if( null == HOME )
-        {
-            try
-            {
-                task.log( "index: " + index, Project.MSG_INFO );
-                HOME = new Home( project, index );
-            }
-            catch( Throwable e )
-            {
-                throw new BuildException( e );
-            }
-        }
-        setHomeReference( project );
-        return HOME;
-    }
-
-    public static Home getHome()
-    {
-        return HOME;
-    }
-    */
-
-    //-------------------------------------------------------------
-    // immutable state
-    //-------------------------------------------------------------
-
+    private String m_id;
     private String m_key;
 
     private Project m_project;
     private Repository m_repository;
-    private File m_home;
+    private File m_system;
     private File m_file;
 
     private final Hashtable m_resources = new Hashtable();
@@ -125,11 +96,6 @@ public class Home extends Sequential
         m_project = project;
     }
 
-    //private Home( Project project, File file )
-    //{
-    //    init( project, file );
-    //}
-
     //-------------------------------------------------------------
     // setters
     //-------------------------------------------------------------
@@ -144,20 +110,38 @@ public class Home extends Sequential
         m_key = key;
     }
 
+    public void setId( String id )
+    {
+        m_id = id;
+    }
+
     //-------------------------------------------------------------
     // internal
     //-------------------------------------------------------------
 
     public void execute()
     {
-        //m_file = file;
-        //m_project = project;
-        m_home = m_file.getParentFile();
+        if( null == m_file )
+        {
+            final String error = 
+              "Cannot continue due to missing index attribute in task defintion [" 
+              + getTaskName() + "].";
+            throw new BuildException( error );
+        }
 
-        //HOME = this;
- 
+        Project project = getProject();
+        if( null == m_id )
+        {
+            project.addReference( KEY, this );
+        }
+        else
+        {
+            project.addReference( m_id, this );
+        }
+
+        m_system = m_file.getParentFile();
         Element root = ElementHelper.getRootElement( m_file );
-        m_project.log( "home: " + m_home, Project.MSG_DEBUG );
+        m_project.log( "home: " + m_system, Project.MSG_DEBUG );
 
         final Element repo = ElementHelper.getChild( root, "repository" );
         final Element resources = ElementHelper.getChild( root, "resources" );
@@ -175,7 +159,6 @@ public class Home extends Sequential
 
         final String key = getKey();
         m_definition = getDefinition( key, false );
-
         m_listener = new StandardListener( this, m_definition );
 
         super.execute();
@@ -200,7 +183,7 @@ public class Home extends Sequential
 
     public File getHomeDirectory()
     {
-        return m_home;
+        return m_system;
     }
 
     public Repository getRepository()
@@ -211,11 +194,6 @@ public class Home extends Sequential
     public File getFile()
     {
         return m_file;
-    }
-
-    public Project getProject()
-    {
-        return m_project;
     }
 
     public Plugin getPlugin( PluginRef ref )
@@ -372,7 +350,7 @@ public class Home extends Sequential
         {
             Element element = entries[i];
             Definition definition = 
-              XMLDefinitionBuilder.createDefinition( this, element, m_home );
+              XMLDefinitionBuilder.createDefinition( this, element, m_system );
             String key = definition.getKey();
             m_resources.put( key, definition );
             m_project.log( 

@@ -28,7 +28,7 @@ import org.apache.tools.ant.taskdefs.Mkdir;
 import org.apache.avalon.tools.home.Context;
 import org.apache.avalon.tools.home.Home;
 
-public class XdocTask extends ContextualTask
+public class XdocTask extends SystemTask
 {
     public static final String ORG_NAME_KEY = "project.organization.name";
     public static final String ORG_NAME_VALUE = "The Apache Software Foundation";
@@ -71,40 +71,13 @@ public class XdocTask extends ContextualTask
 
     public static final String XDOC_ANCHOR_URL_KEY = "project.xdoc.anchor.url";
 
-    private Home m_home;
     private String m_theme;
-
     private File m_BaseToDir;    
     private File m_BaseSrcDir;    
 
     public void setTheme( String theme )
     {
         m_theme = theme;
-    }
-
-   /**
-    * Set the home ref id.
-    * @param id a home id
-    */
-    public void setRefid( String id )
-    {
-        Object object = getProject().getReference( id );
-        if( null == object )
-        {
-            final String error = 
-              "Unknown ref id '" + id + "'.";
-            throw new BuildException( error );
-        }
-        if( object instanceof Home )
-        {
-            m_home = (Home) object;
-        }
-        else
-        {
-            final String error = 
-              "Supplied id '" + id + "' does not refer to a Home.";
-            throw new BuildException( error );
-        }
     }
 
     public void init() throws BuildException 
@@ -131,7 +104,7 @@ public class XdocTask extends ContextualTask
 
     private File getThemesDirectory()
     {
-        File home = m_home.getHomeDirectory();
+        File home = getHome().getHomeDirectory();
         return new File( home, "themes" );
     }
     
@@ -147,15 +120,7 @@ public class XdocTask extends ContextualTask
     }
 
     public void execute()
-    {        
-        if( null == m_home ) 
-        {
-            final String error = 
-              "Required system home 'refid' attribute not set in the task definition ["
-              + getTaskName() + "].";
-            throw new BuildException( error );
-        }
-
+    {
         Project project = getProject();
         File docs = getContext().getDocsDirectory();
 

@@ -39,7 +39,7 @@ import org.apache.avalon.tools.project.Definition;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class JavacTask extends ContextualTask
+public class JavacTask extends SystemTask
 {
     public static final String BUILD_CLASSES_KEY = "classes";
     public static final String BUILD_CLASSES_PATH = "classes";
@@ -49,33 +49,6 @@ public class JavacTask extends ContextualTask
 
     public static final String FORK_KEY = "java.compile.fork";
     public static final boolean FORK_VALUE = false;
-
-    private Home m_home;
-
-   /**
-    * Set the home ref id.
-    * @param id a home id
-    */
-    public void setRefid( String id )
-    {
-        Object object = getProject().getReference( id );
-        if( null == object )
-        {
-            final String error = 
-              "Unknown ref id '" + id + "'.";
-            throw new BuildException( error );
-        }
-        if( object instanceof Home )
-        {
-            m_home = (Home) object;
-        }
-        else
-        {
-            final String error = 
-              "Supplied id '" + id + "' does not refer to a Home.";
-            throw new BuildException( error );
-        }
-    }
 
     public void init() throws BuildException 
     {
@@ -93,13 +66,6 @@ public class JavacTask extends ContextualTask
 
     public void execute() throws BuildException 
     {
-        if( null == m_home )
-        {
-            final String error = 
-              "Required system home 'refid' value is not declared";
-            throw new BuildException( error );
-        }
-
         Project project = getProject();
         File build = getContext().getBuildDirectory();
         String mainPath = project.getProperty( Context.SRC_MAIN_KEY );
@@ -111,8 +77,8 @@ public class JavacTask extends ContextualTask
             mkDir( classes );
 
             Path classpath = 
-              m_home.getRepository().createPath( 
-                getProject(), m_home.getDefinition() );
+              getHome().getRepository().createPath( 
+                getProject(), getHome().getDefinition() );
             compile( main, classes, classpath );
 
             Copy copy = (Copy) getProject().createTask( "copy" );

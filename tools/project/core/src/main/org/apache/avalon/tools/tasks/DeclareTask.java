@@ -45,49 +45,14 @@ import org.apache.avalon.tools.project.Plugin.TaskDef;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class DeclareTask extends ContextualTask
+public class DeclareTask extends SystemTask
 {
     private static final String TYPE = "plugin";
 
-    private Home m_home;
-
-   /**
-    * Set the home ref id.
-    * @param id a home id
-    */
-    public void setRefid( String id )
-    {
-        Object object = getProject().getReference( id );
-        if( null == object )
-        {
-            final String error = 
-              "Unknown ref id '" + id + "'.";
-            throw new BuildException( error );
-        }
-        if( object instanceof Home )
-        {
-            m_home = (Home) object;
-        }
-        else
-        {
-            final String error = 
-              "Supplied id '" + id + "' does not refer to a Home.";
-            throw new BuildException( error );
-        }
-    }
-
     public void execute() throws BuildException 
     {
-        if( null == m_home ) 
-        {
-            final String error = 
-              "Required system home 'refid' attribute not set in the task definition ["
-              + getTaskName() + "].";
-            throw new BuildException( error );
-        }
-
         log( "creating plugin declaration" );
-        final Definition def = m_home.getDefinition();
+        final Definition def = getHome().getDefinition();
 
         try
         {
@@ -116,7 +81,7 @@ public class DeclareTask extends ContextualTask
         File ants = new File( dir, TYPE + "s" );
         mkDir( ants );
 
-        Definition def = m_home.getDefinition();
+        Definition def = getHome().getDefinition();
         Info info = def.getInfo();
         String filename = getFilename( info );
         return new File( ants, filename );
@@ -214,14 +179,15 @@ public class DeclareTask extends ContextualTask
     {
         writer.write( "\n  <classpath>" );
         final String pad = "    ";
-        ResourceRef[] resources = m_home.getRepository().getResourceRefs( def );
+        ResourceRef[] resources = getHome().getRepository().getResourceRefs( def );
         writeResourceRefs( writer, pad, resources );
         writeResource( writer, pad, def );
         writer.write( "\n  </classpath>" );
     }
 
-    private void writeResourceRefs( final Writer writer, String pad, final ResourceRef[] resources )
-        throws IOException
+    private void writeResourceRefs( 
+      final Writer writer, String pad, final ResourceRef[] resources )
+      throws IOException
     {
         for( int i=0; i<resources.length; i++ )
         {
@@ -229,14 +195,15 @@ public class DeclareTask extends ContextualTask
             Policy policy = ref.getPolicy();
             if( policy.isRuntimeEnabled() )
             {
-                Resource resource = m_home.getResource( ref );
+                Resource resource = getHome().getResource( ref );
                 writeResource( writer, pad, resource );
             }
         }
     }
 
-    private void writeResource( final Writer writer, String pad, final Resource resource )
-        throws IOException
+    private void writeResource( 
+      final Writer writer, String pad, final Resource resource )
+      throws IOException
     {
         Info info = resource.getInfo();
         String name = info.getName();

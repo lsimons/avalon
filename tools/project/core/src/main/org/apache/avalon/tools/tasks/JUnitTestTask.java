@@ -43,7 +43,7 @@ import org.apache.avalon.tools.home.Context;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class JUnitTestTask extends ContextualTask
+public class JUnitTestTask extends SystemTask
 {
     public static final String TEST_KEY = "project.test";
     public static final String TEST_VALUE = "test";
@@ -64,32 +64,6 @@ public class JUnitTestTask extends ContextualTask
     public static final boolean FORK_VALUE = false;
 
     private File m_test;
-    private Home m_home;
-
-   /**
-    * Set the home ref id.
-    * @param id a home id
-    */
-    public void setRefid( String id )
-    {
-        Object object = getProject().getReference( id );
-        if( null == object )
-        {
-            final String error = 
-              "Unknown ref id '" + id + "'.";
-            throw new BuildException( error );
-        }
-        if( object instanceof Home )
-        {
-            m_home = (Home) object;
-        }
-        else
-        {
-            final String error = 
-              "Supplied id '" + id + "' does not refer to a Home.";
-            throw new BuildException( error );
-        }
-    }
 
     public void init() throws BuildException 
     {
@@ -109,14 +83,6 @@ public class JUnitTestTask extends ContextualTask
 
     public void execute() throws BuildException 
     {
-        if( null == m_home ) 
-        {
-            final String error = 
-              "Required system home 'refid' attribute not set in the task definition ["
-              + getTaskName() + "].";
-            throw new BuildException( error );
-        }
-
         Project project = getProject();
         File build = getContext().getBuildDirectory();
 
@@ -127,9 +93,9 @@ public class JUnitTestTask extends ContextualTask
         {
             File classes = new File( m_test, "classes" );
             mkDir( classes );
-            Definition definition = m_home.getDefinition();
+            Definition definition = getHome().getDefinition();
             Path classpath = 
-              m_home.getRepository().createPath( project, definition );
+              getHome().getRepository().createPath( project, definition );
 
             //
             // add the project jar to the classpath for the compilation

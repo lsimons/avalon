@@ -2,7 +2,7 @@
 <project name="widget" default="install" basedir="." 
     xmlns:x="antlib:org.apache.avalon.tools">
 
-  <x:home id="system" index="../../index.xml"/>
+  <x:home index="../../index.xml"/>
 
   <target name="clean">
     <x:clean/>
@@ -13,19 +13,19 @@
   </target>
 
   <target name="build" depends="prepare">
-    <x:javac refid="system"/>
+    <x:javac/>
   </target>
 
   <target name="package" depends="build">
-    <x:jar refid="system"/>
+    <x:jar/>
   </target>
 
   <target name="test" depends="package">
-    <x:junit refid="system"/>
+    <x:junit/>
   </target>
 
   <target name="install" depends="test">
-    <x:install refid="system"/>
+    <x:install/>
   </target>
 
 </project>
