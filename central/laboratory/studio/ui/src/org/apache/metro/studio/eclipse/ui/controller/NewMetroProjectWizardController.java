@@ -79,7 +79,7 @@ public class NewMetroProjectWizardController
     
     private ChannelEvent selectionWindowCreated( ChannelEvent event )
     {
-        rm = ResourceTemplateManager.load( ResourceTemplateManager.DEFAULT_CONFIG_PATH );
+        rm = ResourceTemplateManager.load( ResourceTemplateManager.getDefaultConfigPath() );
         String[] names = BlockProjectManager.listTemplateNames();
         event.putValueArray( NewMetroProjectSelectionPage.SELECTION_CONTROL_LIST, names );
         return event;
