@@ -5,11 +5,11 @@
   xmlns:util="jelly:util"
   xmlns:maven="jelly:maven"
   xmlns:ant="jelly:ant"
-  xmlns:avalon="avalon-meta">
+  xmlns:meta="avalon-meta">
 
   <define:taglib uri="avalon-meta"/>
 
-  <ant:taskdef name="avalon-meta" classname="org.apache.avalon.meta.info.ant.MetaTask">
+  <ant:taskdef name="meta-generate" classname="org.apache.avalon.meta.info.ant.MetaTask">
     <classpath>
       <pathelement path="${plugin.getDependencyPath('qdox:qdox')}"/>
       <pathelement path="${plugin.getDependencyPath('avalon-framework:avalon-framework-api')}"/>
@@ -21,56 +21,74 @@
     </classpath>
   </ant:taskdef>
 
-  <goal name="avalon:meta" 
-    description="Generate meta info descriptors based on meta tags declared in Java source files for inclusion in a jar file.">
+  <goal name="meta:meta" 
+    >
+<echo>
+Please removed the <![CDATA[
+<attainGoal name="avalon:meta" />
+]]>
+from the maven.xml, and instead add a
 
-    <j:choose>
-      <j:when test="${sourcesPresent == 'true'}">
+  avalon.meta.enabled = true
+  
+in the project.properties file.
+</echo>
+<fail message="avalon:meta has been dropped, and no longer used." />
+  </goal>
+  
+  <postGoal name="java:compile"  >
+<echo>Entering the Meta Generation for Java Sources</echo>
+    <ant:available property="javaSourcesPresent"
+       file="${maven.src.dir}/java"/>
 
-        <ant:available property="javaSourcesPresent"
-           file="${maven.src.dir}/java"/>
-
-        <ant:available property="mainSourcesPresent"
-           file="${maven.src.dir}/main"/>
-
-        <ant:available property="testSourcesPresent"
-           file="${maven.src.dir}/test"/>
-
-        <ant:mkdir dir="${maven.build.dest}"/>
-        <ant:avalon-meta destDir="${maven.build.dest}" 
+    <ant:available property="mainSourcesPresent"
+       file="${maven.src.dir}/main"/>
+    
+    <j:set var="needsMetaGen" value="${avalon.meta.enabled}" />
+    
+    <j:if test="${needsMetaGen }" >
+     <j:if test="${ (javaSourcesPresent || mainSourcesPresent )}">
+      <ant:mkdir dir="${maven.build.dest}"/>
+      <ant:meta-generate destDir="${maven.build.dest}" 
           format="${avalon.meta.format}" 
           force="${avalon.meta.force}"
           postfix="${avalon.meta.type.postfix}">
 
-          <j:if test="${javaSourcesPresent == 'true'}">
-            <ant:fileset dir="${maven.src.dir}/java">
-              <include name="**/*.java"/>
-            </ant:fileset>
-          </j:if>
-          <j:if test="${mainSourcesPresent == 'true'}">
-            <ant:fileset dir="${maven.src.dir}/main">
-              <include name="**/*.java"/>
-            </ant:fileset>
-          </j:if>
-
-        </ant:avalon-meta>
-
-        <j:if test="${testSourcesPresent == 'true'}">
-          <ant:mkdir dir="${maven.build.dir}/test-classes"/>
-          <ant:avalon-meta destDir="${maven.build.dir}/test-classes" 
-              format="${avalon.meta.format}" 
-              force="${avalon.meta.force}"
-              postfix="${avalon.meta.type.postfix}">
-            <ant:fileset dir="${maven.src.dir}/test">
-              <include name="**/*.java"/>
-            </ant:fileset>
-          </ant:avalon-meta>
+        <j:if test="${javaSourcesPresent == 'true'}">
+          <ant:fileset dir="${maven.src.dir}/java">
+            <include name="**/*.java"/>
+          </ant:fileset>
         </j:if>
-      </j:when>
-      <j:otherwise>
-        <ant:echo>No Avalon Meta java source files to compile.</ant:echo>
-      </j:otherwise>      
-    </j:choose>
-  </goal>
+        <j:if test="${mainSourcesPresent == 'true'}">
+          <ant:fileset dir="${maven.src.dir}/main">
+            <include name="**/*.java"/>
+          </ant:fileset>
+        </j:if>
+      </ant:meta-generate>
+     </j:if>
+    </j:if>
+  </postGoal>
+  
+  <postGoal name="test:compile"  >
+<echo>Entering the Meta Generation for Test Sources</echo>
+    <ant:mkdir dir="${maven.build.dest}"/>
+    <ant:available property="testSourcesPresent"
+        file="${maven.src.dir}/test"/>
+    <j:set var="needsMetaGen" value="${avalon.meta.enabled}" />
+    
+    <j:if test="${needsMetaGen }" >
+     <j:if test="${needsMetaGen}">
+      <ant:mkdir dir="${maven.build.dir}/test-classes"/>
+      <ant:meta-generate destDir="${maven.build.dir}/test-classes" 
+          format="${avalon.meta.format}" 
+          force="${avalon.meta.force}"
+          postfix="${avalon.meta.type.postfix}">
+        <ant:fileset dir="${maven.src.dir}/test">
+          <include name="**/*.java"/>
+        </ant:fileset>
+      </ant:meta-generate>
+     </j:if>
+    </j:if>
+  </postGoal>
 
 </project>

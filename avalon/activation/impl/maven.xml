@@ -24,8 +24,4 @@
   <ant:filter token="REPOSITORY_MAIN" 
       value="&avalon-repository-artifact;"/>
 
-  <preGoal name="java:compile">
-    <attainGoal name="avalon:meta"/>
-  </preGoal>
-
 </project>

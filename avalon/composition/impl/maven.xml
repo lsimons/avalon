@@ -24,10 +24,6 @@
   <ant:filter token="REPOSITORY_MAIN" 
       value="&avalon-repository-artifact;"/>
 
-  <preGoal name="java:compile">
-    <attainGoal name="avalon:meta"/>
-  </preGoal>
-
   <postGoal name="test:compile">
   
     <mkdir dir="${basedir}/target/test/repository/test/jars"/>
