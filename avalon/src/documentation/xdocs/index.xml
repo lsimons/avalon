@@ -75,7 +75,7 @@
 
       <s2 title="Phoenix">
         <p>
-          <link href="@PHOENIX_BASE@/index.html">Phoenix</link> is a server orientated
+          <link href="@PHOENIX_BASE@/index.html">Phoenix</link> is a server oriented
           Application Server. Applications and Services that conform to the framework
           rules can be hosted in Phoenix. The Application server manages the applications
           classloader, security and logging needs. It also provides a JMX-based management 
@@ -113,7 +113,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.3 $ $Date: 2001/08/02 03:52:47 $
+      $Revision: 1.4 $ $Date: 2001/11/18 07:51:46 $
     </legal>
   </footer>
 </document>
