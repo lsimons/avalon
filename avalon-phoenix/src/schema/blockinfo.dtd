@@ -91,14 +91,3 @@ The dependencies element contains a list of services that this Block requires.
 It contains dependency elements.
 -->
 <!ELEMENT dependencies    (dependency*)>
-
-<!--
-The configuration scheme element contains the XML structure that describes the configuration that this
-block expects.
-
-The type attribute specifies the schema type.
--->
-<!ELEMENT configuration-schema (#PCDATA)>
-  <!ATTLIST configuration-schema
-       type CDATA #IMPLIED
-  >
