@@ -7,15 +7,6 @@
 
   <resource>
     <info>
-      <group>avalon</group>
-      <name>avalon-framework-api</name>
-      <version>SNAPSHOT</version>
-      <type>jar</type>
-    </info>
-  </resource>
-  
-  <resource>
-    <info>
       <group>jetty</group>
       <name>org.mortbay.jetty</name>
       <version>SNAPSHOT</version>
@@ -62,6 +53,8 @@
     </info>
     <dependencies>
       <include key="avalon-framework-api" runtime="false"/>
+      <include key="avalon-http-api" />
+      <include key="avalon-http-impl" />
     </dependencies>
   </project>
 
