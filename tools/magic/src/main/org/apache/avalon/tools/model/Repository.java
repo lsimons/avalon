@@ -118,7 +118,15 @@ public class Repository
         ArrayList list = new ArrayList();
         while( tokenizer.hasMoreTokens() )
         {
-            list.add( tokenizer.nextToken() );
+            String host = tokenizer.nextToken();
+            if( host.endsWith( "/" ) )
+            {
+                list.add( host );
+            }
+            else
+            {
+                list.add( host + "/" );
+            }
         }
         return (String[]) list.toArray( new String[0] );
     }

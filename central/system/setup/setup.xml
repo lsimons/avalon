@@ -6,9 +6,6 @@
   TODO
   Check for jdk 1.4 as the build system prerequisite.
   Check for ant 1.6.1 minimum version.
-  Check for dependent ant libs (junit, xsl stuff, etc.) 
-  and if not available download and add to 
-  ${user.home}/.ant/lib.
   -->
 
   <property file="index.properties"/>
@@ -27,7 +24,9 @@
     <isset property="project.proxy.host"/>
   </condition>
 
-  <target name="setup" depends="check-avalon,setup-repository,setup-antlib">
+  <available property="junit.available" classname="junit.framework.TestCase"/>
+
+  <target name="setup" depends="check-avalon,setup-repository,setup-antlib,setup-junit">
     <echo message="Setup complete."/>
   </target>
 
@@ -56,6 +55,12 @@
         <exclude name="**/bars/**"/>
       </patternset>
     </unzip>
+  </target>
+
+  <target name="setup-junit" depends="setup-antlib" unless="junit.available">
+    <echo message="Resolving junit..."/>
+    <get src="${junit.jar.url}" usetimestamp="true"
+      dest="${ant.lib}/${junit.jar}"/>
   </target>
 
   <target name="setup-antlib" depends="setup-repository">

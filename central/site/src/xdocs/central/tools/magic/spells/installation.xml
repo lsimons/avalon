@@ -9,7 +9,54 @@
   <body>
     <section name="Installing Magic">
 
-      <p>IN PREPARATION</p>
+      <subsection name="Installing Ant">
+
+        <p>
+        Magic runs on top of Ant.  Before installing Magic
+        you need to build or <a href="http://ant.apache.org/bindownload.cgi">
+        download a binary installation of Ant</a> (version 1.6.1 or later).
+        </p>
+
+      </subsection>
+
+      <subsection name="Magic Setup">
+
+        <p>
+        Magic registers content in a common repository. If you want to 
+        share the repository with Merlin you should define the 
+        AVALON_HOME environment variable with a value pointing to a 
+        directory within which the repository will be created.  If 
+        undefined, the installation will create a private repository in 
+        central/system/.cache.
+        </p>
+
+        <p>
+        From your the root avalon/truck checkout directory...
+        </p>
+
+<source>
+$ ant setup
+</source>
+
+        <p>
+        The above command invokes the ant file central/system/setup/setup.xml
+        which downloads the magic library and installs this under 
+        ${user.home}/.ant/lib.  It also checks for the presence of Junit
+        libraries and will download these if required.
+        </p>
+
+      </subsection>
+
+      <subsection name="Building Avalon">
+
+        <p>
+        From your the root avalon/truck checkout directory...
+        </p>
+<source>
+$ ant
+</source>
+
+      </subsection>
 
     </section>
   </body>

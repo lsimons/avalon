@@ -11,16 +11,13 @@
        token="RUNTIME-VERSION"/>
   </target>
 
-  <target name="javadoc">
-
-    <x:javadoc title="Merlin Runtime" id="avalon-runtime">
+  <target name="javadoc" depends="prepare">
+    <x:javadoc title="Merlin Runtime" id="avalon-runtime" staged="true">
       <x:link href="http://java.sun.com/j2se/1.4/docs/api" />
     </x:javadoc>
-    <!--
     <x:javadoc title="Avalon Magic" id="avalon-tools-magic">
       <x:link href="http://java.sun.com/j2se/1.4/docs/api" />
     </x:javadoc>
-    -->
   </target>
 
   <target name="site" depends="standard.site">

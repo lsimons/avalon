@@ -99,7 +99,7 @@ public class JavacTask extends SystemTask
         }
         else
         {
-            log( "no src main to compile : " + main.toString() );
+            log( "no src main", Project.MSG_VERBOSE );
         }
     }
 

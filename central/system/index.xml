@@ -125,6 +125,7 @@
     </info>
     <dependencies>
       <include key="avalon-runtime" runtime="false" build="false" test="false"/>
+      <include key="avalon-tools-magic" runtime="false" build="false" test="false"/>
     </dependencies>
   </project>
 

@@ -45,24 +45,32 @@ public class HomeTask extends ContextualTask
     public static final String SYSTEM_KEY = "project.system";
 
     private static final String CACHE_DIR_KEY = "project.home.cache.dir";
-    private static final String USER_PROPERTIES = "user.properties";
-    private static final String BUILD_PROPERTIES = "build.properties";
     private static final String INDEX_PROPERTIES = "index.properties";
 
     private static Home HOME;
 
     private String m_path;
 
+    private boolean m_executed = false;
+
     public void setIndex( String path )
     {
-        m_path = path;        
+        if( null != HOME )
+        {
+            log( 
+              "Ignoring path - home is already initialized.", 
+              Project.MSG_VERBOSE );
+        }
+        else
+        {
+            m_path = path;
+        }
     }
 
-    public void init()
+    public void execute()
     {
-        if( !isInitialized() )
+        if( !m_executed )
         {
-            super.init();
             Project project = getProject();
             File index = getIndexFile();
             File system = getSystemHome( project, index );
@@ -78,6 +86,8 @@ public class HomeTask extends ContextualTask
             getProject().setNewProperty( 
               CACHE_DIR_KEY, 
               HOME.getRepository().getCacheDirectory().toString() );
+
+            m_executed = true;
         }
     }
 
@@ -96,36 +106,10 @@ public class HomeTask extends ContextualTask
         }
     }
 
-    private void setupProperties( Project project, File dir )
-    {
-        setupUserProperties( project, dir );
-        setupBuildProperties( project, dir );
-    }
-
-    private void setupUserProperties( Project project, File dir )
-    {
-        File user = Context.getFile( dir, USER_PROPERTIES );
-        readProperties( project, user );
-    }
-
-    private void setupBuildProperties( Project project, File dir )
-    {
-        File build = Context.getFile( dir, BUILD_PROPERTIES );
-        readProperties( project, build );
-    }
-
     private void setupSystemProperties( Project project, File dir )
     {
         File build = Context.getFile( dir, INDEX_PROPERTIES );
-        readProperties( project, build );
-    }
-
-    private void readProperties( Project project, File file ) throws BuildException 
-    {
-        Property props = (Property) project.createTask( "property" );
-        props.init();
-        props.setFile( file );
-        props.execute();
+        loadProperties( project, build );
     }
 
     private File getIndexFile()

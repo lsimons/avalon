@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="tools" default="dist" basedir="." xmlns:x="antlib:org.apache.avalon.tools">
+<project name="tools" default="default" basedir="." xmlns:x="antlib:org.apache.avalon.tools">
 
   <property file="build.properties"/>
   <import file="${project.home}/build/reactor.xml"/>
