@@ -1,3 +1,4 @@
+#!/bin/bash
 echo =============================================================
 echo  hacky automated gpg signing script, by LSD
 echo =======================================v0.1-Cygwin===========
