@@ -38,7 +38,7 @@ import org.apache.avalon.phoenix.components.cpbuilder.metadata.JoinDef;
  * </ul>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2002/09/01 03:38:38 $
+ * @version $Revision: 1.5 $ $Date: 2002/09/01 04:36:09 $
  */
 public class ClassLoaderVerifier
     extends AbstractLogEnabled
@@ -257,7 +257,7 @@ public class ClassLoaderVerifier
                 if( location.equals( other.getLocation() ) )
                 {
                     final String message =
-                        REZ.getString( "join-dup-entrys.error",
+                        REZ.getString( "classloader-dup-entrys.error",
                                        classLoader.getName(),
                                        location );
                     throw new Exception( message );
