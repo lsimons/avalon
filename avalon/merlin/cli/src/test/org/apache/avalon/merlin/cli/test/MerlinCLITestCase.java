@@ -70,7 +70,7 @@ import org.apache.avalon.merlin.cli.Main;
  * Test case for the Merlin CLI handler.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class MerlinCLITestCase extends TestCase
 {
@@ -136,12 +136,6 @@ public class MerlinCLITestCase extends TestCase
                 "maven.home.local", 
                 Env.getEnvVariable( "MAVEN_HOME_LOCAL" ) );
             if( null != local ) return local;
-
-            String maven = 
-              System.getProperty( 
-                "maven.home", 
-                Env.getEnvVariable( "MAVEN_HOME" ) );
-            if( null != maven ) return maven;
 
             return System.getProperty( "user.home" ) + File.separator + ".maven";
 

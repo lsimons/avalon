@@ -6,8 +6,8 @@
 
   <groupId>merlin</groupId>
   <id>merlin-unit</id>
-  <name>Merlin Test</name>
-  <currentVersion>3.2.5-dev</currentVersion>
+  <name>Merlin Unit Test</name>
+  <currentVersion>3.2.6-dev</currentVersion>
 
   <package>org.apache.avalon.merlin</package>
 

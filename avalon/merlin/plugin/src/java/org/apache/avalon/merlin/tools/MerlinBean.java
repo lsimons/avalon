@@ -77,7 +77,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * Merlin default application factory.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class MerlinBean
 {
@@ -230,13 +230,14 @@ public class MerlinBean
                 Env.getEnvVariable( "MAVEN_HOME_LOCAL" ) );
             if( null != local ) return local;
 
-            String maven = 
-              System.getProperty( 
-                "maven.home", 
-                Env.getEnvVariable( "MAVEN_HOME" ) );
-            if( null != maven ) return maven;
+            //String maven = 
+            //  System.getProperty( 
+            //    "maven.home", 
+            //    Env.getEnvVariable( "MAVEN_HOME" ) );
+            //if( null != maven ) return maven;
 
-            return System.getProperty( "user.home" ) + File.separator + ".maven";
+            return System.getProperty( "user.home" ) 
+              + File.separator + ".maven";
 
         }
         catch( Throwable e )

@@ -10,7 +10,7 @@
   <description>Merlin Plugin for Maven</description>
   <shortDescription>Merlin Plugin for Maven</shortDescription>
   <package>org.apache.avalon.merlin</package>
-  <currentVersion>3.2-dev</currentVersion>
+  <currentVersion>3.2.1-dev</currentVersion>
 
   <dependencies>
     <dependency>
