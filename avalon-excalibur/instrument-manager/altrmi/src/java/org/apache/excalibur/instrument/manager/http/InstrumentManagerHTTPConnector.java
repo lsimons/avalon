@@ -42,7 +42,7 @@ import org.apache.excalibur.instrument.manager.InstrumentManagerClientLocalImpl;
  *  alternative to this connector is to make use of the InstrumentManagerServlet.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/29 18:11:04 $
+ * @version CVS $Revision: 1.6 $ $Date: 2004/03/06 14:01:28 $
  * @since 4.1
  */
 public class InstrumentManagerHTTPConnector
@@ -52,6 +52,7 @@ public class InstrumentManagerHTTPConnector
     /** The default port. */
     public static final int DEFAULT_PORT = 15080;
     
+    /** The encoding to use when writing out pages and reading in parameters. */
     public static final String ENCODING = "UTF-8";
     public static final String XML_BANNER = "<?xml version='1.0' encoding='" + ENCODING + "'?>";
 

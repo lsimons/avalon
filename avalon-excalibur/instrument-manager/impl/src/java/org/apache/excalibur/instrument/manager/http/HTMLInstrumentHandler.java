@@ -18,7 +18,7 @@
 package org.apache.excalibur.instrument.manager.http;
 
 import java.io.IOException;
-import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.Map;
 
 import org.apache.excalibur.instrument.manager.http.server.HTTPRedirect;
@@ -30,7 +30,7 @@ import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentExcept
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/29 18:11:04 $
+ * @version CVS $Revision: 1.6 $ $Date: 2004/03/06 14:01:28 $
  * @since 4.1
  */
 public class HTMLInstrumentHandler
@@ -57,9 +57,9 @@ public class HTMLInstrumentHandler
      *
      * @param The full path being handled.
      * @param parameters A Map of the parameters in the request.
-     * @param os The PrintStream to write the result to.
+     * @param os The PrintWriter to write the result to.
      */
-    public void doGet( String path, Map parameters, PrintStream out )
+    public void doGet( String path, Map parameters, PrintWriter out )
         throws IOException
     {
         String name = getParameter( parameters, "name" );
@@ -231,7 +231,7 @@ public class HTMLInstrumentHandler
         out.println( "}" );
         out.println( "</SCRIPT>" );
 
-        out.println( "<form action='create-sample.html' method='GET'>" );
+        out.println( "<form action='create-sample.html' method='GET' accept-charset='UTF-8'>" );
         startTable( out );
         tableRow( out, 0, "Description", "<input name='description' type='text' size='40' value='' onKeyPress=\"javascript:fieldChanged()\">" );
         tableRow( out, 0, "Interval (ms.)", "<input name='interval' type='text' size='10' value='' onKeyPress=\"javascript:fieldChanged()\">" );

@@ -19,7 +19,7 @@ package org.apache.excalibur.instrument.manager.http;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.Map;
 
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
@@ -29,7 +29,7 @@ import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableEx
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:21 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/03/06 14:01:28 $
  * @since 4.1
  */
 public class XMLInstrumentableHandler
@@ -57,9 +57,9 @@ public class XMLInstrumentableHandler
      *
      * @param The full path being handled.
      * @param parameters A Map of the parameters in the request.
-     * @param os The PrintStream to write the result to.
+     * @param os The PrintWriter to write the result to.
      */
-    public void doGet( String path, Map parameters, PrintStream out )
+    public void doGet( String path, Map parameters, PrintWriter out )
         throws IOException
     {
         String name = getParameter( parameters, "name" );

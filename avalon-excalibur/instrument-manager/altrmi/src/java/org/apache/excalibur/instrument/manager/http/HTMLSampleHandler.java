@@ -18,7 +18,7 @@
 package org.apache.excalibur.instrument.manager.http;
 
 import java.io.IOException;
-import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.Date;
 import java.util.Map;
 
@@ -31,7 +31,7 @@ import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentSample
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.7 $ $Date: 2004/03/02 15:33:48 $
+ * @version CVS $Revision: 1.8 $ $Date: 2004/03/06 14:01:28 $
  * @since 4.1
  */
 public class HTMLSampleHandler
@@ -58,9 +58,9 @@ public class HTMLSampleHandler
      *
      * @param The full path being handled.
      * @param parameters A Map of the parameters in the request.
-     * @param os The PrintStream to write the result to.
+     * @param os The PrintWriter to write the result to.
      */
-    public void doGet( String path, Map parameters, PrintStream out )
+    public void doGet( String path, Map parameters, PrintWriter out )
         throws IOException
     {
         String name = getParameter( parameters, "name" );

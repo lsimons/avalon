@@ -24,11 +24,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -41,7 +40,7 @@ import org.apache.excalibur.instrument.CounterInstrument;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:29 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/03/06 14:01:28 $
  * @since 4.1
  */
 public class HTTPServer
@@ -98,7 +97,7 @@ public class HTTPServer
             {
             }
         }
-        catch ( java.net.SocketTimeoutException e )
+        catch ( java.io.InterruptedIOException e ) // java.net.SocketTimeoutException not in 1.3
         {
             // The connection simply timed out and closed.
         }
@@ -144,7 +143,8 @@ public class HTTPServer
         //  Line feeds are headers and can be skipped for now.
         
         // Get the actual output stream so we can write the response.
-        PrintStream out = new PrintStream( os );
+        ByteArrayOutputStream hbos = new ByteArrayOutputStream();
+        PrintWriter out = new PrintWriter( hbos );
         
         // Read the input header
         BufferedReader r = new BufferedReader( new InputStreamReader( is ) );
@@ -212,6 +212,7 @@ public class HTTPServer
                         Map params = new HashMap();
                         if ( query != null )
                         {
+                            //getLogger().debug( "  Raw Query: " + query );
                             decodeQuery( params, query, handler.getEncoding() );
                         }
         
@@ -231,7 +232,7 @@ public class HTTPServer
                         // Handle the URL
                         try
                         {
-                            handler. handleRequest( path, params, bos );
+                            handler.handleRequest( path, params, bos );
                             
                             ok = true;
                         }
@@ -263,11 +264,17 @@ public class HTTPServer
                             // Terminate the Headers.
                             out.println( "" );
                             
-                            // Write out the actual data.
-                            out.write( contents, 0, contents.length );
-                            
-                            // Flush the output and we are done.
+                            // Write the contents of the headers.
                             out.flush();
+                            os.write( hbos.toByteArray() );
+                            
+                            // Write out the actual data directly to the stream.
+                            os.write( contents, 0, contents.length );
+                            
+                            // Flush the stream and we are done.
+                            os.flush();
+                            
+                            // Do not close the output stream as it may be reused.
                             
                             return true;
                         }
@@ -298,11 +305,15 @@ public class HTTPServer
                             // Terminate the Headers.
                             out.println( "" );
                             
-                            // Write out the actual data.
-                            out.write( contents, 0, contents.length );
-                            
-                            // Flush the output and we are done.
+                            // Write the contents of the headers.
                             out.flush();
+                            os.write( hbos.toByteArray() );
+                            
+                            // Write out the actual data directly to the stream.
+                            os.write( contents, 0, contents.length );
+                            
+                            // Flush the stream and we are done.
+                            os.flush();
                             
                             // Do not close the output stream as it may be reused.
                             
@@ -339,8 +350,9 @@ public class HTTPServer
             }
         }
         
-        // Flush the output and we are done.
+        // Write the contents of the headers.
         out.flush();
+        os.write( hbos.toByteArray() );
         
         return false;
     }
@@ -376,11 +388,14 @@ public class HTTPServer
         {
             try
             {
-                String param = URLDecoder.decode( pair.substring( 0, pos ), encoding );
+                // Starting with Java 1.4, encode takes an encoding, but this needs to
+                //  work with 1.3.   Use our own version.
+                String param = URLCoder.decode( pair.substring( 0, pos ), encoding );
+                
                 String value;
                 if ( pos < pair.length() - 1 )
                 {
-                    value = URLDecoder.decode( pair.substring( pos + 1 ), encoding );
+                    value = URLCoder.decode( pair.substring( pos + 1 ), encoding );
                 }
                 else
                 {
@@ -391,8 +406,7 @@ public class HTTPServer
             }
             catch ( UnsupportedEncodingException e )
             {
-                throw new IllegalArgumentException( "An unsupported encoding '" + encoding + "' "
-                    + "was specified: " + e.getMessage() );
+                throw new IllegalArgumentException( "Unknown encoding: " + e.toString() );
             }
         }
     }
