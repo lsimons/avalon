@@ -461,12 +461,12 @@
 
   <target name="install" depends="main" description="Installs Cornerstone into Phoenix">
 
-    <copy file="${build.lib}/cornerstone.bar" tofile="${install.dir}/cornerstone.bar"/>
+    <!-- <copy file="${build.lib}/cornerstone.bar" tofile="${install.dir}/cornerstone.bar"/> -->
     <ant antfile="build.xml" dir="apps/demo" target="install" inheritall="false"/>
   </target>
 
   <target name="uninstall" description="Uninstalls Cornerstone into Phoenix">
-    <delete file="${install.dir}/cornerstone.bar"/>
+    <!-- <delete file="${install.dir}/cornerstone.bar"/> -->
     <ant antfile="build.xml" dir="apps/demo" target="uninstall" inheritall="false"/>
   </target>
 
