@@ -20,6 +20,7 @@
     <menu-item label="Component" href="component/index.html"/>
     <menu-item label="Concurrent" href="concurrent/index.html"/>
     <menu-item label="Event" href="event/index.html"/>
+    <menu-item label="Extension" href="extension/index.html"/>
     <menu-item label="Fortress" href="fortress/index.html"/>      
     <menu-item label="I/O" href="io/index.html"/>      
     <menu-item label="Lang" href="lang/index.html"/>      

@@ -180,25 +180,33 @@
     <!-- Generate all docs -->
     <target name="docs" description="Generate all the docs">
      <!--   <ant dir="instrument" target="docs"/>  -->
+        <!--<ant dir="all" target="docs"/> -->               <!-- depends on instrument -->
+        <!--<ant dir="extension" target="docs"/> -->
+        <!--<ant dir="fortress" target="docs"/> -->
+        <!--<ant dir="i18n" target="docs"/> -->
+        <!--<ant dir="instrument-client" target="docs"/-->  <!-- depends on instrument-manager -->
+        <!--<ant dir="instrument-manager" target="docs"/>  --> <!-- depends on instrument, all -->
+        <ant dir="altrmi" target="docs"/> 
+        <ant dir="baxter" target="docs"/>
+        <ant dir="bzip2" target="docs"/>
+        <ant dir="cache" target="docs"/> 
+        <ant dir="cli" target="docs"/>
+        <ant dir="collections" target="docs"/> 
         <ant dir="command" target="docs"/>  
         <ant dir="component" target="docs"/>  
         <ant dir="concurrent" target="docs"/>  
-        <ant dir="collections" target="docs"/> 
         <ant dir="event" target="docs"/>  
-     <!--   <ant dir="altrmi" target="docs"/> -->
-     <!--   <ant dir="all" target="docs"/> -->               <!-- depends on instrument -->
-     <!--   <ant dir="instrument-manager" target="docs"/>  --> <!-- depends on instrument, all -->
-        <!--ant dir="instrument-client" target="docs"/-->  <!-- depends on instrument-manager -->
-        <ant dir="baxter" target="docs"/>
-        <ant dir="bzip2" target="docs"/>
-      <!--  <ant dir="cache" target="docs"/> -->
-        <ant dir="cli" target="docs"/>
-      <!--  <ant dir="extension" target="docs"/> -->
-      <!--  <ant dir="i18n" target="docs"/> -->
+        <ant dir="extension" target="docs"/>
         <ant dir="io" target="docs"/> 
-        <ant dir="naming" target="docs"/> 
-      <!--  <ant dir="tar" target="docs"/> -->
-      <!--  <ant dir="zip" target="docs"/> -->
+        <ant dir="lang" target="docs"/>
+        <ant dir="logger" target="docs"/>
+        <ant dir="naming" target="docs"/>
+        <ant dir="pool" target="docs"/>
+        <ant dir="tar" target="docs"/>
+        <ant dir="testcase" target="docs"/>
+	<ant dir="thread" target="docs"/>
+        <ant dir="util" target="docs"/>
+        <ant dir="zip" target="docs"/>
 
     </target>
 
@@ -208,34 +216,33 @@
        <ant dir="site" target="site"/>
     
      <!--   <ant dir="instrument" target="site"/>  -->
-        <ant dir="command" target="site"/>  
-        <ant dir="component" target="site"/>  
-        <ant dir="concurrent" target="site"/>  
-        <ant dir="collections" target="site"/> 
-        <ant dir="event" target="site"/>  
-     <!--   <ant dir="altrmi" target="site"/> -->
-     <!--   <ant dir="all" target="site"/> -->               <!-- depends on instrument -->
-     <!--   <ant dir="instrument-manager" target="site"/>  --> <!-- depends on instrument, all -->
-        <!--ant dir="instrument-client" target="site"/-->  <!-- depends on instrument-manager -->
+        <!--<ant dir="all" target="site"/> -->               <!-- depends on instrument -->
+        <!--<ant dir="extension" target="site"/> -->
+        <!--<ant dir="fortress" target="site"/> -->
+        <!--<ant dir="i18n" target="site"/> -->
+        <!--<ant dir="instrument-manager" target="site"/>  --> <!-- depends on instrument, all -->
+        <!--<ant dir="instrument-client" target="site"/-->  <!-- depends on instrument-manager -->
+        <ant dir="altrmi" target="site"/> 
         <ant dir="baxter" target="site"/>
         <ant dir="bzip2" target="site"/>
-      <!--  <ant dir="cache" target="site"/> -->
+        <ant dir="cache" target="site"/>
         <ant dir="cli" target="site"/>
+        <ant dir="collections" target="site"/> 
+        <ant dir="command" target="site"/>  
         <ant dir="component" target="site"/>
-<!--        <ant dir="fortress" target="site"/> -->
+        <ant dir="concurrent" target="site"/>  
+        <ant dir="event" target="site"/>  
+        <ant dir="extension" target="site"/>
+        <ant dir="io" target="site"/> 
         <ant dir="lang" target="site"/>
         <ant dir="logger" target="site"/>
+        <ant dir="naming" target="site"/> 
         <ant dir="pool" target="site"/>
+        <ant dir="tar" target="site"/>
         <ant dir="testcase" target="site"/>
         <ant dir="thread" target="site"/>
         <ant dir="util" target="site"/>
-        
-      <!--  <ant dir="extension" target="site"/> -->
-      <!--  <ant dir="i18n" target="site"/> -->
-        <ant dir="io" target="site"/> 
-      <!--  <ant dir="naming" target="site"/> -->
-        <ant dir="tar" target="site"/>
-      <!--  <ant dir="zip" target="site"/> -->
+        <ant dir="zip" target="site"/> 
 
     </target>
 
