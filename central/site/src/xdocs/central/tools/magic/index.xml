@@ -8,6 +8,13 @@
 
   <body>
     <section name="Magic">
+
+      <p class="caption">
+        <i>"any sufficiently advanced technology is 
+        indistinguishable from magic"<br/>
+        Sir Arthur C Clarke.</i>
+      </p>
+
       <p>
       Avalon Magic is a build system based on Apache
       <a href="http://ant.apache.org">Ant</a>.  It provides 
@@ -15,6 +22,7 @@
       and dependency management, build task automation, and dynamic 
       plugin management.
       </p>
+
     </section>
   </body>
 
