@@ -52,6 +52,7 @@ package org.apache.avalon.excalibur.logger;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.avalon.framework.logger.Log4JLogger;
+import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.log4j.Category;
 import org.apache.log4j.Hierarchy;
@@ -62,11 +63,11 @@ import org.apache.log4j.Hierarchy;
  * leaves that as an excercise for Log4J's construction.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/08/07 13:36:59 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/08/22 01:20:07 $
  * @since 4.1
  */
 public class Log4JLoggerManager
-    implements LoggerManager
+    implements LoggerManager, LogEnabled
 {
     /** Map for name to logger mapping */
     final private Map m_loggers = new HashMap();
@@ -81,7 +82,7 @@ public class Log4JLoggerManager
     final private Logger m_defaultLogger;
 
     /** The logger used to log output from the logger manager. */
-    final private Logger m_logger;
+    private Logger m_logger;
 
     /**
      * Creates a new <code>DefaultLog4JManager</code>. It will use a new <code>Hierarchy</code>.
@@ -138,6 +139,16 @@ public class Log4JLoggerManager
         m_prefix = prefix;
         m_hierarchy = hierarchy;
         m_defaultLogger = defaultLogger;
+        m_logger = logger;
+    }
+
+    /**
+     * Provide a logger.
+     *
+     * @param logger the logger
+     **/
+    public void enableLogging( final Logger logger )
+    {
         m_logger = logger;
     }
 
