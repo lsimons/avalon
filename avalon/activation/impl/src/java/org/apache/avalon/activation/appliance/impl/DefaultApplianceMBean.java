@@ -53,8 +53,11 @@ package org.apache.avalon.activation.appliance.impl;
 import java.net.URL;
 import java.util.Map;
 
+import org.apache.avalon.activation.appliance.Deployable;
 import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.data.ContextDirective;
+import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.meta.info.DependencyDescriptor;
@@ -62,8 +65,6 @@ import org.apache.avalon.meta.info.ServiceDescriptor;
 import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 import org.apache.avalon.meta.info.Type;
-import org.apache.avalon.composition.data.ContextDirective;
-import org.apache.avalon.composition.data.CategoriesDirective;
 
 /**
  * An Appliance is the basic tool merlin wraps around a component to
@@ -85,7 +86,7 @@ import org.apache.avalon.composition.data.CategoriesDirective;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:30:35 $
+ * @version $Revision: 1.2 $ $Date: 2003/09/24 10:35:34 $
  */
 public interface DefaultApplianceMBean extends Deployable
 {
