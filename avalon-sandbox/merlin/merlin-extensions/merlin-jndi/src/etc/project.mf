@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Created-By: Apache Avalon
+Extension-Name: merlin-jndi
+Specification-Vendor: Apache Software Foundation
+Specification-Version: 1.0
+Implementation-Vendor: Apache Software Foundation
+Implementation-Vendor-Id: ASF
+Implementation-Version: 1.0
