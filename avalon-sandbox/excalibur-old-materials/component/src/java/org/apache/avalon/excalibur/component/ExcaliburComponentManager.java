@@ -32,7 +32,7 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 05:09:02 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/04/10 05:38:43 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
@@ -496,6 +496,7 @@ public class ExcaliburComponentManager
     {
         if( null == component )
         {
+            getLogger().warn( "Attempted to release a null component." );
             return;
         }
 
@@ -508,6 +509,19 @@ public class ExcaliburComponentManager
 
         if( null != handler )
         {
+            // ThreadSafe components will always be using a ThreadSafeComponentHandler,
+            //  they will only have a single entry in the m_componentMapping map which
+            //  should not be removed until the ComponentManager is disposed.  All
+            //  other components have an entry for each instance which should be
+            //  removed.
+            if( !( handler instanceof ThreadSafeComponentHandler ) )
+            {
+                // Remove the component before calling put.  This is critical to avoid the
+                //  problem where another thread calls put on the same component before
+                //  remove can be called.
+                m_componentMapping.remove( component );
+            }
+            
             try
             {
                 handler.put( component );
@@ -519,20 +533,15 @@ public class ExcaliburComponentManager
                     getLogger().debug( "Error trying to release component.", e );
                 }
             }
-
-            // ThreadSafe components will always be using a ThreadSafeComponentHandler,
-            //  they will only have a single entry in the m_componentMapping map which
-            //  should not be removed until the ComponentManager is disposed.  All
-            //  other components have an entry for each instance which should be
-            //  removed.
-            if( !( handler instanceof ThreadSafeComponentHandler ) )
-            {
-                m_componentMapping.remove( component );
-            }
         }
         else if( null != m_parentManager )
         {
             m_parentManager.release( component );
+        }
+        else
+        {
+            getLogger().warn( "Attempted to release a " + component.getClass().getName() +
+                " but its handler could not be located." );
         }
     }
 
