@@ -150,7 +150,7 @@
       <include name="org/apache/avalon/cornerstone/services/**"/>
     </jar>  
   
-    <jar file="${build.lib}/cornerstone.bar"
+    <jar file="${build.lib}/cornerstone.jar"
          basedir="${build.classes}"
          manifest="${manifest.dir}/cornerstone.mf">
       <include name="org/apache/avalon/cornerstone/blocks/**"/>
@@ -310,7 +310,7 @@
       <fileset dir="${docs.dir}"/>
     </copy>
 
-    <copy file="${build.lib}/cornerstone.bar" tofile="${bin.dist.dir}/cornerstone-${version}.bar"/>
+    <copy file="${build.lib}/cornerstone.jar" tofile="${bin.dist.dir}/cornerstone-${version}.jar"/>
 
     <chmod dir="${bin.dist.dir}" perm="go-rwx" />
   </target>
@@ -463,12 +463,12 @@
 
   <target name="install" depends="main" description="Installs Cornerstone into Phoenix">
 
-    <!-- <copy file="${build.lib}/cornerstone.bar" tofile="${install.dir}/cornerstone.bar"/> -->
+    <!-- <copy file="${build.lib}/cornerstone.jar" tofile="${install.dir}/cornerstone.jar"/> -->
     <ant antfile="build.xml" dir="apps/demo" target="install" inheritall="false"/>
   </target>
 
   <target name="uninstall" description="Uninstalls Cornerstone into Phoenix">
-    <!-- <delete file="${install.dir}/cornerstone.bar"/> -->
+    <!-- <delete file="${install.dir}/cornerstone.jar"/> -->
     <ant antfile="build.xml" dir="apps/demo" target="uninstall" inheritall="false"/>
   </target>
 
