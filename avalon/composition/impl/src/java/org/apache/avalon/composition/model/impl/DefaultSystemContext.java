@@ -68,6 +68,7 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.composition.data.CategoryDirective;
 
 
@@ -75,7 +76,7 @@ import org.apache.avalon.composition.data.CategoryDirective;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2003/12/07 08:36:07 $
+ * @version $Revision: 1.5 $ $Date: 2004/01/04 12:05:21 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext
@@ -107,7 +108,7 @@ public class DefaultSystemContext extends DefaultContext
         final File temp = new File( working, "temp" );
 
         return new DefaultSystemContext( 
-          logging, base, home, temp, repository, "system", false );
+          logging, base, home, temp, repository, "system", false, null );
     }
 
     private static Repository createRepository( File root ) throws Exception
@@ -187,6 +188,8 @@ public class DefaultSystemContext extends DefaultContext
     private final Logger m_logger;
 
     private ModelFactory m_factory;
+    
+    private Parameters m_Parameters;
 
     //==============================================================
     // mutable state
@@ -212,7 +215,8 @@ public class DefaultSystemContext extends DefaultContext
     */
     public DefaultSystemContext( 
       LoggingManager logging, File base, File home, File temp, 
-      Repository repository, String category, boolean trace )
+      Repository repository, String category, boolean trace, 
+      Parameters params )
     {
         if( base == null )
         {
@@ -226,6 +230,12 @@ public class DefaultSystemContext extends DefaultContext
         {
             throw new NullPointerException( "logger" );
         }
+        if( params == null )
+        {
+            params = new Parameters();
+            params.makeReadOnly();
+        }
+           
         if( !base.isDirectory() )
         {
             final String error = 
@@ -245,6 +255,7 @@ public class DefaultSystemContext extends DefaultContext
         m_common = Logger.class.getClassLoader();
 
         m_factory = new DefaultModelFactory( this );
+        m_Parameters = params;
     }
 
     //==============================================================
@@ -365,5 +376,10 @@ public class DefaultSystemContext extends DefaultContext
     public Logger getLogger()
     {
         return m_logger;
+    }
+    
+    public Parameters getSystemParameters()
+    {
+        return m_Parameters;
     }
 }

@@ -75,8 +75,10 @@ import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.data.builder.XMLTargetsCreator;
 import org.apache.avalon.composition.data.builder.ContainmentProfileBuilder;
 import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
+
 import org.apache.avalon.composition.event.CompositionEvent;
 import org.apache.avalon.composition.event.CompositionEventListener;
+
 import org.apache.avalon.composition.model.ClassLoaderContext;
 import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.ContainmentModel;
@@ -87,17 +89,24 @@ import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.ModelRuntimeException;
 import org.apache.avalon.composition.model.ModelSelector;
 import org.apache.avalon.composition.model.ProfileSelector;
+import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.TypeRepository;
+
 import org.apache.avalon.composition.logging.LoggingManager;
 import org.apache.avalon.composition.util.StringHelper;
+
 import org.apache.avalon.repository.Repository;
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.RepositoryException;
+
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.apache.avalon.framework.parameters.Parameters;
+
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
@@ -111,7 +120,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13 $ $Date: 2004/01/01 13:08:56 $
+ * @version $Revision: 1.14 $ $Date: 2004/01/04 12:05:21 $
  */
 public class DefaultContainmentModel extends DefaultModel 
   implements ContainmentModel
@@ -209,6 +218,18 @@ public class DefaultContainmentModel extends DefaultModel
         return m_context.getClassLoaderModel();
     }
 
+    /** Returns the time limit of how long the deployment may take.
+     *
+     * @return the maximum time expressed in millisecond of how 
+     * long a deployment may take.
+     **/
+    public long getDeploymentTimeout()
+    {
+        SystemContext sc = m_context.getSystemContext();
+        Parameters params = sc.getSystemParameters();
+        return params.getParameterAsLong( "deployment-timeout", 1000 );
+    }
+   
    /**
     * Return the set of services produced by the model.
     * @return the services

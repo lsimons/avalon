@@ -66,7 +66,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2003/12/29 14:31:21 $
+ * @version $Revision: 1.10 $ $Date: 2004/01/04 12:05:21 $
  */
 public interface ContainmentModel extends Model
 {
@@ -97,6 +97,13 @@ public interface ContainmentModel extends Model
     * @return the classloader model
     */
     ClassLoaderModel getClassLoaderModel();
+    
+   /** Returns the timel imit of how long the deployment may take.
+    *
+    * @return the maximum time expressed in millisecond of how 
+    * long a deployment may take.
+    **/
+   long getDeploymentTimeout();
 
    /**
     * Return the set of models nested within this model.
