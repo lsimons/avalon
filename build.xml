@@ -51,7 +51,7 @@
     <ant dir="." antfile="${reactor.xml}" target="info"/>
   </target>
 
-  <target name="install" depends="default"/>
+  <target name="install" depends="default, gump"/>
 
   <target name="default" depends="verify">
     <ant dir="." antfile="${reactor.xml}" target="default"/>
@@ -75,7 +75,7 @@
   <target name="gump">
     <x:home/>
     <x:gump description="Avalon SVN" 
-         public="true" filename="gump.xml">
+         public="true" filename="central/system/gump/avalon-trunk.xml">
       <x:url href="http://avalon.apache.org/"/>
       <x:svn repository="avalon-svn" dir="trunk"/>
       <x:license file="central/system/license/LICENSE.TXT"/>
