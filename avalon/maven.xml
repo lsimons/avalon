@@ -39,11 +39,11 @@ To build a project independnet of dependent project groups is possible using any
 
   <!-- phase 2 targets -->
   <goal name="framework" prereqs="xframework"/>
-  <goal name="meta" prereqs="framework,xmeta"/>
+  <goal name="meta" prereqs="framework,xutil,xmeta"/>
 
   <!-- phase 3 targets -->
   <goal name="util" prereqs="xutil"/>
-  <goal name="repository" prereqs="util,xrepository"/>
+  <goal name="repository" prereqs="xrepository"/>
   <goal name="logging" prereqs="repository,xlogging"/>
   <goal name="composition" prereqs="repository,logging,xcomposition"/>
   <goal name="activation" prereqs="composition,xactivation"/>
