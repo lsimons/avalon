@@ -24,9 +24,17 @@
       <import plugin="org.eclipse.jface.text"/>
       <import plugin="org.eclipse.ui.workbench.texteditor"/>
       <import plugin="org.eclipse.ui.editors"/>
-     
+      <import plugin="org.eclipse.jdt.ui"/>
    </requires>
 
+   <extension
+         point="org.eclipse.jdt.ui.javadocCompletionProcessor">
+      <javadocCompletionProcessor
+            name="Avalon Javadoc Processor"
+            class="org.apache.avalon.ide.eclipse.merlin.ui.tools.JavadocProcessor"
+            id="avalonJavadocProcessor">
+      </javadocCompletionProcessor>
+   </extension>
 
    <extension
          point="org.eclipse.ui.newWizards">
@@ -50,13 +58,12 @@
             id="org.apache.avalon.ide.eclipse.merlin.wizards.newMerlinNatureWizard2">
       </wizard>
    </extension>
-   
    <extension
          point="org.eclipse.ui.editors">
       <editor
             name="Image Viewer"
-            extensions="jpg, gif"
             icon="icons/sample.gif"
+            extensions="jpg, gif"
             class="org.apache.avalon.ide.eclipse.merlin.ui.tools.ImageViewerEditor"
             id="Viewer.editors.XMLEditor">
       </editor>
@@ -69,5 +76,5 @@
             id="org.apache.avalon.MerlinMainPreferencePage">
       </page>
    </extension>
-      
+
 </plugin>
