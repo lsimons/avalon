@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.apache.avalon.developer"
+      label="MerlinDeveloper Feature"
+      version="0.0.1"
+      provider-name="Apache Software Foundation"
+      os="win32"
+      ws="win32"
+      nl="en_US"
+      arch="x86"
+      primary="true"
+      exclusive="true">
+
+   <url>
+      <update label="MerlinDeveloper Updates" url="http://merlin.softwarefabrik.biz/MerlinDeveloper/updates"/>
+   </url>
+
+   <requires>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.jdt.core"/>
+      <import plugin="org.eclipse.jdt.launching"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.core.boot"/>
+      <import plugin="org.junit"/>
+      <import plugin="org.eclipse.debug.ui"/>
+      <import plugin="org.eclipse.debug.core"/>
+      <import plugin="org.eclipse.jdt.debug.ui"/>
+      <import plugin="org.eclipse.pde.ui"/>
+      <import plugin="org.eclipse.swt"/>
+      <import plugin="org.eclipse.ui.ide"/>
+   </requires>
+
+   <plugin
+         id="org.apache.avalon.MerlinDeveloperCore"
+         download-size="0"
+         install-size="0"
+         version="0.0.1"/>
+
+   <plugin
+         id="org.apache.avalon.MerlinDeveloperLaunch"
+         download-size="0"
+         install-size="0"
+         version="0.0.1"/>
+
+   <plugin
+         id="org.apache.avalon.MerlinDeveloperUI"
+         download-size="0"
+         install-size="0"
+         version="0.0.2"/>
+
+</feature>
