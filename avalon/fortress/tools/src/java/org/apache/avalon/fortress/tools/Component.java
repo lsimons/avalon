@@ -68,7 +68,7 @@ import java.util.*;
  * Represents a component, and output the meta information.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/05/29 20:23:00 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/05/29 20:53:24 $
  */
 final class Component
 {
@@ -367,34 +367,41 @@ final class Component
         if ( null == sourceCode ) return null;
         if ( null == serviceName ) throw new BuildException( "You must specify the service name with the \"type\" parameter" );
 
-        String className = stripQuotes( serviceName );
+        final String className = stripQuotes( serviceName );
 
         if ( className != null || className.length() > 0 )
         {
             if ( className.indexOf( '.' ) < 0 )
             {
-                className = checkPackage(sourceCode, sourceCode.getPackage(), serviceName);
+                String checkName = checkPackage(sourceCode, sourceCode.getPackage(), className);
+                if ( ! checkName.equals(className) ) return checkName;
 
-                if ( className.equals(serviceName) )
+                String[] imports = sourceCode.getImports();
+                for ( int t = 0; t < imports.length; t++ )
                 {
-                    String[] imports = sourceCode.getImports();
-                    for ( int t = 0; t < imports.length; t++ )
-                    {
-                        final String type = imports[t];
-                        final String tail = type.substring( type.lastIndexOf( '.' ) + 1 );
-
-                        if ( tail.equals( className ) )
-                        {
-                            className = type;
-                        }
-                        else if ( tail.equals( "*" ) )
-                        {
-                            final String pack = type.substring( 0, type.lastIndexOf( '.' ) );
-                            className = checkPackage( sourceCode, pack, serviceName );
-                        }
-                    }
+                    checkName = checkImport( sourceCode, imports[t], className);
+                    if ( ! checkName.equals( className ) ) return checkName;
                 }
             }
+        }
+
+        return className;
+    }
+
+    private String checkImport ( final JavaSource sourceCode, final String type, final String className)
+    {
+        final String tail = type.substring( type.lastIndexOf( '.' ) + 1 );
+
+        if ( tail.equals( className ) )
+        {
+            return type;
+        }
+        else if ( tail.equals( "*" ) )
+        {
+            final String pack = type.substring( 0, type.lastIndexOf( '.' ) );
+
+            String checkName = checkPackage( sourceCode, pack, className );
+            if ( !checkName.equals( className ) ) return checkName;
         }
 
         return className;
