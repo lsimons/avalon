@@ -15,7 +15,6 @@ import org.apache.avalon.Composer;
 import org.apache.avalon.camelot.ContainerException;
 import org.apache.phoenix.Block;
 import org.apache.phoenix.engine.ServerApplication;
-import org.apache.phoenix.metainfo.BlockUtil;
 import org.apache.phoenix.metainfo.DependencyInfo;
 import org.apache.phoenix.metainfo.ServiceInfo;
 
