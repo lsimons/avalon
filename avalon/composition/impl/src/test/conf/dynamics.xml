@@ -2,9 +2,7 @@
 <container name="test">
    <classloader>
      <classpath>
-       <fileset dir="..">
-         <include>test-classes</include>
-       </fileset>
+       <fileset dir="../test-classes"/>
      </classpath>
    </classloader>
 </container>
