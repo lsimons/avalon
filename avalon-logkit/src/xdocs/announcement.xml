@@ -7,8 +7,8 @@
     <title>Avalon</title>
     <description>
       The Avalon project is Apache's Java Server Framework. It is
-      separated into five sub projects: Framework, Excalibur, LogKit,
-      Cornerstone, and Phoenix. Its purpose is to simplify
+      separated into six sub projects: Framework, Excalibur, LogKit,
+      Cornerstone, Phoenix and Apps. Its purpose is to simplify
       server side programming for Java based projects.  It
       formalizes serveral best of breed practices and patterns for
       server side programming.
@@ -23,7 +23,7 @@ performance oriented logging. It's design encourages integration
 into existing products with minimal impact.
     </description>
     <changes version="@version@" file="changes.xml"/>
-    <downloads name="LogKit" base="http://jakarta.apache.org/builds/jakarta-avalon/release/@name@"/>
+    <downloads name="LogKit" base="http://jakarta.apache.org/builds/jakarta-avalon-logkit/release/"/>
   </project>
 
 </announcement>

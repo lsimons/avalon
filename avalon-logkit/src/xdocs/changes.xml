@@ -9,7 +9,7 @@
     <author email="giacomo at apache.org">Giacomo Pati</author>
     <author email="crafterm at apache.org">Marcus Crafter</author>
   </devs>
-  <release version="1.1" date="Unreleased">
+  <release version="1.1" date="September 1, 2002">
     <action dev="MC" type="add">
       Added SMTPOutputLogTarget to enable logging to email addresses.
     </action>
