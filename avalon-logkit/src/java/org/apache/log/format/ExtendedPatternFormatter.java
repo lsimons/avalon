@@ -71,7 +71,7 @@ import org.apache.log.util.StackIntrospector;
  * information dynamically.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/02/03 17:40:12 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/02/03 19:07:28 $
  */
 public class ExtendedPatternFormatter
     extends PatternFormatter
@@ -82,11 +82,18 @@ public class ExtendedPatternFormatter
     private static final String TYPE_METHOD_STR = "method";
     private static final String TYPE_THREAD_STR = "thread";
 
+    private int m_callStackOffset = 0;
+
     public ExtendedPatternFormatter( final String format )
     {
-        super( format );
+        this( format, 0 );
     }
 
+    public ExtendedPatternFormatter( final String format, final int callStackOffset )
+    {
+        super( format );
+        m_callStackOffset = callStackOffset;
+    }
     /**
      * Retrieve the type-id for a particular string.
      *
@@ -147,7 +154,15 @@ public class ExtendedPatternFormatter
             }
         }
 
-        final String result = StackIntrospector.getCallerMethod( Logger.class );
+        //Determine callee of user's class.  If offset is 0, we need to find
+        // Logger.class.  If offset is 1, We need to find caller of Logger.class, etc.
+        final Class clazz = StackIntrospector.getCallerClass( Logger.class, m_callStackOffset - 1);
+        if (null == clazz)
+        {
+            return "UnknownMethod";
+        }
+
+        final String result = StackIntrospector.getCallerMethod( clazz );
         if( null == result )
         {
             return "UnknownMethod";
