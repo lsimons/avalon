@@ -18,13 +18,14 @@ import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.tools.assembler.Assembler;
 import org.apache.avalon.phoenix.tools.assembler.test.data.Component1;
 import org.apache.avalon.phoenix.tools.assembler.test.data.Service2;
+import org.apache.avalon.phoenix.tools.assembler.test.data.Component2;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 
 /**
  *  An basic test case for the LogManager.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/09/30 23:24:02 $
+ * @version $Revision: 1.2 $ $Date: 2002/09/30 23:27:03 $
  */
 public class AssemblerTestCase
     extends TestCase
@@ -68,6 +69,16 @@ public class AssemblerTestCase
         assertTrue( "Block1 getBlockInfo non null",
                        null != block1.getBlockInfo() );
         assertEquals( "Block1 isDisableProxy", false, block1.isDisableProxy() );
+
+        assertEquals( "Block2 getImplementationKey",
+                      Component2.class.getName(),
+                      block2.getImplementationKey() );
+        assertEquals( "Block2 getName", "c2", block2.getName() );
+        assertEquals( "Block2 getDependencies count",
+                      0, dependencies2.length );
+        assertTrue( "Block2 getBlockInfo non null",
+                       null != block2.getBlockInfo() );
+        assertEquals( "Block2 isDisableProxy", true, block2.isDisableProxy() );
     }
 
     private SarMetaData assembleSar( final String config ) throws Exception
