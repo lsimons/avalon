@@ -3,10 +3,8 @@
 <document>
   <header>
     <title>Guide - Example Configuration</title>
-
-      <author name="Stephen McConnell" email="mcconnell@osm.net"/>
-      <author name="Gerhard Froehlich" email="g-froehlich@gmx.de"/>
-
+    <author name="Stephen McConnell" email="mcconnell@osm.net"/>
+    <author name="Gerhard Froehlich" email="g-froehlich@gmx.de"/>
   </header>
   <body>
     <section name="Introduction">
@@ -57,7 +55,7 @@ Avalon-Block: true
       implements these interfaces (if it doesn't then Phoenix will
       terminate).
       -->
-      <service name="org.apache.acme.hub.gateway.FactoryService" version="1.0" />
+      <service name="org.apache.acme.hub.gateway.FactoryService"/>
   </services>
 
   <!--
@@ -81,7 +79,7 @@ Avalon-Block: true
       -->
       <dependency>
           <role>GATEWAY</role>
-          <service name="org.apache.acme.hub.gateway.GatewayContext" version="1.0"/>
+          <service name="org.apache.acme.hub.gateway.GatewayContext"/>
       </dependency>
 
       <!--
@@ -92,7 +90,8 @@ Avalon-Block: true
       -->
       <dependency>
           <role>ORB</role>
-          <service name="org.apache.acme.hub.gateway.ORBService" version="2.4"/>
+          <service name="org.apache.acme.hub.gateway.ORBService"
+                   version="2.4"/>
       </dependency>
 
       <!--
@@ -101,7 +100,7 @@ Avalon-Block: true
       -->
       <dependency>
           <role>PSS</role>
-          <service name="org.apache.acme.hub.gateway.ProcessorStorageHomeService" version="1.0"/>
+          <service name="org.apache.acme.hub.gateway.ProcessorStorageHomeService"/>
       </dependency>
 
       <!--
@@ -111,21 +110,21 @@ Avalon-Block: true
       -->
       <dependency>
           <role>REGISTRY</role>
-          <service name="org.apache.acme.hub.gateway.Registry" version="1.0"/>
+          <service name="org.apache.acme.hub.gateway.Registry"/>
       </dependency>
 
       <!-- etc. -->
       <dependency>
           <role>DOMAIN</role>
-          <service name="org.apache.acme.hub.gateway.DomainService" version="1.0"/>
+          <service name="org.apache.acme.hub.gateway.DomainService"/>
       </dependency>
       <dependency>
           <role>RANDOM</role>
-          <service name="org.apache.acme.hub.gateway.RandomService" version="1.0"/>
+          <service name="org.apache.acme.hub.gateway.RandomService"/>
       </dependency>
       <dependency>
           <role>CLOCK</role>
-          <service name="org.apache.acme.service.time.TimeService" version="1.0"/>
+          <service name="org.apache.acme.service.time.TimeService"/>
       </dependency>
 
   </dependencies>
@@ -153,7 +152,8 @@ Avalon-Block: true
   <!-- other assembly information here -->
 
   <!-- Certification Request Processor Factory -->
-  <block class="org.apache.acme.pki.process.CertificationRequestServer" name="certification" >
+  <block class="org.apache.acme.pki.process.CertificationRequestServer"
+         name="certification" >
     <provide name="gateway" role="GATEWAY"/>
     <provide name="gateway" role="ORB"/>
     <provide name="gateway" role="PSS"/>

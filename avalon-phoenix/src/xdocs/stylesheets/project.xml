@@ -13,7 +13,7 @@
             <item name="Features" href="/features.html"/>
             <item name="Getting started" href="/getting-started.html"/>
             <item name="Download" href="http://jakarta.apache.org/builds/jakarta-avalon/release/phoenix"/>
-            <item name="Install" href="install.html"/>
+            <item name="Install" href="/install.html"/>
         </menu>
 
         <menu name="Guide">
@@ -36,7 +36,7 @@
 
         <menu name="For Developers">
             <!-- <item name="Get Involved" href="/getinvolved.html"/> -->
-            <item name="Changes" href="/for-developers-changes.html"/>
+            <item name="Changes" href="/changes.html"/>
             <item name="Coding standards" href="http://jakarta.apache.org/avalon/code-standards.html"/>
             <item name="Project Structure" href="/for-developers-project-structure.html"/>
             <item name="CVS Repositories" href="http://jakarta.apache.org/site/cvsindex.html"/>

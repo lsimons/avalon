@@ -1,48 +1,51 @@
 <?xml version="1.0"?>
 
 <document>
-  <header>
-    <title>Reference - Development Roles</title>
+    <header>
+        <title>Development Roles</title>
+        <author name="Leo Simons" email="leosimons@apache.org"/>
+    </header>
+    <body>
+        <section name="Introduction">
+            <p>
+              In phoenix-based development, we identify several roles. Each of these has its own
+       guide. If you plan to aid in the development of phoenix itself, or if you are
+       responsible for all these aspects, you should read all the guides. Otherwise, you
+       should be able to learn everything you need to know from the guide that fits your
+       role.
+            </p>
+        </section>
+        <section name="The Administrator">
+            <p>The administrator is responsible for getting phoenix to run and for keeping it
+            running. He typically controls the startup and shutdown of the standalone server
+            or daemon, and uses a management console to keep the server in top condition.</p>
+            <p>
+                <a href="guide-administrator.html">Administrator's Guide</a>
+            </p>
+        </section>
+        <section name="The Deployer">
+            <p>The deployer manages (un/re)deployment of the applications hosted withing phoenix,
+            typically through a management console. In real life, this is often the same person
+             as the adminstrator.</p>
 
-      <author name="Leo Simons" email="leosimons@apache.org"/>
+            <p>
+                <a href="guide-deployer.html">Deployer's Guide</a>
+            </p>
 
-  </header>
-  <body>
-    <section name="Introduction">
-      <p>
-        In phoenix-based development, we identify several roles. Each of these has its own
-	guide. If you plan to aid in the development of phoenix itself, or if you are
-	responsible for all these aspects, you should read all the guides. Otherwise, you
-	should be able to learn everything you need to know from the guide that fits your
-	role.
-      </p>
-    </section>
-    <section name="The Administrator">
-      <p>The administrator is responsible for getting phoenix to run and for keeping it
-      running. He typically controls the startup and shutdown of the standalone server
-      or daemon, and uses a management console to keep the server in top condition.</p>
-
-      <p><a href="guide-administrator.html">Administrator's Guide</a></p>
-    </section>
-    <section name="The Deployer">
-      <p>The deployer manages (un/re)deployment of the applications hosted withing phoenix,
-      typically through a management console. In real life, this is often the same person
-       as the adminstrator.</p>
-
-      <p><a href="guide-deployer.html">Deployer's Guide</a></p>
-
-    </section>
-    <section name="The Assembler">
-      <p>The assembler takes pre-written blocks and glues these together to create a
-       server application. Assemblers usually work closely with block developers.</p>
-
-      <p><a href="assemblers/index.html">Assembler Guide</a></p>
-    </section>
-    <section name="The Block Developer">
-      <p>The block developer creates reusable components (called blocks) that can be
-       wired together to form a server applications.</p>
-
-      <p><a href="bdg/index.html">Block Developers Guide</a></p>
-    </section>
-  </body>
+        </section>
+        <section name="The Assembler">
+            <p>The assembler takes pre-written blocks and glues these together to create a
+             server application. Assemblers usually work closely with block developers.</p>
+            <p>
+                <a href="assemblers/index.html">Assembler Guide</a>
+            </p>
+        </section>
+        <section name="The Block Developer">
+            <p>The block developer creates reusable components (called blocks) that can be
+             wired together to form a server applications.</p>
+            <p>
+                <a href="bdg/index.html">Block Developers Guide</a>
+            </p>
+        </section>
+    </body>
 </document>
