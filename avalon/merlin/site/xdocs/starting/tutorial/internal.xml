@@ -222,12 +222,14 @@ $ merlin -execute target\classes -config conf\config.xml
 [DEBUG  ] (tutorial.hello.appliance): disposing of: 24531886
 [INFO   ] (tutorial.hello): disposal
 [DEBUG  ] (tutorial.hello.appliance): destroyed instance: 24531886
+]]></source>
 
         <p>
         Internally the appliance instance managing the deployment scenario
         is taken down during which is is dissassembled and disposed of.
         </p>
 
+<source><![CDATA[
 [DEBUG  ] (tutorial.hello.appliance): dissassembly phase
 [DEBUG  ] (tutorial.hello.appliance): disposal
 ]]></source>
