@@ -35,6 +35,7 @@ import org.apache.log.Logger;
 import org.apache.log.Priority;
 import org.apache.log.output.FileOutputLogTarget;
 import org.apache.log.format.AvalonFormatter;
+import org.apache.avalon.phoenix.engine.facilities.ConfigurationRepository;
 
 /**
  * This is the object that is interacted with to create, manage and
@@ -62,12 +63,18 @@ public class PhoenixEmbeddor
     private static final String    DEFAULT_MANAGER      =
         System.getProperty( "phoenix.manager", "org.apache.avalon.framework.atlantis.NoopSystemManager" );
 
-    private Parameters     m_parameters;
-    private Kernel         m_kernel;
-    private Deployer       m_deployer;
-    private SystemManager  m_systemManager;
+    private static final String    DEFAULT_REPOSITORY   =
+        System.getProperty( "phoenix.repository", 
+                            "org.apache.avalon.phoenix.engine.facilities.configuration.DefaultConfigurationRepository" );
 
-    private boolean        m_shutdown;
+    private Parameters     m_parameters;
+
+    private Kernel                   m_kernel;
+    private Deployer                 m_deployer;
+    private SystemManager            m_systemManager;
+    private ConfigurationRepository  m_repository;
+
+    private boolean                  m_shutdown;
 
     /**
      * Set parameters for this component.
@@ -183,6 +190,7 @@ public class PhoenixEmbeddor
         {
             m_systemManager.unregister( "Phoenix.Kernel" );
             m_systemManager.unregister( "Phoenix.Embeddor" );
+            m_systemManager.unregister( "Phoenix.Repository" );
             m_systemManager.stop();
         }
 
@@ -209,6 +217,7 @@ public class PhoenixEmbeddor
             m_kernel = null;
         }
 
+        m_repository = null;
         m_deployer = null;
 
         System.gc(); // make sure resources are released
@@ -238,6 +247,17 @@ public class PhoenixEmbeddor
     {
         final Logger logger = createLogger();
         setLogger( logger );
+
+        try
+        {
+            m_repository = createRepository();
+        }
+        catch( final Exception e )
+        {
+            final String message = "Unable to create Configuration repository!";
+            getLogger().fatalError( message, e );
+            throw new CascadingException( message, e );
+        }
 
         try
         {
@@ -280,6 +300,8 @@ public class PhoenixEmbeddor
     private void setupComponents()
         throws Exception
     {
+        setupLogger( m_repository );
+
         try
         {
             setupDeployer();
@@ -354,6 +376,27 @@ public class PhoenixEmbeddor
     }
 
     /**
+     * Creates a new repository from the Parameters's repository-class variable.
+     *
+     * @return the new ConfigurationRepository
+     * @exception ConfigurationException if an error occurs
+     */
+    private ConfigurationRepository createRepository()
+        throws ConfigurationException
+    {
+        final String className = 
+            m_parameters.getParameter( "repository-class", DEFAULT_REPOSITORY );
+        try
+        {
+            return (ConfigurationRepository)Class.forName( className ).newInstance();
+        }
+        catch( final Exception e )
+        {
+            throw new ConfigurationException( "Failed to create repository of class " +
+                                              className, e );
+        }
+    }
+    /**
      * Creates a new deployer from the Parameters's deployer-class variable.
      *
      * @return the new Deployer
@@ -366,7 +409,6 @@ public class PhoenixEmbeddor
             m_parameters.getParameter( "deployer-class", DEFAULT_DEPLOYER );
         try
         {
-            Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
             return (Deployer)Class.forName( className ).newInstance();
         }
         catch( final Exception e )
@@ -392,6 +434,7 @@ public class PhoenixEmbeddor
         {
             final DefaultComponentManager componentManager = new DefaultComponentManager();
             componentManager.put( Container.ROLE, (Container)m_kernel );
+            componentManager.put( ConfigurationRepository.ROLE, m_repository );
             ((Composable)m_deployer).compose( componentManager );
         }
     }
@@ -455,7 +498,6 @@ public class PhoenixEmbeddor
             m_parameters.getParameter( "manager-class", DEFAULT_MANAGER );
         try
         {
-            Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
             return (SystemManager)Class.forName( className ).newInstance();
         }
         catch( final Exception e )
@@ -512,7 +554,6 @@ public class PhoenixEmbeddor
         final String className = m_parameters.getParameter( "kernel-class", DEFAULT_KERNEL );
         try
         {
-            Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
             return (Kernel)Class.forName( className ).newInstance();
         }
         catch( final Exception e )
@@ -537,6 +578,7 @@ public class PhoenixEmbeddor
         {
             final DefaultComponentManager componentManager = new DefaultComponentManager();
             componentManager.put( SystemManager.ROLE, m_systemManager );
+            componentManager.put( ConfigurationRepository.ROLE, m_repository );
             ((Composable)m_kernel).compose( componentManager );
         }
 
