@@ -9,14 +9,14 @@ package org.apache.avalon.phoenix.components.application.test;
 
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.phoenix.components.application.DefaultApplication;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
 import org.apache.avalon.phoenix.test.AbstractContainerTestCase;
 
 /**
  *  An basic test case for the LogManager.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/10/01 07:30:24 $
+ * @version $Revision: 1.3 $ $Date: 2003/02/28 23:48:16 $
  */
 public class ApplicationTestCase
     extends AbstractContainerTestCase
@@ -47,11 +47,11 @@ public class ApplicationTestCase
     private void runApplicationTest( final String config )
         throws Exception
     {
-        final SarMetaData sarMetaData = assembleSar( config );
+        final PartitionProfile sarMetaData = assembleSar( config );
         runApplicationTest( sarMetaData );
     }
 
-    private void runApplicationTest( final SarMetaData sarMetaData )
+    private void runApplicationTest( final PartitionProfile sarMetaData )
         throws Exception
     {
         final DefaultApplication application = new DefaultApplication();
