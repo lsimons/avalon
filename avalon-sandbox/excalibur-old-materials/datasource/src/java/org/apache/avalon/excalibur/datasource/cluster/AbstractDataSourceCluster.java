@@ -68,7 +68,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/04/29 03:03:29 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/06/02 18:28:55 $
  * @since 4.1
  */
 public abstract class AbstractDataSourceCluster
@@ -129,13 +129,13 @@ public abstract class AbstractDataSourceCluster
      *  is controlling it.
      *
      * @param manager which curently owns the component.
-     * @avalon.dependency type="org.apache.avalon.excalibur.datasource.DataSourceComponentClusterSelector"
+     * @avalon.dependency type="org.apache.avalon.excalibur.datasource.DataSourceComponent"
      */
     public void service( final ServiceManager manager )
         throws ServiceException
     {
         m_dbSelector =
-            (ServiceSelector)manager.lookup( DataSourceComponent.ROLE + "ClusterSelector" );
+            (ServiceSelector)manager.lookup( DataSourceComponent.ROLE + "Selector" );
     }
 
     /*---------------------------------------------------------------
