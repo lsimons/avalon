@@ -11,6 +11,8 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 
+import org.apache.metro.facility.presentationservice.api.ChannelEvent;
+import org.apache.metro.facility.presentationservice.api.ChannelException;
 import org.apache.metro.facility.presentationservice.api.ChannelListener;
 import org.apache.metro.facility.presentationservice.api.ControllerEventService;
 import org.apache.metro.facility.presentationservice.api.ViewEventService;

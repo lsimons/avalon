@@ -20,10 +20,13 @@ package org.apache.metro.studio.eclipse.ui.controller;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.metro.facility.presentationservice.api.IModelChannel;
-import org.apache.metro.facility.presentationservice.impl.ChannelException;
+import org.apache.metro.facility.presentationservice.api.ChannelException;
+
 import org.apache.metro.studio.eclipse.ui.wizards.NewMetroProjectWizard;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+
 import org.eclipse.jface.operation.IRunnableWithProgress;
 
 /**

@@ -17,8 +17,6 @@ limitations under the License.
 */
 package org.apache.metro.facility.presentationservice.api;
 
-import org.apache.metro.facility.presentationservice.impl.ChannelException;
-
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Metro Development Team</a>
  * 21.08.2004

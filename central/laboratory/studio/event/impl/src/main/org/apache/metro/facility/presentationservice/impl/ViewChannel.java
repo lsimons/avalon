@@ -17,6 +17,8 @@ limitations under the License.
 */
 package org.apache.metro.facility.presentationservice.impl;
 
+import org.apache.metro.facility.presentationservice.api.ChannelEvent;
+import org.apache.metro.facility.presentationservice.api.ChannelException;
 import org.apache.metro.facility.presentationservice.api.ChannelListener;
 import org.apache.metro.facility.presentationservice.api.ControllerEventService;
 import org.apache.metro.facility.presentationservice.api.IViewChannel;

@@ -19,13 +19,16 @@ package org.apache.metro.studio.eclipse.core.templateengine;
 
 import java.util.List;
 
-import org.apache.metro.facility.presentationservice.impl.ChannelEvent;
+import org.apache.metro.facility.presentationservice.api.ChannelEvent;
+
 import org.apache.metro.studio.eclipse.core.MetroStudioCore;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.runtime.CoreException;
+
 import org.eclipse.jdt.core.JavaCore;
 
 /**

@@ -21,9 +21,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.metro.facility.presentationservice.api.IModelChannel;
-import org.apache.metro.facility.presentationservice.impl.ChannelException;
+import org.apache.metro.facility.presentationservice.api.ChannelException;
+
 import org.apache.metro.studio.eclipse.ui.wizards.WizardUtil.SelectionPageCellModifier;
+
 import org.eclipse.jface.action.Action;
+
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -33,13 +36,19 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
+
 import org.eclipse.jface.wizard.WizardPage;
+
 import org.eclipse.pde.internal.ui.elements.ListContentProvider;
 import org.eclipse.pde.internal.ui.parts.FormBrowser;
+
 import org.eclipse.swt.SWT;
+
 import org.eclipse.swt.custom.BusyIndicator;
+
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -80,10 +89,10 @@ public class NewMetroProjectSelectionPage extends WizardPage implements ISelecti
     }
 
     /**
-	 * Main method to create all controls of this page. This method is called
-	 * by the wizard framework.
-	 * 
-	 */
+     * Main method to create all controls of this page. This method is called
+     * by the wizard framework.
+     * 
+     */
     public void createControl(Composite parent)
     {
         Composite composite = new Composite(parent, SWT.NULL);
@@ -97,9 +106,9 @@ public class NewMetroProjectSelectionPage extends WizardPage implements ISelecti
     }
 
     /**
-	 * create all controls.
-	 * 
-	 */
+     * create all controls.
+     * 
+     */
     protected void createContainerGroup(Composite parent)
     {
         Composite area = new Composite(parent, SWT.NULL);

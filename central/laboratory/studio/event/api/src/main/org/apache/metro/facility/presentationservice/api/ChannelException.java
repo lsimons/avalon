@@ -23,18 +23,44 @@ package org.apache.metro.facility.presentationservice.api;
  * last change:
  * 
  */
-public interface IModelChannel
+public class ChannelException extends Exception
 {
-    public void controlClicked(String event) 
-    	throws ChannelException;    
 
-    public void windowCreated(String event) 
-		throws ChannelException;    
-    
-    public String getValue(String event); 
+    /**
+     * 
+     */
+    public ChannelException()
+    {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-    public String[] getValueArray(String event); 
+    /**
+     * @param arg0
+     */
+    public ChannelException(String arg0)
+    {
+        super(arg0);
+        // TODO Auto-generated constructor stub
+    }
 
-    public void putValue(String key, String value);    
+    /**
+     * @param arg0
+     */
+    public ChannelException(Throwable arg0)
+    {
+        super(arg0);
+        // TODO Auto-generated constructor stub
+    }
+
+    /**
+     * @param arg0
+     * @param arg1
+     */
+    public ChannelException(String arg0, Throwable arg1)
+    {
+        super(arg0, arg1);
+        // TODO Auto-generated constructor stub
+    }
 
 }

@@ -21,9 +21,11 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.apache.metro.facility.presentationservice.api.IModelChannel;
 import org.apache.metro.facility.presentationservice.impl.ModelChannel;
+
 import org.apache.metro.studio.eclipse.ui.MetroStudioUI;
 import org.apache.metro.studio.eclipse.ui.controller.CreateBlockProjectOperation;
 import org.apache.metro.studio.eclipse.ui.controller.NewMetroProjectWizardController;
+
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;

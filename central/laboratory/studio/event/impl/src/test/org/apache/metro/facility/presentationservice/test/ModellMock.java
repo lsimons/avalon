@@ -21,8 +21,8 @@ import junit.framework.TestCase;
 
 import org.apache.metro.facility.presentationservice.api.ChannelListener;
 import org.apache.metro.facility.presentationservice.api.IViewChannel;
-import org.apache.metro.facility.presentationservice.impl.ChannelEvent;
-import org.apache.metro.facility.presentationservice.impl.ChannelException;
+import org.apache.metro.facility.presentationservice.api.ChannelEvent;
+import org.apache.metro.facility.presentationservice.api.ChannelException;
 import org.apache.metro.facility.presentationservice.impl.ViewChannel;
 
 /**

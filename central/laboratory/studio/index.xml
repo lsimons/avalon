@@ -234,6 +234,7 @@
     </info>
     <dependencies>
       <include key="metro-studio-launch"/>
+      <include key="metro-studio-event-impl"/>
       <include key="eclipse-swt"/>
       <include key="eclipse-jdt-ui"/>
       <include key="eclipse-jdt-debug-jdiui"/>

@@ -18,11 +18,14 @@ limitations under the License.
 package org.apache.metro.studio.eclipse.ui.controller;
 
 import org.apache.metro.facility.presentationservice.api.ChannelListener;
-import org.apache.metro.facility.presentationservice.impl.ChannelEvent;
-import org.apache.metro.facility.presentationservice.impl.ChannelException;
+import org.apache.metro.facility.presentationservice.api.ChannelEvent;
+import org.apache.metro.facility.presentationservice.api.ChannelException;
+
 import org.apache.metro.facility.presentationservice.impl.ViewChannel;
+
 import org.apache.metro.studio.eclipse.core.environment.MetroEnvironment;
 import org.apache.metro.studio.eclipse.core.environment.ServerEnvironment;
+
 import org.apache.metro.studio.eclipse.ui.panels.ServerSettingsPanel;
 
 /**
