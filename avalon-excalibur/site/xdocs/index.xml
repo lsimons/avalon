@@ -163,7 +163,7 @@ libraries.
       </p>
                   </td>
                 </tr>
-                <tr><td>Component</td><td>
+                <tr><td><a href="component.html">Component</a></td><td>
                 <p>
               Due to a number of issues in ECM, not the least of which is a
               simplistic and convoluted design, it has been deprecated in
