@@ -4,7 +4,7 @@
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
-      excludes="project.xml"
+      excludes="project.xml,target/**"
       goals="clean"
       banner="Cleaning:"
       ignoreFailures="true"/>
@@ -13,7 +13,7 @@
   <goal name="avalon:build">
     <maven:reactor basedir="${basedir}"
       includes="*/project.xml"
-      excludes="project.xml"
+      excludes="project.xml,target/**"
       goals=""
       banner="Building:"
       ignoreFailures="false"
