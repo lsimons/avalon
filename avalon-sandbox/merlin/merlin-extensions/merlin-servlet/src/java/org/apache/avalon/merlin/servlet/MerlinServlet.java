@@ -61,11 +61,14 @@ import org.apache.avalon.merlin.kernel.Kernel;
 import org.apache.avalon.merlin.kernel.impl.DefaultKernel;
 
 /**
- * Servlet implementing the Merlin Kernel interface.
- *
+ * Servlet that handles the establishment of a Merlin Kernel
+ * and registration of the kernel base URL under the servlet 
+ * context using the key {@link Kernel.BASE_URL_KEY}.
+ * 
+ * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
  */
-public class MerlinServlet extends HttpServlet implements Kernel
+public class MerlinServlet extends HttpServlet
 {
     private DefaultKernel m_kernel;
 
@@ -108,7 +111,7 @@ public class MerlinServlet extends HttpServlet implements Kernel
             m_kernel.contextualize( context );
             m_kernel.initialize();
 
-            getServletContext().setAttribute( Block.BLOCK_KEY, getRootBlock() );
+            getServletContext().setAttribute( Kernel.BASE_URL_KEY, m_kernel.getURL() );
 
             log( "kernel established" );
         }
@@ -116,37 +119,6 @@ public class MerlinServlet extends HttpServlet implements Kernel
         {
             throw new ServletException( "Initialization error.", e );
         }
-    }
-
-
-
-   /**
-    * Return the root block.
-    * @return the root block
-    */
-    public Block getRootBlock()
-    {
-        if( m_kernel == null )
-        {
-            final String message =
-              "Kernel has not been initialized.";
-            throw new IllegalStateException( message );
-        }
-        return m_kernel.getRootBlock();
-    }
-
-   /**
-    * Initiate an orderly shutdown of the kernel.
-    */
-    public void shutdown()
-    {
-        if( m_kernel == null )
-        {
-            final String message =
-              "Kernel has not been initialized.";
-            throw new IllegalStateException( message );
-        }
-        m_kernel.shutdown();
     }
 
     /**
@@ -173,5 +145,4 @@ public class MerlinServlet extends HttpServlet implements Kernel
             return value;
         }
     }
-
 }

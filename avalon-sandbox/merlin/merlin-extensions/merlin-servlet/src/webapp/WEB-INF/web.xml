@@ -29,7 +29,7 @@
 
   <servlet-mapping>
     <servlet-name>navigator</servlet-name>
-    <url-pattern>/navigator/*</url-pattern>
+    <url-pattern>/merlin/*</url-pattern>
   </servlet-mapping>
 
   <taglib>

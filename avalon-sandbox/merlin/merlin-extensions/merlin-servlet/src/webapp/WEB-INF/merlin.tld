@@ -16,7 +16,7 @@
 
   <tag>
     <name>target</name>
-    <tag-class>org.apache.avalon.merlin.jsp.TargetTag</tag-class>
+    <tag-class>org.apache.avalon.merlin.jsp.tag.TargetTag</tag-class>
     <body-content>JSP</body-content>
     <description>
       Tag representing a target object that represents business
