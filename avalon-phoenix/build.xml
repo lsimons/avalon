@@ -533,7 +533,7 @@ Legal:
             <param name="bin.dist.dir" value="${dist.name}" />
         </antcall>
 
-        <zip file="${dist.base}/${dist.name}-bin.zip"
+        <zip zipfile="${dist.base}/${dist.name}-bin.zip"
             basedir="${dist.name}/.."
             includes="${dist.name}/**"/>
 
@@ -557,7 +557,7 @@ Legal:
             <param name="src.dist.dir" value="${dist.name}" />
         </antcall>
 
-        <zip file="${dist.base}/${dist.name}-src.zip"
+        <zip zipfile="${dist.base}/${dist.name}-src.zip"
             basedir="${dist.name}/.."
             includes="${dist.name}/**"/>
 
