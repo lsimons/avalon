@@ -16,7 +16,7 @@
     <author name="Eung-ju Park" email="colus@apache.org" id="EP"/>
     <author name="David W." email="daveweit@optonline.net" id="DW"/>
   </devs>
-<release version="4.0.4" date="March xx, 2003">
+<release version="4.0.4" date="April 18, 2003">
     <action dev="PH" type="change">
         Excalibur-Thread upgraded to 1.1
     </action>    
