@@ -85,7 +85,7 @@
       <subsection name="Execution">
         <p>
         The following command line includes the -config argument
-        referencing a contfiguration target file (example included
+        referencing a configuration target file (example included
         in the tutorials/configuration package).
         </p>
         <source>
