@@ -138,7 +138,7 @@ namespace Apache.Avalon.Container
 					ContainerUtil.EnableLogging(instance, m_loggerManager[entry.LoggerName]);
 				}
 
-				BlindLookupManager lookupManager = new BlindLookupManager();
+				BlindLookupManager lookupManager = new BlindLookupManager(m_container.LookupManager);
 
 				if (entry.Dependencies.Length != 0)
 				{

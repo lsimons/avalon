@@ -59,14 +59,10 @@ namespace Apache.Avalon.Framework
 	[Serializable]
 	public class LookupException : Exception
 	{
-		private const string ROLE_NAME_SERIALIZATION = "lookup-exception-role";
-
-		private string role;		
-		
 		/// <summary>
 		/// Constructs a new <c>LookupException</c> instance.
 		/// </summary>
-		public LookupException(): this(null)
+		public LookupException() : this(null)
 		{
 		}
 
@@ -74,7 +70,7 @@ namespace Apache.Avalon.Framework
 		/// Constructs a new <c>LookupException</c> instance.
 		/// </summary>
 		/// <param name="message">The Detail message for this exception.</param>
-		public LookupException(string message): this(null, message)
+		public LookupException(String message) : this(null, message)
 		{
 		}
 
@@ -83,7 +79,7 @@ namespace Apache.Avalon.Framework
 		/// </summary>
 		/// <param name="role">The Role that caused the exception.</param>
 		/// <param name="message">The Detail message for this exception.</param>
-		public LookupException(string role, string message): this(role, message, null)
+		public LookupException(String role, String message) : this(role, message, null)
 		{
 		}
 
@@ -92,7 +88,7 @@ namespace Apache.Avalon.Framework
 		/// </summary>
 		/// <param name="message">The Detail message for this exception.</param>
 		/// <param name="inner">The Root cause of the exception.</param>
-		public LookupException(string message, Exception inner): this(null, message, inner)
+		public LookupException(String message, Exception inner) : this(String.Empty, message, inner)
 		{
 		}
 
@@ -102,42 +98,10 @@ namespace Apache.Avalon.Framework
 		/// <param name="role">The Role that caused the exception.</param>
 		/// <param name="message">The Detail message for this exception.</param>
 		/// <param name="inner">The Root cause of the exception.</param>
-		public LookupException(string role, string message, Exception inner): base(message, inner)
+		public LookupException(String role, String message, Exception inner) : 
+			base(String.Format("Component for role '{0}' could not be resolved. " + 
+							   "Detailed message: {1}", role, message), inner)
 		{
-			this.role = role;
-		}
-
-		/// <summary>
-		/// Constructs a new <see cref="LookupException"/> instance.
-		/// </summary>
-		public LookupException(SerializationInfo info, StreamingContext context): base(info, context)
-		{
-			info.AddValue(ROLE_NAME_SERIALIZATION, role); 
-		}
-
-		/// <summary>
-		/// Gets the role that caused the exception.
-		/// </summary>
-		/// <value>The Role that caused the exception.</value> 
-		public string Role
-		{
-			get
-			{
-				return role;
-			}
-		}
-
-		/// <summary>
-		/// Populates the <see cref="SerializationInfo"/> object with 
-		/// the data needed to serialize the <see cref="LookupException"/> object.
-		/// </summary>
-		/// <param name="info"></param>
-		/// <param name="context"></param>
-		public override void GetObjectData(SerializationInfo info, StreamingContext context)
-		{
-			base.GetObjectData(info, context);
-
-			role = info.GetString(ROLE_NAME_SERIALIZATION);
 		}
 	}
 }
