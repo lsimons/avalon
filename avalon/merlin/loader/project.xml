@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+
+  <extend>${basedir}/../../project.xml</extend>
+  <groupId>merlin</groupId>
+  <id>merlin-loader</id>
+  <name>Merlin Loader</name>
+  <currentVersion>3.2-dev</currentVersion>
+  <package>*</package>
+
+  <inceptionYear>2003</inceptionYear>
+  <shortDescription>Merlin Embedded Kernel Loader.</shortDescription>
+
+  <description>
+  Utility package that loads a merlin kernel.
+  </description>
+  
+  <dependencies>
+
+  </dependencies>
+  
+  <build>
+
+    <sourceDirectory>${basedir}/src/java/</sourceDirectory>
+    <unitTestSourceDirectory>${basedir}/src/test/</unitTestSourceDirectory>
+
+    <unitTest>
+      <includes>
+        <include>**/*Test.*</include>
+        <include>**/*TestCase.*</include>
+      </includes>
+      <excludes>
+        <exclude>**/Abstract*.*</exclude>
+      </excludes>
+      <resources>
+        <resource>
+          <directory>${basedir}/src/test</directory>
+          <includes>
+            <include>**/*.x*</include>
+          </includes>
+        </resource>
+      </resources>
+    </unitTest>
+
+    <resources>
+      <resource>
+        <directory>${basedir}/src/etc</directory>
+        <includes> 
+          <include>merlin.properties</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>${basedir}</directory>
+        <includes> 
+          <include>snapshot.properties</include>
+        </includes>
+      </resource>
+    </resources>
+
+    <jars></jars>
+
+  </build>
+
+</project>
