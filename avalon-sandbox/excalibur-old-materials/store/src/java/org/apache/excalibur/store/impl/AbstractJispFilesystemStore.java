@@ -66,6 +66,10 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.excalibur.store.Store;
 
+import EDU.oswego.cs.dl.util.concurrent.FIFOReadWriteLock;
+import EDU.oswego.cs.dl.util.concurrent.ReadWriteLock;
+import EDU.oswego.cs.dl.util.concurrent.Sync;
+
 /**
  * This store is based on the Jisp library
  * (http://www.coyotegulch.com/jisp/index.html). This store uses B-Tree indexes
@@ -73,7 +77,8 @@ import org.apache.excalibur.store.Store;
  *
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.16 2003/07/31 03:13:47 vgritsenko Exp $
+ * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
+ * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.17 2003/08/25 09:20:30 cziegeler Exp $
  */
 public abstract class AbstractJispFilesystemStore
 extends AbstractLogEnabled
@@ -88,6 +93,9 @@ implements Store, ThreadSafe {
     /** And the index */
     protected BTreeIndex m_Index;
 
+    /** The lock */
+    protected ReadWriteLock lock = new FIFOReadWriteLock();
+    
     /**
      * Sets the repository's location
      */
@@ -128,28 +136,41 @@ implements Store, ThreadSafe {
      * @param key the Key object
      * @return the Object associated with Key Object
      */
-    public synchronized Object get(Object key) 
+    public Object get(Object key) 
     {
         Object value = null;
-        try 
+        Sync sync = this.lock.writeLock();
+        try
         {
-            value = m_Database.read(this.wrapKeyObject(key), m_Index);
-            if (getLogger().isDebugEnabled()) 
+            sync.acquire();
+            try 
             {
-                if (value != null) 
+                value = m_Database.read(this.wrapKeyObject(key), m_Index);
+                if (getLogger().isDebugEnabled()) 
                 {
-                    getLogger().debug("Found key: " + key);
-                } 
-                else 
-                {
-                    getLogger().debug("NOT Found key: " + key);
+                    if (value != null) 
+                    {
+                        getLogger().debug("Found key: " + key);
+                    } 
+                    else 
+                    {
+                        getLogger().debug("NOT Found key: " + key);
+                    }
                 }
+            } 
+            catch (Exception e) 
+            {
+                getLogger().error("get(..): Exception", e);
             }
-        } 
-        catch (Exception e) 
-        {
-            getLogger().error("get(..): Exception", e);
+            finally 
+            {
+                sync.release();
+            }
         }
+        catch (InterruptedException ignore)
+        {
+        } 
+        
         return value;
     }
 
@@ -160,7 +181,7 @@ implements Store, ThreadSafe {
      * @param value the value object
      * @exception  IOException
      */
-    public synchronized void store(Object key, Object value)
+    public void store(Object key, Object value)
     throws IOException 
     {
 
@@ -174,16 +195,29 @@ implements Store, ThreadSafe {
 
         if (value instanceof Serializable) 
         {
-            try 
+            Sync sync = this.lock.writeLock();
+            try
             {
-                KeyObject[] keyArray = new KeyObject[1];
-                keyArray[0] = this.wrapKeyObject(key);
-                m_Database.write(keyArray, (Serializable) value);
-            } 
-            catch (Exception e) 
-            {
-                getLogger().error("store(..): Exception", e);
+                sync.acquire();
+
+                try 
+                {
+                    KeyObject[] keyArray = new KeyObject[1];
+                    keyArray[0] = this.wrapKeyObject(key);
+                    m_Database.write(keyArray, (Serializable) value);
+                } 
+                catch (Exception e) 
+                {
+                    getLogger().error("store(..): Exception", e);
+                }
+                finally 
+                {
+                    sync.release();
+                }
             }
+            catch (InterruptedException ignore)
+            {
+            } 
         } 
         else 
         {
@@ -198,9 +232,10 @@ implements Store, ThreadSafe {
      * @param value the value object
      * @exception IOException
      */
-    public synchronized void hold(Object key, Object value)
+    public void hold(Object key, Object value)
     throws IOException 
     {
+        // store is synced!
         this.store(key, value);
     }
 
@@ -208,14 +243,14 @@ implements Store, ThreadSafe {
      * Frees some values of the data file.<br>
      * TODO: implementation
      */
-    public synchronized void free() 
+    public void free() 
     {
     }
 
     /**
      * Clear the Store of all elements
      */
-    public synchronized void clear() 
+    public void clear() 
     {
         
         if (getLogger().isDebugEnabled()) 
@@ -223,29 +258,41 @@ implements Store, ThreadSafe {
             getLogger().debug("clear(): Clearing the database ");
         }
 
-        try 
+        Sync sync = this.lock.writeLock();
+        try
         {
-            final BTreeIterator iter = new BTreeIterator(m_Index);
-            Object tmp;
-            do 
+            sync.acquire();
+            try 
             {
-                tmp = iter.getKey();
-                if ( tmp != null ) 
+                final BTreeIterator iter = new BTreeIterator(m_Index);
+                Object tmp;
+                do 
                 {
-                    if (getLogger().isDebugEnabled()) 
+                    tmp = iter.getKey();
+                    if ( tmp != null ) 
                     {
-                        getLogger().debug("clear(): Removing key: " + tmp.toString());
+                        if (getLogger().isDebugEnabled()) 
+                        {
+                            getLogger().debug("clear(): Removing key: " + tmp.toString());
+                        }
+                        iter.moveNext();
+                        this.remove( tmp );
                     }
-                    iter.moveNext();
-                    this.remove( tmp );
-                }
+                } 
+                while (tmp != null);
             } 
-            while (tmp != null);
-        } 
-        catch (Exception ignore) 
-        {
-            getLogger().error("store(..): Exception", ignore);
+            catch (Exception ignore) 
+            {
+                getLogger().error("store(..): Exception", ignore);
+            }
+            finally 
+            {
+                sync.release();
+            }
         }
+        catch (InterruptedException ignore)
+        {
+        } 
     }
 
     /**
@@ -253,26 +300,38 @@ implements Store, ThreadSafe {
      *
      * @param key the key object
      */
-    public synchronized void remove(Object key)
+    public void remove(Object key)
     {
         if (getLogger().isDebugEnabled()) 
         {
             getLogger().debug("remove(..) Remove item");
         }
 
-        try 
+        Sync sync = this.lock.writeLock();
+        try
         {
-            KeyObject[] keyArray = new KeyObject[1];
-            keyArray[0] = this.wrapKeyObject(key);
-            m_Database.remove(keyArray);
-        } 
-        catch (KeyNotFound ignore) 
-        {
-        } 
-        catch (Exception e) 
-        {
-            getLogger().error("remove(..): Exception", e);
+            sync.acquire();
+            try 
+            {
+                KeyObject[] keyArray = new KeyObject[1];
+                keyArray[0] = this.wrapKeyObject(key);
+                m_Database.remove(keyArray);
+            } 
+            catch (KeyNotFound ignore) 
+            {
+            } 
+            catch (Exception e) 
+            {
+                getLogger().error("remove(..): Exception", e);
+            }
+            finally 
+            {
+                sync.release();
+            }
         }
+        catch (InterruptedException ignore)
+        {
+        } 
     }
 
     /**
@@ -281,25 +340,37 @@ implements Store, ThreadSafe {
      * @param key the key object
      * @return true if Key exists and false if not
      */
-    public synchronized boolean containsKey(Object key) 
+    public boolean containsKey(Object key) 
     {
         long res = -1;
 
-        try 
+        Sync sync = this.lock.readLock();
+        try
         {
-            res = m_Index.findKey(this.wrapKeyObject(key));
-            if (getLogger().isDebugEnabled()) 
+            sync.acquire();
+            try 
             {
-                getLogger().debug("containsKey(..): res=" + res);
+                res = m_Index.findKey(this.wrapKeyObject(key));
+                if (getLogger().isDebugEnabled()) 
+                {
+                    getLogger().debug("containsKey(..): res=" + res);
+                }
+            } 
+            catch (KeyNotFound ignore) 
+            {
+            } 
+            catch (Exception e)
+            {
+                getLogger().error("containsKey(..): Exception", e);
             }
-        } 
-        catch (KeyNotFound ignore) 
-        {
-        } 
-        catch (Exception e)
-        {
-            getLogger().error("containsKey(..): Exception", e);
+            finally 
+            {
+                sync.release();
+            }
         }
+        catch (InterruptedException ignore)
+        {
+        } 
 
         if (res > 0) 
         {
