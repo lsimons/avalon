@@ -13,6 +13,8 @@
        token="MERLIN_IMPLEMENTATION"/>
     <x:filter key="avalon-activation-impl" feature="uri" 
        token="STANDARD_RUNTIME"/>
+    <filter token="CACHE-DIRECTORY"
+       value="${project.home.cache.dir}"/>
   </target>
 
 </project>
