@@ -33,6 +33,9 @@ import org.apache.avalon.util.exception.ExceptionHelper;
 
 import org.apache.excalibur.configuration.ConfigurationUtil;
 
+import org.apache.avalon.logging.data.CategoriesDirective;
+
+
 public class TargetsTestCase extends AbstractTestCase
 {      
    //-------------------------------------------------------
@@ -63,19 +66,25 @@ public class TargetsTestCase extends AbstractTestCase
                 TargetDirective target = targets[i];
                 final String path = target.getPath();
                 DeploymentModel model = m_model.getModel( path );
+
+                CategoriesDirective categories = 
+                  target.getCategoriesDirective();
+                if( null != categories )
+                {
+                    model.setCategories( categories );
+                }
+
                 if( model instanceof ComponentModel )
                 {
                     ComponentModel deployment = (ComponentModel) model;
-                    deployment.setConfiguration( target.getConfiguration() );
+                    Configuration config = target.getConfiguration();
+                    if( null != config )
+                    { 
+                        deployment.setConfiguration( config );
+                    }
                     getLogger().debug( "model: " + deployment );
                     getLogger().debug( 
                       ConfigurationUtil.list( deployment.getConfiguration() ) );
-                }
-                else
-                {
-                    final String warning = 
-                      "Cannot apply target: " + path + " to a containment model.";
-                    getLogger().warn( warning );
                 }
             }
         }

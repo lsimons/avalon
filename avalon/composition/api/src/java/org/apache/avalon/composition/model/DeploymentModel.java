@@ -30,11 +30,14 @@ import org.apache.avalon.meta.info.ReferenceDescriptor;
 
 import org.apache.avalon.framework.logger.Logger;
 
+import org.apache.avalon.logging.data.CategoriesDirective;
+
+
 /**
  * Model desribing a deployment scenario.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.16 $ $Date: 2004/02/24 22:18:21 $
+ * @version $Revision: 1.17 $ $Date: 2004/02/25 22:54:09 $
  */
 public interface DeploymentModel extends Commissionable, Resolver
 {
@@ -71,6 +74,18 @@ public interface DeploymentModel extends Commissionable, Resolver
     * @return the logging channel
     */
     Logger getLogger();
+
+   /**
+    * Return the logging categories. 
+    * @return the logging categories
+    */
+    CategoriesDirective getCategories();
+
+   /**
+    * Set categories. 
+    * @param categories the logging categories
+    */
+    void setCategories( CategoriesDirective categories );
 
     //-----------------------------------------------------------
     // service production

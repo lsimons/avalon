@@ -31,6 +31,8 @@ import org.apache.avalon.meta.info.StageDescriptor;
 
 import org.apache.avalon.framework.logger.Logger;
 
+import org.apache.avalon.logging.data.CategoriesDirective;
+
 
 public class SimpleDeploymentModel 
     implements DeploymentModel
@@ -88,6 +90,24 @@ public class SimpleDeploymentModel
     {
         return null;
     }
+
+   /**
+    * Return the logging categories. 
+    * @return the logging categories
+    */
+    public CategoriesDirective getCategories()
+    {
+        return null;
+    }
+
+   /**
+    * Set categories. 
+    * @param categories the logging categories
+    */
+    public void setCategories( CategoriesDirective categories ) 
+    {
+    }
+
 
     //-----------------------------------------------------------
     // service production

@@ -35,7 +35,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * the request to an assigned model.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/22 16:12:58 $
+ * @version $Revision: 1.7 $ $Date: 2004/02/25 22:54:09 $
  */
 public final class DefaultContext implements Context
 {
@@ -59,7 +59,7 @@ public final class DefaultContext implements Context
    /**
     * <p>Creation of a new default context.</p>
     *
-    * @param context the deployment context
+    * @param map a map of context entry handlers
     */
     public DefaultContext( Map map )
     {

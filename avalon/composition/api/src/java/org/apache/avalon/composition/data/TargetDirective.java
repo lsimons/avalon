@@ -19,6 +19,8 @@ package org.apache.avalon.composition.data;
 
 import java.io.Serializable;
 
+import org.apache.avalon.composition.data.GrantDirective;
+
 import org.apache.avalon.framework.configuration.Configuration;
 
 import org.apache.avalon.logging.data.CategoriesDirective;
@@ -30,7 +32,7 @@ import org.apache.avalon.logging.data.CategoryDirective;
  * configuration is to be applied to.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/24 22:18:21 $
+ * @version $Revision: 1.5 $ $Date: 2004/02/25 22:54:09 $
  */
 public class TargetDirective implements Serializable
 {
@@ -52,6 +54,11 @@ public class TargetDirective implements Serializable
      * The configuration.
      */
     private final CategoriesDirective m_categories;
+
+    /**
+     * Supplimentary permissions assignable to a classloader.
+     */
+    private final GrantDirective m_grant;
 
     //========================================================================
     // constructors
@@ -93,6 +100,25 @@ public class TargetDirective implements Serializable
         m_path = path;
         m_config = configuration;
         m_categories = categories;
+        m_grant = null;
+    }
+
+    /**
+     * Create a new Target instance applyable to a container.
+     *
+     * @param path target container path
+     * @param categories the logging category directives 
+     * @param grant a grant directive
+     */
+    public TargetDirective( 
+      final String path, 
+      final CategoriesDirective categories, 
+      final GrantDirective grant )
+    {
+        m_path = path;
+        m_categories = categories;
+        m_grant = grant;
+        m_config = null;
     }
 
     //========================================================================
@@ -120,6 +146,18 @@ public class TargetDirective implements Serializable
     }
 
     /**
+     * Return an optional grant directive that may be applied as 
+     * a supplimentary security context during the establishment of 
+     * a new container classloader.
+     *
+     * @return the grant directive (possibly null)
+     */
+    public GrantDirective getGrantDirective()
+    {
+        return m_grant;
+    }
+
+    /**
      * Return the logging categories directive.
      *
      * @return the logging categories (possibly null)
@@ -138,7 +176,7 @@ public class TargetDirective implements Serializable
         return "[target: " + getPath() + ", " 
           + (getConfiguration() != null ) + ", " 
           + (getCategoriesDirective() != null ) + ", " 
+          + (getGrantDirective() != null )
           + " ]";
     }
-
 }
