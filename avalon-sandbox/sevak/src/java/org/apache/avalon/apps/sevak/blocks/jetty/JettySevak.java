@@ -29,6 +29,7 @@ import org.mortbay.util.MultiException;
 import org.mortbay.util.InetAddrPort;
 import org.mortbay.util.Log;
 import org.mortbay.http.SocketListener;
+import org.mortbay.http.SocketChannelListener;
 
 
 /**
@@ -140,10 +141,11 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
     {
         try
         {
-            // This does not work.
-            WebApplicationContext ctx = m_server.addWebApplication(m_hostName, context,
-                    pathToWebAppFolder.getAbsolutePath());
-            System.out.println("deploying " + context + " " + pathToWebAppFolder.getAbsolutePath() + " to "
+            String webAppURL = pathToWebAppFolder.toURL().toString();
+            // This still does not work.
+            WebApplicationContext ctx = m_server.addWebApplication(m_hostName, context, webAppURL);
+
+            System.out.println("deploying context=" + context + ", webapp=" + webAppURL + " to host="
                     + m_hostName);
             m_webapps.put(context, ctx);
         }
@@ -161,6 +163,7 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
     public void undeploy(String context) throws SevakException
     {
         WebApplicationContext ctx = (WebApplicationContext) m_webapps.get(context);
+		m_server.removeContext(ctx);
         ctx.destroy();
         m_webapps.remove(context);
     }
