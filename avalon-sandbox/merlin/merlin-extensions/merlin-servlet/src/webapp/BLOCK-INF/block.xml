@@ -1,8 +1,0 @@
-
-<container name="merlin">
-
-  <implementation>
-     <!-- include components and subcontainers here -->
-  </implementation>
-
-</container>
