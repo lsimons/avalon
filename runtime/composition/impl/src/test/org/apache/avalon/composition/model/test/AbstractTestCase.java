@@ -74,7 +74,6 @@ public abstract class AbstractTestCase extends TestCase
         BASEDIR = getWorkDir();
         SYS_CONF = new File( BASEDIR, "system/kernel.xml" ).getAbsoluteFile();
         SECURITY_BUILDER = new XMLSecurityProfileBuilder();
-        System.out.println( "security.policy=" + System.getProperty( "java.security.policy" ) );
     }
     
     private static File getWorkDir()
@@ -84,12 +83,22 @@ public abstract class AbstractTestCase extends TestCase
         {
             return new File( path );
         }
-        else
+        path = System.getProperty( "basedir" );
+        if( path != null )
         {
-            path = System.getProperty( "basedir" );
             File root = new File( path );
             return new File( root, "target/test-classes" );
         }
+        
+        //still no success resort to user.dir
+        if( !(path != null) )
+        {
+        	path = System.getProperty( "user.dir" );
+        }
+        if( null != path )
+        {
+            return new File( path );
+        }	        return null;
     }
 
     //-------------------------------------------------------
@@ -174,7 +183,7 @@ public abstract class AbstractTestCase extends TestCase
         //
 
         File source = new File( BASEDIR, path );
-
+        System.out.println("loading " + source.toURL());
         return modelFactory.createRootContainmentModel( source.toURL() );
     }
 
