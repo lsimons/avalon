@@ -262,16 +262,6 @@ public final class TPCThreadManager extends AbstractLogEnabled
                                                   + "increase block-timeout or number of threads per processor", e );
                             }
                         }
-                        catch( RuntimeException e )
-                        {
-                            if( getLogger().isFatalErrorEnabled() )
-                            {
-                                getLogger().fatalError( "TPCThreadManager management thread aborting "
-                                                        + " due to exception", e );
-                            }
-
-                            throw e;
-                        }
                     }
                 }
                 finally
@@ -285,6 +275,16 @@ public final class TPCThreadManager extends AbstractLogEnabled
         catch( InterruptedException e )
         {
             Thread.interrupted();
+        }
+        catch( RuntimeException e )
+        {
+            if( getLogger().isFatalErrorEnabled() )
+            {
+                getLogger().fatalError( "TPCThreadManager management thread aborting "
+                                        + " due to exception", e );
+            }
+
+            throw e;
         }
     }
 
