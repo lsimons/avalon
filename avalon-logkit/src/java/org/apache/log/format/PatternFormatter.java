@@ -243,7 +243,14 @@ public class PatternFormatter
         }
         else if( maxSize > 0 && maxSize < size )
         {
-            sb.append( output.substring( 0, maxSize ) );
+            if( rightJustify )
+            {
+                sb.append( output.substring( size - maxSize ) );
+            }
+            else
+            {
+                sb.append( output.substring( 0, maxSize ) );
+            }
         }
         else
         {
