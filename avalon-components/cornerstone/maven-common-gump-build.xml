@@ -97,7 +97,6 @@ DEBUG INFO
 
     <target name="avalon:init">
         <antcall target="avalon:warning"/>
-        <antcall target="avalon:debug"/>
 
         <!-- defaults -->
         <property name="maven.src.dir" value="${basedir}/src"/>
@@ -139,6 +138,7 @@ DEBUG INFO
                     <isset property="test.src.present"/>
                 </and>
         </condition>
+        <antcall target="avalon:debug"/>
         <antcall target="avalon:warn-avail"/>
     </target>
 
