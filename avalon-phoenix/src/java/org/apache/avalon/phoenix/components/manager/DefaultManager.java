@@ -15,6 +15,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.RemoteObject;
 import java.rmi.server.UnicastRemoteObject;
 import javax.management.MBeanServer;
+import javax.management.MBeanServerFactory;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -87,6 +88,15 @@ public class DefaultManager
 
         try
         {
+            final String htmlParserClass = m_configuration.getChild( "manager-html-parser" ).getValue( null );
+            ObjectName parserName = null;
+            if( null != htmlParserClass )
+            {
+                parserName = new ObjectName( "Adaptor:name=htmlParser" );
+                System.out.println( "Created HTML Parser " + parserName );
+                m_mBeanServer.createMBean( htmlParserClass, parserName );
+            }
+
             final int port = m_configuration.getChild( "manager-adaptor-port" ).getValueAsInteger( DEFAULT_HTTPADAPTER_PORT );
             final HtmlAdaptorServer html =
                 new HtmlAdaptorServer( port );
@@ -104,6 +114,10 @@ public class DefaultManager
             final ObjectName name = new ObjectName( stringName );
             System.out.println( "Created HTML Adaptor " + name );
             m_mBeanServer.registerMBean( html, name );
+            if( null != htmlParserClass )
+            {
+                html.setParser( parserName );
+            }
             html.start();
         }
         catch( final Exception e )
@@ -260,20 +274,15 @@ public class DefaultManager
     private MBeanServer createMBeanServer()
         throws Exception
     {
-        final String className =
-            m_parameters.getParameter( "manager-mBeanServer-class",
-                                       "com.sun.management.jmx.MBeanServerImpl" );
-
         try
         {
-            Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
-            return (MBeanServer)Class.forName( className ).newInstance();
+            return MBeanServerFactory.createMBeanServer();
         }
         catch( final Exception e )
         {
             final String message =
                 REZ.getString( "jmxmanager.error.mbeanserver.create",
-                               className );
+                               "MBeanServerFactory" );
             throw new ParameterException( message, e );
         }
     }
