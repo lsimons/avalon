@@ -103,6 +103,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.activity.Disposable;
 
 import org.apache.avalon.merlin.Kernel;
 import org.apache.avalon.merlin.KernelException;
@@ -317,33 +318,6 @@ public class DefaultFactory implements Factory
         Kernel kernel = new DefaultKernel( kernelContext );
         setShutdownHook( getLogger(), kernel );
 
-        /*
-        try
-        {
-            m_system = 
-              AbstractBlock.createRootBlock( facilities );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Facilities establishment failure.";
-            throw new KernelException( error, e );
-        }
-
-        try
-        {
-            getLogger().debug( "system deployment" );
-            m_system.deploy();
-            getLogger().debug( "system ready" );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "System deployment failure.";
-            throw new KernelException( error, e );
-        }
-        */
-
         //
         // install any blocks declared within the kernel context
         //
@@ -439,25 +413,6 @@ public class DefaultFactory implements Factory
 
         return kernel;
     }
-
-    /*
-    private Kernel createKernel(
-      Logger logger, KernelCriteria criteria, SystemContext context, ContainmentModel application )
-      throws KernelException
-    {
-        try
-        {
-            return new DefaultKernel( 
-              logger, criteria, context, application );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Kernel establishment failure.";
-            throw new KernelException( error, e );
-        }
-    }
-    */
 
    /**
     * If the kernel criteria includes a language code
@@ -1075,6 +1030,10 @@ public class DefaultFactory implements Factory
                   {
                       logger.debug("shutdown event");
                       kernel.shutdown();
+                      if( kernel instanceof Disposable )
+                      {
+                          ((Disposable)kernel).dispose();
+                      }
                   }
                   catch( Throwable e )
                   {

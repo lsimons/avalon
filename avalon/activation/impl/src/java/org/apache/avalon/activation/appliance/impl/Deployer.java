@@ -56,6 +56,7 @@ import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.activity.Disposable;
 
 /**
  * Runnable deployment thread that handles the deployment of an 
@@ -64,7 +65,7 @@ import org.apache.avalon.framework.logger.Logger;
  * serve basis.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/13 11:41:22 $
+ * @version $Revision: 1.5 $ $Date: 2004/01/14 16:32:39 $
  * @see DeploymentRequest
  */
 class Deployer

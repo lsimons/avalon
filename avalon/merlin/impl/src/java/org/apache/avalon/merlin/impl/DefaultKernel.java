@@ -83,9 +83,9 @@ import org.apache.avalon.framework.logger.Logger;
  * Implementation of the default Merlin Kernel.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/13 18:43:15 $
+ * @version $Revision: 1.4 $ $Date: 2004/01/14 16:32:40 $
  */
-public class DefaultKernel implements Kernel
+public class DefaultKernel implements Kernel, Disposable
 {
 
     //--------------------------------------------------------------
@@ -138,7 +138,6 @@ public class DefaultKernel implements Kernel
             throw new KernelError( error, e );
         }
 
-
         try
         {
             m_application = 
@@ -151,17 +150,25 @@ public class DefaultKernel implements Kernel
             throw new KernelError( error, e );
         }
 
-        setState( INITIALIZED );
         if( getLogger().isDebugEnabled() )
         {
             m_context.getLogger().debug( "kernel established" );
         }
-        setState( STOPPED );
+        setState( INITIALIZED );
     }
 
     //--------------------------------------------------------------
     // Kernel
     //--------------------------------------------------------------
+
+   /**
+    * Return the current state of the kernel.
+    * @return the kernel state
+    */
+    public int getState()
+    {
+        return m_state.getState();
+    }
 
    /**
     * Add a kernel listener.
@@ -227,8 +234,7 @@ public class DefaultKernel implements Kernel
 
         synchronized( m_state )
         {
-            if( m_state.getState() != STOPPED ) return;
-
+            if( !isStartable() ) return;
             if( getLogger().isDebugEnabled() )
             {
                 getLogger().debug( "application assembly" );
@@ -277,7 +283,7 @@ public class DefaultKernel implements Kernel
     {
         synchronized( m_state )
         {
-            if( m_state.getState() != STARTED ) return;
+            if( !isStoppable() ) return;
 
             setState( STOPPING );
 
@@ -313,13 +319,6 @@ public class DefaultKernel implements Kernel
                 }
             }
             */
-
-            if( getLogger().isDebugEnabled() )
-            {
-                int n = Thread.activeCount();
-                getLogger().debug( "active threads (" + n + ")" );
-            }
-
             setState( STOPPED );
         }
     }
@@ -327,6 +326,27 @@ public class DefaultKernel implements Kernel
     //--------------------------------------------------------------
     // internal
     //--------------------------------------------------------------
+
+    private boolean isStartable()
+    {
+        synchronized( m_state )
+        {
+            int state = m_state.getState();
+            if( state == INITIALIZED ) return true;
+            if( state == STOPPED ) return true;
+            return false;
+        }
+    }
+
+    private boolean isStoppable()
+    {
+        synchronized( m_state )
+        {
+            int state = m_state.getState();
+            if( state == STARTED ) return true;
+            return false;
+        }
+    }
 
     /**
      * Set the state of the kernel.  The method also triggers the 
@@ -337,10 +357,6 @@ public class DefaultKernel implements Kernel
      */
      private void setState( int state )
      {
-         if( getLogger().isDebugEnabled() )
-         {
-             getLogger().debug( "state: " + state );
-         }
          m_state.setState( state );
      }
 
@@ -350,7 +366,7 @@ public class DefaultKernel implements Kernel
     }
 
 
-    private class State
+    private class State implements Runnable, Disposable
     {
         private int m_state = INITIALIZING;
 
@@ -358,9 +374,15 @@ public class DefaultKernel implements Kernel
 
         private final Kernel m_kernel;
 
+        private final SimpleFIFO m_events = new SimpleFIFO();
+
+        private Thread m_notification;
+
         State( Kernel kernel )
         {
             m_kernel = kernel;
+            m_notification = new Thread( this );
+            m_notification.start();
         }
 
         public void addKernelEventListener( KernelEventListener listener )
@@ -391,9 +413,31 @@ public class DefaultKernel implements Kernel
 
             m_state = newValue;
 
+            if( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( this.toString() );
+            }
+
             KernelStateEvent event = 
               new KernelStateEvent( m_kernel, oldValue, newValue );
-            fireStateChangedEvent( event );
+            m_events.put( event );
+        }
+
+        public void run()
+        {
+            try
+            {
+                while( true )
+                {
+                    KernelStateEvent event = (KernelStateEvent) m_events.get();
+                    fireStateChangedEvent( event );
+                }
+            }
+            catch( InterruptedException e )
+            {
+                // trigger by disposal
+            }
+            m_notification = null;
         }
 
         private void fireStateChangedEvent( final KernelStateEvent event )
@@ -415,5 +459,72 @@ public class DefaultKernel implements Kernel
                 }
             }
         }
+
+        public void dispose()
+        {
+            if( null != m_notification )
+            { 
+                m_notification.interrupt();
+            }
+        }
+
+        public String toString()
+        {
+            int s = m_state;
+            if( s == 0 )
+            {
+                return "state: initializing";
+            }
+            else if( s == 1 )
+            {
+                return "state: initialized";
+            }
+            else if( s == 2 )
+            {
+                return "state: starting";
+            }
+            else if( s == 3 )
+            {
+                return "state: assembly";
+            }
+            else if( s == 4 )
+            {
+                return "state: deployment";
+            }
+            else if( s == 5 )
+            {
+                return "state: started";
+            }
+            else if( s == 6 )
+            {
+                return "state: stopping";
+            }
+            else if( s == 7 )
+            {
+                return "state: decommissioning";
+            }
+            else if( s == 8 )
+            {
+                return "state: dissassembly";
+            }
+            else if( s == 9 )
+            {
+                return "state: stopped";
+            }
+            else
+            {
+                return "state: " + s;
+            }
+        }
+    }
+
+    public void dispose()
+    {
+        if( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "disposal" );
+        }
+        shutdown();
+        m_state.dispose();
     }
 }

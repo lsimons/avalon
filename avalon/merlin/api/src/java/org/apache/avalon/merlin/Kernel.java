@@ -60,7 +60,7 @@ import org.apache.avalon.activation.appliance.Block;
  * management aspects and service resolution aspects.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/13 18:39:38 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/14 16:32:39 $
  */
 public interface Kernel extends KernelController
 {
@@ -98,5 +98,11 @@ public interface Kernel extends KernelController
     * @return the appliance
     */
     Appliance locate( String path ) throws KernelException;
+
+   /**
+    * Return the current state of the kernel.
+    * @return the kernel state
+    */
+    int getState();
 
 }
