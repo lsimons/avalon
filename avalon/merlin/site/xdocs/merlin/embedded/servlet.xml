@@ -43,6 +43,12 @@
       </subsection>
       <subsection name="Example web.xml">
         <p>
+          <i>WARNING: there is an inconsitency here between properties 
+          included in the web.xml and the servlet code.  Currently web.xml 
+          properties are not used by the servlet - instread the servlet 
+          uses merlin.properties in the standard locations.</i>
+        </p>
+        <p>
           <i>web.xml</i>
         </p>
 <source><![CDATA[
@@ -219,7 +225,7 @@ public class MerlinServlet extends HttpServlet
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.3 $ $Date: 2004/04/03 05:45:25 $
+      $Revision: 1.4 $ $Date: 2004/04/03 07:52:51 $
     </legal>
   </footer>
 </document>

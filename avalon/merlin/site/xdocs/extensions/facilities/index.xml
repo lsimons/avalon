@@ -30,17 +30,24 @@
         <table>
           <tr><th>Topic</th><th>Summary</th></tr>
           <tr>
-            <td><a href="finder.html">Finder</a></td>
+            <td><a href="finder.html">Avalon Finder</a></td>
             <td>
               A facility that provides support for dynamic component
-              aquisition.
+              aquisition.  The facility exposes methods that allow
+              non-privaliged components to delegate activation request
+              to the finder.  The finder will return a service reference
+              to the client application.
             </td>
           </tr>
           <tr>
-            <td><a href="http.html">HTTP</a></td>
+            <td><a href="http.html">Avalon HTTP</a></td>
             <td>
               A facility that handles redirection of HTTP requests to
-              components.
+              components.  This facility scans the containment model for 
+              for components implement HTTP request handlers and provides
+              support for the redirection of incomming HTTP requests to 
+              classic compoennts - providing a integration layer
+              between web-centric protocols and components.
             </td>
           </tr>
         </table>
@@ -51,7 +58,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2004/04/03 05:34:14 $
+      $Revision: 1.2 $ $Date: 2004/04/03 07:52:51 $
     </legal>
   </footer>
 </document>
