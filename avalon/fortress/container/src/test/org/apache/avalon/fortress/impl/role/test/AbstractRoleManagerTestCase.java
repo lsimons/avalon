@@ -47,7 +47,7 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.fortress.util.test;
+package org.apache.avalon.fortress.impl.role.test;
 
 import junit.framework.TestCase;
 import org.apache.avalon.fortress.RoleEntry;
@@ -56,7 +56,7 @@ import org.apache.avalon.fortress.RoleManager;
 /**
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/04/21 17:52:09 $
+ * @version $Revision: 1.1 $ $Date: 2003/04/21 18:05:02 $
  */
 public class AbstractRoleManagerTestCase extends TestCase
 {
