@@ -74,7 +74,7 @@ public class DefaultPolicy
             final String message = REZ.getString( "policy.notice.full-perms" );
             getLogger().info( message );
             final Permissions permissions = createPermissionSetFor( getInclusiveURL(), null );
-            permissions.add( new AllPermission() );
+            permissions.add( new java.security.AllPermission() );
         }
     }
 
