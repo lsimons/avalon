@@ -51,88 +51,84 @@
 <document>
 
   <header>
-    <title>Kernel Parameters</title>
+    <title>Include Directive</title>
     <authors>
-      <person name="Niclas Hedhman" email="niclas@apache.org"/>
+      <person name="Stephen McConnell" email="mcconnell@apache.org"/>
     </authors>
   </header>
 
   <body>
-    <section name="Kernel Parameters">
+    <section name="Permission Directive">
 
       <subsection name="Nested Elements">
-
         <table>
           <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
           <tr>
-            <td><a href="parameter.html">parameter</a></td><td>0..n</td>
+            <td><a href="action.html">action</a></td><td>0..n</td>
             <td>
-             Each parameter has a <strong>name</strong> and a <strong>value</strong>
-             attribute. The parameters that are available can be found below.
+             The action descriptor.
             </td>
           </tr>
         </table>
+      </subsection>
 
+      <subsection name="Attributes">
+
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>class</td><td>yes</td>
+            <td>
+              The name of the Permission class. This classname must be a subclass of
+              the java.security.Permission class.
+            </td>
+          </tr>
+          <tr>
+            <td>name</td><td>no</td>
+            <td>
+              This is the first argument passed into the constructor. Most Permission
+              classes calls this the "name" argument, but the has other names
+              for certain permission classes, e.g. FilePermission calls it "path".
+            </td>
+          </tr>
+        </table>
       </subsection>
 
       <subsection name="Description">
-        <p>
-          Parameters have been introduced to allow for the internals of the
-          kernel to be tuned for different purposes. Initially, the number
-          parameters available is fairly small, but we expect this number to
-          grow steadily.
-        </p>
-        <p>
-          Parameters that are currently available is;
-        </p>
-        <table>
-          <tr><th>Name</th><th>Default</th><th>Description</th><th>Since</th></tr>
-          <tr>
-            <td>urn:composition:deployment.timeout</td>
-            <td>5000</td>
-            <td>
-              The time in millisecond within which the deployment of any 
-              component and any container must complete. Once this time
-              limit has been reached, the deployment system will try to
-              interrupt() the thread. If that succeeds, the deployment
-              the container will fail, but other containers may still be
-              deployed. If the interrupt() fails, the whole JVM must be
-              considered unstable, and should terminate.
-            </td>
-            <td>
-              3.2.5
-            </td>
-          </tr>
-          <tr>
-            <td>urn:composition:security.enabled</td>
-            <td>false</td>
-            <td>
-              This is a global switch for turning the code level security
-              on or off. For compatibility reasons, the default is false, 
-              but any production system should have this true. In the
-              kernel.xml it is set to true, and for the debug.xml it is
-              set to false.
-            </td>
-            <td>
-              3.3
-            </td>
-          </tr>
-        </table>
+<p>
+A resource directive is a logical reference to a jar file within the enclosing repository.  A repository implementation is responsible for the mapping of logical directives to physical jar URL.
+</p>
       </subsection>
 
-      
-      <subsection name="Sample XML">
+      <subsection name="Example XML">
+<p>
+The following example block.xml demonstrates the inclusion of three blocks within another enclosing block.  In this example, the common shared API (containing service interfaces classes is declared in the containing block classloader).
+</p>
 
 <source><![CDATA[
-  <kernel>
-   <parameters>
-     <!-- Declaration that deployment should allow for 2500ms for 
-          any component or container to start-up, before interrupting
-          or failing.  -->
-     <parameter name="urn:composition:deployment.timeout" value="2500" />
-     <parameter name="urn:composition:security.enabled" value="true" />
-   </parameters>
-  </kernel>
+<classloader>
+  <classpath>
+    <repository>
+      <resource id="james:mail" version="1.3"/>
+      <resource id="james:activation" version="1.0"/>
+      <resource id="james:mailet-api" version="1.0"/>
+    </repository>
+  </classpath>
+  <grant>
+    <permission class="java.lang.RuntimePermission" name="getClassLoader" />
+    <permission class="java.util.PropertyPermission" name="java.*" >
+      <action>read</action>
+    </permission>
+    <permission class="java.util.PropertyPermission" name="org.apache.*" >
+      <action>read</action>
+      <action>write</action>
+    </permission>
+  </grant>
+    
+  <!-- include blocks here -->
+
+  <include name="james" id="james:block" type="xml"/>
+</classloader>
 ]]></source>
 
      </subsection>
@@ -140,5 +136,6 @@
   </body>
 
 </document>
+
 
 

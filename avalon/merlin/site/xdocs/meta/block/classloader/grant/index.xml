@@ -51,92 +51,62 @@
 <document>
 
   <header>
-    <title>Kernel Parameters</title>
+    <title>Classloader</title>
     <authors>
-      <person name="Niclas Hedhman" email="niclas@apache.org"/>
+      <person name="Stephen McConnell" email="mcconnell@apache.org"/>
     </authors>
   </header>
 
   <body>
-    <section name="Kernel Parameters">
+
+    <section name="Grant Directive">
 
       <subsection name="Nested Elements">
-
         <table>
           <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
           <tr>
-            <td><a href="parameter.html">parameter</a></td><td>0..n</td>
+            <td><a href="permission.html">permission</a></td><td>0..n</td>
             <td>
-             Each parameter has a <strong>name</strong> and a <strong>value</strong>
-             attribute. The parameters that are available can be found below.
+             The permission descriptor.
             </td>
           </tr>
         </table>
-
       </subsection>
 
       <subsection name="Description">
-        <p>
-          Parameters have been introduced to allow for the internals of the
-          kernel to be tuned for different purposes. Initially, the number
-          parameters available is fairly small, but we expect this number to
-          grow steadily.
-        </p>
-        <p>
-          Parameters that are currently available is;
-        </p>
-        <table>
-          <tr><th>Name</th><th>Default</th><th>Description</th><th>Since</th></tr>
-          <tr>
-            <td>urn:composition:deployment.timeout</td>
-            <td>5000</td>
-            <td>
-              The time in millisecond within which the deployment of any 
-              component and any container must complete. Once this time
-              limit has been reached, the deployment system will try to
-              interrupt() the thread. If that succeeds, the deployment
-              the container will fail, but other containers may still be
-              deployed. If the interrupt() fails, the whole JVM must be
-              considered unstable, and should terminate.
-            </td>
-            <td>
-              3.2.5
-            </td>
-          </tr>
-          <tr>
-            <td>urn:composition:security.enabled</td>
-            <td>false</td>
-            <td>
-              This is a global switch for turning the code level security
-              on or off. For compatibility reasons, the default is false, 
-              but any production system should have this true. In the
-              kernel.xml it is set to true, and for the debug.xml it is
-              set to false.
-            </td>
-            <td>
-              3.3
-            </td>
-          </tr>
-        </table>
+      <p>
+        The Grant is somewhat similar to the standard Java Security policy
+        files, except that it is assigned per container instead of for the
+        code loading location. This allow for sharing central repositories
+        of code, without necessary giving all the same level of security
+        within a system.
+      </p>
       </subsection>
 
-      
-      <subsection name="Sample XML">
-
+      <subsection name="Example XML">
 <source><![CDATA[
-  <kernel>
-   <parameters>
-     <!-- Declaration that deployment should allow for 2500ms for 
-          any component or container to start-up, before interrupting
-          or failing.  -->
-     <parameter name="urn:composition:deployment.timeout" value="2500" />
-     <parameter name="urn:composition:security.enabled" value="true" />
-   </parameters>
-  </kernel>
+<classloader>
+  <classpath>
+    <repository>
+      <resource id="tutorial:composition-api" version="1.0"/>
+    </repository>
+  </classpath>
+  <grant>
+    <permission class="java.lang.RuntimePermission" name="getClassLoader" />
+    <permission class="java.util.PropertyPermission" name="java.*" >
+      <action>read</action>
+    </permission>
+    <permission class="java.util.PropertyPermission" name="com.mycompany.*" >
+      <action>read</action>
+      <action>write</action>
+    </permission>
+  </grant>
+</classloader>
 ]]></source>
+      </subsection>
 
-     </subsection>
     </section>
+
   </body>
 
 </document>
