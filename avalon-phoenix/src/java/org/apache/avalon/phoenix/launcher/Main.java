@@ -69,22 +69,19 @@ public final class Main
         throws Exception
     {
         String phoenixHome = System.getProperty( "phoenix.home", null );
-        File loaderDir = null;
 
-        if( null != phoenixHome )
+        if( null == phoenixHome )
         {
-            final String filename =
-                phoenixHome + File.separator + "bin" + File.separator + MAIN_JAR;
-            return new File( filename );
-        }
-        else
-        {
-            loaderDir = findLoaderDir();
+            final File loaderDir = findLoaderDir();
             phoenixHome = loaderDir.getAbsoluteFile().getParentFile() + File.separator;
-            System.setProperty( "phoenix.home", phoenixHome );
-
-            return new File( loaderDir, MAIN_JAR );
         }
+
+        phoenixHome = (new File( phoenixHome )).getCanonicalFile().toString();
+        System.setProperty( "phoenix.home", phoenixHome );
+
+        final String filename =
+            phoenixHome + File.separator + "bin" + File.separator + MAIN_JAR;
+        return (new File( filename )).getCanonicalFile();
     }
 
     /**
