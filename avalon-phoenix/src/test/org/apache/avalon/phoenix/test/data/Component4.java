@@ -17,7 +17,7 @@ import java.util.Map;
  * A test component.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/10/01 07:50:56 $
+ * @version $Revision: 1.3 $ $Date: 2002/10/01 15:39:45 $
  */
 public class Component4
     implements Serviceable
@@ -26,7 +26,7 @@ public class Component4
         throws ServiceException
     {
         final Map services =
-            (Map)manager.lookup( Service2.ROLE + "#" );
+            (Map)manager.lookup( Service2.ROLE + "{}" );
         System.out.println( "Passed the following services: " +
                             services );
 
