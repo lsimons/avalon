@@ -33,7 +33,7 @@ import org.apache.tools.ant.types.FileSet;
 import org.apache.avalon.tools.home.Context;
 import org.apache.avalon.tools.project.Definition;
 import org.apache.avalon.tools.project.ResourceRef;
-import org.apache.avalon.tools.project.Plugin;
+import org.apache.avalon.tools.project.Resource;
 
 /**
  * The initialize task loads and plugins that a project
@@ -59,7 +59,7 @@ public class InitializeTask extends SystemTask
         for( int i=0; i<refs.length; i++ )
         {
             ResourceRef ref = refs[i];
-            Plugin plugin = getHome().getPlugin( ref );
+            Resource plugin = getHome().getResource( ref );
             String path = "plugin:" + plugin.getInfo().getSpec();
             PluginTask task = new PluginTask();
             task.setTaskName( "plugin" );
