@@ -210,6 +210,17 @@ class BasicThreadPool
     protected void releaseWorker( final WorkerThread worker )
     {
         worker.clearInterruptFlag();
-        m_pool.put( (SimpleWorkerThread)worker );
+        
+        // If the pool is disposed before the last worker has been released
+        //  m_pool will be null.  This can be difficult to avoid as there
+        //  is no way to query whether or not all workers have actually been
+        //  released.  Underlying pool implementations should probably block
+        //  on their dispose methods until all outstanding objects have been
+        //  returned.
+        Pool pool = m_pool;  // Be thread safe
+        if ( pool != null )
+        {
+            pool.put( (SimpleWorkerThread)worker );
+        }
     }
 }
