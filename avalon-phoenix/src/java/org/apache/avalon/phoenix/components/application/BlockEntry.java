@@ -16,7 +16,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
-public class BlockEntry
+class BlockEntry
 {
     private Object m_object;
     private State m_state;
