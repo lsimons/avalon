@@ -50,7 +50,11 @@
 package org.apache.avalon.excalibur.logger;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -64,6 +68,7 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Priority;
+import org.apache.log.util.Closeable;
 
 /**
  * LogKitLoggerManager implementation.  It populates the LoggerManager
@@ -72,14 +77,17 @@ import org.apache.log.Priority;
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Revision: 1.15 $ $Date: 2003/05/27 07:30:27 $
+ * @version CVS $Revision: 1.16 $ $Date: 2003/05/27 07:40:10 $
  * @since 4.0
  */
 public class LogKitLoggerManager
-    implements LoggerManager, LogEnabled, Contextualizable, Configurable
+    implements LoggerManager, LogEnabled, Contextualizable, Configurable, Disposable
 {
     /** Map for name to logger mapping */
     final private Map m_loggers = new HashMap();
+
+    /** Set of log targets */
+    final private Set m_targets = new HashSet();
 
     /** The context object */
     private Context m_context;
@@ -337,8 +345,8 @@ public class LogKitLoggerManager
         {
             final String category = categories[ i ].getAttribute( "name" );
             final String loglevel = categories[ i ].getAttribute( "log-level" ).toUpperCase();
-            final boolean additive = categories[ i ].getAttributeAsBoolean( "additive",
-                                                                            defaultAdditive );
+            final boolean additive = categories[ i ].
+                getAttributeAsBoolean( "additive", defaultAdditive );
 
             final Configuration[] targets = categories[ i ].getChildren( "log-target" );
             final LogTarget[] logTargets = new LogTarget[ targets.length ];
@@ -346,6 +354,10 @@ public class LogKitLoggerManager
             {
                 final String id = targets[ j ].getAttribute( "id-ref" );
                 logTargets[ j ] = targetManager.getLogTarget( id );
+                if( !m_targets.contains( logTargets[ j ] ) )
+                {
+                    m_targets.add( logTargets[ j ] );
+                }
             }
 
             if( "".equals( category ) && logTargets.length > 0 )
@@ -371,6 +383,20 @@ public class LogKitLoggerManager
             {
                 setupLoggers( targetManager, fullCategory, subCategories, defaultAdditive );
             }
+        }
+    }
+
+    public void dispose()
+    {
+        final Iterator iterator = m_targets.iterator();
+        while( iterator.hasNext() )
+        {
+            final LogTarget target = (LogTarget)iterator.next();
+            if( target instanceof Closeable )
+            {
+                ( (Closeable)target ).close();
+            }
+
         }
     }
 }
