@@ -88,7 +88,7 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
      *
      * <table>
      *   <tr>
-     *     <th>Name</th> <th>Description</td> <th>Default Value</th>
+     *     <th>Name</th> <th>Description</th> <th>Default Value</th>
      *   </tr>
      *   <tr>
      *     <td>processors</td>
