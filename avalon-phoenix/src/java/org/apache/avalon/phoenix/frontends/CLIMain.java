@@ -22,7 +22,7 @@ import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.Constants;
-import org.apache.avalon.phoenix.components.LifecycleUtil;
+import org.apache.avalon.phoenix.components.ComponentUtil;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
@@ -178,13 +178,13 @@ public final class CLIMain
             final String embeddorClassname = configuration.getAttribute( "class" );
             m_embeddor = (Embeddor)Class.forName( embeddorClassname ).newInstance();
 
-            LifecycleUtil.logEnable( m_embeddor,
+            ComponentUtil.logEnable( m_embeddor,
                                      createLogger( parameters ) );
-            LifecycleUtil.contextualize( m_embeddor,
+            ComponentUtil.contextualize( m_embeddor,
                                          new DefaultContext( data ) );
-            LifecycleUtil.parameterize( m_embeddor, parameters );
-            LifecycleUtil.configure( m_embeddor, configuration );
-            LifecycleUtil.initialize( m_embeddor );
+            ComponentUtil.parameterize( m_embeddor, parameters );
+            ComponentUtil.configure( m_embeddor, configuration );
+            ComponentUtil.initialize( m_embeddor );
         }
         catch( final Throwable throwable )
         {
@@ -266,7 +266,7 @@ public final class CLIMain
 
             try
             {
-                LifecycleUtil.shutdown( m_embeddor );
+                ComponentUtil.shutdown( m_embeddor );
             }
             catch( final Throwable throwable )
             {

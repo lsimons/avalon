@@ -20,7 +20,7 @@ import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.phoenix.components.LifecycleUtil;
+import org.apache.avalon.phoenix.components.ComponentUtil;
 import org.apache.avalon.phoenix.components.application.DefaultApplication;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
@@ -128,13 +128,13 @@ public class DefaultKernel
                     new DefaultApplication( entry.getMetaData() );
 
                 final Logger childLogger = getLogger().getChildLogger( name );
-                LifecycleUtil.logEnable( newApp, childLogger );
+                ComponentUtil.logEnable( newApp, childLogger );
 
                 final ApplicationContext context = createApplicationContext( entry );
                 newApp.setApplicationContext( context );
 
-                LifecycleUtil.initialize( newApp );
-                LifecycleUtil.start( newApp );
+                ComponentUtil.initialize( newApp );
+                ComponentUtil.start( newApp );
 
                 entry.setApplication( newApp );
                 application = newApp;
@@ -175,7 +175,7 @@ public class DefaultKernel
         if( null != application )
         {
             entry.setApplication( null );
-            LifecycleUtil.shutdown( application );
+            ComponentUtil.shutdown( application );
         }
         else
         {
@@ -219,9 +219,9 @@ public class DefaultKernel
                                            entry.getClassLoader(),
                                            entry.getHierarchy() );
 
-        LifecycleUtil.logEnable( context, createContextLogger( name ) );
-        LifecycleUtil.service( context, createServiceManager() );
-        LifecycleUtil.configure( context, entry.getConfiguration() );
+        ComponentUtil.logEnable( context, createContextLogger( name ) );
+        ComponentUtil.service( context, createServiceManager() );
+        ComponentUtil.configure( context, entry.getConfiguration() );
         return context;
     }
 

@@ -21,7 +21,7 @@ import org.apache.avalon.framework.logger.AvalonFormatter;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.phoenix.components.LifecycleUtil;
+import org.apache.avalon.phoenix.components.ComponentUtil;
 import org.apache.avalon.phoenix.components.embeddor.SingleAppEmbeddor;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.log.Hierarchy;
@@ -92,10 +92,10 @@ public class PhoenixServlet
 
             m_embeddor = (SingleAppEmbeddor)Class.forName( embeddorClassname ).newInstance();
 
-            LifecycleUtil.logEnable( m_embeddor, createLogger( m_parameters ) );
-            LifecycleUtil.parameterize( m_embeddor, m_parameters );
-            LifecycleUtil.configure( m_embeddor, embeddorConf );
-            LifecycleUtil.initialize( m_embeddor );
+            ComponentUtil.logEnable( m_embeddor, createLogger( m_parameters ) );
+            ComponentUtil.parameterize( m_embeddor, m_parameters );
+            ComponentUtil.configure( m_embeddor, embeddorConf );
+            ComponentUtil.initialize( m_embeddor );
 
             final Thread thread = new Thread( this, "Phoenix-Monitor" );
             thread.start();
@@ -138,7 +138,7 @@ public class PhoenixServlet
 
         try
         {
-            LifecycleUtil.shutdown( m_embeddor );
+            ComponentUtil.shutdown( m_embeddor );
         }
         catch( final Throwable throwable )
         {
