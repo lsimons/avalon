@@ -7,28 +7,15 @@
   </properties> 
 
   <body>
-    <section name="Magic's System Model">
-
+    <section name="Imports">
       <p>
-      Magic provides complete support for transitive inheritance of dependency 
-      information together with build, test and runtime scoping.  This 
-      information enables the automation of path construction for compilation,
-      unit-testing, and build tasks the use runtime path information.
+      An index.xml can import the definitions from another index.xml.
+      Importing an index results in the creation of resource 
+      defintions - in particular, project and plugin definitions
+      are converted to resource defintions.
       </p>
 
-      <p>
-      The magic system defintion is based on one or more index.xml files.
-      The index.xml file may contain any number of the following elements:
-      </p>
-
-      <ul>
-      <li><a href="resources.html">resource</a></li>
-      <li><a href="projects.html">project</a></li>
-      <li><a href="plugins.html">plugin</a></li>
-      <li><a href="imports.html">import</a></li>
-      </ul>
-
-      <p>The following xml is an example of a magic index.xml.</p>
+      <p><i>Example import.</i></p>
 
 <source><![CDATA[
 <?xml version="1.0" encoding="ISO-8859-1"?>
@@ -70,7 +57,6 @@
 ]]></source>
 
     </section>
-
   </body>
 
 </document>
