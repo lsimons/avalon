@@ -142,7 +142,7 @@ public class EventThreadPool
         catch( Throwable e )
         {
             // trying to figure out why a NullPointer exeception can occur ...
-            final String error = "Unexpected condition while releasing worker: " + worker );
+            System.err.println( "Unexpected condition while releasing worker: " + worker );
             e.printStackTrace();
         }
     }
