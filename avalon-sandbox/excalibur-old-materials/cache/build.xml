@@ -173,24 +173,6 @@
 
     </target>
 
-    <target name="jdepend" if="do.jdepend" description="Generate Dependency Analysis Report">
-
-        <!-- this invocation of jdepend requires the CVS version of ant for the xml format -->
-        <!-- thats why you are required to define do.jdepend property to generate the report -->
-        <jdepend outputfile="${build.dir}/jdepend-results.xml" format="xml" fork="yes">
-            <classpath refid="project.class.path"/>
-            <sourcespath>
-                <pathelement location="src/java" />
-            </sourcespath>
-        </jdepend>
-
-        <mkdir dir="${build.reports}/jdepend"/>
-        <style in="${build.dir}/jdepend-results.xml"
-            processor="trax"
-            out="${build.reports}/jdepend/delete-me.txt"
-            style="${ant.home}/etc/jdepend-frames.xsl"/>
-    </target>
-
     <target name="checkstyle" if="do.checkstyle" description="Checkstyle">
 
         <!-- this invocation of checkstyle requires that checkstyle be downloaded and setup -->
@@ -243,7 +225,7 @@
 
     <!-- Creates the distribution -->
     <target name="dist"
-        depends="jar, test-reports, jdepend, checkstyle-report, javadocs"
+        depends="jar, test-reports, checkstyle-report, javadocs"
         description="Generates the jar files">
 
         <mkdir dir="${dist.dir}"/>
