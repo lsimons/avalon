@@ -65,6 +65,7 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.excalibur.event.Queue;
+import org.apache.excalibur.event.Sink;
 import org.apache.excalibur.event.impl.DefaultQueue;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.mpool.DefaultPoolManager;
@@ -131,8 +132,8 @@ public class FortressConfigTestCase extends TestCase
 
     private void checkContext( Context context, boolean useURI ) throws Exception
     {
-        assertNotNull( context.get( Queue.ROLE ) );
-        assertInstanceof( context.get( Queue.ROLE ), Queue.class );
+        assertNotNull( context.get( Sink.ROLE ) );
+        assertInstanceof( context.get( Sink.ROLE ), Sink.class );
 
         assertNotNull( context.get( ContainerManagerConstants.CONTAINER_CLASS ) );
         assertInstanceof( context.get( ContainerManagerConstants.CONTAINER_CLASS ), Class.class );
