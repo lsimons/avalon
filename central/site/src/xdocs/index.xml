@@ -15,25 +15,25 @@
       such as Inversion of Control and Separation of Concerns.
      </p>
 
-     <table>
+     <table class="front">
        <tr>
          <td class="header" valign="top">
            <center>
-             <a class="doclink" href="central/about/index.html">
+             <a href="central/about/index.html">
                <img src="images/central-text.png"/>
              </a>
            </center>
          </td>
          <td class="header"  valign="top" align="center">
            <center>
-             <a class="doclink" href="planet/index.html">
+             <a href="planet/index.html">
                <img src="images/products-text.png"/>
              </a>
            </center>
          </td>
          <td class="header"  valign="top" align="center">
            <center>
-             <a class="doclink" href="planet/index.html">
+             <a href="planet/index.html">
                <img src="images/planet-text.png"/>
              </a>
            </center>
