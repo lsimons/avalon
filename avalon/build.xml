@@ -76,6 +76,7 @@ Legal:
   <property name="stylesheets.dir" value="${skins.dir}"/> 
 
   <property name="dist.name" value="${name}-${version}"/>
+  <property name="dist.base" value="distributions"/>
 
   <path id="project.class.path">
     <pathelement path="${java.class.path}" />
@@ -352,7 +353,7 @@ Legal:
   <target name="dist" depends="jars,javadocs,docs">
 
     <mkdir dir="${dist.dir}"/>
-    <copy file="${build.lib}/avalonapi.jar" tofile="${dist.dir}/${dist.name}.jar"/>
+    <copy file="${build.lib}/avalonapi.jar" tofile="${dist.dir}/${name}-${version}.jar"/>
 
     <mkdir dir="${dist.docs}"/>
     <mkdir dir="${dist.javadocs}"/>
@@ -368,16 +369,10 @@ Legal:
     <copy todir="${dist.dir}">
       <fileset dir=".">
         <include name="README"/>
-        <include name="WARNING"/>
       </fileset>
     </copy>
 
     <chmod dir="${dist.dir}" perm="go-rwx" />
-
-    <zip zipfile="${dist.name}-bin.zip" basedir="${dist.dir}/.." includes="${dist.dir}/**"/>
-    <tar tarfile="${dist.name}-bin.tar" basedir="${dist.dir}/.." includes="${dist.dir}/**"/>
-    <gzip zipfile="${dist.name}-bin.tar.gz" src="${dist.name}-bin.tar"/>
-    <delete file="${dist.name}-bin.tar"/>
 
   </target>
 
@@ -417,7 +412,6 @@ Legal:
     <copy todir="${src.dist.dir}">
       <fileset dir=".">
         <include name="README"/>
-        <include name="WARNING"/>
         <include name="build.bat"/>
         <include name="build.sh"/>
         <include name="build.xml"/>
@@ -436,10 +430,6 @@ Legal:
 
     <chmod dir="${src.dist.dir}" perm="go-rwx" />
 
-    <zip zipfile="${dist.name}-src.zip"
-         basedir="${src.dist.dir}/.."
-         includes="${src.dist.dir}/**"/>
-    <delete dir="${src.dist.dir}" />
   </target>
 
   <!--
@@ -447,26 +437,53 @@ Legal:
                  Completely build all dists
        ===================================================================
   -->
-  <target name="full-dist">
-    <antcall target="src-dist">
-      <param name="src.dist.dir" value="${dist.name}" />
-    </antcall>
+  <target name="distributions">
+    <mkdir dir="${dist.base}"/>
 
     <antcall target="dist">
       <param name="dist.dir" value="${dist.name}" />
     </antcall>
-    <delete dir="${dist.name}" />
-  </target>
 
-  <!--
-       ===================================================================
-                 Generate proposal jars
-       ===================================================================
-  -->
-  <target name="proposal">
-    <antcall target="main">
-      <param name="java.dir" value="${proposal.dir}"/>
+    <zip zipfile="${dist.base}/${dist.name}-bin.zip" 
+         basedir="${dist.name}/.." 
+         includes="${dist.name}/**"/>
+
+    <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-bin.tar">
+      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon"> 
+        <include name="${dist.name}/**"/>
+      </tarfileset> 
+    </tar>
+
+    <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz" 
+          src="${dist.base}/${dist.name}-bin.tar"/>
+
+    <delete file="${dist.base}/${dist.name}-bin.tar"/>
+    <delete dir="${dist.name}" />
+
+    <antcall target="src-dist">
+      <param name="src.dist.dir" value="${dist.name}" />
     </antcall>
+
+    <zip zipfile="${dist.base}/${dist.name}-src.zip" 
+         basedir="${dist.name}/.." 
+         includes="${dist.name}/**"/>
+
+    <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-src.tar" >
+      <tarfileset dir="${dist.name}/.." mode="755" username="avalon" group="avalon">
+        <include name="${dist.name}/build.sh"/>
+      </tarfileset> 
+      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon"> 
+        <include name="${dist.name}/**"/>
+        <exclude name="${dist.name}/build.sh"/>
+      </tarfileset>
+    </tar> 
+
+    <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz" 
+          src="${dist.base}/${dist.name}-src.tar"/>
+
+    <delete file="${dist.base}/${dist.name}-src.tar"/>
+    <delete dir="${dist.name}" />
+
   </target>
 
   <!--
