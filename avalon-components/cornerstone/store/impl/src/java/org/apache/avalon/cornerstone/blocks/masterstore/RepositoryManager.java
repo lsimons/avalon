@@ -54,7 +54,9 @@ public class RepositoryManager
     protected Context m_context;
 
    /**
-    * @avalon.entry key="urn:avalon:home" type="java.io.File"
+    * @avalon.entry key="urn:avalon:name" alias="block.name"
+    * @avalon.entry key="urn:avalon:partition" alias="app.name"
+    * @avalon.entry key="urn:avalon:home" type="java.io.File" alias="app.home"
     */
     public void contextualize( final Context context )
     {
