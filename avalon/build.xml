@@ -322,9 +322,10 @@ Legal:
 
     <target name="html-docs" depends="prepare" description="generates the xdocs-based documentation">
 
-    <property name="use.skin"              value="avalon-site"/>
+    <property name="use.skin"              value="avalon-tigris"/>
 
     <!-- Skin filters -->
+    <filter token="Name"              value="${Name}"/>
     <filter token="skin"              value="${use.skin}"/>
     <filter token="link1"             value="apache"/>
     <filter token="link1.href"        value="http://www.apache.org"/>
