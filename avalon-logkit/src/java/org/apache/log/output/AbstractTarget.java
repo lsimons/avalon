@@ -11,6 +11,7 @@ import org.apache.log.ErrorAware;
 import org.apache.log.ErrorHandler;
 import org.apache.log.LogEvent;
 import org.apache.log.LogTarget;
+import org.apache.log.util.DefaultErrorHandler;
 
 /**
  * Abstract target.
@@ -20,8 +21,10 @@ import org.apache.log.LogTarget;
 public abstract class AbstractTarget
     implements LogTarget, ErrorAware
 {
+    private static final ErrorHandler DEFAULT_ERROR_HANDLER = new DefaultErrorHandler();
+
     ///ErrorHandler used by target to delegate Error handling
-    private ErrorHandler m_errorHandler;
+    private ErrorHandler m_errorHandler = DEFAULT_ERROR_HANDLER;
 
     ///Flag indicating that log session is finished (aka target has been closed)
     private boolean        m_isOpen;
