@@ -28,6 +28,32 @@ import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
 
 /**
+ * This Class verifies that Sars are valid. It performs a number
+ * of checks to make sure that the Sar represents a valid 
+ * application and excluding runtime errors will start up validly.
+ * Some of the checks it performs include;
+ *
+ * <ul>
+ *   <li>Verify names of Sar, Blocks and BlockListeners contain only 
+ *       letters, digits or the '_' character.</li>
+ *   <li>Verify that the names of the Blocks and BlockListeners are 
+ *       unique to Sar.</li>
+ *   <li>Verify that specified Blocks have coresponding BlockInfo 
+ *       files that are valid and well-formed.</li>
+ *   <li>Verify that the dependendencies specified in assembly.xml 
+ *       correspond to dependencies specified in BlockInfo files.</li>
+ *   <li>Verify that the inter-block dependendencies specified in 
+ *       assembly.xml are valid. This essentially means that if  
+ *       Block A requires Service S from Block B then Block B must
+ *       provide Service S.</li>
+ *   <li>Verify that there are no circular dependendencies between 
+ *       blocks.</li>
+ *   <li>Verify that the Class objects for Blocks support the Block
+ *       interface and any specified Services.</li>
+ *   <li>Verify that the Class objects for BlockListeners support the 
+ *       BlockListener interface.</li>
+ * </ul>
+ * 
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DefaultVerifier
