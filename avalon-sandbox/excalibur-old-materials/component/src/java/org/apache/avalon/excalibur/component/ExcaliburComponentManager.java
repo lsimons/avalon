@@ -32,7 +32,8 @@ import org.apache.avalon.framework.context.Contextualizable;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.9 $ $Date: 2002/07/05 09:59:10 $
+ * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
+ * @version CVS $Revision: 1.10 $ $Date: 2002/08/06 14:02:12 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
@@ -77,13 +78,16 @@ public class ExcaliburComponentManager
     /** Is the Manager initialized? */
     private boolean m_initialized;
 
-    /** Create the ComponentLocator */
+    /*---------------------------------------------------------------
+     * Constructors
+     *-------------------------------------------------------------*/
+    /** Create a new ExcaliburComponentManager. */
     public ExcaliburComponentManager()
     {
         this( null, Thread.currentThread().getContextClassLoader() );
     }
 
-    /** Create the ComponentLocator with a Classloader */
+    /** Create a new ExcaliburComponentManager with uses a specific Classloader. */
     public ExcaliburComponentManager( final ClassLoader loader )
     {
         this( null, loader );
@@ -110,150 +114,9 @@ public class ExcaliburComponentManager
         this( manager, Thread.currentThread().getContextClassLoader() );
     }
 
-    /** Set up the Component's Context.
-     */
-    public void contextualize( final Context context )
-    {
-        if( null == m_context )
-        {
-            m_context = context;
-        }
-    }
-
-    /**
-     * Tests for existence of a component.  Please note that this test is for
-     * <strong>existing</strong> components, and a component will not be created
-     * to satisfy the request.
-     */
-    public boolean hasComponent( final String role )
-    {
-        if( !m_initialized ) return false;
-        if( m_disposed ) return false;
-
-        boolean exists = m_componentHandlers.containsKey( role );
-
-        if( !exists && null != m_parentManager )
-        {
-            exists = m_parentManager.hasComponent( role );
-        }
-
-        return exists;
-    }
-
-    /** Properly initialize of the Child handlers.
-     */
-    public void initialize()
-        throws Exception
-    {
-        synchronized( this )
-        {
-            m_initialized = true;
-
-            for (int i = 0; i < m_newComponentHandlers.size(); i++ )
-            {
-                final ComponentHandler handler =
-                    (ComponentHandler)m_newComponentHandlers.get( i );
-                try
-                {
-                    handler.initialize();
-                }
-                catch( Exception e )
-                {
-                    if( getLogger().isErrorEnabled() )
-                    {
-                        getLogger().error( "Caught an exception trying to initialize " +
-                                           "the component handler.", e );
-                    }
-                }
-            }
-
-            List keys = new ArrayList( m_componentHandlers.keySet() );
-
-            for( int i = 0; i < keys.size(); i++ )
-            {
-                final Object key = keys.get( i );
-                final ComponentHandler handler =
-                    (ComponentHandler)m_componentHandlers.get( key );
-
-                if ( !m_newComponentHandlers.contains( handler ) )
-                {
-                    try
-                    {
-                        handler.initialize();
-                    }
-                    catch( Exception e )
-                    {
-                        if( getLogger().isErrorEnabled() )
-                        {
-                            getLogger().error( "Caught an exception trying to initialize " +
-                                               "the component handler.", e );
-                        }
-                    }
-                }
-            }
-            m_newComponentHandlers.clear();
-        }
-    }
-
-    /** Properly dispose of the Child handlers.
-     */
-    public void dispose()
-    {
-        synchronized( this )
-        {
-            boolean forceDisposal = false;
-
-            final List disposed = new ArrayList();
-
-            while( m_componentHandlers.size() > 0 )
-            {
-                for( Iterator iterator = m_componentHandlers.keySet().iterator();
-                     iterator.hasNext(); )
-                {
-                    final Object role = iterator.next();
-
-                    final ComponentHandler handler =
-                        (ComponentHandler)m_componentHandlers.get( role );
-
-                    if( forceDisposal || handler.canBeDisposed() )
-                    {
-                        if( forceDisposal && getLogger().isWarnEnabled() )
-                        {
-                            getLogger().warn
-                                ( "disposing of handler for unreleased component"
-                                  + " (role: " + role + ")" );
-                        }
-
-                        handler.dispose();
-                        disposed.add( role );
-                    }
-                }
-
-                if( disposed.size() > 0 )
-                {
-                    removeDisposedHandlers( disposed );
-                }
-                else
-                {   // no more disposable handlers!
-                    forceDisposal = true;
-                }
-            }
-
-            m_disposed = true;
-        }
-    }
-
-    private void removeDisposedHandlers( List disposed )
-    {
-
-        for( Iterator iterator = disposed.iterator(); iterator.hasNext(); )
-        {
-            m_componentHandlers.remove( iterator.next() );
-        }
-
-        disposed.clear();
-    }
-
+    /*---------------------------------------------------------------
+     * ComponentManager Methods
+     *-------------------------------------------------------------*/
     /**
      * Return an instance of a component based on a Role.  The Role is usually the Interface's
      * Fully Qualified Name(FQN)--unless there are multiple Components for the same Role.  In that
@@ -415,7 +278,87 @@ public class ExcaliburComponentManager
 
         return component;
     }
+    
+    /**
+     * Tests for existence of a component.  Please note that this test is for
+     * <strong>existing</strong> components, and a component will not be created
+     * to satisfy the request.
+     */
+    public boolean hasComponent( final String role )
+    {
+        if( !m_initialized ) return false;
+        if( m_disposed ) return false;
 
+        boolean exists = m_componentHandlers.containsKey( role );
+
+        if( !exists && null != m_parentManager )
+        {
+            exists = m_parentManager.hasComponent( role );
+        }
+
+        return exists;
+    }
+
+    /**
+     * Release a Component.  This implementation makes sure it has a handle on the propper
+     * ComponentHandler, and let's the ComponentHandler take care of the actual work.
+     */
+    public void release( final Component component )
+    {
+        if( null == component )
+        {
+            getLogger().warn( "Attempted to release a null component." );
+            return;
+        }
+
+        // The m_componentMapping BucketMap itself is threadsafe, and because the same component
+        //  will never be released by more than one thread, this method does not need any
+        //  synchronization around the access to the map.
+
+        final ComponentHandler handler =
+            (ComponentHandler)m_componentMapping.get( component );
+
+        if( null != handler )
+        {
+            // ThreadSafe components will always be using a ThreadSafeComponentHandler,
+            //  they will only have a single entry in the m_componentMapping map which
+            //  should not be removed until the ComponentLocator is disposed.  All
+            //  other components have an entry for each instance which should be
+            //  removed.
+            if( !( handler instanceof ThreadSafeComponentHandler ) )
+            {
+                // Remove the component before calling put.  This is critical to avoid the
+                //  problem where another thread calls put on the same component before
+                //  remove can be called.
+                m_componentMapping.remove( component );
+            }
+
+            try
+            {
+                handler.put( component );
+            }
+            catch( Exception e )
+            {
+                if( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "Error trying to release component.", e );
+                }
+            }
+        }
+        else if( null != m_parentManager )
+        {
+            m_parentManager.release( component );
+        }
+        else
+        {
+            getLogger().warn( "Attempted to release a " + component.getClass().getName() +
+                              " but its handler could not be located." );
+        }
+    }
+
+    /*---------------------------------------------------------------
+     * Configurable Methods
+     *-------------------------------------------------------------*/
     /**
      * Configure the ComponentLocator.
      */
@@ -503,7 +446,132 @@ public class ExcaliburComponentManager
             }
         }
     }
+    
+    /*---------------------------------------------------------------
+     * Contextualizable Methods
+     *-------------------------------------------------------------*/
+    /** Set up the Component's Context.
+     */
+    public void contextualize( final Context context )
+    {
+        if( null == m_context )
+        {
+            m_context = context;
+        }
+    }
 
+    /*---------------------------------------------------------------
+     * Initializable Methods
+     *-------------------------------------------------------------*/
+    /** Properly initialize of the Child handlers.
+     */
+    public void initialize()
+        throws Exception
+    {
+        synchronized( this )
+        {
+            m_initialized = true;
+
+            for (int i = 0; i < m_newComponentHandlers.size(); i++ )
+            {
+                final ComponentHandler handler =
+                    (ComponentHandler)m_newComponentHandlers.get( i );
+                try
+                {
+                    handler.initialize();
+                }
+                catch( Exception e )
+                {
+                    if( getLogger().isErrorEnabled() )
+                    {
+                        getLogger().error( "Caught an exception trying to initialize " +
+                                           "the component handler.", e );
+                    }
+                }
+            }
+
+            List keys = new ArrayList( m_componentHandlers.keySet() );
+
+            for( int i = 0; i < keys.size(); i++ )
+            {
+                final Object key = keys.get( i );
+                final ComponentHandler handler =
+                    (ComponentHandler)m_componentHandlers.get( key );
+
+                if ( !m_newComponentHandlers.contains( handler ) )
+                {
+                    try
+                    {
+                        handler.initialize();
+                    }
+                    catch( Exception e )
+                    {
+                        if( getLogger().isErrorEnabled() )
+                        {
+                            getLogger().error( "Caught an exception trying to initialize " +
+                                               "the component handler.", e );
+                        }
+                    }
+                }
+            }
+            m_newComponentHandlers.clear();
+        }
+    }
+
+    /*---------------------------------------------------------------
+     * Disposable Methods
+     *-------------------------------------------------------------*/
+    /** Properly dispose of the Child handlers.
+     */
+    public void dispose()
+    {
+        synchronized( this )
+        {
+            boolean forceDisposal = false;
+
+            final List disposed = new ArrayList();
+
+            while( m_componentHandlers.size() > 0 )
+            {
+                for( Iterator iterator = m_componentHandlers.keySet().iterator();
+                     iterator.hasNext(); )
+                {
+                    final Object role = iterator.next();
+
+                    final ComponentHandler handler =
+                        (ComponentHandler)m_componentHandlers.get( role );
+
+                    if( forceDisposal || handler.canBeDisposed() )
+                    {
+                        if( forceDisposal && getLogger().isWarnEnabled() )
+                        {
+                            getLogger().warn
+                                ( "disposing of handler for unreleased component"
+                                  + " (role: " + role + ")" );
+                        }
+
+                        handler.dispose();
+                        disposed.add( role );
+                    }
+                }
+
+                if( disposed.size() > 0 )
+                {
+                    removeDisposedHandlers( disposed );
+                }
+                else
+                {   // no more disposable handlers!
+                    forceDisposal = true;
+                }
+            }
+
+            m_disposed = true;
+        }
+    }
+
+    /*---------------------------------------------------------------
+     * RoleManageable Methods
+     *-------------------------------------------------------------*/
     /**
      * Configure the RoleManager
      */
@@ -515,6 +583,9 @@ public class ExcaliburComponentManager
         }
     }
 
+    /*---------------------------------------------------------------
+     * LogKitManageable Methods
+     *-------------------------------------------------------------*/
     /**
      * Configure the LogKitManager
      */
@@ -525,6 +596,20 @@ public class ExcaliburComponentManager
             m_logkit = new LogkitLoggerManager( null, logkit );
         }
     }
+    
+    /*---------------------------------------------------------------
+     * Methods
+     *-------------------------------------------------------------*/
+    private void removeDisposedHandlers( List disposed )
+    {
+
+        for( Iterator iterator = disposed.iterator(); iterator.hasNext(); )
+        {
+            m_componentHandlers.remove( iterator.next() );
+        }
+
+        disposed.clear();
+    }
 
     /**
      * Configure the LoggerManager.
@@ -534,63 +619,6 @@ public class ExcaliburComponentManager
         if( null == m_logkit )
         {
             m_logkit = new LogkitLoggerManager( logkit, null );
-        }
-    }
-
-    /**
-     * Release a Component.  This implementation makes sure it has a handle on the propper
-     * ComponentHandler, and let's the ComponentHandler take care of the actual work.
-     */
-    public void release( final Component component )
-    {
-        if( null == component )
-        {
-            getLogger().warn( "Attempted to release a null component." );
-            return;
-        }
-
-        // The m_componentMapping BucketMap itself is threadsafe, and because the same component
-        //  will never be released by more than one thread, this method does not need any
-        //  synchronization around the access to the map.
-
-        final ComponentHandler handler =
-            (ComponentHandler)m_componentMapping.get( component );
-
-        if( null != handler )
-        {
-            // ThreadSafe components will always be using a ThreadSafeComponentHandler,
-            //  they will only have a single entry in the m_componentMapping map which
-            //  should not be removed until the ComponentLocator is disposed.  All
-            //  other components have an entry for each instance which should be
-            //  removed.
-            if( !( handler instanceof ThreadSafeComponentHandler ) )
-            {
-                // Remove the component before calling put.  This is critical to avoid the
-                //  problem where another thread calls put on the same component before
-                //  remove can be called.
-                m_componentMapping.remove( component );
-            }
-
-            try
-            {
-                handler.put( component );
-            }
-            catch( Exception e )
-            {
-                if( getLogger().isDebugEnabled() )
-                {
-                    getLogger().debug( "Error trying to release component.", e );
-                }
-            }
-        }
-        else if( null != m_parentManager )
-        {
-            m_parentManager.release( component );
-        }
-        else
-        {
-            getLogger().warn( "Attempted to release a " + component.getClass().getName() +
-                              " but its handler could not be located." );
         }
     }
 
