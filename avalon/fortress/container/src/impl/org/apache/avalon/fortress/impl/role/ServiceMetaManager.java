@@ -108,7 +108,7 @@ import java.util.*;
  * </pre>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $
+ * @version CVS $Revision: 1.6 $
  */
 public final class ServiceMetaManager extends AbstractMetaInfoManager implements Initializable
 {
@@ -188,7 +188,7 @@ public final class ServiceMetaManager extends AbstractMetaInfoManager implements
      * Get all the implementations of a service and set up their meta
      * information.
      *
-     * @param role
+     * @param role  The role name we are reading implementations for.
      *
      * @throws ClassNotFoundException if the role or component cannot be found
      */
@@ -201,7 +201,15 @@ public final class ServiceMetaManager extends AbstractMetaInfoManager implements
         {
             final String impl = ( (Class) it.next() ).getName();
             getLogger().debug( "Reading meta info for " + impl );
-            readMeta( role, impl );
+            if ( ! isAlreadyAdded( impl ) )
+            {
+				readMeta( role, impl );
+            }
+            else
+            {
+            	// Mini-optimization: read meta info only once
+            	addComponent( role, impl, null, null );
+            }
         }
     }
 
