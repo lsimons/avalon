@@ -1,5 +1,5 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2003/01/22 07:36:45 $]
+Last modified at [$Date: 2003/01/31 16:52:03 $]
 
 Background:
 
@@ -64,6 +64,10 @@ Resolved Issues:
       
     o All @author tags and all reference to authors of source code files
       will be also kept in the files themselves.
+
+    o Avalon PMC Voting Procedures accepted 2003-01-31
+      Proposal: [http://marc.theaimsgroup.com/?l=avalon-dev&m=104339946013500&w=2]
+      Result:   [http://marc.theaimsgroup.com/?l=avalon-dev&m=104400855421800&w=2]
 
 
 Pending issues:
