@@ -2,68 +2,47 @@
 
 <project default="main" basedir=".">
 
-<!-- ==========================================================================================
-  PROPERTY SETUP
-     ========================================================================================== -->
-
   <!-- set up properties -->
   <property file="${user.home}/build.properties"/>
   <property file="${user.home}/.ant.properties"/>
   <property file="${basedir}/ant.properties"/>
-  <property file="${basedir}/../ant.properties"/>
   <property file="${basedir}/default.properties"/>
-  <property file="${basedir}/../default.properties"/>
-  <property file="${basedir}/../cocoon.properties"/>
 
 
   <!-- Set the installation variables for Cornerstone/Phoenix -->
   <property name="phoenix.home" value="../../avalon-phoenix/dist"/>
   <property name="install.dir" value="${phoenix.home}/apps"/>
 
-  <!-- Set the properties for intermediate directory -->
-  <property name="build.dir" value="build"/>
-  <property name="build.lib" value="${build.dir}/lib"/>
-  <property name="build.metagenerate" value="${build.dir}/metagenerate"/>
-  <property name="build.src" value="${build.dir}/src"/>
-  <property name="build.classes" value="${build.dir}/classes"/>
-  <property name="build.javadocs" value="${build.dir}/javadocs"/>
-  <property name="build.docs" value="${build.dir}/docs"/>
-  <property name="build.context" value="${build.dir}/documentation"/>
-  <property name="build.xdocs" value="${build.context}/content/xdocs"/>
-  <property name="docs.dir" value="${build.dir}/docs"/>      
+    <property name="name" value="sevak"/>
+    <property name="Name" value="Avalon Apps Sevak"/>
+    <property name="version" value="0.6"/>
 
-  <property name="www.dir" value="../../avalon-site/site"/>
+  <!-- Set the properties for intermediate directory -->
+  <property name="build.lib" value="build/lib"/>
+  <property name="build.metagenerate" value="build/metagenerate"/>
+  <property name="build.src" value="build/src"/>
+  <property name="build.classes" value="build/classes"/>
 
   <!-- Sevak specific properties for building -->
-  <property name="build.reports" value="${build.dir}/reports"/>
-  <property name="build.demoClasses" value="${build.dir}/demoClasses"/>
-  <property name="build.demoMetagenerate" value="${build.dir}/demoMetagenerate"/>
-
+  <property name="build.demoClasses" value="build/demoClasses"/>
+  <property name="build.demoMetagenerate" value="build/demoMetagenerate"/>
 
   <!-- Set the properties for source directories -->
-  <property name="src.dir" value="src"/>
-  <property name="java.dir" value="${src.dir}/java"/>
-  <property name="manifest.dir" value="${src.dir}/manifest"/>
-  <property name="conf.dir" value="${src.dir}/conf"/>
-  <property name="context.dir" value="../../avalon/src/documentation"/>
-  <property name="xdocs.dir" value="${src.dir}/xdocs"/>
-  <property name="tools.dir" location="../../avalon/tools"/>
+  <property name="java.dir" value="src/java"/>
+  <property name="conf.dir" value="src/conf"/>
 
-  <property name="junit.jar" value="${tools.dir}/lib/junit-3.7.jar"/>
-  <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
   <property name="dist.base" value="dist"/>
   <property name="do.checkstyle" value="true"/>
 
   <property name="lib.dir" value="lib"/>
-  <property name="test.dir" value="${src.dir}/test"/>
-  <property name="demo.dir" value="${src.dir}/demo"/>
+  <property name="test.dir" value="src/test"/>
+  <property name="demo.dir" value="src/demo"/>
   <property name="java.demo.dir" value="${demo.dir}/java"/>
   <property name="conf.demo.dir" value="${demo.dir}/conf"/>
 
   <property name="tomcat.jars.dir" value="${lib.dir}/tomcat-jars"/>
   <property name="jo.jars.dir" value="${lib.dir}/jo-jars"/>
   <property name="jetty.jars.dir" value="${lib.dir}/jetty-jars"/>
-
 
   <path id="project.class.path">
     <pathelement path="${java.class.path}" />
@@ -93,33 +72,6 @@
     </fileset>
     <pathelement path="${build.lib}/sevak-api.jar"/>
   </path>
-
-  <!-- Setup the filters -->
-  <target name="setup-filters">
-    <filter token="Name" value="Avalon Apps - ${Name}"/>
-    <filter token="name" value="${name}"/>
-    <filter token="version" value="${version}"/>
-    <filter token="year" value="${year}"/>
-    <filter token="status" value="${status}"/>
-    <filter token="release" value="${release}"/>
-    <filter token="short-version" value="${short.version}"/>
-
-    <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
-    <property name="framework.base" value="http://jakarta.apache.org/avalon/framework"/>
-    <property name="phoenix.base" value="http://jakarta.apache.org/avalon/phoenix"/>
-    <property name="cornerstone.base" value="http://jakarta.apache.org/avalon/cornerstone"/>
-    <property name="logkit.base" value="http://jakarta.apache.org/avalon/logkit"/>
-    <property name="testlet.base" value="http://jakarta.apache.org/avalon/testlet"/>
-
-    <filter token="year" value="${year}"/>
-    <filter token="AVALON_BASE" value="${avalon.base}"/>
-    <filter token="FRAMEWORK_BASE" value="${framework.base}"/>
-    <filter token="PHOENIX_BASE" value="${phoenix.base}"/>
-    <filter token="CORNERSTONE_BASE" value="${cornerstone.base}"/>
-    <filter token="LOGKIT_BASE" value="${logkit.base}"/>
-    <filter token="TESTLET_BASE" value="${testlet.base}"/>
-
-  </target>
 
   <!-- checking for avalon-framework.jar too here -->
   <target name="checkFrameworkClass">
@@ -287,8 +239,8 @@
 
   <target name="demo-jar" depends="phoenix-demo-metagenerate" description="Makes a jar file out of the Demo classes">
     <mkdir dir="${build.lib}"/>
-    <war destfile="${build.lib}/sevak-demo.war" webxml="${src.dir}/demo/webapps/sevak-test/WEB-INF/web.xml" >
-      <fileset dir="${src.dir}/demo/webapps/sevak-test">
+    <war destfile="${build.lib}/sevak-demo.war" webxml="src/demo/webapps/sevak-test/WEB-INF/web.xml" >
+      <fileset dir="src/demo/webapps/sevak-test">
         <exclude name="WEB-INF/web.xml"/>
         <exclude name="WEB-INF/classes/**/*.java"/>
       </fileset>
@@ -311,7 +263,7 @@
 
     <mkdir dir="${build.lib}"/>
     <jar jarfile="${build.lib}/tomcat-service-1.0.jar"
-         manifest="${src.dir}/conf/manifest.mf">
+         manifest="src/conf/manifest.mf">
       <fileset dir="${build.classes}">
         <include name="org/apache/avalon/apps/sevak/**"/>
       </fileset>
@@ -319,63 +271,7 @@
 
   </target>
 
-
   <target name="main" depends="jars" description="Default target to generate build products minus docs"/>
-  <target name="all" depends="main,docs" description="Generate build products including docs" />
-
-  <!-- CheckStyle tasks-->
-  <target name="checkstyle" if="do.checkstyle" description="Checkstyle">
-
-        <!-- this invocation of checkstyle requires that checkstyle be downloaded and setup -->
-        <!-- thats why you are required to define do.checkstyle property to generate the report -->
-        <mkdir dir="${build.dir}"/>
-        <taskdef name="checkstyle"
-            classname="com.puppycrawl.tools.checkstyle.CheckStyleTask">
-            <classpath refid="project.class.path"/>
-        </taskdef>
-        <checkstyle
-            lcurlyType="nl"
-            lcurlyMethod="nl"
-            lcurlyOther="nl"
-            rcurly="ignore"
-            allowProtected="false"
-            allowPackage="false"
-            allowNoAuthor="false"
-            maxLineLen="100"
-            maxMethodLen="100"
-            maxConstructorLen="100"
-            memberPattern="^m_[a-z][a-zA-Z0-9]*$"
-            staticPattern="^c_[a-z][a-zA-Z0-9]*$"
-            constPattern="(^c_[a-z][a-zA-Z0-9]*$)|([A-Z_]*$)"
-            ignoreImportLen="true"
-            allowTabs="false"
-            javadocScope="protected"
-            ignoreWhitespace="true"
-            cacheFile="checkstyle.cache"
-            failOnViolation="false"
-            ignoreCastWhitespace="true">
-            <fileset dir="${java.dir}">
-                <include name="**/*.java"/>
-            </fileset>
-            <formatter type="plain"/>
-            <formatter type="xml" toFile="${build.dir}/checkstyle-results.xml"/>
-        </checkstyle>
-    </target>
-
-    <target name="checkstyle-report"
-        depends="checkstyle"
-        if="do.checkstyle"
-        description="Generate Checkstyle Report">
-
-        <mkdir dir="${build.reports}/checkstyle"/>
-        <property name="checkstyle.pathhack" location="."/>
-        <style style="${tools.dir}/etc/checkstyle-frames.xsl" in="${build.dir}/checkstyle-results.xml"
-            out="${build.reports}/checkstyle/delete-me.html">
-            <param name="pathhack" expression="${checkstyle.pathhack}"/>
-        </style>
-
-    </target>
-
 
   <!-- Completely build all dists -->
   <target name="dist" description="Generates the distribution">
@@ -384,7 +280,7 @@
 
     <mkdir dir="${dist.base}"/>
 
-    <antcall target="bin-dist" inheritAll="false">
+    <antcall target="main" inheritAll="false">
       <param name="bin.dist.dir" value="${dist.name}" />
     </antcall>
 
@@ -404,97 +300,10 @@
     <delete file="${dist.base}/${dist.name}-bin.tar"/>
     <delete dir="${dist.name}" />
 
-    <antcall target="src-dist" inheritAll="false">
-      <param name="src.dist.dir" value="${dist.name}" />
-    </antcall>
-
-    <zip zipfile="${dist.base}/${dist.name}-src.zip"
-         basedir="${dist.name}/.."
-         includes="${dist.name}/**">
-      <fileset dir="..">
-        <include name="common/lib/avalon-*"/>
-        <include name="common/lib/cornerstone.jar"/>
-        <include name="common/lib/phoenix-*"/>
-        <include name="common/lib/excalibur-i18n*"/>
-      </fileset>
-    </zip>
-
-    <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-src.tar" >
-      <tarfileset dir="${dist.name}/.." mode="755" username="avalon" group="avalon">
-        <include name="${dist.name}/build.sh"/>
-      </tarfileset>
-      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon">
-        <include name="${dist.name}/**"/>
-        <exclude name="${dist.name}/build.sh"/>
-      </tarfileset>
-      <tarfileset dir=".." username="avalon" group="avalon">
-        <include name="common/lib/avalon-*"/>
-        <include name="common/lib/cornerstone.jar"/>
-        <include name="common/lib/phoenix-*"/>
-        <include name="common/lib/excalibur-i18n*"/>
-      </tarfileset>
-    </tar>
-
-    <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz"
-          src="${dist.base}/${dist.name}-src.tar"/>
-    <delete file="${dist.base}/${dist.name}-src.tar"/>
-
-    <delete dir="${dist.name}" />
-
-  </target>
-
-  <!-- Creates all the .sar files -->
-  <target name="bin-dist" depends="all" >
-
-    <!-- bin.dist.dir usually set before this target is called -->
-    <property name="bin.dist.dir" value="dist"/>
-    <property name="bin.dist.lib" value="${bin.dist.dir}/lib"/>
-    <property name="bin.dist.docs" value="${bin.dist.dir}/docs"/>
-
-    <mkdir dir="${bin.dist.docs}"/>
-    <copy todir="${bin.dist.docs}">
-      <fileset dir="${build.docs}"/>
-    </copy>
-
-    <chmod dir="${bin.dist.dir}" perm="go-rwx" />
-  </target>
-
-  <target name="src-dist" depends="docs" >
-    <!-- src.dist.dir has usually already been set -->
-    <property name="src.dist.dir" value="dist-src"/>
-    <property name="src.dist.src" value="${src.dist.dir}/src"/>
-    <property name="src.dist.docs" value="${src.dist.dir}/docs"/>
-
-    <mkdir dir="${src.dist.docs}"/>
-
-    <copy todir="${src.dist.docs}">
-      <fileset dir="${build.docs}"/>
-    </copy>
-
-    <copy todir="${src.dist.src}">
-      <fileset dir="${src.dir}"/>
-    </copy>
-
-    <copy todir="${src.dist.dir}">
-      <fileset dir=".">
-        <include name="build.xml"/>
-      </fileset>
-    </copy>
-
-    <mkdir dir="${src.dist.dir}/lib"/>
-    <copy todir="${src.dist.dir}/lib">
-      <fileset dir="lib">
-        <include name="**"/>
-      </fileset>
-    </copy>
-
-    <fixcrlf srcdir="${src.dist.src}/java" includes="**/*.java" eol="lf"/>
-
-    <chmod dir="${src.dist.dir}" perm="go-rwx" />
   </target>
 
   <target name="clean" description="Cleans up artifacts from build process">
-    <delete dir="${build.dir}" />
+    <delete dir="build" />
     <delete>
       <fileset dir="." includes="**/*~" defaultexcludes="no"/>
     </delete>
@@ -510,119 +319,4 @@
   </target>
 
 
-    <!-- ==========================================================================================
-        DOCUMENTATION GENERATION
-    ========================================================================================== -->
-
-    <!-- copy docs to site dir -->
-    <target name="site" depends="docs" description=" Places docs ready for hosting on website">
-        <mkdir dir="../site/build/docs/apps/${dir-name}"/>
-        <copy todir="../site/build/docs/apps/${dir-name}">
-            <fileset dir="${build.docs}">
-                <include name="**"/>
-            </fileset>
-        </copy>
-    </target>
-
-    <!-- Creates javadocs -->
-    <target name="javadocs" depends="compile" description="Generates the javadocs" unless="skip.javadocs">
-        <mkdir dir="${build.javadocs}"/>
-        <javadoc packagenames="org.apache.*"
-            sourcepath="${java.dir}"
-            destdir="${build.javadocs}">
-            <classpath refid="project.class.path"/>
-            <doclet name="com.sun.tools.doclets.standard.Standard">
-                <param name="-author"/>
-                <param name="-version"/>
-                <param name="-doctitle" value="${Name}"/>
-                <param name="-windowtitle" value="${Name} API"/>
-                <param name="-link" value="http://java.sun.com/j2se/1.4/docs/api/"/>
-                <param name="-link" value="http://java.sun.com/j2ee/sdk_1.3/techdocs/api/"/>
-                <param name="-link" value="http://avalon.apache.org/framework/api/"/>
-                <param name="-bottom"
-                    value="&quot;Copyright &#169; ${year} Apache Avalon Project. All Rights Reserved.&quot;"/>
-            </doclet>
-        </javadoc>
-    </target>
-
-
-    <target name="anakia-avail">
-        <available classname="org.apache.velocity.anakia.AnakiaTask"
-            property="AnakiaTask.present">
-            <classpath refid="tools.class.path"/>
-        </available>
-    </target>
-
-    <target name="anakia-check" depends="anakia-avail" unless="AnakiaTask.present">
-        <echo>
-            AnakiaTask is not present! Please check to make sure that
-            velocity.jar is in your classpath. The easiest way to build
-            the documentation is to checkout avalon-site CVS and specify
-            avalon-site.dir property.
-
-	    You can also run the build target import-avalon-site, to do
-	    this automatically.
-        </echo>
-    </target>
-
-    <target name="docs" depends="anakia-check" description="Generate documentation and website">
-        <taskdef name="anakia"
-            classname="org.apache.velocity.anakia.AnakiaTask">
-            <classpath refid="tools.class.path"/>
-        </taskdef>
-
-        <anakia basedir="${xdocs.dir}"
-            destdir="${docs.dir}"
-            style="docs.vsl"
-            projectfile="stylesheets/project.xml"
-            includes="**/*.xml"
-            excludes="stylesheets/**, changes.xml, announcement.xml"
-            velocitypropertiesfile="src/xdocs/stylesheets/velocity.properties"
-            />
-
-        <anakia basedir="${xdocs.dir}"
-            destdir="${docs.dir}"
-            style="changes.vsl"
-            projectfile="stylesheets/project.xml"
-            includes="changes.xml"
-            velocitypropertiesfile="${xdocs.dir}/stylesheets/velocity.properties"
-            />
-
-     <copy todir="${docs.dir}" filtering="off">
-      <fileset dir="${xdocs.dir}">
-        <include name="**/images/**"/>
-        <include name="**/*.gif"/>
-        <include name="**/*.jpg"/>
-        <include name="**/*.png"/>
-        <include name="**/*.css"/>
-        <include name="**/*.js"/>
-      </fileset>
-    </copy>
-    </target>
-
-  <!-- Update the www directory -->
-  <target name="site-docs" depends="docs" description="Build docs for jakarta site">
-
-    <mkdir dir="${www.dir}"/>
-
-    <!-- delete all old documents but keep CVS directories -->
-    <!-- note that by doing an include the defaultexcludes (CVS dirs) will be kept -->
-    <delete>
-      <fileset dir="${www.dir}">
-        <include name="**"/>
-      </fileset>
-    </delete>
-
-    <mkdir dir="${www.dir}"/>
-
-    <copy todir="${www.dir}">
-      <fileset dir="${docs.dir}" />
-    </copy>
-
-    <copy todir="${www.dir}/api">
-      <fileset dir="${build.javadocs}" />
-    </copy>
-
-  </target>
-  
 </project>
