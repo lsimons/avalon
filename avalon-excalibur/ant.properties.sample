@@ -10,7 +10,7 @@
 # building all components. These values are overridable in component-specific
 # ant.properties files.
 #
-# $Id: ant.properties.sample,v 1.8 2002/03/30 15:29:13 leif Exp $
+# $Id: ant.properties.sample,v 1.8.2.1 2002/04/01 05:46:10 jefft Exp $
 # -----------------------------------------------------------------------------
 
 
@@ -39,27 +39,28 @@ xalan.home=${base.path}/jakarta-avalon/tools/lib/
 xalan.jar=${xalan.home}/xalan-2.2.0-D13.jar
 
 # ----- Logkit -----
-logkit.home=${base.path}/jakarta-avalon-logkit/build/lib
-logkit.jar=${logkit.home}/logkit.jar
+logkit.home=${base.path}/jakarta-avalon-logkit
+logkit.lib=${logkit.home}/build/lib
+logkit.jar=${logkit.lib}/logkit.jar
 
 # ----- Avalon Framework -----
 avalon-framework.home=${base.path}/jakarta-avalon/build/lib
 avalon-framework.jar=${avalon-framework.home}/avalon-framework.jar
 
 # ----- Avalon Excalibur -----
-avalon-excalibur.home=${base.path}/jakarta-avalon-excalibur/all/build/lib
-avalon-excalibur.jar=${avalon-excalibur.home}/avalon-excalibur.jar
+excalibur-core.home=${base.path}/jakarta-excalibur-core/all/build/lib
+excalibur-core.jar=${excalibur-core.home}/excalibur-core.jar
 
 # ----- Excalibur Collections -----
-excalibur-collections.home=${base.path}/jakarta-avalon-excalibur/collections/build/lib
+excalibur-collections.home=${base.path}/jakarta-excalibur-core/collections/build/lib
 excalibur-collections.jar=${excalibur-collections.home}/excalibur-collections-1.0.jar
 
 # ----- Excalibur Instrument -----
-excalibur-instrument.home=${base.path}/jakarta-avalon-excalibur/instrument/build/lib
+excalibur-instrument.home=${base.path}/jakarta-excalibur-core/instrument/build/lib
 excalibur-instrument.jar=${excalibur-instrument.home}/excalibur-instrument-0.1.jar
 
 # ----- Excalibur Instrument Manager -----
-excalibur-instrument-manager.home=${base.path}/jakarta-avalon-excalibur/instrument-manager/build/lib
+excalibur-instrument-manager.home=${base.path}/jakarta-excalibur-core/instrument-manager/build/lib
 excalibur-instrument-manager-interfaces.jar=${excalibur-instrument-manager.home}/excalibur-instrument-manager-interfaces-0.1.jar
 
 # ----- Altrmi -----

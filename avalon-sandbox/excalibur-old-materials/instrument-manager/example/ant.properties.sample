@@ -9,7 +9,7 @@
 # The ant.properties values in this directory apply only to this component, and
 # override the defaults in ../ant.properties.
 #
-# $Id: ant.properties.sample,v 1.1 2002/03/26 11:56:15 leif Exp $
+# $Id: ant.properties.sample,v 1.1.2.1 2002/04/01 05:46:13 jefft Exp $
 # -----------------------------------------------------------------------------
 
 # --------------------------------------------------
@@ -50,8 +50,8 @@ avalon-framework.home=../../../jakarta-avalon/build/lib
 avalon-framework.jar=${avalon-framework.home}/avalon-framework.jar
 
 # ----- Avalon Excalibur -----
-avalon-excalibur.home=../../all/build/lib
-avalon-excalibur.jar=${avalon-excalibur.home}/avalon-excalibur.jar
+excalibur-core.home=../../all/build/lib
+excalibur-core.jar=${excalibur-core.home}/excalibur-core.jar
 
 # ----- Excalibur Instrument -----
 excalibur-instrument.home=../../instrument/build/lib

@@ -10,8 +10,8 @@ Assuming:
  - Your directory structure follows standard CVS layout:
 
 jakarta-avalon/                   # jakarta-avalon CVS module, containing Ant
-jakarta-avalon-excalibur/              # contains build.sh, build.bat
-jakarta-avalon-excalibur/<component>   # you are here
+jakarta-excalibur-core/              # contains build.sh, build.bat
+jakarta-excalibur-core/<component>   # you are here
 
 Then to build, you need only customize ant.properties (see step 6 below) and
 type './build.sh' (Unix) or 'build' (DOS). The '-projecthelp' option will
