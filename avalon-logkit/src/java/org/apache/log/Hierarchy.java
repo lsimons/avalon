@@ -57,6 +57,7 @@ package org.apache.log;
 import org.apache.log.format.PatternFormatter;
 import org.apache.log.output.io.StreamTarget;
 import org.apache.log.util.DefaultErrorHandler;
+import org.apache.log.util.LoggerListener;
 
 /**
  * This class encapsulates a basic independent log hierarchy.
@@ -79,6 +80,9 @@ public class Hierarchy
 
     ///The root logger which contains all Loggers in this hierarchy
     private Logger m_rootLogger;
+
+    ///LoggerListener associated with hierarchy
+    private LoggerListener m_loggerListener;
 
     /**
      * Retrieve the default hierarchy.
@@ -103,7 +107,9 @@ public class Hierarchy
     public Hierarchy()
     {
         m_errorHandler = new DefaultErrorHandler();
-        m_rootLogger = new Logger( new InnerErrorHandler(), "", null, null );
+        m_rootLogger = new Logger( new InnerErrorHandler(),
+                                   new InnerLoggerListener(),
+                                   "", null, null );
 
         //Setup default output target to print to console
         final PatternFormatter formatter = new PatternFormatter( FORMAT );
@@ -188,6 +194,16 @@ public class Hierarchy
     }
 
     /**
+     * Set the LoggerListener associated with hierarchy.
+     *
+     * @param loggerListener the LoggerListener
+     */
+    public synchronized void setLoggerListener( final LoggerListener loggerListener )
+    {
+        m_loggerListener = loggerListener;
+    }
+
+    /**
      * Retrieve a logger for named category.
      *
      * @param category the context
@@ -221,6 +237,42 @@ public class Hierarchy
     public void log( final String message )
     {
         log( message, null );
+    }
+
+    /**
+     * Notify logger listener (if any) that a new logger was created.
+     *
+     * @param category the category of new logger
+     * @param logger the logger
+     */
+    private synchronized void notifyLoggerCreated( final String category,
+                                                   final Logger logger )
+    {
+        if( null != m_loggerListener )
+        {
+            m_loggerListener.loggerCreated( category, logger );
+        }
+    }
+
+    /**
+     * Inner class to redirect to hierarchys real LoggerListener if any.
+     * Used so that all the loggers will not have to be updated
+     * when LoggerListener changes.
+     */
+    private class InnerLoggerListener
+        extends LoggerListener
+    {
+        /**
+         * Notify listener that a logger was created.
+         *
+         * @param category the category of logger
+         * @param logger the logger object
+         */
+        public void loggerCreated( final String category,
+                                   final Logger logger )
+        {
+            notifyLoggerCreated( category, logger );
+        }
     }
 
     private class InnerErrorHandler
