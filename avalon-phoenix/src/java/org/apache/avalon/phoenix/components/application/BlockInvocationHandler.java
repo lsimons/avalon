@@ -8,6 +8,7 @@
 package org.apache.avalon.phoenix.components.application;
 
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
@@ -26,7 +27,7 @@ import java.lang.reflect.Proxy;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/09/24 11:33:29 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/10/21 01:38:43 $
  */
 final class BlockInvocationHandler
     implements InvocationHandler
@@ -85,7 +86,14 @@ final class BlockInvocationHandler
     {
         if( null != m_object )
         {
-            return method.invoke( m_object, args );
+            try
+            {
+                return method.invoke( m_object, args );
+            }
+            catch( final InvocationTargetException ite )
+            {
+                throw ite.getTargetException();
+            }
         }
         else
         {
