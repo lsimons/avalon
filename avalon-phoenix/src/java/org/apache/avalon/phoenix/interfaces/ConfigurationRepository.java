@@ -39,9 +39,6 @@ public interface ConfigurationRepository
      * @param block Block name to store configuration for
      * @param configuration information to store.
      *
-     * Question: Is the storing of a null value to remove
-     * configuration information part of the contract?
-     *
      * @throws ConfigurationException if configuration could not be stored
      */
     void storeConfiguration( String application,
