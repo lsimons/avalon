@@ -3,12 +3,14 @@
   <property name="merlin.build.inst" value="inst"/>
   <property name="merlin.build.inst.dir" value="${maven.build.dir}/${merlin.build.inst}"/>
 
+  <!--
   <property name="ibiblio.rep.remote" 
     value="http://www.ibiblio.org/maven"/>
   <property name="avalon.rep.remote" 
     value="http://www.osm.net/repository"/>
   <property name="maven.repo.remote" 
     value="${avalon.rep.remote},${ibiblio.rep.remote}"/>
+  -->
 
   <property name="maven.checkstyle.format" value="avalon"/>
   <property name="maven.jar.manifest" value="${basedir}/src/etc/project.mf"/>
