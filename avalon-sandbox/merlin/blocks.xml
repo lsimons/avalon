@@ -8,18 +8,20 @@ configuration fragments.
 
 <blocks>
 
-   <block name="james" src="src/test/config/james.xml" enabled="false" >
+<!--
+   <block name="james" src="src/test/config/james.xml" enabled="true" >
      <configuration target="dns">
         <servers>
+          <server>192.112.36.4</server>
           <server>212.198.0.66</server>
           <server>212.198.0.67</server>
-          <server>194.51.32.65</server>
         </servers>
         <authoritative>false</authoritative>
       </configuration>
    </block>
 
    <block name="playground" path="../assembly/build/lib/avalon-assembly-demo-1.0.jar" enabled="true" />
+-->
 
    <block name="demo" src="src/test/config/demo.xml" enabled="true">
      <configuration target="test">
@@ -28,5 +30,4 @@ configuration fragments.
        </configuration>
      </configuration>
    </block>
-
 </blocks>

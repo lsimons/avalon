@@ -31,6 +31,7 @@ the LICENSE.txt file.
     <pathelement location="${excalibur-pool.jar}"/>
     <pathelement location="${excalibur-thread.jar}"/>
     <pathelement location="${excalibur-event.jar}"/>
+    <pathelement location="${excalibur-sourceresolve.jar}"/>
     <pathelement location="${util.concurrent.jar}"/>
     <pathelement location="${commons-collections.jar}"/>
     <pathelement location="${build.classes}"/>
@@ -218,6 +219,7 @@ the LICENSE.txt file.
      <copy todir="${lib.dir}" file="${commons-collections.jar}"/>
      <copy todir="${lib.dir}" file="${util.concurrent.jar}"/>
      <copy todir="${lib.dir}" file="${excalibur-threadcontext.jar}"/>
+     <copy todir="${lib.dir}" file="${excalibur-sourceresolve.jar}"/>
      <copy todir="${lib.dir}" file="${excalibur-pool.jar}"/>
      <copy todir="${lib.dir}" file="${excalibur-thread.jar}"/>
      <copy todir="${lib.dir}" file="${avalon-lifecycle.jar}"/>
@@ -244,12 +246,17 @@ the LICENSE.txt file.
       <group title="Kernel">
         <package name="org.apache.avalon.merlin"/>
         <package name="org.apache.avalon.merlin.kernel"/>
+        <package name="org.apache.avalon.merlin.kernel.*"/>
         <package name="org.apache.avalon.merlin.service"/>
+        <package name="org.apache.avalon.merlin.service.*"/>
+        <package name="org.apache.avalon.merlin.bootstrap"/>
       </group>
       <group title="Containment">
         <package name="org.apache.avalon.merlin.container"/>
         <package name="org.apache.avalon.merlin.container.builder"/>
+        <package name="org.apache.avalon.merlin.container.impl"/>
         <package name="org.apache.avalon.merlin.block"/>
+        <package name="org.apache.avalon.merlin.block.*"/>
       </group>
       <doclet name="com.sun.tools.doclets.standard.Standard">
         <param name="-author"/>
