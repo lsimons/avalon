@@ -60,7 +60,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
 import org.apache.excalibur.xfc.modules.ecm.ECM;
 import org.apache.excalibur.xfc.model.Definition;
 import org.apache.excalibur.xfc.model.Model;
-import org.apache.excalibur.xfc.model.RoleRef;
+import org.apache.excalibur.xfc.model.role.RoleRef;
 import org.apache.excalibur.xfc.Main;
 import org.apache.excalibur.xfc.Module;
 
@@ -74,7 +74,7 @@ import junit.textui.TestRunner;
  * XFC TestCase.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: xfcTestCase.java,v 1.7 2002/10/16 16:21:06 crafterm Exp $
+ * @version CVS $Id: xfcTestCase.java,v 1.8 2002/10/17 14:38:18 crafterm Exp $
  */
 public final class xfcTestCase extends TestCase
 {

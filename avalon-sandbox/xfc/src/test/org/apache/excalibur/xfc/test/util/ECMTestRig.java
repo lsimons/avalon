@@ -50,19 +50,20 @@
 package org.apache.excalibur.xfc.test.util;
 
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.logger.Logger;
 
 import org.apache.excalibur.xfc.modules.ecm.ECM;
 import org.apache.excalibur.xfc.modules.ecm.ECMSerializer;
 import org.apache.excalibur.xfc.modules.ecm.HandlerAnalyzer;
-import org.apache.excalibur.xfc.model.RoleRef;
+import org.apache.excalibur.xfc.model.role.RoleRef;
 
 /**
  * ECM Module Test Rig. This class extends ECM and provides several accessor methods to
  * internal ECM methods that are otherwise not available from the normal Module API.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECMTestRig.java,v 1.4 2002/10/16 16:21:06 crafterm Exp $
+ * @version CVS $Id: ECMTestRig.java,v 1.5 2002/10/17 14:38:18 crafterm Exp $
  */
 public final class ECMTestRig extends ECM
 {
@@ -91,7 +92,9 @@ public final class ECMTestRig extends ECM
         public Configuration buildRole( final RoleRef roleref )
             throws Exception
         {
-            return super.buildRole( roleref );
+            m_roles = new DefaultConfiguration( "", "" );
+            roleref.accept( this );
+            return m_roles.getChildren()[0];
         }
     }
 }

@@ -60,7 +60,6 @@ import org.apache.excalibur.xfc.modules.Constants;
  * <code>Fortress</code> module implementation.
  *
  * <p>
- *  Fortress style role files are an extension to the ECM model.
  *  This implementation supports Fortress style role files. ie:
  *
  *  <pre>
@@ -69,6 +68,14 @@ import org.apache.excalibur.xfc.modules.Constants;
  *       &lt;component shorthand="..." class="..." handler="..."/&gt;
  *     &lt;/role&gt;
  *   &lt;/role-list&gt;
+ *  </pre>
+ *
+ *  and Fortress style configuration files. ie:
+ *
+ *  <pre>
+ *   &lt;shorthand id=".."&gt;
+ *     &lt;config-data/&gt;
+ *   &lt;/shorthand&gt;
  *  </pre>
  * </p>
  *
@@ -79,7 +86,7 @@ import org.apache.excalibur.xfc.modules.Constants;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: Fortress.java,v 1.1 2002/10/16 16:20:38 crafterm Exp $
+ * @version CVS $Id: Fortress.java,v 1.2 2002/10/17 14:38:18 crafterm Exp $
  */
 public class Fortress extends AbstractLogEnabled
     implements Module

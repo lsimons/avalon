@@ -56,86 +56,61 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 
 import org.apache.excalibur.xfc.model.Definition;
-import org.apache.excalibur.xfc.model.Instance;
+import org.apache.excalibur.xfc.model.instance.Instance;
+import org.apache.excalibur.xfc.model.instance.InstanceVisitor;
+import org.apache.excalibur.xfc.model.instance.SingleRoleInstance;
+import org.apache.excalibur.xfc.model.instance.SingleNonRoleInstance;
+import org.apache.excalibur.xfc.model.instance.MultiRoleInstance;
+import org.apache.excalibur.xfc.model.instance.MultiNonRoleInstance;
 import org.apache.excalibur.xfc.model.Model;
-import org.apache.excalibur.xfc.model.RoleRef;
+import org.apache.excalibur.xfc.model.role.SingleRoleRef;
+import org.apache.excalibur.xfc.model.role.MultiRoleRef;
 
 import org.apache.excalibur.xfc.modules.ecm.ECMSerializer;
 
 /**
+ * Implementation of the <code>serialize</code> method on the {@link Fortress}
+ * module.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: FortressSerializer.java,v 1.1 2002/10/16 16:20:38 crafterm Exp $
+ * @version CVS $Id: FortressSerializer.java,v 1.2 2002/10/17 14:38:18 crafterm Exp $
  */
 public class FortressSerializer extends ECMSerializer
 {
-    /**
-     * Serializes a {@link Model} definition, ECM style, to an
-     * output context.
-     *
-     * @param model a {@link Model} instance
-     * @param context ECM output Context
-     * @exception Exception if an error occurs
-     */
-    public void serialize( final Model model, final String context )
-        throws Exception
-    {
-        // create the role file
-        RoleRef[] rolerefs = model.getDefinitions();
-        DefaultConfiguration roles = new DefaultConfiguration( "role-list", "" );
-
-        // for each type object generate a roles file entry
-        for ( int i = 0; i < rolerefs.length; ++i )
-        {
-            roles.addChild( buildRole( rolerefs[i] ) );
-        }
-
-        m_serializer.serializeToFile( getRoleFile( context ), roles );
-
-        // create the xconf file
-        Instance[] instances = model.getInstances();
-        DefaultConfiguration xconf = new DefaultConfiguration( "xconf", "" );
-
-        // for each instance object generate an xconf file entry
-        for ( int j = 0; j < instances.length; ++j )
-        {
-            Configuration[] xconfs = buildXConf( instances[j] );
-
-            for ( int k = 0; k < xconfs.length; ++k )
-            {
-                xconf.addChild( xconfs[k] );
-            }
-        }
-
-        m_serializer.serializeToFile( getConfigurationFile( context ), xconf );
-    }
-
     // ROLE GENERATION METHODS
 
     /**
-     * Builds a single component Role definition from a {@link RoleRef}
+     * Builds a single component Role definition from a {@link SingleRoleRef}
      * definition.
      *
-     * @param ref a {@link RoleRef} instance
-     * @return a <code>Configuration</code> instance
-     * @exception Exception if an error occurs
+     * @param ref a {@link SingleRoleRef} instance
+       * @exception Exception if an error occurs
      */
-    protected Configuration buildSingleComponentRole( final RoleRef ref )
+    public void visit( final SingleRoleRef ref )
         throws Exception
     {
-        // single role definitions are the same as multiple definitions
-        return buildMultipleComponentRole( ref );
+        DefaultConfiguration role = new DefaultConfiguration( ROLE, "" );
+        Definition def = ref.getProvider();
+
+        DefaultConfiguration hint = new DefaultConfiguration( COMPONENT, "" );
+        hint.setAttribute( SHORTHAND, def.getShorthand() );
+        hint.setAttribute( CLASS, def.getDefaultClass() );
+        hint.setAttribute( HANDLER, HandlerMapper.getHandler( def.getHandler() ) );
+
+        role.addChild( hint );
+        role.setAttribute( NAME, ref.getRole() );
+
+        m_roles.addChild( role );
     }
 
     /**
      * Builds a multiple component Role definition (ie ComponentSelector based)
-     * from a {@link RoleRef} definition.
+     * from a {@link MultiRoleRef} definition.
      *
-     * @param ref a {@link RoleRef} instance
-     * @return a <code>Configuration</code> instance
+     * @param ref a {@link MultiRoleRef} instance
      * @exception Exception if an error occurs
      */
-    protected Configuration buildMultipleComponentRole( final RoleRef ref )
+    public void visit( final MultiRoleRef ref )
         throws Exception
     {
         DefaultConfiguration role = new DefaultConfiguration( ROLE, "" );
@@ -155,52 +130,18 @@ public class FortressSerializer extends ECMSerializer
 
         role.setAttribute( NAME, ref.getRole() );
 
-        return role;
+        m_roles.addChild( role );
     }
 
     // XCONF GENERATION METHODS
 
     /**
-     * Describe <code>buildXConf</code> method here.
+     * Builds an xconf entry based on a {@link SingleRoleInstance} object.
      *
-     * @param i an <code>Instance</code> value
-     * @return a <code>Configuration[]</code> value
+     * @param i an {@link SingleRoleInstance} instance
      * @exception Exception if an error occurs
      */
-    private Configuration[] buildXConf( final Instance i )
-        throws Exception
-    {
-        if ( i.getShorthand() != null )
-        {
-
-            if ( i.getSubInstances() == null )
-            {
-                // has shorthand, single component
-                return new Configuration[] { buildSingleRoleXConf( i ) };
-            }
-
-            // has shorthand, multi component
-            return buildMultiRoleXConf( i );
-        }
-
-        if ( i.getSubInstances() == null )
-        {
-            // has no shorthand, no subinstances
-            return new Configuration[] { buildNonRoleSingleXConf( i ) };
-        }
-
-        // has no shorthand, has subinstances
-        return buildNonRoleMultiXConf( i );
-    }
-
-    /**
-     * Describe <code>buildSingleRoleXConf</code> method here.
-     *
-     * @param i an <code>Instance</code> value
-     * @return a <code>Configuration</code> value
-     * @exception Exception if an error occurs
-     */
-    private Configuration buildSingleRoleXConf( final Instance i )
+    public void visit( final SingleRoleInstance i )
         throws Exception
     {
         DefaultConfiguration conf = new DefaultConfiguration( i.getShorthand(), "" );
@@ -217,38 +158,33 @@ public class FortressSerializer extends ECMSerializer
 
         conf.setAttribute( ID, i.getShorthand() );
 
-        return conf;
+        m_xconf.addChild( conf );
     }
 
     /**
-     * Describe <code>buildMultiRoleXConf</code> method here.
+     * Builds an xconf entry based on a {@link MultiRoleInstance} object.
      *
-     * @param i an <code>Instance</code> value
-     * @return a <code>Configuration[]</code> value
+     * @param i a {@link MultiRoleInstance} instance
      * @exception Exception if an error occurs
      */
-    private Configuration[] buildMultiRoleXConf( final Instance i )
+    public void visit( final MultiRoleInstance i )
         throws Exception
     {
         Instance[] subinstances = i.getSubInstances();
-        Configuration[] xconf = new Configuration[ subinstances.length ];
 
         for ( int j = 0; j < subinstances.length; ++j )
         {
-            xconf[j] = buildSingleRoleXConf( subinstances[j] );
+            subinstances[j].accept( this );
         }
-
-        return xconf;
     }
 
     /**
-     * Describe <code>buildNonRoleSingleXConf</code> method here.
+     * Builds an xconf entry based on a {@link SingleNonRoleInstance} object.
      *
-     * @param i an <code>Instance</code> value
-     * @return a <code>Configuration</code> value
+     * @param i a {@link SingleNonRoleInstance} instance.
      * @exception Exception if an error occurs
      */
-    private Configuration buildNonRoleSingleXConf( final Instance i )
+    public void visit( final SingleNonRoleInstance i )
         throws Exception
     {
         DefaultConfiguration conf = new DefaultConfiguration( COMPONENT, "" );
@@ -268,18 +204,19 @@ public class FortressSerializer extends ECMSerializer
             }
         }
 
-        return conf;
+        m_xconf.addChild( conf );
     }
 
     /**
-     * Describe <code>buildNonRoleMultiXConf</code> method here.
+     * Builds an xconf entry based on a {@link MultiNonRoleInstance} object.
      *
-     * @param i an <code>Instance</code> value
+     * @param i a {@link MultiNonRoleInstance} instance
      * @return a <code>Configuration[]</code> value
      */
-    private Configuration[] buildNonRoleMultiXConf( final Instance i )
+    public void visit( final MultiNonRoleInstance i )
+        throws Exception
     {
-        Instance[] subs = i.getSubInstances();
+        SingleRoleInstance[] subs = i.getSubInstances();
         Configuration[] xconfs = new Configuration[ subs.length ];
 
         for ( int j = 0; j < subs.length; ++j )
@@ -301,9 +238,7 @@ public class FortressSerializer extends ECMSerializer
                 }
             }
 
-            xconfs[j] = conf;
+            m_xconf.addChild( conf );
         }
-
-        return xconfs;
     }
 }

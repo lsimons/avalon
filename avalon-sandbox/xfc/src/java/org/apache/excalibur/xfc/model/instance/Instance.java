@@ -47,132 +47,50 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.excalibur.xfc.model;
-
-import java.util.ArrayList;
-import java.util.List;
+package org.apache.excalibur.xfc.model.instance;
 
 import org.apache.avalon.framework.configuration.Configuration;
 
 /**
- * Class which represents an instance of a particular component in an xconf file.
+ * Abstract base class for representing an instance of a particular component
+ * in a configuraiton file.
  *
  * <p>
- *  This class can contain a:
+ *  Subclasses specify concrete types of instance definitions, eg:
+ *  those based on role manager, component selector, etc.
+ * </p>
  *
- *  <ul>
- *   <li>Single role based instance definition.
- *   <li>Single non-role based instance definition (ie. complete role & instance 
- *  definition).
- *   <li>Multi role based instance definition (ie. role based component selector
- *  definition).
- *   <li>Multi non-role based instance definition (ie. complete role & sub instance
- *  definition of a component selector).
- *  </ul>
+ * <p>
+ *  {@link InstanceVisitor} defines an interface for traversing groups of
+ *  Instance classes.
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: Instance.java,v 1.1 2002/10/14 16:17:50 crafterm Exp $
+ * @version CVS $Id: Instance.java,v 1.1 2002/10/17 14:38:17 crafterm Exp $
  */
-public final class Instance
+public abstract class Instance
 {
-    // instance configuration
+    // common instance configuration
     private final Configuration[] m_configuration;
-    private final String m_shorthand;
-
-    // instance roles/override class/and subinstance definitions, if any
     private final String m_class;
-    private final String m_role;
-    private final Instance[] m_subinstances;
     private final String m_handler;
 
     /**
      * Creates a new {@link Instance} instance. This constructor creates
      * an instance definition of a particular role, indexed by shorthand name.
      *
-     * @param shorthand shorthand name
-     * @param config instance <code>Configuration</code> as an array, if any
      * @param clazz override class, if any
-     */
-    public Instance(
-        final String shorthand,
-        final Configuration[] config,
-        final String clazz,
-        final String handler
-    )
-    {
-        m_configuration = config;
-        m_shorthand = shorthand;
-        m_class = clazz;
-        m_role = null;
-        m_subinstances = null;
-        m_handler = handler;
-    }
-
-    /**
-     * Creates a new {@link Instance} object for role
-     * based ComponentSelector.
-     *
-     * @param shorthand a <code>String</code> value
-     * @param subinstances an <code>Instance[]</code> value
-     */
-    public Instance(
-        final String shorthand,
-        final Instance[] subinstances
-    )
-    {
-        m_configuration = null;
-        m_shorthand = shorthand;
-        m_subinstances = subinstances;
-        m_class = null;
-        m_role = null;
-        m_handler = null;
-    }
-
-    /**
-     * Creates a new {@link Instance} instance. This constructor creates
-     * an instance definition of a given role.
-     *
      * @param config instance <code>Configuration</code> as an array, if any
-     * @param clazz component implementation class name
-     * @param role role name
+     * @param handler a <code>String</code> value
      */
     public Instance(
+        final String clazz,
         final Configuration[] config,
-        final String clazz,
-        final String role,
         final String handler
     )
     {
+        m_class = clazz;
         m_configuration = config;
-        m_class = clazz;
-        m_role = role;
-        m_shorthand = null;
-        m_subinstances = null;
-        m_handler = handler;
-    }
-
-    /**
-     * Creates a new {@link Instance} instance. This constructor creates
-     * an instance definition of a given role that contains sub instances
-     * (ie. non role manager component selector definitions).
-     *
-     * @param clazz implementing class name
-     * @param role role name
-     * @param subinstances an <code>Instance[]</code> array
-     */
-    public Instance(
-        final String clazz,
-        final String role,
-        final Instance[] subinstances,
-        final String handler
-    )
-    {
-        m_class = clazz;
-        m_role = role;
-        m_subinstances = subinstances;
-        m_configuration = null;
-        m_shorthand = null;
         m_handler = handler;
     }
 
@@ -189,41 +107,11 @@ public final class Instance
     /**
      * Obtain this Instance's implementing class, or override class name
      *
-     * @return a <code>String</code> value
+     * @return implementing class
      */
     public String getClassImpl()
     {
         return m_class;
-    }
-
-    /**
-     * Obtain this Instance's role name
-     *
-     * @return a <code>String</code> value
-     */
-    public String getRole()
-    {
-        return m_role;
-    }
-
-    /**
-     * Obtain this Instance's shorthand name
-     *
-     * @return a <code>String</code> value
-     */
-    public String getShorthand()
-    {
-        return m_shorthand;
-    }
-
-    /**
-     * Obtain this Instance's list of sub instances.
-     *
-     * @return an <code>Instance[]</code> value
-     */
-    public Instance[] getSubInstances()
-    {
-        return m_subinstances;
     }
 
     /**
@@ -234,5 +122,17 @@ public final class Instance
     public String getHandler()
     {
         return m_handler;
+    }
+
+    /**
+     * Method for accepting an {@link InstanceVisitor} class.
+     *
+     * @param visitor an {@link InstanceVisitor} value
+     * @exception Exception if an error occurs
+     */
+    public void accept( final InstanceVisitor visitor )
+        throws Exception
+    {
+        throw new UnsupportedOperationException( "This method shouldn't be invoked" );
     }
 }

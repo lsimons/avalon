@@ -60,21 +60,33 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 import org.apache.excalibur.xfc.model.Model;
 import org.apache.excalibur.xfc.model.Definition;
-import org.apache.excalibur.xfc.model.Instance;
-import org.apache.excalibur.xfc.model.RoleRef;
+import org.apache.excalibur.xfc.model.instance.Instance;
+import org.apache.excalibur.xfc.model.instance.InstanceVisitor;
+import org.apache.excalibur.xfc.model.instance.SingleRoleInstance;
+import org.apache.excalibur.xfc.model.instance.SingleNonRoleInstance;
+import org.apache.excalibur.xfc.model.instance.MultiRoleInstance;
+import org.apache.excalibur.xfc.model.instance.MultiNonRoleInstance;
+import org.apache.excalibur.xfc.model.role.RoleRef;
+import org.apache.excalibur.xfc.model.role.RoleRefVisitor;
+import org.apache.excalibur.xfc.model.role.SingleRoleRef;
+import org.apache.excalibur.xfc.model.role.MultiRoleRef;
 
 import org.apache.excalibur.xfc.modules.Constants;
 
 /**
  * ECM module serialization class. This class contains the implementation
  * of the <code>serialize</code> method defined in {@link ECM}.
-
+ *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECMSerializer.java,v 1.1 2002/10/16 16:20:38 crafterm Exp $
+ * @version CVS $Id: ECMSerializer.java,v 1.2 2002/10/17 14:38:18 crafterm Exp $
  */
 public class ECMSerializer extends AbstractLogEnabled
-    implements Constants
+    implements RoleRefVisitor, InstanceVisitor, Constants
 {
+    // internals
+    protected DefaultConfiguration m_roles = new DefaultConfiguration( ROLELIST, "" );
+    protected DefaultConfiguration m_xconf = new DefaultConfiguration( "xconf", "" );
+
     protected final DefaultConfigurationSerializer m_serializer;
 
     /**
@@ -82,6 +94,7 @@ public class ECMSerializer extends AbstractLogEnabled
      */
     public ECMSerializer()
     {
+        // create our serializer and enable indentation
         m_serializer = new DefaultConfigurationSerializer();
         m_serializer.setIndent( true );
     }
@@ -97,29 +110,54 @@ public class ECMSerializer extends AbstractLogEnabled
     public void serialize( final Model model, final String context )
         throws Exception
     {
+        buildRoles( model, context );
+        buildXConf( model, context );
+    }
+
+    /**
+     * Helper method to build the output roles file from the given
+     * {@link Model} object.
+     *
+     * @param model a {@link Model} instance
+     * @param context output context
+     * @exception Exception if an error occurs
+     */
+    protected void buildRoles( final Model model, final String context )
+        throws Exception
+    {
         // create the role file
         RoleRef[] rolerefs = model.getDefinitions();
-        DefaultConfiguration roles = new DefaultConfiguration( ROLELIST, "" );
 
         // for each type object generate a roles file entry
         for ( int i = 0; i < rolerefs.length; ++i )
         {
-            roles.addChild( buildRole( rolerefs[i] ) );
+            rolerefs[i].accept( this );
         }
 
-        m_serializer.serializeToFile( getRoleFile( context ), roles );
+        m_serializer.serializeToFile( getRoleFile( context ), m_roles );
+    }
 
+    /**
+     * Helper method to build the output xconf file from the given
+     * {@link Model} object.
+     *
+     * @param model a {@link Model} instance
+     * @param context output context
+     * @exception Exception if an error occurs
+     */
+    protected void buildXConf( final Model model, final String context )
+        throws Exception
+    {
         // create the xconf file
         Instance[] instances = model.getInstances();
-        DefaultConfiguration xconf = new DefaultConfiguration( "xconf", "" );
 
         // for each instance object generate an xconf file entry
-        for ( int j = 0; j < instances.length; ++j )
+        for ( int i = 0; i < instances.length; ++i )
         {
-            xconf.addChild( buildXConf( instances[j] ) );
+            instances[i].accept( this );
         }
 
-        m_serializer.serializeToFile( getConfigurationFile( context ), xconf );
+        m_serializer.serializeToFile( getConfigurationFile( context ), m_xconf );
     }
 
     /**
@@ -128,7 +166,7 @@ public class ECMSerializer extends AbstractLogEnabled
      * @param context a <code>String</code> value
      * @return a <code>File</code> value
      */
-    protected File getRoleFile( final String context )
+    private File getRoleFile( final String context )
     {
         int i = context.indexOf( CONTEXT_SEPARATOR );
         return new File( context.substring( 0, i ) );
@@ -149,40 +187,34 @@ public class ECMSerializer extends AbstractLogEnabled
     // ROLE GENERATION METHODS
 
     /**
-     * Method to build a Role definition from a {@link RoleRef}
-     * object.
+     * Builds a single component Role definition from a {@link RoleRef}
+     * definition.
      *
-     * @param roleref a {@link RoleRef} instance
-     * @return role definition as a <code>Configuration</code> instance
+     * @param ref a {@link SingleRoleRef} instance
      * @exception Exception if an error occurs
      */
-    protected Configuration buildRole( final RoleRef roleref )
+    public void visit( final SingleRoleRef ref )
         throws Exception
     {
-        Definition[] defs = roleref.getProviders();
+        DefaultConfiguration role = new DefaultConfiguration( ROLE, "" );
+        Definition def = ref.getProvider();
 
-        if ( getLogger().isDebugEnabled() )
-        {
-            getLogger().debug( "Building role for model: " + roleref.getRole() );
-        }
+        // there is only 1 provider, use index 0 directly
+        role.setAttribute( NAME, ref.getRole() );
+        role.setAttribute( SHORTHAND, ref.getShorthand() );
+        role.setAttribute( DEFAULT, def.getDefaultClass() );
 
-        if ( roleref.getProviders().length > 1 )
-        {
-            return buildMultipleComponentRole( roleref );
-        }
-
-        return buildSingleComponentRole( roleref );
+        m_roles.addChild( role );
     }
 
     /**
      * Builds a multiple component Role definition (ie ComponentSelector based)
      * from a {@link RoleRef} definition.
      *
-     * @param ref a {@link RoleRef} instance
-     * @return a <code>Configuration</code> instance
+     * @param ref a {@link MultiRoleRef} instance
      * @exception Exception if an error occurs
      */
-    protected Configuration buildMultipleComponentRole( final RoleRef ref )
+    public void visit( final MultiRoleRef ref )
         throws Exception
     {
         DefaultConfiguration role = new DefaultConfiguration( ROLE, "" );
@@ -200,70 +232,31 @@ public class ECMSerializer extends AbstractLogEnabled
         role.setAttribute( SHORTHAND, ref.getShorthand() );
         role.setAttribute( DEFAULT, ECS );
 
-        return role;
+        m_roles.addChild( role );
     }
 
     /**
-     * Builds a single component Role definition from a {@link RoleRef}
-     * definition.
+     * Builds a multiple component role definition from a 
+     * {@link RoleRef} definition. (Note, this method is unused).
      *
      * @param ref a {@link RoleRef} instance
-     * @return a <code>Configuration</code> instance
      * @exception Exception if an error occurs
      */
-    protected Configuration buildSingleComponentRole( final RoleRef ref )
+    public void visit( final RoleRef ref )
         throws Exception
     {
-        DefaultConfiguration role = new DefaultConfiguration( ROLE, "" );
-        Definition[] defs = ref.getProviders();
-
-        // there is only 1 provider, use index 0 directly
-        role.setAttribute( NAME, ref.getRole() );
-        role.setAttribute( SHORTHAND, ref.getShorthand() );
-        role.setAttribute( DEFAULT, defs[0].getDefaultClass() );
-
-        return role;
+        throw new UnsupportedOperationException( "This method shouldn't be invoked" );
     }
 
     // XCONF GENERATION METHODS
 
     /**
-     * Builds a Configuration object from an instance declaration
+     * Builds an xconf entry based on a {@link SingleRoleInstance} declaration,
      *
-     * @param i an {@link Instance} instance
-     * @return a <code>Configuration</code> instance
+     * @param i a {@link SingleRoleInstance} instance
      * @exception Exception if an error occurs
      */
-    private Configuration buildXConf( final Instance i )
-        throws Exception
-    {
-        // has shorthand
-        if ( i.getShorthand() != null )
-        {
-            return buildSingleRoleXConf( i );
-        }
-
-        if ( i.getSubInstances() == null )
-        {
-            // has no shorthand, no subinstances
-            return buildNonRoleSingleXConf( i );
-        }
-
-        // has no shorthand, has subinstances
-        return buildNonRoleMultiXConf( i );
-
-        // return buildMultiRoleXConf();
-    }
-
-    /**
-     * Builds a Configuration object from an Instance declaration,
-     * referring to a single role based component.
-     *
-     * @param i an <code>Instance</code> value
-     * @return a <code>Configuration</code> value
-     * @exception Exception if an error occurs
-     */
-    private Configuration buildSingleRoleXConf( final Instance i )
+    public void visit( final SingleRoleInstance i )
         throws Exception
     {
         DefaultConfiguration conf = new DefaultConfiguration( i.getShorthand(), "" );
@@ -283,18 +276,17 @@ public class ECMSerializer extends AbstractLogEnabled
             conf.setAttribute( CLASS, i.getClassImpl() );
         }
 
-        return conf;
+        m_xconf.addChild( conf );
     }
 
     /**
-     * Builds a Configuration object from an Instance declaration,
-     * referring to a single non role based component. 
+     * Builds an xconf entry based on a {@link SingleNonRoleInstance}
+     * declaration
      *
-     * @param i an <code>Instance</code> value
-     * @return a <code>Configuration</code> value
+     * @param i an {@link SingleNonRoleInstance} instance
      * @exception Exception if an error occurs
      */
-    private Configuration buildNonRoleSingleXConf( final Instance i )
+    public void visit( final SingleNonRoleInstance i )
         throws Exception
     {
         DefaultConfiguration conf = new DefaultConfiguration( COMPONENT, "" );
@@ -312,18 +304,17 @@ public class ECMSerializer extends AbstractLogEnabled
             }
         }
 
-        return conf;
+        m_xconf.addChild( conf );
     }
 
     /**
-     * Builds a Configuration object from an Instance declaration,
-     * referring to a non role based component selector component.
+     * Builds an xconf entry based on a {@link MultiNonRoleInstance} 
+     * declaration
      *
-     * @param i an <code>Instance</code> value
-     * @return a <code>Configuration</code> value
+     * @param i a {@link MultiNonRoleInstance} instance
      * @exception Exception if an error occurs
      */
-    private Configuration buildNonRoleMultiXConf( final Instance i )
+    public void visit( final MultiNonRoleInstance i )
         throws Exception
     {
         DefaultConfiguration conf = new DefaultConfiguration( COMPONENT, "" );
@@ -331,7 +322,7 @@ public class ECMSerializer extends AbstractLogEnabled
         conf.setAttribute( ROLE, i.getRole() );
         conf.setAttribute( CLASS, ECS );
 
-        Instance[] subs = i.getSubInstances();
+        SingleRoleInstance[] subs = i.getSubInstances();
 
         for ( int j = 0; j < subs.length; ++j )
         {
@@ -353,20 +344,55 @@ public class ECMSerializer extends AbstractLogEnabled
             conf.addChild( child );
         }
 
-        return conf;
+        m_xconf.addChild( conf );
     }
 
     /**
-     * Describe <code>buildRoleMultiXConf</code> method here.
+     * Builds an xconf entry based on a {@link MultiRoleInstance} declaration.
      *
-     * @param i an <code>Instance</code> value
-     * @return a <code>Configuration</code> value
+     * @param i a {@link MultiRoleInstance} instancex
      * @exception Exception if an error occurs
      */
-    private Configuration buildRoleMultiXConf( final Instance i )
+    public void visit( final MultiRoleInstance i )
         throws Exception
     {
-        // REVISIT
-        throw new UnsupportedOperationException( "Not yet implemented" );
+        DefaultConfiguration conf = new DefaultConfiguration( i.getShorthand(), "" );
+
+        SingleRoleInstance[] subs = i.getSubInstances();
+
+        for ( int j = 0; j < subs.length; ++j )
+        {
+            DefaultConfiguration child =
+                new DefaultConfiguration( subs[j].getShorthand(), "" );
+            // child.setAttribute( CLASS, subs[j].getClassImpl() );
+            child.setAttribute( NAME, subs[j].getShorthand() );
+
+            if ( subs[j].getConfiguration() != null )
+            {
+                Configuration[] kids = subs[j].getConfiguration();
+
+                for ( int k = 0; k < kids.length; ++k )
+                {
+                    child.addChild( kids[k] );
+                }
+            }
+
+            conf.addChild( child );
+        }
+
+        m_xconf.addChild( conf );
+    }
+
+    /**
+     * Builds an xconf entry baesd on an {@link Instance} declaration.
+     * (method not actually used).
+     *
+     * @param i an {@link Instance} instance
+     * @exception Exception if an error occurs
+     */
+    public void visit( final Instance i )
+        throws Exception
+    {
+        throw new UnsupportedOperationException( "This method shouldn't be invoked" );
     }
 }
