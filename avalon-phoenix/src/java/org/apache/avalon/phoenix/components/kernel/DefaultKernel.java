@@ -5,12 +5,11 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.engine;
+package org.apache.avalon.phoenix.components.kernel;
 
-import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
 import org.apache.avalon.framework.atlantis.AbstractKernel;
-import org.apache.avalon.framework.atlantis.SystemManager;
 import org.apache.avalon.framework.atlantis.Application;
+import org.apache.avalon.framework.atlantis.SystemManager;
 import org.apache.avalon.framework.camelot.ContainerException;
 import org.apache.avalon.framework.camelot.Entry;
 import org.apache.avalon.framework.component.ComponentException;
@@ -21,6 +20,9 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
+import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
+import org.apache.avalon.phoenix.engine.DefaultServerApplication;
+import org.apache.avalon.phoenix.engine.ServerApplicationEntry;
 
 /**
  * The ServerKernel is the core of the Phoenix system.
@@ -34,7 +36,7 @@ import org.apache.avalon.phoenix.components.configuration.ConfigurationRepositor
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class PhoenixKernel
+public class DefaultKernel
     extends AbstractKernel
     implements Composable
 {
@@ -129,7 +131,7 @@ public class PhoenixKernel
         if( !(entry instanceof ServerApplicationEntry) )
         {
             throw new ContainerException( "Only Entries of type ServerApplicationEntry " +
-                                          "may be placed in container." );  
+                                          "may be placed in container." );
         }
     }
 

@@ -110,6 +110,12 @@ public final class DefaultServerApplication
         m_configuration = configuration;
     }
 
+    /**
+     * Initialize application.
+     * This involves setting up the phases, the ApplicationFrame and the DAG used to run phases. 
+     *
+     * @exception Exception if an error occurs
+     */
     public void initialize()
         throws Exception
     {

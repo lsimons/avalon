@@ -59,7 +59,7 @@ public class PhoenixEmbeddor
         System.getProperty( "phoenix.deployer", "org.apache.avalon.phoenix.components.deployer.DefaultSarDeployer" );
 
     private static final String    DEFAULT_KERNEL       =
-        System.getProperty( "phoenix.kernel", "org.apache.avalon.phoenix.engine.PhoenixKernel" );
+        System.getProperty( "phoenix.kernel", "org.apache.avalon.phoenix.components.kernel.DefaultKernel" );
 
     private static final String    DEFAULT_MANAGER      =
         System.getProperty( "phoenix.manager", "org.apache.avalon.framework.atlantis.NoopSystemManager" );
