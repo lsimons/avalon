@@ -30,7 +30,10 @@ namespace Apache.Avalon.Castle.MicroKernel.Concerns.Default
 
 		public override void Apply(IComponentModel model, object component)
 		{
-			ContainerUtil.Configure( component, model.Configuration );
+			IConfiguration configuration = 
+				model.Configuration.GetChild("configuration", true);
+
+			ContainerUtil.Configure( component, configuration );
 
 			base.Apply( model, component );
 		}

@@ -43,7 +43,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 			AssertUtil.ArgumentNotNull( service, "service" );
 			AssertUtil.ArgumentNotNull( implementation, "implementation" );
 
-			ComponentData data = new ComponentData(implementation);
+			ComponentData data = new ComponentData( key, implementation );
 
 			InspectConstructors(data);
 			InspectSetMethods(service, data);
@@ -256,16 +256,18 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 	/// </summary>
 	public class ComponentData
 	{
+		private String m_key;
+		private Type m_implementation;
+		private ConstructorInfo m_constructor;
 		private ArrayList m_dependencies = new ArrayList();
 		private ArrayList m_properties = new ArrayList();
-		private ConstructorInfo m_constructor;
 		private AvalonComponentAttribute m_componentAttribute;
 		private AvalonLoggerAttribute m_loggerAttribute;
-		private Type m_implementation;
 
-		public ComponentData( Type implementation )
+		public ComponentData( String key, Type implementation )
 		{
-			this.m_implementation = implementation;
+			m_key = key;
+			m_implementation = implementation;
 		}
 
 		public Type Implementation
@@ -376,7 +378,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 			{
 				if (AvalonComponent == null)
 				{
-					return Implementation.Name;
+					return m_key;
 				}
 
 				return AvalonComponent.Name;
