@@ -11,11 +11,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.ObjectStreamClass;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
 import org.apache.cornerstone.services.Store;
+import org.apache.cornerstone.services.store.ObjectRepository;
 
 /**
  * This is a simple implementation of persistent object store using
@@ -27,7 +25,7 @@ import org.apache.cornerstone.services.Store;
  */
 public class File_Persistent_Object_Repository 
     extends AbstractFileRepository  
-    implements Store.ObjectRepository
+    implements Store.ObjectRepository, ObjectRepository
 {
     protected String getExtensionDecorator() 
     {

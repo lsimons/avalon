@@ -24,7 +24,8 @@ import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
 import org.apache.avalon.Initializable;
 import org.apache.phoenix.Block;
-import org.apache.cornerstone.services.Store;
+import org.apache.cornerstone.services.store.Store;
+import org.apache.cornerstone.services.store.ObjectRepository;
 import org.apache.cornerstone.services.sockets.SocketManager;
 import org.apache.cornerstone.services.sockets.ServerSocketFactory;
 import org.apache.cornerstone.services.connection.ConnectionHandler;
@@ -58,7 +59,7 @@ public class SimpleServer
     protected SocketManager           m_socketManager;
     protected ConnectionManager       m_connectionManager;
     protected Store                   m_testStore;
-    protected Store.ObjectRepository  m_repository;
+    protected ObjectRepository        m_repository;
 
     protected PrintWriter             m_out;
     protected int                     m_count;
@@ -67,7 +68,7 @@ public class SimpleServer
         throws ComponentManagerException
     {
         m_testStore = 
-            (Store)componentManager.lookup( "org.apache.cornerstone.services.Store" );
+            (Store)componentManager.lookup( "org.apache.cornerstone.services.store.Store" );
 
         m_socketManager = (SocketManager)componentManager.
             lookup( "org.apache.cornerstone.services.sockets.SocketManager" );
@@ -93,7 +94,7 @@ public class SimpleServer
         final Configuration repConf = m_configuration.getChild( "repository" );
         getLogger().info( "Want to use repository in:" + 
                           repConf.getAttribute( "destinationURL" ) );
-        m_repository = (Store.ObjectRepository)m_testStore.select( repConf );
+        m_repository = (ObjectRepository)m_testStore.select( repConf );
         getLogger().info( "Got repository" );
 
         TimeTrigger trigger = null;
