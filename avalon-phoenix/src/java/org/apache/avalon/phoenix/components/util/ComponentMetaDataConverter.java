@@ -9,8 +9,8 @@ package org.apache.avalon.phoenix.components.util;
 
 import java.io.File;
 import java.util.ArrayList;
-import org.apache.avalon.framework.info.Attribute;
-import org.apache.avalon.framework.info.ComponentInfo;
+import org.apache.avalon.phoenix.framework.info.Attribute;
+import org.apache.avalon.phoenix.framework.info.ComponentInfo;
 import org.apache.avalon.phoenix.components.ContainerConstants;
 import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
 import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
@@ -25,7 +25,7 @@ import org.apache.avalon.phoenix.metainfo.BlockInfo;
  * Convert a {@link ComponentMetaData} into a {@link BlockMetaData}.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/02/22 05:34:45 $
+ * @version $Revision: 1.5 $ $Date: 2003/03/01 03:39:45 $
  */
 public class ComponentMetaDataConverter
 {

@@ -12,7 +12,7 @@ import java.util.Map;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.info.Attribute;
+import org.apache.avalon.phoenix.framework.info.Attribute;
 import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
 import org.apache.avalon.phoenix.containerkit.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.containerkit.metadata.MetaDataBuilder;
@@ -24,7 +24,7 @@ import org.xml.sax.InputSource;
  * one or more xml config files.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/18 16:43:42 $
+ * @version $Revision: 1.2 $ $Date: 2003/03/01 03:39:45 $
  */
 public class SimpleMetaDataBuilder
     implements MetaDataBuilder

@@ -7,8 +7,8 @@
  */
 package org.apache.avalon.phoenix.containerkit.metadata;
 
-import org.apache.avalon.framework.info.Attribute;
-import org.apache.avalon.framework.info.FeatureDescriptor;
+import org.apache.avalon.phoenix.framework.info.Attribute;
+import org.apache.avalon.phoenix.framework.info.FeatureDescriptor;
 
 /**
  * In each Assembly there may be groups of components that
@@ -19,7 +19,7 @@ import org.apache.avalon.framework.info.FeatureDescriptor;
  * each other.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/18 16:43:44 $
+ * @version $Revision: 1.2 $ $Date: 2003/03/01 03:39:46 $
  */
 public class PartitionMetaData
     extends FeatureDescriptor

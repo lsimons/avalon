@@ -14,7 +14,7 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.info.Attribute;
+import org.apache.avalon.phoenix.framework.info.Attribute;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.components.ContainerConstants;
 import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
@@ -28,7 +28,7 @@ import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
  * and is in the format specified for <tt>assembly.xml</tt> files.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/02/22 04:03:25 $
+ * @version $Revision: 1.5 $ $Date: 2003/03/01 03:39:45 $
  */
 public class Assembler
     extends AbstractLogEnabled

@@ -9,10 +9,10 @@ package org.apache.avalon.phoenix.components.util;
 
 import java.util.ArrayList;
 import org.apache.avalon.framework.Version;
-import org.apache.avalon.framework.info.ComponentDescriptor;
-import org.apache.avalon.framework.info.ComponentInfo;
-import org.apache.avalon.framework.info.SchemaDescriptor;
-import org.apache.avalon.framework.tools.infobuilder.LegacyUtil;
+import org.apache.avalon.phoenix.framework.info.ComponentDescriptor;
+import org.apache.avalon.phoenix.framework.info.ComponentInfo;
+import org.apache.avalon.phoenix.framework.info.SchemaDescriptor;
+import org.apache.avalon.phoenix.framework.tools.infobuilder.LegacyUtil;
 import org.apache.avalon.phoenix.metainfo.BlockDescriptor;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
@@ -22,7 +22,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * Convert a {@link ComponentInfo} into a {@link BlockInfo}.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003/01/25 15:47:17 $
+ * @version $Revision: 1.10 $ $Date: 2003/03/01 03:39:45 $
  */
 public class ComponentInfoConverter
 {
@@ -57,7 +57,7 @@ public class ComponentInfoConverter
      * @return the management services
      */
     private static ServiceDescriptor[] getMXServices(
-        final org.apache.avalon.framework.info.ServiceDescriptor[] services )
+        final org.apache.avalon.phoenix.framework.info.ServiceDescriptor[] services )
     {
         final ArrayList serviceSet = new ArrayList();
         for( int i = 0; i < services.length; i++ )
@@ -77,7 +77,7 @@ public class ComponentInfoConverter
      * @return the Phoenix services
      */
     private static ServiceDescriptor[] toPhoenixServices(
-        final org.apache.avalon.framework.info.ServiceDescriptor[] services )
+        final org.apache.avalon.phoenix.framework.info.ServiceDescriptor[] services )
     {
         final ArrayList serviceSet = new ArrayList();
         for( int i = 0; i < services.length; i++ )
@@ -97,7 +97,7 @@ public class ComponentInfoConverter
      * @return the Phoenix service
      */
     private static ServiceDescriptor toPhoenixService(
-        final org.apache.avalon.framework.info.ServiceDescriptor service )
+        final org.apache.avalon.phoenix.framework.info.ServiceDescriptor service )
     {
         final Version version = LegacyUtil.toVersion( service );
         return new ServiceDescriptor( service.getType(), version );
@@ -110,7 +110,7 @@ public class ComponentInfoConverter
      * @return the Phoenix dependencys
      */
     private static DependencyDescriptor[] toPhoenixDependencys(
-        final org.apache.avalon.framework.info.DependencyDescriptor[] dependencies )
+        final org.apache.avalon.phoenix.framework.info.DependencyDescriptor[] dependencies )
     {
         final ArrayList depends = new ArrayList();
         for( int i = 0; i < dependencies.length; i++ )
@@ -127,7 +127,7 @@ public class ComponentInfoConverter
      * @return the Phoenix dependency
      */
     private static DependencyDescriptor toPhoenixDependency(
-        final org.apache.avalon.framework.info.DependencyDescriptor dependency )
+        final org.apache.avalon.phoenix.framework.info.DependencyDescriptor dependency )
     {
         final Version version = LegacyUtil.toVersion( dependency );
         final ServiceDescriptor service =
