@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Created-By: Apache Avalon Project
+
+Name: org/apache/cornerstone/demos/simpleserver/SimpleServer.class
+Avalon-Block: true

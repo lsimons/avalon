@@ -1,9 +1,7 @@
 .ant.properties
-dist
-build
-bootstrap
-distribution
 prj.el
 emacs-jprj.el
-bootstrap.bat.pif
+dist
+build
+
 

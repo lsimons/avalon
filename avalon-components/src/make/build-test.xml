@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+
+<!-- ======================================================================= -->
+<!-- Avalon Unit Test Build File                                             -->
+<!-- ======================================================================= -->
+
+<project name="Avalon Unit Tester" default="test" basedir="../..">
+
+  <path id="test.class.path">
+    <pathelement path="${java.class.path}" />
+    <pathelement path="${build.classes}" />
+<!--
+    <fileset dir="${build.lib}">
+      <include name="*.jar" />
+      <include name="*.bar" />
+    </fileset>
+-->
+  </path>
+ 
+  <!-- =================================================================== --> 
+  <!-- Perform Unit tests                                                  --> 
+  <!-- =================================================================== --> 
+  <target name="test" > 
+    <echo message="Testing ... 1. 2. 3. Testing" /> 
+<!--
+    <property name="test.class.path" refid="test.class.path" />
+    <echo message="Using Classpath: ${test.class.path}" /> 
+-->
+    <test showSuccess="false" showBanner="false" showTrace="true" forceShowTrace="true" > 
+      <classpath refid="test.class.path" />
+      <testlet>org.apache.avalon.util.cli.test.ClutilTestlet</testlet>
+      <testlet>org.apache.avalon.util.test.ProxyGeneratorTestlet</testlet>
+      <testlet>org.apache.avalon.util.test.BinaryHeapTestlet</testlet>
+      <testlet>org.apache.avalon.util.test.DependencyGraphTestlet</testlet>
+      <testlet>org.apache.avalon.util.test.StringUtilTestlet</testlet>
+      <testlet>org.apache.avalon.util.test.PropertyUtilTestlet</testlet>
+      <testlet>org.apache.avalon.util.io.test.FileUtilTestlet</testlet>
+      <testlet>org.apache.avalon.util.datasource.test.DataSourceTestlet</testlet>
+      <testlet>org.apache.cornerstone.services.scheduler.test.CronTimeTriggerTestlet</testlet>
+    </test> 
+  </target> 
+
+  <target name="profile" >
+   <echo message="Profiling..." />
+
+   <test showSuccess="false" showBanner="false" showTrace="true" forceShowTrace="true" >
+      <classpath refid="test.class.path" />
+      <testlet>org.apache.avalon.util.pool.test.PoolProfile</testlet>
+    </test>
+
+  </target>
+
+</project>
