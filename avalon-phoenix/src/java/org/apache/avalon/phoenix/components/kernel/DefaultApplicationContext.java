@@ -132,7 +132,7 @@ class DefaultApplicationContext
      * and using the specified name.
      *
      * @param name the name of object to export
-     * @param service the interface of object with which to export
+     * @param services the interface of object with which to export
      * @param object the actual object to export
      */
     public void exportObject( final String name,
@@ -147,7 +147,6 @@ class DefaultApplicationContext
      * Unexport specified object from management system.
      *
      * @param name the name of object to unexport
-     * @param service the interface of object with which to unexport
      */
     public void unexportObject( final String name )
         throws Exception
