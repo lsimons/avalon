@@ -165,9 +165,9 @@ public class SyslogTarget extends DatagramOutputTarget
         }
 
         //final String data = format( event );
-        if( null != m_formatter )
+        if( null != getFormatter() )
         {
-            write ("<"+(facility | syslogPriority)+">"+m_formatter.format( event ));
+            write ("<"+(facility | syslogPriority)+">"+getFormatter().format( event ));
         }
         else
         {
