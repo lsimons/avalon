@@ -39,6 +39,7 @@
             <pathelement location="instrument/src/java"/>
             <pathelement location="instrument/src/test"/>
             <pathelement location="all/src/java"/>
+            <pathelement location="all/src/scratchpad"/>
             <pathelement location="all/src/test"/>
             <pathelement location="instrument-manager/src/java"/>
             <pathelement location="instrument-manager/src/test"/>
