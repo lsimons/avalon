@@ -21,6 +21,7 @@ import org.apache.metro.studio.eclipse.core.templateengine.BlockProjectManager;
 import org.apache.metro.studio.eclipse.launch.MetroStudioLaunch;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectNature;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
@@ -29,7 +30,9 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.debug.ui.ILaunchShortcut;
+import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorInput;
@@ -63,11 +66,20 @@ public class MetroLaunchShortcut implements ILaunchShortcut
         {
             Object sel = ((IStructuredSelection) selection).getFirstElement();
             IProject project = null;
-            if (sel instanceof IJavaProject)
+            if (sel instanceof IJavaProject) // project selected
             {
                 project = ((IJavaProject) sel).getProject();
+            } else if (sel instanceof IResource) // a file selected
+            {
+                project = ((IResource) sel).getProject();
+            } else if (sel instanceof IPackageFragment) // a package selected
+            {
+                project = ((IPackageFragment) sel).getJavaProject().getProject();
+            } else if (sel instanceof ICompilationUnit) // a java file selected
+            {
+                project = ((ICompilationUnit) sel).getJavaProject().getProject();
             }
-            // TODO: extract file selections too
+
             launch(project, mode);
         }
     }
