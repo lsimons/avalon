@@ -293,6 +293,18 @@
       </tasks>
     </plugin>
 
+    <!--
+    Avalon Logging.
+    -->
+
+    <project basedir="../../runtime/logging/api">
+      <info>
+        <group>avalon/logging</group>
+        <name>avalon-logging-api</name>
+        <version>1.0.0</version>
+      </info>
+    </project>
+
   </projects>
 
 </system>
