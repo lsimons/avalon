@@ -389,7 +389,7 @@ public class AbstractMerlinTestCase extends TestCase
     */
     private File getMavenRepositoryDirectory()
     {
-        final String system = System.getProperty( "maven.repo.local" );
+        final String system = System.getProperty( "maven.home.local" );
         if( system != null )
         {
             return new File( new File( system ), "repository" );
