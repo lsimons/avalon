@@ -14,7 +14,7 @@ import java.io.InputStreamReader;
 import org.apache.avalon.excalibur.component.DefaultRoleManager;
 import org.apache.excalibur.instrument.component.InstrumentComponentManager;
 import org.apache.excalibur.instrument.manager.DefaultInstrumentManager;
-import org.apache.avalon.excalibur.logger.DefaultLogKitManager;
+import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.excalibur.concurrent.ThreadBarrier;
 
 import org.apache.avalon.framework.configuration.Configuration;
@@ -36,7 +36,7 @@ import org.apache.log.Priority;
  * Note, this code ignores exceptions to keep the code simple.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/04 10:33:33 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/08/04 11:04:24 $
  * @since 4.1
  */
 public class Main
@@ -72,36 +72,38 @@ public class Main
         Configuration rolesConfig      = builder.build( "../conf/roles.xml" );
         Configuration componentsConfig = builder.build( "../conf/components.xml" );
 
-        // Setup the LogKitManager
-        DefaultLogKitManager logManager = new DefaultLogKitManager();
+        // Create the default logger for the Logger Manager.
         Logger lmLogger = Hierarchy.getDefaultHierarchy().
             getLoggerFor( logKitConfig.getAttribute( "logger", "lm" ) );
         lmLogger.setPriority(
             Priority.getPriorityForName( logKitConfig.getAttribute( "log-level", "INFO" ) ) );
-        logManager.setLogger( lmLogger );
+        
+        // Setup the LogKitLoggerManager
+        LogKitLoggerManager logManager = new LogKitLoggerManager(
+            null, Hierarchy.getDefaultHierarchy(), new LogKitLogger( lmLogger ) );
         logManager.contextualize( context );
         logManager.configure( logKitConfig );
 
         // Set up the Instrument Manager
         m_instrumentManager = new DefaultInstrumentManager();
-        m_instrumentManager.enableLogging( new LogKitLogger(
-            logManager.getLogger( instrumentConfig.getAttribute( "logger", "im" ) ) ) );
+        m_instrumentManager.enableLogging(
+            logManager.getLoggerForCategory( instrumentConfig.getAttribute( "logger", "im" ) ) );
         m_instrumentManager.configure( instrumentConfig );
         m_instrumentManager.initialize();
 
         // Setup the RoleManager
         DefaultRoleManager roleManager = new DefaultRoleManager();
-        roleManager.setLogger(
-            logManager.getLogger( rolesConfig.getAttribute( "logger", "rm" ) ) );
+        roleManager.enableLogging(
+            logManager.getLoggerForCategory( rolesConfig.getAttribute( "logger", "rm" ) ) );
         roleManager.configure( rolesConfig );
 
         // Set up the ComponentManager
         m_componentManager = new InstrumentComponentManager();
-        m_componentManager.setLogger(
-            logManager.getLogger( componentsConfig.getAttribute( "logger", "cm" ) ) );
-        m_componentManager.setLogKitManager( logManager );
+        m_componentManager.enableLogging(
+            logManager.getLoggerForCategory( componentsConfig.getAttribute( "logger", "cm" ) ) );
+        m_componentManager.setLoggerManager( logManager );
         m_componentManager.contextualize( context );
-        m_componentManager.setInstrumentManager( m_instrumentManager ); // <-- Set the instrument manager.
+        m_componentManager.setInstrumentManager( m_instrumentManager );
         m_componentManager.setRoleManager( roleManager );
         m_componentManager.configure( componentsConfig );
         m_componentManager.initialize();
