@@ -73,13 +73,13 @@
     </dependency>
 
     <dependency>
-      <groupId>avalon-extension</groupId>
-      <artifactId>avalon-extension-spi</artifactId>
+      <groupId>avalon-util</groupId>
+      <artifactId>avalon-util-extension-api</artifactId>
       <version>1.1</version>
     </dependency>
     <dependency>
-      <groupId>avalon-extension</groupId>
-      <artifactId>avalon-extension-impl</artifactId>
+      <groupId>avalon-util</groupId>
+      <artifactId>avalon-util-extension-impl</artifactId>
       <version>1.1</version>
     </dependency>
 
