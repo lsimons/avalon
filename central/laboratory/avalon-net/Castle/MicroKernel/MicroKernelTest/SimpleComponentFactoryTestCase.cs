@@ -52,7 +52,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 
 			IComponentModel model = new DefaultComponentModelBuilder(kernel).BuildModel( "a", service, implementation );
 
-			SimpleComponentFactory factory = new SimpleComponentFactory( 
+			BaseComponentFactory factory = new BaseComponentFactory( 
 				kernel, null, 
 				model, new Hashtable() );
 
@@ -81,7 +81,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 			Hashtable serv2Handler = new Hashtable();
 			serv2Handler[ serviceDep ] = kernel.GetHandlerForService( serviceDep );
 
-			SimpleComponentFactory factory = new SimpleComponentFactory( 
+			BaseComponentFactory factory = new BaseComponentFactory( 
 				kernel, null, model, serv2Handler );
 
 			Object instance = factory.Incarnate();
@@ -116,7 +116,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 			serv2Handler[ serviceDep1 ] = kernel.GetHandlerForService( serviceDep1 );
 			serv2Handler[ serviceDep2 ] = kernel.GetHandlerForService( serviceDep2 );
 
-			SimpleComponentFactory factory = new SimpleComponentFactory( 
+			BaseComponentFactory factory = new BaseComponentFactory( 
 				kernel, null, model, serv2Handler );
 
 			Object instance = factory.Incarnate();
