@@ -8,11 +8,9 @@
 package org.apache.avalon.phoenix.tools.verifier;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Stack;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockListener;
@@ -59,7 +57,7 @@ public class SarVerifier
         ResourceManager.getPackageResources( SarVerifier.class );
 
     /**
-     * Verify the specified <code>SarMetaData</code> object. 
+     * Verify the specified <code>SarMetaData</code> object.
      * The rules used to verify <code>SarMetaData</code> are specified
      * in the Class javadocs.
      *

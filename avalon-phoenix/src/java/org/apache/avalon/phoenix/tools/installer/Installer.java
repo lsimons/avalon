@@ -8,22 +8,20 @@
 package org.apache.avalon.phoenix.tools.installer;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Collection;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipException;
-import java.util.zip.ZipFile;
 import java.util.zip.CRC32;
-import java.util.zip.Checksum;
 import java.util.zip.CheckedInputStream;
+import java.util.zip.Checksum;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
@@ -43,25 +41,25 @@ public class Installer
     private static final Resources REZ =
         ResourceManager.getPackageResources( Installer.class );
 
-    private static final String    OLD_ASSEMBLY_XML  = "conf" + File.separator + "assembly.xml";
+    private static final String OLD_ASSEMBLY_XML = "conf" + File.separator + "assembly.xml";
 
-    private static final String    OLD_CONFIG_XML    = "conf" + File.separator + "config.xml";
-    private static final String    OLD_SERVER_XML    = "conf" + File.separator + "server.xml";
-    private static final String    OLD_BLOCKS        = "blocks";
-    private static final String    OLD_LIB           = "lib";
+    private static final String OLD_CONFIG_XML = "conf" + File.separator + "config.xml";
+    private static final String OLD_SERVER_XML = "conf" + File.separator + "server.xml";
+    private static final String OLD_BLOCKS = "blocks";
+    private static final String OLD_LIB = "lib";
 
-    private static final String    META_INF     = "META-INF";   
-    private static final String    SAR_INF      = "SAR-INF";   
-    private static final String    LIB          = "SAR-INF/lib";   
-    private static final String    ASSEMBLY_XML = "SAR-INF/assembly.xml";
-    private static final String    CONFIG_XML   = "SAR-INF/config.xml";
-    private static final String    SERVER_XML   = "SAR-INF/server.xml";
-    private static final String    ENV_XML      = "SAR-INF/environment.xml";
+    private static final String META_INF = "META-INF";
+    private static final String SAR_INF = "SAR-INF";
+    private static final String LIB = "SAR-INF/lib";
+    private static final String ASSEMBLY_XML = "SAR-INF/assembly.xml";
+    private static final String CONFIG_XML = "SAR-INF/config.xml";
+    private static final String SERVER_XML = "SAR-INF/server.xml";
+    private static final String ENV_XML = "SAR-INF/environment.xml";
 
     //The names on the native filesystem
-    private static final String    FS_CONFIG_XML   = "SAR-INF" + File.separator + "config.xml";
-    private static final String    FS_SERVER_XML   = "SAR-INF" + File.separator + "server.xml";
-    private static final String    FS_ENV_XML      = "SAR-INF" + File.separator + "environment.xml";
+    private static final String FS_CONFIG_XML = "SAR-INF" + File.separator + "config.xml";
+    private static final String FS_SERVER_XML = "SAR-INF" + File.separator + "server.xml";
+    private static final String FS_ENV_XML = "SAR-INF" + File.separator + "environment.xml";
 
     /**
      * Uninstall the Sar designated installation.
@@ -74,39 +72,39 @@ public class Installer
     {
         final FileDigest[] infos = installation.getFileDigests();
         final Checksum checksum = new CRC32();
-                
+
         if( infos != null )
         {
             for( int i = 0; i < infos.length; i++ )
             {
-                final File file = infos[i].getFile();
+                final File file = infos[ i ].getFile();
                 final File parent = file.getParentFile();
-                                
+
                 final String message = REZ.getString( "skip-removal", file );
-                
+
                 if( file.exists() )
-                {                    
+                {
                     if( file.lastModified() <= installation.getTimestamp() )
                     {
-                        getLogger().debug( message );                        
+                        getLogger().debug( message );
                         continue;
                     }
-                    
+
                     checksum( file, checksum );
 
-                    if( checksum.getValue() != infos[i].getChecksum() )
+                    if( checksum.getValue() != infos[ i ].getChecksum() )
                     {
-                        getLogger().debug( message );                        
+                        getLogger().debug( message );
                         continue;
                     }
-                        
-                    file.delete();                                                
+
+                    file.delete();
                     if( 0 == parent.list().length ) parent.delete();
                 }
             }
         }
     }
-    
+
     /**
      * Utility method to compute the checksum for a given file.
      * @param file the computed file.
@@ -116,19 +114,19 @@ public class Installer
     {
         checksum.reset();
 
-        InputStream input = null;        
-        try 
-        {                           
+        InputStream input = null;
+        try
+        {
             input = new CheckedInputStream( new FileInputStream( file ), checksum );
             IOUtil.toByteArray( input );
-        } 
+        }
         catch( final IOException ioe )
         {
             final String message = REZ.getString( "checksum-failure", file );
             getLogger().warn( message );
-        }     
-        finally 
-        {                        
+        }
+        finally
+        {
             IOUtil.shutdownStream( input );
         }
     }
@@ -147,7 +145,7 @@ public class Installer
         {
             final String notice = REZ.getString( "installing-sar", url );
             getLogger().info( notice );
-            
+
             final File file = getFileFor( url );
             if( file.isDirectory() )
             {
@@ -201,8 +199,8 @@ public class Installer
             final ZipEntry entry = (ZipEntry)entries.nextElement();
             final String name = fixName( entry.getName() );
 
-            if( name.startsWith( OLD_BLOCKS ) || 
-                name.startsWith( OLD_LIB ) || 
+            if( name.startsWith( OLD_BLOCKS ) ||
+                name.startsWith( OLD_LIB ) ||
                 name.equals( "conf/assembly.xml" ) ||
                 name.equals( "conf/config.xml" ) ||
                 name.equals( "conf/server.xml" ) )
@@ -239,7 +237,7 @@ public class Installer
     private void lock()
     {
     }
-    
+
     /**
      * Utility method to unlock repository to allow other installers to access it.
      * Currently a no-op.
@@ -249,21 +247,21 @@ public class Installer
     }
 
     /**
-     * Install a new style sar. 
+     * Install a new style sar.
      *
      * @param url the url designator of sar
      * @param file the file of sar
      * @param zipFile the ZipFile representing sar
      * @return the Installation object
      */
-    private Installation install( final URL url, 
-                                  final File file, 
+    private Installation install( final URL url,
+                                  final File file,
                                   final ZipFile zipFile )
         throws InstallationException
     {
         final File directory = getDestinationFor( file );
 
-        //Question: Should we be making sure that 
+        //Question: Should we be making sure that
         //this directory is created?
         directory.mkdirs();
 
@@ -286,17 +284,17 @@ public class Installer
             //Don't expand anything below SAR-INF directory unless they
             //are the config.xml or server.xml files which will be expanded
             //as a special case atm.
-            if( name.startsWith( SAR_INF ) && 
-                !name.equals( SERVER_XML ) && 
-                !name.equals( ENV_XML ) && 
+            if( name.startsWith( SAR_INF ) &&
+                !name.equals( SERVER_XML ) &&
+                !name.equals( ENV_XML ) &&
                 !name.equals( CONFIG_XML ) )
             {
                 expand = false;
 
-                //Grab all the jar files in the 
+                //Grab all the jar files in the
                 //directory SAR-INF/lib
-                if( name.startsWith( LIB ) && 
-                    name.endsWith( ".jar" ) && 
+                if( name.startsWith( LIB ) &&
+                    name.endsWith( ".jar" ) &&
                     LIB.length() == name.lastIndexOf( "/" ) )
                 {
                     isJar = true;
@@ -351,15 +349,15 @@ public class Installer
         final String assembly = "jar:" + getURLAsString( file ) + "!/" + ASSEMBLY_XML;
         final String config = getURLAsString( new File( directory, FS_CONFIG_XML ) );
         final String environment = getURLAsString( envFile );
-        final FileDigest[] fileDigests = (FileDigest[])digests.toArray( new FileDigest[0] );
+        final FileDigest[] fileDigests = (FileDigest[])digests.toArray( new FileDigest[ 0 ] );
         final long timestamp = System.currentTimeMillis();
 
-        return new Installation( file, directory, config, assembly, environment, 
+        return new Installation( file, directory, config, assembly, environment,
                                  classPath, fileDigests, timestamp );
     }
 
     /**
-     * Fix the specified name so that it does not start 
+     * Fix the specified name so that it does not start
      * with a "/" character.
      *
      * @param name the name to fix
@@ -367,8 +365,10 @@ public class Installer
      */
     private String fixName( final String name )
     {
-        if( name.startsWith( "/" ) ) return name.substring( 1 );
-        else return name;
+        if( name.startsWith( "/" ) )
+            return name.substring( 1 );
+        else
+            return name;
     }
 
     /**
@@ -378,8 +378,8 @@ public class Installer
      * @param zipFile the ZipFile object for sar
      * @return the Installaiton
      */
-    private Installation installDeprecated( final URL url, 
-                                            final File file, 
+    private Installation installDeprecated( final URL url,
+                                            final File file,
                                             final ZipFile zipFile )
         throws InstallationException
     {
@@ -414,7 +414,7 @@ public class Installer
         final String config = getURLAsString( new File( directory, OLD_CONFIG_XML ) );
         final String assembly = getURLAsString( new File( directory, OLD_ASSEMBLY_XML ) );
         final String server = getURLAsString( new File( directory, OLD_SERVER_XML ) );
-        final FileDigest[] fileDigests = (FileDigest[])digests.toArray( new FileDigest[0] );
+        final FileDigest[] fileDigests = (FileDigest[])digests.toArray( new FileDigest[ 0 ] );
         final long timestamp = System.currentTimeMillis();
 
         return new Installation( file, directory, config, assembly, server, classPath, fileDigests, timestamp );
@@ -437,7 +437,7 @@ public class Installer
 
         return new Installation( directory, directory, config, assembly, server, classPath, null, timestamp );
     }
-   
+
     /**
      * Get File object for URL.
      * Currently it assumes that URL is a file URL but in the
@@ -468,7 +468,7 @@ public class Installer
 
         return file;
     }
-    
+
     /**
      * Expand specified entry from specified zipfile into specified location.
      *
@@ -478,14 +478,14 @@ public class Installer
      * @param digests the digests for the expanded files.
      * @exception IOException if an error occurs
      */
-    private void expandZipEntry( final ZipFile zipFile, 
-                                 final ZipEntry entry, 
-                                 final File file, 
+    private void expandZipEntry( final ZipFile zipFile,
+                                 final ZipEntry entry,
+                                 final File file,
                                  final ArrayList digests )
         throws InstallationException
-    {        
+    {
         if( entry.isDirectory() ) return;
- 
+
         InputStream input = null;
         OutputStream output = null;
 
@@ -493,12 +493,12 @@ public class Installer
         {
             file.getParentFile().mkdirs();
             output = new FileOutputStream( file );
-            input =  zipFile.getInputStream( entry );
-            IOUtil.copy( input, output );            
+            input = zipFile.getInputStream( entry );
+            IOUtil.copy( input, output );
         }
         catch( final IOException ioe )
         {
-            final String message = 
+            final String message =
                 REZ.getString( "failed-to-expand", entry.getName(), file, ioe.getMessage() );
             throw new InstallationException( message, ioe );
         }
@@ -506,8 +506,8 @@ public class Installer
         {
             IOUtil.shutdownStream( input );
             IOUtil.shutdownStream( output );
-        }        
-        
+        }
+
         final long checksum = entry.getCrc();
         final long modified = file.lastModified();
         final FileDigest info = new FileDigest( file, checksum );
@@ -526,7 +526,7 @@ public class Installer
         final String base =
             FileUtil.removeExtension( FileUtil.removePath( file.getName() ) );
 
-        return (new File( file.getParentFile(), base )).getAbsoluteFile();
+        return ( new File( file.getParentFile(), base ) ).getAbsoluteFile();
     }
 
     /**
@@ -540,9 +540,9 @@ public class Installer
         final File libDir = new File( directory, "lib" );
 
         final ArrayList urls = new ArrayList();
-        getURLsAsStrings( urls, blockDir, new String[] { ".bar" } );
-        getURLsAsStrings( urls, libDir, new String[] { ".jar", ".zip" } );
-        return (String[])urls.toArray( new String[0] );
+        getURLsAsStrings( urls, blockDir, new String[]{ ".bar" } );
+        getURLsAsStrings( urls, libDir, new String[]{ ".jar", ".zip" } );
+        return (String[])urls.toArray( new String[ 0 ] );
     }
 
     /**
@@ -572,7 +572,10 @@ public class Installer
      */
     private String getURLAsString( final File file )
     {
-        try { return file.toURL().toExternalForm(); }
+        try
+        {
+            return file.toURL().toExternalForm();
+        }
         catch( final MalformedURLException mue )
         {
             return null;

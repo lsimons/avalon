@@ -20,28 +20,28 @@ import java.io.File;
 public final class Installation
 {
     ///The source of installation (usually a directory in .sar format or a .sar file)
-    private final File         m_source;
+    private final File m_source;
 
     ///Directory in which application is installed
-    private final File         m_directory;
+    private final File m_directory;
 
     ///URL to block configuration data
-    private final String       m_config;
+    private final String m_config;
 
     ///URL to assembly data
-    private final String       m_assembly;
+    private final String m_assembly;
 
     ///URL to application configuration data
-    private final String       m_environment;
+    private final String m_environment;
 
     ///ClassPath for application
-    private final String[]     m_classPath;
-        
+    private final String[] m_classPath;
+
     ///Info for expanded files
     private final FileDigest[] m_digests;
-    
+
     ///Installation timestamp
-    private final long         m_timestamp;
+    private final long m_timestamp;
 
     public Installation( final File source,
                          final File directory,
@@ -122,7 +122,7 @@ public final class Installation
     {
         return m_classPath;
     }
-    
+
     /** Retrieve file digests.
      *
      * @return the file digest list.
@@ -130,8 +130,8 @@ public final class Installation
     public FileDigest[] getFileDigests()
     {
         return m_digests;
-    }    
-    
+    }
+
     /** Retrieve the timestamp.
      *
      * @return the timestamp when installation occured.
