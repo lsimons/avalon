@@ -25,12 +25,12 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
 
-import org.apache.excalibur.altrmi.common.AltrmiInvocationException;
+import org.apache.excalibur.altrmi.common.InvocationException;
 
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/10/17 15:56:17 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/01/05 23:28:07 $
  * @since 4.1
  */
 public class MenuBar
@@ -325,7 +325,7 @@ public class MenuBar
                 }
             }
         }
-        catch ( AltrmiInvocationException e )
+        catch ( InvocationException e )
         {
             // Something went wrong, so close the connection.
             connection.close();
@@ -396,7 +396,7 @@ public class MenuBar
                 }
             }
         }
-        catch ( AltrmiInvocationException e )
+        catch ( InvocationException e )
         {
             // Something went wrong, so close the connection.
             connection.close();
@@ -478,7 +478,7 @@ public class MenuBar
                 }
             }
         }
-        catch ( AltrmiInvocationException e )
+        catch ( InvocationException e )
         {
             // Something went wrong, so close the connection.
             connection.close();

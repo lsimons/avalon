@@ -38,8 +38,8 @@ import org.apache.excalibur.altrmi.client.AltrmiFactory;
 import org.apache.excalibur.altrmi.client.impl.socket.SocketCustomStreamHostContext;
 import org.apache.excalibur.altrmi.client.impl.ClientClassAltrmiFactory;
 import org.apache.excalibur.altrmi.client.impl.DefaultConnectionListener;
-import org.apache.excalibur.altrmi.common.AltrmiConnectionException;
-import org.apache.excalibur.altrmi.common.AltrmiInvocationException;
+import org.apache.excalibur.altrmi.common.ConnectionException;
+import org.apache.excalibur.altrmi.common.InvocationException;
 import org.apache.excalibur.altrmi.common.ConnectionRefusedException;
 
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
@@ -52,7 +52,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleUtils;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.10 $ $Date: 2003/01/05 23:12:59 $
+ * @version CVS $Revision: 1.11 $ $Date: 2003/01/05 23:28:07 $
  * @since 4.1
  */
 class InstrumentManagerConnection
@@ -62,9 +62,9 @@ class InstrumentManagerConnection
     private final InstrumentClientFrame m_frame;
     private final String m_host;
     private final int m_port;
-    
+
     private Logger m_logger;
-    
+
     private boolean m_closed;
     private boolean m_deleted;
     private HostContext m_altrmiHostContext;
@@ -72,17 +72,17 @@ class InstrumentManagerConnection
     private InstrumentManagerClient m_manager;
     private InstrumentManagerTreeModel m_treeModel;
     private InstrumentManagerTree m_tree;
-    
+
     private final ArrayList m_listeners = new ArrayList();
     private InstrumentManagerConnectionListener[] m_listenerArray = null;
 
     private long m_lastLeaseRenewalTime;
     private HashMap m_maintainedSampleLeaseMap = new HashMap();
     private MaintainedSampleLease[] m_maintainedSampleLeaseArray = null;
-    
+
     /** Maintain a list of all sample frames which are viewing data in this connection. */
     private HashMap m_sampleFrames = new HashMap();
-    
+
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -92,34 +92,34 @@ class InstrumentManagerConnection
         m_host = host;
         m_port = port;
         m_closed = true;
-        
+
         m_treeModel = new InstrumentManagerTreeModel( this );
         // Set the logger when the connection logger is set.
         addInstrumentManagerConnectionListener( m_treeModel );
-        
+
         setLayout( new BorderLayout() );
-        
+
         // Top Pane
         Box topPane = Box.createVerticalBox();
-        
+
         // Top Labels
         JPanel labels = new JPanel();
         labels.setLayout( new FlowLayout( FlowLayout.LEFT ) );
-        
+
         JLabel hostLabelLabel = new JLabel( "Host: " );
         labels.add( hostLabelLabel );
         JLabel hostLabel = new JLabel( getHost() );
         hostLabel.setForeground( Color.black );
         labels.add( hostLabel );
-        
+
         JLabel portLabelLabel = new JLabel( "  Port: " );
         labels.add( portLabelLabel );
         JLabel portLabel = new JLabel( Integer.toString( getPort() ) );
         portLabel.setForeground( Color.black );
         labels.add( portLabel );
-        
+
         topPane.add( labels );
-        
+
         // Top Buttons
         Action gcAction = new AbstractAction( "Invoke GC" )
         {
@@ -135,7 +135,7 @@ class InstrumentManagerConnection
             }
         };
         JButton gcButton = new JButton( gcAction );
-        
+
         Action refreshAction = new AbstractAction( "Refresh" )
         {
             public void actionPerformed( ActionEvent event )
@@ -150,20 +150,20 @@ class InstrumentManagerConnection
             }
         };
         JButton refreshButton = new JButton( refreshAction );
-        
+
         JPanel buttons = new JPanel();
         buttons.setLayout( new FlowLayout( FlowLayout.LEFT ) );
         buttons.add ( gcButton );
         buttons.add ( refreshButton );
         topPane.add( buttons );
-        
+
         add( topPane, BorderLayout.NORTH );
-        
+
         // Tree Pane
         m_tree = new InstrumentManagerTree( this );
         add( m_tree, BorderLayout.CENTER );
     }
-    
+
     /*---------------------------------------------------------------
      * LogEnabled Methods
      *-------------------------------------------------------------*/
@@ -172,12 +172,12 @@ class InstrumentManagerConnection
         m_logger = logger.getChildLogger( "conn_" + m_host + "_" + m_port );
         m_treeModel.enableLogging( m_logger.getChildLogger( "treeModel" ) );
     }
-    
+
     Logger getLogger()
     {
         return m_logger;
     }
-    
+
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
@@ -195,7 +195,7 @@ class InstrumentManagerConnection
             {
                 tabTitle = manager.getDescription();
             }
-            catch ( AltrmiInvocationException e )
+            catch ( InvocationException e )
             {
                 // Connection closed.  Ignore this here.
                 tabTitle = "[Not Connected]";
@@ -203,17 +203,17 @@ class InstrumentManagerConnection
         }
         return tabTitle;
     }
-    
+
     String getHost()
     {
         return m_host;
     }
-    
+
     int getPort()
     {
         return m_port;
     }
-    
+
     /**
      * Returns a title for the connection which can be used in frame titlesa
      *  and menus.  Reflects the connected status.
@@ -222,17 +222,17 @@ class InstrumentManagerConnection
     {
         return getTabTitle() + " (" + m_host + ":" + m_port + ")";
     }
-    
+
     InstrumentManagerClient getInstrumentManagerClient()
     {
         return m_manager;
     }
-    
+
     InstrumentManagerTreeModel getTreeModel()
     {
         return m_treeModel;
     }
-    
+
     /**
      * Returns a thread save array representation of the MaintainedSampleLeases.
      *
@@ -253,7 +253,7 @@ class InstrumentManagerConnection
         }
         return array;
     }
-    
+
     /**
      * Called once each second by the main worker thread of the client.  This
      *  method is responsible for maintaining and expiring leased samples.
@@ -261,7 +261,7 @@ class InstrumentManagerConnection
     void handleLeasedSamples()
     {
         // If we are not connected, then there is nothing to be done here.
-        
+
         // Only renew leases once per minute.
         long now = System.currentTimeMillis();
         if ( now - m_lastLeaseRenewalTime > 60000 )
@@ -272,7 +272,7 @@ class InstrumentManagerConnection
             {
                 MaintainedSampleLease lease = leases[i];
                 //getLogger().debug(" lease: " + lease.getSampleName());
-                
+
                 // Look for the Sample Descriptor in the Tree Model
                 DefaultMutableTreeNode sampleTreeNode =
                     m_treeModel.getInstrumentSampleTreeNode( lease.getSampleName() );
@@ -282,7 +282,7 @@ class InstrumentManagerConnection
                     //  create it on the server to make sure that it exists.
                     //  Then refresh the Instrument in the tree node so that it
                     //  is created.
-                    
+
                     // Loof for the Instrument Descriptor in the Tree Model
                     DefaultMutableTreeNode instrumentTreeNode =
                         m_treeModel.getInstrumentTreeNode( lease.getInstrumentName() );
@@ -293,22 +293,22 @@ class InstrumentManagerConnection
                     else
                     {
                         // Get the InstrumentDescriptor
-                        InstrumentDescriptor instrumentDescriptor = 
+                        InstrumentDescriptor instrumentDescriptor =
                             ((InstrumentNodeData)instrumentTreeNode.getUserObject()).
                             getDescriptor();
-                        
+
                         // Now attempt to create the sample
                         try
                         {
                             instrumentDescriptor.createInstrumentSample(
                                 lease.getDescription(), lease.getInterval(), lease.getSize(),
                                 lease.getLeaseDuration(), lease.getType() );
-                            
+
                             // Refresh the Tree Model
                             m_treeModel.updateInstrument( instrumentDescriptor, instrumentTreeNode,
                                 -1 /* Force Update */ );
                         }
-                        catch ( AltrmiInvocationException e )
+                        catch ( InvocationException e )
                         {
                             // Means that the connection died.
                             close();
@@ -320,72 +320,72 @@ class InstrumentManagerConnection
                     // A sample descriptor already exists.  Simply extend it.
                     InstrumentSampleNodeData sampleNodeData =
                         (InstrumentSampleNodeData)sampleTreeNode.getUserObject();
-                    
+
                     // Get the InstrumentSampleDescriptor
                     InstrumentSampleDescriptor sampleDescriptor = sampleNodeData.getDescriptor();
-                    
+
                     try
                     {
                         long newExpireTime =
                             sampleDescriptor.extendLease( lease.getLeaseDuration() );
                         //getLogger().debug("  Extended lease to: " + newExpireTime );
-                        
+
                         sampleNodeData.setLeaseExpireTime( newExpireTime );
-                        
+
                         // Refresh the Tree Model
                         m_treeModel.updateInstrumentSample( sampleDescriptor, sampleTreeNode );
                     }
-                    catch ( AltrmiInvocationException e )
+                    catch ( InvocationException e )
                     {
                         // Means that the connection died.
                         close();
                     }
-                    
+
                 }
             }
-            
+
             // Also, take this oportunity to update all of the leased samples in
             //  the model.
             m_treeModel.renewAllSampleLeases();
-        
+
             m_lastLeaseRenewalTime = now;
         }
-        
+
         // Now have the TreeModel purge any expired samples from the tree.
         m_treeModel.purgeExpiredSamples();
     }
-    
-    void open() throws AltrmiConnectionException, IOException
+
+    void open() throws ConnectionException, IOException
     {
         if ( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "Attempt to open a new connection to " + m_host + ":" + m_port );
         }
-        
+
         SocketCustomStreamHostContext altrmiHostContext =
             new SocketCustomStreamHostContext( m_host, m_port );
         altrmiHostContext.setAltrmiConnectionListener( new DefaultConnectionListener( 0 ) );
-        
+
         m_altrmiHostContext = altrmiHostContext;
         m_altrmiFactory = new ClientClassAltrmiFactory( false );
         m_altrmiFactory.setHostContext( altrmiHostContext );
-        
+
         if ( getLogger().isDebugEnabled() )
         {
             getLogger().debug("Connected.  Listing Published Altrmi Objects At Server...");
         }
-        
+
         String[] listOfPublishedObjectsOnServer = m_altrmiFactory.list();
         for ( int i = 0; i < listOfPublishedObjectsOnServer.length; i++ )
         {
             getLogger().debug( "  [" + i + "]:" + listOfPublishedObjectsOnServer[i] );
         }
-        
+
         m_manager = (InstrumentManagerClient)m_altrmiFactory.lookup(
             "InstrumentManagerClient" );
-        
+
         m_closed = false;
-        
+
         // Notify the listeners.
         InstrumentManagerConnectionListener[] listenerArray = getListenerArray();
         for ( int i = 0; i < listenerArray.length; i++ )
@@ -393,7 +393,7 @@ class InstrumentManagerConnection
             listenerArray[i].opened( this );
         }
     }
-    
+
     /**
      * Attempts to open the connection.  If it fails, it just leaves it closed.
      */
@@ -407,7 +407,7 @@ class InstrumentManagerConnection
         {
             getLogger().debug( "Connection refused.  Server not running?" );
         }
-        catch ( AltrmiConnectionException e )
+        catch ( ConnectionException e )
         {
             if ( getLogger().isDebugEnabled() )
             {
@@ -424,7 +424,7 @@ class InstrumentManagerConnection
             }
         }
     }
-    
+
     /**
      * Returns true if the connection is currently closed.
      *
@@ -434,7 +434,7 @@ class InstrumentManagerConnection
     {
         return m_closed;
     }
-    
+
     /**
      * Closes the connection, but keeps it around.  If the remote instrument manager
      *  is running the connection will reopen itself.
@@ -442,7 +442,7 @@ class InstrumentManagerConnection
     void close()
     {
         getLogger().debug( "close()" );
-        
+
         if ( !m_closed )
         {
             m_closed = true;
@@ -453,7 +453,7 @@ class InstrumentManagerConnection
             // m_altrmiHostContext.close();
             m_altrmiHostContext = null;
         }
-        
+
         // Notify the listeners.
         InstrumentManagerConnectionListener[] listenerArray = getListenerArray();
         for ( int i = 0; i < listenerArray.length; i++ )
@@ -461,7 +461,7 @@ class InstrumentManagerConnection
             listenerArray[i].closed( this );
         }
     }
-    
+
     /**
      * Returns true if the connection is currently deleted.
      *
@@ -471,7 +471,7 @@ class InstrumentManagerConnection
     {
         return m_deleted;
     }
-    
+
     /**
      * Called when the connection should be closed and then deleted along with
      *  any frames and resources that are associated with it.
@@ -480,9 +480,9 @@ class InstrumentManagerConnection
     {
         getLogger().debug( "delete()" );
         close();
-        
+
         m_deleted = true;
-        
+
         // Notify the listeners.
         InstrumentManagerConnectionListener[] listenerArray = getListenerArray();
         for ( int i = 0; i < listenerArray.length; i++ )
@@ -490,7 +490,7 @@ class InstrumentManagerConnection
             listenerArray[i].deleted( this );
         }
     }
-        
+
     boolean ping()
     {
         // Ping the server by requesting the manager's name
@@ -502,18 +502,18 @@ class InstrumentManagerConnection
                 String name = manager.getName();
                 return true;
             }
-            catch ( AltrmiInvocationException e )
+            catch ( InvocationException e )
             {
                 getLogger().debug( "Ping Failed.", e );
-                
+
                 // Socket was closed.
                 close();
             }
         }
-        
+
         return false;
     }
-    
+
     /**
      * Adds a InstrumentManagerConnectionListener to the list of listeners
      *  which receive state updates of the connection.
@@ -530,7 +530,7 @@ class InstrumentManagerConnection
             m_listenerArray = null;
         }
     }
-    
+
     /**
      * Removes a InstrumentManagerConnectionListener from the list of listeners
      *  which receive state updates of the connection.
@@ -547,7 +547,7 @@ class InstrumentManagerConnection
             m_listenerArray = null;
         }
     }
-    
+
     /**
      * Get a threadsafe array of the current listeners avoiding synchronization
      *  when possible.  The contents of the returned array will never change.
@@ -568,7 +568,7 @@ class InstrumentManagerConnection
         }
         return listenerArray;
     }
-    
+
     /**
      * Returns a sample frame given a sample name.
      * Caller must synchronize on this connection before calling.
@@ -583,7 +583,7 @@ class InstrumentManagerConnection
         // Assumes "this" is synchronized.
         return (InstrumentSampleFrame)m_sampleFrames.get( sampleName );
     }
-    
+
     private void addSampleFrame( String sampleName, InstrumentSampleFrame sampleFrame )
     {
         getLogger().debug("InstrumentManagerConnection.addSampleFrame(" + sampleName + ", frame)");
@@ -597,7 +597,7 @@ class InstrumentManagerConnection
         // Assumes "this" is synchronized.
         m_sampleFrames.remove( sampleName );
     }
-    
+
     /**
      * Create a new Sample assigned to the specified instrument descriptor.
      *
@@ -606,27 +606,27 @@ class InstrumentManagerConnection
     void instrumentCreateSample( final InstrumentDescriptor instrumentDescriptor )
     {
         //m_frame.instrumentCreateSample( this, instrumentDescriptor );
-        
+
         SwingUtilities.invokeLater( new Runnable()
         {
             public void run()
             {
                 CreateSampleDialog dialog =
                     new CreateSampleDialog( m_frame, instrumentDescriptor );
-                
+
                 dialog.setSampleDescription( "Each Second" );
                 dialog.setInterval( 1000 );
                 dialog.setSampleCount( 600 );  // 10 minutes of history
                 dialog.setLeaseTime( 600 );
                 dialog.setMaintainLease( true );
                 dialog.show();
-                
+
                 if ( dialog.getAction() == CreateSampleDialog.BUTTON_OK )
                 {
                     getLogger().debug( "New Sample: desc=" + dialog.getSampleDescription() +
                         ", interval=" + dialog.getInterval() + ", size=" + dialog.getSampleCount() +
                         ", lease=" + dialog.getLeaseTime() + ", type=" + dialog.getSampleType() );
-                    
+
                     // If the sample already exists on the server, then the existing one
                     //  will be returned.
                     InstrumentSampleDescriptor sampleDescriptor =
@@ -636,15 +636,15 @@ class InstrumentManagerConnection
                             dialog.getSampleCount(),
                             dialog.getLeaseTime(),
                             dialog.getSampleType() );
-                    
+
                     // Update the model.
                     m_treeModel.updateInstrument( instrumentDescriptor );
-                    
+
                     InstrumentSampleNodeData sampleNodeData = startMaintainingSample(
                         instrumentDescriptor.getName(), dialog.getSampleType(),
                         dialog.getInterval(), dialog.getSampleCount(),
                         dialog.getLeaseTime(), dialog.getSampleDescription() );
-                    
+
                     // We should always have a NodeData for the sample, but it is
                     //  possible that it could be null if there were errors, so
                     //  be careful.
@@ -657,7 +657,7 @@ class InstrumentManagerConnection
             }
         } );
     }
-    
+
     /**
      * Loads an InstrumentSampleFrame from a saved state.
      *
@@ -668,7 +668,7 @@ class InstrumentManagerConnection
         // Get the sample name
         String sampleName = sampleFrameState.getAttribute( "sample" );
         getLogger().debug( "Loading sample frame: " + sampleName );
-        
+
         // See if a frame already exists.
         InstrumentSampleFrame sampleFrame;
         synchronized(this)
@@ -681,7 +681,7 @@ class InstrumentManagerConnection
                 sampleFrame.hideFrame();
                 sampleFrame = null;
             }
-            
+
             // Now create the frame
             sampleFrame = new InstrumentSampleFrame( sampleFrameState, this, m_frame );
             addSampleFrame( sampleName, sampleFrame );
@@ -689,7 +689,7 @@ class InstrumentManagerConnection
             sampleFrame.show();
         }
     }
-    
+
     /**
      * Displays a frame for the given sample.
      *
@@ -709,7 +709,7 @@ class InstrumentManagerConnection
                 sampleFrame.addToDesktop( m_frame.getDesktopPane() );
             }
         }
-        
+
         sampleFrame.show();
         // Need to restore the frame if it is an icon.
         if ( sampleFrame.isIcon() )
@@ -721,7 +721,7 @@ class InstrumentManagerConnection
             }
             catch ( PropertyVetoException e ) {}
         }
-        
+
         // Set the focus of the frame so that it is selected and on top.
         try
         {
@@ -732,7 +732,7 @@ class InstrumentManagerConnection
             // Shouldn't happen, but ignore if it does.
         }
     }
-    
+
     /**
      * Called when a Sample Frame is closed.
      */
@@ -744,7 +744,7 @@ class InstrumentManagerConnection
             removeSampleFrame( sampleName );
         }
     }
-    
+
     /**
      * Start maintaining the lease for an instrument sample which already
      *  exists.
@@ -766,7 +766,7 @@ class InstrumentManagerConnection
             getLogger().debug( "startMaintainingSample(" + instrumentName + ", " + type + ", " +
                 interval + ", " + size + ", " + leaseDuration + ", " + description + ")" );
         }
-        
+
         synchronized(this)
         {
             MaintainedSampleLease sampleLease = new MaintainedSampleLease(
@@ -774,20 +774,20 @@ class InstrumentManagerConnection
             String sampleName = sampleLease.getSampleName();
             m_maintainedSampleLeaseMap.put( sampleName, sampleLease );
             m_maintainedSampleLeaseArray = null;
-            
+
             // Reset te last lease renewal time so that the leases along with this
             //  new one will be renewed right away.
             m_lastLeaseRenewalTime = 0;
-            
+
             // Update the appropriate node in the tree model.
             DefaultMutableTreeNode sampleTreeNode =
                 m_treeModel.getInstrumentSampleTreeNode( sampleName );
-            
+
             InstrumentSampleNodeData sampleNodeData;
             if ( sampleTreeNode != null )
             {
                 sampleNodeData = (InstrumentSampleNodeData)sampleTreeNode.getUserObject();
-                
+
                 sampleNodeData.setLeaseDuration( leaseDuration );
                 sampleNodeData.setDescription( description );
                 m_treeModel.updateInstrumentSample( sampleNodeData.getDescriptor(), sampleTreeNode );
@@ -796,11 +796,11 @@ class InstrumentManagerConnection
             {
                 sampleNodeData = null;
             }
-            
+
             return sampleNodeData;
         }
     }
-    
+
     /**
      * Stop maintaining the lease for an instrument sample which already
      *  exists.
@@ -811,12 +811,12 @@ class InstrumentManagerConnection
         {
             getLogger().debug( "stopMaintainingSample(" + sampleName + ")" );
         }
-        
+
         synchronized(this)
         {
             m_maintainedSampleLeaseMap.remove( sampleName );
             m_maintainedSampleLeaseArray = null;
-            
+
             // Update the appropriate node in the tree model.
             DefaultMutableTreeNode sampleTreeNode =
                 m_treeModel.getInstrumentSampleTreeNode( sampleName );
@@ -824,13 +824,13 @@ class InstrumentManagerConnection
             {
                 InstrumentSampleNodeData sampleNodeData =
                     (InstrumentSampleNodeData)sampleTreeNode.getUserObject();
-                
+
                 sampleNodeData.setLeaseDuration( 0 );
                 m_treeModel.updateInstrumentSample( sampleNodeData.getDescriptor(), sampleTreeNode );
             }
         }
     }
-    
+
     /**
      * Returns a MaintainedSampleLease given a name if the sample is being
      *  maintained. Otherwise returns null.
@@ -859,19 +859,19 @@ class InstrumentManagerConnection
             {
                 manager.invokeGarbageCollection();
             }
-            catch ( AltrmiInvocationException e )
+            catch ( InvocationException e )
             {
-                getLogger().warn( "Error executing GC on " + getHost() + ":" + 
+                getLogger().warn( "Error executing GC on " + getHost() + ":" +
                     getPort() + ": " + e.getMessage() );
             }
         }
     }
-    
+
     DefaultMutableTreeNode getInstrumentSampleTreeNode( String sampleName )
     {
         return m_treeModel.getInstrumentSampleTreeNode( sampleName );
     }
-    
+
     /**
      * Returns a snapshot of the specified sample.  If a snapshot can not
      *  be returned for any reason, then return null.
@@ -885,7 +885,7 @@ class InstrumentManagerConnection
         {
             return null;
         }
-        
+
         InstrumentSampleNodeData sampleNodeData =
             (InstrumentSampleNodeData)sampleNode.getUserObject();
         InstrumentSampleDescriptor sampleDescriptor = sampleNodeData.getDescriptor();
@@ -893,18 +893,18 @@ class InstrumentManagerConnection
         {
             return null;
         }
-        
+
         // Request the actual snapshot.
         try
         {
             return sampleDescriptor.getSnapshot();
         }
-        catch ( AltrmiInvocationException e )
+        catch ( InvocationException e )
         {
             return null;
         }
     }
-    
+
     /*---------------------------------------------------------------
      * State Methods
      *-------------------------------------------------------------*/
@@ -920,7 +920,7 @@ class InstrumentManagerConnection
             DefaultConfiguration state = new DefaultConfiguration( "connection", "-" );
             state.setAttribute( "host", m_host );
             state.setAttribute( "port", Integer.toString( m_port ) );
-            
+
             // Save any maintained samples
             MaintainedSampleLease[] samples = getMaintainedSampleLeaseArray();
             for ( int i = 0; i < samples.length; i++ )
@@ -930,7 +930,7 @@ class InstrumentManagerConnection
             return state;
         }
     }
-    
+
     /**
      * Loads the state from a Configuration object.
      *
@@ -944,7 +944,7 @@ class InstrumentManagerConnection
         synchronized( this )
         {
             // Host and port will have already been set.
-            
+
             // Load any maintained samples
             Configuration[] sampleConfs = state.getChildren( "maintained-sample" );
             for( int i = 0; i < sampleConfs.length; i++ )
@@ -957,7 +957,7 @@ class InstrumentManagerConnection
                 int sampleSize = sampleConf.getAttributeAsInteger( "size" );
                 long sampleLeaseDuration = sampleConf.getAttributeAsLong( "lease-duration" );
                 String sampleDescription = sampleConf.getAttribute( "description" );
-                
+
                 startMaintainingSample( instrumentName, sampleType, sampleInterval, sampleSize,
                     sampleLeaseDuration, sampleDescription );
             }
