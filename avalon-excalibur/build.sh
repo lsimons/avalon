@@ -1,9 +1,5 @@
 #!/bin/sh
 
-echo
-echo "Excalibur Build System"
-echo "----------------------"
-
 LOCAL_AVALON_TOOLS=$AVALON_TOOLS
 
 if [ "$AVALON_TOOLS" = "" ] ; then
