@@ -31,7 +31,7 @@ import org.apache.avalon.framework.logger.Loggable;
  *     &lt;servername&gt;<i>servername</i>&lt;/servername&gt;
  *     &lt;host port="<i>2000</i>"&gt;<i>host</i>&lt;/host&gt;
  *     &lt;user&gt;<i>user</i>&lt;/user&gt;
- *     &lt;password&gt;<i>user</i>&lt;/password&gt;
+ *     &lt;password&gt;<i>password</i>&lt;/password&gt;
  *   &lt;informix&gt;
  * </pre>
  *
@@ -44,7 +44,7 @@ import org.apache.avalon.framework.logger.Loggable;
  * DataSource requires the Avalon Cadastre package because it uses the MemoryContext.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/03/16 00:05:40 $
+ * @version CVS $Revision: 1.8 $ $Date: 2002/04/16 12:47:49 $
  * @since 4.0
  */
 public class InformixDataSource
