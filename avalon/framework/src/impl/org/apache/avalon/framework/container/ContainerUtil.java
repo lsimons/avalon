@@ -33,7 +33,7 @@ import org.apache.avalon.framework.service.Serviceable;
  * a component throught it's lifecycle stages.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2002/06/26 09:22:18 $
+ * @version $Revision: 1.6 $ $Date: 2002/07/12 07:18:50 $
  */
 public final class ContainerUtil
 {
@@ -109,14 +109,14 @@ public final class ContainerUtil
     }
 
     /**
-     * Supply specified object with ComponentManager if it implements the
-     * {@link Composable} interface.
+     * Supply specified object with ServiceManager if it implements the
+     * {@link Serviceable} interface.
      *
      * @param object the object to service
      * @param serviceManager the serviceManager object to use for object.
      *        May be null in which case the specified object must not
-     *        implement Composable.
-     * @throws ComponentException if there is a problem servicing object
+     *        implement Serviceable.
+     * @throws ServiceException if there is a problem servicing object
      * @throws IllegalArgumentException if the object is Servicable but
      *         ServiceManager is null
      */
