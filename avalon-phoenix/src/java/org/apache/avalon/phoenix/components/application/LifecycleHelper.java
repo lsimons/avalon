@@ -56,6 +56,8 @@ class LifecycleHelper
      */
     private Application          m_application;
 
+    private BlockListenerSupport m_listenerSupport = new BlockListenerSupport();
+
     /**
      * Construct helper object for specified application, 
      * in specified frame.
@@ -94,7 +96,7 @@ class LifecycleHelper
             ((Configurable)listener).configure( configuration );
         }
 
-        m_frame.addBlockListener( listener );
+        m_listenerSupport.addBlockListener( listener );
     }
 
     /**
@@ -182,7 +184,7 @@ class LifecycleHelper
 
             final BlockEvent event =
                 new BlockEvent( name, entry.getProxy(), metaData.getBlockInfo() );
-            m_frame.blockAdded( event );
+            m_listenerSupport.blockAdded( event );
         }
         catch( final Throwable t )
         {
@@ -207,7 +209,7 @@ class LifecycleHelper
 
         final BlockEvent event =
             new BlockEvent( name, entry.getProxy(), metaData.getBlockInfo() );
-        m_frame.blockRemoved( event );
+        m_listenerSupport.blockRemoved( event );
 
         final Block block = entry.getBlock();
 
