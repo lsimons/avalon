@@ -14,9 +14,9 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.BlockContext;
+import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Hierarchy;
-
 /**
  * Interface that is used to manage Log objects for a Sar.
  *
@@ -26,7 +26,7 @@ public class DefaultLogManager
     extends AbstractLoggable
     implements LogManager
 {
-    public Hierarchy createHierarchy( final SarMetaData metaData, 
+    public Hierarchy createHierarchy( final SarMetaData metaData,
                                       final Configuration logs )
         throws Exception
     {

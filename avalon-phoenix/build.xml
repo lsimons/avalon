@@ -397,7 +397,8 @@ Legal:
       <include name="org/apache/avalon/phoenix/engine/**"/>
       <include name="org/apache/avalon/phoenix/frontends/**"/>
       <include name="org/apache/avalon/phoenix/components/**"/>
-      <exclude name="org/apache/avalon/phoenix/engine/loader/**"/>
+      <include name="org/apache/avalon/phoenix/interfaces/**"/>
+      <exclude name="org/apache/avalon/phoenix/launcher/**"/>
     </jar>
 
   </target>

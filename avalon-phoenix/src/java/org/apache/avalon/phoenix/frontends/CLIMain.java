@@ -17,7 +17,7 @@ import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.Constants;
 import org.apache.avalon.phoenix.components.embeddor.DefaultEmbeddor;
-import org.apache.avalon.phoenix.components.embeddor.Embeddor;
+import org.apache.avalon.phoenix.interfaces.Embeddor;
 
 /**
  * The class to load the kernel and start it running.

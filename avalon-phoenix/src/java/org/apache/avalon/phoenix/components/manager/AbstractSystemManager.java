@@ -11,6 +11,8 @@ import java.util.HashMap;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.phoenix.interfaces.ManagerException;
+import org.apache.avalon.phoenix.interfaces.SystemManager;
 
 /**
  * This is abstract implementation of SystemManager.
@@ -165,14 +167,14 @@ public abstract class AbstractSystemManager
 
             if( !clazz.isInterface() )
             {
-                final String message = 
+                final String message =
                     REZ.getString( "manager.error.verify.notinterface", clazz.getName() );
                 throw new ManagerException( message );
             }
 
             if( !clazz.isInstance( object ) )
             {
-                final String message = 
+                final String message =
                     REZ.getString( "manager.error.verify.notinstance", clazz.getName() );
                 throw new ManagerException( message );
             }
