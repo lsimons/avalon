@@ -177,13 +177,6 @@
     <!-- Generate one mega jar-ball -->
     <target name="mega-jar" description="Generate one large jar for all the products">
         <!-- Sub projects which do not depend on any other excalibur sub projects. -->
-        <echo>
-            -----------------------------------------------
-            WARNING: the jlink task is buggy, and the final
-            jar may not contain all the classes it's meant
-            to! Use this target at your own risk.
-            -----------------------------------------------
-        </echo>
         <ant dir="altrmi" target="jar"/>
         <ant dir="collections" target="jar"/>
         <ant dir="concurrent" target="jar"/>
@@ -227,6 +220,13 @@
             <zipfileset src="excalibur-all-tmp.jar" />
         </jar>
         <delete file="excalibur-all-tmp.jar"/>
+        <echo>
+            -----------------------------------------------
+            WARNING: the jlink task is buggy, and the final
+            jar may not contain all the classes it's meant
+            to! Use this target at your own risk.
+            -----------------------------------------------
+        </echo>
     </target>
 
     <!-- Generate all docs -->
