@@ -38,7 +38,6 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.avalon.excalibur.pool.Recyclable;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
@@ -75,7 +74,7 @@ import org.xml.sax.XMLFilter;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.5 2004/02/28 11:47:16 cziegeler Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.6 2004/04/02 09:02:37 cziegeler Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
@@ -352,7 +351,7 @@ public class XSLTProcessorImpl
     }
 
     private void sourceToSAX( Source source, ContentHandler handler )
-        throws SAXException, IOException, ComponentException, SourceException
+        throws SAXException, IOException, SourceException
     {
         if( source instanceof XMLizable )
         {

@@ -170,7 +170,7 @@ public class FTPSource extends URLSource implements ModifiableSource
             if (null == m_connection)
             {
                 m_connection = m_url.openConnection();
-                String userInfo = m_url.getUserInfo();
+                //String userInfo = m_url.getUserInfo();
             }
             setLastModified(m_connection.getLastModified());
             setContentLength(m_connection.getContentLength());

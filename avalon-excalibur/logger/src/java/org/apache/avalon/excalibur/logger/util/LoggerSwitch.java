@@ -77,9 +77,6 @@ public class LoggerSwitch
          */
         private Logger getLogger()
         {
-            final Logger fallback;
-            final Logger preferred;
-
             if ( m_recursionOnFallback.value() )
             {
                 throw new IllegalStateException( "infinite recursion" );

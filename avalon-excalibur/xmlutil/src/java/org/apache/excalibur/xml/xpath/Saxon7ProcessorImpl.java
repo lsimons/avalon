@@ -31,9 +31,6 @@ import net.sf.saxon.expr.Expression;
 import net.sf.saxon.expr.XPathContext;
 import net.sf.saxon.expr.ExpressionTool;
 import net.sf.saxon.tinytree.TinyBuilder;
-import net.sf.saxon.value.Type;
-import net.sf.saxon.value.BooleanValue;
-import net.sf.saxon.value.DoubleValue;
 
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -53,7 +50,7 @@ import java.util.ArrayList;
  * </pre>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Id: Saxon7ProcessorImpl.java,v 1.5 2004/03/19 15:54:16 vgritsenko Exp $
+ * @version CVS $Id: Saxon7ProcessorImpl.java,v 1.6 2004/04/02 09:02:37 cziegeler Exp $
  */
 public class Saxon7ProcessorImpl
         extends AbstractProcessorImpl
