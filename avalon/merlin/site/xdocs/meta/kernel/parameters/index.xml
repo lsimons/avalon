@@ -65,7 +65,7 @@
         <table>
           <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
           <tr>
-            <td>parameter</td><td>0..n</td>
+            <td><a href="parameter.html">parameter</a></td><td>0..n</td>
             <td>
              Each parameter has a <strong>name</strong> and a <strong>value</strong>
              attribute. The parameters that are available can be found below.
