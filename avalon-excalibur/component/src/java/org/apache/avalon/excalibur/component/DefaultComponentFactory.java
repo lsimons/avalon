@@ -49,6 +49,9 @@
 */
 package org.apache.avalon.excalibur.component;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.avalon.excalibur.logger.LogKitManageable;
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.framework.activity.Disposable;
@@ -66,7 +69,6 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.service.WrapperServiceManager;
 import org.apache.avalon.framework.thread.ThreadSafe;
-import org.apache.commons.collections.StaticBucketMap;
 import org.apache.excalibur.instrument.InstrumentManageable;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.instrument.Instrumentable;
@@ -80,7 +82,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/11/09 12:45:26 $
+ * @version CVS $Revision: 1.2 $ $Date: 2004/01/21 08:34:24 $
  * @since 4.0
  */
 public class DefaultComponentFactory
@@ -120,7 +122,7 @@ public class DefaultComponentFactory
      *  proxies, if they are Composables.  These must be seperate maps in case
      *  a component falls into more than one category, which they often do.
      */
-    private final StaticBucketMap m_componentProxies = new StaticBucketMap();
+    private final Map m_componentProxies = new HashMap();
 
     /** Instrument Manager to register objects created by this factory with (May be null). */
     private InstrumentManager m_instrumentManager;

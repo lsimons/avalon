@@ -50,8 +50,10 @@
 package org.apache.avalon.excalibur.component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.avalon.excalibur.logger.LogKitManageable;
 import org.apache.avalon.excalibur.logger.LogKitManager;
@@ -67,7 +69,6 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.commons.collections.StaticBucketMap;
 import org.apache.excalibur.instrument.Instrument;
 import org.apache.excalibur.instrument.InstrumentManageable;
 import org.apache.excalibur.instrument.InstrumentManager;
@@ -82,7 +83,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/11/09 12:45:27 $
+ * @version CVS $Revision: 1.2 $ $Date: 2004/01/21 08:34:24 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
@@ -112,10 +113,10 @@ public class ExcaliburComponentManager
     private Context m_context;
 
     /** Static component mapping handlers. */
-    private final StaticBucketMap m_componentMapping = new StaticBucketMap();
+    private final Map m_componentMapping = new HashMap();
 
     /** Used to map roles to ComponentHandlers. */
-    private final StaticBucketMap m_componentHandlers = new StaticBucketMap();
+    private final Map m_componentHandlers = new HashMap();
 
     /** added component handlers before initialization to maintain
      *  the order of initialization
