@@ -41,6 +41,7 @@ public class MagicPath extends Path
     private String m_key;
     private int m_mode = Policy.RUNTIME;
     private boolean m_initialized = false;
+    private boolean m_resolve = true;
 
    /**
     * Creation of a new path relative to a supplied project.
@@ -65,6 +66,18 @@ public class MagicPath extends Path
     }
 
    /**
+    * Set the policy concerning path resolution.  By default a path 
+    * structure will only be returned if it can be fully resolved.  Setting
+    * the resolve flag to false disables repository resolution of path entries.
+    *
+    * @param flag the resolve flag
+    */
+    public void setResolve( final boolean flag )
+    {
+        m_resolve = flag;
+    }
+
+   /**
     * Set the path creation mode. A mode value may be one of 
     * ANY, BUILD, TEST or RUNTIME.
     *
@@ -72,7 +85,6 @@ public class MagicPath extends Path
     */
     public void setMode( final String mode )
     {
-        System.out.println( "#MODE:" + mode );
         if( "ANY".equalsIgnoreCase( mode ) )
         {
             m_mode = Policy.ANY;
@@ -158,7 +170,7 @@ public class MagicPath extends Path
 
         if( null != m_key && "jar".equals( def.getInfo().getType() ) )
         {
-            final File file = def.getArtifact( getProject() );
+            final File file = def.getArtifact( getProject(), m_resolve );
             path.createPathElement().setLocation( file );
         }
 

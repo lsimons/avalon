@@ -127,6 +127,7 @@ public class FilterTask extends SystemTask
     {
         final ResourceRef ref = new ResourceRef( m_key );
         final Resource resource = getHome().getResource( ref );
+
         if( m_feature.equals( "name" ) )
         {
             return resource.getInfo().getName();
@@ -184,6 +185,7 @@ public class FilterTask extends SystemTask
         MagicPath path = new MagicPath( getProject() );
         path.setMode( "RUNTIME" );
         path.setKey( def.getKey() );
+        path.setResolve( false );
         String sequence = path.toString();
         String[] translation = Path.translatePath( getProject(), sequence );
 
