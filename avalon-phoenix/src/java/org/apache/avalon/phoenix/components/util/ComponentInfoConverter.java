@@ -22,7 +22,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * Convert a {@link org.apache.avalon.framework.info.ComponentInfo} into a {@link org.apache.avalon.phoenix.metainfo.BlockInfo}.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2002/10/11 05:59:23 $
+ * @version $Revision: 1.5 $ $Date: 2002/11/13 01:18:17 $
  */
 public class ComponentInfoConverter
 {
@@ -98,7 +98,7 @@ public class ComponentInfoConverter
     {
         final Version version = toVersion( dependency );
         final ServiceDescriptor service =
-            new ServiceDescriptor( dependency.getService(), version );
+            new ServiceDescriptor( dependency.getType(), version );
         return new DependencyDescriptor( dependency.getKey(), service );
     }
 
