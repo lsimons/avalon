@@ -7,7 +7,7 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.excalibur.testcase.ExcaliburTestCase;
-import org.apache.avalon.excalibur.xml.Parser;
+import org.apache.excalibur.xml.sax.Parser;
 import org.apache.excalibur.xml.dom.DOMHandler;
 import org.apache.excalibur.xml.dom.DOMHandlerFactory;
 
