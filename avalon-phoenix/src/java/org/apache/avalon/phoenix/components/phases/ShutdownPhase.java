@@ -82,11 +82,15 @@ public class ShutdownPhase
 
             try
             {
+                entry.setState( State.STOPPING );
                 ((Startable)object).stop();
+                entry.setState( State.STOPPED );
+
                 getLogger().debug( REZ.getString( "shutdown.notice.stop.success" ) );
             }
             catch( final Exception e )
             {
+                entry.setState( State.FAILED );
                 final String message = REZ.getString( "shutdown.error.stop.fail", name );
                 getLogger().warn( message, e );
             }
@@ -99,7 +103,9 @@ public class ShutdownPhase
 
             try
             {
+                entry.setState( State.DESTROYING );
                 ((Disposable)object).dispose();
+
                 getLogger().debug( REZ.getString( "shutdown.notice.dispose.success" ) );
             }
             catch( final Throwable t )
