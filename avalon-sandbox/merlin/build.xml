@@ -401,7 +401,7 @@ the LICENSE.txt file.
         <include name="playground*.jar"/>
       </fileset>
     </copy>
-    <copy toDir="${merlin.home}/repository/demo/block-inf/lib">
+    <copy toDir="${merlin.home}/repository/demo">
       <fileset dir="build/lib">
         <include name="merlin-demo*.jar"/>
       </fileset>
@@ -653,7 +653,7 @@ the LICENSE.txt file.
     </copy>
 
     <copy todir="${build.playground}" flatten="true">
-      <fileset dir="${src.dir}/repository/demo/block-inf" includes="block.xml"/>
+      <fileset dir="${src.dir}/repository/demo" includes="block.xml"/>
     </copy>
 
     <copy todir="${build.dir}/tests">
