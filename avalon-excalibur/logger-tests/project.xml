@@ -16,7 +16,7 @@
  limitations under the License.
 -->
 <project>
-    <extend>${basedir}/../project.xml</extend>
+    <extend>${basedir}/../buildsystem/project-common.xml</extend>
 
     <name>Excalibur Logger Tests</name>
     <id>excalibur-logger-tests</id>
@@ -32,19 +32,6 @@
         component is LogEnabled or Loggable).
     </description>
 
-    <build>
-        <sourceDirectory>${basedir}/src/java</sourceDirectory>
-        
-        <unitTest>
-            <includes><include>**/*TestCase.class</include></includes>
-            <resources>
-                <resource>
-                    <directory>${basedir}/src/test</directory>
-                </resource>
-            </resources>
-        </unitTest>
-    </build>
-    
     <dependencies>
         <dependency>
             <id>avalon-framework</id>

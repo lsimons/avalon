@@ -16,7 +16,7 @@
  limitations under the License.
 -->
 <project>
-  <extend>${basedir}/../project.xml</extend>
+  <extend>${basedir}/../buildsystem/project-common.xml</extend>
 
   <id>excalibur-configuration</id>
   <name>Excalibur Configuration</name>

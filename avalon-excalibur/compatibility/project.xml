@@ -16,10 +16,11 @@
  limitations under the License.
 -->
 <project>
-    <extend>${basedir}/../project.xml</extend>
-
-    <name>Excalibur Compatibility</name>
+    <extend>${basedir}/../buildsystem/project-common.xml</extend>
+    <pomVersion>3</pomVersion>
     <id>excalibur-compatibility</id>
+    <name>Excalibur-Compatibility</name>
+    <groupId>excalibur-compatibility</groupId>
     <currentVersion>1.2</currentVersion>
     <inceptionYear>1997</inceptionYear>
     <shortDescription>Excalibur Compatibility</shortDescription>

@@ -16,8 +16,7 @@
  limitations under the License.
 -->
 <project>
-
-  <extend>${basedir}/../project.xml</extend>
+  <extend>${basedir}/../project-common.xml</extend>
 
   <name>Excalibur Lifecycle Extension API</name>
   <id>excalibur-lifecycle-api</id>
