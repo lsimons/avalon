@@ -33,6 +33,9 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceResolver;
@@ -62,14 +65,14 @@ import org.xml.sax.XMLFilter;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.14 2002/07/10 09:50:03 donaldp Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.15 2002/08/04 04:29:23 donaldp Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
 public final class XSLTProcessorImpl
     extends AbstractLogEnabled
     implements XSLTProcessor,
-    Composable,
+    Serviceable,
     Disposable,
     Parameterizable,
     URIResolver
@@ -100,14 +103,14 @@ public final class XSLTProcessorImpl
     /**
      * Compose. Try to get the store
      */
-    public void compose( final ComponentManager manager )
-        throws ComponentException
+    public void service( final ServiceManager manager )
+        throws ServiceException
     {
         m_xmlizer = (XMLizer)manager.lookup( XMLizer.ROLE );
         m_errorHandler = new TraxErrorHandler( getLogger() );
         m_resolver = (SourceResolver)manager.lookup( SourceResolver.ROLE );
 
-        if( manager.hasComponent( Store.TRANSIENT_STORE ) )
+        if( manager.hasService( Store.TRANSIENT_STORE ) )
         {
             m_store = (Store)manager.lookup( Store.TRANSIENT_STORE );
         }
