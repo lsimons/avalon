@@ -14,7 +14,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * Handles parsing of configuration schema and validation against schema
  *
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version VSS $Revision: 1.1 $ $Date: 2002/06/28 05:09:27 $
+ * @version VSS $Revision: 1.2 $ $Date: 2002/07/06 00:41:29 $
  */
 public interface ConfigurationValidator
 {
@@ -25,9 +25,9 @@ public interface ConfigurationValidator
      *
      * @param application Application name
      * @param block Block name to store configuration for
-     * @param configuration schema represented as a configuration object
+     * @param schema the schema represented as a configuration object
      *
-     * @throws org.apache.avalon.framework.configuration.Configuration if schema is invalid
+     * @throws ConfigurationException if schema is invalid
      */
     void storeSchema( String application, String block, Configuration schema )
       throws ConfigurationException;
@@ -46,7 +46,7 @@ public interface ConfigurationValidator
      *
      * @return true if configuration is feasibly valid
      *
-     * @throws org.apache.avalon.framework.configuration.Configuration if no schema is found
+     * @throws ConfigurationException if no schema is found
      */
     boolean isFeasiblyValid( String application, String block, Configuration configuration )
       throws ConfigurationException;
@@ -60,7 +60,7 @@ public interface ConfigurationValidator
      *
      * @return true if configuration is valid
      *
-     * @throws org.apache.avalon.framework.configuration.Configuration if no schema is found
+     * @throws ConfigurationException if no schema is found
      */
     boolean isValid( String application, String block, Configuration configuration )
       throws ConfigurationException;
