@@ -80,7 +80,7 @@ import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
  * A factory enabling the establishment of new composition model instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3.2.1 $ $Date: 2004/01/03 15:38:50 $
+ * @version $Revision: 1.3.2.2 $ $Date: 2004/01/03 22:08:21 $
  */
 public class DefaultModelFactory extends AbstractLogEnabled 
   implements ModelFactory
@@ -244,7 +244,7 @@ public class DefaultModelFactory extends AbstractLogEnabled
               new DefaultClassLoaderModel( classLoaderContext );
 
             return new DefaultContainmentContext( 
-                logger, m_system, classLoaderModel, null, profile );
+                logger, m_system, classLoaderModel, null, null, profile );
         }
         catch( Throwable e )
         {

@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) 1999-2002 The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2004 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -52,6 +52,7 @@ package org.apache.avalon.composition.model.impl;
 
 import java.io.File;
 
+import org.apache.avalon.composition.model.DependencyGraph;
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.ContainmentContext;
 import org.apache.avalon.composition.model.ClassLoaderModel;
@@ -67,7 +68,7 @@ import org.apache.avalon.composition.data.ContainmentProfile;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2.2.1 $ $Date: 2004/01/03 15:38:50 $
+ * @version $Revision: 1.2.2.2 $ $Date: 2004/01/03 22:08:21 $
  */
 public class DefaultContainmentContext extends DefaultContext 
   implements ContainmentContext
@@ -101,6 +102,8 @@ public class DefaultContainmentContext extends DefaultContext
 
     private final ModelRepository m_repository;
 
+    private final DependencyGraph m_graph;
+
     //==============================================================
     // constructor
     //==============================================================
@@ -111,13 +114,15 @@ public class DefaultContainmentContext extends DefaultContext
     * @param logger the logging channel to assign
     * @param system the system context
     * @param model the classloader model
+    * @param repository the parent model repository
+    * @param graph the parent dependency graph
     * @param profile the containment profile
     */
     public DefaultContainmentContext( 
       Logger logger, SystemContext system, ClassLoaderModel model, 
-      ModelRepository repository, ContainmentProfile profile )
+      ModelRepository repository, DependencyGraph graph, ContainmentProfile profile )
     {
-        this( logger, system, model, repository,
+        this( logger, system, model, repository, graph,
           system.getHomeDirectory(), system.getTempDirectory(), 
           profile, null, "" );
     }
@@ -129,6 +134,7 @@ public class DefaultContainmentContext extends DefaultContext
     * @param system the system context
     * @param model the classloader model
     * @param repository the parent model repository
+    * @param graph the parent dependency graph
     * @param home the directory for the container
     * @param temp a temporary directory for the container
     * @param profile the containment profile
@@ -137,7 +143,8 @@ public class DefaultContainmentContext extends DefaultContext
     * @param name the assigned containment context name
     */
     public DefaultContainmentContext( 
-      Logger logger, SystemContext system, ClassLoaderModel model, ModelRepository repository,
+      Logger logger, SystemContext system, ClassLoaderModel model, 
+      ModelRepository repository, DependencyGraph graph, 
       File home, File temp, ContainmentProfile profile, String partition, String name )
     {
         if( logger == null )
@@ -180,6 +187,8 @@ public class DefaultContainmentContext extends DefaultContext
             throw new IllegalArgumentException( error );
         }
 
+        
+        m_graph = new DependencyGraph( graph );
         m_repository = new DefaultModelRepository( repository, logger );
         m_logger = logger;
         m_system = system;
@@ -298,5 +307,15 @@ public class DefaultContainmentContext extends DefaultContext
     public ClassLoader getClassLoader()
     {
         return m_model.getClassLoader();
+    }
+
+   /**
+    * Return the model dependency graph.
+    *
+    * @return the dependency graph
+    */
+    public DependencyGraph getDependencyGraph()
+    {
+        return m_graph;
     }
 }

@@ -624,6 +624,7 @@ public class DefaultFactory implements Factory
           context, 
           classLoaderModel,
           null,
+          null,
           profile );
     }
 

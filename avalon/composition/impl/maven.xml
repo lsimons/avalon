@@ -51,6 +51,8 @@
       </fileset>
     </ant:delete>
 
+    <ant:copy toDir="${basedir}/target/test-classes/repository/avalon-framework" 
+      file="${pom.getDependencyPath('avalon-framework:avalon-framework-impl')}"/>
     <ant:copy toDir="${basedir}/target/test-classes/ext" 
       file="${pom.getDependencyPath('avalon-framework:avalon-framework-api')}"/>
     <ant:copy toDir="${basedir}/target/test-classes/ext" 

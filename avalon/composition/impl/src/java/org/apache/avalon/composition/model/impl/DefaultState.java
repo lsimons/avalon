@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) 1999-2002 The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2004 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -48,99 +48,47 @@
 
 */
 
-package org.apache.avalon.composition.model;
-
-import java.io.File;
-
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.composition.data.ContainmentProfile;
+package org.apache.avalon.composition.model.impl;
 
 /**
- * Defintion of a working context.
+ * The State class desribes a enabled versus disabled state.
  *
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.1.1.2.2 $ $Date: 2004/01/03 22:08:21 $
+ * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version $Revision: 1.1.2.1 $ $Date: 2004/01/03 22:08:21 $
  */
-public interface ContainmentContext extends Context
+
+class DefaultState
 {
-   /**
-    * Return the logging channel.
-    *
-    * @return the logging channel
-    */
-    Logger getLogger();
+
+    //---------------------------------------------------------------------------
+    // state
+    //---------------------------------------------------------------------------
+
+    private boolean m_enabled = false;
+
+    //---------------------------------------------------------------------------
+    // State
+    //---------------------------------------------------------------------------
 
    /**
-    * Return the system context.
-    *
-    * @return the system context
+    * Return the enabled state of the state.
+    * @return TRUE if the state has been enabled else FALSE
     */
-    SystemContext getSystemContext();
+    public boolean isEnabled()
+    {
+        return m_enabled;
+    }
+
+    //---------------------------------------------------------------------------
+    // implementation
+    //---------------------------------------------------------------------------
 
    /**
-    * Return the classloader model.
-    *
-    * @return the type manager assigned to the containment model.
+    * Set the enabled state of the state.
+    * @param enabled the enabled state to assign
     */
-    ClassLoaderModel getClassLoaderModel();
-
-   /**
-    * Return the working directory for a container.
-    *
-    * @return the working directory
-    */
-    File getHomeDirectory();
-
-   /**
-    * Return the temporary directory for a container. 
-    *
-    * @return the temporary directory
-    */
-    File getTempDirectory();
-
-   /**
-    * Return the containment profile.
-    *
-    * @return the containment profile
-    */
-    ContainmentProfile getContainmentProfile();
-
-   /**
-    * Return the name that the container has been assigned.
-    *
-    * @return the container name
-    */
-    String getName();
-
-   /**
-    * Return the partition name that the container is 
-    * established with.
-    *
-    * @return the partition name
-    */
-    String getPartitionName();
-
-   /**
-    * Return the containment classloader.
-    *
-    * @return the classloader model
-    */
-    ClassLoader getClassLoader();
-
-
-   /**
-    * Return the model repository.
-    *
-    * @return the model repository
-    */
-    ModelRepository getModelRepository();
-
-
-   /**
-    * Return the model dependency graph.
-    *
-    * @return the dependency graph
-    */
-    DependencyGraph getDependencyGraph();
+    public void setEnabled( boolean enabled ) throws IllegalStateException
+    {
+        m_enabled = enabled;
+    }
 }

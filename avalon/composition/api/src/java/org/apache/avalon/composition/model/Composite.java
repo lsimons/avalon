@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) 1999-2002 The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2004 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -50,97 +50,38 @@
 
 package org.apache.avalon.composition.model;
 
-import java.io.File;
-
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.composition.data.ContainmentProfile;
-
 /**
- * Defintion of a working context.
+ * The Composite interface defines the contract against which a 
+ * complete assembly assesment and fulfillment process may be performed.
  *
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.1.1.2.2 $ $Date: 2004/01/03 22:08:21 $
+ * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version $Revision: 1.1.2.1 $ $Date: 2004/01/03 22:08:21 $
  */
-public interface ContainmentContext extends Context
+public interface Composite
 {
-   /**
-    * Return the logging channel.
-    *
-    * @return the logging channel
-    */
-    Logger getLogger();
+    /**
+     * Returns the assembled state of the model.
+     * @return true if this model is assembled
+     */
+    boolean isAssembled();
 
-   /**
-    * Return the system context.
-    *
-    * @return the system context
-    */
-    SystemContext getSystemContext();
+    /**
+     * Assemble the model.
+     * @exception Exception if an error occurs during model assembly
+     */
+    void assemble() throws AssemblyException;
 
-   /**
-    * Return the classloader model.
-    *
-    * @return the type manager assigned to the containment model.
-    */
-    ClassLoaderModel getClassLoaderModel();
+    /**
+     * Disassemble the model.
+     */
+    void disassemble();
 
-   /**
-    * Return the working directory for a container.
-    *
-    * @return the working directory
-    */
-    File getHomeDirectory();
+    /**
+     * Return the set of models assigned as providers.
+     * @return the providers consumed by the model
+     * @exception IllegalStateException if invoked prior to 
+     *    the completion of the assembly phase 
+     */
+    Model[] getProviders();
 
-   /**
-    * Return the temporary directory for a container. 
-    *
-    * @return the temporary directory
-    */
-    File getTempDirectory();
-
-   /**
-    * Return the containment profile.
-    *
-    * @return the containment profile
-    */
-    ContainmentProfile getContainmentProfile();
-
-   /**
-    * Return the name that the container has been assigned.
-    *
-    * @return the container name
-    */
-    String getName();
-
-   /**
-    * Return the partition name that the container is 
-    * established with.
-    *
-    * @return the partition name
-    */
-    String getPartitionName();
-
-   /**
-    * Return the containment classloader.
-    *
-    * @return the classloader model
-    */
-    ClassLoader getClassLoader();
-
-
-   /**
-    * Return the model repository.
-    *
-    * @return the model repository
-    */
-    ModelRepository getModelRepository();
-
-
-   /**
-    * Return the model dependency graph.
-    *
-    * @return the dependency graph
-    */
-    DependencyGraph getDependencyGraph();
 }

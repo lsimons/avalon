@@ -50,97 +50,34 @@
 
 package org.apache.avalon.composition.model;
 
-import java.io.File;
-
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.composition.data.ContainmentProfile;
-
 /**
- * Defintion of a working context.
+ * Stage model handles the establishment of an explicit source 
+ * extension defintion or stage provider selection based on 
+ * extension qualification.
  *
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.1.1.2.2 $ $Date: 2004/01/03 22:08:21 $
+ * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version $Revision: 1.1.2.1 $ $Date: 2004/01/03 22:08:21 $
  */
-public interface ContainmentContext extends Context
+public interface Dependent
 {
    /**
-    * Return the logging channel.
-    *
-    * @return the logging channel
+    * Set the provider model.
+    * 
+    * @param the provider model
     */
-    Logger getLogger();
+    void setProvider( Model model );
 
    /**
-    * Return the system context.
-    *
-    * @return the system context
+    * Return the assigned provider model.
+    * 
+    * @return the provider model
     */
-    SystemContext getSystemContext();
+    Model getProvider();
 
    /**
-    * Return the classloader model.
-    *
-    * @return the type manager assigned to the containment model.
+    * Clean the assigned provider.
     */
-    ClassLoaderModel getClassLoaderModel();
-
-   /**
-    * Return the working directory for a container.
-    *
-    * @return the working directory
-    */
-    File getHomeDirectory();
-
-   /**
-    * Return the temporary directory for a container. 
-    *
-    * @return the temporary directory
-    */
-    File getTempDirectory();
-
-   /**
-    * Return the containment profile.
-    *
-    * @return the containment profile
-    */
-    ContainmentProfile getContainmentProfile();
-
-   /**
-    * Return the name that the container has been assigned.
-    *
-    * @return the container name
-    */
-    String getName();
-
-   /**
-    * Return the partition name that the container is 
-    * established with.
-    *
-    * @return the partition name
-    */
-    String getPartitionName();
-
-   /**
-    * Return the containment classloader.
-    *
-    * @return the classloader model
-    */
-    ClassLoader getClassLoader();
+    void clearProvider();
 
 
-   /**
-    * Return the model repository.
-    *
-    * @return the model repository
-    */
-    ModelRepository getModelRepository();
-
-
-   /**
-    * Return the model dependency graph.
-    *
-    * @return the dependency graph
-    */
-    DependencyGraph getDependencyGraph();
 }
