@@ -14,6 +14,7 @@
     <menu-item label="AltRMI" href="altrmi/index.html"/>  
     <menu-item label="BZip2" href="bzip2/index.html"/>  
     <menu-item label="Baxter" href="baxter/index.html"/>  
+    <menu-item label="Cache" href="cache/index.html"/>  
     <menu-item label="CLI" href="cli/index.html"/>  
     <menu-item label="Collections" href="collections/index.html"/>      
     <menu-item label="Command" href="command/index.html"/>      
@@ -28,6 +29,7 @@
     <menu-item label="Logger" href="logger/index.html"/>      
     <menu-item label="Naming" href="naming/index.html"/>
     <menu-item label="Pool" href="pool/index.html"/>          
+    <menu-item label="Proxy" href="proxy/index.html"/>
     <menu-item label="Testcase" href="testcase/index.html"/>
     <menu-item label="TAR" href="tar/index.html"/>
     <menu-item label="Thread" href="thread/index.html"/>
