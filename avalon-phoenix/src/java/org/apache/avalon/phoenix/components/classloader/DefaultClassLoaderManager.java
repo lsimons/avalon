@@ -18,6 +18,16 @@ import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 
 /**
+ * Component that creates and manages the <code>ClassLoader</code>
+ * for an application loaded out of a <code>.sar</code> deployment.
+ *
+ * <p>Currently it creates a policy based on the policy declaration 
+ * in the configuration. It then just creates a URLClassLoader and 
+ * populates it with the specified codebase <code>URL</code>s.</p>
+ *
+ * <p>In the future this class will scan the manifests for "Optional
+ * Packages" formely called "Extensions" which it will add to the 
+ * <code>ClassLoader</code></p>
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
@@ -25,6 +35,17 @@ public class DefaultClassLoaderManager
     extends AbstractLoggable
     implements ClassLoaderManager
 {
+    /**
+     * Create a <code>ClassLoader</code> for a specific application.
+     * See Class Javadoc for description of technique for creating 
+     * <code>ClassLoader</code>.
+     * 
+     * @param server the configuration "server.xml" for the application
+     * @param baseDirectory the base directory of application
+     * @param classPath the list of URLs in applications deployment
+     * @return the ClassLoader created
+     * @exception Exception if an error occurs
+     */
     public ClassLoader createClassLoader( final Configuration server,
                                           final File homeDirectory,
                                           final URL[] classPath )
@@ -37,13 +58,15 @@ public class DefaultClassLoaderManager
         //TODO: Load Extensions from Package Repository as required
         //TODO: Determine parentClassLoader in a safer fashion
         final ClassLoader parentClassLoader = Thread.currentThread().getContextClassLoader();
-        return new PolicyClassLoader( classPath, parentClassLoader, policy );
+        final SarURLStreamHandlerFactory factory = new SarURLStreamHandlerFactory();
+        return new PolicyClassLoader( classPath, parentClassLoader, factory, policy );
     }
 
     /**
      * Setup policy based on configuration data.
      *
      * @param configuration the configuration data
+     * @param baseDirectory the applications base directory
      * @exception ConfigurationException if an error occurs
      */
     private Policy configurePolicy( final Configuration configuration,
