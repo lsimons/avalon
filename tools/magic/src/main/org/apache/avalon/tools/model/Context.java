@@ -464,11 +464,20 @@ public class Context extends Task
         return m_docs;
     }
 
+   /**
+    * Reserve a path under the target directory.
+    * @param path the path to reserve
+    */
     public File setBuildPath( final String path )
     {
         return setBuildPath( path, path );
     }
 
+   /**
+    * Reserve a path under the target directory.
+    * @param key the logic path identifier
+    * @param path the path to reserve
+    */
     public File setBuildPath( final String key, final String path )
     {
         if( null == key )
@@ -491,28 +500,21 @@ public class Context extends Task
         return build;
     }
 
+   /**
+    * Return a build path matching a supplied key.
+    * @return the target path
+    */
     public File getBuildPath( final String key )
-    {
-        return getBuildPath( key, true );
-    }
-
-    public File getBuildPath( final String key, final boolean fail )
     {
         if( m_map.containsKey( key ) )
         {
             return (File) m_map.get( key ) ;
         }
-        else if( fail )
-        {
-            final String error = 
-              "Unknown build key '" 
-              + key + "'.";
-            throw new BuildException( error );
-        }
-        else
-        {
-            return null;
-        }
+        
+        final String error = 
+          "Unknown build key '" 
+          + key + "'.";
+        throw new BuildException( error );
     }
 
     //--------------------------------------------------------------------
