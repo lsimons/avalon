@@ -50,10 +50,24 @@ import org.apache.avalon.framework.logger.Logger;
  * Implementation of the default Merlin Kernel.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/02/07 22:46:42 $
+ * @version $Revision: 1.10 $ $Date: 2004/02/10 10:13:55 $
  */
 public class DefaultKernel implements Kernel, Disposable
 {
+    static private final String[] STATE_NAMES = 
+    {
+        "state: initializing",
+        "state: initialized",
+        "state: starting",
+        "state: assembly",
+        "state: deployment",
+        "state: started",
+        "state: stopping",
+        "state: decommissioning",
+        "state: dissassembly",
+        "state: stopped"
+    };
+        
 
     //--------------------------------------------------------------
     // immutable state
@@ -419,45 +433,9 @@ public class DefaultKernel implements Kernel, Disposable
         public String toString()
         {
             int s = m_state;
-            if( s == 0 )
+            if( s < STATE_NAMES.length )
             {
-                return "state: initializing";
-            }
-            else if( s == 1 )
-            {
-                return "state: initialized";
-            }
-            else if( s == 2 )
-            {
-                return "state: starting";
-            }
-            else if( s == 3 )
-            {
-                return "state: assembly";
-            }
-            else if( s == 4 )
-            {
-                return "state: deployment";
-            }
-            else if( s == 5 )
-            {
-                return "state: started";
-            }
-            else if( s == 6 )
-            {
-                return "state: stopping";
-            }
-            else if( s == 7 )
-            {
-                return "state: decommissioning";
-            }
-            else if( s == 8 )
-            {
-                return "state: dissassembly";
-            }
-            else if( s == 9 )
-            {
-                return "state: stopped";
+                return STATE_NAMES[ s ];
             }
             else
             {
