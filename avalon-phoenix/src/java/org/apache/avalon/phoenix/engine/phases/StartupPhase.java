@@ -33,7 +33,6 @@ import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.excalibur.thread.ThreadContext;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockContext;
-import org.apache.avalon.phoenix.engine.SarContextResources;
 import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
 import org.apache.avalon.phoenix.engine.blocks.BlockVisitor;
 import org.apache.avalon.phoenix.engine.blocks.DefaultBlockContext;
@@ -70,8 +69,8 @@ public class StartupPhase
     public void contextualize( final Context context )
         throws ContextException
     {
-        final File baseDirectory = (File)context.get( SarContextResources.APP_HOME_DIR );
-        final String name = (String)context.get( SarContextResources.APP_NAME );
+        final File baseDirectory = (File)context.get( "app.home" );
+        final String name = (String)context.get( "app.name" );
 
         //base contxt that all block contexts inherit from
         final DefaultContext blockContext = new DefaultContext();

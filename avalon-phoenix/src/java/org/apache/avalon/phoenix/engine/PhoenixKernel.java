@@ -85,8 +85,8 @@ public class PhoenixKernel
             if( application instanceof Contextualizable )
             {
                 final DefaultContext context = new DefaultContext();
-                context.put( SarContextResources.APP_NAME, name );
-                context.put( SarContextResources.APP_HOME_DIR, saEntry.getHomeDirectory() );
+                context.put( "app.name", name );
+                context.put( "app.home", saEntry.getHomeDirectory() );
                 ((Contextualizable)application).contextualize( context );
             }
 

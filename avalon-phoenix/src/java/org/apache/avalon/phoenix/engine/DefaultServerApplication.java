@@ -29,17 +29,16 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.phoenix.engine.blocks.BlockDAG;
 import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
 import org.apache.avalon.phoenix.engine.blocks.BlockVisitor;
 import org.apache.avalon.phoenix.engine.blocks.RoleEntry;
-import org.apache.avalon.phoenix.engine.facilities.ApplicationManager;
 import org.apache.avalon.phoenix.engine.facilities.ApplicationFrame;
-import org.apache.avalon.phoenix.engine.facilities.frame.DefaultApplicationFrame;
+import org.apache.avalon.phoenix.engine.facilities.ApplicationManager;
 import org.apache.avalon.phoenix.engine.facilities.ConfigurationRepository;
 import org.apache.avalon.phoenix.engine.facilities.application.DefaultApplicationManager;
 import org.apache.avalon.phoenix.engine.facilities.configuration.DefaultConfigurationRepository;
+import org.apache.avalon.phoenix.engine.facilities.frame.DefaultApplicationFrame;
 import org.apache.avalon.phoenix.engine.phases.ShutdownPhase;
 import org.apache.avalon.phoenix.engine.phases.StartupPhase;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
@@ -79,17 +78,14 @@ public final class DefaultServerApplication
 
     //these are the facilities (internal components) of ServerApplication
     private ApplicationFrame         m_frame;
-    private ApplicationManager       m_applicationManager;
-    private ConfigurationRepository  m_configurationRepository;
+    private ApplicationManager       m_manager;
+    private ConfigurationRepository  m_repository;
 
     public void contextualize( final Context context )
         throws ContextException
     {
-        //save it to contextualize policy/logManager/etc
-        final DefaultContext newContext = new DefaultContext( context );
-        newContext.put( "name", context.get( SarContextResources.APP_NAME ) );
-        newContext.put( "directory", context.get( SarContextResources.APP_HOME_DIR ) );
-        m_context = newContext;
+        //save it to contextualize facilities
+        m_context = context;
     }
 
     public void compose( final ComponentManager componentManager )
@@ -130,7 +126,7 @@ public final class DefaultServerApplication
         if( !(entry instanceof BlockEntry) )
         {
             throw new ContainerException( "Only Entries of type BlockEntry " +
-                                          "may be placed in container." );  
+                                          "may be placed in container." );
         }
     }
 
@@ -252,8 +248,8 @@ public final class DefaultServerApplication
         throws Exception
     {
         m_frame = new DefaultApplicationFrame();
-        m_configurationRepository = new DefaultConfigurationRepository();
-        m_applicationManager = new DefaultApplicationManager();
+        m_repository = new DefaultConfigurationRepository();
+        m_manager = new DefaultApplicationManager();
     }
 
     /**
@@ -264,11 +260,9 @@ public final class DefaultServerApplication
     protected void setupComponents()
         throws Exception
     {
-        Configuration configuration = null;
-
         setupComponent( m_frame, "<core>.frame", m_configuration );
-        setupComponent( m_configurationRepository, "<core>.config", null );
-        setupComponent( m_applicationManager, "<core>.application-manager", null );
+        setupComponent( m_repository, "<core>.config", null );
+        setupComponent( m_manager, "<core>.application-manager", null );
 
         setupComponent( m_dag, "<core>.dag", null );
     }
@@ -317,7 +311,7 @@ public final class DefaultServerApplication
      * @return the list of RoleEntry objects
      */
     private void verifyDependenciesMap( final String name, final BlockEntry entry )
-        throws ContainerException
+        throws Exception
     {
         //Make sure all role entries specified in config file are valid
         final RoleEntry[] roleEntrys = entry.getRoleEntrys();
@@ -332,7 +326,7 @@ public final class DefaultServerApplication
                     " with role " + role + " declared for Block " + name;
 
                 getLogger().warn( message );
-                throw new ContainerException( message );
+                throw new Exception( message );
             }
         }
 
@@ -349,7 +343,7 @@ public final class DefaultServerApplication
                     " not provided in configuration for Block " + name;
 
                 getLogger().warn( message );
-                throw new ContainerException( message );
+                throw new Exception( message );
             }
         }
     }
@@ -364,9 +358,9 @@ public final class DefaultServerApplication
         final DefaultComponentManager componentManager = new DefaultComponentManager();
         componentManager.put( SystemManager.ROLE, m_systemManager );
         componentManager.put( ApplicationFrame.ROLE, m_frame );
+        componentManager.put( ApplicationManager.ROLE, m_manager );
+        componentManager.put( ConfigurationRepository.ROLE, m_repository );
         componentManager.put( Container.ROLE, this );
-        componentManager.put( ConfigurationRepository.ROLE, m_configurationRepository );
-
         return componentManager;
     }
 }
