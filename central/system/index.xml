@@ -117,10 +117,18 @@
       <info>
         <group>avalon/framework</group>
         <name>avalon-framework-api</name>
-        <version>4.2.0</version>
+        <version>4.2.1</version>
+      </info>
+    </project>
+
+    <project basedir="../../runtime/framework/legacy">
+      <info>
+        <group>avalon/framework</group>
+        <name>avalon-framework-api</name>
+        <version>4.2.1</version>
       </info>
       <dependencies>
-        <include key="avalon-logkit" runtime="false" test="false"/>
+        <include key="avalon-logkit" runtime="true" test="false"/>
       </dependencies>
     </project>
 
@@ -128,10 +136,11 @@
       <info>
         <group>avalon/framework</group>
         <name>avalon-framework-impl</name>
-        <version>4.2.0</version>
+        <version>4.2.1</version>
       </info>
       <dependencies>
         <include key="avalon-framework-api"/>
+        <include key="avalon-framework-legacy"/>
       </dependencies>
     </project>
 
