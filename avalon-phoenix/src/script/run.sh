@@ -5,7 +5,9 @@
 # Author: Peter Donald <donaldp@apache.org>
 #
 # The user may choose to supply parameters to the JVM (such as memory settings)
-# via setting the environment variable PHOENIX_JVM_OPTS
+# via setting the environment variable PHOENIX_JVM_OPTS.
+#
+# The user may also disable the security manager by setting PHOENIX_SECURE=false
 #
 
 # Checking for JAVA_HOME is required on *nix due
@@ -40,7 +42,15 @@ unset THIS_PROG
 # like placing jaxp/jaas/xml-parser jars in ext dir
 # thus breaking Phoenix
 #
-JVM_OPTS="-Djava.ext.dirs=$PHOENIX_HOME/lib $PHOENIX_JVM_OPTS"
+PROPS="-Djava.ext.dirs=$PHOENIX_HOME/lib -Dphoenix.home=$PHOENIX_HOME"
+LOADER_JAR="$PHOENIX_HOME/bin/phoenix-loader.jar"
+POLICY="-Djava.security.policy=jar:file:$LOADER_JAR!/META-INF/java.policy"
+JVM_OPTS="$PROPS $POLICY $PHOENIX_JVM_OPTS"
+
+if [ "$PHOENIX_SECURE" != "false" ] ; then
+  # Make phoenix run with security manager enabled
+  JVM_OPTS="$JVM_OPTS -Djava.security.manager"
+fi
 
 # Kicking the tires and lighting the fires!!!
-$JAVA_HOME/bin/java $JVM_OPTS -jar $PHOENIX_HOME/bin/phoenix-loader.jar $*
+$JAVA_HOME/bin/java $JVM_OPTS -jar $LOADER_JAR $*
