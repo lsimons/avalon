@@ -84,23 +84,7 @@ this component
   "${ant.home}/lib".  This makes available the unit testing tasks that are 
   commonly required when building Jakarta based projects.
 
-(3) Download and Install the JDepend 2.2, Dependency Analysis Package (OPTIONAL)
-
-NOTE: This is only required if you wish to run dependency analysis for 
-this component. 
-
-* Download the JDepend package (version 2.2 or later) from:
-
-    http://www.clarkware.com/software/JDepend.html
-
-* Unpack the package into a convenient location so that it resides in its
-  own subdirectory.
-
-* Copy the file "jdepend.jar", downloaded above, into the directory 
-  "${ant.home}/lib".  This makes available the dependency analysis tasks.
-
-
-(4) Download and Install Checkstyle, 2.1 or later (OPTIONAL)
+(3) Download and Install Checkstyle, 2.1 or later (OPTIONAL)
 
 NOTE: This is only required if you wish to generate reports regarding code style.
 
@@ -111,7 +95,7 @@ NOTE: This is only required if you wish to generate reports regarding code style
 * Unpack the package into a convenient location so that it resides in its
   own subdirectory.
 
-(5) Download and Install the Xalan, XSLT engine (OPTIONAL)
+(4) Download and Install the Xalan, XSLT engine (OPTIONAL)
 
 NOTE: This is only required if you wish to generate reports for the dependency 
 analysis, checkstyle and unit testing results.
@@ -127,7 +111,7 @@ analysis, checkstyle and unit testing results.
   the directory "${ant.home}/lib".  This makes available the XSLT reporting
   capabilities.
 
-(6) Customize Build Properties For This Subproject
+(5) Customize Build Properties For This Subproject
 
 Most Jakarta subprojects allow you to customize Ant properties (with default
 values defined in the "build.xml" file.  This is done by creating a text file
@@ -149,7 +133,7 @@ NOTE:  Be *sure* that you do not check "ant.properties" in to the CVS
 repository.  This file is local to your own development environment, and
 each developer will have their own version.
 
-(7) Build A Binary Distribution
+(6) Build A Binary Distribution
 
 Open a command line shell, and issue the following commands:
 
