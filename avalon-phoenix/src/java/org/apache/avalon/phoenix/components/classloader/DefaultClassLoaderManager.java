@@ -92,9 +92,9 @@ public class DefaultClassLoaderManager
     public void service( final ServiceManager serviceManager )
         throws ServiceException
     {
-        final ExtensionManager packageRepository =
+        final ExtensionManager extensionManager =
             (ExtensionManager) serviceManager.lookup( ExtensionManager.ROLE );
-        m_packageManager = new PackageManager( packageRepository );
+        m_packageManager = new PackageManager( extensionManager );
     }
 
     /**
