@@ -32,7 +32,7 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/04/10 05:38:43 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/04/18 09:19:42 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
@@ -327,7 +327,7 @@ public class ExcaliburComponentManager
         if( null == handler )
         {
             final String message = "Could not find component";
-            if( getLogger().isErrorEnabled() )
+            if( getLogger().isDebugEnabled() )
             {
                 getLogger().debug( message + " for role: " + role );
             }
@@ -521,7 +521,7 @@ public class ExcaliburComponentManager
                 //  remove can be called.
                 m_componentMapping.remove( component );
             }
-            
+
             try
             {
                 handler.put( component );
@@ -583,7 +583,7 @@ public class ExcaliburComponentManager
     {
         return m_componentHandlers;
     }
-    
+
     /**
      * Add a new component to the manager.
      *
