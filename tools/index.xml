@@ -2,6 +2,42 @@
 
 <index>
 
+  <resource>
+    <info>
+      <group>ant</group>
+      <name>ant</name>
+      <version>1.6.1</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>ant</group>
+      <name>ant-nodeps</name>
+      <version>1.6.1</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>ant</group>
+      <name>ant-junit</name>
+      <version>1.6.1</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>junit</group>
+      <name>junit</name>
+      <version>3.8.1</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
   <!--
   Avalon Tools.
   -->

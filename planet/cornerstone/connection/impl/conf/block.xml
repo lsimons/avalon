@@ -27,11 +27,6 @@ Thread Block deployment directive.
 
    <component name="manager" 
         class="org.apache.avalon.cornerstone.blocks.connection.DefaultConnectionManager" 
-        activation="startup">
-     <configuration>
-       <idle-timeout>300000</idle-timeout>
-       <max-connections>30</max-connections>
-     </configuration>
-   </component>
+        profile="default"/>
 
 </container>

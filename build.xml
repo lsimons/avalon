@@ -20,6 +20,10 @@
     <ant dir="." antfile="${reactor.xml}" target="clean"/>
   </target>
 
+  <target name="init" depends="verify">
+    <ant dir="." antfile="${reactor.xml}" target="init"/>
+  </target>
+
   <target name="install" depends="default"/>
 
   <target name="default" depends="verify">

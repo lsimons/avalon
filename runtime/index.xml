@@ -30,33 +30,6 @@
 
   <resource>
     <info>
-      <group>ant</group>
-      <name>ant</name>
-      <version>1.6.1</version>
-      <type>jar</type>
-    </info>
-  </resource>
-
-  <resource>
-    <info>
-      <group>ant</group>
-      <name>ant-nodeps</name>
-      <version>1.6.1</version>
-      <type>jar</type>
-    </info>
-  </resource>
-
-  <resource>
-    <info>
-      <group>ant</group>
-      <name>ant-junit</name>
-      <version>1.6.1</version>
-      <type>jar</type>
-    </info>
-  </resource>
-
-  <resource>
-    <info>
       <group>qdox</group>
       <name>qdox</name>
       <version>1.3</version>
@@ -69,15 +42,6 @@
       <group>commons-cli</group>
       <name>commons-cli</name>
       <version>1.0</version>
-      <type>jar</type>
-    </info>
-  </resource>
-
-  <resource>
-    <info>
-      <group>junit</group>
-      <name>junit</name>
-      <version>3.8.1</version>
       <type>jar</type>
     </info>
   </resource>
