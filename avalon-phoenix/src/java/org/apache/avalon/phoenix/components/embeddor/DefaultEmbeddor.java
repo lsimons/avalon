@@ -33,6 +33,7 @@ import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.Deployer;
+import org.apache.avalon.phoenix.interfaces.DeploymentRecorder;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.LogManager;
@@ -72,6 +73,7 @@ public class DefaultEmbeddor
     private ConfigurationRepository  m_repository;
     private Kernel                   m_kernel;
     private Deployer                 m_deployer;
+    private DeploymentRecorder       m_recorder;
     private LogManager               m_logManager;
     private SystemManager            m_systemManager;
 
@@ -131,6 +133,7 @@ public class DefaultEmbeddor
             setupComponent( m_classLoaderManager );
             setupComponent( m_repository );
             setupComponent( m_deployer );
+            setupComponent( m_recorder );
             setupComponent( m_systemManager );
             setupComponent( m_kernel );
         }
@@ -175,7 +178,8 @@ public class DefaultEmbeddor
 
         try
         {
-            shutdownComponent( m_systemManager );
+            shutdownComponent( m_systemManager );            
+            shutdownComponent( m_recorder );
             shutdownComponent( m_deployer );
             shutdownComponent( m_kernel );
             shutdownComponent( m_repository );
@@ -239,6 +243,9 @@ public class DefaultEmbeddor
 
         component = m_parameters.getParameter( Deployer.ROLE );
         m_deployer = (Deployer)createComponent( component, Deployer.class );
+
+        component = m_parameters.getParameter( DeploymentRecorder.ROLE );
+        m_recorder = (DeploymentRecorder)createComponent( component, DeploymentRecorder.class );
 
         component = m_parameters.getParameter( SystemManager.ROLE );
         m_systemManager = (SystemManager)createComponent( component, SystemManager.class );
@@ -451,6 +458,7 @@ public class DefaultEmbeddor
         componentManager.put( ClassLoaderManager.ROLE, m_classLoaderManager );
         componentManager.put( ConfigurationRepository.ROLE, m_repository );
         componentManager.put( Deployer.ROLE, m_deployer );
+        componentManager.put( DeploymentRecorder.ROLE, m_recorder );
         componentManager.put( SystemManager.ROLE, m_systemManager );
         componentManager.put( Kernel.ROLE, m_kernel );
 
@@ -469,6 +477,7 @@ public class DefaultEmbeddor
 
         final String PREFIX = "org.apache.avalon.phoenix.components.";
         defaults.setParameter( Deployer.ROLE, PREFIX + "deployer.DefaultDeployer" );
+        defaults.setParameter( DeploymentRecorder.ROLE, PREFIX + "deployer.DefaultDeploymentRecorder" );
         defaults.setParameter( LogManager.ROLE, PREFIX + "logger.DefaultLogManager" );
         defaults.setParameter( Kernel.ROLE, PREFIX + "kernel.DefaultKernel" );
         defaults.setParameter( SystemManager.ROLE, PREFIX + "manager.NoopSystemManager" );
