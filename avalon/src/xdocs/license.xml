@@ -7,7 +7,7 @@
  <header>
   <title>Avalon Public License</title>
   <authors>
-    <person id="BL" name="Avalon Documentation Team" email="bloritsch@apache.org"/>
+    <person name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/>
   </authors>
  </header>
 
@@ -67,7 +67,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/02/23 10:47:47 $
+      $Revision: 1.2 $ $Date: 2001/03/13 20:42:19 $
     </legal>
   </footer>
 </document>
