@@ -96,7 +96,7 @@ import java.util.*;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.36 $ $Date: 2003/06/04 13:19:39 $
+ * @version CVS $Revision: 1.37 $ $Date: 2003/06/17 16:34:02 $
  */
 public abstract class AbstractContainer
         extends AbstractLogEnabled
@@ -828,7 +828,7 @@ public abstract class AbstractContainer
      * the getServiceManager() method.
      * Invoked from the service() method.
      *
-     * However even a self-contained container should be carefull about
+     * However even a self-contained container should be careful about
      * cutting access to parent serviceManager completely, as important
      * (and required) system services including Sink, LoggerManager,
      * InstrumentManager, PoolManager and LifecycleExtensionManager
