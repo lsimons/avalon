@@ -8,19 +8,15 @@
 package org.apache.avalon.phoenix.components.classloader;
 
 import java.io.File;
-import java.io.InputStream;
-import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.Permission;
 import java.security.Permissions;
-import java.security.UnresolvedPermission;
 import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.PropertyPermission;
 import java.util.StringTokenizer;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
@@ -28,7 +24,10 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.components.util.ResourceUtil;
+import org.apache.excalibur.policy.runtime.AbstractPolicy;
 
 /**
  * Policy that extracts information from policy files.
@@ -37,16 +36,15 @@ import org.apache.avalon.phoenix.components.util.ResourceUtil;
  */
 class DefaultPolicy
     extends AbstractPolicy
-    implements Configurable
+    implements Configurable, LogEnabled
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultPolicy.class );
 
     private final File m_baseDirectory;
-
     private final File m_workDirectory;
-
     private DefaultContext m_context;
+    private Logger m_logger;
 
     protected DefaultPolicy( final File baseDirectory,
                              final File workDirectory )
@@ -58,6 +56,11 @@ class DefaultPolicy
         m_context.put( "app.home", baseDirectory );
         m_workDirectory = workDirectory;
         m_baseDirectory = baseDirectory;
+    }
+
+    public void enableLogging( final Logger logger )
+    {
+        m_logger = logger;
     }
 
     public void configure( final Configuration configuration )
@@ -77,52 +80,17 @@ class DefaultPolicy
         {
             final String message =
                 REZ.getString( "policy.notice.full-perms" );
-            getLogger().info( message );
-            final Permissions permissions = createPermissionSetFor( getInclusiveURL(), null );
-            permissions.add( new java.security.AllPermission() );
+            m_logger.info( message );
+            try
+            {
+                final Permissions permissions = createPermissionSetFor( new URL( "file:/-" ), null );
+                permissions.add( new java.security.AllPermission() );
+            }
+            catch( MalformedURLException e )
+            {
+                //never happens
+            }
         }
-    }
-
-    private URL getInclusiveURL()
-    {
-        try
-        {
-            return new URL( "file:/-" );
-        }
-        catch( final MalformedURLException mue )
-        {
-            //Never happens
-            return null;
-        }
-    }
-
-    private void setupDefaultPermissions()
-    {
-        //these properties straight out ot ${java.home}/lib/security/java.policy
-        final Permissions permissions = createPermissionSetFor( getInclusiveURL(), null );
-
-        permissions.add( new PropertyPermission( "os.name", "read" ) );
-        permissions.add( new PropertyPermission( "os.arch", "read" ) );
-        permissions.add( new PropertyPermission( "os.version", "read" ) );
-        permissions.add( new PropertyPermission( "file.separator", "read" ) );
-        permissions.add( new PropertyPermission( "path.separator", "read" ) );
-        permissions.add( new PropertyPermission( "line.separator", "read" ) );
-
-        permissions.add( new PropertyPermission( "java.version", "read" ) );
-        permissions.add( new PropertyPermission( "java.vendor", "read" ) );
-        permissions.add( new PropertyPermission( "java.vendor.url", "read" ) );
-
-        permissions.add( new PropertyPermission( "java.class.version", "read" ) );
-        permissions.add( new PropertyPermission( "java.vm.version", "read" ) );
-        permissions.add( new PropertyPermission( "java.vm.vendor", "read" ) );
-        permissions.add( new PropertyPermission( "java.vm.name", "read" ) );
-
-        permissions.add( new PropertyPermission( "java.specification.version", "read" ) );
-        permissions.add( new PropertyPermission( "java.specification.vendor", "read" ) );
-        permissions.add( new PropertyPermission( "java.specification.name", "read" ) );
-        permissions.add( new PropertyPermission( "java.vm.specification.version", "read" ) );
-        permissions.add( new PropertyPermission( "java.vm.specification.vendor", "read" ) );
-        permissions.add( new PropertyPermission( "java.vm.specification.name", "read" ) );
     }
 
     private HashMap configureKeyStores( final Configuration[] configurations )
@@ -139,11 +107,8 @@ class DefaultPolicy
 
             try
             {
-                final KeyStore keyStore = KeyStore.getInstance( type );
-                final URL url = new URL( location );
-                final InputStream ins = url.openStream();
-
-                keyStore.load( ins, null );
+                final KeyStore keyStore =
+                    createKeyStore( type, new URL( location ) );
 
                 keyStores.put( name, keyStore );
             }
@@ -189,7 +154,6 @@ class DefaultPolicy
         final Certificate[] signers = getSigners( signedBy, keyStoreName, keyStores );
 
         Permissions permissions = null;
-
         try
         {
             permissions = createPermissionSetFor( codeBase, signers );
@@ -233,9 +197,16 @@ class DefaultPolicy
         }
 
         final Certificate[] signers = getSigners( signedBy, keyStoreName, keyStores );
-        final Permission permission = createPermission( type, target, actions, signers );
-
-        permissions.add( permission );
+        try
+        {
+            final Permission permission =
+                createPermission( type, target, actions, signers );
+            permissions.add( permission );
+        }
+        catch( final Exception e )
+        {
+            throw new ConfigurationException( e.getMessage(), e );
+        }
     }
 
     private String expand( final String value )
@@ -251,69 +222,6 @@ class DefaultPolicy
             final String message = REZ.getString( "policy.error.property.resolve", value );
             throw new ConfigurationException( message, e );
         }
-    }
-
-    private Permission createPermission( final String type,
-                                         final String target,
-                                         final String actions,
-                                         final Certificate[] signers )
-        throws ConfigurationException
-    {
-        if( null != signers )
-        {
-            return createUnresolvedPermission( type, target, actions, signers );
-        }
-
-        try
-        {
-            final Class c = Class.forName( type );
-
-            Class paramClasses[] = null;
-            Object params[] = null;
-
-            if( null == actions && null == target )
-            {
-                paramClasses = new Class[ 0 ];
-                params = new Object[ 0 ];
-            }
-            else if( null == actions )
-            {
-                paramClasses = new Class[ 1 ];
-                paramClasses[ 0 ] = String.class;
-                params = new Object[ 1 ];
-                params[ 0 ] = target;
-            }
-            else
-            {
-                paramClasses = new Class[ 2 ];
-                paramClasses[ 0 ] = String.class;
-                paramClasses[ 1 ] = String.class;
-                params = new Object[ 2 ];
-                params[ 0 ] = target;
-                params[ 1 ] = actions;
-            }
-
-            final Constructor constructor = c.getConstructor( paramClasses );
-            final Object o = constructor.newInstance( params );
-            return (Permission)o;
-        }
-        catch( final ClassNotFoundException cnfe )
-        {
-            return createUnresolvedPermission( type, target, actions, signers );
-        }
-        catch( final Exception e )
-        {
-            final String message = REZ.getString( "policy.error.permission.create", type );
-            throw new ConfigurationException( message, e );
-        }
-    }
-
-    private Permission createUnresolvedPermission( final String type,
-                                                   final String target,
-                                                   final String actions,
-                                                   final Certificate[] signers )
-    {
-        return new UnresolvedPermission( type, target, actions, signers );
     }
 
     private Certificate[] getSigners( final String signedBy,
@@ -384,5 +292,21 @@ class DefaultPolicy
         }
 
         return (Certificate[])certificateSet.toArray( new Certificate[ 0 ] );
+    }
+
+    protected void error( final String message,
+                          final Throwable throwable )
+    {
+        m_logger.error( message, throwable );
+    }
+
+    protected void debug( final String message )
+    {
+        m_logger.debug( message );
+    }
+
+    protected boolean isDebugEnabled()
+    {
+        return m_logger.isDebugEnabled();
     }
 }

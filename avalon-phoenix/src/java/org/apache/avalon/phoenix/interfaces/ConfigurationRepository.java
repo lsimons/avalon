@@ -51,7 +51,6 @@ public interface ConfigurationRepository
      *
      * @param application Application name
      * @param block Block name to store configuration for
-     * @param configuration information to store.
      *
      * @throws ConfigurationException if configuration could not be removed
      */
