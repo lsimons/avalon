@@ -32,3 +32,12 @@ Issues:
 * How do components in Scratchpad be promoted to Excalibur?
   In other words, what are the exit criteria?
 
+* Should we update to use Velocity rather than Stylebook
+
+* Should we wait for commons to build component directory 
+  or do it ourselves?
+
+* Should we create a new CVS for excalibur?
+
+
+
