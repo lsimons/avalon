@@ -53,18 +53,32 @@ import org.apache.avalon.framework.service.ServiceException;
 
 /**
  * The Container is an interface used to mark the Containers in your system.
- * It is used to functionally identify Containers. It's primary use is to
+ *
+ * <p>It is used to functionally identify Containers. It's primary use is to
  * assist Container developers to obtain the desired object from the Context.
- * All communication from the ContainerManager to the Container is through the
- * Context object.
+ * Most applications will not, or barely, refer to implementations of this
+ * class; rather they will interact wit a {@link ContainerManager ContainerManager}
+ * implementation. All communication from the ContainerManager to the Container is
+ * through the {@link Context Context} object.</p>
+ *
+ * <p>While plans exist to extend the Container interface to expose more of the
+ * Container's internals, we currently feel that we have insufficient use case
+ * information to determine the generic form of the container internals.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/04/18 20:02:29 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/09/13 10:20:18 $
  * @see ContainerConstants for the contract surrounding the Container context
- * @see <a href="http://jakarta.apache.org/avalon/framework/guide-cop-in-avalon.html">COP In Avalon</a>
+ * @see <a href="http://avalon.apache.org/framework/guide-cop-in-avalon.html">COP In Avalon</a>
  */
 public interface Container
 {
+    /**
+     * Work interface identifier.
+     *
+     * @since 1.1-dev
+     */
+    String ROLE = Container.class.getName();
+
     /**
      * This is the method that the ContainerComponentManager and Selector use
      * to gain access to the ComponentHandlers and ComponentSelectors.  The
