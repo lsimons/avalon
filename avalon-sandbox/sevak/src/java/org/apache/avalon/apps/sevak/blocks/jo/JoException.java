@@ -7,46 +7,36 @@
  */
 package org.apache.avalon.apps.sevak.blocks.jo;
 
-import java.io.PrintStream;
-import java.io.PrintWriter;
+import org.apache.avalon.framework.CascadingException;
 
 /**
  *
  * Date: Jan 15, 2002
  * Time: 7:04:54 PM
  * @author <a href="mailto:hs@tagtraum.com">Hendrik Schreiber</a>
- * @version $Id: JoException.java,v 1.1 2002/09/22 09:35:01 hammant Exp $
+ * @version $Id: JoException.java,v 1.2 2002/09/29 11:38:43 hammant Exp $
  */
-public class JoException extends Exception {
-   private Exception nestedException;
-   public JoException(String s) {
-      super(s);
-   }
-   public JoException(Exception nestedException) {
-      super(nestedException.toString());
-      setNestedException(nestedException);
-   }
+public class JoException extends CascadingException
+{
 
-   public Exception getNestedException() {
-      return nestedException;
-   }
+    /**
+     * Construct a Jo Exception
+     * @param message the message
+     */
+    public JoException(String message)
+    {
+        super(message);
 
-   private void setNestedException(Exception nestedException) {
-      this.nestedException = nestedException;
-   }
+    }
 
-   public void printStackTrace() {
-      if (nestedException != null) nestedException.printStackTrace();
-      super.printStackTrace();
-   }
+    /**
+     * Construct a Jo Exception
+     * @param message the message*
+     * @param nestedException a nested exception
+     */
+    public JoException(String message, Exception nestedException)
+    {
+        super(message, nestedException);
+    }
 
-   public void printStackTrace(PrintStream s) {
-      if (nestedException != null) nestedException.printStackTrace(s);
-      super.printStackTrace(s);
-   }
-
-   public void printStackTrace(PrintWriter s) {
-      if (nestedException != null) nestedException.printStackTrace(s);
-      super.printStackTrace(s);
-   }
 }

@@ -14,7 +14,7 @@ import org.apache.catalina.LifecycleException;
  * Tomcat ClassLoader Hack to make Catalina run over Avalon/Phoenix .
  *
  * @author  Vinay Chandran<vinayc77@yahoo.com>
- * @version 1.0
+ * @version $Revision: 1.2 $ $Date: 2002/09/29 11:38:42 $
  */
 
 public class CustomWebappLoader extends WebappLoader
@@ -23,13 +23,13 @@ public class CustomWebappLoader extends WebappLoader
     private boolean m_started = false;
 
     /**
-      * Start this component, initializing our associated class loader.
-      *
-      * @exception org.apache.catalina.LifecycleException if a lifecycle error occurs
-      */
+     * Start this component, initializing our associated class loader.
+     *
+     * @exception LifecycleException if a lifecycle error occurs
+     */
     public void start() throws LifecycleException
     {
-        //Prevent the LifecycleException by preventing any further calls made 
+        //Prevent the LifecycleException by preventing any further calls made
         // to the base implementation to ' start' again
         if (m_started)
         {
@@ -41,7 +41,7 @@ public class CustomWebappLoader extends WebappLoader
     }
 
     /**
-     *  Constructor 
+     *  Constructor
      * @param classLoader ClassLoader
      */
     public CustomWebappLoader(ClassLoader classLoader)

@@ -7,345 +7,431 @@
  */
 package org.apache.avalon.apps.sevak.blocks.catalina;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.security.Security;
 
-import org.apache.avalon.apps.sevak.Sevak;
-import org.apache.avalon.apps.sevak.SevakException;
-import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.service.Serviceable;
-import org.apache.catalina.Engine;
-import org.apache.catalina.Host;
+import org.apache.catalina.Container;
 import org.apache.catalina.Lifecycle;
 import org.apache.catalina.LifecycleException;
-import org.apache.catalina.Loader;
-import org.apache.catalina.DefaultContext;
-import org.apache.catalina.core.StandardContext;
-import org.apache.catalina.startup.ContextConfig;
-import org.apache.catalina.startup.Embedded;
-import org.apache.coyote.tomcat4.CoyoteConnector;
+import org.apache.catalina.Server;
+import org.apache.catalina.Service;
+import org.apache.catalina.Deployer;
+import org.apache.catalina.startup.ContextRuleSet;
+import org.apache.catalina.startup.EngineRuleSet;
+import org.apache.catalina.startup.HostRuleSet;
+import org.apache.catalina.startup.NamingRuleSet;
+
+import org.apache.commons.digester.Digester;
+
+import org.xml.sax.InputSource;
+
+import java.io.File;
+import java.io.FileInputStream;
 
 /**
- * @phoenix:block
- * @phoenix:service name="org.apache.avalon.apps.sevak.Sevak"
- *
- * Tomcat Wrapper.
- *
+ * Tomcat Wrapper.  This is the true CatalinaSevak service.  It must be dynamically loaded
+ * through a bootstrap approach because it directly manipulates Tomcat libraries.  The bootstrap
+ * abstraction layer separates Tomcat from Phoenix, thus allowing them to coexist.  This class
+ * contains a Tomcat-specific ClassLoader i.e. org.apache.catalina.loader.StandardClassLoader that
+ * handles the true bootstrapping of Tomcat.
  *
  * @see <a href="http://jakarta.apache.org/tomcat">Tomcat Project Page</a>
  *
- * @author  Vinay Chandran<vinayc77@yahoo.com>
- * @version 1.0
+ * @author  Daniel Krieg<dkrieg@kc.rr.com>
+ * @version $Revision: 1.2 $ $Date: 2002/09/29 11:38:42 $
  */
 public class CatalinaSevak
-    extends AbstractLogEnabled
-    implements Contextualizable, Configurable, Initializable, Startable, Sevak
 {
-    //private BlockContext m_context;
-    private Context m_context;
-    private Configuration m_configuration;
-    private Engine m_engine = null;
-    private Embedded m_embedded = null;
-    private Host m_tomcatHost = null;
-    private Loader m_catalinaCustomClassLoader = null;
-    private int m_port;
-    private String m_host = null;
-
-   /**
-    * The thread that monitors stop requests from the container.
-    */
-    private Thread m_thread;
-
-   /**
-    * A flag used to trigger stop.
-    */
-    private boolean CONTINUE = false;
-
-   /**
-    * The period to sleep before checking for a stop request.
-    */
-    private int SLEEP_INTERVAL = 1000;
-
+    private ClassLoader m_parentLoader = ClassLoader.getSystemClassLoader();
+    private Server m_server = null;
+    private String m_configFile;
+    private boolean m_useNaming = true;
 
     /**
-     * @see org.apache.avalon.framework.context.Contextualizable#contextualize(org.apache.avalon.framework.context.Context)
+     * Set the parent classloader
+     * @param parentLoader the parent classloader
      */
-
-    public void contextualize(final Context context)
+    public void setParentClassLoader(ClassLoader parentLoader)
     {
-        getLogger().info("Sevak.contextualize()");
-        //m_context = (BlockContext) context;
-        m_context = (Context) context;
+        m_parentLoader = parentLoader;
     }
 
     /**
-     * @see org.apache.avalon.framework.configuration.Configurable#configure(org.apache.avalon.framework.configuration.Configuration)
+     * set the configuration file
+     * @param configFile the config file
      */
-
-    public void configure(final Configuration configuration)
-        throws ConfigurationException
+    public void setConfigFile(String configFile)
     {
-
-        m_configuration = configuration;
-
+        m_configFile = configFile;
     }
 
     /**
-     * @see org.apache.avalon.framework.activity.Initializable#initialize()
+     * Set the use naming
+     * @param useNaming the use naming
      */
+    public void setUseNaming(boolean useNaming)
+    {
+        m_useNaming = useNaming;
+    }
 
+    /**
+     * Set the server
+     * @param server the server
+     */
+    public void setServer(Server server)
+    {
+        this.m_server = server;
+    }
+
+    /**
+     * Initialize
+     * @throws Exception if a problem
+     */
     public void initialize() throws Exception
     {
-        getLogger().info("Sevak.initialize()");
-
-        //create the Logger
-        CatalinaLogger catalinaLogger = new CatalinaLogger();
-        catalinaLogger.enableLogging( getLogger().getChildLogger("catalina") );
-
-        //create the Custom ClassLoader
-        m_catalinaCustomClassLoader =
-            new CustomWebappLoader(this.getClass().getClassLoader());
-
-        //read the configuration properties
-        String catalinaHome =
-            m_configuration.getChild("catalina.home").getValue(null);
-        if (catalinaHome == null)
+        Digester digester = createStartDigester();
+        File file = getConfigFile();
+        try
         {
-            catalinaHome = ((File)m_context.get("app.home")).getAbsolutePath();
+            InputSource is =
+                    new InputSource("file://" + file.getAbsolutePath());
+            FileInputStream fis = new FileInputStream(file);
+            is.setByteStream(fis);
+            digester.push(this);
+            digester.parse(is);
+            fis.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return;
+        }
 
-            File confDir=new File( (File) m_context.get("app.home"),"conf");
-            confDir.mkdir();
-            getLogger().info("Created conf/ folder");
-            InputStream in= CatalinaSevak.class.getResourceAsStream("default-web.xml");
-            FileOutputStream fos =
-                        new FileOutputStream(new File(confDir,"web.xml").getAbsolutePath());
-            byte[] bytes= new byte[512];
-            int read=0;
-            while((read=in.read(bytes))!=-1)
+        if (!m_useNaming)
+        {
+            System.setProperty("catalina.useNaming", "false");
+        }
+        else
+        {
+            System.setProperty("catalina.useNaming", "true");
+            String value = "org.apache.naming";
+            String oldValue =
+                    System.getProperty(javax.naming.Context.URL_PKG_PREFIXES);
+            if (oldValue != null)
             {
-                fos.write(bytes,0,read);
+                value = value + ":" + oldValue;
             }
-            fos.close();
-            in.close();
+            System.setProperty(javax.naming.Context.URL_PKG_PREFIXES, value);
+            value = System.getProperty
+                    (javax.naming.Context.INITIAL_CONTEXT_FACTORY);
+            if (value == null)
+            {
+                System.setProperty
+                        (javax.naming.Context.INITIAL_CONTEXT_FACTORY,
+                                "org.apache.naming.java.javaURLContextFactory");
+            }
         }
-        /*
-         * TODO : Hack Tomcat to be able to run without the catalina.home property set
+
+        if (System.getSecurityManager() != null)
         {
-            System.out.println(
-                "catalina.home property Not Found. Using : "
-                    + m_context.get("app.home"));
-            catalinaHome = ((File)m_context.get("app.home")).getAbsolutePath();
+            String access = Security.getProperty("package.access");
+            if (access != null && access.length() > 0)
+            {
+                access += ",";
+            }
+            else
+            {
+                access = "sun.,";
+            }
+            Security.setProperty("package.access",
+                    access + "org.apache.catalina.,org.apache.jasper.");
+            String definition = Security.getProperty("package.definition");
+            if (definition != null && definition.length() > 0)
+            {
+                definition += ",";
+            }
+            else
+            {
+                definition = "sun.,";
+            }
+            Security.setProperty("package.definition",
+                    // FIX ME package "javax." was removed to prevent HotSpot
+                    // fatal internal errors
+                    definition + "java.,org.apache.catalina.,org.apache.jasper.");
         }
-        */
-        m_port = m_configuration.getChild("port").getValueAsInteger(8080);
-        m_host = m_configuration.getChild("bind").getValue("localhost");
 
-        //set the catalina home directory
-        System.setProperty("catalina.home", new File(catalinaHome).getAbsolutePath());
-        // Create an Embedded Tomcat server
-        m_embedded = new Embedded();
-        m_embedded.setDebug(0);
-        m_embedded.setLogger(catalinaLogger);
-
-        //Create Tomcat Engine
-        m_engine = m_embedded.createEngine();
-        m_engine.setDefaultHost("localhost");
-
-        // Create Tomcat Host
-        m_tomcatHost = m_embedded.createHost("localhost", "webapps");
-        m_engine.addChild(m_tomcatHost);
-
-        // Create HTTP Coyote Connector
-        CoyoteConnector coyoteConnector = new CoyoteConnector();
-        coyoteConnector.setPort(8080);
-        coyoteConnector.setMinProcessors(5);
-        coyoteConnector.setMaxProcessors(75);
-        coyoteConnector.setEnableLookups(true);
-        coyoteConnector.setAcceptCount(10);
-        coyoteConnector.setDebug(0);
-        coyoteConnector.setConnectionTimeout(20000);
-        coyoteConnector.setUseURIValidationHack(false);
-
-        m_embedded.addEngine(m_engine);
-        m_embedded.addConnector(coyoteConnector);
-        getLogger().debug( "initialization complete" );
+        if (m_server instanceof Lifecycle)
+        {
+            m_server.initialize();
+        }
+//        Service[] services = m_server.findServices();
+//        for( int i = 0; i < services.length; i++ ) {
+//            Service service = services[ i ];
+//            System.out.println( service.getName() + ": " + service.getInfo() );
+//
+//            Container container = service.getContainer();
+//            System.out.println( container.getName() + ": " + container.getInfo() );
+//            Container[] children = container.findChildren();
+//            for( int j = 0; j < children.length; j++ ) {
+//                Container child = children[ j ];
+//                System.out.println( "    Child: " + child.getName() + ": " + child.getInfo() );
+//            }
+//            System.out.println();
+//        }
+        System.out.println("CatalinaSevak Server initialized");
     }
 
-    //=======================================================================
-    // Startable
-    //=======================================================================
-
-   /**
-    */
+    /**
+     * Start the server
+     * @throws Exception if a problem
+     */
     public void start() throws Exception
     {
-        getLogger().debug( "starting" );
-        m_thread = new Thread(
-          new Runnable() {
-            public void run()
+        if (m_server instanceof Lifecycle)
+        {
+            try
             {
-                while( CONTINUE )
+                ((Lifecycle) m_server).start();
+                m_server.await();
+            }
+            catch (LifecycleException e)
+            {
+                System.out.println("Catalina.start: " + e);
+                e.printStackTrace(System.out);
+                if (e.getThrowable() != null)
                 {
-                    try
+                    System.out.println("----- Root Cause -----");
+                    e.getThrowable().printStackTrace(System.out);
+                }
+            }
+            catch (Throwable throwable)
+            {
+                throwable.printStackTrace();
+            }
+        }
+        else
+        {
+            throw new Exception("Unable to start CatalinSevak Server: "
+                    + m_server.getClass().getName());
+        }
+    }
+
+    /**
+     * Stop the server
+     * @throws Exception if a problem
+     */
+    public void stop() throws Exception
+    {
+        if (m_server instanceof Lifecycle)
+        {
+            try
+            {
+                ((Lifecycle) m_server).stop();
+            }
+            catch (LifecycleException e)
+            {
+                System.out.println("Catalina.stop: " + e);
+                e.printStackTrace(System.out);
+                if (e.getThrowable() != null)
+                {
+                    System.out.println("----- Root Cause -----");
+                    e.getThrowable().printStackTrace(System.out);
+                }
+            }
+        }
+        else
+        {
+            throw new Exception("Unable to start CatalinSevak Server: "
+                    + m_server.getClass().getName());
+        }
+    }
+
+    /**
+     * Deploy a webapp
+     * @param host the host
+     * @param context the server context
+     * @param pathToWebAppFolder the path to the war file
+     * @throws Exception if aproblem
+     */
+    public void deploy(String host, String context, File pathToWebAppFolder) throws Exception
+    {
+        Service[] services = m_server.findServices();
+        Container child = null;
+        found_host: {
+            for (int i = 0; i < services.length; i++)
+            {
+                Service service = services[i];
+                Container[] children = service.getContainer().findChildren();
+                for (int j = 0; j < children.length; j++)
+                {
+                    child = children[j];
+                    if (child.getName().equals(host))
                     {
-                        Thread.currentThread().sleep( SLEEP_INTERVAL );
-                    }
-                    catch( Throwable e )
-                    {
+                        break found_host;
                     }
                 }
             }
-          }
-        );
-
-        //START  Tomcat Instance
-        try
-        {
-            getLogger().debug("starting Tomcat on home: " + System.getProperty("catalina.home"));
-            m_embedded.start();
-            getLogger().debug("Tomcat started");
         }
-        catch (LifecycleException le)
+        if (child == null)
         {
-            le.printStackTrace();
-            throw new ConfigurationException("[FATAL] Could Not START Tomcat  ");
+            throw new IllegalArgumentException(host + ": no such host.");
+        }
+        if (!(child instanceof Deployer))
+        {
+            throw new Exception(host + ": not able to deploy " + context);
         }
 
-        CONTINUE = true;
-        m_thread.start();
-        getLogger().debug( "started" );
-    }
-
-   /**
-    * Request to stop the service from the container.
-    */
-    public void stop()
-    {
-        getLogger().debug( "stopping" );
-        CONTINUE = false;
-        try
+        final Deployer deployer = (Deployer) child;
+        if (deployer.findDeployedApp(context) != null)
         {
-            m_thread.join();
-            m_embedded.stop();
+            throw new Exception(context + " already deployed to host " + host);
         }
-        catch( Throwable e )
-        {
-            getLogger().warn("Unexpected error while reqesting stop.", e );
-        }
-    }
-
-
-    /**
-     * Deploy the given Web Application
-     * @param context Context for the the webapp
-     * @param dirToWebAppFolder path can be a war-archive or exploded directory
-     * @throws org.apache.avalon.apps.sevak.SevakException Thrown when the context already exists
-     */
-    public void deploy(String context, File dirToWebAppFolder)
-        throws SevakException
-    {
-        if (!dirToWebAppFolder.exists())
-        {
-            throw new SevakException(
-                "Path not Found[" + dirToWebAppFolder + "]");
-        }
-        try
-        {
-            if (context == null)
-            {
-                throw new SevakException("Invalid Context[" + context + "]");
-            }
-            if (context.equals("/"))
-            {
-                context = "";
-            }
-            if (dirToWebAppFolder == null)
-            {
-                throw new SevakException(
-                    "Invalid WAR [" + dirToWebAppFolder + "]");
-            }
-            //now deploy ....
-            org.apache.catalina.Context catalinaContext =
-                (org.apache.catalina.Context) m_tomcatHost.findChild(context);
-            if (catalinaContext != null)
-            {
-                throw new Exception("Context " + context + " Already Exists!");
-            }
-            catalinaContext =
-                createContext(context, dirToWebAppFolder.getAbsolutePath());
-            m_tomcatHost.addChild(catalinaContext);
-            // TODO - get this whole beast working!!!!
-            //m_tomcatHost.setRealm(new org.apache.catalina.realm.MemoryRealm());
-            System.out.println("Deployed [" + context + "] Context");
-        }
-        catch (Exception catalinaException)
-        {
-
-            throw new SevakException(
-                "Catalina Internal Error",
-                catalinaException);
-        }
-
+        deployer.install(context, pathToWebAppFolder.toURL());
+        deployer.start(context);
     }
 
     /**
-     * Undeploy the given WebApp 
-     * @param context Webapp context
-     * @throws org.apache.avalon.apps.sevak.SevakException Thrown when context does NOT exist
+     * Undeploy a web app
+     * @param host the host
+     * @param context the context
+     * @throws Exception if a problem
      */
-    public void undeploy(String context) throws SevakException
+    public void undeploy(String host, String context) throws Exception
     {
-        if (context == null)
-        {
-            throw new SevakException("Invalid Context[" + context + "]");
+        Service[] services = m_server.findServices();
+        Container child = null;
+        found_host: {
+            for (int i = 0; i < services.length; i++)
+            {
+                Service service = services[i];
+                Container[] children = service.getContainer().findChildren();
+                for (int j = 0; j < children.length; j++)
+                {
+                    child = children[j];
+                    if (child.getName().equals(host))
+                    {
+                        break found_host;
+                    }
+                }
+            }
         }
-        if (context.equals("/"))
+        if (child == null)
         {
-            context = "";
+            throw new IllegalArgumentException(host + ": no such host.");
         }
-        org.apache.catalina.Context catalinaContext =
-            (org.apache.catalina.Context) m_tomcatHost.findChild(context);
-        if (catalinaContext == null)
+        if (!(child instanceof Deployer))
         {
-            throw new SevakException("Context " + context + " does NOT Exist");
+            throw new Exception(host + ": not able to undeploy " + context);
         }
-        m_tomcatHost.removeChild(catalinaContext);
+        final Deployer deployer = (Deployer) child;
+        if (deployer.findDeployedApp(context) == null)
+        {
+            throw new Exception(context + " does not exist in host " + host);
+        }
+        deployer.start(context);
+        deployer.remove(context);
     }
+
     /**
-     * Create a StandardContext 
-     * @param path
-     * @param docBase
-     * @return Context
+     * Create a digester to start with
+     * @return the digester
      */
-
-    private org.apache.catalina.Context createContext(
-        String path,
-        String docBase)
+    protected Digester createStartDigester()
     {
+        Digester digester = new Digester();
+        digester.setValidating(false);
 
-        StandardContext context = new StandardContext();
+        digester.addObjectCreate("Server",
+                "org.apache.avalon.apps.sevak.blocks.catalina.CatalinaSevakServer");
+        digester.addSetProperties("Server");
+        digester.addSetNext("Server",
+                "setServer",
+                "org.apache.catalina.Server");
 
-        context.setDebug(0);
-        context.setDocBase(docBase);
-        context.setPath(path);
-        context.setLoader(m_catalinaCustomClassLoader);
+        digester.addObjectCreate("Server/GlobalNamingResources",
+                "org.apache.catalina.deploy.NamingResources");
+        digester.addSetProperties("Server/GlobalNamingResources");
+        digester.addSetNext("Server/GlobalNamingResources",
+                "setGlobalNamingResources",
+                "org.apache.catalina.deploy.NamingResources");
 
-        ContextConfig config = new ContextConfig();
-        config.setDebug(0);
-        ((Lifecycle) context).addLifecycleListener(config);
+        digester.addObjectCreate("Server/Listener",
+                null, // MUST be specified in the element
+                "className");
+        digester.addSetProperties("Server/Listener");
+        digester.addSetNext("Server/Listener",
+                "addLifecycleListener",
+                "org.apache.catalina.LifecycleListener");
 
-        return (context);
+        digester.addObjectCreate("Server/Service",
+                "org.apache.catalina.core.StandardService",
+                "className");
+        digester.addSetProperties("Server/Service");
+        digester.addSetNext("Server/Service",
+                "addService",
+                "org.apache.catalina.Service");
 
+        digester.addObjectCreate("Server/Service/Listener",
+                null, // MUST be specified in the element
+                "className");
+        digester.addSetProperties("Server/Service/Listener");
+        digester.addSetNext("Server/Service/Listener",
+                "addLifecycleListener",
+                "org.apache.catalina.LifecycleListener");
+
+        digester.addObjectCreate("Server/Service/Connector",
+                "org.apache.catalina.connector.http.HttpConnector",
+                "className");
+        digester.addSetProperties("Server/Service/Connector");
+        digester.addSetNext("Server/Service/Connector",
+                "addConnector",
+                "org.apache.catalina.Connector");
+
+        digester.addObjectCreate("Server/Service/Connector/Factory",
+                "org.apache.catalina.net.DefaultServerSocketFactory",
+                "className");
+        digester.addSetProperties("Server/Service/Connector/Factory");
+        digester.addSetNext("Server/Service/Connector/Factory",
+                "setFactory",
+                "org.apache.catalina.net.ServerSocketFactory");
+
+        digester.addObjectCreate("Server/Service/Connector/Listener",
+                null, // MUST be specified in the element
+                "className");
+        digester.addSetProperties("Server/Service/Connector/Listener");
+        digester.addSetNext("Server/Service/Connector/Listener",
+                "addLifecycleListener",
+                "org.apache.catalina.LifecycleListener");
+
+        digester.addRuleSet(new NamingRuleSet("Server/GlobalNamingResources/"));
+        digester.addRuleSet(new EngineRuleSet("Server/Service/"));
+        digester.addRuleSet(new HostRuleSet("Server/Service/Engine/"));
+        digester.addRuleSet(new ContextRuleSet("Server/Service/Engine/Default"));
+        digester.addRuleSet(new NamingRuleSet("Server/Service/Engine/DefaultContext/"));
+        digester.addRuleSet(new ContextRuleSet("Server/Service/Engine/Host/Default"));
+        digester.addRuleSet(new NamingRuleSet("Server/Service/Engine/Host/DefaultContext/"));
+        digester.addRuleSet(new ContextRuleSet("Server/Service/Engine/Host/"));
+        digester.addRuleSet(new NamingRuleSet("Server/Service/Engine/Host/Context/"));
+
+        digester.addRule("Server/Service/Engine",
+                new ParentClassLoaderRule(digester,
+                        m_parentLoader));
+        return (digester);
     }
 
+    /**
+     * get the config file
+     * @return the File
+     */
+    protected File getConfigFile()
+    {
+
+        File file = new File(m_configFile);
+        if (!file.isAbsolute())
+        {
+            file = new File(System.getProperty("catalina.base"), m_configFile);
+        }
+        return (file);
+
+    }
 }
+

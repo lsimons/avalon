@@ -102,7 +102,7 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
     /**
      * Writes the specified message to a servlet log file, usually an event
      * log.  The name and type of the servlet log is specific to the
-     * servlet container.
+     * servlet m_container.
      *
      * @param msg A <code>String</code> specifying the message to be written
      *  to the log file
@@ -139,22 +139,22 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
     /**
      * The Container with which this Logger has been associated.
      */
-    protected Container container = null;
+    private Container m_container = null;
 
     /**
      * The debugging detail level for this component.
      */
-    protected int debug = 0;
+    private int m_debug = 0;
 
     /**
-     * The property change support for this component.
+     * The property change m_support for this component.
      */
-    protected PropertyChangeSupport support = new PropertyChangeSupport(this);
+    private PropertyChangeSupport m_support = new PropertyChangeSupport(this);
 
     /**
-     * The verbosity level for above which log messages may be filtered.
+     * The m_verbosity level for above which log messages may be filtered.
      */
-    protected int verbosity = ERROR;
+    private int m_verbosity = ERROR;
 
     /**
      * @see org.apache.catalina.Logger#getContainer()
@@ -164,12 +164,12 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
 
     /**
      * Return the Container with which this Logger has been associated.
-     * @return Container Return the container
+     * @return Container Return the m_container
      */
     public Container getContainer()
     {
 
-        return (container);
+        return (m_container);
 
     }
 
@@ -181,20 +181,20 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
     public void setContainer(Container container)
     {
 
-        Container oldContainer = this.container;
-        this.container = container;
-        support.firePropertyChange("container", oldContainer, this.container);
+        Container oldContainer = this.m_container;
+        this.m_container = container;
+        m_support.firePropertyChange("m_container", oldContainer, this.m_container);
 
     }
 
     /**
      * Return the debugging detail level for this component.
-     * @return int 
+     * @return int
      */
     public int getDebug()
     {
 
-        return (this.debug);
+        return (this.m_debug);
 
     }
 
@@ -206,7 +206,7 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
     public void setDebug(int debug)
     {
 
-        this.debug = debug;
+        this.m_debug = debug;
 
     }
 
@@ -214,7 +214,7 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
      * Return descriptive information about this Logger implementation and
      * the corresponding version number, in the format
      * <code>&lt;description&gt;/&lt;version&gt;</code>.
-     * @return String 
+     * @return String
      */
     public String getInfo()
     {
@@ -224,58 +224,58 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
     }
 
     /**
-     * Return the verbosity level of this logger.  Messages logged with a
-     * higher verbosity than this level will be silently ignored.
+     * Return the m_verbosity level of this logger.  Messages logged with a
+     * higher m_verbosity than this level will be silently ignored.
      * @return int
      */
     public int getVerbosity()
     {
 
-        return (this.verbosity);
+        return (this.m_verbosity);
 
     }
 
     /**
-     * Set the verbosity level of this logger.  Messages logged with a
-     * higher verbosity than this level will be silently ignored.
+     * Set the m_verbosity level of this logger.  Messages logged with a
+     * higher m_verbosity than this level will be silently ignored.
      *
-     * @param verbosity The new verbosity level
+     * @param verbosity The new m_verbosity level
      */
     public void setVerbosity(int verbosity)
     {
 
-        this.verbosity = verbosity;
+        this.m_verbosity = verbosity;
 
     }
 
     /**
-     * Set the verbosity level of this logger.  Messages logged with a
-     * higher verbosity than this level will be silently ignored.
+     * Set the m_verbosity level of this logger.  Messages logged with a
+     * higher m_verbosity than this level will be silently ignored.
      *
-     * @param verbosity The new verbosity level, as a string
+     * @param verbosity The new m_verbosity level, as a string
      */
     public void setVerbosityLevel(String verbosity)
     {
 
         if ("FATAL".equalsIgnoreCase(verbosity))
         {
-            this.verbosity = FATAL;
+            this.m_verbosity = FATAL;
         }
         else if ("ERROR".equalsIgnoreCase(verbosity))
         {
-            this.verbosity = ERROR;
+            this.m_verbosity = ERROR;
         }
         else if ("WARNING".equalsIgnoreCase(verbosity))
         {
-            this.verbosity = WARNING;
+            this.m_verbosity = WARNING;
         }
         else if ("INFORMATION".equalsIgnoreCase(verbosity))
         {
-            this.verbosity = INFORMATION;
+            this.m_verbosity = INFORMATION;
         }
         else if ("DEBUG".equalsIgnoreCase(verbosity))
         {
-            this.verbosity = DEBUG;
+            this.m_verbosity = DEBUG;
         }
 
     }
@@ -290,7 +290,7 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
     public void addPropertyChangeListener(PropertyChangeListener listener)
     {
 
-        support.addPropertyChangeListener(listener);
+        m_support.addPropertyChangeListener(listener);
 
     }
 
@@ -315,7 +315,7 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
     /**
      * Writes an explanatory message and a stack trace for a given
      * <code>Throwable</code> exception to the servlet log file.  The name
-     * and type of the servlet log file is specific to the servlet container,
+     * and type of the servlet log file is specific to the servlet m_container,
      * usually an event log.  This message will be logged unconditionally.
      *
      * @param msg A <code>String</code> that describes the error or
@@ -349,7 +349,7 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
 
     /**
      * Writes the specified message to the servlet log file, usually an event
-     * log, if the logger is set to a verbosity level equal to or higher than
+     * log, if the logger is set to a m_verbosity level equal to or higher than
      * the specified value for this message.
      *
      * @param message A <code>String</code> specifying the message to be
@@ -359,16 +359,16 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
     public void log(String message, int verbosity)
     {
 
-        if (this.verbosity >= verbosity)
-		{
+        if (this.m_verbosity >= verbosity)
+        {
             log(message);
-		}
+        }
 
     }
 
     /**
      * Writes the specified message and exception to the servlet log file,
-     * usually an event log, if the logger is set to a verbosity level equal
+     * usually an event log, if the logger is set to a m_verbosity level equal
      * to or higher than the specified value for this message.
      *
      * @param message A <code>String</code> that describes the error or
@@ -379,10 +379,10 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
     public void log(String message, Throwable throwable, int verbosity)
     {
 
-        if (this.verbosity >= verbosity)
-		{
+        if (this.m_verbosity >= verbosity)
+        {
             log(message, throwable);
-		}
+        }
 
     }
 
@@ -394,7 +394,7 @@ public class CatalinaLogger implements LogEnabled, org.apache.catalina.Logger
     public void removePropertyChangeListener(PropertyChangeListener listener)
     {
 
-        support.removePropertyChangeListener(listener);
+        m_support.removePropertyChangeListener(listener);
 
     }
 
