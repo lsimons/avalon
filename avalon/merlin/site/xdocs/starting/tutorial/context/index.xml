@@ -61,7 +61,7 @@
         <table>
           <tr><th>Topic</th><th>Summary</th></tr>
           <tr>
-            <td><a href="standard.html">Standard Context Entries</a></td>
+            <td><a href="standard.html">Standard Entries</a></td>
             <td>
               Updating of the HelloComponent to support contextualization
               and an overview of the standard context entries provided by 
