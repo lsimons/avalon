@@ -220,7 +220,7 @@ Legal:
            deprecation="${deprecation}">
       <classpath refid="project.class.path" />
       <src path="${test.dir}"/>
-      <exclude name="org/apache/avalon/util/datasource/J2eeDataSource.java"
+      <exclude name="org/apache/excalibur/datasource/J2eeDataSource.java"
                unless="j2ee.present"/>
     </javac>
 
