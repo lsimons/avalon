@@ -30,6 +30,17 @@ public class DefaultLogManager
     private static final Resources REZ =
         ResourceManager.getPackageResources( SimpleLogKitManager.class );
 
+    /**
+     * Create a Logger hierarchy for specified application.
+     *
+     * @param metaData the metadata for application
+     * @param logs the configuration data for logging
+     * @param classLoader the ClassLoader for application
+     * @return the Log hierarchy
+     * @throws Exception if unable to create Loggers
+     * @todo pass classLoader down into LogKitManager and
+     *       use that to try to load targets.
+    */
     public Hierarchy createHierarchy( final SarMetaData metaData,
                                       final Configuration logs,
                                       final ClassLoader classLoader )
