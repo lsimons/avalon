@@ -55,7 +55,7 @@
             <li><a href="guide-management.html">JMX Management Guide</a></li>
             <li><a href="assemblers/index.html">Server Application Assembler Guide</a></li>
             <li><a href="bdg/index.html">Block Developer Guide</a></li>
-            <li><a href="guide-example-configuration.html">Example Configuration.</a></li>
+            <li><a href="mx/index.html">Example Configuration.</a></li>
           </ol>
         </subsection>
     </section>
