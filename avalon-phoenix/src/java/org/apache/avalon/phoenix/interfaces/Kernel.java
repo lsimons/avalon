@@ -31,4 +31,6 @@ public interface Kernel
         throws Exception;
 
     Application getApplication( String name );
+
+    String[] getApplicationNames();
 }
