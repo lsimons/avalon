@@ -22,7 +22,6 @@
 
   <body>
     <menu>
-      <item name="Overview" href="index.html"/>
       <item name="Hello Example" href="example.html"/>
     </menu>
   </body>

@@ -23,11 +23,12 @@
 
   <body>
     <menu>
-      <item name="services" href="services/index.html"/>
+      <item name="container" href="container.html"/>
       <item name="classloader" href="classloader/index.html"/>
       <item name="categories" href="categories/index.html"/>
       <item name="component" href="components/index.html"/>
       <item name="include" href="include/index.html"/>
+      <item name="services" href="services/index.html"/>
     </menu>
   </body>
 

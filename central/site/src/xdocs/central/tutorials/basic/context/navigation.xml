@@ -22,7 +22,6 @@
 
   <body>
     <menu>
-      <item name="Overview" href="index.html"/>
       <item name="Standard Entries" href="standard.html"/>
       <item name="Custom Entries" href="entries.html"/>
       <item name="Context Casting" href="casting.html"/>

@@ -23,11 +23,10 @@
 
   <body>
     <menu>
-      <item name="Overview" href="index.html"/>
       <item name="categories" href="categories/index.html"/>
       <item name="context" href="context/index.html"/>
       <item name="dependencies" href="dependencies/index.html"/>
-      <item name="configuration" href="/reference/containment/directives/components/configuration.html"/>
+      <item name="configuration" href="configuration.html"/>
       <item name="parameters" href="parameters/index.html"/>
     </menu>
 
