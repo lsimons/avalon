@@ -147,7 +147,7 @@
             class="org.apache.avalon.phoenix.components.monitor.DefaultDeploymentMonitor"
             logger="monitor"/>
 
-        <component
+        <component role="org.apache.excalibur.instrument.InstrumentManager"
             class="org.apache.excalibur.instrument.manager.NoopInstrumentManager"
             logger="instrument"/>
 
