@@ -20,6 +20,8 @@ import org.apache.avalon.framework.parameters.Parameters;
 public class ParameterTestCase
     extends TestCase
 {
+    private static final String EOL = "\n";
+
     public ParameterTestCase( final String name )
     {
         super( name );
@@ -80,7 +82,13 @@ public class ParameterTestCase
 
     public void testFromConfiguration()
     {
-        final ByteArrayInputStream confInput = new ByteArrayInputStream( "<?xml version=\"1.0\"?><test><parameter name=\"key1\" value=\"value1\"/><parameter name=\"key2\" value=\"value2\" locked=\"true\"/><parameter name=\"key3\" value=\"value3\"/></test>".getBytes() );
+        final ByteArrayInputStream confInput = new ByteArrayInputStream( (
+            "<?xml version=\"1.0\"?>" + EOL +
+            "<test>" + EOL +
+            "<parameter name=\"key1\" value=\"value1\"/>" + EOL +
+            "<parameter name=\"key2\" value=\"value2\" locked=\"true\"/>" + EOL +
+            "<parameter name=\"key3\" value=\"value3\"/>" + EOL +
+            "</test>" ).getBytes() );
 
         try
         {
