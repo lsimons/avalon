@@ -217,22 +217,6 @@ public class Hierarchy
         }
     }
 
-    public synchronized LoggerListener[] getLoggerListeners()
-    {
-        LoggerListener[] listeners = null;
-
-        if ( null == m_loggerListener )
-        {
-            listeners = new LoggerListener[] {};
-        }
-        else
-        {
-            listeners = new LoggerListener[] {m_loggerListener};
-        }
-
-        return listeners;
-    }
-
     /**
      * Remove the LoggerListener associated with hierarchy.  Perform this
      * step before adding a new one if you want to change it.
@@ -243,7 +227,7 @@ public class Hierarchy
     {
         if ( null == loggerListener ) throw new NullPointerException( "loggerListener" );
 
-        if ( null != m_loggerListener && m_loggerListener.equals( loggerListener ) );
+        if ( null != m_loggerListener && m_loggerListener == loggerListener );
         {
             m_loggerListener = null;
         }
