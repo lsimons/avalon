@@ -40,12 +40,10 @@ Each action contains a single value.
       <subsection name="Example XML">
 
 <source><![CDATA[
-  <grant>
     <permission class="java.io.FilePermission" name="org.apache.*" >
       <action>read</action>
       <action>write</action>
     </permission>
-  </grant>
 ]]></source>
       </subsection>
 
