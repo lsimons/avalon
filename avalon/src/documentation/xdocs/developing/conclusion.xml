@@ -47,9 +47,8 @@
     <para>
       Avalon's user base is measured in the hundreds.  Several projects
       like Apache Cocoon, Apache JAMES, and Jesktop are all built on Avalon.
-      Developers for those projects are users of Avalon Framework at the
-      very least whether they realize it or not.  Because of the number of
-      users Avalon has, it is very well tested.
+      Developers for those projects are users of Avalon Framework.  Because of
+      the number of users Avalon has, it is very well tested.
     </para>
     <section>
       <title>Designed by the Best Minds</title>
@@ -60,7 +59,7 @@
         is not just designed by the five developers mentioned in the
         introduction&mdash;the people who came up with the concepts of Inversion
         of Control, Separation of Concerns, and Component Oriented
-        Programming design it.
+        Programming designed it.
       </para>
       <para>
         The beauty of Open Source projects is that the result is an
