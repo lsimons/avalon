@@ -6,12 +6,16 @@
     <author email="huw@apache.org">Huw Roberts</author>
   </properties>
   <body>
-    <section name="Outline">
-      <ul>
-        <li>
-	  a conceptual overview for management
-        </li>
-      </ul>
+    <section name="Introduction">
+      <p>
+        Phoenix Management seperates the information on what should be managed
+        from the implementation of the management agent.  In order to maintain
+        this seperation, yet still allow the management interface to be rich
+        and structured enough to be useful, it is necessary to impose an organizing
+        strucuture on the management metadata.  This structure will be common
+        across all management interfaces, althought the specifics of how it is
+        exposed is up to the implementor.
+      </p>
     </section>
     <section name="Elements" >
       <p>
@@ -21,8 +25,18 @@
       </p>
       <subsection name="Context">
         <p>
-          The Context contains a list of managed components called Targets, and a
-          list of sub-Contexts.
+          In Phoenix, each managed object belongs to a single Context
+          The Context contains a list of managed components called Targets.  In
+          addition to the list of Targets, a Context can also have zero or more
+          sub-Contexts.  
+        </p>
+        <p>
+          This nested structure of Contexts is the principle
+          organizing element for management data, and is the bridge between 
+          the management code embedded in Phoenix and the implementation of the 
+          management component.  It is represented by the
+          <pre>org.apache.avalon.phoenix.interfaces.SystemManager</pre>
+          interface.
         </p>
       </subsection>
       <subsection name="Target">
@@ -33,7 +47,8 @@
       </subsection>
       <subsection name="Topic">
         <p>
-          A topic is a group of attributes that can be get and/or set on the Target and a group of operations that can be called on it.  It is intended that Topics group together
+          A topic is a logical grouping of attributes that can be get and/or set on the Target and a 
+          group of operations that can be called on it.  It is intended that Topics group together
           a particular aspect of Targets manageability.
         </p>
       </subsection>
@@ -79,18 +94,18 @@ phoenix-mx.set( "Phoenix/Applications/Hello World/Logging/LogLevel", "DEBUG" );
 phoenix-mx.describe( ""Phoenix/Applications/Hello World/Logging/LogLevel" );
       </source>
       <p>
-        The point behind the 'Organizing Structure' is to keep the management specification 
+        Again, the point behind the 'Organizing Structure' is to keep the management specification 
         seperated from the  management agent, while at the same time providing enough definition 
-        to keep a shared conceptual view.
+        to keep a shared conceptual view between the two areas.
       </p>
     </section>
     <section name="Management Proxies" >
       <p>
         There is one remaining concept to cover, the proxy.  It is a class that can be used 
         to wrap access to the underlying target.  Posible uses include the mapping of data 
-        types to more friendly type, (eg. from Date to String and back), cleaning up method names, providing backwards
-        compatibility with older versions, and exposing methods from classes reFerenced by 
-        the target class.
+        types to a more friendly type, (eg. from Date to String and back), cleaning up method names, 
+        providing backwards compatibility with older versions, and exposing methods 
+        missing from the target class, but available to it via a reference.
       </p>
     </section>
   </body>
