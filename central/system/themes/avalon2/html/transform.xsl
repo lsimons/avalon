@@ -10,6 +10,15 @@
   <xsl:param name="fullpath" />
   <xsl:param name="svn-location" />
   <xsl:param name="copyright" />
+  <xsl:param name="logoright_file" />
+  <xsl:param name="logoright_url" />
+  <xsl:param name="logoleft_file" />
+  <xsl:param name="logoleft_url" />
+  <xsl:param name="logomiddle_file" />
+  <xsl:param name="logomiddle_url" />
+  <xsl:param name="brand_name" />
+  
+  <xsl:variable name="relativepath" select="document('navigation.xml', / )/project/body//menu/level" />
   
   <xsl:template match="document">
     <html>
@@ -20,7 +29,7 @@
       <link rel="stylesheet" href="print.css" type="text/css" media="print"></link>
       <xsl:variable name="x" select="document('navigation.xml', / )/project/body//menu/level" />
       <link rel="stylesheet" type="text/css">
-        <xsl:attribute name="href"><xsl:value-of select="$x[position() = last()]" />resources/style.css</xsl:attribute>
+        <xsl:attribute name="href"><xsl:value-of select="$relativepath[position() = last()]" />resources/style.css</xsl:attribute>
       </link>
     </head>
       <xsl:apply-templates select="body" />
@@ -33,25 +42,30 @@
   </xsl:template>
   
   <xsl:template match="body">
-    <xsl:variable name="x" select="document('navigation.xml', / )/project/body//menu/level" />
     <body>
       <table class="logobar" >
         <tr>
-          <td class="feather" >
-            <img>
-              <xsl:attribute name="src"><xsl:value-of select="$x[position() = last()]" />resources/feather.jpg</xsl:attribute>
-            </img>
+          <td class="panelleft" >
+            <xsl:call-template name="create-image" >
+              <xsl:with-param name="logo" select="$logoleft_file" />
+              <xsl:with-param name="url" select="$logoleft_url" />
+            </xsl:call-template>
           </td>
-          <td class="panel">
-            <div class="project">Apache Avalon</div>
+          
+          <td class="panelmiddle">
+            <xsl:call-template name="create-image" >
+              <xsl:with-param name="logo" select="$logomiddle_file" />
+              <xsl:with-param name="url" select="$logomiddle_url" />
+            </xsl:call-template>
+            <div class="project"><xsl:value-of select="$brand_name" /></div>
             <div class="title"><xsl:value-of select="../properties/title" /></div>
           </td>
-          <td id="asf" >
-            <a href="http://www.apache.org" >
-              <img>
-                <xsl:attribute name="src"><xsl:value-of select="$x[position() = last()]" />resources/asf.png</xsl:attribute>
-              </img>
-            </a>
+          
+          <td class="panelright" >
+            <xsl:call-template name="create-image" >
+              <xsl:with-param name="logo" select="$logoright_file" />
+              <xsl:with-param name="url" select="$logoright_url" />
+            </xsl:call-template>
           </td>
         </tr>
       </table>
@@ -83,7 +97,7 @@
             <a  id="xmllink" class="viewlink" >
               <xsl:attribute name="href"><xsl:value-of select="$svn-location" /></xsl:attribute>
               <img>
-                <xsl:attribute name="src"><xsl:value-of select="$x[position() = last()]" />resources/xml.gif</xsl:attribute>
+                <xsl:attribute name="src"><xsl:value-of select="$relativepath[position() = last()]" />resources/xml.gif</xsl:attribute>
               </img>
             </a>
           </div>
@@ -92,14 +106,36 @@
     </body>
   </xsl:template>
 
+  <xsl:template name="create-image" >
+    <xsl:param name="logo" />
+    <xsl:param name="url" />
+    <xsl:choose>
+      <xsl:when test="$logo = ''" >
+        <!-- Do nothing -->
+      </xsl:when>
+      <xsl:when test="$url = ''" >
+        <img>
+          <xsl:attribute name="src"><xsl:value-of select="$relativepath[position() = last()]" />resources/<xsl:value-of select="$logo" /></xsl:attribute>
+        </img>
+      </xsl:when>
+      <xsl:otherwise>
+        <a><xsl:attribute name="href"><xsl:value-of select="$url" /></xsl:attribute>
+          <img>
+            <xsl:attribute name="src"><xsl:value-of select="$relativepath[position() = last()]" />resources/<xsl:value-of select="$logo" /></xsl:attribute>
+          </img>
+        </a>
+      </xsl:otherwise>
+    </xsl:choose>           
+  </xsl:template>
+  
   <xsl:template name="create-bar" >
     <xsl:param name="homeclass" />
     <div class="categorybar">
       <xsl:attribute name="dir"><xsl:value-of select="$directory" /></xsl:attribute>
+      
       <a>
         <xsl:attribute name="class"><xsl:value-of select="$homeclass" /></xsl:attribute>
-        <xsl:variable name="x" select="document('navigation.xml', / )/project/body//menu/level" />
-        <xsl:attribute name="href"><xsl:value-of select="$x[position() = last()]" />index.html</xsl:attribute>
+        <xsl:attribute name="href"><xsl:value-of select="$relativepath[position() = last()]" />index.html</xsl:attribute>
         Home
       </a>
       <xsl:variable name="x" select="document('navigation.xml', / )/project/body//category" />
