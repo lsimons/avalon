@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<!-- 
+Copyright 2004 The Apache Software Foundation
+Licensed  under the  Apache License,  Version 2.0  (the "License");
+you may not use  this file  except in  compliance with the License.
+You may obtain a copy of the License at 
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed  under the  License is distributed on an "AS IS" BASIS,
+WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+implied.
+
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<project name="Jicarilla BuildSystem" default="jbs:install" basedir=".">
+    <target name="jbs:info">
+        <echo>
+JBS is now being installed into ${jbs.home}...
+
+ Note you need Ant 1.6 or later to run JBS. You're running
+
+    ${ant.version}
+        </echo>
+    </target>
+
+    <target name="jbs:done">
+        <echo>
+=======================================================================
+ Installation complete!
+=======================================================================
+ If everything went according to plan,
+            
+            
+                                   JBS
+ 
+
+ is now installed into ${jbs.home}, and the script tag has been enabled
+ in your local ant installation (by copying the BSF and Rhino jars into
+ the lib directory of your ant installation).
+        </echo>
+    </target>
+
+    <target name="jbs:install">
+        <property name="jbs.home" value="${user.home}/.jbs"/>
+        <property name="jbs.work" value="${jbs.home}/work"/>
+        <property name="jbs.backup" value="${jbs.home}/backup"/>
+        <property name="jbs.repository.local" value="${jbs.home}/repository"/>
+
+        <property name="jbs.cvs.root" value=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/jicarilla"/>
+        <property name="jbs.cvs.module" value="jicarilla-sandbox/buildsystem"/>
+        <property name="jbs.repository.module" value="jicarilla-maven-repository"/>
+
+        <antcall target="jbs:info"/>
+
+        <mkdir dir="${jbs.home}"/>
+        <mkdir dir="${jbs.work}"/>
+        <mkdir dir="${jbs.backup}"/>
+        <move todir="${jbs.backup}">
+            <fileset dir="${jbs.home}" defaultexcludes="no">
+                <exclude name="backup"/>
+                <exclude name="backup/**"/>
+            </fileset>
+        </move>
+
+        <mkdir dir="${jbs.repository.local}"/>
+        <mkdir dir="${jbs.work}/${jbs.cvs.module}"/>
+        <mkdir dir="${jbs.work}/${jbs.repository.module}"/>
+
+        <cvs cvsRoot="${jbs.cvs.root}"
+                package="${jbs.cvs.module}"
+                dest="${jbs.work}"
+                quiet="true"
+                failonerror="true"/>
+
+        <move todir="${jbs.home}">
+            <fileset dir="${jbs.work}/${jbs.cvs.module}"
+                     defaultexcludes="no">
+            </fileset>
+        </move>
+
+        <cvs cvsRoot="${jbs.cvs.root}"
+                package="${jbs.repository.module}"
+                dest="${jbs.work}"
+                quiet="true"
+                failonerror="true"/>
+
+        <move todir="${jbs.repository.local}">
+            <fileset dir="${jbs.work}/${jbs.repository.module}"
+                     defaultexcludes="no">
+            </fileset>
+        </move>
+
+        <!-- the checks should be rather redundant as copy should fail, but
+             lets just be real sure as people have reported problems... -->
+
+        <copy todir="${ant.home}/lib" file="${jbs.repository.local}/bsf/jars/bsf-2.3.0.jar"/>
+        <available file="${ant.home}/lib/bsf-2.3.0.jar" property="bsf.installed.successfully"/>
+        <antcall target="bsf.required"/>
+
+        <copy todir="${ant.home}/lib" file="${jbs.repository.local}/js/jars/js.jar"/>
+        <available file="${ant.home}/lib/js.jar" property="js.installed.successfully"/>
+        <antcall target="js.required"/>
+
+        <antcall target="jbs:done"/>
+    </target>
+
+    <target name="bsf.required" unless="bsf.installed.successfully">
+        <fail>=======================================================================
+                      ERROR installing!
+
+  JBS requires the script task to be available.
+  We just tried installing the required BSF jar, but apparently that
+  did not work. Please install the
+
+            ${jbs.repository.local}/bsf/jars/bsf-2.3.0.jar
+
+  jar into your ant lib directory manually, which should be
+
+            ${ant.home}/lib
+=======================================================================</fail>
+    </target>
+
+    <target name="js.required" unless="js.installed.successfully">
+        <fail>=======================================================================
+                      ERROR installing!
+
+  JBS requires the script task to be available.
+  We just tried installing the required rhino jar, but apparently that
+  did not work. Please install the
+
+            ${jbs.repository.local}/bsf/jars/js.jar
+
+  jar into your ant lib directory manually, which should be
+
+            ${ant.home}/lib
+=======================================================================</fail>
+    </target>
+
+</project>

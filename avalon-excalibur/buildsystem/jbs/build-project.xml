@@ -1,0 +1,902 @@
+<?xml version="1.0"?>
+<!-- 
+Copyright 2004 The Apache Software Foundation
+Licensed  under the  Apache License,  Version 2.0  (the "License");
+you may not use  this file  except in  compliance with the License.
+You may obtain a copy of the License at 
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed  under the  License is distributed on an "AS IS" BASIS,
+WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+implied.
+
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<project name="JBS" default="jbs:info" basedir=".">
+    <!-- targets for use with <import/> and ant 1.6 -->
+
+    <target name="compile" depends="jbs:compile"/>
+    <target name="test" depends="jbs:test"/>
+    <target name="jar" depends="jbs:jar"/>
+    <target name="jar:install" depends="jbs:jar:install"/>
+    <target name="jar:install-snapshot" depends="jbs:jar:install-snapshot"/>
+    <target name="dist" depends="jbs:dist"/>
+    <target name="javadocs" depends="jbs:javadocs"/>
+    <target name="reports" depends="jbs:reports"/>
+
+    <!-- Information management -->
+
+    <target name="jbs:info" depends="jbs:init">
+        <echo>
+  JBS was called without arguments. JBS is a
+  set of ant (http://ant.apache.org/) buildfiles that can be included
+  from other ant buildfiles in order to simplify those buildfiles.
+
+  The fact that you're seeing this message probably means that a
+  buildfile called this file without specifying what target to run.
+  So, we're not doing anything.
+
+  Available targets in JBS include:
+
+        jbs:compile
+        jbs:test
+        jbs:jar
+        jbs:dist
+        jbs:reports
+
+  Note these are likely not directly callable; your project buildfile
+  will have defined its own targets. Try 'ant -buildhelp' for
+  information on the targets available to you.
+        </echo>
+    </target>
+
+    <target name="jbs:debug" unless="do.not.debug">
+        <echo>=======================================================================
+  JBS has been invoked, with these settings (some may be defaults):
+
+  user.home               = ${user.home}
+  jbs.home                = ${jbs.home}
+
+  jbs.src.dir             = ${jbs.src.dir}
+  jbs.build.dir           = ${jbs.build.dir}
+  jbs.compile.debug       = ${jbs.compile.debug}
+  jbs.compile.deprecation = ${jbs.compile.deprecation}
+  jbs.compile.optimize    = ${jbs.compile.optimize}
+
+  project.name              = ${project.name}
+  project.version           = ${project.version}
+  project.copyright.year    = ${project.copyright.year}
+  project.copyright.name    = ${project.copyright.name}
+
+  java sources = ${jbs.src.dir}/java
+  java classes = ${jbs.build.dir}/classes
+  jarfile      = ${jbs.build.dir}/${project.name}-${project.version}.jar
+  javadocs     = ${jbs.build.dir}/docs/apidocs
+  junitreports = ${jbs.build.dir}/docs/junitreports
+=======================================================================</echo>
+    </target>
+
+    <target name="jbs:warn-project.name" unless="project.name.set">
+        <echo>=======================================================================
+                               WARNING!
+
+  The property 'project.name' has not been set. This will result in a
+  jar file with a rather dumb name, being
+
+  ${jbs.build.dir}/${project.name}-${project.version}.jar
+
+  To fix this, add a property to the gump build definition or the
+  properties file for the current component.
+=======================================================================</echo>
+    </target>
+
+    <target name="jbs:warn-avail-java-src" unless="java.src.present">
+        <echo>=======================================================================
+                     WARNING for ${project.name}!
+
+  The directory
+
+            ${jbs.src.dir}/java
+
+  does not exist. This means the jar that will be created will be
+  empty.
+=======================================================================</echo>
+    </target>
+
+    <target name="jbs:warn-avail-test-src" unless="test.src.present">
+        <echo>=======================================================================
+                     WARNING for ${project.name}!
+
+  The directory
+
+            ${jbs.src.dir}/test
+
+  does not exist. This means no unit tests will be run.
+=======================================================================</echo>
+    </target>
+
+    <target name="jbs:warn-avail-no-sources" if="no.sources.available">
+        <echo>=======================================================================
+                      ERROR for ${project.name}!
+
+  This project does not contain any java source files in
+
+            ${jbs.src.dir}/java       or
+            ${jbs.src.dir}/test
+
+  that means it is not possible to generate any classes, jars or
+  javadocs.
+=======================================================================</echo>
+    </target>
+
+    <target name="jbs:warn-avail-no-source-dir" if="no.source.dir">
+        <fail>
+=======================================================================
+                      ERROR for ${project.name}!
+
+  This project does not contain a source directory
+
+            ${jbs.src.dir}
+
+  that means it is not possible to generate anything!
+=======================================================================
+        </fail>
+    </target>
+
+    <target name="jbs:warn-avail" unless="do.not.warn">
+        <antcall target="jbs:warn-avail-no-source-dir"/>
+        <antcall target="jbs:warn-avail-no-sources"/>
+        <antcall target="jbs:warn-avail-java-src"/>
+        <antcall target="jbs:warn-avail-test-src"/>
+    </target>
+
+    <target name="jbs:compile"
+            depends="jbs:java-compile"/>
+    <target name="jbs:test"
+            depends="jbs:java-test-compile, jbs:java-test, jbs:java-test-reports"/>
+
+    <target name="jbs:jar" unless="no.source.dir"
+            depends="jbs:java-compile, jbs:java-test, jbs:bin-jar">
+        <echo>Jar Generated as
+
+    ${jbs.build.dir}/${project.name}-${project.version}.jar</echo>
+    </target>
+
+    <target name="jbs:dist" unless="no.source.dir"
+            depends="jbs:src-dist, jbs:bin-dist">
+         <echo>Distributions generated as
+
+    ${jbs.build.dir}/dist/${project.name}-${project.version}-bin.zip
+    ${jbs.build.dir}/dist/${project.name}-${project.version}-src.zip</echo>
+    </target>
+
+    <target name="jbs:reports" unless="no.source.dir"
+            depends="jbs:clover,jbs:javadocs,jbs:java-test-reports"/>
+
+    <!-- Basic functionality -->
+
+    <target name="jbs:init">
+        <property name="jbs.home" value="${user.home}/.jbs"/>
+        <property file="${jbs.home}/default.properties"/>
+
+        <property name="jbs.home" value="${user.home}/.jbs"/>
+        <property name="jbs.work" value="${jbs.home}/work"/>
+        <property name="jbs.backup" value="${jbs.home}/backup"/>
+        <property name="jbs.repository.local" value="${jbs.home}/repository"/>
+
+        <property name="jbs.src.dir" value="${basedir}/src"/>
+        <property name="jbs.build.dir" value="${basedir}/target"/>
+        <property name="jbs.compile.debug" value="on"/>
+        <property name="jbs.compile.optimize" value="off"/>
+        <property name="jbs.compile.deprecation" value="off"/>
+        <property name="jbs.junit.fork" value="yes"/>
+        <property name="jbs.junit.dir" value="${basedir}"/>
+        <property name="jbs.junit.usefile" value="true"/>
+
+        <property name="jbs.repository.ibiblio" value="http://www.ibiblio.org/maven"/>
+        <property name="jbs.repository.default" value="${jbs.repository.ibiblio}"/>
+
+        <property name="project.name" value="some-nameless-jbs-built-component"/>
+        <property name="project.copyright.name" value="The Apache Software Foundation"/>
+        <property name="project.copyright.year" value="2004"/>
+
+        <tstamp>
+            <format property="project.version" pattern="yyyyMMdd"/>
+        </tstamp>
+        <condition property="project.name.set">
+            <isset property="project.name"/>
+        </condition>
+        <antcall target="jbs:warn-project.name"/>
+
+        <available file="${basedir}/src/java" property="java.src.present"/>
+        <available file="${basedir}/src/test" property="test.src.present"/>
+        <available file="${basedir}/src" property="src.dir.present"/>
+
+        <condition property="no.sources.available">
+                <and>
+                    <not><isset property="java.src.present"/></not>
+                    <not><isset property="test.src.present"/></not>
+                </and>
+        </condition>
+        <condition property="no.source.dir">
+            <not><isset property="src.dir.present"/></not>
+        </condition>
+
+        <antcall target="jbs:debug"/>
+        <antcall target="jbs:warn-avail"/>
+        <antcall target="jbs:init-repo"/>
+    </target>
+
+    <target name="jbs:init-repo">
+        <mkdir dir="${jbs.home}"/>
+        <mkdir dir="${jbs.home}/repository"/>
+    </target>
+
+    <target name="jbs:java-compile" if="java.src.present"
+            depends="jbs:init,jbs:get-dependencies">
+        <echo>=======================================================================
+   Compiling Sources for ${project.name}
+=======================================================================</echo>
+        <mkdir dir="${jbs.build.dir}"/>
+        <mkdir dir="${jbs.build.dir}/classes"/>
+        <javac
+                destdir="${jbs.build.dir}/classes"
+                excludes="**/package.html"
+                debug="${jbs.compile.debug}"
+                deprecation="${jbs.compile.deprecation}"
+                optimize="${jbs.compile.optimize}">
+
+            <src>
+                <pathelement path="${jbs.src.dir}/java"/>
+            </src>
+            <classpath>
+                <pathelement path="${dependency.classpath}"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="jbs:java-test-compile" if="test.src.present"
+            depends="jbs:init, jbs:java-compile">
+        <echo>=======================================================================
+   Compiling Tests for ${project.name}
+======================================================================</echo>
+        <mkdir dir="${jbs.build.dir}/test-classes"/>
+        <mkdir dir="${jbs.build.dir}/classes"/>
+        <javac
+                destdir="${jbs.build.dir}/test-classes"
+                excludes="**/package.html"
+                debug="${jbs.compile.debug}"
+                deprecation="${jbs.compile.deprecation}"
+                optimize="${jbs.compile.optimize}">
+
+            <src>
+                <pathelement path="${jbs.src.dir}/test"/>
+            </src>
+            <classpath>
+                <pathelement path="${jbs.build.dir}/classes"/>
+                <pathelement path="${dependency.classpath}"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="jbs:java-test" if="test.src.present"
+            depends="jbs:init, jbs:java-test-compile">
+        <echo>=======================================================================
+   Running tests for ${project.name}
+======================================================================</echo>
+        <taskdef
+                name="junit"
+                classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"/>
+
+        <mkdir dir="${jbs.build.dir}/test-reports"/>
+
+        <junit printSummary="yes"
+                failureProperty="jbs.test.failure"
+                fork="${jbs.junit.fork}"
+                dir="${jbs.junit.dir}">
+            <sysproperty key="basedir" value="${basedir}"/>
+
+            <formatter type="xml"/>
+            <formatter type="plain" usefile="${jbs.junit.usefile}"/>
+            <classpath>
+                <pathelement location="${jbs.build.dir}/classes"/>
+                <pathelement location="${jbs.build.dir}/test-classes"/>
+                <pathelement path="${dependency.classpath}"/>
+                <fileset dir="${ant.home}/lib">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+            <batchtest todir="${jbs.build.dir}/test-reports">
+                <fileset dir="${jbs.src.dir}/test">
+                    <include name="**/*TestCase.java"/>
+                    <exclude name="**/*Abstract*"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="jbs:java-test-reports" if="test.src.present"
+            depends="jbs:init, jbs:java-test">
+        <echo>=======================================================================
+   Generating test reports for ${project.name}
+=======================================================================</echo>
+
+        <mkdir dir="${jbs.build.dir}/docs/junitreports"/>
+
+        <junitreport todir="${jbs.build.dir}/docs/junitreports">
+            <fileset dir="${jbs.build.dir}/test-reports">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${jbs.build.dir}/docs/junitreports"/>
+        </junitreport>
+    </target>
+
+    <target name="jbs:bin-jar" if="java.src.present"
+            depends="jbs:init, jbs:compile, jbs:test">
+        <echo>=======================================================================
+ Generating jar for ${project.name}
+=======================================================================</echo>
+
+        <mkdir dir="${jbs.build.dir}/classes"/>
+        <jar destfile="${jbs.build.dir}/${project.name}-${project.version}.jar" basedir="${jbs.build.dir}/classes"/>
+    </target>
+
+    <target name="jbs:javadocs" if="java.src.present"
+            depends="jbs:init,jbs:jar">
+        <echo>=======================================================================
+   Generating javadocs for ${project.name}
+=======================================================================</echo>
+
+        <mkdir dir="${jbs.build.dir}/docs"/>
+        <mkdir dir="${jbs.build.dir}/docs/apidocs"/>
+        <mkdir dir="${jbs.build.dir}/classes"/>
+
+        <property name="copyright"
+          value="Copyright &amp;copy; ${project.copyright.year} ${project.copyright.name}. All Rights Reserved." />
+
+        <property name="title" value="${project.name} API"/>
+
+        <javadoc
+          sourcepath="${jbs.src.dir}/java"
+          packagenames="*"
+          destdir="${jbs.build.dir}/docs/apidocs"
+          windowtitle="${title}"
+          doctitle="${title}"
+          bottom="${copyright}">
+
+          <link href="http://www.junit.org/junit/javadoc/3.8.1/index.htm"/>
+          <classpath>
+            <path location="${jbs.build.dir}/classes"/>
+          </classpath>
+
+        </javadoc>
+    </target>
+
+    <target name="jbs:clover" if="test.src.present"
+            depends="jbs:init">
+        <echo>=======================================================================
+   Generating clover report for ${project.name}
+=======================================================================</echo>
+
+        <taskdef resource="clovertasks"/>
+        <typedef resource="clovertypes"/>
+
+        <mkdir dir="target/.clover_coverage"/>
+        <clover-setup initString="target/.clover_coverage/clover.db">
+            <fileset dir="${jbs.src.dir}/java"/>
+        </clover-setup>
+
+        <delete dir="target/classes"/>
+        <mkdir dir="target/classes"/>
+        <delete dir="target/test-classes"/>
+        <mkdir dir="target/test-classes"/>
+        <antcall target="jbs:java-test"/>
+
+        <mkdir dir="target/docs/clover"/>
+        <clover-report>
+            <current outfile="target/docs/clover">
+                <format type="html"/>
+                <fileset dir="${jbs.src.dir}/java"/>
+            </current>
+        </clover-report>
+
+    </target>
+
+    <target name="jbs:distclean" depends="jbs:init">
+        <delete dir="${jbs.build.dir}/${project.name}-${project.version}"/>
+        <delete dir="${jbs.build.dir}/dist"/>
+    </target>
+
+    <target name="jbs:bin-dist" unless="no.source.dir"
+            depends="jbs:init,jbs:distclean,jbs:jar,jbs:javadocs">
+        <echo>=======================================================================
+   Building Binary Distribution for ${project.name}
+=======================================================================</echo>
+
+        <mkdir dir="${jbs.build.dir}"/>
+        <mkdir dir="${jbs.build.dir}/${project.name}-${project.version}"/>
+        <mkdir dir="${jbs.build.dir}/dist"/>
+        <mkdir dir="${jbs.build.dir}/${project.name}-${project.version}/bin"/>
+
+        <copy todir="${jbs.build.dir}/${project.name}-${project.version}/bin">
+            <fileset dir="${jbs.build.dir}">
+                <include name="*.jar"/>
+                <include name="*.txt"/>
+                <include name="*.zip"/>
+                <include name="docs/**"/>
+            </fileset>
+            <fileset dir="${basedir}" casesensitive="false">
+                <include name="readme*"/>
+                <include name="README*"/>
+                <include name="license*"/>
+                <include name="LICENSE*"/>
+            </fileset>
+        </copy>
+
+        <zip destfile="${jbs.build.dir}/${project.name}-${project.version}/bin/${project.name}-${project.version}-src.jar">
+            <zipfileset dir="${jbs.src.dir}/java"/>
+        </zip>
+
+        <antcall target="jbs:copy-dependencies" inheritAll="true">
+            <param name="do.not.debug" value="true"/>
+        </antcall>
+
+        <zip destfile="${jbs.build.dir}/dist/${project.name}-${project.version}-bin.zip">
+            <zipfileset dir="${jbs.build.dir}/${project.name}-${project.version}/bin"
+                prefix="${project.name}-${project.version}"/>
+        </zip>
+    </target>
+
+    <target name="jbs:src-dist" unless="no.source.dir"
+            depends="jbs:init,jbs:distclean,jbs:jar,jbs:javadocs">
+        <echo>=======================================================================
+   Building Source Distribution for ${project.name}
+=======================================================================</echo>
+
+        <mkdir dir="${jbs.build.dir}"/>
+        <mkdir dir="${jbs.build.dir}/${project.name}-${project.version}"/>
+        <mkdir dir="${jbs.build.dir}/dist"/>
+        <mkdir dir="${jbs.build.dir}/${project.name}-${project.version}/src"/>
+
+        <copy todir="${jbs.build.dir}/${project.name}-${project.version}/src">
+            <fileset dir="${basedir}" casesensitive="false">
+                <include name="src/**"/>
+                <include name="README*"/>
+                <include name="LICENSE*"/>
+                <include name="*.txt"/>
+                <include name="*.properties"/>
+                <include name="*.xml"/>
+                <include name="*.list"/>
+            </fileset>
+            <fileset dir="${jbs.build.dir}" casesensitive="false">
+                <include name="src/**"/>
+                <include name="README*"/>
+                <include name="LICENSE*"/>
+                <include name="*.txt"/>
+                <include name="*.properties"/>
+                <include name="*.xml"/>
+                <include name="*.list"/>
+            </fileset>
+        </copy>
+        <zip destfile="${jbs.build.dir}/dist/${project.name}-${project.version}-src.zip">
+            <zipfileset dir="${jbs.build.dir}/${project.name}-${project.version}/src"
+                prefix="${project.name}-${project.version}"/>
+        </zip>
+    </target>
+
+
+    <!-- Dependency management -->
+
+    <target name="jbs:get-dependencies"
+            depends="jbs:init, jbs:no-dependency-warning, jbs:actually-get-dependencies"/>
+
+    <target name="jbs:no-dependency-warning" if="skip.dependencies" depends="jbs:init">
+        <echo>=======================================================================
+                       NOTE for ${project.name}!
+
+  We're not actually setting the dependency.classpath property to a
+  meaningful value, because the skip.dependencies property has been
+  set. Likely, we're being called from gump,
+
+    http://jakarta.apache.org/gump/
+=======================================================================</echo>
+    </target>
+    <target name="jbs:actually-get-dependencies" unless="skip.dependencies" depends="jbs:init">
+        <available property="dependencies.file.available" file="dependencies.list"/>
+        <!--
+file format:
+
+$artifact [$version [$group [$repository]]]
+$artifact [$version [$group [$repository]]]
+// this is a comment
+# this is also a comment
+ this is also a
+    comment
+
+# empty lines are also ignored
+        -->
+        <!-- todo: create a <classpath/> instead of a string...or something -->
+        <script language="javascript">
+        <![CDATA[
+        if( project.getProperty("dependencies.file.available") != null )
+        {
+            msg =  "=======================================================================\n";
+            msg += "   Downloading dependencies for " + project.getProperty("project.name") + "\n";
+            msg += "=======================================================================\n";
+            echo = project.createTask("echo");
+            echo.setMessage( msg );
+            echo.execute();
+
+            importClass(java.lang.System);
+            importClass(java.lang.Character);
+
+            basedir = project.getProperty("basedir");
+            sep = System.getProperty("file.separator");
+            dependencyFilename = basedir + sep + "dependencies.list";
+
+            loadfile = project.createTask("loadfile");
+            loadfile.setProperty("jbs.dependencies.file");
+            loadfile.setSrcFile( new java.io.File( dependencyFilename ) );
+            loadfile.execute();
+
+            dependencyFile = project.getProperty("jbs.dependencies.file");
+            defaultRepository = project.getProperty("jbs.repository.default");
+            localRepository = project.getProperty("jbs.repository.local");
+
+            dependencies = dependencyFile.split( "(\n|\r|\r\n)" );
+
+            hash = new Character("#".charAt(0));
+            space = new Character(" ".charAt(0));
+            slash = new Character("/".charAt(0));
+
+            classpath = "";
+
+            for( i=0; i < dependencies.length; i++ )
+            {
+              if( dependencies[i].length() == 0 ||
+                  hash.equals( new Character( dependencies[i].charAt(0) ) ) ||
+                  dependencies[i].charAt(0) == space ||
+                  (dependencies[i].length() > 1 && dependencies[i].charAt(0) == slash && dependencies[i].charAt(1) == slash) )
+              {
+                continue; // blank line or comment
+              }
+
+              dependency = dependencies[i].split(" ");
+
+              artifact = dependency[0];
+              version = "SNAPSHOT";
+              if( dependency.length > 1 && dependency[1] != "-" )
+                  version = dependency[1];
+
+              group = artifact;
+              repository = defaultRepository;
+              if(dependency.length > 2 && dependency[2] != "-" )
+              {
+                group = dependency[2];
+                if( dependency.length > 3 && dependency[3] != "-" )
+                {
+                  repository = dependency[3];
+                }
+              }
+
+              localDir = localRepository + sep + group + sep + "jars" + sep;
+              localFile = localDir + artifact + "-" + version + ".jar";
+              remoteFile = repository + "/" +
+                    group + "/" + "jars" + "/" + artifact + "-" + version + ".jar";
+
+              mkdir = project.createTask("mkdir");
+              mkdir.setDir( new java.io.File( localDir ) );
+              mkdir.execute();
+
+              doDownload = false;
+              file = new java.io.File( localFile );
+              if("SNAPSHOT".equals(version))
+                doDownload = true;
+              else
+              {
+                if( !file.exists() )
+                  doDownload = true;
+              }
+
+              if(doDownload)
+              {
+                url = new java.net.URL( remoteFile );
+                try
+                {
+                  conn = url.openConnection();
+                  conn.connect();
+                  conn.getInputStream();
+                }
+                catch( e )
+                {
+                    doDownload = false;
+                    if( !file.exists() )
+                    {
+                      fail = project.createTask("fail");
+                      fail.setMessage( "\n\n" +
+"=======================================================================\n" +
+"                       ERROR retrieving dependency!\n\n" +
+"    " +  artifact + "-" + version + ".jar\n\n" +
+"does not exist in the local repository, and we can't get it from the \n" +
+"remote repository either! This can mean several things. The \n" +
+"repository may be missing some files or you may not be connected to \n" +
+"the internet. Another reason may be that you need to run the build of \n" +
+"some other project first to install the jar. The exception that was \n" +
+"thrown reads as follows:\n\n    " + e + "\n" +
+"=======================================================================\n"
+                      );
+                      fail.execute();
+                    }
+                }
+              }
+              if(doDownload)
+              {
+                get = project.createTask("get");
+                get.setSrc( new java.net.URL( remoteFile ) );
+                get.setDest( file );
+                get.setIgnoreErrors( true );
+                get.setUseTimestamp( true );
+                get.execute();
+              }
+
+              separator = System.getProperty("path.separator");
+              if( i == (dependencies.length-1) )
+                classpath += localFile;
+              else
+                classpath += localFile + separator;
+            }
+
+            project.setProperty( "dependency.classpath", classpath );
+        }
+        ]]>
+        </script>
+    </target>
+
+    <target name="jbs:copy-dependencies" depends="jbs:init">
+        <available property="dependencies.file.available" file="dependencies.list"/>
+        <antcall inheritAll="true" target="jbs:actually-copy-dependencies"/>
+    </target>
+    <target name="jbs:actually-copy-dependencies" if="dependencies.file.available"
+            depends="jbs:actually-get-dependencies">
+        <!--
+file format:
+
+$artifact $version [$group [$repository]]
+$artifact $version [$group [$repository]]
+// this is a comment
+# this is also a comment
+ this is also a
+    comment
+
+# empty lines are also ignored
+        -->
+        <property name="jbs.build.dist.lib.dir"
+            value="${jbs.build.dir}/${project.name}-${project.version}/bin/lib"/>
+        <mkdir dir="${jbs.build.dist.lib.dir}"/>
+        <script language="javascript">
+        <![CDATA[
+            importClass(java.lang.System);
+            importClass(java.lang.Character);
+
+            basedir = project.getProperty("basedir");
+            sep = System.getProperty("file.separator");
+            dependencyFilename = basedir + sep + "dependencies.list";
+
+            loadfile = project.createTask("loadfile");
+            loadfile.setProperty("jbs.dependencies.file");
+            loadfile.setSrcFile( new java.io.File( dependencyFilename ) );
+            loadfile.execute();
+
+            dependencyFile = project.getProperty("jbs.dependencies.file");
+            localRepository = project.getProperty("jbs.repository.local");
+            libDir = project.getProperty("jbs.build.dist.lib.dir");
+
+            dependencies = dependencyFile.split( "(\n|\r|\r\n)" );
+
+            hash = new Character("#".charAt(0));
+            space = new Character(" ".charAt(0));
+            slash = new Character("/".charAt(0));
+
+            for( i=0; i < dependencies.length; i++ )
+            {
+              if( dependencies[i].length() == 0 ||
+                  hash.equals( new Character( dependencies[i].charAt(0) ) ) ||
+                  dependencies[i].charAt(0) == space ||
+                  (dependencies[i].length() > 1 && dependencies[i].charAt(0) == slash && dependencies[i].charAt(1) == slash) )
+              {
+                continue; // blank line or comment
+              }
+
+              dependency = dependencies[i].split(" ");
+
+              artifact = dependency[0];
+              version = "SNAPSHOT";
+              if( dependency.length > 1 && dependency[1] != "-" )
+                  version = dependency[1];
+
+              group = artifact;
+              if(dependency.length > 2 && dependency[2] != "-" )
+              {
+                group = dependency[2];
+              }
+
+              sep = System.getProperty("file.separator");
+
+              localDir = localRepository + sep + group + sep + "jars" + sep;
+              localFile = localDir + artifact + "-" + version + ".jar";
+              distFile = libDir + sep + artifact + "-" + version + ".jar";
+
+              copy = project.createTask("copy");
+              copy.setTofile( new java.io.File( distFile ) );
+              copy.setFile( new java.io.File( localFile ) );
+              copy.execute();
+            }
+        ]]>
+        </script>
+    </target>
+
+    <!-- Repository management -->
+
+    <target name="jbs:jar:install" depends="jbs:init,jbs:jar">
+        <echo>=======================================================================
+   Installing ${project.name} jar into local repository
+=======================================================================</echo>
+
+        <mkdir dir="${jbs.home}/repository/${project.name}/jars/"/>
+        <copy todir="${jbs.home}/repository/${project.name}/jars/"
+                file="${jbs.build.dir}/${project.name}-${project.version}.jar"/>
+    </target>
+
+    <target name="jbs:jar:install-snapshot" depends="jbs:init,jbs:jar">
+        <echo>=======================================================================
+   Installing ${project.name} jar into local repository as snapshot
+=======================================================================</echo>
+
+        <mkdir dir="${jbs.home}/repository/${project.name}/jars/"/>
+        <tstamp>
+            <format property="snapshot.version" pattern="yyyyMMdd"/>
+        </tstamp>
+        <copy tofile="${jbs.home}/repository/${project.name}/jars/${project.name}-SNAPSHOT.jar"
+                file="${jbs.build.dir}/${project.name}-${project.version}.jar"/>
+        <copy tofile="${jbs.home}/repository/${project.name}/jars/${project.name}-${snapshot.version}.jar"
+                file="${jbs.build.dir}/${project.name}-${project.version}.jar"/>
+    </target>
+
+    <!-- Gump descriptor -->
+
+    <target name="jbs:gump-descriptor" depends="jbs:init">
+        <echo>=======================================================================
+   Creating gump descriptor for ${project.name}
+=======================================================================
+ The descriptor will be generated as gump-${project.name}.xml. You may
+ want to do some hand-editing before renaming it to gump.xml (or moving
+ it elsewhere). If you want to automate the editing of the file (or publish
+ it somewhere), define a target named "customize-gump-descritor" in your
+ project buildfile.</echo>
+
+        <!--
+file format:
+
+$artifact $version [$group [$repository [$gumpproject [$gumpopts]]]]
+        -->
+        <property name="project.gump.target" value="jar"/>
+
+        <loadfile property="jbs.cvs.repository" srcFile="CVS/Repository">
+            <filterchain>
+                <striplinebreaks/>
+            </filterchain>
+        </loadfile>
+        <script language="javascript">
+        <![CDATA[
+            importClass(java.lang.System);
+            importClass(java.lang.Character);
+
+            basedir = project.getProperty("basedir");
+            sep = System.getProperty("file.separator");
+            dependencyFilename = basedir + sep + "dependencies.list";
+
+            loadfile = project.createTask("loadfile");
+            loadfile.setProperty("jbs.dependencies.file");
+            loadfile.setSrcFile( new java.io.File( dependencyFilename ) );
+            loadfile.execute();
+
+            dependencyFile = project.getProperty("jbs.dependencies.file");
+            localRepository = project.getProperty("jbs.repository.local");
+            libDir = project.getProperty("jbs.build.dist.lib.dir");
+
+            dependencies = dependencyFile.split( "(\n|\r|\r\n)" );
+
+            hash = new Character("#".charAt(0));
+            space = new Character(" ".charAt(0));
+            slash = new Character("/".charAt(0));
+
+            depString = "";
+
+            for( i=0; i < dependencies.length; i++ )
+            {
+              if( dependencies[i].length() == 0 ||
+                  hash.equals( new Character( dependencies[i].charAt(0) ) ) ||
+                  dependencies[i].charAt(0) == space ||
+                  (dependencies[i].length() > 1 && dependencies[i].charAt(0) == slash && dependencies[i].charAt(1) == slash) )
+              {
+                continue; // blank line or comment
+              }
+
+              dependency = dependencies[i].split(" ");
+
+              artifact = dependency[0];
+              version = "SNAPSHOT";
+              if( dependency.length > 1 && dependency[1] != "-" )
+                  version = dependency[1];
+
+              group = artifact;
+              if(dependency.length > 2 && dependency[2] != "-" )
+              {
+                group = dependency[2];
+              }
+
+              gumpProject = artifact;
+              if(dependency.length > 4 && dependency[4] != "-" )
+              {
+                gumpProject = dependency[4];
+                if(gumpProject == "SKIP")
+                    continue;
+              }
+
+              runtime="false";
+              inherit="none";
+              optional="false";
+              if(dependency.length > 5 && dependency[5] != "-" )
+              {
+                opts = dependency[5];
+                if( opts.indexOf( "runtime" ) != -1 )
+                    runtime = "true";
+                if( opts.indexOf( "inherit" ) != -1 )
+                {
+                    if( opts.indexOf( "inherit=all" ) != -1 )
+                        inherit = "all";
+                    else if( opts.indexOf( "inherit=runtime" ) != -1 )
+                        inherit = "runtime";
+                    else if( opts.indexOf( "inherit=jars" ) != -1 )
+                        inherit = "jars";
+                    else if( opts.indexOf( "inherit=hard" ) != -1 )
+                        inherit = "hard";
+                    else if( opts.indexOf( "inherit=none" ) != -1 )
+                        inherit = "none";
+                    else
+                        inherit = "all"; // default
+                }
+                if( opts.indexOf( "optional" ) != -1 )
+                    optional="true";
+              }
+
+              depString += '    <depend project="' + gumpProject + '" runtime="' + runtime + '" inherit="' + inherit +'" optional="' + optional + '"/>\n';
+            }
+
+            project.setProperty( "project.dependencies", depString );
+            repo = project.getProperty( "jbs.cvs.repository" );
+            path = repo.substring( repo.indexOf(sep)+1 );
+
+            project.setProperty( "project.dir", path );
+        ]]>
+        </script>
+        
+        <loadfile property="jbs.gump.template" srcFile="${jbs.home}/gump-template.xml">
+            <filterchain>
+                <expandproperties/>
+            </filterchain>
+        </loadfile>
+        <echo file="gump-${project.name}.xml">${jbs.gump.template}</echo>
+        <echo>Gump descriptor generated successfully!</echo>
+        <antcall target="customize-gump-descriptor"/>
+    </target>
+    <target name="customize-gump-descriptor"/><!-- here to be overridden -->
+
+    <target name="jbs:gump-module-descriptor" depends="jbs:init">
+
+    </target>
+</project>
