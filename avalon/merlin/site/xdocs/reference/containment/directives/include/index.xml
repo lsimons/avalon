@@ -87,24 +87,26 @@ The following example block.xml demonstrates the inclusion of three blocks withi
 </p>
 
 <source><![CDATA[
-<container name="tutorial">
+<container name="application">
 
      <classloader>
        <classpath>
          <repository>
-           <resource id="tutorial:composition-api" version="1.0"/>
+           <resource id="avalon-framework:avalon-framework-api" version="4.1.5"/>
+           <resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/>
+           <resource id="merlin-tutorial:locator-api" version="1.0"/>
+           <resource id="merlin-tutorial:publisher-api" version="1.0"/>
+           <resource id="merlin-tutorial:application-impl" version="1.0"/>
          </repository>
        </classpath>
      </classloader>
 
-     <include name="publisher">
-       id="tutorial:composition-publisher" version="1.0"/>
+     <include name="location" id="merlin-tutorial:locator-impl" version="1.0"/>
+     <include name="publisher" id="merlin-tutorial:publisher-impl" version="1.0"/>
 
-     <include name="application">
-       id="tutorial:composition-application" version="1.0"/>
-
-     <include name="location">
-       id="tutorial:composition-location" version="1.0"/>
+     <component name="application" 
+        class="tutorial.application.Application">
+     </component>
 
 </container>
 ]]></source>

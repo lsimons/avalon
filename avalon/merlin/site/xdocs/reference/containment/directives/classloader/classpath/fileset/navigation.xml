@@ -51,9 +51,9 @@
                    href="/reference/containment/directives/classloader/classpath/repository/index.html"/>
                 <item name="fileset" 
                    href="/reference/containment/directives/classloader/classpath/fileset/index.html">
-                  <item name="fileset" 
+                  <item name="include" 
                      href="/reference/containment/directives/classloader/classpath/fileset/include.html"/>
-                  <item name="fileset" 
+                  <item name="exclude" 
                      href="/reference/containment/directives/classloader/classpath/fileset/exclude.html"/>
                 </item>
               </item>

@@ -48,12 +48,13 @@
         <item name="System Specification" href="/reference/system/index.html">
           <item name="Properties" href="/reference/system/properties.html"/>
           <item name="kernel" href="/reference/system/kernel/index.html">
-            <item name="security" href="/reference/system/kernel/security/index.html"/>
+            <!--<item name="security" href="/reference/system/kernel/security/index.html"/>-->
             <item name="repository" href="/reference/system/kernel/repository/index.html">
               <item name="cache" href="/reference/system/kernel/repository/cache.html"/>
               <item name="proxy" href="/reference/system/kernel/repository/proxy.html"/>
               <item name="hosts" href="/reference/system/kernel/repository/hosts.html"/>
             </item>
+            <item name="container" href="/reference/containment/directives/index.html"/>
           </item>
         </item>
       </item>

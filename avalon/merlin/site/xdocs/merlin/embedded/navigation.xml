@@ -41,7 +41,6 @@
           <item name="CLI" href="/merlin/embedded/cli.html"/>
           <item name="Application" href="/merlin/embedded/main.html"/>
           <item name="Servlet" href="/merlin/embedded/servlet.html"/>
-          <item name="Unit" href="/merlin/embedded/unit.html"/>
         </item>
       </item>
       <item name="Extensions" href="/extensions/index.html"/>

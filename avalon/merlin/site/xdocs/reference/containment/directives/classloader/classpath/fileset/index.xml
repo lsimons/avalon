@@ -79,13 +79,11 @@
 
       <subsection name="Sample XML">
       This example includes all the jar files in the lib directory and in all
-      its subdirectories, includes the my-class.class file in the lib directory,
-      and excludes all files in the lib directory that contain the -dev string
-      in its filename.
+      its subdirectories, and excludes all files in the lib directory that 
+      contain the -dev string in its filename.
 <source>
 &lt;fileset dir="<font color="darkred">lib</font>"&gt;
   &lt;include name="<font color="darkred">**/*.jar</font>"/&gt;
-  &lt;include name="<font color="darkred">my-class.class</font>"/&gt;
   &lt;exclude name="<font color="darkred">*-dev*</font>"/&gt;
 &lt;/fileset&gt;
 </source>
