@@ -11,10 +11,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.StringWriter;
 import java.net.URL;
 import java.util.Properties;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.Result;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
@@ -57,14 +59,14 @@ public class DefaultConfigurationSerializer
      * @param out an <code>OutputStream</code> value
      * @return contenthandler that goes to specified OutputStream
      */
-    protected ContentHandler createContentHandler( final OutputStream out )
+    protected ContentHandler createContentHandler( final Result result )
     {
         try
         {
             TransformerHandler handler = getTransformerFactory().newTransformerHandler();
 
             m_format.put( OutputKeys.METHOD, "xml" );
-            handler.setResult( new StreamResult( out ) );
+            handler.setResult( result );
             handler.getTransformer().setOutputProperties( m_format );
 
             return handler;
@@ -237,12 +239,12 @@ public class DefaultConfigurationSerializer
         throws SAXException, IOException, ConfigurationException
     {
         OutputStream outputStream = null;
-        try 
+        try
         {
             outputStream = new FileOutputStream( file );
             serialize( outputStream, source );
-        } 
-        finally 
+        }
+        finally
         {
             if( outputStream != null )
             {
@@ -262,7 +264,7 @@ public class DefaultConfigurationSerializer
     public void serialize( final OutputStream outputStream, final Configuration source )
         throws SAXException, IOException, ConfigurationException
     {
-        serialize( createContentHandler( outputStream ), source );
+        serialize( createContentHandler( new StreamResult( outputStream ) ), source );
     }
 
     /**
@@ -278,11 +280,11 @@ public class DefaultConfigurationSerializer
         throws SAXException, IOException, ConfigurationException
     {
         OutputStream outputStream = null;
-        try 
+        try
         {
             outputStream = new URL( uri ).openConnection().getOutputStream();
             serialize( outputStream, source );
-        } 
+        }
         finally
         {
             if( outputStream != null )
@@ -290,5 +292,22 @@ public class DefaultConfigurationSerializer
                 outputStream.close();
             }
         }
+    }
+
+    /**
+     * Serialize the configuration object to a string
+     * @param source a <code>Configuration</code> value
+     * @return configuration serialized as a string.
+     * @throws SAXException if an error occurs
+     * @throws ConfigurationException if an error occurs
+     */
+    public String serialize( final Configuration source )
+        throws SAXException, ConfigurationException
+    {
+        final StringWriter writer = new StringWriter();
+
+        serialize( createContentHandler( new StreamResult( writer ) ), source );
+
+        return writer.toString();
     }
 }
