@@ -162,8 +162,14 @@ public abstract class AbstractService
     }
 
     public void dispose()
-        throws Exception
     {
-        m_connectionManager.disconnect( m_connectionName );
+        try
+        {
+            m_connectionManager.disconnect( m_connectionName );
+        }
+        catch (Exception e)
+        {
+            getLogger().error("Error disposing of connection: " + e);
+        }
     }
 }

@@ -40,13 +40,19 @@ public class DefaultPacketManager
     }
 
     public void dispose()
-        throws Exception
     {
         final Iterator names = ((HashMap)m_acceptors.clone()).keySet().iterator();
         while( names.hasNext() )
         {
             final String name = (String)names.next();
-            disconnect( name );
+            try
+            {
+                disconnect( name );
+            }
+	    catch (Exception e)
+            {
+                getLogger().error("Error disposing of connection: " + e);
+            }
         }
     }
 
