@@ -58,8 +58,6 @@ package org.apache.excalibur.configuration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import org.apache.avalon.framework.CascadingRuntimeException;
-import org.apache.avalon.framework.configuration.AbstractConfiguration;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
@@ -238,26 +236,6 @@ public class ConfigurationUtil
         branched.addAll( config );
         branched.makeReadOnly();
         return branched;
-    }
-
-    private static DefaultConfiguration createNew( final Configuration config, final String name )
-    {
-        if( config instanceof AbstractConfiguration )
-        {
-            try
-            {
-                return new DefaultConfiguration( name,
-                                                 config.getLocation(),
-                                                 config.getNamespace(),
-                                                 "" );
-            }
-            catch( ConfigurationException e )
-            {
-                //Ignore. If there is an error in the namespaces, we won't copy namespaces stuff
-            }
-        }
-
-        return new DefaultConfiguration( name, config.getLocation() );
     }
 
     /**
