@@ -42,7 +42,8 @@
 <![CDATA[
 package org.apache.bizserver.docs;
 
-public interface DocumentRepository {
+public interface DocumentRepository extends Component
+{
     String ROLE = "org.apache.bizserver.docs.DocumentRepository";
 
     Document getDocument(Principal requestor, int refId);
@@ -54,6 +55,33 @@ public interface DocumentRepository {
         <itemizedlist>
           <listitem>
             <para>
+              Include a String called "ROLE" that has the role's official name.
+              That name is the same as the fully qualified name for the work
+              interface.  This helps later on when we need to get an instance
+              of the Component later.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              Do extend the Component interface if possible.  This makes it easier
+              on you when it is time to release your Component.  If you are not
+              in control of the work interface, then you do not have this option.
+              It is not the end of the world, as you can recast the instance to
+              <classname>Component</classname> when it is time to release it.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              Do one thing and do it well.  A Component should have the simplest
+              interface possible, When your work interface extends several other
+              interfaces, you muddy the contract for this Component.  An old
+              American acronym helps define this pattern: Keep It Simple, Stupid
+              (KISS).  It's not hard to outsmart yourself&mdash;I've done it
+              a number of times myself.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
               Only specify the methods you need.  The client should have no
               knowledge of implementation details, and too many alternative
               methods only introduce unneeded complexity.  In other words pick
@@ -62,25 +90,11 @@ public interface DocumentRepository {
           </listitem>
           <listitem>
             <para>
-              Don't let your Role's interface extend any other interface.  If you
-              think that you should extend another interface, it should be another
-              Role's interface.  The only exception to this rule is when the Role's
-              interface is a specialization of another Role.
-            </para>
-          </listitem>
-          <listitem>
-            <para>
-              Don't extend interfaces that impact implementation&mdash;you are
-              mixing concerns and this will only lead to debugging and
-              implementation problems later.
-            </para>
-          </listitem>
-          <listitem>
-            <para>
-              Include a String called "ROLE" that has the role's official name.
-              That name is the same as the fully qualified name for the work
-              interface.  This helps later on when we need to get an instance
-              of the Component later.
+              Don't let your Role's interface extend any lifecycle or lifestyle
+              interfaces.  By implementing any of those classes of interfaces, you
+              are tying an implementation to the specification.  This is a
+              bad pattern and this will only lead to debugging and implementation
+              problems later.
             </para>
           </listitem>
         </itemizedlist>
