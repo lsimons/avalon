@@ -10,7 +10,6 @@ package org.apache.avalon.phoenix.components.kernel;
 import org.apache.avalon.excalibur.container.Container;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
@@ -20,7 +19,7 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public interface Kernel
-    extends Component, Container, Initializable, Startable, Disposable
+    extends Component, Container, Initializable, Disposable
 {
     void addApplication( SarMetaData metaData, 
                          ClassLoader classLoader, 
