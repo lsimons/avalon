@@ -1290,7 +1290,9 @@ Legal:
 
     </target>
 
-
+    <target name="get-all-dependencies"
+	    depends="get-mx4j,get-log4j,get-cli,get-configkit,get-classman,get-wrapper"
+	    description="Meta-task to get all optional libaries"/>
 
     &forrest-targets;
 
