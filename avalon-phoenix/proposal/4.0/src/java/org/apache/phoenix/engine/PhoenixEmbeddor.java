@@ -367,64 +367,34 @@ public class PhoenixEmbeddor
      */
     private void createManager() throws ConfigurationException
     {
+        final String className = this.parameters.getParameter( "mBeanServer-class", null );
         try
         {
             Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
-            this.mBeanServer = (MBeanServer)Class.forName( (String)this.context.get( "mBeanServer-class" ) ).newInstance();
-            this.managerContext = new DefaultContext();
+            this.mBeanServer = (MBeanServer)Class.forName( className ).newInstance();
         }
         catch( final Exception e )
         {
             throw new ConfigurationException( "Failed to create MBean Server of class " +
-                                              (String)this.context.get( "mBeanServer-class" ), e );
+                                              className, e );
         }
     }
     /**
-     * Sets up the Managers. Provides it with the MBeanServer,
-     * Logger and Deployer.
+     * Sets up the Manager.
      * TODO: create MBeans for the facilities and applications
      * Deployer just loaded. Have Deployer put those in
      * managerContext.
      */
     private void setupManager()
     {
-        this.manager = new ManagerImpl( this.mBeanServer );
-        if( this.manager instanceof Loggable )
-        {
-            ((Loggable)this.manager).setLogger( this.logger );
-        }
-        if( this.manager instanceof Contextualizable )
-        {
-            this.managerContext.put( "org.apache.framework.container.Deployer", this.deployer );
-            /* add references to default facilities so they will be loaded.
-               TODO: put the facilities in .sars, make the deployer load
-               those and remove this.  */
-            /*this.managerContext.put( "org.apache.avalon.atlantis.Facility.ComponentBuilder",
-                "org.apache.phoenix.engine.facilities.DefaultComponentBuilder" );
-            this.managerContext.put( "org.apache.avalon.atlantis.Facility.ComponentManager",
-                "org.apache.phoenix.engine.facilities.DefaultComponentManager" );
-            this.managerContext.put( "org.apache.avalon.atlantis.Facility.ConfigurationRepository",
-                "org.apache.phoenix.engine.facilities.DefaultConfigurationRepository" );
-            this.managerContext.put( "org.apache.avalon.atlantis.Facility.ContextBuilder",
-                "org.apache.phoenix.engine.facilities.DefaultContextBuilder" );
-            this.managerContext.put( "org.apache.avalon.atlantis.Facility.LoggerBuilder",
-                "org.apache.phoenix.engine.facilities.DefaultLoggerBuilder" );
-            this.managerContext.put( "org.apache.avalon.atlantis.Facility.LogManager",
-                "org.apache.phoenix.engine.facilities.DefaultLogManager" );
-            this.managerContext.put( "org.apache.avalon.atlantis.Facility.DefaultPolicy",
-                "org.apache.phoenix.engine.facilities.DefaultPolicy" );
-            this.managerContext.put( "org.apache.avalon.atlantis.Facility.ThreadManager",
-                "org.apache.phoenix.engine.facilities.DefaultThreadManager" );
-            this.managerContext.put( "org.apache.avalon.atlantis.Facility.SarBlockFactory",
-                "org.apache.phoenix.engine.facilities.SarBlockFactory" );
-            this.managerContext.put( "org.apache.avalon.atlantis.Facility.SarClassLoader",
-                "org.apache.phoenix.engine.facilities.SarClassLoader" );
-            ((Contextualizable)this.manager).contextualize( (Context)this.managerContext );*/
-        }
-
-        /* TODO
-        add DynamicMBeans for the default kernel services here
-        */
+        this.manager = new ManagerImpl();
+        setupLogger( this.manager );
+        this.managerContext = new DefaultContext();
+        this.managerContext.put("javax.management.MBeanServer", this.mBeanServer );
+        this.managerContext.put("org.apache.framework.atlantis.core.Embeddor", this );
+        this.managerContext.put("org.apache.framework.atlantis.core.Kernel", this.kernel );
+        this.managerContext.put("org.apache.avalon.camelot.Deployer", this.deployer );
+        this.manager.contextualize( this.managerContext );
     }
     /**
      * Creates the Kernel. The class used is the kernel-class
