@@ -64,7 +64,6 @@
         <pathelement location="${logkit.jar}"/>
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${excalibur-collections.jar}"/>
-        <pathelement location="${excalibur-concurrent.jar}"/>
         <pathelement location="${junit.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
     </path>

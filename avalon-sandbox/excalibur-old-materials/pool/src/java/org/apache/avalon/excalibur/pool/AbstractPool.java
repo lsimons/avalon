@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.avalon.excalibur.collections.Buffer;
 import org.apache.avalon.excalibur.collections.VariableSizeBuffer;
-import org.apache.avalon.excalibur.concurrent.Mutex;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
@@ -22,7 +21,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * This is an <code>Pool</code> that caches Poolable objects for reuse.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 05:09:04 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/04/07 06:04:21 $
  * @since 4.0
  */
 public abstract class AbstractPool
