@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<logging>
+  <src>conf/log4j.xml</src>
+  <update>1000</update>
+</logging>
