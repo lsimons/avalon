@@ -16,7 +16,7 @@ if [ -z "$MERLIN_HOME" ] ; then
     cd "$BIN_DIR"
     ABSOLUTE_PATH=`pwd`
     cd "$CWD"
-    export MERLIN_HOME=`dirname "$ABSOLUTE_PATH"`
+    export MERLIN_HOME="`dirname "$ABSOLUTE_PATH"`"
 fi
 
 # Checking for REPOSITORY
