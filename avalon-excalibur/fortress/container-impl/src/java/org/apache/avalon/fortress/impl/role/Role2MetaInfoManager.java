@@ -103,6 +103,15 @@ public final class Role2MetaInfoManager implements MetaInfoManager
      */
     public MetaInfoEntry getMetaInfoForClassname( final String classname )
     {
-        return new MetaInfoEntry( m_manager.getRoleForClassname( classname ) );
+        final RoleEntry roleEntry = m_manager.getRoleForClassname( classname );
+
+        if ( roleEntry != null )
+        {
+            return new MetaInfoEntry( roleEntry );
+        }
+        else
+        {
+            return null;
+        }
     }
 }
