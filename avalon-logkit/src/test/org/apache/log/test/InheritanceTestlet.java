@@ -13,7 +13,7 @@ import org.apache.log.LogTarget;
 import org.apache.log.Logger;
 import org.apache.log.Priority;
 import org.apache.log.format.PatternFormatter;
-import org.apache.log.output.StreamTarget;
+import org.apache.log.output.io.StreamTarget;
 import org.apache.testlet.AbstractTestlet;
 
 /**
