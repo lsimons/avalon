@@ -27,6 +27,11 @@
       <user>sa</user>
       <password/>
     </jdbc>
+    <jdbc name="backup">
+      <dburl>jdbc:hsqldb:hsql://localhost:9003</dburl>
+      <user>sa</user>
+      <password/>
+    </jdbc>
   </datasources>
 
   <!-- component selector, non roles -->
