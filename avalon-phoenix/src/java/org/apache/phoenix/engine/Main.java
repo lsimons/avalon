@@ -216,7 +216,8 @@ public class Main
         }
         finally
         {
-            embeddor.dispose();
+            //TODO: Should we really try to force shutdown here???
+            //embeddor.dispose();
         }
     }
 }
