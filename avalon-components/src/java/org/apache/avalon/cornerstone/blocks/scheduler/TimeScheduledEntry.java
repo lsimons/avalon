@@ -10,6 +10,9 @@ package org.apache.avalon.cornerstone.blocks.scheduler;
 import org.apache.avalon.cornerstone.services.scheduler.Target;
 import org.apache.avalon.cornerstone.services.scheduler.TimeTrigger;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Class use internally to package to hold scheduled time entries.
  *
@@ -21,6 +24,7 @@ final class TimeScheduledEntry
     protected final String m_name;
     protected final TimeTrigger m_trigger;
     protected final Target m_target;
+    private static SimpleDateFormat DATEFORMAT = new SimpleDateFormat();
 
     //cached version of time from TimeTrigger class
     protected long m_time;
@@ -108,7 +112,7 @@ final class TimeScheduledEntry
 
     public String toString()
     {
-        return "TimeEntry[ name=" + m_name + " valid=" + m_isValid + " time=" + m_time;
+        return "TimeEntry[ name=" + m_name + " valid=" + m_isValid + " time=" + DATEFORMAT.format(new Date(m_time)) + " ]";
     }
 }
 

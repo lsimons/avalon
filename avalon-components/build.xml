@@ -164,6 +164,7 @@
       <include name="org/apache/avalon/cornerstone/services/**"/>
         <fileset dir="${gen.dir}">
             <include name="**/*.xinfo"/>
+            <include name="**/*.mxinfo"/>
         </fileset>
         <fileset dir="${src.dir}/java">
             <include name="**/*-schema.xml"/>
@@ -181,6 +182,7 @@
       <include name="org/apache/avalon/cornerstone/blocks/**"/>
       <fileset dir="${gen.dir}">
           <include name="**/*.xinfo"/>
+          <include name="**/*.mxinfo"/>
       </fileset>
     </jar>
   </target>
