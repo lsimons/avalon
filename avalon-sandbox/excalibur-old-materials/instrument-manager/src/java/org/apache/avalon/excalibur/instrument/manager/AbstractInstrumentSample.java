@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentSampleDescriptor;
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentSampleListener;
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentSampleSnapshot;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentSampleListener;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentSampleSnapshot;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -25,7 +25,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  *  InstrumentSamples.
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/03/26 11:56:16 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/03/28 04:06:18 $
  * @since 4.1
  */
 abstract class AbstractInstrumentSample

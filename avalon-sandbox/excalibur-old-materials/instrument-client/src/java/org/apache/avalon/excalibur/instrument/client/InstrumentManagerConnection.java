@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentManagerClient;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
 
 import org.apache.commons.altrmi.client.AltrmiHostContext;
 import org.apache.commons.altrmi.client.AltrmiFactory;
@@ -23,7 +23,7 @@ import org.apache.commons.altrmi.common.AltrmiInvocationException;
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/03/27 16:02:19 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/03/28 04:06:18 $
  * @since 4.1
  */
 class InstrumentManagerConnection

@@ -48,7 +48,7 @@
         <pathelement path="${java.class.path}"/>
         <pathelement location="${build.classes}"/>
         <pathelement location="${avalon-framework.jar}"/>
-        <pathelement location="${excalibur-instrument-manager-client.jar}"/>
+        <pathelement location="${excalibur-instrument-manager-interfaces.jar}"/>
         <pathelement location="${commons-altrmi-client-impl.jar}"/>
         <pathelement location="${commons-altrmi-client-interfaces.jar}"/>
         <pathelement location="${commons-altrmi-common.jar}"/>
@@ -110,8 +110,8 @@
         <altrmiproxies genname="InstrumentManagerClient"
             srcgendir="${build.genjava}" 
             classgendir="${build.classes}" 
-            interfaces="org.apache.avalon.excalibur.instrument.manager.client.InstrumentManagerClient"
-            additionalfacades="org.apache.avalon.excalibur.instrument.manager.client.InstrumentableDescriptor,org.apache.avalon.excalibur.instrument.manager.client.InstrumentDescriptor,org.apache.avalon.excalibur.instrument.manager.client.InstrumentSampleDescriptor">
+            interfaces="org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentManagerClient"
+            additionalfacades="org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentableDescriptor,org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentDescriptor,org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor">
             <classpath refid="project.class.path" />
         </altrmiproxies>        
     </target>

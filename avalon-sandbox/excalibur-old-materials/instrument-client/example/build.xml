@@ -34,7 +34,7 @@
             todir="${lib.dir}" preservelastmodified="yes"/>
         
         <!-- Instrument Manager Jars -->
-        <copy file="${excalibur-instrument-manager-client.jar}"
+        <copy file="${excalibur-instrument-manager-interfaces.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
         
         <!-- Altrmi Jars -->
