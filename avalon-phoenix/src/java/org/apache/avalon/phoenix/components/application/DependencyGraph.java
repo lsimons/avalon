@@ -18,7 +18,7 @@ import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class DependencyGraph
+class DependencyGraph
 {
     ///Private constructor to block instantiation
     private DependencyGraph()
