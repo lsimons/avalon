@@ -9,21 +9,26 @@
     <person name="Stuart Roebuck" email="stuart.roebuck@adolos.co.uk" id="SR"/>
   </devs>
 <release version="1.0b4" date="Unreleased">
+  <action dev="PD" type="update">
+    Added ContextMap, updated whitepaper to describe the feature. 
+    <!--Also deprecated ContextStack in the process as it encouraged
+    bad practices.-->
+  </action>
   <action dev="PD" type="add">
     Added ExtendedPatternFormatter to allow log messages to be formatted with 
     caller method and thread ids.
   </action>
-  <action dev="PD" type="add">
+  <action dev="PD" type="update">
     Corrected Javadoc and formatters to indicate that it is possible to 
     for ContextStack to be null in LogEvent.
   </action>
-  <action dev="PD" type="add">
+  <action dev="PD" type="update">
     Fixed bug in OutputStreamLogger so that it does not append a '\n' at end
     of stream.
   </action>
   <action dev="PD" type="add">
     Added Target SafeFileTarget that opens file and then closes file each time 
-    LogEntry is written.
+    a log entry is written.
   </action>
   <action dev="PD" type="add">
     Also added auxilliary method to allow retrieval of current ContextStack without 
