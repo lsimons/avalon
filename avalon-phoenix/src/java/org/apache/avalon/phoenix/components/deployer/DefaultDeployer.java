@@ -38,12 +38,12 @@ import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class DefaultSarDeployer
+public class DefaultDeployer
     extends AbstractLoggable
     implements Deployer, Composable, Initializable
 {
     private static final Resources REZ =
-        ResourceManager.getPackageResources( DefaultSarDeployer.class );
+        ResourceManager.getPackageResources( DefaultDeployer.class );
 
     private final DefaultConfigurationBuilder  m_builder  = new DefaultConfigurationBuilder();
     private final Assembler          m_assembler  = new Assembler();

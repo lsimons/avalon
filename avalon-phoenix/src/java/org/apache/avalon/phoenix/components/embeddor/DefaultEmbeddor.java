@@ -446,7 +446,7 @@ public class DefaultEmbeddor
         final Parameters defaults = new Parameters();
 
         final String PREFIX = "org.apache.avalon.phoenix.components.";
-        defaults.setParameter( Deployer.ROLE, PREFIX + "deployer.DefaultSarDeployer" );
+        defaults.setParameter( Deployer.ROLE, PREFIX + "deployer.DefaultDeployer" );
         defaults.setParameter( Kernel.ROLE, PREFIX + "kernel.DefaultKernel" );
         defaults.setParameter( SystemManager.ROLE, PREFIX + "manager.NoopSystemManager" );
         defaults.setParameter( ConfigurationRepository.ROLE, 
