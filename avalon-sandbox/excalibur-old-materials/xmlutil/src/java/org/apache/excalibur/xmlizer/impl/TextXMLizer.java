@@ -25,21 +25,22 @@ import org.xml.sax.SAXException;
  * to SAX events.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/07/10 08:53:17 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/07/10 08:59:10 $
  */
 public final class TextXMLizer
     extends AbstractLogEnabled
     implements XMLizer, ThreadSafe, Composable
 {
-    /** The component manager */
-    private ComponentManager m_manager;
+    private static final String XML_MIME_TYPE = "text/xml";
 
     /**
-     * Composable interface
+     * The parser to use.
      */
+    private Parser m_parser;
+
     public void compose( final ComponentManager manager )
     {
-        m_manager = manager;
+        m_parser = (Parser)manager.lookup( Parser.ROLE );
     }
 
     /**
@@ -80,7 +81,7 @@ public final class TextXMLizer
                 getLogger().debug( message );
             }
         }
-        else if( !mimeType.equalsIgnoreCase( "text/xml" ) )
+        else if( !mimeType.equalsIgnoreCase( XML_MIME_TYPE ) )
         {
             if( getLogger().isDebugEnabled() )
             {
@@ -97,16 +98,6 @@ public final class TextXMLizer
             inputSource.setSystemId( systemID );
         }
 
-        final Parser parser = (Parser)m_manager.lookup( Parser.ROLE );
-        try
-        {
-            parser.parse( inputSource, handler );
-        }
-        finally
-        {
-            m_manager.release( parser );
-        }
+        m_parser.parse( inputSource, handler );
     }
-
 }
-
