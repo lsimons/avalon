@@ -255,8 +255,8 @@ class DefaultPolicy
             final String filename =
                 codeBase.substring( 4 ).replace( '/', File.separatorChar );
             File baseDir = null;
-            if( codeBase.startsWith( CLASSES ) ||
-                codeBase.startsWith( LIB ) )
+            if( codeBase.startsWith( CLASSES )
+                || codeBase.startsWith( LIB ) )
             {
                 baseDir = m_workDirectory;
             }

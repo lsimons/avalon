@@ -18,7 +18,7 @@ import xdoclet.XDocletException;
  *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2002/06/27 00:53:40 $
+ * @version $Revision: 1.6 $ $Date: 2002/07/15 16:16:31 $
  */
 public class ManifestSubTask
     extends TemplateSubTask
@@ -84,14 +84,14 @@ public class ManifestSubTask
             throw new XDocletException( "'manifestFile' attribute is missing ." );
         }
 
-        if( null == getDestinationFile() ||
-            getDestinationFile().trim().equals( "" ) )
+        if( null == getDestinationFile()
+          || getDestinationFile().trim().equals( "" ) )
         {
             throw new XDocletException( "Error with the 'manifestFile' attribute." );
         }
 
-        if( null == getClassPattern() ||
-            getClassPattern().trim().equals( "" ) )
+        if( null == getClassPattern()
+          || getClassPattern().trim().equals( "" ) )
         {
             throw new XDocletException( "'pattern' parameter missing or empty." );
         }

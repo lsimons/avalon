@@ -33,7 +33,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2002/05/30 12:25:31 $
+ * @version $Revision: 1.11 $ $Date: 2002/07/15 16:17:23 $
  */
 public class Installer
     extends AbstractLogEnabled
@@ -153,6 +153,7 @@ public class Installer
             }
             catch( final IOException ioe2 )
             {
+                //ignore
             }
             final String message =
                 REZ.getString( "nodelete-workdir.error",
@@ -402,9 +403,9 @@ public class Installer
                                 final ArrayList jars )
         throws InstallationException
     {
-        if( name.startsWith( LIB ) &&
-            name.endsWith( ".jar" ) &&
-            LIB.length() == name.lastIndexOf( "/" ) )
+        if( name.startsWith( LIB )
+            && name.endsWith( ".jar" )
+            && LIB.length() == name.lastIndexOf( "/" ) )
         {
             final File jar = new File( workDir, name );
             jars.add( getURLAsString( jar ) );

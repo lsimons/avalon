@@ -15,7 +15,7 @@ import org.apache.avalon.framework.context.Resolvable;
  * This provides utility methods for properties.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/07/13 10:06:35 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/07/15 16:17:23 $
  * @since 4.0
  */
 final class PropertyUtil
@@ -226,6 +226,7 @@ final class PropertyUtil
         }
         catch( final ContextException ce )
         {
+            //ignore
         }
 
         try
@@ -248,8 +249,8 @@ final class PropertyUtil
             }
             else
             {
-                throw new Exception( "Unable to find " + key + " to expand during " +
-                                     "property resolution." );
+                throw new Exception( "Unable to find " + key + " to expand during "
+                                     + "property resolution." );
             }
         }
 

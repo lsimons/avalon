@@ -18,7 +18,7 @@ import xjavadoc.XClass;
  *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2002/05/20 10:23:35 $
+ * @version $Revision: 1.8 $ $Date: 2002/07/15 16:16:31 $
  */
 public class BlockInfoSubTask
     extends TemplateSubTask
@@ -92,9 +92,9 @@ public class BlockInfoSubTask
 
         if( -1 == getClassPattern().indexOf( "{0}" ) )
         {
-            throw new XDocletException( "'pattern' parameter does not have a " +
-                                        "'{0}' in it. '{0}' is replaced by Block " +
-                                        "name of the class under processing." );
+            throw new XDocletException( "'pattern' parameter does not have a "
+                                        + "'{0}' in it. '{0}' is replaced by Block "
+                                        + "name of the class under processing." );
         }
     }
 

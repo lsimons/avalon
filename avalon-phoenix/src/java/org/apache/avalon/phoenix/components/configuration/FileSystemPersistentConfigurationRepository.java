@@ -18,8 +18,8 @@ import org.xml.sax.SAXException;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.FileUtil;
-import org.apache.avalon.excalibur.property.PropertyUtil;
 import org.apache.avalon.excalibur.property.PropertyException;
+import org.apache.avalon.excalibur.property.PropertyUtil;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -42,10 +42,10 @@ import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  */
 public class FileSystemPersistentConfigurationRepository extends AbstractLogEnabled
-  implements ConfigurationRepository, Parameterizable, Configurable, Startable
+    implements ConfigurationRepository, Parameterizable, Configurable, Startable
 {
     private static final Resources REZ =
-      ResourceManager.getPackageResources( FileSystemPersistentConfigurationRepository.class );
+        ResourceManager.getPackageResources( FileSystemPersistentConfigurationRepository.class );
 
     private final HashMap m_configurations = new HashMap();
 
@@ -93,13 +93,17 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
         }
     }
 
-    private String constructStoragePath( final Configuration configuration ) throws ConfigurationException
+    private String constructStoragePath( final Configuration configuration )
+        throws ConfigurationException
     {
-        final String path = configuration.getChild( "storage-directory" ).getValue( "${phoenix.home}/conf/apps" );
+        final String path =
+            configuration.getChild( "storage-directory" ).getValue( "${phoenix.home}/conf/apps" );
 
         try
         {
-            final Object opath = PropertyUtil.resolveProperty( path, createConfigurationContext(), false );
+            final Object opath = PropertyUtil.resolveProperty( path,
+                                                               createConfigurationContext(),
+                                                               false );
 
             if( opath instanceof String )
             {
@@ -107,25 +111,28 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
             }
             else
             {
-                final String message = REZ.getString( "config.error.nonstring", opath.getClass().getName() );
+                final String message = REZ.getString( "config.error.nonstring",
+                                                      opath.getClass().getName() );
+
                 throw new ConfigurationException( message );
             }
         }
         catch( PropertyException e )
         {
-            final String message = REZ.getString( "config.error.missingproperty", configuration.getLocation() );
+            final String message = REZ.getString( "config.error.missingproperty",
+                                                  configuration.getLocation() );
 
             throw new ConfigurationException( message, e );
         }
     }
 
     public void start()
-      throws Exception
+        throws Exception
     {
     }
 
     public void stop()
-      throws Exception
+        throws Exception
     {
         writeJoinedConfigurationsToDisk( joinConfigurations() );
     }
@@ -139,13 +146,14 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
             final Map.Entry entry = ( Map.Entry ) i.next();
             final ConfigurationKey key = ( ConfigurationKey ) entry.getKey();
 
-            DefaultConfiguration joined = ( DefaultConfiguration ) joinedConfigurations.get( key.application );
+            DefaultConfiguration joined =
+                ( DefaultConfiguration ) joinedConfigurations.get( key.getApplication() );
 
             if( null == joined )
             {
-                joined = new DefaultConfiguration( key.application, "-" );
+                joined = new DefaultConfiguration( key.getApplication(), "-" );
 
-                joinedConfigurations.put( key.application, joined );
+                joinedConfigurations.put( key.getApplication(), joined );
             }
 
             joined.addChild( ( Configuration ) entry.getValue() );
@@ -155,7 +163,7 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
     }
 
     private void writeJoinedConfigurationsToDisk( Map joinedConfigurations )
-      throws SAXException, IOException, ConfigurationException
+        throws SAXException, IOException, ConfigurationException
     {
         final DefaultConfigurationSerializer serializer = new DefaultConfigurationSerializer();
 
@@ -166,7 +174,8 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
             final Map.Entry entry = ( Map.Entry ) i.next();
             final String application = ( String ) entry.getKey();
 
-            if( getLogger().isDebugEnabled() ) getLogger().debug( "Serializing configuration to disk: " + application );
+            if( getLogger().isDebugEnabled() )
+                getLogger().debug( "Serializing configuration to disk: " + application );
 
             serializer.serializeToFile( new File( this.m_storageDirectory, application + ".xml" ),
                                         ( Configuration ) entry.getValue() );
@@ -176,7 +185,7 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
     public synchronized void storeConfiguration( final String application,
                                                  final String block,
                                                  final Configuration configuration )
-      throws ConfigurationException
+        throws ConfigurationException
     {
         final ConfigurationKey key = new ConfigurationKey( application, block );
 
@@ -192,7 +201,7 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
 
     public synchronized Configuration getConfiguration( final String application,
                                                         final String block )
-      throws ConfigurationException
+        throws ConfigurationException
     {
         final ConfigurationKey key = new ConfigurationKey( application, block );
         final Configuration configuration = ( Configuration ) m_configurations.get( key );
@@ -208,18 +217,18 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
 
     private final class ConfigurationKey
     {
-        final String application;
-        final String block;
+        private final String m_application;
+        private final String m_block;
 
         public ConfigurationKey( String application, String block )
         {
-            this.application = application;
-            this.block = block;
+            this.m_application = application;
+            this.m_block = block;
         }
 
         public int hashCode()
         {
-            return this.application.hashCode() + this.block.hashCode();
+            return this.getApplication().hashCode() + this.getBlock().hashCode();
         }
 
         public boolean equals( Object obj )
@@ -228,13 +237,23 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
             {
                 final ConfigurationKey key = ( ConfigurationKey ) obj;
 
-                return this.application.equals( key.application ) &&
-                  this.block.equals( key.block );
+                return this.getApplication().equals( key.getApplication() )
+                    && this.getBlock().equals( key.getBlock() );
             }
             else
             {
                 return false;
             }
+        }
+
+        public String getApplication()
+        {
+            return m_application;
+        }
+
+        public String getBlock()
+        {
+            return m_block;
         }
     }
 }

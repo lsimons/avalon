@@ -45,8 +45,8 @@ public class PhoenixServlet
 
     private static final String DEFAULT_LOG_FILE = "/logs/phoenix.log";
     private static final String DEFAULT_FORMAT =
-        "%7.7{priority} %23.23{time:yyyy-MM-dd' 'HH:mm:ss.SSS} [%8.8{category}] (%{context}): " +
-        "%{message}\n%{throwable}";
+      "%7.7{priority} %23.23{time:yyyy-MM-dd' 'HH:mm:ss.SSS} [%8.8{category}] (%{context}): "
+      + "%{message}\n%{throwable}";
 
     private Parameters m_parameters;
     private SingleAppEmbeddor m_embeddor;

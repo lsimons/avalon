@@ -120,8 +120,8 @@ public class DaemonLauncher
             // Ignore this update
             if( WrapperManager.isDebugEnabled() )
             {
-                System.out.println( "DaemonLauncher: " + arg +
-                    " request ignored because stop already called." );
+                System.out.println( "DaemonLauncher: " + arg
+                                    + " request ignored because stop already called." );
                 System.out.flush();
             }
         }
