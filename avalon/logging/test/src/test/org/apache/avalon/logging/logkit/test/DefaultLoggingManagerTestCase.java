@@ -25,6 +25,7 @@ import junit.framework.TestCase;
 
 import org.apache.avalon.framework.logger.Logger;
 
+import org.apache.avalon.logging.LoggingManagerHelper;
 import org.apache.avalon.logging.provider.LoggingManager;
 import org.apache.avalon.logging.provider.LoggingException;
 
@@ -42,7 +43,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DefaultLoggingManagerTestCase extends TestCase
 {
@@ -50,7 +51,6 @@ public class DefaultLoggingManagerTestCase extends TestCase
     // state
     //-------------------------------------------------------------------
 
-    InitialContext m_context;
     LoggingManager m_manager;
 
     //-------------------------------------------------------------------
@@ -72,7 +72,9 @@ public class DefaultLoggingManagerTestCase extends TestCase
 
     protected void setUp() throws Exception
     {
-        m_manager = LoggingManagerHelper.setUpLoggingManager( "logkit/logging.xml" );
+        m_manager = 
+          LoggingManagerHelper.setUpLoggingManager( 
+            "avalon-logkit-impl", "logkit/logging.xml" );
     }
 
     public void testKernelLogging() throws Exception
@@ -125,47 +127,4 @@ public class DefaultLoggingManagerTestCase extends TestCase
               new LoggingException( "bad attitude" ) ) ) );
         logger.fatalError( "this is a fatal message from roger ramjet" );
     }
-
-    //-------------------------------------------------------------------
-    // utilities
-    //-------------------------------------------------------------------
-
-    private static File getMavenRepositoryDirectory()
-    {
-        return new File( getMavenHomeDirectory(), "repository" );
-    }
-
-    private static File getMavenHomeDirectory()
-    {
-        return new File( getMavenHome() );
-    }
-
-    private static String getMavenHome()
-    {
-        try
-        {
-            String local = 
-              System.getProperty( 
-                "maven.home.local", 
-                Env.getEnvVariable( "MAVEN_HOME_LOCAL" ) );
-            if( null != local ) return local;
-
-            return System.getProperty( "user.home" ) + File.separator + ".maven";
-
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Internal error while attempting to access environment.";
-            final String message = 
-              ExceptionHelper.packException( error, e, true );
-            throw new RuntimeException( message );
-        }
-    }
-
-    protected File getBaseDir()
-    {
-        return new File( System.getProperty( "basedir" ) );
-    }
-
 }

@@ -20,13 +20,23 @@
       <version>2.0-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>avalon-framework</groupId>
+      <groupId>avalon-framework</groupId> 
       <artifactId>avalon-framework-api</artifactId>
+      <version>4.1.5</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-impl</artifactId>
       <version>4.1.5</version>
     </dependency>
     <dependency>
       <groupId>avalon-logging</groupId>
       <artifactId>avalon-logging-api</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-logging</groupId>
+      <artifactId>avalon-logging-spi</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>

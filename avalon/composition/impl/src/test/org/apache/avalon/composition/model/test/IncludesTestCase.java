@@ -31,7 +31,12 @@ public class IncludesTestCase extends AbstractTestCase
 
     public IncludesTestCase()
     {
-        super( "includes.xml" );
+        super();
+    }
+
+    public void setUp() throws Exception
+    {
+        m_model = super.setUp( "includes.xml" );
     }
 
    //-------------------------------------------------------

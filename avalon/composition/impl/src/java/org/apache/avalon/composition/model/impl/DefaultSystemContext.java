@@ -54,7 +54,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.21 $ $Date: 2004/02/25 20:31:01 $
+ * @version $Revision: 1.22 $ $Date: 2004/02/27 22:39:36 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext
@@ -190,7 +190,7 @@ public class DefaultSystemContext extends DefaultContext
     * @param timeout a system wide default deployment timeout
     * @param security the security model
     */
-    private DefaultSystemContext( 
+    DefaultSystemContext( 
       InitialContext context, 
       Artifact artifact, 
       Class runtime, 
@@ -214,7 +214,7 @@ public class DefaultSystemContext extends DefaultContext
         }
         if( logging == null )
         {
-            throw new NullPointerException( "logger" );
+            throw new NullPointerException( "logging" );
         }
         if( !base.isDirectory() )
         {
@@ -241,24 +241,18 @@ public class DefaultSystemContext extends DefaultContext
         // use avalon-repository to load the runtime
         //
 
-        Class clazz = resolveRuntimeClass( context, artifact, runtime );
-        m_runtime = buildRuntimeInstance( context, clazz );
-    }
-
-    private Class resolveRuntimeClass( InitialContext context, Artifact artifact, Class clazz )
-      throws SystemException
-    {
-        if( null != clazz )
+        if( null != runtime )
         {
-            return clazz;
+            m_runtime = buildRuntimeInstance( context, runtime );
         }
         else if( null != artifact )
         {
-            return getRuntimeClass( context, artifact );
+            Class clazz = resolveRuntimeClass( context, artifact );
+            m_runtime = buildRuntimeInstance( context, clazz );
         }
         else
         {
-            return null;
+            m_runtime = null;
         }
     }
 
@@ -456,7 +450,28 @@ public class DefaultSystemContext extends DefaultContext
     */
     private Runtime getRuntime()
     {
-        return m_runtime;
+        if( null == m_runtime ) 
+        {
+            throw new IllegalStateException( "runtime" );
+        }
+        else
+        {
+            return m_runtime;
+        }
+    }
+
+    private Class resolveRuntimeClass( InitialContext context, Artifact artifact )
+      throws SystemException
+    {
+        if( null != artifact )
+        {
+            return getRuntimeClass( context, artifact );
+        }
+        else
+        {
+            return getRuntimeClass( 
+              context, getDefaultRuntimeArtifact( context ) );
+        }
     }
 
    /**
@@ -468,7 +483,10 @@ public class DefaultSystemContext extends DefaultContext
     private Class getRuntimeClass( InitialContext context, Artifact artifact )
       throws SystemException
     {
-        if( null == artifact ) return null;
+        if( null == artifact )
+        {
+            throw new NullPointerException( "artifact" );
+        }
 
         try
         {
@@ -484,6 +502,18 @@ public class DefaultSystemContext extends DefaultContext
               REZ.getString( "system.error.load", artifact.toString() );
             throw new SystemException( error, e );
         }
+    }
+
+    private Artifact getDefaultRuntimeArtifact( InitialContext context )
+    {
+        Artifact[] artifacts = 
+          context.getRegistry().getCandidates( Runtime.class );
+        if( artifacts.length > 0 ) return artifacts[0];
+
+        final String error =
+          "Initial context does not declare an artifact for the class: ["
+          + Runtime.class.getName() + "].";
+        throw new IllegalStateException( error );
     }
 
    /**

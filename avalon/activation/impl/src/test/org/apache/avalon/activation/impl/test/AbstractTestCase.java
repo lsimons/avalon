@@ -21,12 +21,18 @@ import java.io.File;
 
 import junit.framework.TestCase;
 
+import org.apache.avalon.activation.impl.DefaultRuntime;
+
 import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
 import org.apache.avalon.composition.model.ContainmentModel;
+import org.apache.avalon.composition.model.ContainmentModel;
+import org.apache.avalon.composition.model.impl.DefaultSystemContextFactory;
+import org.apache.avalon.composition.model.impl.DefaultSecurityModel;
+import org.apache.avalon.composition.provider.ModelFactory;
 import org.apache.avalon.composition.provider.SystemContext;
-
-import org.apache.avalon.logging.provider.LoggingManager;
+import org.apache.avalon.composition.provider.SystemContextFactory;
+import org.apache.avalon.composition.provider.SecurityModel;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -35,6 +41,10 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
 
+import org.apache.avalon.repository.Artifact;
+import org.apache.avalon.repository.Repository;
+import org.apache.avalon.repository.provider.Factory;
+import org.apache.avalon.repository.provider.RepositoryCriteria;
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.InitialContextFactory;
 import org.apache.avalon.repository.main.DefaultInitialContextFactory;
@@ -44,6 +54,16 @@ import org.apache.avalon.util.env.Env;
 
 public abstract class AbstractTestCase extends TestCase
 {
+   //-------------------------------------------------------
+   // static
+   //-------------------------------------------------------
+
+    public static final File BASEDIR = 
+      new File( System.getProperty( "basedir" ) );
+
+    public static final File SYS_CONF = 
+      new File( BASEDIR, "src/test/conf/system/kernel.xml" );
+
    //-------------------------------------------------------
    // state
    //-------------------------------------------------------
@@ -108,6 +128,46 @@ public abstract class AbstractTestCase extends TestCase
     */
     public void setUp( File base, File block ) throws Exception
     {
+        //
+        // create the initial context using the maven repository as the 
+        // system repository
+        //
+
+        Configuration config = getConfiguration( SYS_CONF );
+        Configuration sysConfig = config.getChild( "system" );
+        InitialContext context = setUpInitialContext( base, sysConfig );
+
+        //
+        // create a system context and add a test repository to use during 
+        // testcase execution
+        //
+
+        SystemContextFactory factory = 
+          new DefaultSystemContextFactory( context );
+        Repository repository = 
+          createTestRepository( context, new File( base, "repository" ) );
+        factory.setRepository( repository );
+        Configuration secConfig = config.getChild( "security" );
+        if( m_secured )
+        {
+            SecurityModel security = DefaultSecurityModel.createSecurityModel( secConfig );
+            factory.setSecurityModel( security );
+        }
+        factory.setRuntime( DefaultRuntime.class );
+        m_system = factory.createSystemContext();
+        m_logger = m_system.getLogger();
+
+        //
+        // load the meta data using the profile returned from getPath()
+        // and establish a containment model for the unit test
+        //
+
+        ContainmentProfile profile = setUpProfile( block );
+        m_model = m_system.getModelFactory().createRootContainmentModel( profile );
+
+        /*
+
+        //======================================================
 
         InitialContextFactory initial = 
           new DefaultInitialContextFactory( "test", base );
@@ -129,6 +189,52 @@ public abstract class AbstractTestCase extends TestCase
 
         ContainmentProfile profile = setUpProfile( block );
         m_model = m_system.getModelFactory().createRootContainmentModel( profile );
+        */
+    }
+
+    InitialContext setUpInitialContext( File base, Configuration config ) throws Exception
+    {
+        InitialContextFactory initial = 
+          new DefaultInitialContextFactory( "test", base );
+        initial.setCacheDirectory( getMavenRepositoryDirectory() );
+        registerSystemArtifacts( initial, config );
+        return initial.createInitialContext();
+    }
+
+    private Repository createTestRepository( InitialContext context, File cache ) throws Exception
+    {
+        Factory factory = context.getInitialFactory();
+        RepositoryCriteria criteria = 
+          (RepositoryCriteria) factory.createDefaultCriteria();
+        criteria.setCacheDirectory( cache );
+        criteria.setHosts( new String[0] );
+        return (Repository) factory.create( criteria );
+    }
+
+    private void registerSystemArtifacts( InitialContextFactory factory, Configuration config )
+      throws Exception
+    {
+        Artifact[] artifacts = getArtifactsToRegister( config );
+        for( int i=0; i<artifacts.length; i++ )
+        {
+            Artifact artifact = artifacts[i];
+            factory.addFactoryArtifact( artifact );
+        }
+    }
+
+    private static Artifact[] getArtifactsToRegister( Configuration config ) throws Exception
+    {
+        Configuration[] children = 
+          config.getChildren( "artifact" );
+        Artifact[] artifacts = new Artifact[ children.length ];
+        for( int i=0; i<children.length; i++ )
+        {
+            Configuration child = children[i];
+            String spec = child.getAttribute( "spec" );
+            Artifact artifact = Artifact.createArtifact( "artifact:" + spec );
+            artifacts[i] = artifact;
+        }
+        return artifacts;
     }
 
     protected ContainmentProfile setUpProfile( File file )
@@ -243,6 +349,13 @@ public abstract class AbstractTestCase extends TestCase
               ExceptionHelper.packException( error, e, true );
             throw new RuntimeException( message );
         }
+    }
+
+    private static Configuration getConfiguration( File file ) throws Exception
+    {
+        DefaultConfigurationBuilder builder = 
+          new DefaultConfigurationBuilder();
+        return builder.buildFromFile( file );  
     }
 
 }

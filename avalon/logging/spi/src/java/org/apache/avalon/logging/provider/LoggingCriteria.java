@@ -30,7 +30,7 @@ import org.apache.avalon.framework.logger.Logger;
  * for application to a LoggingManager factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.1 $
  */
 public interface LoggingCriteria extends Map
 {

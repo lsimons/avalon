@@ -30,9 +30,9 @@ import org.apache.avalon.repository.RepositoryException;
  * The initial context established by an initial repository factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.12 $ $Date: 2004/02/24 22:18:23 $
+ * @version $Revision: 1.13 $ $Date: 2004/02/27 22:39:37 $
  */
-public interface InitialContext 
+public interface InitialContext
 {        
    /**
     * The property key used when resolving the default implementation
@@ -113,6 +113,13 @@ public interface InitialContext
     Repository getRepository();
 
    /**
+    * Return the factory registry.
+    *
+    * @return the registry
+    */
+    Registry getRegistry();
+
+   /**
     * Create a factory builder using a supplied artifact.
     * @param artifact the factory artifact
     * @return the factory builder
@@ -137,5 +144,5 @@ public interface InitialContext
     * @return the block manifest
     */
     Manifest install( URL url ) throws RepositoryException;
-
+  
 }

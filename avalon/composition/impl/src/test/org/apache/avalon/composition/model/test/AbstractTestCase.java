@@ -20,20 +20,27 @@ package org.apache.avalon.composition.model.test;
 
 import java.io.File;
 
-import org.apache.avalon.repository.Artifact;
 
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.model.impl.DefaultSystemContextFactory;
 import org.apache.avalon.composition.provider.SystemContext;
 import org.apache.avalon.composition.provider.ModelFactory;
+import org.apache.avalon.composition.provider.SystemContextFactory;
 
+import org.apache.avalon.repository.Artifact;
+import org.apache.avalon.repository.Repository;
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.InitialContextFactory;
+import org.apache.avalon.repository.provider.Factory;
+import org.apache.avalon.repository.provider.RepositoryCriteria;
 import org.apache.avalon.repository.main.DefaultInitialContextFactory;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.ConsoleLogger;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 
 import org.apache.avalon.util.exception.ExceptionHelper;
 import org.apache.avalon.util.env.Env;
@@ -42,72 +49,112 @@ import junit.framework.TestCase;
 
 public abstract class AbstractTestCase extends TestCase
 {
-    public int PRIORITY = ConsoleLogger.LEVEL_INFO;
+    //-------------------------------------------------------
+    // state
+    //-------------------------------------------------------
 
-   //-------------------------------------------------------
-   // state
-   //-------------------------------------------------------
+    public static int PRIORITY = ConsoleLogger.LEVEL_INFO;
+
+    private static Logger LOGGER = new ConsoleLogger( PRIORITY );
+
+    public static final File BASEDIR = 
+      new File( System.getProperty( "basedir" ) );
+
+    public static final File SYS_CONF = 
+      new File( BASEDIR, "src/test/conf/system/kernel.xml" );
+
+    //-------------------------------------------------------
+    // state
+    //-------------------------------------------------------
 
     public ContainmentModel m_model;
 
-    private Logger m_logger = new ConsoleLogger( PRIORITY );
-
-    private String m_path;
-
    //-------------------------------------------------------
    // constructor
    //-------------------------------------------------------
 
-   public AbstractTestCase( String path )
-   {
-       super( path );
-       m_path = path;
-   }
-
-   //-------------------------------------------------------
-   // constructor
-   //-------------------------------------------------------
-
-    protected Logger getLogger()
+   /**
+    * Setup the system context and create m_model using a path
+    * relative to the ${basedir}/target/test/conf directory.
+    */
+    public ContainmentModel setUp( String path ) throws Exception
     {
-        return m_logger;
+        //
+        // create the initial context using the maven repository as the 
+        // system repository
+        //
+
+        File test = new File( getTargetDir(), "test" );
+        InitialContext context = setUpInitialContext( test, SYS_CONF );
+
+        //
+        // create a system context and add a test repository to use during 
+        // testcase execution
+        //
+
+        SystemContextFactory factory = 
+          new DefaultSystemContextFactory( context );
+        Repository repository = 
+          createTestRepository( context, new File( test, "repository" ) );
+        factory.setRepository( repository );
+        SystemContext system = factory.createSystemContext();
+
+        //
+        // create a containment model using the supplied path
+        //
+
+        ModelFactory modelFactory = system.getModelFactory();
+        File confDir = new File( test, "conf" );
+        File source = new File( confDir, path );
+
+        return modelFactory.createRootContainmentModel( source.toURL() );
     }
 
-    protected File getTestDir()
+    private Repository createTestRepository( InitialContext context, File cache ) throws Exception
     {
-        return new File( System.getProperty( "basedir" ), "target" );
+        Factory factory = context.getInitialFactory();
+        RepositoryCriteria criteria = 
+          (RepositoryCriteria) factory.createDefaultCriteria();
+        criteria.setCacheDirectory( cache );
+        criteria.setHosts( new String[0] );
+        return (Repository) factory.create( criteria );
     }
 
-    public void setUp() throws Exception
+    InitialContext setUpInitialContext( File base, File conf ) throws Exception
     {
-        if( m_model == null )
+        InitialContextFactory initial = 
+          new DefaultInitialContextFactory( "test", base );
+        initial.setCacheDirectory( getMavenRepositoryDirectory() );
+        Configuration config = getConfiguration( conf );
+        Configuration sysConfig = config.getChild( "system" );
+        registerSystemArtifacts( initial, sysConfig );
+        return initial.createInitialContext();
+    }
+
+    private void registerSystemArtifacts( InitialContextFactory factory, Configuration config )
+      throws Exception
+    {
+        Artifact[] artifacts = getArtifactsToRegister( config );
+        for( int i=0; i<artifacts.length; i++ )
         {
-            File base = new File( getTestDir(), "test" );
-            File root = new File( base, "repository" );
-
-            File confDir = new File( base, "conf" );
-            File source = new File( confDir, m_path );
-
-            InitialContextFactory initial = 
-              new DefaultInitialContextFactory( "test", base );
-            initial.setCacheDirectory( getMavenRepositoryDirectory() );
-            InitialContext context = initial.createInitialContext();
-
-            try
-            {
-                SystemContext system = 
-                  SystemContextBuilder.createSystemContext( 
-                    context, base, root, PRIORITY, true, 1000 );
-                ModelFactory factory = system.getModelFactory();
-                m_model = factory.createRootContainmentModel( source.toURL() );
-            }
-            catch( Throwable e )
-            {
-                final String error = ExceptionHelper.packException( e, true );
-                System.err.println( error );
-                fail( error );
-            }
+            Artifact artifact = artifacts[i];
+            factory.addFactoryArtifact( artifact );
         }
+    }
+
+    private static Artifact[] getArtifactsToRegister( Configuration config ) throws Exception
+    {
+        Configuration[] children = 
+          config.getChildren( "artifact" );
+        Artifact[] artifacts = new Artifact[ children.length ];
+        for( int i=0; i<children.length; i++ )
+        {
+            Configuration child = children[i];
+            String spec = child.getAttribute( "spec" );
+            Artifact artifact = Artifact.createArtifact( "artifact:" + spec );
+            artifacts[i] = artifact;
+        }
+        return artifacts;
     }
 
     public void printModel( String lead, DeploymentModel model )
@@ -225,4 +272,25 @@ public abstract class AbstractTestCase extends TestCase
         }
     }
 
+    private static Configuration getConfiguration( File file ) throws Exception
+    {
+        DefaultConfigurationBuilder builder = 
+          new DefaultConfigurationBuilder();
+        return builder.buildFromFile( file );  
+    }
+
+    protected Logger getLogger()
+    {
+        return LOGGER;
+    }
+
+    protected File getBaseDir()
+    {
+        return BASEDIR;
+    }
+
+    protected File getTargetDir()
+    {
+        return new File( getBaseDir(), "target" );
+    }
 }

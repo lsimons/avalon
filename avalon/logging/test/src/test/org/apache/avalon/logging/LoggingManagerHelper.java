@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.logging.logkit.test;
+package org.apache.avalon.logging;
 
 import java.io.File;
 import java.net.URL;
@@ -37,7 +37,13 @@ import org.apache.avalon.repository.main.DefaultBuilder;
 import org.apache.avalon.util.env.Env;
 import org.apache.avalon.util.exception.ExceptionHelper;
 
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+
+
 /**
+ * 
+ * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.1 $
  */
@@ -48,25 +54,17 @@ public class LoggingManagerHelper
     //-------------------------------------------------------------------
 
     /**
-     * Setup the logging system. 
+     * Setup the initial context. 
      * @param filename the name of a file in the test/conf directory
      * @param bootstrap the boostrap logger logging level
      * @return the logging manager
      */
-    public static LoggingManager setUpLoggingManager( String filename ) throws Exception
+    public static LoggingManager setUpLoggingManager( String id, String filename ) throws Exception
     {
-        DefaultInitialContextFactory initial = 
-           new DefaultInitialContextFactory( "avalon", getBaseDir() );
-        initial.setCacheDirectory( getMavenRepositoryDirectory() );
-        InitialContext context = initial.createInitialContext();
-
-        //
-        // FIX ME - remove hard reference (get from a property)
-        //
-
-        Artifact artifact = Artifact.createArtifact( 
-          "avalon-logging", "avalon-logkit-impl", "1.0-SNAPSHOT" );
-
+        InitialContext context = setUpInitialContext( "conf/system.xml" );
+        Artifact[] candidates = 
+          context.getRegistry().getCandidates( LoggingManager.class );
+        Artifact artifact = selectArtifact( candidates, id );
         Builder builder = context.newBuilder( artifact );
         Factory factory = builder.getFactory();
         Map criteria = factory.createDefaultCriteria();
@@ -90,6 +88,34 @@ public class LoggingManagerHelper
 
         return (LoggingManager) factory.create( criteria );
 
+    }
+
+    public static InitialContext setUpInitialContext( String path ) throws Exception
+    {
+        DefaultInitialContextFactory factory = 
+           new DefaultInitialContextFactory( "avalon", getBaseDir() );
+        factory.setCacheDirectory( getMavenRepositoryDirectory() );
+        Artifact[] artifacts = 
+          getArtifactsToRegister( path );
+        for( int i=0; i<artifacts.length; i++ )
+        {
+            Artifact artifact = artifacts[i];
+            factory.addFactoryArtifact( artifact );
+        }
+        return factory.createInitialContext();
+    }
+
+    private static Artifact selectArtifact( Artifact[] artifacts, String id )
+    {
+        for( int i=0; i<artifacts.length; i++ )
+        {
+            Artifact artifact = artifacts[i];
+            if( artifact.getName().equals( id ) )
+            {
+                return artifact;
+            }
+        }
+        throw new IllegalStateException( "No matching artifact id: " + id );
     }
 
     //-------------------------------------------------------------------
@@ -134,4 +160,27 @@ public class LoggingManagerHelper
         return new File( System.getProperty( "basedir" ) );
     }
 
+    private static Artifact[] getArtifactsToRegister( String path ) throws Exception
+    {
+        Configuration config = 
+          getConfiguration( new File( getBaseDir(), path ) );
+        Configuration[] children = 
+          config.getChildren( "artifact" );
+        Artifact[] artifacts = new Artifact[ children.length ];
+        for( int i=0; i<children.length; i++ )
+        {
+            Configuration child = children[i];
+            String spec = child.getAttribute( "spec" );
+            Artifact artifact = Artifact.createArtifact( "artifact:" + spec );
+            artifacts[i] = artifact;
+        }
+        return artifacts;
+    }
+
+    private static Configuration getConfiguration( File file ) throws Exception
+    {
+        DefaultConfigurationBuilder builder = 
+          new DefaultConfigurationBuilder();
+        return builder.buildFromFile( file );  
+    }
 }

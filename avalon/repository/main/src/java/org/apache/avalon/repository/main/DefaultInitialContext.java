@@ -25,22 +25,24 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.NoSuchMethodException;
+import java.net.Authenticator;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLClassLoader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.JarURLConnection;
+import java.text.ParseException;
+import java.util.List;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Properties;
-import java.text.ParseException;
 import java.util.StringTokenizer;
 import java.util.jar.Manifest;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
-import java.net.Authenticator;
 
 import javax.naming.NamingException;
 import javax.naming.NamingEnumeration;
@@ -52,8 +54,10 @@ import org.apache.avalon.repository.RepositoryException;
 import org.apache.avalon.repository.RepositoryRuntimeException;
 import org.apache.avalon.repository.meta.FactoryDescriptor;
 import org.apache.avalon.repository.provider.Factory;
+import org.apache.avalon.repository.provider.FactoryNotFoundException;
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.RepositoryCriteria;
+import org.apache.avalon.repository.provider.Registry;
 import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.util.LoaderUtils;
 import org.apache.avalon.repository.util.RepositoryUtils;
@@ -69,7 +73,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * methods using the newly configured ClassLoader.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.23 $
+ * @version $Revision: 1.24 $
  */
 public class DefaultInitialContext extends AbstractBuilder implements InitialContext
 {
@@ -113,6 +117,8 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
 
     private final LoaderUtils m_loader;
 
+    private final Registry m_registry;
+
     // ------------------------------------------------------------------------
     // mutable state
     // ------------------------------------------------------------------------
@@ -136,13 +142,14 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
      *
      * @param parent the parent classloader
      * @param artifact an artifact referencing the default implementation
+     * @param candidates factory artifact sequence for registration
      * @param base the base working directory
      * @param cache the cache directory
      * @param hosts a set of initial remote repository addresses 
      * @throws RepositoryException if an error occurs during establishment
      */
     DefaultInitialContext( 
-      String key, ClassLoader parent, Artifact artifact, File base, File cache, 
+      String key, ClassLoader parent, Artifact artifact, Artifact[] candidates, File base, File cache, 
       String proxyHost, int proxyPort, String proxyUsername, String proxyPassword, 
       String[] hosts, boolean online ) 
       throws RepositoryException
@@ -153,6 +160,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
         if( null == artifact ) throw new NullPointerException( "artifact" ); 
         if( null == cache ) throw new NullPointerException( "cache" ); 
         if( null == hosts ) throw new NullPointerException( "hosts" ); 
+        if( null == candidates ) throw new NullPointerException( "candidates" ); 
 
         m_key = key;
         m_base = base;
@@ -228,6 +236,9 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
             buffer.append( "\n cache: " + m_cache );
             throw new RepositoryException( buffer.toString(), e );
         }
+
+        m_registry = new DefaultRegistry( m_repository, candidates );
+        
     }
 
     private void setupProxy( 
@@ -250,6 +261,20 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     // InitialContext
     // ------------------------------------------------------------------------
 
+   /**
+    * Return the factory registry.
+    *
+    * @return the registry
+    */
+    public Registry getRegistry()
+    {
+        return m_registry;
+    }
+
+   /**
+    * Return the inital repository.
+    * @return the repository
+    */
     public Repository getRepository()
     {
         return m_repository;

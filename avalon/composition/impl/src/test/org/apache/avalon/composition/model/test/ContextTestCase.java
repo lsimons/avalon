@@ -40,13 +40,12 @@ public class ContextTestCase extends AbstractTestCase
 
     public ContextTestCase( )
     {
-        super( "context.xml" );
+        super();
     }
 
     public void setUp() throws Exception
     {
-        super.setUp();
-
+        m_model = super.setUp( "context.xml" );
         ComponentModel model = (ComponentModel) m_model.getModel( "test-a" );
         if( null == model )
         {

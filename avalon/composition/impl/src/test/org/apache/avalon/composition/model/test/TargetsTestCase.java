@@ -44,7 +44,12 @@ public class TargetsTestCase extends AbstractTestCase
 
     public TargetsTestCase()
     {
-        super( "targets.xml" );
+        super();
+    }
+
+    public void setUp() throws Exception
+    {
+        m_model = super.setUp( "targets.xml" );
     }
 
    //-------------------------------------------------------
@@ -59,7 +64,7 @@ public class TargetsTestCase extends AbstractTestCase
         try
         {
             File source = 
-              new File( getTestDir(), "/test-classes/conf/targets-config.xml" );
+              new File( getTargetDir(), "/test-classes/conf/targets-config.xml" );
             TargetDirective[] targets = loadTargets( source ).getTargets();
             for( int i=0; i<targets.length; i++ )
             {
