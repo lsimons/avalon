@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="avalon-framework">
+    <package>org.apache.avalon</package>
+    <ant target="dist" basedir="framework">
+        <property name="project.version" value="@@DATE@@"></property>
+    </ant>
+
+    
+    <depend inherit="runtime" project="ant"></depend>
+    <depend project="xml-xalan2"></depend>
+    <depend project="xml-xerces"></depend>
+
+    
+    
+      <depend runtime="true" project="junit"></depend>
+    
+      <depend runtime="true" project="log4j"></depend>
+    
+      <depend runtime="true" project="logkit"></depend>
+    
+      <depend runtime="true" project="xalan"></depend>
+    
+      <depend runtime="true" project="xerces"></depend>
+    
+      <depend runtime="true" project="xml-apis"></depend>
+    
+
+    <work nested="framework/target/classes"></work>
+    <work nested="framework/target/api-classes"></work>
+    <work nested="framework/target/impl-classes"></work>
+    <work nested="framework/target/test-classes"></work>
+
+    <home nested="framework"></home>
+    <jar name="target/avalon-framework-@@DATE@@.jar"></jar>
+    <jar name="target/avalon-framework-@@DATE@@-api.jar"></jar>
+    <jar name="target/avalon-framework-@@DATE@@-impl.jar"></jar>
+    <javadoc nested="framework/target/docs/apidocs"></javadoc>
+
+    <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
+</project>
+            
