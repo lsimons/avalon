@@ -29,9 +29,6 @@ class PolicyClassLoader
     ///Policy to use to define permissions for classes loaded in classloader
     private final Policy  m_policy;
 
-    ///Factory to use when creating URLs
-    private final URLStreamHandlerFactory m_factory;
-
     /**
      * Construct a ClassLoader using specified URLs, parent
      * ClassLoader and Policy object.
@@ -40,64 +37,19 @@ class PolicyClassLoader
      * @param classLoader the parent ClassLoader
      * @param policy the Policy object
      */
-    PolicyClassLoader( final String[] urls,
+    PolicyClassLoader( final URL[] urls,
                        final ClassLoader classLoader,
                        final URLStreamHandlerFactory factory,
                        final Policy policy )
         throws MalformedURLException
     {
-        super( new URL[ 0 ], classLoader, factory );
+        super( urls, classLoader, factory );
 
         if( null == policy )
         {
             throw new NullPointerException( "policy" );
         }
-
-        if( null == factory )
-        {
-            throw new NullPointerException( "factory" );
-        }
-
         m_policy = policy;
-        m_factory = factory;
-
-        if( 0 != urls.length ) 
-        {
-            for( int i = 0; i < urls.length; i++ )
-            {
-                final URL url = createURL( urls[ i ] );
-                addURL( url );
-            }
-        }
-
-        //System.out.println( "ClassPath: " + java.util.Arrays.asList( getURLs() ) );
-    }
-            
-    /**
-     * Utility method to create a URL from string representation 
-     * using our <code>URLStreamHandlerFactory</code> object.
-     *
-     * @param urlString the string representation of URL
-     * @exception MalformedURLException if URL is badly formed or 
-     *            protocol can not be found
-     */
-    private URL createURL( final String urlString )
-        throws MalformedURLException
-    {
-        if( null == urlString )
-        {
-            throw new NullPointerException( "url" );
-        }
-        
-        final int index = urlString.indexOf( ':' );
-        if( -1 == index )
-        {
-            throw new MalformedURLException( "No scheme specified for url " + urlString );
-        }
-
-        final String scheme = urlString.substring( 0, index );
-        final URLStreamHandler handler = m_factory.createURLStreamHandler( scheme );
-        return new URL( null, urlString, handler );
     }
 
     /**
