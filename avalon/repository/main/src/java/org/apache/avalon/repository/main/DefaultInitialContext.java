@@ -83,7 +83,7 @@ import org.apache.avalon.repository.RepositoryRuntimeException;
 import org.apache.avalon.repository.meta.FactoryDescriptor;
 import org.apache.avalon.repository.provider.Factory;
 import org.apache.avalon.repository.provider.InitialContext;
-import org.apache.avalon.repository.util.LOADER;
+import org.apache.avalon.repository.util.LoaderUtils;
 import org.apache.avalon.repository.util.RepositoryUtils;
 
 import org.apache.avalon.util.env.Env;
@@ -98,7 +98,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class DefaultInitialContext extends AbstractBuilder implements InitialContext
 {
@@ -315,11 +315,11 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
         URL[] urls = new URL[ n + 1];
         for( int i=0; i<n; i++ )
         {
-            urls[i] = LOADER.getResource( 
+            urls[i] = LoaderUtils.getResource( 
               dependencies[i], m_hosts, m_cache, true );
         }
 
-        urls[ n ] = LOADER.getResource( 
+        urls[ n ] = LoaderUtils.getResource( 
             implementation, m_hosts, m_cache, true );
 
         //

@@ -82,7 +82,7 @@ import org.apache.avalon.repository.RepositoryException;
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
  * @version $Revision: 1.1 $
  */
-public class LOADER
+public class LoaderUtils
 {
     /**
      * Attempts to download and cache a remote artifact trying a set of remote

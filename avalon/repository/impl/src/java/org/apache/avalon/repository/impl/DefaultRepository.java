@@ -75,7 +75,7 @@ import org.apache.avalon.repository.RepositoryRuntimeException;
 import org.apache.avalon.repository.meta.FactoryDescriptor;
 import org.apache.avalon.repository.meta.MetaException;
 import org.apache.avalon.repository.provider.CacheManager;
-import org.apache.avalon.repository.util.LOADER;
+import org.apache.avalon.repository.util.LoaderUtils;
 import org.apache.avalon.repository.util.RepositoryUtils;
 
 /**
@@ -83,7 +83,7 @@ import org.apache.avalon.repository.util.RepositoryUtils;
  * an underlying file system.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/12/07 03:15:16 $
+ * @version $Revision: 1.4 $ $Date: 2003/12/19 16:46:15 $
  */
 public class DefaultRepository implements Repository
 {
@@ -167,7 +167,7 @@ public class DefaultRepository implements Repository
     public URL getResource( Artifact artifact )
         throws RepositoryException
     {
-        return LOADER.getResource( 
+        return LoaderUtils.getResource( 
           artifact, m_roots, m_cache.getCacheDirectory(), true );
     }
 
@@ -181,7 +181,7 @@ public class DefaultRepository implements Repository
     private URL getResource( Artifact artifact, String mime )
         throws RepositoryException
     {
-        return LOADER.getResource( 
+        return LoaderUtils.getResource( 
           artifact, mime, m_roots, m_cache.getCacheDirectory(), true );
     }
         

@@ -74,7 +74,7 @@ import org.apache.avalon.repository.RepositoryException;
 import org.apache.avalon.repository.RepositoryRuntimeException;
 import org.apache.avalon.repository.provider.BlockManifest;
 import org.apache.avalon.repository.provider.CacheManager;
-import org.apache.avalon.repository.util.LOADER;
+import org.apache.avalon.repository.util.LoaderUtils;
 import org.apache.avalon.repository.util.RepositoryUtils;
 
 /**
@@ -82,7 +82,7 @@ import org.apache.avalon.repository.util.RepositoryUtils;
  * an underlying file system.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/12/07 03:15:16 $
+ * @version $Revision: 1.3 $ $Date: 2003/12/19 16:46:15 $
  */
 public class DefaultCacheManager implements CacheManager
 {
@@ -189,7 +189,7 @@ public class DefaultCacheManager implements CacheManager
          {
              File temp = File.createTempFile( "avalon-", "-bar" );
              temp.delete();
-             LOADER.getResource( url.toString(), temp, true );
+             LoaderUtils.getResource( url.toString(), temp, true );
              temp.deleteOnExit();
              return expand( temp.toURL(), buffer );
          }
