@@ -92,7 +92,7 @@ public class Target
     /**
      * Returns the Set of topics for this Target
      *
-     * @return the <CODE>Set</CODE> of topic names
+     * @return the Set of topic names
      */
     public Set getTopicNames()
     {

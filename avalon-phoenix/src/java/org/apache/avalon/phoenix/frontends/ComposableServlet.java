@@ -19,7 +19,7 @@ import org.apache.avalon.phoenix.interfaces.Embeddor;
 
 /**
  * WARNING: DO NOT USE THIS SERVLET FOR PRODUCTION SERVICE. THIS IS EXPERIMENTAL.
- * Composable servlet for easy life with <code>PhoenixServlet</code>.
+ * Composable servlet for easy life with <tt>PhoenixServlet</tt>.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  * @deprecated

@@ -11,11 +11,11 @@ import java.util.EventListener;
 
 /**
  * Implementations of this interface receive notifications about
- * changes to the state of <code>Block</code>s in the Server Application
+ * changes to the state of {@link Block}s in the Server Application
  * they are a part of. The implementation <em>must</em> have a zero argument
  * constructor and is instantiated before any other component of the Server
  * Application. To receive notification events, the implementation class
- * should be specified in the <code>assembly.xml</code> descriptor.
+ * should be specified in the <tt>assembly.xml</tt> descriptor.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @deprecated This interface has been replaced by ApplicationListener

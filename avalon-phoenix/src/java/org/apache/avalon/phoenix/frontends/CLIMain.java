@@ -203,7 +203,7 @@ public final class CLIMain
     }
 
     /**
-     * Uses <code>org.apache.log.Hierarchy</code> to create a new
+     * Uses {@link org.apache.log.Hierarchy} to create a new
      * logger using "Phoenix" as its category, DEBUG as its
      * priority and the log-destination from Parameters as its
      * destination.
