@@ -93,6 +93,10 @@
 
    <!-- ================  Static  =========================== -->
 
+   <map:match pattern="**images/*.png">
+    <map:read src="resources/images/{2}.png" mime-type="image/png"/>
+   </map:match>
+
    <map:match pattern="**images/*.jpg">
     <map:read src="resources/images/{2}.jpg" mime-type="image/jpeg"/>
    </map:match>
