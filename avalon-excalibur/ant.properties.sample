@@ -10,7 +10,7 @@
 # building all components. These values are overridable in component-specific
 # ant.properties files.
 #
-# $Id: ant.properties.sample,v 1.10 2002/04/08 07:44:26 cziegeler Exp $
+# $Id: ant.properties.sample,v 1.11 2002/04/16 23:34:52 jefft Exp $
 # -----------------------------------------------------------------------------
 
 
@@ -135,3 +135,16 @@ junit.jar=${junit.lib}/junit.jar
 checkstyle.home=${base.path}/checkstyle-2.1
 checkstyle.lib=${checkstyle.home}
 checkstyle.jar=${checkstyle.lib}/checkstyle-all-2.1.jar
+
+# ---- JDepend, used in the 'jdepend' target -----
+#
+# Currently (2002-04-17) the JDepend target requires Ant 1.5
+#
+# May be downloaded from http://www.clarkware.com/software/JDepend.html
+# Uncomment the 'do.jdepend' flag property to enable JDepend targets
+#
+#do.jdepend=
+jdepend.home=${base.path}/jdepend
+jdepend.lib=${jdepend.home}/lib
+jdepend.jar=${jdepend.lib}/jdepend.jar
+
