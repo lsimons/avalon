@@ -599,7 +599,7 @@ public class GumpTask extends SystemTask
         if( "plugin".equals( type ) )
         {
             writer.write( 
-              "\n    <jar name=\"jars/" 
+              "\n    <jar name=\"plugins/" 
               + name + "-@@DATE@@." + type  + "\"/>" );
         }
         else if( "doc".equals( type ) )
