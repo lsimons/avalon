@@ -41,8 +41,8 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 /**
  * This test class is used to test the AbstractComponent facilities for you.
  *
- * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/21 13:27:01 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.5 $ $Date: 2004/02/24 22:31:21 $
  */
 public final class FullLifecycleComponent
     implements LogEnabled, Contextualizable, Parameterizable, Configurable,

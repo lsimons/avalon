@@ -29,7 +29,7 @@ import org.apache.avalon.fortress.util.dag.*;
 /**
  * DirectedAcyclicGraphVerifierTestCase.java does XYZ
  *
- * @author <a href="bloritsch.at.d-haven.org">Berin Loritsch</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version CVS $ Revision: 1.1 $
  */
 public class DirectedAcyclicGraphVerifierTestCase extends TestCase

@@ -34,8 +34,7 @@ import java.util.*;
  *
  * This class adapted from <code>org.apache.batik.util.Service</code>
  *
- * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:Thomas.DeWeeese@Kodak.com">Thomas DeWeese</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version 1.0
  */
 public final class Service

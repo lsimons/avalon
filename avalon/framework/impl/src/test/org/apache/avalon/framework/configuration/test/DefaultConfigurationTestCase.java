@@ -26,7 +26,7 @@ import org.apache.avalon.framework.configuration.MutableConfiguration;
 /**
  * Test the basic public methods of DefaultConfiguration.
  *
- * @author <a href="mailto:rantene@hotmail.com">Ran Tene</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public final class DefaultConfigurationTestCase extends TestCase
 {

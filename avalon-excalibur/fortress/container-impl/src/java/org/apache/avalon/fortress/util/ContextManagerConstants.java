@@ -22,8 +22,8 @@ import org.apache.avalon.fortress.ContainerManagerConstants;
 /**
  * Provides constants used to access the Context object for containers.
  *
- * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version CVS $Revision: 1.7 $ $Date: 2004/02/21 13:27:00 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.8 $ $Date: 2004/02/24 22:31:20 $
  */
 public interface ContextManagerConstants extends ContainerManagerConstants
 {

@@ -25,7 +25,7 @@ import org.apache.avalon.framework.context.DefaultContext;
 /**
  * OverridableContextTestCase does XYZ
  *
- * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version CVS $ Revision: 1.1 $
  */
 public class OverridableContextTestCase extends TestCase

@@ -31,8 +31,8 @@ import javax.servlet.http.HttpServlet;
 /**
  * Servlet based Fortress container example.
  *
- * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version $Id: servlet.java,v 1.8 2004/02/21 13:27:02 niclas Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Id: servlet.java,v 1.9 2004/02/24 22:31:22 niclas Exp $
  */
 public final class servlet extends HttpServlet
 {

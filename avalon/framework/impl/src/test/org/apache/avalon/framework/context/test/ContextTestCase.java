@@ -26,8 +26,7 @@ import org.apache.avalon.framework.context.Resolvable;
 /**
  * TestCase for Context.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class ContextTestCase
     extends TestCase

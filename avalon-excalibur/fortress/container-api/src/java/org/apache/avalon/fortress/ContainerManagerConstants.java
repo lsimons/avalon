@@ -26,8 +26,8 @@ import org.apache.excalibur.event.command.CommandFailureHandler;
  * managers. A impl manager can assume that all these elements are
  * present in the initial context.
  *
- * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version CVS $Revision: 1.9 $ $Date: 2004/02/21 13:26:59 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.10 $ $Date: 2004/02/24 22:31:19 $
  */
 public interface ContainerManagerConstants extends ContainerConstants
 {

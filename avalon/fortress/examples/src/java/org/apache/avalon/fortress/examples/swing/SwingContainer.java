@@ -22,8 +22,8 @@ package org.apache.avalon.fortress.examples.swing;
  * This container creates a small Swing based GUI displaying a combobox of available
  * languages from the translator component.
  *
- * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.7 $ $Date: 2004/02/21 13:27:02 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.8 $ $Date: 2004/02/24 22:31:22 $
  */
 public final class SwingContainer extends org.apache.avalon.fortress.impl.DefaultContainer
     implements org.apache.avalon.framework.activity.Startable, java.awt.event.ActionListener, Runnable

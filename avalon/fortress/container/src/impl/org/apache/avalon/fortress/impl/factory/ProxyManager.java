@@ -26,7 +26,7 @@ import java.lang.reflect.Constructor;
  * proxy generator.  Each proxy solution has to implement the ObjectFactory interface,
  * that way we can keep a soft dependency on things like BCEL.
  *
- * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version CVS $ Revision: 1.1 $
  */
 public final class ProxyManager

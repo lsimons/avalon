@@ -24,7 +24,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  * wraps the returned object into another object that exposes only the wrapped
  * object's work interface(s).
  *
- * @author <a href="mailto:olaf.bergner@gmx.de">Olaf Bergner</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version CVS $ Revision: 1.1 $
  */
 public final class WrapperObjectFactory extends AbstractObjectFactory

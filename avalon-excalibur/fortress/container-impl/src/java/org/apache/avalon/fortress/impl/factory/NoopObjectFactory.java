@@ -23,7 +23,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  * NoopObjectFactory is used in situations where no proxied objects are desired.  You are offered
  * no protection with this approach, so caveat emptor.
  *
- * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version CVS $ Revision: 1.1 $
  */
 public class NoopObjectFactory extends AbstractObjectFactory

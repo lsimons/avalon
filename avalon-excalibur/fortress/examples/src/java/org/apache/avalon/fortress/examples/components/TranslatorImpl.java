@@ -49,8 +49,8 @@ import org.apache.excalibur.instrument.CounterInstrument;
  * @x-avalon.info name=translator
  * @x-avalon.lifestyle type=singleton
  *
- * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.9 $ $Date: 2004/02/21 13:27:02 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.10 $ $Date: 2004/02/24 22:31:21 $
  */
 public class TranslatorImpl extends AbstractLogEnabledInstrumentable
     implements Translator, Configurable

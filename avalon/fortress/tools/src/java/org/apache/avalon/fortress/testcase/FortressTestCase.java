@@ -225,8 +225,7 @@ import org.apache.log.output.io.StreamTarget;
  *
  * </dl>
  *
- * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @author unico
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class FortressTestCase extends TestCase
 {

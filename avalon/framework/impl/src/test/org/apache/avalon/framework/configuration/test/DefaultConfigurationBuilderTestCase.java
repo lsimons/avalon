@@ -29,9 +29,7 @@ import org.xml.sax.SAXException;
  * Test that the <code>Configuration</code>s built by
  * <code>DefaultConfigurationBuilder</code> meet the stated API contracts.
  *
- * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
- * @author <a href="mailto:rantene@hotmail.com">Ran Tene</a>
- * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public final class DefaultConfigurationBuilderTestCase
     extends TestCase

@@ -26,8 +26,7 @@ import java.util.List;
  * uses would be to ensure components are started up and torn down in the
  * proper order, or bundles were loaded and unloaded in the proper order, etc.
  *
- * @author <a href="bloritsch.at.d-haven.org">Berin Loritsch</a>
- * @author <a href="leif.at.apache.org">Leif Mortenson</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version CVS $ Revision: 1.1 $
  */
 public final class Vertex implements Comparable
