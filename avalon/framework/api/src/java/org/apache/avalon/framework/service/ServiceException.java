@@ -60,7 +60,7 @@ public class ServiceException
     }
 
     /**
-     * Construct a new <code>ComponentException</code> instance.
+     * Construct a new <code>ServiceException</code> instance.
      *
      * @param message the exception message
      */
