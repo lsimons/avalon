@@ -45,7 +45,7 @@ public class SingleAppEmbeddor
         final File directory = new File( applicationLocation );
         deployFile( applicationName, directory );
 
-        m_application = (Application)getKernel().getEntry( applicationName ).getInstance();
+        m_application = getKernel().getApplication( applicationName );
     }
 
     /**
