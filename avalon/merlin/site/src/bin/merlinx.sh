@@ -63,4 +63,4 @@ echo "               System: $REPOSITORY"
 echo "           Repository: $REPOSITORY"
 echo ""
 
-"$JAVA" $MERLIN_JVM_OPTS "-Djava.security.policy=$MERLIN_HOME/bin/security.policy" "-Djava.ext.dirs=$MERLIN_HOME/ext" -jar "$MERLIN_BOOTSTRAP_JAR" -system "$REPOSITORY" -repository "$REPOSITORY" "$@"
+"$JAVA" $MERLIN_JVM_OPTS "-Djava.security.policy=$MERLIN_HOME/bin/security.policy" -jar "$MERLIN_BOOTSTRAP_JAR" -system "$REPOSITORY" -repository "$REPOSITORY" "$@"
