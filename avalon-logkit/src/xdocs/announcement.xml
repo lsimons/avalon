@@ -9,7 +9,7 @@
     <description>
       The Avalon project is Apache's Java Server Framework. It is
       separated into six sub projects: Framework, Excalibur, LogKit,
-      Cornerstone, Phoenix, and Testlet. It's purpose is to simplify
+      Cornerstone, Phoenix, and Testlet. Its purpose is to simplify
       server side programming for Java based projects.  It
       formalizes serveral best of breed practices and patterns for
       server side programming.
