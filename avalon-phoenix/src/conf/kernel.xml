@@ -27,6 +27,12 @@
         </component>
         -->
 
+        <!-- There are two kernels 
+          org.apache.avalon.phoenix.components.kernel.DefaultKernel 
+            - The default one.
+          org.apache.avalon.phoenix.components.kernel.beanshell.BeanShellKernel 
+            - One with a beanshell view at the application level.        
+        -->
         <component role="org.apache.avalon.phoenix.interfaces.Kernel"
             class="@KERNEL-CLASS@"
             logger="kernel"/>
