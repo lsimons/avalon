@@ -115,6 +115,37 @@
 
     </target>
 
+    <!-- Compiles the example source code -->
+    <target name="compile-examples" depends="compile" description="Compiles the source code">
+        <mkdir dir="${build.examplesrc}"/>
+
+        <!-- Copy over all of the tests applying test filters -->
+        <copy todir="${build.examplesrc}">
+            <fileset dir="${example.dir}/tutorial/src/java"/>
+        </copy>
+
+        <mkdir dir="${build.exampleclasses}"/>
+
+        <!-- Compile all test classes. -->
+        <javac srcdir="${build.examplesrc}"
+            destdir="${build.exampleclasses}"
+            debug="${build.debug}"
+            optimize="${build.optimize}"
+            deprecation="${build.deprecation}"
+            target="1.2">
+            <classpath refid="test.class.path" />
+            <include name="**/*.java"/>
+        </javac>
+
+        <copy todir="${build.exampleclasses}">
+            <fileset dir="${example.dir}">
+                <exclude name="**/*.java"/>
+                <exclude name="**/package.html"/>
+            </fileset>
+        </copy>
+
+    </target>
+
     <!-- Copies and filters the manifest and license. Used by jar and dist -->
     <target name="prepare-conf">
         <mkdir dir="${build.conf}"/>
