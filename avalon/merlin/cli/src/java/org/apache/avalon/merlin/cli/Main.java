@@ -92,7 +92,7 @@ import org.apache.commons.cli.Options;
  * Merlin command line handler.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class Main 
 {
@@ -250,7 +250,14 @@ public class Main
                     Locale.setDefault( locale );
                     REZ = ResourceManager.getPackageResources( Main.class );
                 }
-                Main.printHelpInfo();
+
+                HelpFormatter formatter = new HelpFormatter();
+                formatter.printHelp( 
+                  "merlin [block]", 
+                  " ", 
+                  buildCommandLineOptions(), 
+                  "", 
+                  true );
                 return;
             }
             else
@@ -508,15 +515,6 @@ public class Main
               + ":" + artifact.getName() 
               + ";" + artifact.getVersion() );
         }
-    }
-
-   /**
-    * Print out information to System.out detailing theb help options.
-    */
-    private static void printHelpInfo()
-    {
-        HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp( "merlin [block]", " ", CL_OPTIONS, "", true );
     }
 
    /**

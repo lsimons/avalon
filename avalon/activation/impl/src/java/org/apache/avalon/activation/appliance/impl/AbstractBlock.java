@@ -86,7 +86,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2003/12/22 09:06:41 $
+ * @version $Revision: 1.8 $ $Date: 2003/12/22 21:28:09 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
   implements Block, Composite
@@ -403,13 +403,13 @@ public abstract class AbstractBlock extends AbstractAppliance
         {
             return this;
         }
-
-        if( path.startsWith( base ) )
+        else if( path.startsWith( base ) )
         {
             //
             // its a local appliance
             //
 
+ 
             String name = path.substring( base.length() );
             int j = name.indexOf( "/" );
             if( j == -1 )
@@ -418,7 +418,25 @@ public abstract class AbstractBlock extends AbstractAppliance
             }
             else if( j == 0 )
             {
-                return getLocalAppliance( name.substring( 1 ) );
+                int d = name.lastIndexOf( "/" );
+                if( d > j )
+                {
+                    String root = name.substring( 1, d );
+                    Appliance child = getLocalAppliance( root );
+                    if( child instanceof Engine )
+                    {
+                        return ((Engine)child).locate( name.substring( d+1 ) );
+                    }
+                    else
+                    {
+                        final String error = "Not a container: " + "/" + name;
+                        throw new IllegalArgumentException( error );
+                    }
+                }
+                else
+                {
+                    return getLocalAppliance( name.substring( 1 ) );
+                }
             }
             else
             {
@@ -426,11 +444,11 @@ public abstract class AbstractBlock extends AbstractAppliance
                 Appliance child = getLocalAppliance( root );
                 if( child instanceof Engine )
                 {
-                    return ((Engine)child).locate( path );
+                    return ((Engine)child).locate( name.substring( j+1 ) );
                 }
                 else
                 {
-                    final String error = "Not a container: " + path;
+                    final String error = "Not a container: " + "/" + name;
                     throw new IllegalArgumentException( error );
                 }
             }
@@ -438,7 +456,7 @@ public abstract class AbstractBlock extends AbstractAppliance
         else
         {
             //
-            // its either a relative path or a absolute path resolvable by
+            // its either a relative path or an absolute path resolvable by
             // a parent
             //
 
@@ -448,15 +466,16 @@ public abstract class AbstractBlock extends AbstractAppliance
                 // its a parent reference
                 //
 
-                if( m_context.getEngine() != null )
-                {
-                    return m_context.getEngine().locate( path );
-                }
-                else
-                {
-                    final String error = "Invalid absolute reference: [" + path + "]";
-                    throw new IllegalArgumentException( error );
-                }
+                return parentLocate( path );
+            }
+            else if( base.startsWith( "../" ) )
+            {
+                //
+                // its a relative reference relative to the parent
+                //
+
+                String relative = base.substring( 3 );
+                return getLocalAppliance( relative );
             }
             else
             {
@@ -464,9 +483,30 @@ public abstract class AbstractBlock extends AbstractAppliance
                 // its a relative reference
                 //
 
-                return getLocalAppliance( path );
+                if( path.indexOf( "/" ) < 0 )
+                {
+                    return getLocalAppliance( path );
+                }
+                else
+                {
+                    return parentLocate( path );
+                }
             }
         }
+    }
+
+    private Appliance parentLocate( final String path )
+      throws IllegalArgumentException, ApplianceException
+    {
+         if( m_context.getEngine() != null )
+         {
+             return m_context.getEngine().locate( path );
+         }
+         else
+         {
+             final String error = "Invalid absolute reference: [" + path + "]";
+             throw new IllegalArgumentException( error );
+         }
     }
 
     private Appliance getLocalAppliance( final String name )
