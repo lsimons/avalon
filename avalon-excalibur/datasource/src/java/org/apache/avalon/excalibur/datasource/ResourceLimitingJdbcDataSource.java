@@ -24,8 +24,11 @@ import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+
 import org.apache.excalibur.instrument.Instrument;
 import org.apache.excalibur.instrument.Instrumentable;
+
+import org.apache.avalon.excalibur.pool.InstrumentedResourceLimitingPool;
 
 /**
  * The ResourceLimiting implementation for DataSources in Avalon.
@@ -145,7 +148,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:14 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/03/30 15:58:50 $
  * @since 4.1
  */
 public class ResourceLimitingJdbcDataSource
@@ -154,7 +157,7 @@ public class ResourceLimitingJdbcDataSource
 {
     private boolean m_configured;
     private boolean m_disposed;
-    protected ResourceLimitingJdbcConnectionPool m_pool;
+    protected InstrumentedResourceLimitingPool m_pool;
 
     /** Instrumentable Name assigned to this Instrumentable */
     private String m_instrumentableName;
