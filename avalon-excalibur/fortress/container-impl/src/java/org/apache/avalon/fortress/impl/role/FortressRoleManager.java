@@ -56,7 +56,7 @@ import org.apache.avalon.framework.activity.Initializable;
  * the information is hard-coded.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/04/18 20:02:30 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/04/21 17:52:08 $
  */
 public final class FortressRoleManager
     extends org.apache.avalon.fortress.impl.role.AbstractRoleManager
@@ -98,16 +98,6 @@ public final class FortressRoleManager
      */
     public void initialize()
     {
-        /* Set up Cache relations */
-        addRole( "cache",
-            "org.apache.excalibur.cache.Cache",
-            "org.apache.excalibur.cache.impl.DefaultCache",
-            "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
-        addRole( "lru-cache",
-            "org.apache.excalibur.cache.Cache",
-            "org.apache.excalibur.cache.impl.LRUCache",
-            "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
-
         /* Set up DataSource relations */
         addRole( "jdbc-datasource",
             "org.apache.avalon.excalibur.datasource.DataSourceComponent",

@@ -47,7 +47,7 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.fortress.test.util;
+package org.apache.avalon.fortress.util.test;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
@@ -73,14 +73,14 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * This test class is used to test the AbstractComponent facilities for you.
  *
  * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/04/11 07:37:58 $
+ * @version CVS $Revision: 1.1 $ $Date: 2003/04/21 17:52:09 $
  */
 public final class FullLifecycleComponent
     implements LogEnabled, Contextualizable, Parameterizable, Configurable,
     Serviceable, Initializable, Startable, Suspendable, Disposable,
     ThreadSafe
 {
-    private org.apache.avalon.fortress.test.util.ComponentStateValidator m_validator = new org.apache.avalon.fortress.test.util.ComponentStateValidator( this );
+    private org.apache.avalon.fortress.util.test.ComponentStateValidator m_validator = new org.apache.avalon.fortress.util.test.ComponentStateValidator( this );
     private Logger m_logger;
     private Context m_context;
     private Parameters m_parameters;
