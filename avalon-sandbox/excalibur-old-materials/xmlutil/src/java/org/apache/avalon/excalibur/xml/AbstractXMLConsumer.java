@@ -18,20 +18,19 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  *         (Apache Software Foundation, Exoffice Technologies)
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/22 10:06:04 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/07/07 07:17:32 $
  */
 public abstract class AbstractXMLConsumer
     extends AbstractLogEnabled
     implements XMLConsumer
 {
-
     /**
      * Receive an object for locating the origin of SAX document events.
      *
      * @param locator An object that can return the location of any SAX
      *                document event.
      */
-    public void setDocumentLocator( Locator locator )
+    public void setDocumentLocator( final Locator locator )
     {
     }
 
@@ -57,7 +56,8 @@ public abstract class AbstractXMLConsumer
      * @param prefix The Namespace prefix being declared.
      * @param uri The Namespace URI the prefix is mapped to.
      */
-    public void startPrefixMapping( String prefix, String uri )
+    public void startPrefixMapping( final String prefix,
+                                    final String uri )
         throws SAXException
     {
     }
@@ -67,7 +67,7 @@ public abstract class AbstractXMLConsumer
      *
      * @param prefix The prefix that was being mapping.
      */
-    public void endPrefixMapping( String prefix )
+    public void endPrefixMapping( final String prefix )
         throws SAXException
     {
     }
@@ -85,7 +85,10 @@ public abstract class AbstractXMLConsumer
      * @param a The attributes attached to the element. If there are no
      *          attributes, it shall be an empty Attributes object.
      */
-    public void startElement( String uri, String loc, String raw, Attributes a )
+    public void startElement( final String uri,
+                              final String loc,
+                              final String raw,
+                              final Attributes a )
         throws SAXException
     {
     }
@@ -101,7 +104,9 @@ public abstract class AbstractXMLConsumer
      * @param raw The raw XML 1.0 name (with prefix), or the empty string if
      *            raw names are not available.
      */
-    public void endElement( String uri, String loc, String raw )
+    public void endElement( final String uri,
+                            final String loc,
+                            final String raw )
         throws SAXException
     {
     }
@@ -113,7 +118,9 @@ public abstract class AbstractXMLConsumer
      * @param start The start position in the array.
      * @param len The number of characters to read from the array.
      */
-    public void characters( char ch[], int start, int len )
+    public void characters( final char[] ch,
+                            final int start,
+                            final int len )
         throws SAXException
     {
     }
@@ -125,7 +132,9 @@ public abstract class AbstractXMLConsumer
      * @param start The start position in the array.
      * @param len The number of characters to read from the array.
      */
-    public void ignorableWhitespace( char ch[], int start, int len )
+    public void ignorableWhitespace( final char[] ch,
+                                     final int start,
+                                     final int len )
         throws SAXException
     {
     }
@@ -137,7 +146,8 @@ public abstract class AbstractXMLConsumer
      * @param data The processing instruction data, or null if none was
      *             supplied.
      */
-    public void processingInstruction( String target, String data )
+    public void processingInstruction( final String target,
+                                       final String data )
         throws SAXException
     {
     }
@@ -148,7 +158,7 @@ public abstract class AbstractXMLConsumer
      * @param name The name of the skipped entity.  If it is a  parameter
      *             entity, the name will begin with '%'.
      */
-    public void skippedEntity( String name )
+    public void skippedEntity( final String name )
         throws SAXException
     {
     }
@@ -162,7 +172,9 @@ public abstract class AbstractXMLConsumer
      * @param systemId The declared system identifier for the external DTD
      *                 subset, or null if none was declared.
      */
-    public void startDTD( String name, String publicId, String systemId )
+    public void startDTD( final String name,
+                          final String publicId,
+                          final String systemId )
         throws SAXException
     {
     }
@@ -181,7 +193,7 @@ public abstract class AbstractXMLConsumer
      * @param name The name of the entity. If it is a parameter entity, the
      *             name will begin with '%'.
      */
-    public void startEntity( String name )
+    public void startEntity( final String name )
         throws SAXException
     {
     }
@@ -191,7 +203,7 @@ public abstract class AbstractXMLConsumer
      *
      * @param name The name of the entity that is ending.
      */
-    public void endEntity( String name )
+    public void endEntity( final String name )
         throws SAXException
     {
     }
@@ -219,7 +231,9 @@ public abstract class AbstractXMLConsumer
      * @param start The starting position in the array.
      * @param len The number of characters to use from the array.
      */
-    public void comment( char ch[], int start, int len )
+    public void comment( final char[] ch,
+                         final int start,
+                         final int len )
         throws SAXException
     {
     }
