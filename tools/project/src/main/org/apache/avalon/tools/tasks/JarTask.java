@@ -28,6 +28,8 @@ import org.apache.tools.ant.taskdefs.Delete;
 import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.taskdefs.Mkdir;
 import org.apache.tools.ant.taskdefs.Checksum;
+import org.apache.tools.ant.taskdefs.Manifest;
+import org.apache.tools.ant.taskdefs.ManifestException;
 import org.apache.tools.ant.taskdefs.Execute;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
@@ -49,6 +51,8 @@ public class JarTask extends SystemTask
     public static final String JAR_EXT = "jar";
     public static final String ASC_EXT = "asc";
     public static final String GPG_EXE_KEY = "project.gpg.exe";
+    public static final String JAR_MAIN_KEY = "project.jar.main.class";
+    public static final String JAR_CLASSPATH_KEY = "project.jar.classpath";
     
     public void execute() throws BuildException 
     {
@@ -57,12 +61,13 @@ public class JarTask extends SystemTask
         File deliverables = 
           getContext().getDeliverablesDirectory();
 
+        Definition def = getHome().getDefinition( getKey() );
         File jarFile = getJarFile( deliverables );
         if( classes.exists() )
         {
             try
             {
-                boolean modified = jar( classes, jarFile );
+                boolean modified = jar( def, classes, jarFile );
                 if( modified )
                 {
                     checksum( jarFile );
@@ -100,7 +105,7 @@ public class JarTask extends SystemTask
         }
     }
 
-    private boolean jar( File classes, File jarFile )
+    private boolean jar( Definition def, File classes, File jarFile )
     {
         File dir = jarFile.getParentFile();
         mkDir( dir );
@@ -110,15 +115,69 @@ public class JarTask extends SystemTask
         {
             modified = jarFile.lastModified();
         }
+
  
         Jar jar = (Jar) getProject().createTask( "jar" );
         jar.setDestFile( jarFile );
         jar.setBasedir( classes );
         jar.setIndex( true );
+        addManifest( jar, def );
         jar.init();
         jar.execute();
 
         return jarFile.lastModified() > modified;
+    }
+
+    private void addManifest( Jar jar, Definition def )
+    {
+        try
+        {
+            Manifest manifest = new Manifest();
+            Manifest.Section main = manifest.getMainSection();
+
+            addAttribute( main, "Created-By", "Apache Avalon" );
+            addAttribute( main, "Built-By", System.getProperty( "user.name" ) );
+            addAttribute( main, "Extension-Name", def.getInfo().getName() );
+            addAttribute( main, "Specification-Vendor", "The Apache Software Foundation Avalon Project" );
+
+            if( null != def.getInfo().getVersion() )
+            {
+                addAttribute( main, "Specification-Version", def.getInfo().getVersion() );
+            }
+            else
+            {
+                addAttribute( main, "Specification-Version", "1.0" );
+            }
+            addAttribute( main, "Implementation-Vendor", "The Apache Software Foundation Avalon Project" );
+            addAttribute( main, "Implementation-Vendor-Id", "org.apache.avalon" );
+            addAttribute( main, "Implementation-Version", "123" );
+
+            String classpath = getProject().getProperty( JAR_CLASSPATH_KEY );
+            if( null != classpath )
+            {
+                addAttribute( main, "Class-Path", classpath );
+            }
+
+            String mainClass = getProject().getProperty( JAR_MAIN_KEY );
+            if( null != mainClass )
+            {
+                addAttribute( main, "Main-Class", mainClass );
+            }
+            
+            jar.addConfiguredManifest( manifest );
+        }
+        catch( Throwable e )
+        {
+            throw new BuildException( e );
+        }
+    }
+
+    private void addAttribute( 
+      Manifest.Section section, String name, String value )
+      throws ManifestException
+    {
+        Manifest.Attribute attribute = new Manifest.Attribute( name, value );
+        section.addConfiguredAttribute( attribute );
     }
 
     private void checksum( File jar )

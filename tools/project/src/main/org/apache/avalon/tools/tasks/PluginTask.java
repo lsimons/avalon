@@ -87,8 +87,6 @@ public class PluginTask extends SystemTask
             Resource resource = new Resource( getHome(), info );
             File file = resource.getArtifact( project );
 
-            //File file = getHome().getRepository().getResource( project, resource );
-
             //
             // create a utility data object from the defintion
             //

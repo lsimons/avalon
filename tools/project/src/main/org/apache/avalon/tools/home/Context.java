@@ -20,6 +20,10 @@ package org.apache.avalon.tools.home;
 import java.io.File;
 import java.util.Hashtable;
 import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.SimpleTimeZone;
+import java.util.TimeZone;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
@@ -322,4 +326,17 @@ public class Context extends Task
         }
         return new File( root, path );
     }
+
+    public static String getSignature()
+    {
+        return getSignature( new Date() );
+    }
+
+    public static String getSignature( Date date )
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat( "yyyyMMdd.HHmmss" );
+        sdf.setTimeZone( TimeZone.getTimeZone( "UTC" ) );
+        return sdf.format( date );
+    }
+
 }

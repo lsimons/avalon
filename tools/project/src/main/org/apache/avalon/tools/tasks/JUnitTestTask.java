@@ -47,6 +47,8 @@ import org.apache.avalon.tools.home.Context;
  */
 public class JUnitTestTask extends SystemTask
 {
+    public static final String TEST_ENABLED_KEY = "project.test.enabled";
+
     public static final String TEST_KEY = "project.test";
     public static final String TEST_VALUE = "test";
 
@@ -100,6 +102,13 @@ public class JUnitTestTask extends SystemTask
     public void execute() throws BuildException 
     {
         Project project = getProject();
+
+        String enabled = project.getProperty( TEST_ENABLED_KEY );
+        if(( null != enabled ) && enabled.equals( "false" ))
+        {
+            return;
+        }
+
         File build = getContext().getBuildDirectory();
 
         String testPath = project.getProperty( TEST_SRC_KEY );

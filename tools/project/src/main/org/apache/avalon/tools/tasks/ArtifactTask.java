@@ -203,10 +203,8 @@ public class ArtifactTask extends SystemTask
               + file;
             throw new BuildException( error );
         }
-        SimpleDateFormat sdf = new SimpleDateFormat( "yyyyMMdd.HHmmss" );
-        sdf.setTimeZone( TimeZone.getTimeZone( "UTC" ) );
         Date created = new Date( file.lastModified() );
-        return sdf.format( created );
+        return Context.getSignature( created );
     }
 
     private void writeClasspath( final Writer writer, final Definition def )
