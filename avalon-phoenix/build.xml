@@ -39,6 +39,8 @@ Legal:
     <property name="build.lib" value="${build.dir}/lib"/>
     <property name="build.src" value="${build.dir}/src"/>
     <property name="build.classes" value="${build.dir}/classes"/>
+    <property name="build.javadocs" value="${build.dir}/javadocs"/>    
+    <property name="build.docs" value="${build.dir}/site"/>    
     <property name="build.tests" value="${build.dir}/tests"/>
     <property name="build.testclasses" value="${build.dir}/testclasses"/>
     <property name="build.reports" value="${build.dir}/reports"/>
@@ -792,6 +794,88 @@ phoenix-punit.jar needs to be used with excalibur-containerkit-1.0.jar
         <delete dir="${dist.base}" />
         <ant target="clean" antfile="docs.xml" inheritall="false" />
     </target>
+    
+
+  <!-- Create the API documentation -->
+  <target name="javadocs">
+
+    <delete dir="${build.javadocs}"/>
+    <mkdir dir="${build.javadocs}"/>
+
+    <javadoc packagenames="org.apache.*"
+             sourcepath="${java.dir}:${compat.dir}"
+             destdir="${build.javadocs}">
+      <classpath refid="project.class.path" />
+      <doclet name="com.sun.tools.doclets.standard.Standard">
+        <param name="-author"/>
+        <param name="-version"/>
+        <param name="-doctitle" value="${Name}"/>
+        <param name="-windowtitle" value="${Name} API"/>
+        <param name="-bottom"
+               value="&quot;Copyright &#169; 2001 Apache Jakarta Project. All Rights Reserved.&quot;"/>
+        <param name="-link" value="http://java.sun.com/j2se/1.4/docs/api/"/>
+        <param name="-link" value="http://java.sun.com/j2ee/sdk_1.3/techdocs/api/"/>
+        <param name="-link" value="http://jakarta.apache.org/avalon/api/"/>
+      </doclet>
+    </javadoc>
+
+  </target>
+
+
+    <!-- Create the announcements and HEADER.html -->
+    <!--
+    <target name="announcement">
+
+        <filter token="Name" value="${Near}"/>
+        <filter token="name" value="${near}"/>
+        <filter token="version" value="${version}"/>
+        <filter token="year" value="${year}"/>
+        <filter token="status" value="${status}"/>
+        <filter token="release" value="${release}"/>
+        <filter token="short-version" value="${short.version}"/>
+
+        <mkdir dir="${build.dir}" />
+        <mkdir dir="${dist.base}" />
+
+        <copy todir="${build.dir}" filtering="on">
+          <fileset dir="${xdocs.dir}">
+            <include name="announcement.xml"/>
+            <include name="changes.xml"/>
+          </fileset>
+        </copy>
+
+        <style style="${announce2txt}" in="${build.dir}/announcement.xml" out="Announcement.txt"/>
+        <style style="${announce2header}" in="${build.dir}/announcement.xml"
+               out="${dist.base}/HEADER.html"/>
+        <style style="${announce2readme}" in="${build.dir}/announcement.xml"
+               out="${dist.base}/README.html"/>
+        <style style="${announce2site}" in="${build.dir}/announcement.xml"
+               out="jakarta-news.xml"/>
+
+      </target>
+
+-->
+    <target name="site-all"
+            depends="site,javadocs"
+	    description="Update site directory">
+
+    <delete>
+      <fileset dir="${site.dir}">
+         <include name="**/*"/>
+      </fileset>
+    </delete>
+
+    <copy todir="${site.dir}" filtering="off">
+      <fileset dir="${docs.dir}"/>
+    </copy>
+
+    <copy todir="${site.dir}/api" filtering="off">
+      <fileset dir="${build.javadocs}"/>
+    </copy>
+
+  </target>
+
+
 
     &forrest-targets;
 
