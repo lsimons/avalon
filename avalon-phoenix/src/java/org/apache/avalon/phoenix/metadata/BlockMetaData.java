@@ -8,6 +8,7 @@
 package org.apache.avalon.phoenix.metadata;
 
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
+import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 
 /**
  * This is the structure describing each block.
@@ -17,16 +18,13 @@ import org.apache.avalon.phoenix.metainfo.BlockInfo;
 public class BlockMetaData
 {
     private final String m_name;
-
     private final DependencyMetaData[] m_dependencies;
-
     private final boolean m_disableProxy;
-
     private final BlockInfo m_blockInfo;
 
     public BlockMetaData( final String name,
                           final DependencyMetaData[] dependencies,
-                          final boolean disableProxy, 
+                          final boolean disableProxy,
                           final BlockInfo blockInfo )
     {
         m_name = name;
