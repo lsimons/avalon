@@ -7,6 +7,13 @@
  */
 package org.apache.phoenix.engine.facilities.application;
 
+import org.apache.avalon.atlantis.SystemManager;
+import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.component.ComponentManager;
+import org.apache.avalon.component.Composable;
+import org.apache.avalon.context.Context;
+import org.apache.avalon.context.ContextException;
+import org.apache.avalon.context.Contextualizable;
 import org.apache.phoenix.engine.facilities.ApplicationManager;
 
 /**
@@ -17,6 +24,21 @@ import org.apache.phoenix.engine.facilities.ApplicationManager;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DefaultApplicationManager
-    implements ApplicationManager
+    implements ApplicationManager, Contextualizable, Composable
 {
+    private SystemManager    m_systemManager;
+    private String           m_name;
+
+    public void contextualize( final Context context )
+        throws ContextException
+    {
+        m_name = (String)context.get( "name" );
+    }
+
+    public void compose( final ComponentManager componentManager )
+        throws ComponentException
+    {
+        m_systemManager = (SystemManager)componentManager.
+            lookup( "org.apache.avalon.atlantis.SystemManager" );
+    }
 }
