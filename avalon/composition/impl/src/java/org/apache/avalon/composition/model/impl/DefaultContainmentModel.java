@@ -29,9 +29,10 @@ import java.util.Hashtable;
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.apache.avalon.logging.data.CategoriesDirective;
+
 import org.apache.avalon.composition.data.BlockCompositionDirective;
 import org.apache.avalon.composition.data.BlockIncludeDirective;
-import org.apache.avalon.logging.data.CategoriesDirective;
 import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.data.ComponentProfile;
 import org.apache.avalon.composition.data.NamedComponentProfile;
@@ -93,7 +94,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.27 $ $Date: 2004/02/07 17:46:24 $
+ * @version $Revision: 1.28 $ $Date: 2004/02/07 19:31:08 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -314,342 +315,19 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
             }
 
             getLogger().debug( "assembly phase" );
+            DefaultContainmentModelAssemblyHelper helper = 
+              new DefaultContainmentModelAssemblyHelper( m_context, this );
+
             DeploymentModel[] models = 
               m_context.getModelRepository().getModels();
             for( int i=0; i<models.length; i++ )
             {
                 DeploymentModel model = models[i];
-                assembleModel( model );
+                helper.assembleModel( model );
             }
 
             m_assembly.setEnabled( true );
         }
-    }
-
-    private void assembleModel( DeploymentModel model ) throws AssemblyException
-    {
-         if( null == model )
-         {
-             throw new NullPointerException( "model" );
-         }
-
-         if( model.isAssembled() ) 
-         {
-             return;
-         }
-         else
-         {
-             if( model instanceof ComponentModel )
-             {
-                 assembleComponent( (ComponentModel) model );
-             }
-             else
-             {
-                 model.assemble();
-             }
-        }
-    }
-
-    private void assembleComponent( ComponentModel model ) throws AssemblyException
-    {
-        ModelRepository repository = m_context.getModelRepository();
-
-        //
-        // locate and assemble the component context handler
-        //
-
-        if( model.getContextModel() != null )
-        {
-            ContextModel context = model.getContextModel();
-            Class clazz = context.getStrategyClass();
-            if( !clazz.getName().equals( 
-              ContextModel.DEFAULT_STRATEGY_CLASSNAME ) )
-            {
-                if( null == context.getProvider() )
-                {
-                    try
-                    {
-                        StageDescriptor stage = 
-                          new StageDescriptor( clazz.getName() );
-                        DeploymentModel provider = 
-                          findExtensionProvider( repository, stage );
-                        context.setProvider( provider );
-                    }
-                    catch( Throwable e )
-                    {
-                        final String error = 
-                          "Unable to assemble component: " 
-                          + model 
-                         + " due to a component context phase handler establishment failure.";
-                        throw new AssemblyException( error, e );
-                    }
-                }
-            }
-        }
-
-        //
-        // locate and resolve the stage providers
-        //
-
-        StageModel[] stages = model.getStageModels();
-        for( int i=0; i<stages.length; i++ )
-        {
-            StageModel stage = stages[i];
-            if( null == stage.getProvider() )
-            {
-                try
-                {
-                    DeploymentModel provider =
-                      findExtensionProvider( repository, stage );
-                    stage.setProvider( provider );
-                }
-                catch( Throwable e )
-                {
-                    final String error = 
-                      "Unable to assemble component: " 
-                      + model 
-                      + " due to a component extension handler establishment failure.";
-                    throw new AssemblyException( error, e );
-                }
-            }
-        }
-
-        //
-        // locate and resolve the service providers
-        //
-
-        DependencyModel[] dependencies = model.getDependencyModels();
-        for( int i=0; i<dependencies.length; i++ )
-        {
-            DependencyModel dependency = dependencies[i];
-            if( null == dependency.getProvider() )
-            {
-                try
-                {
-                    DeploymentModel provider =
-                      findDependencyProvider( repository, dependency );
-                    dependency.setProvider( provider );
-                }
-                catch( Throwable e )
-                {
-                    final String error = 
-                      "Unable to assemble component: " + model 
-                      + " due to a service provider establishment failure.";
-                    throw new AssemblyException( error, e );
-                }
-            }
-        }
-    }
-
-    private DeploymentModel findDependencyProvider( 
-      ModelRepository repository, DependencyModel dependency )
-      throws AssemblyException
-    {
-        String path = dependency.getPath();
-        if( null != path )
-        {
-            DeploymentModel model = getModel( path );
-            if( null == model )
-            {
-                final String error = 
-                  "Could not locate a model at the address: [" 
-                  + path + "] in " + this + ".";
-                throw new AssemblyException( error );
-            }
-            assembleModel( model );
-            return model;
-        }
-        else
-        {
-            return findDependencyProvider( 
-              repository, dependency.getDependency() );
-        }
-    }
-
-    private DeploymentModel findDependencyProvider( 
-      ModelRepository repository, DependencyDescriptor dependency )
-      throws AssemblyException
-    {
-        DeploymentModel[] candidates = 
-          repository.getCandidateProviders( dependency );
-        ModelSelector selector = new DefaultModelSelector();
-        DeploymentModel model = selector.select( candidates, dependency );
-        if( model != null )
-        {
-            assembleModel( model );
-            return model;
-        }
-
-        //
-        // otherwise, check for any packaged profiles that 
-        // we could use to construct the model
-        //
-
-        DeploymentProfile[] profiles = findDependencyProfiles( dependency );
-        ProfileSelector profileSelector = new DefaultProfileSelector();
-        DeploymentProfile profile = profileSelector.select( profiles, dependency );
-        if( profile != null ) 
-        {
-            try
-            {
-                DeploymentModel solution = addModel( profile );
-                assembleModel( solution );
-                return solution;
-            }
-            catch( AssemblyException ae )
-            {
-                final String error = 
-                  "Nested assembly failure while attempting to construct model"
-                  + " for the profile: [" + profile + "] for the dependency: ["
-                  + dependency + "].";
-                throw new AssemblyException( error, ae );
-            }
-            catch( ModelException me )
-            {
-                final String error = 
-                  "Nested model failure while attempting to add model"
-                  + " for the profile: [" + profile + "] for the dependency: ["
-                  + dependency + "].";
-                throw new AssemblyException( error, me );
-            }
-        }
-        else
-        {
-            final String error = 
-              "Unable to locate a service provider for the dependency: [ "
-              + dependency + "].";
-            throw new AssemblyException( error );
-        }
-    }
-
-    private DeploymentModel findExtensionProvider( 
-      ModelRepository repository, StageModel stage )
-      throws AssemblyException
-    {
-        String path = stage.getPath();
-        if( null != path )
-        {
-            DeploymentModel model = getModel( path );
-            if( null == model )
-            {
-                final String error = 
-                  "Could not locate a model at the address: [" 
-                  + path + "] in " + this + ".";
-                throw new AssemblyException( error );
-            }
-            assembleModel( model );
-            return model;
-        }
-        else
-        {
-            return findExtensionProvider( repository, stage.getStage() );
-        }
-    }
-
-    private DeploymentModel findExtensionProvider( 
-      ModelRepository repository, StageDescriptor stage )
-      throws AssemblyException
-    {
-        DeploymentModel[] candidates = 
-          repository.getCandidateProviders( stage );
-        ModelSelector selector = new DefaultModelSelector();
-        DeploymentModel model = selector.select( candidates, stage );
-        if( model != null )
-        {
-            assembleModel( model );
-            return model;
-        }
-
-        //
-        // otherwise, check for any packaged profiles that 
-        // we could use to construct the model
-        //
-
-        DeploymentProfile[] profiles = findExtensionProfiles( stage );
-        ProfileSelector profileSelector = new DefaultProfileSelector();
-        DeploymentProfile profile = profileSelector.select( profiles, stage );
-        if( profile != null ) 
-        {
-            try
-            {
-                DeploymentModel solution = addModel( profile );
-                assembleModel( solution );
-                return solution;
-            }
-            catch( AssemblyException ae )
-            {
-                final String error = 
-                  "Nested assembly failure while attempting to construct model"
-                  + " for the extension profile: [" + profile 
-                  + "] for the stage dependency: ["
-                  + stage + "].";
-                throw new AssemblyException( error, ae );
-            }
-            catch( ModelException me )
-            {
-                final String error = 
-                  "Nested model failure while attempting to add model"
-                  + " for the extension profile: [" + profile 
-                  + "] for the stage dependency: ["
-                  + stage + "].";
-                throw new AssemblyException( error, me );
-            }
-        }
-        else
-        {
-            final String error = 
-              "Unable to locate a extension provider for the stage: [ "
-              + stage + "].";
-            throw new AssemblyException( error );
-        }
-    }
-
-    private DeploymentProfile[] findExtensionProfiles( StageDescriptor stage )
-    {
-        TypeRepository repository = getClassLoaderModel().getTypeRepository();
-        Type[] types = repository.getTypes( stage );
-        try
-        {
-            return getProfiles( repository, types );
-        }
-        catch( TypeUnknownException tue )
-        {
-            // will not happen
-            final String error = "An irrational condition has occured.";
-            throw new ModelRuntimeException( error, tue );
-        }
-    }
-
-    private DeploymentProfile[] findDependencyProfiles( DependencyDescriptor dependency )
-    {
-        TypeRepository repository = getClassLoaderModel().getTypeRepository();
-        Type[] types = repository.getTypes( dependency );
-        try
-        {
-            return getProfiles( repository, types );
-        }
-        catch( TypeUnknownException tue )
-        {
-            // will not happen
-            final String error = "An irrational condition has occured.";
-            throw new ModelRuntimeException( error, tue );
-        }
-    }
-
-    private DeploymentProfile[] getProfiles( TypeRepository repository, Type[] types )
-      throws TypeUnknownException
-    {
-        ArrayList list = new ArrayList();
-        for( int i=0; i<types.length; i++ )
-        {
-            DeploymentProfile[] profiles = 
-            repository.getProfiles( types[i] );
-            for( int j=0; j<profiles.length; j++ )
-            {
-                list.add( profiles[j] );
-            }
-        }
-        return (DeploymentProfile[]) list.toArray( new DeploymentProfile[0] );
     }
 
     /**
@@ -970,8 +648,8 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     private ComponentModel createComponentModel( final ComponentProfile profile ) 
       throws ModelException
     {
-        ComponentModelContextHelper helper = 
-          new ComponentModelContextHelper( m_context, this );
+        DefaultContainmentModelComponentHelper helper = 
+          new DefaultContainmentModelComponentHelper( m_context, this );
         ComponentContext context = 
           helper.createComponentContext( profile );
         ModelFactory factory = 
@@ -1059,13 +737,9 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
                 classLoaderModel, modelRepository, graph, 
                 home, temp, this, profile, partition, name );
 
-            //
-            // TODO: lookup the profile for a factory declaration, then 
-            // use the factory to create the model using the context as 
-            // the argument.
-            //
-
-            return new DefaultContainmentModel( context );
+            ModelFactory factory = 
+              m_context.getSystemContext().getModelFactory();
+            return factory.createContainmentModel( context );
         }
         catch( ModelException e )
         {
@@ -1118,48 +792,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         }
 
         TargetDirective[] targets = directive.getTargetDirectives();
-        for( int i=0; i<targets.length; i++ )
-        {
-            TargetDirective target = targets[i];
-            DeploymentModel child = model.getModel( target.getPath() );
-            if( child != null )
-            {
-                if( target.getConfiguration() != null )
-                {
-                    if( child instanceof ComponentModel )
-                    {
-                        ((ComponentModel)child).setConfiguration( 
-                          target.getConfiguration() );
-                    }
-                    else if( child instanceof ContainmentModel )
-                    {
-                        final String warn = 
-                          "Ignoring target configuration as the path [" 
-                          + target.getPath() 
-                          + "] does not refer to a deployment model";
-                    }
-                }
-                if( target.getCategoriesDirective() != null )
-                {
-                    if( child instanceof ComponentModel )
-                    {
-                        ((ComponentModel)child).setCategories( 
-                           target.getCategoriesDirective() );
-                    }
-                    else if( child instanceof ContainmentModel )
-                    {
-                        ((ContainmentModel)child).setCategories( 
-                          target.getCategoriesDirective() );
-                    }
-                }
-            }
-            else
-            {
-                final String warning = 
-                  "Unrecognized target path: " + target.getPath();
-                getLogger().warn( warning );
-            }
-        }
+        model.applyTargets( targets );
         return model;
     }
 
@@ -1413,154 +1046,70 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     */
     public DeploymentModel getModel( String path )
     {
-        ContainmentModel parent = 
-          m_context.getParentContainmentModel();
+        DefaultContainmentModelNavigationHelper helper = 
+          new DefaultContainmentModelNavigationHelper( m_context, this );
+        return helper.getModel( path );
+    }
 
-        if( path.equals( "" ) )
+   /**
+    * Apply a set of override targets resolvable from a supplied url.
+    * @param config a url resolvable to a TargetDirective[]
+    * @exception ModelException if an error occurs
+    */
+    public void applyTargets( URL config )
+      throws ModelException
+    {
+        if( config != null )
         {
-            return this;
-        }
-        else if( path.startsWith( "/" ) )
-        {
-            //
-            // its a absolute reference that need to be handled by the 
-            // root container
-            //
-
-            if( null != parent )
-            {
-                return parent.getModel( path );
-            }
-            else
-            {
-                //
-                // this is the root container thereforw the 
-                // path can be transfored to a relative reference
-                //
-
-                return getModel( path.substring( 1 ) );
-            }
-        }
-        else
-        {
-            //
-            // its a relative reference in the form xxx/yyy/zzz
-            // so if the path contains "/", then locate the token 
-            // proceeding the "/" (i.e. xxx) and apply the remainder 
-            // (i.e. yyy/zzz) as the path argument , otherwise, its 
-            // a local reference that we can pull from the model 
-            // repository
-            //
-
-            final String root = getRootName( path );
-
-            if( root.equals( ".." ) )
-            {
-                //
-                // its a relative reference in the form "../xxx/yyy" 
-                // in which case we simply redirect "xxx/yyy" to the 
-                // parent container
-                //
- 
-                if( null != parent )
-                {
-                    final String remainder = getRemainder( root, path );
-                    return parent.getModel( remainder );
-                }
-                else
-                {
-                    final String error = 
-                      "Supplied path ["
-                      + path 
-                      + "] references a container above the root container.";
-                    throw new IllegalArgumentException( error );
-                }
-            }
-            else if( root.equals( "." ) )
-            {
-                //
-                // its a path with a redundant "./xxx/yyy" which is 
-                // equivalent to "xxx/yyy"
-                //
- 
-                final String remainder = getRemainder( root, path );
-                return getModel( remainder );
-            }
-            else if( path.indexOf( "/" ) < 0 )
-            {
-                // 
-                // its a path in the form "xxx" so we can use this
-                // to lookup and return a local child
-                //
-
-                return m_context.getModelRepository().getModel( path );
-            }
-            else
-            {
-                //
-                // locate the relative root container, and apply 
-                // getModel to the container
-                //
-
-                DeploymentModel model = 
-                  m_context.getModelRepository().getModel( root );
-                if( model != null )
-                {
-                    //
-                    // we have the sub-container so we can apply 
-                    // the relative path after subtracting the name of 
-                    // this container and the path seperator character
-                    //
-
-                    if( model instanceof ContainmentModel )
-                    {
-                        ContainmentModel container = 
-                          (ContainmentModel) model;
-                        final String remainder = getRemainder( root, path );
-                        return container.getModel( remainder );
-                    }
-                    else
-                    {
-                        final String error = 
-                          "The path element [" + root 
-                          + "] does not reference a containment model within ["
-                          + this + "].";
-                        throw new IllegalArgumentException( error );
-                    }
-                }
-                else
-                {
-                    //
-                    // path contains a token that does not map to 
-                    // known container
-                    //
-                    
-                    final String error = 
-                      "Unable to locate a container with name [" 
-                      + root + "] within the container [" 
-                      + this + "].";
-                    throw new IllegalArgumentException( error );
-                }
-            }
+            TargetDirective[] targets = getTargets( config );
+            applyTargets( targets );
         }
     }
 
-    private String getRootName( String path )
+   /**
+    * Apply a set of override targets.
+    * @param targets a set of target directives
+    */
+    public void applyTargets( TargetDirective[]targets )
     {
-        int n = path.indexOf( "/" );
-        if( n < 0 ) 
+        for( int i=0; i<targets.length; i++ )
         {
-            return path;
+            TargetDirective target = targets[i];
+            final String path = target.getPath();
+            Object model = getModel( path );
+            if( model != null )
+            {
+                if( model instanceof ComponentModel )
+                {
+                    ComponentModel deployment = (ComponentModel) model;
+                    if( target.getConfiguration() != null )
+                    {
+                        deployment.setConfiguration( 
+                          target.getConfiguration() );
+                    }
+                    if( target.getCategoriesDirective() != null )
+                    {
+                        deployment.setCategories( 
+                          target.getCategoriesDirective() );
+                    }
+                }
+                else if( model instanceof ContainmentModel )
+                {
+                    ContainmentModel containment = (ContainmentModel) model;
+                    if( target.getCategoriesDirective() != null )
+                    {
+                        containment.setCategories( 
+                          target.getCategoriesDirective() );
+                    }
+                }
+            }
+            else
+            {
+                final String warning = 
+                  REZ.getString( "target.ignore", path, toString() );
+                getLogger().warn( warning );
+            }
         }
-        else
-        {
-            return path.substring( 0, n ); 
-        }
-    }
-
-    private String getRemainder( String name, String path )
-    {
-        return path.substring( name.length() + 1 );
     }
 
     //==============================================================
@@ -1620,67 +1169,6 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         }
     }
 
-   /**
-    * Apply a set of override targets resolvable from a supplied url.
-    * @param config a url resolvable to a TargetDirective[]
-    * @exception ModelException if an error occurs
-    */
-    public void applyTargets( URL config )
-      throws ModelException
-    {
-        if( config != null )
-        {
-            TargetDirective[] targets = getTargets( config );
-            applyTargets( targets );
-        }
-    }
-
-   /**
-    * Apply a set of override targets.
-    * @param targets a set of target directives
-    */
-    public void applyTargets( TargetDirective[]targets )
-    {
-        for( int i=0; i<targets.length; i++ )
-        {
-            TargetDirective target = targets[i];
-            final String path = target.getPath();
-            Object model = getModel( path );
-            if( model != null )
-            {
-                if( model instanceof ComponentModel )
-                {
-                    ComponentModel deployment = (ComponentModel) model;
-                    if( target.getConfiguration() != null )
-                    {
-                        deployment.setConfiguration( 
-                          target.getConfiguration() );
-                    }
-                    if( target.getCategoriesDirective() != null )
-                    {
-                        deployment.setCategories( 
-                          target.getCategoriesDirective() );
-                    }
-                }
-                else if( model instanceof ContainmentModel )
-                {
-                    ContainmentModel containment = (ContainmentModel) model;
-                    if( target.getCategoriesDirective() != null )
-                    {
-                        containment.setCategories( 
-                          target.getCategoriesDirective() );
-                    }
-                }
-            }
-            else
-            {
-                final String warning = 
-                  "Ignoring target directive as the path does not refer to a known component: " 
-                  + path;
-                getLogger().warn( warning );
-            }
-        }
-    }
 
     private TargetDirective[] getTargets( final URL url )
       throws ModelException

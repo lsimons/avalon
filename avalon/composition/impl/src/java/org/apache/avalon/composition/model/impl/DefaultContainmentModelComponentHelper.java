@@ -57,16 +57,17 @@ import org.apache.avalon.meta.info.Type;
  * A utility class that handles creation of a component model context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/07 17:46:24 $
+ * @version $Revision: 1.1 $ $Date: 2004/02/07 19:31:08 $
  */
-class ComponentModelContextHelper
+class DefaultContainmentModelComponentHelper
 {
     //-------------------------------------------------------------------
     // static
     //-------------------------------------------------------------------
 
     private static final Resources REZ =
-      ResourceManager.getPackageResources( ComponentModelContextHelper.class );
+      ResourceManager.getPackageResources( 
+        DefaultContainmentModelComponentHelper.class );
 
     //-------------------------------------------------------------------
     // immutable state
@@ -84,7 +85,7 @@ class ComponentModelContextHelper
     * @param context the containment model context
     * @param model the containment model
     */
-    public ComponentModelContextHelper( 
+    public DefaultContainmentModelComponentHelper( 
        ContainmentContext context, ContainmentModel model )
     {
         if( context == null )
