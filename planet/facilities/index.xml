@@ -65,6 +65,15 @@
     </info>
   </resource>
 
+  <resource>
+    <info>
+      <group>commons-logging</group>
+      <name>commons-logging</name>
+      <version>SNAPSHOT</version>
+      <type>jar</type>
+    </info>
+  </resource>
+  
   <project basedir="http/api">
     <info>
       <group>avalon/http</group>
@@ -73,7 +82,7 @@
       <status>SNAPSHOT</status> 
     </info>
     <dependencies>
-      <include key="servletapi"/>
+      <include key="org.mortbay.jetty"/>
     </dependencies>
   </project>
 
@@ -122,6 +131,7 @@
       <include key="avalon-composition-api" runtime="false"/>
       <include key="avalon-util-configuration"/>
       <include key="org.mortbay.jetty"/>
+      <include key="commons-logging" build="false" runtime="true"/>
     </dependencies>
     <plugins>
       <include key="avalon-meta-tools"/>
@@ -135,6 +145,7 @@
     </info>
     <dependencies>
       <include key="avalon-http-impl"/>
+      <include key="org.mortbay.jetty"/>
     </dependencies>
     <plugins>
       <include key="avalon-meta-tools"/>
