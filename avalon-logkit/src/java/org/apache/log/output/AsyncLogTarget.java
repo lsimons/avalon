@@ -8,6 +8,8 @@
 package org.apache.log.output;
 
 import java.util.LinkedList;
+import org.apache.log.ErrorHandler;
+import org.apache.log.ErrorAware;
 import org.apache.log.LogEvent;
 import org.apache.log.LogTarget;
 
@@ -30,11 +32,12 @@ import org.apache.log.LogTarget;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class AsyncLogTarget 
-    implements LogTarget, Runnable
+    extends AbstractTarget
+    implements Runnable
 {
-    protected final LinkedList  m_list;
-    protected final int         m_queueSize;  
-    protected final LogTarget   m_logTarget;  
+    private final LinkedList  m_list;
+    private final int         m_queueSize;  
+    private final LogTarget   m_logTarget;  
 
     public AsyncLogTarget( final LogTarget logTarget )
     {
@@ -49,11 +52,26 @@ public class AsyncLogTarget
     }
 
     /**
+     * Provide component with ErrorHandler.
+     *
+     * @param errorHandler the errorHandler
+     */
+    public void setErrorHandler( final ErrorHandler errorHandler )
+    {
+        super.setErrorHandler( errorHandler );
+
+        if( m_logTarget instanceof ErrorAware )
+        {
+            ((ErrorAware)m_logTarget).setErrorHandler( errorHandler );
+        }
+    }
+
+    /**
      * Process a log event by adding it to queue.
      *
      * @param event the log event
      */
-    public void processEvent( final LogEvent event )
+    public void doProcessEvent( final LogEvent event )
     {
         synchronized( m_list )
         {

@@ -7,7 +7,6 @@
  */
 package org.apache.log.output;
 
-import org.apache.log.Hierarchy;
 import org.apache.log.LogEvent;
 import org.apache.log.LogTarget;
 import org.apache.log.format.Formatter;
@@ -20,7 +19,7 @@ import org.apache.log.format.Formatter;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public abstract class AbstractOutputTarget
-    implements LogTarget
+    extends AbstractTarget
 {
     /**
      * Formatter for target.
@@ -29,9 +28,6 @@ public abstract class AbstractOutputTarget
      *             as it will become private next release
      */
     protected Formatter    m_formatter;
-
-    ///Flag indicating that log session is finished (aka target has been closed)
-    private boolean        m_isOpen;
 
     /**
      * Parameterless constructor.
@@ -43,11 +39,6 @@ public abstract class AbstractOutputTarget
     public AbstractOutputTarget( final Formatter formatter )
     {
         m_formatter = formatter;
-    }
-
-    protected boolean isOpen()
-    {
-        return m_isOpen;
     }
 
     /**
@@ -96,28 +87,10 @@ public abstract class AbstractOutputTarget
     {
     }
 
-    /**
-     * Process a log event, via formatting and outputting it.
-     *
-     * @param event the log event
-     */
-    public void processEvent( final LogEvent event )
+    protected void doProcessEvent( LogEvent event )
     {
-        if( !isOpen() )
-        {
-            error( "Writing event to closed stream.", null );
-            return;
-        }
-
-        try
-        {
-            final String data = format( event );
-            write( data );
-        }
-        catch( final Throwable throwable )
-        {
-            error( "Unknown error writing event.", throwable );
-        }
+        final String data = format( event );
+        write( data );
     }
 
     /**
@@ -128,7 +101,7 @@ public abstract class AbstractOutputTarget
     {
         if( !isOpen() )
         {
-            m_isOpen = true;
+            super.open();
             writeHead();
         }
     }
@@ -143,7 +116,7 @@ public abstract class AbstractOutputTarget
         if( isOpen() )
         {
             writeTail();
-            m_isOpen = false;
+            super.close();
         }
     }
 
@@ -215,19 +188,5 @@ public abstract class AbstractOutputTarget
     private String getTail()
     {
         return null;
-    }
-
-    /**
-     * Helper method to write error messages to error handler.
-     *
-     * @param message the error message
-     * @param throwable the exception if any
-     */
-    protected final void error( final String message, final Throwable throwable )
-    {
-        Hierarchy.getDefaultHierarchy().log( message, throwable );
-        //TODO:
-        //Can no longer route to global error handler - somehow need to pass down error
-        //handler from engine...
     }
 }

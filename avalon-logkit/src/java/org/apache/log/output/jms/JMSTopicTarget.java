@@ -56,7 +56,7 @@ public class JMSTopicTarget
         }
         catch( final Exception e )
         {
-            error( "Error publishing message", e );
+            getErrorHandler().error( "Error publishing message", e, null );
         }
     }
 
@@ -73,7 +73,7 @@ public class JMSTopicTarget
             m_connection.start();
             
             m_session = 
-                m_connection.createTopicSession( false, Session.AUTO_ACKNOWLEDGE);
+                m_connection.createTopicSession( false, Session.AUTO_ACKNOWLEDGE );
             
             m_publisher = m_session.createPublisher( m_topic );
             //if( m_persistent ) publisher.setDeliveryMode( DeliveryMode.PERSISTENT );
@@ -83,7 +83,7 @@ public class JMSTopicTarget
         }
         catch( final Exception e )
         {
-            error( "Error starting connection", e );
+            getErrorHandler().error( "Error starting connection", e, null );
         }
     }
 
@@ -97,7 +97,7 @@ public class JMSTopicTarget
         }
         catch( Exception e )
         {
-            error( "Error closing connection", e );
+            getErrorHandler().error( "Error closing connection", e, null );
         }
 
         m_publisher = null;

@@ -69,7 +69,8 @@ public class StreamTarget
 
         if( null == outputStream )
         {
-            error( "Attempted to write data '" + data + "' to Null OutputStream", null );
+            final String message = "Attempted to write data '" + data + "' to Null OutputStream";
+            getErrorHandler().error( message, null, null );
             return;
         }
 
@@ -81,7 +82,8 @@ public class StreamTarget
         }
         catch( final IOException ioe )
         {
-            error( "Error writing data '" + data + "' to OutputStream", ioe );
+            final String message = "Error writing data '" + data + "' to OutputStream";
+            getErrorHandler().error( message, ioe, null );
         }
     }
 
@@ -113,7 +115,7 @@ public class StreamTarget
         }
         catch( final IOException ioe )
         {
-            error( "Error closing OutputStream", ioe );
+            getErrorHandler().error( "Error closing OutputStream", ioe, null );
         }
     }
 }

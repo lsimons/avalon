@@ -25,7 +25,7 @@ import org.apache.log.*;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.18 $ $Date: 2001/08/12 12:34:04 $
+ * @version CVS $Revision: 1.19 $ $Date: 2001/08/30 05:43:19 $
  */
 public class PatternFormatter
     implements Formatter, org.apache.log.Formatter
@@ -381,9 +381,7 @@ public class PatternFormatter
             }
 
         default:
-            //TODO: Convert next line to use error handler
-            Hierarchy.getDefaultHierarchy().log( "Unknown Pattern specification." + run.m_type );
-            return null;
+            throw new IllegalStateException( "Unknown Pattern specification." + run.m_type );
         }
     }
 

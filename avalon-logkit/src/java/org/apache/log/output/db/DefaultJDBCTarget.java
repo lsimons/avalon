@@ -9,9 +9,9 @@ package org.apache.log.output.db;
 
 import java.io.StringWriter;
 import java.sql.Connection;
-import java.sql.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import javax.sql.DataSource;
 import org.apache.log.ContextMap;
 import org.apache.log.Hierarchy;
@@ -77,7 +77,7 @@ public class DefaultJDBCTarget
         }
         catch( final SQLException se )
         {
-            error( "Error executing statement", se );            
+            getErrorHandler().error( "Error executing statement", se, event );
         }
     }
 
@@ -90,7 +90,7 @@ public class DefaultJDBCTarget
         //if( null != m_statement ) return;
         super.openConnection();
 
-        m_statement = null;       
+        m_statement = null;
         try
         {
             final Connection connection = getConnection();
@@ -101,7 +101,7 @@ public class DefaultJDBCTarget
         }
         catch( final SQLException se )
         {
-            error( "Error preparing statement", se );
+            getErrorHandler().error( "Error preparing statement", se, null );
         }
     }
 
@@ -110,16 +110,16 @@ public class DefaultJDBCTarget
         final StringBuffer sb = new StringBuffer( "INSERT INTO " );
         sb.append( m_table );
         sb.append( " (" );
-        sb.append( m_columns[ 0 ].getName() );        
+        sb.append( m_columns[ 0 ].getName() );
 
         for( int i = 1; i < m_columns.length; i++ )
         {
             sb.append( ", " );
             sb.append( m_columns[ i ].getName() );
         }
-        
+
         sb.append( ") VALUES (?" );
-        
+
         for( int i = 1; i < m_columns.length; i++ )
         {
             sb.append( ", ?" );
@@ -150,7 +150,7 @@ public class DefaultJDBCTarget
             try { m_statement.close(); }
             catch( final SQLException se )
             {
-                error( "Error closing statement", se );
+                getErrorHandler().error( "Error closing statement", se, null );
             }
 
             m_statement = null;
@@ -203,8 +203,7 @@ public class DefaultJDBCTarget
             break;
 
         default:
-            //TODO: Convert next line to use error handler
-            Hierarchy.getDefaultHierarchy().log( "Unknown ColumnType: " + info.getType() );
+            throw new IllegalStateException( "Unknown ColumnType: " + info.getType() );
         }
     }
 
@@ -232,26 +231,26 @@ public class DefaultJDBCTarget
         return map.get( aux, "" ).toString();
     }
 /*
-    protected String getHostName( final LogEvent event, final String aux )
-    {
-        String result = null;
+  protected String getHostName( final LogEvent event, final String aux )
+  {
+  String result = null;
 
-        final ContextMap map = event.getContextMap();
-        if( null != map )
-        {
-            final Object object = map.get( "hostname" );
-            if( null != object )
-            {
-                result = object.toString();
-            }
-        }
+  final ContextMap map = event.getContextMap();
+  if( null != map )
+  {
+  final Object object = map.get( "hostname" );
+  if( null != object )
+  {
+  result = object.toString();
+  }
+  }
 
-        if( null == result )
-        {
-            result = "Unknown hostname";
-        }
-        
-        return result;
-    }
+  if( null == result )
+  {
+  result = "Unknown hostname";
+  }
+
+  return result;
+  }
 */
 }

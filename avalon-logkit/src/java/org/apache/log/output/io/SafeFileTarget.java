@@ -48,7 +48,7 @@ public class SafeFileTarget
     {
         if( !isOpen() )
         {
-            error( "Writing event to closed stream.", null );
+            getErrorHandler().error( "Writing event to closed stream.", null, event );
             return;
         }
 
@@ -60,7 +60,7 @@ public class SafeFileTarget
         }
         catch( final Throwable throwable )
         {
-            error( "Unable to open file to write log event.", throwable );
+            getErrorHandler().error( "Unable to open file to write log event.", throwable, event );
             return;
         }
 

@@ -17,8 +17,8 @@ public class Logger
     ///Separator character use to separate different categories
     public final static char    CATEGORY_SEPARATOR   = '.';
 
-    ///The hierarchy logger associated with. WIll be replaced with ErrorHandler in future
-    private final Hierarchy     m_hierarchy;
+    ///The ErrorHandler associated with Logger
+    private final ErrorHandler  m_errorHandler;
 
     ///Logger to inherit logtargets and prioritys from
     private final Logger        m_parent;
@@ -51,17 +51,17 @@ public class Logger
      * Protected constructor for use inside the logging toolkit.
      * You should not be using this constructor directly.
      *
-     * @param hierarchy the logging hierarchy logger is associated with
+     * @param errorHandler the ErrorHandler logger uses to log errors
      * @param category the fully qualified name of category
      * @param logTargets the LogTargets associated with logger
      * @param parent the parent logger (used for inheriting from)
      */
-    Logger( final Hierarchy hierarchy, 
+    Logger( final ErrorHandler errorHandler, 
             final String category, 
             final LogTarget[] logTargets, 
             final Logger parent )
     {
-        m_hierarchy = hierarchy;
+        m_errorHandler = errorHandler;
         m_category = category;
         m_logTargets = logTargets;
         m_parent = parent;
@@ -344,10 +344,8 @@ public class Logger
      */
     public synchronized void setLogTargets( final LogTarget[] logTargets )
     {
-        //Create a new duplicate array containing the same elements
-        //m_logTargets = new LogTarget[ logTargets.length ];
-        //System.arraycopy( targets, 0, logTargets, 0, logTargets.length );
         m_logTargets = logTargets;
+        setupErrorHandlers();
         m_logTargetsForceSet = true;
         resetChildLogTargets( false );
     }
@@ -446,7 +444,7 @@ public class Logger
         }
 
         //Create new logger
-        final Logger child = new Logger( m_hierarchy, category, null, this );
+        final Logger child = new Logger( m_errorHandler, category, null, this );
 
         //Add new logger to child list
         if( null == m_children ) 
@@ -549,7 +547,8 @@ public class Logger
 
         if( null == targets )
         {
-            m_hierarchy.log( "LogTarget is null for category '" + m_category + "'" );
+            final String message = "LogTarget is null for category '" + m_category + "'";
+            m_errorHandler.error( message, null, event );
         }
         else
         {
@@ -642,6 +641,23 @@ public class Logger
         for( int i = 0; i < m_children.length; i++ )
         {
             m_children[ i ].resetLogTargets( recursive );
+        }
+    }
+
+    /**
+     * Set ErrorHandlers of LogTargets if necessary.
+     */
+    private synchronized void setupErrorHandlers()
+    {
+        if( null == m_logTargets ) return;
+
+        for( int i = 0; i < m_logTargets.length; i++ )
+        {
+            final LogTarget target = m_logTargets[ i ];
+            if( target instanceof ErrorAware )
+            {
+                ((ErrorAware)target).setErrorHandler( m_errorHandler );
+            }
         }
     }
 

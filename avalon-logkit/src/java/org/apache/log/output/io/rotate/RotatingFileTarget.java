@@ -73,7 +73,7 @@ public class RotatingFileTarget
             try { rotate(); }
             catch( final IOException ioe )
             {
-                error( "Error rotating file", ioe );
+                getErrorHandler().error( "Error rotating file", ioe, null );
             }
         }
     }
