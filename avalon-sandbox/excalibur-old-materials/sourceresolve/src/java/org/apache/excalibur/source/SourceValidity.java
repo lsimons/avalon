@@ -14,14 +14,14 @@ package org.apache.excalibur.source;
  * to check by itself how long it is valid (e.g. given an expires date).
  * The other possibility needs another (newer) validity object to compare
  * against (e.g. to test a last modification date).
- * To avoid testing, what the actual implementation of the validity object
- * supports, the invocation order is to first call isValid() and only if
- * this results in <code>false</code>, then to call isValid(SourceValidity).
- * But remember to call the second isValid(SourceValidity) when <code>false</code>
+ * To avoid testing, what the actual implementation of the validity
+ * object supports, the invocation order is to first call {@link isValid()} and only if
+ * this results in <code>0</code>, then to call {@link isValid(SourceValidity)}.
+ * But remember to call the second isValid(SourceValidity) when <code>0</code>
  * is returned by the first invocation!
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/19 09:05:37 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/06/04 08:42:13 $
  */
 public interface SourceValidity
     extends java.io.Serializable
@@ -29,10 +29,12 @@ public interface SourceValidity
 
     /**
      * Check if the component is still valid.
-     * If <code>false</code> is returned the isValid(SourceValidity) must be
+     * If <code>0</code> is returned the isValid(SourceValidity) must be
      * called afterwards!
+     * If -1 is returned, the component is not valid anymore and if +1
+     * is returnd, the component is valid.
      */
-    boolean isValid();
+    int isValid();
 
     /**
      * Check if the component is still valid.
