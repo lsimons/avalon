@@ -14,15 +14,15 @@ import junit.framework.TestCase;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.phoenix.components.ContainerConstants;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
-import org.apache.avalon.phoenix.components.assembler.Assembler;
+import org.apache.avalon.phoenix.components.deployer.PhoenixProfileBuilder;
+import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 
 /**
  * Abstract class which TestCases can extend.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/01/25 15:47:18 $
+ * @version $Revision: 1.4 $ $Date: 2003/03/01 01:07:44 $
  */
 public class AbstractContainerTestCase
     extends TestCase
@@ -32,16 +32,17 @@ public class AbstractContainerTestCase
         super( name );
     }
 
-    protected SarMetaData assembleSar( final String config )
+    protected PartitionProfile assembleSar( final String config )
         throws Exception
     {
-        final Assembler assembler = new Assembler();
+        final PhoenixProfileBuilder assembler = new PhoenixProfileBuilder();
         assembler.enableLogging( new ConsoleLogger() );
         final Configuration assembly = loadConfig( config );
         final Map parameters = new HashMap();
         parameters.put( ContainerConstants.ASSEMBLY_NAME, "test" );
         parameters.put( ContainerConstants.ASSEMBLY_CONFIG, assembly );
-        return assembler.buildAssembly( parameters );
+        parameters.put( ContainerConstants.ASSEMBLY_CLASSLOADER, getClass().getClassLoader() );
+        return assembler.buildProfile( parameters );
     }
 
     protected Configuration loadConfig( final String config )
