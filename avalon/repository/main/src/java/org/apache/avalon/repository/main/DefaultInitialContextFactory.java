@@ -81,7 +81,7 @@ import org.apache.avalon.util.defaults.Defaults;
  * </pre>
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class DefaultInitialContextFactory implements InitialContextFactory
 {
@@ -128,7 +128,7 @@ public class DefaultInitialContextFactory implements InitialContextFactory
 
     private String m_proxyPassword;
 
-    private boolean m_online;
+    private boolean m_online = true;
 
     private Artifact[] m_registry;
 
