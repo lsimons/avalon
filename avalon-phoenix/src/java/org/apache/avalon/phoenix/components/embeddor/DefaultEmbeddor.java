@@ -511,7 +511,7 @@ public class DefaultEmbeddor
         throws Exception
     {
         final Logger childLogger = getLogger().getChildLogger( loggerName );
-        ContainerUtil.logEnable( object, childLogger );
+        ContainerUtil.enableLogging( object, childLogger );
         ContainerUtil.contextualize( object, m_context );
         ContainerUtil.service( object, getServiceManager() );
         ContainerUtil.parameterize( object, createChildParameters() );

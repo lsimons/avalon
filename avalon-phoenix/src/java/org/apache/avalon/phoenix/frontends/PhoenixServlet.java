@@ -92,7 +92,7 @@ public class PhoenixServlet
 
             m_embeddor = (SingleAppEmbeddor)Class.forName( embeddorClassname ).newInstance();
 
-            ContainerUtil.logEnable( m_embeddor, createLogger( m_parameters ) );
+            ContainerUtil.enableLogging( m_embeddor, createLogger( m_parameters ) );
             ContainerUtil.parameterize( m_embeddor, m_parameters );
             ContainerUtil.configure( m_embeddor, embeddorConf );
             ContainerUtil.initialize( m_embeddor );

@@ -131,7 +131,7 @@ class LifecycleHelper
         if( listener instanceof LogEnabled )
         {
             final Logger logger = new LogKitLogger( m_context.getLogger( name ) );
-            ContainerUtil.logEnable( listener, logger );
+            ContainerUtil.enableLogging( listener, logger );
         }
 
         if( listener instanceof Configurable )
@@ -308,7 +308,7 @@ class LifecycleHelper
         {
             notice( name, stage );
             final Logger logger = new LogKitLogger( m_context.getLogger( name ) );
-            ContainerUtil.logEnable( block, logger );
+            ContainerUtil.enableLogging( block, logger );
         }
     }
 
