@@ -58,6 +58,7 @@ import java.lang.reflect.Proxy;
 import java.security.AccessControlContext;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.util.Hashtable;
 import java.util.ArrayList;
@@ -107,7 +108,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.20 $ $Date: 2004/01/19 21:45:06 $
+ * @version $Revision: 1.21 $ $Date: 2004/01/20 00:10:29 $
  */
 public class DefaultAppliance extends AbstractAppliance implements Appliance
 {
@@ -1250,31 +1251,10 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
             {
                 return secureInvocation( method, m_instance, args );
             }
-            catch( UndeclaredThrowableException e )
-            {
-                Throwable cause = e.getUndeclaredThrowable();
-                if( cause != null ) throw cause;
-                final String error = 
-                  "Delegation error raised by component: " + m_model.getQualifiedName();
-                throw new ApplianceException( error, e );
-            }
-            catch( InvocationTargetException e )
-            {
-                Throwable cause = e.getTargetException();
-                if( cause != null ) 
-                    throw cause;
-                final String error = 
-                  "Delegation error raised by component: " + m_model.getQualifiedName();
-                throw new ApplianceException( error, e );
-            }
             catch( Throwable e )
             {
-                final String error =
-                  "Service resolution failure for the component: '" 
-                  + method.getDeclaringClass()
-                  + "' for operation: '" + method.getName()
-                  + "' in appliance: " + m_model.getQualifiedName();
-                throw new ApplianceException( error, e );
+                e = handleInvocationThrowable( e );
+                throw e;
             }
         }
 
@@ -1324,6 +1304,44 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
                 }, m_accessControlContext );
                 return result;
             }
+        }
+        
+        private Throwable handleInvocationThrowable( Throwable e )
+        {
+            final String error = 
+            "Delegation error raised by component: " + m_model.getQualifiedName();
+            while( true )
+            {
+                if( e instanceof UndeclaredThrowableException )
+                {
+                    Throwable cause = 
+                      ((UndeclaredThrowableException) e).getUndeclaredThrowable();
+                    if( cause == null )
+                        return new ApplianceException( error, e );
+                    e = cause;
+                }
+                else if( e instanceof InvocationTargetException )
+                {
+                    Throwable cause = 
+                      ((InvocationTargetException) e).getTargetException();
+                    if( cause == null )
+                        return new ApplianceException( error, e );
+                    e = cause;
+                }
+                else if( e instanceof PrivilegedActionException )
+                {
+                    Throwable cause = 
+                      ((PrivilegedActionException) e).getException();
+                    if( cause == null )
+                        return new ApplianceException( error, e );
+                    e = cause;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            return e;
         }
     }
 

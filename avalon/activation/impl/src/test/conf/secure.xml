@@ -15,7 +15,10 @@ Example block deployment descriptor.
      </classpath>
 
      <grant>
-       <permission class="java.util.PropertyPermission" name="org.apache" >
+       <permission class="java.util.PropertyPermission" name="java.*" >
+         <action>read</action>
+       </permission>
+       <permission class="java.util.PropertyPermission" name="org.apache.*" >
          <action>read</action>
          <action>write</action>
        </permission>
