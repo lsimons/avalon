@@ -18,9 +18,6 @@
     <menu-item label="Changes" href="changes.html"/>
     <menu-item type="external" id="api-docs" label="API Docs" href="api/index.html"/>
   </menu>
-  <menu label="Demo Applications">
-    <menu-item label="Applications" href="apps.html"/>
-  </menu>
 
 </book>
 
