@@ -25,7 +25,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * read-only connection.
  *
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/10/27 23:36:02 $
+ * @version CVS $Revision: 1.3 $ $Date: 2001/10/27 23:43:24 $
  */
 class SarURLConnection
     extends URLConnection
@@ -33,9 +33,6 @@ class SarURLConnection
     private static final Resources REZ =
         ResourceManager.getPackageResources( SarURLConnection.class );
 
-    private static final char SEPARATOR = '|';
-
-    private String m_entryName;
     private JarEntry m_entry;
     private JarFile m_jar;
 
@@ -46,26 +43,7 @@ class SarURLConnection
         throws MalformedURLException
     {
         super( url );
-        parseSpec();
         m_jar = jar;
-    }
-
-    /**
-     * Parse the specs for a given url.
-     */
-    private void parseSpec() throws MalformedURLException
-    {
-        final String spec = url.getFile();
-
-        final int separator = spec.lastIndexOf( SEPARATOR );
-        if (separator == -1)
-        {
-            final String message =
-                REZ.getString( "parse-url", String.valueOf( SEPARATOR ), spec );
-            throw new MalformedURLException( message );
-        }
-
-        m_entryName = spec.substring( separator + 2, spec.length() );
     }
 
     /**
@@ -75,8 +53,8 @@ class SarURLConnection
     public void connect() throws IOException
     {
         if (connected) return;
-
-        m_entry = m_jar.getJarEntry( m_entryName );
+        
+        m_entry = m_jar.getJarEntry( url.getPath() );
         ifModifiedSince = m_entry.getTime();
 
         connected = true;
