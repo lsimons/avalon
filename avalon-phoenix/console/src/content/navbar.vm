@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>Phoenix Console Navigation Bar</title>
+<base target="acookie_main"/>
+<style _type="type/css">
+<!--
+BODY {background: #FFFFFF}
+A:link {color: #000000}
+A:visited {color: #000000}
+TD.inner {background: #eeeeee}
+.title {text-decoration: none;font-size: 16pt;font-style: bold}
+-->
+</style>
+</head>
+<body>
+
+<p><a class="title" href="frames.vm" target="_top">Phoenix Management Console [bi]</a></p>
+
+<i>Hosted Components</i>
+<table cellspacing="3" cellpadding="5" width="100%">
+<!--
+  <tr>
+    <td class="inner"><a href="applications.html">Applications</a></td>
+  </tr>
+  <tr>
+    <td class="inner"><a href="extensions.html">Exstension Libraries</a></td>
+  </tr>
+  <tr>
+    <td class="inner"><a href="loggers.html">Loggers</a></td>
+  </tr>
+-->
+</table>
+
+<br />
+<i>Container Components</i>
+<table cellspacing="3" cellpadding="5" width="100%">
+<!--
+  <tr><td class="inner"><a href="configuration-repository.html">Configuration Repository</a></td></tr>
+  <tr><td class="inner"><a href="deployer.html">Deployer</a></td></tr>
+  <tr><td class="inner"><a href="base.html">Log Manager</a></td></tr>
+  <tr><td class="inner"><a href="system-manager.html">System Manager</a></td></tr>
+-->
+</table>
+
+</body>
+</html>
