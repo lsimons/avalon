@@ -211,6 +211,7 @@ Legal:
     <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
     <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
     <property name="framework.base" value="http://jakarta.apache.org/avalon/framework"/>
+    <property name="excalibur.base" value="http://jakarta.apache.org/avalon/excalibur"/>
     <property name="phoenix.base" value="http://jakarta.apache.org/avalon/phoenix"/>
     <property name="cornerstone.base" value="http://jakarta.apache.org/avalon/cornerstone"/>
     <property name="logkit.base" value="http://jakarta.apache.org/avalon/logkit"/>
@@ -219,6 +220,7 @@ Legal:
     <filter token="year" value="${year}"/>
     <filter token="AVALON_BASE" value="${avalon.base}"/>
     <filter token="FRAMEWORK_BASE" value="${framework.base}"/>
+    <filter token="EXCALIBUR_BASE" value="${excalibur.base}"/>
     <filter token="PHOENIX_BASE" value="${phoenix.base}"/>
     <filter token="CORNERSTONE_BASE" value="${cornerstone.base}"/>
     <filter token="LOGKIT_BASE" value="${logkit.base}"/>

@@ -26,7 +26,7 @@
 
   <menu label="Sub-Projects">
     <menu-item label="Framework" href="framework/index.html"/>
-    <menu-item label="Excalibur" href="excalibur/index.html"/>
+    <menu-item label="Excalibur" href="@EXCALIBUR_BASE@/index.html"/>
     <menu-item label="Phoenix" href="@PHOENIX_BASE@/index.html"/>
     <menu-item label="Cornerstone" href="@CORNERSTONE_BASE@/index.html"/>
     <menu-item label="Testlet" href="@TESTLET_BASE@/index.html"/>
