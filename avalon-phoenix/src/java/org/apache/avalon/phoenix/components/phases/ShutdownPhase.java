@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.phoenix.components.phases;
 
-import org.apache.avalon.excalibur.container.Container;
 import org.apache.avalon.excalibur.container.State;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
@@ -41,13 +40,10 @@ public class ShutdownPhase
     ///Listener for when blocks are created
     private BlockListener        m_listener;
 
-    private Container         m_container;
-
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
         m_frame = (ApplicationFrame)componentManager.lookup( ApplicationFrame.ROLE );
-        m_container = (Container)componentManager.lookup( Container.ROLE );
         m_listener = (BlockListenerManager)componentManager.lookup( BlockListenerManager.ROLE );
     }
 
@@ -71,22 +67,24 @@ public class ShutdownPhase
 
         ThreadContext.setThreadContext( m_frame.getThreadContext() );
 
-        final Object object = entry.getInstance();
 
-        final Object proxy = entry.getBlockInvocationHandler().getProxy();
-        final BlockEvent event = new BlockEvent( name, (Block)proxy, entry.getMetaData().getBlockInfo() );
+        final BlockEvent event = 
+            new BlockEvent( name, entry.getProxy(), entry.getMetaData().getBlockInfo() );
         m_listener.blockRemoved( event );
-        entry.getBlockInvocationHandler().invalidate();
+
+        final Block block = entry.getBlock();
+
+        entry.invalidate();
 
         //Stoppable stage
-        if( object instanceof Startable )
+        if( block instanceof Startable )
         {
             getLogger().debug( REZ.getString( "shutdown.notice.stop.pre" ) );
 
             try
             {
                 entry.setState( State.STOPPING );
-                ((Startable)object).stop();
+                ((Startable)block).stop();
                 entry.setState( State.STOPPED );
 
                 getLogger().debug( REZ.getString( "shutdown.notice.stop.success" ) );
@@ -100,14 +98,14 @@ public class ShutdownPhase
         }
 
         //Disposable stage
-        if( object instanceof Disposable )
+        if( block instanceof Disposable )
         {
             getLogger().debug( REZ.getString( "shutdown.notice.dispose.pre" ) );
 
             try
             {
                 entry.setState( State.DESTROYING );
-                ((Disposable)object).dispose();
+                ((Disposable)block).dispose();
 
                 getLogger().debug( REZ.getString( "shutdown.notice.dispose.success" ) );
             }
@@ -118,13 +116,7 @@ public class ShutdownPhase
             }
         }
 
-        //Destruction stage
-        getLogger().debug( REZ.getString( "shutdown.notice.destroy.pre" ) );
-        entry.setBlockInvocationHandler( null );
-        entry.setInstance( null );
         entry.setState( State.DESTROYED );
-        getLogger().debug( REZ.getString( "shutdown.notice.destroy.success" ) );
-
         final String message = REZ.getString( "shutdown.error.phase.completed", name );
         getLogger().info( message );
     }
