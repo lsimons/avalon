@@ -51,7 +51,8 @@ public class PatternFormatter
     protected final static String      SPACE_2                = "  ";
     protected final static String      SPACE_1                = " ";
 
-    protected final static String      EOL                    = System.getProperty("line.separator", "\n");
+    protected final static String      EOL                    = 
+        System.getProperty( "line.separator", "\n" );
 
     protected static class PatternRun
     {
@@ -391,6 +392,8 @@ public class PatternFormatter
             catch( final NumberFormatException nfe ) { nfe.printStackTrace(); }
         }
 
+        return stack.toString( sizeSpecification );
+/*
         final int end = size - 1;
         final int start = Math.max( end - sizeSpecification + 1, 0 );
 
@@ -403,6 +406,7 @@ public class PatternFormatter
         sb.append( stack.get( end ) );
 
         return sb.toString();
+*/
     }
 
     /**
