@@ -67,7 +67,6 @@ import org.apache.avalon.framework.context.Context;
  * assigned permissions.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @avalon.component name="test" lifestyle="singleton"
  */
 public interface AnotherTestService
 {

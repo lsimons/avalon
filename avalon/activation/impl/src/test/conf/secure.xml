@@ -25,6 +25,11 @@ Example block deployment descriptor.
   </classloader>
 
   <container name="Component1" >
+    <services>
+      <service type="org.apache.avalon.activation.appliance.grant.components.TestService">
+        <source>test</source>
+      </service>
+    </services>
     <component name="test"
        class="org.apache.avalon.activation.appliance.grant.components.TestComponent"
        activation="startup"/>

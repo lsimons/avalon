@@ -108,7 +108,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.21 $ $Date: 2004/01/20 00:10:29 $
+ * @version $Revision: 1.22 $ $Date: 2004/01/20 05:26:17 $
  */
 public class DefaultAppliance extends AbstractAppliance implements Appliance
 {
@@ -158,6 +158,8 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
 
     private AccessControlContext m_accessControlContext;
     
+    private boolean              m_secured;
+    
     //-------------------------------------------------------------------
     // mutable state
     //-------------------------------------------------------------------
@@ -191,12 +193,14 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
 
     public DefaultAppliance( ComponentModel model, 
                              Engine engine, 
-                             AccessControlContext access )
+                             AccessControlContext access,
+                             boolean secured )
     {
         super( model );
         m_model = (ComponentModel) model;
         m_engine = engine;
         m_accessControlContext = access;
+        m_secured = secured;
         
         // Enabled the SecurityManager is none already exists, and that
         // the kernel setting for enabling the secure execution has been
@@ -214,6 +218,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
         m_model = (ComponentModel) model;
         m_engine = engine;
         m_accessControlContext = null;
+        m_secured = false;
     }
 
     //-------------------------------------------------------------------
@@ -554,7 +559,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
                 getLogger().debug( "applying logger to: " + id );
             }
             final Logger logger = m_model.getLogger();
-            if( m_accessControlContext == null )
+            if( ! m_secured )
             {
                 ((LogEnabled)instance).enableLogging( logger );
             }
@@ -591,7 +596,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
             }
             try
             {
-                if( m_accessControlContext == null )
+                if( ! m_secured )
                 {
                     m_contextualization.contextualize( instance, context );
                 }
@@ -626,7 +631,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
 
             try
             {
-                if( m_accessControlContext == null )
+                if( ! m_secured )
                 {
                     ((Contextualizable)instance).contextualize( context );
                 }
@@ -666,7 +671,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
 
             Map providers = getServiceProviders();
             final ServiceManager manager = new DefaultServiceManager( getLogger(), providers );
-            if( m_accessControlContext == null )
+            if( ! m_secured )
             {
                 ((Serviceable)instance).service( manager );
             }
@@ -694,7 +699,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
                 int id = System.identityHashCode( instance );
                 getLogger().debug( "applying configuration to: " + id );
             }
-            if( m_accessControlContext == null )
+            if( ! m_secured )
             {
                 ((Configurable)instance).configure( m_model.getConfiguration() );
             }
@@ -722,7 +727,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
                 int id = System.identityHashCode( instance );
                 getLogger().debug( "applying parameters to: " + id );
             }
-            if( m_accessControlContext == null )
+            if( ! m_secured )
             {
                 ((Parameterizable)instance).parameterize( m_model.getParameters() );
             }
@@ -932,7 +937,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
             }
             try
             {
-                if( m_accessControlContext == null )
+                if( ! m_secured )
                 {
                     ((Initializable)instance).initialize();
                 }
@@ -969,7 +974,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
             }
             try
             {
-                if( m_accessControlContext == null )
+                if( ! m_secured )
                 {
                     ((Startable)instance).start();
                 }
@@ -1001,7 +1006,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
             }
             try
             {
-                if( m_accessControlContext == null )
+                if( ! m_secured )
                 {
                     ((Executable)instance).execute();
                 }
@@ -1037,7 +1042,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
             }
             try
             {
-                if( m_accessControlContext == null )
+                if( ! m_secured )
                 {
                     ((Startable)instance).stop();
                 }
@@ -1073,7 +1078,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
             }
             try
             {
-                if( m_accessControlContext == null )
+                if( ! m_secured )
                 {
                     ((Disposable)instance).dispose();
                 }
@@ -1288,7 +1293,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
         private Object secureInvocation( final Method method, final Object object, final Object[] args )
             throws Exception
         {
-            if( m_accessControlContext == null )
+            if( ! m_secured )
             {
                 return method.invoke( object, args );
             }

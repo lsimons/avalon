@@ -99,7 +99,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.15 $ $Date: 2004/01/19 21:45:06 $
+ * @version $Revision: 1.16 $ $Date: 2004/01/20 05:26:17 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
   implements Block, CompositionEventListener
@@ -134,6 +134,7 @@ public abstract class AbstractBlock extends AbstractAppliance
 
     private final Engine m_engine;
     private final AccessControlContext  m_accessControlContext;
+    private final boolean               m_secured;
 
     //-------------------------------------------------------------------
     // constructor
@@ -150,9 +151,19 @@ public abstract class AbstractBlock extends AbstractAppliance
         super( model );
         ClassLoaderModel clmodel = model.getClassLoaderModel();
         if( model.isSecureExecutionEnabled() )
+        {
             m_accessControlContext = createAccessControlContext( clmodel );
+            m_secured = true;
+            if( getLogger().isDebugEnabled() )
+                getLogger().debug( "AccessControlContext created: " + m_accessControlContext );
+        }
         else
+        {
             m_accessControlContext = null;
+            m_secured = false;
+            if( getLogger().isDebugEnabled() )
+                getLogger().debug( "Non-Secure Execution!" );
+        }
         
         m_model = model;
         m_engine = engine;
@@ -212,7 +223,7 @@ public abstract class AbstractBlock extends AbstractAppliance
    /**
     * Return an appliance relative to a specific path.
     * @param source the appliance path
-    * @return the appliance
+    * @return the appliance, or null if it couldn't be found.
     * @exception IllegalArgumentException if the supplied path is invalid
     * @exception ApplianceException if an error occurs during appliance
     *    resolution
@@ -221,6 +232,8 @@ public abstract class AbstractBlock extends AbstractAppliance
     {
         DeploymentModel model =
           getContainmentModel().getModel( source );
+        if( model == null )
+            return null;
         return locate( model );
     }
 
@@ -444,7 +457,7 @@ public abstract class AbstractBlock extends AbstractAppliance
         {
             getLogger().debug( "creating appliance: " + path );
             ComponentModel component = (ComponentModel) model;
-            appliance = new DefaultAppliance( component, this, m_accessControlContext );
+            appliance = new DefaultAppliance( component, this, m_accessControlContext, m_secured );
         }
         else if( model instanceof ContainmentModel )
         {

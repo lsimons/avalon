@@ -74,8 +74,10 @@ public class AnotherTestComponent extends AbstractLogEnabled
     private TestService m_TestService;
     
     /**
+     * Service from the container.
+     * 
      * @avalon.dependency type="org.apache.avalon.activation.appliance.grant.components.TestService" key="TestService"
-     **/
+     */
     public void service( ServiceManager man )
         throws ServiceException
     {

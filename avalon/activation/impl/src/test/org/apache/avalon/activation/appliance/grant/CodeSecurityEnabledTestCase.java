@@ -170,7 +170,7 @@ public class CodeSecurityEnabledTestCase extends AbstractTestCase
         m_model.assemble();
         Block block = new DefaultBlock( m_model );
         block.deploy();
-        Appliance appliance = block.locate( "/test" );
+        Appliance appliance = block.locate( "/Component1/test" );
         Object test = appliance.resolve();
         return (TestService) appliance.resolve();
     }
