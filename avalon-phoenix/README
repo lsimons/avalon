@@ -25,8 +25,8 @@
   ------------
   Distribution contains the following:
   -xerces.jar               Any SAX2 parser will work. By default xerces is used.
-  -avalon-engine.jar        The Phoenix kernel
-  -avalon-loader.jar        Phoenix loader
+  -phoenix-engine.jar       The Phoenix kernel
+  -phoenix-loader.jar       Phoenix loader
 
   Installation Instructions and Documentation
   -------------------------------------------
