@@ -55,9 +55,9 @@
 package org.apache.avalon.framework.component;
 
 /**
- * A composer is a class that need to connect to software components using
- * a "role" abstraction, thus not depending on particular implementations
- * but on behavioral interfaces.
+ * A <code>Composable</code> class is one that needs to connect to software
+ * components using a "role" abstraction, thus not depending on particular
+ * implementations but on behavioral interfaces.
  * <br />
  *
  * The contract surrounding a <code>Composable</code> is that it is a user.
