@@ -5,6 +5,9 @@
   <import index="../../runtime/index.xml"
      href="http://svn.apache.org/repos/asf/avalon/trunk/runtime/index.xml"/>
 
+  <import index="../cornerstone/index.xml"
+     href="http://svn.apache.org/repos/asf/avalon/trunk/planet/cornerstone/index.xml"/>
+
   <!--
   Hello Tutorial.
   -->
@@ -340,6 +343,46 @@
     </info>
     <dependencies>
       <include key="avalon-framework-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="profiles">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-profiles</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="selection">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-selection</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="simple-web">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-webserver</name>
+    </info>
+    <dependencies>
+      <include key="cornerstone-sockets-impl"/>
+      <include key="cornerstone-connection-impl"/>
     </dependencies>
     <plugins>
       <include key="avalon-meta-tools"/>
