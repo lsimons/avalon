@@ -7,25 +7,23 @@
  */
 package org.apache.avalon.excalibur.cache;
 
-import org.apache.avalon.excalibur.cache.policy.LRUPolicy;
-import org.apache.avalon.excalibur.cache.store.MemoryStore;
-
 /**
  * LRUCache.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
- * @version $Revision: 1.6 $ $Date: 2002/01/27 05:01:01 $
+ * @version $Revision: 1.7 $ $Date: 2002/04/03 10:36:02 $
+ * @deprecated Use org.apache.avalon.excalibur.cache.impl.LRUCache
  */
 public class LRUCache
-    extends DefaultCache
+    extends org.apache.avalon.excalibur.cache.impl.LRUCache
 {
     public LRUCache( final int capacity )
     {
-        this( new MemoryStore( capacity ) );
+        super( capacity );
     }
 
     public LRUCache( final CacheStore store )
     {
-        super( new LRUPolicy(), store );
+        super( store );
     }
 }
