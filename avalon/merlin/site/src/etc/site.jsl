@@ -126,12 +126,21 @@
                 </j:if>
               </td>
 
+              <td>
+                <div align="right" id="login">
+                  <a href='http://apachecon.com/2003/US/index.html'>
+                    <img border='0' src='http://www.apache.org/~ceki/ac2003/ac2003-150.gif'/>
+                  </a>
+                </div>
+              </td>
+
+
               <!-- project logo and link -->
+              <!--
               <td>
                 <div align="right" id="login">
                   <j:set var="logo" value="${pom.logo}"/>
                   <j:if test="${logo != null and logo != ''}">
-                    <!-- set image to relative or complete -->
                     <j:set var="image" value="${pom.logo}"/>
                     <j:if test="${!image.startsWith('http://')}">
                       <j:set var="image" value="${relativePath}${image}"/>
@@ -143,6 +152,7 @@
                   </j:if>
                 </div>
               </td>
+              -->
             </tr>
           </table>
         </div>
