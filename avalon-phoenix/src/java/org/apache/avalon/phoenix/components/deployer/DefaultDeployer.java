@@ -187,13 +187,41 @@ public class DefaultDeployer
         try
         {
             final File source = (File)installation.get( ContainerConstants.INSTALL_SOURCE );
-            final URL location = source.toURL();
+            redeploy( name, source.toURL() );
+        }
+        catch( final DeploymentException e )
+        {
+            throw e;
+        }
+        catch( final Exception e )
+        {
+            throw new DeploymentException( e.getMessage(), e );
+        }
+    }
+
+    /**
+     * Undeploy and deploy an installation.
+     *
+     * @param name the name of deployment
+     * @param location the installation to redeploy
+     * @throws DeploymentException if an error occurs
+     */
+    public void redeploy( String name, URL location )
+        throws DeploymentException
+    {
+        m_kernel.lock();
+        try
+        {
             undeploy( name );
             deploy( name, location );
         }
         catch( final Exception e )
         {
             throw new DeploymentException( e.getMessage(), e );
+        }
+        finally
+        {
+            m_kernel.unlock();
         }
     }
 

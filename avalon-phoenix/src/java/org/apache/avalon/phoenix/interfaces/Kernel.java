@@ -93,4 +93,14 @@ public interface Kernel
      * @return applicationNames The array of application names
      */
     String[] getApplicationNames();
+
+    /**
+     * Lock the kernel, temporarily preserving the list of applications running in the container
+     */
+    void lock();
+
+    /**
+     * Unlock the kernel, restoring the list of applications to be the current active list
+     */
+    void unlock();
 }
