@@ -9,7 +9,7 @@
     <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
   </devs>
   <release version="4.0-dev" date="unreleased">
-    <action dev="PD" type="update">
+    <action dev="PD" type="fix">
       Updated Resolvable interface to allow a ContextException to be thrown 
       on failure. 
     </action>
