@@ -133,7 +133,7 @@
 -->
    
    <map:match pattern="**book-**.xml">
-     <map:generate src="content/xdocs/{1}book.xml"/>
+     <map:generate src="content/xdocs/{1}menu.xml"/>
      <map:call resource="skinit">
       <map:parameter name="type" value="book2menu"/>
      </map:call>         
@@ -176,12 +176,12 @@
    </map:match>
    
    <!-- Generate the "doclist" - list of all documentation
-     The first match generates each book.xml and adds a new attribute "uri".
-     The second match aggregates each book.xml into a doclist and
+     The first match generates each menu.xml and adds a new attribute "uri".
+     The second match aggregates each menu.xml into a doclist and
      then converts it to a document.
    -->
-   <map:match pattern="doclist/content/xdocs/**book.xml">
-     <map:generate src="content/xdocs/{1}book.xml"/>
+   <map:match pattern="doclist/content/xdocs/**menu.xml">
+     <map:generate src="content/xdocs/{1}menu.xml"/>
      <map:transform src="library/xslt/doclist.xsl">
        <map:parameter name="uri" value="{1}"/>
      </map:transform>
@@ -190,7 +190,7 @@
    
    <map:match pattern="body-doclist.xml">
      <map:aggregate element="doclist">
-       <map:part src="cocoon:/doclist/content/xdocs/book.xml"/>
+       <map:part src="cocoon:/doclist/content/xdocs/menu.xml"/>
      </map:aggregate>
      <map:transform src="library/xslt/doclist2document.xsl"/>
      <map:call resource="skinit">
