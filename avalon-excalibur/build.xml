@@ -12,7 +12,7 @@
     <property name="build.reports" value="${build.dir}/reports"/>
     <property name="build.tests" value="${build.dir}/tests"/>
 
-    <target name="main" depends="mega-jar"/>
+    <target name="main" depends="jar"/>
 
     <!-- Build default targets of all subprojects. -->
     <target name="build-subprojects-dist">
@@ -132,7 +132,38 @@
     <target name="dist" depends="test-reports"
         description="Create binary distributions of all the products"/>
 
-    <!-- Generate one mega jar-ball -->   
+    <!-- Generate one jar functionally equivalent to the old avalon-excalibur.jar -->
+    <target name="jar" description="Generates avalon-excalibur.jar">
+        <ant dir="all" target="all"/>
+        <ant dir="cli" target="jar"/>
+        <ant dir="collections" target="jar"/>
+        <ant dir="concurrent" target="jar"/>
+        <ant dir="i18n" target="jar"/>
+        <ant dir="io" target="jar"/>
+        <ant dir="naming" target="jar"/>
+        <ant dir="instrument" target="jar"/>
+        <jlink compress="false" outfile="avalon-excalibur-tmp.jar">
+            <mergefiles>
+                <fileset dir=".">
+                    <include name="all/build/lib/excalibur-core.jar"/>
+                    <include name="cli/build/lib/*.jar"/>
+                    <include name="collections/build/lib/*.jar"/>
+                    <include name="concurrent/build/lib/*.jar"/>
+                    <include name="i18n/build/lib/*.jar"/>
+                    <include name="io/build/lib/*.jar"/>
+                    <include name="naming/build/lib/*.jar"/>
+                    <include name="instrument/build/lib/*.jar"/>
+                </fileset>
+            </mergefiles>
+        </jlink>
+        <jar jarfile="avalon-excalibur.jar" compress="true">
+            <zipfileset src="avalon-excalibur-tmp.jar" />
+        </jar>
+        <delete file="avalon-excalibur-tmp.jar"/>
+
+    </target>
+
+    <!-- Generate one mega jar-ball -->
     <target name="mega-jar" description="Generate one large jar for all the products">
         <!-- Sub projects which do not depend on any other excalibur sub projects. -->
         <ant dir="altrmi" target="jar"/>
@@ -166,8 +197,7 @@
         <ant dir="tar" target="jar"/>
         <ant dir="zip" target="jar"/>
 
-        <!-- I am not sure we should be putting new Jars in here - Paul H -->
-        <jlink compress="false" outfile="excalibur-all.jar">
+        <jlink compress="false" outfile="excalibur-all-tmp.jar">
             <mergefiles>
                 <fileset dir=".">
                     <include name="*/build/lib/*.jar"/>
@@ -175,6 +205,10 @@
                 </fileset>
             </mergefiles>
         </jlink>
+        <jar jarfile="excalibur-all.jar" compress="true">
+            <zipfileset src="excalibur-all-tmp.jar" />
+        </jar>
+        <delete file="avalon-excalibur-tmp.jar"/>
     </target>
 
     <!-- Generate all docs -->

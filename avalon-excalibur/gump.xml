@@ -40,8 +40,8 @@
         <work nested="all/build/scratchpad"/>
 
         <home nested="all/build/lib"/>
-        <jar name="avalon-excalibur.jar" id="avalon-excalibur"/>
-        <jar name="avalon-scratchpad.jar" id="avalon-scratchpad"/>
+        <jar name="excalibur-core.jar" id="excalibur-core"/>
+        <jar name="excalibur-scratchpad.jar" id="excalibur-scratchpad"/>
         <javadoc nested="build/javadocs" module="jakarta-avalon"/>
 
         <!-- doesn't work yet. Need to wait till next release of checkstyle

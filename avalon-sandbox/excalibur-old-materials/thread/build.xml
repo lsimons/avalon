@@ -2,72 +2,25 @@
 
 <project name="Excalibur Thread" default="main" basedir=".">
 
-    <!-- load per-project properties -->
-    <property file="project.properties"/>
-
-    <!--
-      Give user a chance to override without editing this file
-      (and without typing -D each time he compiles it)
-    -->
-    <property file="ant.properties"/>
+    <property file="${user.home}/build.properties"/>
     <property file="../ant.properties"/>
+    <property file="ant.properties"/>
     <property file="${user.home}/.ant.properties"/>
-
-    <!-- Settings used to configure compile environment -->
-    <property name="build.debug" value="on"/>
-    <property name="build.optimize" value="off"/>
-    <property name="build.deprecation" value="off"/>
-    <property name="build.compress" value="false"/>
-    <property name="junit.failonerror" value="false"/>
-
-    <!-- location of intermediate products -->
-    <property name="build.dir" value="build"/>
-    <property name="build.lib" value="${build.dir}/lib"/>
-    <property name="build.conf" value="${build.dir}/conf"/>
-    <property name="build.classes" value="${build.dir}/classes"/>
-    <property name="build.tests" value="${build.dir}/tests"/>
-    <property name="build.reports" value="${build.dir}/reports"/>
-
-    <!-- Set the properties for source directories -->
-    <property name="src.dir" value="src"/>
-    <property name="java.dir" value="${src.dir}/java"/>
-    <property name="conf.dir" value="${src.dir}/conf"/>
-    <property name="test.dir" value="${src.dir}/test"/>
-
-    <!-- needed by Cocoon -->
-    <property name="build.context" value="${build.dir}/documentation"/>
-    <property name="build.docs" value="${build.dir}/docs"/>
-    <property name="build.xdocs" value="${build.dir}/xdocs"/>
-    <property name="context.dir" value="../../jakarta-avalon/src/documentation"/>
-    <property name="tools.dir" value="../../jakarta-avalon/tools"/>
-    <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
-    <property name="docs.dir" value="dist/docs"/>
-    <property name="xdocs.dir" value="${src.dir}/xdocs"/>      
-
-    <!-- Set the properties for distribution directories -->
-    <property name="dist.dir" value="dist"/>
-    <property name="dist.javadocs" value="${dist.dir}/docs/api"/>
-
-    <!-- name of .zip/.tar.gz/.bz2 files and their top-level directory -->
-    <property name="dist.name" value="${name}-${version}"/>
-
-    <!-- name of jar file -->
-    <property name="jar.name" value="${name}-${version}.jar"/>
-
-    <!-- property indicating directory where all distribution archives are placed -->
-    <property name="dist.base" value="distributions"/>
+    <property file="../default.properties"/>
+    <property file="default.properties"/>
 
     <!-- Classpath for product -->
     <path id="project.class.path">
         <pathelement path="${java.class.path}"/>
         <pathelement location="${build.classes}"/>
-        <pathelement location="${logkit.jar}"/>
+        <pathelement location="${avalon-logkit.jar}"/>
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${excalibur-lang.jar}"/>
         <pathelement location="${excalibur-pool.jar}"/>
         <pathelement location="${junit.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
     </path>
+    <property name="cp" refid="project.class.path"/>
 
     <path id="tools.class.path">
         <pathelement location="${junit.jar}"/>
@@ -79,8 +32,16 @@
     <target name="main" depends="jar" description="Build the project"/>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
 
+    <target name="dependencies" description="Check dependencies">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkLogkit"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkLang"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkPool"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
+    </target>
+
     <!-- Compiles the source code -->
-    <target name="compile" description="Compiles the source code">
+    <target name="compile" depends="dependencies" description="Compiles the source code">
 
         <mkdir dir="${build.classes}"/>
 
@@ -118,7 +79,7 @@
             <fileset dir="../" includes="LICENSE.txt"/>
             <fileset dir="${conf.dir}" includes="MANIFEST.MF"/> 
             <filterset>
-                <filtersfile file="project.properties"/>
+                <filtersfile file="default.properties"/>
             </filterset>
         </copy>
 
@@ -141,7 +102,7 @@
     </target>
 
     <!-- Creates all the Javadocs -->
-    <target name="javadocs" depends="compile" description="Generates the javadocs">
+    <target name="javadocs" depends="compile" description="Generates the javadocs" unless="skip.javadocs">
 
         <mkdir dir="${dist.javadocs}"/>
         <javadoc packagenames="org.apache.*"
@@ -162,7 +123,7 @@
         </javadoc>
     </target>
 
-    <target name="test" depends="compile" description="Perform the unit tests">
+    <target name="test" depends="compile" description="Perform the unit tests" unless="skip.tests">
 
         <echo message="Performing Unit Tests" />
 
@@ -307,7 +268,11 @@
         description="Generates a minimal distribution (jar + javadocs)">
 
         <mkdir dir="${dist.dir}"/>
-        <copy file="${build.lib}/${jar.name}" todir="${dist.dir}"/>
+        <copy todir="${dist.dir}">
+            <fileset dir="${build.lib}">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>
         <copy file="../LICENSE.txt" todir="${dist.dir}"/>
         <copy file="../KEYS" todir="${dist.dir}"/>
         <copy file="README.txt" todir="${dist.dir}"/>
