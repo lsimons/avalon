@@ -19,13 +19,17 @@ import java.util.ArrayList;
  * PUnitTestCase
  * @author Paul Hammant
  */
-public abstract class PUnitTestCase
-    extends TestCase
+public abstract class PUnitTestCase extends TestCase implements PUnit
 {
-    private LifecycleHelper m_lifecycleHelper;
-    private ArrayList m_blocks;
-    private DefaultServiceManager m_serviceManager;
-    private PUnitLogger m_logger = new PUnitLogger();
+    private PUnitHelper m_pUnitHelper = new PUnitHelper();
+
+
+    /**
+     * PUnitTestCase
+     */
+    public PUnitTestCase()
+    {
+    }
 
     /**
      * PUnitTestCase
@@ -43,7 +47,7 @@ public abstract class PUnitTestCase
      */
     public final String lookupInLog( String startsWith )
     {
-        return m_logger.get( startsWith );
+        return m_pUnitHelper.lookupInLog( startsWith );
     }
 
     /**
@@ -51,9 +55,9 @@ public abstract class PUnitTestCase
      * @param startsWith For an expression that starts with this
      * @return true or not
      */
-    public final boolean logHasEntry( String startsWith )
+    public boolean logHasEntry( String startsWith )
     {
-        return m_logger.contains( startsWith );
+        return m_pUnitHelper.logHasEntry( startsWith );
     }
 
     /**
@@ -62,10 +66,8 @@ public abstract class PUnitTestCase
      */
     protected void setUp() throws Exception
     {
-        m_lifecycleHelper = new LifecycleHelper();
-        m_lifecycleHelper.enableLogging( new ConsoleLogger() );
-        m_serviceManager = new DefaultServiceManager();
-        m_blocks = new ArrayList();
+        m_pUnitHelper.initialize();
+        super.setUp();
     }
 
     /**
@@ -75,48 +77,30 @@ public abstract class PUnitTestCase
      * @param serviceName The service name (for lookup)
      * @param configuration The configuration
      */
-    protected void addBlock( final String blockName,
+    public void addBlock( final String blockName,
                              final String serviceName,
                              final Object block,
                              final Configuration configuration )
     {
-        final PUnitResourceProvider resourceProvider =
-            new PUnitResourceProvider( m_serviceManager, configuration, m_logger );
-        final PUnitBlockEntry pBlock = new PUnitBlockEntry( blockName, block, resourceProvider );
-        m_blocks.add( pBlock );
-        if( serviceName != null )
-        {
-            m_serviceManager.put( serviceName, block );
-        }
+        m_pUnitHelper.addBlock(blockName, serviceName, block, configuration);
     }
 
     /**
      * Run blocks thru startup.
      * @throws LifecycleException If a problem
      */
-    protected final void startup() throws LifecycleException
+    public void startup() throws LifecycleException
     {
 
-        for( int i = 0; i < m_blocks.size(); i++ )
-        {
-            final PUnitBlockEntry block = (PUnitBlockEntry)m_blocks.get( i );
-            m_lifecycleHelper.startup( block.getBlockName(),
-                                       block.getBlock(),
-                                       block.getResourceProvider() );
-        }
+        m_pUnitHelper.startup();
     }
 
     /**
      * Run blocks thru shutdown
      * @throws LifecycleException If a problem
      */
-    protected final void shutdown() throws LifecycleException
+    public void shutdown() throws LifecycleException
     {
-        final int size = m_blocks.size();
-        for( int i = 0; i < size; i++ )
-        {
-            final PUnitBlockEntry block = (PUnitBlockEntry)m_blocks.get( i );
-            m_lifecycleHelper.shutdown( block.getBlockName(), block.getBlock() );
-        }
+        m_pUnitHelper.shutdown();
     }
 }
