@@ -8,7 +8,7 @@
 #
 # Environment Variable Prequisites
 #
-#   PHOENIX_OPTS       (Optional) Java runtime options used when the command is 
+#   PHOENIX_OPTS       (Optional) Java runtime options used when the command is
 #                      executed.
 #
 #   PHOENIX_TMPDIR     (Optional) Directory path location of temporary directory
@@ -17,7 +17,7 @@
 #
 #   JAVA_HOME          Must point at your Java Development Kit installation.
 #
-#   PHOENIX_JVM_OPTS   (Optional) Java runtime options used when the command is 
+#   PHOENIX_JVM_OPTS   (Optional) Java runtime options used when the command is
 #                       executed.
 #
 # -----------------------------------------------------------------------------
@@ -110,7 +110,11 @@ echo "Using JAVA_HOME:      $JAVA_HOME"
 # like placing jaxp/jaas/xml-parser jars in ext dir
 # thus breaking Phoenix
 #
-JVM_OPTS="-Djava.ext.dirs=$PHOENIX_HOME/lib"
+JVM_EXT_DIRS="$PHOENIX_HOME/lib:$PHOENIX_HOME/tools/lib"
+if $cygwin; then
+  JVM_EXT_DIRS=`cygpath --path --windows "$JVM_EXT_DIRS"`
+fi
+JVM_OPTS="-Djava.ext.dirs=$JVM_EXT_DIRS"
 
 if [ "$PHOENIX_SECURE" != "false" ] ; then
   # Make phoenix run with security manager enabled
@@ -207,7 +211,7 @@ case "$ACTION" in
 
         exec $RUN_CMD
         ;;
-        
+
   check)
         echo "Checking arguments to Phoenix: "
 	echo "PHOENIX_HOME:     $PHOENIX_HOME"
@@ -226,7 +230,7 @@ case "$ACTION" in
         fi
         exit 1
         ;;
-        
+
 *)
         usage
         ;;
