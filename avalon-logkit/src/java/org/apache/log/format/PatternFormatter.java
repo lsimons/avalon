@@ -73,7 +73,7 @@ import org.apache.log.Priority;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.22 $ $Date: 2001/12/12 11:39:25 $
+ * @version CVS $Revision: 1.23 $ $Date: 2001/12/13 07:58:04 $
  */
 public class PatternFormatter
     implements Formatter, org.apache.log.Formatter
@@ -120,6 +120,9 @@ public class PatternFormatter
     }
 
     private PatternRun                      m_formatSpecification[];
+
+    private SimpleDateFormat                m_simpleDateFormat;
+    private final Date                      m_date = new Date();
 
     /**
      * @deprecated Use constructor PatternFormatter(String pattern) as this does not
@@ -534,8 +537,15 @@ public class PatternFormatter
         }
         else
         {
-            final SimpleDateFormat simpleDateFormat = new SimpleDateFormat( format );
-            return simpleDateFormat.format( new Date( time ) );
+            synchronized( m_date )
+            {
+                if( null == m_simpleDateFormat )
+                {
+                    m_simpleDateFormat = new SimpleDateFormat( format );
+                }
+                m_date.setTime( time );
+                return m_simpleDateFormat.format( m_date );
+            }
         }
     }
 
