@@ -13,15 +13,20 @@
         to help guide the user.
       </p>
       <p>
-        An mxinfo file is created at design time, either automatically using xdoclet tags (<a href="xdoctags.html">described here</a>) 
-        or by hand.  At startup the mxinfo file is parsed, and in conjuntion with class introspection 
-        is used to define the in-memory metadata for the management of the target object.
+        An mxinfo file is created at design time.  It can be generated 
+        automatically using xdoclet tags (<a href="xdoctags.html">described here</a>) 
+        or by hand.  
       </p>
       <p>
-        A target object is not restricted to having a single mxinfo file, although the specifics of how that
-        works is dependant on the management component.  Similarly it is expected that
-        at runtime the mxinfo file will be located in the classpath of the Target class, in the same
-        package as that class, but this is also under the control of the Container.  Finally, its worth
+        At runtime it is expected that the mxinfo file will be have the same name 
+        as the class it describes (e.g. FtpServer.class would be described by an
+        FtpServer.mxinfo file), and be located in the same package as that class.  
+        At startup the mxinfo file is parsed and, in conjuntion with class introspection, 
+        is used to define the in-memory metadata for management of the target object.
+      </p>
+      <p>
+        Note that a target object is not restricted to having a single mxinfo file, although the specifics of how that
+        works is dependant on the management component.  Finally, its worth
         pointing out that an mxinfo file generated from interface can be applied to
         any class that implements the interface.
       </p>
