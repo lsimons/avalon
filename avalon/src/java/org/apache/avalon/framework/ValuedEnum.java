@@ -18,7 +18,7 @@ import java.util.Map;
 public abstract class ValuedEnum
     extends Enum
 {
-    protected final int        m_value;
+    private final int        m_value;
 
     /**
      * Constructor for enum so that it gets added to map at creation.

@@ -44,9 +44,9 @@ package org.apache.avalon.framework;
  */
 public final class Version
 {
-    protected int                   m_major;
-    protected int                   m_minor;
-    protected int                   m_revision;
+    private int                   m_major;
+    private int                   m_minor;
+    private int                   m_revision;
 
     /**
      * Create a new instance of a <code>Version</code> object with the

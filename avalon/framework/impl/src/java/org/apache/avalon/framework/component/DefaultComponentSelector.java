@@ -18,8 +18,7 @@ import java.util.Map;
 public class DefaultComponentSelector
     implements ComponentSelector
 {
-    //TODO: Make these private before next release
-    protected final HashMap m_components = new HashMap();
+    private final HashMap m_components = new HashMap();
 
     /**
      * Select the desired component.  It does not cascade, neither

@@ -28,8 +28,8 @@ public class DefaultConfigurationBuilder
     protected static final String                 PARSER =
         System.getProperty("org.xml.sax.parser", DEFAULT_PARSER );
 
-    protected SAXConfigurationHandler             m_handler;
-    protected XMLReader                           m_parser;
+    private SAXConfigurationHandler               m_handler;
+    private XMLReader                             m_parser;
 
     public DefaultConfigurationBuilder()
     {
