@@ -21,12 +21,12 @@
         <ant dir="collections" target="dist"/>
         <ant dir="concurrent" target="dist"/>
         <ant dir="instrument" target="dist"/>
-        <ant dir="threadcontext" target="dist"/>
         <ant dir="logger" target="dist"/>
+        <ant dir="threadcontext" target="dist"/>
         
         <!-- Sub projects with dependencies. -->
         <ant dir="pool" target="dist"/>               <!-- collections, concurrent, instrument -->
-        <ant dir="thread" target="dist"/>             <!-- lang, instrument, pool -->
+        <ant dir="thread" target="dist"/>             <!-- lang, instrument, threadcontext, pool -->
         <ant dir="component" target="dist"/>          <!-- collections, logger, instrument, pool -->
         <ant dir="util" target="dist"/>               <!-- component -->
         <ant dir="testcase" target="dist"/>           <!-- logger, component -->
@@ -181,12 +181,12 @@
         <ant dir="collections" target="jar"/>
         <ant dir="concurrent" target="jar"/>
         <ant dir="instrument" target="jar"/>
-        <ant dir="threadcontext" target="jar"/>
         <ant dir="logger" target="jar"/>
+        <ant dir="threadcontext" target="jar"/>
         
         <!-- Sub projects with dependencies. -->
         <ant dir="pool" target="jar"/>               <!-- collections, concurrent, instrument -->
-        <ant dir="thread" target="jar"/>             <!-- lang, instrument, pool -->
+        <ant dir="thread" target="jar"/>             <!-- lang, instrument, threadcontext, pool -->
         <ant dir="component" target="jar"/>          <!-- collections, logger, instrument, pool -->
         <ant dir="util" target="jar"/>               <!-- component -->
         <ant dir="testcase" target="jar"/>           <!-- logger, component -->
