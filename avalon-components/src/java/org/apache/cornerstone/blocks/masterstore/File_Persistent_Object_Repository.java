@@ -14,7 +14,6 @@ import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 import java.io.ObjectStreamClass;
 import java.io.OutputStream;
-import org.apache.cornerstone.services.Store;
 import org.apache.cornerstone.services.store.ObjectRepository;
 
 /**
@@ -27,7 +26,7 @@ import org.apache.cornerstone.services.store.ObjectRepository;
  */
 public class File_Persistent_Object_Repository
     extends AbstractFileRepository
-    implements Store.ObjectRepository, ObjectRepository
+    implements ObjectRepository
 {
     protected String getExtensionDecorator()
     {
