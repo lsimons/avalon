@@ -31,91 +31,187 @@ import java.util.logging.Level;
  * </p>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public final class Jdk14Logger implements Logger
+public final class Jdk14Logger 
+    implements Logger
 {
+    //The actual JDK1.4 logger implementation
     private final java.util.logging.Logger m_logger;
 
+    /**
+     * Construct a Logger with specified jdk1.4 logger instance as implementation.
+     *
+     * @param logImpl the jdk1.4 logger instance to delegate to
+     */
     public Jdk14Logger( java.util.logging.Logger logImpl )
     {
         m_logger = logImpl;
     }
 
+    /**
+     * Log a debug message.
+     *
+     * @param message the message
+     */
     public final void debug( final String message )
     {
         m_logger.log( Level.FINE, message );
     }
 
+    /**
+     * Log a debug message.
+     *
+     * @param message the message
+     * @param throwable the throwable
+     */
     public final void debug( final String message, final Throwable throwable )
     {
         m_logger.log( Level.FINE, message, throwable );
     }
 
+    /**
+     * Determine if messages of priority "debug" will be logged.
+     *
+     * @return true if "debug" messages will be logged
+     */
     public final boolean isDebugEnabled()
     {
         return m_logger.isLoggable( Level.FINE );
     }
 
+    /**
+     * Log a info message.
+     *
+     * @param message the message
+     */
     public final void info( final String message )
     {
         m_logger.log( Level.INFO, message );
     }
 
+    /**
+     * Log a info message.
+     *
+     * @param message the message
+     * @param throwable the throwable
+     */
     public final void info( final String message, final Throwable throwable )
     {
         m_logger.log( Level.INFO, message, throwable );
     }
 
+    /**
+     * Determine if messages of priority "info" will be logged.
+     *
+     * @return true if "info" messages will be logged
+     */
     public final boolean isInfoEnabled()
     {
         return m_logger.isLoggable( Level.INFO );
     }
 
+    /**
+     * Log a warn message.
+     *
+     * @param message the message
+     */
     public final void warn( final String message )
     {
         m_logger.log( Level.WARNING, message );
     }
 
+    /**
+     * Log a warn message.
+     *
+     * @param message the message
+     * @param throwable the throwable
+     */
     public final void warn( final String message, final Throwable throwable )
     {
         m_logger.log( Level.WARNING, message, throwable );
     }
 
+    /**
+     * Determine if messages of priority "warn" will be logged.
+     *
+     * @return true if "warn" messages will be logged
+     */
     public final boolean isWarnEnabled()
     {
         return m_logger.isLoggable( Level.WARNING );
     }
 
+    /**
+     * Log a error message.
+     *
+     * @param message the message
+     */
     public final void error( final String message )
     {
         m_logger.log( Level.SEVERE, message );
     }
 
+    /**
+     * Log a error message.
+     *
+     * @param message the message
+     * @param throwable the throwable
+     */
     public final void error( final String message, final Throwable throwable )
     {
         m_logger.log( Level.SEVERE, message, throwable );
     }
 
+    /**
+     * Determine if messages of priority "error" will be logged.
+     *
+     * @return true if "error" messages will be logged
+     */
     public final boolean isErrorEnabled()
     {
         return m_logger.isLoggable( Level.SEVERE );
     }
 
+    /**
+     * Log a fatalError message.
+     *
+     * @param message the message
+     */
     public final void fatalError( final String message )
     {
         m_logger.log( Level.SEVERE, message );
     }
 
+    /**
+     * Log a fatalError message.
+     *
+     * @param message the message
+     * @param throwable the throwable
+     */
     public final void fatalError( final String message, final Throwable throwable )
     {
         m_logger.log( Level.SEVERE, message, throwable );
     }
 
+    /**
+     * Determine if messages of priority "fatalError" will be logged.
+     *
+     * @return true if "fatalError" messages will be logged
+     */
     public final boolean isFatalErrorEnabled()
     {
         return m_logger.isLoggable( Level.SEVERE );
     }
 
+    /**
+     * Create a new child logger.
+     * The name of the child logger is [current-loggers-name].[passed-in-name]
+     *
+     * @param name the subname of this logger
+     * @return the new logger
+     * @exception IllegalArgumentException if name has an empty element name
+     */
     public final Logger getChildLogger( final String name )
     {
         return new Jdk14Logger( java.util.logging.Logger
