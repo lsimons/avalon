@@ -12,9 +12,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import org.apache.log.Formatter;
-import org.apache.log.LogEvent;
-import org.apache.log.Hierarchy;
-import org.apache.log.LogTarget;
 
 /**
  * A datagram output target.
@@ -56,6 +53,7 @@ public class DatagramOutputTarget
     {
         m_socket = new DatagramSocket();
         m_socket.connect( address, port );
+        open();
     }
 
     /**
@@ -76,5 +74,15 @@ public class DatagramOutputTarget
         {
             error( "Error sending datagram.", ioe );
         }
+    }
+
+    /**
+     * Shutdown target.
+     * Attempting to write to target after close() will cause errors to be logged.
+     */
+    public synchronized void close()
+    {
+        super.close();
+        m_socket = null;
     }
 }
