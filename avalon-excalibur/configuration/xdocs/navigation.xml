@@ -15,7 +15,7 @@
 
     <menu name="About Excalibur Configuration">
       <item name="Overview" href="/index.html"/>
-      <item name="Download" href="/download.html"/>
+      <item name="Download" href="http://avalon.apache.org/download.cgi"/>
       <item name="Javadoc" href="/apidocs/index.html"/>
     </menu>
 
