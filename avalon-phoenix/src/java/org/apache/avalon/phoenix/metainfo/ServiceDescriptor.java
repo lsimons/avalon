@@ -8,7 +8,6 @@
 package org.apache.avalon.phoenix.metainfo;
 
 import org.apache.avalon.framework.Version;
-import org.apache.avalon.framework.camelot.Info;
 
 /**
  * This interface describes a particular service that a component offers.
@@ -16,7 +15,6 @@ import org.apache.avalon.framework.camelot.Info;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public final class ServiceDescriptor 
-    implements Info 
 {
     private final Version    m_version;
     private final String     m_name;
