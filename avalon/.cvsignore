@@ -3,7 +3,6 @@ velocity.log
 target
 ant.properties
 dist
-build
 distributions
 *.el
 *.ipr
