@@ -1,18 +1,61 @@
 /*
- * Copyright (C) The Apache Software Foundation. All rights reserved.
- *
- * This software is published under the terms of the Apache Software License
- * version 1.1, a copy of which has been included  with this distribution in
- * the LICENSE.txt file.
- */
+
+ ============================================================================
+                   The Apache Software License, Version 1.1
+ ============================================================================
+
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without modifica-
+ tion, are permitted provided that the following conditions are met:
+
+ 1. Redistributions of  source code must  retain the above copyright  notice,
+    this list of conditions and the following disclaimer.
+
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+ 3. The end-user documentation included with the redistribution, if any, must
+    include  the following  acknowledgment:  "This product includes  software
+    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
+    Alternately, this  acknowledgment may  appear in the software itself,  if
+    and wherever such third-party acknowledgments normally appear.
+
+ 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"
+    must not be used to endorse or promote products derived from this  software
+    without  prior written permission. For written permission, please contact
+    apache@apache.org.
+
+ 5. Products  derived from this software may not  be called "Apache", nor may
+    "Apache" appear  in their name,  without prior written permission  of the
+    Apache Software Foundation.
+
+ THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
+ INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
+ APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
+ INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
+ DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
+ ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
+ (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ This software  consists of voluntary contributions made  by many individuals
+ on  behalf of the Apache Software  Foundation. For more  information on the
+ Apache Software Foundation, please see <http://www.apache.org/>.
+
+*/
 package org.apache.avalon.excalibur.component;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.apache.avalon.excalibur.collections.BucketMap;
+
 import org.apache.avalon.excalibur.logger.LogKitManageable;
 import org.apache.avalon.excalibur.logger.LogKitManager;
+import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
@@ -24,28 +67,42 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.commons.collections.StaticBucketMap;
+import org.apache.excalibur.instrument.Instrument;
+import org.apache.excalibur.instrument.InstrumentManageable;
+import org.apache.excalibur.instrument.InstrumentManager;
+import org.apache.excalibur.instrument.Instrumentable;
 
 /**
  * Default component manager for Avalon's components.
  *
+ * @deprecated ECM is no longer supported
+ *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 05:09:02 $
+ * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
+ * @version CVS $Revision: 1.1.1.1 $ $Date: 2003/11/09 12:44:16 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
-    extends AbstractLoggable
+    extends AbstractDualLogEnabled
     implements ComponentManager,
     Configurable,
     Contextualizable,
     Initializable,
     Disposable,
     RoleManageable,
-    LogKitManageable
+    LogKitManageable,
+    InstrumentManageable,
+    Instrumentable
 {
-    /** The parent ComponentManager */
+    /** Instrumentable name used to represent the component-manager.
+     *  Handlers reference this name to register themselves at the correct
+     *  location under the ECM. */
+    public static final String INSTRUMENTABLE_NAME = "component-manager";
+
+    /** The parent ComponentLocator */
     private final ComponentManager m_parentManager;
 
     /** The classloader used for this system. */
@@ -55,16 +112,21 @@ public class ExcaliburComponentManager
     private Context m_context;
 
     /** Static component mapping handlers. */
-    private final BucketMap m_componentMapping = new BucketMap();
+    private final StaticBucketMap m_componentMapping = new StaticBucketMap();
 
     /** Used to map roles to ComponentHandlers. */
-    private final BucketMap m_componentHandlers = new BucketMap();
+    private final StaticBucketMap m_componentHandlers = new StaticBucketMap();
+
+    /** added component handlers before initialization to maintain
+     *  the order of initialization
+     */
+    private final List m_newComponentHandlers = new ArrayList();
 
     /** RoleInfos. */
     private RoleManager m_roles;
 
     /** LogKitManager. */
-    private LogKitManager m_logkit;
+    private LogkitLoggerManager m_logkit;
 
     /** Is the Manager disposed or not? */
     private boolean m_disposed;
@@ -72,19 +134,28 @@ public class ExcaliburComponentManager
     /** Is the Manager initialized? */
     private boolean m_initialized;
 
-    /** Create the ComponentManager */
+    /** Instrument Manager being used by the Component Manager. */
+    private InstrumentManager m_instrumentManager;
+
+    /** Instrumentable Name assigned to this Instrumentable */
+    private String m_instrumentableName = INSTRUMENTABLE_NAME;
+
+    /*---------------------------------------------------------------
+     * Constructors
+     *-------------------------------------------------------------*/
+    /** Create a new ExcaliburComponentManager. */
     public ExcaliburComponentManager()
     {
         this( null, Thread.currentThread().getContextClassLoader() );
     }
 
-    /** Create the ComponentManager with a Classloader */
+    /** Create a new ExcaliburComponentManager with uses a specific Classloader. */
     public ExcaliburComponentManager( final ClassLoader loader )
     {
         this( null, loader );
     }
 
-    /** Create the ComponentManager with a Classloader and parent ComponentManager */
+    /** Create the ComponentLocator with a Classloader and parent ComponentLocator */
     public ExcaliburComponentManager( final ComponentManager manager, final ClassLoader loader )
     {
         if( null == loader )
@@ -99,20 +170,180 @@ public class ExcaliburComponentManager
         m_parentManager = manager;
     }
 
-    /** Create the ComponentManager with a parent ComponentManager */
+    /** Create the ComponentLocator with a parent ComponentLocator */
     public ExcaliburComponentManager( final ComponentManager manager )
     {
         this( manager, Thread.currentThread().getContextClassLoader() );
     }
 
-    /** Set up the Component's Context.
+    /*---------------------------------------------------------------
+     * ComponentManager Methods
+     *-------------------------------------------------------------*/
+    /**
+     * Return an instance of a component based on a Role.  The Role is usually the Interface's
+     * Fully Qualified Name(FQN)--unless there are multiple Components for the same Role.  In that
+     * case, the Role's FQN is appended with "Selector", and we return a ComponentSelector.
      */
-    public void contextualize( final Context context )
+    public Component lookup( final String role )
+        throws ComponentException
     {
-        if( null == m_context )
+        if( !m_initialized )
         {
-            m_context = context;
+            if( getLogger().isWarnEnabled() )
+            {
+                getLogger().warn(
+                    "Looking up component on an uninitialized ComponentLocator [" + role + "]" );
+            }
         }
+
+        if( m_disposed )
+        {
+            throw new IllegalStateException(
+                "You cannot lookup components on a disposed ComponentLocator" );
+        }
+
+        if( null == role )
+        {
+            final String message =
+                "ComponentLocator Attempted to retrieve component with null role.";
+
+            if( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( message );
+            }
+            throw new ComponentException( role, message );
+        }
+
+        ComponentHandler handler = (ComponentHandler)m_componentHandlers.get( role );
+
+        // Retrieve the instance of the requested component
+        if( null == handler )
+        {
+            if( m_parentManager != null )
+            {
+                try
+                {
+                    return m_parentManager.lookup( role );
+                }
+                catch( Exception e )
+                {
+                    if( getLogger().isWarnEnabled() )
+                    {
+                        final String message =
+                            "ComponentLocator exception from parent CM during lookup.";
+                        getLogger().warn( message, e );
+                    }
+                    // ignore.  If the exception is thrown, we try to
+                    // create the component next
+                }
+            }
+
+            if( null != m_roles )
+            {
+                final String className = m_roles.getDefaultClassNameForRole( role );
+
+                if( null != className )
+                {
+                    if( getLogger().isDebugEnabled() )
+                    {
+                        getLogger().debug( "Could not find ComponentHandler, attempting to create "
+                            + "one for role [" + role + "]" );
+                    }
+
+                    try
+                    {
+                        final Class componentClass = m_loader.loadClass( className );
+
+                        final Configuration configuration = new DefaultConfiguration( "", "-" );
+
+                        handler = getComponentHandler( role,
+                                                       componentClass,
+                                                       configuration,
+                                                       m_context,
+                                                       m_roles,
+                                                       m_logkit );
+
+                        handler.setLogger( getLogkitLogger() );
+                        handler.enableLogging( getLogger() );
+                        handler.initialize();
+                    }
+                    catch( final Exception e )
+                    {
+                        final String message = "Could not find component";
+                        if( getLogger().isDebugEnabled() )
+                        {
+                            getLogger().debug( message + " for role: " + role, e );
+                        }
+                        throw new ComponentException( role, message, e );
+                    }
+
+                    m_componentHandlers.put( role, handler );
+                }
+            }
+            else
+            {
+                getLogger().debug( "Component requested without a RoleManager set.\n"
+                    + "That means setRoleManager() was not called during initialization." );
+            }
+        }
+
+        if( null == handler )
+        {
+            final String message = "Could not find component";
+            if( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( message + " for role: " + role );
+            }
+            throw new ComponentException( role, message );
+        }
+
+        Component component = null;
+
+        try
+        {
+            component = handler.get();
+        }
+        catch( final IllegalStateException ise )
+        {
+            try
+            {
+                handler.initialize();
+                component = handler.get();
+            }
+            catch( final ComponentException ce )
+            {
+                // Rethrow instead of wrapping a ComponentException with another one
+                throw ce;
+            }
+            catch( final Exception e )
+            {
+                final String message = "Could not access the Component";
+                if( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( message + " for role [" + role + "]", e );
+                }
+
+                throw new ComponentException( role, message, e );
+            }
+        }
+        catch( final Exception e )
+        {
+            final String message = "Could not access the Component";
+            if( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( message + " for role [" + role + "]", e );
+            }
+
+            throw new ComponentException( role, message, e );
+        }
+
+        // Add a mapping between the component and its handler.
+        //  In the case of a ThreadSafeComponentHandler, the same component will be mapped
+        //  multiple times but because each put will overwrite the last, this is not a
+        //  problem.  Checking to see if the put has already been done would be slower.
+        m_componentMapping.put( component, handler );
+
+        return component;
     }
 
     /**
@@ -135,261 +366,77 @@ public class ExcaliburComponentManager
         return exists;
     }
 
-    /** Properly initialize of the Child handlers.
-     */
-    public void initialize()
-        throws Exception
-    {
-        synchronized( this )
-        {
-            m_initialized = true;
-
-            List keys = new ArrayList( m_componentHandlers.keySet() );
-
-            for( int i = 0; i < keys.size(); i++ )
-            {
-                final Object key = keys.get( i );
-                final ComponentHandler handler =
-                    (ComponentHandler)m_componentHandlers.get( key );
-
-                try
-                {
-                    handler.initialize();
-                }
-                catch( Exception e )
-                {
-                    if( getLogger().isErrorEnabled() )
-                    {
-                        getLogger().error( "Caught an exception trying to initialize " +
-                                           "the component handler.", e );
-                    }
-                }
-
-            }
-        }
-    }
-
-    /** Properly dispose of the Child handlers.
-     */
-    public void dispose()
-    {
-        synchronized( this )
-        {
-            boolean forceDisposal = false;
-
-            final List disposed = new ArrayList();
-
-            while( m_componentHandlers.size() > 0 )
-            {
-                for( Iterator iterator = m_componentHandlers.keySet().iterator();
-                     iterator.hasNext(); )
-                {
-                    final Object role = iterator.next();
-
-                    final ComponentHandler handler =
-                        (ComponentHandler)m_componentHandlers.get( role );
-
-                    if( forceDisposal || handler.canBeDisposed() )
-                    {
-                        if( forceDisposal && getLogger().isWarnEnabled() )
-                        {
-                            getLogger().warn
-                                ( "disposing of handler for unreleased component"
-                                  + " (role: " + role + ")" );
-                        }
-
-                        handler.dispose();
-                        disposed.add( role );
-                    }
-                }
-
-                if( disposed.size() > 0 )
-                {
-                    removeDisposedHandlers( disposed );
-                }
-                else
-                {   // no more disposable handlers!
-                    forceDisposal = true;
-                }
-            }
-
-            m_disposed = true;
-        }
-    }
-
-    private void removeDisposedHandlers( List disposed )
-    {
-
-        for( Iterator iterator = disposed.iterator(); iterator.hasNext(); )
-        {
-            m_componentHandlers.remove( iterator.next() );
-        }
-
-        disposed.clear();
-    }
-
     /**
-     * Return an instance of a component based on a Role.  The Role is usually the Interface's
-     * Fully Qualified Name(FQN)--unless there are multiple Components for the same Role.  In that
-     * case, the Role's FQN is appended with "Selector", and we return a ComponentSelector.
+     * Release a Component.  This implementation makes sure it has a handle on the propper
+     * ComponentHandler, and let's the ComponentHandler take care of the actual work.
      */
-    public Component lookup( final String role )
-        throws ComponentException
+    public void release( final Component component )
     {
-        if( !m_initialized )
+        if( null == component )
         {
-            if( getLogger().isWarnEnabled() )
-            {
-                getLogger().warn( "Looking up component on an uninitialized ComponentManager: " + role );
-            }
+            return;
         }
 
-        if( m_disposed )
-        {
-            throw new IllegalStateException( "You cannot lookup components on a disposed ComponentManager" );
-        }
+        // The m_componentMapping StaticBucketMap itself is threadsafe, and because the same component
+        //  will never be released by more than one thread, this method does not need any
+        //  synchronization around the access to the map.
 
-        if( null == role )
-        {
-            final String message =
-                "ComponentManager Attempted to retrieve component with null role.";
+        final ComponentHandler handler =
+            (ComponentHandler)m_componentMapping.get( component );
 
-            if( getLogger().isErrorEnabled() )
+        if( null != handler )
+        {
+            // ThreadSafe components will always be using a ThreadSafeComponentHandler,
+            //  they will only have a single entry in the m_componentMapping map which
+            //  should not be removed until the ComponentLocator is disposed.  All
+            //  other components have an entry for each instance which should be
+            //  removed.
+            if( !( handler instanceof ThreadSafeComponentHandler ) )
             {
-                getLogger().error( message );
-            }
-            throw new ComponentException( message );
-        }
-
-        ComponentHandler handler = (ComponentHandler)m_componentHandlers.get( role );
-
-        // Retrieve the instance of the requested component
-        if( null == handler )
-        {
-            if( m_parentManager != null )
-            {
-                try
-                {
-                    return m_parentManager.lookup( role );
-                }
-                catch( Exception e )
-                {
-                    // ignore.  If the exception is thrown, we try to
-                    // create the component next
-                }
+                // Remove the component before calling put.  This is critical to avoid the
+                //  problem where another thread calls put on the same component before
+                //  remove can be called.
+                m_componentMapping.remove( component );
             }
 
-            if( null != m_roles )
-            {
-                final String className = m_roles.getDefaultClassNameForRole( role );
-
-                if( null != className )
-                {
-                    if( getLogger().isDebugEnabled() )
-                    {
-                        getLogger().debug( "Could not find ComponentHandler, attempting to create one for role: " + role );
-                    }
-
-                    try
-                    {
-                        final Class componentClass = m_loader.loadClass( className );
-
-                        final Configuration configuration = new DefaultConfiguration( "", "-" );
-
-                        handler = getComponentHandler( componentClass,
-                                                       configuration,
-                                                       m_context,
-                                                       m_roles,
-                                                       m_logkit );
-
-                        handler.setLogger( getLogger() );
-                        handler.initialize();
-                    }
-                    catch( final Exception e )
-                    {
-                        final String message = "Could not find component";
-                        if( getLogger().isDebugEnabled() )
-                        {
-                            getLogger().debug( message + " for role: " + role, e );
-                        }
-                        throw new ComponentException( message, e );
-                    }
-
-                    m_componentHandlers.put( role, handler );
-                }
-            }
-            else
-            {
-                getLogger().debug( "Component requested without a RoleManager set.\nThat means this ComponentManager was not configured." );
-            }
-        }
-
-        if( null == handler )
-        {
-            final String message = "Could not find component";
-            if( getLogger().isErrorEnabled() )
-            {
-                getLogger().debug( message + " for role: " + role );
-            }
-            throw new ComponentException( message );
-        }
-
-        Component component = null;
-
-        try
-        {
-            component = handler.get();
-        }
-        catch( final IllegalStateException ise )
-        {
             try
             {
-                handler.initialize();
-                component = handler.get();
+                handler.put( component );
             }
-            catch( final Exception e )
+            catch( Exception e )
             {
-                final String message = "Could not access the Component";
                 if( getLogger().isDebugEnabled() )
                 {
-                    getLogger().debug( message + " for role: " + role, e );
+                    getLogger().debug( "Error trying to release component.", e );
                 }
-
-                throw new ComponentException( message, e );
             }
         }
-        catch( final Exception e )
+        else if( null != m_parentManager )
         {
-            final String message = "Could not access the Component";
-            if( getLogger().isDebugEnabled() )
-            {
-                getLogger().debug( message + " for role: " + role, e );
-            }
-
-            throw new ComponentException( message, e );
+            m_parentManager.release( component );
         }
-
-        // Add a mapping between the component and its handler.
-        //  In the case of a ThreadSafeComponentHandler, the same component will be mapped
-        //  multiple times but because each put will overwrite the last, this is not a
-        //  problem.  Checking to see if the put has already been done would be slower.
-        m_componentMapping.put( component, handler );
-
-        return component;
+        else
+        {
+            getLogger().warn( "Attempted to release a " + component.getClass().getName() +
+                              " but its handler could not be located." );
+        }
     }
 
+    /*---------------------------------------------------------------
+     * Configurable Methods
+     *-------------------------------------------------------------*/
     /**
-     * Configure the ComponentManager.
+     * Configure the ComponentLocator.
      */
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
         if( null == m_roles )
         {
-            DefaultRoleManager role_info = new DefaultRoleManager();
-            role_info.setLogger( getLogger() );
-            role_info.configure( configuration );
-            m_roles = role_info;
+            final DefaultRoleManager roleInfo = new DefaultRoleManager();
+            roleInfo.enableLogging( getLogger() );
+            roleInfo.configure( configuration );
+            m_roles = roleInfo;
             getLogger().debug( "No RoleManager given, deriving one from configuration" );
         }
 
@@ -422,8 +469,8 @@ public class ExcaliburComponentManager
                     {
                         if( getLogger().isDebugEnabled() )
                         {
-                            getLogger().debug( "Adding component (" + role + " = " +
-                                               className + ")" );
+                            getLogger().debug( "Adding component (" + role + " = "
+                                + className + ")" );
                         }
 
                         final Class clazz = m_loader.loadClass( className );
@@ -435,8 +482,9 @@ public class ExcaliburComponentManager
 
                         if( getLogger().isErrorEnabled() )
                         {
-                            getLogger().error( message + className + " for role " + role +
-                                               " on configuration element " + configurations[ i ].getName(), cnfe );
+                            getLogger().error( message + className + " for role " + role
+                                + " on configuration element " + configurations[ i ].getName(),
+                                cnfe );
                         }
 
                         throw new ConfigurationException( message, cnfe );
@@ -447,8 +495,9 @@ public class ExcaliburComponentManager
 
                         if( getLogger().isErrorEnabled() )
                         {
-                            getLogger().error( message + className + " for role " + role +
-                                               " on configuration element " + configurations[ i ].getName(), ce );
+                            getLogger().error( message + className + " for role " + role
+                                + " on configuration element " + configurations[ i ].getName(),
+                                ce );
                         }
 
                         throw new ConfigurationException( message, ce );
@@ -466,6 +515,165 @@ public class ExcaliburComponentManager
         }
     }
 
+    /*---------------------------------------------------------------
+     * Contextual
+    /*---------------------------------------------------------------
+     * Contextualizable Methods
+     *-------------------------------------------------------------*/
+    /** Set up the Component's Context.
+     */
+    public void contextualize( final Context context )
+    {
+        if( null == m_context )
+        {
+            m_context = context;
+        }
+    }
+
+    /*---------------------------------------------------------------
+     * Initializable Methods
+     *-------------------------------------------------------------*/
+    /** Properly initialize of the Child handlers.
+     */
+    public void initialize()
+        throws Exception
+    {
+        if( m_instrumentManager != null )
+        {
+            m_instrumentManager.registerInstrumentable( this, m_instrumentableName );
+        }
+
+        synchronized( this )
+        {
+            m_initialized = true;
+
+            for( int i = 0; i < m_newComponentHandlers.size(); i++ )
+            {
+                final ComponentHandler handler =
+                    (ComponentHandler)m_newComponentHandlers.get( i );
+                try
+                {
+                    handler.initialize();
+
+                    // Manually register the handler so that it will be located under the
+                    //  instrument manager, seperate from the actual instrumentable data of the
+                    //  components
+                    if( ( m_instrumentManager != null ) &&
+                        ( handler instanceof Instrumentable ) )
+                    {
+                        String handleInstName = ( (Instrumentable)handler ).getInstrumentableName();
+                        m_instrumentManager.registerInstrumentable( handler, handleInstName );
+                    }
+                }
+                catch( Exception e )
+                {
+                    if( getLogger().isErrorEnabled() )
+                    {
+                        getLogger().error( "Caught an exception trying to initialize "
+                                           + "the component handler.", e );
+                    }
+
+                    // Rethrow the exception
+                    throw e;
+                }
+            }
+
+            List keys = new ArrayList( m_componentHandlers.keySet() );
+
+            for( int i = 0; i < keys.size(); i++ )
+            {
+                final Object key = keys.get( i );
+                final ComponentHandler handler =
+                    (ComponentHandler)m_componentHandlers.get( key );
+
+                if( !m_newComponentHandlers.contains( handler ) )
+                {
+                    try
+                    {
+                        handler.initialize();
+
+                        // Manually register the handler so that it will be located under the
+                        //  instrument manager, seperate from the actual instrumentable data of the
+                        //  components
+                        if( ( m_instrumentManager != null ) &&
+                            ( handler instanceof Instrumentable ) )
+                        {
+                            String handleInstName =
+                                ( (Instrumentable)handler ).getInstrumentableName();
+                            m_instrumentManager.registerInstrumentable( handler, handleInstName );
+                        }
+                    }
+                    catch( Exception e )
+                    {
+                        if( getLogger().isErrorEnabled() )
+                        {
+                            getLogger().error( "Caught an exception trying to initialize "
+                                               + "the component handler.", e );
+
+                            // Rethrow the exception
+                            throw e;
+                        }
+                    }
+                }
+            }
+            m_newComponentHandlers.clear();
+        }
+    }
+
+    /*---------------------------------------------------------------
+     * Disposable Methods
+     *-------------------------------------------------------------*/
+    /** Properly dispose of the Child handlers.
+     */
+    public void dispose()
+    {
+        synchronized( this )
+        {
+            boolean forceDisposal = false;
+
+            final List disposed = new ArrayList();
+
+            while( m_componentHandlers.size() > 0 )
+            {
+                for( Iterator iterator = m_componentHandlers.keySet().iterator();
+                     iterator.hasNext(); )
+                {
+                    final Object role = iterator.next();
+
+                    final ComponentHandler handler =
+                        (ComponentHandler)m_componentHandlers.get( role );
+
+                    if( forceDisposal || handler.canBeDisposed() )
+                    {
+                        if( forceDisposal && getLogger().isWarnEnabled() )
+                        {
+                            getLogger().warn
+                                ( "disposing of handler for unreleased component."
+                                  + " role [" + role + "]" );
+                        }
+
+                        handler.dispose();
+                        disposed.add( role );
+                    }
+                }
+
+                if( disposed.size() > 0 )
+                {
+                    removeDisposedHandlers( disposed );
+                }
+                else
+                {   // no more disposable handlers!
+                    forceDisposal = true;
+                }
+            }
+
+            m_disposed = true;
+        }
+    }
+
+    /*---------------------------------------------------------------
+     * RoleManageable Methods
+     *-------------------------------------------------------------*/
     /**
      * Configure the RoleManager
      */
@@ -477,6 +685,9 @@ public class ExcaliburComponentManager
         }
     }
 
+    /*---------------------------------------------------------------
+     * LogKitManageable Methods
+     *-------------------------------------------------------------*/
     /**
      * Configure the LogKitManager
      */
@@ -484,55 +695,108 @@ public class ExcaliburComponentManager
     {
         if( null == m_logkit )
         {
-            m_logkit = logkit;
+            m_logkit = new LogkitLoggerManager( null, logkit );
         }
     }
 
+    /*---------------------------------------------------------------
+     * InstrumentManageable Methods
+     *-------------------------------------------------------------*/
     /**
-     * Release a Component.  This implementation makes sure it has a handle on the propper
-     * ComponentHandler, and let's the ComponentHandler take care of the actual work.
+     * Sets the InstrumentManager for child components.  Can be for special
+     * purpose components, however it is used mostly internally.
+     *
+     * @param instrumentManager The InstrumentManager for the component to use.
      */
-    public void release( final Component component )
+    public void setInstrumentManager( InstrumentManager instrumentManager )
     {
-        if( null == component )
+        m_instrumentManager = instrumentManager;
+    }
+
+    /*---------------------------------------------------------------
+     * Instrumentable Methods
+     *-------------------------------------------------------------*/
+    /**
+     * Sets the name for the Instrumentable.  The Instrumentable Name is used
+     *  to uniquely identify the Instrumentable during the configuration of
+     *  the InstrumentManager and to gain access to an InstrumentableDescriptor
+     *  through the InstrumentManager.  The value should be a string which does
+     *  not contain spaces or periods.
+     * <p>
+     * This value may be set by a parent Instrumentable, or by the
+     *  InstrumentManager using the value of the 'instrumentable' attribute in
+     *  the configuration of the component.
+     *
+     * @param name The name used to identify a Instrumentable.
+     */
+    public void setInstrumentableName( String name )
+    {
+        // Ignored.  The ECM name is fixed.
+    }
+
+    /**
+     * Gets the name of the Instrumentable.
+     *
+     * @return The name used to identify a Instrumentable.
+     */
+    public String getInstrumentableName()
+    {
+        return m_instrumentableName;
+    }
+
+    /**
+     * Obtain a reference to all the Instruments that the Instrumentable object
+     *  wishes to expose.  All sampling is done directly through the
+     *  Instruments as opposed to the Instrumentable interface.
+     *
+     * @return An array of the Instruments available for profiling.  Should
+     *         never be null.  If there are no Instruments, then
+     *         EMPTY_INSTRUMENT_ARRAY can be returned.  This should never be
+     *         the case though unless there are child Instrumentables with
+     *         Instruments.
+     */
+    public Instrument[] getInstruments()
+    {
+        return Instrumentable.EMPTY_INSTRUMENT_ARRAY;
+    }
+
+    /**
+     * Any Object which implements Instrumentable can also make use of other
+     *  Instrumentable child objects.  This method is used to tell the
+     *  InstrumentManager about them.
+     *
+     * @return An array of child Instrumentables.  This method should never
+     *         return null.  If there are no child Instrumentables, then
+     *         EMPTY_INSTRUMENTABLE_ARRAY can be returned.
+     */
+    public Instrumentable[] getChildInstrumentables()
+    {
+        // Child instrumentables register themselves as they are discovered.
+        return EMPTY_INSTRUMENTABLE_ARRAY;
+    }
+
+    /*---------------------------------------------------------------
+     * Methods
+     *-------------------------------------------------------------*/
+    private void removeDisposedHandlers( List disposed )
+    {
+
+        for( Iterator iterator = disposed.iterator(); iterator.hasNext(); )
         {
-            return;
+            m_componentHandlers.remove( iterator.next() );
         }
 
-        // The m_componentMapping BucketMap itself is threadsafe, and because the same component
-        //  will never be released by more than one thread, this method does not need any
-        //  synchronization around the access to the map.
+        disposed.clear();
+    }
 
-        final ComponentHandler handler =
-            (ComponentHandler)m_componentMapping.get( component );
-
-        if( null != handler )
+    /**
+     * Configure the LoggerManager.
+     */
+    public void setLoggerManager( final LoggerManager logkit )
+    {
+        if( null == m_logkit )
         {
-            try
-            {
-                handler.put( component );
-            }
-            catch( Exception e )
-            {
-                if( getLogger().isDebugEnabled() )
-                {
-                    getLogger().debug( "Error trying to release component.", e );
-                }
-            }
-
-            // ThreadSafe components will always be using a ThreadSafeComponentHandler,
-            //  they will only have a single entry in the m_componentMapping map which
-            //  should not be removed until the ComponentManager is disposed.  All
-            //  other components have an entry for each instance which should be
-            //  removed.
-            if( !( handler instanceof ThreadSafeComponentHandler ) )
-            {
-                m_componentMapping.remove( component );
-            }
-        }
-        else if( null != m_parentManager )
-        {
-            m_parentManager.release( component );
+            m_logkit = new LogkitLoggerManager( logkit, null );
         }
     }
 
@@ -550,31 +814,31 @@ public class ExcaliburComponentManager
      *
      * @throws Exception If there were any problems obtaining a ComponentHandler
      */
-    protected ComponentHandler getComponentHandler( final Class componentClass,
+    protected ComponentHandler getComponentHandler( final String role,
+                                                    final Class componentClass,
                                                     final Configuration configuration,
                                                     final Context context,
                                                     final RoleManager roleManager,
-                                                    final LogKitManager logkitManager )
+                                                    final LogkitLoggerManager logkitManager )
         throws Exception
     {
-        return ComponentHandler.getComponentHandler( componentClass,
+        // The instrumentable name will be set by first looking for a name set using
+        //  the instrumentable attribute.  If missing, the name of the configuration
+        //  element is used.
+        String instrumentableName =
+            configuration.getAttribute( "instrumentable", configuration.getName() );
+
+        return ComponentHandler.getComponentHandler( role,
+                                                     componentClass,
                                                      configuration,
                                                      this,
                                                      context,
                                                      roleManager,
-                                                     logkitManager );
+                                                     logkitManager,
+                                                     m_instrumentManager,
+                                                     instrumentableName );
     }
 
-    /**
-     * Makes the ComponentHandlers available to subclasses.
-     *
-     * @return A collection of the reference to the componentHandler Map.
-     */
-    protected BucketMap getComponentHandlers()
-    {
-        return m_componentHandlers;
-    }
-    
     /**
      * Add a new component to the manager.
      *
@@ -589,17 +853,19 @@ public class ExcaliburComponentManager
     {
         if( m_initialized )
         {
-            throw new ComponentException( "Cannot add components to an initialized ComponentManager", null );
+            throw new ComponentException( role,
+                "Cannot add components to an initialized ComponentLocator" );
         }
 
         try
         {
             if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug( "Attempting to get Handler for: " + role );
+                getLogger().debug( "Attempting to get Handler for role [" + role + "]" );
             }
 
-            final ComponentHandler handler = getComponentHandler( component,
+            final ComponentHandler handler = getComponentHandler( role,
+                                                                  component,
                                                                   configuration,
                                                                   m_context,
                                                                   m_roles,
@@ -610,13 +876,14 @@ public class ExcaliburComponentManager
                 getLogger().debug( "Handler type = " + handler.getClass().getName() );
             }
 
-            handler.setLogger( getLogger() );
+            handler.setLogger( getLogkitLogger() );
+            handler.enableLogging( getLogger() );
             m_componentHandlers.put( role, handler );
+            m_newComponentHandlers.add( handler );
         }
         catch( final Exception e )
         {
-            throw new ComponentException( "Could not set up Component for role: " +
-                                          role, e );
+            throw new ComponentException( role, "Could not set up Component.", e );
         }
     }
 
@@ -628,21 +895,23 @@ public class ExcaliburComponentManager
     {
         if( m_initialized )
         {
-            throw new IllegalStateException( "Cannot add components to an initialized ComponentManager" );
+            throw new IllegalStateException(
+                "Cannot add components to an initialized ComponentLocator" );
         }
 
         try
         {
             ComponentHandler handler =
                 ComponentHandler.getComponentHandler( instance );
-            handler.setLogger( getLogger() );
+            handler.setLogger( getLogkitLogger() );
+            handler.enableLogging( getLogger() );
             m_componentHandlers.put( role, handler );
         }
         catch( final Exception e )
         {
             if( getLogger().isWarnEnabled() )
             {
-                getLogger().warn( "Could not set up Component for role: " + role, e );
+                getLogger().warn( "Could not set up Component for role [" + role + "]", e );
             }
         }
     }

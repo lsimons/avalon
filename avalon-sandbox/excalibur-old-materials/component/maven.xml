@@ -1,20 +1,11 @@
 <?xml version="1.0"?>
 
-<!-- maven buildfile customization. We need to do rmi-compilation. -->
-
 <project default="java:jar"
     xmlns:j="jelly:core"
     xmlns:ant="jelly:ant">
 
     <!-- include the excalibur-wide custom project properties -->
     <property file="${basedir}/project.properties"/>
-    <property file="${basedir}/../project.properties"/>
-    <property file="${basedir}/../../project.properties"/>
-    <property file="${basedir}/../../../project.properties"/>
-    <property file="${basedir}/../../../../project.properties"/>
-
-    <!-- include the excalibur-wide custom goal decorators from maven-common.xml -->
-    <j:import file="${basedir}/../maven-common.xml" inherit="true"/>
 
     <!-- copy additional test resources -->
     <postGoal name="test:prepare-filesystem">

@@ -1,18 +1,61 @@
 /*
- * Copyright (C) The Apache Software Foundation. All rights reserved.
- *
- * This software is published under the terms of the Apache Software License
- * version 1.1, a copy of which has been included  with this distribution in
- * the LICENSE.txt file.
- */
+
+ ============================================================================
+                   The Apache Software License, Version 1.1
+ ============================================================================
+
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without modifica-
+ tion, are permitted provided that the following conditions are met:
+
+ 1. Redistributions of  source code must  retain the above copyright  notice,
+    this list of conditions and the following disclaimer.
+
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+ 3. The end-user documentation included with the redistribution, if any, must
+    include  the following  acknowledgment:  "This product includes  software
+    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
+    Alternately, this  acknowledgment may  appear in the software itself,  if
+    and wherever such third-party acknowledgments normally appear.
+
+ 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"
+    must not be used to endorse or promote products derived from this  software
+    without  prior written permission. For written permission, please contact
+    apache@apache.org.
+
+ 5. Products  derived from this software may not  be called "Apache", nor may
+    "Apache" appear  in their name,  without prior written permission  of the
+    Apache Software Foundation.
+
+ THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
+ INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
+ APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
+ INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
+ DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
+ ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
+ (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ This software  consists of voluntary contributions made  by many individuals
+ on  behalf of the Apache Software  Foundation. For more  information on the
+ Apache Software Foundation, please see <http://www.apache.org/>.
+
+*/
 package org.apache.avalon.excalibur.component;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.apache.avalon.excalibur.collections.BucketMap;
+
 import org.apache.avalon.excalibur.logger.LogKitManageable;
 import org.apache.avalon.excalibur.logger.LogKitManager;
+import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
@@ -25,19 +68,26 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.commons.collections.StaticBucketMap;
+import org.apache.excalibur.instrument.Instrument;
+import org.apache.excalibur.instrument.InstrumentManageable;
+import org.apache.excalibur.instrument.InstrumentManager;
+import org.apache.excalibur.instrument.Instrumentable;
 
 /**
  * Default component selector for Avalon's components.
  *
+ * @deprecated ECM is no longer supported
+ *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 05:09:02 $
+ * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
+ * @version CVS $Revision: 1.1.1.1 $ $Date: 2003/11/09 12:44:16 $
  * @since 4.0
  */
 public class ExcaliburComponentSelector
-    extends AbstractLoggable
+    extends AbstractDualLogEnabled
     implements Contextualizable,
     ComponentSelector,
     Composable,
@@ -46,7 +96,9 @@ public class ExcaliburComponentSelector
     ThreadSafe,
     Disposable,
     RoleManageable,
-    LogKitManageable
+    LogKitManageable,
+    InstrumentManageable,
+    Instrumentable
 {
     /** The classloader used for this system. */
     private final ClassLoader m_loader;
@@ -73,11 +125,11 @@ public class ExcaliburComponentSelector
 
     /** Static component handlers.
      */
-    private BucketMap m_componentHandlers = new BucketMap();
+    private StaticBucketMap m_componentHandlers = new StaticBucketMap();
 
     /** Dynamic component handlers mapping.
      */
-    private BucketMap m_componentMapping = new BucketMap();
+    private StaticBucketMap m_componentMapping = new StaticBucketMap();
 
     /** Flag for if this is disposed or not.
      */
@@ -93,8 +145,17 @@ public class ExcaliburComponentSelector
 
     /** The RoleManager to get hint shortcuts
      */
-    private LogKitManager m_logkit;
+    private LogkitLoggerManager m_logkit;
 
+    /** Instrument Manager to register objects created by this selector with (May be null). */
+    private InstrumentManager m_instrumentManager;
+
+    /** Instrumentable Name assigned to this Instrumentable */
+    private String m_instrumentableName;
+
+    /*---------------------------------------------------------------
+     * Constructors
+     *-------------------------------------------------------------*/
     /** Create the ComponentSelector */
     public ExcaliburComponentSelector()
     {
@@ -114,6 +175,9 @@ public class ExcaliburComponentSelector
         }
     }
 
+    /*---------------------------------------------------------------
+     * Contextualizable Methods
+     *-------------------------------------------------------------*/
     /** Provide the application Context.
      */
     public void contextualize( final Context context )
@@ -124,49 +188,93 @@ public class ExcaliburComponentSelector
         }
     }
 
-    /** Compose the ComponentSelector so that we know what the parent ComponentManager is.
+    /*---------------------------------------------------------------
+     * ComponentSelector Methods
+     *-------------------------------------------------------------*/
+    /**
+     * Return an instance of a component based on a hint.  The Composable has already selected the
+     * role, so the only part left it to make sure the Component is handled.
      */
-    public void compose( final ComponentManager componentManager )
+    public Component select( final Object hint )
         throws ComponentException
     {
-        //HACK: Is this necessary???
-        if( null == m_componentManager )
+        if( !m_initialized )
         {
-            m_componentManager = componentManager;
-        }
-    }
-
-    /** Properly initialize of the Child handlers.
-     */
-    public void initialize()
-    {
-        synchronized( this )
-        {
-            m_initialized = true;
-
-            List keys = new ArrayList( m_componentHandlers.keySet() );
-
-            for( int i = 0; i < keys.size(); i++ )
+            if( getLogger().isWarnEnabled() )
             {
-                final Object key = keys.get( i );
-                final ComponentHandler handler =
-                    (ComponentHandler)m_componentHandlers.get( key );
-
-                try
-                {
-                    handler.initialize();
-                }
-                catch( Exception e )
-                {
-                    if( getLogger().isDebugEnabled() )
-                    {
-                        getLogger().debug( "Caught an exception trying to initialize " +
-                                           "of the component handler.", e );
-                    }
-                }
-
+                getLogger().warn( "Looking up component on an uninitialized ComponentLocator "
+                    + "with hint [" + hint + "]" );
             }
         }
+
+        if( m_disposed )
+        {
+            throw new IllegalStateException(
+                "You cannot select a Component from a disposed ComponentSelector" );
+        }
+
+        if( null == hint )
+        {
+            final String message = getName()
+                + ": ComponentSelector Attempted to retrieve component with null hint.";
+            if( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( message );
+            }
+
+            throw new ComponentException( message );
+        }
+
+        ComponentHandler handler = (ComponentHandler)m_componentHandlers.get( hint );
+
+        // Retrieve the instance of the requested component
+        if( null == handler )
+        {
+            final String message = getName()
+                + ": ComponentSelector could not find the component for hint [" + hint + "]";
+            if( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( message );
+            }
+            throw new ComponentException( hint.toString(), message );
+        }
+
+        Component component = null;
+
+        try
+        {
+            component = handler.get();
+        }
+        catch( final ComponentException ce )
+        {
+            //rethrow
+            throw ce;
+        }
+        catch( final Exception e )
+        {
+            final String message = getName()
+                + ": ComponentSelector could not access the Component for hint [" + hint + "]";
+
+            if( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( message, e );
+            }
+            throw new ComponentException( hint.toString(), message, e );
+        }
+
+        if( null == component )
+        {
+            final String message = getName()
+                + ": ComponentSelector could not find the component for hint [" + hint + "]";
+            if( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( message );
+            }
+            throw new ComponentException( hint.toString(), message );
+        }
+
+        m_componentMapping.put( component.toString(), handler );
+        return component;
     }
 
     /**
@@ -181,8 +289,8 @@ public class ExcaliburComponentSelector
 
         try
         {
-            this.release( this.select( hint ) );
-            exists = true;
+            ComponentHandler handler = (ComponentHandler)m_componentHandlers.get( hint );
+            exists = (handler != null);
         }
         catch( Throwable t )
         {
@@ -193,114 +301,72 @@ public class ExcaliburComponentSelector
     }
 
     /**
-     * Properly dispose of all the ComponentHandlers.
+     * Release the Component to the propper ComponentHandler.
      */
-    public void dispose()
+    public void release( final Component component )
     {
-        synchronized( this )
+        if( null == component )
         {
-            Iterator keys = m_componentHandlers.keySet().iterator();
-            List keyList = new ArrayList();
+            return;
+        }
 
-            while( keys.hasNext() )
+        final ComponentHandler handler =
+            (ComponentHandler)m_componentMapping.get( component.toString() );
+
+        if( null == handler )
+        {
+            getLogger().warn( "Attempted to release a " + component.getClass().getName()
+                + " but its handler could not be located." );
+            return;
+        }
+
+        // ThreadSafe components will always be using a ThreadSafeComponentHandler,
+        //  they will only have a single entry in the m_componentMapping map which
+        //  should not be removed until the ComponentLocator is disposed.  All
+        //  other components have an entry for each instance which should be
+        //  removed.
+        if( !( handler instanceof ThreadSafeComponentHandler ) )
+        {
+            // Remove the component before calling put.  This is critical to avoid the
+            //  problem where another thread calls put on the same component before
+            //  remove can be called.
+            m_componentMapping.remove( component.toString() );
+        }
+
+        try
+        {
+            handler.put( component );
+        }
+        catch( Exception e )
+        {
+            if( getLogger().isDebugEnabled() )
             {
-                Object key = keys.next();
-                ComponentHandler handler =
-                    (ComponentHandler)m_componentHandlers.get( key );
-
-                handler.dispose();
-
-                keyList.add( key );
+                getLogger().debug( "Error trying to release component", e );
             }
-
-            keys = keyList.iterator();
-
-            while( keys.hasNext() )
-            {
-                m_componentHandlers.remove( keys.next() );
-            }
-
-            keyList.clear();
-
-            m_disposed = true;
         }
     }
 
     /**
-     * Return an instance of a component based on a hint.  The Composable has already selected the
-     * role, so the only part left it to make sure the Component is handled.
+     * Is this component looked up using this selector?
      */
-    public Component select( final Object hint )
-        throws ComponentException
-    {
-        if( !m_initialized )
-        {
-            if( getLogger().isWarnEnabled() )
-            {
-                getLogger().warn( "Looking up component on an uninitialized ComponentManager: " + hint );
-            }
-        }
-
-        if( m_disposed )
-        {
-            throw new IllegalStateException( "You cannot select a Component from a disposed ComponentSelector" );
-        }
-
-        if( null == hint )
-        {
-            final String message = getName() + ": ComponentSelector Attempted to retrieve component with null hint.";
-            if( getLogger().isErrorEnabled() )
-            {
-                getLogger().error( message );
-            }
-
-            throw new ComponentException( message );
-        }
-
-        ComponentHandler handler = (ComponentHandler)m_componentHandlers.get( hint );
-
-        // Retrieve the instance of the requested component
-        if( null == handler )
-        {
-            final String message = getName() + ": ComponentSelector could not find the component for hint: " + hint;
-            if( getLogger().isDebugEnabled() )
-            {
-                getLogger().debug( message );
-            }
-            throw new ComponentException( message );
-        }
-
-        Component component = null;
-
-        try
-        {
-            component = handler.get();
-        }
-        catch( final Exception e )
-        {
-            final String message = getName() + ": ComponentSelector could not access the Component for hint: " + hint;
-
-            if( getLogger().isDebugEnabled() )
-            {
-                getLogger().debug( message, e );
-            }
-            throw new ComponentException( message, e );
-        }
-
-        if( null == component )
-        {
-            final String message = getName() + ": ComponentSelector could not find the component for hint: " + hint;
-            if( getLogger().isDebugEnabled() )
-            {
-                getLogger().debug( message );
-            }
-            throw new ComponentException( message );
-        }
-
-        m_componentMapping.put( component, handler );
-        return component;
+    protected boolean canRelease(final Component component) {
+          return m_componentMapping.containsKey( component.toString() );
     }
 
+    /*---------------------------------------------------------------
+     * Composable Methods
+     *-------------------------------------------------------------*/
+    /** Compose the ComponentSelector so that we know what the parent ComponentLocator is.
+     */
+    public void compose( final ComponentManager componentManager )
+        throws ComponentException
+    {
+        m_componentManager = componentManager;
+    }
+
+    /*---------------------------------------------------------------
+     * Configurable Methods
+     *-------------------------------------------------------------*/
     /**
      * Default Configuration handler for ComponentSelector.
      */
@@ -350,8 +416,8 @@ public class ExcaliburComponentSelector
             catch( final ClassNotFoundException cnfe )
             {
                 final String message =
-                    "The component instance for '" + hint +
-                    "' has an invalid class name (" + className + ").";
+                    "The component instance for hint [" + hint
+                    + "] has an invalid class name (" + className + ").";
                 if( getLogger().isErrorEnabled() )
                 {
                     getLogger().error( message, cnfe );
@@ -363,8 +429,8 @@ public class ExcaliburComponentSelector
             {
                 if( getLogger().isErrorEnabled() )
                 {
-                    getLogger().error( "The component instance for '" + hint +
-                                       "' is not valid.", ce );
+                    getLogger().error(
+                        "The component instance for hint [" + hint + "] is not valid.", ce );
                 }
 
                 throw new ConfigurationException( "Could not set up component", ce );
@@ -373,13 +439,104 @@ public class ExcaliburComponentSelector
             {
                 if( getLogger().isErrorEnabled() )
                 {
-                    getLogger().error( "Unexpected exception for hint: " + hint, e );
+                    getLogger().error( "Unexpected exception for hint [" + hint + "]", e );
                 }
                 throw new ConfigurationException( "Unexpected exception", e );
             }
         }
     }
 
+    /*---------------------------------------------------------------
+     * Initializable Methods
+     *-------------------------------------------------------------*/
+    /** Properly initialize of the Child handlers.
+     */
+    public void initialize()
+    {
+        synchronized( this )
+        {
+            m_initialized = true;
+
+            List keys = new ArrayList( m_componentHandlers.keySet() );
+
+            for( int i = 0; i < keys.size(); i++ )
+            {
+                final Object key = keys.get( i );
+                final ComponentHandler handler =
+                    (ComponentHandler)m_componentHandlers.get( key );
+
+                try
+                {
+                    handler.initialize();
+
+         //ly register the handler so that it will be located under the
+                    //  instrument manager, seperate from the actual instrumentable data of the
+                    //  components
+                    if ( ( m_instrumentManager != null ) &&
+                        ( handler instanceof Instrumentable ) )
+                    {
+                        String handleInstName = ((Instrumentable)handler).getInstrumentableName();
+                        m_instrumentManager.registerInstrumentable( handler, handleInstName );
+                    }
+                }
+                catch( Exception e )
+                {
+                    if( getLogger().isDebugEnabled() )
+                    {
+                        getLogger().debug( "Caught an exception trying to initialize "
+                            + "of the component handler.", e );
+                    }
+                }
+
+            }
+        }
+    }
+
+    /*---------------------------------------------------------------
+     * ThreadSafe Methods
+     *-------------------------------------------------------------*/
+    // No methods
+
+    /*---------------------------------------------------------------
+     * Disposable Methods
+     *-------------------------------------------------------------*/
+    /**
+     * Properly dispose of all the ComponentHandlers.
+     */
+    public void dispose()
+    {
+        synchronized( this )
+        {
+            Iterator keys = m_componentHandlers.keySet().iterator();
+            List keyList = new ArrayList();
+
+            while( keys.hasNext() )
+            {
+                Object key = keys.next();
+                ComponentHandler handler =
+                    (ComponentHandler)m_componentHandlers.get( key );
+
+                handler.dispose();
+
+                keyList.add( key );
+            }
+
+            keys = keyList.iterator();
+
+            while( keys.hasNext() )
+            {
+                m_componentHandlers.remove( keys.next() );
+            }
+
+            keyList.clear();
+
+            m_disposed = true;
+        }
+    }
+
+    /*---------------------------------------------------------------
+     * RoleManageable Methods
+     *-------------------------------------------------------------*/
     /**
      * Configure the RoleManager
      */
@@ -391,6 +548,9 @@ public class ExcaliburComponentSelector
         }
     }
 
+    /*---------------------------------------------------------------
+     * LogKitManageable Methods
+     *-------------------------------------------------------------*/
     /**
      * Configure the LogKitManager
      */
@@ -398,41 +558,98 @@ public class ExcaliburComponentSelector
     {
         if( null == m_logkit )
         {
-            m_logkit = logkit;
+            m_logkit = new LogkitLoggerManager( null, logkit );
         }
     }
 
+    /*---------------------------------------------------------------
+     * InstrumentManageable Methods
+     *-------------------------------------------------------------*/
     /**
-     * Release the Component to the propper ComponentHandler.
+     * Sets the InstrumentManager for child components.  Can be for special
+     * purpose components, however it is used mostly internally.
+     *
+     * @param instrumentManager The InstrumentManager for the component to use.
      */
-    public void release( final Component component )
+    public void setInstrumentManager( final InstrumentManager instrumentManager )
     {
-        if( null == component )
-        {
-            return;
-        }
+        m_instrumentManager = instrumentManager;
+    }
 
-        final ComponentHandler handler =
-            (ComponentHandler)m_componentMapping.get( component );
+    /*---------------------------------------------------------------
+     * Instrumentable Methods
+     *-------------------------------------------------------------*/
+    /**
+     * Sets the name for the Instrumentable.  The Instrumentable Name is used
+     *  to uniquely identify the Instrumentable during the configuration of
+     *  the InstrumentManager and to gain access to an InstrumentableDescriptor
+     *  through the InstrumentManager.  The value should be a string which does
+     *  not contain spaces or periods.
+     * <p>
+     * This value may be set by a parent Instrumentable, or by the
+     *  InstrumentManager using the value of the 'instrumentable' attribute in
+     *  the configuration of the component.
+     *
+     * @param name The name used to identify a Instrumentable.
+     */
+    public void setInstrumentableName( String name )
+    {
+        m_instrumentableName = name;
+    }
 
-        if( null == handler )
-        {
-            return;
-        }
+    /**
+     * Gets the name of the Instrumentable.
+     *
+     * @return The name used to identify a Instrumentable.
+     */
+    public String getInstrumentableName()
+    {
+        return m_instrumentableName;
+    }
 
-        try
-        {
-            handler.put( component );
-        }
-        catch( Exception e )
-        {
-            if( getLogger().isDebugEnabled() )
-            {
-                getLogger().debug( "Error trying to release component", e );
-            }
-        }
+    /**
+     * Obtain a reference to all the Instruments that the Instrumentable object
+     *  wishes to expose.  All sampling is done directly through the
+     *  Instruments as opposed to the Instrumentable interface.
+     *
+     * @return An array of the Instruments available for profiling.  Should
+     *         never be null.  If there are no Instruments, then
+     *         EMPTY_INSTRUMENT_ARRAY can be returned.  This should never be
+     *         the case though unless there are child Instrumentables with
+     *         Instruments.
+     */
+    public Instrument[] getInstruments()
+    {
+        return Instrumentable.EMPTY_INSTRUMENT_ARRAY;
+    }
 
-        m_componentMapping.remove( component );
+    /**
+     * Any Object which implements Instrumentable can also make use of other
+     *  Instrumentable child objects.  This method is used to tell the
+     *  InstrumentManager about them.
+     *
+     * @return An array of child Instrumentables.  This method should never
+     *         return null.  If there are no child Instrumentables, then
+     *         EMPTY_INSTRUMENTABLE_ARRAY can be returned.
+     */
+    public Instrumentable[] getChildInstrumentables()
+    {
+        // Child instrumentables register themselves as they are discovered.
+        return EMPTY_INSTRUMENTABLE_ARRAY;
+    }
+
+    /*---------------------------------------------------------------
+     * Methods
+     *-------------------------------------------------------------*/
+    /**
+     * Configure the LoggerManager.
+     */
+    public void setLoggerManager( final LoggerManager logkit )
+    {
+        if( null == m_logkit )
+        {
+            m_logkit = new LogkitLoggerManager( logkit, null );
+        }
     }
 
     /**
@@ -443,7 +660,7 @@ public class ExcaliburComponentSelector
      * @param componentClass Class of the component for which the handle is
      *                       being requested.
      * @param configuration The configuration for this component.
-     * @param componentManager The ComponentManager which will be managing
+     * @param componentManager The ComponentLocator which will be managing
      *                         the Component.
      * @param context The current context object.
      * @param roleManager The current RoleManager.
@@ -451,20 +668,31 @@ public class ExcaliburComponentSelector
      *
      * @throws Exception If there were any problems obtaining a ComponentHandler
      */
-    protected ComponentHandler getComponentHandler( final Class componentClass,
+    protected ComponentHandler getComponentHandler( final String role,
+                                                    final Class componentClass,
                                                     final Configuration configuration,
                                                     final ComponentManager componentManager,
                                                     final Context context,
                                                     final RoleManager roleManager,
-                                                    final LogKitManager logkitManager )
+                                                    final LogkitLoggerManager logkitManager )
         throws Exception
     {
-        return ComponentHandler.getComponentHandler( componentClass,
+        // The instrumentable name will be set by first looking for a name set using
+        //  the instrumentable attribute.  If missing, the name attribute is used.
+        //  Finally, the name of the configuration element is used.
+        String instrumentableName = m_instrumentableName + "."
+            + configuration.getAttribute( "instrumentable",
+                configuration.getAttribute( "name", configuration.getName() ) );
+
+        return ComponentHandler.getComponentHandler( role,
+                                                     componentClass,
                                                      configuration,
                                                      componentManager,
                                                      context,
                                                      roleManager,
-                                                     logkitManager );
+                                                     logkitManager,
+                                                     m_instrumentManager,
+                                                     instrumentableName );
     }
 
     /**
@@ -472,15 +700,15 @@ public class ExcaliburComponentSelector
      *
      * @return A reference to the componentHandler Map.
      */
-    protected BucketMap getComponentHandlers()
+    protected StaticBucketMap getComponentHandlers()
     {
         return m_componentHandlers;
     }
-    
+
     /** Add a new component to the manager.
      * @param hint the hint name for the new component.
      * @param component the class of this component.
-     * @param Configuration the configuration for this component.
+     * @param configuration the configuration for this component.
      */
     public void addComponent( final Object hint,
                               final Class component,
@@ -489,37 +717,41 @@ public class ExcaliburComponentSelector
     {
         if( m_initialized )
         {
-            throw new ComponentException( "Cannot add components to an initialized ComponentSelector", null );
+            throw new ComponentException( hint.toString(),
+                "Cannot add components to an initialized ComponentSelector", null );
         }
 
         try
         {
-            final ComponentHandler handler = getComponentHandler( component,
+            final ComponentHandler handler = getComponentHandler( m_rolename,
+                                                                  component,
                                                                   configuration,
                                                                   m_componentManager,
                                                                   m_context,
                                                                   m_roles,
                                                                   m_logkit );
 
-            handler.setLogger( getLogger() );
+            handler.setLogger( getLogkitLogger() );
+            handler.enableLogging( getLogger() );
             handler.initialize();
             m_componentHandlers.put( hint, handler );
 
             if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug( "Adding " + component.getName() + " for " + hint.toString() );
+                getLogger().debug(
+                    "Adding " + component.getName() + " for hint [" + hint.toString() + "]" );
             }
         }
         catch( final Exception e )
         {
             final String message =
-                "Could not set up Component for hint: " + hint;
+                "Could not set up Component for hint [ " + hint + "]";
             if( getLogger().isErrorEnabled() )
             {
                 getLogger().error( message, e );
             }
 
-            throw new ComponentException( message, e );
+            throw new ComponentException( hint.toString(), message, e );
         }
     }
 
@@ -531,28 +763,30 @@ public class ExcaliburComponentSelector
     {
         if( m_initialized )
         {
-            throw new IllegalStateException( "Cannot add components to an initialized ComponentSelector" );
+            throw new IllegalStateException(
+                "Cannot add components to an initialized ComponentSelector" );
         }
 
         try
         {
             final ComponentHandler handler =
                 ComponentHandler.getComponentHandler( instance );
-            handler.setLogger( getLogger() );
+            handler.setLogger( getLogkitLogger() );
+            handler.enableLogging( getLogger() );
             handler.initialize();
             m_componentHandlers.put( hint, handler );
 
             if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug( "Adding " + instance.getClass().getName() +
-                                   " for " + hint.toString() );
+                getLogger().debug( "Adding " + instance.getClass().getName()
+                    + " for hint [" + hint.toString() + "]" );
             }
         }
         catch( final Exception e )
         {
             if( getLogger().isErrorEnabled() )
             {
-                getLogger().error( "Could not set up Component for hint: " + hint, e );
+                getLogger().error( "Could not set up Component for hint [" + hint + "]", e );
             }
         }
     }

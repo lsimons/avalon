@@ -1,19 +1,64 @@
 /*
- * Copyright (C) The Apache Software Foundation. All rights reserved.
- *
- * This software is published under the terms of the Apache Software License
- * version 1.1, a copy of which has been included with this distribution in
- * the LICENSE.txt file.
- */
+
+ ============================================================================
+                   The Apache Software License, Version 1.1
+ ============================================================================
+
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without modifica-
+ tion, are permitted provided that the following conditions are met:
+
+ 1. Redistributions of  source code must  retain the above copyright  notice,
+    this list of conditions and the following disclaimer.
+
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+ 3. The end-user documentation included with the redistribution, if any, must
+    include  the following  acknowledgment:  "This product includes  software
+    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
+    Alternately, this  acknowledgment may  appear in the software itself,  if
+    and wherever such third-party acknowledgments normally appear.
+
+ 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"
+    must not be used to endorse or promote products derived from this  software
+    without  prior written permission. For written permission, please contact
+    apache@apache.org.
+
+ 5. Products  derived from this software may not  be called "Apache", nor may
+    "Apache" appear  in their name,  without prior written permission  of the
+    Apache Software Foundation.
+
+ THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
+ INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
+ APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
+ INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
+ DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
+ ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
+ (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ This software  consists of voluntary contributions made  by many individuals
+ on  behalf of the Apache Software  Foundation. For more  information on the
+ Apache Software Foundation, please see <http://www.apache.org/>.
+
+*/
 package org.apache.avalon.excalibur.component.test;
 
+import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.excalibur.component.PoolableComponentHandler;
 import org.apache.avalon.excalibur.testcase.BufferedLogger;
 import org.apache.avalon.excalibur.testcase.ExcaliburTestCase;
-import org.apache.avalon.framework.component.ComponentManager;
 
 /**
  * Test the PoolableComponentHandler.
+ *
+ * @deprecated ECM is no longer supported
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
  */
@@ -33,15 +78,6 @@ public class PoolableComponentHandlerTestCase
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
-    /**
-     * Inner access method to manager to work around a bug in the Javac compiler
-     *  when manager is referenced from the method of an inner class.  Jikes seems to
-     *  handle it Ok. :-/
-     */
-    private ComponentManager getInnerManager()
-    {
-        return manager;
-    }
 
     /*---------------------------------------------------------------
      * TestCase Methods
@@ -73,19 +109,19 @@ public class PoolableComponentHandlerTestCase
         PoolableTestObject.setStaticLoggger( logger );
         PoolableTestObject.resetInstanceCounter();
 
-        PoolableTestObject[] poolables = new PoolableTestObject[ size ];
+        PoolableTestObjectInterface[] poolables = new PoolableTestObjectInterface[ size ];
 
         // Lookup the components.
         for( int i = 0; i < size; i++ )
         {
             poolables[ i ] =
-                (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+                (PoolableTestObjectInterface)lookup( PoolableTestObjectInterface.ROLE + "/" + name );
         }
 
         // Release the components.
         for( int i = 0; i < size; i++ )
         {
-            manager.release( poolables[ i ] );
+            release( (Component)poolables[ i ] );
             poolables[ i ] = null;
         }
 
@@ -93,13 +129,13 @@ public class PoolableComponentHandlerTestCase
         for( int i = 0; i < size; i++ )
         {
             poolables[ i ] =
-                (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+                (PoolableTestObjectInterface)lookup( PoolableTestObjectInterface.ROLE + "/" + name );
         }
 
         // Release the components.
         for( int i = 0; i < size; i++ )
         {
-            manager.release( poolables[ i ] );
+            release( (Component)poolables[ i ] );
             poolables[ i ] = null;
         }
 
@@ -145,7 +181,16 @@ public class PoolableComponentHandlerTestCase
             "DEBUG - PoolableTestObject #11 recycled.\n" +
             "DEBUG - PoolableTestObject #12 recycled.\n";
 
-        assertEquals( "Log did not contain the expected output.", resultLog, expectedLog );
+        try
+        {
+            assertEquals( "Log did not contain the expected output.", resultLog, expectedLog );
+        }
+        catch(junit.framework.ComparisonFailure cf)
+        {
+            // For clarity.
+            System.out.println( "Expected:\n" + expectedLog + "Was:\n" + resultLog);
+            throw cf;
+        }
     }
 
     /**
@@ -162,19 +207,19 @@ public class PoolableComponentHandlerTestCase
         PoolableTestObject.setStaticLoggger( logger );
         PoolableTestObject.resetInstanceCounter();
 
-        PoolableTestObject[] poolables = new PoolableTestObject[ size ];
+        PoolableTestObjectInterface[] poolables = new PoolableTestObjectInterface[ size ];
 
         // Lookup the components.
         for( int i = 0; i < size; i++ )
         {
             poolables[ i ] =
-                (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+                (PoolableTestObjectInterface)lookup( PoolableTestObjectInterface.ROLE + "/" + name );
         }
 
         // Release the components.
         for( int i = 0; i < size; i++ )
         {
-            manager.release( poolables[ i ] );
+            release( (Component)poolables[ i ] );
             poolables[ i ] = null;
         }
 
@@ -182,13 +227,13 @@ public class PoolableComponentHandlerTestCase
         for( int i = 0; i < size; i++ )
         {
             poolables[ i ] =
-                (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+                (PoolableTestObjectInterface)lookup( PoolableTestObjectInterface.ROLE + "/" + name );
         }
 
         // Release the components.
         for( int i = 0; i < size; i++ )
         {
-            manager.release( poolables[ i ] );
+            release( (Component)poolables[ i ] );
             poolables[ i ] = null;
         }
 
@@ -215,7 +260,16 @@ public class PoolableComponentHandlerTestCase
             "DEBUG - PoolableTestObject #2 recycled.\n" +
             "DEBUG - PoolableTestObject #6 recycled.\n";
 
-        assertEquals( "Log did not contain the expected output.", resultLog, expectedLog );
+        try
+        {
+            assertEquals( "Log did not contain the expected output.", resultLog, expectedLog );
+        }
+        catch(junit.framework.ComparisonFailure cf)
+        {
+            // For clarity.
+            System.out.println( "Expected:\n" + expectedLog + "Was:\n" + resultLog);
+            throw cf;
+        }
     }
 
     /**
@@ -232,19 +286,19 @@ public class PoolableComponentHandlerTestCase
         PoolableTestObject.setStaticLoggger( logger );
         PoolableTestObject.resetInstanceCounter();
 
-        PoolableTestObject[] poolables = new PoolableTestObject[ size ];
+        PoolableTestObjectInterface[] poolables = new PoolableTestObjectInterface[ size ];
 
         // Lookup the components.
         for( int i = 0; i < size; i++ )
         {
             poolables[ i ] =
-                (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+                (PoolableTestObjectInterface)lookup( PoolableTestObjectInterface.ROLE + "/" + name );
         }
 
         // Try to get one more.  Should fail.
         try
         {
-            manager.lookup( PoolableTestObject.ROLE + "_" + name );
+            lookup( PoolableTestObjectInterface.ROLE + "/" + name );
             fail( "Attempt to get more Pollables than are in the pool should have failed." );
         }
         catch( Exception e )
@@ -255,7 +309,7 @@ public class PoolableComponentHandlerTestCase
         // Release the components.
         for( int i = 0; i < size; i++ )
         {
-            manager.release( poolables[ i ] );
+            release( (Component)poolables[ i ] );
             poolables[ i ] = null;
         }
 
@@ -272,7 +326,54 @@ public class PoolableComponentHandlerTestCase
             "DEBUG - PoolableTestObject #3 recycled.\n" +
             "DEBUG - PoolableTestObject #4 recycled.\n";
 
-        assertEquals( "Log did not contain the expected output.", resultLog, expectedLog );
+        try
+        {
+            assertEquals( "Log did not contain the expected output.", resultLog, expectedLog );
+        }
+        catch(junit.framework.ComparisonFailure cf)
+        {
+            // For clarity.
+            System.out.println( "Expected:\n" + expectedLog + "Was:\n" + resultLog);
+            throw cf;
+        }
+    }
+
+    private static class TestMax4StrictBlockingThread extends Thread
+    {
+        private final ComponentManager manager;
+        private final BufferedLogger logger;
+
+        public TestMax4StrictBlockingThread( ComponentManager manager, BufferedLogger logger )
+        {
+            this.manager = manager;
+            this.logger = logger;
+        }
+
+        public void run()
+        {
+            final String name = "testMax4StrictBlocking";
+            try
+            {
+                logger.debug( "Lookup in second thread." );
+                PoolableTestObjectInterface poolable = (PoolableTestObjectInterface) manager.lookup( PoolableTestObjectInterface.ROLE + "/" + name );
+
+                // Give the main thread a chance to block
+                try
+                {
+                    Thread.sleep( 500 );
+                }
+                catch( InterruptedException e )
+                {
+                }
+
+                logger.debug( "Release in second thread." );
+                manager.release( (Component)poolable );
+            }
+            catch( Exception e )
+            {
+                e.printStackTrace ();
+            }
+        }
     }
 
     /**
@@ -292,44 +393,18 @@ public class PoolableComponentHandlerTestCase
         PoolableTestObject.setStaticLoggger( logger );
         PoolableTestObject.resetInstanceCounter();
 
-        PoolableTestObject[] poolables = new PoolableTestObject[ size ];
+        PoolableTestObjectInterface[] poolables = new PoolableTestObjectInterface[ size ];
 
         // Lookup the components.
         for( int i = 0; i < size; i++ )
         {
             poolables[ i ] =
-                (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+                (PoolableTestObjectInterface)lookup( PoolableTestObjectInterface.ROLE + "/" + name );
         }
 
         // In another thread, get and release another poolable to cause this one to wait.
-        new Thread()
-        {
-            public void run()
-            {
-                try
-                {
-                    logger.debug( "Lookup in second thread." );
-                    PoolableTestObject poolable =
-                        (PoolableTestObject)getInnerManager().lookup( PoolableTestObject.ROLE + "_" + name );
-
-                    // Give the main thread a chance to block
-                    try
-                    {
-                        Thread.sleep( 500 );
-                    }
-                    catch( InterruptedException e )
-                    {
-                    }
-
-                    logger.debug( "Release in second thread." );
-                    getInnerManager().release( poolable );
-                }
-                catch( Exception e )
-                {
-                    m_exception = e;
-                }
-            }
-        }.start();
+        TestMax4StrictBlockingThread secondThread = new TestMax4StrictBlockingThread( manager, logger );
+        secondThread.start();
 
         // Give the second thread a chance to get the 4th poolable
         try
@@ -342,16 +417,18 @@ public class PoolableComponentHandlerTestCase
 
         // Try to get one more.  Should block until the other thread has put it back.
         logger.debug( "Lookup in main thread." );
-        PoolableTestObject poolable =
-            (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+        PoolableTestObjectInterface poolable =
+            (PoolableTestObjectInterface)lookup( PoolableTestObjectInterface.ROLE + "/" + name );
 
         logger.debug( "Release in main thread." );
-        manager.release( poolable );
+        release( (Component)poolable );
+
+        secondThread.join();
 
         // Release the components.
         for( int i = 0; i < size; i++ )
         {
-            manager.release( poolables[ i ] );
+            release( (Component)poolables[ i ] );
             poolables[ i ] = null;
         }
 
@@ -376,7 +453,17 @@ public class PoolableComponentHandlerTestCase
             "DEBUG - PoolableTestObject #2 recycled.\n" +
             "DEBUG - PoolableTestObject #3 recycled.\n";
 
-        assertEquals( "Log did not contain the expected output.", resultLog, expectedLog );
+        try
+        {
+            assertEquals( "Log did not contain the expected output.", resultLog, expectedLog );
+        }
+        catch(junit.framework.ComparisonFailure cf)
+        {
+            // For clarity.
+            System.out.println( "Expected:\n" + expectedLog + "Was:\n" + resultLog);
+            throw cf;
+        }
+
     }
 
     /**
@@ -393,20 +480,20 @@ public class PoolableComponentHandlerTestCase
         PoolableTestObject.setStaticLoggger( logger );
         PoolableTestObject.resetInstanceCounter();
 
-        PoolableTestObject[] poolables = new PoolableTestObject[ size ];
+        PoolableTestObjectInterface[] poolables = new PoolableTestObjectInterface[ size ];
 
         // Lookup the components.
         for( int i = 0; i < size; i++ )
         {
             poolables[ i ] =
-                (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+                (PoolableTestObjectInterface)lookup( PoolableTestObjectInterface.ROLE + "/" + name );
         }
 
         // Try to get one more.  Should fail after 500 milliseconds.
         long start = System.currentTimeMillis();
         try
         {
-            manager.lookup( PoolableTestObject.ROLE + "_" + name );
+            lookup( PoolableTestObjectInterface.ROLE + "/" + name );
             fail( "Attempt to get more Pollables than are in the pool should have failed." );
         }
         catch( Exception e )
@@ -420,7 +507,7 @@ public class PoolableComponentHandlerTestCase
         // Release the components.
         for( int i = 0; i < size; i++ )
         {
-            manager.release( poolables[ i ] );
+            release( (Component)poolables[ i ] );
             poolables[ i ] = null;
         }
 
@@ -437,7 +524,16 @@ public class PoolableComponentHandlerTestCase
             "DEBUG - PoolableTestObject #3 recycled.\n" +
             "DEBUG - PoolableTestObject #4 recycled.\n";
 
-        assertEquals( "Log did not contain the expected output.", resultLog, expectedLog );
+        try
+        {
+            assertEquals( "Log did not contain the expected output.", resultLog, expectedLog );
+        }
+        catch(junit.framework.ComparisonFailure cf)
+        {
+            // For clarity.
+            System.out.println( "Expected:\n" + expectedLog + "Was:\n" + resultLog);
+            throw cf;
+        }
     }
 
     /**
@@ -452,27 +548,27 @@ public class PoolableComponentHandlerTestCase
         PoolableTestObject.setStaticLoggger( logger );
         PoolableTestObject.resetInstanceCounter();
 
-        PoolableTestObject[] poolables = new PoolableTestObject[ 4 ];
+        PoolableTestObjectInterface[] poolables = new PoolableTestObjectInterface[ 4 ];
 
         // Lookup and release all 4 components a couple of times.
         for( int i = 0; i < 4; i++ )
         {
             poolables[ i ] =
-                (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+                (PoolableTestObjectInterface)lookup( PoolableTestObjectInterface.ROLE + "/" + name );
         }
         for( int i = 0; i < 4; i++ )
         {
-            manager.release( poolables[ i ] );
+            release( (Component)poolables[ i ] );
             poolables[ i ] = null;
         }
         for( int i = 0; i < 4; i++ )
         {
             poolables[ i ] =
-                (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+                (PoolableTestObjectInterface)lookup( PoolableTestObjectInterface.ROLE + "/" + name );
         }
         for( int i = 0; i < 4; i++ )
         {
-            manager.release( poolables[ i ] );
+            release( (Component)poolables[ i ] );
             poolables[ i ] = null;
         }
 
@@ -489,11 +585,11 @@ public class PoolableComponentHandlerTestCase
         for( int i = 0; i < 2; i++ )
         {
             poolables[ i ] =
-                (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+                (PoolableTestObjectInterface)lookup( PoolableTestObjectInterface.ROLE + "/" + name );
         }
         for( int i = 0; i < 2; i++ )
         {
-            manager.release( poolables[ i ] );
+            release( (Component)poolables[ i ] );
             poolables[ i ] = null;
         }
 
@@ -512,11 +608,11 @@ public class PoolableComponentHandlerTestCase
         for( int i = 0; i < 4; i++ )
         {
             poolables[ i ] =
-                (PoolableTestObject)manager.lookup( PoolableTestObject.ROLE + "_" + name );
+                (PoolableTestObjectInterface)lookup( PoolableTestObjectInterface.ROLE + "/" + name );
         }
         for( int i = 0; i < 4; i++ )
         {
-            manager.release( poolables[ i ] );
+            release( (Component)poolables[ i ] );
             poolables[ i ] = null;
         }
 
@@ -548,7 +644,16 @@ public class PoolableComponentHandlerTestCase
             "DEBUG - PoolableTestObject #5 recycled.\n" +
             "DEBUG - PoolableTestObject #6 recycled.\n";
 
-        assertEquals( "Log did not contain the expected output.", resultLog, expectedLog );
+        try
+        {
+            assertEquals( "Log did not contain the expected output.", resultLog, expectedLog );
+        }
+        catch(junit.framework.ComparisonFailure cf)
+        {
+            // For clarity.
+            System.out.println( "Expected:\n" + expectedLog + "Was:\n" + resultLog);
+            throw cf;
+        }
     }
 }
 

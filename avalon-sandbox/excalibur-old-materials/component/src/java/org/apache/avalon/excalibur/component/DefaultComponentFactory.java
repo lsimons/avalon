@@ -1,48 +1,90 @@
 /*
- * Copyright (C) The Apache Software Foundation. All rights reserved.
- *
- * This software is published under the terms of the Apache Software License
- * version 1.1, a copy of which has been included with this distribution in
- * the LICENSE.txt file.
- */
+
+ ============================================================================
+                   The Apache Software License, Version 1.1
+ ============================================================================
+
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without modifica-
+ tion, are permitted provided that the following conditions are met:
+
+ 1. Redistributions of  source code must  retain the above copyright  notice,
+    this list of conditions and the following disclaimer.
+
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+ 3. The end-user documentation included with the redistribution, if any, must
+    include  the following  acknowledgment:  "This product includes  software
+    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
+    Alternately, this  acknowledgment may  appear in the software itself,  if
+    and wherever such third-party acknowledgments normally appear.
+
+ 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"
+    must not be used to endorse or promote products derived from this  software
+    without  prior written permission. For written permission, please contact
+    apache@apache.org.
+
+ 5. Products  derived from this software may not  be called "Apache", nor may
+    "Apache" appear  in their name,  without prior written permission  of the
+    Apache Software Foundation.
+
+ THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
+ INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
+ APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
+ INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
+ DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
+ ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
+ (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ This software  consists of voluntary contributions made  by many individuals
+ on  behalf of the Apache Software  Foundation. For more  information on the
+ Apache Software Foundation, please see <http://www.apache.org/>.
+
+*/
 package org.apache.avalon.excalibur.component;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import org.apache.avalon.excalibur.collections.BucketMap;
 import org.apache.avalon.excalibur.logger.LogKitManageable;
-import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
-import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.service.WrapperServiceManager;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.commons.collections.StaticBucketMap;
+import org.apache.excalibur.instrument.InstrumentManageable;
+import org.apache.excalibur.instrument.InstrumentManager;
+import org.apache.excalibur.instrument.Instrumentable;
 
 /**
  * Factory for Avalon components.
  *
+ * @deprecated ECM is no longer supported
+ *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 05:09:02 $
+ * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
+ * @version CVS $Revision: 1.1.1.1 $ $Date: 2003/11/09 12:44:16 $
  * @since 4.0
  */
 public class DefaultComponentFactory
-    extends AbstractLoggable
+    extends AbstractDualLogEnabled
     implements ObjectFactory, Disposable, ThreadSafe
 {
     /** The class which this <code>ComponentFactory</code>
@@ -58,6 +100,10 @@ public class DefaultComponentFactory
      */
     private ComponentManager m_componentManager;
 
+    /** The service manager for this component
+     */
+    private WrapperServiceManager m_serviceManager;
+    
     /** The configuration for this component.
      */
     private Configuration m_configuration;
@@ -66,19 +112,28 @@ public class DefaultComponentFactory
      */
     private RoleManager m_roles;
 
-    /** The LogKitManager for child ComponentSelectors
+    /** The LogkitLoggerManager for child ComponentSelectors
      */
-    private LogKitManager m_logkit;
+    private LogkitLoggerManager m_loggerManager;
 
-    /** The org.apache.avalon.framework.logger.Logger instance.
+    /** Components created by this factory, and their associated ComponentLocator
+     *  proxies, if they are Composables.  These must be seperate maps in case
+     *  a component falls into more than one category, which they often do.
      */
-    private org.apache.avalon.framework.logger.Logger m_logEnabledLogger;
+    private final StaticBucketMap m_componentProxies = new StaticBucketMap();
 
-    /** Components created by this factory, and their associated ComponentManager
-     *  proxies, if they are Composables.
-     */
-    private final BucketMap m_components = new BucketMap();
+    /** Instrument Manager to register objects created by this factory with (May be null). */
+    private InstrumentManager m_instrumentManager;
 
+    /** Instrumentable Name assigned to objects created by this factory. */
+    private String m_instrumentableName;
+
+    private ComponentProxyGenerator m_proxyGenerator;
+    private String m_role;
+
+    /*---------------------------------------------------------------
+     * Constructors
+     *-------------------------------------------------------------*/
     /**
      * Construct a new component factory for the specified component.
      *
@@ -87,22 +142,70 @@ public class DefaultComponentFactory
      * @param componentManager the component manager to pass to <code>Composable</code>s.
      * @param context the <code>Context</code> to pass to <code>Contexutalizable</code>s.
      * @param roles the <code>RoleManager</code> to pass to <code>DefaultComponentSelector</code>s.
+     *
+     * @deprecated This constructor has been deprecated in favor of the version below which
+     *             handles instrumentation.
      */
-    public DefaultComponentFactory( final Class componentClass,
+    public DefaultComponentFactory( final String role,
+                                    final Class componentClass,
                                     final Configuration configuration,
                                     final ComponentManager componentManager,
                                     final Context context,
                                     final RoleManager roles,
-                                    final LogKitManager logkit )
+                                    final LogkitLoggerManager loggerManager )
     {
+        this( role,
+              componentClass,
+              configuration,
+              componentManager,
+              context,
+              roles,
+              loggerManager,
+              null,
+              "N/A" );
+    }
+
+    /**
+     * Construct a new component factory for the specified component.
+     *
+     * @param componentClass the class to instantiate (must have a default constructor).
+     * @param configuration the <code>Configuration</code> object to pass to new instances.
+     * @param componentManager the component manager to pass to <code>Composable</code>s.
+     * @param context the <code>Context</code> to pass to <code>Contexutalizable</code>s.
+     * @param roles the <code>RoleManager</code> to pass to
+     *              <code>DefaultComponentSelector</code>s.
+     * @param instrumentManager the <code>InstrumentManager</code> to register the component
+     *                          with if it is a Instrumentable (May be null).
+     * @param instrumentableName The instrument name to assign the component if
+     *                           it is Instrumentable.
+     */
+    public DefaultComponentFactory( final String role,
+                                    final Class componentClass,
+                                    final Configuration configuration,
+                                    final ComponentManager componentManager,
+                                    final Context context,
+                                    final RoleManager roles,
+                                    final LogkitLoggerManager loggerManager,
+                                    final InstrumentManager instrumentManager,
+                                    final String instrumentableName )
+
+    {
+        m_role = role;
         m_componentClass = componentClass;
         m_configuration = configuration;
         m_componentManager = componentManager;
         m_context = context;
         m_roles = roles;
-        m_logkit = logkit;
+        m_loggerManager = loggerManager;
+        m_instrumentManager = instrumentManager;
+        m_instrumentableName = instrumentableName;
+        m_proxyGenerator = new ComponentProxyGenerator( m_componentClass.getClassLoader() );
+        m_serviceManager = new WrapperServiceManager( m_componentManager );
     }
 
+    /*---------------------------------------------------------------
+     * ObjectFactory Methods
+     *-------------------------------------------------------------*/
     public Object newInstance()
         throws Exception
     {
@@ -116,9 +219,9 @@ public class DefaultComponentFactory
 
         if( component instanceof LogEnabled )
         {
-            if( null == m_logkit || null == m_configuration )
+            if( null == m_loggerManager || null == m_configuration )
             {
-                ( (LogEnabled)component ).enableLogging( getLogEnabledLogger() );
+                ContainerUtil.enableLogging( component, getLogger() );
             }
             else
             {
@@ -126,21 +229,21 @@ public class DefaultComponentFactory
                 if( null == logger )
                 {
                     getLogger().debug( "no logger attribute available, using standard logger" );
-                    ( (LogEnabled)component ).enableLogging( getLogEnabledLogger() );
+                    ContainerUtil.enableLogging( component, getLogger() );
                 }
                 else
                 {
                     getLogger().debug( "logger attribute is " + logger );
-                    ( (LogEnabled)component ).enableLogging( new LogKitLogger( m_logkit.getLogger( logger ) ) );
+                    ContainerUtil.enableLogging( component, m_loggerManager.getLoggerForCategory( logger ) );
                 }
             }
         }
 
-        if( component instanceof Loggable )
+        else if( component instanceof Loggable )
         {
-            if( null == m_logkit || null == m_configuration )
+            if( null == m_loggerManager || null == m_configuration )
             {
-                ( (Loggable)component ).setLogger( getLogger() );
+                ( (Loggable)component ).setLogger( getLogkitLogger() );
             }
             else
             {
@@ -148,32 +251,42 @@ public class DefaultComponentFactory
                 if( null == logger )
                 {
                     getLogger().debug( "no logger attribute available, using standard logger" );
-                    ( (Loggable)component ).setLogger( getLogger() );
+                    ( (Loggable)component ).setLogger( getLogkitLogger() );
                 }
                 else
                 {
                     getLogger().debug( "logger attribute is " + logger );
-                    ( (Loggable)component ).setLogger( m_logkit.getLogger( logger ) );
+                    ( (Loggable)component ).setLogger( m_loggerManager.getLogKitLoggerForCategory( logger ) );
                 }
             }
         }
 
-        // This was added to make it possible to implement a ProfilerComponentFactory without
-        //  code duplication.  Once the issues there are worked out, this will most likely be
-        //  removed as it is rather hackish.
-        postLogger( component, m_configuration );
+        // Set the name of the instrumentable before initialization.
+        if( component instanceof Instrumentable )
+        {
+            Instrumentable instrumentable = (Instrumentable)component;
+            instrumentable.setInstrumentableName( m_instrumentableName );
+        }
+
+        if( ( component instanceof InstrumentManageable ) && ( m_instrumentManager != null ) )
+        {
+            ( (InstrumentManageable)component ).setInstrumentManager( m_instrumentManager );
+        }
 
         if( component instanceof Contextualizable )
         {
-            ( (Contextualizable)component ).contextualize( m_context );
+            ContainerUtil.contextualize( component, m_context );
         }
-
-        ComponentManager proxy = null;
 
         if( component instanceof Composable )
         {
-            proxy = new ComponentManagerProxy( m_componentManager );
-            ( (Composable)component ).compose( proxy );
+            ContainerUtil.compose( component, m_componentManager );
+        }
+
+        if( component instanceof Serviceable )
+        {
+            ContainerUtil.service( component, m_serviceManager );
+
         }
 
         if( component instanceof RoleManageable )
@@ -183,91 +296,58 @@ public class DefaultComponentFactory
 
         if( component instanceof LogKitManageable )
         {
-            ( (LogKitManageable)component ).setLogKitManager( m_logkit );
+            ( (LogKitManageable)component ).setLogKitManager( m_loggerManager.getLogKitManager() );
         }
 
-        if( component instanceof Configurable )
-        {
-            ( (Configurable)component ).configure( m_configuration );
-        }
+        ContainerUtil.configure( component, m_configuration );
 
         if( component instanceof Parameterizable )
         {
-            ( (Parameterizable)component ).
-                parameterize( Parameters.fromConfiguration( m_configuration ) );
+            final Parameters parameters = Parameters.fromConfiguration( m_configuration );
+            ContainerUtil.parameterize( component, parameters );
         }
 
-        if( component instanceof Initializable )
+        ContainerUtil.initialize( component );
+
+        // Register the component as an instrumentable now that it has been initialized.
+        if( component instanceof Instrumentable )
         {
-            ( (Initializable)component ).initialize();
+            // Instrumentable Name is set above.
+            if( m_instrumentManager != null )
+            {
+                m_instrumentManager.registerInstrumentable(
+                    (Instrumentable)component, m_instrumentableName );
+            }
         }
+        ContainerUtil.start( component );
 
-        // This was added to make it possible to implement a ProfilerComponentFactory without
-        //  code duplication.  Once the issues there are worked out, this will most likely be
-        //  removed as it is rather hackish.
-        postInitialize( component, m_configuration );
-
-        if( component instanceof Startable )
+        // If the component is not an instance of Component then wrap it in a proxy.
+        //  This makes it possible to use components which are not real Components
+        //  with the ECM.  We need to remember to unwrap this when the component is
+        //  decommissioned.
+    //
+    // note that ComponentHandler depends on this specific
+    // component instanceof Component check to be made
+        Component returnableComponent;
+        if( !( component instanceof Component ) )
         {
-            ( (Startable)component ).start();
+            returnableComponent = m_proxyGenerator.getCompatibleProxy( component );
+            m_componentProxies.put( returnableComponent, component );
+        }
+        else
+        {
+            returnableComponent = (Component)component;
         }
 
-        m_components.put( component, proxy );
-
-        return component;
+        return returnableComponent;
     }
 
-    /**
-     * Called after a new component is initialized, but before it is started.  This was added
-     *  to make it possible to implement the ProfilerComponentFactory without too much duplicate
-     *  code.  WARNING:  Do not take advantage of this method as it will most likely be removed.
-     */
-    protected void postLogger( Object component, Configuration configuration )
-        throws Exception
-    {
-        // Do nothing in this version.
-    }
-
-    /**
-     * Called after a new component is initialized, but before it is started.  This was added
-     *  to make it possible to implement the ProfilerComponentFactory without too much duplicate
-     *  code.  WARNING:  Do not take advantage of this method as it will most likely be removed.
-     */
-    protected void postInitialize( Object component, Configuration configuration )
-        throws Exception
-    {
-        // Do nothing in this version.
-    }
-
-    public final Class getCreatedClass()
+    public Class getCreatedClass()
     {
         return m_componentClass;
     }
 
-    public final void dispose()
-    {
-        Component[] components = new Component[ m_components.keySet().size() ];
-
-        m_components.keySet().toArray( components );
-
-        for( int i = 0; i < components.length; i++ )
-        {
-            try
-            {
-                decommission( components[ i ] );
-            }
-            catch( final Exception e )
-            {
-                if( getLogger().isWarnEnabled() )
-                {
-                    getLogger().warn( "Error decommissioning component: " +
-                                      getCreatedClass().getName(), e );
-                }
-            }
-        }
-    }
-
-    public final void decommission( final Object component )
+    public void decommission( final Object component )
         throws Exception
     {
         if( getLogger().isDebugEnabled() )
@@ -276,89 +356,40 @@ public class DefaultComponentFactory
                                m_componentClass.getName() + "." );
         }
 
-        if( component instanceof Startable )
+        // See if we need to unwrap this component.  It may have been wrapped in a proxy
+        //  by the ProxyGenerator.
+        Object decommissionComponent = m_componentProxies.remove( component );
+        if ( null == decommissionComponent )
         {
-            ( (Startable)component ).stop();
+            // It was not wrapped.
+            decommissionComponent = component;
         }
 
-        if( component instanceof Disposable )
+        ContainerUtil.stop( decommissionComponent );
+        ContainerUtil.dispose( decommissionComponent );
+
+        /*if ( decommissionComponent instanceof Composable )
         {
-            ( (Disposable)component ).dispose();
+            // A proxy will have been created.  Ensure that components created by it
+            //  are also released.
+            ((ComponentManagerProxy)m_composableProxies.remove( decommissionComponent )).
+                releaseAll();
         }
 
-        if( component instanceof Composable )
+        if ( decommissionComponent instanceof Serviceable )
         {
-            ( (ComponentManagerProxy)m_components.get( component ) ).releaseAll();
-        }
-
-        m_components.remove( component );
+            // A proxy will have been created.  Ensure that components created by it
+            //  are also released.
+            ((ServiceManagerProxy)m_serviceableProxies.remove( decommissionComponent )).
+                releaseAll();
+        }*/
     }
 
-    protected org.apache.avalon.framework.logger.Logger getLogEnabledLogger()
+    /*---------------------------------------------------------------
+     * Disposable Methods
+     *-------------------------------------------------------------*/
+    public void dispose()
     {
-        if( null == m_logEnabledLogger )
-        {
-            m_logEnabledLogger = new LogKitLogger( getLogger() );
-        }
-
-        return m_logEnabledLogger;
     }
 
-    private static class ComponentManagerProxy implements ComponentManager
-    {
-        private final ComponentManager m_realManager;
-        private final Collection m_unreleased = new ArrayList();
-
-        ComponentManagerProxy( ComponentManager manager )
-        {
-            m_realManager = manager;
-        }
-
-        public Component lookup( String role ) throws ComponentException
-        {
-            Component component = m_realManager.lookup( role );
-
-            addUnreleased( component );
-
-            return component;
-        }
-
-        public boolean hasComponent( String role )
-        {
-            return m_realManager.hasComponent( role );
-        }
-
-        public void release( Component component )
-        {
-            removeUnreleased( component );
-
-            m_realManager.release( component );
-        }
-
-        private synchronized void addUnreleased( Component component )
-        {
-            m_unreleased.add( component );
-        }
-
-        private synchronized void removeUnreleased( Component component )
-        {
-            m_unreleased.remove( component );
-        }
-
-        private void releaseAll()
-        {
-            Component[] unreleased;
-
-            synchronized( this )
-            {
-                unreleased = new Component[ m_unreleased.size() ];
-                m_unreleased.toArray( unreleased );
-            }
-
-            for( int i = 0; i < unreleased.length; i++ )
-            {
-                release( unreleased[ i ] );
-            }
-        }
-    }
 }
