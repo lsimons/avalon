@@ -55,6 +55,7 @@ Legal:
   <property name="build.classes" value="${build.dir}/classes"/>
   <property name="build.javadocs" value="${build.dir}/javadocs"/>
   <property name="build.docs" value="${build.dir}/docs"/>
+  <property name="build.xdocs" value="${build.dir}/xdocs"/>
 
   <!--
        ===================================================================
@@ -66,9 +67,22 @@ Legal:
   <property name="lib.dir" value="lib"/>
   <property name="tools.dir" value="tools"/>
   <property name="docs.dir" value="docs"/>
-  <property name="javadocs.dir" value="${build.docs}/api"/>
+  <property name="www.dir" value="www"/>
+  <property name="javadocs.dir" value="${docs.dir}/api"/>
+  <property name="skins.dir" value="${src.dir}/skins"/>
+  <property name="avalon.skin" value="${skins.dir}/avalon/"/>
+  <property name="xdocs.dir" value="${src.dir}/xdocs"/>
+  <property name="stylesheets.dir" value="${skins.dir}"/> 
 
   <property name="dist.name" value="${name}-${version}"/>
+
+  <path id="project.class.path">
+    <pathelement path="${java.class.path}" />
+    <fileset dir="${lib.dir}">
+      <include name="*.jar" />
+    </fileset>
+    <pathelement path="${build.classes}" />
+  </path>
 
   <!--
        ===================================================================
@@ -163,12 +177,7 @@ Legal:
            debug="${debug}"
            optimize="${optimize}"
            deprecation="${deprecation}">
-      <classpath>
-        <fileset dir="${lib.dir}">
-          <include name="*.jar" />
-        </fileset>
-      </classpath>
-
+      <classpath refid="project.class.path" />
       <exclude name="org/apache/avalon/util/datasource/J2eeDataSource.java"
                unless="j2ee.present"/>
     </javac>
@@ -180,7 +189,6 @@ Legal:
                           Creates the clutil.jar file
        ===================================================================
   -->
-
   <target name="compile-clutil" depends="prepare">
 
     <mkdir dir="${build.classes}"/>
@@ -203,32 +211,113 @@ Legal:
     </jar>
   </target>
 
-
   <!--
        ===================================================================
-       Create documentation
+                     Prepares the documentation directory
        ===================================================================
   -->
-  <target name="docs" depends="prepare" >
-    <ant antfile="src/make/build-docs.xml" target="docs" />
+  <target name="docs">
+  
+    <filter token="year" value="${year}"/>
+    
+    <mkdir dir="${build.xdocs}"/>
+    <mkdir dir="${build.docs}"/>
+
+    <copy todir="${build.xdocs}" filtering="on">
+      <fileset dir="${xdocs.dir}">
+        <exclude name="**/images/**"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${build.xdocs}" filtering="off">
+      <fileset dir="${xdocs.dir}">
+        <include name="**/images/**"/>
+      </fileset>
+    </copy>
+
+    <stylebook targetdirectory="${build.docs}"
+               book="${build.xdocs}/book.xml"
+               skindirectory="${avalon.skin}">
+      <classpath refid="project.class.path" />
+    </stylebook>
+
   </target>
 
   <!--
        ===================================================================
-       Create documentation
+       Create the API documentation
        ===================================================================
   -->
-  <target name="xdocs" depends="prepare">
-    <ant antfile="src/make/build-docs.xml" target="xdocs" />
+  <target name="javadocs">
+
+    <delete dir="${build.javadocs}"/>
+    <mkdir dir="${build.javadocs}"/>
+
+    <javadoc packagenames="org.apache.*"
+             sourcepath="${java.dir}"
+             destdir="${build.javadocs}">
+      <classpath refid="project.class.path" />
+      <doclet name="com.sun.tools.doclets.standard.Standard">
+       <param name="-author"/>
+       <param name="-version"/>
+       <param name="-use"/>
+       <param name="-doctitle" value="${Name}"/>
+       <param name="-windowtitle" value="${Name} API"/>
+       <param name="-bottom" 
+              value="&quot;Copyright &#169; 2001 Apache Jakarta Project. All Rights Reserved.&quot;"/>
+      </doclet>
+    </javadoc>
+
   </target>
 
   <!--
        ===================================================================
-       Create api documentation
+       Create the Local site documentation
        ===================================================================
   -->
-  <target name="javadocs" depends="prepare" >
-    <ant antfile="src/make/build-docs.xml" target="javadocs" />
+  <target name="local-docs" depends="docs">
+
+    <delete>
+      <fileset dir="${docs.dir}">
+        <exclude name="api/**"/>
+      </fileset>
+    </delete>
+    <mkdir dir="${docs.dir}"/>
+
+    <copy todir="${docs.dir}">
+      <fileset dir="${build.docs}" />
+    </copy>
+
+  </target>
+
+  <!--
+       ===================================================================
+       Create the Local API documentation
+       ===================================================================
+  -->
+  <target name="local-javadocs" depends="javadocs">
+
+    <delete dir="${javadocs.dir}"/>
+    <mkdir dir="${javadocs.dir}"/>
+
+    <copy todir="${javadocs.dir}">
+      <fileset dir="${build.javadocs}" />
+    </copy>
+
+  </target>
+
+  <!--
+       ===================================================================
+       Update the www directory
+       ===================================================================
+  -->
+  <target name="site-docs" depends="local-javadocs,local-docs">
+
+    <mkdir dir="${www.dir}"/>
+    <copy todir="${www.dir}">
+      <fileset dir="${docs.dir}" />
+    </copy>
+
   </target>
 
   <!--
