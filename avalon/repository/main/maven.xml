@@ -1,9 +1,5 @@
 <project default="jar:install" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
-  <postGoal name="java:prepare-filesystem">
-    <attainGoal name="avalon:artifact"/>
-  </postGoal>
-
   <preGoal name="jar:jar">
     <j:forEach var="dep" items="${pom.dependencies}">
       <j:if test="${dep.getType()=='jar'}">
