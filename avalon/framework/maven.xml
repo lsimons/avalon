@@ -5,9 +5,12 @@
 
 <project default="avalon:build"  xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
-  
+  <!--
   <ant:property name="productname"
     value="${maven.final.name}-&avalon-framework-suffix;"/>
+  -->
+  <ant:property name="productname"
+    value="${maven.final.name}"/>
 
   <ant:property name="maven.dist.assembly.dir"
     value="${maven.build.dir}/temp"/>
@@ -112,7 +115,10 @@
     <ant:copy todir="${maven.dist.bin.assembly.dir}">
       <ant:fileset dir=".">
         <ant:include name="README.txt"/>
+      </ant:fileset>
+      <ant:fileset dir="${avalon.buildsystem}/site">
         <ant:include name="LICENSE*"/>
+        <ant:include name="NOTICE*"/>
       </ant:fileset>
     </ant:copy>
 
@@ -143,12 +149,10 @@
     <ant:copy todir="${maven.dist.src.assembly.dir}">
       <ant:fileset dir=".">
         <ant:include name="README.txt"/>
+      </ant:fileset>
+      <ant:fileset dir="${avalon.buildsystem}/site">
         <ant:include name="LICENSE*"/>
-        <!-- 
-        <ant:include name="project.properties"/>
-        <ant:include name="maven.xml"/>
-        <ant:include name="project.xml"/>
-        -->
+        <ant:include name="NOTICE*"/>
       </ant:fileset>
     </ant:copy>
 
