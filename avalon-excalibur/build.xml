@@ -171,7 +171,7 @@ Legal:
     <available property="jms.present" classname="javax.jms.Queue">
       <classpath refid="project.class.path"/>
     </available>
-    <available property="jaxen.present" classname="XPath">
+    <available property="jaxen.present" classname="org.jaxen.dom.XPath">
       <classpath refid="project.class.path"/>
     </available>
   </target>
