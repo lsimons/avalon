@@ -21,7 +21,7 @@ import org.apache.avalon.framework.context.Context;
  * Factory for Avalon Instrumentable components.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/04/03 13:18:29 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/04/29 16:32:23 $
  * @since 4.0
  */
 public class InstrumentDefaultComponentFactory
@@ -92,8 +92,11 @@ public class InstrumentDefaultComponentFactory
     {
         if( component instanceof Instrumentable )
         {
-            getLogger().debug( "Doing instrument setup for: " + component );
+            Instrumentable instrumentable = (Instrumentable)component;
             
+            getLogger().debug( "Doing instrument setup for: " + instrumentable );
+            
+            instrumentable.setInstrumentableName( m_instrumentableName );
             m_instrumentManager.registerInstrumentable( (Instrumentable)component, m_instrumentableName );
         }
     }
