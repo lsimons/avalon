@@ -105,13 +105,16 @@
         <echo message="  Building docs from list, please stand by ..."/>
                 
         <java classname="org.apache.cocoon.Main" fork="true" maxmemory="128m" failonerror="true">
+        
             <arg value="-c${cocoon.build.context}/"/>
-            <arg value="-k${cocoon.build.context}/logkit.xconf"/>
             <arg value="-d${cocoon.build.docs}"/>
             <arg value="-w${cocoon.work}"/>
-            <arg value="-l${cocoon.work}/cocoon.log"/>
             <arg value="-b${build.dir}/brokenlinks.txt"/>
+            <arg value="-k${cocoon.build.context}/logkit.xconf"/>
+            <!-- <arg value="-l${cocoon.work}/cocoon.log"/> -->
             <arg value="-uERROR"/>
+            <arg value="-V"/>        
+                        
             <arg value="-f./build/content/xdocs/doc.uris"/>
             <arg value="-rno"/>            
             <classpath>
@@ -132,13 +135,16 @@
         <echo message="  Crawling docs, please stand by ..."/>
                 
         <java classname="org.apache.cocoon.Main" fork="true" maxmemory="128m" failonerror="true">
+            
             <arg value="-c${cocoon.build.context}/"/>
             <arg value="-d${cocoon.build.docs}"/>
-            <arg value="-k${cocoon.build.context}/logkit.xconf"/>
             <arg value="-w${cocoon.work}"/>
-            <arg value="-l${cocoon.work}/cocoon.log"/>
-            <arg value="-b${build.dir}/brokenlinks.txt"/>            
+            <arg value="-b${build.dir}/brokenlinks.txt"/> 
+            <arg value="-k${cocoon.build.context}/logkit.xconf"/>
+            <!-- <arg value="-l${cocoon.work}/cocoon.log"/> -->
+           
             <arg value="-uERROR"/>
+            <arg value="-V"/>                 
             <arg value="index.html"/>
             <classpath>
               <path id="tools.class.path">
