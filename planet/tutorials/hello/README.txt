@@ -19,13 +19,12 @@ Build
 
 Build the project using the following command:
 
-$ maven
+$ ant
 
-The above command triggers the default goal jar:jar which will 
-create a jar file under the target directory named 
-merlin-hello-tutorial-1.0.jar.  The jar file contains a single
-component, generated .xinfo descriptor, and a bundled block.xml 
-deployment descriptor. 
+The above command triggers the default target "install" which will 
+create a jar file under the target/deliverables/jars directory named 
+hello.jar.  The jar file contains a single component, generated .xinfo 
+descriptor, and a bundled block.xml deployment descriptor. 
 
 Runtime
 -------
@@ -38,7 +37,7 @@ $ merlin target\classes -execute
 
 Or:
 
-$ merlin target\merlin-hello-tutorial-1.0.jar -execute
+$ merlin target\deliverables\jars\hello.jar -execute
 
 The -execute parameter in the above command line simply tells 
 Merlin to deploy and decomission the component.  If we didn't
