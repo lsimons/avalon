@@ -61,11 +61,6 @@ window and invoking the following command:
 
   $ merlin -help
 
-You can fire-up Merlin with an iital set of demonstration components using
-the following command:
-
- $ merlin %MERLIN_HOME%\repository\demo\block.xml
-
 Support for the installation and execution of Merlin as an NT process is 
 now included in the package (refer bin directory) - special thanks to Leif
 for helping to set this up.
@@ -80,8 +75,6 @@ root merlin directory.
 
 Finally, please keep in mind that while Merlin is nearing completion and 
 readiness for a first release, it is still alpha, APIs are changing, and 
-much of the documentation needs to be updated.  It is not recommended to 
-use the project outside of research and experimental activities at this 
-time.
+much of the documentation needs to be updated.
 
-SJM 13 March 2003
+SJM 15 April 2003
