@@ -38,6 +38,7 @@ import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
+import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
 
 /**
  * This is a class to help an Application manage lifecycle of
@@ -231,8 +232,11 @@ class LifecycleHelper
             entry.setState( State.STARTED );
             entry.setBlock( block );
 
+            exportBlock( metaData, block );
+            
+            final Block proxy = entry.getProxy();
             final BlockEvent event =
-                new BlockEvent( name, entry.getProxy(), metaData.getBlockInfo() );
+                new BlockEvent( name, proxy, metaData.getBlockInfo() );
             m_listenerSupport.blockAdded( event );
         }
         catch( final Throwable t )
@@ -302,6 +306,37 @@ class LifecycleHelper
 
         notice( name, STAGE_DESTROY );
         entry.setState( State.DESTROYED );
+    }
+
+    /**
+     * Export the services of block, declared to be management 
+     * services, into management system.
+     */
+    private void exportBlock( final BlockMetaData metaData, 
+                              final Block block )
+        throws CascadingException
+    {
+        final ServiceDescriptor[] services = metaData.getBlockInfo().getManagement();
+        final String name = metaData.getName();
+        final ClassLoader classLoader = block.getClass().getClassLoader();
+
+        for( int i = 0; i < services.length; i++ )
+        {
+            final ServiceDescriptor service = services[ i ];
+            try
+            {
+                final Class clazz = classLoader.loadClass( service.getName() );
+                m_context.exportObject( name, clazz, block );
+            }
+            catch( final Exception e )
+            {
+                final String reason = e.toString();
+                final String message =
+                    REZ.getString( "export.error", name, service.getName(), reason );
+                getLogger().error( message );
+                throw new CascadingException( message, e );
+            }
+        }
     }
 
     /**
