@@ -61,7 +61,6 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.excalibur.thread.ThreadControl;
 import org.apache.excalibur.thread.impl.AbstractThreadPool;
 import org.apache.excalibur.thread.impl.WorkerThread;
-import org.apache.excalibur.threadcontext.ThreadContext;
 
 /**
  * The ThreadPool that binds to Legacy Pooling implementation.
@@ -85,24 +84,16 @@ class BasicThreadPool
     private Logger m_logger;
 
     /**
-     * The base ThreadContext that can be duplicated for
-     * each thread.
-     */
-    private ThreadContext m_context;
-
-    /**
      * Create a new ThreadPool with specified capacity.
      *
      * @param threadGroup the thread group used in pool
      * @param name the name of pool (used in naming threads)
      * @param pool the underling pool
-     * @param context the thread context associated with pool (May be null).
      * @throws Exception if unable to create pool
      */
     public BasicThreadPool( final ThreadGroup threadGroup,
                             final String name,
-                            final Pool pool,
-                            final ThreadContext context )
+                            final Pool pool )
         throws Exception
     {
         super( name, threadGroup );
@@ -112,7 +103,6 @@ class BasicThreadPool
         }
 
         m_pool = pool;
-        m_context = context;
     }
 
     /**
@@ -154,13 +144,8 @@ class BasicThreadPool
      */
     protected WorkerThread newWorkerThread( final String name )
     {
-        ThreadContext context = null;
-        if( null != m_context )
-        {
-            context = m_context.duplicate();
-        }
         final SimpleWorkerThread thread =
-            new SimpleWorkerThread( this, getThreadGroup(), name, context );
+            new SimpleWorkerThread( this, getThreadGroup(), name );
         ContainerUtil.enableLogging( thread, m_logger.getChildLogger( "worker" ) );
         return thread;
     }
@@ -216,7 +201,7 @@ class BasicThreadPool
 
     /**
      * Release worker back into pool.
-     * 
+     *
      * FIX ME: do we want to verify if it is interrupted or interrupt the worker
      *         thread?
      *
