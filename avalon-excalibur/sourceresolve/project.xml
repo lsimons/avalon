@@ -51,10 +51,14 @@ limitations under the License.
             <id>jsse</id>
             <version>1.0.3_02</version>
         </dependency>
+        
+<!--    Not USED ???    
         <dependency>
             <id>xml-commons-resolver</id>
             <version>1.0</version>
         </dependency>
+-->     
+   
         <dependency>
             <!-- for testing only -->
             <id>commons-logging</id>

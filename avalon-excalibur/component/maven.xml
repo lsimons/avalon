@@ -39,8 +39,10 @@ limitations under the License.
     </postGoal>
     
     <postGoal name="jar:jar">
-      <ant:jar jarFile="${maven.build.dir}/excalibur-testcases-${pom.currentVersion}.jar" >
-        <fileset dir="${basedir}/target/test-classes" />
+      <ant:jar jarFile="${maven.build.dir}/excalibur-testcase-${pom.currentVersion}.jar" >
+        <fileset dir="${basedir}/target/classes/" >
+          <include name="org/apache/avalon/excalibur/testcase/**" />
+        </fileset>
       </ant:jar>
 
     </postGoal>
@@ -52,11 +54,11 @@ limitations under the License.
       artifactDirectory = 'excalibur-testcases'
       </ant:echo>
 
-      <ant:property name="jardir__" value="${maven.repo.local}/excalibur-testcases/jars"/>
-      <ant:mkdir dir="${jardir__}"/>    
+      <ant:property name="jardir2__" value="${maven.repo.local}/excalibur-component/jars"/>
+      <ant:mkdir dir="${jardir2__}"/> 
       <ant:copy 
-      file="${maven.build.dir}/excalibur-testcases-${pom.currentVersion}.jar"
-      todir="${jardir__}"
+      file="${maven.build.dir}/excalibur-testcase-${pom.currentVersion}.jar"
+      todir="${jardir2__}"
       overwrite="true"
       />
     </postGoal>
