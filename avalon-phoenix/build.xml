@@ -275,6 +275,7 @@ Legal:
         <generatemeta dest="${target.test-metagenerate}">
             <fileset dir="src/test">
                 <include name="**/*.java"/>
+                <exclude name="**/framework/**"/>
             </fileset>
         </generatemeta>
 
@@ -303,9 +304,7 @@ Legal:
         </javac>
 
         <copy todir="${target.testclasses}">
-            <fileset dir="${test.dir}">
-                <exclude name="**/*.java"/>
-            </fileset>
+            <fileset dir="${test.dir}"/>
         </copy>
 
         <mkdir dir="${target.tests}"/>
