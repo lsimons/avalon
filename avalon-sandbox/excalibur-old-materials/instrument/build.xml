@@ -16,6 +16,12 @@
 
         <!-- Optional jars -->
         <pathelement location="${avalon-framework.jar}"/>
+        <pathelement location="${excalibur-altrmi-common.jar}"/>
+        <pathelement location="${excalibur-altrmi-server-impl.jar}"/>
+        <pathelement location="${excalibur-altrmi-server-interfaces.jar}"/>
+        <pathelement location="${excalibur-altrmi-client-impl.jar}"/>
+        <pathelement location="${excalibur-altrmi-client-interfaces.jar}"/>
+        <pathelement location="${excalibur-altrmi-generator.jar}"/>
         <pathelement path="${java.class.path}"/>
     </path>
 
@@ -45,6 +51,11 @@
 
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkAltrmiServer"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="proj.jar.name" value="excalibur-altrmi-client-impl.jar"/>
+            <property name="path" value="${excalibur-altrmi-client-impl.jar}"/>
+        </ant>
     </target>
 
     <target name="dependencies-test" depends="dist-jar, dependencies"
@@ -59,6 +70,8 @@
     <target name="compile" depends="dependencies, check-environment" description="Compiles the source code">
 
         <mkdir dir="${build.classes}"/>
+        <mkdir dir="${build.client.classes}"/>
+        <mkdir dir="${build.manager.classes}"/>
 
         <!-- Compile all classes excluding the tests. -->
         <javac srcdir="${java.dir}"
@@ -69,8 +82,37 @@
             target="1.2">
             <classpath refid="project.class.path" />
             <include name="**/*.java"/>
-            <exclude name="org/apache/avalon/excalibur/instrument/AbstractLogEnabledInstrumentable.java"
+            <exclude name="org/apache/excalibur/instrument/AbstractLogEnabledInstrumentable.java"
                      unless="framework.present"/>
+        </javac>
+
+        <javac srcdir="${manager.dir}"
+            destdir="${build.manager.classes}"
+            debug="${build.debug}"
+            optimize="${build.optimize}"
+            deprecation="${build.deprecation}"
+            target="1.2">
+            <classpath>
+              <path refid="project.class.path" />
+              <pathelement path="${build.classes}"/>
+            </classpath>
+            <include name="**/*.java"/>
+            <exclude name="org/apache/excalibur/instrument/component/*"
+                     unless="ecm.present"/>
+        </javac>
+
+        <javac srcdir="${client.dir}"
+            destdir="${build.client.classes}"
+            debug="${build.debug}"
+            optimize="${build.optimize}"
+            deprecation="${build.deprecation}"
+            target="1.2">
+            <classpath>
+              <path refid="project.class.path" />
+              <pathelement path="${build.manager.classes}"/>
+              <pathelement path="${build.classes}"/>
+            </classpath>
+            <include name="**/*.java"/>
         </javac>
 
         <!-- copy resources to same location as .class files -->
@@ -89,7 +131,7 @@
 
         <!-- In case tests do not exist, create the directory -->
         <mkdir dir="${test.dir}"/>
-        
+
         <!-- Copy over all of the tests applying test filters -->
         <copy todir="${build.testsrc}">
             <fileset dir="${test.dir}"/>
@@ -104,7 +146,12 @@
             optimize="${build.optimize}"
             deprecation="${build.deprecation}"
             target="1.2">
-            <classpath refid="test.class.path" />
+            <classpath>
+              <path refid="test.class.path" />
+              <pathelement path="${java.dir}"/>
+              <pathelement path="${client.dir}"/>
+              <pathelement path="${manager.dir}"/>
+            </classpath>
             <include name="**/*.java"/>
         </javac>
 
@@ -147,6 +194,38 @@
                 <include name="LICENSE.txt"/>
             </zipfileset>
         </jar>
+
+        <jar jarfile="${build.lib}/${client.jar.name}"
+            basedir="${build.client.classes}"
+            compress="${build.compress}">
+            <manifest>
+              <attribute name="Extension-Name" value="${name}"/>
+              <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
+              <attribute name="Specification-Version" value="1.0"/>
+              <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+              <attribute name="Implementation-Version" value="${package-version}"/>
+            </manifest>
+            <exclude name="**/test/**"/>
+            <zipfileset dir="${build.conf}" prefix="META-INF/">
+                <include name="LICENSE.txt"/>
+            </zipfileset>
+        </jar>
+
+        <jar jarfile="${build.lib}/${manager.jar.name}"
+            basedir="${build.manager.classes}"
+            compress="${build.compress}">
+            <manifest>
+              <attribute name="Extension-Name" value="${name}"/>
+              <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
+              <attribute name="Specification-Version" value="1.0"/>
+              <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+              <attribute name="Implementation-Version" value="${package-version}"/>
+            </manifest>
+            <exclude name="**/test/**"/>
+            <zipfileset dir="${build.conf}" prefix="META-INF/">
+                <include name="LICENSE.txt"/>
+            </zipfileset>
+        </jar>
     </target>
 
     <!-- Creates all the Javadocs -->
@@ -154,7 +233,7 @@
 
         <mkdir dir="${dist.javadocs}"/>
         <javadoc packagenames="org.apache.*"
-            sourcepath="${java.dir}"
+            sourcepath="${java.dir},${client.dir},${manager.dir}"
             destdir="${dist.javadocs}">
             <classpath refid="project.class.path" />
             <doclet name="com.sun.tools.doclets.standard.Standard">
@@ -249,6 +328,12 @@
             failOnViolation="false"
             ignoreCastWhitespace="true">
             <fileset dir="${java.dir}">
+                <include name="**/*.java"/>
+            </fileset>
+            <fileset dir="${client.dir}">
+                <include name="**/*.java"/>
+            </fileset>
+            <fileset dir="${manager.dir}">
                 <include name="**/*.java"/>
             </fileset>
             <formatter type="plain"/>

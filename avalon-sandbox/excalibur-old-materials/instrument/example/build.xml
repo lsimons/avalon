@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- ======================================================================= -->
+<!-- Container Example build file!                                           -->
+<!-- ======================================================================= -->
+
+<project name="instrument-manager-example" default="main" basedir=".">
+
+    <!--
+      Give user a chance to override without editing this file
+      (and without typing -D each time he compiles it)
+    -->
+    <property file="ant.properties"/>
+    <property file="../ant.properties"/>
+    <property file="${user.home}/.ant.properties"/>
+
+    <!-- Directories build by ant -->
+    <property name="build.dir"             value="${basedir}/build"/>
+    <property name="build.classes.dir"     value="${build.dir}/classes"/>
+    <property name="build.javadocs.dir"    value="${build.dir}/javadocs"/>
+    <property name="lib.dir"               value="${basedir}/lib"/>
+
+    <!-- Existing directories -->
+    <property name="src.dir"               value="${basedir}/src"/>
+    <property name="src.java.dir"          value="${src.dir}/java"/>
+    <property name="commonlib.dir"         value="${basedir}/../commonlib"/>
+
+    <!-- Define paths used by this project -->
+    <path id="project.class.path">
+        <fileset dir="${lib.dir}">
+            <include name="**/*.jar"/>
+            <exclude name="instrument-manager-example.jar"/>
+        </fileset>
+        <pathelement path="${build.classes.dir}" />
+    </path>
+
+    <!-- =================================================================== -->
+    <!-- Help on usage                                                       -->
+    <!-- =================================================================== -->
+    <target name="usage">
+        <echo message="Use the -projecthelp option instead"/>
+    </target>
+    <target name="help" depends="usage"/>
+
+    <!-- =================================================================== -->
+    <!-- Help on usage                                                       -->
+    <!-- =================================================================== -->
+    <target name="collect-jars">
+        <!-- Xerces -->
+        <copy file="${xerces.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- XML-APIs -->
+        <copy file="${xml-apis.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Xalan -->
+        <copy file="${xalan.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Logkit -->
+        <copy file="${logkit.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Avalon Framework -->
+        <copy file="${avalon-framework.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Avalon Excalibur Concurrent -->
+        <copy file="${excalibur-concurrent.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Avalon Excalibur Collections -->
+        <copy file="${excalibur-collections.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Avalon Excalibur Component -->
+        <copy file="${excalibur-component.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Avalon Excalibur Logger -->
+        <copy file="${excalibur-logger.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Avalon Excalibur Pool -->
+        <copy file="${excalibur-pool.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Avalon Excalibur Instrument -->
+        <copy file="${excalibur-instrument.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Avalon Excalibur Instrument Manager -->
+        <copy file="../build/lib/excalibur-instrument-manager-0.1.jar"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Altrmi Jars -->
+        <copy file="${excalibur-altrmi-common.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        <copy file="${excalibur-altrmi-server-impl.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        <copy file="${excalibur-altrmi-server-interfaces.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Initialize custom tasks                                             -->
+    <!-- =================================================================== -->
+    <target name="init" depends="collect-jars">
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Compiles the source code                                            -->
+    <!-- =================================================================== -->
+    <target name="compile" depends="init">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.classes.dir}"/>
+
+        <!-- compile everything under src/java -->
+        <javac srcdir="${src.java.dir}" destdir="${build.classes.dir}"
+            deprecation="on"
+            debug="on"
+            optimize="off">
+            <classpath refid="project.class.path" />
+        </javac>
+
+        <!-- copy image files to build directory -->
+        <copy todir="${build.classes.dir}" >
+            <fileset dir="${src.java.dir}" >
+                <include name="**/*.jpg" />
+                <include name="**/*.gif" />
+            </fileset>
+        </copy>
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Creates the jar archive                                             -->
+    <!-- =================================================================== -->
+    <target name="jar" depends="compile" description="Builds the jar archive.">
+        <mkdir dir="${lib.dir}"/>
+
+        <jar jarfile="${lib.dir}/instrument-manager-example.jar"
+            basedir="${build.classes.dir}"
+            includes="**/*.class,**/*.properties,**/*.xml,**/*.jpg,**/*.gif,**/*.roles"
+            />
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Main target                                                         -->
+    <!-- =================================================================== -->
+    <target name="main" depends="jar" description="build the runnable application">
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Creates the javadocs archive.                                       -->
+    <!-- =================================================================== -->
+    <target name="javadocs" description="Generates javadoc documentation">
+        <mkdir dir="${build.javadocs.dir}"/>
+
+        <javadoc packagenames="org.apache.*"
+            sourcepath="${src.java.dir}"
+            destdir="${build.javadocs.dir}">
+            <classpath refid="project.class.path" />
+            <doclet name="com.sun.tools.doclets.standard.Standard">
+                <param name="-author"/>
+                <param name="-version"/>
+                <param name="-doctitle" value="${Name}"/>
+                <param name="-windowtitle" value="${Name} API"/>
+                <param name="-bottom"
+                    value="&quot;Copyright &#169; 2001 Apache Jakarta Project. All Rights Reserved.&quot;"/>
+            </doclet>
+        </javadoc>
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Builds everything.                                                  -->
+    <!-- =================================================================== -->
+    <target name="all" depends="main, javadocs" description="Build everything"/>
+
+    <!-- =================================================================== -->
+    <!-- Cleans up compiled classes and generated XMLC source.               -->
+    <!-- =================================================================== -->
+    <target name="clean" description="cleans up the directory">
+        <delete dir="${build.dir}"/>
+        <delete dir="${lib.dir}"/>
+    </target>
+</project>
+
