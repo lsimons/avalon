@@ -59,7 +59,7 @@ import org.apache.avalon.composition.model.Model;
  * A event object that descirbes a model related event.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $ $Date: 2003/12/29 14:31:21 $
+ * @version $Revision: 1.2 $ $Date: 2004/01/01 13:06:54 $
  */
 public abstract class ModelEvent extends EventObject
 {
@@ -69,9 +69,9 @@ public abstract class ModelEvent extends EventObject
     private final Model m_model;
 
     /**
-     * Create a CategoriesDirective instance.
+     * Create a ModelEvent instance.
      *
-     * @param name the base category name
+     * @param model the model raising the event
      */
     public ModelEvent( final Model model )
     {
