@@ -38,7 +38,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 05:09:02 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/05/12 23:38:30 $
  * @since 4.0
  */
 public class DefaultComponentFactory
@@ -172,6 +172,7 @@ public class DefaultComponentFactory
 
         if( component instanceof Composable )
         {
+            // wrap the real CM with a proxy, see below for more info
             proxy = new ComponentManagerProxy( m_componentManager );
             ( (Composable)component ).compose( proxy );
         }
@@ -288,6 +289,8 @@ public class DefaultComponentFactory
 
         if( component instanceof Composable )
         {
+            // ensure any components looked up by this Composable are properly
+            // released, if they haven't been released already
             ( (ComponentManagerProxy)m_components.get( component ) ).releaseAll();
         }
 
@@ -304,6 +307,15 @@ public class DefaultComponentFactory
         return m_logEnabledLogger;
     }
 
+    /**
+     * Proxy <code>ComponentManager</code> class to maintain references to
+     * components looked up within a <code>Composable</code> instance created
+     * by this factory.
+     *
+     * This class acts a safety net to ensure that all components looked
+     * up within a <code>Composable</code> instance created by this factory are 
+     * released when the instance itself is released.
+     */
     private static class ComponentManagerProxy implements ComponentManager
     {
         private final ComponentManager m_realManager;
@@ -345,6 +357,11 @@ public class DefaultComponentFactory
             m_unreleased.remove( component );
         }
 
+        /**
+         * Releases all components that have been looked up through this 
+         * <code>ComponentManager</code>, that have not yet been released
+         * via user code.
+         */
         private void releaseAll()
         {
             Component[] unreleased;
