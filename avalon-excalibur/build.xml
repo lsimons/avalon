@@ -3,28 +3,28 @@
   <property name="build.dir" value="build"/>
   <property name="build.reports" value="${build.dir}/reports"/>
   <property name="build.tests" value="${build.dir}/tests"/>
-    
+
   <target name="main" depends="mega-jar"/>
 
   <!-- Build default targets of all subprojects. -->
   <target name="build-subprojects-dist">
-    
+
     <ant dir="all"/>
+    <ant dir="cache"/>
     <ant dir="cli"/>
     <ant dir="extension"/>
     <ant dir="i18n"/>
     <ant dir="io"/>
     <ant dir="naming"/>
-    
   </target>
-    
+
   <!-- Build a summary test report from the results of the tests of all subprojects. -->
   <target name="test-reports" depends="build-subprojects-dist">
-    
+
     <mkdir dir="${build.dir}"/>
     <mkdir dir="${build.tests}"/>
     <mkdir dir="${build.reports}"/>
-    
+
     <junitreport todir="${build.tests}">
       <fileset dir="${basedir}">
         <include name="*/build/tests/TEST-*.xml"/>
@@ -32,7 +32,7 @@
       <report format="frames" todir="${build.reports}"/>
     </junitreport>
   </target>
-  
+
   <!-- Distribution build for all subprojects. -->
   <target name="dist" depends="test-reports"
         description="Create binary distributions of all the products"/>
@@ -40,12 +40,13 @@
   <!-- Generate one mega jar-ball -->
   <target name="mega-jar" description="Generate one large jar for all the products">
     <ant dir="all" target="all"/>
+    <ant dir="cache" target="jar"/>
     <ant dir="cli" target="jar"/>
     <ant dir="extension" target="jar"/>
     <ant dir="i18n" target="jar"/>
     <ant dir="io" target="jar"/>
     <ant dir="naming" target="jar"/>
-   
+
     <jlink compress="false" outfile="excalibur-all.jar">
       <mergefiles>
         <fileset dir=".">
@@ -57,8 +58,9 @@
 
   <target name="clean">
     <delete dir="${build.dir}" />
-    
+
     <ant dir="all" target="distclean"/>
+    <ant dir="cache" target="real-clean"/>
     <ant dir="cli" target="real-clean"/>
     <ant dir="extension" target="real-clean"/>
     <ant dir="i18n" target="real-clean"/>
