@@ -24,11 +24,11 @@ import java.util.Iterator;
  *
  * @deprecated use org.apache.commons.collections.IteratorEnumeration instead
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/28 11:47:15 $
+ * @version CVS $Revision: 1.6 $ $Date: 2004/04/26 10:23:05 $
  * @since 4.0
  */
 public final class IteratorEnumeration
-    implements Enumeration
+        implements Enumeration
 {
     protected Iterator m_iterator;
 

@@ -16,9 +16,9 @@
  */
 package org.apache.avalon.excalibur.concurrent.test;
 
-import junit.framework.TestCase;
-
 import org.apache.avalon.excalibur.concurrent.ReadWriteLock;
+
+import junit.framework.TestCase;
 
 /**
  * Test harness for the ReadWriteLock.
@@ -26,7 +26,7 @@ import org.apache.avalon.excalibur.concurrent.ReadWriteLock;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class ReadWriteLockTestCase
-    extends TestCase
+        extends TestCase
 {
     /**
      * Worker thread that attempts to
@@ -34,7 +34,7 @@ public class ReadWriteLockTestCase
      * and call the hasSuccess() method.
      */
     static class TriesWriteLock
-        extends Thread
+            extends Thread
     {
         protected ReadWriteLock m_lock;
         protected boolean m_success = false;
@@ -70,7 +70,7 @@ public class ReadWriteLockTestCase
      * and call the hasSuccess() method.
      */
     static class TriesReadLock
-        extends Thread
+            extends Thread
     {
         protected ReadWriteLock m_lock;
         protected boolean m_success = false;
@@ -110,7 +110,7 @@ public class ReadWriteLockTestCase
      * different threads.
      */
     public void testRWLock()
-        throws Exception
+            throws Exception
     {
         final ReadWriteLock lock = new ReadWriteLock();
         final TriesWriteLock wl = new TriesWriteLock( lock );
@@ -128,7 +128,7 @@ public class ReadWriteLockTestCase
 
         Thread.sleep( 100 );
         assertTrue( "Attempted to aquire write lock after releasing read lock.",
-                    wl.hasSuccess() );
+                wl.hasSuccess() );
 
         lock.release();
 
@@ -153,7 +153,8 @@ public class ReadWriteLockTestCase
         try
         {
             lock.release();
-            fail( "ReadWriteLock did *not* signal illegal state when an attempt was made to release an unlocked lock." );
+            fail(
+                    "ReadWriteLock did *not* signal illegal state when an attempt was made to release an unlocked lock." );
         }
         catch( IllegalStateException ise )
         {
@@ -197,8 +198,9 @@ public class ReadWriteLockTestCase
         // wlb, wla -> (read lock is held)
         //      rlb -> (has waiting write locks)
         //
-        assertTrue( "Attempted to aquire write lock, and succeeded even though it shouldn't be possible (rla has the lock).",
-                    !wla.hasSuccess() && !wlb.hasSuccess() && !rlb.hasSuccess() );
+        assertTrue(
+                "Attempted to aquire write lock, and succeeded even though it shouldn't be possible (rla has the lock).",
+                !wla.hasSuccess() && !wlb.hasSuccess() && !rlb.hasSuccess() );
 
         //
         // Upon releasing the lock, the write lock attempt should succeed, while the read
@@ -215,8 +217,8 @@ public class ReadWriteLockTestCase
         //        rlb -> (has waiting write lock)
         //
         assertTrue( "Attempted to aquire write lock after releasing read lock.",
-                    ( wla.hasSuccess() || wlb.hasSuccess() ) && !rlb.hasSuccess()
-                    && !( wla.hasSuccess() && wlb.hasSuccess() ) );
+                (wla.hasSuccess() || wlb.hasSuccess()) && !rlb.hasSuccess()
+                && !(wla.hasSuccess() && wlb.hasSuccess()) );
 
         //
         // Release write lock again. The other one of wla and wlb should grab the lock.
@@ -231,7 +233,7 @@ public class ReadWriteLockTestCase
         //        rlb -> (write lock is held)
         //
         assertTrue( "Attempted to aquire write lock after releasing read lock.",
-                    wla.hasSuccess() && wlb.hasSuccess() && !rlb.hasSuccess() );
+                wla.hasSuccess() && wlb.hasSuccess() && !rlb.hasSuccess() );
 
         //
         // Release the lock - the waiting read lock should grab it.
@@ -239,7 +241,7 @@ public class ReadWriteLockTestCase
         lock.release();
         Thread.sleep( 100 );
         assertTrue( "Attempted to aquire write lock after releasing read lock.",
-                    wla.hasSuccess() && wlb.hasSuccess() && rlb.hasSuccess() );
+                wla.hasSuccess() && wlb.hasSuccess() && rlb.hasSuccess() );
     }
 
     /**
@@ -257,7 +259,7 @@ public class ReadWriteLockTestCase
         rlb.start();
         Thread.sleep( 100 );
         assertTrue( "Attempted to aquire read multiple read locks.",
-                    rla.hasSuccess() && rlb.hasSuccess() );
+                rla.hasSuccess() && rlb.hasSuccess() );
 
         wla.start();
         Thread.sleep( 100 );
@@ -265,13 +267,14 @@ public class ReadWriteLockTestCase
 
         lock.release();
         Thread.sleep( 100 );
-        assertTrue( "Write lock aquired even though read locks are held. (There should be one read lock left)",
-                    !wla.hasSuccess() );
+        assertTrue(
+                "Write lock aquired even though read locks are held. (There should be one read lock left)",
+                !wla.hasSuccess() );
 
         lock.release();
         Thread.sleep( 100 );
         assertTrue( "Write lock not aquired even though lock should be released.",
-                    wla.hasSuccess() );
+                wla.hasSuccess() );
     }
 
     /**
@@ -294,7 +297,7 @@ public class ReadWriteLockTestCase
         assertTrue( "Could not aquire a read lock.", rla.hasSuccess() );
 
         assertTrue( "Could not aquire a read lock, even though only a read lock is held.",
-                    lock.tryAquireRead() );
+                lock.tryAquireRead() );
 
         assertTrue( "Could aquire a write lock.", !lock.tryAquireWrite() );
 
@@ -318,19 +321,22 @@ public class ReadWriteLockTestCase
         lock.release();
 
         assertTrue( "Could not aquire a write lock after releasing the lock.",
-                    lock.tryAquireWrite() );
+                lock.tryAquireWrite() );
     }
 
-    private static class TestReadWriteLock extends ReadWriteLock {
-        public int getNumReadLocksHeld() {
+    private static class TestReadWriteLock extends ReadWriteLock
+    {
+        public int getNumReadLocksHeld()
+        {
             return super.getNumReadLocksHeld();
         }
-        
-        public int getNumWaitingForWrite() {
+
+        public int getNumWaitingForWrite()
+        {
             return super.getNumWaitingForWrite();
-        }            
+        }
     }
-    
+
     /**
      * Tests a condition pointed out to me (L.Sutic) by Avi Drissman
      * <a href="drissman@acm.org">drissman@acm.org</a>. If you hold
@@ -347,7 +353,7 @@ public class ReadWriteLockTestCase
         //
         // Grab a read lock.
         //
-        assertTrue( lock.tryAcquireRead () );
+        assertTrue( lock.tryAcquireRead() );
 
         //
         // Try to grab a write lock. (The attempt stalls,
@@ -355,7 +361,8 @@ public class ReadWriteLockTestCase
         //
         wla.start();
 
-        while( lock.getNumWaitingForWrite() == 0 ) {
+        while( lock.getNumWaitingForWrite() == 0 )
+        {
             Thread.sleep( 100 );
         }
         
@@ -382,10 +389,10 @@ public class ReadWriteLockTestCase
         // Before the fix, the assertion immediately below
         // would fail.
         //
-        assertTrue( lock.tryAcquireRead () );
+        assertTrue( lock.tryAcquireRead() );
         lock.release();
 
-        assertTrue( lock.tryAcquireWrite () );
+        assertTrue( lock.tryAcquireWrite() );
         lock.release();
     }
 }

@@ -39,14 +39,14 @@ public class NoAlias
     private static final CLOptionDescriptor[] OPTIONS = new CLOptionDescriptor[]
     {
         new CLOptionDescriptor( null,
-                                CLOptionDescriptor.ARGUMENT_DISALLOWED,
-                                SHORT_OPT,
-                                "option with only short form",
-                                new int[ 0 ] ),
+                CLOptionDescriptor.ARGUMENT_DISALLOWED,
+                SHORT_OPT,
+                "option with only short form",
+                new int[0] ),
         new CLOptionDescriptor( "long",
-                                CLOptionDescriptor.ARGUMENT_DISALLOWED,
-                                LONG_OPT,
-                                "option with long form" )
+                CLOptionDescriptor.ARGUMENT_DISALLOWED,
+                LONG_OPT,
+                "option with long form" )
     };
 
     public static void main( final String[] args )

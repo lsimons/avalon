@@ -43,11 +43,11 @@ import java.io.FilenameFilter;
  * </pre>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:13 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/04/26 10:23:06 $
  * @since 4.0
  */
 public class InvertedFileFilter
-    implements FilenameFilter
+        implements FilenameFilter
 {
     private final FilenameFilter m_originalFilter;
 

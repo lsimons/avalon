@@ -24,24 +24,24 @@ import javax.naming.spi.StateFactory;
  * This is the default namespace implementation.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  */
 public class DefaultNamespace
-    extends AbstractNamespace
+        extends AbstractNamespace
 {
     private NameParser m_nameParser;
 
     public DefaultNamespace( final NameParser nameParser )
     {
         this( nameParser,
-              new ObjectFactory[ 0 ],
-              new StateFactory[ 0 ] );
+                new ObjectFactory[0],
+                new StateFactory[0] );
     }
 
     public DefaultNamespace( final NameParser nameParser,
-                             final ObjectFactory[] objectFactorySet,
-                             final StateFactory[] stateFactorySet )
+            final ObjectFactory[] objectFactorySet,
+            final StateFactory[] stateFactorySet )
     {
         m_nameParser = nameParser;
         m_objectFactorySet = objectFactorySet;

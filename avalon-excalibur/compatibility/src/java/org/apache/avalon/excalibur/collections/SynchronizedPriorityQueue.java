@@ -26,11 +26,11 @@ import java.util.NoSuchElementException;
  * @deprecated use org.apache.commons.collections.SynchronizedPriorityQueue instead
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:15 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/04/26 10:23:05 $
  * @since 4.0
  */
 public final class SynchronizedPriorityQueue
-    implements PriorityQueue
+        implements PriorityQueue
 {
     private final PriorityQueue m_priorityQueue;
 

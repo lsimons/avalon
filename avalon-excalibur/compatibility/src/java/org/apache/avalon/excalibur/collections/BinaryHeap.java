@@ -26,27 +26,27 @@ import java.util.NoSuchElementException;
  *
  * @deprecated use org.apache.commons.collections.BinaryHeap instead;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/28 11:47:15 $
+ * @version CVS $Revision: 1.6 $ $Date: 2004/04/26 10:23:05 $
  * @since 4.0
  */
 public final class BinaryHeap
-    implements PriorityQueue
+        implements PriorityQueue
 {
     private static final class MinComparator
-        implements Comparator
+            implements Comparator
     {
         public final int compare( final Object lhs, final Object rhs )
         {
-            return ( (Comparable)lhs ).compareTo( rhs );
+            return ((Comparable)lhs).compareTo( rhs );
         }
     }
 
     private static final class MaxComparator
-        implements Comparator
+            implements Comparator
     {
         public final int compare( final Object lhs, final Object rhs )
         {
-            return ( (Comparable)rhs ).compareTo( lhs );
+            return ((Comparable)rhs).compareTo( lhs );
         }
     }
 
@@ -107,7 +107,7 @@ public final class BinaryHeap
     public BinaryHeap( final int capacity, final Comparator comparator )
     {
         //+1 as 0 is noop
-        m_elements = new Object[ capacity + 1 ];
+        m_elements = new Object[capacity + 1];
         m_comparator = comparator;
     }
 
@@ -150,7 +150,7 @@ public final class BinaryHeap
      */
     public boolean isEmpty()
     {
-        return ( 0 == m_size );
+        return (0 == m_size);
     }
 
     /**
@@ -161,7 +161,7 @@ public final class BinaryHeap
     public boolean isFull()
     {
         //+1 as element 0 is noop
-        return ( m_elements.length == m_size + 1 );
+        return (m_elements.length == m_size + 1);
     }
 
     /**
@@ -203,7 +203,7 @@ public final class BinaryHeap
         }
         else
         {
-            return m_elements[ 1 ];
+            return m_elements[1];
         }
     }
 
@@ -216,11 +216,11 @@ public final class BinaryHeap
     public Object pop() throws NoSuchElementException
     {
         final Object result = peek();
-        m_elements[ 1 ] = m_elements[ m_size-- ];
+        m_elements[1] = m_elements[m_size--];
 
         //set the unused element to 'null' so that the garbage collector
         //can free the object if not used anywhere else.(remove reference)
-        m_elements[ m_size + 1 ] = null;
+        m_elements[m_size + 1] = null;
 
         if( m_size != 0 )
         {
@@ -237,7 +237,7 @@ public final class BinaryHeap
      */
     private void percolateDownHeap( final int index )
     {
-        final Object element = m_elements[ index ];
+        final Object element = m_elements[index];
 
         int hole = index;
         int child = hole << 1;
@@ -247,23 +247,23 @@ public final class BinaryHeap
             //if we have a right child and that child can not be percolated
             //up then move onto other child
             if( child != m_size &&
-                m_comparator.compare( m_elements[ child + 1 ], m_elements[ child ] ) < 0 )
+                    m_comparator.compare( m_elements[child + 1], m_elements[child] ) < 0 )
             {
                 child++;
             }
 
             //if we found resting place of bubble then terminate search
-            if( m_comparator.compare( m_elements[ child ], element ) >= 0 )
+            if( m_comparator.compare( m_elements[child], element ) >= 0 )
             {
                 break;
             }
 
-            m_elements[ hole ] = m_elements[ child ];
+            m_elements[hole] = m_elements[child];
             hole = child;
             child = hole << 1;
         }
 
-        m_elements[ hole ] = element;
+        m_elements[hole] = element;
     }
 
     /**
@@ -276,17 +276,17 @@ public final class BinaryHeap
         int hole = ++m_size;
         int next = hole >> 1;
 
-        m_elements[ hole ] = element;
+        m_elements[hole] = element;
 
         while( hole > 1 &&
-            m_comparator.compare( element, m_elements[ next ] ) < 0 )
+                m_comparator.compare( element, m_elements[next] ) < 0 )
         {
-            m_elements[ hole ] = m_elements[ next ];
+            m_elements[hole] = m_elements[next];
             hole = next;
             next = hole >> 1;
         }
 
-        m_elements[ hole ] = element;
+        m_elements[hole] = element;
     }
 
     /**
@@ -295,7 +295,7 @@ public final class BinaryHeap
     private void grow()
     {
         final Object[] elements =
-            new Object[ m_elements.length * 2 ];
+                new Object[m_elements.length * 2];
         System.arraycopy( m_elements, 0, elements, 0, m_elements.length );
         m_elements = elements;
     }
@@ -318,7 +318,7 @@ public final class BinaryHeap
             {
                 sb.append( ", " );
             }
-            sb.append( m_elements[ i ] );
+            sb.append( m_elements[i] );
         }
 
         sb.append( " ]" );

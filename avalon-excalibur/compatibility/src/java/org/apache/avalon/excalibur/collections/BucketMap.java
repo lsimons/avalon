@@ -31,7 +31,7 @@ import java.util.Set;
  *
  * @deprecated use org.apache.commons.collections.StaticBucketMap instead
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:15 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/04/26 10:23:05 $
  * @since 4.0
  */
 public final class BucketMap implements Map
@@ -60,11 +60,11 @@ public final class BucketMap implements Map
     {
         int size = Math.max( 17, numBuckets );
 
-        m_buckets = new Node[ size ];
+        m_buckets = new Node[size];
 
         for( int i = 0; i < size; i++ )
         {
-            m_buckets[ i ] = new Node();
+            m_buckets[i] = new Node();
         }
     }
 
@@ -84,15 +84,15 @@ public final class BucketMap implements Map
     private final int getHash( Object key )
     {
         int hash = key.hashCode();
-        
+
         hash += ~(hash << 9);
-        hash ^=  (hash >>> 14);
-        hash +=  (hash << 4);
-        hash ^=  (hash >>> 10);
-        
+        hash ^= (hash >>> 14);
+        hash += (hash << 4);
+        hash ^= (hash >>> 10);
+
         hash %= m_buckets.length;
 
-        return ( hash < 0 ) ? hash * -1 : hash;
+        return (hash < 0) ? hash * -1 : hash;
     }
 
     /**
@@ -106,9 +106,9 @@ public final class BucketMap implements Map
 
         for( int i = 0; i < m_buckets.length; i++ )
         {
-            synchronized( m_buckets[ i ] )
+            synchronized( m_buckets[i] )
             {
-                Node n = m_buckets[ i ];
+                Node n = m_buckets[i];
 
                 while( n != null && n.key != null )
                 {
@@ -141,9 +141,9 @@ public final class BucketMap implements Map
 
         int hash = getHash( key );
 
-        synchronized( m_buckets[ hash ] )
+        synchronized( m_buckets[hash] )
         {
-            Node n = m_buckets[ hash ];
+            Node n = m_buckets[hash];
 
             if( n.key == null )
             {
@@ -160,7 +160,7 @@ public final class BucketMap implements Map
             {
                 n = next;
 
-                if( ( n.key == key ) || ( n.key.equals( key ) ) )
+                if( (n.key == key) || (n.key.equals( key )) )
                 {
                     // do not adjust size because nothing was added
                     Object returnVal = n.value;
@@ -193,13 +193,13 @@ public final class BucketMap implements Map
 
         int hash = getHash( key );
 
-        synchronized( m_buckets[ hash ] )
+        synchronized( m_buckets[hash] )
         {
-            Node n = m_buckets[ hash ];
+            Node n = m_buckets[hash];
 
             while( n != null && n.key != null )
             {
-                if( ( n.key == key ) || ( n.key.equals( key ) ) )
+                if( (n.key == key) || (n.key.equals( key )) )
                 {
                     return n.value;
                 }
@@ -223,13 +223,13 @@ public final class BucketMap implements Map
 
         int hash = getHash( key );
 
-        synchronized( m_buckets[ hash ] )
+        synchronized( m_buckets[hash] )
         {
-            Node n = m_buckets[ hash ];
+            Node n = m_buckets[hash];
 
             while( n != null && n.key != null )
             {
-                if( ( n.key == key ) || ( n.key.equals( key ) ) )
+                if( (n.key == key) || (n.key.equals( key )) )
                 {
                     return true;
                 }
@@ -255,13 +255,13 @@ public final class BucketMap implements Map
 
         for( int i = 0; i < m_buckets.length; i++ )
         {
-            synchronized( m_buckets[ i ] )
+            synchronized( m_buckets[i] )
             {
-                Node n = m_buckets[ i ];
+                Node n = m_buckets[i];
 
                 while( n != null && n.key != null )
                 {
-                    if( ( n.value == value ) || ( n.value.equals( value ) ) )
+                    if( (n.value == value) || (n.value.equals( value )) )
                     {
                         return true;
                     }
@@ -285,9 +285,9 @@ public final class BucketMap implements Map
 
         for( int i = 0; i < m_buckets.length; i++ )
         {
-            synchronized( m_buckets[ i ] )
+            synchronized( m_buckets[i] )
             {
-                Node n = m_buckets[ i ];
+                Node n = m_buckets[i];
 
                 while( n != null && n.key != null )
                 {
@@ -311,9 +311,9 @@ public final class BucketMap implements Map
 
         for( int i = 0; i < m_buckets.length; i++ )
         {
-            synchronized( m_buckets[ i ] )
+            synchronized( m_buckets[i] )
             {
-                Node n = m_buckets[ i ];
+                Node n = m_buckets[i];
 
                 while( n != null && n.key != null )
                 {
@@ -352,20 +352,20 @@ public final class BucketMap implements Map
 
         int hash = getHash( key );
 
-        synchronized( m_buckets[ hash ] )
+        synchronized( m_buckets[hash] )
         {
-            Node n = m_buckets[ hash ];
+            Node n = m_buckets[hash];
             Node prev = null;
 
             while( n != null && n.key != null )
             {
-                if( ( n.key == key ) || ( n.key.equals( key ) ) )
+                if( (n.key == key) || (n.key.equals( key )) )
                 {
                     // Remove this node from the linked list of nodes.
                     if( null == prev )
                     {
                         // This node was the head, set the next node to be the new head.
-                        m_buckets[ hash ] = ( n.next == null ? new Node() : n.next );
+                        m_buckets[hash] = (n.next == null ? new Node() : n.next);
                     }
                     else
                     {
@@ -400,8 +400,8 @@ public final class BucketMap implements Map
     {
         for( int i = 0; i < m_buckets.length; i++ )
         {
-            m_buckets[ i ] = null; // be explicit
-            m_buckets[ i ] = new Node();
+            m_buckets[i] = null; // be explicit
+            m_buckets[i] = new Node();
         }
     }
 

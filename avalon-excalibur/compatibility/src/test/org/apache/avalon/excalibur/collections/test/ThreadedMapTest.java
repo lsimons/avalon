@@ -21,9 +21,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import junit.framework.TestCase;
-
 import org.apache.avalon.excalibur.collections.BucketMap;
+
+import junit.framework.TestCase;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
@@ -39,18 +39,21 @@ public class ThreadedMapTest extends TestCase
     {
         super( name );
     }
-    
+
     public void setUp()
     {
         System.gc();
-        try {Thread.sleep(100);} catch(Exception e){}
+        try
+        {Thread.sleep( 100 );}
+        catch( Exception e )
+        {}
     }
-    
+
     public void tearDown()
     {
         System.gc();
     }
-    
+
     public void testBucketMapSizedThreaded() throws Exception
     {
         initialize( ITERATIONS, THREADS, new BucketMap( ITERATIONS / 2 ) );
@@ -58,10 +61,13 @@ public class ThreadedMapTest extends TestCase
         start();
         long end = System.currentTimeMillis();
 
-        System.out.println("BucketMap (" + ITERATIONS / 2 + " buckets) took " + (end - start) + "ms");
-        System.out.println("Thats " + ( (float)(end - start) / (float)(ITERATIONS * THREADS) ) + "ms per operation");
+        System.out.println(
+                "BucketMap (" + ITERATIONS / 2 + " buckets) took " + (end - start) + "ms" );
+        System.out.println(
+                "Thats " + ((float)(end - start) / (float)(ITERATIONS * THREADS)) +
+                "ms per operation" );
     }
-    
+
     public void testBucketMapUnsizedThreaded() throws Exception
     {
         initialize( ITERATIONS, THREADS, new BucketMap() );
@@ -69,39 +75,45 @@ public class ThreadedMapTest extends TestCase
         start();
         long end = System.currentTimeMillis();
 
-        System.out.println("Unsized BucketMap (256 buckets) took " + (end - start) + "ms");
-        System.out.println("Thats " + ( (float)(end - start) / (float)(ITERATIONS * THREADS) ) + "ms per operation");
+        System.out.println( "Unsized BucketMap (256 buckets) took " + (end - start) + "ms" );
+        System.out.println(
+                "Thats " + ((float)(end - start) / (float)(ITERATIONS * THREADS)) +
+                "ms per operation" );
     }
 
     public void testSynchronizedHashMapSizedThreaded() throws Exception
     {
-        initialize( ITERATIONS, THREADS, Collections.synchronizedMap(new HashMap(ITERATIONS / 2)) );
+        initialize( ITERATIONS, THREADS, Collections.synchronizedMap( new HashMap( ITERATIONS / 2 ) ) );
         long start = System.currentTimeMillis();
         start();
         long end = System.currentTimeMillis();
 
-        System.out.println("Synchronized (sized) HashMap took " + (end - start) + "ms");
-        System.out.println("Thats " + ( (float)(end - start) / (float)(ITERATIONS * THREADS) ) + "ms per operation");
+        System.out.println( "Synchronized (sized) HashMap took " + (end - start) + "ms" );
+        System.out.println(
+                "Thats " + ((float)(end - start) / (float)(ITERATIONS * THREADS)) +
+                "ms per operation" );
     }
 
     public void testSynchronizedHashMapUnsizedThreaded() throws Exception
     {
-        initialize( ITERATIONS, THREADS, Collections.synchronizedMap(new HashMap()) );
+        initialize( ITERATIONS, THREADS, Collections.synchronizedMap( new HashMap() ) );
         long start = System.currentTimeMillis();
         start();
         long end = System.currentTimeMillis();
 
-        System.out.println("Synchronized (unsized) HashMap took " + (end - start) + "ms");
-        System.out.println("Thats " + ( (float)(end - start) / (float)(ITERATIONS * THREADS) ) + "ms per operation");
+        System.out.println( "Synchronized (unsized) HashMap took " + (end - start) + "ms" );
+        System.out.println(
+                "Thats " + ((float)(end - start) / (float)(ITERATIONS * THREADS)) +
+                "ms per operation" );
     }
 
     public void initialize( int count, int threads, Map map ) throws Exception
     {
-        this.stages = new MapStart[ threads ];
+        this.stages = new MapStart[threads];
 
-        for (int i = 0; i < threads; i++)
+        for( int i = 0; i < threads; i++ )
         {
-            this.stages[ i ] = new MapStart( count, map );
+            this.stages[i] = new MapStart( count, map );
         }
     }
 
@@ -109,7 +121,7 @@ public class ThreadedMapTest extends TestCase
     {
         for( int i = 0; i < this.stages.length; i++ )
         {
-            this.stages[ i ].start();
+            this.stages[i].start();
         }
 
         stop();
@@ -121,8 +133,8 @@ public class ThreadedMapTest extends TestCase
         {
             try
             {
-                this.stages[ i ].join();
-                assertEquals(ITERATIONS, this.stages[i].getCount());
+                this.stages[i].join();
+                assertEquals( ITERATIONS, this.stages[i].getCount() );
             }
             catch( InterruptedException e )
             {
@@ -151,23 +163,23 @@ public class ThreadedMapTest extends TestCase
         public void run()
         {
             int seed = 0;
-            Random rnd = new Random(seed);
+            Random rnd = new Random( seed );
 
             for( int i = 0; i < this.mapCount / 4; i++ )
             {
-                this.map.put(new Integer( i ), new Integer( i * 5 ) );
+                this.map.put( new Integer( i ), new Integer( i * 5 ) );
                 this.count++;
-                this.map.put(new Integer(rnd.nextInt()), new Integer(rnd.nextInt()) );
+                this.map.put( new Integer( rnd.nextInt() ), new Integer( rnd.nextInt() ) );
                 this.count++;
             }
 
-            rnd.setSeed(seed);
-            
+            rnd.setSeed( seed );
+
             for( int i = 0; i < this.mapCount / 4; i++ )
             {
-                Integer value = (Integer)this.map.get( new Integer( i * 5 ));
+                Integer value = (Integer)this.map.get( new Integer( i * 5 ) );
                 this.count++;
-                value = (Integer)this.map.get( new Integer( rnd.nextInt() ));
+                value = (Integer)this.map.get( new Integer( rnd.nextInt() ) );
                 this.count++;
             }
         }

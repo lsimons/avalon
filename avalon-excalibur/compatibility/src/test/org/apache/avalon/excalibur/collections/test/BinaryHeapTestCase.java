@@ -16,16 +16,16 @@
  */
 package org.apache.avalon.excalibur.collections.test;
 
-import junit.framework.TestCase;
-
 import org.apache.avalon.excalibur.collections.BinaryHeap;
+
+import junit.framework.TestCase;
 
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public final class BinaryHeapTestCase
-    extends TestCase
+        extends TestCase
 {
     private static final Integer VAL1 = new Integer( 1 );
     private static final Integer VAL2 = new Integer( 2 );

@@ -17,7 +17,6 @@
 package org.apache.avalon.excalibur.naming.memory;
 
 import java.util.Hashtable;
-
 import javax.naming.Context;
 import javax.naming.NamingException;
 import javax.naming.spi.InitialContextFactory;
@@ -54,14 +53,14 @@ import org.apache.avalon.excalibur.naming.DefaultNamespace;
  * </ul>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  */
 public class MemoryInitialContextFactory
-    implements InitialContextFactory
+        implements InitialContextFactory
 {
     public Context getInitialContext( final Hashtable environment )
-        throws NamingException
+            throws NamingException
     {
         final DefaultNameParser parser = new DefaultNameParser();
         final DefaultNamespace namespace = new DefaultNamespace( parser );

@@ -21,13 +21,13 @@ package org.apache.avalon.excalibur.cli;
  * clients will no have to implement them.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/28 11:47:31 $
+ * @version $Revision: 1.6 $ $Date: 2004/04/26 10:23:05 $
  * @since 4.0
  * @see ParserControl
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/cli/
  */
 public abstract class AbstractParserControl
-    implements ParserControl
+        implements ParserControl
 {
     /**
      * By default always continue parsing by returning false.

@@ -20,7 +20,7 @@ package org.apache.avalon.excalibur.concurrent;
  * A class to perform a blocking lock.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:27 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/04/26 10:23:06 $
  * @since 4.0
  * @deprecated use the Mutex class instead
  */
@@ -37,7 +37,7 @@ public class Lock
      * @throws InterruptedException if the thread is interrupted while waiting on a lock
      */
     public final void lock()
-        throws InterruptedException
+            throws InterruptedException
     {
         synchronized( this )
         {

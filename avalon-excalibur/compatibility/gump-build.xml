@@ -22,7 +22,7 @@
 
 
     <target name="need-for-common-build" unless="avalon.buildsystem.available">
-<fail>
+        <fail>
 ===================================================================
 BUILD SYSTEM FAILURE!
 ===================================================================
@@ -30,13 +30,13 @@ BUILD SYSTEM FAILURE!
 a required file, ${avalon.buildsystem}/maven-common-gump-build.xml,
 cannot be found. Try setting the avalon.buildsystem property in
 project.properties to the correct location.
-</fail>
+        </fail>
     </target>
 
 
     <target name="delegate">
         <available file="${avalon.buildsystem}/maven-common-gump-build.xml"
-                property="avalon.buildsystem.available"></available>
+            property="avalon.buildsystem.available"></available>
         <antcall target="need-for-common-build"></antcall>
 
         <ant inheritRefs="true" target="avalon:${target}" antfile="${avalon.buildsystem}/maven-common-gump-build.xml" inheritAll="true"></ant>

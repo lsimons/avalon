@@ -24,10 +24,10 @@ import java.io.InputStream;
  * with this thread.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/28 11:47:13 $
+ * @version $Revision: 1.6 $ $Date: 2004/04/26 10:23:06 $
  */
 public final class DemuxInputStream
-    extends InputStream
+        extends InputStream
 {
     private final InheritableThreadLocal m_streams = new InheritableThreadLocal();
 
@@ -49,7 +49,7 @@ public final class DemuxInputStream
      * @throws IOException if an error occurs
      */
     public void close()
-        throws IOException
+            throws IOException
     {
         final InputStream input = getStream();
         if( null != input )
@@ -65,7 +65,7 @@ public final class DemuxInputStream
      * @throws IOException if an error occurs
      */
     public int read()
-        throws IOException
+            throws IOException
     {
         final InputStream input = getStream();
         if( null != input )

@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -27,8 +28,8 @@ public class ListTest
 {
     public static void main( String[] args )
     {
-        int lInitialSize = Integer.parseInt( args[ 0 ] );
-        int lIterations = Integer.parseInt( args[ 1 ] );
+        int lInitialSize = Integer.parseInt( args[0] );
+        int lIterations = Integer.parseInt( args[1] );
         ArrayList lArrayList = new ArrayList( lInitialSize + 1 );
         LinkedList lLinkedList = new LinkedList();
         VariableSizeBuffer lVariableSizeBuffer = new VariableSizeBuffer( lInitialSize + 1 );
@@ -50,7 +51,7 @@ public class ListTest
             lArrayList.remove( lInitialSize );  // Remove from the tail
         }
         lEnd = System.currentTimeMillis();
-        System.out.println( "Time: " + ( lEnd - lBegin ) );
+        System.out.println( "Time: " + (lEnd - lBegin) );
 
         lBegin = System.currentTimeMillis();
         for( int i = 0; i < lIterations; i++ )
@@ -59,7 +60,7 @@ public class ListTest
             lLinkedList.removeLast();  // Remove from the tail
         }
         lEnd = System.currentTimeMillis();
-        System.out.println( "Time: " + ( lEnd - lBegin ) );
+        System.out.println( "Time: " + (lEnd - lBegin) );
 
         lBegin = System.currentTimeMillis();
         for( int i = 0; i < lIterations; i++ )
@@ -68,7 +69,7 @@ public class ListTest
             lVariableSizeBuffer.remove();  // Remove from the tail
         }
         lEnd = System.currentTimeMillis();
-        System.out.println( "Time: " + ( lEnd - lBegin ) );
+        System.out.println( "Time: " + (lEnd - lBegin) );
 
         lBegin = System.currentTimeMillis();
         for( int i = 0; i < lIterations; i++ )
@@ -77,6 +78,6 @@ public class ListTest
             lFixedSizeBuffer.remove();  // Remove from the tail
         }
         lEnd = System.currentTimeMillis();
-        System.out.println( "Time: " + ( lEnd - lBegin ) );
+        System.out.println( "Time: " + (lEnd - lBegin) );
     }
 }

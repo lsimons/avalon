@@ -24,10 +24,10 @@ import java.io.OutputStream;
  * with this thread.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/28 11:47:13 $
+ * @version $Revision: 1.6 $ $Date: 2004/04/26 10:23:06 $
  */
 public final class DemuxOutputStream
-    extends OutputStream
+        extends OutputStream
 {
     private final InheritableThreadLocal m_streams = new InheritableThreadLocal();
 
@@ -49,7 +49,7 @@ public final class DemuxOutputStream
      * @throws IOException if an error occurs
      */
     public void close()
-        throws IOException
+            throws IOException
     {
         final OutputStream output = getStream();
         if( null != output )
@@ -64,7 +64,7 @@ public final class DemuxOutputStream
      * @throws IOException if an error occurs
      */
     public void flush()
-        throws IOException
+            throws IOException
     {
         final OutputStream output = getStream();
         if( null != output )
@@ -80,7 +80,7 @@ public final class DemuxOutputStream
      * @throws IOException if an error occurs
      */
     public void write( final int ch )
-        throws IOException
+            throws IOException
     {
         final OutputStream output = getStream();
         if( null != output )

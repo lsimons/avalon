@@ -19,7 +19,6 @@ package org.apache.avalon.excalibur.naming.memory;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
 import javax.naming.Binding;
 import javax.naming.Context;
 import javax.naming.NameClassPair;
@@ -32,20 +31,20 @@ import org.apache.avalon.excalibur.naming.Namespace;
  * Class for building NamingEnumerations.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  */
 final class MemoryNamingEnumeration
-    extends AbstractNamingEnumeration
+        extends AbstractNamingEnumeration
 {
     protected Hashtable m_bindings;
     protected Iterator m_names;
     protected boolean m_returnBindings;
 
     public MemoryNamingEnumeration( final Context owner,
-                                    final Namespace namespace,
-                                    final Hashtable bindings,
-                                    final boolean returnBindings )
+            final Namespace namespace,
+            final Hashtable bindings,
+            final boolean returnBindings )
     {
         super( owner, namespace );
         m_returnBindings = returnBindings;
@@ -59,7 +58,7 @@ final class MemoryNamingEnumeration
     }
 
     public Object next()
-        throws NamingException
+            throws NamingException
     {
         if( !hasMore() ) throw new NoSuchElementException();
 

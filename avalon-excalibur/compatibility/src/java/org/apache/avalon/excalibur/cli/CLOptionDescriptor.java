@@ -22,7 +22,7 @@ package org.apache.avalon.excalibur.cli;
  * and passes it to {@link CLArgsParser#CLArgsParser(String[], CLOptionDescriptor[])}.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/28 11:47:31 $
+ * @version $Revision: 1.6 $ $Date: 2004/04/26 10:23:05 $
  * @since 4.0
  * @see CLArgsParser
  * @see CLUtil
@@ -56,13 +56,13 @@ public final class CLOptionDescriptor
      * @param description description of option usage
      */
     public CLOptionDescriptor( final String name,
-                               final int flags,
-                               final int id,
-                               final String description )
+            final int flags,
+            final int id,
+            final String description )
     {
         this( name, flags, id, description,
-              ( ( flags & CLOptionDescriptor.DUPLICATES_ALLOWED ) > 0 )
-              ? new int[ 0 ] : new int[]{id} );
+                ((flags & CLOptionDescriptor.DUPLICATES_ALLOWED) > 0)
+                ? new int[0] : new int[]{id} );
     }
 
     /**
@@ -76,10 +76,10 @@ public final class CLOptionDescriptor
      * @deprecated use the version with the array of CLOptionDescriptor's
      */
     public CLOptionDescriptor( final String name,
-                               final int flags,
-                               final int id,
-                               final String description,
-                               final int[] incompatible )
+            final int flags,
+            final int id,
+            final String description,
+            final int[] incompatible )
     {
         m_id = id;
         m_name = name;
@@ -88,19 +88,19 @@ public final class CLOptionDescriptor
         m_incompatible = incompatible;
 
         int modeCount = 0;
-        if( ( ARGUMENT_REQUIRED & flags ) == ARGUMENT_REQUIRED )
+        if( (ARGUMENT_REQUIRED & flags) == ARGUMENT_REQUIRED )
         {
             modeCount++;
         }
-        if( ( ARGUMENT_OPTIONAL & flags ) == ARGUMENT_OPTIONAL )
+        if( (ARGUMENT_OPTIONAL & flags) == ARGUMENT_OPTIONAL )
         {
             modeCount++;
         }
-        if( ( ARGUMENT_DISALLOWED & flags ) == ARGUMENT_DISALLOWED )
+        if( (ARGUMENT_DISALLOWED & flags) == ARGUMENT_DISALLOWED )
         {
             modeCount++;
         }
-        if( ( ARGUMENTS_REQUIRED_2 & flags ) == ARGUMENTS_REQUIRED_2 )
+        if( (ARGUMENTS_REQUIRED_2 & flags) == ARGUMENTS_REQUIRED_2 )
         {
             modeCount++;
         }
@@ -126,19 +126,21 @@ public final class CLOptionDescriptor
      * @param description description of option usage
      */
     public CLOptionDescriptor( final String name,
-                               final int flags,
-                               final int id,
-                               final String description,
-                               final CLOptionDescriptor[] incompatible )
+            final int flags,
+            final int id,
+            final String description,
+            final CLOptionDescriptor[] incompatible )
     {
         m_id = id;
         m_name = name;
         m_flags = flags;
         m_description = description;
 
-        m_incompatible = new int[ incompatible.length ];
+        m_incompatible = new int[incompatible.length];
         for( int i = 0; i < incompatible.length; i++ )
-            m_incompatible[ i ] = incompatible[ i ].getId();
+        {
+            m_incompatible[i] = incompatible[i].getId();
+        }
     }
 
     /**

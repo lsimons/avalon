@@ -18,7 +18,6 @@ package org.apache.avalon.excalibur.naming.rmi.server;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
 import javax.naming.Binding;
 import javax.naming.CompositeName;
 import javax.naming.Context;
@@ -35,11 +34,11 @@ import org.apache.avalon.excalibur.naming.rmi.RMINamingProvider;
  * The RMI implementation of provider.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  */
 public class RMINamingProviderImpl
-    implements Serializable, RMINamingProvider
+        implements Serializable, RMINamingProvider
 {
     private Context m_root;
 
@@ -49,27 +48,27 @@ public class RMINamingProviderImpl
     }
 
     public NameParser getNameParser()
-        throws NamingException
+            throws NamingException
     {
         return m_root.getNameParser( new CompositeName() );
     }
 
     public void bind( final Name name, final String className, final Object object )
-        throws NamingException
+            throws NamingException
     {
         final Binding binding = new Binding( name.toString(), className, object, true );
         m_root.bind( name, binding );
     }
 
     public void rebind( final Name name, final String className, final Object object )
-        throws NamingException
+            throws NamingException
     {
         final Binding binding = new Binding( name.toString(), className, object, true );
         m_root.rebind( name, binding );
     }
 
     public Context createSubcontext( final Name name )
-        throws NamingException
+            throws NamingException
     {
         m_root.createSubcontext( name );
 
@@ -78,13 +77,13 @@ public class RMINamingProviderImpl
     }
 
     public void destroySubcontext( final Name name )
-        throws NamingException
+            throws NamingException
     {
         m_root.destroySubcontext( name );
     }
 
     public NameClassPair[] list( final Name name )
-        throws NamingException
+            throws NamingException
     {
         //Remember that the bindings returned by this
         //actually have a nested Binding as an object
@@ -118,11 +117,11 @@ public class RMINamingProviderImpl
             pairs.add( new NameClassPair( binding.getName(), className ) );
         }
 
-        return (NameClassPair[])pairs.toArray( new NameClassPair[ 0 ] );
+        return (NameClassPair[])pairs.toArray( new NameClassPair[0] );
     }
 
     public Binding[] listBindings( final Name name )
-        throws NamingException
+            throws NamingException
     {
         //Remember that the bindings returned by this
         //actually have a nested Binding as an object
@@ -155,22 +154,22 @@ public class RMINamingProviderImpl
             }
 
             final Binding result =
-                new Binding( binding.getName(), className, object );
+                    new Binding( binding.getName(), className, object );
             bindings.add( result );
         }
 
-        return (Binding[])bindings.toArray( new Binding[ 0 ] );
+        return (Binding[])bindings.toArray( new Binding[0] );
     }
 
     public Object lookup( final Name name )
-        throws NamingException
+            throws NamingException
     {
         Object object = m_root.lookup( name );
 
         //check if it is an entry or a context
         if( object instanceof Binding )
         {
-            object = ( (Binding)object ).getObject();
+            object = ((Binding)object).getObject();
         }
         else if( object instanceof Context )
         {
@@ -182,7 +181,7 @@ public class RMINamingProviderImpl
     }
 
     public void unbind( final Name name )
-        throws NamingException
+            throws NamingException
     {
         m_root.unbind( name );
     }

@@ -36,11 +36,11 @@ import java.io.FilenameFilter;
  * </pre>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/28 11:47:13 $
+ * @version CVS $Revision: 1.6 $ $Date: 2004/04/26 10:23:06 $
  * @since 4.0
  */
 public class ExtensionFileFilter
-    implements FilenameFilter
+        implements FilenameFilter
 {
     private String[] m_extensions;
 
@@ -58,7 +58,7 @@ public class ExtensionFileFilter
     {
         for( int i = 0; i < m_extensions.length; i++ )
         {
-            if( name.endsWith( m_extensions[ i ] ) )
+            if( name.endsWith( m_extensions[i] ) )
             {
                 return true;
             }

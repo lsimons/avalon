@@ -30,7 +30,7 @@
     </postGoal>
 
     <goal name="excalibur:rmi-compile"
-            description="Compiles the RMI stubs">
+        description="Compiles the RMI stubs">
 
         <rmic base="${maven.build.dest}"
             classname="org.apache.avalon.excalibur.naming.rmi.server.RMINamingProviderImpl"

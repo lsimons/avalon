@@ -34,16 +34,16 @@ import org.apache.avalon.excalibur.naming.memory.MemoryContext;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class Main
-    implements Runnable
+        implements Runnable
 {
     public static void main( final String[] args )
-        throws Exception
+            throws Exception
     {
         boolean debug = true;
 
         if( args.length > 0 )
         {
-            if( "-q".equals( args[ 0 ] ) )
+            if( "-q".equals( args[0] ) )
             {
                 debug = false;
             }
@@ -72,7 +72,7 @@ public class Main
     }
 
     public void init()
-        throws Exception
+            throws Exception
     {
         if( m_initialized ) return;
 
@@ -90,14 +90,14 @@ public class Main
     }
 
     public void start()
-        throws Exception
+            throws Exception
     {
         init();
         export();
     }
 
     public void export()
-        throws Exception
+            throws Exception
     {
         final DefaultNameParser parser = new DefaultNameParser();
         final DefaultNamespace namespace = new DefaultNamespace( parser );
@@ -110,7 +110,7 @@ public class Main
             // Export server
             if( m_debug ) System.out.println( "Exporting RMI object on port " + 1099 );
             m_serverStub =
-                new MarshalledObject( UnicastRemoteObject.exportObject( m_server, 1099 ) );
+                    new MarshalledObject( UnicastRemoteObject.exportObject( m_server, 1099 ) );
         }
         catch( final IOException ioe )
         {
@@ -120,7 +120,7 @@ public class Main
     }
 
     public void dispose()
-        throws Exception
+            throws Exception
     {
         if( m_debug ) System.out.println( "Shutting down server" );
         m_running = false;
@@ -131,7 +131,7 @@ public class Main
     }
 
     public void stop()
-        throws Exception
+            throws Exception
     {
         if( m_debug ) System.out.println( "Stopping" );
         m_running = false;
@@ -152,7 +152,7 @@ public class Main
                 final Socket socket = m_serverSocket.accept();
                 if( m_debug ) System.out.println( "Accepted Connection" );
                 final ObjectOutputStream output =
-                    new ObjectOutputStream( socket.getOutputStream() );
+                        new ObjectOutputStream( socket.getOutputStream() );
 
                 output.writeObject( m_serverStub );
 

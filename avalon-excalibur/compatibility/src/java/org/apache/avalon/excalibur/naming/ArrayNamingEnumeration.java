@@ -17,7 +17,6 @@
 package org.apache.avalon.excalibur.naming;
 
 import java.util.NoSuchElementException;
-
 import javax.naming.Binding;
 import javax.naming.Context;
 import javax.naming.NamingException;
@@ -26,18 +25,18 @@ import javax.naming.NamingException;
  * Class for building NamingEnumerations.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  */
 final class ArrayNamingEnumeration
-    extends AbstractNamingEnumeration
+        extends AbstractNamingEnumeration
 {
     protected Object[] m_items;
     protected int m_index;
 
     public ArrayNamingEnumeration( final Context owner,
-                                   final Namespace namespace,
-                                   final Object[] items )
+            final Namespace namespace,
+            final Object[] items )
     {
         super( owner, namespace );
         m_items = items;
@@ -50,11 +49,11 @@ final class ArrayNamingEnumeration
     }
 
     public Object next()
-        throws NamingException
+            throws NamingException
     {
         if( !hasMore() ) throw new NoSuchElementException();
 
-        final Object object = m_items[ m_index++ ];
+        final Object object = m_items[m_index++];
 
         if( object instanceof Binding )
         {

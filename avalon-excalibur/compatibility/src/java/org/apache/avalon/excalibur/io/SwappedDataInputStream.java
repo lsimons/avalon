@@ -25,11 +25,11 @@ import java.io.InputStream;
  * DataInput for systems relying on little endian data formats.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/28 11:47:13 $
+ * @version CVS $Revision: 1.6 $ $Date: 2004/04/26 10:23:06 $
  * @since 4.0
  */
 public class SwappedDataInputStream
-    implements DataInput
+        implements DataInput
 {
     //The underlying input stream
     private InputStream m_input;
@@ -40,49 +40,49 @@ public class SwappedDataInputStream
     }
 
     public boolean readBoolean()
-        throws IOException, EOFException
+            throws IOException, EOFException
     {
-        return ( 0 == readByte() );
+        return (0 == readByte());
     }
 
     public byte readByte()
-        throws IOException, EOFException
+            throws IOException, EOFException
     {
         return (byte)m_input.read();
     }
 
     public char readChar()
-        throws IOException, EOFException
+            throws IOException, EOFException
     {
         return (char)readShort();
     }
 
     public double readDouble()
-        throws IOException, EOFException
+            throws IOException, EOFException
     {
         return EndianUtil.readSwappedDouble( m_input );
     }
 
     public float readFloat()
-        throws IOException, EOFException
+            throws IOException, EOFException
     {
         return EndianUtil.readSwappedFloat( m_input );
     }
 
     public void readFully( final byte[] data )
-        throws IOException, EOFException
+            throws IOException, EOFException
     {
         readFully( data, 0, data.length );
     }
 
     public void readFully( final byte[] data, final int offset, final int length )
-        throws IOException, EOFException
+            throws IOException, EOFException
     {
         int remaining = length;
 
         while( remaining > 0 )
         {
-            final int location = offset + ( length - remaining );
+            final int location = offset + (length - remaining);
             final int count = read( data, location, remaining );
 
             if( -1 == count )
@@ -95,85 +95,85 @@ public class SwappedDataInputStream
     }
 
     public int readInt()
-        throws IOException, EOFException
+            throws IOException, EOFException
     {
         return EndianUtil.readSwappedInteger( m_input );
     }
 
     public String readLine()
-        throws IOException, EOFException
+            throws IOException, EOFException
     {
         throw new IOException( "Operation not supported" );
     }
 
     public long readLong()
-        throws IOException, EOFException
+            throws IOException, EOFException
     {
         return EndianUtil.readSwappedLong( m_input );
     }
 
     public short readShort()
-        throws IOException, EOFException
+            throws IOException, EOFException
     {
         return EndianUtil.readSwappedShort( m_input );
     }
 
     public int readUnsignedByte()
-        throws IOException, EOFException
+            throws IOException, EOFException
     {
         return m_input.read();
     }
 
     public int readUnsignedShort()
-        throws IOException, EOFException
+            throws IOException, EOFException
     {
         return EndianUtil.readSwappedUnsignedShort( m_input );
     }
 
     public String readUTF()
-        throws IOException, EOFException
+            throws IOException, EOFException
     {
         throw new IOException( "Operation not supported" );
     }
 
     public int skipBytes( final int count )
-        throws IOException, EOFException
+            throws IOException, EOFException
     {
         return (int)m_input.skip( count );
     }
 
     public int available()
-        throws IOException, EOFException
+            throws IOException, EOFException
     {
         return m_input.available();
     }
 
     public void close()
-        throws IOException, EOFException
+            throws IOException, EOFException
     {
         m_input.close();
     }
 
     public int read()
-        throws IOException, EOFException
+            throws IOException, EOFException
     {
         return m_input.read();
     }
 
     public int read( final byte[] data )
-        throws IOException, EOFException
+            throws IOException, EOFException
     {
         return read( data, 0, data.length );
     }
 
     public int read( final byte[] data, final int offset, final int length )
-        throws IOException, EOFException
+            throws IOException, EOFException
     {
         return m_input.read( data, offset, length );
     }
 
     public long skip( final long count )
-        throws IOException, EOFException
+            throws IOException, EOFException
     {
         return m_input.skip( count );
     }
@@ -189,7 +189,7 @@ public class SwappedDataInputStream
     }
 
     public void reset()
-        throws IOException
+            throws IOException
     {
         m_input.reset();
     }

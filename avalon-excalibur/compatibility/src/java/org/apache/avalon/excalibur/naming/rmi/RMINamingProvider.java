@@ -24,10 +24,10 @@ import org.apache.avalon.excalibur.naming.NamingProvider;
  * The underlying communication interface for remote contexts.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  */
 public interface RMINamingProvider
-    extends NamingProvider, Remote
+        extends NamingProvider, Remote
 {
 }

@@ -18,7 +18,6 @@ package org.apache.avalon.excalibur.naming;
 
 import java.io.Serializable;
 import java.util.Properties;
-
 import javax.naming.CompoundName;
 import javax.naming.Name;
 import javax.naming.NameParser;
@@ -28,9 +27,9 @@ import javax.naming.NamingException;
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- */ 
+ */
 public class DefaultNameParser
-    implements Serializable, NameParser
+        implements Serializable, NameParser
 {
     protected static Properties c_syntax = new Properties();
 
@@ -42,7 +41,7 @@ public class DefaultNameParser
     }
 
     public Name parse( final String name )
-        throws NamingException
+            throws NamingException
     {
         return new CompoundName( name, c_syntax );
     }

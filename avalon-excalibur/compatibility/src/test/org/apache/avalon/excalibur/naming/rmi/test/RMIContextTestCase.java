@@ -18,7 +18,6 @@ package org.apache.avalon.excalibur.naming.rmi.test;
 
 import java.lang.reflect.Method;
 import java.util.Hashtable;
-
 import javax.naming.Context;
 
 import org.apache.avalon.excalibur.naming.rmi.RMIInitialContextFactory;
@@ -29,11 +28,11 @@ import org.apache.avalon.excalibur.naming.test.AbstractContextTestCase;
  * Unit testing for JNDI system
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  */
 public class RMIContextTestCase
-    extends AbstractContextTestCase
+        extends AbstractContextTestCase
 {
     private static int m_numTests = 0;
     private static int m_id = 0;
@@ -50,7 +49,7 @@ public class RMIContextTestCase
 
         for( int i = 0; i < methods.length; i++ )
         {
-            if( methods[ i ].getName().startsWith( "test" ) )
+            if( methods[i].getName().startsWith( "test" ) )
             {
                 RMIContextTestCase.m_numTests++;
             }
