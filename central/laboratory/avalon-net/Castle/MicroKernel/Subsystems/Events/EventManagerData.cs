@@ -16,6 +16,8 @@ namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Events
 {
 	using System;
 
+	using Apache.Avalon.Castle.MicroKernel.Model;
+
 	/// <summary>
 	/// 
 	/// </summary>
@@ -39,6 +41,18 @@ namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Events
 			m_instance = componentInstance;
 		}
 
+		public EventManagerData( IComponentModel model )
+		{
+			m_componentName = model.Name;
+			m_service = model.Service;
+			m_implementation = model.ConstructionModel.Implementation;
+		}
+
+		public EventManagerData( IComponentModel model, object instance ) : this( model )
+		{
+			m_instance = instance;
+		}
+		
 		public String ComponentName
 		{
 			get

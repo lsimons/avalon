@@ -29,10 +29,6 @@ namespace Apache.Avalon.Castle.MicroKernel
 	/// </summary>
 	public class BaseKernel : Kernel
 	{
-		protected ArrayList m_aspectBefore;
-
-		protected ArrayList m_aspectAfter;
-
 		protected Hashtable m_components;
 
 		protected Hashtable m_services;
@@ -52,15 +48,13 @@ namespace Apache.Avalon.Castle.MicroKernel
 		/// </summary>
 		public BaseKernel()
 		{
-			m_aspectBefore = new ArrayList();
-			m_aspectAfter = new ArrayList();
-			m_components = new Hashtable(CaseInsensitiveHashCodeProvider.Default, CaseInsensitiveComparer.Default);
 			m_services = new Hashtable();
-			m_dependencyToSatisfy = new Hashtable();
+			m_components = new Hashtable(CaseInsensitiveHashCodeProvider.Default, CaseInsensitiveComparer.Default);
 			m_subsystems = new Hashtable();
 			m_handlerFactory = new Handler.Default.SimpleHandlerFactory();
-			m_lifestyleManagerFactory = new Lifestyle.Default.SimpleLifestyleManagerFactory();
+			m_dependencyToSatisfy = new Hashtable();
 			m_componentModelBuilder = new Model.Default.DefaultComponentModelBuilder( this );
+			m_lifestyleManagerFactory = new Lifestyle.Default.SimpleLifestyleManagerFactory();
 
 			AddSubsystem( KernelConstants.LOOKUP, new LookupCriteriaMatcher() );
 			AddSubsystem( KernelConstants.EVENTS, new EventManager() );
@@ -112,6 +106,7 @@ namespace Apache.Avalon.Castle.MicroKernel
 		{
 			AssertUtil.ArgumentNotNull( aspect, "aspect" );
 
+			/*
 			if ((AspectPointCutFlags.Before & flags) != 0)
 			{
 				lock(m_aspectBefore)
@@ -126,6 +121,7 @@ namespace Apache.Avalon.Castle.MicroKernel
 					m_aspectAfter.Add( aspect );
 				}
 			}
+			*/
 		}
 
 		/// <summary>
