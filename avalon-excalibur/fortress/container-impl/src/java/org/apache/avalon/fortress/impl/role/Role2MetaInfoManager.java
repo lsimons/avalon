@@ -63,10 +63,17 @@ import org.apache.avalon.fortress.RoleManager;
 public final class Role2MetaInfoManager implements MetaInfoManager
 {
     private final RoleManager m_manager;
+    private final MetaInfoManager m_parent;
 
     public Role2MetaInfoManager( final RoleManager manager )
     {
+        this( manager, null );
+    }
+
+    public Role2MetaInfoManager( final RoleManager manager, final MetaInfoManager parent )
+    {
         m_manager = manager;
+        m_parent = parent;
     }
 
     /**
@@ -87,7 +94,7 @@ public final class Role2MetaInfoManager implements MetaInfoManager
         }
         else
         {
-            return null;
+            return null != m_parent ? m_parent.getMetaInfoForShortName(shortname ) : null;
         }
     }
 
@@ -111,7 +118,7 @@ public final class Role2MetaInfoManager implements MetaInfoManager
         }
         else
         {
-            return null;
+            return null != m_parent ? m_parent.getMetaInfoForClassname( classname ) : null;
         }
     }
 }
