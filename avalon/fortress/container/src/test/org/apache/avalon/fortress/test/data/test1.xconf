@@ -1,0 +1,20 @@
+<test>
+    <component id="component1"
+        class="org.apache.avalon.fortress.test.data.Component1"
+        logger="component1"
+        activation="startup"/>
+    <component id="component2"
+        class="org.apache.avalon.fortress.test.data.Component2"
+        logger="component2"
+        pool-min="2"
+        activation="startup"/>
+    <component id="component3"
+        class="org.apache.avalon.fortress.test.data.Component3"
+        logger="component3"
+        activation="startup"/>
+    <component id="component4"
+        class="org.apache.avalon.fortress.test.data.Component4"
+        logger="component4"
+        activation="startup"/>
+</test>
+

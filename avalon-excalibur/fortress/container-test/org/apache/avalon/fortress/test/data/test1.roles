@@ -1,0 +1,23 @@
+<test>
+    <role name="org.apache.avalon.fortress.test.data.Role1">
+        <component shorthand="component1"
+            class="org.apache.avalon.fortress.test.data.Component1"
+            handler="org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler"/>
+    </role>
+    <role name="org.apache.avalon.fortress.test.data.Role2">
+        <component shorthand="component2"
+            class="org.apache.avalon.fortress.test.data.Component2"
+            handler="org.apache.avalon.fortress.impl.handler.PoolableComponentHandler"/>
+    </role>
+    <role name="org.apache.avalon.fortress.test.data.Role3">
+        <component shorthand="component3"
+            class="org.apache.avalon.fortress.test.data.Component3"
+            handler="org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler"/>
+    </role>
+    <role name="org.apache.avalon.fortress.test.data.Role4">
+        <component shorthand="component4"
+            class="org.apache.avalon.fortress.test.data.Component4"
+            handler="org.apache.avalon.fortress.impl.handler.FactoryComponentHandler"/>
+    </role>
+</test>
+

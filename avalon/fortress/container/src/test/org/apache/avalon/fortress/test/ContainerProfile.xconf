@@ -1,0 +1,19 @@
+<test>
+  <component id="test2"
+        class="org.apache.avalon.excalibur.monitor.ActiveMonitor"
+	    logger="test"
+        activation="startup">
+    <thread priority="10" frequency="1"/>
+  </component>
+  <component id="test3"
+             class="org.apache.excalibur.xml.impl.JaxpParser"
+	         logger="test"
+             activation="startup">
+    <parameter name="validate" value="false"/>
+    <parameter name="namespace-prefixes" value="false"/>
+    <parameter name="reuse-parsers" value="true"/>
+    <parameter name="stop-on-warning" value="false"/>
+    <parameter name="stop-on-recoverable-error" value="true"/>
+  </component>
+</test>
+
