@@ -189,7 +189,7 @@ public class CascadingConfiguration implements Configuration
             return getChild( child );
         }
         Configuration c = m_base.getChild( child, false );
-        if( child != null )
+        if( c != null )
         {
             return c;
         }
