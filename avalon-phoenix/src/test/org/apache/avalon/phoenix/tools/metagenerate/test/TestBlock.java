@@ -22,7 +22,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * @phoenix:mx name="YeeeHaaa"
  *
  */
-public class TestBlock implements Serviceable, Configurable
+public class TestBlock extends TestParentBlock implements Serviceable, Configurable
 {
     /**
      * @phoenix:dependency name="blah.OtherBlahService" version="1.2"
@@ -30,7 +30,7 @@ public class TestBlock implements Serviceable, Configurable
     public void service( final ServiceManager serviceManager )
         throws ServiceException
     {
-
+        super.service(serviceManager);
     }
 
     /**

@@ -13,6 +13,8 @@ import com.thoughtworks.qdox.model.JavaMethod;
 import com.thoughtworks.qdox.model.Type;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * A Xinfo Factory
@@ -22,16 +24,21 @@ public class XinfoFactory
 {
     private JavaClass m_javaClass;
     private File m_destDir;
+    private HashMap m_services = new HashMap();
+    private HashMap m_dependencies = new HashMap();
+    private boolean m_inheritance;
+
 
     /**
      * Construct a factory for a class.
      * @param destDir
      * @param javaClass
      */
-    public XinfoFactory( File destDir, JavaClass javaClass )
+    public XinfoFactory( File destDir, JavaClass javaClass, boolean inheritance )
     {
         m_javaClass = javaClass;
         m_destDir = destDir;
+        m_inheritance = inheritance;
     }
 
     /**
@@ -49,7 +56,7 @@ public class XinfoFactory
 
         // services
 
-        processServiceInterfaces( xinfo );
+        processServiceInterfaces( xinfo, m_inheritance );
 
         xinfo.writeEndOfServicesSection();
 
@@ -68,15 +75,54 @@ public class XinfoFactory
      * @param xinfo the xinfo helper
      * @throws IOException If a problem
      */
-    private void processServiceInterfaces( XinfoHelper xinfo ) throws IOException
+    private void processServiceInterfaces( XinfoHelper xinfo, boolean inheritance )
+            throws IOException
     {
-        DocletTag[] services = m_javaClass.getTagsByName( "phoenix:service" );
-        for( int i = 0; i < services.length; i++ )
+        JavaClass javaClass = m_javaClass;
+        while (m_javaClass == javaClass || (javaClass != null && inheritance))
         {
-            DocletTag service = services[ i ];
-            xinfo.writeServiceLines( service.getNamedParameter( "name" ),
-                    service.getNamedParameter("version") );
+            DocletTag[] services = javaClass.getTagsByName( "phoenix:service" );
+            for( int i = 0; i < services.length; i++ )
+            {
+                DocletTag service = services[ i ];
+                String serviceName = service.getNamedParameter( "name" );
+                m_services.put( serviceName, service );
+            }
+            //javaClass = getParentClass(javaClass);  // Bug in QDox?
+            javaClass = null;
         }
+
+
+
+        Iterator it = m_services.keySet().iterator();
+        while (it.hasNext())
+        {
+            String serviceName = (String) it.next();
+            DocletTag service = (DocletTag) m_services.get( serviceName );
+            xinfo.writeServiceLines( serviceName,
+                    service.getNamedParameter("version") );
+
+        }
+
+    }
+
+    private JavaClass getParentClass(JavaClass javaClass)
+    {
+        String parentClassName = javaClass.getSuperClass().getValue();
+        System.out.println("--> p " + parentClassName);
+        JavaClass[] parentSourceClasses = javaClass.getParentSource().getClasses();
+        javaClass = null;
+        for (int i = 0; i < parentSourceClasses.length; i++)
+        {
+            JavaClass parentClass = parentSourceClasses[i];
+            System.out.println("--> p2 " + parentClass.getFullyQualifiedName());
+            if (parentClassName.equals(parentClass.getFullyQualifiedName()))
+            {
+                javaClass = parentClass;
+            }
+
+        }
+        return javaClass;
     }
 
     /**

@@ -22,6 +22,7 @@ public class MetaGenerateQdoxTask extends AbstractQdoxTask
 {
 
     private File m_destDir;
+    private boolean m_inheritance = true;
 
     /**
      * Execute
@@ -51,6 +52,15 @@ public class MetaGenerateQdoxTask extends AbstractQdoxTask
     }
 
     /**
+     * Inheritence : should parent classes of blocks be queried too?
+     * @param inheritance
+     */
+    public void setInheritance(boolean inheritance)
+    {
+        m_inheritance = inheritance;
+    }
+
+    /**
      * Output the classes
      * @throws IOException If a problem writing output
      */
@@ -63,7 +73,7 @@ public class MetaGenerateQdoxTask extends AbstractQdoxTask
             DocletTag block = javaClass.getTagByName("phoenix:block");
             if (block != null)
             {
-                XinfoFactory factory = new XinfoFactory(m_destDir, javaClass);
+                XinfoFactory factory = new XinfoFactory(m_destDir, javaClass, m_inheritance);
                 factory.generate();
             }
             DocletTag topic = javaClass.getTagByName("phoenix:mx-topic");

@@ -110,6 +110,7 @@ public class IntegrationTestCase extends TestCase
     "      <!-- services that are offered by this block -->",
     "      <services>",
     "        <service name=\"blah.BlahService\" version=\"1.9\"/>",
+    // "        <service name=\"blah.FooService\"/>",
     "      </services>",
     "",
     "      <!-- interfaces that may be exported to manange this block -->",
