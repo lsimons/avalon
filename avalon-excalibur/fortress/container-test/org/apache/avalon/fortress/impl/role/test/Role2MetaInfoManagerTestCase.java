@@ -71,12 +71,12 @@ public class Role2MetaInfoManagerTestCase extends AbstractMetaInfoManagerTestCas
         FortressRoleManager roles = new FortressRoleManager( null, this.getClass().getClassLoader() );
         roles.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_INFO ) );
         roles.initialize();
-        m_manager = new Role2MetaInfoManager(roles);
+        m_manager = new Role2MetaInfoManager( roles );
     }
 
     public void testRole2MetaInfoManager() throws Exception
     {
-        String[] roles = new String[] {"org.apache.avalon.excalibur.datasource.DataSourceComponent"};
+        String[] roles = new String[]{"org.apache.avalon.excalibur.datasource.DataSourceComponent"};
 
         checkRole( "jdbc-datasource", roles,
             "org.apache.avalon.excalibur.datasource.JdbcDataSource",

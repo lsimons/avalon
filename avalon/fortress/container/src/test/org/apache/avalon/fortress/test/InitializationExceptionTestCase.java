@@ -56,7 +56,7 @@ import org.apache.avalon.fortress.InitializationException;
  * InitializationExceptionTestCase does XYZ
  *
  * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $
+ * @version CVS $Revision: 1.2 $
  */
 public class InitializationExceptionTestCase extends TestCase
 {
@@ -67,20 +67,20 @@ public class InitializationExceptionTestCase extends TestCase
 
     public void testRegularCreation()
     {
-        InitializationException exc = new InitializationException("Message");
-        assertNotNull(exc);
-        assertNotNull(exc.getMessage());
-        assertNotNull(exc.getLocalizedMessage());
-        assertEquals("Message", exc.getMessage());
+        InitializationException exc = new InitializationException( "Message" );
+        assertNotNull( exc );
+        assertNotNull( exc.getMessage() );
+        assertNotNull( exc.getLocalizedMessage() );
+        assertEquals( "Message", exc.getMessage() );
         assertTrue( null == exc.getCause() );
     }
 
     public void testNestedCreation()
     {
         Exception nest = new RuntimeException();
-        InitializationException exc = new InitializationException("Message", nest);
-        assertNotNull(exc);
-        assertNotNull(exc.getCause());
+        InitializationException exc = new InitializationException( "Message", nest );
+        assertNotNull( exc );
+        assertNotNull( exc.getCause() );
         assertNotNull( exc.getMessage() );
         assertNotNull( exc.getLocalizedMessage() );
         assertEquals( "Message", exc.getMessage() );

@@ -138,7 +138,7 @@ class TestContainer implements Container
     {
         if ( exists( key, hint ) )
         {
-            if (hint.equals(AbstractContainer.SELECTOR_ENTRY))
+            if ( hint.equals( AbstractContainer.SELECTOR_ENTRY ) )
             {
                 return m_selector;
             }

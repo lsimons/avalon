@@ -63,9 +63,9 @@ import org.apache.avalon.fortress.test.data.Role1;
  */
 public class RoleEntryTestCase extends TestCase
 {
-    public RoleEntryTestCase(String name)
+    public RoleEntryTestCase( String name )
     {
-        super(name);
+        super( name );
     }
 
     public void testRoleEntry()
@@ -77,16 +77,16 @@ public class RoleEntryTestCase extends TestCase
 
         RoleEntry entry = new RoleEntry( role, name, componentClass, handlerClass );
 
-        assertNotNull(entry);
-        assertNotNull(entry.getRole());
-        assertNotNull(entry.getShortname());
-        assertNotNull(entry.getComponentClass());
-        assertNotNull(entry.getHandlerClass());
+        assertNotNull( entry );
+        assertNotNull( entry.getRole() );
+        assertNotNull( entry.getShortname() );
+        assertNotNull( entry.getComponentClass() );
+        assertNotNull( entry.getHandlerClass() );
 
-        assertEquals(role, entry.getRole());
-        assertEquals(name, entry.getShortname());
-        assertEquals(componentClass, entry.getComponentClass());
-        assertEquals(handlerClass, entry.getHandlerClass());
+        assertEquals( role, entry.getRole() );
+        assertEquals( name, entry.getShortname() );
+        assertEquals( componentClass, entry.getComponentClass() );
+        assertEquals( handlerClass, entry.getHandlerClass() );
     }
 
     public void testNullPointerExceptions()
@@ -99,15 +99,15 @@ public class RoleEntryTestCase extends TestCase
         try
         {
             new RoleEntry( null, name, componentClass, handlerClass );
-            fail("Did not throw an exception");
+            fail( "Did not throw an exception" );
         }
-        catch( NullPointerException npe )
+        catch ( NullPointerException npe )
         {
             // SUCCESS!
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
-            fail("threw the wrong exception: " + e.getClass().getName() );
+            fail( "threw the wrong exception: " + e.getClass().getName() );
         }
 
         try

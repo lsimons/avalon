@@ -69,35 +69,35 @@ public class ComponentHandlerMetaDataTestCase extends TestCase
 
     public void testMetaData()
     {
-        ComponentHandlerMetaData meta = new ComponentHandlerMetaData("component1",
-            Component1.class.getName(), new DefaultConfiguration("test"), true);
+        ComponentHandlerMetaData meta = new ComponentHandlerMetaData( "component1",
+            Component1.class.getName(), new DefaultConfiguration( "test" ), true );
 
-        assertNotNull(meta);
-        assertNotNull(meta.getClassname());
-        assertNotNull(meta.getConfiguration());
-        assertNotNull(meta.getName());
-        assertEquals(true, meta.isLazyActivation());
-        assertEquals("component1", meta.getName());
-        assertEquals(Component1.class.getName(), meta.getClassname());
-        assertEquals("test", meta.getConfiguration().getName());
+        assertNotNull( meta );
+        assertNotNull( meta.getClassname() );
+        assertNotNull( meta.getConfiguration() );
+        assertNotNull( meta.getName() );
+        assertEquals( true, meta.isLazyActivation() );
+        assertEquals( "component1", meta.getName() );
+        assertEquals( Component1.class.getName(), meta.getClassname() );
+        assertEquals( "test", meta.getConfiguration().getName() );
     }
 
     public void testNullPointerException()
     {
         try
         {
-            new ComponentHandlerMetaData(null, Component1.class.getName(),
-                new DefaultConfiguration("test"), false);
+            new ComponentHandlerMetaData( null, Component1.class.getName(),
+                new DefaultConfiguration( "test" ), false );
 
-            fail("No NullPointerException was thrown");
+            fail( "No NullPointerException was thrown" );
         }
-        catch(NullPointerException npe)
+        catch ( NullPointerException npe )
         {
             // SUCCESS!!
         }
-        catch(Exception e)
+        catch ( Exception e )
         {
-            fail("Did not throw the correct exception: " + e.getClass().getName());
+            fail( "Did not throw the correct exception: " + e.getClass().getName() );
         }
 
         try

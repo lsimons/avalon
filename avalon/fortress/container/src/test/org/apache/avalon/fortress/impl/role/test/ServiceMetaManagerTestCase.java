@@ -74,20 +74,20 @@ public class ServiceMetaManagerTestCase extends AbstractMetaInfoManagerTestCase
     public void setUp() throws Exception
     {
         m_manager = new ServiceMetaManager();
-        ContainerUtil.enableLogging(m_manager, new NullLogger());
-        ContainerUtil.initialize(m_manager);
+        ContainerUtil.enableLogging( m_manager, new NullLogger() );
+        ContainerUtil.initialize( m_manager );
     }
 
     public void testTestRoles() throws Exception
     {
-        String[] roles = new String[] {Role1.class.getName()};
-        checkRole("component1", roles, Component1.class.getName(), ThreadSafeComponentHandler.class.getName());
+        String[] roles = new String[]{Role1.class.getName()};
+        checkRole( "component1", roles, Component1.class.getName(), ThreadSafeComponentHandler.class.getName() );
 
         roles[0] = Role2.class.getName();
-        checkRole("component2", roles, Component2.class.getName(), PoolableComponentHandler.class.getName());
+        checkRole( "component2", roles, Component2.class.getName(), PoolableComponentHandler.class.getName() );
 
         roles[0] = Role4.class.getName();
-        checkRole("component4", roles, Component4.class.getName(), FactoryComponentHandler.class.getName());
+        checkRole( "component4", roles, Component4.class.getName(), FactoryComponentHandler.class.getName() );
 
         roles = new String[]
         {
@@ -95,6 +95,6 @@ public class ServiceMetaManagerTestCase extends AbstractMetaInfoManagerTestCase
             BaseRole.class.getName()
         };
 
-        checkRole("component3", roles, Component3.class.getName(), PerThreadComponentHandler.class.getName());
+        checkRole( "component3", roles, Component3.class.getName(), PerThreadComponentHandler.class.getName() );
     }
 }

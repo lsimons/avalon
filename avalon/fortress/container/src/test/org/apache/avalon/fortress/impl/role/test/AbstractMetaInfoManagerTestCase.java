@@ -90,13 +90,13 @@ public abstract class AbstractMetaInfoManagerTestCase extends TestCase
                               final String handlerClassname )
         throws ClassNotFoundException
     {
-        final MetaInfoEntry metaEntry = m_manager.getMetaInfoForShortName(shortname);
+        final MetaInfoEntry metaEntry = m_manager.getMetaInfoForShortName( shortname );
         assertNotNull( "MetaInfoEntry", metaEntry );
 
         assertEquals( "componentClass:",
             metaEntry.getComponentClass(), Class.forName( className ) );
 
-        for (int i = 0; i < roles.length; i++)
+        for ( int i = 0; i < roles.length; i++ )
         {
             assertTrue( "Role:", metaEntry.containsRole( roles[i] ) );
         }
