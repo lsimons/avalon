@@ -52,22 +52,24 @@ package org.apache.avalon.repository.util;
 
 
 import java.io.File ;
-import java.io.IOException ;
-import java.io.InputStream ;
+import java.io.FileInputStream ;
 import java.io.FileOutputStream ;
+import java.io.InputStream ;
+import java.io.IOException ;
+import java.io.OutputStream ;
 
 import java.util.ArrayList ;
-import java.util.Properties ;
 import java.text.ParseException ;
+import java.util.Properties ;
 
-import java.net.URL ;
-import java.net.URLConnection ;
-import java.net.URLClassLoader ;
 import java.net.HttpURLConnection ;
 import java.net.MalformedURLException ;
+import java.net.URL ;
+import java.net.URLClassLoader ;
+import java.net.URLConnection ;
 
-import javax.naming.NamingException ;
 import javax.naming.NamingEnumeration ;
+import javax.naming.NamingException ;
 import javax.naming.directory.Attributes ;
 
 import org.apache.avalon.repository.Artifact;
@@ -80,7 +82,7 @@ import org.apache.avalon.repository.RepositoryException;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class LoaderUtils
 {
@@ -350,29 +352,26 @@ public class LoaderUtils
         File parent = destination.getParentFile() ;
         parent.mkdirs() ;
 
-        FileOutputStream out = new FileOutputStream( destination ) ;
-
-        byte[] buffer = new byte[100 * 1024] ;
-        int length ;
-
+        File tempFile = File.createTempFile( "~avalon", ".tmp", parent );
+        tempFile.deleteOnExit(); // safety harness in case we abort abnormally
+                                 // like a Ctrl-C.
+        
+        FileOutputStream tempOut = new FileOutputStream( tempFile );
+        String title;
         if( update )
         {
-            System.out.print( "Update from: [" + source + "] ") ;
+            title = "Update from: [" + source + "] ";
         }
         else
         {
-            System.out.print( "Download from: [" + source + "] ") ;
+            title = "Download from: [" + source + "] ";
         }
-        while ( ( length = in.read( buffer ) ) >= 0 )
-        {
-            out.write( buffer, 0, length ) ;
-            System.out.print( "." ) ;
-        }
+        copyStream( in, tempOut, true, title );
 
-        System.out.println( "" ) ;
-        out.close() ;
-        in.close() ;
-
+        // An atomic operation and no risk of a corrupted
+        // artifact content.
+        tempFile.renameTo( destination );
+        
         // if (and only if) the use file time option is set, then the
         // saved file now has its timestamp set to that of the downloaded
         // file
@@ -413,6 +412,36 @@ public class LoaderUtils
               "Internal error while attempting to create a url from the file: " 
               + file;
             throw new RepositoryException( error, e );
+        }
+    }
+    
+    private static void copyStream( InputStream src, OutputStream dest, boolean closeStreams, String title  )
+        throws IOException
+    {
+        boolean progress = title != null;
+        byte[] buffer = new byte[100 * 1024] ;
+        int length ;
+        if( title != null )
+            System.out.println( title );        
+        try
+        {        
+            while ( ( length = src.read( buffer ) ) >= 0 )
+            {
+                dest.write( buffer, 0, length ) ;
+                if( progress )
+                    System.out.print( "." ) ;
+            }
+        } finally
+        {
+            if( closeStreams )
+            {
+                if( src != null )
+                    src.close();
+                if( dest != null )
+                    dest.close();
+            }
+            if( progress )
+                System.out.println( "" ) ;
         }
     }
 }
