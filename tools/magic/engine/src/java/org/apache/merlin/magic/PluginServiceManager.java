@@ -26,6 +26,7 @@ public class PluginServiceManager extends AbstractLogEnabled
     private File m_SystemDir;
     private File m_ProjectDir;
     private File m_LocalPlugins;
+    private File m_TempDir;
 
     private Properties m_GlobalProperties;
     private FacadeFactory m_FacadeFactory;
@@ -40,6 +41,7 @@ public class PluginServiceManager extends AbstractLogEnabled
         m_SystemDir = new File( globalprops.getProperty( "magic.home.dir" ) );
         m_LocalPlugins = new File( globalprops.getProperty( "magic.plugins.dir" ) );;
         m_ProjectDir = new File( globalprops.getProperty( "magic.project.dir" ) );;
+        m_TempDir = new File( globalprops.getProperty( "magic.temp.dir" ) );;
     }
         
     public Object lookup( String service )
@@ -115,6 +117,15 @@ public class PluginServiceManager extends AbstractLogEnabled
         return m_PluginsByKey.containsKey( service );
     }
     
+    public PluginFacade getFacade( File scriptDir )
+        throws CreationException
+    {
+        PluginContext ctx = new PluginContext( scriptDir );
+        
+        PluginFacade facade = m_FacadeFactory.create( ctx );
+        return facade;
+    }
+    
     private void addCyclicMarker( String service )
     {
         synchronized( m_PluginsByKey )
@@ -150,11 +161,12 @@ public class PluginServiceManager extends AbstractLogEnabled
         String projectName = props.getProperty( "project.name" );
         
         PluginContext ctx = new PluginContext( projectName, m_ProjectDir, 
-            props, service, pluginDir, m_SystemDir );
+            props, service, pluginDir, m_SystemDir, m_TempDir );
         
         try
         {
             PluginFacade facade = m_FacadeFactory.create( ctx );
+            ctx.setPluginClassname( facade.getPluginClassname() );
             return facade;
         } catch( CreationException e )
         {

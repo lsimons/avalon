@@ -17,6 +17,7 @@ public class Builder
     private File     m_SystemDir;
     private File     m_ProjectDir;
     private File     m_PluginsDir;
+    private File     m_TempDir;
     
     public Builder( String[] methods, File projectDir )
     {
@@ -27,6 +28,9 @@ public class Builder
         m_SystemDir = findSystemDir();
         m_ProjectDir = projectDir;
         m_PluginsDir = new File( m_SystemDir, "plugins" );
+        m_TempDir = new File( m_SystemDir, "temp" );
+        m_TempDir.mkdirs();
+        
         m_Logger = new ConsoleLogger();
         
         m_Logger.info( " System Directory: " + m_SystemDir );
@@ -45,7 +49,6 @@ public class Builder
         PluginServiceManager sm = new PluginServiceManager( factory, globalProps );
         sm.enableLogging( m_Logger );
         
-        loadAllPlugins( sm );
         for( int i=0 ; i < m_CallMethods.length ; i++ )
         {
             String methodname = m_CallMethods[i];
@@ -96,6 +99,7 @@ public class Builder
         props.put( "magic.plugins.dir", m_PluginsDir.getAbsolutePath() );
         props.put( "magic.repository.dir", new File( m_SystemDir, "repository" ).toString() );
         props.put( "magic.project.dir", m_ProjectDir.getAbsolutePath() );
+        props.put( "magic.temp.dir", m_TempDir.getAbsolutePath() );
         return props;
     }
     
@@ -105,21 +109,5 @@ public class Builder
         File systemDir = new File( system );
         return systemDir;
     }
-    
-    private void loadAllPlugins( PluginServiceManager sm )
-    {
-        String[] plugins = m_PluginsDir.list();
-        for( int i=0 ; i < plugins.length ; i++ )
-        {
-            try
-            {
-                sm.lookup( plugins[i] );
-            } catch( ServiceException e )
-            {
-                m_Logger.error( "Unable to load plugin: " + plugins[i], e );
-            }
-        }
-    }
-    
 } 
  
