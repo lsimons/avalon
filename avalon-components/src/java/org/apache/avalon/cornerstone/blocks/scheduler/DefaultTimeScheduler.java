@@ -23,7 +23,6 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.phoenix.Block;
 
 /**
  * Default implementation of TimeScheduler service.
@@ -35,7 +34,7 @@ import org.apache.avalon.phoenix.Block;
  */
 public class DefaultTimeScheduler
     extends AbstractLogEnabled
-    implements Block, TimeScheduler, Serviceable, Initializable, Startable, Disposable, Runnable
+    implements TimeScheduler, Serviceable, Initializable, Startable, Disposable, Runnable
 {
     private boolean m_running;
     private Hashtable m_entries;

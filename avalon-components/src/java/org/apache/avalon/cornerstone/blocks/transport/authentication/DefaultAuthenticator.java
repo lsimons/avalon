@@ -8,7 +8,6 @@
 package org.apache.avalon.cornerstone.blocks.transport.authentication;
 
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.phoenix.Block;
 import org.apache.excalibur.altrmi.common.AltrmiAuthentication;
 import org.apache.excalibur.altrmi.common.AltrmiAuthenticationException;
 import org.apache.excalibur.altrmi.server.AltrmiAuthenticator;
@@ -18,10 +17,10 @@ import org.apache.excalibur.altrmi.server.AltrmiAuthenticator;
  * @phoenix:service name="org.apache.excalibur.altrmi.server.AltrmiAuthenticator"
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class DefaultAuthenticator
-    implements AltrmiAuthenticator, Initializable, Block
+    implements AltrmiAuthenticator, Initializable
 {
     private AltrmiAuthenticator m_altrmiAuthenticator;
 

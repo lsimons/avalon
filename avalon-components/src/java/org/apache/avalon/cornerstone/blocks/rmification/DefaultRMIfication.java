@@ -23,7 +23,6 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.phoenix.Block;
 
 /**
  * FIXME: INPROGRESS and NOT TESTED
@@ -32,11 +31,11 @@ import org.apache.avalon.phoenix.Block;
  * @phoenix:service name="org.apache.avalon.cornerstone.services.rmification.RMIfication"
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class DefaultRMIfication
     extends AbstractLogEnabled
-    implements Configurable, Initializable, Disposable, RMIfication, Block
+    implements Configurable, Initializable, Disposable, RMIfication
 {
     private int m_port;
     private Registry m_registry;

@@ -22,7 +22,6 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Loggable;
-import org.apache.avalon.phoenix.Block;
 
 /**
  * The Default implementation for DataSourceSelector.
@@ -50,7 +49,7 @@ import org.apache.avalon.phoenix.Block;
  */
 public class DefaultDataSourceSelector
     extends AbstractLoggable
-    implements DataSourceSelector, Block, Configurable, Initializable, Disposable
+    implements DataSourceSelector, Configurable, Initializable, Disposable
 {
     private Configuration m_configuration;
     private Map m_dataSources;

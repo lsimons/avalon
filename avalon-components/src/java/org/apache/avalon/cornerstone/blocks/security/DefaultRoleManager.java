@@ -10,7 +10,6 @@ package org.apache.avalon.cornerstone.blocks.security;
 import java.security.Principal;
 import java.util.Hashtable;
 import org.apache.avalon.cornerstone.services.security.RoleManager;
-import org.apache.avalon.phoenix.Block;
 
 /**
  * Service to manager the role mappings for principals.

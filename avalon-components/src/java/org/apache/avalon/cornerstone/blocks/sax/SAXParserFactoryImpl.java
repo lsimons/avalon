@@ -13,7 +13,6 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.phoenix.Block;
 import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 
@@ -27,7 +26,7 @@ import org.xml.sax.SAXNotSupportedException;
  */
 public class SAXParserFactoryImpl
     extends AbstractLogEnabled
-    implements Block, Configurable, SAXParserFactory
+    implements Configurable, SAXParserFactory
 {
     protected javax.xml.parsers.SAXParserFactory m_saxParserFactory;
 

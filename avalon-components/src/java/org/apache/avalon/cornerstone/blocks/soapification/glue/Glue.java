@@ -21,7 +21,6 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.phoenix.Block;
 
 /**
  * Default implementation of SOAPification service.
@@ -45,7 +44,7 @@ import org.apache.avalon.phoenix.Block;
  */
 public class Glue
     extends AbstractLogEnabled
-    implements Block, SOAPification, Configurable, Startable
+    implements SOAPification, Configurable, Startable
 {
     protected Configuration mConfiguration;
     protected int mPort;

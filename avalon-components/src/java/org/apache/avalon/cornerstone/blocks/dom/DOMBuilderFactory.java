@@ -14,7 +14,6 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.phoenix.Block;
 
 /**
  * Block implementation of the DocumentBuilderFactory service.  That service being
@@ -26,7 +25,7 @@ import org.apache.avalon.phoenix.Block;
  */
 public class DOMBuilderFactory
     extends AbstractLogEnabled
-    implements Block, Configurable, DocumentBuilderFactory
+    implements Configurable, DocumentBuilderFactory
 {
     protected javax.xml.parsers.DocumentBuilderFactory m_documentBuilderFactory;
 

@@ -16,7 +16,6 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.phoenix.ApplicationEvent;
 import org.apache.avalon.phoenix.ApplicationListener;
-import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.excalibur.altrmi.server.AltrmiPublisher;
 import org.apache.excalibur.altrmi.server.PublicationException;
@@ -26,7 +25,7 @@ import org.apache.excalibur.altrmi.server.PublicationException;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class AutoPublisher
     implements Configurable, ApplicationListener
@@ -83,8 +82,7 @@ public class AutoPublisher
         for( int i = 0; i < m_events.size(); i++ )
         {
             final BlockEvent event = (BlockEvent)m_events.elementAt( i );
-            final Block block = event.getBlock();
-            final String blockName = event.getName();
+            final Object block = event.getBlock();
             PublicationInfo pi = (PublicationInfo)m_publications.get( event.getName() );
 
             try
@@ -114,8 +112,7 @@ public class AutoPublisher
 
             if( m_publications.containsKey( event.getName() ) )
             {
-                final Block block = event.getBlock();
-                final String blockName = event.getName();
+                final Object block = event.getBlock();
                 PublicationInfo pi = (PublicationInfo)m_publications.get( event.getName() );
 
                 try

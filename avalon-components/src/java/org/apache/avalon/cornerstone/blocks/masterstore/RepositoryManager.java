@@ -23,7 +23,6 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.phoenix.Block;
 
 /**
  *
@@ -33,7 +32,7 @@ import org.apache.avalon.phoenix.Block;
  */
 public class RepositoryManager
     extends AbstractLogEnabled
-    implements Block, Store, Contextualizable, Composable, Configurable
+    implements Store, Contextualizable, Composable, Configurable
 {
     private static final String REPOSITORY_NAME = "Repository";
     private static long id = 0;
