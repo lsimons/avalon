@@ -25,7 +25,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 public class TestBlock extends TestParentBlock implements Serviceable, Configurable
 {
     /**
-     * @phoenix:dependency name="blah.OtherBlahService" version="1.2"
+     * @phoenix:dependency name="blah.OtherBlahService" role="my-service" version="1.2"
      */
     public void service( final ServiceManager serviceManager )
         throws ServiceException

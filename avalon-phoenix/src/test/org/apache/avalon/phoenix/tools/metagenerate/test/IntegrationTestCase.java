@@ -124,6 +124,7 @@ public class IntegrationTestCase extends TestCase
     "          <service name=\"blah.OtherFooService\"/>",
     "        </dependency>",
     "        <dependency>",
+    "          <role>my-service</role>",
     "          <service name=\"blah.OtherBlahService\" version=\"1.2\"/>",
     "        </dependency>",
     "      </dependencies>",
