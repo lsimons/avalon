@@ -94,7 +94,6 @@ Legal:
     <pathelement path="${java.class.path}" />
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
-      <exclude name="xerces*.jar"/>
     </fileset>
     <pathelement path="${build.classes}" />
   </path>
