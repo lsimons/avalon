@@ -29,7 +29,7 @@ import org.apache.avalon.framework.logger.Logger;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.8 $ $Date: 2002/01/23 14:46:21 $
+ * @version CVS $Revision: 1.9 $ $Date: 2002/01/23 14:57:00 $
  * @since 4.1
  */
 public abstract class AbstractJdbcConnection
@@ -124,15 +124,20 @@ public abstract class AbstractJdbcConnection
             return true;
         }
 
-        if ( System.currentTimeMillis() - m_lastUsed
-               > 1000*60*60 ) // over an hour?
+        long age = System.currentTimeMillis() - m_lastUsed;
+        if ( age > 1000*60*60 ) // over an hour?
         {
             this.dispose();
             return true;
         }
 
-        if (m_testStatement != null)
+        if (m_testStatement != null && age > (5*1000)) // over 5 seconds ago
         {
+            if (getLogger().isDebugEnabled())
+            {
+                getLogger().debug("Pinging database after " + age + "ms of inactivity.");
+            }
+
             try
             {
                 m_testStatement.executeQuery();
