@@ -28,7 +28,6 @@
         <li>Configurable</li>
         <li>Initializable</li>
         <li>Startable</li>
-        <li>Runnable</li>
         <li>Suspendable</li>
         <li>Recontextualizable</li>
         <li>Recomposer</li>
@@ -61,7 +60,6 @@
         <li>configure</li>
         <li>init</li>
         <li>start</li>
-        <li>run</li>
         <li>
           <ol>
             <li>suspend</li>
@@ -87,7 +85,6 @@
         <li>configure</li>
         <li>init</li>
         <li>start</li>
-        <li>run</li>
         <li>suspend</li>
         <li>recontextualize</li>
         <li>reconfigure</li>
@@ -105,7 +102,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2001/03/02 01:53:50 $
+      $Revision: 1.3 $ $Date: 2001/04/21 03:03:31 $
     </legal>
   </footer>
 </document>
