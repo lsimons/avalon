@@ -19,10 +19,11 @@ package org.apache.avalon.composition.model.impl;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Map;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException ;
 import java.lang.reflect.Method ;
+import java.util.Hashtable;
+import java.util.Map;
 
 import org.apache.avalon.logging.provider.LoggingException;
 import org.apache.avalon.logging.provider.LoggingFactory;
@@ -62,7 +63,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/03/04 03:42:30 $
+ * @version $Revision: 1.5 $ $Date: 2004/03/07 00:00:59 $
  */
 public class DefaultSystemContextFactory implements SystemContextFactory
 {
@@ -108,7 +109,7 @@ public class DefaultSystemContextFactory implements SystemContextFactory
 
     private SecurityProfile[] m_profiles;
 
-    private TargetDirective[] m_targets;
+    private Map m_grants;
 
     private Context m_parent;
 
@@ -208,12 +209,12 @@ public class DefaultSystemContextFactory implements SystemContextFactory
     }
 
    /**
-    * Set the initial set of target override directives.
-    * @param targets the target overrides
+    * Set the initial set of address to security profile grants.
+    * @param grants the initial grants table
     */
-    public void setTargetDirectives( TargetDirective[] targets )
+    public void setGrantsTable( Map grants )
     {
-        m_targets = targets;
+        m_grants = grants;
     }
 
    /**
@@ -241,15 +242,31 @@ public class DefaultSystemContextFactory implements SystemContextFactory
           getDefaultDeploymentTimeout(), 
           getSecurityEnabled(),
           getSecurityProfiles(), 
-          getTargetDirectives()
+          getGrantsTable()
         );
     }
 
+   /**
+    * Return the security enabled status flag. If the value
+    * return is TRUE then the composition model and runtime
+    * will validate component initiated requires against 
+    * named permission profiles.  If the value is FALSE the 
+    * permission validation actions will not be performed.
+    * The default value is FALSE.
+    *
+    * @return the security enabled flag
+    */
     public boolean getSecurityEnabled()
     {
         return m_secure;
     }
 
+   /**
+    * Return the parent context to use when establishing a 
+    * new SystemContext.
+    *
+    * @return the parent context
+    */ 
     public Context getParentContext()
     {
         return m_parent;
@@ -265,10 +282,15 @@ public class DefaultSystemContextFactory implements SystemContextFactory
         return m_name;
     }
 
-    public TargetDirective[] getTargetDirectives()
+   /**
+    * Return the initial grants table.
+    * 
+    * @return the grants table
+    */
+    public Map getGrantsTable()
     {
-        if( null == m_targets ) return new TargetDirective[0];
-        return m_targets;
+        if( null == m_grants ) return new Hashtable();
+        return m_grants;
     }
 
    /**
@@ -407,10 +429,12 @@ public class DefaultSystemContextFactory implements SystemContextFactory
         }
 
         Artifact artifact = artifacts[0];
+
         try
         {
             File dir = getBaseDirectory();
-            ClassLoader classloader = DefaultSystemContextFactory.class.getClassLoader();
+            ClassLoader classloader = 
+              DefaultSystemContextFactory.class.getClassLoader();
             Builder builder = m_context.newBuilder( classloader, artifact );
             LoggingFactory factory = (LoggingFactory) builder.getFactory();
             LoggingCriteria params = factory.createDefaultLoggingCriteria();

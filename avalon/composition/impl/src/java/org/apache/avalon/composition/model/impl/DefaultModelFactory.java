@@ -26,8 +26,10 @@ import java.security.CodeSource;
 import java.security.Permissions;
 import java.security.PermissionCollection;
 import java.security.ProtectionDomain;
-import java.util.Map;
 import java.util.Hashtable;
+import java.util.Map;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.apache.avalon.composition.data.SecurityProfile;
 import org.apache.avalon.composition.data.ComponentProfile;
@@ -68,7 +70,7 @@ import org.apache.avalon.meta.info.Type;
  * A factory enabling the establishment of new composition model instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2004/02/29 22:25:26 $
+ * @version $Revision: 1.11 $ $Date: 2004/03/07 00:00:58 $
  */
 public class DefaultModelFactory
   implements ModelFactory
@@ -88,6 +90,8 @@ public class DefaultModelFactory
 
     private static final SecurityModel NULL_SECURITY = 
       new DefaultSecurityModel();
+
+    private static final String DEFAULT_PROFILE_NAME = "default";
 
     //-------------------------------------------------------------------
     // immutable state
@@ -120,20 +124,23 @@ public class DefaultModelFactory
    /**
     * A table of protection domain instances keyed by code source.
     */
-    private Map m_domains = new Hashtable();
+    private Map m_grants;
 
     //-------------------------------------------------------------------
     // constructor
     //-------------------------------------------------------------------
 
    /**
-    * Creation of a new model factory.  
+    * Creation of a new model factory.
+    *
     * @param system the system context
     * @param profiles the set of initial security profiles
-    * @param targets the set of initial override targets
+    * @param grants the set of initial address to permission 
+    *    profile assignments 
     */
     DefaultModelFactory( 
-      final SystemContext system, SecurityProfile[] profiles, TargetDirective[] targets )
+      final SystemContext system, SecurityProfile[] profiles, 
+      Map grants )
     {
         if( system == null )
         {
@@ -143,37 +150,61 @@ public class DefaultModelFactory
         {
             throw new NullPointerException( "profiles" );
         }
+        if( grants == null )
+        {
+            throw new NullPointerException( "grants" );
+        }
 
         m_system = system;
+        m_grants = grants;
+
         m_logger = system.getLogger();
 
         //
         // register the set of security profiles
         //
 
-        for( int i=0; i<profiles.length; i++ )
+        if( system.isCodeSecurityEnabled() )
         {
-            SecurityProfile profile = profiles[i];
-            final String name = profile.getName();
-            SecurityModel model = new DefaultSecurityModel( profile );
-            m_security.put( profile.getName(), model );
-            if( m_logger.isDebugEnabled() )
+            for( int i=0; i<profiles.length; i++ )
             {
-                m_logger.debug( "added security profile [" + name + "]." );
+                SecurityProfile profile = profiles[i];
+                final String name = profile.getName();
+                SecurityModel model = new DefaultSecurityModel( profile );
+                m_security.put( profile.getName(), model );
+                if( m_logger.isDebugEnabled() )
+                {
+                    m_logger.debug( 
+                      "added security profile [" + name + "]." );
+                }
             }
-        }
 
-        //
-        // check that we have a default security profile
-        //
+            //
+            // check that we have a default security profile
+            //
 
-        if( null == m_security.get( "default" ) )
-        {
-            if( m_logger.isDebugEnabled() )
+            if( null == m_security.get( DEFAULT_PROFILE_NAME ) )
             {
-                m_logger.debug( "code security disabled" );
+                final String error = 
+                  "Security enabled without a \""
+                  + DEFAULT_PROFILE_NAME
+                  + "\" profile.";
+                throw new IllegalStateException( error );
             }
-            m_security.put( "default", NULL_SECURITY );
+
+            //
+            // check that the initial set of grant bindings actually 
+            // refer to known security profiles
+            //
+
+            Set entries = grants.entrySet();
+            Iterator iterator = entries.iterator();
+            while( iterator.hasNext() )
+            {
+                Map.Entry entry = (Map.Entry) iterator.next();
+                final String profile = (String) entry.getValue();
+                getNamedSecurityModel( profile );
+            }
         }
     }
 
@@ -284,10 +315,8 @@ public class DefaultModelFactory
     public ComponentModel createComponentModel( ComponentContext context )
       throws ModelException
     {
-        //
-        // TODO: update to check for a named profile assignment
-        //
-        SecurityModel security = getDefaultSecurityModel();
+        final String path = context.getQualifiedName();
+        SecurityModel security = getAssignedSecurityModel( path );
         return new DefaultComponentModel( context, security );
     }
 
@@ -301,11 +330,8 @@ public class DefaultModelFactory
     public ContainmentModel createContainmentModel( ContainmentContext context )
       throws ModelException
     {
-        //
-        // TODO: update to check for a named profile assignment
-        //
-
-        SecurityModel security = getDefaultSecurityModel();
+        final String path = context.getQualifiedName();
+        SecurityModel security = getAssignedSecurityModel( path );
         return new DefaultContainmentModel( context, security );
     }
 
@@ -369,29 +395,61 @@ public class DefaultModelFactory
     }
 
    /**
-    * WARNING: Lots of updates needed here.  We need to be suppied
-    * with mapping of container paths to security profiles names. For 
-    * the moment just return a default security model.
+    * Return the security profile matching the supplied deployment
+    * path.  The implementation will return the default security profile
+    * unless an explicit grant has been declared for the the supplied
+    * path, and the grant referes to a known security profile.
     * 
-    * @param path the container path
+    * @param path the container or component path
     * @return the assigned security model
     */
     private SecurityModel getAssignedSecurityModel( final String path )
     {
-        return getDefaultSecurityModel();
+        if( m_system.isCodeSecurityEnabled() )
+        {
+            final String profile = getAssignedProfileName( path );
+            return getNamedSecurityModel( profile );
+        }
+        else
+        {
+            return NULL_SECURITY;
+        }
     }
 
    /**
-    * Return a named security profile.
-    * 
-    * @param name the profile name
+    * Return a named security profile. 
+    * @param name an existing security profile name
     * @return the security model
+    * @exception IllegalArgumentException if the name is unknown
     */
-    private SecurityModel getNamedSecurityModel( final String name )
+    private SecurityModel getNamedSecurityModel( String name )
     {
-        SecurityModel model = (SecurityModel) m_security.get( name );
-        if( null != model ) return model;
-        return getDefaultSecurityModel();
+        SecurityModel model = 
+          (SecurityModel) m_security.get( name );
+        if( null != model )
+        {
+            return model;
+        }
+        else
+        {
+            final String error = 
+              "Unknown security profile [" + name + "].";
+            throw new IllegalArgumentException( error );
+        }
+    }
+
+   /**
+    * Return the security profile name assigned to the supplied path.
+    * If no assignment has been declared the default security profile
+    * name will be returned.
+    *
+    * @return the security profile name for the path
+    */
+    private String getAssignedProfileName( String path )
+    {
+        final String profile = (String) m_grants.get( path );
+        if( null != profile ) return profile;
+        return DEFAULT_PROFILE_NAME;
     }
 
    /**
@@ -401,7 +459,7 @@ public class DefaultModelFactory
     */
     private SecurityModel getDefaultSecurityModel()
     {
-        return (SecurityModel) m_security.get( "default" );
+        return (SecurityModel) m_security.get( DEFAULT_PROFILE_NAME );
     }
 
 }

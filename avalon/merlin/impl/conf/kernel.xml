@@ -33,7 +33,7 @@
 
   <repository>
     <hosts>
-      <host path="http://dpml.net/"/>
+      <host path="http://www.dpml.net/"/>
       <host path="http://www.ibiblio.org/maven/"/>
     </hosts>
   </repository>
