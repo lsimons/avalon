@@ -118,7 +118,7 @@
         classpathref="project.class.path"
         property="SAXParserFactory.present"/>
 
-    <available classname="org.apache.commons.altrmi.common.MethodReply"
+    <available classname="org.apache.excalibur.altrmi.common.MethodReply"
         classpathref="project.class.path"
         property="AltRMI.present"/>
 
