@@ -10,6 +10,7 @@ package org.apache.phoenix.engine.facilitys;
 import java.util.Hashtable;
 import java.util.Iterator;
 import org.apache.avalon.AbstractLoggable;
+import org.apache.avalon.atlantis.Facility;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
@@ -24,7 +25,7 @@ import org.apache.avalon.util.thread.ThreadPool;
  */
 public class DefaultThreadManager
     extends AbstractLoggable
-    implements ThreadManager, Configurable 
+    implements Facility, ThreadManager, Configurable 
 {
     protected final Hashtable       m_pools = new Hashtable();
 

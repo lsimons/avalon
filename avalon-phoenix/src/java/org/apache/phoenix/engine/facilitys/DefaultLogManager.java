@@ -13,17 +13,17 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import org.apache.avalon.AbstractLoggable;
-import org.apache.avalon.Component;
 import org.apache.avalon.Context;
 import org.apache.avalon.Contextualizable;
+import org.apache.avalon.atlantis.Facility;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
+import org.apache.avalon.util.log.AvalonLogFormatter;
 import org.apache.log.Category;
 import org.apache.log.LogKit;
 import org.apache.log.LogTarget;
 import org.apache.log.output.FileOutputLogTarget;
-import org.apache.avalon.util.log.AvalonLogFormatter;
 
 /**
  * Component responsible for managing logs.
@@ -32,7 +32,7 @@ import org.apache.avalon.util.log.AvalonLogFormatter;
  */
 public class DefaultLogManager
     extends AbstractLoggable
-    implements Component, Contextualizable, Configurable
+    implements Facility, Contextualizable, Configurable
 {
     protected String        m_baseName;
     protected File          m_baseDirectory;
