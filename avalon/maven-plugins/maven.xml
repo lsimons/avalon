@@ -21,7 +21,7 @@
   <postGoal name="multiproject:site-init">
     <ant:mkdir dir="${maven.build.dir}/docs/style"/>
     <ant:copy toDir="${maven.build.dir}/docs/style">
-      <fileset dir="${basedir}/site/etc">
+      <fileset dir="${basedir}/../buildsystem/site">
         <include name="maven.css"/>
         <include name="tigris.css"/>
       </fileset>
@@ -30,19 +30,19 @@
 
   <preGoal name="xdoc:transform">
     <ant:mkdir dir="${maven.build.dir}/docs/style"/>
-    <util:file var="etcDir" name="${basedir}/site/etc"/>
-    <j:if test="${etcDir.exists()}">
+    <util:file var="buildSystem" name="${basedir}/../buildsystem"/>
+    <j:if test="${buildSystem.exists()}">
       <ant:copy toDir="${maven.build.dir}/docs/style">
-        <fileset dir="${basedir}/site/etc">
+        <fileset dir="${buildSystem}/site">
           <include name="maven.css"/>
           <include name="tigris.css"/>
         </fileset>
       </ant:copy>
     </j:if>
-    <util:file var="etcDir" name="${basedir}/../site/etc"/>
-    <j:if test="${etcDir.exists()}">
+    <util:file var="buildSystem" name="${basedir}/../../buildsystem"/>
+    <j:if test="${buildSystem.exists()}">
       <ant:copy toDir="${maven.build.dir}/docs/style">
-        <fileset dir="${basedir}/../site/etc">
+        <fileset dir="${buildSystem}/site">
           <include name="maven.css"/>
           <include name="tigris.css"/>
         </fileset>
