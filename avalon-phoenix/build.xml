@@ -471,14 +471,16 @@ Legal:
         <filter token="dist.name" value="${dist.name}"/>
         <copy todir="${src.dist.dir}" filtering="on">
             <fileset dir=".">
-                <include name="README.txt"/>
-                <include name="WARNING.txt"/>
-                <include name="LICENSE.txt"/>
-                <include name="BUILDING.txt"/>
-                <include name="build.xml"/>
+                <include name="ant.properties.sample"/>
                 <include name="build.bat"/>
                 <include name="build.sh"/>
+                <include name="build.xml"/>
+                <include name="BUILDING.txt"/>
                 <include name="docs.xml"/>
+                <include name="LICENSE.txt"/>
+                <include name="project.properties"/>
+                <include name="README.txt"/>
+                <include name="WARNING.txt"/>
             </fileset>
         </copy>
 

@@ -10,8 +10,8 @@
     <property file="ant.properties"/>
     <property file="${user.home}/.ant.properties"/>
 
-    <property file="default.properties"/>
-    <property file="${user.home}/.default.properties"/>
+    <property file="project.properties"/>
+    <property file="${user.home}/.project.properties"/>
 
     <property name="build.dir" value="build"/>    
     <property name="docs.dir" value="${build.dir}/docs"/>
