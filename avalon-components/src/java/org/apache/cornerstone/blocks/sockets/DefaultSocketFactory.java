@@ -45,8 +45,10 @@ public class DefaultSocketFactory
      * @return the socket
      * @exception IOException if an error occurs
      */
-    public Socket createSocket( final InetAddress address, final int port, 
-                                final InetAddress localAddress, final int localPort )
+    public Socket createSocket( final InetAddress address, 
+                                final int port, 
+                                final InetAddress localAddress, 
+                                final int localPort )
         throws IOException
     {
         return new Socket( address, port, localAddress, localPort );
