@@ -20,7 +20,7 @@ import org.apache.log.Hierarchy;
 public interface LogManager
     extends Component
 {
-    String ROLE = "org.apache.avalon.phoenix.interfaces.LogManager";
+    String ROLE = LogManager.class.getName();
 
     Hierarchy createHierarchy( SarMetaData metaData, Configuration logs )
         throws Exception;

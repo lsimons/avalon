@@ -13,10 +13,10 @@ import org.apache.avalon.framework.component.Component;
  * PackageRepository
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2001/12/11 10:13:34 $
+ * @version $Revision: 1.6 $ $Date: 2002/02/17 11:15:28 $
  */
 public interface PackageRepository
     extends org.apache.avalon.excalibur.extension.PackageRepository, Component
 {
-    String ROLE = "org.apache.avalon.phoenix.interfaces.PackageRepository";
+    String ROLE = PackageRepository.class.getName();
 }

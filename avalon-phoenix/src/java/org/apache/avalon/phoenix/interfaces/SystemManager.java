@@ -22,7 +22,7 @@ import org.apache.avalon.framework.component.Component;
 public interface SystemManager
     extends Component, Initializable, Startable, Disposable
 {
-    String ROLE = "org.apache.avalon.phoenix.interfaces.SystemManager";
+    String ROLE = SystemManager.class.getName();
 
     /**
      * Register an object for management.

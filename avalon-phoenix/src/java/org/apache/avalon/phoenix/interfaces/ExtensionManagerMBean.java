@@ -11,16 +11,16 @@ package org.apache.avalon.phoenix.interfaces;
  * Management interface to ExtensionManager.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2001/12/11 10:13:34 $
+ * @version $Revision: 1.3 $ $Date: 2002/02/17 11:15:28 $
  */
 public interface ExtensionManagerMBean
 {
-    String ROLE = "org.apache.avalon.phoenix.interfaces.ExtensionManagerMBean";
+    String ROLE = ExtensionManagerMBean.class.getName();
 
     /**
      * Retrieve an array of paths where each
      * element in array represents a directory
-     * in which the ExtensionManager will look 
+     * in which the ExtensionManager will look
      * for Extensions.
      *
      * @return the list of paths to search in

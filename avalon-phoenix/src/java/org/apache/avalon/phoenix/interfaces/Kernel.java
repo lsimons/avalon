@@ -21,7 +21,7 @@ import org.apache.log.Hierarchy;
 public interface Kernel
     extends Component, Initializable, Disposable
 {
-    String ROLE = "org.apache.avalon.phoenix.interfaces.Kernel";
+    String ROLE = Kernel.class.getName();
 
     void addApplication( SarMetaData metaData,
                          ClassLoader classLoader,
