@@ -48,125 +48,39 @@
 
 */
 
-package org.apache.avalon.activation.appliance.impl;
-
-import org.apache.avalon.activation.appliance.Block;
-import org.apache.avalon.composition.model.ContainmentModel;
+package org.apache.avalon.activation.appliance;
 
 /**
- * The DefaultBlockThread provides support for the execution of 
- * a block.
- * 
+ * Exception raised in response to a fatal assembly failure.
+ * If this exception is thrown, it is probable that the entire
+ * JVM is not stable, and the container should terminate execution
+ * completely.
+ *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:30:31 $
+ * @version $Revision: 1.1 $ $Date: 2004/01/04 12:03:00 $
  */
-public class BlockThread extends Thread 
+public final class FatalDeploymentException extends DeploymentException
 {
-    //-------------------------------------------------------------------
-    // immmutable state
-    //-------------------------------------------------------------------
 
-    private final Block m_block;
-
-    //-------------------------------------------------------------------
-    // state
-    //-------------------------------------------------------------------
-
-    private Throwable m_error;
-
-    private boolean m_started = false;
-
-    private boolean m_stopped = false;
-
-    private boolean m_terminate = false;
-
-    //-------------------------------------------------------------------
-    // constructor
-    //-------------------------------------------------------------------
-
-   /**
-    * Creation of a block thread.
-    *
-    * @param block the block
-    */
-    public BlockThread( Block block )
-      throws Exception
+    /**
+     * Construct a new <code>FatalDeploymentException</code> instance.
+     *
+     * @param message The detail message for this exception.
+     */
+    public FatalDeploymentException( final String message )
     {
-        if( block == null ) throw new NullPointerException( "block" );
-
-        ContainmentModel model = (ContainmentModel) block.getModel();
-        ClassLoader classloader = model.getClassLoaderModel().getClassLoader();
-        setContextClassLoader( classloader );
-        m_block = block;
+        this( message, null );
     }
 
-   /**
-    * Thread execution during which the component managed by 
-    * the block will be deployed.
-    */
-    public void run()
+    /**
+     * Construct a new <code>FatalDeploymentException</code> instance.
+     *
+     * @param message The detail message for this exception.
+     * @param throwable the root cause of the exception
+     */
+    public FatalDeploymentException( final String message, final Throwable throwable )
     {
-        try
-        {
-            m_block.deploy();
-        } 
-        catch( Throwable e )
-        {
-            m_error = e;
-        }
-        finally
-        {
-            m_started = true;
-        }
-
-        while( !m_terminate )
-        {
-            if( null != m_error ) m_terminate = true;
-
-            try
-            {
-                Thread.sleep( 300 );
-            }
-            catch( Throwable wakeup )
-            {
-                // return
-            }
-        }
-
-        m_block.decommission();
-        m_stopped = true;
-    }
-
-   /**
-    * Set the termination flag to true.
-    */
-    public void decommission()
-    {
-        m_terminate = true;
-    }
-
-   /**
-    * Return the started state of the block thread.
-    */
-    public boolean started()
-    {
-        return m_started;
-    }
-
-   /**
-    * Return the stoppped state of the block thread.
-    */
-    public boolean stopped()
-    {
-        return m_stopped;
-    }
-
-   /**
-    * Returns an error contition that may occur during startup.
-    * @return the error or null if no error encountered
-    */
-    public Throwable getError()
-    {
-        return m_error;
+        super( message, throwable );
     }
 }
+

@@ -48,36 +48,85 @@
 
 */
 
-package org.apache.avalon.activation.appliance;
+package org.apache.avalon.activation.appliance.impl;
 
-/**
- * Exception raised in response to an assembly failure.
- *
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/04 12:03:00 $
- */
-public class DeploymentException extends ApplianceException
+import java.lang.reflect.InvocationTargetException;
+
+import org.apache.avalon.activation.appliance.Deployable;
+import org.apache.avalon.activation.appliance.DeploymentException;
+import org.apache.avalon.activation.appliance.FatalDeploymentException;
+
+class DeploymentRequest
 {
-
-    /**
-     * Construct a new <code>DeploymentException</code> instance.
-     *
-     * @param message The detail message for this exception.
-     */
-    public DeploymentException( final String message )
+    private Deployable m_Deployable;
+    private boolean   m_Completed;
+    private boolean   m_Interrupted;
+    private Thread    m_DeploymentThread;
+    private Throwable m_Exception;
+    
+    DeploymentRequest( Deployable deployable, Thread deploymentThread )
     {
-        this( message, null );
+        m_Deployable = deployable;
+        m_Completed = false;
+        m_Interrupted = false;
+        m_Exception = null;
+        m_DeploymentThread = deploymentThread;
     }
 
-    /**
-     * Construct a new <code>DeploymentException</code> instance.
-     *
-     * @param message The detail message for this exception.
-     * @param throwable the root cause of the exception
-     */
-    public DeploymentException( final String message, final Throwable throwable )
+    Deployable getDeployable()
     {
-        super( message, throwable );
+        return m_Deployable;
+    }
+
+    void waitForCompletion( long timeout )
+        throws Exception
+    {
+        synchronized( this )
+        {
+            wait( timeout );
+            processException();
+            if( m_Completed )
+                return;
+            m_DeploymentThread.interrupt();
+            wait( timeout );
+            processException();
+            if( m_Interrupted || m_Completed )
+                throw new DeploymentException( "Deployable '" + m_Deployable + "' hanged during deployment and was interrupted." );
+            throw new FatalDeploymentException( "Deployable '" + m_Deployable + "' hanged during deployment and could not be interrupted." );
+        }
+    }
+
+    private void processException()
+        throws Exception
+    {
+        if( m_Exception != null )
+        {
+            if( m_Exception instanceof Exception )
+                throw (Exception) m_Exception;
+            else if( m_Exception instanceof Error )
+                throw (Error) m_Exception;
+            else
+                throw new InvocationTargetException( m_Exception, "Unknown Throwable type, neither Exception nor Error." );
+        }
+    }
+
+    void done()
+    {
+        synchronized( this )
+        {
+            m_Completed = true;
+            notifyAll();
+        }
+    }
+
+    void interrupted()
+    {
+        m_Interrupted = true;
+    }
+
+    void exception( Throwable e )
+    {
+        m_Exception = e;
     }
 }
 

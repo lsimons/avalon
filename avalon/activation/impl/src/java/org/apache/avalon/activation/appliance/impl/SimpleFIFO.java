@@ -48,36 +48,53 @@
 
 */
 
-package org.apache.avalon.activation.appliance;
+package org.apache.avalon.activation.appliance.impl;
 
-/**
- * Exception raised in response to an assembly failure.
- *
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/04 12:03:00 $
- */
-public class DeploymentException extends ApplianceException
+import java.util.ArrayList;
+
+
+class SimpleFIFO
 {
-
-    /**
-     * Construct a new <code>DeploymentException</code> instance.
-     *
-     * @param message The detail message for this exception.
-     */
-    public DeploymentException( final String message )
+    private ArrayList m_Queue;
+    
+    SimpleFIFO()
     {
-        this( message, null );
+        m_Queue = new ArrayList();
     }
-
-    /**
-     * Construct a new <code>DeploymentException</code> instance.
-     *
-     * @param message The detail message for this exception.
-     * @param throwable the root cause of the exception
-     */
-    public DeploymentException( final String message, final Throwable throwable )
+    
+    void clear()
     {
-        super( message, throwable );
+        synchronized( this )
+        {
+            m_Queue.clear();
+        }
     }
-}
-
+    
+    void put( Object obj )
+    {
+        synchronized( this )
+        {
+            m_Queue.add( obj );
+            notifyAll();
+        }
+    }
+    
+    Object get()
+        throws InterruptedException
+    {
+        synchronized( this )
+        {
+            while( m_Queue.size() == 0 )
+                wait(100);
+            return m_Queue.remove(0);
+        }
+    }
+    
+    int size()
+    {
+        synchronized( this )
+        {
+            return m_Queue.size();
+        }
+    }
+} 
