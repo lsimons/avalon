@@ -33,22 +33,22 @@ namespace Apache.Avalon.Castle.Core.Proxies
 
 		public void Decommission(IDeploymentModel model)
 		{
-			MXUtil.InvokeOn ( server, target, "Decommission", model );
+			MXUtil.InvokeOn ( m_server, m_target, "Decommission", model );
 		}
 
 		public void Commission(IDeploymentModel model)
 		{
-			MXUtil.InvokeOn ( server, target, "Commission", model );
+			MXUtil.InvokeOn ( m_server, m_target, "Commission", model );
 		}
 
 		public void Release(IDeploymentModel model, object instance)
 		{
-			MXUtil.InvokeOn ( server, target, "Release", model, instance );
+			MXUtil.InvokeOn ( m_server, m_target, "Release", model, instance );
 		}
 
 		public object Resolve(IDeploymentModel model)
 		{
-			return MXUtil.InvokeOn ( server, target, "Resolve", model );;
+			return MXUtil.InvokeOn ( m_server, m_target, "Resolve", model );;
 		}
 
 		#endregion

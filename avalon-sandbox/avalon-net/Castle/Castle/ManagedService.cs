@@ -29,35 +29,35 @@ namespace Apache.Avalon.Castle
 		/// <see cref="Apache.Avalon.Castle.ManagementExtensions.MServer"/> 
 		/// that hosts this instance.
 		/// </summary>
-		protected MServer server;
+		private MServer m_server;
 
 		/// <summary>
 		/// Reference to 
 		/// <see cref="Apache.Avalon.Castle.ManagementExtensions.ManagedObjectName"/> 
 		/// that represents this instance.
 		/// </summary>
-		private ManagedObjectName name;
+		private ManagedObjectName m_name;
 
 		/// <summary>
 		/// Reference to 
 		/// <see cref="Apache.Avalon.Castle.ManagementExtensions.ManagedObjectName"/> 
 		/// of the parent managed component.
 		/// </summary>
-		private ManagedObjectName parentName;
+		private ManagedObjectName m_parentName;
 
 		/// <summary>
 		/// Collection of 
 		/// <see cref="Apache.Avalon.Castle.ManagementExtensions.ManagedObjectName"/> 
 		/// of children managed components.
 		/// </summary>
-		private ArrayList children = new ArrayList();
+		private ArrayList m_children = new ArrayList();
 
 		/// <summary>
 		/// Reference to 
 		/// <see cref="Apache.Avalon.Castle.ManagedObjectState"/> 
 		/// of the parent managed component.
 		/// </summary>
-		private ManagedObjectState state = ManagedObjectState.Undefined;
+		private ManagedObjectState m_state = ManagedObjectState.Undefined;
 
 		/// <summary>
 		/// Pending.
@@ -68,12 +68,20 @@ namespace Apache.Avalon.Castle
 
 		#region MService Members
 
+		protected MServer Server
+		{
+			get
+			{
+				return m_server;
+			}
+		}
+
 		[ManagedAttribute]
 		public ManagedObjectName ParentName
 		{
 			get 
 			{
-				return parentName;
+				return m_parentName;
 			}
 		}
 
@@ -83,7 +91,7 @@ namespace Apache.Avalon.Castle
 			get
 			{
 				return (ManagedObjectName[])
-					children.ToArray( typeof(ManagedObjectName) );
+					m_children.ToArray( typeof(ManagedObjectName) );
 			}
 		}
 
@@ -92,7 +100,7 @@ namespace Apache.Avalon.Castle
 		{
 			get
 			{
-				return state;
+				return m_state;
 			}
 		}
 
@@ -104,11 +112,11 @@ namespace Apache.Avalon.Castle
 				throw new ArgumentNullException( "childName", "Child name can't be null" );
 			}
 
-			children.Add( childName );
+			m_children.Add( childName );
 
-			server.Invoke( 
+			m_server.Invoke( 
 				childName, 
-				"SetParent", new Object[] { name }, new Type[] { typeof(ManagedObjectName) } );
+				"SetParent", new Object[] { ManagedObjectName }, new Type[] { typeof(ManagedObjectName) } );
 		}
 
 		[ManagedOperation]
@@ -119,13 +127,13 @@ namespace Apache.Avalon.Castle
 				throw new ArgumentNullException( "childName", "Child name can't be null" );
 			}
 
-			children.Remove( childName );
+			m_children.Remove( childName );
 		}
 
 		[ManagedOperation]
 		public void SetParent(ManagedObjectName parentName)
 		{
-			this.parentName = parentName;
+			m_parentName = parentName;
 		}
 
 		[ManagedAttribute]
@@ -133,38 +141,38 @@ namespace Apache.Avalon.Castle
 		{
 			get
 			{
-				return name;
+				return m_name;
 			}
 		}
 
 		[ManagedOperation]
 		public virtual void Create()
 		{
-			state = ManagedObjectState.Created;
+			m_state = ManagedObjectState.Created;
 		}
 
 		[ManagedOperation]
 		public virtual void Start()
 		{
-			state = ManagedObjectState.Started;
+			m_state = ManagedObjectState.Started;
 		}
 
 		[ManagedOperation]
 		public virtual void Stop()
 		{
-			state = ManagedObjectState.Stopped;
+			m_state = ManagedObjectState.Stopped;
 		}
 
 		[ManagedOperation]
 		public virtual void Destroy()
 		{
-			state = ManagedObjectState.Destroyed;
+			m_state = ManagedObjectState.Destroyed;
 
 			if (ParentName != null)
 			{
-				server.Invoke( 
+				m_server.Invoke( 
 					ParentName, 
-					"RemoveChild", new Object[] { name }, new Type[] { typeof(ManagedObjectName) } );
+					"RemoveChild", new Object[] { ManagedObjectName }, new Type[] { typeof(ManagedObjectName) } );
 			}
 		}
 
@@ -174,16 +182,16 @@ namespace Apache.Avalon.Castle
 
 		public void BeforeRegister(MServer server, ManagedObjectName name)
 		{
-			this.server = server;
-			this.name = name;
+			m_server = server;
+			m_name = name;
 
 			BeforeRegister();
 		}
 
 		public virtual void AfterDeregister()
 		{
-			this.server = null;
-			this.name = null;
+			m_server = null;
+			m_name = null;
 		}
 
 		public virtual void AfterRegister()

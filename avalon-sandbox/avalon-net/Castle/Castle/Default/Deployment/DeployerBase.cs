@@ -67,7 +67,7 @@ namespace Apache.Avalon.Castle.Default.Deployment
 		/// <param name="profile"></param>
 		protected void DeployContainmentProfile( ContainmentProfile profile )
 		{
-			MXUtil.InvokeOn( server, CastleConstants.ORCHESTRATOR_NAME, "DeployContainmentProfile", profile );
+			MXUtil.InvokeOn( Server, CastleConstants.ORCHESTRATOR_NAME, "DeployContainmentProfile", profile );
 		}
 	}
 }

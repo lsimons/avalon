@@ -27,12 +27,12 @@ namespace Apache.Avalon.Castle.Core.Proxies
 		/// <summary>
 		/// 
 		/// </summary>
-		protected MServer server;
+		protected MServer m_server;
 
 		/// <summary>
 		/// 
 		/// </summary>
-		protected ManagedObjectName target;
+		protected ManagedObjectName m_target;
 
 		/// <summary>
 		/// 
@@ -51,8 +51,8 @@ namespace Apache.Avalon.Castle.Core.Proxies
 				throw new ArgumentNullException ( "name" );
 			}
 
-			this.server = server;
-			this.target = name;
+			this.m_server = server;
+			this.m_target = name;
 
 			// TODO: Inspect ManagedObject to have clue
 			// if it implements or not the interface

@@ -26,69 +26,72 @@ namespace Apache.Avalon.Castle
 		/// <summary>
 		/// 
 		/// </summary>
-		private String defaultDomain = Castle.CASTLE_DOMAIN;
+		private String m_defaultDomain = Castle.CASTLE_DOMAIN;
 		
 		/// <summary>
 		/// 
 		/// </summary>
-		private String homePath;
+		private String m_homePath;
 
 		/// <summary>
 		/// 
 		/// </summary>
-		private String tempPath;
+		private String m_tempPath;
 
 		/// <summary>
 		/// 
 		/// </summary>
-		private bool isolatedDomain = true;
+		private bool m_isolatedDomain = true;
 
 		/// <summary>
 		/// 
 		/// </summary>
-		private bool noJoin = false;
+		private bool m_noJoin = false;
 
 		/// <summary>
 		/// 
 		/// </summary>
-		private bool remoting = true;
+		private bool m_remoting = true;
 
 		/// <summary>
 		/// 
 		/// </summary>
-		private String serverConnectorUrl;
+		private String m_serverConnectorUrl;
 
 		/// <summary>
 		/// 
 		/// </summary>
-		private String systemConfig;
+		private String m_systemConfig;
 
 		/// <summary>
 		/// 
 		/// </summary>
-		private long timeout = 10000;
+		private long m_timeout = 10000;
 
 		/// <summary>
 		/// 
 		/// </summary>
-		private bool traceEnabled;
+		private bool m_traceEnabled;
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public CastleOptions()
 		{
-			homePath = Environment.GetFolderPath( Environment.SpecialFolder.ApplicationData );
-			tempPath = Path.GetTempPath( );
-			serverConnectorUrl = "provider:tcp:binary:server.rem";
+			m_homePath = Environment.GetFolderPath( Environment.SpecialFolder.ApplicationData );
+			m_tempPath = Path.GetTempPath( );
+			m_serverConnectorUrl = "provider:tcp:binary:server.rem";
 		}
 
 		public String DomainName
 		{
 			get
 			{
-				return defaultDomain;
+				return m_defaultDomain;
 			}
 			set
 			{
-				defaultDomain = value;
+				m_defaultDomain = value;
 			}
 		}
 
@@ -96,11 +99,11 @@ namespace Apache.Avalon.Castle
 		{
 			get
 			{
-				return homePath;
+				return m_homePath;
 			}
 			set
 			{
-				homePath = value;
+				m_homePath = value;
 			}
 		}
 
@@ -116,11 +119,11 @@ namespace Apache.Avalon.Castle
 		{
 			get
 			{
-				return tempPath;
+				return m_tempPath;
 			}
 			set
 			{
-				tempPath = value;
+				m_tempPath = value;
 			}
 		}
 
@@ -128,11 +131,11 @@ namespace Apache.Avalon.Castle
 		{
 			get
 			{
-				return systemConfig;
+				return m_systemConfig;
 			}
 			set
 			{
-				systemConfig = value;
+				m_systemConfig = value;
 			}
 		}
 
@@ -140,11 +143,11 @@ namespace Apache.Avalon.Castle
 		{
 			get
 			{
-				return isolatedDomain;
+				return m_isolatedDomain;
 			}
 			set
 			{
-				isolatedDomain = value;
+				m_isolatedDomain = value;
 			}
 		}
 
@@ -152,11 +155,11 @@ namespace Apache.Avalon.Castle
 		{
 			get
 			{
-				return noJoin;
+				return m_noJoin;
 			}
 			set
 			{
-				noJoin = value;
+				m_noJoin = value;
 			}
 		}
 
@@ -164,11 +167,11 @@ namespace Apache.Avalon.Castle
 		{
 			get
 			{
-				return remoting;
+				return m_remoting;
 			}
 			set
 			{
-				remoting = value;
+				m_remoting = value;
 			}
 		}
 
@@ -176,11 +179,11 @@ namespace Apache.Avalon.Castle
 		{
 			get
 			{
-				return serverConnectorUrl;
+				return m_serverConnectorUrl;
 			}
 			set
 			{
-				serverConnectorUrl = value;
+				m_serverConnectorUrl = value;
 			}
 		}
 
@@ -188,11 +191,11 @@ namespace Apache.Avalon.Castle
 		{
 			get
 			{
-				return traceEnabled;
+				return m_traceEnabled;
 			}
 			set
 			{
-				traceEnabled = value;
+				m_traceEnabled = value;
 			}
 		}
 
@@ -200,11 +203,11 @@ namespace Apache.Avalon.Castle
 		{
 			get
 			{
-				return timeout;
+				return m_timeout;
 			}
 			set
 			{
-				timeout = value;
+				m_timeout = value;
 			}
 		}
 	}
