@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-test-testa" default="dist" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools"
+    xmlns:m="plugin:avalon/meta/avalon-meta-tools">
+
+  <property file="build.properties"/>
+  <import file="${project.home}/build/standard.xml"/>
+
+  <target name="build" depends="standard.build">
+    <m:meta destDir="${basedir}/target/classes">
+      <fileset dir="${basedir}/src/main">
+        <include name="**/*.java"/>
+      </fileset>
+    </m:meta>
+  </target>
+
+</project>
