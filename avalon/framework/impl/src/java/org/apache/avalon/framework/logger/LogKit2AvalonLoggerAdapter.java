@@ -26,7 +26,7 @@ import org.apache.log.Priority;
  * components.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.9 $ $Date: 2004/01/26 19:50:33 $
+ * @version CVS $Revision: 1.10 $ $Date: 2004/02/02 17:04:08 $
  * @since 4.1.4
  */
 public final class LogKit2AvalonLoggerAdapter
@@ -36,7 +36,7 @@ public final class LogKit2AvalonLoggerAdapter
      * The Avalon Logger that we re-route to.
      */
     private final Logger m_logger;
-
+    
     /**
      * Create a Logkit {@link org.apache.log.Logger} instance that
      * redirects to an Avalon {@link org.apache.avalon.framework.logger.Logger} instance.
@@ -51,9 +51,30 @@ public final class LogKit2AvalonLoggerAdapter
         final LogKit2AvalonLoggerAdapter target =
             new LogKit2AvalonLoggerAdapter( logger );
         logKitLogger.setLogTargets( new LogTarget[ ] { target } );
+        
+        if ( logger.isDebugEnabled() )
+        {
+            logKitLogger.setPriority( Priority.DEBUG );
+        }
+        else if ( logger.isInfoEnabled() )
+        {
+            logKitLogger.setPriority( Priority.INFO );
+        }
+        else if ( logger.isWarnEnabled() )
+        {
+            logKitLogger.setPriority( Priority.WARN );
+        }
+        else if ( logger.isErrorEnabled() )
+        {
+            logKitLogger.setPriority( Priority.ERROR );
+        }
+        else if ( logger.isFatalErrorEnabled() )
+        {
+            logKitLogger.setPriority( Priority.FATAL_ERROR );
+        }
         return logKitLogger;
     }
-
+    
     /**
      * Constructor for an Adaptor. Adapts to
      * specified Avalon Logger.
@@ -68,7 +89,7 @@ public final class LogKit2AvalonLoggerAdapter
         }
         m_logger = logger;
     }
-
+    
     /**
      * Route a LogKit message to an avalon Logger.
      *
