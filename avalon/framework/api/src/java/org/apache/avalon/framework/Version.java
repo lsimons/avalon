@@ -14,9 +14,9 @@ package org.apache.avalon.framework;
  * The version number of a <code>Component</code> is made up of three
  * dot-separated fields:
  * <p />
- * &quot;<b>major.minor.patchlevel</b>&quot;
+ * &quot;<b>major.minor.revision</b>&quot;
  * <p />
- * The <b>major</b>, <b>minor</b> and <b>patchlevel</b> fields are
+ * The <b>major</b>, <b>minor</b> and <b>revision</b> fields are
  * <i>integer</i> numbers represented in decimal notation and have the
  * following meaning:
  * <ul>
@@ -30,7 +30,7 @@ package org.apache.avalon.framework;
  * with previous releases is granted, but something changed in the
  * implementation of the Component. (ie it methods could have been added)</li><p />
  *
- * <p /><li><b>patchlevel</b> - When the patchlevel version changes (in ex.
+ * <p /><li><b>revision</b> - When the revision version changes (in ex.
  * from &quot;1.5.12&quot; to &quot;1.5.13&quot;), then the the changes are
  * small forward compatible bug fixes or documentation modifications etc.
  * </li>
@@ -99,10 +99,26 @@ public final class Version
      * If this <code>Version</code> is compatible with the specified one, then
      * <b>true</b> is returned, otherwise <b>false</b>. Be careful when using
      * this method since, in example, version 1.3.7 is compliant to version
-     * 1.3.6, while the opposite is not.
+     * 1.3.6, while the opposite is not. 
+     * <p />
+     * The following example displays the expected behaviour and results of version.
+     * <pre>
+     * final Version v1 = new Version( 1, 3 , 6 );
+     * final Version v2 = new Version( 1, 3 , 7 );
+     * final Version v3 = new Version( 1, 4 , 0 );
+     * final Version v4 = new Version( 2, 0 , 1 );
+     * 
+     * assert(   v1.complies( v1 ) );
+     * assert( ! v1.complies( v2 ) );
+     * assert(   v2.complies( v1 ) );
+     * assert( ! v1.complies( v3 ) );
+     * assert(   v3.complies( v1 ) );
+     * assert( ! v1.complies( v4 ) );
+     * assert( ! v4.complies( v1 ) );
+     * </pre>
      *
-     * @param v The other <code>Version</code> object to be compared with this
-     *          for compliancy (compatibility).
+     * @param other The other <code>Version</code> object to be compared with this
+     *              for compliancy (compatibility).
      */
     public boolean complies( final Version other )
     {
@@ -110,8 +126,16 @@ public final class Version
         {
             return false;
         }
-        else if( m_minor < other.m_minor)
+        else if( m_minor < other.m_minor )
         {
+            //If of major version but lower minor version then incompatible
+            return false;
+        }
+        else if( m_minor == other.m_minor &&
+                 m_revision < other.m_revision )
+        {
+            //If same major version, same minor version but lower revision level 
+            //then incompatible
             return false;
         }
         else
