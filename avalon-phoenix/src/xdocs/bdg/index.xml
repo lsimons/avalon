@@ -42,6 +42,7 @@
         <li><a href="creating-a-block.html">How do I create a block?</a></li>
         <li><a href="making-phoenix-compatible-comps.html">How do I make my components phoenix-compatible?</a></li>
         <li><a href="blockinfo-specification.html">BlockInfo specification</a></li>
+        <li><a href="doclet-tags.html">Using doclet tags to generate .xinfo files</a></li>
        </ol>
       </section>
   </body>
