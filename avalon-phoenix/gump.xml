@@ -22,6 +22,7 @@
     <depend project="bsf"/>
     <depend project="excalibur-configuration" runtime="true"/>
     <depend project="excalibur-containerkit" runtime="true"/>
+    <depend project="excalibur-converter" runtime="true"/>
     <depend project="excalibur-io" runtime="true"/>
     <depend project="excalibur-cli" runtime="true"/>
     <depend project="excalibur-extension" runtime="true"/>
@@ -39,6 +40,7 @@
     <depend project="jmx" runtime="true"/>
     <depend project="dist-bsf"/>
     <depend project="rhino"/>
+    <depend project="mx4j"/>
     <!-- depend project="xdoclet" inherit="jars"/ -->
     <depend project="xdoclet-ant15" runtime="true" inherit="runtime"/>
     <depend project="jarv" runtime="true"/>

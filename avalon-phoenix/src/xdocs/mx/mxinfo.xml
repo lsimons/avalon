@@ -34,20 +34,21 @@
         A target object is not restricted to having a single mxinfo file, although the specifics of how that
         works is dependant on the container (described [TODO] here).  Similarly it is expected that
         at runtime the mxinfo file will be located in the classpath of the Target class, in the same
-        package as that class, but this is also under the control of the Container.  Finally, its worth pointing out that an mxinfo file generated from interface can be applied to
+        package as that class, but this is also under the control of the Container.  Finally, its worth
+        pointing out that an mxinfo file generated from interface can be applied to
         any class that implements the interface.
       </p>
     </section>
     <section name="Example" >
       <p>
-        Since mxinfo files are somewhat confusing in the abstractm, but straight forward in practice, 
+        Since mxinfo files are somewhat confusing in the abstract, but straight forward in practice,
         the rest of this section describes an imaginary, yet somewhat plausible, mxinfo file.
       </p>
       <source>
 <![CDATA[        
 <?xml version="1.0"?>
 <!DOCTYPE mxinfo PUBLIC "-//PHOENIX/Mx Info DTD Version 1.0//EN"
-                  "http://jakarta.apache.org/phoenix/mxinfo_1_0.dtd">
+                  "http://jakarta.apache.org/avalon/dtds/phoenix/mxinfo_1_0.dtd">
 
 <mxinfo>
 

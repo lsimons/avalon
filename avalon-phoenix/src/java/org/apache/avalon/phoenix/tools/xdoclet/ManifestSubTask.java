@@ -16,7 +16,7 @@ import xdoclet.XDocletException;
  *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2002/08/25 05:56:40 $
+ * @version $Revision: 1.10 $ $Date: 2002/09/15 02:07:31 $
  * @ant.element display-name="Manifest" name="manifest" parent="org.apache.avalon.phoenix.tools.xdoclet.PhoenixXDocletTask"
  */
 public class ManifestSubTask
@@ -28,6 +28,9 @@ public class ManifestSubTask
 
     public ManifestSubTask()
     {
+        System.out.println( "WARNING: manifest generation has " +
+                            "never been required by Phoenix and is considered, " +
+                            "a deprecated practice." );
         setupParams();
     }
 

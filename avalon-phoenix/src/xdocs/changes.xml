@@ -13,8 +13,59 @@
     <author name="Stephen McConnell" email="mcconnell@osm.net" id="SM"/>
     <author name="Peter Royal" email="proyal@apache.org" id="PR"/>
     <author name="Huw Roberts" email="huw@apache.org" id="HR"/>    
+    <author name="Eung-ju Park" email="colus@apache.org" id="EP"/>
+    <author name="David W." email="daveweit@optonline.net" id="DW"/>
   </devs>
-<release version="4.0b" date="Unreleased">  
+<release version="4.0b" date="Unreleased">
+    <action dev="DW" type="change">
+        Started creating a Administrators guide.
+    </action>
+    <action dev="PD" type="change">
+        Deprecated Manifest generation xdoclet task. It has never been
+        used, supported or required by Phoenix and is considered a
+        deprecated practice.
+    </action>
+    <action dev="PD" type="change">
+        Moved the default location of DTDs to be based in directory
+        http://jakarta.apache.org/avalon/dtds/phoenix/* rather than
+        http://jakarta.apache.org/phoenix/*. Old style DTD URIs are
+        still supported.
+    </action>
+    <action dev="EP" type="add">
+        Added support for Blocks that are not proxied.
+    </action>
+    <action dev="PR" type="add">
+        Added support for validation of a Blocks configuration
+        against a schema (such as XMLSchema, Relax NG etc).
+    </action>
+    <action dev="PD" type="add">
+        Added the ability for Blocks to request shutdown of their
+        enclosing application via BlockContext.requestShutdown().
+        This will in turn shutdown the JVM *if* there are no more
+        applications and the kernel has not been put in persistent
+        mode.
+    </action>
+    <action dev="PD" type="fix">
+        Made sure that the i18n resources are reloaded whenever an
+        application is redeployed. This fixed a bug where multiple
+        re-runs of the same application would not update the i18n Resource
+        bundles.
+    </action>
+    <action dev="PD" type="add">
+        Added the ability for Blocks to request resources from the
+        .sar file via BlockContext.getResourceAsStream(String).
+    </action>
+    <action dev="PD" type="remove">
+        Removed support for the JMX RI as it did not support
+        RequiredMBean objects. We now require the MX4J
+        implementation.
+    </action>
+    <action dev="HR" type="add">
+        Addded documentation for new Management Info files.
+    </action>
+    <action dev="HR" type="add">
+        Addded xdoclet support for new Management Info files.
+    </action>
     <action dev="HR" type="add">
         Lots of work on JMX capability for Phoenix.
     </action>

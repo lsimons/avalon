@@ -30,8 +30,6 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
-import org.apache.excalibur.containerkit.verifier.ComponentVerifier;
-import org.apache.excalibur.containerkit.verifier.VerifyException;
 
 /**
  * This Class verifies that Sars are valid. It performs a number
@@ -59,7 +57,7 @@ import org.apache.excalibur.containerkit.verifier.VerifyException;
  * </ul>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.28 $ $Date: 2002/09/06 11:17:45 $
+ * @version $Revision: 1.29 $ $Date: 2002/09/15 02:07:31 $
  */
 public class SarVerifier
     extends AbstractLogEnabled
@@ -380,8 +378,6 @@ public class SarVerifier
                                block.getBlockInfo().getServices(),
                                classLoader );
 
-        verifyAvalonComponent( name, clazz, interfaces );
-
         for( int i = 0; i < interfaces.length; i++ )
         {
             if( !interfaces[ i ].isAssignableFrom( clazz ) )
@@ -402,32 +398,6 @@ public class SarVerifier
                                classname );
             getLogger().error( message );
             System.err.println( message );
-        }
-
-    }
-
-    /**
-     * Verify specified object satisifies the rules of being abn Avalon component.
-     *
-     * @param name the components name
-     * @param clazz the implementation class
-     * @param interfaces the service classes
-     */
-    private void verifyAvalonComponent( final String name, Class clazz, final Class[] interfaces )
-    {
-        try
-        {
-            final ComponentVerifier verifier = new ComponentVerifier();
-            setupLogger( verifier );
-            verifier.
-                verifyComponent( name, clazz, interfaces );
-        }
-        catch( VerifyException ve )
-        {
-            //ignore as the above will print out
-            //error. However the verifier is too
-            //strict and we need to be more lax for backwards
-            //compatability
         }
     }
 

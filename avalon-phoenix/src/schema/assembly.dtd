@@ -24,7 +24,7 @@ block-listener  a listener that exists in the application
 -->
 <!ELEMENT assembly (block|block-listener|listener)*>
 <!ATTLIST assembly id ID #IMPLIED
-          xmlns CDATA #FIXED "http://jakarta.apache.org/phoenix/assembly_1_0.dtd" >
+          xmlns CDATA #FIXED "http://jakarta.apache.org/avalon/dtds/phoenix/assembly_1_0.dtd" >
 
 <!--
 The block element declares a block exists in the application.
