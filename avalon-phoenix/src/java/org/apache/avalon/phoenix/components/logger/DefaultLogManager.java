@@ -17,6 +17,7 @@ import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Hierarchy;
+
 /**
  * Interface that is used to manage Log objects for a Sar.
  *
