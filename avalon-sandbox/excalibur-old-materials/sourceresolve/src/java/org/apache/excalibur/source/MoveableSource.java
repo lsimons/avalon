@@ -62,7 +62,7 @@ package org.apache.excalibur.source;
  * the class SourceUtils can be used.
  *
  * @author <a href="stephan@apache.org">Stephan Michels</a>
- * @version CVS $Id: MoveableSource.java,v 1.2 2003/02/25 16:28:51 bloritsch Exp $
+ * @version CVS $Id: MoveableSource.java,v 1.3 2003/04/04 16:36:51 sylvain Exp $
  */
 public interface MoveableSource extends Source
 {
@@ -75,7 +75,7 @@ public interface MoveableSource extends Source
      * @throws SourceException If an exception occurs during
      *                         the copy.
      */
-    void copy(Source destination) throws SourceException;
+    void copyTo(Source destination) throws SourceException;
 
     /**
      * Move the current source to a specified destination.
@@ -85,5 +85,5 @@ public interface MoveableSource extends Source
      * @throws SourceException If an exception occurs during
      *                         the move.
      */
-    void move(Source source) throws SourceException;
+    void moveTo(Source source) throws SourceException;
 }

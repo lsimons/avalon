@@ -71,7 +71,7 @@ import org.apache.avalon.framework.parameters.Parameters;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:stephan@apache.org">Stephan Michels</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/01/30 07:57:10 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/04/04 16:36:51 $
  */
 public final class SourceUtil
 {
@@ -344,7 +344,7 @@ public final class SourceUtil
         if (source instanceof MoveableSource
             && source.getClass().equals(destination.getClass()))
         {
-            ((MoveableSource)source).move(destination);
+            ((MoveableSource)source).moveTo(destination);
         } 
         else if (source instanceof ModifiableSource) 
         {
@@ -355,6 +355,101 @@ public final class SourceUtil
         {
             throw new SourceException("Source '"+source.getURI()+ "' is not writeable");
         }
+    }
+    
+    /**
+     * Get the position of the scheme-delimiting colon in an absolute URI, as specified
+     * by <a href="http://www.ietf.org/rfc/rfc2396.txt">RFC 2396</a>, appendix A. This method is
+     * primarily useful for {@link Source} implementors that want to separate
+     * the scheme part from the specific part of an URI.
+     * <p>
+     * Use this method when you need both the scheme and the scheme-specific part of an URI,
+     * as calling successively {@link #getScheme(String)} and {@link #getSpecificPart(String)}
+     * will call this method twice, and as such won't be efficient.
+     * 
+     * @param uri the URI
+     * @return int the scheme-delimiting colon, or <code>-1</code> if not found.
+     */
+    public static int indexOfSchemeColon(String uri)
+    {
+        // absoluteURI   = scheme ":" ( hier_part | opaque_part )
+        //
+		// scheme        = alpha *( alpha | digit | "+" | "-" | "." )
+		//
+        // alpha         = lowalpha | upalpha
+        //
+        // lowalpha = "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" |
+        //            "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" |
+        //            "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z"
+        //
+        // upalpha  = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" |
+        //            "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" |
+        //            "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z"
+        //
+        // digit    = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" |
+        //            "8" | "9"
+
+        // Must have at least one character followed by a colon
+        if (uri == null || uri.length() < 2)
+        {
+            return -1;
+        }
+        
+        // Check that first character is alpha
+        // (lowercase first since it's the most common case)
+        char ch = uri.charAt(0);
+        if ( (ch < 'a' || ch > 'z') &&
+             (ch < 'A' || ch > 'Z') )
+        {
+            // Invalid first character
+            return -1;
+        }
+        
+        int pos = uri.indexOf(':');
+        if (pos != -1)
+        {
+            // Check that every character before the colon is in the allowed range
+            // (the first one was tested above)
+            for (int i = 1; i < pos; i++)
+            {
+                ch = uri.charAt(i);
+                if ( (ch < 'a' || ch > 'z') &&
+                     (ch < 'A' || ch > 'Z') &&
+                     (ch < '0' || ch > '9') &&
+                     ch != '+' && ch != '-' && ch != '.')
+                {
+                    return -1;
+                }
+            }
+        }
+        
+        return pos;
+    }
+    
+    /**
+     * Get the scheme of an absolute URI.
+     * 
+     * @param uri the absolute URI
+     * @return the URI scheme
+     */
+    public static String getScheme(String uri)
+    {
+        int pos = indexOfSchemeColon(uri);
+        return (pos == -1) ? null : uri.substring(0, pos);
+    }
+    
+    /**
+     * Get the scheme-specific part of an absolute URI. Note that this includes everything
+     * after the separating colon, including the fragment, if any (RFC 2396 separates it
+     * from the scheme-specific part).
+     * 
+     * @param uri the absolute URI
+     * @return the scheme-specific part of the URI
+     */
+    public static String getSpecificPart(String uri)
+    {
+        int pos = indexOfSchemeColon(uri);
+        return (pos == -1) ? null : uri.substring(pos+1);
     }
 
     /**
@@ -372,7 +467,7 @@ public final class SourceUtil
         if (source instanceof MoveableSource 
             && source.getClass().equals(destination.getClass())) 
         {
-            ((MoveableSource) source).copy(destination);
+            ((MoveableSource) source).copyTo(destination);
         } 
         else 
         {
@@ -385,16 +480,8 @@ public final class SourceUtil
             try {
                 OutputStream out = ((ModifiableSource) destination).getOutputStream();
                 InputStream in = source.getInputStream();
-
-                byte[] buffer = new byte[8192];
-                int length = -1;
-
-                while ((length = in.read(buffer))>-1) {
-                    out.write(buffer, 0, length);
-                }
-                in.close();
-                out.flush();
-                out.close();
+                
+                copy(in, out);
             } catch (IOException ioe) {
                 throw new SourceException("Could not copy source '"+
                                           source.getURI()+"' to '"+
@@ -402,6 +489,26 @@ public final class SourceUtil
                                           ioe.getMessage(), ioe);
             }
         }
+    }
+    
+    /**
+     * Copy the contents of an <code>InputStream</code> to an <code>OutputStream</code>.
+     * 
+     * @param in
+     * @param out
+     * @throws IOException
+     */
+    static public void copy(InputStream in, OutputStream out) throws IOException
+    {
+        byte[] buffer = new byte[8192];
+        int length = -1;
+
+        while ((length = in.read(buffer))>-1) {
+            out.write(buffer, 0, length);
+        }
+        in.close();
+        out.flush();
+        out.close();
     }
 
 }

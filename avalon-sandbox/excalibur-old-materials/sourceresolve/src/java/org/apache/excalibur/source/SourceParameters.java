@@ -73,11 +73,12 @@ import org.apache.avalon.framework.parameters.Parameters;
  * <p>
  * Only particular kinds of <code>Source</code> implementations, such as
  * {@link org.apache.excalibur.source.impl.URLSource} support this kind of
- * parameters, passed as an entry in the <code>parameters</code> argument of
+ * parameters, passed as the {@link SourceResolver#URI_PARAMETERS} entry
+ * in the <code>parameters</code> argument of
  * {@link SourceResolver#resolveURI(String, String, Map)}.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: SourceParameters.java,v 1.5 2003/01/29 06:56:01 cziegeler Exp $
+ * @version $Id: SourceParameters.java,v 1.6 2003/04/04 16:36:51 sylvain Exp $
  */
 public final class SourceParameters
     implements Serializable, Cloneable

@@ -75,6 +75,7 @@ import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceFactory;
 import org.apache.excalibur.source.SourceResolver;
+import org.apache.excalibur.source.SourceUtil;
 
 /**
  * This is the default implemenation of a {@link SourceResolver}.
@@ -91,7 +92,7 @@ import org.apache.excalibur.source.SourceResolver;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.29 2003/02/04 20:12:59 bloritsch Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.30 2003/04/04 16:36:51 sylvain Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
@@ -203,7 +204,7 @@ public class SourceResolverImpl
             getLogger().debug( "Resolving '" + location + "' with base '" + baseURI + "' in context '" + m_baseURL + "'" );
         }
         if( location == null ) throw new MalformedURLException( "Invalid System ID" );
-        if( null != baseURI && baseURI.indexOf( ':' ) == -1 )
+        if( null != baseURI && SourceUtil.indexOfSchemeColon(baseURI) == -1 )
         {
             throw new MalformedURLException( "BaseURI is not valid, it must contain a protocol: " + baseURI );
         }
@@ -270,7 +271,7 @@ public class SourceResolverImpl
 
         Source source = null;
         // search for a SourceFactory implementing the protocol
-        final int protocolPos = systemID.indexOf( ':' );
+        final int protocolPos = SourceUtil.indexOfSchemeColon(systemID);
         if( protocolPos != -1)
         {
             final String protocol = systemID.substring( 0, protocolPos );

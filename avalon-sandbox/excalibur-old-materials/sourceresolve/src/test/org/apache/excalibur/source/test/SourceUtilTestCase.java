@@ -52,66 +52,83 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.excalibur.source;
+package org.apache.excalibur.source.test;
 
+import org.apache.excalibur.source.SourceUtil;
 
-import java.util.Collection;
+import junit.framework.TestCase;
 
 /**
- * A traversable source is a source that can have children and
- * a parent, like a file system.
- *
- * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
+ * Test case for SourceUtil.
+ * 
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/04/04 16:36:51 $
+ * @version $Id: SourceUtilTestCase.java,v 1.1 2003/04/04 16:36:52 sylvain Exp $
  */
-public interface TraversableSource extends Source {
+public class SourceUtilTestCase extends TestCase
+{
+    public SourceUtilTestCase()
+    {
+        this("SourceUtil");
+    }
 
-	/**
-	 * Is this source a collection, i.e. it possibly has children ?
-	 * For a filesystem-based implementation, this would typically mean that
-	 * this source represents a directory and not a file.
-     * 
-     * @return true if the source exists and is traversable.
-	 */
-	boolean isCollection();
-    
-    /**
-     * Get the children of this source if this source is traversable.
-     * <p>
-     * <em>Note:</em> only those sources actually fetched from the
-     * collection need to be released using the {@link SourceResolver}.
-     * 
-     * @see #isTraversable()
-     * @return a collection of {@link Source}s (actually most probably <code>TraversableSource</code>s).
-     * @throws SourceException this source is not traversable, or if some problem occurs.
-     */
-    Collection getChildren() throws SourceException;
-    
-    /**
-     * Get a child of this source, given its name. Note that the returned source
-     * may not actually physically exist, and that this must be checked using
-     * {@link Source#exists()}.
-     * 
-     * @param name the child name.
-     * @return the child source.
-     * @throws SourceException if this source is not traversable or if some other
-     *         error occurs.
-     */
-    Source getChild(String name) throws SourceException;
-    
-    /**
-     * Return the name of this source relative to its parent.
-	 *
-	 * @return the name
-     */
-    String getName();
-    
-    /**
-     * Get the parent of this source as a {@link Source} object.
-     * 
-     * @return the parent source, or <code>null</code> if this source has no parent.
-     * @throws SourceException if some problem occurs.
-     */
-    Source getParent() throws SourceException;
+    public SourceUtilTestCase(String name)
+    {
+        super(name);
+    }
+
+	public void testNominalScheme() throws Exception
+	{
+	    String uri = "http://foo";
+	    assertEquals(4, SourceUtil.indexOfSchemeColon(uri));
+	    assertEquals("http", SourceUtil.getScheme(uri));
+	    assertEquals("//foo", SourceUtil.getSpecificPart(uri));
+	}
+	
+	public void testDoubleColon() throws Exception
+	{
+	    assertEquals(4, SourceUtil.indexOfSchemeColon("file:foo:bar"));
+	}
+	
+	public void testSpecialScheme() throws Exception
+	{
+	    String uri = "a-+.:foo"; // Strange, but valid !
+	    assertEquals(4, SourceUtil.indexOfSchemeColon(uri));
+	    assertEquals("a-+.", SourceUtil.getScheme(uri));
+	    assertEquals("foo", SourceUtil.getSpecificPart(uri));
+	}
+	
+	public void testSpecialPart() throws Exception
+	{
+	    String uri = "bar:";
+	    assertEquals(3, SourceUtil.indexOfSchemeColon(uri));
+	    assertEquals("bar", SourceUtil.getScheme(uri));
+	    assertEquals("", SourceUtil.getSpecificPart(uri));
+	}
+	
+	public void testInvalidScheme() throws Exception
+	{
+	    String uri = "2foo:bar";
+	    assertEquals(-1, SourceUtil.indexOfSchemeColon(uri));
+	    assertEquals(null, SourceUtil.getScheme(uri));
+	    assertEquals(null, SourceUtil.getSpecificPart(uri));
+	    
+	    // Invalid character before any of the allowed ones
+	    assertEquals(-1, SourceUtil.indexOfSchemeColon("h ttp:foo"));
+        assertEquals(-1, SourceUtil.indexOfSchemeColon(" http:foo"));
+        assertEquals(-1, SourceUtil.indexOfSchemeColon("http :foo"));
+        
+       // Invalid character between allowed ranges
+        assertEquals(-1, SourceUtil.indexOfSchemeColon("h_ttp:foo"));
+        assertEquals(-1, SourceUtil.indexOfSchemeColon("_http:foo"));
+        assertEquals(-1, SourceUtil.indexOfSchemeColon("http_:foo"));
+        
+        // Invalid character after any of the allowed ones
+        assertEquals(-1, SourceUtil.indexOfSchemeColon("h~ttp:foo"));
+        assertEquals(-1, SourceUtil.indexOfSchemeColon("~http:foo"));
+        assertEquals(-1, SourceUtil.indexOfSchemeColon("http~:foo"));
+
+	    assertEquals(-1, SourceUtil.indexOfSchemeColon("/file/with:colon"));
+	    assertEquals(-1, SourceUtil.indexOfSchemeColon(".foo:bar"));
+	    assertEquals(-1, SourceUtil.indexOfSchemeColon("no-colon"));
+	}
 }

@@ -52,66 +52,40 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.excalibur.source;
+package org.apache.excalibur.source.impl;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.Map;
 
-import java.util.Collection;
+import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.excalibur.source.Source;
+import org.apache.excalibur.source.SourceFactory;
 
 /**
- * A traversable source is a source that can have children and
- * a parent, like a file system.
- *
- * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
+ * A factory for filesystem-based sources (see {@link FileSource}).
+ * 
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/04/04 16:36:51 $
+ * @version $Id: FileSourceFactory.java,v 1.1 2003/04/04 16:36:51 sylvain Exp $
  */
-public interface TraversableSource extends Source {
+public class FileSourceFactory implements SourceFactory, ThreadSafe
+{
 
-	/**
-	 * Is this source a collection, i.e. it possibly has children ?
-	 * For a filesystem-based implementation, this would typically mean that
-	 * this source represents a directory and not a file.
-     * 
-     * @return true if the source exists and is traversable.
-	 */
-	boolean isCollection();
-    
     /**
-     * Get the children of this source if this source is traversable.
-     * <p>
-     * <em>Note:</em> only those sources actually fetched from the
-     * collection need to be released using the {@link SourceResolver}.
-     * 
-     * @see #isTraversable()
-     * @return a collection of {@link Source}s (actually most probably <code>TraversableSource</code>s).
-     * @throws SourceException this source is not traversable, or if some problem occurs.
+     * @see org.apache.excalibur.source.SourceFactory#getSource(java.lang.String, java.util.Map)
      */
-    Collection getChildren() throws SourceException;
-    
+    public Source getSource(String location, Map parameters) throws IOException, MalformedURLException
+    {
+        return new FileSource(location);
+    }
+
     /**
-     * Get a child of this source, given its name. Note that the returned source
-     * may not actually physically exist, and that this must be checked using
-     * {@link Source#exists()}.
+     * Does nothing, since {@link FileSource}s don't need to be released.
      * 
-     * @param name the child name.
-     * @return the child source.
-     * @throws SourceException if this source is not traversable or if some other
-     *         error occurs.
+     * @see org.apache.excalibur.source.SourceFactory#release(org.apache.excalibur.source.Source)
      */
-    Source getChild(String name) throws SourceException;
-    
-    /**
-     * Return the name of this source relative to its parent.
-	 *
-	 * @return the name
-     */
-    String getName();
-    
-    /**
-     * Get the parent of this source as a {@link Source} object.
-     * 
-     * @return the parent source, or <code>null</code> if this source has no parent.
-     * @throws SourceException if some problem occurs.
-     */
-    Source getParent() throws SourceException;
+    public void release(Source source)
+    {
+        // Nothing to do here
+    }
 }

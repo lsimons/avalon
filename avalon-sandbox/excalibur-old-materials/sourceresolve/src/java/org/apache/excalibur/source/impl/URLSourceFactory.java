@@ -54,144 +54,91 @@
  */
 package org.apache.excalibur.source.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.parameters.ParameterException;
-import org.apache.avalon.framework.parameters.Parameterizable;
-import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.excalibur.source.Source;
-import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceFactory;
 
 /**
  * A factory for a {@link URL} wrapper
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: URLSourceFactory.java,v 1.3 2003/02/07 11:21:09 cziegeler Exp $
+ * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
+ * @version $Id: URLSourceFactory.java,v 1.4 2003/04/04 16:36:52 sylvain Exp $
  */
-public class URLSourceFactory
-    extends AbstractLogEnabled
-    implements SourceFactory, Parameterizable, ThreadSafe
+public class URLSourceFactory extends AbstractLogEnabled implements SourceFactory, ThreadSafe
 {
 
-    /** The URLSource class used */
-    protected Class m_urlSourceClass;
-
-    public void parameterize( Parameters pars )
-        throws ParameterException
+    /**
+     * Create an URL-based source. This class actually creates an {@link URLSource}, but if another
+     * implementation is needed, subclasses can override this method.
+     */
+    protected Source createURLSource(URL url, Map parameters) throws MalformedURLException, IOException
     {
-        final String urlSourceClassName = pars.getParameter( "url-source",
-                                                             "org.apache.excalibur.source.impl.URLSource" );
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        if( loader == null )
-        {
-            loader = getClass().getClassLoader();
-        }
-        try
-        {
-            m_urlSourceClass = loader.loadClass( urlSourceClassName );
-        }
-        catch( ClassNotFoundException cnfe )
-        {
-            this.getLogger().error( "Class not found: " + urlSourceClassName, cnfe );
-            throw new ParameterException( "Class not found: " + urlSourceClassName, cnfe );
-        }
+        URLSource result = new URLSource();
+        result.init(url, parameters);
+        return result;
     }
 
     /**
-     * Create a correct instance for the uri
+     * Create an file-based source. This class actually creates an {@link FileSource}, but if another
+     * implementation is needed, subclasses can override this method.
      */
-    protected URLSource getSourceImplementation(String uri, Map parameters) 
-    throws Exception
+    protected Source createFileSource(String uri) throws MalformedURLException, IOException
     {
-        if (uri.startsWith("file:")) 
-        { 
-            final URLSource fileSource = (URLSource)new FileSource();
-            fileSource.init( new URL( uri ), parameters);
-            return fileSource;
-        } 
-        else 
-        {
-            final URLSource urlSource =
-                (URLSource)this.m_urlSourceClass.newInstance();
-            urlSource.init( new URL( uri ), parameters );
-            return urlSource;
-        }
+        return new FileSource(uri);
     }
-    
+
     /**
      * @see org.apache.excalibur.source.SourceFactory#getSource(java.lang.String, java.util.Map)
      */
-    public Source getSource(String uri, Map parameters)
-        throws MalformedURLException, IOException 
+    public Source getSource(String uri, Map parameters) throws MalformedURLException, IOException
     {
-        if( getLogger().isDebugEnabled() )
+        if (getLogger().isDebugEnabled())
         {
             final String message = "Creating source object for " + uri;
-            getLogger().debug( message );
+            getLogger().debug(message);
         }
 
-        Source source;
-        try
+        // First check if it's a file
+        if (uri.startsWith("file:"))
         {
-            if( getLogger().isDebugEnabled() == true )
-            {
-                this.getLogger().debug( "Making URL from " + uri );
-            }
+            // Yes : return a file source
+            return createFileSource(uri);
+        }
+        else
+        {
+            // Not a "file:" : create an URLSource
+            // First try to create the URL
+            URL url;
             try
             {
-                source = this.getSourceImplementation( uri, parameters );
+                url = new URL(uri);
             }
-            catch( MalformedURLException mue )
+            catch (MalformedURLException mue)
             {
-                throw mue;
+                // Maybe a file name containing a ':' ?
+                if (getLogger().isDebugEnabled())
+                {
+                    this.getLogger().debug("URL " + uri + " is malformed. Assuming it's a file path.", mue);
+                }
+                return createFileSource(uri);
             }
-            catch( Exception ie )
-            {
-                throw new SourceException( "Unable to create new instance of " +
-                                           this.m_urlSourceClass, ie );
-            }
-        }
-        catch( MalformedURLException mue )
-        {
-            if( getLogger().isDebugEnabled() )
-            {
-                this.getLogger().debug( "Making URL - MalformedURLException in getURL:", mue );
-                this.getLogger().debug( "Making URL a File (assuming that it is full path):" + uri );
-            }
-            try
-            {
-                final URLSource urlSource = new FileSource();
-                urlSource.init( ( new File( uri ) ).toURL(), parameters );
-                source = urlSource;
-            }
-            catch( Exception ie )
-            {
-                throw new SourceException( "Unable to create new instance of " +
-                                           this.m_urlSourceClass, ie );
-            }
-        }
 
-        return source;
+            return createURLSource(url, parameters);
+        }
     }
 
     /**
      * @see org.apache.excalibur.source.SourceFactory#release(org.apache.excalibur.source.Source)
      */
-    public void release(Source source) {
-        if( null != source && getLogger().isDebugEnabled() )
-        {
-            final String message = "Releasing source object for " + source.getURI();
-            getLogger().debug( message );
-        }
+    public void release(Source source)
+    {
         // do nothing here
     }
-
 }
-
