@@ -8,7 +8,7 @@
     </authors>
   </header>
   <body>
-    <s1 title="Introduction">
+    <section><title>Introduction</title>
       <p>
         Avalon Excalibur was created in order to ease development of
         new projects.  To that end, Excalibur contains a number of
@@ -31,12 +31,12 @@
 	quality and/or stability. They are <strong>NOT</strong>
         meant for production use. You have been warned.
       </warn>
-    </s1>
+    </section>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.8 $ $Date: 2003/02/07 16:08:55 $
+      $Revision: 1.9 $ $Date: 2003/02/20 16:02:11 $
     </legal>
   </footer>
 </document>

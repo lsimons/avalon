@@ -4,7 +4,7 @@
   <title>@Name@ @version@</title>
   <abstract>The Avalon team is proud to announce the @version@ @status@ release
 of the @Name@.</abstract>
-  <project site="http://jakarta.apache.org/avalon">
+  <book software="Excalibur site" title="Excalibur site" copyright="@year@ The Apache Software Foundation" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>Avalon</title>
     <description>
       The Avalon project is Apache's Java Server Framework. It is
@@ -14,8 +14,8 @@ of the @Name@.</abstract>
       formalizes serveral best of breed practices and patterns for
       server side programming.
     </description>
-  </project>
-  <project site="http://jakarta.apache.org/avalon/excalibur">
+  </book>
+  <book software="Excalibur site" title="Excalibur site" copyright="@year@ The Apache Software Foundation" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>@Name@ @version@</title>
     <description>
       Avalon Excalibur contains several premade Avalon Components
@@ -25,6 +25,6 @@ of the @Name@.</abstract>
     </description>
     <changes version="@version@" file="changes.xml"/>
     <downloads name="Excalibur" base="http://jakarta.apache.org/builds/avalon/release/@name@"/>
-  </project>
+  </book>
 </announcement>
 
