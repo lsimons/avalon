@@ -137,5 +137,18 @@
     </plugins>
   </project>
 
+  <project basedir="configuration/injection">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-config-injection</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
 
 </system>
