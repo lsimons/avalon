@@ -462,6 +462,53 @@ directory yourself using a command such as
 
     </goal>
 
+    <goal name="avalon:dist-sign"
+            description="Sign the distributions using GPG">
+        <ant:echo>
+=======================================================================
+ Sorry, but it is not possible to autmoate the keysigning. You need to
+ install GnuPG or OpenPGP yourself, get yourself a key, add it to the
+ KEYS file in the root of the 'avalon' cvs module, commit the modified
+ file, upload it to daedalus.apache.org:/www/www.apache.org/dist/avalon
+ then sign the distributions you just built. Your commands might look
+ somewhat like:
+
+    cd ${maven.build.dir}/distributions
+    gpg --output ${maven.final.name}.zip.asc \
+      --detach-sig --armor ${maven.final.name}.zip
+
+    cd ${maven.build.dir}
+    gpg --output ${maven.final.name}.jar.asc \
+      --detach-sig --armor ${maven.final.name}.jar
+
+ or something similar, repeated for each file you're going to
+ distribute. If you're on linux/unix (or have cygwin), you
+ might use
+
+    cd ${maven.build.dir}/distributions
+    for i in *.zip;
+      gpg --output ${maven.final.name}.zip.asc \
+        --detach-sig --armor ${maven.final.name}.zip
+    done
+    for i in *.gz;
+      gpg --output ${maven.final.name}.zip.asc \
+        --detach-sig --armor ${maven.final.name}.zip
+    done
+
+    cd ${maven.build.dir}
+    for i in *.jar;
+      gpg --output ${maven.final.name}.jar.asc \
+        --detach-sig --armor ${maven.final.name}.jar
+    done
+
+ For more help, see
+
+    http://nagoya.apache.org/wiki/apachewiki.cgi?SigningReleases
+    http://www.gnupg.org/gph/en/manual.html
+=======================================================================
+        </ant:echo>
+    </goal>
+
     <!-- ==========================================================
           Deployment customization
          ========================================================== -->
