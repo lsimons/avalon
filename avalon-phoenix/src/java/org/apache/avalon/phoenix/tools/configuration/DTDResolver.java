@@ -18,7 +18,7 @@ import org.xml.sax.SAXException;
  * Schemas.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2001/12/15 04:55:59 $
+ * @version $Revision: 1.2 $ $Date: 2002/03/21 08:19:42 $
  */
 public class DTDResolver
     implements EntityResolver
@@ -32,14 +32,6 @@ public class DTDResolver
      * The ClassLoader to use when loading resources for DTDs.
      */
     private final ClassLoader m_classLoader;
-
-    /**
-     * Construct a resolver using specified DTDInfos.
-     */
-    public DTDResolver( final DTDInfo[] dtdInfos )
-    {
-        this( dtdInfos, Thread.currentThread().getContextClassLoader() );
-    }
 
     /**
      * Construct a resolver using specified DTDInfos where resources are loaded
