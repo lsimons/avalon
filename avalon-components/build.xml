@@ -136,6 +136,10 @@
     <available classname="javax.xml.parsers.SAXParserFactory" 
         classpathref="project.class.path" 
         property="SAXParserFactory.present"/>  
+        
+    <available classname="java.beans.XMLDecoder" 
+        classpathref="project.class.path" 
+        property="LTPJB.present"/>        
 
     <mkdir dir="${build.classes}"/>
 
@@ -158,6 +162,9 @@
                unless="SAXParserFactory.present" />
       <exclude name="org/apache/avalon/cornerstone/services/sax/**.java"
                unless="SAXParserFactory.present" />                            
+      <exclude name="org/apache/avalon/cornerstone/blocks/masterstore/xml/**.java"
+               unless="LTPJB.present" />
+
                
     </javac>
 
