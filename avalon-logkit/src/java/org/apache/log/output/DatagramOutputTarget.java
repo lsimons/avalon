@@ -13,18 +13,18 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import org.apache.log.Formatter;
 import org.apache.log.LogEvent;
-import org.apache.log.LogKit;
+import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 
 /**
  * A datagram output target.
- * Useful for writing using custom protocols or 
+ * Useful for writing using custom protocols or
  * else to standards such as syslog.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DatagramOutputTarget
-    extends AbstractOutputTarget 
+    extends AbstractOutputTarget
 {
     protected DatagramSocket m_socket;
 
@@ -58,9 +58,9 @@ public class DatagramOutputTarget
         }
         catch( final IOException ioe )
         {
-            LogKit.log( "Error sending datagram.", ioe );
+            Hierarchy.getDefaultHierarchy().log( "Error sending datagram.", ioe );
             //TODO:
-            //Can no longer route to global error handler - somehow need to pass down error 
+            //Can no longer route to global error handler - somehow need to pass down error
             //handler from engine...
         }
     }
