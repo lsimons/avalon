@@ -13,6 +13,8 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 /**
  * Management interface for a Configuration Repository
  *
+ * @phoenix:mx-topic name="ConfigurationRepository"
+ *
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  * @see ConfigurationRepository
  */
@@ -27,6 +29,8 @@ public interface ConfigurationRepositoryMBean
      * @return Configuration information
      *
      * @throws ConfigurationException if no configuration could be found
+     *
+     * @phoenix:mx-operation
      */
     Configuration getConfiguration( String application, String block )
         throws ConfigurationException;
@@ -39,6 +43,8 @@ public interface ConfigurationRepositoryMBean
      * @param configuration information to store.
      *
      * @throws ConfigurationException if configuration could not be stored
+     *
+     * @phoenix:mx-operation
      */
     void storeConfiguration( String application,
                              String block,
@@ -53,6 +59,8 @@ public interface ConfigurationRepositoryMBean
      * @param block Block name to check configuration for
      *
      * @return true if repository has configuration
+     *
+     * @phoenix:mx-operation
      */
     boolean hasConfiguration( String application, String block );
 }

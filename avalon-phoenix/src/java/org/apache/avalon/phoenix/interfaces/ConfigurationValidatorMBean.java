@@ -13,6 +13,8 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 /**
  * Management interface to the Configuration Validator
  *
+ * @phoenix:mx-topic name="ConfigurationValidator"
+ *
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  * @see ConfigurationValidator
  */
@@ -25,6 +27,7 @@ public interface ConfigurationValidatorMBean
      * @param application to get schema for
      * @param block to get schema for
      * @return schema type, or null if none exists
+     * @phoenix:mx-operation
      */
     String getSchemaType( final String application, final String block );
 
@@ -35,6 +38,7 @@ public interface ConfigurationValidatorMBean
      * @param application to get schema for
      * @param block to get schema for
      * @return schema as string, or null if none exists
+     * @phoenix:mx-operation
      */
     String getSchema( final String application, final String block );
 
@@ -50,6 +54,8 @@ public interface ConfigurationValidatorMBean
      * @throws ConfigurationException if no schema is found
      *
      * @see ConfigurationValidator#isValid
+     *
+     * @phoenix:mx-operation
      */
     boolean isValid( String application, String block, Configuration configuration )
         throws ConfigurationException;
