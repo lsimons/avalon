@@ -49,7 +49,7 @@ import org.apache.avalon.repository.util.RepositoryUtils;
  * an underlying file system.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/19 07:37:46 $
+ * @version $Revision: 1.8 $ $Date: 2004/02/23 01:29:05 $
  */
 public class DefaultRepository implements Repository
 {
@@ -60,17 +60,28 @@ public class DefaultRepository implements Repository
    /**
     * The cache directory.
     */
-    private File m_cache;
+    private final File m_cache;
+
+    private final LoaderUtils m_loader;
+
+    //------------------------------------------------------------------
+    // mutable state 
+    //------------------------------------------------------------------
 
    /**
     * Sequence of remote hosts.
     */
-    private final URL[] m_hosts;
+    private URL[] m_hosts;
 
    /**
     * Sequence of remote hosts.
     */
-    private final String[] m_roots;
+    private String[] m_roots;
+
+   /**
+    * Sequence of remote hosts.
+    */
+    private boolean m_online;
     
     //------------------------------------------------------------------
     // constructor 
@@ -83,7 +94,7 @@ public class DefaultRepository implements Repository
     * @exception NullPointerException if the cache or hosts argument
     * is null
     */
-    public DefaultRepository( File cache, String[] hosts )
+    DefaultRepository( File cache, String[] hosts, boolean online )
     {
         if( cache == null ) throw new NullPointerException( "cache" );
         if( hosts == null ) throw new NullPointerException( "hosts" );
@@ -91,6 +102,8 @@ public class DefaultRepository implements Repository
         m_cache = cache;
         m_roots = RepositoryUtils.getCleanPaths( hosts );
         m_hosts = getHosts( m_roots );
+        m_online = online;
+        m_loader = new LoaderUtils( online );
     }
 
     //------------------------------------------------------------------
@@ -136,7 +149,7 @@ public class DefaultRepository implements Repository
     public URL getResource( Artifact artifact )
         throws RepositoryException
     {
-        return LoaderUtils.getResource( 
+        return m_loader.getResource( 
           artifact, m_roots, m_cache, true );
     }
 
@@ -150,7 +163,7 @@ public class DefaultRepository implements Repository
     private URL getResource( Artifact artifact, String mime )
         throws RepositoryException
     {
-        return LoaderUtils.getResource( 
+        return m_loader.getResource( 
           artifact, mime, m_roots, m_cache, true );
     }
         

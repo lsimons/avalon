@@ -25,21 +25,43 @@ import java.util.Map;
  * factory criteria.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public interface RepositoryCriteria extends Map
 {
    /**
+    * Online mode.
+    */
+    String REPOSITORY_ONLINE_MODE = InitialContext.ONLINE_KEY;
+
+   /**
+    * Repository cache directory parameter descriptor.
+    */
+    String REPOSITORY_CACHE_DIR = InitialContext.CACHE_KEY;
+
+   /**
+    * Repository proxy password parameter descriptor.
+    */
+    String REPOSITORY_REMOTE_HOSTS = InitialContext.HOSTS_KEY;
+
+   /**
     * An array of property keys that are used to locate default
     * values.
-    * 
-    * @see InitialContext#CACHE_KEY
-    * @see InitialContext#HOSTS_KEY
     */
     String[] KEYS = 
       new String[]{
-        InitialContext.CACHE_KEY,
-        InitialContext.HOSTS_KEY };
+        REPOSITORY_ONLINE_MODE,
+        REPOSITORY_CACHE_DIR,
+        REPOSITORY_REMOTE_HOSTS };
+
+   /**
+    * Set the online mode of the repository. The default policy is to 
+    * to enable online access to remote repositories.  Setting the on-line
+    * mode to false disables remote repository access.   
+    *
+    * @param policy the online connected policy
+    */
+    void setOnlineMode( boolean policy );
 
    /**
     * The cache directory is the directory into which resources 

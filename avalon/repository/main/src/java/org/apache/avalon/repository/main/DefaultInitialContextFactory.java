@@ -54,7 +54,6 @@ import org.apache.avalon.repository.provider.Factory;
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.InitialContextFactory;
 import org.apache.avalon.repository.provider.Builder;
-import org.apache.avalon.repository.util.LoaderUtils;
 import org.apache.avalon.repository.util.RepositoryUtils;
 
 import org.apache.avalon.util.env.Env;
@@ -79,7 +78,7 @@ import org.apache.avalon.util.defaults.Defaults;
  * </pre>
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class DefaultInitialContextFactory implements InitialContextFactory
 {
@@ -125,6 +124,8 @@ public class DefaultInitialContextFactory implements InitialContextFactory
     private String m_proxyUsername;
 
     private String m_proxyPassword;
+
+    private boolean m_online;
 
     // ------------------------------------------------------------------------
     // constructor
@@ -232,6 +233,18 @@ public class DefaultInitialContextFactory implements InitialContextFactory
     // ------------------------------------------------------------------------
     // InitialContextFactory
     // ------------------------------------------------------------------------
+
+   /**
+    * Set the online mode of the repository. The default policy is to 
+    * to enable online access to remote repositories.  Setting the onLine
+    * mode to false disables remote repository access.   
+    *
+    * @param policy the connected policy
+    */
+    public void setOnlineMode( boolean policy )
+    {
+        m_online = policy;
+    }
 
    /**
     * Set the parent classloader.  If not defined, the default 
@@ -347,7 +360,8 @@ public class DefaultInitialContextFactory implements InitialContextFactory
               getProxyPort(),
               getProxyUsername(),
               getProxyPassword(),
-              getHosts() );
+              getHosts(),
+              getOnlineMode() );
         }
         catch( Throwable e )
         {
@@ -357,6 +371,13 @@ public class DefaultInitialContextFactory implements InitialContextFactory
         }
     }
 
+   /**
+    * Return the application key.
+    */
+    public boolean getOnlineMode()
+    {
+        return m_online;
+    }
 
    /**
     * Return the application key.

@@ -45,7 +45,7 @@ import org.apache.avalon.util.defaults.DefaultsBuilder;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class DefaultRepositoryCriteria extends Criteria implements RepositoryCriteria
 {
@@ -54,46 +54,24 @@ public class DefaultRepositoryCriteria extends Criteria implements RepositoryCri
     //--------------------------------------------------------------
 
    /**
-    * Repository cache directory parameter descriptor.
-    */
-    public static final String REPOSITORY_CACHE_DIR = InitialContext.CACHE_KEY;
-    private static final Parameter REPOSITORY_CACHE_DIR_PARAM = 
-      new Parameter( 
-        REPOSITORY_CACHE_DIR,
-        File.class,
-        null );
-
-   /**
-    * Repository proxy password parameter descriptor.
-    */
-    public static final String REPOSITORY_REMOTE_HOSTS = InitialContext.HOSTS_KEY;
-    public static final Parameter REPOSITORY_REMOTE_HOSTS_PARAM = 
-      new PackedParameter( 
-        REPOSITORY_REMOTE_HOSTS,
-        ",",
-        null );
-
-   /**
     * The factory parameters template.
+    * @return the set of parameters constraining the criteria
     */
-    public static final Parameter[] PARAMS = new Parameter[]{
-           REPOSITORY_CACHE_DIR_PARAM,
-           REPOSITORY_REMOTE_HOSTS_PARAM };
-
-   /** 
-    * The name of the static defaults property resource.
-    */
-    public static final String DEFAULTS = "avalon.properties";
-
-   /** 
-    * recognized single keys
-    */
-    private static final String [] SINGLE_KEYS = Parameter.getKeys( PARAMS );
-
-   /** 
-    * recognized multivalue keys
-    */
-    public static final String [] MULTI_VALUE_KEYS = {};
+    private static Parameter[] buildParameters( InitialContext context )
+    {
+        return new Parameter[]{
+          new Parameter( 
+            REPOSITORY_ONLINE_MODE, 
+            Boolean.class, new Boolean( context.getOnlineMode() ) ),
+          new Parameter( 
+            REPOSITORY_CACHE_DIR,
+            File.class,
+            context.getInitialCacheDirectory() ),
+          new PackedParameter( 
+            REPOSITORY_REMOTE_HOSTS,
+            ",",
+            context.getInitialHosts() ) };
+    }
 
     //--------------------------------------------------------------
     // constructor
@@ -106,7 +84,7 @@ public class DefaultRepositoryCriteria extends Criteria implements RepositoryCri
     public DefaultRepositoryCriteria( InitialContext context ) 
       throws RepositoryException
     {
-        super( PARAMS );
+        super( buildParameters( context ) );
 
         //
         // create the consolidated properties
@@ -120,16 +98,17 @@ public class DefaultRepositoryCriteria extends Criteria implements RepositoryCri
             Properties defaults = getDefaultProperties();
             DefaultsBuilder builder = new DefaultsBuilder( key, work );
             Properties properties = 
-              builder.getConsolidatedProperties( defaults, SINGLE_KEYS );
+              builder.getConsolidatedProperties( defaults, getKeys() );
 
             //
             // Populate the empty repository criteria using
             // the values from the consilidated defaults.
             //
 
-            for( int i=0; i<SINGLE_KEYS.length; i++ )
+            String[] keys = super.getKeys();
+            for( int i=0; i<keys.length; i++ )
             {
-                final String propertyKey = SINGLE_KEYS[i];
+                final String propertyKey = keys[i];
                 final String value = properties.getProperty( propertyKey );
                 if( null != value )
                 {
@@ -148,6 +127,11 @@ public class DefaultRepositoryCriteria extends Criteria implements RepositoryCri
     //--------------------------------------------------------------
     // RepositoryCriteria
     //--------------------------------------------------------------
+
+    public void setOnlineMode( boolean mode )
+    {
+        put( REPOSITORY_ONLINE_MODE, new Boolean( mode ) );
+    }
 
     public void setCacheDirectory( File cache )
     {

@@ -60,7 +60,7 @@ import org.apache.commons.cli.Options;
  * Merlin command line handler.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.18 $
+ * @version $Revision: 1.19 $
  */
 public class Main 
 {
@@ -87,6 +87,10 @@ public class Main
         Option help = new Option(
            "help",
            REZ.getString( "cli-help-description" ) );
+
+        Option offline = new Option(
+           "offline",
+           REZ.getString( "cli-offline-description" ) );
 
         Option version = new Option(
            "version",
@@ -174,6 +178,7 @@ public class Main
 
         options.addOption( help );
         options.addOption( locale );
+        options.addOption( offline );
         options.addOption( execute );
         options.addOption( version );
         options.addOption( info );
@@ -247,15 +252,8 @@ public class Main
                 InitialContextFactory factory = 
                   new DefaultInitialContextFactory( "merlin", dir );
                 factory.setCacheDirectory( cache );
+                factory.setOnlineMode( !line.hasOption( "offline" ) );
                 InitialContext context = factory.createInitialContext();
-
-                //ClassLoader parent = Main.class.getClassLoader();
-                //Artifact impl = null; // default
-                //String[] bootstrap = null; // default
-                //
-                //InitialContext context = 
-                //   new DefaultInitialContext( 
-                //     dir, parent, impl, cache, bootstrap );
 
                 //
                 // process the commandline and do the real work

@@ -70,7 +70,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.21 $
+ * @version $Revision: 1.22 $
  */
 public class DefaultInitialContext extends AbstractBuilder implements InitialContext
 {
@@ -103,16 +103,30 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     private final File m_cache;
 
    /**
-    * The initial remote host names.
-    */
-    private final String[] m_hosts;
-
-   /**
     * The base working directory.
     */
     private final File m_base;
 
+   /**
+    * System repository established by the intial context.
+    */
     private final Repository m_repository;
+
+    private final LoaderUtils m_loader;
+
+    // ------------------------------------------------------------------------
+    // mutable state
+    // ------------------------------------------------------------------------
+
+   /**
+    * The online connection policy.
+    */
+    private boolean m_online;
+
+   /**
+    * The initial remote host names.
+    */
+    private String[] m_hosts;
 
     // ------------------------------------------------------------------------
     // constructors
@@ -131,7 +145,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     DefaultInitialContext( 
       String key, ClassLoader parent, Artifact artifact, File base, File cache, 
       String proxyHost, int proxyPort, String proxyUsername, String proxyPassword, 
-      String[] hosts ) 
+      String[] hosts, boolean online ) 
       throws RepositoryException
     {
         if( null == key ) throw new NullPointerException( "key" ); 
@@ -144,7 +158,10 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
         m_key = key;
         m_base = base;
         m_cache = cache;
+        m_online = online;
         m_hosts = hosts;
+
+        m_loader = new LoaderUtils( m_online );
 
         setupProxy( proxyHost, proxyPort, proxyUsername, proxyPassword );
 
@@ -171,11 +188,11 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
         URL[] urls = new URL[ n + 1];
         for( int i=0; i<n; i++ )
         {
-            urls[i] = LoaderUtils.getResource( 
+            urls[i] = m_loader.getResource( 
               dependencies[i], m_hosts, m_cache, true );
         }
 
-        urls[ n ] = LoaderUtils.getResource( 
+        urls[ n ] = m_loader.getResource( 
             artifact, m_hosts, m_cache, true );
 
         //
@@ -196,6 +213,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
               (RepositoryCriteria) m_factory.createDefaultCriteria();
             criteria.setCacheDirectory( m_cache );
             criteria.setHosts( m_hosts );
+            criteria.setOnlineMode( online );
             m_repository = (Repository) m_factory.create( criteria );
         }
         catch( Throwable e )
@@ -233,14 +251,19 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     // InitialContext
     // ------------------------------------------------------------------------
 
-    public String getProperty( final String key )
-    {
-        return null;
-    }
-
     public Repository getRepository()
     {
         return m_repository;
+    }
+
+   /**
+    * Get the online mode of the repository.
+    *
+    * @return the online mode
+    */
+    public boolean getOnlineMode()
+    {
+        return m_online;
     }
 
     /**
@@ -331,7 +354,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
         {
             File temp = File.createTempFile( "avalon-", "-bar" );
             temp.delete();
-            LoaderUtils.getResource( url.toString(), temp, true );
+            m_loader.getResource( url.toString(), temp, true );
             temp.deleteOnExit();
             StringBuffer buffer = new StringBuffer();
             Manifest manifest = expand( temp.toURL(), buffer );

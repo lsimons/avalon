@@ -49,10 +49,17 @@ import org.apache.avalon.repository.RepositoryException;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class LoaderUtils
 {
+     private boolean m_online;
+
+     public LoaderUtils( boolean online )
+     {
+         m_online = online;
+     }
+
     /**
      * Attempts to download and cache a remote artifact trying a set of remote
      * repositories.  The operation is not fail fast and so it keeps trying if
@@ -65,14 +72,32 @@ public class LoaderUtils
      *      <code>destinationFile</code> against the remote <code>source</code>
      * @return URL a url referencing the local resource
      */
-    public static URL getResource( Artifact artifact, 
+    public URL getResource( Artifact artifact, 
         String [] repositories, File root, boolean timestamping ) 
         throws RepositoryException
     {
         Exception cause = null;
 
         File destination = new File( root, artifact.getPath() );
-        
+
+        if( !m_online )
+        {
+            if( destination.exists() )
+            {
+                return getURL( destination );
+            }
+            else
+            {
+                final String error = 
+                  "Artifact [" + artifact + "] does not exist in local cache (repository offline).";
+                throw new RepositoryException( error );
+            }
+        }
+
+        //
+        // continue with remote repository evaluation
+        //
+ 
         for ( int i = 0; i < repositories.length; i++ )
         {
             try
@@ -113,7 +138,7 @@ public class LoaderUtils
      *      <code>destinationFile</code> against the remote <code>source</code>
      * @return URL a url referencing the local resource
      */
-    public static URL getResource( Artifact artifact, String mime,
+    public URL getResource( Artifact artifact, String mime,
         String [] repositories, File root, boolean timestamping ) 
         throws RepositoryException
     {
@@ -133,6 +158,26 @@ public class LoaderUtils
 
         File destination = new File( root, artifact.getPath() + "." + mime );
         
+        if( !m_online )
+        {
+            if( destination.exists() )
+            {
+                return getURL( destination );
+            }
+            else
+            {
+                final String error = 
+                  "Artifact ["
+                  + artifact.getPath() + "." + mime 
+                  + "] does not exist in local cache (repository offline).";
+                throw new RepositoryException( error );
+            }
+        }
+
+        //
+        // evaluate remote repositories
+        //
+
         for ( int i = 0; i < repositories.length; i++ )
         {
             try
@@ -159,8 +204,6 @@ public class LoaderUtils
         }
         throw new RepositoryException( buffer.toString(), cause );
     }
-
-
     
     /**
      * Retrieve a remote file. 
@@ -171,7 +214,7 @@ public class LoaderUtils
      *      <code>destinationFile</code> against the remote <code>source</code>
      * @return URL a url referencing the local resource
      */
-    public static URL getResource( 
+    public URL getResource( 
       String url, File destination, boolean timestamping ) 
       throws Exception
     {
@@ -201,7 +244,7 @@ public class LoaderUtils
                     //
                     // set the remote tamestamp here because the pricision
                     // for a file last modification date is higher then the 
-                    // connection last mosification date
+                    // connection last modification date
                     //
 
                     remoteTimestamp = sourceFile.lastModified();
@@ -213,9 +256,25 @@ public class LoaderUtils
             }
         }
 
-        if( destination.exists() && !isSnapshot( destination ) )
+        if( !m_online )
         {
-            return getURL( destination );
+             if( destination.exists() )
+             {
+                 return getURL( destination );
+             }
+             else
+             {
+                 final String error =
+                   "Cannot retrieve url [" + url + "] while disconnected.";
+                 throw new RepositoryException( error );
+             }
+        }
+        else
+        {
+            if( destination.exists() && !isSnapshot( destination ) )
+            {
+                return getURL( destination );
+            }
         }
 
         //
@@ -337,6 +396,7 @@ public class LoaderUtils
 
         // An atomic operation and no risk of a corrupted
         // artifact content.
+
         tempFile.renameTo( destination );
         
         // if (and only if) the use file time option is set, then the
@@ -382,8 +442,10 @@ public class LoaderUtils
         }
     }
     
-    private static void copyStream( InputStream src, OutputStream dest, boolean closeStreams, String title  )
-        throws IOException
+    private static void copyStream( 
+      InputStream src, OutputStream dest, boolean closeStreams, 
+      String title  )
+      throws IOException
     {
         boolean progress = title != null;
         byte[] buffer = new byte[100 * 1024] ;
@@ -398,7 +460,8 @@ public class LoaderUtils
                 if( progress )
                     System.out.print( "." ) ;
             }
-        } finally
+        } 
+        finally
         {
             if( closeStreams )
             {

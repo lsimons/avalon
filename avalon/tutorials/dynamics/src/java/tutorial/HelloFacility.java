@@ -24,6 +24,7 @@ import org.apache.avalon.meta.info.ReferenceDescriptor;
 public class HelloFacility 
   implements Contextualizable, Executable
 {
+
    //---------------------------------------------------------
    // immutable state
    //---------------------------------------------------------

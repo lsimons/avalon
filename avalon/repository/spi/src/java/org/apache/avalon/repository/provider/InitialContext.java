@@ -30,7 +30,7 @@ import org.apache.avalon.repository.RepositoryException;
  * The initial context established by an initial repository factory.
  *
  * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
- * @version $Revision: 1.10 $ $Date: 2004/02/19 07:37:47 $
+ * @version $Revision: 1.11 $ $Date: 2004/02/23 01:29:05 $
  */
 public interface InitialContext 
 {        
@@ -39,6 +39,11 @@ public interface InitialContext
     * artifact spec.
     */
     String IMPLEMENTATION_KEY = "avalon.repository.implementation";
+
+   /**
+    * The property key used declare the online connection policy.
+    */
+    String ONLINE_KEY = "avalon.repository.online";
 
    /**
     * The property key used when resolving the default cache directory.
@@ -68,21 +73,12 @@ public interface InitialContext
     */
     String getApplicationKey();
 
-   /**
-    * <p>Get the value of a property. If the property value does not 
-    * exists a null value will be returned.  Property value resolution
-    * shall take into account the following ordered property sources
-    * (resolved relative to the application key):</p>
-    * <ul>
-    * <li>system properties</li>
-    * <li>working directory properties</li>
-    * <li>user properties</li>
-    * <li>application properties</li>
-    * </ul>
-    *
-    * @return the property value
-    */
-    String getProperty( String key );
+    /**
+     * Return the online mode.
+     * 
+     * @return the online mode
+     */
+    boolean getOnlineMode();
 
     /**
      * Return cache root directory.
