@@ -64,6 +64,26 @@
         <!-- Avalon Excalibur -->
         <copy file="${avalon-excalibur.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
         
+        <!-- Avalon Excalibur Concurrent -->
+        <copy file="${excalibur-concurrent.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Avalon Excalibur Collections -->
+        <copy file="${excalibur-collections.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Avalon Excalibur Component -->
+        <copy file="${excalibur-component.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Avalon Excalibur Logger -->
+        <copy file="${excalibur-logger.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Avalon Excalibur Pool -->
+        <copy file="${excalibur-pool.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        
         <!-- Avalon Excalibur Instrument -->
         <copy file="${excalibur-instrument.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
