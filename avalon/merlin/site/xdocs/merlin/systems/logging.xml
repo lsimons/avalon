@@ -29,7 +29,7 @@
     <section name="Avalon Logging Subsystem">
 
       <p>
-      The <a href="http://avalon.apache.org/loggging">logging platform</a> 
+      The <a href="http://avalon.apache.org/logging">logging platform</a> 
       provides support for a pluggable logging system implementation. 
       </p>
 
