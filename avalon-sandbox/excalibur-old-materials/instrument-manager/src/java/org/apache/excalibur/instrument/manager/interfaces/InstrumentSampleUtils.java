@@ -14,7 +14,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  *  These methods can be used on the server as well as the client.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/14 14:58:24 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/11/08 07:59:13 $
  * @since 4.1
  */
 public class InstrumentSampleUtils
@@ -87,8 +87,8 @@ public class InstrumentSampleUtils
                                                        long sampleInterval,
                                                        int sampleSize )
     {
-        return getInstrumentSampleTypeName( sampleType ) + "." + 
-            sampleInterval + "." + sampleSize;
+        return getInstrumentSampleTypeName( sampleType ) + "_" + 
+            sampleInterval + "_" + sampleSize;
     }
     
     /**

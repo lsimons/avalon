@@ -27,6 +27,8 @@ import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.instrument.ValueInstrument;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
 import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableException;
+import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentException;
+import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentSampleException;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
@@ -44,7 +46,7 @@ import org.apache.avalon.framework.service.ServiceException;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/09/06 02:10:12 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/11/08 07:59:13 $
  * @since 4.1
  */
 public class DefaultInstrumentManager
@@ -447,20 +449,6 @@ public class DefaultInstrumentManager
 
         return proxy.getDescriptor();
     }
-    
-    /**
-     * Returns the stateVersion of the instrument manager.  The state version
-     *  will be incremented each time any of the configuration of the
-     *  instrument manager or any of its children is modified.
-     * Clients can use this value to tell whether or not anything has
-     *  changed without having to do an exhaustive comparison.
-     *
-     * @return The state version of the instrument manager.
-     */
-    int getStateVersion()
-    {
-        return m_stateVersion;
-    }
 
     /**
      * Returns an array of Descriptors for the Instrumentables managed by this
@@ -477,6 +465,126 @@ public class DefaultInstrumentManager
             descriptors = updateInstrumentableDescriptorArray();
         }
         return descriptors;
+    }
+    
+    /**
+     * Searches the entire instrument tree an instrumentable with the given
+     *  name.
+     *
+     * @param instrumentableName Name of the Instrumentable being requested.
+     *
+     * @return A Descriptor of the requested Instrumentable.
+     *
+     * @throws NoSuchInstrumentableException If the specified Instrumentable does
+     *                                       not exist.
+     */
+    public InstrumentableDescriptorLocal locateInstrumentableDescriptor( String instrumentableName )
+        throws NoSuchInstrumentableException
+    {
+        InstrumentableProxy instrumentableProxy =
+            locateDeepestInstrumentableProxy( instrumentableName );
+        if ( instrumentableProxy != null )
+        {
+            if ( instrumentableProxy.getName().equals( instrumentableName ) )
+            {
+                // Found what we were looking for
+                return instrumentableProxy.getDescriptor();
+            }
+        }
+        
+        // Unable to locate the requested Instrumentable
+        throw new NoSuchInstrumentableException(
+            "No instrumentable can be found with the name: " + instrumentableName );
+    }
+    
+    /**
+     * Searches the entire instrument tree an instrument with the given name.
+     *
+     * @param instrumentName Name of the Instrument being requested.
+     *
+     * @return A Descriptor of the requested Instrument.
+     *
+     * @throws NoSuchInstrumentException If the specified Instrument does
+     *                                   not exist.
+     */
+    public InstrumentDescriptorLocal locateInstrumentDescriptor( String instrumentName )
+        throws NoSuchInstrumentException
+    {
+        InstrumentableProxy instrumentableProxy =
+            locateDeepestInstrumentableProxy( instrumentName );
+        if ( instrumentableProxy != null )
+        {
+            // Now look for the specified instrument
+            InstrumentProxy instrumentProxy =
+                instrumentableProxy.getInstrumentProxy( instrumentName );
+            if ( instrumentProxy != null )
+            {
+                if ( instrumentProxy.getName().equals( instrumentName ) )
+                {
+                    // Found what we were looking for
+                    return instrumentProxy.getDescriptor();
+                }
+            }
+        }
+        
+        // Unable to locate the requested Instrument
+        throw new NoSuchInstrumentException(
+            "No instrument can be found with the name: " + instrumentName );
+    }
+
+    /**
+     * Searches the entire instrument tree an instrument sample with the given
+     *  name.
+     *
+     * @param sampleName Name of the Instrument Sample being requested.
+     *
+     * @return A Descriptor of the requested Instrument Sample.
+     *
+     * @throws NoSuchInstrumentSampleException If the specified Instrument
+     *                                         Sample does not exist.
+     */
+    public InstrumentSampleDescriptorLocal locateInstrumentSampleDescriptor( String sampleName )
+        throws NoSuchInstrumentSampleException
+    {
+        InstrumentableProxy instrumentableProxy =
+            locateDeepestInstrumentableProxy( sampleName );
+        if ( instrumentableProxy != null )
+        {
+            // Now look for the specified instrument
+            InstrumentProxy instrumentProxy =
+                instrumentableProxy.getInstrumentProxy( sampleName );
+            if ( instrumentProxy != null )
+            {
+                // Now look for the specified sample
+                InstrumentSample sample = instrumentProxy.getInstrumentSample( sampleName );
+                if ( sample != null )
+                {
+                    if ( sample.getName().equals( sampleName ) )
+                    {
+                        // Found what we were looking for
+                        return sample.getDescriptor();
+                    }
+                }
+            }
+        }
+        
+        // Unable to locate the requested Instrument Sample
+        throw new NoSuchInstrumentException(
+            "No instrument sample can be found with the name: " + sampleName );
+    }
+    
+    /**
+     * Returns the stateVersion of the instrument manager.  The state version
+     *  will be incremented each time any of the configuration of the
+     *  instrument manager or any of its children is modified.
+     * Clients can use this value to tell whether or not anything has
+     *  changed without having to do an exhaustive comparison.
+     *
+     * @return The state version of the instrument manager.
+     */
+    int getStateVersion()
+    {
+        return m_stateVersion;
     }
     
     /**
@@ -849,6 +957,33 @@ public class DefaultInstrumentManager
                 return null;
             }
         }
+    }
+    
+    /**
+     * Given the name of an instrumentable proxy, locate the deepest child
+     *  instrumentable given the name.  The name can be the name of an
+     *  instrumentable or of any of its children.
+     *
+     * @param instrumentableName Fully qualified name of the instrumentable
+     *                           being requested, or of any of its children.
+     *
+     * @return The requested instrumentable, or null if not found.
+     */
+    private InstrumentableProxy locateDeepestInstrumentableProxy( String instrumentableName )
+    {
+        InstrumentableProxy deepestProxy = null;
+        // Start by obtaining a top level instrumentable
+        InstrumentableProxy proxy = getInstrumentableProxy( instrumentableName );
+        
+        // Now attempt to locate a child instrumentable
+        while ( proxy != null )
+        {
+            deepestProxy = proxy;
+            
+            proxy = deepestProxy.getChildInstrumentableProxy( instrumentableName );
+        }
+        
+        return deepestProxy;
     }
 
     /**
