@@ -84,6 +84,7 @@
         Specify version attribute with logs elements. See javadoc of
         org.apache.avalon.excalibur.logger package for detailed description.
         Below is example configuration.
+      </p>
         <source><![CDATA[
 <logger version="1.1">
 <factories>
@@ -108,7 +109,6 @@
 </targets>
 </logger>]]>
 </source>
-      </p>
     </section>
   </body>
 </document>
