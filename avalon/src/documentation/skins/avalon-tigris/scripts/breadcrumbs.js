@@ -94,7 +94,7 @@ var DISPLAY_PREPREND = "";
 /**
  * String to include at the end of the trail
  */
-var DISPLAY_POSTPREND = ":";
+var DISPLAY_POSTPREND = "";
 
 /**
  * CSS Class to use for a single crumb:
