@@ -16,6 +16,11 @@
   
 
   
+  
+
+  
+
+  
 
   
 
@@ -52,6 +57,8 @@
 
       
 
+  
+  
 
   
   
@@ -60,8 +67,16 @@
    
 
 
+    
+	
+	
 
-    <!DOCTYPE html PUBLIC "-//CollabNet//DTD XHTML 1.0 Transitional//EN" "http://www.collabnet.com/dtds/collabnet_transitional_10.dtd">
+    
+    
+      
+	
+	
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
     <html>
       <head>
@@ -75,19 +90,43 @@
         
         
         
-        
-        
         <style type="text/css">
           @import url("./style/tigris.css");
           @import url("./style/maven.css");
-          @import url("./style/osm.css");
         </style>
         
+        
+        
+        
+        
         <link rel="stylesheet" href="./style/print.css" type="text/css" media="print"></link>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></meta>
+        
+        
+        
+    <script type="text/javascript">
+      
+  	  function offsetDate(id, offset) {
+
+            var now = new Date() ;
+            var nowTime = now.getTime() ;
+            var localOffset = now.getTimezoneOffset() ;
+            var developerTime = nowTime + (offset * 60 * 60 * 1000) + (localOffset * 60 * 1000) ;
+            var developerDate = new Date(developerTime) ;
+
+            document.getElementById(id).innerHTML = developerDate;
+          }
+  	
+  	  function init() {
+	    	       	         	               	       	         	               	       	         	               	       	         	               	       	         	               	       	         	               	       	         	               	       	         	               	       	         	               	       	         	               	       	         	                     }
+    
+    </script>
+   
         
       </head>
 
-      <body marginwidth="0" class="composite" marginheight="0">
+      <body class="composite" onload="init();">
+
         <div id="banner">
           <table height="103" border="0" width="100%" cellpadding="8" cellspacing="0">
             <tr>
@@ -110,21 +149,12 @@
                 
               </td>
 
-              <td>
-                <div id="login" align="right">
-                  <a href="http://apachecon.com/2003/US/index.html">
-                    <img border="0" src="http://www.apache.org/~ceki/ac2003/ac2003-150.gif"></img>
-                  </a>
-                </div>
-              </td>
-
-
+              <td></td>
               
-              
+
             </tr>
           </table>
         </div>
-
         <div id="breadcrumbs">
           <table border="0" width="100%" cellpadding="4" cellspacing="0">
             <tr>
@@ -140,51 +170,31 @@
       
       
       
-      <a href="
-        http://apache.org/
-      ">
-        Apache
-      </a>
+      <a href="http://apache.org/">Apache</a>
       
     
       |
       
       
-      <a href="
-        http://avalon.apache.org/
-      ">
-        Avalon
-      </a>
+      <a href="http://avalon.apache.org/">Avalon</a>
       
     
       |
       
       
-      <a href="
-        http://avalon.apache.org/product/framework/
-      ">
-        Framework
-      </a>
+      <a href="http://avalon.apache.org/product/framework/">Framework</a>
       
     
       |
       
       
-      <a href="
-        http://avalon.apache.org/product/containers/
-      ">
-        Containers
-      </a>
+      <a href="http://avalon.apache.org/product/containers/">Merlin</a>
       
     
       |
       
       
-      <a href="
-        http://avalon.apache.org/product/components/
-      ">
-        Components
-      </a>
+      <a href="http://avalon.apache.org/product/components/">Planet</a>
       
     
   
@@ -195,11 +205,10 @@
             </tr>
           </table>
         </div>
-
         
         <table border="0" width="100%" cellpadding="8" cellspacing="0"> 
           <tr valign="top">
-            <td width="200" id="leftcol">
+            <td width="20%" id="leftcol">
               <div id="navcolumn">
                 
 
@@ -208,38 +217,134 @@
     <div>
       <strong>About Cornerstone</strong>
       
+    
+    
+    
+    
+
     <div>
-      
-      
-      <small><a href="index.html">Overview</a></small>
+      <small>
+      	
+      	
+      		<a href="index.html">Overview</a>
+      	
+      </small>
+	  
+        
       
     </div>
   
+    
+    
+    
+    
+
     <div>
-      
-      
-      <small><a href="components/index.html">Components</a></small>
+      <small>
+      	
+      	
+      		<a href="components/index.html">Components</a>
+      	
+      </small>
+	  
+        
       
     </div>
   
+    
+    
+    
+    
+
     <div>
-      
-      
-      <small><a href="examples/index.html">Examples</a></small>
+      <small>
+      	
+      	
+      		<a href="examples/index.html">Examples</a>
+      	
+      </small>
+	  
+        
       
     </div>
   
+    
+    
+    
+    
+
     <div>
+      <small>
+      	
+      	
+      		<a href="notes/index.html">Developer Info</a>
+      	
+      </small>
+	  
+        
       
+    </div>
+  
+    </div>
+  
+    <div>
+      <strong>Related Projects</strong>
       
-      <small><a href="notes/index.html">Developer Info</a></small>
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="http://avalon.apache.org/meta">Avalon Meta</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="http://avalon.apache.org/framework">Avalon Framework</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="http://avalon.apache.org/merlin">Avalon Merlin</a>
+      	
+      </small>
+	  
+        
       
     </div>
   
     </div>
   
                 
-
+                
                 
                 
 
@@ -302,38 +407,35 @@
                       <a href="./maven-reports.html">Project Reports</a>
                     </small>
                     
-                      
-                        
-                         
-                         
-                           
-                           
-                        
-                           
-                           
-                        
-                           
-                           
-                        
-                        
-                        
+					
+                    
+                    
                       
                       
                     
+                      
+                      
+                    
+                    
+                    
+                    
                   </div>
                   
+                    
                   
-                  <div>
-                    <small>
-                      <a href="./license.html">License</a>
-                    </small>
-                  </div>
+                  
                 </div>
+              
+              
+                
+                
+                
+                
               
                 
               </div>
             </td>
-            <td>
+            <td rowspan="2">
               <div id="bodycol">
                 
                 <div class="app">
@@ -358,15 +460,11 @@
     <p>
       
         The team is comprised of 
-    <a href="#Members">
-      Members
-    </a>
-   
+    <a href="#Members">Members</a>
+  
         and 
-    <a href="#Contributors">
-      Contributors
-    </a>
-   .  Members 
+    <a href="#Contributors">Contributors</a>
+  .  Members 
         have direct access to the source of a project and actively
         evolve the code-base.  Contributors improve the project
         through submission of patches and suggestions to the Members.
@@ -376,14 +474,12 @@
       
     </p>
    
-    </div>
-  
-    <div class="h3">
+    <div class="h4">
       
       
-        <h3>
+        <h4>
           <a name="Members">Members</a>
-        </h3>
+        </h4>
       
       
     <p>
@@ -396,15 +492,18 @@
     
     <table border="1" width="100%" cellspacing="2" cellpadding="3">
       
-    
+    <thead>
       
         
+    
       
+      
+        
       
     
 
     
-    <tr class="b">
+    <tr class="a">
     <th>
       Name
     </th>
@@ -434,33 +533,35 @@
     </th>
    </tr>
   
+        
+    </thead>
+   
+    <tbody>
+      
+                
     
       
-      
         
+      
       
     
 
     
-    <tr class="a">
+    <tr class="b">
     <td>
       Paul Hammant
     </td>
    
     <td>
       
-    <a name="hammant">
-      hammant
-    </a>
-   
+    <a name="hammant">hammant</a>
+  
     </td>
    
     <td>
       
-    <a href="mailto:hammant@apache.org">
-      hammant@apache.org
-    </a>
-   
+    <a href="mailto:hammant@apache.org">hammant@apache.org</a>
+  
     </td>
    
     <td>
@@ -485,33 +586,30 @@
     </td>
    </tr>
   
+                
     
       
-        
       
+        
       
     
 
     
-    <tr class="b">
+    <tr class="a">
     <td>
       Berin Loritsch
     </td>
    
     <td>
       
-    <a name="bloritsch">
-      bloritsch
-    </a>
-   
+    <a name="bloritsch">bloritsch</a>
+  
     </td>
    
     <td>
       
-    <a href="mailto:bloritsch@apache.org">
-      bloritsch@apache.org
-    </a>
-   
+    <a href="mailto:bloritsch@apache.org">bloritsch@apache.org</a>
+  
     </td>
    
     <td>
@@ -536,33 +634,30 @@
     </td>
    </tr>
   
+                
     
       
-      
         
+      
       
     
 
     
-    <tr class="a">
+    <tr class="b">
     <td>
       Stephen McConnell
     </td>
    
     <td>
       
-    <a name="mcconnell">
-      mcconnell
-    </a>
-   
+    <a name="mcconnell">mcconnell</a>
+  
     </td>
    
     <td>
       
-    <a href="mailto:mcconnell@apache.org">
-      mcconnell@apache.org
-    </a>
-   
+    <a href="mailto:mcconnell@apache.org">mcconnell@apache.org</a>
+  
     </td>
    
     <td>
@@ -587,33 +682,30 @@
     </td>
    </tr>
   
+                
     
       
-        
       
+        
       
     
 
     
-    <tr class="b">
+    <tr class="a">
     <td>
       Leo Simons
     </td>
    
     <td>
       
-    <a name="leosimons">
-      leosimons
-    </a>
-   
+    <a name="leosimons">leosimons</a>
+  
     </td>
    
     <td>
       
-    <a href="mailto:leosimons@apache.org">
-      leosimons@apache.org
-    </a>
-   
+    <a href="mailto:leosimons@apache.org">leosimons@apache.org</a>
+  
     </td>
    
     <td>
@@ -638,33 +730,30 @@
     </td>
    </tr>
   
+                
     
       
-      
         
+      
       
     
 
     
-    <tr class="a">
+    <tr class="b">
     <td>
       Jeff Turner
     </td>
    
     <td>
       
-    <a name="jefft">
-      jefft
-    </a>
-   
+    <a name="jefft">jefft</a>
+  
     </td>
    
     <td>
       
-    <a href="mailto:jefft@apache.org">
-      jefft@apache.org
-    </a>
-   
+    <a href="mailto:jefft@apache.org">jefft@apache.org</a>
+  
     </td>
    
     <td>
@@ -689,57 +778,7 @@
     </td>
    </tr>
   
-    
-      
-        
-      
-      
-    
-
-    
-    <tr class="b">
-    <td>
-      Costin Manolache
-    </td>
-   
-    <td>
-      
-    <a name="28">
-      28
-    </a>
-   
-    </td>
-   
-    <td>
-      
-    <a href="mailto:">
-      
-    </a>
-   
-    </td>
-   
-    <td>
-      
-    </td>
-   
-    <td>
-      
-                    
-    </td>
-   
-    <td>
-      
-    </td>
-   
-    <td>
-      
-    <span id="developer-28">
-      Unknown
-    </span>
-   
-    </td>
-   </tr>
-  
+                
     
       
       
@@ -750,23 +789,19 @@
     
     <tr class="a">
     <td>
-      Craig McClanahan
+      Costin Manolache
     </td>
    
     <td>
       
-    <a name="29">
-      29
-    </a>
-   
+    <a name="15">15</a>
+  
     </td>
    
     <td>
       
-    <a href="mailto:">
-      
-    </a>
-   
+    <a href="mailto:"></a>
+  
     </td>
    
     <td>
@@ -784,13 +819,14 @@
    
     <td>
       
-    <span id="developer-29">
+    <span id="developer-15">
       Unknown
     </span>
    
     </td>
    </tr>
   
+                
     
       
         
@@ -801,23 +837,67 @@
     
     <tr class="b">
     <td>
+      Craig McClanahan
+    </td>
+   
+    <td>
+      
+    <a name="16">16</a>
+  
+    </td>
+   
+    <td>
+      
+    <a href="mailto:"></a>
+  
+    </td>
+   
+    <td>
+      
+    </td>
+   
+    <td>
+      
+                    
+    </td>
+   
+    <td>
+      
+    </td>
+   
+    <td>
+      
+    <span id="developer-16">
+      Unknown
+    </span>
+   
+    </td>
+   </tr>
+  
+                
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
+    <td>
       Eung-ju Park
     </td>
    
     <td>
       
-    <a name="colus">
-      colus
-    </a>
-   
+    <a name="colus">colus</a>
+  
     </td>
    
     <td>
       
-    <a href="mailto:colus@apache.org">
-      colus@apache.org
-    </a>
-   
+    <a href="mailto:colus@apache.org">colus@apache.org</a>
+  
     </td>
    
     <td>
@@ -842,57 +922,7 @@
     </td>
    </tr>
   
-    
-      
-      
-        
-      
-    
-
-    
-    <tr class="a">
-    <td>
-      Federico Barbieri
-    </td>
-   
-    <td>
-      
-    <a name="fede">
-      fede
-    </a>
-   
-    </td>
-   
-    <td>
-      
-    <a href="mailto:fede@apache.org">
-      fede@apache.org
-    </a>
-   
-    </td>
-   
-    <td>
-      
-    </td>
-   
-    <td>
-      
-                    
-    </td>
-   
-    <td>
-      
-    </td>
-   
-    <td>
-      
-    <span id="developer-fede">
-      Unknown
-    </span>
-   
-    </td>
-   </tr>
-  
+                
     
       
         
@@ -908,18 +938,14 @@
    
     <td>
       
-    <a name="fede">
-      fede
-    </a>
-   
+    <a name="fede">fede</a>
+  
     </td>
    
     <td>
       
-    <a href="mailto:fede@apache.org">
-      fede@apache.org
-    </a>
-   
+    <a href="mailto:fede@apache.org">fede@apache.org</a>
+  
     </td>
    
     <td>
@@ -944,6 +970,7 @@
     </td>
    </tr>
   
+                
     
       
       
@@ -954,23 +981,67 @@
     
     <tr class="a">
     <td>
+      Federico Barbieri
+    </td>
+   
+    <td>
+      
+    <a name="fede">fede</a>
+  
+    </td>
+   
+    <td>
+      
+    <a href="mailto:fede@apache.org">fede@apache.org</a>
+  
+    </td>
+   
+    <td>
+      
+    </td>
+   
+    <td>
+      
+                    
+    </td>
+   
+    <td>
+      
+    </td>
+   
+    <td>
+      
+    <span id="developer-fede">
+      Unknown
+    </span>
+   
+    </td>
+   </tr>
+  
+                
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <td>
       Stefano Mazzocchi
     </td>
    
     <td>
       
-    <a name="stefano">
-      stefano
-    </a>
-   
+    <a name="stefano">stefano</a>
+  
     </td>
    
     <td>
       
-    <a href="mailto:stefano@apache.org">
-      stefano@apache.org
-    </a>
-   
+    <a href="mailto:stefano@apache.org">stefano@apache.org</a>
+  
     </td>
    
     <td>
@@ -995,16 +1066,19 @@
     </td>
    </tr>
   
+                
+    </tbody>
+   
     </table>
   
     </div>
   
-    <div class="h3">
+    <div class="h4">
       
       
-        <h3>
+        <h4>
           <a name="Contributors">Contributors</a>
-        </h3>
+        </h4>
       
       
     <p>
@@ -1017,15 +1091,18 @@
     
     <table border="1" width="100%" cellspacing="2" cellpadding="3">
       
-    
+    <thead>
       
         
+    
       
+      
+        
       
     
 
     
-    <tr class="b">
+    <tr class="a">
     <th>
       Name
     </th>
@@ -1043,25 +1120,29 @@
     </th>
    </tr>
   
+        
+    </thead>
+   
+    <tbody>
+      
+                
     
       
-      
         
+      
       
     
 
     
-    <tr class="a">
+    <tr class="b">
     <td>
       Andrei Ivanov
     </td>
    
     <td>
       
-    <a href="mailto:myfam@surfeu.fi">
-      myfam@surfeu.fi
-    </a>
-   
+    <a href="mailto:myfam@surfeu.fi">myfam@surfeu.fi</a>
+  
     </td>
    
     <td>
@@ -1074,25 +1155,24 @@
     </td>
    </tr>
   
+                
     
       
-        
       
+        
       
     
 
     
-    <tr class="b">
+    <tr class="a">
     <td>
       Chad Stansbury
     </td>
    
     <td>
       
-    <a href="mailto:stansburyc@earthlink.net">
-      stansburyc@earthlink.net
-    </a>
-   
+    <a href="mailto:stansburyc@earthlink.net">stansburyc@earthlink.net</a>
+  
     </td>
    
     <td>
@@ -1105,25 +1185,24 @@
     </td>
    </tr>
   
+                
     
       
-      
         
+      
       
     
 
     
-    <tr class="a">
+    <tr class="b">
     <td>
       Charles Benett
     </td>
    
     <td>
       
-    <a href="mailto:charles@benett1.demon.co.uk">
-      charles@benett1.demon.co.uk
-    </a>
-   
+    <a href="mailto:charles@benett1.demon.co.uk">charles@benett1.demon.co.uk</a>
+  
     </td>
    
     <td>
@@ -1136,25 +1215,24 @@
     </td>
    </tr>
   
+                
     
       
-        
       
+        
       
     
 
     
-    <tr class="b">
+    <tr class="a">
     <td>
       Peter Donald
     </td>
    
     <td>
       
-    <a href="mailto:donaldp@apache.org">
-      donaldp@apache.org
-    </a>
-   
+    <a href="mailto:donaldp@apache.org">donaldp@apache.org</a>
+  
     </td>
    
     <td>
@@ -1167,37 +1245,7 @@
     </td>
    </tr>
   
-    
-      
-      
-        
-      
-    
-
-    
-    <tr class="a">
-    <td>
-      Mauro Talevi
-    </td>
-   
-    <td>
-      
-    <a href="mailto:mauro.talevi@aquilonia.org">
-      mauro.talevi@aquilonia.org
-    </a>
-   
-    </td>
-   
-    <td>
-      
-    </td>
-   
-    <td>
-      
-                    
-    </td>
-   </tr>
-  
+                
     
       
         
@@ -1207,16 +1255,44 @@
 
     
     <tr class="b">
+    <td>
+      Mauro Talevi
+    </td>
+   
+    <td>
+      
+    <a href="mailto:mauro.talevi@aquilonia.org">mauro.talevi@aquilonia.org</a>
+  
+    </td>
+   
+    <td>
+      
+    </td>
+   
+    <td>
+      
+                    
+    </td>
+   </tr>
+  
+                
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
     <td>
       Greg Steuck
     </td>
    
     <td>
       
-    <a href="mailto:">
-      
-    </a>
-   
+    <a href="mailto:"></a>
+  
     </td>
    
     <td>
@@ -1229,25 +1305,24 @@
     </td>
    </tr>
   
+                
     
       
-      
         
+      
       
     
 
     
-    <tr class="a">
+    <tr class="b">
     <td>
       Harish Prabandham
     </td>
    
     <td>
       
-    <a href="mailto:">
-      
-    </a>
-   
+    <a href="mailto:"></a>
+  
     </td>
    
     <td>
@@ -1260,25 +1335,24 @@
     </td>
    </tr>
   
+                
     
       
-        
       
+        
       
     
 
     
-    <tr class="b">
+    <tr class="a">
     <td>
       Kurt R. Hoehn
     </td>
    
     <td>
       
-    <a href="mailto:khoehn@smartstream.net">
-      khoehn@smartstream.net
-    </a>
-   
+    <a href="mailto:khoehn@smartstream.net">khoehn@smartstream.net</a>
+  
     </td>
    
     <td>
@@ -1291,37 +1365,7 @@
     </td>
    </tr>
   
-    
-      
-      
-        
-      
-    
-
-    
-    <tr class="a">
-    <td>
-      Ram Chidambaram
-    </td>
-   
-    <td>
-      
-    <a href="mailto:ram.chidambaram@telus.com">
-      ram.chidambaram@telus.com
-    </a>
-   
-    </td>
-   
-    <td>
-      
-    </td>
-   
-    <td>
-      
-                    
-    </td>
-   </tr>
-  
+                
     
       
         
@@ -1332,15 +1376,13 @@
     
     <tr class="b">
     <td>
-      Mauro Talevi
+      Ram Chidambaram
     </td>
    
     <td>
       
-    <a href="mailto:">
-      
-    </a>
-   
+    <a href="mailto:ram.chidambaram@telus.com">ram.chidambaram@telus.com</a>
+  
     </td>
    
     <td>
@@ -1353,6 +1395,7 @@
     </td>
    </tr>
   
+                
     
       
       
@@ -1363,15 +1406,13 @@
     
     <tr class="a">
     <td>
-      Serge Knystautas
+      Mauro Talevi
     </td>
    
     <td>
       
-    <a href="mailto:sergek@lokitech.com">
-      sergek@lokitech.com
-    </a>
-   
+    <a href="mailto:"></a>
+  
     </td>
    
     <td>
@@ -1384,7 +1425,42 @@
     </td>
    </tr>
   
+                
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <td>
+      Serge Knystautas
+    </td>
+   
+    <td>
+      
+    <a href="mailto:sergek@lokitech.com">sergek@lokitech.com</a>
+  
+    </td>
+   
+    <td>
+      
+    </td>
+   
+    <td>
+      
+                    
+    </td>
+   </tr>
+  
+                
+    </tbody>
+   
     </table>
+  
+    </div>
   
     </div>
   
@@ -1399,14 +1475,15 @@
           </tr>
         </table>
         <div id="footer">
-          <table border="0" cellpadding="4" cellspacing="0">
+          <table border="0" style="width:100%" cellpadding="4" cellspacing="0">
+            
             <tr>
               <td>
                 
                   
                     
                     
-                       2001-2003, Apache Software Foundation
+                      © 1997-2004, Apache Software Foundation
                     
                   
                   
