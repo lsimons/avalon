@@ -15,7 +15,7 @@ import org.apache.avalon.excalibur.instrument.manager.client.InstrumentManagerCl
 
 import org.apache.commons.altrmi.client.AltrmiHostContext;
 import org.apache.commons.altrmi.client.AltrmiFactory;
-import org.apache.commons.altrmi.client.impl.socket.SocketObjectStreamHostContext;
+import org.apache.commons.altrmi.client.impl.socket.SocketCustomStreamHostContext;
 import org.apache.commons.altrmi.client.impl.ClientClassAltrmiFactory;
 import org.apache.commons.altrmi.common.AltrmiConnectionException;
 import org.apache.commons.altrmi.common.AltrmiInvocationException;
@@ -23,7 +23,7 @@ import org.apache.commons.altrmi.common.AltrmiInvocationException;
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/03/26 11:32:24 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/03/27 16:02:19 $
  * @since 4.1
  */
 class InstrumentManagerConnection
@@ -91,7 +91,7 @@ class InstrumentManagerConnection
     {
         synchronized (this)
         {
-            m_altrmiHostContext = new SocketObjectStreamHostContext( m_host, m_port );
+            m_altrmiHostContext = new SocketCustomStreamHostContext( m_host, m_port );
             m_altrmiFactory = new ClientClassAltrmiFactory( false );
             m_altrmiFactory.setHostContext( m_altrmiHostContext );
             
