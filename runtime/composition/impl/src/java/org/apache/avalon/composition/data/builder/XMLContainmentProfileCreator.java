@@ -264,18 +264,49 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
         return (Artifact[]) list.toArray( new Artifact[0] );
     }
 
+   /**
+    * Convert a configuration fragement with an 'artifact' or 'id' 
+    * attribute to an Artifact instance.
+    */
     private Artifact createResourceDirective( Configuration config )
        throws ConfigurationException
     {
-        String id = config.getAttribute( "id" );
-        String version = config.getAttribute( "version", null );
-        if( version == null )
+        String spec = config.getAttribute( "artifact", null );
+        if( null != spec )
         {
-            return Artifact.createArtifact( id );
+            //
+            // we are dealing with the new artifact protocol
+            // within which the # identifies the version
+            //
+ 
+            return Artifact.createArtifact( spec );
         }
         else
         {
-            return Artifact.createArtifact( id + ";" + version );
+            String id = config.getAttribute( "id", null );
+            if( null == id )
+            {
+                final String error = 
+                  "Missing 'artifact' or 'id' attribute.";
+                throw new ConfigurationException( error );
+            }
+            else
+            {
+                //
+                // check for the depricated version attribute and use
+                // the depricated technical of [group]:[name];[version]
+                //
+
+                String version = config.getAttribute( "version", null );
+                if( version == null )
+                {
+                    return Artifact.createArtifact( id );
+                }
+                else
+                {
+                    return Artifact.createArtifact( id + ";" + version );
+                }
+            }
         }
     }
 
