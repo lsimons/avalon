@@ -40,13 +40,12 @@ the LICENSE.txt file.
 
   <path id="test.class.path">
     <path refid="project.class.path"/>
-    <pathelement location="${build.dir}/lib/${demo.jar}"/>
+    <pathelement location="${build.dir}/lib/${jar.name}"/>
     <pathelement location="${build.testclasses}"/>
   </path>
 
   <path id="runtime.class.path">
     <pathelement location="${build.dir}/lib/${jar.name}"/>
-    <pathelement location="${build.dir}/lib/${demo.jar}"/>
     <pathelement location="${build.testclasses}"/>
   </path>
 
