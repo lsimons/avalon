@@ -19,25 +19,14 @@ package org.apache.avalon.repository.util;
 
 
 import java.io.File ;
-import java.io.FileInputStream ;
 import java.io.FileOutputStream ;
 import java.io.InputStream ;
 import java.io.IOException ;
 import java.io.OutputStream ;
 
-import java.util.ArrayList ;
-import java.text.ParseException ;
-import java.util.Properties ;
-
 import java.net.HttpURLConnection ;
-import java.net.MalformedURLException ;
 import java.net.URL ;
-import java.net.URLClassLoader ;
 import java.net.URLConnection ;
-
-import javax.naming.NamingEnumeration ;
-import javax.naming.NamingException ;
-import javax.naming.directory.Attributes ;
 
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.RepositoryException;
@@ -48,7 +37,7 @@ import org.apache.avalon.repository.RepositoryException;
  * artifact references.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class LoaderUtils
 {

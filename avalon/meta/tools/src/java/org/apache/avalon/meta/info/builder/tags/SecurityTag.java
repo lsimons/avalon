@@ -17,14 +17,11 @@
 
 package org.apache.avalon.meta.info.builder.tags;
 
-import java.util.Properties;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import org.apache.avalon.framework.Version;
 import org.apache.avalon.meta.info.SecurityDescriptor;
 import org.apache.avalon.meta.info.PermissionDescriptor;
-import org.apache.avalon.meta.info.Service;
 
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
@@ -34,7 +31,7 @@ import com.thoughtworks.qdox.model.JavaMethod;
  * A doclet tag the declares a service definition.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/26 00:02:18 $
+ * @version $Revision: 1.3 $ $Date: 2004/03/17 10:50:03 $
  */
 public class SecurityTag extends AbstractTag
 {

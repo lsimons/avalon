@@ -17,8 +17,6 @@
 
 package org.apache.avalon.repository.meta;
 
-import java.io.Serializable;
-import java.util.NoSuchElementException;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.Attribute;
 import javax.naming.NamingException;
@@ -32,7 +30,7 @@ import org.apache.avalon.repository.RepositoryRuntimeException;
  * artifacts.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class FactoryDescriptor extends ArtifactDescriptor
 {

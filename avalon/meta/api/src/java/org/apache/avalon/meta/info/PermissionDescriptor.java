@@ -18,8 +18,6 @@
 package org.apache.avalon.meta.info;
 
 import java.io.Serializable;
-import java.util.StringTokenizer;
-import java.util.ArrayList;
 
 /**
  * A descriptor that describes a value that must be placed
@@ -31,7 +29,7 @@ import java.util.ArrayList;
  * </ul>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/03/12 08:01:59 $
+ * @version $Revision: 1.5 $ $Date: 2004/03/17 10:50:03 $
  */
 public final class PermissionDescriptor
         implements Serializable

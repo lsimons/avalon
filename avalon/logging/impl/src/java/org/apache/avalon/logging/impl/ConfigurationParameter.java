@@ -19,10 +19,6 @@ package org.apache.avalon.logging.impl;
 
 import java.io.File;
 import java.net.URL;
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-
 import org.apache.avalon.util.criteria.Parameter;
 import org.apache.avalon.util.criteria.CriteriaException;
 
@@ -34,7 +30,7 @@ import org.apache.avalon.util.i18n.Resources;
  * a string url to an URL instance.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ConfigurationParameter extends Parameter
 {

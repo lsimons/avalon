@@ -21,49 +21,29 @@ package org.apache.avalon.repository.main;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.lang.reflect.Constructor;
-import java.lang.NoSuchMethodException;
 import java.net.Authenticator;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLClassLoader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.JarURLConnection;
-import java.text.ParseException;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Enumeration;
-import java.util.Map;
 import java.util.Properties;
-import java.util.StringTokenizer;
 import java.util.jar.Manifest;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
-import javax.naming.NamingException;
-import javax.naming.NamingEnumeration;
 import javax.naming.directory.Attributes;
 
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.Repository;
 import org.apache.avalon.repository.RepositoryException;
-import org.apache.avalon.repository.RepositoryRuntimeException;
 import org.apache.avalon.repository.meta.FactoryDescriptor;
 import org.apache.avalon.repository.provider.Factory;
-import org.apache.avalon.repository.provider.FactoryNotFoundException;
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.RepositoryCriteria;
 import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.util.LoaderUtils;
 import org.apache.avalon.repository.util.RepositoryUtils;
-
-import org.apache.avalon.util.env.Env;
-import org.apache.avalon.util.env.EnvAccessException;
-import org.apache.avalon.util.exception.ExceptionHelper;
 
 
 /**
@@ -72,7 +52,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * methods using the newly configured ClassLoader.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.26 $
+ * @version $Revision: 1.27 $
  */
 public class DefaultInitialContext extends AbstractBuilder implements InitialContext
 {

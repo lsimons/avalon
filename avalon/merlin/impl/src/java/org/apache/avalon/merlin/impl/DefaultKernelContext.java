@@ -17,9 +17,6 @@
 
 package org.apache.avalon.merlin.impl;
 
-import java.net.URL;
-import java.io.File;
-
 import org.apache.avalon.framework.logger.Logger;
 
 import org.apache.avalon.composition.model.ContainmentModel;
@@ -29,7 +26,7 @@ import org.apache.avalon.merlin.KernelContext;
 /**
  * The context argument supplied to a new kernel instance.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/24 22:18:22 $
+ * @version $Revision: 1.6 $ $Date: 2004/03/17 10:50:04 $
  */
 public class DefaultKernelContext implements KernelContext
 {

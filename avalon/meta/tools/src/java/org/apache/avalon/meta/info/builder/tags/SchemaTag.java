@@ -22,15 +22,11 @@ import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaMethod;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * A doclet tag handler supporting 'logger' tags.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/03/11 13:51:42 $
+ * @version $Revision: 1.5 $ $Date: 2004/03/17 10:50:03 $
  */
 public class SchemaTag extends AbstractTag
 {

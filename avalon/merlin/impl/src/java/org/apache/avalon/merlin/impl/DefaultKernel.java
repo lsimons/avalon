@@ -17,7 +17,6 @@
 
 package org.apache.avalon.merlin.impl;
 
-import java.net.URL;
 import java.util.LinkedList;
 import java.util.Iterator;
 
@@ -25,29 +24,20 @@ import org.apache.avalon.merlin.Kernel;
 import org.apache.avalon.merlin.KernelContext;
 import org.apache.avalon.merlin.KernelError;
 import org.apache.avalon.merlin.KernelException;
-import org.apache.avalon.merlin.KernelRuntimeException;
 import org.apache.avalon.merlin.event.KernelEventListener;
 import org.apache.avalon.merlin.event.KernelStateEvent;
 
-import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.ComponentModel;
-import org.apache.avalon.composition.provider.SystemContext;
-import org.apache.avalon.composition.util.StringHelper;
-
-import org.apache.avalon.logging.provider.LoggingManager;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.Logger;
-
-import org.apache.avalon.util.exception.ExceptionHelper;
 
 /**
  * Implementation of the default Merlin Kernel.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.11 $ $Date: 2004/02/10 16:31:16 $
+ * @version $Revision: 1.12 $ $Date: 2004/03/17 10:50:04 $
  */
 public class DefaultKernel implements Kernel, Disposable
 {

@@ -24,14 +24,9 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException ;
-import java.lang.reflect.Method ;
-
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 
 import org.apache.avalon.logging.impl.ConsoleLogger;
@@ -51,7 +46,6 @@ import org.apache.avalon.logging.logkit.factory.MulticastTargetFactory;
 import org.apache.avalon.logging.logkit.factory.PluginTargetFactory;
 
 import org.apache.avalon.repository.provider.InitialContext;
-import org.apache.avalon.repository.provider.Factory;
 
 import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;
@@ -59,8 +53,6 @@ import org.apache.avalon.util.i18n.Resources;
 import org.apache.excalibur.configuration.ConfigurationUtil;
 
 import org.apache.log.LogTarget;
-import org.apache.log.output.io.StreamTarget;
-import org.apache.log.format.Formatter;
 
 /**
  * The DefaultLoggingFactory provides support for the establishment of a 

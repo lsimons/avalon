@@ -18,14 +18,7 @@
 package org.apache.avalon.merlin.tools;
 
 import java.io.File;
-import java.io.InputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Map;
-import java.util.Properties;
-import java.util.Enumeration;
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
 import java.util.StringTokenizer;
 import java.util.ArrayList;
 
@@ -34,7 +27,6 @@ import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.InitialContextFactory;
 import org.apache.avalon.repository.provider.Factory;
-import org.apache.avalon.repository.RepositoryException;
 import org.apache.avalon.repository.main.DefaultInitialContextFactory;
 import org.apache.avalon.repository.main.DefaultBuilder;
 
@@ -46,7 +38,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * Merlin default application factory.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.16 $
+ * @version $Revision: 1.17 $
  */
 public class MerlinBean
 {

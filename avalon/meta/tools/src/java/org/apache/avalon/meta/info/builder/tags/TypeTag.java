@@ -28,7 +28,6 @@ import org.apache.avalon.meta.info.CategoryDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 import org.apache.avalon.meta.info.SecurityDescriptor;
-import org.apache.avalon.meta.info.PermissionDescriptor;
 import org.apache.avalon.meta.info.Type;
 
 import com.thoughtworks.qdox.model.DocletTag;
@@ -59,7 +58,7 @@ import com.thoughtworks.qdox.model.JavaClass;
  * </table>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/24 22:32:46 $
+ * @version $Revision: 1.7 $ $Date: 2004/03/17 10:50:03 $
  */
 public class TypeTag extends AbstractTag
 {

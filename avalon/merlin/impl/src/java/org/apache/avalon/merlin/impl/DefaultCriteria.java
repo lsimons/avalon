@@ -19,14 +19,11 @@ package org.apache.avalon.merlin.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
-import java.util.Hashtable;
 import java.util.Properties;
 import java.util.ArrayList;
-import java.util.Map;
 
 import org.apache.avalon.merlin.KernelCriteria;
 import org.apache.avalon.merlin.KernelRuntimeException;
@@ -37,14 +34,9 @@ import org.apache.avalon.repository.BlockHandler;
 import org.apache.avalon.repository.provider.InitialContext;
 
 import org.apache.avalon.util.defaults.Defaults;
-import org.apache.avalon.util.defaults.DefaultsFinder;
 import org.apache.avalon.util.defaults.DefaultsBuilder;
-import org.apache.avalon.util.defaults.SimpleDefaultsFinder;
-import org.apache.avalon.util.defaults.SystemDefaultsFinder;
 import org.apache.avalon.util.env.Env;
-import org.apache.avalon.util.env.EnvAccessException;
 import org.apache.avalon.util.exception.ExceptionHelper;
-import org.apache.avalon.util.criteria.CriteriaException;
 import org.apache.avalon.util.criteria.Criteria;
 import org.apache.avalon.util.criteria.Parameter;
 import org.apache.avalon.util.criteria.PackedParameter;
@@ -55,7 +47,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.29 $
+ * @version $Revision: 1.30 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {

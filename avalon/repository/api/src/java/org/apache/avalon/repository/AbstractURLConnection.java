@@ -20,7 +20,6 @@ package org.apache.avalon.repository ;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLStreamHandler;
 import java.net.MalformedURLException;
 import java.util.StringTokenizer;
 

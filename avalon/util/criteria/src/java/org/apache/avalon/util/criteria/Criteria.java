@@ -17,22 +17,14 @@
 
 package org.apache.avalon.util.criteria;
 
-import java.io.IOException;
-import java.io.File;
-import java.io.InputStream;
-import java.util.Properties;
 import java.util.HashMap;
-import java.util.Map;
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.lang.reflect.Constructor;
 
 /**
  * A abstract utility class that can be used to simplify the 
  * creation of domain specific criteria.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class Criteria extends HashMap
 {

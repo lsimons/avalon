@@ -17,8 +17,6 @@
 
 package org.apache.avalon.util.criteria;
 
-import java.lang.reflect.Constructor;
-
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -27,7 +25,7 @@ import java.util.StringTokenizer;
  * a string to a string array based on a supplied token.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class PackedParameter extends Parameter
 {

@@ -19,7 +19,6 @@ package org.apache.avalon.repository.provider;
 
 
 import java.io.File;
-import java.io.IOException;
 
 import org.apache.avalon.repository.Artifact;
 
@@ -29,7 +28,7 @@ import org.apache.avalon.repository.Artifact;
  * new initial context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public interface InitialContextFactory
 {

@@ -21,21 +21,11 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URL;
-import java.text.ParseException;
-import java.util.Map;
 import java.util.Properties;
-import java.util.StringTokenizer;
-import java.util.ArrayList;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
 
 import javax.naming.directory.Attributes;
 
 import org.apache.avalon.repository.Artifact;
-import org.apache.avalon.repository.ArtifactHandler;
 import org.apache.avalon.repository.Repository;
 import org.apache.avalon.repository.RepositoryException;
 import org.apache.avalon.repository.RepositoryRuntimeException;
@@ -43,8 +33,6 @@ import org.apache.avalon.repository.meta.FactoryDescriptor;
 import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.Factory;
-import org.apache.avalon.util.env.Env;
-import org.apache.avalon.util.exception.ExceptionHelper;
 
 
 /**
@@ -52,7 +40,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * Classes and their methods within newly constructed Repository ClassLoaders.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.15 $
+ * @version $Revision: 1.16 $
  */
 public class DefaultBuilder extends AbstractBuilder implements Builder
 {
