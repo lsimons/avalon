@@ -54,10 +54,21 @@ public class Parameters
      * Return an <code>Enumeration</code> view of all parameter names.
      *
      * @return a iterator of parameter names
+     * @deprecated Use getNames() instead
      */
     public Iterator getParameterNames()
     {
         return m_parameters.keySet().iterator();
+    }
+
+    /**
+     * Retrieve an array of all parameter names.
+     *
+     * @return the parameters names
+     */
+    public String[] getNames()
+    {
+        return (String[])m_parameters.keySet().toArray( new String[ 0 ] );
     }
 
     /**
@@ -80,18 +91,20 @@ public class Parameters
      * @return the value of parameter
      * @throws ParameterException
      */
-    public String getParameter( final String name ) throws ParameterException
+    public String getParameter( final String name ) 
+        throws ParameterException
     {
         if( null == name )
         {
-            throw new ParameterException("You cannot lookup a null parameter");
+            throw new ParameterException( "You cannot lookup a null parameter" );
         }
 
-        String test = (String)m_parameters.get( name );
+        final String test = (String)m_parameters.get( name );
 
-        if (null == test)
+        if( null == test )
         {
-            throw new ParameterException("The parameter '" + name + "' does not contain a value");
+            throw new ParameterException( "The parameter '" + name + 
+                                          "' does not contain a value" );
         }
 
         return test;
@@ -113,7 +126,7 @@ public class Parameters
         {
             return getParameter( name );
         }
-        catch (ParameterException pe)
+        catch( final ParameterException pe )
         {
             return defaultValue;
         }
@@ -132,21 +145,21 @@ public class Parameters
      * @throws ParameterException
      */
     public int getParameterAsInteger( final String name )
-    throws ParameterException
+        throws ParameterException
     {
         try
         {
             final String value = getParameter( name );
 
-            if( value.startsWith("0x") )
+            if( value.startsWith( "0x" ) )
             {
                 return Integer.parseInt( value.substring(2), 16 );
             }
-            else if( value.startsWith("0o") )
+            else if( value.startsWith( "0o" ) )
             {
                 return Integer.parseInt( value.substring(2), 8 );
             }
-            else if( value.startsWith("0b") )
+            else if( value.startsWith( "0b" ) )
             {
                 return Integer.parseInt( value.substring(2), 2 );
             }
@@ -155,9 +168,9 @@ public class Parameters
                 return Integer.parseInt( value );
             }
         }
-        catch (Exception e)
+        catch( final Exception e )
         {
-            throw new ParameterException("Could not return an integer value", e);
+            throw new ParameterException( "Could not return an integer value", e );
         }
     }
    /**
@@ -177,9 +190,9 @@ public class Parameters
     {
         try
         {
-            return this.getParameterAsInteger(name);
+            return getParameterAsInteger( name );
         }
-        catch (Exception e)
+        catch( final ParameterException pe )
         {
             return defaultValue;
         }
@@ -198,21 +211,21 @@ public class Parameters
      * @throws ParameterException
      */
     public long getParameterAsLong( final String name )
-    throws ParameterException
+        throws ParameterException
     {
         try
         {
             final String value = getParameter( name );
 
-            if( value.startsWith("0x") )
+            if( value.startsWith( "0x" ) )
             {
                 return Long.parseLong( value.substring(2), 16 );
             }
-            else if( value.startsWith("0o") )
+            else if( value.startsWith( "0o" ) )
             {
                 return Long.parseLong( value.substring(2), 8 );
             }
-            else if( value.startsWith("0b") )
+            else if( value.startsWith( "0b" ) )
             {
                 return Long.parseLong( value.substring(2), 2 );
             }
@@ -221,9 +234,9 @@ public class Parameters
                 return Long.parseLong( value );
             }
         }
-        catch (Exception e)
+        catch( final Exception e )
         {
-            throw new ParameterException("Could not return a long value", e);
+            throw new ParameterException( "Could not return a long value", e );
         }
     }
 
@@ -244,9 +257,9 @@ public class Parameters
     {
         try
         {
-            return this.getParameterAsLong(name);
+            return getParameterAsLong( name );
         }
-        catch (Exception e)
+        catch( final ParameterException pe )
         {
             return defaultValue;
         }
@@ -262,15 +275,15 @@ public class Parameters
      * @throws ParameterException
      */
     public float getParameterAsFloat( final String name )
-    throws ParameterException
+        throws ParameterException
     {
         try
         {
             return Float.parseFloat( getParameter( name ) );
         }
-        catch (Exception e)
+        catch( final Exception e )
         {
-            throw new ParameterException("Could not return a float value", e);
+            throw new ParameterException( "Could not return a float value", e );
         }
     }
 
@@ -288,9 +301,9 @@ public class Parameters
     {
         try
         {
-            return this.getParameterAsFloat(name);
+            return getParameterAsFloat( name );
         }
-        catch (Exception e)
+        catch( final ParameterException pe )
         {
             return defaultValue;
         }
@@ -306,27 +319,21 @@ public class Parameters
      * @throws ParemterException
      */
     public boolean getParameterAsBoolean( final String name )
-    throws ParameterException
+        throws ParameterException
     {
-        try
+        final String value = getParameter( name );
+
+        if( value.equalsIgnoreCase( "true" ) )
         {
-            final String value = getParameter( name );
-
-            if( value.equalsIgnoreCase( "true" ) )
-            {
-                return true;
-            }
-
-            if( value.equalsIgnoreCase( "false" ) )
-            {
-                return false;
-            }
-
-            throw new ParameterException("Could not return a boolean value");
+            return true;
         }
-        catch (Exception e)
+        else if( value.equalsIgnoreCase( "false" ) )
         {
-            throw new ParameterException("Could not return a boolean value", e);
+            return false;
+        }
+        else
+        {
+            throw new ParameterException( "Could not return a boolean value" );
         }
     }
 
@@ -344,9 +351,9 @@ public class Parameters
     {
         try
         {
-            return this.getParameterAsBoolean(name);
+            return getParameterAsBoolean( name );
         }
-        catch (Exception e)
+        catch( final ParameterException e )
         {
             return defaultValue;
         }
@@ -371,7 +378,7 @@ public class Parameters
             {
                 value = other.getParameter( name );
             }
-            catch (ParameterException pe)
+            catch( final ParameterException pe )
             {
                 value = null;
             }
