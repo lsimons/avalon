@@ -12,7 +12,7 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.camelot.Container;
+import org.apache.avalon.framework.container.Container;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.component.DefaultComponentManager;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -100,7 +100,7 @@ public class DefaultEmbeddor
      * <li><b>kernel-class</b>, the classname of the
      * org.apache.avalon.phoenix.engine.ServerKernel to be used.</li>
      * <li><b>deployer-class</b>, the classname of the
-     * org.apache.avalon.framework.camelot.Deployer to be used.</li>
+     * org.apache.avalon.phoenix.components.deployer.Deployer to be used.</li>
      * <li><b>kernel-configuration-source</b>, the location
      * of the configuration file to be used for configuring the
      * kernel. (If kernel is configurable)</li>
