@@ -42,6 +42,13 @@
 
 <release version="4.1alpha" date="unreleased">
     <action dev="PD" type="update">
+        The default configuration for the JMX SystemManager now does not automatically
+        start the HTTP Adaptor (ie the web interface). Users will need to explicitly
+        enable the Http Adaptor via &lt;enable-http-adaptor&gt;false&lt;/enable-http-adaptor&gt;
+        in the MX4JSystemManager component section of the kernel.xml. See the kernel.xml
+        for further details.
+    </action>
+    <action dev="PD" type="update">
         Add support for property expansion in Log4J configuration files. You can
         now use propertys such as ${app.dir} and ${app.name} in the log4j logging
         configuration. See src/test/org/apache/avalon/phoenix/components/logger/test/config3.xml
