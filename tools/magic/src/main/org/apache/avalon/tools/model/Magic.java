@@ -109,6 +109,7 @@ public class Magic extends DataType
         setProject( project );
 
         m_system = getSystemDirectory( project );
+        project.setProperty( KEY, Context.getCanonicalPath( m_system ) );
 
         File user = new File( m_system, "user.properties" );
         loadProperties( project, user );
