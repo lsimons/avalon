@@ -23,10 +23,10 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyCopyright("Copyright (c) 2004 The Apache Software Foundation")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
-[assembly: AssemblyVersion("1.0.0.1")]
+[assembly: AssemblyVersion("1.0.0.2")]
 
 #if STRONG
 [assembly: AssemblyDelaySign(false)]
-[assembly: AssemblyKeyFile("../../../../ApacheAvalon.snk")]
+[assembly: AssemblyKeyFile("../../../../../ApacheAvalon.snk")]
 [assembly: AssemblyKeyName("")]
 #endif

@@ -3,7 +3,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.DynamicProxy"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.DynamicProxy.Test", "DynamicProxyTest\Apache.Avalon.DynamicProxy.Test.csproj", "{EF89321E-FB2A-41B6-85B3-794D50A55CF1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.DynamicProxy.Test", "..\DynamicProxyTest\Apache.Avalon.DynamicProxy.Test.csproj", "{EF89321E-FB2A-41B6-85B3-794D50A55CF1}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject

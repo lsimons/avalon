@@ -27,7 +27,7 @@ namespace Apache.Avalon.DynamicProxy.Test
 	/// Summary description for ProxyGeneratorTestCase.
 	/// </summary>
 	[TestFixture]
-	public class ProxyGeneratorTestCase : Assertion
+	public class ProxyGeneratorTestCase
 	{
 		private ProxyGenerator m_generator;
 
@@ -43,13 +43,13 @@ namespace Apache.Avalon.DynamicProxy.Test
 			object proxy = m_generator.CreateClassProxy( 
 				typeof(ServiceClass), new ResultModifiedInvocationHandler( new ServiceClass() ) );
 			
-			AssertNotNull( proxy );
-			Assert( typeof(ServiceClass).IsAssignableFrom( proxy.GetType() ) );
+			Assert.IsNotNull( proxy );
+			Assert.IsTrue( typeof(ServiceClass).IsAssignableFrom( proxy.GetType() ) );
 
 			ServiceClass inter = (ServiceClass) proxy;
 
-			AssertEquals( 44, inter.Sum( 20, 25 ) );
-			AssertEquals( true, inter.Valid );
+			Assert.AreEqual( 44, inter.Sum( 20, 25 ) );
+			Assert.AreEqual( true, inter.Valid );
 		}
 
 		[Test]
@@ -58,15 +58,15 @@ namespace Apache.Avalon.DynamicProxy.Test
 			object proxy = m_generator.CreateClassProxy( 
 				typeof(SpecializedServiceClass), new ResultModifiedInvocationHandler( new SpecializedServiceClass() ) );
 			
-			AssertNotNull( proxy );
-			Assert( typeof(ServiceClass).IsAssignableFrom( proxy.GetType() ) );
-			Assert( typeof(SpecializedServiceClass).IsAssignableFrom( proxy.GetType() ) );
+			Assert.IsNotNull( proxy );
+			Assert.IsTrue( typeof(ServiceClass).IsAssignableFrom( proxy.GetType() ) );
+			Assert.IsTrue( typeof(SpecializedServiceClass).IsAssignableFrom( proxy.GetType() ) );
 
 			SpecializedServiceClass inter = (SpecializedServiceClass) proxy;
 
-			AssertEquals( 44, inter.Sum( 20, 25 ) );
-			AssertEquals( -6, inter.Subtract( 20, 25 ) );
-			AssertEquals( true, inter.Valid );
+			Assert.AreEqual( 44, inter.Sum( 20, 25 ) );
+			Assert.AreEqual( -6, inter.Subtract( 20, 25 ) );
+			Assert.AreEqual( true, inter.Valid );
 		}
 
 		[Test]
@@ -75,13 +75,13 @@ namespace Apache.Avalon.DynamicProxy.Test
 			object proxy = m_generator.CreateClassProxy( 
 				typeof(MyInterfaceImpl), new ResultModifiedInvocationHandler( new MyInterfaceImpl() ) );
 			
-			AssertNotNull( proxy );
-			Assert( typeof(MyInterfaceImpl).IsAssignableFrom( proxy.GetType() ) );
-			Assert( typeof(IMyInterface).IsAssignableFrom( proxy.GetType() ) );
+			Assert.IsNotNull( proxy );
+			Assert.IsTrue( typeof(MyInterfaceImpl).IsAssignableFrom( proxy.GetType() ) );
+			Assert.IsTrue( typeof(IMyInterface).IsAssignableFrom( proxy.GetType() ) );
 
 			IMyInterface inter = (IMyInterface) proxy;
 
-			AssertEquals( 44, inter.Calc( 20, 25 ) );
+			Assert.AreEqual( 44, inter.Calc( 20, 25 ) );
 		}
 
 		[Test]
@@ -90,12 +90,12 @@ namespace Apache.Avalon.DynamicProxy.Test
 			object proxy = m_generator.CreateClassProxy( 
 				typeof(NoVirtualMethodClass), new ResultModifiedInvocationHandler( new SpecializedServiceClass() ) );
 			
-			AssertNotNull( proxy );
-			Assert( typeof(NoVirtualMethodClass).IsAssignableFrom( proxy.GetType() ) );
+			Assert.IsNotNull( proxy );
+			Assert.IsTrue( typeof(NoVirtualMethodClass).IsAssignableFrom( proxy.GetType() ) );
 
 			NoVirtualMethodClass inter = (NoVirtualMethodClass) proxy;
 
-			AssertEquals( 45, inter.Sum( 20, 25 ) );
+			Assert.AreEqual( 45, inter.Sum( 20, 25 ) );
 		}
 
 		[Test]
@@ -104,12 +104,12 @@ namespace Apache.Avalon.DynamicProxy.Test
 			object proxy = m_generator.CreateClassProxy( 
 				typeof(SealedMethodsClass), new ResultModifiedInvocationHandler( new SpecializedServiceClass() ) );
 			
-			AssertNotNull( proxy );
-			Assert( typeof(SealedMethodsClass).IsAssignableFrom( proxy.GetType() ) );
+			Assert.IsNotNull( proxy );
+			Assert.IsTrue( typeof(SealedMethodsClass).IsAssignableFrom( proxy.GetType() ) );
 
 			SealedMethodsClass inter = (SealedMethodsClass) proxy;
 
-			AssertEquals( 45, inter.Sum( 20, 25 ) );
+			Assert.AreEqual( 45, inter.Sum( 20, 25 ) );
 		}
 
 		[Test]
@@ -152,18 +152,18 @@ namespace Apache.Avalon.DynamicProxy.Test
 			object proxy = m_generator.CreateProxy( 
 				typeof(IMyInterface), new StandardInvocationHandler( new MyInterfaceImpl() ) );
 			
-			AssertNotNull( proxy );
-			Assert( typeof(IMyInterface).IsAssignableFrom( proxy.GetType() ) );
+			Assert.IsNotNull( proxy );
+			Assert.IsTrue( typeof(IMyInterface).IsAssignableFrom( proxy.GetType() ) );
 
 			IMyInterface inter = (IMyInterface) proxy;
 
-			AssertEquals( 45, inter.Calc( 20, 25 ) );
+			Assert.AreEqual( 45, inter.Calc( 20, 25 ) );
 
 			inter.Name = "opa";
-			AssertEquals( "opa", inter.Name );
+			Assert.AreEqual( "opa", inter.Name );
 
 			inter.Started = true;
-			AssertEquals( true, inter.Started );
+			Assert.AreEqual( true, inter.Started );
 		}
 
 		[Test]
@@ -172,20 +172,20 @@ namespace Apache.Avalon.DynamicProxy.Test
 			object proxy = m_generator.CreateProxy( 
 				typeof(IMySecondInterface), new StandardInvocationHandler( new MySecondInterfaceImpl() ) );
 
-			AssertNotNull( proxy );
-			Assert( typeof(IMyInterface).IsAssignableFrom( proxy.GetType() ) );
-			Assert( typeof(IMySecondInterface).IsAssignableFrom( proxy.GetType() ) );
+			Assert.IsNotNull( proxy );
+			Assert.IsTrue( typeof(IMyInterface).IsAssignableFrom( proxy.GetType() ) );
+			Assert.IsTrue( typeof(IMySecondInterface).IsAssignableFrom( proxy.GetType() ) );
 
 			IMySecondInterface inter = (IMySecondInterface) proxy;
 			inter.Calc(1, 1);
 
 			inter.Name = "hammett";
-			AssertEquals( "hammett", inter.Name );
+			Assert.AreEqual( "hammett", inter.Name );
 
 			inter.Address = "pereira leite, 44";
-			AssertEquals( "pereira leite, 44", inter.Address );
+			Assert.AreEqual( "pereira leite, 44", inter.Address );
 			
-			AssertEquals( 45, inter.Calc( 20, 25 ) );
+			Assert.AreEqual( 45, inter.Calc( 20, 25 ) );
 		}
 
 		[Test]
@@ -196,14 +196,14 @@ namespace Apache.Avalon.DynamicProxy.Test
 			object proxy = m_generator.CreateProxy( 
 				typeof(IServiceStatus), new StandardInvocationHandler( service ) );
 			
-			AssertNotNull( proxy );
-			Assert( typeof(IServiceStatus).IsAssignableFrom( proxy.GetType() ) );
+			Assert.IsNotNull( proxy );
+			Assert.IsTrue( typeof(IServiceStatus).IsAssignableFrom( proxy.GetType() ) );
 
 			IServiceStatus inter = (IServiceStatus) proxy;
-			AssertEquals( State.Invalid, inter.ActualState );
+			Assert.AreEqual( State.Invalid, inter.ActualState );
 			
 			inter.ChangeState( State.Valid );
-			AssertEquals( State.Valid, inter.ActualState );
+			Assert.AreEqual( State.Valid, inter.ActualState );
 		}
 
 		public class MyInterfaceProxy : IInvocationHandler
