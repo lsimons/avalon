@@ -8,3 +8,5 @@ test
 todo
 velocity.log*
 *.el
+.classpath
+.project
