@@ -160,6 +160,7 @@ Legal:
         <copy todir="${build.classes}">
             <fileset dir="${java.dir}">
                 <include name="**/*.properties" />
+                <include name="**/*.j" />
             </fileset>
         </copy>
 
@@ -417,7 +418,7 @@ Legal:
             <include name="LICENSE.xdoclet.txt"/>
             <include name="README.txt"/>
           </fileset>
-        </copy>        
+        </copy>
         <copy file="${logkit.jar}" todir="${src.dist.lib}"/>
 
         <copy todir="${src.dist.src}">
