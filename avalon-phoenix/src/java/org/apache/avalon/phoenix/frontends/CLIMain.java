@@ -101,7 +101,10 @@ public final class CLIMain
         }
         finally
         {
-            Runtime.getRuntime().removeShutdownHook( m_hook );
+            if( null != m_hook )
+            {
+                Runtime.getRuntime().removeShutdownHook( m_hook );
+            }
             shutdown();
         }
     }
