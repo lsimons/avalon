@@ -652,7 +652,7 @@ Legal:
     <mkdir dir="${build.dir}" />
     <mkdir dir="${dist.base}" />
 
-    <copy todir="${build.xdocs}" filtering="on">
+    <copy todir="${build.xdocs}" overwrite="true" filtering="on">
       <fileset dir="${xdocs.dir}">
         <exclude name="**/images/**"/>
       </fileset>
