@@ -12,7 +12,7 @@ import junit.framework.TestSuite;
 import org.apache.avalon.excalibur.component.DefaultComponentPool;
 import org.apache.avalon.excalibur.component.ExcaliburComponentManager;
 import org.apache.avalon.excalibur.pool.Poolable;
-import org.apache.avalon.excalibur.util.ComponentStateValidator;
+import org.apache.excalibur.util.ComponentStateValidator;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
@@ -37,7 +37,7 @@ import org.apache.log.output.io.StreamTarget;
  * it is correctly handling component lifestyle management.
  *
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ExcaliburComponentManagerTestCase extends TestCase
 {
