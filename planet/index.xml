@@ -110,6 +110,117 @@
   </project>
 
   <!--
+  Avalon Facilities - JMX
+  -->
+
+  <resource>
+    <info>
+      <group>mx4j</group>
+      <name>mx4j-jmx</name>
+      <version>1.1.1</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>mx4j</group>
+      <name>mx4j-tools</name>
+      <version>1.1.1</version>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="mx4j-jmx"/>
+    </dependencies>
+  </resource>
+
+  <project basedir="facilities/jmx/api">
+    <info>
+      <group>avalon/jmx</group>
+      <name>avalon-jmx-api</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-composition-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="facilities/jmx/util">
+    <info>
+      <group>avalon/jmx</group>
+      <name>avalon-jmx-util</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+      <include key="avalon-util-i18n"/>
+      <include key="mx4j-jmx"/>
+    </dependencies>
+  </project>
+
+  <project basedir="facilities/jmx/spi">
+    <info>
+      <group>avalon/jmx</group>
+      <name>avalon-jmx-spi</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-jmx-api"/>
+      <include key="avalon-jmx-util"/>
+    </dependencies>
+  </project>
+
+  <project basedir="facilities/jmx/mx4j">
+    <info>
+      <group>avalon/jmx</group>
+      <name>avalon-jmx-mx4j</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-jmx-spi"/>
+      <include key="mx4j-tools"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="facilities/jmx/handler">
+    <info>
+      <group>avalon/jmx</group>
+      <name>avalon-jmx-handler</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-jmx-api"/>
+      <include key="avalon-util-i18n"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="facilities/jmx/test">
+    <info>
+      <group>avalon/jmx</group>
+      <name>avalon-jmx-test</name>
+    </info>
+    <dependencies>
+      <include key="avalon-jmx-mx4j" build="false"/>
+      <include key="avalon-jmx-handler" build="false"/>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <!--
   Avalon DB.
   -->
 
