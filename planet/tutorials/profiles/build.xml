@@ -1,0 +1,58 @@
+
+<!-- 
+Test application
+-->
+
+<project name="tutorial" default="jar" basedir=".">
+
+  <property name="src.dir"  value="${basedir}/src" />
+  <property name="java.dir"  value="${src.dir}/java" />
+  <property name="build.dir"  value="${basedir}/build" />
+  <property name="classes.dir"  value="${build.dir}/classes" />
+  <property name="config.dir"  value="${src.dir}/config" />
+
+  <property environment="env"/>
+  <property name="merlin.home"  value="${env.MERLIN_HOME}"/>
+
+  <property name="framework.jar"
+    value="${merlin.home}/lib/shared/avalon-framework-4.1.4.jar" />
+
+  <path id="project.class.path">
+    <pathelement path="${java.class.path}" />
+    <pathelement location="${framework.jar}"/>
+    <fileset dir="${classes.dir}"/>
+  </path>
+
+  <target name="compile" >
+    <mkdir dir="${classes.dir}" />
+    <copy toDir="${classes.dir}">
+      <fileset dir="${java.dir}">
+        <include name="**/*.xinfo"/>
+        <include name="**/*.xprofile"/>
+      </fileset>
+    </copy>
+    <mkdir dir="${classes.dir}/BLOCK-INF" />
+    <copy toDir="${classes.dir}/BLOCK-INF">
+      <fileset dir="${config.dir}">
+        <include name="*.xml"/>
+      </fileset>
+    </copy>
+    <mkdir dir="${classes.dir}" />
+    <javac debug="on" destdir="${classes.dir}" >
+        <classpath>
+          <path refid="project.class.path"/>
+	  </classpath>
+        <src path="${src.dir}" />
+    </javac>
+  </target>
+
+  <target name="jar" depends="compile">
+    <jar jarfile="tutorial.jar" basedir="${classes.dir}"/>
+  </target>
+
+  <target name="clean">
+    <delete dir="${build.dir}"/>
+    <delete file="tutorial.jar"/>
+  </target>
+
+ </project>
