@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Vector;
 import java.util.Iterator;
 import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandler;
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandlerFactory;
 import org.apache.avalon.excalibur.thread.ThreadPool;
@@ -28,7 +28,7 @@ import org.apache.avalon.excalibur.thread.ThreadPool;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 class Connection
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements Component, Runnable
 {
     private final ServerSocket               m_serverSocket;
@@ -120,7 +120,7 @@ class Connection
 }
 
 class ConnectionRunner
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements Runnable, Component
 {
     private Socket             m_socket;

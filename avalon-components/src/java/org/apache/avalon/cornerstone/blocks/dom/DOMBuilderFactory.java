@@ -8,7 +8,7 @@
 package org.apache.avalon.cornerstone.blocks.dom;
 
 import org.apache.avalon.cornerstone.services.dom.DocumentBuilderFactory;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -25,7 +25,7 @@ import javax.xml.parsers.ParserConfigurationException;
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</a>
  */
 public class DOMBuilderFactory 
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements Block, Configurable, DocumentBuilderFactory
 {
     protected javax.xml.parsers.DocumentBuilderFactory m_documentBuilderFactory;

@@ -17,7 +17,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
  * Helper class to extend to create handler factorys.
@@ -25,7 +25,7 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public abstract class AbstractHandlerFactory
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements Component, Contextualizable, Composable, Configurable, ConnectionHandlerFactory
 {
     protected Context             m_context;

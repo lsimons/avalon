@@ -17,7 +17,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
 import org.apache.avalon.cornerstone.services.sockets.SocketFactory;
 import org.apache.avalon.cornerstone.services.sockets.SocketManager;
@@ -30,7 +30,7 @@ import org.apache.avalon.phoenix.Block;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DefaultSocketManager
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements SocketManager, Block, Contextualizable, Configurable, Initializable
 {
     protected final HashMap              m_serverSockets   = new HashMap();

@@ -13,7 +13,7 @@ import java.net.DatagramSocket;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.cornerstone.services.packet.PacketHandler;
 import org.apache.avalon.cornerstone.services.packet.PacketHandlerFactory;
 import org.apache.avalon.excalibur.thread.ThreadPool;
@@ -25,7 +25,7 @@ import org.apache.avalon.excalibur.thread.ThreadPool;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 class Acceptor
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements Component, Runnable
 {
     protected final DatagramSocket          m_datagramSocket;
@@ -107,7 +107,7 @@ class Acceptor
 }
 
 class PacketHandlerRunner
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements Runnable, Component
 {
     protected DatagramPacket  m_packet;

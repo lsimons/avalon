@@ -21,12 +21,12 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLoggable;
-import org.apache.avalon.framework.logger.Loggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
 import org.apache.avalon.cornerstone.services.sockets.SocketManager;
 import org.apache.avalon.excalibur.thread.ThreadPool;
-import org.apache.log.Logger;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockContext;
 
@@ -36,7 +36,7 @@ import org.apache.avalon.phoenix.BlockContext;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public abstract class AbstractService
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements Block, Contextualizable, Composable, Configurable, Initializable, Disposable
 {
     protected ConnectionManager        m_connectionManager;
@@ -61,14 +61,10 @@ public abstract class AbstractService
 
     protected abstract ConnectionHandlerFactory createFactory();
 
-    public void setLogger( final Logger logger )
+    public void enableLogging( final Logger logger )
     {
-        super.setLogger( logger );
-
-        if( m_factory instanceof Loggable )
-        {
-            ((Loggable)m_factory).setLogger( logger );
-        }
+        super.enableLogging( logger );
+        setupLogger( m_factory );
     }
 
     public void contextualize( final Context context )

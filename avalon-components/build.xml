@@ -50,12 +50,11 @@
   <property name="dist.base" value="distributions"/>
 
   <property name="xerces.jar" value="${tools.dir}/lib/xerces.jar"/>
-  <property name="logkit.jar" value="${lib.dir}/logkit.jar"/>
-  <property name="framework.jar" value="${lib.dir}/avalon-framework.jar"/>
-  <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur-20010919.jar"/>
-  <property name="scratchpad.jar" value="${lib.dir}/avalon-scratchpad-20010919.jar"/>
-  <property name="phoenix-client.jar" value="${lib.dir}/phoenix-client.jar"/>
-  <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
+  <property name="logkit.jar" value="${lib.dir}/logkit-1.0.jar"/>
+  <property name="framework.jar" value="${lib.dir}/avalon-framework-20011110.jar"/>
+  <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur-20011110.jar"/>
+  <property name="scratchpad.jar" value="${lib.dir}/avalon-scratchpad-20011110.jar"/>
+  <property name="phoenix-client.jar" value="${lib.dir}/phoenix-client-20011110.jar"/>
   <property name="junit.jar" value="${tools.dir}/lib/junit-3.7.jar"/>
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
@@ -64,16 +63,15 @@
     <pathelement location="${excalibur.jar}"/>
     <pathelement location="${scratchpad.jar}"/>
     <pathelement location="${logkit.jar}"/>
-    <pathelement location="${testlet.jar}"/>
     <pathelement location="${junit.jar}"/>
     <pathelement location="${xerces.jar}"/>
     <pathelement location="${phoenix-client.jar}"/>
     <pathelement path="${java.class.path}" />
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
-      <exclude name="phoenix-client.jar"/>
+      <exclude name="phoenix-client*.jar"/>
       <exclude name="avalon-*"/>
-      <exclude name="logkit.jar"/>
+      <exclude name="logkit*.jar"/>
     </fileset>
     <pathelement path="${build.classes}" />
   </path>

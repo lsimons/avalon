@@ -22,9 +22,9 @@ import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.Block;
-import org.apache.log.Logger;
 
 /**
  * Default implementation of TimeScheduler service.
@@ -33,7 +33,7 @@ import org.apache.log.Logger;
  * @author <a href="mailto:ram.chidambaram@telus.com">Ram Chidambaram</a>
  */
 public class DefaultTimeScheduler
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements Block, TimeScheduler, Composable, Initializable, Startable, Disposable, Runnable
 {
     private final Object               m_monitor         = new Object();
