@@ -45,44 +45,46 @@
           <table>
             <tr><th>Location</th></tr>
             <tr>
-              <td>${user.dir}/avalon.properties</td>
+              <td>${user.dir}/[name].properties</td>
             </tr>
             <tr>
-              <td>${user.home}/avalon.properties</td>
+              <td>${user.home}/[name].properties</td>
             </tr>
             <tr>
-              <td>${avalon.home}/avalon.properties</td>
+              <td>${avalon.home}/[name].properties</td>
             </tr>
           </table>
         </subsection>
         <subsection name="Bootstrap Properties">
         <table>
-          <tr><th>Property</th><th>Default Value</th><th>Description</th></tr>
+          <tr><th>Property</th><th>Description</th></tr>
           <tr>
             <td>avalon.repository.implementation</td>
-            <td></td>
             <td>The default implementation artifact specification. The bootstrap
             system will atrempt to locate a value for this property when 
             the repository implementation.  If no user supplied value can be 
             in the current working directory, ${user.home}, or ${avalon.home}
             relative to an avalon.properties file, the implementation will 
             resolve the default implementation from an embeded avalon.properties 
-            resource.</td>
+            resource.
+            </td>
           </tr>
           <tr>
             <td>avalon.repository.cache</td>
-            <td>${avalon.home}</td>
             <td>The default cache. In undefined in a property file, the value
              defaults to an equivalent system property and if underfined, will 
              attempt to locate an environment variable AVALON_HOME.  If the env 
              variable is not declared the default repository directory will 
-             revert to ${user.home}/.avalon.</td>
+             revert to ${user.home}/.avalon.
+            <source>Default: ${avalon.home}</source>
+             </td>
           </tr>
           <tr>
             <td>avalon.repository.hosts</td>
-            <td>http://dpml.net,http://ibiblio.org/maven</td>
             <td>The default remote hosts expressed as a comma seperated 
-            sequence of host urls.  File or http urls may be supplied.</td>
+            sequence of host urls.  File or http urls may be supplied.
+            <source>Default: http://dpml.net,http://ibiblio.org/maven</source>
+            </td>
           </tr>
         </table>
         </subsection>

@@ -21,12 +21,12 @@
 
   <properties>
     <author email="mcconnell@apache.org">Stephen McConnell</author>
-    <title>Avalon Activation Subsystem</title>
+    <title>Merlin Runtime</title>
   </properties>
 
   <body>
 
-    <section name="Avalon Activation Subsystem">
+    <section name="Avalon Activation">
 
       <p>
       The activation platform is the runtime that is controlled by 

@@ -21,12 +21,12 @@
 
   <properties>
     <author email="mcconnell@apache.org">Stephen McConnell</author>
-    <title>Avalon Composition Subsystem</title>
+    <title>Merlin Runtime</title>
   </properties>
 
   <body>
 
-    <section name="Avalon Composition Subsystem">
+    <section name="Avalon Composition">
 
       <p>
       The composition model is the essential fabric that ties together the 
