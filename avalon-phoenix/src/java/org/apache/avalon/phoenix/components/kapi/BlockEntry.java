@@ -25,6 +25,8 @@ public class BlockEntry
 
     private final String        m_name;
 
+    private BlockProxy          m_proxy;
+
     public BlockEntry( final String name,
                        final RoleEntry[] roleEntrys,
                        final Locator locator )
@@ -38,6 +40,16 @@ public class BlockEntry
     public String getName()
     {
         return m_name;
+    }
+
+    public BlockProxy getBlockProxy()
+    {
+        return m_proxy;
+    }
+
+    public void setBlockProxy( final BlockProxy proxy )
+    {
+        m_proxy = proxy;
     }
 
     public BlockInfo getBlockInfo()
