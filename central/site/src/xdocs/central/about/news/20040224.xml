@@ -6,8 +6,9 @@
   </properties> 
 
   <body>
-    <section name="News Archive February 2004">
-   <subsection name="24-FEB-2004: Wiki Revisions">
+   <section name="Wiki Revisions">
+     <p>24-FEB-2004
+     </p>
      <p>
       We've been reorganizing our <a href="http://wiki.apache.org/avalon">wiki</a>
       in order to provide better documentation sooner.  This means the
@@ -15,16 +16,6 @@
       will be refined and end up back on our main site.  Developers and users
       alike are encouraged to contribute!
      </p>
-   </subsection>
-
-   <subsection name="12-FEB-2004: Avalon Adopts JIRA">
-     <p>
-      The Avalon project has migrated from Bugzilla to
-      <a href="http://issues.apache.org/jira">JIRA</a> for
-      issue tracking and managing bugs and patches.
-     </p>
-   </subsection>
-
     </section>
   </body>
 </document>
