@@ -17,6 +17,7 @@
 
 package org.apache.avalon.composition.model.impl.fileset;
 
+import java.util.ArrayList;
 import java.io.File;
 import java.io.IOException;
 
@@ -31,20 +32,37 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
 public class FilesetModelTestCase extends TestCase
 {
     private DefaultFilesetModel m_model;
+    private ConsoleLogger m_logger;
     private File m_root;
 
+    /**
+     * Sets up the test case.
+     */
     public void setUp()
     {
         m_root = new File( System.getProperty( "basedir" ) );
-        ConsoleLogger logger = new ConsoleLogger( ConsoleLogger.LEVEL_INFO );
-        m_model = new DefaultFilesetModel( logger );
+        m_logger = new ConsoleLogger( ConsoleLogger.LEVEL_INFO );
+        m_model = new DefaultFilesetModel( m_logger );
     }
 
+    /**
+     * Cleans up the test case.
+     */
     public void tearDown() throws Exception
     {
         m_model = null;
+        m_logger = null;
     }
 
+    /**
+     * A fileset directive of:
+     *
+     *      <fileset dir="my-dir">
+     *          ...
+     *      </fileset>
+     *
+     * should throw an IllegalStateException.
+     */
     public void testBadBaseDirectory() throws Exception
     {
         // only testing a bad base directory -- no includes or excludes necessary
@@ -79,6 +97,131 @@ public class FilesetModelTestCase extends TestCase
         catch( Exception e )
         {
             fail("The exception thrown was " + e.getClass().getName() );
+        }
+    }
+
+    /**
+     * A fileset directive of:
+     *
+     *      <fileset dir="my-dir"/>
+     *
+     * should return an include set of a single entry that is
+     * the fully qualified path to the my-dir directory.
+     */
+    public void testZeroIncludesExcludes() throws Exception
+    {
+        // testing empty include/exclude directives
+        IncludeDirective[] includes = new IncludeDirective[0];
+        ExcludeDirective[] excludes = new ExcludeDirective[0];
+
+        // provide legitimate fileset directory attribute
+        final String dir = "target/test";
+        FilesetDirective fsd = new FilesetDirective( dir, includes, excludes );
+
+        // set the fileset model's anchor directory and set of includes/excludes
+        File anchor = new File( m_root, fsd.getBaseDirectory() );
+        m_model.setBaseDirectory( anchor );
+        m_model.setIncludeDirectives( fsd.getIncludes() );
+        m_model.setExcludeDirectives( fsd.getExcludes() );
+        m_model.setDefaultIncludes( null );
+        m_model.setDefaultExcludes( null );
+
+        // do the test...
+        try
+        {
+        	m_model.resolveFileset();
+            ArrayList list = m_model.getIncludes();
+            if ( list.size() != 1 )
+            {
+                fail( "The include set returned did not equal 1 (one) entry" );
+            }
+            File file = (File) list.get( 0 );
+            if ( !file.isDirectory() )
+            {
+                fail( "The included entry is not a directory" );
+            }
+            if ( !file.equals( anchor ) )
+            {
+                fail( "The included directory entry does not match the fileset directory attribute" );
+            }
+        }
+        catch( IllegalStateException ise )
+        {
+            fail( "The exception thrown was an " + ise.getClass().getName() );
+        }
+        catch( IOException ioe )
+        {
+            fail( "The exception thrown was an " + ioe.getClass().getName() );
+        }
+        catch( Exception e )
+        {
+            fail( "The exception thrown was " + e.getClass().getName() );
+        }
+    }
+    
+    /**
+     * A fileset directive of:
+     *
+     *      <fileset dir="my-dir">
+     *          <include name="*.jar/>
+     *      </fileset>
+     *
+     * should return all the files ind my-dir with the
+     * .jar extension.
+     */
+    public void testWildcardIncludes() throws Exception {
+        // testing a include directive = "*.jar"
+        IncludeDirective[] includes = new IncludeDirective[1];
+        includes[0] = new IncludeDirective( "*.jar" );
+
+        // testing empty exclude directives
+        ExcludeDirective[] excludes = new ExcludeDirective[0];
+
+        // provide legitimate fileset directory attribute
+        final String dir = "target/test/ext";
+        FilesetDirective fsd = new FilesetDirective( dir, includes, excludes );
+
+        // set the fileset model's anchor directory and set of includes/excludes
+        File anchor = new File( m_root, fsd.getBaseDirectory() );
+        m_model.setBaseDirectory( anchor );
+        m_model.setIncludeDirectives( fsd.getIncludes() );
+        m_model.setExcludeDirectives( fsd.getExcludes() );
+        m_model.setDefaultIncludes( null );
+        m_model.setDefaultExcludes( null );
+
+        // do the test...
+        try
+        {
+        	m_model.resolveFileset();
+            ArrayList list = m_model.getIncludes();
+            if ( list.size() < 4 )
+            {
+                fail( "The include set returned did not equal 4 (four) entries" );
+            }
+            for ( int i = 0; i < list.size(); i++ )
+            {
+                File file = (File) list.get( i );
+                if ( !file.isFile() )
+                {
+                    fail( "One of the included entries is not a file" );
+                }
+                if ( !file.getName().endsWith( "jar" ) )
+                {
+                    fail( "One of the included file entries does not have a .jar extension" );
+                }
+            }
+        }
+        catch( IllegalStateException ise )
+        {
+            fail( "The exception thrown was an " + ise.getClass().getName() );
+        }
+        catch( IOException ioe )
+        {
+            fail( "The exception thrown was an " + ioe.getClass().getName() );
+        }
+        catch( Exception e )
+        {
+            fail( "The exception thrown was " + e.getClass().getName() );
         }
     }
 }
