@@ -34,36 +34,14 @@
           Doc Generation
          ==========================================================
 
-         For now, I've just copy-pasted the relevant snippets from
-         the ant build that call forrest. We need a forrest plugin.
+         This uses a very rudimentary forrest plugin.
 
          ========================================================== -->
 
-    <postGoal name="xdoc">
+    <postGoal name="xdoc"
+        description="since our xdocs are in forrest format, we override the maven-generated docs with forrest ones">
         <attainGoal name="forrest:generate"/>
     </postGoal>
-
-    <property file="${user.home}/build.properties"/>
-    <property file="${basedir}/../ant.properties"/>
-    <property file="${basedir}/ant.properties"/>
-    <property file="${user.home}/.ant.properties"/>
-    <property file="${basedir}/../libraries.properties"/>
-    <property file="${basedir}/../default.properties"/>
-    <property file="${basedir}/default.properties"/>
-
-    <goal name="forrest:docs" description="Transforms forrest docs">
-
-        <mkdir dir="${docs.dir}"/>
-
-        <ant antfile="${basedir}/../forrestbuild.xml"/>
-
-        <copy todir="${maven.build.dir}/docs/">
-          <fileset dir="${build.docs}">
-            <include name="**"/>
-          </fileset>
-        </copy>
-
-   </goal>
 
     <!-- ==========================================================
           Cleanup of ant artifacts
