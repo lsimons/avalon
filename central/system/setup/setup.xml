@@ -44,8 +44,8 @@
   </target>
 
   <target name="setup-repository" depends="setup-cache-properties,setup-proxy">
-    <property name="tools.bar" value="${cache.tools.bars.dir}/avalon-tools.bar"/>
     <echo message="Preparing central system repository..."/>
+    <property name="tools.bar" value="${cache.tools.bars.dir}/avalon-tools.bar"/>
     <mkdir dir="${cache.tools.bars.dir}"/>
     <get src="${avalon.tools.bar.url}" usetimestamp="true"
       dest="${tools.bar}"/>
@@ -69,13 +69,11 @@
   </target>
 
   <target name="setup-avalon-cache" unless="project.main.cache.declared">
-    <echo>[setup-avalon-cache]</echo>
     <property environment="ENV"/>
     <property name="project.main.cache" value="${ENV.AVALON_HOME}/repository"/>
     <condition property="avalon.home.undeclared" value="true">
       <contains string="${project.main.cache}" substring="{" />
     </condition>
-    <echo>${avalon.home.undeclared}</echo>
   </target>
 
   <target name="test-cache" 
