@@ -7,12 +7,6 @@
  */
 package org.apache.excalibur.instrument.example_icm;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-
 import org.apache.excalibur.instrument.CounterInstrument;
 import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.instrument.Instrument;
@@ -28,7 +22,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * Note, this code ignores exceptions to keep the code simple.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/03 14:59:39 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/05 11:56:48 $
  * @since 4.1
  */
 public class DefaultExampleInstrumentable
