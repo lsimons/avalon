@@ -142,24 +142,29 @@
 
     <!-- Generate one jar functionally equivalent to the old avalon-excalibur.jar -->
     <target name="jar" description="Generates avalon-excalibur.jar">
-        <ant dir="datasource" target="jar"/>
-        <ant dir="sourceresolve" target="jar"/>
-        <ant dir="monitor" target="jar"/>
-        <ant dir="cli" target="jar"/>
-        <ant dir="component" target="jar"/>
-        <ant dir="xmlbundle" target="jar"/>
-        <ant dir="collections" target="jar"/>
-        <ant dir="concurrent" target="jar"/>
-        <ant dir="i18n" target="jar"/>
-        <ant dir="io" target="jar"/>
-        <ant dir="naming" target="jar"/>
-        <ant dir="logger" target="jar"/>
-        <ant dir="pool" target="jar"/>
-        <ant dir="testcase" target="jar"/>
-        <ant dir="util" target="jar"/>
-        <ant dir="instrument" target="jar"/>
-        <ant dir="instrument-manager" target="jar"/>
-        <ant dir="instrument-client" target="jar"/>
+
+        <!-- As we know the order here is correct, we don't need to do
+        dependency checking -->
+        <property name="skip.dependencies" value="true"/>
+        <ant dir="collections" target="dist-jar"/>
+        <ant dir="instrument" target="dist-jar"/>
+        <ant dir="concurrent" target="dist-jar"/>
+        <ant dir="i18n" target="dist-jar"/>
+        <ant dir="io" target="dist-jar"/>
+        <ant dir="pool" target="dist-jar"/>
+        <ant dir="logger" target="dist-jar"/>
+        <ant dir="component" target="dist-jar"/>
+        <ant dir="sourceresolve" target="dist-jar"/>
+        <ant dir="testcase" target="dist-jar"/>
+        <ant dir="datasource" target="dist-jar"/>
+        <ant dir="util" target="dist-jar"/>
+        <ant dir="xmlbundle" target="dist-jar"/>
+        <ant dir="cli" target="dist-jar"/>
+        <ant dir="naming" target="dist-jar"/>
+        <ant dir="monitor" target="dist-jar"/>
+        <ant dir="altrmi" target="dist-jar"/>
+        <ant dir="instrument-manager" target="dist-jar"/>
+        <ant dir="instrument-client" target="dist-jar"/>
 
         <!-- Jump through hoops to avoid jlink size bug.  -->
 
@@ -170,31 +175,34 @@
         <jlink compress="false" outfile="${tmpjarA}">
             <mergefiles>
                 <fileset dir=".">
-                    <include name="datasource/build/lib/*.jar"/>
-                    <include name="cli/build/lib/*.jar"/>
-                    <include name="component/build/lib/*.jar"/>
-                    <include name="collections/build/lib/*.jar"/>
-                    <include name="concurrent/build/lib/*.jar"/>
-                    <include name="i18n/build/lib/*.jar"/>
-                    <include name="io/build/lib/*.jar"/>
-                    <include name="naming/build/lib/*.jar"/>
+                    <include name="collections/dist/*.jar"/>
+                    <include name="instrument/dist/*.jar"/>
+                    <include name="concurrent/dist/*.jar"/>
+                    <include name="i18n/dist/*.jar"/>
+                    <include name="io/dist/*.jar"/>
+                    <include name="pool/dist/*.jar"/>
+                    <include name="logger/dist/*.jar"/>
+                    <include name="component/dist/*.jar"/>
+                    <include name="sourceresolve/dist/*.jar"/>
+                   <exclude name="*/dist/*a.jar"/> <!-- Exclude alpha quality jars -->
                 </fileset>
             </mergefiles>
         </jlink>
         <jlink compress="false" outfile="${tmpjarB}">
             <mergefiles>
                 <fileset dir=".">
-                    <include name="logger/build/lib/*.jar"/>
-                    <include name="pool/build/lib/*.jar"/>
-                    <include name="testcase/build/lib/*.jar"/>
-                    <include name="util/build/lib/*.jar"/>
-                    <include name="instrument/build/lib/*.jar"/>
-                    <include name="instrument-manager/build/lib/*.jar"/>
-                    <include name="instrument-client/build/lib/*.jar"/>
-                    <include name="sourceresolve/build/lib/*.jar"/>
-                    <include name="xmlbundle/build/lib/*.jar"/>
-                    <include name="monitor/build/lib/*.jar"/>
-                </fileset>
+                    <include name="testcase/dist/*.jar"/>
+                    <include name="datasource/dist/*.jar"/>
+                    <include name="util/dist/*.jar"/>
+                    <include name="xmlbundle/dist/*.jar"/>
+                    <include name="cli/dist/*.jar"/>
+                    <include name="naming/dist/*.jar"/>
+                    <include name="monitor/dist/*.jar"/>
+                    <include name="altrmi/dist/*.jar"/>
+                    <include name="instrument-manager/dist/*.jar"/>
+                    <include name="instrument-client/dist/*.jar"/>
+                    <exclude name="*/dist/*a.jar"/> <!-- Exclude alpha quality jars -->
+                 </fileset>
             </mergefiles>
         </jlink>
         <jlink compress="false" outfile="${tmpjarAB}">
