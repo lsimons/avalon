@@ -7,15 +7,14 @@
  */
 package org.apache.excalibur.configuration.merged;
 
-import org.apache.avalon.framework.configuration.Configuration;
-
 /**
- * Used interally by the ConfigurationMerger to see if a configuration matches for merge
- * purposes.
+ * Constants used by this package
  *
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  */
-public interface ConfigurationMatcher
+interface Constants
 {
-    boolean isMatch( final Configuration c );
+    String MERGE_METADATA_PREFIX = "excalibur-configuration:";
+    String MERGE_ATTR = MERGE_METADATA_PREFIX + "merge";
+    String KEY_ATTR = MERGE_METADATA_PREFIX + "key-attribute";
 }
