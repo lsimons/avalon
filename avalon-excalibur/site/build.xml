@@ -84,9 +84,8 @@
       <fileset dir="." includes="**/*~" defaultexcludes="no"/>
     </delete>
   </target>
-  
-  <!-- Prepares the documentation directory -->
-  <target name="docs" depends="setup-filters" description="Generates the Docs">
+
+  <target name="setup-docs" depends="setup-filters">
     <copy todir="${cocoon.build.xdocs}/altrmi"><fileset dir="${basedir}/../altrmi/src/xdocs"/></copy>
     <copy todir="${cocoon.build.xdocs}/assembly"><fileset dir="${basedir}/../assembly/src/xdocs"/></copy>
     <copy todir="${cocoon.build.xdocs}/baxter"><fileset dir="${basedir}/../baxter/src/xdocs"/></copy>
@@ -126,60 +125,73 @@
     <copy todir="${cocoon.build.xdocs}/xmlbundle"><fileset dir="${basedir}/../xmlbundle/src/xdocs"/></copy>
     <copy todir="${cocoon.build.xdocs}/xmlutil"><fileset dir="${basedir}/../xmlutil/src/xdocs"/></copy>
     <copy todir="${cocoon.build.xdocs}/zip"><fileset dir="${basedir}/../zip/src/xdocs"/></copy>
+  </target>
+  
+  <!-- Prepares the documentation directory -->
+  <target name="docs" depends="setup-docs" description="Generates the Docs">
 
-    <ant antfile="${basedir}/../cocoonbuild.xml"/>
-    <!--    <mkdir dir="${docs.dir}"/>
+    <mkdir dir="${docs.dir}"/>
 
     <mkdir dir="${build.context}"/>
     <mkdir dir="${build.xdocs}"/>
     <mkdir dir="${build.docs}"/>
     <mkdir dir="${build.docs}/apps"/>  
     <mkdir dir="${build.dir}/work"/>
-    -->
-    <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
-    <!--    <copy todir="${build.context}" filtering="on">
-      <fileset dir="${context.dir}">
-        <exclude name="diagrams/**"/>
-        <exclude name="resources/**"/>
-        <exclude name="xdocs"/>
-      </fileset>
-    </copy>
 
-    <copy todir="${build.context}/xdocs" filtering="on" overwrite="yes">
-      <fileset dir="${xdocs.dir}"/>
-    </copy>
-
-    <copy todir="${build.context}/resources" filtering="off" overwrite="yes">
-      <fileset dir="${context.dir}/resources"/>
-      <fileset dir="${xdocs.dir}">
-        <include name="**/images/**"/>
-      </fileset>
-    </copy>
-
-    <java classname="org.apache.cocoon.Main" fork="true">
-      <arg value="-c${build.context}/"/>
-      <arg value="-d${build.docs}"/>
-      <arg value="-w${build.dir}/work"/>
-      <arg value="-l${build.dir}/work/cocoon.log"/>
-      <arg value="-uINFO"/>
-      <arg value="-f${xdocs.dir}/excalibur.uris"/>
-      <classpath>
-        <path refid="tools.class.path"/>
-        <fileset dir="${tools.dir}/ext"/>
-      </classpath>
-    </java>
+    <ant antfile="${basedir}/../cocoonbuild.xml"/>
 
     <copy todir="${docs.dir}">
       <fileset dir="${build.docs}">
         <include name="**"/>
       </fileset>
     </copy>    
-    -->
   </target>
   
   <target name="site" depends="docs" description="Places Docs ready for hosting on website">    
   
   </target>     
+
+  <target name="book2project" depends="setup-docs" description="Convert book.xml to project.xml formats">
+    <style in="${cocoon.build.xdocs}/altrmi/book.xml" out="${cocoon.build.xdocs}/altrmi/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/assembly/book.xml" out="${cocoon.build.xdocs}/assembly/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/baxter/book.xml" out="${cocoon.build.xdocs}/baxter/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/bzip2/book.xml" out="${cocoon.build.xdocs}/bzip2/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/cache/book.xml" out="${cocoon.build.xdocs}/cache/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/cli/book.xml" out="${cocoon.build.xdocs}/cli/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/collections/book.xml" out="${cocoon.build.xdocs}/collections/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/component/book.xml" out="${cocoon.build.xdocs}/component/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/concurrent/book.xml" out="${cocoon.build.xdocs}/concurrent/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/configuration/book.xml" out="${cocoon.build.xdocs}/configuration/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/containerkit/book.xml" out="${cocoon.build.xdocs}/containerkit/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/converter/book.xml" out="${cocoon.build.xdocs}/converter/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/datasource/book.xml" out="${cocoon.build.xdocs}/datasource/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/event/book.xml" out="${cocoon.build.xdocs}/event/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/extension/book.xml" out="${cocoon.build.xdocs}/extension/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/fortress/book.xml" out="${cocoon.build.xdocs}/fortress/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/i18n/book.xml" out="${cocoon.build.xdocs}/i18n/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/instrument/book.xml" out="${cocoon.build.xdocs}/instrument/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/instrument-client/book.xml" out="${cocoon.build.xdocs}/instrument-client/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/instrument-manager/book.xml" out="${cocoon.build.xdocs}/instrument-manager/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/io/book.xml" out="${cocoon.build.xdocs}/io/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/jprocess/book.xml" out="${cocoon.build.xdocs}/jprocess/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/logger/book.xml" out="${cocoon.build.xdocs}/logger/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/merlin/book.xml" out="${cocoon.build.xdocs}/merlin/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/microcontainer/book.xml" out="${cocoon.build.xdocs}/microcontainer/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/monitor/book.xml" out="${cocoon.build.xdocs}/monitor/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/naming/book.xml" out="${cocoon.build.xdocs}/naming/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/pool/book.xml" out="${cocoon.build.xdocs}/pool/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/sourceresolve/book.xml" out="${cocoon.build.xdocs}/sourceresolve/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/store/book.xml" out="${cocoon.build.xdocs}/store/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/tar/book.xml" out="${cocoon.build.xdocs}/tar/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/testcase/book.xml" out="${cocoon.build.xdocs}/testcase/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/thread/book.xml" out="${cocoon.build.xdocs}/thread/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/threadcontext/book.xml" out="${cocoon.build.xdocs}/threadcontext/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/tweety/book.xml" out="${cocoon.build.xdocs}/tweety/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/util/book.xml" out="${cocoon.build.xdocs}/util/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/xmlbundle/book.xml" out="${cocoon.build.xdocs}/xmlbundle/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/xmlutil/book.xml" out="${cocoon.build.xdocs}/xmlutil/menu.xml" style="${tools.dir}/book2project.xsl"/>
+    <style in="${cocoon.build.xdocs}/zip/book.xml" out="${cocoon.build.xdocs}/zip/menu.xml" style="${tools.dir}/book2project.xsl"/>
+  </target>
   
   <!-- Update the www directory -->
   <target name="site-docs" depends="site">
