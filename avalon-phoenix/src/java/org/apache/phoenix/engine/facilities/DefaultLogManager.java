@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE file.
  */
-package org.apache.phoenix.engine.facilitys;
+package org.apache.phoenix.engine.facilities;
 
 import java.io.File;
 import java.io.IOException;

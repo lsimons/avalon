@@ -5,11 +5,11 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.phoenix.engine.facilitys;
+package org.apache.phoenix.engine.facilities;
 
 import org.apache.avalon.atlantis.Facility;
-import org.apache.avalon.camelot.pipeline.ConfigurationRepository;
 import org.apache.avalon.camelot.Entry;
+import org.apache.avalon.camelot.pipeline.ConfigurationRepository;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
 import org.apache.phoenix.engine.blocks.BlockEntry;
