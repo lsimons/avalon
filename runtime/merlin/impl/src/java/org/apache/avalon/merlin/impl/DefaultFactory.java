@@ -945,7 +945,7 @@ public class DefaultFactory implements Factory
     public void printDeploymentModel( 
       StringBuffer buffer, String lead, DeploymentModel model )
     {
-        DeploymentModel[] providers = model.getProviderGraph();
+        DeploymentModel[] providers = model.getProviders();
         DeploymentModel[] consumers = model.getConsumerGraph();
 
         if(( providers.length == 0 ) && ( consumers.length == 0 ))
@@ -956,13 +956,28 @@ public class DefaultFactory implements Factory
         if( providers.length > 0 ) for( int i=0; i<providers.length; i++ )
         {
             DeploymentModel m = providers[i];
-            buffer.append( "\n" + lead + "  <-- " + m );
+            buffer.append( "\n" + lead + "  <-- consumes: " + m  );
         }
 
         if( consumers.length > 0 ) for( int i=0; i<consumers.length; i++ )
         {
             DeploymentModel m = consumers[i];
-            buffer.append( "\n" + lead + "  --> " + m );
+            if( isDirectProvider( m, model ) )
+            {
+                buffer.append( "\n" + lead + "  --> supplies: " + m );
+            }
         }
+    }
+
+    private boolean isDirectProvider( DeploymentModel consumer, DeploymentModel model )
+    {
+        String name = model.getQualifiedName();
+        DeploymentModel[] providers = consumer.getProviders();
+        for( int i=0; i<providers.length; i++ )
+        {
+             DeploymentModel m = providers[i];
+             if( m.getQualifiedName().equals( name ) ) return true;
+        }
+        return false;
     }
 }
