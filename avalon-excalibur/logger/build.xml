@@ -75,6 +75,9 @@
         <available property="javamail.present" classname="javax.mail.Session">
             <classpath refid="project.class.path"/>
         </available>
+        <available property="lf5.present" classname="org.apache.log.output.lf5.LF5LogTarget">
+            <classpath refid="project.class.path"/>
+        </available>
     </target>
 
     <!-- Check that if we want servlet logging support, our logkit.jar has it enabled too -->
@@ -187,9 +190,17 @@
       </antcall>
   </target>
 
+  <target name="lf5-warn" unless="lf5.present"
+      description="Outputs a warning if LF5 classes are missing during compilation">
+      <antcall target="op-warning">
+          <param name="thing" value="LogFactor 5"/>
+          <param name="recovery"
+              value="Get the newest LF5-enabled logkit, and place it in the lib dir"/>
+      </antcall>
+  </target>
 
 
-  <target name="optional-warnings" depends="jms-warn,sql-warn,mail-warn,log4j-warn,servlet-warn"
+  <target name="optional-warnings" depends="jms-warn,sql-warn,mail-warn,log4j-warn,servlet-warn,lf5-warn"
       description="Outputs warnings if some jars are missing from the environment">
   </target>
 
@@ -210,7 +221,7 @@
             <exclude name="**/Log4J*"
                      unless="log4j.present"/>
             <exclude name="**/LF5TargetFactory.java*"
-                     unless="log4j.present"/>
+                     unless="lf5.present"/>
             <exclude name="org/apache/avalon/excalibur/logger/factory/ServletTargetFactory.java"
                      unless="servlet.present"/>
             <exclude name="org/apache/avalon/excalibur/logger/factory/JMSTargetFactory.java"
