@@ -59,10 +59,7 @@ import org.apache.avalon.excalibur.collections.VariableSizeBuffer;
 import org.apache.avalon.excalibur.concurrent.Mutex;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.excalibur.event.impl.DefaultQueue;
-import org.apache.excalibur.event.EventHandler;
-import org.apache.excalibur.event.Queue;
-import org.apache.excalibur.event.Signal;
-import org.apache.excalibur.event.Source;
+import org.apache.excalibur.event.*;
 
 /**
  * The CommandManager handles asynchronous commands from the rest of the
@@ -109,11 +106,25 @@ public class CommandManager implements EventPipeline, Disposable
     {
     }
 
-    public final Queue getCommandQueue()
+    /**
+     * Get the Command Sink so that you can enqueue new commands.
+     *
+     * @return the Sink that feeds the CommandManager
+     */
+    public final Sink getCommandSink()
     {
         return m_queue;
     }
 
+    /**
+     * Register a Signal with an EventHandler.  The Signal is a special object
+     * that implements the {@link Signal} interface.  When CommandManager recieves
+     * events that match the Signal, it will send a copy of it to all the
+     * {@link EventHandler}s attached to it.
+     *
+     * @param signal   The signal we are listening for.
+     * @param handler  The handler that wants to be notified
+     */
     public final void registerSignalHandler( Signal signal, EventHandler handler )
     {
         try
@@ -143,6 +154,13 @@ public class CommandManager implements EventPipeline, Disposable
         }
     }
 
+    /**
+     * Deregister a Signal with an EventHandler.  Stop notifying the particular
+     * EventHandler that is passed in about the associated Signal.
+     *
+     * @param signal   The signal we are listening for.
+     * @param handler  The handler that wants to be notified
+     */
     public final void deregisterSignalHandler( Signal signal, EventHandler handler )
     {
         try
@@ -172,21 +190,37 @@ public class CommandManager implements EventPipeline, Disposable
             m_mutex.release();
         }
     }
-    
-    public void dispose () 
+
+    /**
+     * When you are done with CommandManager, call this and it will
+     * clean up all its resources.
+     */
+    public void dispose ()
     {
-        Object[] remainingElements = getCommandQueue().dequeueAll();
+        Object[] remainingElements = m_queue.dequeueAll();
         for( int i = 0; i < remainingElements.length; i++ )
         {
             getEventHandler().handleEvent( remainingElements[i] );
         }
-    }    
+    }
 
+    /**
+     * Used by the Threadmanager to get the sources that are feeding
+     * the CommandManager.
+     *
+     * @return the Array of one Source
+     */
     public final Source[] getSources()
     {
         return m_sources;
     }
 
+    /**
+     * Used by the ThreadManager to get the EventHandler for the
+     * CommandManager.
+     *
+     * @return the EventHandler
+     */
     public final EventHandler getEventHandler()
     {
         return m_eventHandler;
