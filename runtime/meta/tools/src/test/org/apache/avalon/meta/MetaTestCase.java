@@ -96,7 +96,8 @@ public class MetaTestCase extends TestCase
     public void buildMeta() throws Exception
     {
         String base = System.getProperty( "basedir" );
-        m_qdox.addSourceTree( new File( base, "target/test-classes" ) );
+        File basedir = new File( base );
+        m_qdox.addSourceTree( basedir );
         JavaSource[] sources = m_qdox.getSources();
         for( int i=0; i<sources.length; i++ )
         {

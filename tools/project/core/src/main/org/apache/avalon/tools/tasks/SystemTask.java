@@ -68,7 +68,8 @@ public class SystemTask extends ContextualTask
         if( null == object )
         {
             final String error = 
-              "System home ref id '" + id + "' declared or implied in task [" 
+              "System home ref id '" + id 
+              + "' declared or implied in task [" 
               + getTaskName() 
               + "] is unknown with the project ["
               + getProject().getName() 
@@ -82,7 +83,8 @@ public class SystemTask extends ContextualTask
         else
         {
             final String error = 
-              "System home ref id '" + id + "' declared or implied in task [" 
+              "System home ref id '" + id 
+              + "' declared or implied in task [" 
               + getTaskName() 
               + "] in the project ["
               + getProject().getName() 

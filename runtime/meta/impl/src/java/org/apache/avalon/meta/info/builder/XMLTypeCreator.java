@@ -41,8 +41,8 @@ import org.apache.avalon.meta.info.Type;
 
 import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;
+import org.apache.avalon.util.configuration.ConfigurationUtil;
 
-import org.apache.excalibur.configuration.ConfigurationUtil;
 import org.xml.sax.InputSource;
 
 /**

@@ -57,7 +57,7 @@ public class InstallTask extends SystemTask
         fileset.createInclude().setName( "**/*" );
 
         File cache = getHome().getRepository().getCacheDirectory();
-        String group = getHome().getDefinition().getInfo().getGroup();
+        String group = getHome().getDefinition( getKey() ).getInfo().getGroup();
         File target = new File( cache, group );
         mkDir( target );
 

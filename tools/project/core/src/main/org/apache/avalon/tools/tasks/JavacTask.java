@@ -78,7 +78,7 @@ public class JavacTask extends SystemTask
 
             Path classpath = 
               getHome().getRepository().createPath( 
-                getProject(), getHome().getDefinition() );
+                getProject(), getHome().getDefinition( getKey() ) );
             compile( main, classes, classpath );
 
             Copy copy = (Copy) getProject().createTask( "copy" );
@@ -92,6 +92,10 @@ public class JavacTask extends SystemTask
             copy.addFileset( fileset );
             copy.init();
             copy.execute();
+        }
+        else
+        {
+            log( "no src main to compile : " + main.toString() );
         }
     }
 

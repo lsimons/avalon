@@ -62,7 +62,7 @@ import org.apache.avalon.tools.util.ElementHelper;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class Home extends Sequential
+public class Home extends DataType
 {
     //-------------------------------------------------------------
     // static
@@ -71,141 +71,61 @@ public class Home extends Sequential
     public static final String KEY = "project.home";
     public static final String HOME_KEY = "project.home";
 
+    private static final String USER_PROPERTIES = "user.properties";
+    private static final String BUILD_PROPERTIES = "build.properties";
+
     //-------------------------------------------------------------
     // mutable state
     //-------------------------------------------------------------
 
     private boolean m_init = false;
-    private Context m_context;
 
     private String m_id;
-    private String m_key;
 
+    private Home m_home;
     private Repository m_repository;
     private File m_system;
     private File m_file;
 
     private final Hashtable m_resources = new Hashtable();
-    private Definition m_definition;
     private BuildListener m_listener;
 
     //-------------------------------------------------------------
-    // setters
+    // constructor
     //-------------------------------------------------------------
 
-    public void setIndex( File file ) throws BuildException
+    public Home( Project project, String id )
     {
-        m_file = file;
-    }
-
-    public void setKey( String key )
-    {
-        m_key = key;
-    }
-
-    public void setId( String id )
-    {
+        setProject( project );
         m_id = id;
+        setupHome();
     }
 
     //-------------------------------------------------------------
     // Task
     //-------------------------------------------------------------
 
-    public void init() throws BuildException 
+    private String getHomeID()
     {
-        if( !m_init )
-        {
-            Project project = getProject();
-            m_context = Context.getContext( project );
-            m_init = true;
-        }
-    }
-
-    public void execute()
-    {
-        Project project = getProject();
-
-        if( null == m_file )
-        {
-            String path = project.getProperty( HOME_KEY );
-            if( null != path )
-            {
-                File index = Context.getFile( project.getBaseDir(), path );
-                if( index.exists() )
-                {
-                    if( index.isDirectory() )
-                    {
-                        m_file = new File( index, "index.xml" );
-                    }
-                    else
-                    {
-                        m_file = index;
-                    }
-                }
-                else
-                {
-                    final String error = 
-                      "Property value 'project.home' in task defintion [" 
-                      + getTaskName() 
-                      + "] references a non-existant file: "
-                      + index;
-                    throw new BuildException( error );
-                }
-            }
-            else
-            {
-                final String error = 
-                  "Cannot continue due to missing index attribute in task defintion [" 
-                  + getTaskName() + "].";
-                throw new BuildException( error );
-            }
-        }
-
         if( null == m_id )
         {
-            project.addReference( KEY, this );
+            return KEY;
         }
         else
         {
-            project.addReference( m_id, this );
+            return m_id;
         }
-
-        m_system = m_file.getParentFile();
-        log( "home: " + m_system, Project.MSG_DEBUG );
-
-        Element root = ElementHelper.getRootElement( m_file );
-        final Element repo = ElementHelper.getChild( root, "repository" );
-        final Element resources = ElementHelper.getChild( root, "resources" );
-        final Element projects = ElementHelper.getChild( root, "projects" );
-
-        //
-        // construct the repository, build the definition of the available 
-        // resources and projects used within the system and associate a build
-        // listener
-        //
-
-        m_repository = createRepository( repo );
-        buildResourceList( resources );
-        buildProjectList( projects );
-
-        final String key = getKey();
-        m_definition = getDefinition( key, false );
-        m_listener = new StandardListener( this, m_definition );
-
-        super.execute();
-
     }
 
-    private String getKey()
+    private Home getHome()
     {
-        if( null != m_key )
+        if( m_home != null )
         {
-            return m_key;
+            return m_home;
         }
         else
         {
-            return getProject().getName();
+            return this;
         }
     }
 
@@ -223,20 +143,10 @@ public class Home extends Sequential
         return m_repository;
     }
 
-    public File getFile()
-    {
-        return m_file;
-    }
-
     public Plugin getPlugin( PluginRef ref )
       throws BuildException
     {
         return (Plugin) getDefinition( ref );
-    }
-
-    public Definition getDefinition()
-    {
-        return m_definition;
     }
 
     public Definition getDefinition( ProjectRef ref )
@@ -297,6 +207,7 @@ public class Home extends Sequential
         return null;
     }
 
+   /*
     public void build( Definition definition )
     {
         Ant ant = (Ant) getProject().createTask( "ant" );
@@ -321,11 +232,13 @@ public class Home extends Sequential
         }
         return (Definition[]) targets.toArray( new Definition[0] );
     }
+    */
 
     //-------------------------------------------------------------
     // internal
     //-------------------------------------------------------------
 
+    /*
     private void getBuildSequence( List visited, List targets, Definition definition )
     {
         if( visited.contains( definition ) ) return;
@@ -351,6 +264,7 @@ public class Home extends Sequential
             targets.add( definition );
         }
     }
+    */
 
     private void buildResourceList( Element resources )
     {
@@ -403,4 +317,98 @@ public class Home extends Sequential
         }
         return repository;
     }
+
+    private void setupHome()
+    {
+        Project project = getProject();
+        log( "Building system definition." );
+        try
+        {
+            File index = getIndexFile();
+            m_system = index.getParentFile();
+            setupProperties( project, m_system );
+            Element root = ElementHelper.getRootElement( index );
+            final Element repo = ElementHelper.getChild( root, "repository" );
+            final Element resources = ElementHelper.getChild( root, "resources" );
+            final Element projects = ElementHelper.getChild( root, "projects" );
+
+            //
+            // construct the repository, build the definition of the available 
+            // resources and projects used within the system and associate a build
+            // listener
+            //
+
+            m_repository = createRepository( repo );
+            buildResourceList( resources );
+            buildProjectList( projects );
+
+        }
+        catch( Throwable e )
+        {
+            throw new BuildException( e );
+        }
+    }
+
+    private File getIndexFile()
+    {
+        if( null != m_file ) return m_file;
+
+        String path = project.getProperty( KEY );
+        if( null != path )
+        {
+            File index = Context.getFile( project.getBaseDir(), path );
+            if( index.exists() )
+            {
+                if( index.isDirectory() )
+                {
+                    return new File( index, "index.xml" );
+                }
+                else
+                {
+                    return index;
+                }
+            }
+            else
+            {
+                final String error = 
+                  "Property value 'project.home' references a non-existant file: "
+                  + index;
+                throw new BuildException( error );
+            }
+        }
+        else
+        {
+            final String error = 
+              "Cannot continue due to missing index attribute.";
+            throw new BuildException( error );
+        }
+    }
+
+    private void setupProperties( Project project, File dir )
+    {
+        setupUserProperties( project, dir );
+        setupBuildProperties( project, dir );
+    }
+
+    private void setupUserProperties( Project project, File basedir )
+    {
+        File user = Context.getFile( basedir, USER_PROPERTIES );
+        readProperties( project, user );
+    }
+
+    private void setupBuildProperties( Project project, File basedir )
+    {
+        File build = Context.getFile( basedir, BUILD_PROPERTIES );
+        readProperties( project, build );
+    }
+
+    private void readProperties( Project project, File file ) throws BuildException 
+    {
+        Property props = (Property) project.createTask( "property" );
+        props.setFile( file );
+        props.init();
+        props.execute();
+    }
+
+
 }
