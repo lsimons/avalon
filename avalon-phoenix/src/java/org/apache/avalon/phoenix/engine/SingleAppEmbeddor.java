@@ -14,9 +14,6 @@ import org.apache.avalon.framework.camelot.ContainerException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.parameters.ParameterException;
-import org.apache.avalon.framework.parameters.Parameterizable;
-import org.apache.avalon.framework.parameters.Parameters;
 
 /**
  * Embeddor to host only a single application.
