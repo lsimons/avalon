@@ -198,8 +198,7 @@ Legal:
     </jar>
 
     <jar jarfile="${build.lib}/phoenix-engine.jar"
-         basedir="${build.classes}"
-         manifest="${manifest.dir}/engine-Manifest.mf" >
+         basedir="${build.classes}" >
 
       <include name="org/apache/avalon/phoenix/engine/**"/>
       <include name="org/apache/avalon/phoenix/frontends/**"/>
