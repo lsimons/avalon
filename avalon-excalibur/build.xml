@@ -33,7 +33,7 @@ Legal:
   <property name="version" value="4.0"/>
   <property name="release" value="1st"/>
   <property name="status" value="final"/>
-  <property name="short.version" value="4.0"/>
+  <property name="short.version" value="4.1"/>
   <property name="year" value="1999-2001"/>
 
   <property name="excalibur.name" value="avalon-${name}"/>
@@ -775,7 +775,14 @@ Legal:
     <delete dir="${docs.dir}" />
     <delete dir="${dist.base}" />
     <delete dir="${src.dist.dir}" />
-    <delete file="Announcement.txt" />
+    <delete>
+      <fileset dir=".">
+        <include name="Announcement.txt" />
+        <include name="jakarta-news.xml" />
+        <include name="junit*.properties" />
+        <include name="test.log" />
+      </fileset>
+    </delete>
   </target>
 
 </project>
