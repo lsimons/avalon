@@ -27,4 +27,10 @@
     </parameters>
   </target>
 
+  <target path="/demo/authentication/realm">
+    <parameters>
+      <parameter name="filename" value="blocks/demo/etc/user.realm" />
+    </parameters>
+  </target>
+
 </targets>

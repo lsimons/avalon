@@ -11,6 +11,7 @@
       <x:include name="server" artifact="block:avalon/http/avalon-http-server#SNAPSHOT"/>
       <x:include name="static-context" artifact="block:avalon/http/avalon-http-static#SNAPSHOT"/>
       <x:component name="hello" class="org.apache.avalon.playground.HelloComponent"/>
+      <x:include name="authentication" artifact="block:avalon/http/avalon-http-hash-basic#SNAPSHOT"/>
     </x:block>
   </target>
 
