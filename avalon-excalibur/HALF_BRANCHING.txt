@@ -1,0 +1,237 @@
+					=======================================
+								 Half-branching
+
+									  aka
+						 
+						   branching only some files
+							  in a CVS repository
+
+
+						 Jeff Turner <jefft@apache.org>
+								$Revision: 1.1 $
+						  $Date: 2002/05/07 00:39:53 $
+                    =======================================
+
+
+This file contains a quick guide on how to only branch some files in a CVS
+repository, with jakarta-avalon-logkit as an example. These instructions are
+Unix-specific. Commands marked (**) are described in the appendix.
+
+
+  Branching existing files
+  ------------------------
+
+Say you just want to branch one file, build.xml. The steps would be:
+
+    cvs tag -b centipede build.xml
+
+This tells CVS to create a branch tag in CVS called 'centipede', on the
+file build.xml. 
+
+    cvs update -r centipede build.xml
+
+This means "I want to edit the 'centipede' branch of build.xml". Now if
+you modify build.xml and commit, the commit message will say 'Tag: centipede':
+
+CVS: ----------------------------------------------------------------------
+CVS: Enter Log.  Lines beginning with `CVS:' are removed automatically
+CVS: 
+CVS: Committing in .
+CVS: 
+CVS: Modified Files:
+CVS:  Tag: centipede
+CVS:    build.xml 
+CVS: ----------------------------------------------------------------------
+
+
+Now imagine you've branched a number of files like this. How are people going
+to get the branched files? They can't do 'cvs update -r centipede' in the
+project root, or all the non-tagged files will disappear! We need to *only*
+update the tagged files. It's easiest to do this by adding a shell script in
+the project root:
+
+#!/bin/sh
+cvs update -r centipede build.xml <other files..>
+
+and the equivalent .bat file
+
+@echo off
+cvs update -r centipede build.xml <other files..>
+
+Then 'chmod +x build.sh ; cvs add centipede.* ; cvs commit centipede.*'.
+Now any users who want to try the Centipede doc system can run
+'centipede.(sh|bat)' and get the modified files.
+
+
+  Behind the scenes
+  -----------------
+  (this is necessary info for the next step)
+
+The CVS/Entries file contains the status of all files in the current directory.
+So jakarta-avalon-logkit/CVS/Entries will originally contain:
+
+/KEYS/1.1.1.1/Mon May  6 23:17:39 2002//
+/LICENSE/1.1.1.1/Mon May  6 23:17:39 2002//
+/README/1.1.1.1/Mon May  6 23:17:39 2002//
+/build.bat/1.1.1.1/Mon May  6 23:17:39 2002//
+/build.sh/1.1.1.1/Mon May  6 23:17:39 2002//
+/build.xml/1.1.1.1/Mon May  6 23:17:39 2002/
+D/lib////
+D/src////
+D/www////
+
+Note the entry for build.xml:
+
+/build.xml/1.1.1.1/Mon May  6 23:17:39 2002/
+
+After doing the 'cvs update -r centipede' command, this line will read:
+
+/build.xml/1.1.1.1/Mon May  6 23:17:39 2002//Tcentipede
+
+
+  Adding new files to the branch
+  ------------------------------
+
+Let's say we want to add a new directory, tools/antipede, to our 'centipede'
+branch (in reality, I hope centipede won't need added files, but this is just
+an example).
+
+So first we create the new directory:
+
+    mkdir tools
+    cd tools
+
+and copy the antipede directory:
+
+    cp -r /home/jeff/java/krysalis-centipede/tools/antipede .
+
+and then clear out all the old CVS directories (I downloaded Centipede from
+CVS):
+
+    find . -name "CVS" -exec rm -r {} \;                 # (**)
+
+Now we must add the new directory structure:
+
+    cd ..      # Get back to root
+    cvs add `find tools -type d`
+
+You'll see something like this:
+
+Directory /home/cvs/jakarta-avalon-logkit/tools added to the repository
+Directory /home/cvs/jakarta-avalon-logkit/tools/antipede added to the repository
+Directory /home/cvs/jakarta-avalon-logkit/tools/antipede/bin added to the repository
+Directory /home/cvs/jakarta-avalon-logkit/tools/antipede/lib added to the repository
+Directory /home/cvs/jakarta-avalon-logkit/tools/antipede/resources added to the repository
+Directory /home/cvs/jakarta-avalon-logkit/tools/antipede/resources/stylesheets added to the repository
+
+Now add the new files:
+
+cvs add `find tools -type f -not -path "*/CVS/*"`                # (**)
+
+So far, nothing special has happened. These are standard steps for adding new
+files, described in the NEW_PROJECTS.txt file.
+
+Now comes the difference. Usually, now we'd just type 'cvs commit' and commit
+the added files. If you do so, you'll see that there is no tag mentioned in the
+commit log:
+
+CVS: 
+CVS: Added Files:
+CVS:    build.dtd build.xtarget tasks.properties 
+
+So abort that commit! (':q!' in vi)
+
+There is no way with just the 'cvs' command to say "These files, which I
+haven't yet added, must be added only to the centipede branch".
+
+So we have to emulate what the 'cvs' command would do, if it were smart enough,
+by editing the CVS/Entries files directly:
+
+    cd tools
+    find . -name "Entries" -exec perl -i -pe 's:/$:/Tcentipede:g' {} \;     # (**)
+
+Then if we commit, we'll see the tag mentioned:
+
+CVS: Added Files:
+CVS:  Tag: centipede
+CVS:    build.dtd build.xtarget tasks.properties 
+
+
+So go ahead, and commit the files.
+
+The last step is to update our shell and bat scripts to update the tools
+directory. Add the following line to centipede.sh and centipede.bat:
+
+cvs update -r centipede tools
+
+
+  Checking that it all works
+  --------------------------
+
+Now let's test that everything works, and that regular users can easily
+retrieve the centipede-tagged files.
+
+First, go back to the CVS head:
+
+cvs update -A
+
+You should see all the tools/antipede files disappearing:
+
+U build.xml
+cvs update: warning: tools/antipede/build.dtd is not (any longer) pertinent
+cvs update: warning: tools/antipede/build.xtarget is not (any longer) pertinent
+cvs update: warning: tools/antipede/tasks.properties is not (any longer) pertinent
+...
+
+
+Now run the centipede.(sh|bat) file. The tools/ files should reappear:
+
+[jeff@kermit jakarta-avalon-logkit]$ ./centipede.sh 
+U build.xml
+U tools/antipede/build.dtd
+U tools/antipede/build.xtarget
+U tools/antipede/tasks.properties
+U tools/antipede/bin/ant
+...
+
+
+All done!
+
+
+
+  Guide to the weirder commands
+  -----------------------------
+
+find . -name "CVS" -exec rm -r {} \;
+
+	This means, "find all the files called "CVS", and for each one found, run
+	'rm -r <the file found>'.
+
+cvs add `find tools -type f -not -path "*/CVS/*"`
+
+	Means "In the tools directory, find all files which don't have the path
+	*/CVS/*", ie all files except those in the CVS directories.
+
+
+find . -name "Entries" -exec perl -i -pe 's:/$:/Tcentipede:g' {} \;
+
+	Means find all files called "Entries", and for each one, run this perl command".
+	The perl command deserves further dissection:
+
+	perl -i -pe 's:/$:/Tcentipede:g' <some file>
+
+		The '-i' means "don't create any backup". If instead you use '-i.old',
+		modified files will be backed up with a .old extension.
+
+		Not sure what -pe does, but the 'e' means "here comes an expression".
+
+		's:/$:/Tcentipede:g' is a search and replace. ':' is the delimiter.
+		The format is s:<FROM>:<TO>:<FLAGS>:
+		where:
+			<FROM> is '/$', meaning "the last / at the end of the line"
+			<TO> is '/Tcentipede'
+			<FLAGS> is 'g', meaning "do this for every line in the file".
+
+
+
+--Jeff
