@@ -458,7 +458,7 @@
     </target>
 
     <target name="dist"
-        depends="prepare-dist, dist-src, dist-jar, dist-bin, clean"
+        depends="prepare-dist, dist-src, dist-jar, dist-bin"
         description="Generates a distribution (jar + docs + javadocs + unit tests + checkstyle reports)">
 
         <checksum fileext=".md5">
