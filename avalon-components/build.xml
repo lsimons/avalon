@@ -194,7 +194,6 @@
                unless="glue.present" />
       <exclude name="org/apache/avalon/cornerstone/demos/soaphelloworldserver/**.java"
                unless="glue.present" />               
-               
     </javac>
 
     <copy todir="${build.classes}">
@@ -265,7 +264,6 @@
       <include name="org/apache/avalon/cornerstone/demos/soaphelloworldserver/*"/>
     </jar>
 
-
     <jar jarfile="${build.lib}/demo-simpleserver.bar"
          basedir="${build.classes}"
          manifest="${manifest.dir}/simpleserver-demo.mf">
@@ -280,13 +278,14 @@
        ===================================================================
   -->  
   <target name="sars" depends="demo-sar, soapdemo-sar"/>
-  <target name="demo-sar" depends="compile">    
+
+  <target name="demo-sar" depends="bars">
 
     <jar jarfile="${build.lib}/avalon-demo.sar">
 
       <zipfileset dir="${build.lib}/" prefix="blocks/">
         <include name="*.bar"/>
-        <exclude name="demo-soaphelloworld.bar.bar"/>
+        <exclude name="demo-soaphelloworld.bar"/>
       </zipfileset>
 
       <zipfileset dir="${lib.dir}" prefix="lib/">
@@ -539,9 +538,9 @@
 
   </target>
 
-  <target name="install" depends="jars,install-check-cjan,install-check-phoenix">
+  <target name="install" depends="demo-sar,install-check-cjan,install-check-phoenix">
     <mkdir dir="${cjan.lib}" />
-    <copy file="${build.lib}/cornerstone.bar" todir="${cjan.lib}"/>
+    <!--<copy file="${build.lib}/cornerstone.bar" todir="${cjan.lib}"/>-->
 
     <property name="phoenix.apps" value="${phoenix.home}/apps"/>
     <mkdir dir="${phoenix.apps}" />
@@ -745,12 +744,9 @@
   <target name="ftpserver">
     <ant antfile="build.xml" dir="apps/ftpserver" target="jars"/>
   </target>  
+
   <target name="ftpserver-deploy">
     <ant antfile="build.xml" dir="apps/ftpserver" target="deploy"/>
   </target>    
-
-   
-  
-
 
 </project>
