@@ -10,6 +10,8 @@ package org.apache.avalon.phoenix.components.frame;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.excalibur.lang.ThreadContext;
 import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.log.Logger;
 
@@ -36,6 +38,15 @@ public interface ApplicationFrame
      * @return the ClassLoader
      */
     ClassLoader getClassLoader();
+
+    /**
+     * Get the Configuration for specified component.
+     *
+     * @param component the component
+     * @return the Configuration
+     */
+    Configuration getConfiguration( String component )
+        throws ConfigurationException;
 
     /**
      * Get logger with category for application.

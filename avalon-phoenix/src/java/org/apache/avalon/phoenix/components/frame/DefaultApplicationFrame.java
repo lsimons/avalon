@@ -12,9 +12,21 @@ import java.net.URL;
 import java.security.Policy;
 import java.util.ArrayList;
 import java.util.HashMap;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.excalibur.lang.DefaultThreadContextPolicy;
+import org.apache.avalon.excalibur.lang.ThreadContext;
+import org.apache.avalon.excalibur.lang.ThreadContextPolicy;
+import org.apache.avalon.excalibur.logger.DefaultLogKitManager;
+import org.apache.avalon.excalibur.logger.LogKitManager;
+import org.apache.avalon.excalibur.thread.ThreadPool;
+import org.apache.avalon.excalibur.thread.impl.DefaultThreadPool;
 import org.apache.avalon.framework.ExceptionUtil;
 import org.apache.avalon.framework.Version;
 import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.component.ComponentException;
+import org.apache.avalon.framework.component.ComponentManager;
+import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -23,17 +35,9 @@ import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLoggable;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.logger.DefaultLogKitManager;
-import org.apache.avalon.excalibur.logger.LogKitManager;
-import org.apache.avalon.excalibur.thread.impl.DefaultThreadPool;
-import org.apache.avalon.excalibur.thread.ThreadPool;
-import org.apache.avalon.excalibur.lang.ThreadContext;
-import org.apache.avalon.excalibur.lang.ThreadContextPolicy;
 import org.apache.avalon.phoenix.BlockContext;
+import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.log.Logger;
-import org.apache.avalon.excalibur.lang.DefaultThreadContextPolicy;
 
 /**
  * Manage the "frame" in which Applications operate.
@@ -42,10 +46,10 @@ import org.apache.avalon.excalibur.lang.DefaultThreadContextPolicy;
  */
 public class DefaultApplicationFrame
     extends AbstractLoggable
-    implements ApplicationFrame, Contextualizable, Configurable, Initializable
+    implements ApplicationFrame, Contextualizable, Composable, Configurable, Initializable
 {
     private static final Resources REZ =
-        ResourceManager.getPackageResources( DefaultPolicy.class );
+        ResourceManager.getPackageResources( DefaultApplicationFrame.class );
 
     private final static String  DEFAULT_FORMAT =
         "%{time} [%7.7{priority}] (%{category}): %{message}\\n%{throwable}";
@@ -62,14 +66,8 @@ public class DefaultApplicationFrame
     //LogKitManager for application
     private LogKitManager   m_logKitManager;
 
-    ///Policy for application
-    private Policy       m_policy;
-
     ///ClassLoader for application
     private ClassLoader  m_classLoader;
-
-    ///Classpath for application
-    private URL[]        m_classPath;
 
     ///Base context for all blocks in application
     private Context      m_context;
@@ -80,12 +78,25 @@ public class DefaultApplicationFrame
     ///Cached version of configuration so that accessible in init() to configure threads
     private Configuration m_configuration;
 
+    //Repository of configuration data to access
+    private ConfigurationRepository m_repository;
+
+    public DefaultApplicationFrame( final ClassLoader classLoader )
+    {
+        m_classLoader = classLoader;
+    }
+
     public void contextualize( final Context context )
         throws ContextException
     {
         m_name = (String)context.get( "app.name" );
         m_baseDirectory = (File)context.get( "app.home" );
-        m_classPath = (URL[])context.get( "app.class.path" );
+    }
+
+    public void compose( final ComponentManager componentManager )
+        throws ComponentException
+    {
+        m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
     }
 
     /**
@@ -97,10 +108,6 @@ public class DefaultApplicationFrame
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
-        //Configure policy
-        final Configuration policy = configuration.getChild( "policy" );
-        configurePolicy( policy );
-
         //Configure Logging
         final Configuration logs = configuration.getChild( "logs" );
         configureLogKitManager( logs );
@@ -118,9 +125,6 @@ public class DefaultApplicationFrame
     public void initialize()
         throws Exception
     {
-        final ClassLoader parentClassLoader = Thread.currentThread().getContextClassLoader();
-        m_classLoader = new PolicyClassLoader( m_classPath, parentClassLoader, m_policy );
-
         //base context that all block contexts inherit from
         final DefaultContext context = new DefaultContext();
         context.put( BlockContext.APP_NAME, m_name );
@@ -167,6 +171,19 @@ public class DefaultApplicationFrame
     public Logger getLogger( final String category )
     {
         return m_logKitManager.getLogger( category );
+    }
+
+
+    /**
+     * Get the Configuration for specified component.
+     *
+     * @param component the component
+     * @return the Configuration
+     */
+    public Configuration getConfiguration( final String component )
+        throws ConfigurationException
+    {
+        return m_repository.getConfiguration( m_name, component );
     }
 
     /**
@@ -217,21 +234,6 @@ public class DefaultApplicationFrame
     }
 
     /**
-     * Setup policy based on configuration data.
-     *
-     * @param configuration the configuration data
-     * @exception ConfigurationException if an error occurs
-     */
-    private void configurePolicy( final Configuration configuration )
-        throws ConfigurationException
-    {
-        final DefaultPolicy policy = new DefaultPolicy( m_baseDirectory );
-        policy.setLogger( getLogger() );
-        policy.configure( configuration );
-        m_policy = policy;
-    }
-
-    /**
      * Setup thread pools based on configuration data.
      *
      * @param configuration the configuration data
@@ -261,7 +263,7 @@ public class DefaultApplicationFrame
         final String name = configuration.getChild( "name" ).getValue();
         final int priority = configuration.getChild( "priority" ).getValueAsInteger( 5 );
         final boolean isDaemon = configuration.getChild( "is-daemon" ).getValueAsBoolean( false );
-        
+
         final int minThreads = configuration.getChild( "min-threads" ).getValueAsInteger( 5 );
         final int maxThreads = configuration.getChild( "max-threads" ).getValueAsInteger( 10 );
         final int minSpareThreads = configuration.getChild( "min-spare-threads" ).
@@ -269,7 +271,7 @@ public class DefaultApplicationFrame
 
         try
         {
-            final DefaultThreadPool threadPool = 
+            final DefaultThreadPool threadPool =
                 new DefaultThreadPool( name, maxThreads, m_threadContext );
             threadPool.setDaemon( isDaemon );
             threadPool.setLogger( getLogger() );
