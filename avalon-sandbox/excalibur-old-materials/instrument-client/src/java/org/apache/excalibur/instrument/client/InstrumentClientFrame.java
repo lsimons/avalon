@@ -50,7 +50,7 @@ import org.apache.avalon.framework.logger.Logger;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/10/25 16:45:03 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/10/25 19:07:58 $
  * @since 4.1
  */
 class InstrumentClientFrame
@@ -66,6 +66,7 @@ class InstrumentClientFrame
     private JDesktopPane m_desktopPane;
     private JSplitPane m_splitPane;
     private MenuBar m_menuBar;
+    private StatusBar m_statusBar;
 
     private File m_desktopFile;
     private File m_desktopFileDir;
@@ -667,6 +668,9 @@ class InstrumentClientFrame
         // Create a Menu Bar
         m_menuBar = new MenuBar( this );
         setJMenuBar( m_menuBar );
+        
+        m_statusBar = new StatusBar();
+        getContentPane().add( m_statusBar, BorderLayout.SOUTH );
 
         Toolkit toolkit = getToolkit();
         Dimension screenSize = toolkit.getScreenSize();
@@ -685,6 +689,11 @@ class InstrumentClientFrame
         {
             setTitle( m_title + " - " + m_desktopFile.getAbsolutePath() );
         }
+    }
+    
+    void setStatusMessage( String message )
+    {
+        m_statusBar.setStatusMessage( message );
     }
     
     JDesktopPane getDesktopPane()
@@ -707,9 +716,9 @@ class InstrumentClientFrame
      */
     void tileFrames()
     {
-        ArrayList openframes = getOpenFrames();
+        JInternalFrame[] openFrames = getOpenFrames();
         
-        int count = openframes.size();
+        int count = openFrames.length;
         if ( count == 0)
         {
             return;
@@ -737,15 +746,15 @@ class InstrumentClientFrame
             ratio = (float)frameWidth / frameHeight;
         }
         
-        reorganizeFrames( rows, cols, openframes );
+        reorganizeFrames( rows, cols, openFrames );
     }
     
     /**
      * Get a list with all open frames. 
      *
-     * @return ArrayList with references to all open internal frames
+     * @return Array of all open internal frames
      */
-    ArrayList getOpenFrames()
+    JInternalFrame[] getOpenFrames()
     {
         JInternalFrame[] frames = m_desktopPane.getAllFrames();
         int count = frames.length;
@@ -753,20 +762,26 @@ class InstrumentClientFrame
         // No frames
         if (count == 0) 
         {
-            return new ArrayList();
+            // Array is empty, so it is safe to return.
+            return frames;
         }
     
         // add only open frames to the list
-        ArrayList openframes = new ArrayList();
+        ArrayList openFrames = new ArrayList();
         for ( int i = 0; i < count; i++ )
         {
             JInternalFrame f = frames[i];
             if( ( f.isClosed() == false ) && ( f.isIcon() == false ) )
             {
-                openframes.add( f );
+                openFrames.add( f );
             }
         }
-        return openframes;
+        
+        // Create a simple array to be returned
+        frames = new JInternalFrame[ openFrames.size() ];
+        openFrames.toArray( frames );
+        
+        return frames;
     }
     
     /**
@@ -777,7 +792,7 @@ class InstrumentClientFrame
      * @param cols number of columns to use
      * @param frames list with <code>JInternalFrames</code>
      */  
-    void reorganizeFrames( int rows, int cols, ArrayList frames )
+    void reorganizeFrames( int rows, int cols, JInternalFrame[] frames )
     {
         // Determine the size of one windows
         Dimension desktopsize = m_desktopPane.getSize();
@@ -785,13 +800,13 @@ class InstrumentClientFrame
         int h = desktopsize.height / rows;
         int x = 0;
         int y = 0;
-        int count = frames.size();
+        int count = frames.length;
 
         for ( int i = 0; i < rows; ++i)
         {
             for ( int j = 0; j < cols && ( ( i * cols ) + j < count ); ++j ) 
             {
-                JInternalFrame f = (JInternalFrame) frames.get( ( i * cols ) + j );
+                JInternalFrame f = frames[ ( i * cols ) + j ];
                 m_desktopPane.getDesktopManager().resizeFrame( f, x, y, w, h );
                 x += w;
             }
@@ -805,14 +820,14 @@ class InstrumentClientFrame
      */
     void tileFramesH()
     {
-        ArrayList openframes=getOpenFrames();
+        JInternalFrame[] openFrames = getOpenFrames();
         
-        int count = openframes.size();
+        int count = openFrames.length;
         if ( count == 0 )
         {
             return;
         }
-        reorganizeFrames( count, 1, openframes );
+        reorganizeFrames( count, 1, openFrames );
     }
     
     /**
@@ -820,14 +835,14 @@ class InstrumentClientFrame
      */
     void tileFramesV()
     {
-        ArrayList openframes = getOpenFrames();
+        JInternalFrame[] openFrames = getOpenFrames();
         
-        int count=openframes.size();
+        int count=openFrames.length;
         if ( count == 0)
         {
             return;
         }
-        reorganizeFrames( 1, count, openframes );
+        reorganizeFrames( 1, count, openFrames );
     }
     
     InstrumentManagerConnection[] getInstrumentManagerConnections()
