@@ -151,7 +151,6 @@ public class RevolvingFileStrategy
         {
             final File file = matchingFiles[ i ];
             final long lastModified = file.lastModified();
-            System.out.println( "lastModified[" + rotations[ i ] + "] = " + lastModified );
             if( lastModified > time )
             {
                 time = lastModified;
