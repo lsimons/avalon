@@ -58,20 +58,20 @@ import org.apache.avalon.util.exception.ExceptionHelper;
 
 import org.apache.avalon.activation.appliance.grant.components.TestService;
 
-public class CodeSecurityTestCase extends AbstractTestCase
+public class CodeSecurityEnabledTestCase extends AbstractTestCase
 {
    //-------------------------------------------------------
    // constructor
    //-------------------------------------------------------
 
-    public CodeSecurityTestCase( )
+    public CodeSecurityEnabledTestCase( )
     {
         this( "secure" );
     }
 
-    public CodeSecurityTestCase( String name )
+    public CodeSecurityEnabledTestCase( String name )
     {
-        super( name );
+        super( name, true );
     }
 
    //-------------------------------------------------------
@@ -96,34 +96,28 @@ public class CodeSecurityTestCase extends AbstractTestCase
     * Create, assembly, deploy and decommission the block 
     * defined by getPath().
     */
-    public void testCodeSecurity() throws Exception
+    public void testInterfaceMethods() throws Exception
     {
         TestService test = setupTestService();
-
         try
         {
             test.doPrimary(); // test something in component
+            fail( "CodeSecurityTest primary failure: This operation should not be allowed." );
         }
-        catch( Throwable e )
+        catch( Exception e )
         {
-            final String error = "CodeSecurityTest primary failure.";
-            final String message = ExceptionHelper.packException( error, e, true );
-            getLogger().error( message );
-            throw new Exception( message );
+            // ignore, expected
         }
 
         try
         {
             test.doSecondary(); // test something in component
+            fail( "CodeSecurityTest secondary failure: This operation should not be allowed." );
         }
-        catch( Throwable e )
+        catch( Exception e )
         {
-            final String error = "CodeSecurityTest secondary failure.";
-            final String message = ExceptionHelper.packException( error, e, true );
-            getLogger().error( message );
-            throw new Exception( message );
+            // ignore, expected
         }
-
     }
 
     private TestService setupTestService() throws Exception
