@@ -53,11 +53,11 @@ readme.txt for additional details).
 
 then:
 
-  $ ant -execute target\classes
+  $ merlin -execute target\classes
 
 or:
 
-  $ ant -execute target\deliverables\jars\<jar-name>.jar
+  $ merlin -execute target\deliverables\jars\<jar-name>.jar
 
 Additional tutorials are in constant preparation. 
 Questions and comments should be directed to 
