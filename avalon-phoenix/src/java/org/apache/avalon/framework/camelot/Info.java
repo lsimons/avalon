@@ -7,8 +7,6 @@
  */
 package org.apache.avalon.framework.camelot;
 
-import org.apache.avalon.framework.component.Component;
-
 /**
  * This contains information relating to a component.
  * (ie BlockInfo, BeanInfo, MailetInfo etc).
@@ -20,6 +18,5 @@ import org.apache.avalon.framework.component.Component;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public interface Info
-    extends Component
 {
 }
