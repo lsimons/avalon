@@ -56,7 +56,7 @@ package org.apache.avalon.fortress;
  * to enable "self-healing" configuration files.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2003/04/11 07:38:30 $
+ * @version $Revision: 1.9 $ $Date: 2003/04/18 17:08:20 $
  */
 public class RoleEntry
 {
@@ -139,7 +139,8 @@ public class RoleEntry
     }
 
     /**
-     * Get the <code>Class</code> for the component type's {@link org.apache.avalon.fortress.impl.handler.ComponentHandler}.
+     * Get the <code>Class</code> for the component type's
+     * {@link org.apache.avalon.fortress.impl.handler.ComponentHandler}.
      *
      * @return the <code>Class</code>
      */
