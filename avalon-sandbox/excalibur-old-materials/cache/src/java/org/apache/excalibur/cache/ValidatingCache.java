@@ -20,6 +20,8 @@ public final class ValidatingCache
     private CacheValidator m_validator;
 
     /**
+     * Cache with validator.
+     *
      * @param cache
      * @param validator object validator
      */
@@ -29,6 +31,13 @@ public final class ValidatingCache
         m_validator = validator;
     }
 
+    /**
+     * Validate cached item.
+     *
+     * @param key the key of cached item
+     * @param value the value of cached item
+     * @return true if cached item is valid otherwise false
+     */
     private boolean validate( final Object key, final Object value )
     {
         if( null == m_validator )

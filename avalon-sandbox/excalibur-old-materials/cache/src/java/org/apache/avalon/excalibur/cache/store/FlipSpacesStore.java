@@ -24,8 +24,9 @@ public class FlipSpacesStore
     private Map m_newCache = null;
 
     /**
-     * the data space which stores accessed items which have not been accessed since the last space swap.
-     * At the time <code>copySpaces</code> is called, objects still stored within this space are removed from the cache.
+     * the data space which stores accessed items which have not been accessed
+     * since the last space swap. At the time <code>copySpaces</code> is called,
+     * objects still stored within this space are removed from the cache.
      */
     private Map m_oldCache = null;
 
@@ -53,8 +54,9 @@ public class FlipSpacesStore
 
     /**
      * Puts a given name value pair into the newCache.
-     * By invoking a get for the Object associated with the name before doing the actual put - we insure that the
-     * name value pair lives in the newCache data space.  After executing the put - we determine if the cache is full
+     * By invoking a get for the Object associated with the name before doing
+     * the actual put - we insure that the name value pair lives in the newCache
+     * data space.  After executing the put - we determine if the cache is full
      * - if so swap the data spaces - effectively clearing the newCache.
      *
      * @param key - name or key of the Object to be cached
@@ -74,8 +76,9 @@ public class FlipSpacesStore
     }
 
     /**
-     * Removes the Object associated with the given name from the both spaces of this cache store.
-     * By doing a get before removing the object we insure that the object if in the cache has been moved to the newCache
+     * Removes the Object associated with the given name from the both spaces of
+     * this cache store. By doing a get before removing the object we insure
+     * that the object if in the cache has been moved to the newCache
      *
      * @param key - name or key associated with the Object to be removed
      * @return the removed Object
@@ -89,8 +92,9 @@ public class FlipSpacesStore
 
     /**
      * Gets the cached object associated with the given name.
-     * If the object does not exist within the newCache the old is checked.  If the cache is determined to be full
-     * the spaces are swapped - effectively clearing the newCache.  The object is then put into the newCache.
+     * If the object does not exist within the newCache the old is checked.
+     * If the cache is determined to be full the spaces are swapped
+     * - effectively clearing the newCache.  The object is then put into the newCache.
      *
      * @param key - the name or key of the requested object
      * @return the requested Object
@@ -119,10 +123,12 @@ public class FlipSpacesStore
     }
 
     /**
-     * Erase the oldCache - releasing those objects that are still considered old by the time the newCache has been
-     * determined to be full.  Move the newCache to old and the previously oldCache to newCache effectively clearing
-     * it.  Over time accessing objects will move them from the oldCache to the newCache leaving those objects behind
-     * that shall be cleared as the newCache is determined to be full again.
+     * Erase the oldCache - releasing those objects that are still considered
+     * old by the time the newCache has been determined to be full.
+     * Move the newCache to old and the previously oldCache to newCache
+     * effectively clearing it. Over time accessing objects will move them from
+     * the oldCache to the newCache leaving those objects behind that shall be
+     * cleared as the newCache is determined to be full again.
      */
     private void copySpaces()
     {
@@ -142,7 +148,8 @@ public class FlipSpacesStore
     }
 
     /**
-     * Gets the capacity for the cache.  Once the cache size has reached the capacity it is considered full.
+     * Gets the capacity for the cache.
+     * Once the cache size has reached the capacity it is considered full.
      *
      * @return cache capacity
      */

@@ -20,6 +20,13 @@ public class CacheEvent
     private Object m_key;
     private Object m_value;
 
+    /**
+     * Construct the <code>CacheEvent</code>.
+     *
+     * @param cache the source of event
+     * @param key the key
+     * @param value the value
+     */
     public CacheEvent( final Cache cache,
                        final Object key, final Object value )
     {
@@ -28,11 +35,21 @@ public class CacheEvent
         m_value = value;
     }
 
+    /**
+     * Retrieve the key.
+     *
+     * @return the key
+     */
     public Object getKey()
     {
         return m_key;
     }
 
+    /**
+     * Retrieve the value.
+     *
+     * @return the value
+     */
     public Object getValue()
     {
         return m_value;
