@@ -1,6 +1,6 @@
 
 
-<project name="source" default="main" basedir=".">
+<project name="datasources" default="main" basedir=".">
 
   <property file="ant.properties"/>
   <property file="${user.home}/.ant.properties"/>

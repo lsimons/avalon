@@ -7,7 +7,7 @@
   <property file="default.properties"/>
 
   <!-- Main target -->
-  <target name="main" depends="threads,sockets,scheduler,source,masterstore,connection"/>
+  <target name="main" depends="threads,sockets,scheduler,datasources,masterstore,connection"/>
 
   <target name="context">
     <uptodate property="threads-uptodate" targetfile="${build.dir}/lib/conerstone-threads-1.0.jar">
@@ -31,9 +31,9 @@
         <include name="**/store/**/*.*"/>
       </srcfiles>
     </uptodate>
-    <uptodate property="source-uptodate" targetfile="${build.dir}/lib/conerstone-source-1.0.jar">
+    <uptodate property="datasources-uptodate" targetfile="${build.dir}/lib/conerstone-datasources-1.0.jar">
       <srcfiles dir="${src.dir}/java">
-        <include name="**/source/**/*.*"/>
+        <include name="**/datasources/**/*.*"/>
       </srcfiles>
     </uptodate>
     <uptodate property="connection-uptodate" targetfile="${build.dir}/lib/conerstone-connection-1.0.jar">
@@ -59,8 +59,8 @@
     <ant antfile="masterstore.xml" inheritall="false"/>
   </target>
 
-  <target name="source" depends="context" unless="source-uptodate">
-    <ant antfile="source.xml" inheritall="false"/>
+  <target name="datasources" depends="context" unless="datasources-uptodate">
+    <ant antfile="datasources.xml" inheritall="false"/>
   </target>
 
   <target name="connection" depends="context" unless="connection-uptodate">
