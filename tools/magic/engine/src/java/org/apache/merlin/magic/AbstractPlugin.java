@@ -6,21 +6,27 @@ import java.util.Iterator;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+
+import org.apache.tools.ant.Project;
+
 public abstract class AbstractPlugin extends AbstractLogEnabled
     implements Plugin, Contextualizable
 {
     private ArrayList m_Listeners;
     
     protected PluginContext m_Context;
+    protected Project m_Project;
     
     protected AbstractPlugin()
     {
         m_Listeners = new ArrayList();
     }
     
-    public void contextualize( Context context )
+    public void contextualize( Context ctx )
     {
-        m_Context = (PluginContext) context;
+        m_Context = (PluginContext) ctx;
+        m_Project = m_Context.getAntProject();
     }
     
     public void addPluginObserver( PluginObserver observer )
@@ -61,7 +67,7 @@ public abstract class AbstractPlugin extends AbstractLogEnabled
         while( list.hasNext() )
         {
             PluginObserver observer = (PluginObserver) list.next();
-            observer.postMethod( this, method, stepIndex );
+            observer.stepPerformed( this, method, stepIndex );
         }
     }
 } 
