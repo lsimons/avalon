@@ -50,17 +50,15 @@
 
 package org.apache.avalon.composition.model;
 
-import java.io.File;
 import java.net.URL;
 
-import org.apache.avalon.repository.Repository;
 import org.apache.avalon.composition.data.ContainmentProfile;
 
 /**
  * A factory enabling the establishment of new containment model instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:18 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 12:53:48 $
  */
 public interface ModelFactory 
 {

@@ -50,17 +50,8 @@
 
 package org.apache.avalon.composition.data;
 
-import java.io.Serializable;
-
-import org.apache.avalon.framework.Version;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.meta.info.DependencyDescriptor;
-import org.apache.avalon.meta.info.ReferenceDescriptor;
-import org.apache.avalon.meta.info.ServiceDescriptor;
 import org.apache.avalon.meta.info.InfoDescriptor;
 
 /**
@@ -136,7 +127,7 @@ import org.apache.avalon.meta.info.InfoDescriptor;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2003/10/19 10:31:01 $
+ * @version $Revision: 1.5 $ $Date: 2003/10/28 12:53:48 $
  */
 public class DeploymentProfile extends Profile
 {

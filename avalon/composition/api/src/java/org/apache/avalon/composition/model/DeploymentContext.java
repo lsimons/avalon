@@ -53,7 +53,6 @@ package org.apache.avalon.composition.model;
 import java.io.File;
 
 import org.apache.avalon.meta.info.ContextDescriptor;
-import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.meta.info.Type;
@@ -63,7 +62,7 @@ import org.apache.avalon.composition.data.DeploymentProfile;
  * Defintion of a deployment context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:17 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 12:53:48 $
  */
 public interface DeploymentContext
 {

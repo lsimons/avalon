@@ -57,11 +57,7 @@ package org.apache.avalon.composition.data;
 
 import java.util.ArrayList;
 
-import org.apache.avalon.meta.info.DependencyDescriptor;
-import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
-import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.configuration.Configuration;
 
 /**
  * A containment profile describes a containment context including
@@ -69,7 +65,7 @@ import org.apache.avalon.framework.configuration.Configuration;
  * the a container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:04 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 12:53:48 $
  */
 public class ContainmentProfile extends Profile
 {

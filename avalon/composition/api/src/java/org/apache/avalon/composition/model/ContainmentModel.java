@@ -52,8 +52,6 @@ package org.apache.avalon.composition.model;
 
 import java.net.URL;
 
-import org.apache.avalon.composition.data.ContainmentProfile;
-import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.data.Profile;
 import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.data.CategoriesDirective;
@@ -66,7 +64,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/10/13 01:28:26 $
+ * @version $Revision: 1.4 $ $Date: 2003/10/28 12:53:48 $
  */
 public interface ContainmentModel extends Model
 {

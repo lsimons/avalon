@@ -50,16 +50,13 @@
 
 package org.apache.avalon.composition.data;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * Description of classpath.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:03 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 12:53:48 $
  */
 public final class ClasspathDirective implements Serializable
 {
