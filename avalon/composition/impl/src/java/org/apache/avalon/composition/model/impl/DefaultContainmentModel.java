@@ -94,7 +94,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.28 $ $Date: 2004/02/07 19:31:08 $
+ * @version $Revision: 1.29 $ $Date: 2004/02/07 20:21:03 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -104,7 +104,8 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     //--------------------------------------------------------------
 
     private static final Resources REZ =
-            ResourceManager.getPackageResources( DefaultContainmentModel.class );
+      ResourceManager.getPackageResources( 
+        DefaultContainmentModel.class );
 
     private static final ContainmentProfileBuilder BUILDER = 
       new ContainmentProfileBuilder();
@@ -194,18 +195,9 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         // setup the service export parameters
         //
 
-        ServiceDirective[] export = 
-          context.getContainmentProfile().getExportDirectives();
-        m_services = new DefaultServiceModel[ export.length ];
-        for( int i=0; i<export.length; i++ )
-        {
-            ServiceDirective service = export[i];
-            Class clazz = getServiceExportClass( service );
-            DeploymentModel provider = 
-              locateImplementionProvider( service );
-            m_services[i] = 
-              new DefaultServiceModel( service, clazz, provider ); 
-        }
+        DefaultContainmentModelExportHelper helper =
+          new DefaultContainmentModelExportHelper( m_context, this );
+        m_services = helper.createServiceExport();
     }
 
     //--------------------------------------------------------------
@@ -233,8 +225,8 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     **/ 
     public boolean isSecureExecutionEnabled()
     {
-        SystemContext sc = m_context.getSystemContext();
-        return sc.isCodeSecurityEnabled();
+        SystemContext system = m_context.getSystemContext();
+        return system.isCodeSecurityEnabled();
     }
    
    /** 
@@ -485,7 +477,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     * @return the model 
     * @exception ModelException if a model related error occurs
     */
-    public DeploymentModel addModel( URL url ) throws ModelException
+    public ContainmentModel addContainmentModel( URL url ) throws ModelException
     {
         return addContainmentModel( url, null );
     }
@@ -499,6 +491,14 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         return model;
     }
 
+   /**
+    * Addition of a new subsidiary model within
+    * the containment context using a supplied profile.
+    *
+    * @param profile a containment or deployment profile 
+    * @return the model based on the supplied profile
+    * @exception ModelException if an error occurs during model establishment
+    */
     public DeploymentModel addModel( DeploymentProfile profile ) throws ModelException
     {
         if( null == profile )
@@ -549,6 +549,135 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         return addModel( name, model );
     }
 
+   /**
+    * Removal of a named model for the containment model.
+    *
+    * @param name the name of the subsidiary model to be removed
+    * @exception IllegalArgumentException if the supplied name is unknown
+    */
+    public void removeModel( String name ) throws IllegalArgumentException
+    {
+        ModelRepository repository = m_context.getModelRepository();
+        synchronized( repository )
+        {
+            DeploymentModel model = (DeploymentModel) repository.getModel( name );
+            if( null == model )
+            {
+                final String error = 
+                  "No model named [" + name 
+                  + "] is referenced with the model [" 
+                  + this + "].";
+                throw new IllegalArgumentException( error ); 
+            }
+            else
+            {
+                m_context.getDependencyGraph().add( model );
+                repository.removeModel( model );
+                CompositionEvent event = new CompositionEvent( this, model );
+                fireModelRemovedEvent( event );
+            }
+        }
+    }
+
+   /**
+    * Return the partition name established by this containment context.
+    * @return the partition name
+    */
+    public String getPartition()
+    {
+        return m_partition;
+    }
+
+   /**
+    * Return the set of immediate child models nested 
+    * within this model.
+    *
+    * @return the nested model
+    */
+    public DeploymentModel[] getModels()
+    {
+        return m_context.getModelRepository().getModels();
+    }
+
+   /**
+    * Return a child model relative to a supplied name.
+    *
+    * @param path a relative or absolute path
+    * @return the named model or null if the name is unknown
+    * @exception IllegalArgumentException if the name if badly formed
+    */
+    public DeploymentModel getModel( String path )
+    {
+        DefaultContainmentModelNavigationHelper helper = 
+          new DefaultContainmentModelNavigationHelper( m_context, this );
+        return helper.getModel( path );
+    }
+
+   /**
+    * Apply a set of override targets resolvable from a supplied url.
+    * @param config a url resolvable to a TargetDirective[]
+    * @exception ModelException if an error occurs
+    */
+    public void applyTargets( URL config )
+      throws ModelException
+    {
+        if( config != null )
+        {
+            TargetDirective[] targets = getTargets( config );
+            applyTargets( targets );
+        }
+    }
+
+   /**
+    * Apply a set of override targets.
+    * @param targets a set of target directives
+    */
+    public void applyTargets( TargetDirective[]targets )
+    {
+        for( int i=0; i<targets.length; i++ )
+        {
+            TargetDirective target = targets[i];
+            final String path = target.getPath();
+            Object model = getModel( path );
+            if( model != null )
+            {
+                if( model instanceof ComponentModel )
+                {
+                    ComponentModel deployment = (ComponentModel) model;
+                    if( target.getConfiguration() != null )
+                    {
+                        deployment.setConfiguration( 
+                          target.getConfiguration() );
+                    }
+                    if( target.getCategoriesDirective() != null )
+                    {
+                        deployment.setCategories( 
+                          target.getCategoriesDirective() );
+                    }
+                }
+                else if( model instanceof ContainmentModel )
+                {
+                    ContainmentModel containment = (ContainmentModel) model;
+                    if( target.getCategoriesDirective() != null )
+                    {
+                        containment.setCategories( 
+                          target.getCategoriesDirective() );
+                    }
+                }
+            }
+            else
+            {
+                final String warning = 
+                  REZ.getString( "target.ignore", path, toString() );
+                getLogger().warn( warning );
+            }
+        }
+    }
+
+    //--------------------------------------------------------------
+    // private
+    //--------------------------------------------------------------
+
     private DeploymentModel addModel( 
       String name, DeploymentModel model ) throws ModelException
     {
@@ -581,37 +710,6 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
                 final String error = 
                   ExceptionHelper.packException( message, e, true );
                 getLogger().warn( error );
-            }
-        }
-    }
-
-
-   /**
-    * Removal of a named model for the containment model.
-    *
-    * @param name the name of the subsidiary model to be removed
-    * @exception IllegalArgumentException if the supplied name is unknown
-    */
-    public void removeModel( String name ) throws IllegalArgumentException
-    {
-        ModelRepository repository = m_context.getModelRepository();
-        synchronized( repository )
-        {
-            DeploymentModel model = (DeploymentModel) repository.getModel( name );
-            if( null == model )
-            {
-                final String error = 
-                  "No model named [" + name 
-                  + "] is referenced with the model [" 
-                  + this + "].";
-                throw new IllegalArgumentException( error ); 
-            }
-            else
-            {
-                m_context.getDependencyGraph().add( model );
-                repository.removeModel( model );
-                CompositionEvent event = new CompositionEvent( this, model );
-                fireModelRemovedEvent( event );
             }
         }
     }
@@ -1018,105 +1116,6 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     }
 
    /**
-    * Return the partition name established by this containment context.
-    * @return the partition name
-    */
-    public String getPartition()
-    {
-        return m_partition;
-    }
-
-   /**
-    * Return the set of immediate child models nested 
-    * within this model.
-    *
-    * @return the nested model
-    */
-    public DeploymentModel[] getModels()
-    {
-        return m_context.getModelRepository().getModels();
-    }
-
-   /**
-    * Return a child model relative to a supplied name.
-    *
-    * @param path a relative or absolute path
-    * @return the named model or null if the name is unknown
-    * @exception IllegalArgumentException if the name if badly formed
-    */
-    public DeploymentModel getModel( String path )
-    {
-        DefaultContainmentModelNavigationHelper helper = 
-          new DefaultContainmentModelNavigationHelper( m_context, this );
-        return helper.getModel( path );
-    }
-
-   /**
-    * Apply a set of override targets resolvable from a supplied url.
-    * @param config a url resolvable to a TargetDirective[]
-    * @exception ModelException if an error occurs
-    */
-    public void applyTargets( URL config )
-      throws ModelException
-    {
-        if( config != null )
-        {
-            TargetDirective[] targets = getTargets( config );
-            applyTargets( targets );
-        }
-    }
-
-   /**
-    * Apply a set of override targets.
-    * @param targets a set of target directives
-    */
-    public void applyTargets( TargetDirective[]targets )
-    {
-        for( int i=0; i<targets.length; i++ )
-        {
-            TargetDirective target = targets[i];
-            final String path = target.getPath();
-            Object model = getModel( path );
-            if( model != null )
-            {
-                if( model instanceof ComponentModel )
-                {
-                    ComponentModel deployment = (ComponentModel) model;
-                    if( target.getConfiguration() != null )
-                    {
-                        deployment.setConfiguration( 
-                          target.getConfiguration() );
-                    }
-                    if( target.getCategoriesDirective() != null )
-                    {
-                        deployment.setCategories( 
-                          target.getCategoriesDirective() );
-                    }
-                }
-                else if( model instanceof ContainmentModel )
-                {
-                    ContainmentModel containment = (ContainmentModel) model;
-                    if( target.getCategoriesDirective() != null )
-                    {
-                        containment.setCategories( 
-                          target.getCategoriesDirective() );
-                    }
-                }
-            }
-            else
-            {
-                final String warning = 
-                  REZ.getString( "target.ignore", path, toString() );
-                getLogger().warn( warning );
-            }
-        }
-    }
-
-    //==============================================================
-    // implementation
-    //==============================================================
-
-   /**
     * Conver a classic url to a jar url.  If the supplied url protocol is not 
     * the "jar" protocol, a ne url is created by prepending jar: and adding the 
     * trailing "!/".
@@ -1185,103 +1184,6 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
             final String error = 
               "Could not load the targets directive: " + url;
             throw new ModelException( error, e );
-        }
-    }
-
-   /**
-    * Return the class declared by a container service export declaration.
-    * @return the exported service interface class
-    * @exception ModelException if the class cannot be resolved
-    */
-    private Class getServiceExportClass( ServiceDirective service )
-      throws ModelException
-    {
-        String classname = service.getReference().getClassname();
-        try
-        {
-            ClassLoader classloader = m_context.getClassLoader();
-            return classloader.loadClass( classname );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Cannot load service class [" 
-              + classname 
-              + "].";
-            throw new ModelException( error, e );
-        }
-    }
-
-   /**
-    * Given a service directive declared by a container, locate a model 
-    * with this containment model to map as the provider.  If not model
-    * is explicity declared, the implementation will attempt to construct
-    * a new model based on packaged profiles and add the created model to
-    * the set of models within this container.
-    * 
-    * @param service the service directive
-    * @return the implementing deployment model
-    * @exception ModelException if an implementation is not resolvable 
-    */
-    private DeploymentModel locateImplementionProvider( ServiceDirective service )
-      throws ModelException
-    {
-        final String path = service.getPath();
-        if( null != path )
-        {
-            DeploymentModel provider = getModel( path );
-            if( null == provider )
-            {
-                final String error = 
-                  "Implemention provider path [" 
-                  + path 
-                  + "] for the exported service [" 
-                  + service.getReference()
-                  + "] in the containment model "
-                  + this
-                  + " does not reference a known model.";
-               throw new ModelException( error );
-            }
-            else
-            {
-                return provider;
-            }
-        }
-        else
-        {
-            final DependencyDescriptor dependency = 
-              new DependencyDescriptor( 
-                "export", 
-                service.getReference() );
-
-            final ModelRepository repository = m_context.getModelRepository();
-            final DeploymentModel[] candidates = repository.getModels();
-            final ModelSelector selector = new DefaultModelSelector();
-            DeploymentModel provider = selector.select( candidates, dependency );
-            if( null != provider )
-            {
-                return provider;
-            }
-            else
-            {
-                TypeRepository repo = 
-                  getClassLoaderModel().getTypeRepository();
-                DeploymentProfile profile = 
-                  repo.getProfile( dependency, false );
-                if( profile != null )
-                {
-                    return addModel( profile );
-                }
-                else
-                {
-                    final String error = 
-                      "Could not locate a provider for the exported service [" 
-                        + dependency.getReference()
-                        + "] in the containment model "
-                        + this;
-                    throw new ModelException( error );
-                }
-            }
         }
     }
 }
