@@ -53,33 +53,33 @@
     <target name="cocoon:setup-html-docs" depends="cocoon:setup-filters" description="generates the xdocs-based documentation">
 
         <mkdir dir="${build.dir}"/>
-        <mkdir dir="${build.context}"/>
-        <mkdir dir="${build.docs}"/>
-        <mkdir dir="${build.xdocs}"/>
+        <mkdir dir="${cocoon.build.context}"/>
+        <mkdir dir="${cocoon.build.docs}"/>
+        <mkdir dir="${cocoon.build.xdocs}"/>
         <mkdir dir="${build.dir}/work"/>
         
 
-        <copy todir="${build.context}" overwrite="true" filtering="on">
-            <fileset dir="${main.context.dir}">
+        <copy todir="${cocoon.build.context}" overwrite="true" filtering="on">
+            <fileset dir="${cocoon.main.context.dir}">
                 <exclude name="**/*.gif"/>
                 <exclude name="**/*.jpg"/>
                 <exclude name="**/*.png"/>
             </fileset>
         </copy>
 
-        <copy todir="${build.context}" filtering="off">
-            <fileset dir="${main.context.dir}">
+        <copy todir="${cocoon.build.context}" filtering="off">
+            <fileset dir="${cocoon.main.context.dir}">
                 <include name="**/*.gif"/>
                 <include name="**/*.jpg"/>
                 <include name="**/*.png"/>
             </fileset>
         </copy>
-        <copy todir="${build.xdocs}" filtering="on" overwrite="true">
-            <fileset dir="${xdocs.dir}"/>
+        <copy todir="${cocoon.build.xdocs}" filtering="on" overwrite="true">
+            <fileset dir="${cocoon.xdocs.dir}"/>
         </copy>
 
-        <copy file="${main.context.dir}/resources/schema/CatalogManager.properties" 
-              todir="${build.context}/resources/schema" filtering="off"/>
+        <copy file="${cocoon.main.context.dir}/resources/schema/CatalogManager.properties" 
+              todir="${cocoon.build.context}/resources/schema" filtering="off"/>
                 
     </target>
   
@@ -89,8 +89,8 @@
         <echo message="  Building docs from list, please stand by ..."/>
                 
         <java classname="org.apache.cocoon.Main" fork="true" maxmemory="128m" failonerror="true">
-            <arg value="-c${build.context}/"/>
-            <arg value="-d${build.docs}"/>
+            <arg value="-c${cocoon.build.context}/"/>
+            <arg value="-d${cocoon.build.docs}"/>
             <arg value="-w${build.dir}/work"/>
             <arg value="-l${build.dir}/work/cocoon.log"/>
             <arg value="-b${build.dir}/brokenlinks.txt"/>
@@ -115,8 +115,8 @@
         <echo message="  Crawling docs, please stand by ..."/>
                 
         <java classname="org.apache.cocoon.Main" fork="true" maxmemory="128m" failonerror="true">
-            <arg value="-c${build.context}/"/>
-            <arg value="-d${build.docs}"/>
+            <arg value="-c${cocoon.build.context}/"/>
+            <arg value="-d${cocoon.build.docs}"/>
             <arg value="-w${build.dir}/work"/>
             <arg value="-l${build.dir}/work/cocoon.log"/>
             <arg value="-uERROR"/>
