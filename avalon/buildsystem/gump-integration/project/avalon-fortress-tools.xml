@@ -11,7 +11,7 @@
     <depend project="xml-xalan2"></depend>
     <depend project="xml-xerces"></depend>
 
-      <depend runtime="true" project="avalon-fortress-container"></depend>
+      <depend runtime="true" inherit="runtime" project="avalon-fortress-container"></depend>
       <depend runtime="true" project="junit"></depend>
       <depend runtime="true" project="qdox"></depend>
 
