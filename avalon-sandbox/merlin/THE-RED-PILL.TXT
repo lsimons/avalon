@@ -1,0 +1,33 @@
+#
+# If you want to run this version of Merlin then all you need to do is
+# define an evironment variable to point to your Merlin installation root
+# directory, put the following command into a bat of script or whatever in 
+# your path, then go for it.
+# 
+# 
+# The -Djava.ext.dirs argument is important because it tels the JCM where 
+# to find the bootstrap classes.  The rest just starts up a kernel that loads 
+# an evalon-meta/assembly deployment engine and logs some stuff in the 
+# process - interesting but not terribly valuable at the moment.
+#
+# Pl,ease not - this code base is evolving daily as part of refactoring of the
+# Excalibur/assembly package. On completion there wil be a clean seperation of 
+# the internals containerment systems from the application notions of contaier 
+# hierachies.  The containement API element will be located under 
+# avalon-scatchpad/assembly and the kernel/container/block abstractions will 
+# be maintained under the avalon-scratchpad/merlin package.
+#
+
+java -Djava.ext.dirs=%MERLIN_HOME%\common;%MERLIN_HOME%\lib -jar %MERLIN_HOME%\build\lib\avalon-merlin-2.0.jar %1
+
+#
+# Aside from that - keep in mind that a lot of these changes are being driven 
+# the objectives of profile driven containment - and we really are not too sure 
+# where that is going to take us - but its a safe bet that the assembly and 
+# merlin work will influence things.  Hense the title - taking the red pill 
+# is what your doing if you playing with package!
+#
+# Enjoy.
+#
+# Cheers, Steve.
+#
