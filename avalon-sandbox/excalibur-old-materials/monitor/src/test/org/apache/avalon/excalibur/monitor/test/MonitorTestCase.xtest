@@ -1,0 +1,39 @@
+<testcase>
+  <annotation>
+    <![CDATA[
+      <title>Monitor Tests</title>
+      <para>
+        This series of tests excersize the different monitors provided by
+        Excalibur.  The configuration is specified in the file located in
+        <parameter>jakarta-avalon-excalibur/src/scratchpad/org/apache/avalon/excalibur/monitor/test/MonitorTest.xtext</parameter>.
+        You may edit the test to customize the settings.
+      </para>
+    ]]>
+  </annotation>
+
+  <logger/>
+
+  <context/>
+
+  <roles>
+    <role name="org.apache.avalon.excalibur.monitor.MonitorSelector"
+          shorthand="monitors"
+          default-class="org.apache.avalon.excalibur.component.ExcaliburComponentSelector">
+      <hint shorthand="active-monitor" class="org.apache.avalon.excalibur.monitor.ActiveMonitor"/>
+      <hint shorthand="passive-monitor" class="org.apache.avalon.excalibur.monitor.PassiveMonitor"/>
+    </role>
+  </roles>
+
+  <!--
+    It is critical that you have a monitor by the name "active" and the
+    name "passive"
+  -->
+  <components>
+    <monitors>
+      <active-monitor name="active" logger="test">
+        <thread priority="10" frequency="1"/>
+      </active-monitor>
+      <passive-monitor name="passive" logger="test"/>
+    </monitors>
+  </components>
+</testcase>
