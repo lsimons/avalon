@@ -22,7 +22,7 @@
             </td>
           </tr>
           <tr>
-            <td><a href="meta/info/index.html">Type Model</a></td>
+            <td><a href="info/index.html">Type Model</a></td>
             <td>
               The Avalon Meta Model defines the functional structure
               of component types and services. A Type definition contains 
