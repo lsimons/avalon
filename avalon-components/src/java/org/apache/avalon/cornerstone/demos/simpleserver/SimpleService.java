@@ -17,4 +17,5 @@ import org.apache.avalon.phoenix.Service;
 public interface SimpleService
     extends Service
 {
+    String ROLE = "org.apache.avalon.cornerstone.demos.simpleserver.SimpleService";
 }

@@ -20,6 +20,8 @@ import org.apache.avalon.phoenix.Service;
 public interface DataSourceSelector
     extends Service, ComponentSelector
 {
+    String ROLE = "org.apache.avalon.cornerstone.services.datasource.DataSourceSelector";
+
     /**
      *
      * @param the name of data source

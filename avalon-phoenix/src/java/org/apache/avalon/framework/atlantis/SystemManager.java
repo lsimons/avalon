@@ -22,6 +22,8 @@ import org.apache.avalon.framework.component.Component;
 public interface SystemManager
     extends Component, Initializable, Startable, Disposable
 {
+    String ROLE = "org.apache.avalon.framework.atlantis.SystemManager";
+
     /**
      * Register an object for management.
      * The object is exported through some management scheme

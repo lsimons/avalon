@@ -18,6 +18,8 @@ import org.apache.avalon.framework.component.Component;
 public interface Registry
     extends Component
 {
+    String ROLE = "org.apache.avalon.framework.camelot.Registry";
+
     /**
      * register an info under a particular name.
      *

@@ -19,6 +19,8 @@ import org.apache.avalon.phoenix.Service;
 public interface PacketManager
     extends Service
 {
+    String ROLE = "org.apache.avalon.cornerstone.services.packet.PacketManager";
+
     /**
      * Start managing a connection.
      * Management involves accepting connections and farming them out to threads

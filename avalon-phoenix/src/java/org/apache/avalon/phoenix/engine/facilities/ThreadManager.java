@@ -18,6 +18,8 @@ import org.apache.avalon.excalibur.thread.ThreadPool;
 public interface ThreadManager
     extends Facility
 {
+    String ROLE = "org.apache.avalon.phoenix.engine.facilities.ThreadManager";
+
     /**
      * Retrieve thread pool by name.
      *

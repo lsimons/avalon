@@ -21,5 +21,7 @@ import org.apache.avalon.phoenix.Service;
 public interface RoleManager
     extends Service
 {
+    String ROLE = "org.apache.avalon.cornerstone.services.security.RoleManager";
+
     boolean isPrincipalInRole( Principal principal, String role );
 }

@@ -62,8 +62,7 @@ public final class DefaultBlockDeployer
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
-        m_registry = (Registry)componentManager.
-            lookup( "org.apache.avalon.framework.camelot.Registry" );
+        m_registry = (Registry)componentManager.lookup( Registry.ROLE );
     }
 
     /**

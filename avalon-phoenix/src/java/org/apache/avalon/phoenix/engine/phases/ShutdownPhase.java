@@ -34,13 +34,12 @@ public class ShutdownPhase
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
-        final ClassLoaderManager classLoaderManager = (ClassLoaderManager)componentManager.
-            lookup( "org.apache.avalon.phoenix.engine.facilities.ClassLoaderManager" );
+        final ClassLoaderManager classLoaderManager = 
+            (ClassLoaderManager)componentManager.lookup( ClassLoaderManager.ROLE );
 
         m_classLoader = classLoaderManager.getClassLoader();
 
-        m_threadManager = (ThreadManager)componentManager.
-            lookup( "org.apache.avalon.phoenix.engine.facilities.ThreadManager" );
+        m_threadManager = (ThreadManager)componentManager.lookup( ThreadManager.ROLE );
     }
 
     /**

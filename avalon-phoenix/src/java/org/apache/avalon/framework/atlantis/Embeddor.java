@@ -10,6 +10,7 @@ package org.apache.avalon.framework.atlantis;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
+import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.parameters.Parameterizable;
 
 /**
@@ -20,8 +21,10 @@ import org.apache.avalon.framework.parameters.Parameterizable;
  * @author <a href="donaldp@apache.org">Peter Donald</a>
  */
 public interface Embeddor
-    extends Parameterizable, Initializable, Startable, Disposable
+    extends Component, Parameterizable, Initializable, Startable, Disposable
 {
+    String ROLE = "org.apache.avalon.framework.atlantis.Embeddor";
+
     /**
      * After the Embeddor is initialized, this method is called to actually
      * do the work. It will return when the embeddor is ready to be disposed.

@@ -67,17 +67,10 @@ public class SimpleServer
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
-        m_testStore =
-            (Store)componentManager.lookup( "org.apache.avalon.cornerstone.services.store.Store" );
-
-        m_socketManager = (SocketManager)componentManager.
-            lookup( "org.apache.avalon.cornerstone.services.sockets.SocketManager" );
-
-        m_connectionManager = (ConnectionManager)componentManager.
-            lookup( "org.apache.avalon.cornerstone.services.connection.ConnectionManager" );
-
-        m_timeScheduler = (TimeScheduler)componentManager.
-            lookup( "org.apache.avalon.cornerstone.services.scheduler.TimeScheduler" );
+        m_testStore = (Store)componentManager.lookup( Store.ROLE );
+        m_socketManager = (SocketManager)componentManager.lookup( SocketManager.ROLE );
+        m_connectionManager = (ConnectionManager)componentManager.lookup( ConnectionManager.ROLE );
+        m_timeScheduler = (TimeScheduler)componentManager.lookup( TimeScheduler.ROLE );
     }
 
     public void configure( final Configuration configuration )

@@ -87,24 +87,17 @@ public class StartupPhase
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
-        final ClassLoaderManager classLoaderManager = (ClassLoaderManager)componentManager.
-            lookup( "org.apache.avalon.phoenix.engine.facilities.ClassLoaderManager" );
+        final ClassLoaderManager classLoaderManager = 
+            (ClassLoaderManager)componentManager.lookup( ClassLoaderManager.ROLE );
 
         m_classLoader = classLoaderManager.getClassLoader();
 
         m_factory = new SimpleFactory( m_classLoader );
 
-        m_container = (Container)componentManager.
-            lookup( "org.apache.avalon.framework.camelot.Container" );
-
-        m_threadManager = (ThreadManager)componentManager.
-            lookup( "org.apache.avalon.phoenix.engine.facilities.ThreadManager" );
-
-        m_repository = (ConfigurationRepository)componentManager.
-            lookup( "org.apache.avalon.phoenix.engine.facilities.ConfigurationRepository" );
-
-        m_logManager = (LogManager)componentManager.
-            lookup( "org.apache.avalon.phoenix.engine.facilities.LogManager" );
+        m_container = (Container)componentManager.lookup( Container.ROLE );
+        m_threadManager = (ThreadManager)componentManager.lookup( ThreadManager.ROLE );
+        m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
+        m_logManager = (LogManager)componentManager.lookup( LogManager.ROLE );
     }
 
     /**

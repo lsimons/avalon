@@ -80,8 +80,7 @@ public class DefaultSarDeployer
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
-        m_container = (Container)componentManager.
-            lookup( "org.apache.avalon.framework.camelot.Container" );
+        m_container = (Container)componentManager.lookup( Container.ROLE );
     }
 
     protected void deployFromFile( final String name, final File file )

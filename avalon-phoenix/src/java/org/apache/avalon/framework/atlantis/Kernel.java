@@ -25,6 +25,8 @@ import org.apache.avalon.framework.camelot.ContainerException;
 public interface Kernel 
     extends Application
 {
+    String ROLE = "org.apache.avalon.framework.atlantis.Kernel";
+
     /**
      * Retrieve Application from container. 
      * The Application that is returned must be initialized 

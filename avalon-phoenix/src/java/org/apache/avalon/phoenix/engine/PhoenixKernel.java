@@ -50,8 +50,7 @@ public class PhoenixKernel
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
-        m_systemManager = (SystemManager)componentManager.
-            lookup( "org.apache.avalon.framework.atlantis.SystemManager" );
+        m_systemManager = (SystemManager)componentManager.lookup( SystemManager.ROLE );
     }
 
     public void initialize()

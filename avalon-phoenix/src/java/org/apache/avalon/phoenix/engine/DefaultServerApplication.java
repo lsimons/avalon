@@ -103,8 +103,7 @@ public final class DefaultServerApplication
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
-        m_systemManager = (SystemManager)componentManager.
-            lookup( "org.apache.avalon.framework.atlantis.SystemManager" );
+        m_systemManager = (SystemManager)componentManager.lookup( SystemManager.ROLE );
     }
 
     public void configure( final Configuration configuration )

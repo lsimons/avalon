@@ -48,8 +48,7 @@ public class SarClassLoader
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
-        final PolicyManager policyManager = (PolicyManager)componentManager.
-            lookup( "org.apache.avalon.phoenix.engine.facilities.PolicyManager" );
+        final PolicyManager policyManager = (PolicyManager)componentManager.lookup( PolicyManager.ROLE );
 
         m_policy = policyManager.getPolicy();
     }
