@@ -333,14 +333,14 @@
         <p>
           The DocumentStore is the main persistence handler in the repository.
           It is this component that implements the external DocumentRepository
-          interface, as a <em>Aggregated Component</em> can not implement any
+          interface, as an <em>Aggregated Component</em> can not implement any
           code by itself.
         </p>
       </subsection>
       
       <subsection name="DataSourceComponent">
         <p>
-          The DataSourceComponent is supplied by Avalon Components.  It is our
+          The DataSourceComponent is a manager of database connections. It is our
           method of retrieving valid JDBC Connection objects for our use.
         </p>
       </subsection>
@@ -349,13 +349,13 @@
           The Cache is a short-term memory-based storage facility.  The
           DocumentRepository will use it to store Document objects referenced
           by a hash algorithm.  In order to promote the reusability of the
-          Cache Component, the stored object must implement a Cacheable
+          Cache component, the stored object must implement a Cacheable
           interface.
         </p>
       </subsection>
       <subsection name="Guardian">
         <p>
-          The Guardian Component is used to manage permissions based on the
+          The Guardian component is used to manage permissions based on the
           Principal.  The Guardian will load its permission sets from a
           database.  The Guardian will use the standard Java security model to
           enforce access to the specific Document objects.
