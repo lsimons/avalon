@@ -151,7 +151,7 @@ public class DefaultKernel
 
         for( int i = 0; i < blockEntrys.length; i++ )
         {
-            final String blockName = blockEntrys[ i ].getName();
+            final String blockName = blockEntrys[ i ].getBlockMetaData().getName();
             application.add( blockName, blockEntrys[ i ] );
         }
     }

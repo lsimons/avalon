@@ -442,7 +442,7 @@ public final class DefaultServerApplication
         throws Exception
     {
         //Make sure all role entries specified in config file are valid
-        final RoleMetaData[] roles = entry.getRoles();
+        final RoleMetaData[] roles = entry.getBlockMetaData().getRoles();
         for( int i = 0; i < roles.length; i++ )
         {
             final String role = roles[ i ].getRole();
@@ -463,7 +463,7 @@ public final class DefaultServerApplication
         final DependencyDescriptor[] dependencies = entry.getBlockInfo().getDependencies();
         for( int i = 0; i < dependencies.length; i++ )
         {
-            final RoleMetaData role = entry.getRole( dependencies[ i ].getRole() );
+            final RoleMetaData role = entry.getBlockMetaData().getRole( dependencies[ i ].getRole() );
 
             if( null == role )
             {

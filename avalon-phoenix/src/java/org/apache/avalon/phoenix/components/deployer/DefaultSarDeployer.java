@@ -127,7 +127,7 @@ public class DefaultSarDeployer
     {
         for( int i = 0; i < blocks.length; i++ )
         {
-            final String name = blocks[ i ].getName();
+            final String name = blocks[ i ].getBlockMetaData().getName();
             checkNameUnique( name, blocks, listeners, i, -1 );
         }
 
@@ -148,7 +148,7 @@ public class DefaultSarDeployer
         //Verify no blocks have the same name
         for( int i = 0; i < blocks.length; i++ )
         {
-            final String other = blocks[ i ].getName();
+            final String other = blocks[ i ].getBlockMetaData().getName();
             if( blockIndex != i && name.equals( other ) )
             {
                 final String message = 
@@ -372,7 +372,8 @@ public class DefaultSarDeployer
     {
         for( int i = 0; i < blockEntrys.length; i++ )
         {
-            if( blockEntrys[ i ].getName().equals( name ) )
+            final String other = blockEntrys[ i ].getBlockMetaData().getName();
+            if( other.equals( name ) )
             {
                 return blockEntrys[ i ];
             }
