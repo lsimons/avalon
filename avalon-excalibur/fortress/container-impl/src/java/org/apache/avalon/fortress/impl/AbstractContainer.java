@@ -93,7 +93,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/02/04 19:39:36 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/02/04 20:33:32 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled
@@ -265,6 +265,12 @@ public abstract class AbstractContainer
         {
             final String message = "No role defined for " + classname;
             throw new IllegalArgumentException( message );
+        }
+
+        if( DEFAULT_ENTRY.equals(metaData.getName()) ||
+            SELECTOR_ENTRY.equals(metaData.getName()) )
+        {
+            throw new IllegalArgumentException("Using a reserved id name" + metaData.getName());
         }
 
         // create a handler for the combo of Role+MetaData
