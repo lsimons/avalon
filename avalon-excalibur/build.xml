@@ -124,7 +124,7 @@
         <ant dir="io" target="jar"/>
         <ant dir="naming" target="jar"/>
         <ant dir="instrument" target="jar"/>
-        <jlink compress="false" outfile="avalon-excalibur.jar">
+        <jlink compress="false" outfile="avalon-excalibur-tmp.jar">
             <mergefiles>
                 <fileset dir=".">
                     <include name="all/build/lib/excalibur-core.jar"/>
@@ -138,6 +138,11 @@
                 </fileset>
             </mergefiles>
         </jlink>
+        <jar jarfile="avalon-excalibur.jar" compress="true">
+            <zipfileset src="avalon-excalibur-tmp.jar" />
+        </jar>
+        <delete file="avalon-excalibur-tmp.jar"/>
+
     </target>
 
     <!-- Generate one mega jar-ball -->
@@ -159,13 +164,17 @@
         <ant dir="tar" target="jar"/>
         <ant dir="zip" target="jar"/>
 
-        <jlink compress="false" outfile="excalibur-all.jar">
+        <jlink compress="false" outfile="excalibur-all-tmp.jar">
             <mergefiles>
                 <fileset dir=".">
                     <include name="*/build/lib/*.jar"/>
                 </fileset>
             </mergefiles>
         </jlink>
+        <jar jarfile="excalibur-all.jar" compress="true">
+            <zipfileset src="excalibur-all-tmp.jar" />
+        </jar>
+        <delete file="avalon-excalibur-tmp.jar"/>
     </target>
 
     <target name="clean">
