@@ -19,6 +19,8 @@ import org.apache.avalon.phoenix.interfaces.ExtensionManagerMBean;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.KernelMBean;
 import org.apache.avalon.phoenix.interfaces.LogManager;
+import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
+import org.apache.avalon.phoenix.interfaces.ConfigurationValidatorMBean;
 
 /**
  *
@@ -46,6 +48,11 @@ final class ManagementRegistration
         new ManagementRegistration( ConfigurationRepository.ROLE,
                                     "ConfigurationManager",
                                     new Class[]{} );
+
+    public static final ManagementRegistration CONFIGURATION_VALIDATOR =
+        new ManagementRegistration( ConfigurationValidator.ROLE,
+                                    "ConfigurationValidator",
+                                    new Class[]{ConfigurationValidatorMBean.class} );
     //TODO: Need information for SystemManager?
 
     private String m_role;
