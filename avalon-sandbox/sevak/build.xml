@@ -227,12 +227,20 @@
     <jar jarfile="${build.lib}/sevak-catalina.jar"
          manifest="${build.xdoclet}/catalina/manifest.mf">
       <fileset dir="${build.classes}">
-        <include name="org/apache/avalon/apps/sevak/blocks/catalina/**"/>
+        <include name="org/apache/avalon/apps/sevak/blocks/catalina/startup/*"/>
       </fileset>
       <fileset dir="${build.xdoclet}/catalina">
-        <include name="org/apache/avalon/apps/sevak/blocks/catalina/**/*.xinfo"/>
+        <include name="org/apache/avalon/apps/sevak/blocks/catalina/startup/**/*.xinfo"/>
       </fileset>
     </jar>
+
+      <jar jarfile="${build.lib}/sevak-catalina-impl.jar"
+         manifest="${build.xdoclet}/catalina/manifest.mf">
+          <fileset dir="${build.classes}">
+              <include name="org/apache/avalon/apps/sevak/blocks/catalina/**"/>
+              <exclude name="org/apache/avalon/apps/sevak/blocks/catalina/startup/**"/>
+          </fileset>
+      </jar>
 
     <jar jarfile="${build.lib}/sevak-jo.jar"
          manifest="${build.xdoclet}/jo/manifest.mf">
@@ -462,8 +470,6 @@
     <copy todir="${bin.dist.docs}">
       <fileset dir="${build.docs}"/>
     </copy>
-
-    <copy file="${build.lib}/avalon-${name}.sar" tofile="${bin.dist.dir}/avalon-${name}-${version}.sar"/>
 
     <chmod dir="${bin.dist.dir}" perm="go-rwx" />
   </target>
