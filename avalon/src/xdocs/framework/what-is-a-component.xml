@@ -4,8 +4,7 @@
 
 <document>
   <header>
-    <title>Avalon Design Documentation</title>
-    <subtitle>What is a component?</subtitle>
+    <title>Avalon Framework - What is a component?</title>
     <version>1.0</version>
     <authors>
       <person id="LS" name="Leo Simons" email="mail@leosimons.com"/>
@@ -129,7 +128,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.7 $ $Date: 2002/03/22 02:33:09 $
+      $Revision: 1.8 $ $Date: 2002/04/02 11:20:19 $
     </legal>
   </footer>
 </document>

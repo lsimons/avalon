@@ -3,14 +3,13 @@
 
 <document>
   <header>
-    <title>Avalon Developer Documentation</title>
-    <subtitle>Patterns</subtitle>
+    <title>Avalon Framework - Inversion of Control</title>
     <authors>
       <person name="Berin Loritsch" email="bloritsch@apache.org"/>
     </authors>
   </header>
   <body>
-    <s1 title="Inversion of Control">
+    <s1 title="Introduction">
       <p>
         One of the key design principles behind Avalon is the principle
         of <em>Inversion of Control</em>.  <em>Inversion of Control</em> is
@@ -109,7 +108,7 @@ class MyComponent
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.8 $ $Date: 2002/01/31 15:43:52 $
+      $Revision: 1.9 $ $Date: 2002/04/02 11:20:19 $
     </legal>
   </footer>
 </document>

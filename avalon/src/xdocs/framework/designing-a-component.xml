@@ -4,8 +4,7 @@
 
 <document>
   <header>
-    <title>Avalon Design Documentation</title>
-    <subtitle>Designing a Component</subtitle>
+    <title>Avalon Framework - Designing a Component</title>
     <version>1.0</version>
     <authors>
       <person name="Berin Loritsch" email="bloritsch@apache.org"/>
@@ -83,7 +82,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.5 $ $Date: 2002/02/15 23:05:08 $
+      $Revision: 1.6 $ $Date: 2002/04/02 11:20:19 $
     </legal>
   </footer>
 </document>

@@ -4,8 +4,7 @@
 
 <document>
   <header>
-    <title>Avalon Developer Design Documentation</title>
-    <subtitle>Introduction</subtitle>
+    <title>Avalon Framework - Overview</title>
     <authors>
       <person name="Berin Loritsch" email="bloritsch@apache.org"/>
       <person name="Peter Donald" email="peter@apache.org"/>
@@ -63,7 +62,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.8 $ $Date: 2002/03/31 13:54:35 $
+      $Revision: 1.9 $ $Date: 2002/04/02 11:20:19 $
     </legal>
   </footer>
 </document>

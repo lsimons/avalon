@@ -4,8 +4,7 @@
 
 <document>
   <header>
-    <title>Avalon Design Documentation</title>
-    <subtitle>What is Composable?</subtitle>
+    <title>Avalon Framework - What is Composable?</title>
     <version>3.0</version>
     <authors>
       <person id="BL" name="Berin Loritsch" email="bloritsch@apache.org"/>
@@ -181,7 +180,7 @@ finally
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.5 $ $Date: 2002/02/15 23:05:08 $
+      $Revision: 1.6 $ $Date: 2002/04/02 11:20:19 $
     </legal>
   </footer>
 </document>
