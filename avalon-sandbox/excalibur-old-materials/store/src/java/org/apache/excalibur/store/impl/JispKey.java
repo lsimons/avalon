@@ -59,11 +59,9 @@ import com.coyotegulch.jisp.KeyObject;
 /**
  * Wrapper class for Keys to be compatible with the
  * Jisp KeyObject.
- * This will hopefully soon replace the JispStringKey implementation
- * IT'S NOT FINISHED YET, PLEASE DON'T USE IT !!!!
  * 
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Id: JispKey.java,v 1.4 2003/08/12 15:55:34 vgritsenko Exp $
+ * @version CVS $Id: JispKey.java,v 1.5 2003/08/27 11:38:20 cziegeler Exp $
  */
 public final class JispKey extends KeyObject 
 {
@@ -78,9 +76,9 @@ public final class JispKey extends KeyObject
     }
     
     /**
-     *  Constructor for the JispStringKey object
+     *  Constructor for the JispKey object
      *
-     * @param keyValue the Value of the Key as String
+     * @param keyValue the key
      */
     public JispKey(Object keyValue) 
     {
@@ -88,7 +86,7 @@ public final class JispKey extends KeyObject
     }
 
     /**
-     * Compares two String Keys
+     * Compares two Keys
      *
      * @param key the KeyObject to be compared
      * @return 0 if equal, 1 if greater, -1 if less
