@@ -1,17 +1,18 @@
 <?xml version="1.0"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
 
 <document>
-  <properties>
+  <header>
     <title>Lifecycle Extensions</title>
     <authors>
       <person name="Avalon Development Team" email="dev@avalon.apache.org"/>
     </authors>
-  </properties>
+  </header>
   <body>
 
-  <s1 title="Example">
+  <section><title>Example</title>
 
-    <s2 title="Create your lifestyle stage interface">
+    <section><title>Create your lifestyle stage interface</title>
 
 <p>
 The following interface is your domain specific lifecycle stage interface.  It is the interface that an extension handler will use to interact with your component during deployment and decommissioning.
@@ -28,9 +29,9 @@ The following interface is your domain specific lifecycle stage interface.  It i
  }
       </source>
 
-    </s2>
+    </section>
 
-    <s2 title="Create the lifestyle extension handler">
+    <section><title>Create the lifestyle extension handler</title>
 
 <p>
 An extension handler is the implementation class that will be activated by the Merlin container to handle domain specific tasks during the deployment and decommissioning phases.  The extension can implement etier or both of the Creator and Accessor interfaces depeding on the particular extension requirements.  IN this example we are defining a simple creation stage handler that supplies a message to an instance of Exploitable.
@@ -86,9 +87,9 @@ To complete the defintion of you extension handler you need to prepare the meta-
 
       </source>
 
-    </s2>
+    </section>
 
-    <s2 title="Create a component implementing the stage interface">
+    <section><title>Create a component implementing the stage interface</title>
       <source>
  public class MyComponent extends AbstractLogEnabled implements Exploitable
  {
@@ -124,9 +125,9 @@ To complete the defintion of your component you need to prepare the meta-info th
 &lt;/type&gt;
 
       </source>
-    </s2>
+    </section>
 
-    <s2 title="Register you component and the extension">
+    <section><title>Register you component and the extension</title>
 
 <p>To complete the process you need to declare your handler and component in a jar manifest file.  The following entries show the declaration of the component and the extension handler.</p>
 
@@ -141,9 +142,9 @@ To complete the defintion of your component you need to prepare the meta-info th
   Avalon: Type
       </source>
 
-    </s2>
+    </section>
 
-    <s2 title="Execute the example">
+    <section><title>Execute the example</title>
 
 <p>To execute the example you simply need to include a reference to you component within a Merlin container declaration.  The following XML source declares a Merlin kernel, container, and component.  You don't need to include the handler because Merlin can sort that out itself based on the information supplied in the meta-info declarations.</p>
 
@@ -165,15 +166,15 @@ To complete the defintion of your component you need to prepare the meta-info th
  &lt;/kernel&gt;
       </source>
 
-    </s2>
+    </section>
 
-  </s1>
+  </section>
 
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2003/03/11 13:31:35 $
+      $Revision: 1.2 $ $Date: 2003/03/11 15:53:56 $
     </legal>
   </footer>
 </document>
