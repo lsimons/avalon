@@ -70,8 +70,9 @@ import org.apache.log.util.StackIntrospector;
  * AsyncLogTarget). They then attempt to determine appropriate
  * information dynamically.
  *
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/02/03 19:07:28 $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/02/05 06:13:17 $
  */
 public class ExtendedPatternFormatter
     extends PatternFormatter
@@ -84,11 +85,20 @@ public class ExtendedPatternFormatter
 
     private int m_callStackOffset = 0;
 
+   /**
+    * Creation of a new extended pattern formatter.
+    * @param format the format string
+    */
     public ExtendedPatternFormatter( final String format )
     {
         this( format, 0 );
     }
 
+   /**
+    * Creation of a new extended pattern formatter.
+    * @param format the format string
+    * @param callStackOffset the offset
+    */
     public ExtendedPatternFormatter( final String format, final int callStackOffset )
     {
         super( format );
@@ -118,7 +128,7 @@ public class ExtendedPatternFormatter
 
     /**
      * Formats a single pattern run (can be extended in subclasses).
-     *
+     * @param event the log event
      * @param  run the pattern run to format.
      * @return the formatted result.
      */
