@@ -187,17 +187,35 @@ public class DefaultEmbeddor
         throws Exception
     {
         deployDefaultApplications();
-
-        // loop until <code>Shutdown</code> is created.
-        while( true )
+        
+        //  If the kernel is empty at this point, it is because the server was
+        //  started without supplying any applications, display a message to
+        //  give the user a clue as to why the server is shutting down
+        //  immediately.
+        if ( emptyKernel() )
         {
-            // wait() for shutdown() to take action...
-            if( m_shutdown || 
-                ( emptyKernel() && !m_persistent ) )
+            final String message = REZ.getString( "embeddor.error.start.no-apps" );
+            getLogger().fatalError( message );
+        }
+        else
+        {
+            // loop until <code>Shutdown</code> is created.
+            while( true )
             {
-                break;
+                // wait() for shutdown() to take action...
+                if( m_shutdown || 
+                    ( emptyKernel() && !m_persistent ) )
+                {
+                    // The server will shut itself down when all applications are disposed.
+                    if ( emptyKernel() )
+                    {
+                        final String message = REZ.getString( "embeddor.shutdown.all-apps-disposed" );
+                        getLogger().info( message );
+                    }
+                    break;
+                }
+                gotoSleep();
             }
-            gotoSleep();
         }
     }
 
