@@ -39,10 +39,6 @@ Issues:
 
 * Should we create a new CVS for excalibur?
 
-* Should we add getParameter() methods to Parameters that don't 
-  take a default argument. If the parameter is not present or
-  malformed we can throw an exception.
-
 * should we write our own doclet to better integrate documentation
   of distributed src files.
 
