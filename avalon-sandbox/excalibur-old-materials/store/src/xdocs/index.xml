@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<document>
+  <header>
+    <title>Excalibur Store - Overview</title>
+    <authors>
+      <person name="Carsten Ziegeler" email="cziegeler@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Introduction">
+      <p>
+        This is the store component donated by the Apache Cocoon project.
+      </p>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2002/05/02 08:55:39 $
+    </legal>
+  </footer>
+</document>
