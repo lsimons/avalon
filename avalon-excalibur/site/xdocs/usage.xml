@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+
+<document>
+
+    <properties>
+        <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+        <title>Excalibur i18n - Usage</title>
+    </properties>
+
+    <body>
+
+        <section name="Excalibur i18n">
+
+          <subsection name="Usage">
+            <p>
+                Using the i18n code is really straightforward; several 
+                examples of internationalized applications exist within 
+                the Avalon application family.
+            </p>
+            <p>
+                The following code is an example of the usage of the 
+                i18n package.
+             </p>
+            <source>
+// in a file called src/java/MyClass.java
+
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+
+public class MyClass implements MyInterface
+{
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( MyClass.class );
+
+    public void doStuff( Object myArg ) throws Exception
+    {
+        // ...
+        final String stupidArgumentIdentifier = myArg.toString();
+        // ...
+        final String message =
+                REZ.getString( "myclass.error.dostuff.bad-argument",
+                        stupidArgumentIdentifier );
+        m_logger.error( message );
+        throw new SomeException( message, myArg );
+    }
+
+}
+
+# in a file called src/java/Resources.properties
+myclass.error.dostuff.bad-argument=the argument passed to the \
+doStuff method is invalid; it is {0}, which is plain silly!
+            </source>
+
+            <p>
+                That's basically all there is to it. If you follow this
+                pattern consistently, it will be extremely easy to i18n
+                your application by just putting in place a different
+                Resources.properties.
+            </p>
+            <p>
+                This i18n package is, indeed, a trivial wrapper around
+                the built-in i18n features java has using ResourceBundles
+                and the like. See the java api docs for
+                <link href="http://java.sun.com/j2se/1.4.1/docs/api/java/util/ResourceBundle.html">ResourceBundle</link>
+                to learn more about i18n, and take a look at the javadoc
+                for Resources and ResourceManager to see which options
+                are available.
+            </p>
+        </subsection>
+
+      </section>
+
+    </body>
+
+</document>

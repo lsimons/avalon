@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+
+  <extend>${basedir}/../project.xml</extend>
+
+  <name>Avalon Excalibur</name>
+  <id>avalon-excalibur-docs</id>
+
+  <shortDescription>Avalon Excalibur Site</shortDescription>
+  <description>Avalon Excalibur Site</description>
+
+</project>
