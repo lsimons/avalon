@@ -52,6 +52,7 @@ package org.apache.avalon.activation.appliance.impl;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.UndeclaredThrowableException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.net.URL;
@@ -74,7 +75,7 @@ import org.apache.avalon.framework.logger.Logger;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/11/04 01:07:52 $
+ * @version $Revision: 1.2.4.1 $ $Date: 2004/01/09 15:07:58 $
  */
 public class CompositeBlock extends AbstractBlock implements Home
 {
@@ -279,11 +280,21 @@ public class CompositeBlock extends AbstractBlock implements Home
                 Object object = provider.resolve();
                 return method.invoke( object, args );
             }
+            catch( UndeclaredThrowableException e )
+            {
+                Throwable cause = e.getUndeclaredThrowable();
+                if( cause != null ) throw cause;
+                final String error = 
+                  "Delegation error raised by component: " + m_block;
+                throw new ApplianceException( error, e );
+            }
             catch( InvocationTargetException e )
             {
+                Throwable cause = e.getTargetException();
+                if( cause != null ) throw cause;
                 final String error = 
-                  "Delegation error raised by provider: " + provider;
-                throw new ApplianceException( error, e.getTargetException() );
+                  "Delegation error raised by component: " + m_block;
+                throw new ApplianceException( error, e );
             }
             catch( Throwable e )
             {
