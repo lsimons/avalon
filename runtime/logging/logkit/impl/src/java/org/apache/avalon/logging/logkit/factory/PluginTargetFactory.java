@@ -38,7 +38,7 @@ import org.apache.avalon.repository.provider.Factory;
 import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;
 
-import org.apache.excalibur.configuration.ConfigurationUtil;
+import org.apache.avalon.util.configuration.ConfigurationUtil;
 
 import org.apache.log.LogTarget;
 import org.apache.log.LogEvent;
@@ -127,14 +127,14 @@ public class PluginTargetFactory implements LogTargetFactory
         
         try
         {
-            final String uri = "artifact:" + spec;
+            String uri = getURI( spec );
             Artifact artifact = Artifact.createArtifact( uri );
             Builder builder = 
               m_context.newBuilder( m_classloader, artifact );
             Class clazz = builder.getFactoryClass();
             LogTargetFactory factory = 
               m_builder.buildLogTargetFactory( clazz );
-            m_factories.put( spec, factory );
+            m_factories.put( uri, factory );
             return factory;
         }
         catch( Throwable e )
@@ -143,6 +143,12 @@ public class PluginTargetFactory implements LogTargetFactory
               REZ.getString( "plugin.error.build", spec );
             throw new LogTargetException( error, e );
         }
+    }
+
+    private String getURI( String spec )
+    {
+        if( spec.startsWith( "artifact:" ) ) return spec;
+        return "artifact:" + spec;
     }
 }
 

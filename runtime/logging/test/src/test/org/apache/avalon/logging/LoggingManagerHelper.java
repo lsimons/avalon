@@ -57,7 +57,7 @@ public class LoggingManagerHelper
       String id, String filename ) throws Exception
     {
         InitialContext context = 
-          setUpInitialContext( "target/test-classes/conf/system.xml" );
+          setUpInitialContext( "system.xml" );
         Artifact[] candidates = 
           context.getRepository().getCandidates( LoggingManager.class );
         Artifact artifact = selectArtifact( candidates, id );
@@ -72,11 +72,13 @@ public class LoggingManagerHelper
         File basedir = getBaseDir();
         File target = new File( basedir, "target" );
 
-        File conf = new File( target, "test-classes/conf" );
-        File file = new File( conf, filename );
+        //File conf = new File( target, "test-classes/conf" );
+        //File file = new File( conf, filename );
+        File file = new File( basedir, filename );
 
         criteria.put( "avalon.logging.configuration", file );
-        criteria.put( "avalon.logging.basedir", target );
+        //criteria.put( "avalon.logging.basedir", target );
+        criteria.put( "avalon.logging.basedir", basedir );
 
         //
         // create the logging manager
@@ -90,11 +92,24 @@ public class LoggingManagerHelper
     {
         DefaultInitialContextFactory factory = 
            new DefaultInitialContextFactory( "avalon", getBaseDir() );
-        factory.setCacheDirectory( getMavenRepositoryDirectory() );
+        factory.setCacheDirectory( getRepositoryCache() );
         Artifact[] artifacts = 
           getArtifactsToRegister( path );
         factory.setFactoryArtifacts( artifacts );
         return factory.createInitialContext();
+    }
+
+    private static File getRepositoryCache()
+    {
+        String cache = System.getProperty( "project.repository.cache.path" );
+        if( null != cache )
+        {
+            return new File( cache );
+        }
+        else
+        {
+            return getMavenRepositoryDirectory();
+        }
     }
 
     private static Artifact selectArtifact( Artifact[] artifacts, String id )
@@ -163,10 +178,17 @@ public class LoggingManagerHelper
         {
             Configuration child = children[i];
             String spec = child.getAttribute( "spec" );
-            Artifact artifact = Artifact.createArtifact( "artifact:" + spec );
+            String uri = getURI( spec );
+            Artifact artifact = Artifact.createArtifact( uri );
             artifacts[i] = artifact;
         }
         return artifacts;
+    }
+
+    private static String getURI( String spec )
+    {
+        if( spec.startsWith( "artifact:" ) ) return spec;
+        return "artifact:" + spec;
     }
 
     private static Configuration getConfiguration( File file ) throws Exception
