@@ -12,6 +12,7 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentSelector;
 import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.activity.Initializable;
 
 import org.apache.avalon.excalibur.testcase.ExcaliburTestCase;
 import org.apache.avalon.excalibur.testcase.CascadingAssertionFailedError;
@@ -30,14 +31,16 @@ import java.io.FileWriter;
 import java.io.OutputStream;
 import java.io.Writer;
 
+import junit.framework.Assert;
+
 
 /**
  * Junit TestCase for all the monitors in Excalibur.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: MonitorTestCase.java,v 1.1 2001/09/04 20:33:47 bloritsch Exp $
+ * @version $Id: MonitorTestCase.java,v 1.2 2001/09/25 19:54:57 bloritsch Exp $
  */
-public class MonitorTestCase extends ExcaliburTestCase
+public class MonitorTestCase extends ExcaliburTestCase implements Initializable
 {
     /**
      * The constructor for the MonitorTest
@@ -47,11 +50,10 @@ public class MonitorTestCase extends ExcaliburTestCase
         super( name );
     }
 
-    public void setUp()
+    public void initialize()
         throws Exception
     {
         m_logPriority = Priority.DEBUG;
-        super.setUp();
     }
 
     public void testActiveMonitor()
@@ -78,7 +80,7 @@ public class MonitorTestCase extends ExcaliburTestCase
         }
         finally
         {
-            assertTrue(  "The monitor selector could not be retrieved.", null != selector );
+            Assert.assertTrue(  "The monitor selector could not be retrieved.", null != selector );
 
             selector.release( (Component) activeMonitor );
             manager.release( selector );
@@ -109,7 +111,7 @@ public class MonitorTestCase extends ExcaliburTestCase
         }
         finally
         {
-            assertTrue( "The monitor selector could not be retrieved.", null != selector );
+            Assert.assertTrue( "The monitor selector could not be retrieved.", null != selector );
 
             selector.release( (Component) passiveMonitor );
             manager.release( selector );
@@ -156,7 +158,7 @@ public class MonitorTestCase extends ExcaliburTestCase
                     }
                 }
 
-                assertTrue( "File not changed", listener.hasBeenModified() );
+                Assert.assertTrue( "File not changed", listener.hasBeenModified() );
             }
 
             listener.reset();
@@ -190,7 +192,7 @@ public class MonitorTestCase extends ExcaliburTestCase
                 }
             }
 
-            assertTrue( "File not changed", listener.hasBeenModified() );
+            Assert.assertTrue( "File not changed", listener.hasBeenModified() );
             listener.reset();
 
             Writer write = resource.setResourceAsWriter();
@@ -222,7 +224,7 @@ public class MonitorTestCase extends ExcaliburTestCase
                 }
             }
 
-            assertTrue( "File not changed", listener.hasBeenModified() );
+            Assert.assertTrue( "File not changed", listener.hasBeenModified() );
             listener.reset();
 
             resource.removePropertyChangeListener( listener );
