@@ -9,9 +9,11 @@
       <center>
         <table width="80%">
           <tr>
-	    <td bgcolor="#F3DD61"><br/><center><b><font color="#000000" face="arial,helvetica,sanserif"><xsl:value-of select="title"/><xsl:if test="subtitle"><xsl:text>: </xsl:text><xsl:value-of select="subtitle"/></xsl:if></font></b></center><br/>
-	    </td>
-	  </tr>
+            <td bgcolor="#F3DD61">
+              <br/><center><b><font color="#000000" face="arial,helvetica,sanserif"><xsl:value-of select="title"/><xsl:if test="subtitle"><xsl:text>: </xsl:text><xsl:value-of select="subtitle"/></xsl:if></font></b></center>
+              <br/>
+            </td>
+          </tr>
         </table>
       </center><br/>
       <xsl:apply-templates select="dedication"/>
@@ -25,9 +27,11 @@
       <center>
         <table width="80%">
           <tr>
-	    <td bgcolor="#F3DD61"><br/><center><b><font color="#000000" face="arial,helvetica,sanserif"><xsl:value-of select="title"/></font></b></center><br/>
-	    </td>
-	  </tr>
+            <td bgcolor="#F3DD61">
+              <br/><center><b><font color="#000000" face="arial,helvetica,sanserif"><xsl:value-of select="title"/></font></b></center>
+              <br/>
+            </td>
+          </tr>
         </table>
       </center><br/>
       <xsl:if test="subtitle">
@@ -58,28 +62,30 @@
       <center>
         <table width="80%">
           <tr>
-	    <td bgcolor="#F3DD61"><br/><center><b><font color="#000000" face="arial,helvetica,sanserif"><xsl:text>Author: </xsl:text><xsl:value-of select="honorific"/><xsl:text>. </xsl:text><xsl:value-of select="firstname"/><xsl:text> </xsl:text><xsl:value-of select="surname"/></font></b></center><br/>
-	    </td>
-	  </tr>
+            <td bgcolor="#F3DD61">
+              <br/><center><b><font color="#000000" face="arial,helvetica,sanserif"><xsl:text>Author: </xsl:text><xsl:value-of select="honorific"/><xsl:text>. </xsl:text><xsl:value-of select="firstname"/><xsl:text> </xsl:text><xsl:value-of select="surname"/></font></b></center>
+              <br/>
+            </td>
+          </tr>
         </table>
       </center><br/>
       <div align="right">
         <table border="0" cellpadding="2" cellspacing="0" width="100%">
           <tr>
-	    <td bgcolor="#525D76">
-	      <font color="#ffffff" face="arial,helvetica,sanserif" size="+1"><b>Affiliations</b></font>
-	    </td>
-	  </tr>
-	  <tr>
-	    <td>
-	      <font color="#000000" face="arial,helvetica,sanserif"><br/>
-	        <ul>
+            <td bgcolor="#525D76">
+              <font color="#ffffff" face="arial,helvetica,sanserif" size="+1"><b>Affiliations</b></font>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <font color="#000000" face="arial,helvetica,sanserif"><br/>
+                <ul>
                   <xsl:apply-templates select="affiliation"/>
-		</ul>
-	      </font>
-	    </td>
-	  </tr>
-	</table>
+                </ul>
+              </font>
+            </td>
+          </tr>
+        </table>
       </div><br/>
       <xsl:apply-templates select="authorblurb"/>
     </body>
@@ -97,19 +103,19 @@
     <div align="right">
       <table border="0" cellpadding="2" cellspacing="0" width="100%">
         <tr>
-	  <td bgcolor="#525D76">
-	    <font color="#ffffff" face="arial,helvetica,sanserif" size="+1"><b>Bio</b></font>
-	  </td>
-	</tr>
-	<tr>
-	  <td>
-	    <font color="#000000" face="arial,helvetica,sanserif"><br/>
-	      <ul>
+          <td bgcolor="#525D76">
+            <font color="#ffffff" face="arial,helvetica,sanserif" size="+1"><b>Bio</b></font>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <font color="#000000" face="arial,helvetica,sanserif"><br/>
+              <ul>
                 <xsl:apply-templates/>
-	      </ul>
-	    </font>
-	  </td>
-	</tr>
+              </ul>
+            </font>
+          </td>
+        </tr>
       </table>
     </div>
   </xsl:template>
@@ -122,39 +128,39 @@
       <center>
         <table width="80%">
           <tr>
-            <td bgcolor="#F3DD61"><br/><center><b><font color="#000000" face="arial,helvetica,sanserif">Revision History</font></b></center><br/>
-	    </td>
-	  </tr>
+            <td bgcolor="#F3DD61">
+              <br/><center><b><font color="#000000" face="arial,helvetica,sanserif">Revision History</font></b></center>
+              <br/>
+            </td>
+          </tr>
         </table>
       </center><br/>
       <div align="right">
         <table border="0" cellpadding="2" cellspacing="0" width="100%">
-
-      <xsl:variable name="unique-revisions" 
+          <xsl:variable name="unique-revisions" 
             select="revision[not(revnumber=preceding-sibling::revision/revnumber)]/revnumber"/>
-      <xsl:variable name="base" select="."/>
-
-      <xsl:for-each select="$unique-revisions">
-        <tr>
-          <td bgcolor="#525D76">
-	      <font color="#ffffff" face="arial,helvetica,sanserif">
-            <b>Revision <xsl:value-of select="."/> 
-               (<xsl:value-of select="$base/revision[revnumber=current()]/date"/>)
-            </b>
-          </font>
-          </td>
-        </tr>
-        <tr>
-	    <td>
-	      <font color="#000000" face="arial,helvetica,sanserif"><br/>
-	        <ul>
+          <xsl:variable name="base" select="."/>
+          <xsl:for-each select="$unique-revisions">
+          <tr>
+            <td bgcolor="#525D76">
+              <font color="#ffffff" face="arial,helvetica,sanserif">
+                <b>Revision <xsl:value-of select="."/> 
+                   (<xsl:value-of select="$base/revision[revnumber=current()]/date"/>)
+                </b>
+              </font>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <font color="#000000" face="arial,helvetica,sanserif"><br/>
+                <ul>
                   <xsl:apply-templates select="$base/revision[revnumber=current()]"/>
-            </ul>
-	      </font>
-	    </td>
-        </tr>
-      </xsl:for-each>
-	</table>
+                </ul>
+              </font>
+            </td>
+          </tr>
+          </xsl:for-each>
+        </table>
       </div>
     </body>
   </xsl:template>
@@ -169,20 +175,20 @@
     <li>
       <xsl:choose>
         <xsl:when test="@revisionflag='added'">
-	  <img align="absmiddle" alt="added" border="0" src="images/add.jpg"/>
-	</xsl:when>
-	<xsl:when test="@revisionflag='changed'">
-	  <img align="absmiddle" alt="changed" border="0" src="images/update.jpg"/>
-	</xsl:when>
-	<xsl:when test="@revisionflag='deleted'">
-	  <img align="absmiddle" alt="deleted" border="0" src="images/remove.jpg"/>
-	</xsl:when>
-	<xsl:when test="@revisionflag='off'">
-	  <img align="absmiddle" alt="off" border="0" src="images/fix.jpg"/>
-	</xsl:when>
-	<xsl:otherwise>
-	  <img align="absmiddle" alt="changed" border="0" src="images/update.jpg"/>
-	</xsl:otherwise>
+          <img align="absmiddle" alt="added" border="0" src="images/add.jpg"/>
+        </xsl:when>
+        <xsl:when test="@revisionflag='changed'">
+          <img align="absmiddle" alt="changed" border="0" src="images/update.jpg"/>
+        </xsl:when>
+        <xsl:when test="@revisionflag='deleted'">
+          <img align="absmiddle" alt="deleted" border="0" src="images/remove.jpg"/>
+        </xsl:when>
+        <xsl:when test="@revisionflag='off'">
+          <img align="absmiddle" alt="off" border="0" src="images/fix.jpg"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <img align="absmiddle" alt="changed" border="0" src="images/update.jpg"/>
+        </xsl:otherwise>
       </xsl:choose>
       <xsl:value-of select="revremark"/>
       <xsl:text> (</xsl:text><xsl:value-of select="authorinitials"/><xsl:text>)</xsl:text>
@@ -198,29 +204,29 @@
       <table border="0" cellpadding="2" cellspacing="0">
         <xsl:attribute name="width"><xsl:value-of select="number(100)-(1*(number($level)-1))"/>%</xsl:attribute>
         <tr>
-	  <td bgcolor="#525D76">
-	    <font color="#ffffff" face="arial,helvetica,sanserif">
-	      <xsl:attribute name="size">
-	        <xsl:choose>
-		  <xsl:when test="number($level)=1">+1</xsl:when>
-		  <xsl:when test="number($level)=2">+0</xsl:when>
-		  <xsl:otherwise>-<xsl:value-of select="number($level)-2"/></xsl:otherwise>
-		</xsl:choose>
-	      </xsl:attribute>
-	      <b><xsl:value-of select="title"/></b>
-	    </font>
-	  </td>
-	</tr>
-	<tr>
-	  <td>
-	    <font color="#000000" face="arial,helvetica,sanserif">
-	    <br/>
-            <xsl:apply-templates>
-              <xsl:with-param name="level" select="number($level)+1"/>
-            </xsl:apply-templates>
+          <td bgcolor="#525D76">
+            <font color="#ffffff" face="arial,helvetica,sanserif">
+              <xsl:attribute name="size">
+                <xsl:choose>
+                  <xsl:when test="number($level)=1">+1</xsl:when>
+                  <xsl:when test="number($level)=2">+0</xsl:when>
+                  <xsl:otherwise>-<xsl:value-of select="number($level)-2"/></xsl:otherwise>
+                </xsl:choose>
+              </xsl:attribute>
+              <b><xsl:value-of select="title"/></b>
             </font>
-	  </td>
-	</tr>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <font color="#000000" face="arial,helvetica,sanserif">
+              <br/>
+              <xsl:apply-templates>
+                <xsl:with-param name="level" select="number($level)+1"/>
+              </xsl:apply-templates>
+            </font>
+          </td>
+        </tr>
       </table>
     </div><br/>
   </xsl:template>
@@ -229,21 +235,21 @@
     <div align="right">
       <table border="0" cellpadding="2" cellspacing="0" width="100%">
         <tr>
-	  <td bgcolor="#525D76">
-	    <font color="#ffffff" face="arial,helvetica,sanserif" size="+1">
-	      <b><xsl:value-of select="edition"/></b><xsl:text> </xsl:text>
-	      <i><font size="0">pub. <xsl:value-of select="pubdate"/></font></i>
-	    </font>
-	  </td>
-	</tr>
-	<tr>
-	  <td>
-	    <font color="#000000" face="arial,helvetica,sanserif">
-	      <br/>
+          <td bgcolor="#525D76">
+            <font color="#ffffff" face="arial,helvetica,sanserif" size="+1">
+              <b><xsl:value-of select="edition"/></b><xsl:text> </xsl:text>
+              <i><font size="0">pub. <xsl:value-of select="pubdate"/></font></i>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <font color="#000000" face="arial,helvetica,sanserif">
+              <br/>
               <xsl:apply-templates/>
             </font>
-	  </td>
-	</tr>
+          </td>
+        </tr>
       </table>
     </div><br/>
   </xsl:template>
@@ -252,20 +258,20 @@
     <div align="right">
       <table border="0" cellpadding="2" cellspacing="0" width="100%">
         <tr>
-	  <td bgcolor="#525D76">
-	    <font color="#ffffff" face="arial,helvetica,sanserif" size="+1">
-	      <b>Dedication</b>
-	    </font>
-	  </td>
-	</tr>
-	<tr>
-	  <td>
-	    <font color="#000000" face="arial,helvetica,sanserif">
-	      <br/>
+          <td bgcolor="#525D76">
+            <font color="#ffffff" face="arial,helvetica,sanserif" size="+1">
+              <b>Dedication</b>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <font color="#000000" face="arial,helvetica,sanserif">
+              <br/>
               <xsl:apply-templates/>
             </font>
-	  </td>
-	</tr>
+          </td>
+        </tr>
       </table>
     </div><br/>
   </xsl:template>
@@ -282,8 +288,8 @@
     <div align="center">
       <table border="1" cellpadding="2" cellspacing="2">
         <tr>
-	  <td><xsl:apply-templates/></td>
-	</tr>
+          <td><xsl:apply-templates/></td>
+        </tr>
       </table>
     </div>
   </xsl:template>
@@ -292,12 +298,12 @@
     <div align="center">
       <table border="1" cellpadding="2" cellspacing="2">
         <tr>
-	  <td>
-	    <pre>
-	      <xsl:apply-templates/>
+          <td>
+            <pre>
+              <xsl:apply-templates/>
             </pre>
-	  </td>
-	</tr>
+          </td>
+        </tr>
       </table>
     </div>
   </xsl:template>
@@ -315,16 +321,16 @@
       <table border="1" cellpadding="2" cellspacing="2">
         <xsl:if test="title">
           <tr>
-	    <td bgcolor="#525D76">
-	      <font color="#ffffff"><xsl:value-of select="title"/></font>
-	    </td>
-	  </tr>
-	</xsl:if>
-	<tr>
-	  <td bgcolor="#c0c0c0">
-	    <font color="#023264" size="-1"><xsl:apply-templates/></font>
-	  </td>
-	</tr>
+            <td bgcolor="#525D76">
+              <font color="#ffffff"><xsl:value-of select="title"/></font>
+            </td>
+          </tr>
+        </xsl:if>
+        <tr>
+          <td bgcolor="#c0c0c0">
+            <font color="#023264" size="-1"><xsl:apply-templates/></font>
+          </td>
+        </tr>
       </table>
     </div>
   </xsl:template>
@@ -334,16 +340,16 @@
       <table border="1" cellpadding="2" cellspacing="2">
         <xsl:if test="title">
           <tr>
-	    <td bgcolor="#800000">
-	      <font color="#ffffff"><xsl:value-of select="title"/></font>
-	    </td>
-	  </tr>
-	</xsl:if>
-	<tr>
-	  <td bgcolor="#c0c0c0">
-	    <font color="#023264" size="-1"><xsl:apply-templates/></font>
-	  </td>
-	</tr>
+            <td bgcolor="#800000">
+              <font color="#ffffff"><xsl:value-of select="title"/></font>
+            </td>
+          </tr>
+        </xsl:if>
+        <tr>
+          <td bgcolor="#c0c0c0">
+            <font color="#023264" size="-1"><xsl:apply-templates/></font>
+          </td>
+        </tr>
       </table>
     </div>
   </xsl:template>
@@ -362,22 +368,22 @@
     <div align="center">
       <table border="0" cellpadding="2" cellspacing="2">
         <tr>
-	  <td bgcolor="#525D76"><font color="#ffffff" size="0"><xsl:value-of select="title"/></font></td>
-	</tr>
-	<xsl:apply-templates/>
+          <td bgcolor="#525D76"><font color="#ffffff" size="0"><xsl:value-of select="title"/></font></td>
+        </tr>
+        <xsl:apply-templates/>
       </table>
     </div>
   </xsl:template>
 
   <xsl:template match="graphic">
-        <tr>
-	  <td><img border="0" alt="{@srccredit}" src="{@fileref}"/></td>
-	</tr>
-	<xsl:if test="@srccredit">
-	  <tr>
-	    <td><font size="-1"><ul><li><xsl:value-of select="@srccredit"/></li></ul></font></td>
-	  </tr>
-	</xsl:if>
+    <tr>
+      <td><img border="0" alt="{@srccredit}" src="{@fileref}"/></td>
+    </tr>
+    <xsl:if test="@srccredit">
+      <tr>
+        <td><font size="-1"><ul><li><xsl:value-of select="@srccredit"/></li></ul></font></td>
+      </tr>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template match="table">

@@ -7,7 +7,7 @@
         topmargin="4" leftmargin="4" marginwidth="4" marginheight="4"
 	bgcolor="#ffffff">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
-       <tr>
+      <tr>
         <td valign="top" align="left">
           <a href="http://jakarta.apache.org/index.html">
             <img hspace="0" vspace="0" border="0" src="images/jakarta-logo.gif"/>

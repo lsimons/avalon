@@ -7,16 +7,15 @@
     <article>
       <articleinfo>
         <authorgroup>
-	  <xsl:for-each select="header/person">
-	    <author>
-	      <firstname><xsl:value-of select="@name"/></firstname>
-	      <address><email><xsl:value-of select="@email"/></email></address>
-	    </author>
-	  </xsl:for-each>
-	</authorgroup>
+          <xsl:for-each select="header/person">
+            <author>
+              <firstname><xsl:value-of select="@name"/></firstname>
+              <address><email><xsl:value-of select="@email"/></email></address>
+            </author>
+          </xsl:for-each>
+        </authorgroup>
       </articleinfo>
       <title><xsl:value-of select="header/title"/></title>
-
       <xsl:apply-templates select="body"/>
     </article>
   </xsl:template>
@@ -109,14 +108,14 @@
     <xsl:choose>
       <xsl:when test="@src">
         <figure>
-	  <title><xsl:value-of select="@alt"/></title>
+          <title><xsl:value-of select="@alt"/></title>
           <graphic fileref="{@src}" srccredit="{@alt}"/>
-	</figure>
+        </figure>
       </xsl:when>
       <xsl:otherwise>
         <figure>
-	  <xsl:apply-templates/>
-	</figure>
+          <xsl:apply-templates/>
+        </figure>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -141,15 +140,14 @@
     <table>
       <tgroup>
         <xsl:attribute name="cols"><xsl:value-of select="count(tr/td)"/></xsl:attribute>
-	<xsl:if test="th">
-	  <thead>
-	    <xsl:apply-templates select="th"/>
-	  </thead>
-	</xsl:if>
-	<tbody>
-	  <xsl:apply-templates select="tr"/>
-	</tbody>
-        <xsl:apply-templates/>
+        <xsl:if test="th">
+          <thead>
+            <xsl:apply-templates select="th"/>
+          </thead>
+        </xsl:if>
+        <tbody>
+          <xsl:apply-templates select="tr"/>
+        </tbody>
       </tgroup>
     </table>
   </xsl:template>
