@@ -72,7 +72,7 @@ import org.apache.avalon.framework.Version;
  * name of container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/10/17 04:22:01 $
+ * @version $Revision: 1.4 $ $Date: 2003/10/19 06:09:32 $
  */
 public final class InfoDescriptor extends Descriptor
 {
@@ -93,10 +93,6 @@ public final class InfoDescriptor extends Descriptor
     public static final String DEMOCRAT = "democrat";
 
     public static final String CONSERVATIVE = "conservative";
-
-    public static final String TERMINAL = "terminal";
-
-    public static final String REDEEMABLE = "redeemable";
 
     //-------------------------------------------------------------------
     // immutable state
@@ -130,18 +126,9 @@ public final class InfoDescriptor extends Descriptor
     private final String m_schema;
 
     /**
-     * The component destruction policy. If the descruction policy is TERMINAL
-     * then true otherwise the descruction policy is REDIMABLE.  A teminal componet
-     * shall be decommissioned on release.  A redimable componet may be recycled by
-     * a container if a pool is available.  Otherwise, the redimable component will 
-     * handled as a terminal component.
-     */
-    private final boolean m_terminal;
-
-    /**
      * The component garbage collection policy. The value returned is either 
-     * LIBERAL, DEMOCAT or CONSERVATIVE.  A component implmenting a LIBERAL policy 
-     * will be decommissioned if now references exist.  A component declaring a 
+     * LIBERAL, DEMOCAT or CONSERVATIVE.  A component implementing a LIBERAL policy 
+     * will be decommissioned if no references exist.  A component declaring a 
      * DEMOCRAT policy will exist without reference so long as memory contention
      * does not occur.  A component implementing CONSERVATIVE policies will be 
      * maintained irrespective of usage and memory constraints so long as its 
@@ -187,7 +174,7 @@ public final class InfoDescriptor extends Descriptor
                            final Properties attributes )
             throws IllegalArgumentException
     {
-        this( name, classname, version, lifestyle, null, null, schema, attributes );
+        this( name, classname, version, lifestyle, null, schema, attributes );
     }
 
     /**
@@ -206,7 +193,6 @@ public final class InfoDescriptor extends Descriptor
                            final Version version,
                            final String lifestyle,
                            final String collection,
-                           final String destruction,
                            final String schema,
                            final Properties attributes )
             throws IllegalArgumentException
@@ -268,28 +254,6 @@ public final class InfoDescriptor extends Descriptor
             }
         }
 
-        if ( destruction == null )
-        {
-            m_terminal = true;
-        }
-        else
-        {
-            if( destruction.equalsIgnoreCase( TERMINAL ) )
-            {
-                m_terminal = true;
-            }
-            else if( destruction.equalsIgnoreCase( REDEEMABLE ) )
-            {
-                m_terminal = false;
-            }
-            else
-            {
-                final String error =
-                  "Unrecognized destruction argument [" + destruction + "]";
-                throw new IllegalArgumentException( error );
-            }
-        }
-
         if ( name != null )
         {
             m_name = name;
@@ -334,43 +298,6 @@ public final class InfoDescriptor extends Descriptor
     public String getName()
     {
         return m_name;
-    }
-
-    /**
-     * Return the component termination policy as a String.
-     *
-     * @return the policy
-     */
-    public String getDestructionPolicy()
-    {
-        if( m_terminal )
-        {
-            return TERMINAL;
-        }
-        else
-        {
-            return REDEEMABLE;
-        }
-    }
-
-    /**
-     * Return the component type redemtion policy.
-     *
-     * @return the policy
-     */
-    public boolean isRedeemable()
-    {
-        return !m_terminal;
-    }
-
-    /**
-     * Return the component type termination policy.
-     * This is the opositite of the redemption policy.
-     * @return the policy
-     */
-    public boolean isTerminal()
-    {
-        return m_terminal;
     }
 
     /**
@@ -477,7 +404,6 @@ public final class InfoDescriptor extends Descriptor
             isEqual = isEqual && m_collection.equals( info.m_collection );
             isEqual = isEqual && m_name.equals( info.m_name );
             isEqual = isEqual && m_lifestyle.equals( info.m_lifestyle );
-            isEqual = isEqual && m_terminal == info.m_terminal;
 
             if ( null == m_version )
             {
@@ -506,8 +432,6 @@ public final class InfoDescriptor extends Descriptor
 
         hash ^= m_collection.hashCode();
         hash >>>= 7;
-
-        hash >>>= ( m_terminal ) ? 1 : 3;
 
         if ( null != m_name )
         {

@@ -6,7 +6,7 @@
   <name>Meta Management Toolkit</name>
   <package>org.apache.avalon.meta</package>
 
-  <currentVersion>1.2-dev</currentVersion>
+  <currentVersion>1.2.1-dev</currentVersion>
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Meta Model Toolkit</shortDescription>
   
@@ -39,17 +39,17 @@ Component meta info and meta data tools.
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-api</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2.1-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-spi</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2.1-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-impl</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2.1-dev</version>
     </dependency>
 
     <dependency>
@@ -61,6 +61,7 @@ Component meta info and meta data tools.
       <id>ant</id>
       <version>1.5</version>
     </dependency>
+
     <dependency>
       <id>qdox</id>
       <version>1.1</version>

@@ -89,7 +89,7 @@ import com.thoughtworks.qdox.model.JavaClass;
  * </table>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/10/17 02:03:07 $
+ * @version $Revision: 1.4 $ $Date: 2003/10/19 06:09:32 $
  */
 public class TypeTag extends AbstractTag
 {
@@ -119,11 +119,6 @@ public class TypeTag extends AbstractTag
     public static final String LIFESTYLE_COLLECTION_PARAM = "collection";
 
    /**
-    * The lifestyle destruction policy parameter
-    */
-    public static final String LIFESTYLE_DESTRUCTION_PARAM = "destruction";
-
-   /**
     * Type tag constructor.
     * @param clazz the javadoc class descriptor
     */
@@ -149,13 +144,12 @@ public class TypeTag extends AbstractTag
         final Version version = getVersion( tag );
         final String lifestyle = getLifestyle( tag );
         final String collection = getLifestyleCollectionPolicy( tag );
-        final String destruction = getLifestyleDestructionPolicy( tag );
         final String type = getJavaClass().getFullyQualifiedName();
         final Properties properties = new AttributeTag( getJavaClass() ).getProperties();
         final String schema = new SchemaTag( getJavaClass() ).getConfigurationSchema();
         final InfoDescriptor info = 
           new InfoDescriptor( 
-            name, type, version, lifestyle, collection, destruction, schema, properties );
+            name, type, version, lifestyle, collection, schema, properties );
         final ServiceDescriptor[] services = new ServicesTag( getJavaClass() ).getServices();
         final CategoryDescriptor[] loggers = new LoggerTag( getJavaClass() ).getCategories();
         final DependencyDescriptor[] dependencies =
@@ -180,11 +174,6 @@ public class TypeTag extends AbstractTag
     private String getLifestyleCollectionPolicy(DocletTag tag)
     {
         return getNamedParameter( tag, LIFESTYLE_COLLECTION_PARAM, null );
-    }
-
-    private String getLifestyleDestructionPolicy(DocletTag tag)
-    {
-        return getNamedParameter( tag, LIFESTYLE_DESTRUCTION_PARAM, null );
     }
 
     private Version getVersion(DocletTag tag)
