@@ -50,8 +50,8 @@ A targets configuration contains named configuration target declarations that ca
 
        <targets>
          <target path="/main">
-           <configuration>
-             <frequency>100</frequency>
+           <configuration name="freq">
+             <frequency scale="normal">100</frequency>
            </configuration>
            <categories priority="WARN"/>
          </target>
