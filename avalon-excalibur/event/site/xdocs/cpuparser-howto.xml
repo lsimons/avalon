@@ -8,7 +8,7 @@
     </authors>
   </header>
   <body>
-    <s1 title="System Util Design">
+    <section><title>System Util Design</title>
       <p>
         SystemUtil determins which CPUParser it needs by examining
         the results from <code>System.getProperty( "os.name" )</code>.
@@ -18,8 +18,8 @@
         then the full class name needs to be
         <code>org.apache.excalibur.util.system.WindowsXP</code>.
       </p>
-    </s1>
-    <s1 title="Writing a CPUParser">
+    </section>
+    <section><title>Writing a CPUParser</title>
       <p>
         Writing a CPUParser is not hard.  You only need to know
         how to name your implementation, and then write the relevant
@@ -40,7 +40,7 @@ import org.apache.excalibur.util.CPUParser;
  * Parses the Windows XP environment
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/10/23 13:50:00 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/20 14:25:21 $
  */
 public final class WindowsXP implements CPUParser
 {
@@ -100,12 +100,12 @@ public final class WindowsXP implements CPUParser
 
 ]]>
       </source>
-    </s1>
+    </section>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2002/10/23 13:50:00 $
+      $Revision: 1.3 $ $Date: 2003/02/20 14:25:21 $
     </legal>
   </footer>
 </document>

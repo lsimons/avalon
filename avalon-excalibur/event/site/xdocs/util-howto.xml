@@ -8,7 +8,7 @@
     </authors>
   </header>
   <body>
-    <s1 title="Getting the System Info">
+    <section><title>Getting the System Info</title>
       <p>
         Util has one utility: SystemUtil.  SystemUtil is a static
         class that performs its magic when the class is loaded.
@@ -34,12 +34,12 @@ public void dumpInfo()
         uses every available SystemUtil method, and it is taken directly
         from the JUnit TestCase for SystemUtil.
       </p>
-    </s1>
+    </section>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2002/10/23 13:50:00 $
+      $Revision: 1.3 $ $Date: 2003/02/20 14:25:22 $
     </legal>
   </footer>
 </document>

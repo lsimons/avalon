@@ -8,7 +8,7 @@
     </authors>
   </header>
   <body>
-    <s1 title="Setting Up the PoolManager">
+    <section><title>Setting Up the PoolManager</title>
       <p>
         In order to set up a CommandManager.  For those instructions,
         follow <link href="command-howto.html">the Command "How To"</link>.
@@ -22,8 +22,8 @@
 PoolManager poolManager = new DefaultPoolManager( commandManager );
         ]]>
       </source>
-    </s1>
-    <s1 title="Creating Your Pool">
+    </section>
+    <section><title>Creating Your Pool</title>
       <p>
         The PoolManager is responsible for manufacturing managed pools,
         and for managing their sizes.  All PoolManager managed pools are
@@ -39,7 +39,7 @@ ObjectFactory objectFactory = new MySpecialObjectFactory();
 Pool managedPool = poolManager.getManagedPool( objectFactory, initialEntries );
         ]]>
       </source>
-      <s2 title="Writing an ObjectFactory">
+      <section><title>Writing an ObjectFactory</title>
         <p>
           Writing an Object Factory is not that difficult.  You just need to
           implement the ObjectFactory interface.  Below is an example
@@ -89,8 +89,8 @@ public class MySpecialObjectFactory implements ObjectFactory
 }
             ]]>
           </source>
-      </s2>
-      <s2 title="Unmanaged Pools">
+      </section>
+      <section><title>Unmanaged Pools</title>
         <p>
           There are two unmanaged pool types in MPool:
           FixedSizePool and BlockingFixedSizePool.  They are
@@ -107,9 +107,9 @@ public class MySpecialObjectFactory implements ObjectFactory
           example is a JDBC connection pool because some vendors require
           you to pay per connection licensing fees.
         </p>
-      </s2>
-    </s1>
-    <s1 title="Using the Pool">
+      </section>
+    </section>
+    <section><title>Using the Pool</title>
       <p>
         Using the pools are quite simple:
       </p>
@@ -161,12 +161,12 @@ public class ResettableObject implements Recyclable
 }
         ]]>
       </source>
-    </s1>
+    </section>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2002/10/23 13:50:00 $
+      $Revision: 1.3 $ $Date: 2003/02/20 14:25:22 $
     </legal>
   </footer>
 </document>

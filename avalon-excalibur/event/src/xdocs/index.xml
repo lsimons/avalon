@@ -8,7 +8,7 @@
     </authors>
   </header>
   <body>
-    <s1 title="Introduction">
+    <section><title>Introduction</title>
       <p>
         This is the Excalibur Event package which includes event queues,
         asynchronous command processing, and the interfaces to support
@@ -30,12 +30,12 @@
         utilities so that we can programatically determine the number
         of processors your hardware has.
       </p>
-    </s1>
+    </section>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.6 $ $Date: 2002/09/30 20:43:10 $
+      $Revision: 1.7 $ $Date: 2003/02/20 14:25:22 $
     </legal>
   </footer>
 </document>

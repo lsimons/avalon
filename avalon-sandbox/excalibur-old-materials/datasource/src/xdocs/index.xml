@@ -8,7 +8,7 @@
     </authors>
   </header>
   <body>
-    <s1 title="Introduction">
+    <section><title>Introduction</title>
       <p>
         Avalon Excalibur's DataSource package in
     <code>org.apache.avalon.excalibur.datasource</code> allows you
@@ -23,12 +23,12 @@
     driver classes at init time, but it will take care of all
     necessary issues from there.
       </p>
-    </s1>
+    </section>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/04/05 06:31:47 $
+      $Revision: 1.2 $ $Date: 2003/02/20 14:23:31 $
     </legal>
   </footer>
 </document>

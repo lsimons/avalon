@@ -8,7 +8,7 @@
     </authors>
   </header>
   <body>
-    <s1 title="Event is a Framework for Event Processing">
+    <section><title>Event is a Framework for Event Processing</title>
       <p>
         The first thing that you should expect is that Event does not
         <b>do</b> anything by itself.  It defines all the core interfaces
@@ -39,8 +39,8 @@
         events can then be processed and sent to one of several Queues in
         the system.
       </p>
-    </s1>
-    <s1 title="Pulling Events From a Source">
+    </section>
+    <section><title>Pulling Events From a Source</title>
       <p>
         We have three options: pull one event at a time, unload all the
         events, or pull a number of events at a time.  Each of these
@@ -84,8 +84,8 @@ m_mySource.setTimeout( 0 );
 m_mySource.setTimeout( 250 );
         ]]>
       </source>
-    </s1>
-    <s1 title="Sending Events to a Sink">
+    </section>
+    <section><title>Sending Events to a Sink</title>
       <p>
         We have several options for enqueuing events into a Sink.
         We have transactional enqueuing, lossy enqueuing, and
@@ -182,8 +182,8 @@ if ( numElements < 0 )
 }
         ]]>
       </source>
-    </s1>
-    <s1 title="EventHandlers">
+    </section>
+    <section><title>EventHandlers</title>
       <p>
         Event Handlers are used in automated event routing systems like
         SEDA architectures.  Basically, it is a way for your object/component
@@ -214,12 +214,12 @@ public class MyEventHandler implements EventHandler
 }
         ]]>
       </source>
-    </s1>
+    </section>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2002/10/23 13:50:00 $
+      $Revision: 1.5 $ $Date: 2003/02/20 14:25:22 $
     </legal>
   </footer>
 </document>
