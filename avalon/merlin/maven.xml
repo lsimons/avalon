@@ -148,6 +148,10 @@
       </fileset>
     </ant:copy>
 
+    <ant:chmod file="${merlin.build.inst.dir}/bin/merlin" perm="u=rwx,go=rx"/>
+    <ant:chmod file="${merlin.build.inst.dir}/bin/merlinx" perm="u=rwx,go=rx"/>
+    <ant:chmod file="${merlin.build.inst.dir}/bin/internal-cygwin.sh" perm="u=rwx,go=rx"/>
+    <ant:chmod file="${merlin.build.inst.dir}/bin/internal-unix.sh" perm="u=rwx,go=rx"/>
     <ant:chmod file="${merlin.build.inst.dir}/bin/merlin.sh" perm="u=rwx,go=rx"/>
     <ant:chmod file="${merlin.build.inst.dir}/bin/merlinx.sh" perm="u=rwx,go=rx"/>
     <ant:chmod file="${merlin.build.inst.dir}/bin/merlin-server.sh" perm="u=rwx,go=rx"/>

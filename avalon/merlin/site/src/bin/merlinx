@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+#
+
+if [ -z $MERLIN_HOME ] ; then
+    BIN_DIR=`dirname "$0"`
+    export MERLIN_HOME=`dirname "$BIN_DIR"`
+fi
+
+# Checking for REPOSITORY
+if [ "$MAVEN_HOME_LOCAL" = "" ] ; then
+    REPOSITORY="$HOME/.maven/repository"
+else
+    REPOSITORY="$MAVEN_HOME_LOCAL/repository"
+fi
+
+export MERLIN_ARGS="$MERLIN_ARGS -system $REPOSITORY -repository $REPOSITORY"
+
+exec "$MERLIN_HOME/bin/merlin" "$@"
