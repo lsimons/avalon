@@ -40,7 +40,8 @@
         </p>
         <p>
           <strong>NOTE! </strong> &quot;Base Directory&quot;
-          (property &quot;avalon.logging.basedir&quot;) is NOT SUPPORTED, and
+          (property &quot;avalon.logging.basedir&quot;) is NOT SUPPORTED
+          inside any Log4J configuration files, and
           all relative filenames inside the Log4J configuration will
           relative to <strong>user.dir</strong> (current directory).
         </p>
@@ -54,7 +55,8 @@
               The filename or URL of the Log4J configuration file. This
               file can either be an XML or a Properties configuration file,
               but MUST end with <strong>&quot;.xml&quot;</strong> if it is
-              the former.
+              the former. A relative filename will resolve relative to 
+              <strong>Base Directory</strong> (property &quot;avalon.logging.basedir&quot;).
             </td>
           </tr>
           <tr>
