@@ -26,12 +26,11 @@ import javax.mail.internet.MimeMessage;
 import org.apache.log.format.Formatter;
 import org.apache.log.output.AbstractOutputTarget;
 
-/**
- * Logkit output target that logs data via SMTP (ie. email, email gateways).
+/** Logkit output target that logs data via SMTP.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: SMTPOutputLogTarget.java,v 1.9 2004/02/28 11:31:25 cziegeler Exp $
+ * @version CVS $Id: SMTPOutputLogTarget.java,v 1.10 2004/03/28 05:05:43 niclas Exp $
  * @since 1.1.0
  */
 public class SMTPOutputLogTarget extends AbstractOutputTarget
@@ -60,9 +59,10 @@ public class SMTPOutputLogTarget extends AbstractOutputTarget
     // Buffer containing current mail
     private StringBuffer m_buffer;
 
-    /**
-     * SMTPOutputLogTarget constructor, creates a logkit output target
-     * capable of logging to SMTP (ie. email, email gateway) targets.
+    /** SMTPOutputLogTarget constructor.
+     *
+     * It creates a logkit output target capable of logging to SMTP 
+     * (ie. email, email gateway) targets.
      *
      * @param session mail session to be used
      * @param toAddresses addresses logs should be sent to
@@ -92,8 +92,9 @@ public class SMTPOutputLogTarget extends AbstractOutputTarget
         open();
     }
 
-    /**
-     * Method to write data to the log target. Logging data is stored in
+    /** Method to write data to the log target. 
+     * 
+     * Logging data is stored in
      * an internal buffer until the size limit is reached. When this happens
      * the data is sent to the SMTP target, and the buffer is reset for
      * subsequent events.
@@ -133,8 +134,9 @@ public class SMTPOutputLogTarget extends AbstractOutputTarget
         }
     }
 
-    /**
-     * Closes this log target. Sends currently buffered message, if existing.
+    /** Closes this log target. 
+     *
+     * Sends currently buffered message, if existing.
      */
     public synchronized void close()
     {
