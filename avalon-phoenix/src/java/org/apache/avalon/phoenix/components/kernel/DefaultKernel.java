@@ -7,11 +7,10 @@
  */
 package org.apache.avalon.phoenix.components.kernel;
 
-import org.apache.avalon.excalibur.container.AbstractContainer;
-import org.apache.avalon.excalibur.container.ContainerException;
-import org.apache.avalon.excalibur.container.Entry;
+import java.util.HashMap;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
@@ -20,13 +19,13 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.components.application.Application;
 import org.apache.avalon.phoenix.components.application.DefaultServerApplication;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 import org.apache.avalon.phoenix.components.frame.DefaultApplicationFrame;
 import org.apache.avalon.phoenix.components.manager.SystemManager;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 
 /**
@@ -42,7 +41,7 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DefaultKernel
-    extends AbstractContainer
+    extends AbstractLoggable
     implements Kernel, Composable
 {
     private static final Resources REZ =
@@ -53,6 +52,8 @@ public class DefaultKernel
 
     ///Configuration Repository
     private ConfigurationRepository  m_repository;
+
+    private HashMap                  m_entrys = new HashMap();
 
     public void compose( final ComponentManager componentManager )
         throws ComponentException
@@ -68,12 +69,12 @@ public class DefaultKernel
 
     public void dispose()
     {
-        final String[] names = list();
+        final String[] names = getApplicationNames();
         for( int i = 0; i < names.length; i++ )
         {
             try
             {
-                final SarEntry entry = (SarEntry)getEntry( names[ i ] );
+                final SarEntry entry = (SarEntry)m_entrys.get( names[ i ] );
                 shutdown( entry );
             }
             catch( final Exception e )
@@ -84,6 +85,18 @@ public class DefaultKernel
         }
     }
 
+    public String[] getApplicationNames()
+    {
+        return (String[])m_entrys.keySet().toArray( new String[ 0 ] );
+    }
+
+    public Application getApplication( final String name )
+    {
+        final SarEntry entry = (SarEntry)m_entrys.get( name );
+        if( null == entry ) return null;
+        else return entry.getApplication();
+    }
+
     /**
      * Create and initialize the application instance if it is not already initialized.
      *
@@ -92,7 +105,7 @@ public class DefaultKernel
      * @exception ContainerException if an error occurs
      */
     private void startup( final SarEntry entry )
-        throws ContainerException
+        throws Exception
     {
         final String name = entry.getMetaData().getName();
 
@@ -110,7 +123,7 @@ public class DefaultKernel
                     final ComponentManager componentManager = createComponentManager();
                     ((Composable)application).compose( componentManager );
                 }
-                
+
                 final ApplicationFrame frame = createApplicationFrame( entry );
                 application.setup( frame );
 
@@ -125,9 +138,9 @@ public class DefaultKernel
                 //so invalid instance is not used
                 entry.setApplication( null );
 
-                final String message = 
+                final String message =
                     REZ.getString( "kernel.error.entry.initialize", entry.getMetaData().getName() );
-                throw new ContainerException( message, t );
+                throw new Exception( message/*, t*/ );
             }
         }
     }
@@ -144,7 +157,7 @@ public class DefaultKernel
         }
         else
         {
-            final String message = 
+            final String message =
                 REZ.getString( "kernel.error.entry.nostop", entry.getMetaData().getName() );
             getLogger().warn( message );
         }
@@ -157,9 +170,7 @@ public class DefaultKernel
     {
         final String name = metaData.getName();
         final SarEntry entry = new SarEntry( metaData, classLoader, server );
-
-        //Finally add application to kernel
-        add( name, entry );
+        m_entrys.put( name, entry );
 
         try { startup( (SarEntry)entry ); }
         catch( final Exception e )
@@ -172,7 +183,7 @@ public class DefaultKernel
     private ApplicationFrame createApplicationFrame( final SarEntry entry )
         throws Exception
     {
-        final DefaultApplicationFrame frame = 
+        final DefaultApplicationFrame frame =
             new DefaultApplicationFrame( entry.getClassLoader(), entry.getMetaData() );
 
         setupLogger( entry.getApplication(), entry.getMetaData().getName() + ".frame" );
