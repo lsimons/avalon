@@ -754,6 +754,19 @@
       </dependencies>
     </project>
 
+    <project basedir="../../runtime/merlin/cli">
+      <info>
+        <group>avalon/merlin</group>
+        <name>avalon-merlin-cli</name>
+        <version>3.3.0</version>
+      </info>
+      <dependencies>
+        <include key="avalon-merlin-impl" build="false" test="false" runtime="false"/>
+        <include key="avalon-repository-main"/>
+        <include key="commons-cli"/>
+      </dependencies>
+    </project>
+
     <project basedir="../../runtime/merlin/unit">
       <info>
         <group>avalon/merlin</group>
@@ -764,6 +777,25 @@
         <include key="avalon-repository-main"/>
         <include key="avalon-merlin-impl" build="false" test="false" runtime="false"/>
       </dependencies>
+    </project>
+
+    <project basedir="../../runtime/merlin/tools">
+      <info>
+        <group>avalon/merlin</group>
+        <name>avalon-merlin-tools</name>
+        <version>3.3.0</version>
+      </info>
+      <dependencies>
+        <include key="avalon-repository-main"/>
+        <include key="avalon-merlin-impl" build="false" test="false" runtime="false"/>
+      </dependencies>
+    </project>
+
+    <project basedir="../../tools/bootstrap">
+      <info>
+        <group>avalon/tools</group>
+        <name>avalon-tools-bootstrap</name>
+      </info>
     </project>
 
   </projects>
