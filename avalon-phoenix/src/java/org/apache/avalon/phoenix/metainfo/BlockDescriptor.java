@@ -23,15 +23,17 @@ public class BlockDescriptor
     private final String m_name;
     private final String m_classname;
     private final Version m_version;
-    //private final ConfigSchema    m_schema;
+    private final String m_schemaType;
 
     public BlockDescriptor( final String name,
                             final String classname,
+                            final String schemaType,
                             final Version version )
     {
         m_name = name;
         m_classname = classname;
         m_version = version;
+        m_schemaType = schemaType;
     }
 
     /**
@@ -62,6 +64,16 @@ public class BlockDescriptor
     public Version getVersion()
     {
         return m_version;
+    }
+
+    /**
+     * Retrieve the Schema Type of Block
+     *
+     * @return the Schema Type of block
+     */
+    public String getSchemaType()
+    {
+        return m_schemaType;
     }
 }
 
