@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Apache Avalon News</title>
+  </properties> 
+  
+  <body>
+
+    <section name="Single Platform Strategy">
+      <p>
+        The significance of the vote on 12 March 2004 can not be 
+        under-estimated, as the community has long struggled about identity 
+        and divergence issues. We hope that this can put an end to identity 
+        crisis and Avalon can forge ahead.
+      </p>
+      <p>
+        For users, it is a signal that;
+      </p>
+      <ul>
+        <li>
+          Framework will evolve and embrace more component aspects than currently.
+        </li>
+        <li>
+          Work will start on a formal Test Compatibility Kit, where the 
+          Avalon componentm specification can be validated.
+        </li>
+        <li>
+          Merlin will become the undisputed Reference Container, and the only
+          fully supported Avalon container for the foreseeable future.
+        </li>
+        <li>
+          MerlinDeveloper's status will be improved and rejuvenated effort will
+          go into bringing it to a releasable state.
+        </li>
+        <li>
+          Fortress will be put on halt for the time being, and it is uncertain
+          if a revival effort will take place later, or if it will be forked
+          elsewhere.
+        </li>
+        <li>
+          Excalibur will be terminally deprecated, and only updated with
+          bug fixes to support existing users.
+        </li>
+        <li>
+          The official website and Wiki will be updated to reflect this fact,
+          i.e. references to ECM and Fortress will be removed, and the
+          documentation of these containers will be move to a historical
+          section.
+        </li>
+      </ul>
+    </section>
+  </body>
+</document> 

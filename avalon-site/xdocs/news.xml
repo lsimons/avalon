@@ -8,7 +8,15 @@
  <body>
 
   <section name="News and Information">
-	  <!-- insert new news items as a subsection here -->
+   <!-- insert new news items as a subsection here -->
+   <subsection name="12-MAR-2004: Avalon Adopts Single Platform Strategy">
+     <p>
+      The Avalon community made a historical vote on Friday, where it
+      adopted a <strong>Single Platform</strong> strategy.
+      Single Platform = "a single specification, single container, single 
+      architecture." <a href="news/SinglePlatform.html">read more...</a>
+     </p>
+   </subsection>
 
    <subsection name="01-MAR-2004: Fortress + Excalibur Release">
      <pre>
@@ -37,8 +45,7 @@
       alike are encouraged to contribute!
      </p>
    </subsection>
-	  
-	  
+
    <subsection name="12-FEB-2004: Avalon Adopts JIRA">
      <p>
       The Avalon project has migrated from Bugzilla to
