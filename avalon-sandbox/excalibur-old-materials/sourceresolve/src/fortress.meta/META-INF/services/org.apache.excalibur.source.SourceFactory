@@ -1,0 +1,3 @@
+org.apache.excalibur.source.impl.ResourceSourceFactory
+org.apache.excalibur.source.impl.URLSourceFactory
+org.apache.excalibur.source.impl.FileSourceFactory
