@@ -7,13 +7,12 @@
  */
 package org.apache.avalon.phoenix.tools.metagenerate;
 
+import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaMethod;
-import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.Type;
-
-import java.io.IOException;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * A Xinfo Factory
