@@ -13,4 +13,5 @@
 // limitations under the License.
 
 namespace Apache.Avalon.Framework{	using System;
+
 	/// <summary>	/// The Initializable interface is used by components that need to allocate	/// resources prior to them becoming active.	/// </summary>	public interface IInitializable	{		/// <summary>		/// Initialize the component. Initialization includes allocating any		/// resources required throughout the component's lifecycle.		/// </summary>		/// <exception cref="Exception">		/// If the component cannot initialize properly		/// </exception>		void Initialize();	}}

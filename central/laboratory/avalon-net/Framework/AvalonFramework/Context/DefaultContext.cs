@@ -23,11 +23,6 @@ namespace Apache.Avalon.Framework
 	/// </summary>
 	public class DefaultContext : IContext
 	{
-		[Serializable]
-		private sealed class Hidden
-		{
-		}
-
 		private static Hidden HIDDEN_MAKER = new Hidden();
 
 		private IDictionary m_contextData;
@@ -113,6 +108,11 @@ namespace Apache.Avalon.Framework
 		}
 
 		#endregion
+
+		[Serializable]
+			private sealed class Hidden
+		{
+		}
 
 		/// <summary>
 		/// Helper method fo adding items to Context.

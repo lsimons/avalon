@@ -12,4 +12,4 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;namespace Apache.Avalon.Framework{	/// <summary>	/// The Suspendable interface is used when a component will need to	/// temporarily halt execution of a component. The execution may be halted	/// so that you can take snapshot metrics of the component.	/// </summary>	public interface ISuspendable	{		/// <summary>		///   Suspends the component.		/// </summary>		void Suspend();		/// <summary>		///   Resumes the component.		/// </summary>		void Resume();	}}
+namespace Apache.Avalon.Framework{	using System;	/// <summary>	/// The Suspendable interface is used when a component will need to	/// temporarily halt execution of a component. The execution may be halted	/// so that you can take snapshot metrics of the component.	/// </summary>	public interface ISuspendable	{		/// <summary>		///   Suspends the component.		/// </summary>		void Suspend();		/// <summary>		///   Resumes the component.		/// </summary>		void Resume();	}}
