@@ -2,7 +2,40 @@
 
 <system>
 
-  <import index="../central/system/index.xml"/>
+  <import index="../runtime/index.xml"
+     href="http://svn.apache.org/repos/asf/avalon/trunk/runtime/index.xml"/>
+
+  <!--
+  Avalon Facilities
+  -->
+
+  <project basedir="facilities/finder/api">
+    <info>
+      <group>avalon/finder</group>
+      <name>avalon-finder-api</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="facilities/finder/impl">
+    <info>
+      <group>avalon/finder</group>
+      <name>avalon-finder-impl</name>
+    </info>
+    <dependencies>
+      <include key="avalon-finder-api"/>
+      <include key="avalon-composition-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <!--
+  Avalon Tutorials.
+  -->
 
   <project basedir="tutorials/hello" key="avalon-tutorial-hello">
     <info>

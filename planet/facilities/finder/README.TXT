@@ -16,7 +16,7 @@ Build Procedure
 
 To build the facility:
 
-$ cd avalon-components/facilities/db
-$ maven
+$ cd avalon-components/facilities/finder
+$ ant
 
 
