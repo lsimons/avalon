@@ -10,19 +10,22 @@
   </xsl:template>
 
   <xsl:template match="announcement">
-    <xsl:variable name="titlelen" select="string-length(project)+9"/>
-    <h1 align="center"><xsl:value-of select="project"/><xsl:text> Released</xsl:text></h1>
-      <xsl:apply-templates select="abstract"/>
-      <xsl:apply-templates select="body"/>
+    <h1 align="center"><xsl:value-of select="title"/><xsl:text> Released</xsl:text></h1>
+    <xsl:apply-templates select="abstract"/>
+    
+    <h2>About Avalon</h2>
+    <xsl:apply-templates select="description"/>
+
+    <xsl:for-each select="subproject">
+      <h2>About <xsl:value-of select="title"/></h2>
+      <xsl:apply-templates select="."/>
+    </xsl:for-each>
+
   </xsl:template>
 
-  <xsl:template match="project"/>
-  <xsl:template match="title"/>
-
   <xsl:template match="subproject">
-    <xsl:variable name="titlelen" select="string-length(title)"/>
-    <h2 align="center">About <xsl:value-of select="title"/></h2>
-    <xsl:apply-templates select="abstract"/>
+
+    <xsl:apply-templates select="description"/>
 
     <p>For more information about <xsl:value-of select="title"/>, please go to
     <a><xsl:attribute name="href"><xsl:value-of select="@site"/></xsl:attribute>
@@ -34,7 +37,9 @@
   </xsl:template>
 
   <xsl:template match="abstract">
-    <xsl:apply-templates/>
+    <div align="center">
+      <xsl:apply-templates/>
+    </div>
   </xsl:template>
 
   <xsl:template match="p">
