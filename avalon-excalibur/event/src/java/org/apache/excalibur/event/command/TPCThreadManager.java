@@ -133,7 +133,9 @@ public final class TPCThreadManager extends AbstractLogEnabled
 
             try
             {
-                m_pipelines.put( pipeline, new PipelineRunner( pipeline ) );
+                PipelineRunner runner = new PipelineRunner( pipeline );
+                runner.enableLogging( getLogger() );
+                m_pipelines.put( pipeline, runner );
 
                 if( m_done )
                 {
@@ -260,17 +262,6 @@ public final class TPCThreadManager extends AbstractLogEnabled
                                                   + "increase block-timeout or number of threads per processor", e );
                             }
                         }
-                        catch( RuntimeException e )
-                        {
-                            //We want to catch this, because if an unexpected runtime exception comes through a single
-                            //pipeline it can bring down the primary thread
-
-                            if( getLogger().isErrorEnabled() )
-                            {
-                                getLogger().error( "Exception processing EventPipeline [msg: " + e.getMessage() + "]",
-                                                   e );
-                            }
-                        }
                     }
                 }
                 finally
@@ -287,7 +278,9 @@ public final class TPCThreadManager extends AbstractLogEnabled
         }
     }
 
-    public static final class PipelineRunner implements Runnable
+    public static final class PipelineRunner
+        extends AbstractLogEnabled
+        implements Runnable
     {
         private final EventPipeline m_pipeline;
 
@@ -303,7 +296,22 @@ public final class TPCThreadManager extends AbstractLogEnabled
 
             for( int i = 0; i < sources.length; i++ )
             {
-                handler.handleEvents( sources[i].dequeueAll() );
+                try
+                {
+                    handler.handleEvents( sources[i].dequeueAll() );
+                }
+                catch( RuntimeException e )
+                {
+                    // We want to catch this, because this is the only
+                    // place where exceptions happening in this thread
+                    // can be logged
+
+                    if( getLogger().isErrorEnabled() )
+                    {
+                        getLogger().error( "Exception processing EventPipeline [msg: " + e.getMessage() + "]",
+                                           e );
+                    }
+                }
             }
         }
     }
