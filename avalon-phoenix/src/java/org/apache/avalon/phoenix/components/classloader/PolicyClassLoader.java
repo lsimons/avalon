@@ -170,8 +170,7 @@ class PolicyClassLoader
             urls.add( url );
         }
 
-        System.out.println( "Created urls: " + urls );
-
+        //System.out.println( "Created urls: " + urls );
         return (URL[])urls.toArray( new URL[ 0 ] );
     }
 
