@@ -6,6 +6,15 @@
   <property file="build.properties"/>
   <import file="${project.system}/build/standard.xml"/>
 
+  <x:property property="afw.version" key="avalon-framework-api" feature="version"/>
+  <echo>${afw.version}</echo>
+
+  <!--
+  <x:property ns="framework" key="avalon-framework-api"/>
+  <echo>${framework.name}</echo>
+  <echo>${framework.version}</echo>
+  -->
+
       <!--
   <target name="javadoc" depends="prepare">
     <x:javadoc>

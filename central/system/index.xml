@@ -833,7 +833,11 @@
       <status>SNAPSHOT</status>
     </info>
     <dependencies>
-      <include key="avalon-merlin-impl" build="false" test="false"/>
+      <include key="avalon-repository-impl" runtime="false" test="false"/>
+      <include key="avalon-logging-logkit-impl" runtime="false" test="false"/>
+      <include key="avalon-logging-log4j" runtime="false" test="false"/>
+      <include key="avalon-activation-impl" runtime="false" test="false"/>
+      <include key="avalon-merlin-impl" runtime="false" test="false"/>
       <include key="avalon-repository-main"/>
       <include key="commons-cli"/>
     </dependencies>

@@ -32,7 +32,7 @@
   </target>
 
   <target name="default">
-    <x:reactor/>
+    <x:reactor target="default"/>
   </target>
 
 </project>
