@@ -25,12 +25,8 @@ import org.apache.avalon.framework.logger.Logger;
  * The Connection object used in conjunction with the JdbcDataSource
  * object.
  *
- * TODO: Implement a configurable closed end Pool, where the Connection
- * acts like JDBC PooledConnections work.  That means we can limit the
- * total number of Connection objects that are created.
- *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.20 $ $Date: 2002/11/07 04:50:15 $
+ * @version CVS $Revision: 1.21 $ $Date: 2002/11/08 03:24:27 $
  * @since 4.1
  */
 public abstract class AbstractJdbcConnection
@@ -42,8 +38,6 @@ public abstract class AbstractJdbcConnection
     protected PreparedStatement m_testStatement;
     protected SQLException m_testException;
     protected long m_lastUsed = System.currentTimeMillis();
-
-    protected Map m_statements;
 
     /**
      * @deprecated Use the version with keepAlive specified
@@ -115,20 +109,6 @@ public abstract class AbstractJdbcConnection
         try
         {
             m_connection.clearWarnings();
-
-            if ( m_statements != null )
-            {
-                Iterator it = m_statements.keySet().iterator();
-                while (it.hasNext())
-                {
-                    Object key = it.next();
-                    Statement statement = (Statement)m_statements.get( key );
-    
-                    try { statement.close(); } catch ( SQLException se ) {}
-    
-                    m_statements.remove( key );
-                }
-            }
         }
         catch( SQLException se )
         {
