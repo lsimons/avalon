@@ -232,14 +232,14 @@
         <j:forEach var="packageGroup" items="${pom.packageGroups}">
       	  <group title="${packageGroup.title}" packages="${packageGroup.packages}"/>
         </j:forEach>
+        <!--
         <sourcepath path="${basedir}/../extension-spi/src/java"/>
         <sourcepath path="${basedir}/../extension/src/java"/>
-        <!--
-        <sourcepath path="${basedir}/../activation-spi/src/java"/>
-        <sourcepath path="${basedir}/../activation/src/java"/>
         -->
         <sourcepath path="${basedir}/../composition-spi/src/java"/>
         <sourcepath path="${basedir}/../composition/src/java"/>
+        <sourcepath path="${basedir}/../activation-spi/src/java"/>
+        <sourcepath path="${basedir}/../activation/src/java"/>
         <sourcepath path="${basedir}/../assembly-spi/src/java"/>
         <sourcepath path="${basedir}/../assembly/src/java"/>
         <sourcepath path="${basedir}/../merlin-spi/src/java"/>
