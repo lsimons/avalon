@@ -55,12 +55,12 @@
       <title>Designed by the Best Minds</title>
       <para>
         The authors of Avalon recognize that we are not the sole experts
-	on server side programming.  We use concepts and ideas from other
-	people's research.  We respond to feedback from our users.  Avalon
-	is not just designed by the five developers mentioned in the
-	introduction&mdash;the people who came up with the concepts of Inversion
-	of Control, Separation of Concerns, and Component Oriented
-	Programming design it.
+        on server side programming.  We use concepts and ideas from other
+        people's research.  We respond to feedback from our users.  Avalon
+        is not just designed by the five developers mentioned in the
+        introduction&mdash;the people who came up with the concepts of Inversion
+        of Control, Separation of Concerns, and Component Oriented
+        Programming design it.
       </para>
       <para>
         The beauty of Open Source projects is that the result is an
@@ -77,43 +77,43 @@
       <title>Compatible License</title>
       <para>
         The <emphasis>Apache Software License</emphasis> (ASL) is compatible
-	with just about every other license known.  The biggest known
-	exceptions are the <emphasis>GNU Public License</emphasis> (GPL)
-	and the <emphasis>Lesser GNU Public License</emphasis> (LGPL).  The
-	important thing is that the ASL is friendly to corporate development,
-	and does not force you to release your source code if you don't want
-	to.  It is the same license used for the Apache Software Foundation's
-	venerable HTTP server.
+        with just about every other license known.  The biggest known
+        exceptions are the <emphasis>GNU Public License</emphasis> (GPL)
+        and the <emphasis>Lesser GNU Public License</emphasis> (LGPL).  The
+        important thing is that the ASL is friendly to corporate development,
+        and does not force you to release your source code if you don't want
+        to.  It is the same license used for the Apache Software Foundation's
+        venerable HTTP server.
       </para>
     </section>
     <section>
       <title>Pooled Research</title>
       <para>
         Most of Avalon's users contribute back to the project in some way.
-	This spreads the cost of developing, debugging, and documenting the
-	framework across several users.  It also means that Avalon's code
-	has gone through a more extensive peer review than would ever be
-	possible in one company.  In addition, users of Avalon support
-	Avalon.  While it is true open source projects do not typically have
-	a help desk or telephone support line, we do have a mailing list.
-	Many times your questions can be answered in less time on the list
-	than it would take on some support lines.
+        This spreads the cost of developing, debugging, and documenting the
+        framework across several users.  It also means that Avalon's code
+        has gone through a more extensive peer review than would ever be
+        possible in one company.  In addition, users of Avalon support
+        Avalon.  While it is true open source projects do not typically have
+        a help desk or telephone support line, we do have a mailing list.
+        Many times your questions can be answered in less time on the list
+        than it would take on some support lines.
       </para>
     </section>
     <section>
       <title>Simplified Analysis and Design</title>
       <para>
         Developing on Avalon helps the developer to get into a mindset.
-	That mindset focuses the efforts on how to discover Components and
-	Services.  Since many of the details regarding the life of the
-	Components and Services in the system are already analyzed and
-	designed, the developer only has to choose which ones they need.
+        That mindset focuses the efforts on how to discover Components and
+        Services.  Since many of the details regarding the life of the
+        Components and Services in the system are already analyzed and
+        designed, the developer only has to choose which ones they need.
       </para>
       <para>
         It is important to state that Avalon development does not replace
-	traditional Object Oriented Analysis and Design, but enhances it.
-	You are still using the same techniques you did before, only now
-	you have a tool set you can use to achieve your design faster.
+        traditional Object Oriented Analysis and Design, but enhances it.
+        You are still using the same techniques you did before, only now
+        you have a tool set you can use to achieve your design faster.
       </para>
     </section>
   </section>
