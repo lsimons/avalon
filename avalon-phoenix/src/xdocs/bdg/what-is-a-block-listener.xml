@@ -3,8 +3,7 @@
 <document>
   <properties>
     <title>Guide - What is a Block Listener?</title>
-      <author email="peter at apache.org">Peter Donald</author>
-      <author email="Paul_Hammant@yahoo.com">Paul Hammant</author>
+      <author email="avalon-phoenix-dev@jakarta.apache.org">Phoenix Documentation Team</author>
   </properties>
   <body>
     <section name="Introduction">

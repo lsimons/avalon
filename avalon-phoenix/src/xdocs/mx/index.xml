@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<document>
+    <properties>
+        <title>Management Guide</title>
+        <author email="huw@apache.org">Huw Roberts</author>
+    </properties>
+    <body>
+        <section name="Who Should Read This Book?">
+            <p>This guide documents how a developer will go about enabling
+            JMX Management support for their application or for the kernel.
+            The text assumes that the reader has a basic understanding of
+            JMX.</p>
+        </section>
+        <section name="Contents">
+            <ol>
+                <li><a href="overview.html">Overview</a></li>
+                <li><a href="structure.html">The Structure of Management hierarchy</a></li>
+                <li><a href="mxinfo.html">The MXInfo format</a></li>
+                <li><a href="xdoctags.html">Integration with XDoclet</a></li>
+            </ol>
+        </section>
+    </body>
+</document>
