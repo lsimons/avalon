@@ -10,7 +10,9 @@ package org.apache.avalon.phoenix.metainfo;
 import org.apache.avalon.framework.Version;
 
 /**
- * This interface describes a particular service that a component offers.
+ * This class describes the meta info of a service offered by a Block.
+ * Each service is defined by an interface name and the version of that 
+ * interface.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
@@ -19,6 +21,12 @@ public final class ServiceDescriptor
     private final Version m_version;
     private final String m_name;
 
+    /**
+     * Construct a service with specified name and version.
+     *
+     * @param name the name of the service
+     * @param version the version of service
+     */
     public ServiceDescriptor( final String name, final Version version )
     {
         m_name = name;
@@ -26,7 +34,7 @@ public final class ServiceDescriptor
     }
 
     /**
-     * Return version of interface
+     * Return the version of interface
      *
      * @return the version of interface
      */
@@ -37,7 +45,7 @@ public final class ServiceDescriptor
 
     /**
      * Return name of Service (which coresponds to the interface
-     * name eg org.apache.block.Logger)
+     * name eg org.apache.block.WebServer)
      *
      * @return the name of the Service
      */
@@ -47,7 +55,7 @@ public final class ServiceDescriptor
     }
 
     /**
-     * Determine if other service will match this service.
+     * Determine if specified service will match this service.
      * To match a service has to have same name and must comply with version.
      *
      * @param other the other ServiceInfo
