@@ -26,6 +26,7 @@ import org.apache.avalon.framework.component.DefaultComponentManager;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
@@ -64,7 +65,7 @@ public final class DefaultServerApplication
         protected BlockVisitor        m_visitor;
     }
 
-    private final BlockInfoBuilder   m_builder          = new BlockInfoBuilder();
+    private DefaultConfigurationBuilder     m_builder = new DefaultConfigurationBuilder();
 
     private HashMap                  m_phases           = new HashMap();
     private BlockDAG                 m_dag              = new BlockDAG();
@@ -281,7 +282,11 @@ public final class DefaultServerApplication
             throw new Exception( message );
         }
 
-        try { return m_builder.build( resource.toString() ); }
+        try 
+        { 
+            final Configuration info = m_builder.build( resource.toString() );
+            return BlockInfoBuilder.build( info ); 
+        }
         catch( final Exception e )
         {
             final String message = REZ.getString( "app.error.blockinfo.nocreate", name, resourceName );
