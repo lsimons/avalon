@@ -66,7 +66,7 @@ import org.apache.excalibur.xfc.modules.ecm.ECMSerializer;
  * module.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: FortressSerializer.java,v 1.5 2002/11/12 19:55:48 donaldp Exp $
+ * @version CVS $Id: FortressSerializer.java,v 1.6 2002/11/12 19:56:14 donaldp Exp $
  */
 public class FortressSerializer extends ECMSerializer
 {
@@ -223,7 +223,6 @@ public class FortressSerializer extends ECMSerializer
         throws Exception
     {
         SingleRoleInstance[] subs = i.getSubInstances();
-        Configuration[] xconfs = new Configuration[ subs.length ];
 
         for( int j = 0; j < subs.length; ++j )
         {
