@@ -41,7 +41,7 @@ import org.apache.commons.altrmi.server.impl.classretrievers.NoClassRetriever;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public abstract class AbstractPublisher extends AbstractLogEnabled
     implements AltrmiPublisher, Startable, Composable, Contextualizable, Configurable,
@@ -255,8 +255,13 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      * @return
      *
      */
-    public MethodInvocationHandler getMethodInvocationHandler( MethodRequest request, String s )
+    public MethodInvocationHandler getMethodInvocationHandler( MethodRequest request, String publishedName )
     {
-        return m_AbstractServer.getMethodInvocationHandler( request, s );
+        return m_AbstractServer.getMethodInvocationHandler( request, publishedName );
+    }
+
+    public MethodInvocationHandler getMethodInvocationHandler(String publishedName)
+    {
+        return m_AbstractServer.getMethodInvocationHandler( publishedName );
     }
 }
