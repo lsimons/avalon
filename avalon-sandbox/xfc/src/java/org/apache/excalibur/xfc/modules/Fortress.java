@@ -81,7 +81,7 @@ import org.apache.excalibur.xfc.model.RoleRef;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: Fortress.java,v 1.3 2002/10/07 17:13:17 crafterm Exp $
+ * @version CVS $Id: Fortress.java,v 1.4 2002/10/08 10:42:32 crafterm Exp $
  */
 public class Fortress extends ECM
 {
@@ -126,6 +126,27 @@ public class Fortress extends ECM
         throws Exception
     {
         Configuration[] hints = role.getChildren( "component" );
+
+        if ( hints.length > 1 )
+        {
+            return buildMultipleComponentRoleRef( role );
+        }
+
+        return buildSingleComponentRoleRef( role );
+    }
+
+    /**
+     * Method to construct a {@link RoleRef} object from a Configuration
+     * definition that defines a multiple component based role.
+     *
+     * @param role a <code>Configuration</code> definition of a role
+     * @return a {@link RoleRef} instance
+     * @exception Exception if an error occurs
+     */
+    private RoleRef buildMultipleComponentRoleRef( final Configuration role )
+        throws Exception
+    {
+        Configuration[] hints = role.getChildren( "component" );
         Definition[] definitions = new Definition[ hints.length ];
 
         for ( int i = 0; i < hints.length; ++i )
@@ -134,11 +155,33 @@ public class Fortress extends ECM
                 new Definition(
                     getHintClass( hints[i] ),
                     getShorthand( hints[i] ),
-                    getHandler( getHintClass( hints[i] ) )
+                    getHandler( hints[i] )
                 );
         }
 
-        return new RoleRef( getRole( role ), getShorthand( role ), definitions );
+        return new RoleRef( getRole( role ), "UNKNOWN-REVISIT", definitions );
+    }
+
+    /**
+     * Method to create a {@link RoleRef} object for a Configuration 
+     * definition that defines a single component based role.
+     *
+     * @param role a <code>Configuration</code> definition of a role
+     * @return a {@link RoleRef} instance
+     * @exception Exception if an error occurs
+     */
+    private RoleRef buildSingleComponentRoleRef( final Configuration role )
+        throws Exception
+    {
+        Configuration config = role.getChild( "component" );
+        Definition definition =
+            new Definition(
+                getHintClass( config ),
+                getShorthand( config ),
+                getHandler( config )
+            );
+
+        return new RoleRef( getRole( role ), getShorthand( config ), definition );
     }
 
     /**
@@ -240,7 +283,6 @@ public class Fortress extends ECM
         }
 
         role.setAttribute( "name", ref.getRole() );
-        role.setAttribute( "shorthand", ref.getShorthand() );
 
         return role;
     }
