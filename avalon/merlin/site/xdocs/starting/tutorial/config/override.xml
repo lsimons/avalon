@@ -66,9 +66,12 @@ $ merlin -execute target\classes -config conf\config.xml
         in the target name "\hello".
         </p>
         <source>
-[INFO   ] (sys.hello): configuration stage
-[INFO   ] (sys.hello): initialization stage
-[INFO   ] (sys.hello): source: External configuration target.
+[INFO   ] (kernel): building application model
+[INFO   ] (kernel): install phase
+[INFO   ] (kernel): installing: file:${user.dir}/target/classes/
+[INFO   ] (tutorial.hello): configuration stage
+[INFO   ] (tutorial.hello): initialization stage
+[INFO   ] (tutorial.hello): source: Custom configuration target.
         </source>
       </subsection>
       <subsection name="Notes">
@@ -81,7 +84,7 @@ $ merlin -execute target\classes -config conf\config.xml
         </p>
 <source><![CDATA[
 <targets>
-  <target path="/container/component-name">
+  <target path="/container-name/component-name">
     <configuration>
       <!-- your configuration info -->
     </configuration>
