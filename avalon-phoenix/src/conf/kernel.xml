@@ -16,17 +16,21 @@
             class="org.apache.avalon.phoenix.components.manager.NoopSystemManager"
             logger="manager"></component>
 
-        <!-- There are two JMX Adapters
-        
-            The default manager using Sun's reference JMX Adapter -
+        <!-- There are two JMX Adapters available.  You will need to ensure 
+             the correct jars for each adapter are in the lib directory of Phoenix
+
+            The default manager using Sun's reference JMX Adapter from 
+            http://java.sun.com/products/JavaManagement/download.html -
+
               org.apache.avalon.phoenix.components.manager.DefaultManager
-        
-            The MX4J manager using Sun's reference JMX Adapter -        
-              org.apache.avalon.phoenix.components.manager.MX4JSystemManager
-        
+
+            The MX4J manager using the MX4J adapter devewloped at SourceForge
+            See http://mx4j.sourceforge.net/ -        
+
+              org.apache.avalon.phoenix.components.manager.MX4JSystemManager 
         -->
 
-        <!-- use this one if you need the DefaultManager
+        <!-- JMX Management... use this one if you need the DefaultManager
         <component role="org.apache.avalon.phoenix.interfaces.SystemManager"
             class="org.apache.avalon.phoenix.components.manager.DefaultManager"
             logger="manager" >
