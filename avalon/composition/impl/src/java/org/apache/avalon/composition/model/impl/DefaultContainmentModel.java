@@ -124,7 +124,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13.2.16 $ $Date: 2004/01/12 05:41:05 $
+ * @version $Revision: 1.13.2.17 $ $Date: 2004/01/12 07:14:31 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -777,7 +777,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         for( int i=0; i<models.length; i++ )
         {
             ServiceModel model = models[i];
-            if( model.getServiceClass().isAssignableFrom( clazz ) )
+            if( clazz.isAssignableFrom( model.getServiceClass() ) )
             {
                 return model;
             }
