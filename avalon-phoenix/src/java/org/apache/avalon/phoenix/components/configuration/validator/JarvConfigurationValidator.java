@@ -173,6 +173,7 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
         throws ConfigurationException
     {
         final Schema schema = ( Schema ) this.m_schemas.get( createKey( application, block ) );
+        final Configuration branched = ConfigurationUtil.branch( configuration, "root" );
 
         if( null == schema )
         {
@@ -183,7 +184,7 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
 
         if( null != this.m_debugPath )
         {
-            writeDebugConfiguration( application, block, configuration );
+            writeDebugConfiguration( application, block, branched );
         }
 
         try
@@ -222,8 +223,7 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
                 }
             } );
 
-            this.m_serializer.serialize( handler,
-                                         ConfigurationUtil.branch( configuration, "root" ) );
+            this.m_serializer.serialize( handler, branched );
 
             return handler.isValid();
         }
