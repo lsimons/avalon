@@ -46,7 +46,7 @@ import org.apache.avalon.framework.logger.Logger;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/02/25 16:28:20 $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/03/08 17:08:13 $
  * @since 4.1
  */
 class InstrumentClientFrame
@@ -159,7 +159,7 @@ class InstrumentClientFrame
             catch( Throwable t )
             {
                 // Should not get here, but we want to make sure that this never happens.
-                getLogger().error( "Unexpected error caught in ProfilerFrame runner:", t );
+                getLogger().error( "Unexpected error caught in InstrumentClientFrame runner:", t );
             }
         }
     }
