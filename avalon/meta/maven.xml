@@ -1,4 +1,4 @@
-<project default="avalon:plugin"  xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
+<project default="avalon:build"  xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
   <ant:property name="meta.plugin.version" value="1.2"/>
   <ant:property name="meta.plugin.groupId" value="avalon-meta"/>   
@@ -43,18 +43,16 @@ Building the framework using the default target "avalon:build".
 The complete set of target include:
 
   avalon:clean
-  avalon:build
+  avalon:build ---------- default goal
   avalon:build-snapshot
   avalon:dist
-  avalon:plugin ---------- default goal
   avalon:site
     </echo>
 
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
-      excludes="plugin/project.xml"
-      goals="jar:install"
+      goals=""
       banner="Building:"
       ignoreFailures="false"/>
     <ant:copy todir="${maven.build.dir}">
@@ -70,6 +68,9 @@ The complete set of target include:
       <ant:fileset dir="${basedir}/tools/target">
         <ant:include name="${pom.artifactId}-tools-${pom.currentVersion}.jar"/>
       </ant:fileset>
+      <ant:fileset dir="${basedir}/plugin/target">
+        <ant:include name="${pom.artifactId}-plugin-${meta.plugin.version}.jar"/>
+      </ant:fileset>
     </ant:copy>
 
   </goal>
@@ -84,22 +85,7 @@ The complete set of target include:
       ignoreFailures="false"/>
   </goal>
 
-  <goal name="avalon:plugin" prereqs="avalon:build">
-    <maven:reactor
-      basedir="${basedir}"
-      includes="plugin/project.xml"
-      goals="plugin:install"
-      banner="Installing plugin:"
-      ignoreFailures="false"
-    />
-    <ant:copy todir="${maven.build.dir}">
-      <ant:fileset dir="${basedir}/plugin/target">
-        <ant:include name="${pom.artifactId}-plugin-${meta.plugin.version}.jar"/>
-      </ant:fileset>
-    </ant:copy>
-  </goal>
-
-  <goal name="avalon:dist" prereqs="avalon:plugin,avalon:site,xdist"/>
+  <goal name="avalon:dist" prereqs="avalon:build,avalon:site,xdist"/>
 
   <goal name="avalon:site" prereqs="avalon:build,xsite"/>
 
