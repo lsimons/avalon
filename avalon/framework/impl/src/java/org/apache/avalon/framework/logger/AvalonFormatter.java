@@ -73,7 +73,7 @@ import org.apache.log.util.StackIntrospector;
  * </ul>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.26 $ $Date: 2003/02/11 16:19:27 $
+ * @version CVS $Revision: 1.27 $ $Date: 2003/02/11 16:25:49 $
  */
 public class AvalonFormatter
     extends ExtendedPatternFormatter
@@ -86,12 +86,16 @@ public class AvalonFormatter
     /**
      * The constant defining the default stack depth when
      * none other is specified.
+     *
+     * @since 4.1.2
      */
     public static final int DEFAULT_STACK_DEPTH = 8;
 
     /**
      * The constant defining the default behaviour for printing
      * nested exceptions.
+     *
+     * @since 4.1.2
      */
     public static final boolean DEFAULT_PRINT_CASCADING = true;
 
@@ -121,6 +125,7 @@ public class AvalonFormatter
      * @param stackDepth The depth to which stacktraces are printed out
      * @param printCascading true enables printing of nested exceptions,
      *   false only prints out the outermost exception
+     * @since 4.1.2
      */
     public AvalonFormatter( final String pattern, final int stackDepth,
                             final boolean printCascading )
