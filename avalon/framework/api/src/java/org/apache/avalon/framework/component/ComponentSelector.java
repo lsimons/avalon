@@ -45,10 +45,13 @@ public interface ComponentSelector
      * following call:
      *
      * <pre>
-     * try {
+     * try 
+     * {
      *     Generator input;
-     *     input = (Generator) selector.select(new URL("foo://demo/url"));
-     * } catch (...) {
+     *     input = (Generator)selector.select( new URL("foo://demo/url") );
+     * } 
+     * catch (...) 
+     * {
      *     ...
      * }
      * </pre>

@@ -10,11 +10,17 @@ package org.apache.avalon.framework.logger;
 import org.apache.log.Logger;
 
 /**
- * Interface through which to provide Loggers.
+ * Components that need to log can implement this interface to
+ * be provided Loggers.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public interface Loggable
 {
+    /**
+     * Provide component with a logger.
+     *
+     * @param logger the logger
+     */
     void setLogger( Logger logger );
 }

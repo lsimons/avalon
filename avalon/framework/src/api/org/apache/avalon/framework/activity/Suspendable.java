@@ -8,7 +8,8 @@
 package org.apache.avalon.framework.activity;
 
 /**
- * This is used to temporarily halt execution of a component.
+ * The Suspendable interface is used when a component 
+ * will need to temporarily halt execution of a component.
  * The execution may be halted so that you can reconfigure/
  * recompose/recontextualize component.
  *

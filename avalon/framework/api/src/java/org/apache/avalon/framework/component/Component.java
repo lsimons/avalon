@@ -14,12 +14,10 @@ package org.apache.avalon.framework.component;
  *
  * The contract surrounding the <code>Component</code> is that it is
  * used, but not a user.  When a class implements this interface, it
- * is stating that other entities may use that class.  As part of the
- * contract with the system, a <code>Component</code> must always
- * declare an empty constructor.
+ * is stating that other entities may use that class.  
  * <br />
  *
- * A <code>Component</code> is the basic building block of the Avalon.
+ * A <code>Component</code> is the basic building block of the Avalon Framework.
  * When a class implements this interface, it allows itself to be
  * managed by a <code>ComponentManager</code> and used by an outside
  * element called a <code>Composable</code>.  The <code>Composable</code>
@@ -39,7 +37,9 @@ package org.apache.avalon.framework.component;
  * so we extend the <code>Component</code> to be a <code>LoggingComponent</code>.
  *
  * <pre>
- *   interface LoggingComponent extends Component {
+ *   interface LoggingComponent 
+ *       extends Component 
+ *   {
  *       log(String message);
  *   }
  * </pre>

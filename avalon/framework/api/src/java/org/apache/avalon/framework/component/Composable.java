@@ -17,10 +17,8 @@ package org.apache.avalon.framework.component;
  * The <code>Composable</code> is able to use <code>Components</code> managed
  * by the <code>ComponentManager</code> it was initialized with.  As part
  * of the contract with the system, the instantiating entity must call
- * the <code>setComponenetManager</code> method before the
- * <code>Composable</code> can be considered valid.  The
- * <code>setComponentManager</code> method must be called after the constructor
- * and before any user methods.
+ * the <code>compose</code> method before the <code>Composable</code> 
+ * can be considered valid. 
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:pier@apache.org">Pierpaolo Fumagalli</a>

@@ -10,7 +10,7 @@ package org.apache.avalon.framework.parameters;
 import org.apache.avalon.framework.CascadingException;
 
 /**
- * Thrown when a <code>Configurable</code> component cannot be configured
+ * Thrown when a <code>Parameterizable</code> component cannot be parameterized
  * properly, or if a value cannot be retrieved properly.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>

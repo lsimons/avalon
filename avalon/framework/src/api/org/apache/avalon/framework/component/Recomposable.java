@@ -15,6 +15,16 @@ package org.apache.avalon.framework.component;
 public interface Recomposable
     extends Composable
 {
+    /**
+     * Repass the <code>ComponentManager</code> to the <code>composer</code>.
+     * The <code>Composable</code> implementation should use the specified
+     * <code>ComponentManager</code> to acquire the components it needs for
+     * execution. It should also drop references to any components it 
+     * retrieved from old ComponentManager.
+     *
+     * @param manager The <code>ComponentManager</code> which this
+     *                <code>Composable</code> uses.
+     */
     void recompose( ComponentManager componentManager )
         throws ComponentException;
 }

@@ -10,7 +10,8 @@ package org.apache.avalon.framework.component;
 import org.apache.avalon.framework.CascadingException;
 
 /**
- * The exception thrown by ComponentManager.
+ * The exception thrown to indicate a problem with Components.
+ * It is usually thrown by ComponentManager or ComponentSelector.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
@@ -22,6 +23,9 @@ public class ComponentException
 {
     /**
      * Construct a new <code>ComponentException</code> instance.
+     *
+     * @param message the exception message
+     * @param throwable the throwable
      */
     public ComponentException( final String message, final Throwable throwable )
     {
@@ -30,6 +34,8 @@ public class ComponentException
 
     /**
      * Construct a new <code>ComponentException</code> instance.
+     *
+     * @param message the exception message
      */
     public ComponentException( final String message )
     {

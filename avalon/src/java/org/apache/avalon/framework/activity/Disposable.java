@@ -8,9 +8,8 @@
 package org.apache.avalon.framework.activity;
 
 /**
- * The Dispose interface should be implemented by classes that
- * need to dispose of internal resources prior to the destruction
- * of the implementing instance.
+ * The Disposable interface is used when components need to 
+ * dealocate and dispose resources prior to their destruction.
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:pier@apache.org">Pierpaolo Fumagalli</a>
@@ -20,12 +19,10 @@ package org.apache.avalon.framework.activity;
 public interface Disposable
 {
     /**
-     * The dispose operation will be invoked by a client on completion
-     * of the useful life of instance.  This method is guaranteed to be called
-     * after the stop() method if the Component supports the
-     * <code>Stoppable</code> interface. This method is responsible for
-     * releaseing/destroying any resources aquired by the Component
-     * during it's lifecycle.
+     * The dispose operation is called at the end of a components lifecycle.
+     * This method will be called after Startable.stop() method (if implemented
+     * by component). Components use this method to release and destroy any
+     * resources that the Component owns.
      */
     void dispose()
         throws Exception;

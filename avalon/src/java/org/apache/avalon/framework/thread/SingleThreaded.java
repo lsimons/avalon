@@ -8,10 +8,8 @@
 package org.apache.avalon.framework.thread;
 
 /**
- * A interface to mark a component as not ThreadSafe.
- *
- * NB: It was a deliberat e choice not to extend Component. This will have to
- * be reassed once we see it in action.
+ * A interface to mark a component as SingleThreaded.
+ * This interface is incompatible with ThreadSafe.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
