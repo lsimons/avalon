@@ -141,6 +141,10 @@
       <name>saxon</name>
       <version>6.5.3</version>
       <type>jar</type>
+      <gump>
+        <classpath/>
+        <alias>saxon6</alias>
+      </gump>
     </info>
   </resource>
 
