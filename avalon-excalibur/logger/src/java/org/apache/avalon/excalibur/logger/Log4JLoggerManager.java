@@ -63,14 +63,14 @@ import org.apache.log4j.Hierarchy;
  * leaves that as an excercise for Log4J's construction.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/10/02 01:47:02 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/10/06 11:22:18 $
  * @since 4.1
  */
 public class Log4JLoggerManager
     implements LoggerManager, LogEnabled
 {
     /** Map for name to logger mapping */
-    final private Map m_loggers = new HashMap();
+    private final Map m_loggers = new HashMap();
 
     /** The root logger to configure */
     private String m_prefix;
@@ -79,7 +79,7 @@ public class Log4JLoggerManager
     private Hierarchy m_hierarchy;
 
     /** The default logger used for this system */
-    final private Logger m_defaultLogger;
+    private final Logger m_defaultLogger;
 
     /** The logger used to log output from the logger manager. */
     private Logger m_logger;
