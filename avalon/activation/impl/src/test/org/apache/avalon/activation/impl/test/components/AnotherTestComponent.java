@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.activation.csi.grant.components;
+package org.apache.avalon.activation.impl.test.components;
 
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.Serviceable;
@@ -29,7 +29,7 @@ import org.apache.avalon.framework.service.ServiceManager;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @avalon.component name="anothertest" lifestyle="singleton"
  * @avalon.service 
- *    type="org.apache.avalon.activation.csi.grant.components.AnotherTestService"
+ *    type="org.apache.avalon.activation.impl.test.components.AnotherTestService"
  */
 public class AnotherTestComponent extends AbstractLogEnabled 
   implements AnotherTestService, Serviceable
@@ -40,7 +40,7 @@ public class AnotherTestComponent extends AbstractLogEnabled
      * Service from the container.
      * 
      * @avalon.dependency 
-     *    type="org.apache.avalon.activation.csi.grant.components.TestService" 
+     *    type="org.apache.avalon.activation.impl.test.components.TestService" 
      *    key="TestService"
      */
     public void service( ServiceManager man )
