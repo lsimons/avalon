@@ -24,8 +24,10 @@
  <body>
     <menu>
       <item name="Magic" href="magic/index.html"/>
+      <!--
       <item name="Plugins" href="plugins/index.html"/>
       <item name="Legacy" href="maven/index.html"/>
+      -->
     </menu>
  </body>
 

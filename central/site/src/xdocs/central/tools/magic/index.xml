@@ -18,9 +18,9 @@
       <p>
       Avalon Magic is a build system based on Apache
       <a href="http://ant.apache.org">Ant</a>.  It provides 
-      a project model abstraction layer enabling centralized version
-      and dependency management, build task automation, and dynamic 
-      plugin management.
+      a <a href="model.index.html">project model</a> abstraction 
+      layer enabling centralized version and dependency management, 
+      build task automation, and dynamic plugin management.
       </p>
 
     </section>
