@@ -27,6 +27,8 @@ import org.apache.avalon.meta.info.InfoDescriptor;
 import org.apache.avalon.meta.info.CategoryDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
+import org.apache.avalon.meta.info.SecurityDescriptor;
+import org.apache.avalon.meta.info.PermissionDescriptor;
 import org.apache.avalon.meta.info.Type;
 
 import com.thoughtworks.qdox.model.DocletTag;
@@ -57,7 +59,7 @@ import com.thoughtworks.qdox.model.JavaClass;
  * </table>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/21 13:27:04 $
+ * @version $Revision: 1.6 $ $Date: 2004/02/24 22:32:46 $
  */
 public class TypeTag extends AbstractTag
 {
@@ -118,6 +120,8 @@ public class TypeTag extends AbstractTag
         final InfoDescriptor info = 
           new InfoDescriptor( 
             name, type, version, lifestyle, collection, schema, properties );
+        final SecurityDescriptor security = 
+          new SecurityTag( getJavaClass() ).getSecurityDescriptor();
         final ServiceDescriptor[] services = new ServicesTag( getJavaClass() ).getServices();
         final CategoryDescriptor[] loggers = new LoggerTag( getJavaClass() ).getCategories();
         final DependencyDescriptor[] dependencies =
@@ -126,7 +130,9 @@ public class TypeTag extends AbstractTag
         final ExtensionDescriptor[] extensions = new ExtensionTag( getJavaClass() ).getExtensions();
         final ContextDescriptor context = new ContextTag( getJavaClass() ).getContext();
 
-        return new Type( info, loggers, context, services, dependencies, stages, extensions, null );
+        return new Type( 
+          info, security, loggers, context, services, dependencies, 
+          stages, extensions, null );
     }
 
     private String getName(DocletTag tag)

@@ -35,6 +35,8 @@ import org.apache.avalon.meta.info.CategoryDescriptor;
 import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
+import org.apache.avalon.meta.info.SecurityDescriptor;
+import org.apache.avalon.meta.info.PermissionDescriptor;
 import org.apache.avalon.meta.info.Type;
 import org.apache.excalibur.configuration.ConfigurationUtil;
 import org.xml.sax.InputSource;
@@ -45,7 +47,7 @@ import org.xml.sax.InputSource;
  * is specified in the <a href="package-summary.html#external">package summary</a>.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/02/10 16:30:16 $
+ * @version $Revision: 1.10 $ $Date: 2004/02/24 22:32:46 $
  */
 public class XMLTypeCreator
     extends XMLServiceCreator implements TypeFactory
@@ -115,9 +117,12 @@ public class XMLTypeCreator
         //
 
         configuration = info.getChild( "info", false );
-
         final InfoDescriptor descriptor =
             buildInfoDescriptor( classname, configuration );
+
+        configuration = info.getChild( "security", false );
+        final SecurityDescriptor security =
+            buildSecurityDescriptor( configuration );
 
         configuration = info.getChild( "loggers" );
         final CategoryDescriptor[] loggers = buildLoggers( configuration );
@@ -139,7 +144,7 @@ public class XMLTypeCreator
         final ExtensionDescriptor[] extensions = buildExtensions( configuration );
 
         return new Type(
-          descriptor, loggers, context, services, dependencies, phases, 
+          descriptor, security, loggers, context, services, dependencies, phases, 
           extensions, defaults );
     }
 
@@ -345,7 +350,7 @@ public class XMLTypeCreator
 
     /**
      * A utility method to build a {@link ContextDescriptor}
-     * object from specified configuraiton.
+     * object from specified configuration.
      *
      * @param context the dependency configuration
      * @return the created ContextDescriptor
@@ -435,6 +440,63 @@ public class XMLTypeCreator
           info.getChild( "collection" ).getValue( collectionLegacy );
         return new InfoDescriptor( 
           name, classname, version, lifestyle, collection, schema, attributes );
+    }
+
+    /**
+     * A utility method to build a {@link SecurityDescriptor}
+     * object from specified configuration data.
+     *
+     * @param config the security configuration fragment
+     * @return the created SecurityDescriptor
+     * @throws ConfigurationException if an error occurs
+     */
+    public SecurityDescriptor buildSecurityDescriptor( final Configuration config )
+      throws BuildException
+    {
+        if( null == config ) return new SecurityDescriptor( null, null );
+
+        try
+        {
+            final Properties attributes =
+              buildAttributes( config.getChild( "attributes" ) );
+            PermissionDescriptor[] permissions = buildPermissions( config );
+            return new SecurityDescriptor( permissions, attributes );
+        }
+        catch( ConfigurationException e )
+        {
+            final String error = 
+              "Cannot build secrity descriptor.";
+            throw new BuildException( error, e );
+        }
+    }
+
+    private PermissionDescriptor[] buildPermissions( final Configuration config )
+      throws ConfigurationException
+    {
+        ArrayList list = new ArrayList();
+        Configuration[] children = config.getChildren( "permission" );
+        for( int i = 0; i < children.length; i++ )
+        {			
+            list.add( buildPermission( children[i] ) );
+        }
+        return (PermissionDescriptor[])list.toArray( new PermissionDescriptor[ 0 ] );
+    }
+
+    private PermissionDescriptor buildPermission( final Configuration config ) 
+      throws ConfigurationException
+    {
+        final String classname = config.getAttribute( "class" );
+        final String name = config.getAttribute( "name", null );
+        ArrayList list = new ArrayList();
+        Configuration[] children = config.getChildren( "action" );
+        for( int i=0; i<children.length; i++ )
+        {
+            Configuration child = children[i];
+            String action = child.getValue();
+            list.add( action );
+        }
+        String[] actions = (String[])list.toArray( new String[0] );
+        return new PermissionDescriptor( classname, name, actions );
     }
 
    /**
