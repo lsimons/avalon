@@ -51,9 +51,8 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * Application and component bootstrapper used to instantiate, and or invoke
  * Classes and their methods within newly constructed Repository ClassLoaders.
  * 
- * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author $Author: mcconnell $
- * @version $Revision: 1.14 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.15 $
  */
 public class DefaultBuilder extends AbstractBuilder implements Builder
 {

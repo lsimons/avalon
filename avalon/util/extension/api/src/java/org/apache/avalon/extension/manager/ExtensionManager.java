@@ -33,8 +33,8 @@ import org.apache.avalon.extension.Extension;
  * Java2 Standard Edition package, in file
  * <code>guide/extensions/versioning.html</code></p>.
  *
- * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004/02/04 17:24:14 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.2 $ $Date: 2004/02/24 22:39:31 $
  */
 public interface ExtensionManager
 {

@@ -26,8 +26,8 @@ import org.apache.avalon.meta.info.Service;
  * process may go so far as to ensure all the classes referenced actually
  * exist, although this is not necessary.
  *
- * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $
  */
 public interface Verifier
 {

@@ -27,8 +27,8 @@ import org.apache.avalon.meta.info.Type;
  * ResourceLocator provides an interface for the readers and writers to
  * get i9nput and output streams relative to a type.
  *
- * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $
  */
 public interface ResourceLocator
 {

@@ -40,7 +40,7 @@ import org.apache.avalon.framework.service.Serviceable;
  * uses the <code>SocketManager</code> and <code>ConnectionManager</code>
  * components in the cornerstone and excalibur component packages.
  *
- * @author <a href="mailto:timothy.bennett@gxs.com">Timothy Bennett</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  *
  * @avalon.component version="1.0" name="simple-web-server"
  */

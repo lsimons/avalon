@@ -22,7 +22,7 @@ import org.apache.avalon.merlin.unit.AbstractMerlinTestCase;
 /**
  * Hello Test Case.
  *
- * @author mcconnell@apache.org
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class StandardTestCase extends AbstractMerlinTestCase
 {

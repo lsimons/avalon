@@ -38,8 +38,8 @@ import org.apache.avalon.extension.manager.OptionalPackage;
  * represented by a single file on the file system. This Repository searches
  * a path to find the Optional Packages.</p>
  *
- * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004/02/04 17:24:16 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.2 $ $Date: 2004/02/24 22:39:31 $
  * @see OptionalPackage
  * @see ExtensionManager
  */

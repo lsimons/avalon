@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
  * expressions to examine the action line and host header line.  All other headers
  * and text are ignored.
  *
- * @author <a href="mailto:timothy.bennett@gxs.com">Timothy Bennett</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class Request {
 

@@ -36,7 +36,7 @@ import org.apache.avalon.framework.logger.Logger;
  *  <li>Send the reply
  * </ul>
  *
- * @author <a href="mailto:timothy.bennett@gxs.com">Timothy Bennett</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class SimpleConnectionHandler
     implements ConnectionHandler {

@@ -29,7 +29,7 @@ import org.apache.avalon.framework.parameters.Parameters;
 /**
  * TestCase for Parameter.
  *
- * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class ParameterTestCase
     extends TestCase

@@ -24,8 +24,8 @@ import org.apache.avalon.extension.DeweyDecimal;
 /**
  * TestCases for DeweyDecimal.
  *
- * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004/02/04 17:24:18 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.2 $ $Date: 2004/02/24 22:39:31 $
  */
 public class DeweyDecimalTestCase
     extends TestCase

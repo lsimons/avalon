@@ -28,7 +28,7 @@ import org.apache.avalon.framework.logger.LogEnabled;
  * We're not doing anything fancy (or safe) here like pooling connections or queuing
  * if we are busy.
  *
- * @author <a href="mailto:timothy.bennett@gxs.com">Timothy Bennett</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @avalon.component version="1.0" name="connection-handler-factory" lifestyle="singleton"
  * @avalon.service type="org.apache.avalon.cornerstone.services.connection.ConnectionHandlerFactory"
  */
