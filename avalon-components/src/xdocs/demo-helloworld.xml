@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Cornerstone Developer Documentation</title>
+    <subtitle>The 'Hello World' Example Application</subtitle>
+    <authors>
+      <person name="Paul Hammant" email="Paul_Hammant@yahoo.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Introduction">
+      <p>
+        The 'Hello World' demo server component is a socket listener app that replies 'Hello World' to client applications that open the port.  The reply is in HTML form so can be viewed by a Browser.  The HTTP headers are missing, but it still works.  Telnet is another client that can view the message.
+      </p>
+    </s1>
+    <s1 title="Relevant source modules">
+      <p>
+        The Helloworld demo copiles as part of the build process for cornerstone.  The important modules that contribute to the demo are listed here.  All are within the src directory
+      </p>
+      <ol>
+        <li>
+          <strong>org.apache.cornerstone.demos.helloworldserver package</strong> This package contains the Java source for 'Hello World' and the xinfo block descriptor.
+        </li>
+        <li>
+          <strong>manifest/helloworld-demo.mf</strong> This contains a manifest for use in the bar file that details what's inside the block archive 'demo-helloworld.bar'
+        </li>
+      </ol>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2001/03/11 16:42:03 $
+    </legal>
+  </footer>
+</document>
