@@ -2,3 +2,4 @@ target
 maven.log
 velocity.log
 build.xml
+ant.properties
