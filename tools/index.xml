@@ -226,6 +226,7 @@
     </info>
     <gump>
       <alias>javamail</alias>
+      <id>javamail</id>
     </gump>
   </resource>
 
