@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jardesc>
-    <jar path="C:/develop/eclipse/workspace/org.apache.avalon.ide.eclipse.ui/MerlinDeveloperUI.jar"/>
+    <jar path="target/MerlinDeveloperUI.jar"/>
     <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/org.apache.avalon.ide.eclipse.ui/deploy_local.jardesc" useSourceFolders="false" buildIfNeeded="true"/>
     <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="false" saveManifest="false" generateManifest="true" manifestLocation="">
         <sealing sealJar="false">

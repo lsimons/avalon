@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jardesc>
-    <jar path="C:/develop/eclipse/workspace/org.apache.avalon.ide.eclipse.update/plugins/org.apache.avalon.MerlinDeveloperCore_0.0.2.jar"/>
+    <jar path="target/org.apache.avalon.MerlinDeveloperCore_0.0.2.jar"/>
     <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/org.apache.avalon.ide.eclipse.features/deploy_core.jardesc" useSourceFolders="false" buildIfNeeded="true"/>
     <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="false" saveManifest="false" generateManifest="true" manifestLocation="">
         <sealing sealJar="false">
