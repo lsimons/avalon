@@ -7,10 +7,10 @@
  */
 package org.apache.avalon.phoenix.components.kernel;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.container.ContainerException;
 import org.apache.avalon.excalibur.container.Entry;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
@@ -22,8 +22,9 @@ import org.apache.avalon.phoenix.components.application.Application;
 import org.apache.avalon.phoenix.components.application.DefaultServerApplication;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.kapi.BlockEntry;
-import org.apache.avalon.phoenix.components.kapi.ServerApplicationEntry;
+import org.apache.avalon.phoenix.components.kapi.SarEntry;
 import org.apache.avalon.phoenix.components.manager.SystemManager;
+import org.apache.avalon.phoenix.metadata.BlockMetaData;
 
 /**
  * The ServerKernel is the core of the Phoenix system.
@@ -87,7 +88,7 @@ public class DefaultKernel
         throws ContainerException
     {
         final Application application = (Application)entry.getInstance();
-        final ServerApplicationEntry saEntry = (ServerApplicationEntry)entry;
+        final SarEntry saEntry = (SarEntry)entry;
 
         setupLogger( application, name );
         try
@@ -96,8 +97,8 @@ public class DefaultKernel
             {
                 final DefaultContext context = new DefaultContext();
                 context.put( "app.name", name );
-                context.put( "app.home", saEntry.getHomeDirectory() );
-                context.put( "app.class.path", saEntry.getClassPath() );
+                context.put( "app.home", saEntry.getMetaData().getHomeDirectory() );
+                context.put( "app.class.path", saEntry.getMetaData().getClassPath() );
                 context.makeReadOnly();
                 ((Contextualizable)application).contextualize( context );
             }
@@ -111,7 +112,7 @@ public class DefaultKernel
                 ((Composable)application).compose( componentManager );
             }
 
-            application.addBlockListeners( saEntry.getListeners() );
+            application.addBlockListeners( saEntry.getMetaData().getListeners() );
 
             if( application instanceof Configurable )
             {
@@ -135,7 +136,7 @@ public class DefaultKernel
     protected final void preAdd( final String name, final Entry entry )
         throws ContainerException
     {
-        if( !(entry instanceof ServerApplicationEntry) )
+        if( !(entry instanceof SarEntry) )
         {
             final String message = REZ.getString( "kernel.error.entry.badtype", name );
             throw new ContainerException( message );
@@ -145,14 +146,15 @@ public class DefaultKernel
     protected void preStartEntry( final String name, final Entry entry )
         throws ContainerException
     {
-        final ServerApplicationEntry saEntry = (ServerApplicationEntry)entry;
-        final BlockEntry[] blockEntrys = saEntry.getBlockEntrys();
+        final SarEntry saEntry = (SarEntry)entry;
+        final BlockMetaData[] blocks = saEntry.getMetaData().getBlocks();
         final Application application = (Application)saEntry.getInstance();
 
-        for( int i = 0; i < blockEntrys.length; i++ )
+        for( int i = 0; i < blocks.length; i++ )
         {
-            final String blockName = blockEntrys[ i ].getBlockMetaData().getName();
-            application.add( blockName, blockEntrys[ i ] );
+            final String blockName = blocks[ i ].getName();
+            final BlockEntry blockEntry = new BlockEntry( blocks[ i ] );
+            application.add( blockName, blockEntry );
         }
     }
 }

@@ -11,7 +11,7 @@ import java.io.File;
 import java.net.URL;
 import org.apache.avalon.excalibur.container.Entry;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
+import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Logger;
 
 /**
@@ -19,54 +19,21 @@ import org.apache.log.Logger;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class ServerApplicationEntry
+public class SarEntry
     extends Entry
 {
+    private SarMetaData     m_metaData;
     private Logger          m_logger;
-    private File            m_homeDirectory;
-    private URL[]           m_classPath;
-    private BlockEntry[]    m_blockEntrys;
-    private BlockListenerMetaData[] m_listeners;
     private Configuration   m_configuration;
 
-    public BlockEntry[] getBlockEntrys()
+    public SarEntry( final SarMetaData metaData )
     {
-        return m_blockEntrys;
+        m_metaData = metaData;
     }
 
-    public void setBlockEntrys( final BlockEntry[] blockEntrys )
+    public SarMetaData getMetaData()
     {
-        m_blockEntrys = blockEntrys;
-    }
-
-    public BlockListenerMetaData[] getListeners()
-    {
-        return m_listeners;
-    }
-
-    public void setListeners( final BlockListenerMetaData[] listeners )
-    {
-        m_listeners = listeners;
-    }
-
-    public void setClassPath( final URL[] classPath )
-    {
-        m_classPath = classPath;
-    }
-
-    public URL[] getClassPath()
-    {
-        return m_classPath;
-    }
-
-    public File getHomeDirectory()
-    {
-        return m_homeDirectory;
-    }
-
-    public void setHomeDirectory( final File homeDirectory )
-    {
-        m_homeDirectory = homeDirectory;
+        return m_metaData;
     }
 
     public Logger getLogger()

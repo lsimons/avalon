@@ -99,7 +99,7 @@ public class BlockDAG
 
             //roleEntry should NEVER be null as it is checked when
             //entry is added to container
-            final RoleMetaData roleEntry = entry.getBlockMetaData().getRole( role );
+            final RoleMetaData roleEntry = entry.getMetaData().getRole( role );
             final String dependencyName = roleEntry.getName();
             final BlockEntry dependency = getBlockEntry( dependencyName );
             visitBlock( dependencyName, dependency, visitor, Traversal.FORWARD, completed );
@@ -129,7 +129,7 @@ public class BlockDAG
         {
             final String blockName = names[ i ];
             final BlockEntry entry = getBlockEntry( blockName );
-            final RoleMetaData[] roles = entry.getBlockMetaData().getRoles();
+            final RoleMetaData[] roles = entry.getMetaData().getRoles();
 
             for( int j = 0; j < roles.length; j++ )
             {
