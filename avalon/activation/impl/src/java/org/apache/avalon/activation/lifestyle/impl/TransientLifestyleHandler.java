@@ -50,31 +50,25 @@
 
 package org.apache.avalon.activation.lifestyle.impl;
 
+import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
-import java.lang.ref.ReferenceQueue;
-
 import java.util.ArrayList;
 
 import org.apache.avalon.activation.lifecycle.Factory;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.logger.Logger;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/17 03:26:28 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/17 06:44:49 $
  */
 public class TransientLifestyleHandler extends AbstractLifestyleHandler implements Disposable
 {
-    private final Factory m_factory;
-
-    private final ReferenceQueue m_queue = new ReferenceQueue();
-
     private ArrayList m_list = new ArrayList();
 
     public TransientLifestyleHandler( Logger logger, Factory factory )
     {
-        super( logger );
-        m_factory = factory;
+        super( logger, factory );
     }
 
     /**
@@ -86,12 +80,12 @@ public class TransientLifestyleHandler extends AbstractLifestyleHandler implemen
      */
     public Object resolve() throws Exception
     {
-        // TODO: setup a background thread to check m_queue for 
+        // TODO: setup a background thread to check queues for 
         // released references and remove them from our list, otherwise we
         // have a memory leak due to accumulation of weak references
 
-        Object instance = m_factory.newInstance();
-        WeakReference reference = new WeakReference( instance, m_queue );
+        Object instance = newInstance();
+        Reference reference = getReference( instance );
         m_list.add( reference );
         return instance;
     }
@@ -103,7 +97,7 @@ public class TransientLifestyleHandler extends AbstractLifestyleHandler implemen
      */
     public void release( Object instance )
     {
-        m_factory.destroy( instance );
+        disposeInstance( instance );
     }
 
    /**
@@ -111,16 +105,11 @@ public class TransientLifestyleHandler extends AbstractLifestyleHandler implemen
     */
     public synchronized void dispose()
     {
-        WeakReference[] refs = (WeakReference[]) m_list.toArray( new WeakReference[0] );
+        Reference[] refs = (Reference[]) m_list.toArray( new Reference[0] );
         for( int i=0; i<refs.length; i++ )
         {
-            WeakReference ref = refs[i];
-            Object instance = ref.get();
-            if( instance != null )
-            {
-                m_factory.destroy( instance );
-                ref.clear();
-            }
+            Reference ref = refs[i];
+            disposeInstance( refs[i].get() );
         }
         m_list.clear();
     }

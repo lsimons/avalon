@@ -50,6 +50,8 @@
 
 package org.apache.avalon.activation.lifestyle.impl;
 
+import java.lang.ref.Reference;
+import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 
 import org.apache.avalon.activation.lifecycle.Factory;
@@ -58,20 +60,18 @@ import org.apache.avalon.framework.logger.Logger;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/17 03:26:28 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/17 06:44:49 $
  */
 public class SingletonLifestyleHandler extends AbstractLifestyleHandler
   implements Disposable
 {
-    private final Factory m_factory;
 
-    private Object m_instance;
+    private Reference m_reference;
 
     public SingletonLifestyleHandler( Logger logger, Factory factory )
     {
-        super( logger );
+        super( logger, factory );
         if( factory == null ) throw new IllegalStateException( "factory" );
-        m_factory = factory;
     }
 
     /**
@@ -83,18 +83,23 @@ public class SingletonLifestyleHandler extends AbstractLifestyleHandler
      */
     public Object resolve() throws Exception
     {
-        //
-        // TODO: Add support for ref handling - first off
-        // virify classes in ref are assignable from the 
-        // instance class, and secondly, build a proxy 
-        // using the ref array.
-        //
+        Object instance = null;
 
-        if( m_instance != null ) return m_instance;
-        synchronized( m_factory )
+        if( m_reference == null )
         {
-            m_instance = m_factory.newInstance();
-            return m_instance;
+            return refreshReference();
+        }
+        else
+        {
+            instance = m_reference.get();
+            if( instance == null )
+            {
+                return refreshReference();
+            }
+            else
+            {
+                return instance;
+            }
         }
     }
 
@@ -105,7 +110,7 @@ public class SingletonLifestyleHandler extends AbstractLifestyleHandler
      */
     public void release( Object instance )
     {
-        // don't release the singleton
+        // don't release singleton types
     }
 
    /**
@@ -113,9 +118,22 @@ public class SingletonLifestyleHandler extends AbstractLifestyleHandler
     */
     public void dispose()
     {
-        synchronized( m_factory )
+        if( m_reference != null )
         {
-            if( m_instance != null ) m_factory.destroy( m_instance );
+            disposeInstance( m_reference.get() );
+            m_reference = null;
         }
     }
+
+    private Object refreshReference() throws Exception
+    {
+        synchronized( getFactory() )
+        {
+            Object instance = getFactory().newInstance();
+            m_reference = getReference( instance );
+            return instance;
+        }
+    }
+
+
 }

@@ -56,13 +56,13 @@ import org.apache.avalon.framework.logger.Logger;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/17 03:26:28 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/17 06:44:49 $
  */
 public class PooledLifestyleHandler extends AbstractLifestyleHandler
 {
     public PooledLifestyleHandler( Logger logger, Factory factory )
     {
-        super( logger );
+        super( logger, factory );
     }
 
     /**
