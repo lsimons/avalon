@@ -96,9 +96,9 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
      *     <td>1000</td>
      *   </tr>
      *   <tr>
-     *     <td>block-timeout</td>
-     *     <td>Time (in milliseconds) to wait for a thread to process a pipeline</td>
-     *     <td>1000</td>
+     *     <td>force-shutdown</td>
+     *     <td>At shutdown time, allow currently queued tasks to finish, or immediately quit</td>
+     *     <td>false</td>
      *   </tr>
      * </table>
      *
