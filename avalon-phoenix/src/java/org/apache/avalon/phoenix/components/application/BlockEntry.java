@@ -52,18 +52,18 @@ public class BlockEntry
 
     public synchronized void setBlock( final Block block )
     {
-        m_block = block;
-
-        if( null == block )
+        if( null != m_block )
         {
-            m_invocationHandler = null;
+            invalidate();
         }
-        else
+
+        if( null != block )
         {
             final BlockInfo blockInfo = getMetaData().getBlockInfo();
             final Class[] interfaces = getServiceClasses( block, blockInfo.getServices() );
 
             m_invocationHandler = new BlockInvocationHandler( block, interfaces );
+            m_block = block;
         }
     }
 
