@@ -14,7 +14,7 @@ import java.io.File;
  *
  * @author <a href="mailto:bh22351@i-one.at">Bernhard Huber</a>
  */
-public class RotateStrategyByTime 
+public class RotateStrategyByTime
     implements RotateStrategy
 {
     ///time interval when rotation is triggered.
@@ -30,17 +30,17 @@ public class RotateStrategyByTime
      * Rotate logs by time.
      * By default do log rotation every 24 hours
      */
-    public RotateStrategyByTime() 
+    public RotateStrategyByTime()
     {
         this( 1000 * 60 * 60 * 24 );
     }
 
     /**
      *  Rotate logs by time.
-     * 
-     *  @param timeInterval rotate after time-interval [ms] has expired
+     *
+     *  @param timeInterval rotate before time-interval [ms] has expired
      */
-    public RotateStrategyByTime( final long timeInterval ) 
+    public RotateStrategyByTime( final long timeInterval )
     {
         m_startingTime = System.currentTimeMillis();
         m_currentRotation = 0;
@@ -50,7 +50,7 @@ public class RotateStrategyByTime
     /**
      * reset interval history counters.
      */
-    public void reset() 
+    public void reset()
     {
         m_startingTime = System.currentTimeMillis();
         m_currentRotation = 0;
@@ -65,16 +65,16 @@ public class RotateStrategyByTime
      * @param data the last message written to the log system
      * @return boolean return true if log rotation is neccessary, else false
      */
-    public boolean isRotationNeeded( final String data, final File file ) 
+    public boolean isRotationNeeded( final String data, final File file )
     {
-        final long newRotation = 
+        final long newRotation =
             (System.currentTimeMillis() - m_startingTime) / m_timeInterval;
 
         if( newRotation > m_currentRotation )
         {
             m_currentRotation = newRotation;
             return true;
-        } 
+        }
         else
         {
             return false;
