@@ -28,9 +28,9 @@ Legal:
   <property name="name" value="avalon"/>
   <property name="Name" value="Avalon"/>
   <property name="framework.name" value="avalon-framework"/>
-  <property name="version" value="4.0b3"/>
+  <property name="version" value="4.0"/>
   <property name="year" value="1999-2001"/>
-  <property name="status" value="beta"/>
+  <property name="status" value="final"/>
 
   <!--
     these are here only for those who use jikes compiler. For other
