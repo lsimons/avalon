@@ -54,7 +54,10 @@ A minimal build.xml would thus be:
         <available property="checkstyle.present"
                classname="com.puppycrawl.tools.checkstyle.Checker"
                classpathref="project.class.path" />
-        <available property="javax.jms.present"
+        <available property="commons-logging.present"
+	       classname="org.apache.comons.logging.Log"
+	       classpathref="project.class.path" />
+      <available property="javax.jms.present"
                classname="javax.jms.TopicConnection"
                classpathref="project.class.path" />
         <available property="javax.mail.present"
@@ -157,10 +160,10 @@ A minimal build.xml would thus be:
   </target>
 
   <target name="check-all-dependencies"
-          depends="bsf-check,checkstyle-check,javamail-check,jdbc-check,jms-check,junit-check,log4j-check,logkit-check,servletapi-check"
+          depends="bsf-check,checkstyle-check,javamail-check,jdbc-check,jms-check,junit-check,log4j-check,logkit-check,servletapi-check,commons-logging-check"
 	  description="checks for all dependencies we know about. This is usually more than the minimum needed to build this project; actual use is not recommended."/>
   <target name="import-all-auto-dependencies"
-          depends="import-bsf,import-checkstyle,import-junit,import-log4j,import-logkit"
+          depends="import-bsf,import-checkstyle,import-junit,import-log4j,import-logkit,import-commons-logging"
 	  description="checks for all dependencies we know about. This is usually more than the minimum needed to build this project; actual use is not recommended."/>
 
   <!-- BSF -->
@@ -198,6 +201,25 @@ A minimal build.xml would thus be:
       <param name="version" value="${checkstyle.version}"/>
       <param name="license" value="${checkstyle.license}"/>
       <param name="license.url" value="${checkstyle.license.url}"/>
+    </antcall>
+  </target>
+
+  <!-- Commons-Logging -->
+  <target name="commons-logging-check" unless="commons-logging.present" depends="setup-dependencies">
+    <antcall target="missing-dependency">
+      <param name="id" value="${commons-logging.id}"/>
+      <param name="version" value="${commons-logging.version}"/>
+      <param name="license" value="${commons-logging.license}"/>
+      <param name="license.url" value="${commons-logging.license.url}"/>
+    </antcall>
+  </target>
+  
+  <target name="import-commons-logging" depends="setup-dependencies">
+    <antcall target="import-dependency">
+      <param name="id" value="${commons-logging.id}"/>
+      <param name="version" value="${commons-logging.version}"/>
+      <param name="license" value="${commons-logging.license}"/>
+      <param name="license.url" value="${commons-logging.license.url}"/>
     </antcall>
   </target>
 
