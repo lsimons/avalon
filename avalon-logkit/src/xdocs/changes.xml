@@ -8,6 +8,10 @@
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
   </devs>
 <release version="1.0b4" date="Unreleased">
+  <action dev="PD" type="update">
+    Deprecated FilterTarget it was rarely (never?) used and offers only minor 
+    advantages over directly using sub-classes.
+  </action>
   <action dev="PD" type="add">
     Added XMLFormatter to enable writing logs in XML format.
   </action>
