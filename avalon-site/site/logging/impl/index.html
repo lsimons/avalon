@@ -270,6 +270,23 @@
       
     </div>
   
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../examples/index.html">Examples</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
     </div>
   
     <div>
@@ -472,13 +489,13 @@
       
     
       
-      
         
+      
       
     
 
     
-    <tr class="a">
+    <tr class="b">
     <th>
       Plugin
     </th>
@@ -490,13 +507,13 @@
   
     
       
-        
       
+        
       
     
 
     
-    <tr class="b">
+    <tr class="a">
     <td>
       
     <a href="logkit/index.html">LogKit</a>
@@ -515,68 +532,6 @@
    </tr>
   
     </table>
-  
-    </div>
-  
-    <div class="h4">
-      
-      
-        <h4>
-          <a name="Code Example">Code Example</a>
-        </h4>
-      
-      
-    <p>
-      
-        The following code is an example of a application loading 
-        and instantiating the Avalon Logging LogKit pluging.
-        
-    </p>
-   
-    <div id="source">
-      <pre>
-
-        File dir = new File( System.getProperty( "user.dir" ) );
-
-        // 
-        // create an initial context
-        //
-
-        DefaultInitialContextFactory initial = 
-           new DefaultInitialContextFactory( "avalon", dir );
-        initial.setCacheDirectory( getRepositoryDirectory() );
-        InitialContext context = initial.createInitialContext();
-
-        //
-        // get the plugin reference
-        //
-
-        Artifact artifact = Artifact.createArtifact( 
-          "artifact:avalon-logging/avalon-logkit-impl#1.0-SNAPSHOT" );
-
-        //
-        // build the plugin
-        //
-
-        Builder builder = context.newBuilder( artifact );
-        Factory factory = builder.getFactory();
-
-        //
-        // customize the plugin to you environment
-        //
-
-        File file = new File( dir, "logging.xml" );
-        Map criteria = factory.createDefaultCriteria();
-        criteria.put( "avalon.logging.configuration", file );
-        criteria.put( "avalon.logging.basedir", dir );
-
-        //
-        // create the logging manager
-        //
-
-        LoggingManager manager = (LoggingManager) factory.create( criteria );
-        </pre>
-    </div>
   
     </div>
   
