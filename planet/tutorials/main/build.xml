@@ -15,12 +15,14 @@
 
   <target name="test" depends="standard.test">
     <x:path id="deps"/>
-    <java classname="tutorial.Main" fork="true" dir="target\test">
+    <java classname="tutorial.Main" fork="true" dir="target\test" failonerror="true">
       <classpath>
         <path refid="deps"/>
         <pathelement location="target/deliverables/jars/${project.filename}"/>
       </classpath>
+      <sysproperty key="project.cache" value="${magic.cache}"/>
     </java>
+    
   </target>
 
 </project>
