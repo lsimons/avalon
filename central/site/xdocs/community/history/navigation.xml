@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+
+ <title>Apache Avalon History</title>
+
+ <body>
+    <menu>
+      <item name="Call To Vote" href="call-to-vote.html"/>
+      <item name="Need For Avalon" href="need-for-avalon.html"/>
+      <item name="What is a Server?" href="what-is-a-server.html"/>
+    </menu>
+ </body>
+
+</project>

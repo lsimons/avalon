@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+
+ <title>Apache Avalon Community</title>
+
+ <body>
+    <menu>
+        <item name="Who We Are" href="who/index.html"/>
+        <item name="Process" href="process/index.html"/>
+        <item name="History" href="history/index.html"/>
+    </menu>
+
+ </body>
+
+</project>
