@@ -286,6 +286,68 @@ public class DefaultFactory implements Factory
             }
 
             buffer.append( "\n" );
+
+            buffer.append( 
+              "\n  ${merlin.repository} == " 
+              + criteria.getRepositoryDirectory() );
+
+            buffer.append( 
+              "\n  ${merlin.lang} == " 
+              + criteria.getLanguageCode() );
+
+            buffer.append( 
+              "\n  ${merlin.home} == " 
+              + criteria.getHomeDirectory() );
+
+            buffer.append( 
+              "\n  ${merlin.system} == " 
+              + criteria.getSystemDirectory() );
+
+            buffer.append( 
+              "\n  ${merlin.config} == " 
+              + criteria.getConfigDirectory() );
+
+            buffer.append( 
+              "\n  ${merlin.kernel} == " 
+              + criteria.getKernelURL() );
+
+            buffer.append( 
+              "\n  ${merlin.override} == " 
+              + criteria.getOverridePath() );
+
+            buffer.append( 
+              "\n  ${merlin.dir} == " 
+              + criteria.getWorkingDirectory() );
+
+            buffer.append( 
+              "\n  ${merlin.temp} == " 
+              + criteria.getTempDirectory() );
+
+            buffer.append( 
+              "\n  ${merlin.context} == " 
+              + criteria.getContextDirectory() );
+
+            buffer.append( 
+              "\n  ${merlin.anchor} == " 
+              + criteria.getAnchorDirectory() );
+
+            buffer.append( 
+              "\n  ${merlin.info} == " 
+              + criteria.isInfoEnabled() );
+
+            buffer.append( 
+              "\n  ${merlin.debug} == " 
+              + criteria.isDebugEnabled() );
+
+            buffer.append( 
+              "\n  ${merlin.server} == " 
+              + criteria.isServerEnabled() );
+
+            buffer.append( 
+              "\n  ${merlin.autostart} == " 
+              + criteria.isAutostartEnabled() );
+
+            /*
             Iterator keys = criteria.keySet().iterator();
             while( keys.hasNext() )
             {
@@ -296,6 +358,8 @@ public class DefaultFactory implements Factory
                     buffer.append( "\n  ${" + key + "} == " + value );
                 }
             }
+            */
+
             buffer.append( "\n  ${merlin.deployment} == " );
             URL[] urls = criteria.getDeploymentURLs();
             for( int i=0; i<urls.length; i++ )

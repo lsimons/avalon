@@ -85,7 +85,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -137,10 +137,9 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
         new Parameter( 
           MERLIN_TEMP, File.class, TEMP_DIR ),
         new Parameter( 
-          MERLIN_CONTEXT,
-          File.class, new File( USER_DIR, "home" ) ),
+          MERLIN_CONTEXT, File.class, null ),
         new Parameter( 
-          MERLIN_ANCHOR, File.class, USER_DIR ),
+          MERLIN_ANCHOR, File.class, null ),
         new Parameter( 
           MERLIN_INFO, Boolean.class, new Boolean( false ) ),
         new Parameter( 
@@ -437,11 +436,19 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
     * runtime home directories will be established for 
     * components referencing urn:avalon:home
     *
-    * @return the conext directory
+    * @return the context directory
     */
     public File getContextDirectory()
     {
-        return (File) get( MERLIN_CONTEXT );
+        File context = (File) get( MERLIN_CONTEXT );
+        if( null == context )
+        {
+            return new File( getWorkingDirectory(), "home" );
+        }
+        else
+        {
+            return resolveWorkingFile( context );
+        }
     }
 
    /**
@@ -452,7 +459,8 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
     */
     public File getAnchorDirectory()
     {
-        return (File) get( MERLIN_ANCHOR );
+        File anchor = (File) get( MERLIN_ANCHOR );
+        return resolveWorkingFile( anchor );
     }
 
    /**
@@ -512,6 +520,13 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
     //--------------------------------------------------------------
     // internal
     //--------------------------------------------------------------
+
+    private File resolveWorkingFile( File file )
+    {
+        if( null == file ) return getWorkingDirectory();
+        if( file.isAbsolute() ) return file;
+        return new File( getWorkingDirectory(), file.toString() );
+    }
 
     private void printProperties( Properties properties, String label )
     {
