@@ -28,6 +28,7 @@
     <menu-item label="Overview" source="assemblers-guide.xml"/>
     <menu-item label="What is a Server Application?" source="what-is-a-server-application.xml"/>
     <menu-item label="Creating a Server Application" source="creating-a-server-application.xml"/>
+    <menu-item label="config.xml Specification" source="config-xml-specification.xml"/>
     <menu-item label="assembly.xml Specification" source="assembly-xml-specification.xml"/>
     <menu-item label="server.xml Specification" source="server-xml-specification.xml"/>
   </menu>

@@ -21,23 +21,18 @@
         below for a sample assembly.xml file.
       </p>
       <p>
-        At the current time configuration data is also specified in the assembly.xml 
-        file. The format of the configuration data is block specifc and you should 
-        refer to the Blocks documentation to discover the format. In the future this 
-        configuration data will be removed.
+        In previous versions of Avalon configuration data was stored in assembly file. 
+        This is no longer the case (It is now stored in config.xml).
       </p>
     </s1>
     <s1 title="Sample assembly.xml file">
       <source><![CDATA[
 <?xml version="1.0"?>
 
-<avalon>
+<assembly>
 
     <block name="myAuthorizer" 
            class="com.biz.cornerstone.blocks.MyAuthorizer">
-      <configuration>
-        ...configuration data here...
-      </configuration>
     </block>
 
     <block name="myBlock" 
@@ -46,7 +41,7 @@
                role="com.biz.cornerstone.services.Authorizer"/>
     </block>
 
-</avalon>]]>
+</assembly>]]>
 
       </source>
     </s1>
@@ -54,7 +49,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2001/03/01 14:07:05 $
+      $Revision: 1.3 $ $Date: 2001/04/20 01:49:44 $
     </legal>
   </footer>
 </document>

@@ -42,6 +42,9 @@
           </link>
         </li>
         <li>
+          <link href="config-xml-specification.html">config.xml specification</link>
+        </li>
+        <li>
           <link href="assembly-xml-specification.html">assembly.xml specification</link>
         </li>
         <li>
@@ -53,7 +56,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2001/03/13 20:41:04 $
+      $Revision: 1.3 $ $Date: 2001/04/20 01:49:44 $
     </legal>
   </footer>
 </document>
