@@ -78,7 +78,7 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * FIXME: Get mime-type
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.19 $ $Date: 2003/01/30 07:57:10 $
+ * @version CVS $Revision: 1.20 $ $Date: 2003/01/30 11:50:40 $
  */
 public class URLSource
     extends AbstractSource
@@ -111,6 +111,9 @@ public class URLSource
 
     protected long cachedLastModificationDate;
 
+    /** The content type (if known) */
+    protected String mimeType;
+    
     /**
      * Constructor
      */
@@ -211,6 +214,7 @@ public class URLSource
                     }
                     this.lastModificationDate = this.connection.getLastModified();
                     this.contentLength = this.connection.getContentLength();
+                    this.mimeType = this.connection.getContentType();
                     this.exists = true;
                 }
                 catch( IOException ignore )
@@ -433,4 +437,15 @@ public class URLSource
     	}
     	return Collections.EMPTY_LIST;
     }
+    
+    /**
+     * The mime-type of the content described by this object.
+     * If the source is not able to determine the mime-type by itself
+     * this can be null.
+     */
+    public String getMimeType()
+    {
+        return this.mimeType;
+    }
+    
 }
