@@ -62,6 +62,14 @@ MERLIN_HOME=`cd "$PRGDIR/.." ; pwd`
 
 unset THIS_PROG
 
+# For Cygwin this script does not make too much sense, since there is
+# no native JVM available.
+if $cygwin; then
+  echo "This script is used to install Merlin as \*nix service."
+  echo "Please use $PRGDIR/nt/InstallService-NT.bat to do so for Windows."
+  exit 1
+fi
+
 if [ -r "$MERLIN_HOME"/bin/setenv.sh ]; then
   . "$MERLIN_HOME"/bin/setenv.sh
 fi
@@ -84,16 +92,6 @@ if [ "$JAVA_HOME" = "" ] ; then
   exit 1
 fi
 
-# For Cygwin, ensure paths are in UNIX format before anything is touched
-if $cygwin; then
-  [ -n "$MERLIN_HOME" ] && MERLIN_HOME=`cygpath --unix "$MERLIN_HOME"`
-fi
-
-# For Cygwin, switch paths to Windows format before running java
-if $cygwin; then
-  MERLIN_HOME=`cygpath --path --windows "$MERLIN_HOME"`
-fi
-
 # ----- Execute The Requested Command -----------------------------------------
 
 
@@ -107,13 +105,10 @@ fi
 # thus breaking Merlin 
 # 
 JVM_EXT_DIRS="$MERLIN_HOME/ext" 
-if $cygwin; then
-  JVM_EXT_DIRS=`cygpath --path --windows "$JVM_EXT_DIRS"` 
-fi
 JVM_OPTS="-Djava.security.policy=$MERLIN_HOME/bin/security.policy -Djava.ext.dirs=$JVM_EXT_DIRS" 
 
 # Get the run cmd
-RUN_CMD="$JAVA_HOME/bin/java $JVM_OPTS $DEBUG $MERLIN_JVM_OPTS -Dmerlin.home=$MERLIN_HOME -jar $MERLIN_HOME/bin/lib/merlin-cli-3.2.jar $*"
+RUN_CMD="$JAVA_HOME/bin/java $JVM_OPTS $DEBUG $MERLIN_JVM_OPTS -jar $MERLIN_HOME/bin/lib/merlin-cli-3.2.jar $*"
 
 echo "Using MERLIN_HOME:   $MERLIN_HOME"
 echo "Using JAVA_HOME:     $JAVA_HOME"

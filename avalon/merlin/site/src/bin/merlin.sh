@@ -28,11 +28,21 @@ fi
 
 # For Cygwin, ensure paths are in UNIX format before anything is touched
 if $cygwin; then
-  [ -n "$MERLIN_HOME" ] && MERLIN_HOME=`cygpath --unix "$MERLIN_HOME"`
-  # switch paths to Windows format before running java
-  MERLIN_HOME=`cygpath --path --windows "$MERLIN_HOME"`
+  JAVA_HOME=`cygpath --unix "$JAVA_HOME"`
+  MERLIN_HOME=`cygpath --unix "$MERLIN_HOME"`
+  [ -n "$CLASSPATH" ] && CLASSPATH=`cygpath --path --unix "$CLASSPATH"`
 fi
 
-RUN_CMD="$JAVA_HOME/bin/java -Djava.security.policy=$MERLIN_HOME/bin/security.policy -Dmerlin.home=$MERLIN_HOME -Djava.ext.dirs=$MERLIN_HOME/ext -jar $MERLIN_HOME/bin/lib/merlin-cli-3.2.jar $*"
+JAVA=$JAVA_HOME/bin/java
+
+# switch necessary paths to Windows format before running java
+if $cygwin; then
+  JAVA_HOME=`cygpath --windows "$JAVA_HOME"`
+  MERLIN_HOME=`cygpath --windows "$MERLIN_HOME"`
+  [ -n "$CLASSPATH" ] && CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
+fi
+
+RUN_CMD="\"$JAVA\" \"-Djava.security.policy=$MERLIN_HOME/bin/security.policy\" \"-Djava.ext.dirs=$MERLIN_HOME/ext\" -jar \"$MERLIN_HOME/bin/lib/merlin-cli-3.2.jar\" \"$@\""
 echo "RUN CMD IS: $RUN_CMD"
 exec $RUN_CMD
+
