@@ -27,6 +27,8 @@ public interface BlockContext
     /**
      * Base directory of .sar application.
      *
+     * TODO: Should this be getHomeDirectory() or getWorkingDirectory() or other?
+     *
      * @return the base directory
      */
     File getBaseDirectory();
