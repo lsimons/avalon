@@ -3,28 +3,51 @@
 <project name="runtime" default="dist" basedir="." xmlns:x="antlib:org.apache.avalon.tools">
 
   <property file="build.properties"/>
+  <property name="system.dir" value="${basedir}/central/system"/>
+  <property name="reactor.path" value="${system.dir}/build/reactor.xml"/>
 
   <target name="setup">
-    <ant dir="${basedir}/central/system" antfile="setup/setup.xml"/>
+    <ant dir="${system.dir}" antfile="setup/setup.xml"/>
   </target>
 
-  <target name="integrity-check">
-    <ant inheritall="false" dir="central/system/setup" antfile="integrity.xml"/>
+  <target name="init">
+    <ant inheritall="false" dir="${system.dir}/setup" antfile="integrity.xml"/>
   </target>
 
-  <target name="clean" depends="integrity-check">
-    <ant inheritall="false" dir="runtime" target="clean"/>
-    <ant inheritall="false" dir="central" target="clean"/>
+  <target name="clean" depends="init">
+    <ant dir="." antfile="${reactor.path}" target="clean"/>
   </target>
 
-  <target name="dist" depends="integrity-check,runtime,central"/>
-
-  <target name="runtime" depends="integrity-check">
-    <ant inheritall="false" dir="runtime" target="dist"/>
+  <target name="clean" depends="init">
+    <ant dir="." antfile="${reactor.path}" target="clean"/>
   </target>
 
-  <target name="central" depends="integrity-check">
-    <ant inheritall="false" dir="central" target="dist"/>
+  <target name="prepare" depends="init">
+    <ant dir="." antfile="${reactor.path}" target="prepare"/>
+  </target>
+
+  <target name="build" depends="init">
+    <ant dir="." antfile="${reactor.path}" target="build"/>
+  </target>
+
+  <target name="package" depends="init">
+    <ant dir="." antfile="${reactor.path}" target="package"/>
+  </target>
+
+  <target name="test" depends="init">
+    <ant dir="." antfile="${reactor.path}" target="test"/>
+  </target>
+
+  <target name="site" depends="init">
+    <ant dir="." antfile="${reactor.path}" target="site"/>
+  </target>
+
+  <target name="install" depends="init">
+    <ant dir="." antfile="${reactor.path}" target="install"/>
+  </target>
+
+  <target name="dist" depends="init">
+    <ant dir="." antfile="${reactor.path}" target="dist"/>
   </target>
 
 </project>
