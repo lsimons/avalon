@@ -1,0 +1,109 @@
+Hi,
+
+I have been thinking about a Container API based on Fede comments and I
+think I may have come up with a possible API and just wanted to see what
+you thought. I will give the basic outline of classes below. Replace <Blah>
+with Servlet/Mailet/Portlet/EJB/Block etc
+
+Classes:
+<Blah>Deployer    
+<Blah>Deployment
+  <Blah>Registry
+  <Blah>Factory
+  <Blah>Container
+  <Blah>Manager
+  <Blah>Info
+  <Blah>Entry
+
+Definitions:
+
+<Blah>Deployer
+{
+  void deploy( String location, URL url );
+  void undeploy( String location );
+  <Blah>Deployment getDeployment( String location );
+}
+
+A Deployer is responsible for taking a URL (ie a jar/war/ear) and deploying
+it to a particular "location". "location" means different things for
+different containers. For a servlet container it may mean the place to
+mount servlet (ie /myapp --> /myapp/Cocoon.xml is mapping cocoon servlet to
+/myapp context).
+
+Undeploying is only possible when the deployment is not currently being
+used (ie ran/executed/served/whatever).
+--------
+<Blah>Deployment
+{
+  <Blah>Manager getManager();
+  <Blah>Factory getFactory();
+  <Blah>Container getContainer();
+  <Blah>Registry getRegistry();
+}
+
+Basically represents an installed component.
+--------
+<Blah>Registry
+{
+  void register( String name, <Blah>Info info );
+  void register( String name );
+  <Blah>Info getInfo( String name );
+  Ityerator getInfoNames();
+}
+
+Basically represents a registry of all different types of sub-component
+that this container can instantiate. It is initially filled by Deployer.
+--------
+<Blah>Factory
+{
+  <Blah>Entry create( String name, <Blah>Info info );
+}
+
+This is the object that creates the entries for a component. It uses data
+given to it from Configuration + <Blah>Info to create Entry.
+--------
+<Blah>Container
+{
+  void add( <Blah>Entry );
+  void remove( <Blah>Entry );
+  Iterator list();
+}
+
+This contains it during execution and may provide certain facilities (like
+a thread per EJB etc).
+--------
+<Blah>Manager
+  implements Initializable, Disposable, Configurable
+{
+}
+
+This class is responsible for retrieving <Blah>Infos from registry, feeding
+this to factory to create <Blah>Entrys and then placing these <Blah>Entrys
+into <Blah>Containers. It also carries out lifecycle management of
+<Blah>Entrys (ie configuure/compose/contextualize fro Blocks/mailets,
+init/destroy/service for servlets etc).
+--------
+<Blah>Info { ... }
+
+Contains Meta-Information about a component type (ie would be a BlockInfo,
+an EJBDescriptor, a MailetInfo etc)
+--------
+<Blah>Entry 
+{
+ <Blah>Info getInfo();
+ String getName();
+ <Blah> get<Blah>();
+ <Blah>State getState();
+ ... 
+}
+
+Contains information about a particular instance of a <Blah>. This would
+contain name, configuration data, parameters, log entries etc. Basically
+instance data.
+
+--------------------------
+
+The above is just a rough run-down about Container system. I am still
+playing with other things (ie <Blah>Context-like structures) thou what do
+you think?
+
