@@ -1,0 +1,37 @@
+
+<project name="Avalon Lifecycle Extensions"
+    href="http://jakarta.apache.org/avalon/sandbox/lifecycle">
+
+  <title>Excalibur Container</title>
+
+  <body>
+
+    <item name="Apache" href="http://www.apache.org"/>
+    <item name="Avalon Home" href="http://jakarta.apache.org/avalon"/>
+    <item name="Avalon Sandbox" href="http://jakarta.apache.org/avalon/sandbox"/>
+
+    <menu name="Lifecycle">
+      <item name="Overview" href="index.html"/>
+      <item name="Extensions" href="extension.html"/>
+      <item name="Interfaces" href="interfaces.html"/>
+    </menu>
+
+    <menu name="Tutorial">
+      <item name="Fortress" href="fortress.html"/>
+      <item name="Merlin" href="merlin.html"/>
+    </menu>
+
+    <menu name="Related Links">
+      <item name="Fortress Home" href="http://jakarta.apache.org/avalon/excalibur/fortress/"/>
+      <item name="Merlin Home" href="http://jakarta.apache.org/avalon/excalibur/merlin"/>
+    </menu>
+
+    <menu name="Reference">
+      <item name="Mailing List" href="list.html"/>
+      <item name="Javadoc" href="api/"/>
+    </menu>
+
+    </body>
+  
+</project>
+

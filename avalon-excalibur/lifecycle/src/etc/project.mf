@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Created-By: Apache Avalon
+Extension-Name: avalon-lifecycle
+Specification-Vendor: Apache Software Foundation
+Implementation-Vendor: Apache Software Foundation
+Implementation-Vendor-Id: ASF
+Specification-Version: 1.0
+Implementation-Version: 1.0
+Extension-List: framework
+framework-Extension-Name: avalon-framework
+framework-Specification-Version: 1.0
+framework-Implementation-Version: 4.1.4
+framework-Implementation-Vendor-Id: ASF
