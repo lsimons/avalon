@@ -8,7 +8,39 @@
 
   <body>
     <section name="Welcome to Apache Avalon">
-    </section>
+     <p>
+      Apache Avalon provides a complete development platform for
+      component and container programming utilizing key design patterns
+      such as Inversion of Control and Separation of Concerns.
+     </p>
+     <p>
+      If you're new to Avalon, start out with our
+      <a href="">five minute guide</a> or visit
+      <a href="overview.html">overview</a> page which describes
+      Avalon's layout and subprojects.
+     </p>
+
+     <table>
+      <tr>
+        <td><!--<a href="central/about/index.html"> -->
+            <img src="images/avalon-central.png"
+                 border="0" alt="Avalon Central"/>
+            <!-- </a> -->
+            </td>
+        <td><!-- <a href="products/runtime/index.html"> -->
+            <img src="images/avalon-products.png"
+                 border="0" alt="Avalon Products"></img>
+           <!-- </a> -->
+           </td>
+        <td><!-- <a href="planet/components/index.html"> -->
+            <img src="images/avalon-planet.png"
+                 border="0" alt="Avalon Planet"></img>
+	    <!-- </a> -->
+	    </td>
+      </tr>
+     </table>
+     
+     </section>
   </body>
 </document>
 
