@@ -338,7 +338,7 @@
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
-        <depend project="excalibur-i18n.jar" runtime="true"/>
+        <depend project="excalibur-i18n" runtime="true"/>
         <work nested="converter/build/classes"/>
 
         <home nested="converter"/>
