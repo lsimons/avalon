@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.avalon.excalibur.collections.BucketMap;
 import org.apache.avalon.excalibur.logger.LogKitManageable;
 import org.apache.avalon.excalibur.logger.LogKitManager;
+import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
@@ -31,7 +32,7 @@ import org.apache.avalon.framework.context.Contextualizable;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.5.2.2 $ $Date: 2002/05/18 05:35:49 $
+ * @version CVS $Revision: 1.5.2.3 $ $Date: 2002/05/18 06:08:35 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
@@ -63,7 +64,7 @@ public class ExcaliburComponentManager
     private RoleManager m_roles;
 
     /** LogKitManager. */
-    private LogKitManager m_logkit;
+    private LogkitLoggerManager m_logkit;
 
     /** Is the Manager disposed or not? */
     private boolean m_disposed;
@@ -490,7 +491,18 @@ public class ExcaliburComponentManager
     {
         if( null == m_logkit )
         {
-            m_logkit = logkit;
+            m_logkit = new LogkitLoggerManager( null, logkit );
+        }
+    }
+
+    /**
+     * Configure the LoggerManager.
+     */
+    public void setLoggerManager( final LoggerManager logkit )
+    {
+        if( null == m_logkit )
+        {
+            m_logkit = new LogkitLoggerManager( logkit, null );
         }
     }
 
@@ -569,7 +581,7 @@ public class ExcaliburComponentManager
                                                     final Configuration configuration,
                                                     final Context context,
                                                     final RoleManager roleManager,
-                                                    final LogKitManager logkitManager )
+                                                    final LogkitLoggerManager logkitManager )
         throws Exception
     {
         return ComponentHandler.getComponentHandler( componentClass,

@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.excalibur.component;
 
-import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.excalibur.pool.Poolable;
 import org.apache.avalon.excalibur.pool.ResourceLimitingPool;
 import org.apache.avalon.framework.activity.Disposable;
@@ -80,7 +79,7 @@ import org.apache.avalon.framework.context.Context;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.3.2.2 $ $Date: 2002/05/18 05:35:49 $
+ * @version CVS $Revision: 1.3.2.3 $ $Date: 2002/05/18 06:08:35 $
  * @since 4.0
  */
 public class PoolableComponentHandler
@@ -111,7 +110,7 @@ public class PoolableComponentHandler
                                         final ComponentManager manager,
                                         final Context context,
                                         final RoleManager roles,
-                                        final LogKitManager logkit )
+                                        final LogkitLoggerManager logkit )
         throws Exception
     {
         this(
