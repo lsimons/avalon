@@ -392,6 +392,7 @@
 
   <preGoal name="java:compile">
     <ant:echo message="Build: ${snapshotSignature}"/>
+
     <ant:echo file="${maven.build.dir}/classes/${pom.artifactId}.build">
 #
 # Artifact build descriptor.
