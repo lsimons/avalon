@@ -108,7 +108,7 @@ import java.util.*;
  * </pre>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.7 $
+ * @version CVS $Revision: 1.8 $
  */
 public final class ServiceMetaManager extends AbstractMetaInfoManager implements Initializable
 {
@@ -237,7 +237,6 @@ public final class ServiceMetaManager extends AbstractMetaInfoManager implements
 
         try
         {
-            HashSet set = new HashSet();
             URL depURL = getLoader().getResource( getDepFile( implementation ) );
 
             if ( depURL == null )
@@ -249,10 +248,10 @@ public final class ServiceMetaManager extends AbstractMetaInfoManager implements
             }
             else
             {
+                HashSet set = new HashSet();
                 readEntries( set, depURL );
                 deps.addAll( set );
             }
-            deps.addAll( set );
         }
         catch ( Exception ioe )
         {
