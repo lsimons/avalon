@@ -18,6 +18,7 @@
     <property name="build.optimize" value="off"/>
     <property name="build.deprecation" value="off"/>
     <property name="build.compress" value="false"/>
+    <property name="junit.failonerror" value="false"/>
 
     <!-- location of intermediate products -->
     <property name="build.dir" value="build"/>
@@ -67,6 +68,19 @@
             <include name="**/*.java"/>
         </javac>
 
+        <!-- copy resources to same location as .class files -->
+        <copy todir="${build.classes}">
+            <fileset dir="${java.dir}">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+
+        <copy todir="${build.classes}">
+            <fileset dir="${test.dir}">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+
     </target>
 
     <!-- Creates all the .jar file -->
@@ -112,7 +126,10 @@
         
         <mkdir dir="${build.tests}"/>
         
-        <junit fork="true" printsummary="yes" dir="${build.tests}">
+        <junit fork="true" 
+               haltonfailure="${junit.failonerror}"
+               printsummary="yes" 
+               dir="${build.tests}">
             <classpath refid="project.class.path"/>
 
             <formatter type="xml"/>    <!-- xml reports for junitreport -->
@@ -121,6 +138,7 @@
             <batchtest todir="${build.tests}">
                 <fileset dir="${build.classes}">
                     <include name="**/test/*TestCase.class"/>
+                    <exclude name="**/Abstract*"/>
                 </fileset>
             </batchtest>
         </junit>
