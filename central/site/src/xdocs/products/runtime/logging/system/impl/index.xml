@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <author email="niclas@apache.org">Niclas Hedhman</author>
+    <title>Avalon Logging</title>
+  </properties>
+  <body>
+    <section name="Avalon Logging">
+      <subsection name="Implementation Model">
+        <p>
+        The Avalon Logging system is defined by an API.  This API declares
+        a set of interfaces for use by plugable implementations.  Currently
+        we have one default plugable implementation which is based on the 
+        Avalon LogKit solution.
+        </p>
+      </subsection>
+      <subsection name="Plugins">
+        <table>
+          <tr><th>Plugin</th><th>Description</th></tr>
+          <tr>
+            <td><a href="logkit/index.html">LogKit</a></td>
+            <td>
+            The Avalon LogKit plugin provides support for four standard log 
+            targets.  These include a rotating file target, a console target, 
+            a multiplex target, and a plugin target.  The plugin target provides
+            support for the dynamic loading of new targets based on a artifact
+            identifier.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="log4j/index.html">Log4J</a></td>
+            <td>
+              The Log4J plugin is a very thin wrapper of the extensive
+              Log4J Logging subsystem. Since Log4J's configuration is 
+              used as-is, all configurable features are supported.
+              For more information about Log4J
+              and how it is configured, please visit the
+              <a href="http://logging.apache.org/log4j/docs/">Log4J project</a>.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+    </section>
+  </body>
+</document>
+
+
