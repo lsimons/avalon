@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+
+  <extend>${basedir}/../project.xml</extend>
+  <groupId>merlin/tutorial</groupId>
+  <id>hello</id>
+  <name>Merlin Hello Tutorials</name>
+  <package>tutorial</package>
+  <currentVersion>1.1</currentVersion>
+
+  <inceptionYear>2003</inceptionYear>
+  <shortDescription>Merlin Hello Tutorial</shortDescription>
+
+  <description>
+	'Hello' merlin tutorial
+  </description>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-api</artifactId>
+      <version>4.1.5</version>
+    </dependency>
+
+    <dependency>
+      <groupId>merlin</groupId>
+      <artifactId>merlin-unit</artifactId>
+      <version>3.2.7</version>
+    </dependency>
+
+  </dependencies>
+
+</project>
