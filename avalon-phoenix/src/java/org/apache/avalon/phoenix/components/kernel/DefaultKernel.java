@@ -44,7 +44,7 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
  * Note that no facilities are available until after the Kernel has been
  * configured and initialized.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:leosimons@apache.org">Leo Simons</a>
  */
 public class DefaultKernel

@@ -15,8 +15,8 @@ import java.io.File;
  * installed application. In particular it locates all the
  * jars in Classpath, config files and installation directory.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/05/11 02:05:13 $
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.2 $ $Date: 2002/08/06 11:57:40 $
  */
 public final class Installation
 {

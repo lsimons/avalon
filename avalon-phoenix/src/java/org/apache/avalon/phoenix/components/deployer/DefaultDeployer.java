@@ -56,7 +56,7 @@ import org.apache.excalibur.containerkit.verifier.VerifyException;
  *
  * @phoenix:mx-topic name="Deployer"
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public class DefaultDeployer
     extends AbstractLogEnabled

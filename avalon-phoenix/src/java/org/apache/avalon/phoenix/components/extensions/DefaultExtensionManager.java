@@ -19,8 +19,8 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.interfaces.ExtensionManagerMBean;
 
 /**
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2002/07/26 09:49:21 $
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.5 $ $Date: 2002/08/06 11:57:40 $
  */
 public class DefaultExtensionManager
     extends org.apache.avalon.excalibur.packagemanager.impl.DefaultExtensionManager

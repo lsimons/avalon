@@ -30,8 +30,8 @@ import org.apache.excalibur.containerkit.lifecycle.ResourceProvider;
  * The accessor used to access resources for a particular
  * Block or Listener.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/07/26 09:49:20 $
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.4 $ $Date: 2002/08/06 11:57:39 $
  */
 class BlockResourceProvider
     extends AbstractLogEnabled

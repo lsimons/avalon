@@ -13,7 +13,7 @@ import java.util.Date;
  * This is the interface via which the Management interface interacts
  * with the Embeddor.
  *
- * @author <a href="peter@apache.org">Peter Donald</a>
+ * @author <a href="peter at apache.org">Peter Donald</a>
  */
 public interface EmbeddorMBean
 {

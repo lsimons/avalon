@@ -12,8 +12,8 @@ import java.io.File;
 /**
  * Management interface to ExtensionManager.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2002/07/14 01:36:30 $
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.5 $ $Date: 2002/08/06 11:57:41 $
  */
 public interface ExtensionManagerMBean
 {

@@ -17,7 +17,7 @@ import java.util.EventListener;
  * Application. To receive notification events, the implementation class
  * should be specified in the <code>assembly.xml</code> descriptor.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @deprecated This interface has been replaced by ApplicationListener
  */
 public interface BlockListener

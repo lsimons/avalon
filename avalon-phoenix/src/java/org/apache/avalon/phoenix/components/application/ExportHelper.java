@@ -18,8 +18,8 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
 /**
  * Utility class to help with exporting Blocks to management subsystem.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/07/30 12:31:16 $
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.3 $ $Date: 2002/08/06 11:57:39 $
  */
 class ExportHelper
     extends AbstractLogEnabled

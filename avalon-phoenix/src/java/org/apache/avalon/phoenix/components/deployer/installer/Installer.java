@@ -32,8 +32,8 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * An Installer is responsible for taking a URL for Sar
  * and installing it as appropriate.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2002/07/26 09:49:20 $
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.13 $ $Date: 2002/08/06 11:57:40 $
  */
 public class Installer
     extends AbstractLogEnabled

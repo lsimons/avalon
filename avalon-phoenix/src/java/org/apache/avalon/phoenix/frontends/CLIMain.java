@@ -32,7 +32,7 @@ import org.apache.log.output.io.FileTarget;
 /**
  * The class to load the kernel and start it running.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
  */
 public final class CLIMain

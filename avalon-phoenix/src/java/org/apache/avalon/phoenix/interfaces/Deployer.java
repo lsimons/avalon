@@ -16,7 +16,7 @@ import java.net.URL;
  * mount servlet (ie /myapp --> /myapp/Cocoon.xml is mapping cocoon servlet to
  * /myapp context).
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @see DeployerMBean
  */
 public interface Deployer

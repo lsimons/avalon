@@ -17,7 +17,7 @@ import org.apache.avalon.framework.configuration.Configuration;
  * is dependent on the type of <code>Embeddor</code> and the
  * deployment format.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public interface ClassLoaderManager
 {

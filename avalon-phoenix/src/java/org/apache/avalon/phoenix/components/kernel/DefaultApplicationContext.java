@@ -31,7 +31,7 @@ import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
 /**
  * Manage the "frame" in which Applications operate.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  */
 class DefaultApplicationContext

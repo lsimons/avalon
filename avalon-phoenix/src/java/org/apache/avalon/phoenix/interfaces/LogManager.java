@@ -14,7 +14,7 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
 /**
  * Interface that is used to manage Log objects for a Sar.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public interface LogManager
 {

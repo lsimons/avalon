@@ -17,8 +17,8 @@ import xjavadoc.XClass;
  * Generates BlockInfo 'xinfo' for Blocks
  *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2002/07/26 09:49:23 $
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.10 $ $Date: 2002/08/06 11:57:42 $
  */
 public class BlockInfoSubTask
     extends TemplateSubTask

@@ -32,7 +32,7 @@ import org.apache.avalon.framework.context.DefaultContext;
 /**
  * Policy that extracts information from policy files.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 class DefaultPolicy
     extends AbstractPolicy

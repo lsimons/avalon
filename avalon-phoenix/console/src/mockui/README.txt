@@ -1,7 +1,7 @@
 This was the letter that introduced the Mock UI and describes part of its structure.
 
 Subject: [phoenix] Mock UI for Management Console
-From: peter@apache.org
+From: peter at apache.org
 Date: Sun, 25 Nov 2001 14:50:11 +1100
 
 Hi,

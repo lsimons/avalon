@@ -44,7 +44,7 @@ import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
  * Packages" formely called "Extensions" which it will add to the
  * {@link ClassLoader}</p>
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @see ClassLoaderManager
  */
 public class DefaultClassLoaderManager
