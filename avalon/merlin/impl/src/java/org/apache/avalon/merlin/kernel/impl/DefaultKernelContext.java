@@ -100,7 +100,7 @@ import org.xml.sax.InputSource;
  * Default implementation of a kernel context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/07 17:44:10 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/12 17:12:45 $
  */
 public class DefaultKernelContext extends AbstractLogEnabled 
   implements KernelContext
@@ -127,9 +127,9 @@ public class DefaultKernelContext extends AbstractLogEnabled
     private static final String USER_DIR = 
       System.getProperty( "user.dir" ).replace( '\\', '/' );
 
-    //==============================================================
+    //--------------------------------------------------------------
     // immutable state
-    //==============================================================
+    //--------------------------------------------------------------
 
     /**
      * The system repository.

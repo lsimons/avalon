@@ -72,6 +72,7 @@ import org.apache.avalon.composition.data.Profile;
 import org.apache.avalon.composition.data.ResourceDirective;
 import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.data.TargetDirective;
+import org.apache.avalon.composition.data.builder.XMLTargetsCreator;
 import org.apache.avalon.composition.data.builder.ContainmentProfileBuilder;
 import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
 import org.apache.avalon.composition.model.ClassLoaderContext;
@@ -106,14 +107,14 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/10/07 17:41:36 $
+ * @version $Revision: 1.4 $ $Date: 2003/10/12 17:12:45 $
  */
 public class DefaultContainmentModel extends DefaultModel 
   implements ContainmentModel
 {
-    //==============================================================
+    //--------------------------------------------------------------
     // static
-    //==============================================================
+    //--------------------------------------------------------------
 
     private static final Resources REZ =
             ResourceManager.getPackageResources( DefaultContainmentModel.class );
@@ -123,6 +124,9 @@ public class DefaultContainmentModel extends DefaultModel
 
     private static final XMLContainmentProfileCreator CREATOR = 
       new XMLContainmentProfileCreator();
+
+    private static final XMLTargetsCreator TARGETS = 
+      new XMLTargetsCreator();
 
     private static String getPath( ContainmentContext context )
     {
@@ -271,8 +275,16 @@ public class DefaultContainmentModel extends DefaultModel
 
     public Model addModel( URL url ) throws ModelException
     {
-        ContainmentModel model = createContainmentModel( null, url );
-        return addModel( model.getName(), model );
+        return addContainmentModel( url, null );
+    }
+
+    public ContainmentModel addContainmentModel( URL block, URL config ) 
+      throws ModelException
+    {
+        ContainmentModel model = createContainmentModel( null, block );
+        addModel( model.getName(), model );
+        applyTargets( config );
+        return model;
     }
 
     public Model addModel( Profile profile ) throws ModelException
@@ -327,6 +339,7 @@ public class DefaultContainmentModel extends DefaultModel
         m_models.put( name, model );
         return model;
     }
+
 
    /**
     * Creation of a new instance of a deployment model within
@@ -1022,5 +1035,74 @@ public class DefaultContainmentModel extends DefaultModel
                 profile.getClassname() );
             throw new ModelException( error, e );
         }
+    }
+
+    private void applyTargets( URL config )
+      throws ModelException
+    {
+        if( config != null )
+        {
+            TargetDirective[] targets = getTargets( config );
+            applyTargets( targets );
+        }
+    }
+
+    private void applyTargets( TargetDirective[]targets )
+    {
+        for( int i=0; i<targets.length; i++ )
+        {
+            TargetDirective target = targets[i];
+            final String path = target.getPath();
+            Object model = getModel( path );
+            if( model != null )
+            {
+                if( model instanceof DeploymentModel )
+                {
+                    DeploymentModel deployment = (DeploymentModel) model;
+                    if( target.getConfiguration() != null )
+                    {
+                        deployment.setConfiguration( target.getConfiguration() );
+                    }
+                    if( target.getCategoriesDirective() != null )
+                    {
+                        deployment.setCategories( target.getCategoriesDirective() );
+                    }
+                }
+                else if( model instanceof ContainmentModel )
+                {
+                    ContainmentModel containment = (ContainmentModel) model;
+                    if( target.getCategoriesDirective() != null )
+                    {
+                        containment.setCategories( target.getCategoriesDirective() );
+                    }
+                }
+            }
+            else
+            {
+                final String warning = 
+                  "Ignoring target directive as the path does not refer to a known component: " 
+                  + path;
+                getLogger().warn( warning );
+            }
+        }
+    }
+
+    private TargetDirective[] getTargets( final URL url )
+      throws ModelException
+    {
+        try
+        {
+            DefaultConfigurationBuilder builder = 
+              new DefaultConfigurationBuilder();
+            Configuration config = builder.build( url.toString() );
+            return TARGETS.createTargets( config ).getTargets();
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Could not load the targets directive: " + url;
+            throw new ModelException( error, e );
+        }
+        
     }
 }
