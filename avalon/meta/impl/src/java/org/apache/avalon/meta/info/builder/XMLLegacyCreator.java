@@ -57,7 +57,6 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.Version;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.meta.ConfigurationBuilder;
 import org.apache.avalon.meta.info.InfoDescriptor;
 import org.apache.avalon.meta.info.ContextDescriptor;
@@ -77,7 +76,7 @@ import org.xml.sax.InputSource;
  * from a Configuration object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/19 14:05:54 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/28 20:33:29 $
  */
 public class XMLLegacyCreator
     extends XMLTypeCreator
