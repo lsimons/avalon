@@ -136,7 +136,6 @@ public final class Main
         throws Exception
     {
         String phoenixHome = System.getProperty( "phoenix.home", null );
-
         if( null == phoenixHome )
         {
             final File loaderDir = findLoaderDir();
