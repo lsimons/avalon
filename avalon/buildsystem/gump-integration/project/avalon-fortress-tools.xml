@@ -6,24 +6,18 @@
         <property name="project.version" value="@@DATE@@"></property>
     </ant>
 
-
     <depend project="ant" inherit="runtime"></depend>
     <depend project="xml-xalan2"></depend>
     <depend project="xml-xerces"></depend>
 
-      <depend runtime="true" inherit="runtime" project="avalon-fortress-container"></depend>
-      <depend runtime="true" project="junit"></depend>
-      <depend runtime="true" project="qdox"></depend>
-
+    <depend runtime="true" inherit="runtime" project="avalon-fortress-container"></depend>
+    <depend runtime="true" project="junit"></depend>
+    <depend runtime="true" project="qdox"></depend>
 
     <work nested="fortress/tools/target/classes"></work>
 
-
-
-
     <home nested="fortress/tools"></home>
     <jar name="target/avalon-fortress-tools-@@DATE@@.jar"></jar>
-
 
     <javadoc nested="fortress/tools/target/docs/apidocs"></javadoc>
 
