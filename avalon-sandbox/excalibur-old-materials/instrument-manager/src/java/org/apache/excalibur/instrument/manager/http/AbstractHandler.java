@@ -55,7 +55,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClien
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/09/08 09:00:44 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/09/08 09:18:35 $
  * @since 4.1
  */
 public abstract class AbstractHandler
@@ -78,7 +78,7 @@ public abstract class AbstractHandler
                             String contentType,
                             InstrumentManagerClient manager )
     {
-        super( path, contentType, getEncoding() );
+        super( path, contentType, InstrumentManagerHTTPConnector.ENCODING );
         
         m_manager = manager;
     }
@@ -86,16 +86,6 @@ public abstract class AbstractHandler
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
-    /**
-     * Returns the encoding used for all requests and responses.
-     *
-     * @return the encoding.
-     */
-    protected static String getEncoding()
-    {
-        return InstrumentManagerHTTPConnector.ENCODING;
-    }
-    
     /**
      * Returns a reference to the instrument manager client interface.
      *
