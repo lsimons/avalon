@@ -19,6 +19,7 @@ import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
 import org.apache.avalon.context.Context;
+import org.apache.avalon.context.ContextException;
 import org.apache.avalon.context.Contextualizable;
 import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.avalon.logger.Loggable;
@@ -71,6 +72,7 @@ public abstract class AbstractService
     }
 
     public void contextualize( final Context context )
+        throws ContextException
     {
         final String name = getThreadPoolName();
 

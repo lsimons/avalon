@@ -17,6 +17,7 @@ import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.component.ComponentManager;
 import org.apache.avalon.component.Composable;
 import org.apache.avalon.context.Context;
+import org.apache.avalon.context.ContextException;
 import org.apache.avalon.context.Contextualizable;
 import org.apache.excalibur.io.ExtensionFileFilter;
 import org.apache.phoenix.engine.SarContextResources;
@@ -39,6 +40,7 @@ public class SarClassLoader
     }
 
     public void contextualize( final Context context )
+        throws ContextException
     {
         m_baseDirectory = (File)context.get( SarContextResources.APP_HOME_DIR );
     }
