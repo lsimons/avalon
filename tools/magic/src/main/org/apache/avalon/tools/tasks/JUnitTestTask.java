@@ -101,6 +101,9 @@ public class JUnitTestTask extends SystemTask
         final String testPath = project.getProperty( TEST_SRC_KEY );
         final File src = new File( build, testPath );
 
+        final File working = getContext().getTestDirectory();
+        copyUnitTestResource( working );
+
         if( src.exists() )
         {
             final File classes = getContext().getTestClassesDirectory();
@@ -125,7 +128,7 @@ public class JUnitTestTask extends SystemTask
             //
 
             classpath.createPathElement().setLocation( classes );
-            test( src, classpath );
+            test( src, classpath, working );
         }
 
         final String error = project.getProperty( ERROR_KEY );
@@ -212,13 +215,9 @@ public class JUnitTestTask extends SystemTask
         javac.execute();
     }
 
-    private void test( final File src, final Path classpath )
+    private void test( final File src, final Path classpath, File working )
     {
         final Project project = getProject();
-
-        final File working = getContext().getTestDirectory();
-        mkDir( working );
-        copyUnitTestResource( working );
 
         final FileSet fileset = new FileSet();
         fileset.setDir( src );
