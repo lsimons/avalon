@@ -7,7 +7,8 @@
  */
 package org.apache.avalon.excalibur.event;
 
-import org.apache.avalon.excalibur.collections.AvalonBuffer;
+import org.apache.avalon.excalibur.collections.Buffer;
+import org.apache.avalon.excalibur.collections.VariableSizeBuffer;
 import org.apache.avalon.excalibur.concurrent.Mutex;
 
 /**
@@ -18,7 +19,7 @@ import org.apache.avalon.excalibur.concurrent.Mutex;
  */
 public final class DefaultQueue extends AbstractQueue
 {
-    private final AvalonBuffer m_elements;
+    private final Buffer    m_elements;
     private final Mutex     m_mutex;
     private       int       m_reserve;
     private final int       m_maxSize;
@@ -29,12 +30,12 @@ public final class DefaultQueue extends AbstractQueue
 
         if ( size > 0 )
         {
-            m_elements = new AvalonBuffer( size );
+            m_elements = new VariableSizeBuffer( size );
             maxSize = size;
         }
         else
         {
-            m_elements = new AvalonBuffer();
+            m_elements = new VariableSizeBuffer();
             maxSize = -1;
         }
 
