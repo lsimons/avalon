@@ -119,6 +119,7 @@ public abstract class AvalonContainer implements IAvalonContainer
             IDebugUIConstants.ATTR_TARGET_DEBUG_PERSPECTIVE,
             IDebugUIConstants.PERSPECTIVE_DEFAULT);
         launch.setAttribute("project", getProjectName());
+        working.doSave();
 
         // Check Tools classpath
         if (getToolsLibraryLocation() == null)
