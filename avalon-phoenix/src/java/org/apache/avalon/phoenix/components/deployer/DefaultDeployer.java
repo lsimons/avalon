@@ -9,6 +9,7 @@ package org.apache.avalon.phoenix.components.deployer;
 
 import java.io.File;
 import java.net.URL;
+import java.net.MalformedURLException;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Initializable;
@@ -22,6 +23,7 @@ import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.Deployer;
+import org.apache.avalon.phoenix.interfaces.DeployerMBean;
 import org.apache.avalon.phoenix.interfaces.DeploymentException;
 import org.apache.avalon.phoenix.interfaces.DeploymentRecorder;
 import org.apache.avalon.phoenix.interfaces.Kernel;
@@ -44,7 +46,7 @@ import org.apache.log.Hierarchy;
  */
 public class DefaultDeployer
     extends AbstractLogEnabled
-    implements Deployer, Composable, Initializable
+    implements Deployer, Composable, Initializable, DeployerMBean
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultDeployer.class );
@@ -116,6 +118,28 @@ public class DefaultDeployer
             throw new DeploymentException( e.getMessage(), e );
         }
     }
+    
+    
+    /**
+     * Deploy an application from an installation.
+     *
+     * @param name the name of application
+     * @param sarURL the location to deploy from represented as String
+     * @exception DeploymentException if an error occurs
+     */
+    public void deploy( final String name, final String sarURL )
+        throws DeploymentException
+    {
+        try 
+        {
+	        deploy( name, new URL( sarURL ) );
+        }
+        catch( MalformedURLException mue )
+        {
+            throw new DeploymentException( mue.getMessage(), mue );
+        }
+    }
+
 
     /**
      * Deploy an application from an installation.

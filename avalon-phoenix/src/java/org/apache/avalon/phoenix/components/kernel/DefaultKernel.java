@@ -141,7 +141,7 @@ public class DefaultKernel
             // manage application
             try
             {
-                m_systemManager.register( name + " (Application)", application, new Class[]{ApplicationMBean.class} );
+                m_systemManager.register( name + ",type=Application", application, new Class[]{ApplicationMBean.class} );
             }
             catch( final Throwable t )
             {
@@ -232,7 +232,7 @@ public class DefaultKernel
             // un-manage application
             try
             {
-                m_systemManager.unregister( name + " (Application)" );
+                m_systemManager.unregister( name + ",type=Application" );
             }
             catch( final Throwable t )
             {

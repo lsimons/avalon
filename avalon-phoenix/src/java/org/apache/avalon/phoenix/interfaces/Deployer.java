@@ -18,6 +18,7 @@ import org.apache.avalon.framework.component.Component;
  * /myapp context).
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @see DeployerMBean
  */
 public interface Deployer
     extends Component

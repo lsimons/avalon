@@ -16,6 +16,7 @@ import java.rmi.server.RemoteObject;
 import java.rmi.server.UnicastRemoteObject;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
+import javax.management.MalformedObjectNameException;
 import org.apache.avalon.excalibur.baxter.JavaBeanMBean;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
@@ -30,6 +31,7 @@ import org.apache.avalon.phoenix.components.kernel.DefaultKernelMBean;
 import org.apache.avalon.phoenix.components.manager.rmiadaptor.RMIAdaptorImpl;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.Deployer;
+import org.apache.avalon.phoenix.interfaces.DeployerMBean;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.avalon.phoenix.interfaces.EmbeddorMBean;
 import org.apache.avalon.phoenix.interfaces.ExtensionManagerMBean;
@@ -135,7 +137,7 @@ public class DefaultManager
         register( "Kernel", m_kernel, new Class[]{KernelMBean.class} );
         register( "ExtensionManager", m_extensionManager, new Class[]{ExtensionManagerMBean.class} );
         register( "Embeddor", m_embeddor, new Class[]{EmbeddorMBean.class} );
-        register( "Deployer", m_deployer, new Class[]{Deployer.class} );
+        register( "Deployer", m_deployer, new Class[]{DeployerMBean.class} );
         register( "LogManager", m_logManager );
         register( "ConfigurationRepository", m_repository );
     }
@@ -201,8 +203,7 @@ public class DefaultManager
                 mBean = createMBean( object );
             }
 
-            final ObjectName objectName =
-                new ObjectName( m_domain + ":name=" + name );
+            final ObjectName objectName = createObjectName( name );
             m_mBeanServer.registerMBean( mBean, objectName );
             return mBean;
         }
@@ -212,6 +213,11 @@ public class DefaultManager
             getLogger().error( message, e );
             throw new ManagerException( message, e );
         }
+    }
+
+    private ObjectName createObjectName( final String name ) throws MalformedObjectNameException
+    {
+        return new ObjectName( m_domain + ":name=" + name );
     }
 
     /**
@@ -249,7 +255,7 @@ public class DefaultManager
     {
         try
         {
-            m_mBeanServer.unregisterMBean( new ObjectName( name ) );
+            m_mBeanServer.unregisterMBean( createObjectName( name ) );
         }
         catch( final Exception e )
         {
