@@ -24,7 +24,6 @@
   <body>
     <menu>
       <item name="Studio" href="studio/index.html"/>
-      <item name="Castle Container" href="castle/index.html"/>
       <item name="Discovery" href="discovery/index.html"/>
       <item name="Castle" href="castle/index.html"/>
     </menu>
