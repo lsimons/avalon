@@ -7,8 +7,12 @@
     <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
     <person name="Stuart Roebuck" email="stuart.roebuck@adolos.co.uk" id="SR"/>
+    <person name="Eung-ju Park" email="colus@apache.org" id="EP"/>
   </devs>
-  <release version="1.0b5" date="September 11, 2001">
+  <release version="1.0b5" date="September 17, 2001">
+    <action dev="EP" type="update">
+      Updated unit tests to use JUnit rather than Testlet.
+    </action>
     <action dev="PD" type="add">
       Deprecate OutputStreamLogger and replace with LoggerOutputStream.
     </action>
