@@ -113,7 +113,10 @@ public class DefaultCache
         }
 
         final Object value = m_store.get( key );
-        m_policy.hit( key );
+        if (null != value)
+        {
+            m_policy.hit( key );
+        }
 
         return value;
     }
