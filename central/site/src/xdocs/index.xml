@@ -12,16 +12,24 @@
       Apache Avalon provides a complete development platform for
       component and container programming utilizing key design patterns
       such as Inversion of Control and Separation of Concerns.
+      <!--
       Read more on <a href="why-avalon.html">why</a> you should 
       consider Avalon for your next application.
+      -->
      </p>
+
+     <!-- comment out while content is incomplete -->
+     <!--
      <p>
       If you're new to Avalon, start out with our
       <a href="">five minute tour</a> or visit
       <a href="overview.html">overview</a> page which describes
       Avalon's layout and subprojects.
      </p>
+     -->
 
+     <!-- comment out pending update from Aaron -->
+     <!--
      <table>
       <tr>
         <td><!--<a href="central/about/index.html"> -->
@@ -41,7 +49,8 @@
 	    </td>
       </tr>
      </table>
-     
+     -->
+
      </section>
   </body>
 </document>
