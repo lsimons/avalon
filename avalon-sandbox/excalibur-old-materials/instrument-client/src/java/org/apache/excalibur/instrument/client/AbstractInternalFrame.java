@@ -20,7 +20,7 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/22 16:50:38 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/10/25 19:07:58 $
  * @since 4.1
  */
 abstract class AbstractInternalFrame
@@ -30,6 +30,7 @@ abstract class AbstractInternalFrame
     private InstrumentClientFrame m_frame;
     private JInternalFrame m_nextFrame;
     private boolean m_loaded;
+    private boolean m_active;
 
     /*---------------------------------------------------------------
      * Constructors
@@ -193,6 +194,15 @@ abstract class AbstractInternalFrame
     {
         return m_frame;
     }
+    
+    public void setTitle( String title )
+    {
+        super.setTitle( title );
+        if ( m_active )
+        {
+            m_frame.setStatusMessage( getTitle() );
+        }
+    }
 
     /*---------------------------------------------------------------
      * InternalFrameListener Methods
@@ -264,10 +274,14 @@ abstract class AbstractInternalFrame
 
     public void internalFrameActivated( InternalFrameEvent event )
     {
+        m_active = true;
+        m_frame.setStatusMessage( getTitle() );
     }
 
     public void internalFrameDeactivated( InternalFrameEvent event )
     {
+        m_active = false;
+        m_frame.setStatusMessage( "" );
     }
 }
 
