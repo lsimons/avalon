@@ -260,6 +260,7 @@ Legal:
                unless="javax.servlet.present"/>
       <exclude name="org/apache/log/output/net/SMTPOutputLogTarget.java"
                unless="javax.mail.present"/>
+      <exclude name="**/util/*AvalonLogger*" unless="framework.present"/>
       <exclude name="org/apache/log/output/db/**"
                unless="javax.sql.present"/>
       <exclude name="org/apache/log/output/jms/**"
