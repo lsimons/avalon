@@ -7,7 +7,7 @@ Example block deployment descriptor.
 
   <classloader>
     <classpath>
-      <fileset dir="."/>
+      <artifact>artifact:jar:avalon/test/avalon-test-components</artifact>
     </classpath>
     <grant>
       <permission class="java.util.PropertyPermission" name="java.*" >
@@ -23,18 +23,18 @@ Example block deployment descriptor.
 
   <container name="Component1" >
     <services>
-      <service type="org.apache.avalon.activation.impl.test.components.TestService">
+      <service type="org.apache.avalon.test.components.TestService">
         <source>test</source>
       </service>
     </services>
     <component name="test"
-       class="org.apache.avalon.activation.impl.test.components.TestComponent"
+       class="org.apache.avalon.test.components.TestComponent"
        activation="startup"/>
   </container>
 
   <container name="Component2" >
     <component name="anothertest"
-       class="org.apache.avalon.activation.impl.test.components.AnotherTestComponent"
+       class="org.apache.avalon.test.components.AnotherTestComponent"
        activation="startup">
     </component>
   </container>

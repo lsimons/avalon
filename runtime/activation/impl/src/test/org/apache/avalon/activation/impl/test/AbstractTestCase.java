@@ -259,11 +259,17 @@ public abstract class AbstractTestCase extends TestCase
         for( int i=0; i<children.length; i++ )
         {
             Configuration child = children[i];
-            String spec = child.getAttribute( "spec" );
-            Artifact artifact = Artifact.createArtifact( "artifact:" + spec );
+            String spec = getURI( child.getAttribute( "spec" ) );
+            Artifact artifact = Artifact.createArtifact( spec );
             artifacts[i] = artifact;
         }
         return artifacts;
+    }
+
+    private static String getURI( String path )
+    {
+        if( path.startsWith( "artifact:" ) ) return path;
+        return "artifact:" + path;
     }
 
     protected ContainmentProfile setUpProfile( File file )

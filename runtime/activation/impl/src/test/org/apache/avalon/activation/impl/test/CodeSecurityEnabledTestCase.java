@@ -19,11 +19,11 @@ package org.apache.avalon.activation.impl.test;
 
 import org.apache.avalon.composition.model.DeploymentModel;
 
-import org.apache.avalon.util.exception.ExceptionHelper;
-
 import org.apache.avalon.framework.activity.Disposable;
 
-import org.apache.avalon.activation.impl.test.components.TestService;
+import org.apache.avalon.util.exception.ExceptionHelper;
+
+import org.apache.avalon.test.components.TestService;
 
 public class CodeSecurityEnabledTestCase extends AbstractTestCase
 {

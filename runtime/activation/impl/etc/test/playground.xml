@@ -9,23 +9,23 @@ Example block deployment descriptor.
 
    <classloader>
      <classpath>
-       <fileset dir="../test-classes"/>
+       <artifact>artifact:jar:avalon/test/avalon-test-playground</artifact>
      </classpath>
    </classloader>
 
    <services>
-     <service type="org.apache.avalon.playground.basic.BasicService" version="1.1"/>
+     <service type="org.apache.avalon.test.playground.basic.BasicService" version="1.1"/>
    </services>
 
    <container name="subsidiary">
 
      <component name="complex"
-       class="org.apache.avalon.playground.ComplexComponent">
+       class="org.apache.avalon.test.playground.ComplexComponent">
        <categories priority="INFO"/>
      </component>
      
      <container name="test">
-       <component name="simple" class="org.apache.avalon.playground.SimpleComponent"/>
+       <component name="simple" class="org.apache.avalon.test.playground.SimpleComponent"/>
      </container>
 
    </container>
@@ -36,15 +36,15 @@ Example block deployment descriptor.
    -->
    <!--
    <component name="demo" 
-     class="org.apache.avalon.playground.DemoManager"/>
+     class="org.apache.avalon.test.playground.DemoManager"/>
    
    <component name="exploitation" 
-     class="org.apache.avalon.playground.ExploitationManager"/>
+     class="org.apache.avalon.test.playground.ExploitationManager"/>
 
    <component name="basic"
-       class="org.apache.avalon.playground.basic.BasicComponent"
+       class="org.apache.avalon.test.playground.basic.BasicComponent"
        activation="startup">
-     <context class="org.apache.avalon.playground.basic.BasicContextImp">
+     <context class="org.apache.avalon.test.playground.basic.BasicContextImp">
        <entry key="location">
          <constructor>My Place</constructor>
        </entry>
