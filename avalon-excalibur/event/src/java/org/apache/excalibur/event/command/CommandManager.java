@@ -287,6 +287,11 @@ public class CommandManager implements EventPipeline, Disposable
                         }
                     }
                 }
+                else
+                {
+                    // not yet executed, wait some more
+                    m_delayedCommands.add( command );
+                }
             }
         }
 
