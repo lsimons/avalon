@@ -38,7 +38,7 @@
 
 
   <!-- Compiles project -->
-  <target name="compile"> 
+  <target name="compile" depends="test,warning">
 
     <mkdir dir="build/classes"/>
 
