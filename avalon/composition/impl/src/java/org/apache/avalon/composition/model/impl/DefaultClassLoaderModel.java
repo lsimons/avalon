@@ -58,11 +58,14 @@ import java.util.jar.Manifest;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.security.Permission;
 
 import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.data.ClassLoaderDirective;
 import org.apache.avalon.composition.data.FilesetDirective;
+import org.apache.avalon.composition.data.GrantDirective;
 import org.apache.avalon.composition.data.IncludeDirective;
+import org.apache.avalon.composition.data.PermissionDirective;
 import org.apache.avalon.composition.data.RepositoryDirective;
 import org.apache.avalon.composition.data.ResourceDirective;
 import org.apache.avalon.composition.model.ClassLoaderContext;
@@ -111,10 +114,10 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and the extensions package.
  * </p>
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2003/12/16 01:34:55 $
+ * @version $Revision: 1.5 $ $Date: 2004/01/19 01:26:19 $
  */
 public class DefaultClassLoaderModel extends AbstractLogEnabled 
-  implements ClassLoaderModel
+    implements ClassLoaderModel
 {
     //==============================================================
     // static
@@ -148,6 +151,8 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
 
     private final URLClassLoader m_classLoader;
 
+    private Permission[] m_permissions;
+    
     private final DefaultTypeRepository m_types;
 
     private final DefaultServiceRepository m_services;
@@ -210,7 +215,7 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
 
             m_manager = new PackageManager( m_extension );
             m_classpath = createClassPath( base, repository, directive, implicit );
- 
+            m_permissions = createPermissions( directive.getGrantDirective() );
             if( getLocalLogger().isDebugEnabled() )
             {
                 String str = "classpath: " + StringHelper.toString( m_classpath );
@@ -369,6 +374,21 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
         return m_classLoader;
     }
 
+   /** 
+    * Return the security Permissions defined for this ClassLoaderModel.
+    * 
+    * These Permissions will be enforced if code level security is enabled
+    * globally. If no Permissions are returned, all the components under
+    * this container will run without Permissions.
+    *
+    * @return A SecurityPolicy which should be enagaged if codelevel
+    *         security is enabled for the Classloader.
+    **/
+    public Permission[] getSecurityPermissions()
+    {
+        return m_permissions;
+    }
+    
     //==============================================================
     // private implementation
     //==============================================================
@@ -478,6 +498,17 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
         return (String[]) classpath.toArray( new String[0] );
     }
 
+    private Permission[] createPermissions( GrantDirective directive )
+    {
+        PermissionDirective[] permissions = directive.getPermissionDirectives();
+        Permission[] result = new Permission[ permissions.length ];
+        for( int i=0 ; i < permissions.length ; i++ )
+        {
+            result[i] = permissions[i].getPermission();
+        }
+        return result;
+    }
+    
     /**
      * Retrieve the files for the optional packages required by
      * the jars in ClassPath.
