@@ -82,7 +82,14 @@ public class Info
             buffer.append( getVersion() );
         }
         buffer.append( "." );
-        buffer.append( getType() );
+        if( getType().equals( "plugin" ) )
+        {
+            buffer.append( "jar" );
+        }
+        else
+        {
+            buffer.append( getType() );
+        }
         return buffer.toString();
     }
 
