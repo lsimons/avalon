@@ -8,33 +8,31 @@
 package org.apache.avalon.phoenix.components.frame;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.security.Policy;
 import java.util.ArrayList;
 import java.util.HashMap;
-import org.apache.avalon.excalibur.thread.DefaultThreadPool;
-import org.apache.avalon.excalibur.thread.ThreadPool;
-import org.apache.avalon.excalibur.thread.ThreadHook;
-import org.apache.avalon.excalibur.thread.ThreadContext;
+import org.apache.avalon.framework.ExceptionUtil;
+import org.apache.avalon.framework.Version;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLoggable;
-import org.apache.avalon.framework.logger.AvalonFormatter;
-import org.apache.avalon.phoenix.BlockContext;
-import org.apache.log.Hierarchy;
-import org.apache.log.LogTarget;
-import org.apache.log.Logger;
-import org.apache.log.Priority;
-import org.apache.log.output.io.FileTarget;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.excalibur.logger.DefaultLogKitManager;
+import org.apache.avalon.excalibur.logger.LogKitManager;
+import org.apache.avalon.excalibur.thread.DefaultThreadPool;
+import org.apache.avalon.excalibur.thread.ThreadContext;
+import org.apache.avalon.excalibur.thread.ThreadHook;
+import org.apache.avalon.excalibur.thread.ThreadPool;
+import org.apache.avalon.phoenix.BlockContext;
+import org.apache.log.Logger;
 
 /**
  * Manage the "frame" in which Applications operate.
@@ -57,11 +55,11 @@ public class DefaultApplicationFrame
     ///Base directory of applications working directory
     private File         m_baseDirectory;
 
-    ///Hierarchy of Application logging
-    private Hierarchy    m_logHierarchy    = new Hierarchy();
-
     ///Map of thread pools for application
     private HashMap      m_threadPools     = new HashMap();
+
+    //LogKitManager for application
+    private LogKitManager   m_logKitManager;
 
     ///Policy for application
     private Policy       m_policy;
@@ -102,10 +100,7 @@ public class DefaultApplicationFrame
 
         //Configure Logging
         final Configuration logs = configuration.getChild( "logs" );
-        final Configuration[] targets = logs.getChildren( "log-target" );
-        final HashMap targetSet = configureTargets( targets );
-        final Configuration[] categories = logs.getChildren( "category" );
-        configureCategories( categories, targetSet );
+        configureLogKitManager( logs );
     }
 
     /**
@@ -120,7 +115,7 @@ public class DefaultApplicationFrame
         final ClassLoader parentClassLoader = Thread.currentThread().getContextClassLoader();
         m_classLoader = new PolicyClassLoader( m_classPath, parentClassLoader, m_policy );
 
-        //base contxt that all block contexts inherit from
+        //base context that all block contexts inherit from
         final DefaultContext context = new DefaultContext();
         context.put( BlockContext.APP_NAME, m_name );
         context.put( BlockContext.APP_HOME_DIR, m_baseDirectory );
@@ -146,7 +141,7 @@ public class DefaultApplicationFrame
      */
     public Logger getLogger( final String category )
     {
-        return m_logHierarchy.getLoggerFor( category );
+        return m_logKitManager.getLogger( category );
     }
 
     /**
@@ -259,97 +254,40 @@ public class DefaultApplicationFrame
         }
     }
 
-    /**
-     * Configure a set of logtargets based on config data.
-     *
-     * @param targets the target configuration data
-     * @return a Map of target-name to target
-     * @exception ConfigurationException if an error occurs
-     */
-    private HashMap configureTargets( final Configuration[] targets )
+    private void configureLogKitManager( final Configuration conf )
         throws ConfigurationException
     {
-        final HashMap targetSet = new HashMap();
+        final DefaultContext context = new DefaultContext();
+        context.put( BlockContext.APP_NAME, m_name );
+        context.put( BlockContext.APP_HOME_DIR, m_baseDirectory );
 
-        for( int i = 0; i < targets.length; i++ )
+        try
         {
-            final Configuration target = targets[ i ];
-            final String name = target.getAttribute( "name" );
-            String location = target.getAttribute( "location" ).trim();
-            final String format = target.getAttribute( "format", DEFAULT_FORMAT );
+            final Version version = Version.getVersion( conf.getAttribute( "version", "1.0" ) );
 
-            if( '/' == location.charAt( 0 ) )
+            if ( new Version( 1, 0, 0 ).complies( version ) )
             {
-                location = location.substring( 1 );
-            }
+                final SimpleLogKitManager logs = new SimpleLogKitManager();
+                setupLogger( logs );
+                logs.contextualize( context );
+                logs.configure( conf );
 
-            final AvalonFormatter formatter = new AvalonFormatter( format );
-
-            //Specify output location for logging
-            final File file = new File( m_baseDirectory, location );
-
-            //Setup logtarget
-            FileTarget logTarget = null;
-            
-            try
-            {
-                logTarget = new FileTarget( file.getAbsoluteFile(), false, formatter );
-            }
-            catch( final IOException ioe )
-            {
-                final String message = REZ.getString( "frame.error.log.create", file );
-                throw new ConfigurationException( message, ioe );
-            }
-
-            targetSet.put( name, logTarget );
-        }
-
-        return targetSet;
-    }
-
-    /**
-     * COnfigure Logging categories.
-     *
-     * @param categories configuration data for categories
-     * @param targets a hashmap containing the already existing taregt
-     * @exception ConfigurationException if an error occurs
-     */
-    private void configureCategories( final Configuration[] categories, final HashMap targets )
-        throws ConfigurationException
-    {
-        for( int i = 0; i < categories.length; i++ )
-        {
-            final Configuration category = categories[ i ];
-            final String name = category.getAttribute( "name", "" );
-            final String target = category.getAttribute( "target" );
-            final String priorityName = category.getAttribute( "priority" );
-
-            final Logger logger = getLogger( name );
-
-            final LogTarget logTarget = (LogTarget)targets.get( target );
-            if( null == target )
-            {
-                final String message = REZ.getString( "frame.error.target.locate", target );
-                throw new ConfigurationException( message );
-            }
-
-            final Priority priority = Priority.getPriorityForName( priorityName );
-            if( !priority.getName().equals( priorityName ) )
-            {
-                final String message = REZ.getString( "frame.error.priority.unknown", priorityName );
-                throw new ConfigurationException( message );
-            }
-
-            if( name.equals( "" ) )
-            {
-                m_logHierarchy.setDefaultPriority( priority );
-                m_logHierarchy.setDefaultLogTarget( logTarget );
+                m_logKitManager = logs;
             }
             else
             {
-                logger.setPriority( priority );
-                logger.setLogTargets( new LogTarget[] { logTarget } );
+                final DefaultLogKitManager logs = new DefaultLogKitManager();
+                setupLogger( logs );
+                logs.contextualize( context );
+                logs.configure( conf );
+
+                m_logKitManager = logs;
             }
+        }
+        catch ( final ContextException ce )
+        {
+            final String message = REZ.getString( "frame.error.log.configure" );
+            throw new ConfigurationException( message, ce );
         }
     }
 }
