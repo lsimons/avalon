@@ -1,0 +1,681 @@
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  
+      
+  
+
+      
+      
+      
+      
+      
+      
+        
+         
+      
+      
+
+      
+      
+      
+      
+
+      
+      
+      
+
+      
+
+
+  
+  
+
+   
+   
+
+
+
+    <!DOCTYPE html PUBLIC "-//CollabNet//DTD XHTML 1.0 Transitional//EN" "http://www.collabnet.com/dtds/collabnet_transitional_10.dtd">
+
+    <html>
+      <head>
+        
+        
+          <title>
+            Cornerstone Threads - 
+          Cornerstone Scheduler
+        
+          </title>
+        
+        
+        
+        
+        
+        <style type="text/css">
+          @import url("../style/tigris.css");
+          @import url("../style/maven.css");
+          @import url("../style/osm.css");
+        </style>
+        
+        <link rel="stylesheet" href="../style/print.css" type="text/css" media="print"></link>
+        
+          <meta name="author" value="Stephen McConnell"></meta>
+          <meta name="email" value="mcconnell@apache.org"></meta>
+        
+      </head>
+
+      <body marginwidth="0" class="composite" marginheight="0">
+        <div id="banner">
+          <table height="103" border="0" width="100%" cellpadding="8" cellspacing="0">
+            <tr>
+              
+              <td>
+                
+                
+                  
+                  
+                  
+                    
+                  
+                  
+                  
+                  
+                  
+                  <a href="http://avalon.apache.org/">
+                    <img border="0" alt="Apache Software Foundation" src="http://avalon.apache.org/images/apache-avalon-logo.png" align="left"></img>
+                  </a>
+                
+              </td>
+
+              <td>
+                <div id="login" align="right">
+                  <a href="http://apachecon.com/2003/US/index.html">
+                    <img border="0" src="http://www.apache.org/~ceki/ac2003/ac2003-150.gif"></img>
+                  </a>
+                </div>
+              </td>
+
+
+              
+              
+            </tr>
+          </table>
+        </div>
+
+        <div id="breadcrumbs">
+          <table border="0" width="100%" cellpadding="4" cellspacing="0">
+            <tr>
+              
+              <td>
+                <div align="right">
+                  
+                  
+                  
+                    
+    
+    
+      
+      
+      
+      <a href="
+        http://apache.org/
+      ">
+        Apache
+      </a>
+      
+    
+      |
+      
+      
+      <a href="
+        http://avalon.apache.org/
+      ">
+        Avalon
+      </a>
+      
+    
+      |
+      
+      
+      <a href="
+        http://avalon.apache.org/product/framework/
+      ">
+        Framework
+      </a>
+      
+    
+      |
+      
+      
+      <a href="
+        http://avalon.apache.org/product/containers/
+      ">
+        Containers
+      </a>
+      
+    
+      |
+      
+      
+      <a href="
+        http://avalon.apache.org/product/components/
+      ">
+        Components
+      </a>
+      
+    
+  
+                  
+                  
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        
+        <table border="0" width="100%" cellpadding="8" cellspacing="0"> 
+          <tr valign="top">
+            <td width="200" id="leftcol">
+              <div id="navcolumn">
+                
+
+                
+                  
+    <div>
+      <strong>About Cornerstone</strong>
+      
+    <div>
+      
+      
+      <small><a href="../index.html">Overview</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="../components/index.html">Components</a></small>
+      
+    <div>
+      
+      
+      <small><a href="../components/connection.html">Connection</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="../components/datasource.html">Datasource</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="../components/scheduler.html">Scheduler</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="../components/sockets.html">Sockets</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="../components/store.html">Store</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="../components/threads.html">Threads</a></small>
+      
+    </div>
+  
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="../examples/index.html">Examples</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="../notes/index.html">Developer Info</a></small>
+      
+    </div>
+  
+    </div>
+  
+                
+
+                
+                
+
+                
+                
+                <div>
+                  <strong>Project Documentation</strong>
+                  
+                  <div>
+                    <small>
+                      <a href="../project-info.html">Project Info</a>
+                    </small>
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                  </div>
+                  <div>
+                    <small>
+                      <a href="../maven-reports.html">Project Reports</a>
+                    </small>
+                    
+                      
+                        
+                         
+                         
+                           
+                           
+                        
+                           
+                           
+                        
+                           
+                           
+                        
+                        
+                        
+                      
+                      
+                    
+                  </div>
+                  
+                  
+                  <div>
+                    <small>
+                      <a href="../license.html">License</a>
+                    </small>
+                  </div>
+                </div>
+              
+                
+              </div>
+            </td>
+            <td>
+              <div id="bodycol">
+                
+                <div class="app">
+                  
+                  
+    <div class="h3">
+      
+      
+        <h3>
+          <a name="Cornerstone Components - Sockets">Cornerstone Components - Sockets</a>
+        </h3>
+      
+      
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Description">Description</a>
+        </h4>
+      
+      
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Deployment Facts">Deployment Facts</a>
+        </h4>
+      
+      
+    
+    <table border="1" width="100%" cellspacing="2" cellpadding="3">
+      
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <td>
+      Containment
+    </td>
+   
+    <td>
+      Avalon Framework 4.1.4
+    </td>
+   </tr>
+  
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
+    <td>
+      Lifestyle
+    </td>
+   
+    <td>
+      singleton
+    </td>
+   </tr>
+  
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <td>
+      Lifecycle
+    </td>
+   
+    <td>
+      
+              
+    
+    <table border="1" width="100%" cellspacing="2" cellpadding="3">
+      
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
+    <th>
+      Stage
+    </th>
+   
+    <th>
+      Description
+    </th>
+   </tr>
+  
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <td>
+      LogEnabled
+    </td>
+   
+    <td>
+      Logs runtime warnings and assigns 
+                 logging channels to created factories.
+    </td>
+   </tr>
+  
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
+    <td>
+      Contextualizable
+    </td>
+   
+    <td>
+      
+                  
+    
+    <table border="1" width="100%" cellspacing="2" cellpadding="3">
+      
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <th>
+      Key
+    </th>
+   
+    <th>
+      Type
+    </th>
+   
+    <th>
+      Required
+    </th>
+   </tr>
+  
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
+    <td>
+      block.name
+    </td>
+   
+    <td>
+      java.lang.String
+    </td>
+   
+    <td>
+      true
+    </td>
+   </tr>
+  
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <td>
+      app.name
+    </td>
+   
+    <td>
+      java.lang.String
+    </td>
+   
+    <td>
+      true
+    </td>
+   </tr>
+  
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
+    <td>
+      app.home
+    </td>
+   
+    <td>
+      java.io.File
+    </td>
+   
+    <td>
+      true
+    </td>
+   </tr>
+  
+    </table>
+  
+                  
+    </td>
+   </tr>
+  
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <td>
+      Configurable
+    </td>
+   
+    <td>
+      
+                  An example configuration is 
+                  presented below.
+                  
+    </td>
+   </tr>
+  
+    </table>
+  
+            
+    </td>
+   </tr>
+  
+    </table>
+  
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Example Configuration">Example Configuration</a>
+        </h4>
+      
+      
+    <div id="source">
+      <pre>
+&lt;configuration&gt;
+  &lt;server-sockets&gt;
+    &lt;factory name="plain" 
+class="org.apache.avalon.cornerstone.blocks.sockets.DefaultServerSocketFactory"/&gt;
+  &lt;/server-sockets&gt;
+  &lt;client-sockets&gt;
+    &lt;factory name="plain" 
+class="org.apache.avalon.cornerstone.blocks.sockets.DefaultSocketFactory"/&gt;
+  &lt;/client-sockets&gt;
+&lt;/configuration&gt;
+</pre>
+    </div>
+  
+    </div>
+  
+    </div>
+  
+                  
+                  
+                  
+                  
+                  
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <div id="footer">
+          <table border="0" cellpadding="4" cellspacing="0">
+            <tr>
+              <td>
+                
+                  
+                    
+                    
+                       2001-2003, Apache Software Foundation
+                    
+                  
+                  
+                
+
+                
+              </td>
+              
+            </tr>
+          </table>
+        </div>
+      </body>
+    </html>
+  
