@@ -15,14 +15,14 @@ import org.xml.sax.XMLFilter;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.excalibur.source.Source;
-import org.apache.excalibur.source.SourceResolver;
+import org.apache.excalibur.source.SourceValidity;
 
 /**
  * This is the interface of the XSLT processor.
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessor.java,v 1.4 2002/05/02 11:29:11 cziegeler Exp $
+ * @version CVS $Id: XSLTProcessor.java,v 1.5 2002/07/01 01:26:57 proyal Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
@@ -32,6 +32,29 @@ public interface XSLTProcessor extends Component
      * The role implemented by an <code>XSLTProcessor</code>.
      */
     String ROLE = XSLTProcessor.class.getName();
+
+    public static class TransformerHandlerAndValidity
+    {
+        private final TransformerHandler transformerHandler;
+        private final SourceValidity transformerValidity;
+
+        protected TransformerHandlerAndValidity ( TransformerHandler transformerHandler,
+                                                  SourceValidity transformerValidity )
+        {
+            this.transformerHandler = transformerHandler;
+            this.transformerValidity = transformerValidity;
+        }
+
+        public TransformerHandler getTransfomerHandler ()
+        {
+            return this.transformerHandler;
+        }
+
+        public SourceValidity getTransfomerValidity ()
+        {
+            return this.transformerValidity;
+        }
+    }
 
     /**
      * Set the TransformerFactory for this instance.
@@ -56,8 +79,9 @@ public interface XSLTProcessor extends Component
      * <code>null</code>, is inserted in the chain SAX events as an XML
      * filter during the parsing or the source document.
      *
-     * <p>This method caches the Source object and performs a reparsing
-     * only if this changes.
+     * <p>This method caches the Templates object with meta information
+     * (modification time and list of included stylesheets) and performs
+     * a reparsing only if this changes.
      *
      * @param stylesheet a <code>Source</code> value
      * @param filter a <code>XMLFilter</code> value
@@ -65,6 +89,30 @@ public interface XSLTProcessor extends Component
      * @exception XSLTProcessorException if an error occurs
      */
     TransformerHandler getTransformerHandler( Source stylesheet, XMLFilter filter )
+      throws XSLTProcessorException;
+
+    /**
+     * <p>Return a <code>TransformerHandler</code> and
+     * <code>SourceValidity</code> for a given stylesheet
+     * <code>Source</code>. This can be used in a pipeline to
+     * handle the transformation of a stream of SAX events. See {@link
+     * org.apache.cocoon.transformation.TraxTransformer#setConsumer} for
+     * an example of how to use this method.
+     *
+     * <p>The additional <code>filter</code> argument, if it's not
+     * <code>null</code>, is inserted in the chain SAX events as an XML
+     * filter during the parsing or the source document.
+     *
+     * <p>This method caches the Templates object with meta information
+     * (modification time and list of included stylesheets) and performs
+     * a reparsing only if this changes.
+     *
+     * @param stylesheet a <code>Source</code> value
+     * @param filter a <code>XMLFilter</code> value
+     * @return a <code>TransformerHandlerAndValidity</code> value
+     * @exception XSLTProcessorException if an error occurs
+     */
+    TransformerHandlerAndValidity getTransformerHandlerAndValidity( Source stylesheet, XMLFilter filter )
       throws XSLTProcessorException;
 
     /**
@@ -76,6 +124,17 @@ public interface XSLTProcessor extends Component
      * @exception XSLTProcessorException if an error occurs
      */
     TransformerHandler getTransformerHandler( Source stylesheet )
+      throws XSLTProcessorException;
+
+    /**
+     * Same as {@link #getTransformerHandlerAndValidity(Source,XMLFilter)}, with
+     * <code>filter</code> set to <code>null</code>.
+     *
+     * @param stylesheet a <code>Source</code> value
+     * @return a <code>TransformerHandlerAndValidity</code> value
+     * @exception XSLTProcessorException if an error occurs
+     */
+    TransformerHandlerAndValidity getTransformerHandlerAndValidity( Source stylesheet )
       throws XSLTProcessorException;
 
     /**
