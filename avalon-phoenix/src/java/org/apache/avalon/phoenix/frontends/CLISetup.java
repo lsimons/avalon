@@ -28,6 +28,9 @@ class CLISetup
     private static final Resources REZ =
         ResourceManager.getPackageResources( CLISetup.class );
 
+    private static final String MANAGER_IMPL =
+        "org.apache.avalon.phoenix.components.manager.DefaultManager";
+
     private static final int DEBUG_LOG_OPT = 'd';
     private static final int HELP_OPT = 'h';
     private static final int LOG_FILE_OPT = 'l';
@@ -173,8 +176,7 @@ class CLISetup
                     break;
 
                 case REMOTE_MANAGER_OPT:
-                    m_parameters.setParameter( SystemManager.ROLE,
-                                               "org.apache.avalon.phoenix.components.manager.DefaultManager" );
+                    m_parameters.setParameter( SystemManager.ROLE, MANAGER_IMPL );
                     break;
 
                 case APPLICATION_OPT:

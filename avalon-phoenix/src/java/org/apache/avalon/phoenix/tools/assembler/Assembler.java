@@ -30,7 +30,7 @@ import org.apache.avalon.phoenix.tools.infobuilder.BlockInfoBuilder;
  * and is in the format specified for <code>assembly.xml</code> files.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.15 $ $Date: 2002/05/15 12:24:54 $
+ * @version $Revision: 1.16 $ $Date: 2002/05/20 11:40:50 $
  */
 public class Assembler
     extends AbstractLogEnabled
@@ -216,7 +216,9 @@ public class Assembler
         catch( final ConfigurationException ce )
         {
             final String message =
-                REZ.getString( "listener-entry-malformed", listener.getLocation(), ce.getMessage() );
+                REZ.getString( "listener-entry-malformed",
+                               listener.getLocation(),
+                               ce.getMessage() );
             throw new AssemblyException( message );
         }
     }

@@ -8,7 +8,6 @@
 package org.apache.avalon.phoenix.tools.configuration;
 
 import java.io.IOException;
-import java.io.InputStream;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -23,7 +22,7 @@ import org.xml.sax.XMLReader;
  * Utility class used to load Configuration trees from XML files.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/03/21 08:18:16 $
+ * @version $Revision: 1.4 $ $Date: 2002/05/20 11:40:30 $
  */
 public class ConfigurationBuilder
 {

@@ -129,8 +129,10 @@ public class DefaultDeployer
         throws ServiceException
     {
         m_kernel = (Kernel)serviceManager.lookup( Kernel.ROLE );
-        m_repository = (ConfigurationRepository)serviceManager.lookup( ConfigurationRepository.ROLE );
-        m_classLoaderManager = (ClassLoaderManager)serviceManager.lookup( ClassLoaderManager.ROLE );
+        m_repository = (ConfigurationRepository)serviceManager.
+            lookup( ConfigurationRepository.ROLE );
+        m_classLoaderManager = (ClassLoaderManager)serviceManager.
+            lookup( ClassLoaderManager.ROLE );
         m_logManager = (LogManager)serviceManager.lookup( LogManager.ROLE );
     }
 

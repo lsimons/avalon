@@ -87,9 +87,13 @@ public final class CLIMain
             parameters.setParameter( "phoenix.home", phoenixHome );
             if( !parameters.isParameter( "phoenix.configfile" ) )
             {
-                final File configFile = new File( phoenixHome + DEFAULT_CONF_FILE );
+                final String filename = phoenixHome + DEFAULT_CONF_FILE;
+                final File configFile =
+                    new File( filename ).getCanonicalFile();
+
+                // setting default
                 parameters.setParameter( "phoenix.configfile",
-                                         configFile.getCanonicalFile().toString() );  // setting default
+                                         configFile.toString() );
             }
 
             execute( parameters, data, blocking );

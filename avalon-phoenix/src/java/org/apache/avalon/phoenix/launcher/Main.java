@@ -107,7 +107,11 @@ public final class Main
      */
     protected static final void shutdown()
     {
-        if( null == c_frontend ) return;
+        if( null == c_frontend )
+        {
+            return;
+        }
+
         try
         {
             final Class clazz = c_frontend.getClass();
