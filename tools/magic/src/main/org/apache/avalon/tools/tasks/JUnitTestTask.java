@@ -49,9 +49,6 @@ public class JUnitTestTask extends SystemTask
 {
     public static final String TEST_ENABLED_KEY = "project.test.enabled";
 
-    public static final String TEST_KEY = "project.test";
-    public static final String TEST_VALUE = "test";
-
     public static final String TEST_SRC_KEY = "project.test.src";
     public static final String TEST_SRC_VALUE = "test";
 
@@ -94,8 +91,8 @@ public class JUnitTestTask extends SystemTask
             project.setNewProperty( TEST_TMP_KEY, "" + TEST_TMP_VALUE );
             project.setNewProperty( HALT_ON_ERROR_KEY, "" + HALT_ON_ERROR_VALUE );
             project.setNewProperty( HALT_ON_FAILURE_KEY, "" + HALT_ON_FAILURE_VALUE );
-            getContext().setBuildPath( TEST_KEY, TEST_VALUE );
-            m_test = getContext().getBuildPath( TEST_KEY );
+
+            m_test = getContext().getTestDirectory();
         }
     }
 

@@ -38,6 +38,13 @@ import org.apache.tools.ant.taskdefs.Property;
  */
 public class Context extends Task
 {
+    public static final String TARGET = "target";
+    public static final String BUILD = "build";
+    public static final String TEMP = "temp";
+    public static final String TEST = "test";
+    public static final String DELIVERABLES = "deliverables";
+    public static final String DOCS = "docs";
+
     private static final String USER_PROPERTIES = "user.properties";
     private static final String BUILD_PROPERTIES = "build.properties";
 
@@ -46,32 +53,17 @@ public class Context extends Task
     public static final String SRC_KEY = "project.src";
     public static final String SRC_VALUE = "src";
 
+    public static final String SRC_MAIN = "main";
     public static final String SRC_MAIN_KEY = "project.src.main";
-    public static final String SRC_MAIN_VALUE = "main";
 
     public static final String SRC_CONFIG_KEY = "project.src.config";
-    public static final String SRC_CONFIG_VALUE = "config";
+    public static final String SRC_CONFIG = "config";
 
     public static final String SRC_TEST_KEY = "project.src.test";
-    public static final String SRC_TEST_VALUE = "test";
+    public static final String SRC_TEST = "test";
 
     public static final String ETC_KEY = "project.etc";
     public static final String ETC_VALUE = "etc";
-
-    public static final String TARGET_KEY = "project.target";
-    public static final String TARGET_VALUE = "target";
-
-    public static final String DELIVERABLES_KEY = "project.target.deliverables";
-    private static final String DELIVERABLES_VALUE = "deliverables";
-
-    public static final String BUILD_KEY = "project.target.build";
-    private static final String BUILD_VALUE = "build";
-
-    public static final String TEMP_KEY = "project.target.temp";
-    private static final String TEMP_VALUE = "temp";
-
-    public static final String DOCS_KEY = "project.target.docs";
-    private static final String DOCS_VALUE = "docs";
 
     public static Context getContext( Project project )
     {
@@ -100,11 +92,13 @@ public class Context extends Task
 
     private File m_src;
     private File m_etc;
+
     private File m_target;
     private File m_build;
     private File m_deliverables;
     private File m_temp;
     private File m_docs;
+    private File m_test;
     
     public void setKey( String key )
     {
@@ -122,37 +116,25 @@ public class Context extends Task
         setupProperties( project );
 
         project.setNewProperty( SRC_KEY, SRC_VALUE );
-        project.setNewProperty( SRC_MAIN_KEY, SRC_MAIN_VALUE );
-        project.setNewProperty( SRC_CONFIG_KEY, SRC_CONFIG_VALUE );
-        project.setNewProperty( SRC_TEST_KEY, SRC_TEST_VALUE );
+        project.setNewProperty( SRC_MAIN_KEY, SRC_MAIN );
+        project.setNewProperty( SRC_CONFIG_KEY, SRC_CONFIG );
+        project.setNewProperty( SRC_TEST_KEY, SRC_TEST );
+
         project.setNewProperty( ETC_KEY, ETC_VALUE );
-        project.setNewProperty( TARGET_KEY, TARGET_VALUE );
-        project.setNewProperty( BUILD_KEY, BUILD_VALUE );
-        project.setNewProperty( DELIVERABLES_KEY, DELIVERABLES_VALUE );
-        project.setNewProperty( DOCS_KEY, DOCS_VALUE );
-        project.setNewProperty( TEMP_KEY, TEMP_VALUE );
 
         File basedir = project.getBaseDir();
         String src = project.getProperty( SRC_KEY );
         String etc = project.getProperty( ETC_KEY );
-        String target = project.getProperty( TARGET_KEY );
-        String build = project.getProperty( BUILD_KEY );
-        String temp = project.getProperty( TEMP_KEY );
-        String docs = project.getProperty( DOCS_KEY );
-        String deliverables = project.getProperty( DELIVERABLES_KEY );
 
         m_src = setupSrc( basedir, src );
         m_etc = setupEtc( basedir, etc );
-        m_target = setupTarget( basedir, target );
 
-        m_build = 
-          setBuildPath( BUILD_KEY, build );
-        m_deliverables = 
-          setBuildPath( DELIVERABLES_KEY, deliverables );
-        m_temp = 
-          setBuildPath( TEMP_KEY, temp );
-        m_docs = 
-          setBuildPath( DOCS_KEY, docs );
+        m_target = new File( basedir, TARGET );
+        m_build = setBuildPath( BUILD );
+        m_deliverables = setBuildPath( DELIVERABLES );
+        m_temp = setBuildPath( TEMP );
+        m_test = setBuildPath( TEST );
+        m_docs = setBuildPath( DOCS );
 
         project.addReference( KEY, this );
     }
@@ -207,11 +189,20 @@ public class Context extends Task
         return m_temp;
     }
 
+    public File getTestDirectory()
+    {
+        return m_test;
+    }
+
     public File getDocsDirectory()
     {
         return m_docs;
     }
 
+    public File setBuildPath( String path )
+    {
+        return setBuildPath( path, path );
+    }
 
     public File setBuildPath( String key, String path )
     {
@@ -273,12 +264,6 @@ public class Context extends Task
     private File setupEtc( File basedir, String path )
     {
         if( null == path ) return new File( basedir, ETC_VALUE );
-        return new File( basedir, path );
-    }
-
-    private File setupTarget( File basedir, String path )
-    {
-        if( null == path ) return new File( basedir, TARGET_VALUE );
         return new File( basedir, path );
     }
 

@@ -13,7 +13,7 @@
   <target name="install" depends="standard.install">
     <mkdir dir="${user.home}/.ant/lib"/>
     <copy toDir="${user.home}/.ant/lib" 
-       file="${project.target}/deliverables/jars/${project.name}.jar"/>
+       file="${basedir}/target/deliverables/jars/${project.name}.jar"/>
   </target>
 
 </project>

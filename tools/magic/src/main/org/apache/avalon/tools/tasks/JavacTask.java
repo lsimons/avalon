@@ -70,8 +70,7 @@ public class JavacTask extends SystemTask
     {
         Project project = getProject();
         File build = getContext().getBuildDirectory();
-        String mainPath = project.getProperty( Context.SRC_MAIN_KEY );
-        File main = new File( build, mainPath );
+        File main = new File( build, Context.SRC_MAIN );
 
         if( main.exists() )
         {
