@@ -391,10 +391,11 @@ public class AbstractMerlinTestCase extends TestCase
     private File getMavenRepositoryDirectory()
     {
         //
-        // get ${maven.home.local} system property - this may 
+        // get ${maven.home.local} or ${maven.home} system property - this may 
         // be null in which case to fallback to ${user.home}/.maven
         //
 
+        final String maven = System.getProperty( "maven.home" );
         final String local = System.getProperty( "maven.home.local" );
         if( local != null )
         {
@@ -407,6 +408,20 @@ public class AbstractMerlinTestCase extends TestCase
             {
                 final String error = 
                   "Unable to resolve repository from ${maven.home.local}.";
+                throw new UnitRuntimeException( error, e );
+            }
+        }
+        else if( maven != null )
+        {
+            try
+            {
+                File sys = getDirectory( new File( maven ) );
+                return getDirectory( new File( sys, "repository" ) );
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Unable to resolve repository from ${maven.home}.";
                 throw new UnitRuntimeException( error, e );
             }
         }
@@ -423,8 +438,8 @@ public class AbstractMerlinTestCase extends TestCase
                 try
                 {
                     File home = getDirectory( new File( userHome ) );
-                    File maven = getDirectory( new File( home, ".maven" ) );
-                    return getDirectory( new File( maven, "repository" ) );
+                    File xmaven = getDirectory( new File( home, ".maven" ) );
+                    return getDirectory( new File( xmaven, "repository" ) );
                 }
                 catch( Throwable e )
                 {

@@ -104,7 +104,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.11 $ $Date: 2003/11/02 23:12:50 $
+ * @version $Revision: 1.12 $ $Date: 2003/11/28 11:58:46 $
  */
 public class DefaultAppliance extends AbstractAppliance
   implements Composite, DefaultApplianceMBean
@@ -354,13 +354,16 @@ public class DefaultAppliance extends AbstractAppliance
                 {
                     final Appliance appliance = 
                       m_engine.locate( dependency );
-                    registerListener( appliance );
-                    m_providers.put( key, appliance );
-                    if( getLogger().isDebugEnabled() )
+                    if( null != appliance )
                     {
-                        getLogger().debug( 
-                          "assigning service provider for key (" 
-                          + key + "): " + appliance );
+                        registerListener( appliance );
+                        m_providers.put( key, appliance );
+                        if( getLogger().isDebugEnabled() )
+                        {
+                            getLogger().debug( 
+                              "assigning service provider for key (" 
+                              + key + "): " + appliance );
+                        }
                     }
                 }
                 catch( Throwable e )
