@@ -53,6 +53,7 @@ import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
@@ -73,7 +74,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * you don't have to hard-code this.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/05/27 07:30:27 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/08/11 08:39:55 $
  */
 
 public final class DefaultLoggerManager
@@ -194,23 +195,26 @@ public final class DefaultLoggerManager
             }
 
             // now test for some lifecycle interfaces
-            if( m_loggermanager instanceof LogEnabled )
+            ContainerUtil.enableLogging(m_loggermanager, m_logger );
+
+            try
             {
-                ( (LogEnabled)m_loggermanager ).enableLogging( m_logger );
+                ContainerUtil.contextualize( m_loggermanager, m_context );
+            }
+            catch( ContextException ce )
+            {
+                throw new ConfigurationException( "Unable to contextualize new logger manager.", ce );
             }
 
-            if( m_loggermanager instanceof Contextualizable )
+            try 
             {
-                try
-                {
-                    ( (Contextualizable)m_loggermanager ).contextualize( m_context );
-                }
-                catch( ContextException ce )
-                {
-                    throw new ConfigurationException( "Unable to contextualize new logger manager.", ce );
-                }
+                ContainerUtil.service( m_loggermanager, m_manager );
             }
-
+            catch (ServiceException se ) 
+            {            
+                throw new ConfigurationException("Unable to service new logger manager.", se);
+            }
+            
             if( m_loggermanager instanceof Configurable )
             {
                 ( (Configurable)m_loggermanager ).configure( configuration.getChildren()[ 0 ] );
@@ -225,6 +229,15 @@ public final class DefaultLoggerManager
                 {
                     throw new ConfigurationException( "Unable to parameterize new logger manager.", pe );
                 }
+            }
+
+            try
+            {
+                ContainerUtil.initialize( m_loggermanager );
+            }
+            catch (Exception e ) 
+            {
+                throw new ConfigurationException("Unable to initialize new logger manager.");
             }
         }
         else
