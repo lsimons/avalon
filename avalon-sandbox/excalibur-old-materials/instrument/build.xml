@@ -58,7 +58,6 @@
             <classpath refid="project.class.path"/>
         </available>
         
-        <echo message="excalibur-component.jar=${excalibur-component.jar}"/>
         <available property="ecm.present" classname="org.apache.avalon.excalibur.component.ExcaliburComponentManager">
             <classpath refid="project.class.path"/>
         </available>
@@ -67,6 +66,10 @@
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
+        <!-- Want this in here, but it causes a circular dependencies.  The workaround now
+             is to call this build twice from the main build file.
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkComponent"/>
+        -->
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkAltrmiServer"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkAltrmiCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkAltrmiClient"/>
