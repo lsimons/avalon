@@ -5,6 +5,12 @@
 <!ENTITY avalon-db-hsql-id "avalon-db-hsql">
 <!ENTITY avalon-db-hsql-version "1.0.dev-0">
 
+<!ENTITY avalon-dbcp-id "avalon-dbcp">
+<!ENTITY avalon-dbcp-api-id "avalon-dbcp-api">
+<!ENTITY avalon-dbcp-api-version "1.0.dev-0">
+<!ENTITY avalon-dbcp-impl-id "avalon-dbcp-impl">
+<!ENTITY avalon-dbcp-impl-version "1.0.dev-0">
+
 <!ENTITY avalon-finder-id "avalon-finder">
 <!ENTITY avalon-finder-api-id "avalon-finder-api">
 <!ENTITY avalon-finder-api-version "1.0.dev-0">
