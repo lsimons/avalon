@@ -15,6 +15,7 @@ import org.apache.avalon.excalibur.thread.impl.DefaultThreadPool;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.component.Component; // backward compatibility
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
@@ -27,7 +28,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  */
 public class DefaultThreadManager
     extends AbstractLogEnabled
-    implements ThreadManager, Configurable
+    implements ThreadManager, Configurable, Component
 {
     ///Map of thread pools for application
     private HashMap m_threadPools = new HashMap();
