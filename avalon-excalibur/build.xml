@@ -167,11 +167,9 @@
         <ant dir="cli" target="dist-jar"/>
         <ant dir="naming" target="dist-jar"/>
         <ant dir="monitor" target="dist-jar"/>
-        <!--
         <ant dir="altrmi" target="dist-jar"/>
         <ant dir="instrument-manager" target="dist-jar"/>
         <ant dir="instrument-client" target="dist-jar"/>
-        -->
 
         <!-- Jump through hoops to avoid jlink size bug.  -->
 
@@ -207,7 +205,7 @@
                     <include name="naming/dist/*.jar"/>
                     <include name="monitor/dist/*.jar"/>
                     <include name="store/dist/*.jar"/>
-                    <!--
+                    <!-- These jars should not be in avalon-excalibur.jar as they are quite large.
                     <include name="instrument-manager/dist/*.jar"/>
                     <include name="instrument-client/dist/*.jar"/>
                     <include name="altrmi/dist/*.jar"/>
