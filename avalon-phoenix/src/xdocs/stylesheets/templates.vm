@@ -181,6 +181,7 @@
             $project.getChild("title").getText() - $root.getChild("header").getChild("title").getText()
           </font></b></center>
           </td></tr></table>
+          <br />
 #end
 
 #macro (footer)
