@@ -8,9 +8,11 @@
 package org.apache.avalon.excalibur.datasource;
 
 import com.informix.jdbcx.IfxConnectionPoolDataSource;
+import com.informix.jdbcx.IfxDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
-import javax.sql.PooledConnection;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
@@ -46,9 +48,8 @@ import org.apache.avalon.framework.logger.Loggable;
  * <p>
  * You must have Informix's JDBC 2.2 or higher jar file, as well as the
  * extensions jar file (<code>ifxjdbc.jar</code> and <code>ifxjdbcx.jar</code>).
- * You will also need the JDBC 2.0 Optional Pacakge
- * (<code>jdbc2_0-stdext.jar</code>) available from 
- * http://java.sun.com/products/jdbc/download.html.
+ * Also, this DataSource requires the Avalon Cadastre package because it uses
+ * the MemoryContext.
  * </p>
  *
  * <p>
@@ -72,16 +73,30 @@ import org.apache.avalon.framework.logger.Loggable;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.10 $ $Date: 2002/06/10 10:34:08 $
+ * @version CVS $Revision: 1.11 $ $Date: 2002/10/15 13:46:24 $
  * @since 4.0
  */
 public class InformixDataSource
     extends AbstractLogEnabled
     implements DataSourceComponent, Loggable
 {
-    private IfxConnectionPoolDataSource m_dataSource;
-    private PooledConnection m_pooledConnection;
+    private IfxDataSource m_dataSource;
     private boolean m_autocommit;
+    private static boolean INIT_FACTORY = false;
+
+    /**
+     * Set up the system property for the context factory if it hasn't been
+     * done already.  This is not done in a static initializer due to the
+     * existence of the J2eeDataSource.
+     */
+    public InformixDataSource()
+    {
+        if( !InformixDataSource.INIT_FACTORY )
+        {
+            System.setProperty( Context.INITIAL_CONTEXT_FACTORY,
+                                "org.apache.avalon.excalibur.naming.memory.MemoryInitialContextFactory" );
+        }
+    }
 
     public void setLogger( final org.apache.log.Logger logger )
     {
@@ -93,15 +108,7 @@ public class InformixDataSource
      */
     public Connection getConnection() throws SQLException
     {
-        synchronized (this)
-        {
-            if (m_pooledConnection == null)
-            {
-                m_pooledConnection = m_dataSource.getPooledConnection();
-            }
-        }
-
-        Connection conn = m_pooledConnection.getConnection();
+        Connection conn = m_dataSource.getConnection();
 
         if( conn.getAutoCommit() != m_autocommit )
         {
@@ -118,21 +125,46 @@ public class InformixDataSource
     {
         Configuration poolController = conf.getChild( "pool-controller" );
         String dbname = conf.getChild( "dbname" ).getValue( "ifx" );
-        m_dataSource = new IfxConnectionPoolDataSource();
+        IfxConnectionPoolDataSource pooledDataSource = new IfxConnectionPoolDataSource();
         m_autocommit = conf.getChild( "autocommit" ).getValueAsBoolean( true );
 
-        m_dataSource.setIfxCPMInitPoolSize( poolController.getAttributeAsInteger( "init", 5 ) );
-        m_dataSource.setIfxCPMMinPoolSize( poolController.getAttributeAsInteger( "min", 5 ) );
-        m_dataSource.setIfxCPMMaxPoolSize( poolController.getAttributeAsInteger( "max", 10 ) );
-        m_dataSource.setIfxCPMServiceInterval( 100 );
-        m_dataSource.setServerName( conf.getChild( "servername" ).getValue() );
-        m_dataSource.setDatabaseName( conf.getChild( "dbname" ).getValue() );
-        m_dataSource.setIfxIFXHOST( conf.getChild( "host" ).getValue() );
-        m_dataSource.setPortNumber( conf.getChild( "host" ).getAttributeAsInteger( "port" ) );
-        m_dataSource.setUser( conf.getChild( "user" ).getValue() );
-        m_dataSource.setPassword( conf.getChild( "password" ).getValue() );
+        pooledDataSource.setIfxCPMInitPoolSize( poolController.getAttributeAsInteger( "init", 5 ) );
+        pooledDataSource.setIfxCPMMinPoolSize( poolController.getAttributeAsInteger( "min", 5 ) );
+        pooledDataSource.setIfxCPMMaxPoolSize( poolController.getAttributeAsInteger( "max", 10 ) );
+        pooledDataSource.setIfxCPMServiceInterval( 100 );
+        pooledDataSource.setServerName( conf.getChild( "servername" ).getValue() );
+        pooledDataSource.setDatabaseName( conf.getChild( "dbname" ).getValue() );
+        pooledDataSource.setIfxIFXHOST( conf.getChild( "host" ).getValue() );
+        pooledDataSource.setPortNumber( conf.getChild( "host" ).getAttributeAsInteger( "port" ) );
+        pooledDataSource.setUser( conf.getChild( "user" ).getValue() );
+        pooledDataSource.setPassword( conf.getChild( "password" ).getValue() );
 
-        configureTracing( conf.getChild( "tracing", false ) );
+        try
+        {
+            Context context = new InitialContext();
+
+            context.bind( dbname + "pool", pooledDataSource );
+
+            m_dataSource = new IfxDataSource();
+            m_dataSource.setDataSourceName( dbname + "pool" );
+            m_dataSource.setServerName( conf.getChild( "servername" ).getValue() );
+            m_dataSource.setDatabaseName( conf.getChild( "dbname" ).getValue() );
+            m_dataSource.setIfxIFXHOST( conf.getChild( "host" ).getValue() );
+            m_dataSource.setPortNumber( conf.getChild( "host" ).getAttributeAsInteger( "port" ) );
+            m_dataSource.setUser( conf.getChild( "user" ).getValue() );
+            m_dataSource.setPassword( conf.getChild( "password" ).getValue() );
+            configureTracing( conf.getChild( "tracing", false ) );
+
+            context.bind( dbname, m_dataSource );
+        }
+        catch( Exception e )
+        {
+            if( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "There was an error trying to bind the connection pool", e );
+            }
+            throw new ConfigurationException( "There was an error trying to bind the connection pool", e );
+        }
     }
 
     /**
