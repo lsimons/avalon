@@ -403,6 +403,10 @@ namespace Apache.Avalon.DynamicProxy
 			{
 				return OpCodes.Ldind_U4;
 			}
+			else if ( type.Equals( typeof(Boolean) ) )
+			{
+				return OpCodes.Ldind_I4;
+			}
 			else
 			{
 				throw new ArgumentException("Type " + type + " could not be converted to a OpCode");
