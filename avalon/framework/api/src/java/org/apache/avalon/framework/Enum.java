@@ -50,7 +50,16 @@ import java.util.Map;
  * }
  * </pre>
  *
+ * <p>
+ * <em>NOTE:</em> between 4.0 and 4.1, the constructors' access has been changed
+ * from <code>public</code> to <code>protected</code>. This is to prevent users
+ * of the Enum breaking type-safety by defining new Enum items. All Enum items
+ * should be defined in the Enum class, as shown above.
+ * </p>
+ *
+ *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
  */
 public abstract class Enum
 {
@@ -58,20 +67,30 @@ public abstract class Enum
 
     /**
      * Constructor to add a new named item.
+     * <p>
+     * <em>Note:</em> access changed from <code>public</code> to
+     * <code>protected</code> after 4.0. See class description.
+     * </p>
+     *
      * @param name Name of the item.
      */
-    public Enum( final String name )
+    protected Enum( final String name )
     {
         this( name, null );
     }
 
     /**
      * Constructor to add a new named item.
+     * <p>
+     * <em>Note:</em> access changed from <code>public</code> to
+     * <code>protected</code> after 4.0. See class description.
+     * </p>
+     *
      * @param name Name of the item.
      * @param map A <code>Map</code>, to which will be added a pointer to the newly constructed
      * object.
      */
-    public Enum( final String name, final Map map )
+    protected Enum( final String name, final Map map )
     {
         m_name = name;
         if( null != map )

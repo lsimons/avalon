@@ -7,7 +7,16 @@
     <person name="Federico Barbieri" email="fede@apache.org" id="FB"/>
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
     <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
+    <person name="Jeff Turner" email="jefft@apache.org" id="JT"/>
   </devs>
+  <release version="4.1" date="unreleased">
+    <action dev="JT" type="fix">
+      Changed access of Enum and ValuedEnum constructors from public to
+      protected, to prevent Enum users from breaking type-safety by adding new
+      Enum items. This breaks backwards-compatibility in cases where Enum
+      and ValuedEnum were being incorrectly used.
+    </action>
+  </release>
   <release version="4.0" date="July 30, 2001">
     <action dev="BL" type="add">
       Added new method to Component Manager and Selector for discovering
