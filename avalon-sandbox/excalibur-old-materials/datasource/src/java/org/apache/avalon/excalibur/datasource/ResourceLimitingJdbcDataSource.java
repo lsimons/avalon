@@ -80,7 +80,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * Configuration Example:
  * <pre>
  *   &lt;rl-jdbc&gt;
- *     &lt;pool-controller max="<i>10</i>" maxStrict="<i>true</i>"
+ *     &lt;pool-controller max="<i>10</i>" max-strict="<i>true</i>"
  *       blocking="<i>true</i>" timeout="<i>-1</i>"
  *       trim-interval="<i>60000</i>" auto-commit="true"
  *       connection-class="<i>my.overrided.ConnectionClass</i>"&gt;
@@ -177,7 +177,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/07/28 18:22:54 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/10/01 03:14:32 $
  * @since 4.1
  */
 public class ResourceLimitingJdbcDataSource
