@@ -16,7 +16,7 @@
         <pathelement location="${checkstyle.jar}"/>
 
         <!-- Optional jars -->
-        <pathelement location="${avalon-framework.jar}"/>
+        <pathelement location="${avalon-framework-api.jar}"/>
 
         <pathelement path="${java.class.path}"/>
     </path>
@@ -40,14 +40,14 @@
 
     <!-- Checks the environment for existing resources -->
     <target name="check-environment">
-        <available property="framework.present" classname="org.apache.avalon.framework.logger.AbstractLogEnabled">
+        <available property="framework-api.present" classname="org.apache.avalon.framework.logger.AbstractLogEnabled">
             <classpath refid="project.class.path"/>
         </available>
     </target>
 
-    <target name="framework-warning" unless="framework.present">
+    <target name="framework-api-warning" unless="framework-api.present">
         <echo>****************************************************</echo>
-        <echo>* avalon-framework.jar not found                    </echo>
+        <echo>* avalon-framework-api.jar not found                </echo>
         <echo>*                                                   </echo>
         <echo>* Framework was not available so the jar file       </echo>
         <echo>* created by this build will not include the class: </echo>
@@ -57,7 +57,7 @@
 
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFrameworkAPI"/>
     </target>
 
     <target name="dependencies-test" depends="dist-jar, dependencies"
@@ -68,7 +68,7 @@
     </target>
 
     <!-- Compiles the source code -->
-    <target name="compile" depends="dependencies, check-environment, framework-warning"
+    <target name="compile" depends="dependencies, check-environment, framework-api-warning"
         description="Compiles the source code">
 
         <mkdir dir="${build.classes}"/>
@@ -83,7 +83,7 @@
             <classpath refid="project.class.path" />
             <include name="**/*.java"/>
             <exclude name="org/apache/excalibur/instrument/AbstractLogEnabledInstrumentable.java"
-                     unless="framework.present"/>
+                     unless="framework-api.present"/>
         </javac>
 
         <!-- copy resources to same location as .class files -->
