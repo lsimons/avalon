@@ -22,7 +22,9 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * @phoenix:mx name="YeeeHaaa"
  *
  */
-public class TestBlock extends TestParentBlock implements Serviceable, Configurable
+public class TestBlock
+    extends TestParentBlock
+    implements Serviceable, Configurable
 {
     /**
      * @phoenix:dependency name="blah.OtherBlahService" role="my-service" version="1.2"
