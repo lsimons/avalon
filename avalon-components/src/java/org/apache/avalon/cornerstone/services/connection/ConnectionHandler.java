@@ -12,15 +12,15 @@ import java.net.ProtocolException;
 import java.net.Socket;
 
 /**
- * This interface is the way in which handlers are created.
+ * This interface is the way in which incoming connections are processed.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public interface ConnectionHandler
 {
     /**
-     * Handle a connection.
-     * This handler is responsible for processing connections as they occur.
+     * Processes connections as they occur. The handler should not
+     * close the <tt>connection</tt>, the caller will do that.
      *
      * @param connection the connection
      * @exception IOException if an error reading from socket occurs
