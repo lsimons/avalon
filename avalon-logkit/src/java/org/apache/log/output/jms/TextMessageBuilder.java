@@ -191,7 +191,10 @@ public class TextMessageBuilder
 
     private String getStackTrace( final Throwable throwable )
     {
-        if( null == throwable ) return "";
+        if( null == throwable ) 
+        {
+            return "";
+        }
 
         final StringWriter stringWriter = new StringWriter();
         final PrintWriter printWriter = new PrintWriter( stringWriter );
@@ -202,7 +205,10 @@ public class TextMessageBuilder
 
     private String getContextMap( final ContextMap map, final String aux )
     {
-        if( null == map ) return "";
+        if( null == map ) 
+        {
+            return "";
+        }
         return map.get( aux, "" ).toString();
     }
 }
