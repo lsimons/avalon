@@ -18,7 +18,6 @@
 
     <path id="tools.class.path">
         <pathelement location="${junit.jar}"/>
-        <fileset dir="${avalon-site.dir}/lib"/>
     </path>
 
     <path id="test.class.path">
@@ -298,48 +297,16 @@
 
     </target>
 
-    <target name="anakia-avail">
-        <available classname="org.apache.velocity.anakia.AnakiaTask"
-            property="AnakiaTask.present">
-            <classpath refid="tools.class.path"/>
-        </available>
-    </target>
+    <target name="docs" description="Generate documentation and website">
+      <mkdir dir="${docs.dir}"/>
 
-    <target name="anakia-check" depends="anakia-avail" unless="AnakiaTask.present">
-        <echo>
-            AnakiaTask is not present! Please check to make sure that
-            velocity.jar is in your classpath. The easiest way to build
-            the documentation is to checkout avalon-site CVS and specify
-	    avalon-site.dir property.
-        </echo>
-    </target>
+      <ant antfile="${basedir}/../forrestbuild.xml"/>
 
-    <target name="docs" depends="anakia-check" description="Generate documentation and website">
-        <taskdef name="anakia"
-            classname="org.apache.velocity.anakia.AnakiaTask">
-            <classpath refid="tools.class.path"/>
-        </taskdef>
-
-        <anakia basedir="${xdocs.dir}"
-            destdir="${docs.dir}"
-            style="docs.vsl"
-            projectfile="menu.xml"
-            includes="**/*.xml"
-            excludes="menu.xml"
-            velocitypropertiesfile="../site/src/stylesheets/velocity.properties"
-            />
-
-     <copy todir="${docs.dir}" filtering="off">
-      <fileset dir="../site/src" includes="css/*.css" />
-      <fileset dir="${xdocs.dir}">
-        <include name="**/images/**"/>
-        <include name="**/*.gif"/>
-        <include name="**/*.jpg"/>
-        <include name="**/*.png"/>
-        <include name="**/*.css"/>
-        <include name="**/*.js"/>
-      </fileset>
-    </copy>
+      <copy todir="${docs.dir}">
+        <fileset dir="${build.docs}">
+          <include name="**"/>
+        </fileset>
+      </copy>
     </target>
 
     <target name="site" depends="docs" description=" Places Docs ready for hosting on website">
