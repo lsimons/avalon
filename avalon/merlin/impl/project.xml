@@ -9,7 +9,7 @@
   <name>Merlin Implementation</name>
   <package>org.apache.avalon.merlin</package>
 
-  <currentVersion>3.2.2</currentVersion>
+  <currentVersion>3.4-DEV</currentVersion>
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Merlin Implementation.</shortDescription>
 
@@ -24,7 +24,7 @@ Merlin service management platform.
     <dependency>
       <groupId>merlin</groupId>
       <artifactId>merlin-api</artifactId>
-      <version>3.2</version>
+      <version>3.4-DEV</version>
       <properties>
         <avalon.classloader>api</avalon.classloader>
       </properties>
@@ -35,7 +35,7 @@ Merlin service management platform.
     <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-api</artifactId>
-      <version>1.2.2</version>
+      <version>2.0-DEV</version>
       <properties>
         <avalon.classloader>api</avalon.classloader>
       </properties>
@@ -43,7 +43,7 @@ Merlin service management platform.
     <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-spi</artifactId>
-      <version>1.2.2</version>
+      <version>2.0-DEV</version>
       <properties>
         <avalon.classloader>spi</avalon.classloader>
       </properties>
@@ -51,7 +51,7 @@ Merlin service management platform.
     <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-impl</artifactId>
-      <version>1.2.4</version>
+      <version>2.0-DEV</version>
     </dependency>
 
     <dependency>
@@ -74,7 +74,7 @@ Merlin service management platform.
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-api</artifactId>
-      <version>1.2.2</version>
+      <version>2.0-DEV</version>
       <properties>
         <avalon.classloader>api</avalon.classloader>
       </properties>
@@ -82,7 +82,7 @@ Merlin service management platform.
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-spi</artifactId>
-      <version>1.2.1</version>
+      <version>2.0-DEV</version>
       <properties>
         <avalon.classloader>spi</avalon.classloader>
       </properties>
@@ -90,7 +90,7 @@ Merlin service management platform.
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-impl</artifactId>
-      <version>1.2.4</version>
+      <version>2.0-DEV</version>
     </dependency>
 
     <dependency>

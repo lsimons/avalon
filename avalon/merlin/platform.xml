@@ -28,12 +28,12 @@
     <dependency>
       <groupId>merlin</groupId>
       <artifactId>merlin-api</artifactId>
-      <version>3.2</version>
+      <version>3.4-DEV</version>
     </dependency>
     <dependency>
       <groupId>merlin</groupId>
       <artifactId>merlin-impl</artifactId>
-      <version>3.2.2</version>
+      <version>3.4-DEV</version>
     </dependency>
 
     <!-- avalon dependecies -->
@@ -125,33 +125,33 @@
     <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-api</artifactId>
-      <version>1.2.2</version>
+      <version>2.0-DEV</version>
     </dependency>
     <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-spi</artifactId>
-      <version>1.2.2</version>
+      <version>2.0-DEV</version>
     </dependency>
     <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-impl</artifactId>
-      <version>1.2.4</version>
+      <version>2.0-DEV</version>
     </dependency>
 
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-api</artifactId>
-      <version>1.2.2</version>
+      <version>2.0-DEV</version>
     </dependency>
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-spi</artifactId>
-      <version>1.2.1</version>
+      <version>2.0-DEV</version>
     </dependency>
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-impl</artifactId>
-      <version>1.2.4</version>
+      <version>2.0-DEV</version>
     </dependency>
 
     <dependency>

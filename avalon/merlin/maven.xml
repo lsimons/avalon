@@ -2,10 +2,10 @@
 
   <maven:snapshot project="${pom}"/>
 
-  <ant:property name="merlin.cli.jar" value="merlin-cli-3.2.2.jar"/>
+  <ant:property name="merlin.cli.jar" value="merlin-cli-3.4-DEV.jar"/>
   <ant:property name="avalon.plugin.jar" value="avalon-plugin-1.0.jar"/>
   <ant:property name="meta.plugin.jar" value="avalon-meta-plugin-1.3.1.jar"/>
-  <ant:property name="merlin.plugin.jar" value="merlin-plugin-3.2.3.jar"/>
+  <ant:property name="merlin.plugin.jar" value="merlin-plugin-3.4-DEV.jar"/>
 
   <ant:property file="project.properties"/>
   <ant:property name="maven.docs.src" value="${basedir}/platform/xdocs"/>
@@ -73,14 +73,18 @@
 
   <goal name="merlin:build" description="Build Merlin.">
     <maven:reactor basedir="${basedir}"
-      includes="**/project.xml"
-      excludes="target/**,platform/**,kernel/plugin/**,project.xml,merlin-extensions/**,kernel/cli/**,kernel/unit/**,kernel/servlet/**"
+      includes="extension/**/project.xml,activation/**/project.xml,composition/**/project.xml,kernel/api/project.xml,kernel/impl/project.xml"
       goals="jar:install"
       banner="Installing:"
       ignoreFailures="false" />
     <maven:reactor basedir="${basedir}"
-      includes="kernel/unit/project.xml,kernel/cli/project.xml,kernel/plugin/project.xml,kernel/servlet/project.xml"
-      goals=""
+      includes="kernel/unit/project.xml,kernel/cli/project.xml,kernel/servlet/project.xml"
+      goals="jar:install"
+      banner="Installing:"
+      ignoreFailures="false" />
+    <maven:reactor basedir="${basedir}"
+      includes="kernel/plugin/project.xml"
+      goals="plugin:install"
       banner="Installing:"
       ignoreFailures="false" />
   </goal>
