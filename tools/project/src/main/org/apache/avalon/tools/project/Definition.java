@@ -63,7 +63,6 @@ public class Definition extends Resource
     public ResourceRef[] getResourceRefs( int mode, int tag, boolean flag )
     {
         ArrayList list = new ArrayList();
-//System.out.println( "#THIS " + this + ", mode: " + mode + ", tag: " + tag );
         getResourceRefs( list, mode, tag, flag );
         return (ResourceRef[]) list.toArray( new ResourceRef[0] );
     }
@@ -76,7 +75,6 @@ public class Definition extends Resource
             ResourceRef ref = refs[i];
             if( !list.contains( ref ) )
             {
-//System.out.println( "#REF: " + ref + ", " + ref.getPolicy().matches( mode ) + ", " + ref.matches( tag ) );
                 Policy policy = ref.getPolicy();
                 if( policy.matches( mode ) && ref.matches( tag ) )
                 {
@@ -84,7 +82,7 @@ public class Definition extends Resource
                     if( flag && getHome().isaDefinition( ref ) )
                     {
                         Definition def = getHome().getDefinition( ref );
-                        def.getResourceRefs( list, mode, tag, flag );
+                        def.getResourceRefs( list, mode, ResourceRef.ANY, flag );
                     }
                 }
             }

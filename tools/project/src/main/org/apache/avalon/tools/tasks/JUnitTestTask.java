@@ -132,16 +132,13 @@ public class JUnitTestTask extends SystemTask
             classpath.createPathElement().setLocation( jar );
             compile( src, classes, classpath );
             copyCompileResource( src, classes );
+
+            //
+            // add the test classes to the test classpath
+            //
+
             classpath.createPathElement().setLocation( classes );
-
-            //
-            // setup test resources
-            //
-
-            File temp = new File( m_test, "temp" );
-            mkDir( temp );
-            copyUnitTestResource( temp );
-            test( src, classpath, temp );
+            test( src, classpath );
         }
 
         String error = project.getProperty( ERROR_KEY );
@@ -229,9 +226,12 @@ public class JUnitTestTask extends SystemTask
         javac.execute();
     }
 
-    private void test( File src, Path classpath, File base )
+    private void test( File src, Path classpath )
     {
         Project project = getProject();
+
+        File base = new File( m_test, "temp" );
+        copyUnitTestResource( base );
 
         FileSet fileset = new FileSet();
         fileset.setDir( src );
