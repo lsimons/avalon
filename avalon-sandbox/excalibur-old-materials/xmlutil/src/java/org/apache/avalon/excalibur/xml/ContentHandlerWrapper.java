@@ -16,19 +16,18 @@ import org.xml.sax.ext.LexicalHandler;
 
 /**
  * This class is an utility class &quot;wrapping&quot; around a SAX version 2.0
- * <code>ContentHandler</code> and forwarding it those events received throug
- * its <code>XMLConsumers</code> interface.
+ * {@link ContentHandler} and forwarding it those events received throug
+ * its {@link XMLConsumer}s interface.
  * <br>
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
  *         (Apache Software Foundation, Computer Associates)
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/22 10:06:04 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/07/07 07:19:49 $
  */
 public class ContentHandlerWrapper
     extends AbstractXMLConsumer
     implements Recyclable
 {
-
     /** The current <code>ContentHandler</code>. */
     protected ContentHandler contentHandler;
 
@@ -40,27 +39,24 @@ public class ContentHandlerWrapper
      */
     public ContentHandlerWrapper()
     {
-        super();
     }
 
     /**
      * Create a new <code>ContentHandlerWrapper</code> instance.
      */
-    public ContentHandlerWrapper( ContentHandler contentHandler )
+    public ContentHandlerWrapper( final ContentHandler contentHandler )
     {
-        this();
-        this.setContentHandler( contentHandler );
+        setContentHandler( contentHandler );
     }
 
     /**
      * Create a new <code>ContentHandlerWrapper</code> instance.
      */
-    public ContentHandlerWrapper( ContentHandler contentHandler,
-                                  LexicalHandler lexicalHandler )
+    public ContentHandlerWrapper( final ContentHandler contentHandler,
+                                  final LexicalHandler lexicalHandler )
     {
-        this();
-        this.setContentHandler( contentHandler );
-        this.setLexicalHandler( lexicalHandler );
+        setContentHandler( contentHandler );
+        setLexicalHandler( lexicalHandler );
     }
 
     /**
@@ -69,10 +65,13 @@ public class ContentHandlerWrapper
      * @exception IllegalStateException If the <code>ContentHandler</code>
      *                                  was already set.
      */
-    public void setContentHandler( ContentHandler contentHandler )
+    public void setContentHandler( final ContentHandler contentHandler )
         throws IllegalStateException
     {
-        if( this.contentHandler != null ) throw new IllegalStateException();
+        if( null != this.contentHandler )
+        {
+            throw new IllegalStateException();
+        }
         this.contentHandler = contentHandler;
     }
 
@@ -82,28 +81,35 @@ public class ContentHandlerWrapper
      * @exception IllegalStateException If the <code>LexicalHandler</code>
      *                                  was already set.
      */
-    public void setLexicalHandler( LexicalHandler lexicalHandler )
+    public void setLexicalHandler( final LexicalHandler lexicalHandler )
         throws IllegalStateException
     {
-        if( this.lexicalHandler != null ) throw new IllegalStateException();
+        if( null != this.lexicalHandler )
+        {
+            throw new IllegalStateException();
+        }
         this.lexicalHandler = lexicalHandler;
     }
 
     public void recycle()
     {
-        this.contentHandler = null;
-        this.lexicalHandler = null;
+        contentHandler = null;
+        lexicalHandler = null;
     }
 
     /**
      * Receive an object for locating the origin of SAX document events.
      */
-    public void setDocumentLocator( Locator locator )
+    public void setDocumentLocator( final Locator locator )
     {
-        if( this.contentHandler == null )
+        if( null == contentHandler )
+        {
             return;
+        }
         else
-            this.contentHandler.setDocumentLocator( locator );
+        {
+            contentHandler.setDocumentLocator( locator );
+        }
     }
 
     /**
@@ -112,9 +118,12 @@ public class ContentHandlerWrapper
     public void startDocument()
         throws SAXException
     {
-        if( this.contentHandler == null )
-            throw new SAXException( "ContentHandler not set" );
-        this.contentHandler.startDocument();
+        if( null == contentHandler )
+        {
+            final String message = "ContentHandler not set";
+            throw new SAXException( message );
+        }
+        contentHandler.startDocument();
     }
 
     /**
@@ -123,72 +132,86 @@ public class ContentHandlerWrapper
     public void endDocument()
         throws SAXException
     {
-        this.contentHandler.endDocument();
+        contentHandler.endDocument();
     }
 
     /**
      * Begin the scope of a prefix-URI Namespace mapping.
      */
-    public void startPrefixMapping( String prefix, String uri )
+    public void startPrefixMapping( final String prefix,
+                                    final String uri )
         throws SAXException
     {
-        if( this.contentHandler == null )
-            throw new SAXException( "ContentHandler not set" );
-        this.contentHandler.startPrefixMapping( prefix, uri );
+        if( null == contentHandler )
+        {
+            final String message = "ContentHandler not set";
+            throw new SAXException( message );
+        }
+        contentHandler.startPrefixMapping( prefix, uri );
     }
 
     /**
      * End the scope of a prefix-URI mapping.
      */
-    public void endPrefixMapping( String prefix )
+    public void endPrefixMapping( final String prefix )
         throws SAXException
     {
-        this.contentHandler.endPrefixMapping( prefix );
+        contentHandler.endPrefixMapping( prefix );
     }
 
     /**
      * Receive notification of the beginning of an element.
      */
-    public void startElement( String uri, String loc, String raw, Attributes a )
+    public void startElement( final String uri,
+                              final String loc,
+                              final String raw,
+                              final Attributes a )
         throws SAXException
     {
-        this.contentHandler.startElement( uri, loc, raw, a );
+        contentHandler.startElement( uri, loc, raw, a );
     }
 
     /**
      * Receive notification of the end of an element.
      */
-    public void endElement( String uri, String loc, String raw )
+    public void endElement( final String uri,
+                            final String loc,
+                            final String raw )
         throws SAXException
     {
-        this.contentHandler.endElement( uri, loc, raw );
+        contentHandler.endElement( uri, loc, raw );
     }
 
     /**
      * Receive notification of character data.
      */
-    public void characters( char ch[], int start, int len )
+    public void characters( final char[] ch,
+                            final int start,
+                            final int len )
         throws SAXException
     {
-        this.contentHandler.characters( ch, start, len );
+        contentHandler.characters( ch, start, len );
     }
 
     /**
      * Receive notification of ignorable whitespace in element content.
      */
-    public void ignorableWhitespace( char ch[], int start, int len )
+    public void ignorableWhitespace( final char[] ch,
+                                     final int start,
+                                     final int len )
         throws SAXException
     {
-        this.contentHandler.ignorableWhitespace( ch, start, len );
+        contentHandler.ignorableWhitespace( ch, start, len );
     }
 
     /**
      * Receive notification of a processing instruction.
      */
-    public void processingInstruction( String target, String data )
+    public void processingInstruction( final String target,
+                                       final String data )
         throws SAXException
     {
-        this.contentHandler.processingInstruction( target, data );
+        contentHandler.processingInstruction( target, data );
     }
 
     /**
@@ -197,10 +220,10 @@ public class ContentHandlerWrapper
      * @param name The name of the skipped entity.  If it is a  parameter
      *             entity, the name will begin with '%'.
      */
-    public void skippedEntity( String name )
+    public void skippedEntity( final String name )
         throws SAXException
     {
-        this.contentHandler.skippedEntity( name );
+        contentHandler.skippedEntity( name );
     }
 
     /**
@@ -212,11 +235,15 @@ public class ContentHandlerWrapper
      * @param systemId The declared system identifier for the external DTD
      *                 subset, or null if none was declared.
      */
-    public void startDTD( String name, String publicId, String systemId )
+    public void startDTD( final String name,
+                          final String publicId,
+                          final String systemId )
         throws SAXException
     {
-        if( this.lexicalHandler != null )
-            this.lexicalHandler.startDTD( name, publicId, systemId );
+        if( null != lexicalHandler )
+        {
+            lexicalHandler.startDTD( name, publicId, systemId );
+        }
     }
 
     /**
@@ -225,8 +252,10 @@ public class ContentHandlerWrapper
     public void endDTD()
         throws SAXException
     {
-        if( this.lexicalHandler != null )
-            this.lexicalHandler.endDTD();
+        if( null != lexicalHandler )
+        {
+            lexicalHandler.endDTD();
+        }
     }
 
     /**
@@ -235,11 +264,13 @@ public class ContentHandlerWrapper
      * @param name The name of the entity. If it is a parameter entity, the
      *             name will begin with '%'.
      */
-    public void startEntity( String name )
+    public void startEntity( final String name )
         throws SAXException
     {
-        if( this.lexicalHandler != null )
-            this.lexicalHandler.startEntity( name );
+        if( null != lexicalHandler )
+        {
+            lexicalHandler.startEntity( name );
+        }
     }
 
     /**
@@ -247,11 +278,13 @@ public class ContentHandlerWrapper
      *
      * @param name The name of the entity that is ending.
      */
-    public void endEntity( String name )
+    public void endEntity( final String name )
         throws SAXException
     {
-        if( this.lexicalHandler != null )
-            this.lexicalHandler.endEntity( name );
+        if( null != lexicalHandler )
+        {
+            lexicalHandler.endEntity( name );
+        }
     }
 
     /**
@@ -260,8 +293,10 @@ public class ContentHandlerWrapper
     public void startCDATA()
         throws SAXException
     {
-        if( this.lexicalHandler != null )
-            this.lexicalHandler.startCDATA();
+        if( null != lexicalHandler )
+        {
+            lexicalHandler.startCDATA();
+        }
     }
 
     /**
@@ -270,8 +305,10 @@ public class ContentHandlerWrapper
     public void endCDATA()
         throws SAXException
     {
-        if( this.lexicalHandler != null )
-            this.lexicalHandler.endCDATA();
+        if( null != lexicalHandler )
+        {
+            lexicalHandler.endCDATA();
+        }
     }
 
     /**
@@ -281,11 +318,15 @@ public class ContentHandlerWrapper
      * @param start The starting position in the array.
      * @param len The number of characters to use from the array.
      */
-    public void comment( char ch[], int start, int len )
+    public void comment( final char[] ch,
+                         final int start,
+                         final int len )
         throws SAXException
     {
-        if( this.lexicalHandler != null )
-            this.lexicalHandler.comment( ch, start, len );
+        if( null != lexicalHandler )
+        {
+            lexicalHandler.comment( ch, start, len );
+        }
     }
 
 }
