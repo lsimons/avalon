@@ -134,6 +134,7 @@
     <!-- Generate one jar functionally equivalent to the old avalon-excalibur.jar -->
     <target name="jar" description="Generates avalon-excalibur.jar">
         <ant dir="datasource" target="jar"/>
+        <ant dir="sourceresolve" target="jar"/>
         <ant dir="all" target="all"/>
         <ant dir="cli" target="jar"/>
         <ant dir="component" target="jar"/>
