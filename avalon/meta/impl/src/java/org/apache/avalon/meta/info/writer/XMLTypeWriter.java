@@ -70,7 +70,7 @@ import org.apache.avalon.meta.info.Type;
  *
  * TODO: Address configuration schema support
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/01/01 23:30:48 $
+ * @version $Revision: 1.8 $ $Date: 2004/02/10 16:30:16 $
  */
 public class XMLTypeWriter
     implements TypeWriter
@@ -395,6 +395,11 @@ public class XMLTypeWriter
             if( dependency.isOptional() )
             {
                 writer.write( "\" optional=\"true" );
+            }
+
+            if( dependency.getPosition() > -1 )
+            {
+                writer.write( "\" index=\"" + dependency.getPosition() );
             }
 
             final int count = dependency.getAttributeNames().length;

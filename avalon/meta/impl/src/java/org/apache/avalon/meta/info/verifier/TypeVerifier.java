@@ -41,7 +41,7 @@ import org.apache.avalon.framework.service.Serviceable;
  * rules of an Avalon component.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:20:46 $
+ * @version $Revision: 1.3 $ $Date: 2004/02/10 16:30:16 $
  */
 public class TypeVerifier
 {
@@ -135,7 +135,7 @@ public class TypeVerifier
                              final Class clazz )
         throws VerifyException
     {
-        verifyNoArgConstructor( name, clazz );
+        verifyPublicConstructor( name, clazz );
         verifyNonAbstract( name, clazz );
         verifyNonArray( name, clazz );
         verifyNonInterface( name, clazz );
@@ -300,10 +300,21 @@ public class TypeVerifier
      * @throws VerifyException if error thrown on failure and
      *         component fails check
      */
-    public void verifyNoArgConstructor( final String name,
+    public void verifyPublicConstructor( final String name,
                                         final Class clazz )
         throws VerifyException
     {
+        final Constructor[] ctors = clazz.getConstructors();
+        if( ctors.length < 1 )
+        {
+            final String message =
+              REZ.getString( "verifier.non-public-ctor.error",
+                name,
+                clazz.getName() );
+            throw new VerifyException( message );
+        }
+
+        /*
         try
         {
             final Constructor ctor = clazz.getConstructor( EMPTY_TYPES );
@@ -324,6 +335,7 @@ public class TypeVerifier
                                clazz.getName() );
             throw new VerifyException( message );
         }
+        */
     }
 
     /**

@@ -45,7 +45,7 @@ import org.xml.sax.InputSource;
  * is specified in the <a href="package-summary.html#external">package summary</a>.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2004/01/24 23:20:46 $
+ * @version $Revision: 1.9 $ $Date: 2004/02/10 16:30:16 $
  */
 public class XMLTypeCreator
     extends XMLServiceCreator implements TypeFactory
@@ -326,6 +326,8 @@ public class XMLTypeCreator
         
         final boolean optional =
            dependency.getAttributeAsBoolean( "optional", false );
+        final int index =
+           dependency.getAttributeAsInteger( "index", -1 );
         final Properties attributes =
             buildAttributes( dependency.getChild( "attributes" ) );
 
