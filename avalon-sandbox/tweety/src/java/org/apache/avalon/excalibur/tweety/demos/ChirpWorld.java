@@ -38,47 +38,47 @@ public class ChirpWorld implements LogEnabled, Contextualizable, Composable, Ser
   public void enableLogging( Logger logger )
   {
     this.logger = logger;
-    logger.debug("enableLogging() called, Logger gotten");
+    logger.debug("ChirpWorld: enableLogging() called, Logger gotten");
   }
 
   public void contextualize( Context context )
   {
     this.context = context;
-    logger.debug("contextualize() called, Context gotten");
+    logger.debug("ChirpWorld: contextualize() called, Context gotten");
   }
 
   public void compose( ComponentManager cm )
   {
     this.cm = cm;
-    logger.debug("compose() called, ComponentManager gotten");
+    logger.debug("ChirpWorld: compose() called, ComponentManager gotten");
   }
 
   public void service( ServiceManager cm )
   {
     this.sm = sm;
-    logger.debug("service() called, ServiceManager gotten");
+    logger.debug("ChirpWorld: service() called, ServiceManager gotten");
   }
 
   public void initialize()
   {
-    logger.debug("initialize() called");
+    logger.debug("ChirpWorld: initialize() called");
   }
 
   public void start()
   {
-    logger.debug("start() called");
+    logger.debug("ChirpWorld: start() called");
 
-	logger.info( "I thawgt I saw a pussycat!" );
+	logger.info( "ChirpWorld: I thawgt I saw a pussycat!" );
   }
 
   public void stop()
   {
-    logger.debug("stop() called");
+    logger.debug("ChirpWorld: stop() called");
   }
 
   public void dispose()
   {
-    logger.debug("dispose called");
+    logger.debug("ChirpWorld: dispose called");
   }
 
 }

@@ -1,6 +1,13 @@
                   Avalons Excalibur Tweety
                   -----------------------------
 
+License
+-------
+
+Please see the LICENSE.txt file that came with this distribution for
+licensing terms.
+
+
 Background
 ----------
 
@@ -11,6 +18,7 @@ tiny brother - minix."
 
 Tweety is a minimalist container explicitly designed for educational
 purposes.
+
 
 Goals
 -----
@@ -27,18 +35,53 @@ Goals
 - no classloader management
 - separation of engine and (mainable) embeddor
 
+
 Use Case
 --------
 An example of an avalon container for simple components, to use in
 teaching avalon concepts.
 
+
 Getting Started:
 ----------------
-If you downloaded a source release of the component then you
-will need to build the component. Directions for building the
-component are located in BUILDING.txt
+Make sure you have ant installed, then type 'ant' in the directory where
+you extracted the distribution. This will start up tweety and run the
+included sample. You should see output on your screen similar to the
+following:
 
-If you downloaded a binary release, or a release with both binary
-and source then it is recomended you look over the documentation
-in docs/index.html - and then look into the examples/ directory
-for examples of the component in action.
+Buildfile: build.xml
+
+run:
+     [java] [INFO] Tweety: Tweety is starting up...
+     [java] [INFO] Tweety: Tweety is setting up the component implementing role 'chirp-mondo'
+     [java] [INFO] Tweety: Tweety is setting up the component implementing role 'chirp-world'
+     [java] [INFO] Tweety: Tweety is starting the component implementing role chirp-mondo
+     [java] [INFO] ChirpWorld: I thawgt I saw a pussycat!
+     [java] [INFO] Tweety: Tweety is starting the component implementing role chirp-world
+     [java] [INFO] ChirpWorld: I thawgt I saw a pussycat!
+     [java] [INFO] Tweety: Tweety has started.
+     [java] [INFO] Tweety: Tweety is stopping the component implementing role chirp-mondo
+     [java] [INFO] Tweety: Tweety is stopping the component implementing role chirp-world
+     [java] [INFO] Tweety: Tweety has stopped.
+
+BUILD SUCCESSFUL
+
+Total time: 2 seconds
+
+
+Now, drop the classes containing your avalon components into the classes/
+directory, and any required library jars into the lib/ directory (if you
+have your components packaged into jar files, you can drop those into the
+lib/ directory as well).
+
+Then, modify the tweety.properties file so tweety knows about your components.
+The name you choose for the component is the name other components will be able
+to find it under in their ComponentManager and/or ServiceManager.
+
+Type 'ant' again and your components should run. It is that simple!
+
+
+More Documentation
+------------------
+Please see docs/index.html for more, or the tweety site at
+http://jakarta.apache.org/avalon/excalibur/tweety.

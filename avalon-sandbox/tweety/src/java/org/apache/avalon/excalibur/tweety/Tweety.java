@@ -122,11 +122,11 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 	 */
 	public static void main( String[] args )
 	{
+		// create logger
+		ConsoleLogger logger = new ConsoleLogger( ConsoleLogger.LEVEL_INFO );
+
 		try
 		{
-			// create logger
-			Logger logger = new ConsoleLogger();
-
 			/** @todo: this is stupid. Figure out what to do about contexts */
 			// create dummy context
 			Context context = new DefaultContext();
@@ -140,16 +140,35 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 			properties.load(new FileInputStream("tweety.properties"));
 
 			// create parameters from properties
-			Parameters params = new Parameters();
-			params.fromProperties( properties );
+			Parameters params = Parameters.fromProperties( properties );
+
+			// debug: show the stuff we feed into tweety
 
 			// create tweety instance
 			Tweety tweety = new Tweety();
+
+			logger.debug("Tweety: Providing tweety with a console logger.");
 			tweety.enableLogging( logger );
+
+			logger.debug("Tweety: Providing tweety with an empty context.");
 			tweety.contextualize( context );
+
+			logger.debug("Tweety: Providing tweety with an empty configuration");
 			tweety.configure( config );
+
+			String[] paramNames = params.getNames();
+			logger.debug("Tweety: Configuring tweety with the following parameters:");
+			for( int i = 0; i < paramNames.length; i++ )
+			{
+					logger.debug("   parameter: " + paramNames[i] +
+						    " = " + params.getParameter(paramNames[i]) );
+			}
 			tweety.parameterize( params );
+
+			logger.debug("Tweety: Initializing tweety.");
 			tweety.initialize();
+
+			logger.debug("Tweety: Starting tweety");
 			tweety.start();
 
 			//
@@ -160,14 +179,12 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 		}
 		catch( java.io.IOException ioe )
 		{
-			ioe.printStackTrace();
-			System.err.println("Error reading configuration file.\nProgram Terminated");
+			logger.error( "Tweety: Error reading configuration file.\nProgram Terminated", ioe );
 			System.exit(-4);
 		}
 		catch( Exception e )
 		{
-			e.printStackTrace();
-			System.err.println("Error.\nProgram Terminated");
+			logger.error( "Tweety: Error starting up.\nProgram Terminated", e );
 			System.exit(-2);
 		}
 	}
@@ -182,7 +199,7 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 	public void enableLogging( Logger logger )
 	{
 		m_logger = logger;
-		logger.debug( "Tweety got a logger" );
+		logger.debug( "Tweety: Tweety got a logger" );
 	}
 
     /**
@@ -194,7 +211,7 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
     public void contextualize( Context context )
 	{
 		m_context = context;
-		m_logger.debug( "Tweety got a context" );
+		m_logger.debug( "Tweety: Tweety got a context" );
 	}
 
     /**
@@ -206,7 +223,7 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
     public void configure( Configuration configuration )
     {
 		m_configuration = configuration;
-		m_logger.debug( "Tweety got a configuration" );
+		m_logger.debug( "Tweety: Tweety got a configuration" );
     }
 
     /**
@@ -256,7 +273,7 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 
 		// we'll simply store these for later use
 		m_parameters = parameters;
-		m_logger.debug( "Tweety got its parameters" );
+		m_logger.debug( "Tweety: Tweety got its parameters" );
 	}
 
 	/**
@@ -298,15 +315,19 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 				// the component doesn't have a public no arguments constructor!
 
 				// log error
-				m_logger.error( "The class " + clazz +
+				m_logger.error( "Tweety: The class " + clazz +
 					    " specified properties file is not a valid avalon tweety component:" +
 						" it doesn't have a public no-arguments constructor!" );
-
-				//
 			}
 		}
 
-		m_logger.debug( "Tweety has been initialized" );
+		// create the global ComponentManager
+		m_componentManager = new DefaultComponentManager();
+
+		// create the global ServiceManager
+		m_serviceManager = new DefaultServiceManager();
+
+		m_logger.debug( "Tweety: Tweety has been initialized" );
 	}
 
 	/**
@@ -316,7 +337,7 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 	 */
 	public void start()
 	{
-		m_logger.info( "Tweety is starting up..." );
+		m_logger.info( "Tweety: Tweety is starting up..." );
 
 		// get all the roles
 		Iterator it = m_components.keySet().iterator();
@@ -329,7 +350,7 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 			// component that implements the role
 			Object component = m_components.get( role );
 
-			m_logger.info( "Tweety is setting up the componet implementing role " + role );
+			m_logger.info( "Tweety: Tweety is setting up the component implementing role '" + role + "'");
 
 			try
 			{
@@ -363,9 +384,9 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 
 				// log the error
 				m_logger.error(
-					    "We were unable to set up the component with the role: " + role +
+					    "Tweety: We were unable to set up the component with the role: " + role +
 						".\n The exception thrown was: " + e.getClass() +
-						", with the message" + e.getMessage() );
+						", with the message: " + e.getMessage() );
 
 				// remove the component from our interal list so we don't try
 				// and start() or stop() it later
@@ -387,7 +408,7 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 			// current component
 			Object component = m_components.get( role );
 
-			m_logger.info( "Tweety is starting the component implementing role " + role );
+			m_logger.info( "Tweety: Tweety is starting the component implementing role " + role );
 
 			try
 			{
@@ -400,7 +421,7 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 
 				// log the error
 				m_logger.error(
-					    "We were unable to start the component with the role: " + role +
+					    "Tweety: We were unable to start the component with the role: " + role +
 						".\n The exception thrown was: " + e.getClass().getName() +
 						",\n with the message" + e.getMessage() );
 
@@ -410,7 +431,7 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 			}
 		}
 
-		m_logger.info( "Tweety has started." );
+		m_logger.info( "Tweety: Tweety has started." );
 	}
 
 	/**
@@ -430,7 +451,7 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 			// current component
 			Object component = m_components.get( role );
 
-			m_logger.info( "Tweety is stopping the component implementing role " + role );
+			m_logger.info( "Tweety: Tweety is stopping the component implementing role " + role );
 
 			try
 			{
@@ -445,13 +466,13 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 				// we failed to stop this component properly!
 				// log the problem, but don't do anything else
 				m_logger.error(
-					    "We were unable to start the component with the role: " + role +
+					    "Tweety: We were unable to start the component with the role: " + role +
 						".\n The exception thrown was: " + e.getClass().getName() +
 						",\n with the message" + e.getMessage() );
 			}
 		}
 
-		m_logger.info( "Tweety has stopped." );
+		m_logger.info( "Tweety: Tweety has stopped." );
 	}
 }
 

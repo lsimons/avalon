@@ -8,14 +8,20 @@
     </authors>
   </header>
   <body>
-	<s1 title="Not written yet!">
-		<p>TBD</p>
+	<s1 title="Why tweety?">
+		<p>Some people found avalon very complex to get started with. We decided a good way to
+		fix this was to provide an implementation specifically geared at learning how avalon
+		works: tweety.</p>
+	</s1>
+	<s1 title="Will you add feature XXX to tweety?">
+		<p>Very unlikely. That would probably increase tweety in size and complexity, which we
+		don't want.</p>
 	</s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/07/02 16:30:17 $
+      $Revision: 1.2 $ $Date: 2002/07/03 20:21:03 $
     </legal>
   </footer>
 </document>
