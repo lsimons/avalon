@@ -17,6 +17,7 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
+import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.excalibur.threadcontext.ThreadContext;
 import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
@@ -32,7 +33,7 @@ class DefaultApplicationContext
     extends AbstractLogEnabled
     implements ApplicationContext, Serviceable
 {
-    //Log HIerarchy for application
+    //Log Hierarchy for application
     private final Hierarchy m_hierarchy;
 
     ///ClassLoader for application
@@ -43,6 +44,9 @@ class DefaultApplicationContext
 
     //Repository of configuration data to access
     private ConfigurationRepository m_repository;
+
+    //Validator to validate configuration against
+    private ConfigurationValidator m_validator;
 
     ///Place to expose Management beans
     private SystemManager m_systemManager;
@@ -70,6 +74,7 @@ class DefaultApplicationContext
             lookup( ConfigurationRepository.ROLE );
         m_systemManager = (SystemManager)serviceManager.
             lookup( SystemManager.ROLE );
+        m_validator = (ConfigurationValidator) serviceManager.lookup( ConfigurationValidator.ROLE );
     }
 
     public SarMetaData getMetaData()
@@ -154,5 +159,10 @@ class DefaultApplicationContext
         throws ConfigurationException
     {
         return m_repository.getConfiguration( m_metaData.getName(), component );
+    }
+
+    public void validateConfiguration( String component ) throws ConfigurationException
+    {
+        m_validator.isValid( m_metaData.getName(), component, getConfiguration( component ) );
     }
 }
