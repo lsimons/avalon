@@ -26,7 +26,7 @@
   </path>
 
   <target name="test">
-    <available file="../../lib/README" property="wrong-place"/>
+    <available file="../../lib/README.txt" property="wrong-place"/>
   </target>  
   
   <target name="warning" depends="test" if="wrong-place">

@@ -3,7 +3,7 @@
  *
  * This software is published under the terms of the Apache Software License
  * version 1.1, a copy of which has been included with this distribution in
- * the LICENSE file.
+ * the LICENSE.txt file.
  */
 package org.apache.avalon.phoenix.components.application;
 
@@ -27,7 +27,7 @@ import java.lang.reflect.Proxy;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</a>
- * @version CVS $Revision: 1.3 $ $Date: 2001/11/19 12:21:29 $
+ * @version CVS $Revision: 1.4 $ $Date: 2001/12/11 10:13:33 $
  */
 final class BlockInvocationHandler
     implements InvocationHandler

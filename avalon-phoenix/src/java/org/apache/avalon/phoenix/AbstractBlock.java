@@ -3,7 +3,7 @@
  *
  * This software is published under the terms of the Apache Software License
  * version 1.1, a copy of which has been included  with this distribution in
- * the LICENSE file.
+ * the LICENSE.txt file.
  */
 package org.apache.avalon.phoenix;
 
@@ -25,7 +25,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.5 $ $Date: 2001/11/19 12:21:28 $
+ * @version CVS $Revision: 1.6 $ $Date: 2001/12/11 10:13:32 $
  */
 public abstract class AbstractBlock
     extends AbstractLogEnabled

@@ -3,7 +3,7 @@
  *
  * This software is published under the terms of the Apache Software License
  * version 1.1, a copy of which has been included with this distribution in
- * the LICENSE file.
+ * the LICENSE.txt file.
  */
 package org.apache.jmx.introspector;
 
@@ -25,7 +25,7 @@ import javax.management.MBeanOperationInfo;
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.6 $ $Date: 2001/12/02 03:44:24 $
+ * @version CVS $Revision: 1.7 $ $Date: 2001/12/11 10:13:36 $
  */
 public class JavaBeanMBean
     extends AbstractMBean

@@ -3,7 +3,7 @@
  *
  * This software is published under the terms of the Apache Software License
  * version 1.1, a copy of which has been included  with this distribution in
- * the LICENSE file.
+ * the LICENSE.txt file.
  */
 package org.apache.avalon.phoenix.components.classloader;
 
@@ -25,7 +25,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * read-only connection.
  *
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
- * @version CVS $Revision: 1.5 $ $Date: 2001/10/28 11:31:05 $
+ * @version CVS $Revision: 1.6 $ $Date: 2001/12/11 10:13:33 $
  */
 class SarURLConnection
     extends URLConnection
