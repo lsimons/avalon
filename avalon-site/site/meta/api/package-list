@@ -1,8 +1,0 @@
-org.apache.avalon.meta
-org.apache.avalon.meta.info
-org.apache.avalon.meta.info.ant
-org.apache.avalon.meta.info.builder
-org.apache.avalon.meta.info.builder.tags
-org.apache.avalon.meta.info.locator
-org.apache.avalon.meta.info.verifier
-org.apache.avalon.meta.info.writer

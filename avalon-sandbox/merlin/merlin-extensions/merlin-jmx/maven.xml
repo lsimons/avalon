@@ -1,9 +1,0 @@
-<project default="java:jar" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util">
-
-  <postGoal name="test:compile">
-    <rmic base="${basedir}/target/test-classes" 
-      classname="org.apache.avalon.merlin.jmx.MyRemoteServiceObject" 
-      debug="true"/>
-  </postGoal>
-
-</project>
