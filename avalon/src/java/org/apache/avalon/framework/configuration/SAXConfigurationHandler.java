@@ -181,8 +181,8 @@ public class SAXConfigurationHandler
 
         for( int i = 0; i < attributesSize; i++ )
         {
-            final String name = attributes.getQName( i );
-            final String value = attributes.getValue( i );
+            final String name = componentAttr.getQName( i );
+            final String value = componentAttr.getValue( i );
             configuration.setAttribute( name, value );
         }
     }
