@@ -7,6 +7,7 @@ import org.apache.avalon.framework.logger.Logger;
  * A demonstration runnable object that simply logs a countdown sequence.
  *
  * @author Stephen McConnell
+ * @avalon.component name="counter" 
  */
 public class Counter extends Thread implements LogEnabled
 {
