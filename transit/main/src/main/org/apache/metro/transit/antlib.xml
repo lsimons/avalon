@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<antlib xmlns:current="ant:current">
+  <typedef name="cache" classname="org.apache.metro.transit.StandardLoader"/> 
+  <typedef name="system" classname="org.apache.metro.transit.MainTask"/> 
+</antlib>
