@@ -63,11 +63,12 @@ Legal:
   <property name="tools.dir" value="../jakarta-avalon/tools"/>
   <property name="docs.dir" value="docs"/>
   <property name="www.dir" value="www"/>
-  <property name="avalon.skin" value="${tools.dir}/lib/jakarta-style.jar"/>
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>
   <property name="context.dir" value="../jakarta-avalon/src/documentation"/>
   <property name="javadocs.dir" value="${docs.dir}/api"/>
+
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
+  <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
 
   <property name="dist.name" value="${Name}-${version}"/>
   <property name="dist.base" value="distributions"/>
@@ -79,18 +80,26 @@ Legal:
 
   <path id="project.class.path">
     <pathelement path="${java.class.path}" />
+    <pathelement location="${testlet.jar}"/>
     <pathelement path="${servlet.jar}" />
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
+      <exclude name="servlet*.jar" />
     </fileset>
     <pathelement path="${build.classes}" />
   </path>
 
   <path id="tools.class.path">
     <pathelement location="${tools.jar}"/>
+    <pathelement location="${testlet.jar}"/>
     <fileset dir="${tools.dir}/lib">
       <exclude name="ant.jar" />
     </fileset>
+  </path>
+
+  <path id="test.class.path">
+    <path refid="project.class.path"/>
+<!--    <path refid="tools.class.path"/> -->
   </path>
 
   <!-- Main target -->
@@ -120,7 +129,6 @@ Legal:
 
   <!-- Set up dist properties -->
   <target name="setup-properties" >
-
     <property name="dist.dir" value="dist"/>
     <property name="dist.lib" value="${dist.dir}/lib"/>
     <property name="dist.docs" value="${dist.dir}/docs"/>
@@ -166,6 +174,14 @@ Legal:
       </fileset>
     </copy>
 
+  </target>
+
+  <target name="test" depends="compile" > 
+    <echo message="Performing Unit Tests" />
+    <test showSuccess="true" showBanner="false" showTrace="true" forceShowTrace="true" > 
+       <classpath refid="test.class.path" />
+       <testlet>org.apache.log.format.test.FormatterTestlet</testlet>
+    </test>
   </target>
 
   <!-- Creates all the .jar file -->
@@ -254,7 +270,7 @@ Legal:
     <copy todir="${build.context}" filtering="on">
       <fileset dir="${context.dir}">
         <exclude name="resources/**"/>
-	<exclude name="xdocs"/>
+        <exclude name="xdocs"/>
       </fileset>
     </copy>
 
@@ -278,7 +294,7 @@ Legal:
       <arg value="-f${xdocs.dir}/logkit.uris"/>
       <classpath>
         <path refid="tools.class.path"/>
-	<fileset dir="${build.lib}"/>
+        <fileset dir="${build.lib}"/>
       </classpath>
     </java>
   </target>
