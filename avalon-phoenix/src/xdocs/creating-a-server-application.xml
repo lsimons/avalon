@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Server Assemblers Guide</title>
+    <subtitle>Creating a Server Application</subtitle>
+    <authors>
+      <person id="PD" name="Peter Donald" email="donaldp@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Creating a Server Application">
+      <p>
+        This document will describe the process for assembling your first Server
+        Application. There is a number of steps in creating a Server Application. 
+        These are;
+      </p>
+      <ol>
+        <li>Select the blocks you wish to assemble.</li>
+        <li>Write the assembly.xml file.</li>
+        <li>Write the server.xml file.</li>
+        <li>Package the component and related resources into a sar file.</li>
+      </ol>
+    </s1>
+    <s1 title="Select the Blocks to Assemble">
+      <p>
+        As a assembler it is your responsibility to select the particular Blocks
+        required to build your application. You may aquire the Blocks from a number
+        of sources depending on your resources. You may use the core Blocks supplied
+        with Phoenix, contract someone to build the component or download the Block
+        from an online repository.          
+      </p>
+    </s1>
+    <s1 title="Write the assembly.xml file">
+      <p>
+        The next stage is to write the assembly.xml file. The assembly.xml specifies 
+        the instances of Blocks that are part of the Server Application. Each 
+        Block has a name. Each block may also have dependencies that need to be 
+        satisfied and this can be done via the 'provide' sub-elements. The
+        provide element maps block instances from the Server Application namespace 
+        to the Block role namespace specified in BlockInfo files. At the present 
+        time the configuration data for blocks is also stored in the assembly.xml file 
+        but this will change in the future. For more detail on the format of 
+        assembly.xml see the <link href="assembly-xml-specification.html">
+        specification</link>.
+      </p>
+    </s1>
+    <s1 title="Write the server.xml file">
+      <p>
+        The next stage is to write the server.xml file. The server.xml is used to
+        configure the code-based security policy, log management and thread pooling.
+        For more detail on the format of server.xml see the 
+        <link href="server-xml-specification.html">specification</link>.
+      </p>
+    </s1>
+    <s1 title="Create the sar file">
+      <p>
+        The sar file format is the standard distribution format of Phoenix Server
+        Applications. It is a standard Jar file with a specific directory layout. 
+        The server.xml and assembly.xml file must be stored in <code>conf/</code>
+        of the archive. All bar (Block ARchive) files must be stored in the 
+        <code>blocks/</code> subdirectory while all supporting jar and zip files
+        must be stored in the <code>lib/</code> subdirectory.
+      </p>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2001/03/01 13:44:44 $
+    </legal>
+  </footer>
+</document>
+

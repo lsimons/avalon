@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Server Assemblers Guide</title>
+    <subtitle>What is a Server Application?</subtitle>
+    <authors>
+      <person id="PD" name="Peter Donald" email="donaldp@apache.org"/>
+      <person id="BL" name="Berin Loritsch" email="bloritsch@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="What is a Server Application?">
+      <p>
+        In Phoenix, a Server Application is a set of Blocks that act in concert
+        to provide a unified user service. Example Server Applications include a Mail 
+        Server, File Server, Web Server etc. The Server Application is a high level 
+        component that contains a set of Block components.
+      </p>
+      <p>
+        A Server Application requires a number of components other than Blocks to 
+        be complete. A Server Application requires configuration files to define 
+        Server Application wide settings (threading, security, logging), to define
+        how blocks are wired together, and to define configuration data for the 
+        Block instances. A Block can also require other resources that are 
+        application specific.
+      </p>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2001/03/01 13:44:44 $
+    </legal>
+  </footer>
+</document>
+

@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Server Assemblers Guide</title>
+    <subtitle>Specification of assembly.xml </subtitle>
+    <authors>
+      <person id="PD" name="Peter Donald" email="donaldp@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Introduction">
+      <p>
+        The purpose of the <code>assembly.xml</code> file is to define how the Server
+        Application is assembled from it's component Blocks. This requires naming each
+        block, specifying the implementation class for each block and wiring together
+        blocks. The wiring is done via provides elements. Each provide element maps a
+        block instance to a role of a dependency specified in the BlockInfo file. See 
+        below for a sample assembly.xml file.
+      </p>
+      <p>
+        At the current time configuration data is also specified in the assembly.xml 
+        file. The format of the configuration data is block specifc and you should 
+        refer to the Blocks documentation to discover the format. In the future this 
+        configuration data will be removed.
+      </p>
+    </s1>
+    <s1 title="Sample assembly.xml file">
+      <source><![CDATA[
+<?xml version="1.0"?>
+
+<avalon>
+
+    <block name="myAuthorizer" class="com.biz.cornerstone.blocks.MyAuthorizer">
+      <configuration>
+        ...configuration data here...
+      </configuration>
+    </block>
+
+    <block name="myBlock" class="com.biz.cornerstone.blocks.MyBlock">
+      <provide name="myAuthorizer" role="com.biz.cornerstone.services.Authorizer"/>
+    </block>
+
+</avalon>]]>
+
+      </source>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2001/03/01 13:44:44 $
+    </legal>
+  </footer>
+</document>
+
