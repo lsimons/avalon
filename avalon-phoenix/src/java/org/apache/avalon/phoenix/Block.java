@@ -13,6 +13,7 @@ import org.apache.avalon.framework.component.Component;
  * The main interface to implement for Applications hosted in Phoenix.
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
+ * @deprecated Deprecate with no replacement.
  */
 public interface Block
     extends Component
