@@ -27,8 +27,9 @@ Legal:
 
   <property name="name" value="excalibur"/>
   <property name="Name" value="Excalibur"/>
-  <property name="version" value="4.0-dev"/>
-  <property name="release" value="3rd"/>
+  <property name="version" value="4.0b4"/>
+  <property name="release" value="4th"/>
+  <property name="status" value="beta"/>
   <property name="short.version" value="4.0"/>
   <property name="year" value="1999-2001"/>
 
@@ -368,6 +369,7 @@ Legal:
     <filter token="name" value="${Name}"/>
     <filter token="version" value="${version}"/>
     <filter token="year" value="${year}"/>
+    <filter token="status" value="${status}"/>
     <filter token="release" value="${release}"/>
     <filter token="short-version" value="${short.version}"/>
 
