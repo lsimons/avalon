@@ -5,6 +5,7 @@
   Add the merlin.properties file.
   -->
   <postGoal name="java:compile">
+    <mkdir dir="${maven.build.dir}/classes"/>
     <ant:copy file="${maven.repo.local}/${pom.groupId}/properties/merlin.properties" 
        toDir="${maven.build.dir}/classes" verbose="yes"/>
   </postGoal>
