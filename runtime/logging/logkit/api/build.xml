@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-logging-logkit-api" default="dist" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
+
+  <property file="build.properties"/>
+  <import file="${project.home}/build/standard.xml"/>
+
+</project>
+
