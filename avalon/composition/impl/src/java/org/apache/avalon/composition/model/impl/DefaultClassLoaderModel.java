@@ -45,7 +45,7 @@ import org.apache.avalon.composition.model.TypeRepository;
 import org.apache.avalon.composition.model.ServiceRepository;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.provider.ClassLoaderContext;
-import org.apache.avalon.composition.util.StringHelper;
+import org.apache.avalon.composition.provider.SystemContext;
 
 import org.apache.avalon.extension.Extension;
 import org.apache.avalon.extension.manager.ExtensionManager;
@@ -90,7 +90,7 @@ import org.apache.avalon.util.i18n.Resources;
  * and the extensions package.
  * </p>
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.19 $ $Date: 2004/05/01 17:03:43 $
+ * @version $Revision: 1.20 $ $Date: 2004/05/09 23:51:08 $
  */
 public class DefaultClassLoaderModel extends AbstractLogEnabled 
     implements ClassLoaderModel
@@ -152,7 +152,7 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
         {
             getLocalLogger().debug( 
               "base: " + 
-              StringHelper.toString( context.getBaseDirectory() ) );
+              context.getSystemContext().toString( context.getBaseDirectory() ) );
         }
         File base = 
           context.getBaseDirectory();
@@ -186,7 +186,7 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
             if( getLocalLogger().isDebugEnabled() )
             {
                 String str = "classpath: " 
-                  + StringHelper.toString( m_classpath );
+                  + context.getSystemContext().toString( m_classpath );
                 getLocalLogger().debug( str );
             }
 
@@ -204,7 +204,8 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
             ArrayList types = new ArrayList();
             ArrayList services = new ArrayList();
             Logger scannerLogger = getLocalLogger().getChildLogger( "scanner" );
-            Scanner scanner = new Scanner( scannerLogger, m_classLoader );
+            SystemContext system = context.getSystemContext();
+            Scanner scanner = new Scanner( scannerLogger, system, m_classLoader );
             scanner.scan( m_urls, types, services );
 
             //
@@ -368,13 +369,14 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
        Logger logger, ContainmentProfile profile, URL[] implied )
     {
         Repository repository = m_context.getRepository();
+        SystemContext system = m_context.getSystemContext();
         File base = m_context.getBaseDirectory();
         OptionalPackage[] packages = getOptionalPackages();
         ClassLoaderDirective directive = 
           profile.getClassLoaderDirective();
 
         return new DefaultClassLoaderContext( 
-          logger, repository, base, m_classLoader, packages,
+          logger, system, m_classLoader, packages,
           m_extension, m_types, m_services, directive, implied );
     }
 
@@ -416,7 +418,7 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
         {
             if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug( "implicit entries: " + implicit.length );
+                getLocalLogger().debug( "implicit entries: " + implicit.length );
             }
 
             for( int i=0; i<implicit.length; i++ )
@@ -432,7 +434,7 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
 
         if( files.length > 0 ) 
         {
-            if( getLogger().isDebugEnabled() )
+            if( getLocalLogger().isDebugEnabled() )
             {
                 getLogger().debug( "included entries: " + files.length );
             }
@@ -488,7 +490,8 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
         final Extension[] available = Extension.getAvailable( manifests );
         final Extension[] required = Extension.getRequired( manifests );
 
-        m_manager.scanDependencies( required, available, dependencies, unsatisfied );
+        m_manager.scanDependencies( 
+          required, available, dependencies, unsatisfied );
         if( 0 != unsatisfied.size() )
         {
             final int size = unsatisfied.size();
@@ -616,7 +619,8 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
     public File[] expandFileSetDirectives ( 
       File base, FilesetDirective[] filesets ) throws IOException, IllegalStateException
     {
-        getLocalLogger().debug("base=[" + base + "]");
+        //getLocalLogger().debug("base=[" + base + "]");
+
         ArrayList list = new ArrayList();
 
         for( int i=0; i<filesets.length; i++ )

@@ -24,6 +24,7 @@ import org.apache.avalon.composition.data.ClassLoaderDirective;
 import org.apache.avalon.composition.model.TypeRepository;
 import org.apache.avalon.composition.model.ServiceRepository;
 import org.apache.avalon.composition.provider.ClassLoaderContext;
+import org.apache.avalon.composition.provider.SystemContext;
 
 import org.apache.avalon.repository.Repository;
 
@@ -41,7 +42,7 @@ import org.apache.avalon.util.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/03/17 10:39:10 $
+ * @version $Revision: 1.8 $ $Date: 2004/05/09 23:51:08 $
  */
 public class DefaultClassLoaderContext extends DefaultContext 
   implements ClassLoaderContext
@@ -109,6 +110,11 @@ public class DefaultClassLoaderContext extends DefaultContext
     */
     private final URL[] m_implied;
 
+   /**
+    * The system context.
+    */
+    private final SystemContext m_system;
+
     //==============================================================
     // constructor
     //==============================================================
@@ -117,16 +123,17 @@ public class DefaultClassLoaderContext extends DefaultContext
     * Creation of a root classloader context.
     *
     * @param logger the logging channel to assign to the classloader model
+    * @param system the system context
     * @param repository a local repository
     * @param base the system base directory
     * @param parent the parent classloader
     * @param directive the classloader directive
     */
     public DefaultClassLoaderContext( 
-      Logger logger, Repository repository, File base, 
+      Logger logger, SystemContext system, 
       ClassLoader parent, ClassLoaderDirective directive )
     {
-        this( logger, repository, base, parent, 
+        this( logger, system, parent, 
           new OptionalPackage[0], null, null, null, directive, null );
     }
 
@@ -134,6 +141,7 @@ public class DefaultClassLoaderContext extends DefaultContext
     * Creation of a new classloader context.
     *
     * @param logger the logging channel to assign to the classloader model
+    * @param system the system context
     * @param repository a local repository
     * @param base the system base directory
     * @param parent the parent classloader
@@ -146,7 +154,7 @@ public class DefaultClassLoaderContext extends DefaultContext
     * @param directive the classloader directive
     */
     public DefaultClassLoaderContext( 
-      Logger logger, Repository repository, File base, 
+      Logger logger, SystemContext system, 
       ClassLoader parent, OptionalPackage[] packages, 
       ExtensionManager manager, TypeRepository types,
       ServiceRepository services,
@@ -156,14 +164,6 @@ public class DefaultClassLoaderContext extends DefaultContext
         if( logger == null )
         {
             throw new NullPointerException( "logger" );
-        }
-        if( repository == null )
-        {
-            throw new NullPointerException( "repository" );
-        }
-        if( base == null )
-        {
-            throw new NullPointerException( "base" );
         }
         if( parent == null )
         {
@@ -177,16 +177,21 @@ public class DefaultClassLoaderContext extends DefaultContext
         {
             throw new NullPointerException( "directive" );
         }
+        if( system == null )
+        {
+            throw new NullPointerException( "system" );
+        }
 
         m_logger = logger;
-        m_repository = repository;
-        m_base = base;
+        m_repository = system.getRepository();
+        m_base = system.getAnchorDirectory();
         m_parent  = parent;
         m_packages = packages;
         m_manager = manager;
         m_types = types;
         m_services = services;
         m_directive = directive;
+        m_system = system;
 
         if( implied == null )
         {
@@ -293,6 +298,16 @@ public class DefaultClassLoaderContext extends DefaultContext
     public ClassLoaderDirective getClassLoaderDirective()
     {
         return m_directive;
+    }
+
+   /**
+    * Return the system context.
+    *
+    * @return the system context
+    */
+    public SystemContext getSystemContext()
+    {
+        return m_system;
     }
 
    /**

@@ -32,7 +32,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Defintion of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/04/04 23:33:56 $
+ * @version $Revision: 1.8 $ $Date: 2004/05/09 23:51:08 $
  */
 public interface SystemContext extends Context
 {
@@ -173,4 +173,19 @@ public interface SystemContext extends Context
     * @exception Exception if a deployment error occurs
     */
     void release( DeploymentModel model, Object instance );
+
+   /**
+    * Prepare a string representation of an object for presentation.
+    * @param object the object to parse
+    * @return the presentation string
+    */
+    String toString( Object object );
+
+   /**
+    * Prepare a string representation of an object array for presentation.
+    * @param objects the array of objects
+    * @return the presentation string
+    */
+    String toString( Object[] objects );
+
 }

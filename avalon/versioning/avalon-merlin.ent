@@ -47,7 +47,7 @@ limitations under the License.
 
 <!ENTITY merlin-id "merlin">
 <!ENTITY merlin-spec "3.3">
-<!ENTITY merlin-product-version "3.3-RC5">
+<!ENTITY merlin-product-version "3.3-RC6">
 
 <!ENTITY merlin-api-id "merlin-api">
 <!ENTITY merlin-api-version "3.3.0">
