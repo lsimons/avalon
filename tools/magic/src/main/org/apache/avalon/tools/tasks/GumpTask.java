@@ -49,6 +49,42 @@ import java.util.ArrayList;
  */
 public class GumpTask extends SystemTask
 {
+    private static final String MAGIC_INTEGRATION =
+      "Magic Integration &lt;dev@avalon.apache.org&gt;";
+ 
+    public static class Nag
+    {
+        private String m_from;
+        private String m_to;
+
+        public void setFrom( String from )
+        {
+            m_from = from;
+        }
+   
+        public String getFrom()
+        {
+            if( null != m_from )
+            {
+                return m_from;
+            }
+            else
+            {
+                return MAGIC_INTEGRATION;
+            }
+        }
+
+        public void setTo( String to )
+        {
+            m_to = to;
+        }
+   
+        public String getTo()
+        {
+            return m_to;
+        }
+    }
+
     public static class Href
     {
         private String m_href;
@@ -152,6 +188,7 @@ public class GumpTask extends SystemTask
     private License m_license;
     private Template m_template = new Template();
     private boolean m_public = false;
+    private Nag m_nag;
 
     public void setName( String name )
     {
@@ -236,6 +273,19 @@ public class GumpTask extends SystemTask
         else
         {
             throw new BuildException( "Multiple license entries not allowed." );
+        }
+    }
+
+    public Nag createNag()
+    {
+        if( null == m_nag )
+        {
+            m_nag = new Nag();
+            return m_nag;
+        }
+        else
+        {
+            throw new BuildException( "Multiple nag entries not allowed." );
         }
     }
 
@@ -554,9 +604,11 @@ public class GumpTask extends SystemTask
               "\n    <!-- doc output is relative merlin home docs cache -->" );
         }
 
-        writer.write( "\n    <nag to=\"dev@avalon.apache.org\"" ); 
-        writer.write( "\n       from=\"Magic Integration &lt;dev@avalon.apache.org&gt;\"/>" );
-
+        if( null != m_nag )
+        {
+            writer.write( "\n    <nag to=\"" + m_nag.getTo() + "\"" );
+            writer.write( "\n       from=\"" + m_nag.getFrom() + "\"/>" );
+        }
         writer.write( "\n  </project>" );
     }
 
