@@ -21,7 +21,7 @@
     developed  by the  Apache Software Foundation  (http://www.apache.org/)."
     Alternately, this  acknowledgment may  appear in the software itself,  if
     and wherever such third-party acknowledgments normally appear.
- 
+
  4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"  
     must not be used to endorse or promote products derived from this  software 
     without  prior written permission. For written permission, please contact 
@@ -68,18 +68,19 @@ import org.apache.avalon.framework.container.*;
  * to run and manage other Avalon Components. Because it is an Avalon
  * Component itself as well, it can easily be used in any Avalon Application.
  *
- * <p>The only reason tweety implements <code>Configurable</code> and
- * <code>Contextualizable</code> is that it doesn't feel much like managing
+ * <p>The only reason tweety implements {@link org.apache.avalon.framework.configuration.Configurable Configurable}
+ * and {@link org.apache.avalon.framework.context.Contextualizable Contextualizable}
+ * is that it doesn't feel much like managing
  * contexts or configurations for the components it manages. Instead, it
  * simply forwards the configuration and context provided to its components.</p>
  *
- * <p><b>Note: </b> Tweety has a <code>main()</code> method to allow it to be
- * run from the commandline.
- *
- *@author   <a href="mailto:nicolaken@krysalis.org">Nicola Ken Barozzi</a>
- *@author   <a href="mailto:leosimons@apache.org">Leo Simons</a>
- *@created  June 20, 2002
- *@version  1.2
+ * @author   <a href="mailto:nicolaken@krysalis.org">Nicola Ken Barozzi</a>
+ * @author   <a href="mailto:leosimons@apache.org">Leo Simons</a>
+ * @created  June 20, 2002
+ * @version  1.2.1
+ * @since    1.0-alpha
+ * @see      <a href="http://jakarta.apache.org/avalon/excalibur/tweety">Online Tweety documentation</a>
+ * @see      <a href="http://jakarta.apache.org/avalon/framework">Online Avalon Framework documentation</a>
  */
 public class Tweety implements LogEnabled, Contextualizable, Configurable, Initializable,
 		Parameterizable, Startable
@@ -112,9 +113,9 @@ public class Tweety implements LogEnabled, Contextualizable, Configurable, Initi
 	protected DefaultServiceManager m_serviceManager;
 
 	/**
-	 * this field is filled during <code>parameterize()</code> with a parameters
+	 * this field is filled during {@link #parameterize(Parameters parameters) parameterize()} with a parameters
 	 * object that describes everything <code>Tweety</code> needs to run.
-	 * Usually, it contains information loaded from a tweety.properties file. A
+	 * Usually, it contains information loaded from a <code>tweety.properties</code> file. A
 	 * sample <code>tweety.properties</code> file might look like this:
 	 <pre>
 ########################################################################
@@ -135,7 +136,7 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 
 	/**
 	 * This map will be used to store a reference to all the components
-	 * that tweety will manage; We fill it up during initialize().
+	 * that tweety will manage; We fill it up during {@link #initialize() initialize()}.
 	 */
 	protected Map m_components;
 
@@ -143,7 +144,7 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 	/**
 	 * Tweety has a single, public, no arguments constructor; We supply arguments
 	 * at a later point in the form of an instance of <code>Parameters</code>
-	 * during parameterize().
+	 * during {@link #parameterize(Parameters parameters) parameterize()}.
 	 *
 	 * <p>The constructor initializes our properties with default values.</p>
 	 */
@@ -164,37 +165,37 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 		logger.debug( "Tweety: Tweety got a logger" );
 	}
 
-    /**
-     * Provide tweety with a context; This context will also be used for all the
+	/**
+	 * Provide tweety with a context; This context will also be used for all the
 	 * components that tweety manages.
-     *
-     * @param context the context
-     */
-    public void contextualize( Context context )
+	 *
+	 * @param context the context
+	 */
+	public void contextualize( Context context )
 	{
 		m_context = context;
 		m_logger.debug( "Tweety: Tweety got a context" );
 	}
 
-    /**
-     * Provide tweety with a configuration; This configuration will also be used for all the
+	/**
+	 * Provide tweety with a configuration; This configuration will also be used for all the
 	 * components that tweety manages.
-     *
-     * @param configuration the class configurations.
-     */
-    public void configure( Configuration configuration )
-    {
+	 *
+	 * @param configuration the class configurations.
+	 */
+	public void configure( Configuration configuration )
+	{
 		m_configuration = configuration;
 		m_logger.debug( "Tweety: Tweety got a configuration" );
-    }
+	}
 
-    /**
-     * Provide tweety with the parameters it needs to run; Each pair of name and
-	 * value defines a <b>Role</b> and a component that implements that role.
-     *
-     * @param parameters the parameters
-     * @throws ParameterException if parameters are invalid
-     */
+	/**
+	 * Provide tweety with the parameters it needs to run; Each pair of name and
+	 * value defines a <code>Role</code> and a component that implements that role.
+	 *
+	 * @param parameters the parameters
+	 * @throws ParameterException if parameters are invalid
+	 */
 	public void parameterize( Parameters parameters ) throws ParameterException
 	{
 		// check whether the supplied parameters object is valid
@@ -293,7 +294,7 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 	}
 
 	/**
-	 * Start up tweety; We setup all the components tweety contains, add them to
+	 * Start up tweety; We set up all the components tweety contains, add them to
 	 * the global componentmanager and servicemanager, and finally we call start()
 	 * on each of them.
 	 */

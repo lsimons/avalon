@@ -8,24 +8,258 @@
     </authors>
   </header>
   <body>
-    <s1 title="Introduction">
+	<s1 title="Work in Progress!">
+		<p>This manual is quite far from finished. While you are free to read it, I recommend
+		you don't.</p>
+	</s1>
+
+	<s1 title="Introduction">
 		<p>Avalon has <b>a lot</b> of documentation (it has a lot of code, too, but most users
 		don't see this as that much of a problem). It might be difficult for you to see where
 		you should get started. That's why I wrote this little document.</p>
 
 		<p>The place you get started is what we call the avalon framework. This little bit of code
 		(the jar file is about 60k), combined with quite a bit of documentation, will revolutionize
-		(in time) the way you write software.</p>
-    </s1>
+		(in time) the way you write software. Tweety is here to help you figure out what avalon
+		framework is all about.</p>
+	</s1>
 
 	<s1 title="Table of Contents">
-		<p>TBD</p>
+		<ol>
+			<li>Introduction</li>
+			<li>Table of Contents</li>
+			<li>Your first component</li>
+			<li>The CartoonCreator application
+				<ol>
+					<li>Determining application goals and features</li>
+					<li>Determining the components we need</li>
+					<li>Your average CartoonCreator application
+						<ol>
+							<li>Cartoon</li>
+							<li>CartoonBuilder</li>
+							<li>CartoonItem</li>
+							<li>CartoonBird</li>
+							<li>CartoonCat</li>
+							<li>CartoonCage</li>
+						</ol>
+					</li>
+					<li>Refactoring: "use the lifecycle, Luke!"
+						<ol>
+							<li>Cartoon</li>
+							<li>CartoonBuilder</li>
+							<li>CartoonItem</li>
+							<li>CartoonBird</li>
+							<li>CartoonCat</li>
+							<li>CartoonCage</li>
+						</ol>
+					</li>
+				</ol>
+			</li>
+		</ol>
+	</s1>
+
+	<s1 title="Your first component">
+		<p>We're gonna start reaally simple. Consider this class:</p>
+
+		<s3 title="BirdSong1.java">
+		<source>
+			package avalon.tutorial;
+
+			public class BirdSong1
+			{
+				private int m_numberOfChilps;
+				private String m_chilpMessage;
+				private String m_chilpSeparator;
+
+				public void BirdSong1( int numberOfChilps, chilpMessage, chilpSeparator )
+				{
+					m_numberOfChilps = numberOfChilps;
+					m_chilpMessage = chilpMessage;
+					m_chilpSeparator = chilpSeparator;
+				}
+
+				public sing()
+				{
+					for( int i = 0; i != m_numberOfChilps; i++ )
+					{
+						if( i != 0 &amp;&amp; i != (m_numberOfChilps-1) )
+							System.out.print( m_chilpSeparator );
+
+						System.out.print( m_chilpMessage );
+					}
+				}
+
+				public static void main(String args[])
+				{
+					BirdSong1 birdSong = new BirdSong1( new Integer( args[0] ).intValue(),
+							args[1], args[2] );
+
+					BirdSong.sing();
+				}
+			}
+		</source>
+		</s3>
+
+		<p>I'm sure you've figured out what that clas does. The command
+		<code>java avalon.tutorial.BirdSong1 20 chilp *</code> will print out something like</p>
+
+		<source>
+		chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp
+		</source>
+
+		<p>The steps to making this class into a component are as follows:</p>
+
+		<ul>
+			<li>Define an interface and an implementation instead of just a class</li>
+			<li>Refactor to use avalon framework lifecyle methods</li>
+			<li>Refactor more to use a setup optimized for lots of reuse</li>
+		</ul>
+
+		<p>This results in something like this:</p>
+
+		<s3 title="BirdSong.java">
+		<source>
+		package avalon.tutorial;
+
+		import org.apache.avalon.framework.parameters.Parameterizable;
+		import org.apache.avalon.framework.parameters.Parameters;
+		import org.apache.avalon.framework.activity.Startable;
+		import org.apache.avalon.framework.logger.LogEnabled;
+
+		public interface BirdSong extends Parameterizable, Startable, LogEnabled;
+		{
+			public static final String PARAM_NUMBER_OF_CHILPS = "numberOfChilps";
+			public static final String PARAM_CHILP_MESSAGE = "chilpMessage";
+			public static final String PARAM_CHILP_SEPARATOR = "chilpSeparator";
+
+			/**
+			 * Provide us with the parameters it needs to work. Required are:
+			 * &gt;ul&lt;
+			 * &gt;li&lt;numberOfChilps&gt;/li&lt;
+			 * &gt;li&lt;chilpMessage&gt;/li&lt;
+			 * &gt;li&lt;chilpSeparator&gt;/li&lt;
+			 * &gt;/ul&lt;
+			 * &gt;/pre&lt;
+			 *
+			 */
+			public void parameterize( Parameters parameters );
+		}
+		</source>
+		</s3>
+
+		<s3 title="BirdSongImpl.java">
+		<source>
+		package avalon.tutorial;
+
+		import org.apache.avalon.framework.parameters.Parameters;
+		import org.apache.avalon.framework.parameters.ParameterException;
+		import org.apache.avalon.logger.AbstractLoggable;
+
+		import avalon.tutorial.BirdSong;
+		import avalon.tutorial.BirdSongRunner;
+
+		public class BirdSongImpl extends AbstractLoggable implements BirdSong
+		{
+			private int m_numberOfChilps;
+			private String m_chilpMessage;
+			private String m_chilpSeparator;
+
+			private Thread m_runnerThread;
+
+
+			public void BirdSongImpl()
+			{
+			}
+
+			public void parameterize( Parameters parameters ) throws ParameterException
+			{
+				getLogger().debug( "got parameters" );
+
+				m_numberOfChilps = m_parameters.getParameterAsInteger( PARAM_NUMBER_OF_CHILPS );
+				m_chilpMessage = m_parameters.getParameter( PARAM_CHILP_MESSAGE );
+				m_chilpSeparator = m_parameters.getParameter( PARAM_CHILP_SEPARATOR );
+			}
+			public void start()
+			{
+				getLogger().debug( "starting" );
+
+				Runnable runnable = new BirdSongImplRunner( this );
+
+				m_runnerThread = new Thread( runnable );
+				m_runnerThread.setDaemon( true );
+				m_runnerThread.run();
+			}
+			public void stop()
+			{
+				getLogger().debug( "stopping" );
+
+				m_runnerThread.notify();
+			}
+
+			int getNumberOfChilps()
+			{
+				return m_numberOfChilps;
+			}
+			String getChilpMessage()
+			{
+				return m_chilpMessage;
+			}
+			String getChilpSeperator()
+			{
+				return m_chilpSeparator;
+			}
+		}
+		</source>
+		</s3>
+
+		<s3>
+		<source>
+		package avalon.tutorial;
+
+		import avalon.tutorial.BirdSongImpl;
+
+		public class BirdSongRunner implements Runnable
+		{
+			BirdSongImpl m_bs;
+
+			public void BirdSongRunner( BirdSongImpl bs )
+			{
+				m_bs = bs;
+			}
+
+			public void run()
+			{
+				int max = bs.getNumberOfChilps();
+				String msg = bs.getChilpMessage();
+				String separator = bs.getSeparator();
+
+				for( int i = 0; i != max; i++ )
+				{
+					if( i != 0 &amp;&amp; i != (max-1) )
+						System.out.print( separator );
+
+					System.out.print(msg );
+				}
+			}
+		}
+		</source>
+		</s3>
+
+		<p>There's quite a few things different about this component compared to the BirdSong1 class.
+		The constructor doesn't take any arguments; those are passed in at a later point instead through
+		the use of parameterize(). sing() has been renamed to start(), and a stop() method has been
+		added. Also, logging statements have been added throughout the code. Finally, the
+		actual printing of the messages is handled in a separate thread.</p>
+
+		<p>All the added complexity is of course not really justified for this simple demo component; it
+		just serves to illustrate typical evolution from an 'average' java class into a typical avalon
+		component.</p>
 	</s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2002/07/05 08:27:04 $
+      $Revision: 1.3 $ $Date: 2002/07/08 17:42:16 $
     </legal>
   </footer>
 </document>

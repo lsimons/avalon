@@ -43,9 +43,9 @@
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  
  This software  consists of voluntary contributions made  by many individuals
- on  behalf of the Apache Software  Foundation. For more  information on the 
+ on  behalf of the Apache Software  Foundation. For more  information on the
  Apache Software Foundation, please see <http://www.apache.org/>.
- 
+
 */
 
 package org.apache.avalon.excalibur.tweety;
@@ -62,18 +62,24 @@ import org.apache.avalon.framework.logger.*;
 import org.apache.avalon.framework.parameters.*;
 import org.apache.avalon.framework.service.*;
 import org.apache.avalon.framework.container.*;
-   
+
 /**
- * This is a stripped down - collapsed version of Tweety+Main.
+ * This is a stripped down and collapsed version of
+ * {@link org.apache.avalon.excalibur.tweety.Tweety Tweety} combined with
+ * {@link org.apache.avalon.excalibur.tweety.Main Main}.
  * It reads the configuration file, and creates the components.
  * Then it disposes them.
  *
- * Useful to understand what Lifecycle is, without getting yet into 
- * what a Container is; this is application+Container all in one.
+ * <p>Useful to understand what Lifecycle is, without getting yet into
+ * what a Container is; this is application+Container all in one.</p>
  *
- * After you understand this, look at Main and Tweety.
+ * <p>After you understand this, look at Main and Tweety.</p>
+ *
+ * <p><b>note:</b> Egg does not support the contextualize(), configure() or
+ * parameterize() lifecycle stages.
  *
  *@author     <a href="mailto:nicolaken@apache.org">Nicola Ken Barozzi</a>
+ *@author     <a href="mailto:leosimons@apache.org">Leo Simons</a>
  *@created    June 20, 2002
  *@version    1.0
  */
@@ -84,27 +90,27 @@ public class Egg
             Logger  sharedLogger = new ConsoleLogger();
             Context sharedContext = new DefaultContext();
             DefaultComponentManager sharedComponentManager = new DefaultComponentManager();
-            DefaultServiceManager sharedServiceManager = new DefaultServiceManager();            
-                        
+            DefaultServiceManager sharedServiceManager = new DefaultServiceManager();
+
           try {
-          
-            //load properties           
+
+            //load properties
             Properties properties = new Properties();
             properties.load(new FileInputStream("tweety.properties"));
-            
+
             //this will keep references to components so we know what to shutdown at the end
             Object[] components = new Object[properties.size()];
-            
+
             //All the roles
             Enumeration roles = properties.propertyNames();
 
-            //create and setup all the component 
+            //create and setup all the component
             for (int i=0; roles.hasMoreElements(); i++) {
 
                 //Get the role of the component being setup
                 String role = (String )roles.nextElement();
-             
-                //create the component instance 
+
+                //create the component instance
                 Object component = Class.forName((String) properties.get(role));
 
                 //setup the component by running the appropriate lifecycle methods in order
@@ -122,15 +128,15 @@ public class Egg
                 sharedServiceManager.put(role, component);
                 if(component instanceof org.apache.avalon.framework.component.Component){
                    sharedComponentManager.put(role, (Component) component);
-                }   
-            
+                }
+
                 components[i]=component;
              }
-             
+
              //
              // Here components that create threads continue operation till they wish
              //
-             
+
              //shutdown all the components that were set up
              for (int i=0 ; i<components.length; i++ ) {
            
