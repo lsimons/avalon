@@ -74,16 +74,15 @@
   <goal name="merlin:build" description="Build Merlin.">
     <maven:reactor basedir="${basedir}"
       includes="**/project.xml"
-      excludes="target/**,platform/**,kernel/plugin/**,project.xml,merlin-extensions/**,kernel/cli/**,kernel/unit/**"
+      excludes="target/**,platform/**,kernel/plugin/**,project.xml,merlin-extensions/**,kernel/cli/**,kernel/unit/**,kernel/servlet/**"
       goals="jar:install"
       banner="Installing:"
       ignoreFailures="false" />
     <maven:reactor basedir="${basedir}"
-      includes="kernel/unit/project.xml,kernel/cli/project.xml"
-      goals="jar:install"
+      includes="kernel/unit/project.xml,kernel/cli/project.xml,kernel/plugin/project.xml,kernel/servlet/project.xml"
+      goals=""
       banner="Installing:"
       ignoreFailures="false" />
-    <attainGoal name="merlin:plugin"/>
   </goal>
 
   <goal name="merlin:install" 
@@ -92,7 +91,7 @@
   <goal name="xinstall">
     <!-- prepare structure -->
     <ant:mkdir dir="${merlin.build.inst.dir}"/>
-    <ant:mkdir dir="${merlin.build.inst.dir}/ext"/>
+    <!--<ant:mkdir dir="${merlin.build.inst.dir}/ext"/>-->
     <ant:mkdir dir="${merlin.build.inst.dir}/bin/lib"/>
 
     <!-- import bootstrap jar -->
@@ -121,6 +120,7 @@
     </ant:copy>
 
     <!-- copy the xml api jar file to the merlin/ext directory -->
+    <!--
     <ant:copy 
        file="${merlin.build.inst.dir}/system/xml-apis/jars/xml-apis-2.0.2.jar" 
        toDir="${merlin.build.inst.dir}/ext"/>
@@ -132,6 +132,7 @@
        toDir="${merlin.build.inst.dir}/ext"/>
     <delete dir="${merlin.build.inst.dir}/system/xml-apis"/>
     <delete dir="${merlin.build.inst.dir}/system/xerces"/>
+    -->
 
     <!-- add supporting resources -->
     <ant:copy toDir="${merlin.build.inst.dir}">
@@ -386,6 +387,7 @@
       ignoreFailures="true"/>
   </goal>
 
+  <goal name="avalon:update" prereqs="merlin:update"/>
   <goal name="avalon:build" prereqs="merlin:install"/>
   <goal name="avalon:dist" prereqs="merlin:dist"/>
   <goal name="avalon:clean" prereqs="merlin:clean"/>
