@@ -30,7 +30,7 @@ import org.apache.excalibur.altrmi.common.AltrmiInvocationException;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/22 16:50:38 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/10/17 15:56:17 $
  * @since 4.1
  */
 public class MenuBar
@@ -579,6 +579,46 @@ public class MenuBar
     private void rebuildWindowMenu()
     {
         m_menuWindow.removeAll();
+
+        // Tile window menu choice
+        Action tileFramesAction = new AbstractAction( "Tile frames" )
+        {
+            public void actionPerformed( ActionEvent event )
+            {
+                m_frame.tileFrames();
+            }
+        };
+
+        JMenuItem tileFrames = new JMenuItem( tileFramesAction );
+        tileFrames.setMnemonic( 't' );
+        m_menuWindow.add( tileFrames );
+
+
+        // Tile window vertically menu choice
+        Action tileFramesVAction = new AbstractAction( "Tile frames vertically" )
+        {
+            public void actionPerformed( ActionEvent event )
+            {
+                m_frame.tileFramesV();
+            }
+        };
+
+        JMenuItem tileFramesV = new JMenuItem( tileFramesVAction );
+        tileFramesV.setMnemonic( 'v' );
+        m_menuWindow.add( tileFramesV );
+
+        // Tile window horizontally menu choice
+        Action tileFramesHAction = new AbstractAction( "Tile frames horizontally" )
+        {
+            public void actionPerformed( ActionEvent event )
+            {
+                m_frame.tileFramesH();
+            }
+        };
+
+        JMenuItem tileFramesH = new JMenuItem( tileFramesHAction );
+        tileFramesH.setMnemonic( 'h' );
+        m_menuWindow.add( tileFramesH );
 
         // Close All menu choice
         Action closeAllAction = new AbstractAction( "Close All" )
