@@ -24,6 +24,8 @@ STRUCTURE:
     +-- merlin-extensions        
           +- merlin-jndi         merlin JNDI connector
     +-- merlin-smp               site and installation resources
+          +- src
+               +- tutorial       several merlin tutorials
           +- target
                +- docs           generate site documentation
     +-- target
