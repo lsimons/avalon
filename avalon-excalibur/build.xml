@@ -73,10 +73,10 @@ Legal:
   <property name="dist.base" value="distributions"/>
 
   <property name="j2ee.jar" value="${cjan.lib}/j2ee.jar"/>
-  <property name="framework.jar" value="${lib.dir}/avalon-framework.jar"/>
-  <property name="logkit.jar" value="${lib.dir}/logkit-1.0.jar"/>
-  <property name="xerces.jar" value="${tools.dir}/lib/xerces.jar"/>
-  <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.2.0-D8.jar"/>
+  <property name="framework.jar" value="${tools.dir}/ext/avalon-framework.jar"/>
+  <property name="logkit.jar" value="${tools.dir}/ext/logkit.jar"/>
+  <property name="xerces.jar" value="${tools.dir}/lib/xerces-1.4.4.jar"/>
+  <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.2.0-D13.jar"/>
   <property name="bsf.jar" value="${tools.dir}/lib/bsf.jar"/>
   <property name="junit.jar" value="${tools.dir}/lib/junit-3.7.jar"/>
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
