@@ -6,7 +6,7 @@
     <name>Avalon-Fortress-Tools</name>
     <id>avalon-fortress-tools</id>
     <groupId>avalon-fortress</groupId>
-    <currentVersion>1.1-dev</currentVersion>
+    <currentVersion>1.1</currentVersion>
     <inceptionYear>2003</inceptionYear>
     <shortDescription>Avalon-Fortress-Tools component</shortDescription>
     <description>
@@ -16,16 +16,16 @@ Tools for working with Avalon-Fortress.
     <dependencies>
         <dependency>
             <id>avalon-fortress-container</id>
-            <version>1.1-dev</version>
+            <version>1.1</version>
             <groupId>avalon-fortress</groupId>
         </dependency>
         <dependency>
             <id>avalon-framework</id>
-            <version>4.1.4</version>
+            <version>4.1.5</version>
         </dependency>
         <dependency>
             <id>excalibur-logger</id>
-            <version>20030616</version>
+            <version>1.1</version>
         </dependency>
         <dependency>
             <id>excalibur-event</id>
@@ -50,7 +50,7 @@ Tools for working with Avalon-Fortress.
         </dependency>
         <dependency>
             <id>excalibur-sourceresolve</id>
-            <version>1.0.1</version>
+            <version>1.1</version>
         </dependency>
         <dependency>
             <id>excalibur-i18n</id>
