@@ -1,0 +1,7 @@
+ant.properties
+lib
+velocity.log
+project.xml
+project.properties
+maven.log
+maven.xml
