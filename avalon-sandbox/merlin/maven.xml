@@ -269,7 +269,7 @@
       noindex="false" author="true" use="true"
 	windowtitle="${title}" 
       bottom="${copyright}"
-      additionalparam="-breakiterator -J-Xmx128m -tag todo:a:ToDo: "
+      additionalparam="-breakiterator -J-Xmx128m "
       packagenames="*,org.*">
         <j:forEach var="packageGroup" items="${pom.packageGroups}">
           <group title="${packageGroup.title}" packages="${packageGroup.packages}"/>
