@@ -195,6 +195,7 @@
             <batchtest todir="${build.tests}">
                 <fileset dir="${build.testclasses}">
                     <include name="**/test/*TestCase.class"/>
+                    <include name="**/test/*Profile.class" if="test.profile"/>
                     <exclude name="**/Abstract*"/>
                 </fileset>
             </batchtest>

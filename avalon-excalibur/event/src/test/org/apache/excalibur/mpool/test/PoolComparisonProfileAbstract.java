@@ -55,6 +55,7 @@ import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.excalibur.mpool.FixedSizePool;
+import org.apache.excalibur.mpool.BlockingFixedSizePool;
 import org.apache.excalibur.mpool.ObjectFactory;
 import org.apache.excalibur.mpool.Pool;
 import org.apache.excalibur.mpool.VariableSizePool;
@@ -63,7 +64,7 @@ import org.apache.excalibur.mpool.VariableSizePool;
  * Used as a basis for the PoolComparisonProfile Tests
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version $Id: PoolComparisonProfileAbstract.java,v 1.1 2002/08/07 22:44:26 bloritsch Exp $
+ * @version $Id: PoolComparisonProfileAbstract.java,v 1.2 2002/08/09 19:22:16 bloritsch Exp $
  */
 public abstract class PoolComparisonProfileAbstract
     extends TestCase
@@ -130,30 +131,73 @@ public abstract class PoolComparisonProfileAbstract
     }
 
     /**
-     * Compare the FixedSizePool and ResourceLimitingPool when the
-     *  ResourceLimitingPool is configured to act like a FixedSizePool.
+     * Compare the FixedSizePool and BlockingFixedSizePool when the
+     *  BlockingFixedSizePool is configured to act like a FixedSizePool.
      * <p>
      * Test will use pools with a max size of 100, while getting up to 100 at a time,
      *  Poolables are medium objects.
      */
-    public void testCompare_FixedSizePool_And_ResourceLimitingPool_Max100_Gets100_MediumPoolables()
+    public void testCompare_FixedSizePool_And_BlockingFixedSizePool_Max100_Gets100_SmallPoolables()
         throws Exception
     {
-        String name = "FixedSizePool_And_ResourceLimitingPool_Max100_Gets100_MediumPoolables";
+        String name = "FixedSizePool_And_BlockingFixedSizePool_Max100_Gets100_SmallPoolables";
+
+        Class poolableClass = SmallPoolable.class;
+        ClassInstanceObjectFactory factory = new ClassInstanceObjectFactory( poolableClass, m_poolLogger );
+        int min = 0;
+        int max = 100;
+        long blockTimeout = 1;
+
+        FixedSizePool poolA = new FixedSizePool( factory, max );
+        BlockingFixedSizePool poolB = new BlockingFixedSizePool( factory, max, blockTimeout );
+
+        generalTest( name, poolA, poolB, 100, factory );
+    }
+
+    /**
+     * Compare the FixedSizePool and BlockingFixedSizePool when the
+     *  BlockingFixedSizePool is configured to act like a FixedSizePool.
+     * <p>
+     * Test will use pools with a max size of 100, while getting up to 100 at a time,
+     *  Poolables are medium objects.
+     */
+    public void testCompare_FixedSizePool_And_BlockingFixedSizePool_Max100_Gets100_MediumPoolables()
+        throws Exception
+    {
+        String name = "FixedSizePool_And_BlockingFixedSizePool_Max100_Gets100_MediumPoolables";
 
         Class poolableClass = MediumPoolable.class;
         ClassInstanceObjectFactory factory = new ClassInstanceObjectFactory( poolableClass, m_poolLogger );
         int min = 0;
         int max = 100;
-        boolean maxStrict = true;
-        boolean blocking = false;
-        long blockTimeout = 0;
-        long trimInterval = 0;
+        long blockTimeout = 1;
 
         FixedSizePool poolA = new FixedSizePool( factory, max );
+        BlockingFixedSizePool poolB = new BlockingFixedSizePool( factory, max, blockTimeout );
 
-        ResourceLimitingPool poolB = new ResourceLimitingPool( factory, max, maxStrict, blocking, blockTimeout, trimInterval );
-        poolB.enableLogging( m_poolLogger );
+        generalTest( name, poolA, poolB, 100, factory );
+    }
+
+    /**
+     * Compare the FixedSizePool and BlockingFixedSizePool when the
+     *  BlockingFixedSizePool is configured to act like a FixedSizePool.
+     * <p>
+     * Test will use pools with a max size of 100, while getting up to 100 at a time,
+     *  Poolables are medium objects.
+     */
+    public void testCompare_FixedSizePool_And_BlockingFixedSizePool_Max100_Gets100_LargePoolables()
+        throws Exception
+    {
+        String name = "FixedSizePool_And_BlockingFixedSizePool_Max100_Gets100_LargePoolables";
+
+        Class poolableClass = LargePoolable.class;
+        ClassInstanceObjectFactory factory = new ClassInstanceObjectFactory( poolableClass, m_poolLogger );
+        int min = 0;
+        int max = 100;
+        long blockTimeout = 1;
+
+        FixedSizePool poolA = new FixedSizePool( factory, max );
+        BlockingFixedSizePool poolB = new BlockingFixedSizePool( factory, max, blockTimeout );
 
         generalTest( name, poolA, poolB, 100, factory );
     }
