@@ -19,7 +19,7 @@ public final class Priority
     implements Serializable
 {
     /**
-     * Developer orientated messages, usually used during developement of product.
+     * Developer orientated messages, usually used during development of product.
      */
     public final static Priority DEBUG = new Priority( "DEBUG", 5 );
 
@@ -29,13 +29,13 @@ public final class Priority
     public final static Priority INFO = new Priority( "INFO", 10 );
 
     /**
-     * A problem or conflict has occured but it may be recoverable, then
+     * A problem or conflict has occurred but it may be recoverable, then
      * again it could be the start of the system failing.
      */
     public final static Priority WARN = new Priority( "WARN", 15 );
 
     /**
-     * A problem has occured but it is not fatal. The system will still function.
+     * A problem has occurred but it is not fatal. The system will still function.
      */
     public final static Priority ERROR = new Priority( "ERROR", 20 );
     
@@ -99,7 +99,7 @@ public final class Priority
     /**
      * Get name of priority.
      *
-     * @return the prioritys name
+     * @return the priorities name
      */
     public String getName() 
     {

@@ -32,7 +32,7 @@ public final class LogEvent
     ///The exception that caused LogEvent if any. (May be null)
     private Throwable     m_throwable;
 
-    ///The time in millis that LogEvent occured
+    ///The time in millis that LogEvent occurred
     private long          m_time;
 
     ///The priority of LogEvent. (Must not be null)

@@ -20,7 +20,7 @@ public class Logger
     ///The ErrorHandler associated with Logger
     private final ErrorHandler  m_errorHandler;
 
-    ///Logger to inherit logtargets and prioritys from
+    ///Logger to inherit logtargets and priorities from
     private final Logger        m_parent;
 
     ///the fully qualified name of category
@@ -319,7 +319,7 @@ public class Logger
     {
         m_priority = priority;
         m_priorityForceSet = true;
-        resetChildPrioritys( false );
+        resetChildPriorities( false );
     }
 
     /**
@@ -344,7 +344,7 @@ public class Logger
         else m_priority = Priority.DEBUG;
 
         m_priorityForceSet = false;
-        resetChildPrioritys( recursive );
+        resetChildPriorities( recursive );
     }
 
     /**
@@ -581,7 +581,7 @@ public class Logger
     /**
      * Update priority of children if any.
      */
-    private synchronized void resetChildPrioritys( final boolean recursive )
+    private synchronized void resetChildPriorities( final boolean recursive )
     {
         if( null == m_children ) return;
 
@@ -611,7 +611,7 @@ public class Logger
         }
 
         m_priority = m_parent.getPriority();
-        resetChildPrioritys( recursive );
+        resetChildPriorities( recursive );
     }
 
     /**

@@ -30,13 +30,13 @@
       </p>
 
       <p>
-        Overtime it was discovered that the facade while simple to use, inherited 
+        Over time it was discovered that the facade, while simple to use, inherited 
         many of the faults of the underlying logging toolkit. The logging was slow
         and was impossible to dynamically reconfigure. 
       </p>        
         
       <p>
-        At this time the whole system was over-hauled. Existing logging toolkits
+        At this time the whole system was overhauled. Existing logging toolkits
         were surveyed and user feedback was gathered from both developers and 
         administrators. The new toolkit focused on speed, reliability and dynamic
         reconfiguration. It then added, at that time unique features, for filtering
@@ -51,7 +51,7 @@
       <p>
         The most basic components of LogKit are the Logger, the LogEvent and the
         LogTarget. The Logger represents the client interface to the logging system.
-        The developer interacts with logger to generate LogEvents. The LogEvents 
+        The developer interacts with Logger to generate LogEvents. The LogEvents 
         are routed to a LogTarget. The LogTarget decides what to do with the LogEvent,
         usually it is recorded to a file, a database or transmitted over the network.
       </p>
@@ -71,7 +71,7 @@
       <ul>
         <li>
           <strong>DEBUG:</strong><br/>
-          Developer oriented messages, usually used during developement of product.
+          Developer oriented messages, usually used during development of the product.
         </li>
         <li>
           <strong>INFO:</strong><br/>
@@ -80,12 +80,12 @@
         </li>
         <li>
           <strong>WARN:</strong><br/>
-          A problem or conflict has occured but it may be recoverable, then 
+          A problem or conflict has occurred but it may be recoverable, then 
           again it could be the start of the system failing.
         </li>
         <li>
           <strong>ERROR:</strong><br/>
-          A problem has occured but it is not fatal. The system will still function.
+          A problem has occurred but it is not fatal. The system will still function.
         </li>
         <li>
           <strong>FATAL_ERROR:</strong><br/>
@@ -103,7 +103,7 @@
       <p>
         Each logger instance is associated with a Priority. This allows you to limit
         each logger so that it only displays messages greater than a certain priority.
-        So if a DEBUG message occured and the loggers priority was WARN, the LogEvent
+        So if a DEBUG message occurred and the logger's priority was WARN, the LogEvent
         would be suppressed.
       </p>
 
@@ -118,7 +118,7 @@
       <p>
         Where performance is critical it is often useful to check if a priority is
         enabled before constructing the message. In many cases the construction of
-        the message is an expensive string operation and convertion operation. In this
+        the message is an expensive string operation and conversion operation. In this
         case it is useful to know before you create the message whether it will be 
         logged. The pattern of the method to check if a priority is enabled is 
         "is<em>Priority</em>Enabled()". An example use case is displayed below.
@@ -139,7 +139,7 @@ if( logger.isDebugEnabled() )
     <s1 title="Categories">
 
       <p>
-        In a complex system it is often not enough to supress logging based on priority.
+        In a complex system it is often not enough to suppress logging based on priority.
         For instance you may wish to log the network subsystem with DEBUG priority while
         the simulator subsystem with WARN priority. To accomplish this LogKit uses a concept
         termed Categories. Categories, often called Channels, Subjects or Facilities, are
@@ -154,7 +154,7 @@ if( logger.isDebugEnabled() )
       </p>
 
       <p>
-        LogKit takes it one step further and assumes that the namespace is hierarchial.
+        LogKit takes it one step further and assumes that the namespace is hierarchical.
         The left-most name component is the most generic category while the right-most
         name component is the most specific. So "network.interceptor.connected" is a child
         category of "network.interceptor", which is in turn a child category of "network".
@@ -163,7 +163,7 @@ if( logger.isDebugEnabled() )
       </p>
 
       <p>
-        The main reason for structuring logging namespace in a hierarchial manner is to
+        The main reason for structuring logging namespace in a hierarchical manner is to
         allow inheritance. A logger will inherit it's parent priority if it has not
         been explicitly set. This allows you to set the "network" logger to have INFO 
         priority and unless the "network.interceptor" has had it's priority set it will 
@@ -190,7 +190,7 @@ if( logger.isDebugEnabled() )
       </p>
 
       <p>
-        Like Prioritys, it is often useful to allow LogTargets to be inherited between 
+        Like Priorities, it is often useful to allow LogTargets to be inherited between 
         loggers. Like Priority inheritance, LogTarget inheritance does not suffer any 
         runtime performance penalty.
       </p>
@@ -208,7 +208,7 @@ if( logger.isDebugEnabled() )
           logger. For instance you may add two LogTargets to a logger, one which
           writes LogEvents to a database and one which writes a message to the 
           administrators pager. However you may want to record all messages to 
-          the database but only transmite FATAL_ERROR messages to pager. In this 
+          the database but only transmit FATAL_ERROR messages to pager. In this 
           case you would use a PriorityFilter to filter out non-FATAL_ERROR messages
           for pager log target.          
         </p>
@@ -340,7 +340,7 @@ output: DEBUG   [Barney Rubble]: This is a debug message
 
       <p>
         <em>Warning:</em> Older versions of LogKit also incorporated a ContextStack
-        that offered hierarchial management of context. It was discovered that this
+        that offered hierarchical management of context. It was discovered that this
         design encouraged bad practices and thus use of this feature has been 
         deprecated in favour of using ContextMap. The ContextStack is still accessible
         if users do not specify a subformat or specify the subformat "stack". However
@@ -439,7 +439,7 @@ myLogger.setPriority( priority );
         easily integrated into existing products. By design it does not specify any
         configuration format but instead encourages users to integrate it into their 
         existing products. It also is designed to run in a secure environment by 
-        limiting client access to hierarchys. 
+        limiting client access to hierarchies. 
       </p>
 
     </s1>
@@ -448,7 +448,7 @@ myLogger.setPriority( priority );
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.5 $ $Date: 2001/11/19 12:18:35 $
+      $Revision: 1.6 $ $Date: 2001/12/13 10:09:04 $
     </legal>
   </footer>
 </document>
