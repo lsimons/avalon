@@ -87,14 +87,25 @@ public class Policy
 
     public boolean equals( final Object other )
     {
-        if( other instanceof Policy )
-        {
-            final Policy policy = (Policy) other;
-            if( m_build != policy.m_build ) return false;
-            if( m_test != policy.m_test ) return false;
-            if( m_runtime != policy.m_runtime ) return false;
-            return true;
-        }
-        return false;
+        if( ! ( other instanceof Policy ) )
+            return false;
+        final Policy policy = (Policy) other;
+        if( m_build != policy.m_build ) 
+            return false;
+        if( m_test != policy.m_test ) 
+            return false;
+        if( m_runtime != policy.m_runtime ) 
+            return false;
+        return true;
+    }
+    
+    public int hashCode()
+    {
+        int hash = 26143876;
+        hash = m_build ? hash >>> 7 : hash >>> 3;
+        hash = m_test ? hash >>> 7 : hash >>> 3;
+        hash = m_runtime ? hash >>> 7 : hash >>> 3;
+        
+        return hash;
     }
 }

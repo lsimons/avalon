@@ -111,16 +111,32 @@ public class ResourceRef
 
     public boolean equals( final Object other )
     {
-        if( other instanceof ResourceRef )
-        {
-            final ResourceRef ref = (ResourceRef) other;
-            if( !getKey().equals( ref.getKey() ) ) return false;
-            if( !getPolicy().equals( ref.getPolicy() ) ) return false;
-            return true;
-        }
-        return false;
+        if( ! ( other instanceof ResourceRef ) )
+            return false;
+            
+        final ResourceRef ref = (ResourceRef) other;
+        
+        if( ! getKey().equals( ref.getKey() ) ) 
+            return false;
+        
+        if( ! getPolicy().equals( ref.getPolicy() ) ) 
+            return false;
+        
+        if( getTag() != ref.getTag() ) 
+            return false;
+        
+        return true;
     }
 
+    public int hashCode()
+    {
+        int hash = 926234653;
+        hash = hash ^ m_policy.hashCode();
+        hash >>>= 7;
+        hash = hash ^ ( 1876872534 >> m_tag );
+        return hash;
+    }
+    
     public String toString()
     {
         return "[resource key=\"" + getKey() + "\"]";

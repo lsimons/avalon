@@ -59,6 +59,12 @@ public class Plugin extends Definition
         return false;
     }
 
+    public int hashCode()
+    {
+        return super.hashCode();  // NH: Is this really correct?
+    }
+        
+    
     public static class AbstractDef
     {
         private String m_classname;

@@ -619,7 +619,8 @@ public class Context extends Task
 
     private static File setupEtc( final File basedir, final String path )
     {
-        if( null == path ) return new File( basedir, ETC_VALUE );
+        if( null == path ) 
+            return new File( basedir, ETC_VALUE );
         return new File( basedir, path );
     }
 

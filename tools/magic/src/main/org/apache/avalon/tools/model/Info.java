@@ -290,26 +290,48 @@ public class Info
     */
     public boolean equals( final Object other )
     {
-        if( other instanceof Info )
+        if( ! ( other instanceof Info ) )
+            return false;
+            
+        final Info info = (Info) other;
+        if( isaSnapshot() != info.isaSnapshot() ) 
+            return false;
+        if( ! getName().equals( info.getName() ) ) 
+            return false;
+        if( ! getGroup().equals( info.getGroup() ) ) 
+            return false;
+        if( ! getType().equals( info.getType() ) ) 
+            return false;
+            
+        if( null == getVersion() ) 
         {
-            final Info info = (Info) other;
-            if( isaSnapshot() != info.isaSnapshot() ) return false;
-            if( !getName().equals( info.getName() ) ) return false;
-            if( !getGroup().equals( info.getGroup() ) ) return false;
-            if( !getType().equals( info.getType() ) ) return false;
-            if( null == getVersion() ) 
-            {
-                return ( null == info.getVersion() );
-            }
-            else
-            {
-                return getVersion().equals( info.getVersion() );
-            }
+            return ( null == info.getVersion() );
         }
         else
         {
-            return false;
+            return getVersion().equals( info.getVersion() );
         }
+    }
+    
+    public int hashCode()
+    {
+
+        int hash;
+        if( m_version == null )
+            hash = 72367861;
+        else
+            hash = getVersion().hashCode();
+            
+        if( isaSnapshot() )
+            hash >>>= 7;
+        else
+            hash >>>= 13;
+        
+        hash = hash ^ m_name.hashCode();
+        hash = hash ^ m_group.hashCode();
+        hash = hash ^ m_type.hashCode();
+        
+        return hash;
     }
 
     //-------------------------------------------------------------------
