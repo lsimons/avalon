@@ -75,7 +75,7 @@
       <fo:page-sequence master-name="title">
         <xsl:if test="bookinfo/authorgroup">
           <fo:static-content flow-name="title-footer">
-            <fo:block font-family="Garamond"
+            <fo:block font-family="serif"
                       font-size="16pt"
                       font-style="italic"
                       text-align="end">
@@ -88,13 +88,13 @@
           </fo:static-content>
         </xsl:if>
         <fo:flow flow-name="xsl-region-body">
-          <fo:block font-family="Garamond"
+          <fo:block font-family="serif"
                     font-size="48pt"
                     font-weight="bold">
             <xsl:value-of select="title"/>
           </fo:block>
           <xsl:if test="subtitle">
-            <fo:block font-family="Garamond"
+            <fo:block font-family="serif"
                       font-size="24pt"
                       border-top-style="solid"
                       border-top-width="1pt"
@@ -117,7 +117,7 @@
         <fo:block text-align="start"
                   line-height="12pt"
                   font-style="italic"
-                  font-family="Garamond"
+                  font-family="serif"
                   font-size="10pt"
                   border-after-style="solid"
                   border-after-size="1pt">
@@ -129,14 +129,14 @@
                   line-height="12pt"
                   border-before-style="solid"
                   border-before-size="1pt"
-                  font-family="Garamond"
+                  font-family="serif"
                   font-size="10pt"><fo:page-number/></fo:block>
       </fo:static-content>
       <fo:static-content flow-name="odd-header">
         <fo:block text-align="end"
                   line-height="12pt"
                   font-style="italic"
-                  font-family="Garamond"
+                  font-family="serif"
                   font-size="10pt"
                   border-after-style="solid"
                   border-after-size="1pt">
@@ -148,7 +148,7 @@
                   line-height="12pt"
                   border-before-style="solid"
                   border-before-size="1pt"
-                  font-family="Garamond"
+                  font-family="serif"
                   font-size="10pt"><fo:page-number/></fo:block>
       </fo:static-content>
       <fo:static-content flow-name="title-footer">
@@ -156,16 +156,16 @@
                   line-height="12pt"
                   border-before-style="solid"
                   border-before-size="1pt"
-                  font-family="Garamond"
+                  font-family="serif"
                   font-size="10pt"><fo:page-number/></fo:block>
       </fo:static-content>
       <fo:flow flow-name="xsl-region-body">
-        <fo:block space-before="2in" font-family="Garamond" font-size="24pt" font-weight="bold">
+        <fo:block space-before="2in" font-family="serif" font-size="24pt" font-weight="bold">
           <xsl:value-of select="title"/>
         </fo:block>
         <xsl:if test="subtitle">
           <fo:block font-style="italic"
-                    font-family="Garamond"
+                    font-family="serif"
                     font-size="18pt"
                     space-after="10pt">
             <xsl:value-of select="subtitle"/>
@@ -181,14 +181,14 @@
   <xsl:template match="honorific|firstname|surname|orgdiv|orgname|shortaffil|jobtitle"/>
 
   <xsl:template match="bookinfo/revhistory">
-    <fo:block font-family="Garamond" font-size="10pt" font-weight="bold" space-before="10pt">
+    <fo:block font-family="serif" font-size="10pt" font-weight="bold" space-before="10pt">
       Revision History:
     </fo:block>
     <xsl:variable name="unique-revisions" 
                   select="revision[not(revnumber=preceding-sibling::revision/revnumber)]/revnumber"/>
     <xsl:variable name="base" select="."/>
     <xsl:for-each select="$unique-revisions">
-      <fo:block font-family="Garamond"
+      <fo:block font-family="serif"
                 font-size="8pt">
         <xsl:value-of select="$base/revision[revnumber=current()]/date"/>: Revision <xsl:value-of select="."/>
       </fo:block>
@@ -202,7 +202,7 @@
         <fo:block text-align="start"
                   line-height="12pt"
                   font-style="italic"
-                  font-family="Garamond"
+                  font-family="serif"
                   font-size="10pt"
                   border-after-style="solid"
                   border-after-size="1pt">
@@ -214,14 +214,14 @@
                   line-height="12pt"
                   border-before-style="solid"
                   border-before-size="1pt"
-                  font-family="Garamond"
+                  font-family="serif"
                   font-size="10pt"><fo:page-number/></fo:block>
       </fo:static-content>
       <fo:static-content flow-name="odd-header">
         <fo:block text-align="end"
                   line-height="12pt"
                   font-style="italic"
-                  font-family="Garamond"
+                  font-family="serif"
                   font-size="10pt"
                   border-after-style="solid"
                   border-after-size="1pt">
@@ -233,7 +233,7 @@
                   line-height="12pt"
                   border-before-style="solid"
                   border-before-size="1pt"
-                  font-family="Garamond"
+                  font-family="serif"
                   font-size="10pt"><fo:page-number/></fo:block>
       </fo:static-content>
       <fo:static-content flow-name="title-footer">
@@ -241,11 +241,11 @@
                   line-height="12pt"
                   border-before-style="solid"
                   border-before-size="1pt"
-                  font-family="Garamond"
+                  font-family="serif"
                   font-size="10pt"><fo:page-number/></fo:block>
       </fo:static-content>
       <fo:flow flow-name="xsl-region-body">
-        <fo:block space-before="2in" font-family="Garamond" font-size="24pt" font-weight="bold" space-after="10pt">
+        <fo:block space-before="2in" font-family="serif" font-size="24pt" font-weight="bold" space-after="10pt">
           Revision History
         </fo:block>
         <xsl:variable name="unique-revisions" 
@@ -253,7 +253,7 @@
         <xsl:variable name="base" select="."/>
         <xsl:for-each select="$unique-revisions">
           <fo:block font-weight="bold"
-                    font-family="Garamond"
+                    font-family="serif"
                     font-size="14pt"
                     space-before="10pt">
             Revision <xsl:value-of select="."/>
@@ -270,7 +270,7 @@
 
   <xsl:template match="para">
     <fo:block space-after="8pt"
-              font-family="Garamond"><xsl:apply-templates/></fo:block>
+              font-family="serif"><xsl:apply-templates/></fo:block>
   </xsl:template>
 
   <xsl:template match="emphasis">
@@ -301,7 +301,7 @@
     <xsl:param name="level">0</xsl:param>
     <xsl:variable name="size" select="16-(number($level)*2)"/>
 
-    <fo:block font-family="Garamond"
+    <fo:block font-family="serif"
               font-size="{$size}pt"
               font-weight="bold"
               space-before="12pt">
@@ -358,7 +358,7 @@
         <fo:block text-align="start"
                   line-height="12pt"
                   font-style="italic"
-                  font-family="Garamond"
+                  font-family="serif"
                   font-size="10pt"
                   border-after-style="solid"
                   border-after-size="1pt">
@@ -370,14 +370,14 @@
                   line-height="12pt"
                   border-before-style="solid"
                   border-before-size="1pt"
-                  font-family="Garamond"
+                  font-family="serif"
                   font-size="10pt"><fo:page-number/></fo:block>
       </fo:static-content>
       <fo:static-content flow-name="odd-header">
         <fo:block text-align="end"
                   line-height="12pt"
                   font-style="italic"
-                  font-family="Garamond"
+                  font-family="serif"
                   font-size="10pt"
                   border-after-style="solid"
                   border-after-size="1pt">
@@ -389,7 +389,7 @@
                   line-height="12pt"
                   border-before-style="solid"
                   border-before-size="1pt"
-                  font-family="Garamond"
+                  font-family="serif"
                   font-size="10pt"><fo:page-number/></fo:block>
       </fo:static-content>
       <fo:static-content flow-name="title-footer">
@@ -397,11 +397,11 @@
                   line-height="12pt"
                   border-before-style="solid"
                   border-before-size="1pt"
-                  font-family="Garamond"
+                  font-family="serif"
                   font-size="10pt"><fo:page-number/></fo:block>
       </fo:static-content>
       <fo:flow flow-name="xsl-region-body">
-        <fo:block space-before="2in" font-family="Garamond" font-size="24pt" font-weight="bold" space-after="10pt">
+        <fo:block space-before="2in" font-family="serif" font-size="24pt" font-weight="bold" space-after="10pt">
           About the Authors
         </fo:block>
         <xsl:apply-templates select="/book/bookinfo/authorgroup/author"/>
@@ -410,7 +410,7 @@
   </xsl:template>
 
   <xsl:template match="author">
-    <fo:block font-family="Garamond"
+    <fo:block font-family="serif"
               font-size="16pt"
               font-weight="bold"
               space-before="12pt">
@@ -418,7 +418,7 @@
       <xsl:value-of select="firstname"/><xsl:text> </xsl:text>
       <xsl:value-of select="surname"/>
     </fo:block>
-    <fo:block font-family="Garamond"
+    <fo:block font-family="serif"
               font-size="14pt"
               font-weight="bold"
               space-before="12pt">
@@ -450,7 +450,7 @@
   </xsl:template>
 
   <xsl:template match="authorblurb">
-    <fo:block font-family="Garamond"
+    <fo:block font-family="serif"
               font-size="14pt"
               font-weight="bold"
               space-before="12pt">
@@ -463,7 +463,7 @@
     <fo:page-sequence master-name="title">
       <fo:flow flow-name="xsl-region-body">
         <xsl:for-each select="para">
-          <fo:block font-style="italic" font-family="Garamond" space-before="3in" font-size="10pt" text-align="center">
+          <fo:block font-style="italic" font-family="serif" space-before="3in" font-size="10pt" text-align="center">
             <xsl:apply-templates/>
           </fo:block>
         </xsl:for-each>
@@ -490,7 +490,7 @@
               text-align="justify"
               space-before="20pt"
               width="7.5in"
-              font-family="Garamond">
+              font-family="serif">
       <xsl:apply-templates/>
     </fo:block>
   </xsl:template>
@@ -551,7 +551,7 @@
               margin-right="1in"
               font-weight="bold"
               font-size="10pt"
-              font-family="Garamond"
+              font-family="serif"
               space-before="10pt"
               border-before-style="solid"
               border-start-style="solid"
@@ -562,7 +562,7 @@
     </fo:block>
     <fo:block margin-left="1in"
               margin-right="1in"
-              font-family="garamond"
+              font-family="serif"
               font-size="8pt"
               border-after-style="solid"
               border-start-style="solid"
@@ -582,7 +582,7 @@
               margin-right="1in"
               font-weight="bold"
               font-size="10pt"
-              font-family="Garamond"
+              font-family="serif"
               space-before="10pt"
               border-before-style="solid"
               border-start-style="solid"
@@ -593,7 +593,7 @@
     </fo:block>
     <fo:block margin-left="1in"
               margin-right="1in"
-              font-family="garamond"
+              font-family="serif"
               font-size="8pt"
               border-after-style="solid"
               border-start-style="solid"
@@ -617,7 +617,7 @@
         (see <xsl:value-of select="generate-id()"/> below)
       </fo:inline>
       <fo:footnote-body>
-        <fo:block font-family="Garamond"
+        <fo:block font-family="serif"
                   font-size="8pt"
                   line-height="12pt"
                   font-style="italic">
@@ -628,21 +628,21 @@
   </xsl:template>
 
   <xsl:template match="figure">
-    <fo:block text-align="center" font-weight="bold" font-family="Garamond" space-before="10pt" space-after="20pt">
+    <fo:block text-align="center" font-weight="bold" font-family="serif" space-before="10pt" space-after="20pt">
       <xsl:value-of select="title"/>
       <xsl:apply-templates/>
     </fo:block>
   </xsl:template>
 
   <xsl:template match="graphic">
-    <fo:external-graphic src="http://localhost/{@fileref}">
+    <fo:external-graphic src="build/documentation/resources/{@fileref}">
       <xsl:attribute name="content-type">
         <xsl:text>content-type:image/</xsl:text>
         <xsl:value-of select="translate(@format,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')"/>
       </xsl:attribute>
     </fo:external-graphic>
     <xsl:if test="@srccredit">
-      <fo:block font-size="8pt" font-family="Garamond" font-style="italic">
+      <fo:block font-size="8pt" font-family="serif" font-style="italic">
         &#x2022; <xsl:value-of select="@srccredit"/>
       </fo:block>
     </xsl:if>
