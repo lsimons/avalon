@@ -123,11 +123,15 @@
       <version>0.9.6</version>
     </dependency>
 
+    <!-- comment out following dep pending check on license -->
+    <!--
     <dependency>
       <groupId>sun</groupId>
       <artifactId>jndi</artifactId>
       <version>1.2.1</version>
     </dependency>
+    -->
+
   </dependencies>
 
   <!-- build information for the project -->
