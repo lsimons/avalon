@@ -32,6 +32,7 @@ import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.tools.assembler.Assembler;
 import org.apache.avalon.phoenix.tools.assembler.AssemblyException;
+import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.apache.avalon.phoenix.tools.installer.Installation;
 import org.apache.avalon.phoenix.tools.installer.Installer;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
@@ -49,7 +50,6 @@ public class DefaultDeployer
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultDeployer.class );
 
-    private final DefaultConfigurationBuilder m_builder = new DefaultConfigurationBuilder();
     private final Assembler m_assembler = new Assembler();
     private final SarVerifier m_verifier = new SarVerifier();
     private final Installer m_installer = new Installer();
@@ -196,7 +196,7 @@ public class DefaultDeployer
     {
         try
         {
-            return m_builder.build( location );
+            return ConfigurationBuilder.build( location );
         }
         catch( final Exception e )
         {
