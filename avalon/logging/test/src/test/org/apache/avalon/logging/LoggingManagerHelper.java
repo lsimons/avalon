@@ -45,7 +45,7 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
  * 
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class LoggingManagerHelper
 {
@@ -59,11 +59,12 @@ public class LoggingManagerHelper
      * @param bootstrap the boostrap logger logging level
      * @return the logging manager
      */
-    public static LoggingManager setUpLoggingManager( String id, String filename ) throws Exception
+    public static LoggingManager setUpLoggingManager( 
+      String id, String filename ) throws Exception
     {
         InitialContext context = setUpInitialContext( "conf/system.xml" );
         Artifact[] candidates = 
-          context.getRegistry().getCandidates( LoggingManager.class );
+          context.getRepository().getCandidates( LoggingManager.class );
         Artifact artifact = selectArtifact( candidates, id );
         Builder builder = context.newBuilder( artifact );
         Factory factory = builder.getFactory();
@@ -97,11 +98,7 @@ public class LoggingManagerHelper
         factory.setCacheDirectory( getMavenRepositoryDirectory() );
         Artifact[] artifacts = 
           getArtifactsToRegister( path );
-        for( int i=0; i<artifacts.length; i++ )
-        {
-            Artifact artifact = artifacts[i];
-            factory.addFactoryArtifact( artifact );
-        }
+        factory.setFactoryArtifacts( artifacts );
         return factory.createInitialContext();
     }
 
