@@ -101,8 +101,8 @@
   <target name="checkNeccesaryJars" depends="checkJoJars" unless="jo.present">
       <echo>*************************</echo>
       <echo>* Please execute target *</echo>
-      <echo>* 'get-jo' in the main  *</echo>
-      <echo>* build.xml build file  *</echo>    
+      <echo>* 'get-jo' in the       *</echo>
+      <echo>* jo.xml build file     *</echo>    
       <echo>* to download three and *</echo>
       <echo>* a half Mb of Jo!      *</echo>
       <echo>*************************</echo>   
