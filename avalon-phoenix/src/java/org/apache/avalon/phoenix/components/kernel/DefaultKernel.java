@@ -116,14 +116,7 @@ public class DefaultKernel
             try
             {
                 application = new DefaultServerApplication();
-
                 setupLogger( application, name );
-
-                if( application instanceof Composable )
-                {
-                    final ComponentManager componentManager = createComponentManager();
-                    ((Composable)application).compose( componentManager );
-                }
 
                 final ApplicationFrame frame = createApplicationFrame( entry );
                 application.setup( frame );
