@@ -8,7 +8,7 @@
   </properties>
 
   <body>
-    <section name="Introduction">
+    <section name="Avalon Framework - Introduction">
       <p>
         The Avalon Framework consists of interfaces
         that define relationships between commonly used application components,
@@ -20,9 +20,9 @@
           The Avalon Framework is based on several important programming
           concepts (design patterns and COP) which are applied throughout
           Avalon. These concepts are introduced under the heading
-          <a href="./cop/index.html">Component Oriented</a>.  Application 
+          <a href="cop/index.html">Component Oriented</a>.  Application 
           of these concepts within Avalon is addressed under 
-          <a href="./principals/index.html">Component Development</a>.
+          <a href="principals/index.html">Component Development</a>.
         </p>
       </subsection>
       <subsection name="Target Audience">
