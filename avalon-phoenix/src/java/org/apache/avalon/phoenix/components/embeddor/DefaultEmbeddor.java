@@ -182,19 +182,34 @@ public class DefaultEmbeddor
         deployDefaultApplications();
 
         // loop until <code>Shutdown</code> is created.
-        while( !m_shutdown )
+        while( true )
         {
             // wait() for shutdown() to take action...
-            try
+            if( m_shutdown || emptyKernel() )
             {
-                synchronized( this )
-                {
-                    wait();
-                }
+                break;
             }
-            catch( final InterruptedException e )
+            gotoSleep();
+        }
+    }
+
+    private boolean emptyKernel()
+    {
+        final String[] names = m_kernel.getApplicationNames();
+        return ( 0 == names.length );
+    }
+
+    private void gotoSleep()
+    {
+        try
+        {
+            synchronized( this )
             {
+                wait( 1000 );
             }
+        }
+        catch( final InterruptedException e )
+        {
         }
     }
 
@@ -246,7 +261,7 @@ public class DefaultEmbeddor
 
     /**
      * Ask the embeddor to restart itself if this operation is supported.
-     * 
+     *
      * @exception UnsupportedOperationException if restart not supported
      */
     public void restart()
@@ -254,10 +269,10 @@ public class DefaultEmbeddor
     {
         try
         {
-            //Pass a message back to original invoker. 
+            //Pass a message back to original invoker.
             //We use an ActionListener rather than operating on some more meaningful
             //event system as ActionListener and friends can be loaded from system
-            //ClassLoader and thus the Embeddor does not have to share a common 
+            //ClassLoader and thus the Embeddor does not have to share a common
             //classloader ancestor with invoker
             final ActionListener listener =
                 (ActionListener)m_context.get( ActionListener.class.getName() );
