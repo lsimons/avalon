@@ -15,44 +15,48 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.repository;
+package org.apache.avalon.repository ;
+
+import java.io.IOException;
 
 /**
- * Exception to indicate that there was a repository related error.
+ * Exception to indicate that there was a IO exception.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:20:04 $
+ * @version $Revision: 1.1 $ $Date: 2004/01/24 23:20:04 $
  */
-public class RepositoryRuntimeException extends RuntimeException
+public class CascadingIOException
+        extends IOException
 {
+
     private Throwable m_cause;
 
     /**
-     * Construct a new <code>RepositoryRuntimeException</code> instance.
+     * Construct a new <code>ApplianceException</code> instance.
      *
      * @param message The detail message for this exception.
      */
-    public RepositoryRuntimeException( final String message )
+    public CascadingIOException( final String message )
     {
         this( message, null );
     }
 
     /**
-     * Construct a new <code>RepositoryException</code> instance.
+     * Construct a new <code>ApplianceException</code> instance.
      *
      * @param message The detail message for this exception.
-     * @param cause the root cause of the exception
+     * @param throwable the root cause of the exception
      */
-    public RepositoryRuntimeException( final String message, final Throwable cause )
+    public CascadingIOException( final String message, final Throwable throwable )
     {
         super( message );
-        m_cause = cause;
+        m_cause = throwable;
     }
 
-   /**
-    * Return the causal exception.
-    * @return the causal exception (possibly null)
-    */
+    /**
+     * Return the cause of the exception.
+     * @return the causal exception
+     */
     public Throwable getCause()
     {
         return m_cause;
