@@ -9,6 +9,7 @@
   <menu label="About">
     <menu-item label="Overview" href="index.html"/>
     <menu-item label="Features" href="features.html"/>
+    <menu-item type="external" id="downloads" label="Download" href="http://jakarta.apache.org/builds/jakarta-avalon/release/logkit"/>
     <menu-item label="Whitepaper" href="whitepaper.html"/>
 <!--
     <menu-item label="Getting Started" href="getting-started.html"/>
