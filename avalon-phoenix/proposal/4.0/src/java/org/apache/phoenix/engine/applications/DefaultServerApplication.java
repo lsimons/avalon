@@ -24,7 +24,7 @@ import org.apache.log.Logger;
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
  */
-class DefaultServerApplication implements ServerApplication
+public class DefaultServerApplication implements ServerApplication
     // and thus implements Application, Contextualizable, Configurable,
     // Initializable, Startable, Stoppable, Disposable and Container
 {

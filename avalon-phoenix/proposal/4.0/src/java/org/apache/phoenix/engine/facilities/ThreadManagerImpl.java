@@ -7,12 +7,75 @@
  */
 package org.apache.phoenix.engine.facilities;
 
+import java.util.Hashtable;
+import java.util.Iterator;
+import org.apache.framework.logger.AbstractLoggable;
 import org.apache.avalon.atlantis.facilities.ThreadManager;
+import org.apache.framework.configuration.Configurable;
+import org.apache.framework.configuration.Configuration;
+import org.apache.framework.configuration.ConfigurationException;
+import org.apache.avalon.thread.DefaultThreadPool;
+import org.apache.avalon.thread.ThreadPool;
 
 /**
  *
- * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
+ *
+ * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
+ * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class ThreadManagerImpl implements ThreadManager
+public class ThreadManagerImpl
+    extends AbstractLoggable
+    implements ThreadManager, Configurable
 {
+    protected final Hashtable       m_pools = new Hashtable();
+
+    public void configure( final Configuration configuration )
+        throws ConfigurationException
+    {
+        final Configuration[] groups = configuration.getChildren( "thread-group" );
+        for( int i = 0; i < groups.length; i++ )
+        {
+            final Configuration group = groups[ i ];
+
+            final String name = group.getChild( "name" ).getValue();
+            final int priority = group.getChild( "priority" ).getValueAsInt( 5 );
+            final boolean isDaemon = group.getChild( "is-daemon" ).getValueAsBoolean( false );
+
+            final int minThreads = group.getChild( "min-threads" ).getValueAsInt( 5 );
+            final int maxThreads = group.getChild( "max-threads" ).getValueAsInt( 10 );
+            final int minSpareThreads = group.getChild( "min-spare-threads" ).
+                getValueAsInt( maxThreads - minThreads );
+
+            try
+            {
+                final DefaultThreadPool threadPool = new DefaultThreadPool( name, maxThreads );
+                threadPool.setDaemon( isDaemon );
+                setupLogger( threadPool );
+                m_pools.put( name, threadPool );
+            }
+            catch( final Exception e )
+            {
+                throw new ConfigurationException( "Error creating thread pool " + name,
+                                                  e );
+            }
+        }
+    }
+
+    public ThreadPool getDefaultThreadPool()
+    {
+        return getThreadPool( "default" );
+    }
+
+    public ThreadPool getThreadPool( final String name )
+    {
+        final ThreadPool threadPool = (ThreadPool)m_pools.get( name );
+
+        if( null == threadPool )
+        {
+            //Should this be a ComponentNotFoundException ????
+            throw new IllegalArgumentException( "No such thread group " + name );
+        }
+
+        return threadPool;
+    }
 }

@@ -57,7 +57,7 @@ public class Start implements Disposable
                                                     "org.apache.phoenix.engine.PhoenixEmbeddor";
         private static String deployerClass;
         private static final String DEFAULT_DEPLOYER_CLASS =
-                                                    "org.apache.phoenix.engine.deployer.DefaultDeployer";
+                                                    "org.apache.phoenix.engine.deployer.DefaultSarDeployer";
         private static String mBeanServerClass;
         private static final String DEFAULT_MBEANSERVER_CLASS =
                                                     "org.apache.jmx.MBeanServerImpl";
