@@ -11,7 +11,6 @@
    <person name="Berin Loritsch" email="bloritsch@apache.org"/>
    <person name="Peter Donald" email="peter at apache.org"/>
    <person name="Roberto Lo Giacco" email="rlogiacco@mail.com"/>
-   <person name="Leo Simons" email="mail@leosimons.com"/>
   </authors>
  </header>
 
@@ -38,7 +37,7 @@ are caught, you are responsible for also fixing your own code.</strong>
 if( foo )
 {
     // code here
-}    
+}
 
 try
 {
@@ -51,17 +50,17 @@ catch( final Exception bar )
 finally
 {
     // code here
-}    
+}
 
 while( true )
 {
     // code here
-}    
+}
 
 ]]></source>
 </li>
 
-<li><p>The preference is to include extra spaces between parenthesis and expression. 
+<li><p>The preference is to include extra spaces between parenthesis and expression.
 For example;</p>
 <source><![CDATA[
 
@@ -120,7 +119,7 @@ top of the file. For java files the preferred Javadoc format is:
 
 <source><![CDATA[
 @author <a href="mailto:user@domain.com">John Doe</a>
-]]></source>    
+]]></source>
 </li>
 
  <li>
@@ -128,22 +127,22 @@ top of the file. For java files the preferred Javadoc format is:
           100 column, using a two more indents when a line must be wrapped.
       </li>
         <li>
-          We focus on readability over performance, at least initially. Source code 
+          We focus on readability over performance, at least initially. Source code
           optimization is the last thing to be done to increase performance.
-          If the code is not performing then it is better to re-engineer it rather 
+          If the code is not performing then it is better to re-engineer it rather
           than to expand loops, take out variable declarations etc. When the code
-          is stable and has a well defined purpose and interface it may be appropriate 
+          is stable and has a well defined purpose and interface it may be appropriate
           to do source code optimization.
         </li>
         <li>
-          Try to javadoc all methods and variables, especially public, protected 
-          and default access methods and member variables. Also add code comments 
+          Try to javadoc all methods and variables, especially public, protected
+          and default access methods and member variables. Also add code comments
           when you think it's necessary (like assumptions).
         </li>
 <li>
 Variables are declared in the inner scope.
 <source>
-while( myListIterator.hasNext() ) 
+while( myListIterator.hasNext() )
 {
     final String myString = (String)myListIterator.next();
 }
@@ -155,25 +154,25 @@ being; loop counters (usually use i, j and k), exceptions (use concatenation
 of word separating characters - ie SocketException is abbreviated as se) and
 other commonly used abbreviations (ie sb for StringBuffer).
 <source><![CDATA[
-try 
+try
 {
     for( int i = 0; i < 10; i++ )
     {
         // some stuff
     }
-} 
+}
 catch( final FileNotFoundException fnfe )
 {
     // some stuff
 }
-catch( final IndexOutOfBoundsException ioobe ) 
+catch( final IndexOutOfBoundsException ioobe )
 {
     // some stuff
 }
 ]]></source>
 </li>
 <li>
-Use String concatenation except in extremely performance sensitive 
+Use String concatenation except in extremely performance sensitive
 sections. This leaves StringBuffer optimization to the compiler.
 So use:
 <source>
@@ -183,14 +182,14 @@ final String myString = "test " + "for " + "performances";
         <li>
           Try not to declare a method as 'synchronized'.  If a method accesses
           a shared resource then surround accesses to that resource with
-          a synchronized block. Ideally the synchronized block should surround 
+          a synchronized block. Ideally the synchronized block should surround
           the smallest possible area. For example:
 <source>
-public void sharedMethod() 
+public void sharedMethod()
 {
     String display = null;
 
-    synchronized( this ) 
+    synchronized( this )
     {
         display = mySharedObject.getHelloWorld();
     }
@@ -200,9 +199,9 @@ public void sharedMethod()
 </source>
 If you are within a static method, then you may have to create
 a static object whose sole purpose in life is to provide the
-lock you need. Alternatively you could use the Class object for 
-the class you are in. That is, if you're in class MyClass, use 
-"MyClass.class".  
+lock you need. Alternatively you could use the Class object for
+the class you are in. That is, if you're in class MyClass, use
+"MyClass.class".
 </li>
 <li>
 Have the names of all member instance fields start with the prefix "m_".
@@ -214,6 +213,23 @@ class MyClass
     int m_users;
 }
 </source>
+</li>
+
+<li>
+Don't chain method calls. The below:
+<source><![CDATA[
+Thing thing = (MyThing)myObject.doSomething().doSomethingElse().getMyThing();
+]]></source>
+is considered bad practice because it hides problems relating to
+synchronization, resource management, etc. The example above might
+become:
+<source><![CDATA[
+final MySomething something = myObject.doSomething();
+final MyElse somethingElse = something.doSomethingElse();
+
+Thing thing = somethingElse.getMyThing();
+]]></source>
+The extra typing will help keep the code bug-free.
 </li>
 </ol>
 
