@@ -14,8 +14,8 @@ import org.apache.excalibur.source.SourceValidity;
 /**
  * A validation object for time-stamps.
  *
- * @author: <a href="mailto:volker.schmitt@basf-it-services.com">Volker Schmitt</a> 
- * @version CVS $Revision: 1.1 $
+ * @author: <a href="mailto:volker.schmitt@basf-it-services.com">Volker Schmitt</a>
+ * @version CVS $Revision: 1.2 $
  */
 public final class FileTimeStampValidity
     implements SourceValidity
@@ -28,12 +28,12 @@ public final class FileTimeStampValidity
     {
         this(new File(filename));
     }
-    
+
     public FileTimeStampValidity( File file )
     {
         this(file, file.lastModified());
     }
-    
+
     public FileTimeStampValidity( File file, long  timeStamp )
     {
         this.file = file;
@@ -42,12 +42,14 @@ public final class FileTimeStampValidity
 
     /**
      * Check if the component is still valid.
-     * If <code>false</code> is returned the isValid(SourceValidity) must be
+     * If <code>0</code> is returned the isValid(SourceValidity) must be
      * called afterwards!
+     * If -1 is returned, the component is not valid anymore and if +1
+     * is returnd, the component is valid.
      */
-    public boolean isValid()
+    public int isValid()
     {
-        return file.lastModified() == this.timeStamp;
+        return (file.lastModified() == this.timeStamp ? 1 : -1);
     }
 
     public boolean isValid( SourceValidity newValidity )
@@ -58,7 +60,7 @@ public final class FileTimeStampValidity
         }
         return false;
     }
-    
+
     public File getFile()
     {
         return this.file;

@@ -13,7 +13,7 @@ import org.apache.excalibur.source.SourceValidity;
  * A validation object for time-stamps.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/19 09:05:37 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/06/04 08:42:13 $
  */
 public final class TimeStampValidity
     implements SourceValidity
@@ -28,12 +28,14 @@ public final class TimeStampValidity
 
     /**
      * Check if the component is still valid.
-     * If <code>false</code> is returned the isValid(SourceValidity) must be
+     * If <code>0</code> is returned the isValid(SourceValidity) must be
      * called afterwards!
+     * If -1 is returned, the component is not valid anymore and if +1
+     * is returnd, the component is valid.
      */
-    public boolean isValid()
+    public int isValid()
     {
-        return false;
+        return 0;
     }
 
     public boolean isValid( SourceValidity newValidity )

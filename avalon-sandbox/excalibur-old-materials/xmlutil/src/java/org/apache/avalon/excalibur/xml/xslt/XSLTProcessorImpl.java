@@ -59,7 +59,7 @@ import org.apache.excalibur.store.Store;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.6 2002/05/06 09:03:10 cziegeler Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.7 2002/06/04 08:42:13 cziegeler Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
@@ -397,14 +397,17 @@ public class XSLTProcessorImpl
             Object[] templateAndValidity = (Object[])store.get(id);
 
             SourceValidity storedValidity = (SourceValidity)templateAndValidity[1];
-            boolean isValid = storedValidity.isValid();
-            if ( !isValid ) {
+            int valid = storedValidity.isValid();
+            boolean isValid = false;
+            if ( valid == 0 ) {
                 SourceValidity validity = stylesheet.getValidity();
                 if ( null != validity) {
 
                     isValid = storedValidity.isValid( validity );
 
                 }
+            } else {
+                isValid = (valid == 1);
             }
 
             if ( isValid ) {
