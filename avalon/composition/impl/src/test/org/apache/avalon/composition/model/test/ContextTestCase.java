@@ -58,7 +58,7 @@ public class ContextTestCase extends AbstractTestCase
             throw new IllegalStateException( "null context model" );
         }
 
-        context = contextModel.getContext();
+        context = (Context) contextModel.getContext();
         if( null == context )
         {
             throw new IllegalStateException( "null context" );

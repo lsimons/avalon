@@ -74,7 +74,7 @@ import org.apache.avalon.util.i18n.Resources;
  * A factory enabling the establishment of component instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/03/08 11:28:35 $
+ * @version $Revision: 1.7 $ $Date: 2004/03/11 18:13:14 $
  */
 public class DefaultComponentFactory implements ComponentFactory
 {
@@ -133,14 +133,13 @@ public class DefaultComponentFactory implements ComponentFactory
 
         try
         {
-            return doIncarnation();
+            return incarnation();
         }
         finally 
         {
             Thread.currentThread().setContextClassLoader( current );
         }
     }
-
 
    /**
     * Termination of the instance including all end-of-life processing.
@@ -246,17 +245,20 @@ public class DefaultComponentFactory implements ComponentFactory
     * Creation of a new instance including all deployment stage handling.
     * @return the new instance
     */
-    private Object doIncarnation() throws LifecycleException
+    private Object incarnation() throws LifecycleException
     {
         Class clazz = m_model.getDeploymentClass();
         final Logger logger = m_model.getLogger();
         final Configuration config = m_model.getConfiguration();
         final Parameters params = m_model.getParameters();
         final ServiceManager manager = new DefaultServiceManager( m_model );
-        final Context context = getTargetContext();
+        final Object context = getTargetContext();
+
+        final Class contextClass = getContextCastingClass();
 
         final Object instance = 
-          instantiate( clazz, logger, config, params, context, manager );
+          instantiate( 
+            clazz, logger, config, params, context, contextClass, manager );
 
         try
         {
@@ -437,7 +439,20 @@ public class DefaultComponentFactory implements ComponentFactory
         }
     }
 
-    private Context getTargetContext()
+
+    private Class getContextCastingClass()
+    {
+        if( null == m_model.getContextModel() ) 
+        {
+            return null;
+        }
+        else
+        {
+            return m_model.getContextModel().getCastingClass();
+        }
+    }
+
+    private Object getTargetContext()
     {
        ContextModel model = m_model.getContextModel();
        if( null == model ) return null;
@@ -446,24 +461,11 @@ public class DefaultComponentFactory implements ComponentFactory
 
     private Object instantiate( 
       Class clazz, Logger logger, Configuration config, Parameters params, 
-      Context context, ServiceManager manager )
+      Object context, Class contextClass, ServiceManager manager )
       throws LifecycleException
     {
-        Constructor[] constructors = clazz.getConstructors();
-        if( constructors.length < 1 ) 
-        {
-            final String error = 
-              REZ.getString( 
-                "lifecycle.error.no-constructor", 
-                clazz.getName() );
-            throw new LifecycleException( error );
-        }
+        Constructor constructor = getConstructor( clazz );
 
-        //
-        // assume components have only one constructor for now
-        //
-
-        Constructor constructor = constructors[0];
         Class[] classes = constructor.getParameterTypes();
         Object[] args = new Object[ classes.length ];
         for( int i=0; i<classes.length; i++ )
@@ -477,7 +479,7 @@ public class DefaultComponentFactory implements ComponentFactory
                 }
                 args[i] = logger;
             }
-            else if( Context.class.isAssignableFrom( c ) )
+            else if( ( null != contextClass ) && contextClass.isAssignableFrom( c ) )
             {
                 if( null == context )
                 {
@@ -525,6 +527,44 @@ public class DefaultComponentFactory implements ComponentFactory
         //
 
         return instantiateComponent( constructor, args );
+    }
+
+    private Constructor getConstructor( Class clazz ) throws LifecycleException
+    {
+        Constructor[] constructors = clazz.getConstructors();
+        if( constructors.length < 1 ) 
+        {
+            final String error = 
+              REZ.getString( 
+                "lifecycle.error.no-constructor", 
+                clazz.getName() );
+            throw new LifecycleException( error );
+        }
+
+        if( constructors.length > 1 )
+        {
+            //
+            // we risk conflicting with an object designed for 4.1.2 or 
+            // earlier that has a null arg constructor - so if this class
+            // has a null arg constructor then invoke it, otherwise we 
+            // we are dealing with an ambigouse object
+            //
+
+            try
+            {
+                return clazz.getConstructor( new Class[0] );
+            }
+            catch( NoSuchMethodException e )
+            {
+                final String error =
+                  "Multiple constructor ambiguity.";
+                throw new LifecycleException( error );
+            }
+        }
+        else
+        {
+            return constructors[0];
+        }
     }
 
    /**
@@ -602,7 +642,7 @@ public class DefaultComponentFactory implements ComponentFactory
                 getLogger().debug( "processing create: " + c.getName() );
 
                 Creator handler = getCreator( provider );
-                Context context = m_model.getContextModel().getContext();
+                Context context = (Context) m_model.getContextModel().getContext();
 
                 try
                 {
@@ -775,7 +815,7 @@ public class DefaultComponentFactory implements ComponentFactory
         }
     }
 
-    private void applyContext( final Object instance, final Context context ) 
+    private void applyContext( final Object instance, final Object context ) 
       throws LifecycleException
     {
         if( null == context ) return;
@@ -801,7 +841,7 @@ public class DefaultComponentFactory implements ComponentFactory
                       {
                           public Object run() throws Exception
                           {
-                             ((Contextualizable)instance).contextualize( context );
+                             ((Contextualizable)instance).contextualize( (Context) context );
                              return null;
                           }
                       }, 
@@ -809,7 +849,7 @@ public class DefaultComponentFactory implements ComponentFactory
                 }
                 else
                 {
-                    ContainerUtil.contextualize( instance, context );
+                    ContainerUtil.contextualize( instance, (Context) context );
                 }
             }
             catch( Throwable e )
@@ -828,7 +868,7 @@ public class DefaultComponentFactory implements ComponentFactory
             {
                 ContextualizationHandler handler =
                   (ContextualizationHandler) provider.resolve();
-                handler.contextualize( instance, context );
+                handler.contextualize( instance, (Context) context );
             }
             catch( Throwable e )
             {
