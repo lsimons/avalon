@@ -47,7 +47,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.12 $ $Date: 2004/01/25 13:18:48 $
+ * @version $Revision: 1.13 $ $Date: 2004/02/03 04:53:41 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext
@@ -71,7 +71,7 @@ public class DefaultSystemContext extends DefaultContext
     */
     public static SystemContext createSystemContext( 
       InitialContext context, File base, File root,
-      int priority, boolean secure ) 
+      int priority, boolean secure, long deploymenttimeout ) 
       throws Exception
     {
         //
@@ -92,7 +92,7 @@ public class DefaultSystemContext extends DefaultContext
         final File temp = new File( base, "temp" );
 
         return new DefaultSystemContext( 
-          logging, base, home, temp, repository, "system", false, 1000, secure );
+          logging, base, home, temp, repository, "system", false, deploymenttimeout, secure );
     }
 
     private static CacheManager createCacheManager( InitialContext context, File root ) 

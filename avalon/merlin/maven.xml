@@ -14,7 +14,7 @@
   ==============================================================================
   -->
 
-  <ant:property name="avalon.plugin.version" value="1.0"/>
+  <ant:property name="avalon.util.plugin.version" value="1.0-SNAPSHOT"/>
   <ant:property name="meta.plugin.version" value="1.3.2"/>
   <ant:property name="merlin.cli.version" value="3.3-SNAPSHOT"/>
   <ant:property name="merlin.plugin.version" value="3.3-SNAPSHOT"/>
@@ -26,7 +26,7 @@
   -->
 
   <ant:property name="avalon.plugin.jar" 
-     value="avalon-plugin-${avalon.plugin.version}.jar"/>
+     value="avalon-util-plugin-${avalon.util.plugin.version}.jar"/>
   <ant:property name="meta.plugin.jar" 
      value="avalon-meta-plugin-${meta.plugin.version}.jar"/>
   <ant:property name="merlin.cli.jar" 
