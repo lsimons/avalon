@@ -18,6 +18,7 @@ abstract class NodeData
     
     private String m_name;
     private String m_description;
+    private int m_stateVersion;
     
     /*---------------------------------------------------------------
      * Constructors
@@ -42,6 +43,11 @@ abstract class NodeData
     void setDescription( String description )
     {
         m_description = description;
+    }
+    
+    int getStateVersion()
+    {
+        return m_stateVersion;
     }
     
     /**
@@ -102,7 +108,7 @@ abstract class NodeData
     }
     
     
-    boolean update( String name, String description )
+    boolean update( String name, String description, int stateVersion )
     {
         boolean changed = false;
         
@@ -111,6 +117,9 @@ abstract class NodeData
         
         changed |= description.equals( m_description );
         m_description = description;
+        
+        changed |= stateVersion == m_stateVersion;
+        m_stateVersion = stateVersion;
         
         return changed;
     }
