@@ -96,7 +96,7 @@ import java.util.*;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.33 $ $Date: 2003/05/29 17:14:45 $
+ * @version CVS $Revision: 1.34 $ $Date: 2003/05/29 21:09:28 $
  */
 public abstract class AbstractContainer
         extends AbstractLogEnabled
@@ -729,6 +729,13 @@ public abstract class AbstractContainer
             while ( dit.hasNext() )
             {
                 Map deps = (Map) m_mapper.get( dit.next() );
+
+                /* Ignore for now...  It is probably due to a component requiring a Container
+                 * component....  This happens when a required Service is not _directly_ handled
+                 * by this container.
+                 */
+                if ( null == deps ) continue;
+
                 Iterator mdit = deps.entrySet().iterator();
                 while ( mdit.hasNext() )
                 {
