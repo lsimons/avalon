@@ -12,6 +12,10 @@
   </devs>
   <release version="4.0.1" date="unreleased: current CVS">
     <action dev="BL" type="add">
+      Add Persistable interface to allow for full round trip configuration
+      persistence.
+    </action>
+    <action dev="BL" type="add">
       Add AvalonFormatter that was in LogKit's heirarchy.  This way, we
       avoid circular dependancies.
     </action>
