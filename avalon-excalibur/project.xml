@@ -170,7 +170,8 @@
             <include>**/*.xprofile</include>
             <include>**/*.xconfig</include>
             <include>**/*.xml</include>
-            <include>**/*.xservice</include>
+	    <include>**/*.xservice</include>
+	    <include>**/*.rng</include>
           </includes>
         </resource>
       </resources>
@@ -189,7 +190,8 @@
           <include>**/*.xprofile</include>
           <include>**/*.xconfig</include>
           <include>**/*.xml</include>
-          <include>**/*.xservice</include>
+	  <include>**/*.xservice</include>
+	  <include>**/*.rng</include>
         </includes>
       </resource>
       <resource>
