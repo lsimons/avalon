@@ -212,9 +212,6 @@ public class Resource
 
         if( !resolve )
         {
-            project.log( "# Cache: " + cache );
-            project.log( "# Path: " + path );
-            project.log( "# Target: " + target );
             return target;
         }
 
