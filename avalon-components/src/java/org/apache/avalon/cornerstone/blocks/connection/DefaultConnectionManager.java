@@ -78,7 +78,11 @@ public class DefaultConnectionManager
                                                 name );
         }
 
-        socket.setSoTimeout( 500 );
+        //Make sure timeout is specified for socket.
+        if( 0 == socket.getSoTimeout() )
+        {
+            socket.setSoTimeout( 500 );
+        }
 
         final Connection runner = new Connection( socket, handlerFactory, threadPool );
         setupLogger( runner );
