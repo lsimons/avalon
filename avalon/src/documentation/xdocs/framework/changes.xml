@@ -11,6 +11,10 @@
     <person name="Paul Hammant" email="hammant@apache.org" id="PH"/>
   </devs>
   <release version="4.1" date="November 7, 2001">
+    <action dev="JT" type="update">
+      Improve and update the configuration javadocs to reflect the new
+      namespace support.
+    </action>
     <action dev="BL" type="remove">
       Deprecate the Loggable and AbstractLoggable classes, and replace
       them with LogEnabled and AbstractLogEnabled.

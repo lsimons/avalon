@@ -8,7 +8,7 @@
 package org.apache.avalon.framework.configuration;
 
 /**
- * Extends Configurable to allow reconfiguration runtime.
+ * Extends <code>Configurable</code> to allow reconfiguration at runtime.
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:pier@apache.org">Pierpaolo Fumagalli</a>

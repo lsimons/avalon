@@ -18,11 +18,61 @@ package org.apache.avalon.framework.configuration;
  * <p>
  * The data model is a subset of XML's; a single-rooted hierarchical tree where each
  * node can contain multiple <em>attributes</em>, and leaf nodes can also
- * contain a <em>value</em>.  Reflecting this, <code>Configuration</code>s are
+ * contain a <em>value</em>. Reflecting this, <code>Configuration</code>s are
  * usually built from an XML file by the {@link DefaultConfigurationBuilder}
- * class, or directly by a SAX parser using a {@link SAXConfigurationHandler}
- * event handler.
+ * class, or directly by a SAX parser using a {@link SAXConfigurationHandler} or
+ * {@link NamespacedSAXConfigurationHandler} event handler.
  * </p>
+ * <p>
+ * Since version 4.1, each <code>Configuration</code> node has a namespace
+ * associated with it, in the form of a string, accessible through {@link
+ * #getNamespace}. If no namespace is present, <code>getNamespace</code> will
+ * return blank (""). See {@link DefaultConfigurationBuilder} for details on how
+ * XML namespaces are mapped to <code>Configuration</code> namespaces.
+ * </p>
+ * <p>
+ * As an example, consider two <code>Configuration</code>s (with and without
+ * namespaces) built from this XML:
+ * </p>
+ * <pre>
+ * &lt;my-system version="1.3" xmlns:doc="http://myco.com/documentation"&gt;
+ *   &lt;doc:desc&gt;This is a highly fictitious config file&lt;/doc:desc&gt;
+ *   &lt;widget name="fooWidget" initOrder="1" threadsafe="true"/&gt;
+ * &lt;/my-system&gt;
+ * </pre>
+ * <p>If namespace support is enabled (eg through {@link
+ * DefaultConfigurationBuilder#DefaultConfigurationBuilder(boolean) new
+ * DefaultConfigurationBuilder(true)}), then the <code>xmlns:doc</code> element
+ * will not translate into a Configuration attribute, and the
+ * <code>doc:desc</code> element will become a <code>Configuration</code> node
+ * with name "desc" and namespace "http://myco.com/documentation". The
+ * <code>widget</code> element will have namespace "".
+ * </p>
+ * <p>If namespace support is disabled (the default for {@link
+ * DefaultConfigurationBuilder}), the above XML will translate directly to
+ * <code>Configuration</code> nodes. The <code>my-system</code> node will have
+ * an attribute named "xmlns:doc", and a child called "doc:desc".
+ * </p>
+ * <p>
+ * Assuming the <code>Configuration</code> object is named <code>conf</code>,
+ * here is how the data could be retrieved:
+ * </p>
+ * <table border="1">
+ * <tr align="center"><th>Code</th><th>No namespaces</th><th>With namespaces</th></tr>
+ * <tr align="center"><td align="left"><code>conf.{@link #getName getName}()</code></td><td colspan="2">my-system</td></tr>
+ * <tr align="center"><td align="left"><code>conf.{@link #getAttributeNames getAttributeNames}().length</code></td><td>2</td><td>1</td></tr>
+ * <tr align="center"><td align="left"><code>conf.{@link #getChildren getChildren}().length</code></td><td colspan="2">2</td></tr>
+ * <tr align="center"><td align="left"><code>conf.{@link #getAttributeAsFloat getAttributeAsFloat}("version")</code></td><td colspan="2">1.3</td></tr>
+ * <tr align="center"><td align="left"><code>conf.{@link #getChild getChild}("widget").{@link #getAttribute getAttribute}("name")</code></td><td colspan="2">fooWidget</td></tr>
+ * <tr align="center"><td align="left"><code>conf.{@link #getChild getChild}("widget").{@link #getAttributeAsBoolean getAttributeAsBoolean}("threadsafe")</code></td><td colspan="2"><code>true</code></td></tr>
+ * <tr align="center"><td align="left"><code>conf.{@link #getChild getChild}("widget").{@link #getLocation getLocation}()</code></td><td colspan="2">file:///home/jeff/tmp/java/avalon/src/java/new.xconf:4:60</td></tr>
+ * <tr align="center"><td align="left"><code>conf.{@link #getChild getChild}("desc").{@link #getName getName}()</code></td><td>desc (see {@link #getChild(String)})</td><td>desc</td></tr>
+ * <tr align="center"><td align="left"><code>conf.{@link #getChild getChild}("doc:desc").{@link #getName getName}()</code></td><td>doc:desc</td><td>doc:desc (see {@link #getChild(String)})</td></tr>
+ * <tr align="center"><td align="left"><code>conf.{@link #getChild getChild}("desc").{@link #getValue getValue}()</code></td><td>{@link ConfigurationException}</td><td>This is a highly fictitious config file</td></tr>
+ * <tr align="center"><td align="left"><code>conf.{@link #getChild getChild}("doc:desc").{@link #getValue getValue}()</code></td><td>This is a highly fictitious config file</td><td>{@link ConfigurationException}</td></tr>
+ * <tr align="center"><td align="left"><code>conf.{@link #getChild getChild}("desc").{@link #getNamespace getNamespace}()</code></td><td>&nbsp;</td><td>http://myco.com/documentation"</td></tr>
+ * </table>
+ *
  * <p>
  * Currently, the configuration tree can only be traversed one node at a time,
  * eg., through {@link #getChild getChild("foo")} or {@link #getChildren}. In
@@ -34,46 +84,13 @@ package org.apache.avalon.framework.configuration;
  * values as <code>String</code>, <code>int</code>, <code>long</code>,
  * <code>float</code> and <code>boolean</code>.
  * </p>
- * <p>
- * As an example, consider a <code>Configuration</code> built from this XML:
- * </p>
- * <pre>
- * &lt;my-system version="1.3" xmlns:doc="http://myco.com/documentation"&gt;
- *   &lt;doc:desc&gt;This is a highly fictitious config file&lt;/doc:desc&gt;
- *   &lt;widget name="fooWidget" initOrder="1" threadsafe="true"/&gt;
- * &lt;/my-system&gt;
- * </pre>
- * <p>
- * Assuming the <code>Configuration</code> object is named <code>conf</code>,
- * here is how the data could be retrieved:
- * </p>
- * <table border="1">
- * <tr><th>Code</th><th>Result</th></tr>
- * <tr><td><code>conf.{@link #getName getName}()</code></td><td>my-system</td></tr>
- * <tr><td><code>conf.{@link #getAttributeNames getAttributeNames}().length</code></td><td>1</td></tr>
- * <tr><td><code>conf.{@link #getChildren getChildren}().length</code></td><td>2</td></tr>
- * <tr><td><code>conf.{@link #getAttributeAsFloat getAttributeAsFloat}("version")</code></td><td>1.3</td></tr>
- * <tr><td><code>conf.{@link #getChild getChild}("widget").{@link #getAttribute
- * getAttribute}("name")</code></td><td>fooWidget</td></tr>
- * <tr><td><code>conf.{@link #getChild getChild}("widget").{@link
- * #getAttributeAsBoolean getAttributeAsBoolean}("threadsafe")</code></td><td>true</td></tr>
- * <tr><td><code>conf.{@link #getChild getChild}("widget").{@link #getLocation
- * getLocation}()</code></td><td>file:///home/jeff/tmp/java/avalon/src/java/new.xconf:4:60</td></tr>
- * <tr><td><code>conf.{@link #getChild getChild}("desc").{@link #getName
- * getName}()</code></td><td>desc</td></tr>
- * <tr><td><code>conf.{@link #getChild getChild}("desc").{@link #getValue
- * getValue}()</code></td><td>This is a highly fictitious config file</td></tr>
- * <tr><td><code>conf.{@link #getChild getChild}("desc").{@link #getNamespace
- * getNamespace}()</code></td><td>xmlns:doc="http://myco.com/documentation"</td></tr>
- * <tr><td><code>conf.{@link #getChild getChild}("desc").{@link #getNamespace
- * getNamespace}().{@link Namespace#getPrefix getPrefix}()</code></td><td>doc</td></tr>
- * </table>
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:pier@apache.org">Pierpaolo Fumagalli</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
  */
 public interface Configuration
 {
@@ -96,11 +113,26 @@ public interface Configuration
     String getLocation();
 
     /**
-     * Return a Namespace object describing where this configuration object
-     * was intended to be.  The Namespace is relevant to XML configuration schemes,
-     * and defaults to an empty one (xmlns="").
+     * Returns a string indicating which namespace this Configuration node
+     * belongs to.
      *
-     * @return a Namespace object describing the namespace of the Configuration
+     * <p>
+     * What this returns is dependent on the configuration file and the
+     * Configuration builder. If the Configuration builder does not support
+     * namespaces, this method will return a blank string.
+     * </p>
+     * <p>In the case of {@link DefaultConfigurationBuilder}, the namespace will
+     * be the URI associated with the XML element. Eg.,:</p>
+     * <pre>
+     * &lt;foo xmlns:x="http://blah.com"&gt;
+     *   &lt;x:bar/&gt;
+     * &lt;/foo&gt;
+     * </pre>
+     * <p>The namespace of <code>foo</code> will be "", and the namespace of
+     * <code>bar</code> will be "http://blah.com".</p>
+     *
+     * @since 4.1
+     * @return a String identifying the namespace of this Configuration.
      */
     String getNamespace();
 

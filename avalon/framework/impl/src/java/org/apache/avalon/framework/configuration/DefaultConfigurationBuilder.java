@@ -17,7 +17,32 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 /**
- * A SAXConfigurationBuilder builds configurations via SAX2 compliant parser.
+ * A DefaultConfigurationBuilder builds <code>Configuration</code>s from XML,
+ * via a SAX2 compliant parser.
+ *
+ * <p>
+ * XML namespace support is optional, and disabled by default to preserve
+ * backwards-compatibility. To enable it, pass the {@link
+ * #DefaultConfigurationBuilder(boolean)} constructor the flag <code>true</code>, or pass
+ * a namespace-enabled <code>XMLReader</code> to the {@link
+ * #DefaultConfigurationBuilder(XMLReader)} constructor.
+ * </p>
+ * <p>
+ * The mapping from XML namespaces to {@link Configuration} namespaces is pretty
+ * straightforward, with one caveat: attribute namespaces are (deliberately) not
+ * supported. Enabling namespace processing has the following effects:</p>
+ * <ul>
+ *  <li>Attributes starting with <code>xmlns:</code> are interpreted as
+ *  declaring a prefix:namespaceURI mapping, and won't result in the creation of
+ *  <code>xmlns</code>-prefixed attributes in the <code>Configuration</code>.
+ *  </li>
+ *  <li>
+ *  Prefixed XML elements, like <tt>&lt;doc:title xmlns:doc="http://foo.com"&gt;,</tt>
+ *  will result in a <code>Configuration</code> with <code>{@link
+ *  Configuration#getName getName()}.equals("title")</code> and <code>{@link
+ *  Configuration#getNamespace getNamespace()}.equals("http://foo.com")</code>.
+ *  </li>
+ * </ul>
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
@@ -31,7 +56,8 @@ public class DefaultConfigurationBuilder
     /**
      * Create a Configuration Builder with a default XMLReader that ignores
      * namespaces.  In order to enable namespaces, use either the constructor
-     * that has a boolean or that allows you to pass in your own XMLReader.
+     * that has a boolean or that allows you to pass in your own
+     * namespace-enabled XMLReader.
      */
     public DefaultConfigurationBuilder()
     {
@@ -39,9 +65,12 @@ public class DefaultConfigurationBuilder
     }
 
     /**
-     * Create a Configuration Builder with a default XMLReader that implements
-     * namespaces if passed <code>true</code> or defaults to the original
-     * functionality if passed <code>false</code>
+     * Create a Configuration Builder, specifying a flag that determines
+     * namespace support.
+     *
+     * @param enableNamespaces If <code>true</code>,  a namespace-aware
+     * <code>SAXParser</code> is used. If <code>false</code>, the default JAXP
+     * <code>SAXParser</code> (without namespace support) is used.
      */
     public DefaultConfigurationBuilder( final boolean enableNamespaces )
     {
