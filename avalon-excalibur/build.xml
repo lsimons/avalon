@@ -152,7 +152,7 @@
     <target name="docs" description="Generate all the docs">
      <!--   <ant dir="instrument" target="docs"/>  -->
      <!--   <ant dir="concurrent" target="docs"/>  -->
-     <!--   <ant dir="collections" target="docs"/> -->
+        <ant dir="collections" target="docs"/> 
      <!--   <ant dir="altrmi" target="docs"/> -->
         <ant dir="all" target="docs"/>                <!-- depends on instrument -->
         <ant dir="instrument-manager" target="docs"/> <!-- depends on instrument, all -->
