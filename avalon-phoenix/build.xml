@@ -44,7 +44,6 @@ Legal:
     <property name="java.dir" value="${src.dir}/java"/>
     <property name="conf.dir" value="${src.dir}/conf"/>
     <property name="script.dir" value="${src.dir}/script"/>
-    <property name="manifest.dir" value="${src.dir}/manifest"/>
     <property name="lib.dir" value="lib"/>
     <property name="tools.dir" value="../jakarta-avalon/tools"/>
 
@@ -231,8 +230,10 @@ Legal:
         </jar>
 
         <jar jarfile="${build.lib}/phoenix-loader.jar"
-            basedir="${build.classes}"
-            manifest="${manifest.dir}/loader-Manifest.mf" >
+            basedir="${build.classes}">
+            <manifest>
+              <attribute name="Main-Class" value="org.apache.avalon.phoenix.launcher.Main"/>
+            </manifest>
             <include name="org/apache/avalon/phoenix/launcher/**"/>
 
             <zipfileset dir="${conf.dir}" prefix="META-INF/">
