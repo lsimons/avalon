@@ -6,7 +6,7 @@
 # modules that Phoenix depends on.  Copy this file to ".ant.properties"
 # in the top-level source directory, and customize it as needed.
 #
-# $Id: ant.properties.sample,v 1.6 2001/12/15 16:07:33 donaldp Exp $
+# $Id: ant.properties.sample,v 1.7 2002/03/21 08:36:13 donaldp Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Environment Flags -----
@@ -18,7 +18,7 @@ build.deprecation=off
 build.optimize=on
 
 # ----- Default Base Path for Dependent Packages -----
-base.path=/usr/local
+base.path=/opt
 
 # ----- Xerces XML Parser, version 1.4.3 or later -----
 #xerces.home=${base.path}/xerces-1_4_3
@@ -42,6 +42,11 @@ jmx.home=${base.path}/jmx-ri_1.0.1/jmx
 jmx.lib=${jmx.home}/lib
 jmxri.jar=${jmx.lib}/jmxri.jar
 jmxtools.jar=${jmx.lib}/jmxtools.jar
+
+# ----- Checkstyle, version 2.1 or later -----
+checkstyle.home=${base.path}/checkstyle-2.1
+checkstyle.lib=${checkstyle.home}
+checkstyle.jar=${checkstyle.lib}/checkstyle-all-2.1.jar
 
 # ----- Javac tools.jar -----
 # The path to tools.jar, required for building the docs. Most people won't need
