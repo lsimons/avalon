@@ -102,6 +102,28 @@ public class InitializeTask extends SystemTask
                 }
             }
         }
+
+        final ResourceRef[] plugins = def.getPluginRefs();
+
+        for( int i=0; i<plugins.length; i++ )
+        {
+            Resource resource = getHome().getResource( plugins[i] );
+            if( !(resource instanceof Definition) )
+            {
+                String gumpKey = "gump.resource." + resource.getKey();
+                String path = project.getProperty( gumpKey );
+                if( null != path )
+                {
+                    updateCache( project, resource, path );
+                }
+                else
+                {
+                    final String warning = 
+                      "Warning - missing property [" + gumpKey + "].";
+                    project.log( warning );
+                }
+            }
+        }
     }
 
     private void updateCache( Project project, Resource resource, String path )
