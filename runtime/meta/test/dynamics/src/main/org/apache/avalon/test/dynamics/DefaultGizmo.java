@@ -23,7 +23,7 @@ import org.apache.avalon.framework.logger.Logger;
  * A component that implements the Gizmo service.
  *
  * @avalon.component name="gizmo" lifestyle="singleton"
- * @avalon.service type="org.apache.avalon.composition.model.test.dynamics.Gizmo"
+ * @avalon.service type="org.apache.avalon.test.dynamics.Gizmo"
  */
 public class DefaultGizmo implements Gizmo
 {
