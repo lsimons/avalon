@@ -9,8 +9,8 @@
       <item name="Apache" href="http://apache.org/"/>
       <item name="Avalon" href="http://avalon.apache.org/"/>
       <item name="Framework" href="http://avalon.apache.org/product/framework/"/>
-      <item name="Containment" href="http://avalon.apache.org/product/containers/"/>
-      <item name="Components" href="http://avalon.apache.org/product/components/"/>
+      <item name="Merlin" href="http://avalon.apache.org/product/containers/"/>
+      <item name="Planet" href="http://avalon.apache.org/product/components/"/>
     </links>
 
     <menu name="About Cornerstone">
@@ -18,6 +18,12 @@
       <item name="Components" href="/components/index.html"/>
       <item name="Examples" href="/examples/index.html"/>
       <item name="Developer Info" href="/notes/index.html"/>
+    </menu>
+
+    <menu name="Related Projects">
+      <item name="Avalon Meta" href="http://avalon.apache.org/meta"/>
+      <item name="Avalon Framework" href="http://avalon.apache.org/framework"/>
+      <item name="Avalon Merlin" href="http://avalon.apache.org/merlin"/>
     </menu>
 
  </body>

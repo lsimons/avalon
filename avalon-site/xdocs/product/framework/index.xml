@@ -68,6 +68,17 @@
              and artifact management framework.</p>
           </td>
         </tr>
+        <tr>
+          <td>
+          <a href="http://avalon.apache.org/logkit/index.html">Avalon Logkit</a></td>
+          <td>
+            <p>
+	     Logkit is a complete logging framework (like log4j) as an
+	     Avalon component.  Most Avalon containers use it as the
+	     default logging implementation. 
+            </p>
+          </td>
+        </tr>
 
       </table>
       </subsection>
