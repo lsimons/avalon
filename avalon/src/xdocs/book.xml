@@ -22,7 +22,7 @@
     </menu>
 
     <menu label="Reference">
-	    <!-- <menu-item label="Changes" href="changes.html"/> -->
+        <menu-item label="Changes" href="changes.html"/>
         <menu-item label="API Docs" href="http://avalon.apache.org/api/index.html"/>
         <menu-item label="The Lifecycle" href="reference-the-lifecycle.html"/>
         <menu-item label="Containers" href="reference-containers.html"/>
