@@ -32,7 +32,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  */
 public class RepositoryManager
     extends AbstractLogEnabled
-    implements Store, Contextualizable, Composable, Configurable
+    implements Store, Contextualizable, Composable, Configurable, Component
 {
     private static final String REPOSITORY_NAME = "Repository";
     private static long id = 0;

@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
+import org.apache.avalon.framework.component.Component;
 
 /**
  * Factory implementation for vanilla TCP sockets.
@@ -19,7 +20,7 @@ import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  */
 public class DefaultServerSocketFactory
-    implements ServerSocketFactory
+    implements ServerSocketFactory, Component
 {
     /**
      * Creates a socket on specified port.
