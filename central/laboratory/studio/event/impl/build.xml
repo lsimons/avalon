@@ -3,8 +3,6 @@
 <project name="metro-studio-event-impl" default="install" basedir="." 
     xmlns:x="antlib:org.apache.avalon.tools">
 
-  <property file="project.properties" />
-  
   <x:home index="${project.home}/index.xml"/>
   <import file="${magic.templates}/standard.xml"/>
   

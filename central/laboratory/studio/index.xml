@@ -188,7 +188,7 @@
     </info>
   </project>
 
-  <project basedir="core">
+  <project basedir="core/java">
     <info>
       <group>metro/studio/core</group>
       <name>metro-studio-core</name>
@@ -212,6 +212,17 @@
     </plugins>
   </project>
 
+  <project basedir="core/plugin">
+    <info>
+      <group>metro/studio/core</group>
+      <name>org.apache.metro.studio.core</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+    </dependencies>
+  </project>
+  
   <project basedir="docs">
     <info>
       <group>metro/studio/docs</group>

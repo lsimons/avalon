@@ -40,8 +40,8 @@ public class EclipseBuildListener
     private static final String PREPARE_TASK_KEY = 
       "antlib:org.apache.avalon.tools:prepare";
 
-    private static final String META_TASK_KEY = 
-      "plugin:metro/studio/metro-studio-magic:studio";
+    private static final String INSTALL_TASK_KEY = 
+      "antlib:org.apache.avalon.tools:install";
 
     private final String m_uri;
 
@@ -136,7 +136,7 @@ public class EclipseBuildListener
 
             Project project = event.getProject();
             generatePluginXML( project );
-            m_executed = true;
+            m_PluginXmlExecuted = true;
         }
         if( INSTALL_TASK_KEY.equals( type ) )
         {
@@ -144,7 +144,7 @@ public class EclipseBuildListener
                 return;
             Project project = event.getProject();
             generatePluginJar( project );
-            m_executed = true;
+            m_PluginJarExecuted = true;
         }
     }
 
@@ -159,6 +159,7 @@ public class EclipseBuildListener
             
             MagicPath path = new MagicPath( project );
             path.setMode( "RUNTIME" );
+// TODO!!!!
             
             ReplicateTask repl = new ReplicateTask();
             repl.setProject( project );
@@ -167,7 +168,10 @@ public class EclipseBuildListener
             File f = new File( basedir, "target/deliverables/lib" );
             f.mkdirs();
             repl.setTodir( f );
-            repl.setRefid( path );
+            
+            repl.setRefid( "deps.path" );
+// path ---------^
+
             repl.execute();
             
             EclipseTask task = new EclipseTask();
