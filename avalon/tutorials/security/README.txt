@@ -46,12 +46,7 @@ demanding developer.
 
 Summary
 -------
-
-The purpose of this demonstration is to show how the container can be viewed as
-an implementation strategy for the creation of a virtual service, and how these
-service can be composed within a higher level containers, enabling new 
-implementation solutions.  The key to achiving this is related to the <service> 
-directives inside the <container> directive.  Each service directive describes 
-a service that is exported by the container in its role as a virtual component.
-
+The purpose of this tutorial is to show the power of Merlin's security
+features. That it is possible to assign permissions to individual 
+components, even if they are part of the same codebase.
 
