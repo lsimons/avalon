@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<index>
+
+  <import index="../../index.xml"
+     href="http://svn.apache.org/repos/asf/avalon/trunk/planet/facilities/index.xml"/>
+
+  <resource>
+    <info>
+      <group>avalon</group>
+      <name>avalon-framework-api</name>
+      <version>SNAPSHOT</version>
+      <type>jar</type>
+    </info>
+  </resource>
+  
+  <resource>
+    <info>
+      <group>jetty</group>
+      <name>org.mortbay.jetty</name>
+      <version>SNAPSHOT</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>jetty</group>
+      <name>org.mortbay.jaas</name>
+      <version>5.0.RC0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>commons-logging</group>
+      <name>commons-logging</name>
+      <version>SNAPSHOT</version>
+      <type>jar</type>
+    </info>
+  </resource>
+  
+  <project basedir="context">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-context</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api" runtime="false"/>
+    </dependencies>
+  </project>
+
+  <project basedir="server">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-server</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api" runtime="false"/>
+    </dependencies>
+  </project>
+
+  <project basedir="hash-basic">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-hash-basic</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api" runtime="false"/>
+    </dependencies>
+  </project>
+
+  <project basedir="hash-form">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-hash-form</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api" runtime="false"/>
+    </dependencies>
+  </project>
+
+  <project basedir="hash-clientcert">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-hash-clientcert</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api" runtime="false"/>
+    </dependencies>
+  </project>
+
+  <project basedir="hash-digest">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-hash-digest</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api" runtime="false"/>
+    </dependencies>
+  </project>
+</index>
+ 

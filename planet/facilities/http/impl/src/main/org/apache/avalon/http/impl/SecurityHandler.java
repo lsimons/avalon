@@ -89,20 +89,22 @@ public class SecurityHandler
         throws ParameterException
     {
         m_Index = params.getParameterAsInteger( "handler-index", -1 );
-        
-        String authMethod = params.getParameter( "authentication-method", null );
-        if( authMethod != null )
-            setAuthMethod( authMethod );
     }
 
     /**  
      * @avalon.dependency type="org.apache.avalon.http.HttpContextService"
      *                    key="http-context" 
+     * @avalon.dependency type="org.mortbay.http.Authenticator"
+     *                    key="authenticator" 
      */
     public void service( ServiceManager man )
         throws ServiceException
     {
         m_Context = (HttpContextService) man.lookup( "http-context" );
+        
+        // The dependency on Authenticator is to ensure that the Authenticator
+        // has been assigned to the HttpContext before the SecurityHandler
+        // is being started, since it otherwise will set another Authenticator.
     }
  
     public void start()
