@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Meta Data</title>
+  </properties>
+
+  <body>
+
+    <section name="Meta Data">
+
+      <subsection name="Overview">
+        <p>Meta-info establishes functional and operational 
+        constraints whereas meta-data describes data that is 
+        used to fulfil those constraints.  For example we may 
+        have a meta-info object that describes a component type together
+        some specific context requirements.  A corresponding 
+        meta-data object would describe how those requirement are 
+        fulfilled.  Generally speaking, meta-info is referred to 
+        as a descriptor whereas meta-data is referred to as a 
+        directive. One describes a constraint - the other fulfils 
+        the constraint.</p>
+      </subsection>
+
+      <subsection name="Status">
+        <p>The meta-model presented here addresses the meta-info
+        aspects - itself crucial to the overall objective of establishing
+        a common component criteria definition.  Within Avalon there are 
+        several contains each using a container specific meta-data models.
+        The objective of an Avalon Meta-Data framework is to enable a 
+        common XML schema and supporting API to represent the deployment 
+        information.  A common meta-data model has not been established
+        at this time - however, the benefits are obvious. More 
+        significantly a common meta-data model will enable intelligent 
+        automation of many component management aspects in a container 
+        independent fashion.  For additional information please post 
+        questions to the <a href="mailto:dev@avalon.apache.org">Avalon dev 
+        mailing list</a>.</p>
+      </subsection>
+      
+    </section>
+  </body>
+
+</document>
+
