@@ -95,7 +95,7 @@
             <arg value="-l${cocoon.work}/cocoon.log"/>
             <arg value="-b${build.dir}/brokenlinks.txt"/>
             <arg value="-uERROR"/>
-            <arg value="-f./build/content/xdocs/uri.properties"/>
+            <arg value="-f./build/content/xdocs/doc.uris"/>
             <arg value="-rno"/>            
             <classpath>
                 <path refid="tools.class.path"/>
@@ -119,6 +119,7 @@
             <arg value="-d${cocoon.build.docs}"/>
             <arg value="-w${cocoon.work}"/>
             <arg value="-l${cocoon.work}/cocoon.log"/>
+            <arg value="-b${build.dir}/brokenlinks.txt"/>            
             <arg value="-uERROR"/>
             <arg value="index.html"/>
             <classpath>
