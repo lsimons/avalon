@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+
+<!--
+ ============================================================================
+                   The Apache Software License, Version 1.1
+ ============================================================================
+
+ Copyright (C) 1999-2002 The Apache Software Foundation. All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without modifica-
+ tion, are permitted provided that the following conditions are met:
+
+ 1. Redistributions of  source code must  retain the above copyright  notice,
+    this list of conditions and the following disclaimer.
+
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+ 3. The end-user documentation included with the redistribution, if any, must
+    include  the following  acknowledgment:  "This product includes  software
+    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
+    Alternately, this  acknowledgment may  appear in the software itself,  if
+    and wherever such third-party acknowledgments normally appear.
+
+ 4. The names "Jakarta", "Apache Avalon", "Avalon Framework" and
+    "Apache Software Foundation"  must not be used to endorse or promote
+    products derived  from this  software without  prior written
+    permission. For written permission, please contact apache@apache.org.
+
+ 5. Products  derived from this software may not  be called "Apache", nor may
+    "Apache" appear  in their name,  without prior written permission  of the
+    Apache Software Foundation.
+
+ THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
+ INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
+ APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
+ INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
+ DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
+ ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
+ (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ This software  consists of voluntary contributions made  by many individuals
+ on  behalf of the Apache Software  Foundation. For more  information on the
+ Apache Software Foundation, please see http://www.apache.org/.
+-->
+
+<document>
+  <header>
+    <title>Lifecycle Extensions Interfaces</title>
+    <authors>
+      <person name="Avalon Development Team" email="dev@avalon.apache.org"/>
+    </authors>
+  </header>
+  <body>
+
+  <section name="Lifecycle Extensions">
+
+      <subsection name="Interface Summary">
+
+      <p>
+      A container manages extensions using an extension handler.  Handlers may implement
+      the <code>Creator</code> and/or <code>Accessor</code> interfaces.  A creator extension
+      will be activated during the create and destroy stages of a component lifecycle.  A
+      accessor extension will be activated during the access and release stages.
+      </p>
+
+      </subsection>
+
+      <subsection name="Creator">
+
+        <p>
+        The <code>Creator</code> interface describes the create and destroy
+        stages that occur between a component and a container
+        during service management.  Lifecycle extensions supporting create
+        and destroy stages must implement this interface.
+        </p>
+
+      <source>
+ package org.apache.avalon.lifecycle;
+
+ import org.apache.avalon.framework.context.Context;
+
+ public interface Creator
+ {
+    /**
+     * Create stage handler.
+     *
+     * @param object the object that is being created
+     * @param context the context instance required by the create handler
+     *    implementation
+     * @exception Exception if an error occurs
+     */
+    void create( Object object, Context context )
+        throws Exception;
+
+    /**
+     * Destroy stage handler.
+     *
+     * @param object the object that is being destroyed
+     * @param context the context instance required by the handler
+     *    implementation
+     */
+    void destroy( Object object, Context context );
+
+ }
+       </source>
+
+     </subsection>
+     <subsection name="Accessor">
+
+<p>
+The <code>Accessor</code> interface describes the access and release
+stages that occur between a service or component manager and a container
+during service deployment.  Lifecycle extensions supporting access
+and release stages must implement this interface.
+</p>
+<source>
+ package org.apache.avalon.lifecycle;
+
+ import org.apache.avalon.framework.context.Context;
+
+ public interface Accessor
+ {
+    /**
+     * Access stage handler.
+     *
+     * @param object the object that is being accessed
+     * @param context the context instance required by the access handler
+     *    implementation
+     * @exception Exception if an error occurs
+     */
+    void access( Object object, Context context )
+        throws Exception;
+
+    /**
+     * Release stage handler.
+     *
+     * @param object the object that is being released
+     * @param context the context instance required by the release handler
+     *    implementation
+     */
+    void release( Object object, Context context );
+
+ }
+</source>
+     </subsection>
+    </section>
+  </body>
+</document>

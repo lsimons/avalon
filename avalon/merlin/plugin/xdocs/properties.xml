@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+
+  <properties>
+    <title>Merlin Plugin Properties</title>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+  </properties>
+
+  <body>
+    <section name="Merlin Plugin Settings">
+      <table>
+        <tr>
+          <th>Property name</th>
+          <th>Optional?</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>merlin.meta.format</td>
+          <td>Yes</td>
+          <td>
+<p>Output format specification.  Valid values include 'xml' or 'serial'.
+The xml value instructs the meta generator to create meta descriptions
+in an XML format whereas the 'serial' value generates a serialized 
+description of the descriptor.  Serial format is more efficient.  The 
+XML format is more portable.</p>
+          </td>
+        </tr>
+        <tr>
+          <td>merlin.meta.force</td>
+          <td>Yes</td>
+          <td>
+<p>Policy controlling the regeneration of meta descriptors independently
+of the descriptor data.  This value default to false. </p>
+          </td>
+        </tr>
+      </table>
+    </section>
+  </body>
+</document>

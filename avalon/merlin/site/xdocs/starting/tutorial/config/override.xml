@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+
+<!--
+ ============================================================================
+                   The Apache Software License, Version 1.1
+ ============================================================================
+
+ Copyright (C) 1999-2002 The Apache Software Foundation. All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without modifica-
+ tion, are permitted provided that the following conditions are met:
+
+ 1. Redistributions of  source code must  retain the above copyright  notice,
+    this list of conditions and the following disclaimer.
+
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+ 3. The end-user documentation included with the redistribution, if any, must
+    include  the following  acknowledgment:  "This product includes  software
+    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
+    Alternately, this  acknowledgment may  appear in the software itself,  if
+    and wherever such third-party acknowledgments normally appear.
+
+ 4. The names "Jakarta", "Apache Avalon", "Avalon Framework" and
+    "Apache Software Foundation"  must not be used to endorse or promote
+    products derived  from this  software without  prior written
+    permission. For written permission, please contact apache@apache.org.
+
+ 5. Products  derived from this software may not  be called "Apache", nor may
+    "Apache" appear  in their name,  without prior written permission  of the
+    Apache Software Foundation.
+
+ THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
+ INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
+ APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
+ INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
+ DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
+ ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
+ (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ This software  consists of voluntary contributions made  by many individuals
+ on  behalf of the Apache Software  Foundation. For more  information on the
+ Apache Software Foundation, please see http://www.apache.org/.
+-->
+
+<document>
+  <header>
+    <title>Using Merlin</title>
+    <authors>
+      <person name="Stephen McConnell" email="mcconnell@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <section name="Using Merlin">
+      <subsection name="Using configuration overrides">
+        <p>
+        The Merlin command line tool allows the specification of a  
+        set of overriding configuration targets. Each target in the 
+        &lt;targets&gt; set contains a a configuration that may be 
+        applied to a named component.  This allows modification of a 
+        configuration without modification of a packaged block.xml
+        file.
+        </p>
+        <p>
+        Resources supporting this turorial are contained in the 
+        tutorial/configuration/override directory.
+        </p>
+      </subsection>
+      <subsection name="Target Override Format">
+<source><![CDATA[
+<targets>
+  <target path="/tutorial/hello">
+    <configuration>
+      <source>External configuration target.</source>
+    </configuration>
+  </target>
+</targets>
+]]></source>
+      </subsection>
+      <subsection name="Execution">
+        <p>
+        The following command line includes the -config argument
+        referencing a contfiguration target file (example included
+        in the tutorials/configuration package).
+        </p>
+        <source>
+$ merlin -execute target\classes -config conf\config.xml 
+        </source>
+        <p>
+        Executing Merlin demonstrates that the configuration supplied
+        to the hello component reflects the configuration element contained
+        in the target name "\hello".
+        </p>
+        <source>
+[INFO   ] (sys.hello): configuration stage
+[INFO   ] (sys.hello): initialization stage
+[INFO   ] (sys.hello): source: External configuration target.
+        </source>
+      </subsection>
+      <subsection name="Notes">
+        <p>
+        Configuration target names represent a path.  The path is the 
+        construction of container names seperated by the "/" character
+        and ending with a component name.  For example if the hello component
+        were contained within a container named "container" the path would 
+        appear as follows: 
+        </p>
+<source><![CDATA[
+<targets>
+  <target path="/container/component-name">
+    <configuration>
+      <!-- your configuration info -->
+    </configuration>
+  </target>
+</targets>
+]]></source>
+      </subsection>
+      <subsection name="Declaring a Configuration">
+
+        <p>
+        We are now ready to move on to the subject of 
+        <a href="../context/index.html">context management</a>.
+        </p>
+
+      </subsection>
+    </section>
+  </body>
+
+</document>
+
+
+
+

@@ -1,0 +1,223 @@
+<?xml version="1.0"?>
+
+<!--
+ ============================================================================
+                   The Apache Software License, Version 1.1
+ ============================================================================
+
+ Copyright (C) 1999-2002 The Apache Software Foundation. All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without modifica-
+ tion, are permitted provided that the following conditions are met:
+
+ 1. Redistributions of  source code must  retain the above copyright  notice,
+    this list of conditions and the following disclaimer.
+
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+ 3. The end-user documentation included with the redistribution, if any, must
+    include  the following  acknowledgment:  "This product includes  software
+    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
+    Alternately, this  acknowledgment may  appear in the software itself,  if
+    and wherever such third-party acknowledgments normally appear.
+
+ 4. The names "Jakarta", "Apache Avalon", "Avalon Framework" and
+    "Apache Software Foundation"  must not be used to endorse or promote
+    products derived  from this  software without  prior written
+    permission. For written permission, please contact apache@apache.org.
+
+ 5. Products  derived from this software may not  be called "Apache", nor may
+    "Apache" appear  in their name,  without prior written permission  of the
+    Apache Software Foundation.
+
+ THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
+ INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
+ APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
+ INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
+ DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
+ ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
+ (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ This software  consists of voluntary contributions made  by many individuals
+ on  behalf of the Apache Software  Foundation. For more  information on the
+ Apache Software Foundation, please see http://www.apache.org/.
+-->
+
+<document>
+  <header>
+    <title>Using Merlin</title>
+    <authors>
+      <person name="Stephen McConnell" email="mcconnell@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <section name="Advanced Features">
+      <subsection name="Profile Selection">
+        <p>
+In the <a href="profiles.html">Profile tutorial</a> we covered the mechanisms used to establish a set of pre-configured deployment profiles.  Generally speaking the combination of profile overriding in the block.xml &lt;component&gt; directive, packaged profiles, and default configurations is sufficient.  However, mechanisms are provided for the introduction of profile selection policy.  In this tutorial we include multiple deployment profiles to the random generator component and we define a custom profile selector.  The selector is declared to Merlin as an attribute of the dependency declared by the consuming component (HelloComponent). 
+        </p>
+        <p>
+Component deployment profiles are co-located with the component implementation class under an .xprofile resource.
+        </p>
+      </subsection>
+      <subsection name="Adding multiple profiles">
+        <p>
+          The RandomGeneratorProvider.xprofile is updated to include 
+          multiple profiles.  
+        </p>
+        <p><i>RandomGeneratorProvider.xprofile</i></p>
+<source><![CDATA[
+<?xml version="1.0"?>
+
+<profiles>
+
+  <profile name="primary">
+    <configuration>
+      <seed>1024</seed>
+    </configuration>
+  </profile>
+
+  <profile name="secondary">
+    <configuration>
+      <seed>2048</seed>
+    </configuration>
+  </profile>
+
+</profiles>
+]]></source>
+      </subsection>
+      <subsection name="Creating a ProfileSelector">
+        <p>
+          A ProfileSelector may be declared to Merlin as part of a dependency
+          declaration.  The following code is an implementation of a profile
+          selector.
+        </p>
+        <p><i>RandomProfileSelector.java</i></p>
+<source><![CDATA[
+package tutorial;
+
+import org.apache.avalon.assembly.engine.profile.ProfileSelector;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.meta.info.StageDescriptor;
+import org.apache.avalon.meta.info.DependencyDescriptor;
+import org.apache.avalon.meta.model.Profile;
+
+/**
+ * Select one profile from the multiple profile provided.
+ */
+public class RandomProfileSelector extends AbstractLogEnabled
+    implements ProfileSelector
+{
+
+    /**
+     * Returns the preferred profile form an available selection of 
+     * candidate profiles.
+     * @param profiles the set of candidate profiles
+     * @param dependency the service dependency
+     * @return the preferred profile or null if no satisfactory provider can be established
+     */
+    public Profile select( Profile[] profiles, DependencyDescriptor dependency )
+    {
+        if( profiles.length == 0 )
+        {
+            return null;
+        }
+
+        //
+        // just for fun log the available profiles
+        //
+
+        for( int i=0; i<profiles.length; i++ )
+        {
+            Profile profile = profiles[i];
+            getLogger().info( "available profile: " + profile.getName() );
+        }
+
+        //
+        // select the profile with the highest seed value
+        //
+
+        long seed = 0;
+        Profile selection = profiles[0];
+        for( int i=0; i<profiles.length; i++ )
+        {
+            Profile profile = profiles[i];
+            long value = profile.getConfiguration().getChild( "seed" ).getValueAsLong( 0 );
+            if( value > seed )
+            {
+                seed = value;
+                selection = profile;
+            }
+        }
+        return selection;
+    }
+
+    /**
+     * Returns the preferred profile form an available selection of 
+     * candidate profiles.
+     * @param profiles the set of candidate profiles
+     * @param stage the service stage depedency
+     * @return the prefered profile or null if no satisfactory provider can be established
+     */
+    public Profile select( Profile[] profiles, StageDescriptor stage )
+    {
+        return null;
+    }
+}
+]]></source>
+      </subsection>
+      <subsection name="Associating the selector with a dependency">
+        <p>
+          A custom selector is declared under the dependent component. This is 
+          achieved by declaring the "urn:avalon:profile.selector" attribute
+          with a value corresponding to the classname of the selector. 
+        </p>
+        <p><i>HelloComponent.xinfo</i></p>
+<source><![CDATA[
+<type>
+  <info>
+    <name>hello</name>
+    <version>1.0</version>
+  </info>
+  <dependencies>
+    <dependency key="random" type="tutorial.RandomGenerator">
+      <attributes>
+        <attribute key="urn:avalon:profile.selector" value="tutorial.RandomProfileSelector"/>
+      </attributes>
+    </dependency>
+  </dependencies>
+</type>
+]]></source>
+      </subsection>
+      <subsection name="Executing the tutorial">
+        <p>
+        Build and run the tutorial.
+        </p>
+        <source>
+$ ant
+$ merlin build\classes
+        </source>
+        <p>
+In the logging output we see that Merlin has selected the profile with the highest seed value (the profile selection criteria implemented by our custom selector).
+        </p>
+<source>
+[INFO   ] (sys.profiles.selector): available profile: random-provider#primary
+[INFO   ] (sys.profiles.selector): available profile: random-provider#secondary
+[INFO   ] (tutorial.hello.random-provider#secondary): configuration stage
+[INFO   ] (tutorial.hello.random-provider#secondary): seed: 2048
+[INFO   ] (tutorial.hello): random: -1282354722
+</source>
+      </subsection>
+    </section>
+  </body>
+
+</document>
+
+
+
+
