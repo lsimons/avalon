@@ -11,7 +11,7 @@
     </classpath>
   </classloader>
  
-  <include name="mx4j" id="avalon-jmx:avalon-jmx-mx4j" version="1.0.dev-0">
+  <include name="mx4j" id="avalon-jmx:avalon-jmx-mx4j" version="1.0-0.DEV">
     <target path="registry">
       <configuration>
         <enable-rmi-adaptor>

@@ -183,7 +183,7 @@ public class DefaultAppliance extends AbstractAppliance
             catch( Throwable e )
             {
                 final String error = 
-                  "Proxy establishment failure in block: " + this;
+                  "Proxy establishment failure in appliance: " + this;
                 throw new ApplianceException( error, e );
             }
         }
