@@ -1,0 +1,25 @@
+
+<!ENTITY % avalon-component-entities SYSTEM "file:avalon-components.ent"> 
+<!ENTITY % avalon-excalibur-entities SYSTEM "file:avalon-excalibur.ent"> 
+<!ENTITY % avalon-fortress-entities SYSTEM "file:avalon-fortress.ent"> 
+<!ENTITY % avalon-logging-entities SYSTEM "file:avalon-logging.ent"> 
+<!ENTITY % avalon-merlin-entities SYSTEM "file:avalon-merlin.ent"> 
+<!ENTITY % avalon-repository-entities SYSTEM "file:avalon-repository.ent"> 
+<!ENTITY % external-entities SYSTEM "file:external.ent"> 
+<!ENTITY % avalon-framework-entities SYSTEM "file:avalon-framework.ent"> 
+<!ENTITY % avalon-logkit-entities SYSTEM "file:avalon-logkit.ent"> 
+<!ENTITY % avalon-meta-entities SYSTEM "file:avalon-meta.ent"> 
+<!ENTITY % avalon-util-entities SYSTEM "file:avalon-util.ent">      
+
+
+&avalon-component-entities;
+&avalon-excalibur-entities;
+&avalon-fortress-entities;
+&avalon-logging-entities;
+&avalon-merlin-entities;
+&avalon-repository-entities;
+&external-entities;
+&avalon-framework-entities;
+&avalon-logkit-entities;
+&avalon-meta-entities;
+&avalon-util-entities;

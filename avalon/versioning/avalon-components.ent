@@ -1,0 +1,6 @@
+
+<!ENTITY avalon-facilities-entities SYSTEM "avalon-facilities.ent" >
+<!ENTITY avalon-cornerstone-entities SYSTEM "avalon-cornerstone.ent" >
+
+&avalon-facilities-entities;
+&avalon-cornerstone-entities;

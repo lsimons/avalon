@@ -1,0 +1,61 @@
+
+<!ENTITY cornerstone-db-api-id "cornerstone-db-api">
+<!ENTITY cornerstone-db-api-group "cornerstone-db">
+<!ENTITY cornerstone-db-api-version "0.9.0">
+
+<!ENTITY cornerstone-db-hsql-id "cornerstone-db-hsql">
+<!ENTITY cornerstone-db-hsql-group "cornerstone-db">
+<!ENTITY cornerstone-db-hsql-version "0.9.0">
+
+<!ENTITY excalibur-finder-api-id "excalibur-finder-api">
+<!ENTITY excalibur-finder-api-group "excalibur-finder">
+<!ENTITY excalibur-finder-api-version "0.9.0">
+
+<!ENTITY excalibur-finder-impl-id "excalibur-finder-impl">
+<!ENTITY excalibur-finder-impl-group "excalibur-finder">
+<!ENTITY excalibur-finder-impl-version "0.9.0">
+
+<!ENTITY excalibur-http-api-id "excalibur-http-api">
+<!ENTITY excalibur-http-api-group "excalibur-http">
+<!ENTITY excalibur-http-api-version "0.9.0">
+
+<!ENTITY excalibur-http-impl-id "excalibur-http-impl">
+<!ENTITY excalibur-http-impl-group "excalibur-http">
+<!ENTITY excalibur-http-impl-version "0.9.0">
+
+<!ENTITY excalibur-http-spi-id "excalibur-http-spi">
+<!ENTITY excalibur-http-spi-group "excalibur-http">
+<!ENTITY excalibur-http-spi-version "0.9.0">
+
+<!ENTITY excalibur-http-test-id "excalibur-http-test">
+<!ENTITY excalibur-http-test-group "excalibur-http">
+<!ENTITY excalibur-http-test-version "0.9.0">
+
+<!ENTITY excalibur-http-util-id "excalibur-http-util">
+<!ENTITY excalibur-http-util-group "excalibur-http">
+<!ENTITY excalibur-http-util-version "0.9.0">
+
+<!ENTITY excalibur-jmx-api-id "excalibur-jmx-api">
+<!ENTITY excalibur-jmx-api-group "excalibur-jmx">
+<!ENTITY excalibur-jmx-api-version "0.9.0">
+
+<!ENTITY excalibur-jmx-handler-id "excalibur-jmx-handler">
+<!ENTITY excalibur-jmx-handler-group "excalibur-jmx">
+<!ENTITY excalibur-jmx-handler-version "0.9.0">
+
+<!ENTITY excalibur-jmx-mx4j-id "excalibur-jmx-mx4j">
+<!ENTITY excalibur-jmx-mx4j-group "excalibur-jmx">
+<!ENTITY excalibur-jmx-mx4j-version "0.9.0">
+
+<!ENTITY excalibur-jmx-spi-id "excalibur-jmx-spi">
+<!ENTITY excalibur-jmx-spi-group "excalibur-jmx">
+<!ENTITY excalibur-jmx-spi-version "0.9.0">
+
+<!ENTITY excalibur-jmx-test-id "excalibur-jmx-test">
+<!ENTITY excalibur-jmx-test-group "excalibur-jmx">
+<!ENTITY excalibur-jmx-test-version "0.9.0">
+
+<!ENTITY excalibur-jmx-util-id "excalibur-jmx-util">
+<!ENTITY excalibur-jmx-util-group "excalibur-jmx">
+<!ENTITY excalibur-jmx-util-version "0.9.0">
+
