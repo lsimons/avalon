@@ -247,40 +247,6 @@
       </small>
 	  
         
-    
-    
-    
-    
-
-    <div>
-      <small>
-      	
-      	
-      		<a href="../../start/install/binary.html">Binary</a>
-      	
-      </small>
-	  
-        
-      
-    </div>
-  
-    
-    
-    
-    
-
-    <div>
-      <small>
-      	
-      	
-      		<a href="../../start/install/cvs.html">CVS</a>
-      	
-      </small>
-	  
-        
-      
-    </div>
-  
       
     </div>
   
@@ -458,13 +424,9 @@
       
     <p>
       
-          Installation details depend on your approach to building
-          the repository package.  Just at the moment things are changing
-          daily as we move to finalization.  As such - to stay on the bleeding
-          edge you will probably want to build from CVS.  On the otherhand, 
-          the package lends itself to a download and install approach, 
-          minimal footprint, and dynamic dependency resolution at runtime - so
-          playing with a binary install is also fun.
+        The repository facility is available as a binary downaload 
+        or can be built from CVS.  The following instructions deal with 
+        CVS related builds.
       
     </p>
    
@@ -472,76 +434,45 @@
       
       
         <h4>
-          <a name="Index">Index</a>
+          <a name="CVS Install">CVS Install</a>
         </h4>
       
       
-    
-    <table border="1" width="100%" cellspacing="2" cellpadding="3">
+    <p>
       
-    
-      
+          To build the repository facility you need to checkout the
+          Merlin project from CVS. The commands in this document
+          assume a unix-style system; the procedure under windows is
+          similar, and identical if you have 
+    <a href="http://www.cygwin.com">cygwin</a>
+   installed.
         
-      
-      
-    
-
-    
-    <tr class="b">
-    <th>
-      Topic
-    </th>
+    </p>
    
-    <th>
-      Description
-    </th>
-   </tr>
+    <div id="source">
+      <pre>
+$ cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic login
+$ cvs -z3 -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co avalon/util
+$ cvs -z3 -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co avalon/repository
+</pre>
+    </div>
   
-    
+    <p>
       
-      
+          Once checkout is complete you can build Merlin using 
+    <a href="http://maven.apache.org/">Maven</a>
+   as follows:
         
-      
-    
-
-    
-    <tr class="a">
-    <td>
-      
-    <a href="binary.html">Binary Installation</a>
-  
-    </td>
+    </p>
    
-    <td>
-      
-            Installation instructions for binary distribution.
-            
-    </td>
-   </tr>
-  
-    
-      
-        
-      
-      
-    
-
-    
-    <tr class="b">
-    <td>
-      
-    <a href="cvs.html">CVS Build Instructions</a>
-  
-    </td>
-   
-    <td>
-      
-            Details for building the repository suite from CVS.
-            
-    </td>
-   </tr>
-  
-    </table>
+    <div id="source">
+      <pre>
+$ cd avalon/util
+$ maven
+$ cd ../repository
+$ maven
+</pre>
+    </div>
   
     </div>
   

@@ -475,6 +475,146 @@
           
     </p>
    
+    <p>
+      
+          A bootstrap profile is established relative to the following 
+          environment variables and properties:
+          
+    </p>
+   
+    
+    <table border="1" width="100%" cellspacing="2" cellpadding="3">
+      
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
+    <th>
+      Location
+    </th>
+   </tr>
+  
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <td>
+      ${user.dir}/avalon.properties
+    </td>
+   </tr>
+  
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
+    <td>
+      ${user.home}/avalon.properties
+    </td>
+   </tr>
+  
+    </table>
+  
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Bootstrap Properties">Bootstrap Properties</a>
+        </h4>
+      
+      
+    
+    <table border="1" width="100%" cellspacing="2" cellpadding="3">
+      
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <th>
+      Property
+    </th>
+   
+    <th>
+      Default Value
+    </th>
+   
+    <th>
+      Description
+    </th>
+   </tr>
+  
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
+    <td>
+      ${avalon.repository.cache}
+    </td>
+   
+    <td>
+      ${avalon.home}
+    </td>
+   
+    <td>
+      The default cache. In undefined in a property file, the value
+             defaults to an equivalent system property and if underfined, will 
+             attempt to locate an environment variable AVALON_HOME.  If the env 
+             variable is not declared the default repository directory will 
+             revert to ${user.home}/.avalon.
+    </td>
+   </tr>
+  
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <td>
+      ${avalon.repository.hosts}
+    </td>
+   
+    <td>
+      http://dpml.net,http://ibiblio.org/maven
+    </td>
+   
+    <td>
+      The default remote hosts expressed as a comma seperated 
+            sequence of host urls.  File or http urls may be supplied.
+    </td>
+   </tr>
+  
+    </table>
+  
     </div>
   
     </div>
