@@ -56,6 +56,7 @@ import org.apache.avalon.framework.component.WrapperComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.LogKit2AvalonLoggerAdapter;
 import org.apache.avalon.framework.logger.Loggable;
@@ -71,7 +72,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.15 $ $Date: 2003/03/19 16:50:35 $
+ * @version CVS $Revision: 1.16 $ $Date: 2003/03/19 17:16:03 $
  * @since 4.0
  */
 public class ComponentFactory
@@ -202,24 +203,25 @@ public class ComponentFactory
     private Logger aquireLogger()
     {
         Logger logger;
-        final String name = ( m_configuration == null ? null : m_configuration.getAttribute( "id", null ) );
-        if( null == name )
+        
+        try
         {
+            final String name = (String)m_context.get("component.name");
             if( getLogger().isDebugEnabled() )
             {
-                final String message = "no id attribute available, using standard name";
-                getLogger().debug( message );
-            }
-            logger = m_loggerManager.getDefaultLogger();
-        }
-        else
-        {
-            if( getLogger().isDebugEnabled() )
-            {
-                final String message = "id attribute is " + name;
+                final String message = "logger name is " + name;
                 getLogger().debug( message );
             }
             logger = m_loggerManager.getLoggerForCategory( name );
+        }
+        catch( ContextException ce )
+        {
+            if( getLogger().isDebugEnabled() )
+            {
+                final String message = "no logger name available, using standard name";
+                getLogger().debug( message );
+            }
+            logger = m_loggerManager.getDefaultLogger();
         }
         return logger;
     }
