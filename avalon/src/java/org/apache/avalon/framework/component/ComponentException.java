@@ -69,8 +69,30 @@ public class ComponentException
         this( role, message, null );
     }
 
+    /**
+     * Get the role which let to the exception.  May be null.
+     *
+     * @return The role which let to the exception.
+     */
     public final String getRole()
     {
         return m_role;
+    }
+    
+    /**
+     * Return a message describing the exception.
+     *
+     * @return exception message.
+     */
+    public String getMessage()
+    {
+        if ( m_role == null )
+        {
+            return super.getMessage();
+        }
+        else
+        {
+            return super.getMessage() + " (role [" + m_role + "])";
+        }
     }
 }
