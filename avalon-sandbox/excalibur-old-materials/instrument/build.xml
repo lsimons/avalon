@@ -392,24 +392,13 @@
     </target>
 
     <!-- Creates the distribution -->
-    <target name="dist"
-        depends="dist-jar, test-reports, checkstyle-report, site"
-        description="Generates a distribution (jar + docs + javadocs + unit tests + checkstyle reports)">
-
-
-        <copy file="${build.conf}/LICENSE.txt" todir="${dist.dir}"/>
-        <copy file="../KEYS" todir="${dist.dir}"/>
-
-        <mkdir dir="${dist.base}"/>
-
+    <target name="dist-bin">
         <zip zipfile="${dist.base}/${dist.name}-bin.zip" compress="true">
             <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
             <zipfileset dir="${docs.dir}" prefix="${dist.name}/docs"/>
         </zip>
 
-        <!--
-          Not supported by released ant but when it is we should enable this across
-          all of the products
+	<!--
         <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-bin.tar">
           <tarfileset dir="${dist.dir}"
                       prefix="${dist.name}"
@@ -418,17 +407,66 @@
         </tar>
 
         <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz"
-              src="${dist.name}-bin.tar"/>
-        <bzip2 zipfile="${dist.base}/${dist.name}-bin.tar.gz"
+		src="${dist.name}-bin.tar"/>
+	
+        <bzip2 zipfile="${dist.base}/${dist.name}-bin.tar.bz2"
                src="${dist.name}-bin.tar"/>
 
-        <delete file="${dist.base}/${dist.name}-bin.tar"/>
+       <delete file="${dist.base}/${dist.name}-bin.tar"/>
+       -->
+    </target>
+
+    <target name="dist-src">
+        <zip zipfile="${dist.base}/${dist.name}-src.zip" compress="true">
+	    <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
+	    <zipfileset dir="${basedir}" prefix="${dist.name}" includes="*.xml,*.properties"/>
+	    <zipfileset dir="${src.dir}" prefix="${dist.name}/src"/>
+            <zipfileset dir="${docs.dir}" prefix="${dist.name}/docs"/>
+        </zip>
+
+	<!--
+        <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-src.tar">
+          <tarfileset dir="${dist.dir}"
+                      prefix="${dist.name}"
+                      username="avalon"
+                      group="avalon"/>
+          <tarfileset dir="$docs.dir}"
+		  prefix="${dist.name}/docs"
+                      username="avalon"
+		      group="avalon"/>
+          <tarfileset dir="${src.dir}"
+		  prefix="${dist.name}/src"
+                      username="avalon"
+		      group="avalon"/>
+      </tar>
+
+        <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz"
+		src="${dist.name}-bin.tar"/>
+	
+        <bzip2 zipfile="${dist.base}/${dist.name}-src.tar.bz2"
+		src="${dist.name}-bin.tar"/>
+
+	<delete file="${dist.base}/${dist.name}-src.tar"/>
+	-->
+    </target>
+
+    <target name="prepare-dist"
+	    depends="test-reports, checkstyle-report, site">
+
+
+        <copy file="${build.conf}/LICENSE.txt" todir="${dist.dir}"/>
+        <copy file="../KEYS" todir="${dist.dir}"/>
+
+        <mkdir dir="${dist.base}"/>
+    </target>
+
+    <target name="dist"
+	    depends="prepare-dist, dist-src, dist-jar, dist-bin, clean"
+	    description="Generates a distribution (jar + docs + javadocs + unit tests + checkstyle reports)">
 
         <checksum fileext=".md5">
           <fileset dir="${dist.base}" />
         </checksum>
-        -->
-        <delete dir="${dist.dir}" />
 
     </target>
 
