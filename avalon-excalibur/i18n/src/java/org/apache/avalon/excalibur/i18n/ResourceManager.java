@@ -16,7 +16,7 @@ import java.util.HashMap;
  */
 public class ResourceManager
 {
-    private final static HashMap  m_resources   = new HashMap();
+    private final static HashMap  c_resources   = new HashMap();
 
     /**
      * Retrieve resource with specified basename.
@@ -27,12 +27,12 @@ public class ResourceManager
     public final static Resources getBaseResources( final String baseName )
     {
         //TODO: Make these weak references????
-        Resources packet = (Resources)m_resources.get( baseName );
+        Resources packet = (Resources)c_resources.get( baseName );
         
         if( null == packet )
         {
             packet = new Resources( baseName );
-            m_resources.put( baseName, packet );
+            c_resources.put( baseName, packet );
         }
 
         return packet;
