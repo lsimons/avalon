@@ -56,7 +56,7 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.excalibur.event.Queue;
+import org.apache.excalibur.event.Sink;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.mpool.PoolManager;
 
@@ -64,7 +64,7 @@ import java.io.File;
 
 /**
  * Helper class to create a m_context for the ContextManager.
- * @version CVS $Revision: 1.15 $ $Date: 2003/04/22 12:37:09 $
+ * @version CVS $Revision: 1.16 $ $Date: 2003/05/28 19:03:48 $
  */
 public final class FortressConfig
 {
@@ -150,9 +150,9 @@ public final class FortressConfig
         return m_context;
     }
 
-    public void setCommandQueue( final Queue commandQueue )
+    public void setCommandSink( final Sink commandSink )
     {
-        m_context.put( Queue.ROLE, commandQueue );
+        m_context.put( Sink.ROLE, commandSink );
     }
 
     public void setServiceManager( final ServiceManager componentManager )

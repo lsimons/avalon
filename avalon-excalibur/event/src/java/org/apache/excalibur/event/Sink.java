@@ -66,6 +66,8 @@ package org.apache.excalibur.event;
  */
 public interface Sink
 {
+    String ROLE = Sink.class.getName();
+
     /**
      * Enqueues the given element onto the Sink.
      *
