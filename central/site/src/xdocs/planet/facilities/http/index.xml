@@ -34,14 +34,13 @@
           </subsection>
           <subsection name="Component Requirement">
             <p>
-              The 
-              components that wishes to serve HTTP requests need to implement
-              org.apache.avalon.http.HttpRequestHandler, which is a stripped
-              down version of Jetty's org.mortbay.http.HttpHandler, taking the
-              same arguments.
+              The components that wishes to serve HTTP requests need to 
+              implement <code>org.apache.avalon.http.HttpRequestHandler</code>,
+              which is a stripped down version of Jetty's 
+              org.mortbay.http.HttpHandler, taking the same arguments.
             </p>
           </subsection>
-          <subsection name="Assmbled Facility">
+          <subsection name="Assembled Facility">
             <p>
               To make life easier for everyone involved, we have assembled a 
               couple of standard Jetty configurations, and these can easily be
@@ -63,5 +62,3 @@
         </section>
     </body>
 </document>
-
-

@@ -24,8 +24,8 @@
   <body>
     <menu>
       <item name="Overview" href="index.html"/>
-      <item name="standard" href="standard.html"/>
-      <item name="complete" href="complete.html"/>
+      <item name="Standard" href="standard.html"/>
+      <item name="Complete" href="complete.html"/>
     </menu>
   </body>
 
