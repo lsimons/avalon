@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.phoenix.tools.installer;
+package org.apache.avalon.phoenix.components.deployer.installer;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,7 +34,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.34 $ $Date: 2002/05/10 15:32:14 $
+ * @version $Revision: 1.1 $ $Date: 2002/05/11 02:05:13 $
  */
 public class Installer
     extends AbstractLogEnabled
@@ -59,6 +59,8 @@ public class Installer
     private static final String FS_ASSEMBLY_XML = "SAR-INF" + File.separator + "assembly.xml";
     private static final String FS_SERVER_XML = "SAR-INF" + File.separator + "server.xml";
     private static final String FS_ENV_XML = "SAR-INF" + File.separator + "environment.xml";
+    private static final String FS_CLASSES =
+        "SAR-INF" + File.separator + "classes" + File.separator;
 
     /**
      * Uninstall the Sar designated installation.
@@ -66,7 +68,8 @@ public class Installer
      * @param installation the installation
      * @throws InstallationException if an error occurs
      */
-    public void uninstall( final Installation installation )
+    public void uninstall( final Installation installation,
+                           final File workDir )
         throws InstallationException
     {
         final FileDigest[] infos = installation.getFileDigests();
@@ -105,6 +108,19 @@ public class Installer
                 }
             }
         }
+
+        try
+        {
+            FileUtil.deleteDirectory( workDir );
+        }
+        catch( final IOException ioe )
+        {
+            final String message =
+                REZ.getString( "nodelete-workdir.error",
+                               workDir,
+                               ioe.getMessage() );
+            getLogger().warn( message, ioe );
+        }
     }
 
     /**
@@ -113,7 +129,8 @@ public class Installer
      * @param url the url of instalation
      * @throws InstallationException if an error occurs
      */
-    public Installation install( final URL url )
+    public Installation install( final URL url,
+                                 final File workDir )
         throws InstallationException
     {
         lock();
@@ -144,7 +161,7 @@ public class Installer
             }
             else
             {
-                return install( url, file, zipFile );
+                return install( url, file, zipFile, workDir );
             }
         }
         catch( final IOException ioe )
@@ -256,11 +273,14 @@ public class Installer
      * @param url the url designator of sar
      * @param file the file of sar
      * @param zipFile the ZipFile representing sar
+     * @param baseWorkDir the base directory in which to extract jars,
+     *        libraries and other temporary files.
      * @return the Installation object
      */
     private Installation install( final URL url,
                                   final File file,
-                                  final ZipFile zipFile )
+                                  final ZipFile zipFile,
+                                  final File baseWorkDir )
         throws InstallationException
     {
         final File directory = getDestinationFor( file );
@@ -272,99 +292,232 @@ public class Installer
         final ArrayList digests = new ArrayList();
         final ArrayList jars = new ArrayList();
 
-        boolean classesAdded = false;
+        final File workDir =
+            getRelativeWorkDir( baseWorkDir, file );
 
-        final Enumeration entries = zipFile.entries();
-        while( entries.hasMoreElements() )
-        {
-            final ZipEntry entry = (ZipEntry)entries.nextElement();
-            if( entry.isDirectory() ) continue;
-
-            final String name = fixName( entry.getName() );
-
-            boolean expand = true;
-            boolean isJar = false;
-
-            if( name.startsWith( CLASSES ) )
-            {
-                expand = false;
-                if( !classesAdded )
-                {
-                    final String classes =
-                        "jar:" + getURLAsString( file ) + "!/" + CLASSES;
-                    jars.add( classes );
-                    classesAdded = true;
-                }
-            }
-
-            //Grab all the jar files in the
-            //directory SAR-INF/lib
-            if( name.startsWith( LIB ) &&
-                name.endsWith( ".jar" ) &&
-                LIB.length() == name.lastIndexOf( "/" ) )
-            {
-                isJar = true;
-                //HACK: expand files until ClassLoader works properly
-                //final String jar = baseURL + name;
-                //jars.add( jar );
-            }
-
-            //Don't expand anything below SAR-INF directory unless they
-            //are the config.xml or server.xml files which will be expanded
-            //as a special case atm.
-            //NOTE: We expand everything at this time now but this will change
-            //in the future
-
-            if( name.startsWith( META_INF ) )
-            {
-                expand = false;
-            }
-
-            //Expand the file if necesasry and issue a warning if there is
-            //a file in the way
-            if( expand )
-            {
-                final File destination = new File( directory, name );
-                if( !destination.exists() )
-                {
-                    expandZipEntry( zipFile, entry, destination, digests );
-                }
-                else
-                {
-                    final String message = REZ.getString( "file-in-the-way", url, name, directory );
-                    getLogger().warn( message );
-                }
-
-                if( isJar )
-                {
-                    jars.add( getURLAsString( destination ) );
-                }
-            }
-        }
+        expandZipFile( zipFile, directory, workDir, jars, digests, url );
 
         //Retrieve name of environment file
         //need to check existence to support backwards compatability
         File envFile = new File( directory, FS_ENV_XML );
         if( !envFile.exists() )
         {
-            final String message = REZ.getString( "deprecated-environment-xml", url );
+            final String message =
+                REZ.getString( "deprecated-environment-xml", url );
             System.err.println( message );
             getLogger().warn( message );
             envFile = new File( directory, FS_SERVER_XML );
         }
 
         //Prepare and create Installation
-        final String[] classPath = (String[])jars.toArray( new String[ 0 ] );
+        final String[] classPath =
+            (String[])jars.toArray( new String[ jars.size() ] );
 
-        //final String assembly = "jar:" + getURLAsString( file ) + "!/" + ASSEMBLY_XML;
         final String assembly = getURLAsString( new File( directory, FS_ASSEMBLY_XML ) );
         final String config = getURLAsString( new File( directory, FS_CONFIG_XML ) );
         final String environment = getURLAsString( envFile );
         final FileDigest[] fileDigests = (FileDigest[])digests.toArray( new FileDigest[ 0 ] );
         final long timestamp = System.currentTimeMillis();
 
-        return new Installation( file, directory, config, assembly, environment,
+        return new Installation( file, directory, workDir,
+                                 config, assembly, environment,
                                  classPath, fileDigests, timestamp );
+    }
+
+    /**
+     * Expand the specified Zip file.
+     *
+     * @param zipFile the zip file
+     * @param directory the directory where to extract non-jar,
+     *        non-classes files
+     * @param workDir the directory to extract classes/jar files
+     * @param classpath the list to add classpath entries to
+     * @param digests the list to add file digests to
+     * @param url the url of deployment (for error reporting purposes)
+     * @throws InstallationException if an error occurs extracting files
+     */
+    private void expandZipFile( final ZipFile zipFile,
+                                final File directory,
+                                final File workDir,
+                                final ArrayList classpath,
+                                final ArrayList digests,
+                                final URL url )
+        throws InstallationException
+    {
+        final Enumeration entries = zipFile.entries();
+        while( entries.hasMoreElements() )
+        {
+            final ZipEntry entry = (ZipEntry)entries.nextElement();
+            final String name = fixName( entry.getName() );
+
+            if( name.startsWith( META_INF ) )
+            {
+                continue;
+            }
+
+            if( handleDirs( entry, name, directory ) )
+            {
+                continue;
+            }
+
+            if( handleClasses( zipFile,
+                               entry,
+                               name,
+                               workDir,
+                               classpath ) )
+            {
+                continue;
+            }
+
+            if( handleJars( zipFile, entry, name, workDir, classpath ) )
+            {
+                continue;
+            }
+
+            //Expand the file if necesasry and issue a warning
+            //if there is a file in the way
+            final File destination = new File( directory, name );
+            handleFile( zipFile, entry, destination, digests, url );
+        }
+    }
+
+    /**
+     * Handle the extraction of normal resources
+     * from zip file/
+     */
+    private void handleFile( final ZipFile zipFile,
+                             final ZipEntry entry,
+                             final File destination,
+                             final ArrayList digests,
+                             final URL url )
+        throws InstallationException
+    {
+        if( !destination.exists() )
+        {
+            expandFile( zipFile, entry, destination );
+            calculateDigest( entry, destination, digests );
+        }
+        else
+        {
+            final String message =
+                REZ.getString( "file-in-the-way",
+                               url,
+                               entry.getName(),
+                               destination );
+            getLogger().warn( message );
+        }
+    }
+
+    /**
+     * Handle extraction of jars.
+     *
+     * @param zipFile the zipFIle to exrtact from
+     * @param entry the entry to extract
+     * @param name the normalized name of entry
+     * @param workDir the working directory to extract to
+     * @param jars the classpath list
+     * @return true if handled, false otherwise
+     */
+    private boolean handleJars( final ZipFile zipFile,
+                                final ZipEntry entry,
+                                final String name,
+                                final File workDir,
+                                final ArrayList jars )
+        throws InstallationException
+    {
+        if( name.startsWith( LIB ) &&
+            name.endsWith( ".jar" ) &&
+            LIB.length() == name.lastIndexOf( "/" ) )
+        {
+            final File jar = new File( workDir, name );
+            jars.add( getURLAsString( jar ) );
+
+            final File file = new File( workDir, name );
+            expandFile( zipFile, entry, file );
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Handle extraction of jars.
+     *
+     * @param zipFile the zipFIle to exrtact from
+     * @param entry the entry to extract
+     * @param name the normalized name of entry
+     * @param workDir the working directory to extract to
+     * @param jars the classpath list
+     * @return true if handled, false otherwise
+     */
+    private boolean handleClasses( final ZipFile zipFile,
+                                   final ZipEntry entry,
+                                   final String name,
+                                   final File workDir,
+                                   final ArrayList jars )
+        throws InstallationException
+    {
+        if( name.startsWith( CLASSES ) )
+        {
+            final File classDir = new File( workDir, FS_CLASSES );
+            if( !classDir.exists() )
+            {
+                jars.add( getURLAsString( classDir ) );
+                final File file = new File( workDir, name );
+                expandFile( zipFile, entry, file );
+            }
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Handle expansion of dirs in the zipfile.
+     *
+     * @param entry the current ZipEntry
+     * @param name the name of entry
+     * @param directory the base directory extraacting to
+     * @return true if handled, false otherwise
+     */
+    private boolean handleDirs( final ZipEntry entry,
+                                final String name,
+                                final File directory )
+    {
+        if( entry.isDirectory() )
+        {
+            if( !name.startsWith( SAR_INF ) )
+            {
+                final File newDir =
+                    new File( directory, name );
+                newDir.mkdirs();
+            }
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Create working directory inside baseWorkDir
+     * for specified file.
+     *
+     * @param baseWorkDir the base workDir for all apps
+     * @param file the file representing app
+     * @return the working directory for app
+     */
+    private File getRelativeWorkDir( final File baseWorkDir,
+                                     final File file )
+    {
+        final String filename =
+            file.getName() + "-" + System.currentTimeMillis();
+        return new File( baseWorkDir, filename );
     }
 
     /**
@@ -377,9 +530,13 @@ public class Installer
     private String fixName( final String name )
     {
         if( name.startsWith( "/" ) )
+        {
             return name.substring( 1 );
+        }
         else
+        {
             return name;
+        }
     }
 
     /**
@@ -411,7 +568,8 @@ public class Installer
                 final File destination = new File( directory, name );
                 if( !destination.exists() )
                 {
-                    expandZipEntry( zipFile, entry, destination, digests );
+                    expandFile( zipFile, entry, destination );
+                    calculateDigest( entry, destination, digests );
                 }
                 else
                 {
@@ -428,7 +586,9 @@ public class Installer
         final FileDigest[] fileDigests = (FileDigest[])digests.toArray( new FileDigest[ 0 ] );
         final long timestamp = System.currentTimeMillis();
 
-        return new Installation( file, directory, config, assembly, server, classPath, fileDigests, timestamp );
+        return new Installation( file, directory, directory,
+                                 config, assembly, server,
+                                 classPath, fileDigests, timestamp );
     }
 
     /**
@@ -446,7 +606,9 @@ public class Installer
         final String server = getURLAsString( new File( directory, OLD_SERVER_XML ) );
         final long timestamp = System.currentTimeMillis();
 
-        return new Installation( directory, directory, config, assembly, server, classPath, null, timestamp );
+        return new Installation( directory, directory, directory,
+                                 config, assembly, server,
+                                 classPath, null, timestamp );
     }
 
     /**
@@ -481,22 +643,29 @@ public class Installer
     }
 
     /**
-     * Expand specified entry from specified zipfile into specified location.
+     * Calculate digest for specific entry.
      *
-     * @param zipFile the zip file to extract from
-     * @param entry the zip entry
-     * @param file the file to extract to
-     * @param digests the digests for the expanded files.
-     * @throws InstallationException if an error occurs
+     * @param entry the entry
+     * @param file the extracted file
+     * @param digests the list of digests already
+     *        calculated
      */
-    private void expandZipEntry( final ZipFile zipFile,
-                                 final ZipEntry entry,
-                                 final File file,
-                                 final ArrayList digests )
+    private void calculateDigest( final ZipEntry entry,
+                                  final File file,
+                                  final ArrayList digests )
+    {
+        final long checksum = entry.getCrc();
+        digests.add( new FileDigest( file, checksum ) );
+    }
+
+    /**
+     * Expand a single zipEntry to a file.
+     */
+    private void expandFile( final ZipFile zipFile,
+                             final ZipEntry entry,
+                             final File file )
         throws InstallationException
     {
-        if( entry.isDirectory() ) return;
-
         InputStream input = null;
         OutputStream output = null;
 
@@ -510,7 +679,10 @@ public class Installer
         catch( final IOException ioe )
         {
             final String message =
-                REZ.getString( "failed-to-expand", entry.getName(), file, ioe.getMessage() );
+                REZ.getString( "failed-to-expand",
+                               entry.getName(),
+                               file,
+                               ioe.getMessage() );
             throw new InstallationException( message, ioe );
         }
         finally
@@ -518,11 +690,6 @@ public class Installer
             IOUtil.shutdownStream( input );
             IOUtil.shutdownStream( output );
         }
-
-        final long checksum = entry.getCrc();
-        final FileDigest info = new FileDigest( file, checksum );
-
-        digests.add( info );
     }
 
     /**

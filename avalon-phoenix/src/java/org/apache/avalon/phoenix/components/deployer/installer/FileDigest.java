@@ -1,4 +1,4 @@
-package org.apache.avalon.phoenix.tools.installer;
+package org.apache.avalon.phoenix.components.deployer.installer;
 
 import java.io.File;
 
@@ -6,7 +6,7 @@ import java.io.File;
  * FileDigest holds file deployment information. Information
  * used to verify if file was modified since deployment.
  *
- * @version $Revision: 1.7 $ $Date: 2002/05/10 09:13:42 $
+ * @version $Revision: 1.1 $ $Date: 2002/05/11 02:05:13 $
  */
 public class FileDigest
 {

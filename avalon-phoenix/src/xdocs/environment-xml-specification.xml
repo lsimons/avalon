@@ -39,8 +39,15 @@
 
     <policy>
       <keystore name="foo-keystore"
-                location="file:${app.home}${/}conf${/}keystore"
+                location="sar:/conf/keystore"
                 type="JKS" />
+
+      <grant code-base="file:${app.home}${/}some-dir${/}*"
+              key-store="foo-keystore" >
+        <permission class="java.io.FilePermission"
+                    target="${/}tmp${/}*"
+                    action="read,write" />
+      </grant>
 
       <grant signed-by="Bob"
              code-base="file:${app.home}${/}SAR-INF${/}lib${/}*"
@@ -55,12 +62,19 @@
 
       </source>
       <p>
-        The format of the policy section should be self evident if the assembler
+        The format of the policy section should be largely self evident if the assembler
         has experience with standard policy files. It should be noted that if no
         policy section is given then the Server Application runs at full permissions.
         The evaluation of properties occurs in a similar manner to standard
         policy file property expansion. There are a number of extra properties that
         will be evaluated. These include; <code>app.home</code> and <code>app.name</code>.
+      </p>
+      <p>
+        One special thing to not is that the user can use URLs of the form,
+        "sar:/SAR-INF/lib/*". This will apply the permissions to the jars
+        contained in the .SAR file. Note that these urls must start with
+        "sar:/" and must use the "/" character as file separator, regardless
+        of current operating system.
       </p>
       <p>
         The logs section can currently have two types of elements; <em>log-target</em>s
@@ -104,7 +118,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.5 $ $Date: 2002/04/02 18:56:21 $
+      $Revision: 1.6 $ $Date: 2002/05/11 02:05:13 $
     </legal>
   </footer>
 </document>
