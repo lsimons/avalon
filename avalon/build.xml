@@ -549,13 +549,13 @@ Legal:
             <fileset dir="${xdocs.dir}"/>
         </copy>
 
-        <style style="${announce2txt}" in="${target.xdocs}/framework/announcement.xml"
+        <style style="${announce2txt}" in="${tools.dir}/announcement.xml"
             out="Announcement.txt"/>
-        <style style="${announce2header}" in="${target.xdocs}/framework/announcement.xml"
+        <style style="${announce2header}" in="${tools.dir}/announcement.xml"
             out="${dist.base}/HEADER.html"/>
-        <style style="${announce2readme}" in="${target.xdocs}/framework/announcement.xml"
+        <style style="${announce2readme}" in="${tools.dir}/announcement.xml"
             out="${dist.base}/README.html"/>
-        <style style="${announce2site}" in="${target.xdocs}/framework/announcement.xml"
+        <style style="${announce2site}" in="${tools.dir}/announcement.xml"
             out="jakarta-news.xml"/>
 
     </target>
