@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+
+<project name="Phoenix Docs" default="main" basedir=".">
+
+    <!--
+    Give user a chance to override without editing this file
+    (and without typing -D each time he compiles it)
+    -->
+
+    <property file="ant.properties"/>
+    <property file="${user.home}/.ant.properties"/>
+
+    <property file="project.properties"/>
+    <property file="${user.home}/.project.properties"/>
+
+    <property name="build.dir" value="build"/>
+    <property name="docs.dir" value="${build.dir}/docs"/>
+    <property name="site.dir" value="../jakarta-avalon-site/docs/phoenix"/>
+    <property name="build.xdocs" value="${build.dir}/xdocs"/>
+    <property name="build.javadocs" value="${build.dir}/javadocs"/>
+    <property name="src.dir" value="src"/>
+    <property name="java.dir" value="${src.dir}/java"/>
+    <property name="compat.dir" value="${src.dir}/compat"/>
+    <property name="xdocs.dir" value="src/xdocs"/>
+    <property name="jakarta-site.dir" value="../jakarta-site"/>
+    <property name="dist.base" value="distributions"/>
+
+    <property name="announce2txt" value="tools/announcement2txt.xsl"/>
+    <property name="announce2header" value="tools/announcement2header.xsl"/>
+    <property name="announce2readme" value="tools/announcement2readme.xsl"/>
+    <property name="announce2site" value="tools/announcement2site.xsl"/>
+
+    <path id="project.class.path">
+                <fileset dir="${jakarta-site.dir}/lib"/>
+    </path>
+
+    <!-- Main target -->
+    <target name="main" depends="docs" description="Builds the distribution"/>
+
+    <target name="anakia-avail">
+        <available classname="org.apache.velocity.anakia.AnakiaTask"
+            property="AnakiaTask.present">
+            <classpath refid="project.class.path"/>
+        </available>
+    </target>
+
+    <target name="anakia-check" depends="anakia-avail" unless="AnakiaTask.present">
+        <echo>
+            AnakiaTask is not present! Please check to make sure that
+            velocity.jar is in your classpath. The easiest way to build
+            the documentation is to checkout jakarta-site CVS and specify
+            jakarta-site.dir property.
+        </echo>
+    </target>
+
+    <target name="docs" depends="anakia-check" description="Generate documentation and website">
+        <taskdef name="anakia"
+            classname="org.apache.velocity.anakia.AnakiaTask">
+            <classpath refid="project.class.path"/>
+        </taskdef>
+
+        <anakia basedir="${xdocs.dir}"
+            destdir="${docs.dir}"
+            style="docs.vsl"
+            projectfile="stylesheets/project.xml"
+            includes="**/*.xml"
+            excludes="stylesheets/** history/** changes.xml announcement.xml"
+            velocitypropertiesfile="${xdocs.dir}/stylesheets/velocity.properties"
+            />
+
+        <anakia basedir="${xdocs.dir}"
+            destdir="${docs.dir}"
+            style="changes.vsl"
+            projectfile="stylesheets/project.xml"
+            includes="changes.xml"
+            velocitypropertiesfile="${xdocs.dir}/stylesheets/velocity.properties"
+            />
+
+     <copy todir="${docs.dir}" filtering="off">
+      <fileset dir="${xdocs.dir}">
+        <include name="**/images/**"/>
+        <include name="**/*.gif"/>
+        <include name="**/*.jpg"/>
+        <include name="**/*.png"/>
+        <include name="**/*.css"/>
+        <include name="**/*.js"/>
+      </fileset>
+    </copy>
+    </target>
+
+  <!-- Create the API documentation -->
+  <target name="javadocs">
+
+    <delete dir="${build.javadocs}"/>
+    <mkdir dir="${build.javadocs}"/>
+
+    <javadoc packagenames="org.apache.*"
+             sourcepath="${java.dir}:${compat.dir}"
+             destdir="${build.javadocs}">
+      <classpath refid="project.class.path" />
+      <doclet name="com.sun.tools.doclets.standard.Standard">
+        <param name="-author"/>
+        <param name="-version"/>
+        <param name="-doctitle" value="${Name}"/>
+        <param name="-windowtitle" value="${Name} API"/>
+        <param name="-bottom"
+               value="&quot;Copyright &#169; 2001 Apache Jakarta Project. All Rights Reserved.&quot;"/>
+        <param name="-link" value="http://java.sun.com/j2se/1.4/docs/api/"/>
+        <param name="-link" value="http://java.sun.com/j2ee/sdk_1.3/techdocs/api/"/>
+        <param name="-link" value="http://jakarta.apache.org/avalon/api/"/>
+      </doclet>
+    </javadoc>
+
+  </target>
+
+
+    <!-- Create the announcements and HEADER.html -->
+    <target name="announcement">
+
+        <filter token="Name" value="${Near}"/>
+        <filter token="name" value="${near}"/>
+        <filter token="version" value="${version}"/>
+        <filter token="year" value="${year}"/>
+        <filter token="status" value="${status}"/>
+        <filter token="release" value="${release}"/>
+        <filter token="short-version" value="${short.version}"/>
+
+        <mkdir dir="${build.dir}" />
+        <mkdir dir="${dist.base}" />
+
+        <copy todir="${build.dir}" filtering="on">
+          <fileset dir="${xdocs.dir}">
+            <include name="announcement.xml"/>
+            <include name="changes.xml"/>
+          </fileset>
+        </copy>
+
+        <style style="${announce2txt}" in="${build.dir}/announcement.xml" out="Announcement.txt"/>
+        <style style="${announce2header}" in="${build.dir}/announcement.xml"
+               out="${dist.base}/HEADER.html"/>
+        <style style="${announce2readme}" in="${build.dir}/announcement.xml"
+               out="${dist.base}/README.html"/>
+        <style style="${announce2site}" in="${build.dir}/announcement.xml"
+               out="jakarta-news.xml"/>
+
+      </target>
+
+
+    <target name="site"
+            depends="docs,javadocs"
+	    description="Update site directory">
+
+    <delete>
+      <fileset dir="${site.dir}">
+         <include name="**/*"/>
+      </fileset>
+    </delete>
+
+    <copy todir="${site.dir}" filtering="off">
+      <fileset dir="${docs.dir}"/>
+    </copy>
+
+    <copy todir="${site.dir}/api" filtering="off">
+      <fileset dir="${build.javadocs}"/>
+    </copy>
+
+  </target>
+
+
+    <!-- Cleans up build and distribution directories -->
+    <target name="clean" description="Deletes all built files">
+        <delete dir="${docs.dir}"/>
+    </target>
+
+</project>
