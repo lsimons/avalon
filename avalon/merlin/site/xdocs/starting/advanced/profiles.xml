@@ -87,6 +87,9 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
  * An implementation of a random number generator.
+ * 
+ * @avalon.component name="randomizer" lifestyle="singleton"
+ * @avalon.service type="tutorial.RandomGenerator"
  */
 public class RandomGeneratorProvider extends AbstractLogEnabled 
   implements Configurable, RandomGenerator
@@ -128,7 +131,7 @@ The RandomGeneratorProvider.xprofile contains the definition of multiple tagged 
 <?xml version="1.0"?>
 
 <profiles>
-  <profile name="randomizer">
+  <profile name="primary">
     <configuration>
       <seed>1024</seed>
     </configuration>
@@ -149,9 +152,9 @@ In the logging output we see that Merlin has automatically locating the RandomGe
         </p>
 <source>
 [INFO   ] (kernel): installing: file:/${user.dir}/target/classes/
-[INFO   ] (tutorial.random-provider-randomizer): configuration stage
-[INFO   ] (tutorial.random-provider-randomizer): seed: 1024
-[INFO   ] (tutorial.hello): resolved random: 26314317
+[INFO   ] (tutorial.randomizer-primary): configuration stage
+[INFO   ] (tutorial.randomizer-primary): seed: 1024
+[INFO   ] (tutorial.hello): resolved random: -1250858422
 [INFO   ] (kernel): dissassembly phase
 [INFO   ] (kernel): disposal phase</source>
         <p>
