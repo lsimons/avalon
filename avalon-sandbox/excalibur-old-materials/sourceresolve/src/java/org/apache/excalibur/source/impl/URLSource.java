@@ -83,7 +83,7 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * Description of a source which is described by an URL.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.22 $ $Date: 2003/03/29 18:53:26 $
+ * @version CVS $Revision: 1.23 $ $Date: 2003/03/31 14:21:42 $
  */
 public class URLSource
     extends AbstractSource
@@ -98,8 +98,10 @@ public class URLSource
     /** The connection for a real URL */
     protected URLConnection m_connection;
 
-    /** The file, if URL is a file */
-    protected File m_file;
+    /** The file, if URL is a file
+     * @deprecated use the accessor instead (getFile())
+     */
+    protected File file;
 
     /** The <code>SourceParameters</code> used for a post*/
     protected SourceParameters m_parameters;
@@ -140,11 +142,11 @@ public class URLSource
         setScheme(systemId.substring(0, pos));
         if (systemId.startsWith( FILE ))
         {
-            m_file = new File( systemId.substring( FILE.length() ) );
+            setFile( new File( systemId.substring( FILE.length() ) ) );
         }
         else
         {
-            m_file = null;
+            setFile( null );
         }
         m_url = url;
         m_isPost = false;
@@ -154,16 +156,16 @@ public class URLSource
             m_parameters = (SourceParameters)parameters.get( SourceResolver.URI_PARAMETERS );
             final String method = (String)parameters.get( SourceResolver.METHOD );
             if( "POST".equalsIgnoreCase( method ) )
-                this.m_isPost = true;
+                m_isPost = true;
         }
-        if( null == this.m_file
-            && null != this.m_parameters
-            && this.m_parameters.hasParameters()
-            && !this.m_isPost )
+        if( null == getFile()
+            && null != m_parameters
+            && m_parameters.hasParameters()
+            && !m_isPost )
         {
             StringBuffer urlBuffer = new StringBuffer( systemId );
             String key;
-            final Iterator i = this.m_parameters.getParameterNames();
+            final Iterator i = m_parameters.getParameterNames();
             Iterator values;
             String value;
             boolean first = ( systemId.indexOf( '?' ) == -1 );
@@ -171,7 +173,7 @@ public class URLSource
             while( i.hasNext() )
             {
                 key = (String)i.next();
-                values = this.m_parameters.getParameterValues( key );
+                values = m_parameters.getParameterValues( key );
                 while( values.hasNext() == true )
                 {
                     value = SourceUtil.encode( (String)values.next() );
@@ -182,9 +184,23 @@ public class URLSource
                     urlBuffer.append( value );
                 }
             }
-            this.m_url = new URL( urlBuffer.toString() );
-            this.m_parameters = null;
+            
+            m_url = new URL( urlBuffer.toString() );
+            m_parameters = null;
         }
+    }
+
+    /**
+     * @param file
+     */
+    protected void setFile(File file)
+    {
+        this.file = file;
+    }
+    
+    protected File getFile()
+    {
+        return file;
     }
 
     /**
@@ -195,27 +211,27 @@ public class URLSource
     protected void getInfos()
     {
         // exists will be set below depending on the m_url type
-        this.m_exists = false;
+        m_exists = false;
         
-        if( null != this.m_file )
+        if( null != getFile() )
         {
-            setLastModified( m_file.lastModified() );
-            setContentLength( m_file.length() );
-            m_exists = m_file.exists();
+            setLastModified( getFile().lastModified() );
+            setContentLength( getFile().length() );
+            m_exists = getFile().exists();
         }
         else
         {
-            if( !this.m_isPost )
+            if( !m_isPost )
             {
                 try
                 {
-                    if( null == this.m_connection )
+                    if( null == m_connection )
                     {
-                        this.m_connection = this.m_url.openConnection();
-                        String userInfo = this.getUserInfo();
-                        if( this.m_url.getProtocol().startsWith( "http" ) && userInfo != null )
+                        m_connection = m_url.openConnection();
+                        String userInfo = getUserInfo();
+                        if( m_url.getProtocol().startsWith( "http" ) && userInfo != null )
                         {
-                            this.m_connection.setRequestProperty( "Authorization", "Basic " + SourceUtil.encodeBASE64( userInfo ) );
+                            m_connection.setRequestProperty( "Authorization", "Basic " + SourceUtil.encodeBASE64( userInfo ) );
                         }
                     }
                     setLastModified(m_connection.getLastModified());
@@ -241,8 +257,8 @@ public class URLSource
      */
     public boolean exists()
     {
-        this.checkInfos();
-        return this.m_exists;
+        checkInfos();
+        return m_exists;
     }
 
     /**
@@ -257,38 +273,38 @@ public class URLSource
     {
         try
         {
-            this.checkInfos();
+            checkInfos();
             InputStream input = null;
-            if( null != this.m_file )
+            if( null != getFile() )
             {
-                input = new FileInputStream( this.m_file );
+                input = new FileInputStream( getFile() );
             }
             else
             {
-                if( this.m_connection == null )
+                if( m_connection == null )
                 {
-                    this.m_connection = this.m_url.openConnection();
+                    m_connection = m_url.openConnection();
                     /* The following requires a jdk 1.3 */
-                    String userInfo = this.getUserInfo();
-                    if( this.m_url.getProtocol().startsWith( "http" ) && userInfo != null )
+                    String userInfo = getUserInfo();
+                    if( m_url.getProtocol().startsWith( "http" ) && userInfo != null )
                     {
-                        this.m_connection.setRequestProperty( "Authorization", "Basic " + SourceUtil.encodeBASE64( userInfo ) );
+                        m_connection.setRequestProperty( "Authorization", "Basic " + SourceUtil.encodeBASE64( userInfo ) );
                     }
 
                     // do a post operation
-                    if( this.m_connection instanceof HttpURLConnection
-                        && this.m_isPost )
+                    if( m_connection instanceof HttpURLConnection
+                        && m_isPost )
                     {
                         StringBuffer buffer = new StringBuffer( 2000 );
                         String key;
-                        Iterator i = this.m_parameters.getParameterNames();
+                        Iterator i = m_parameters.getParameterNames();
                         Iterator values;
                         String value;
                         boolean first = true;
                         while( i.hasNext() )
                         {
                             key = (String)i.next();
-                            values = this.m_parameters.getParameterValues( key );
+                            values = m_parameters.getParameterValues( key );
                             while( values.hasNext() == true )
                             {
                                 value = SourceUtil.encode( (String)values.next() );
@@ -316,12 +332,12 @@ public class URLSource
                             out.close();
                         }
                         input = httpCon.getInputStream();
-                        this.m_connection = null; // make sure a new m_connection is created next time
+                        m_connection = null; // make sure a new m_connection is created next time
                         return input;
                     }
                 }
-                input = this.m_connection.getInputStream();
-                this.m_connection = null; // make sure a new m_connection is created next time
+                input = m_connection.getInputStream();
+                m_connection = null; // make sure a new m_connection is created next time
             }
             return input;
         }
@@ -393,9 +409,9 @@ public class URLSource
                 return m_cachedValidity;
 
             m_cachedLastModificationDate = lm;
-            if (m_file != null)
+            if (getFile() != null)
             {
-                m_cachedValidity = new FileTimeStampValidity(m_file, lm);
+                m_cachedValidity = new FileTimeStampValidity(getFile(), lm);
             }
             else
             {
@@ -422,9 +438,9 @@ public class URLSource
      */
     public boolean isDirectory()
     {
-    	if ( null != m_file ) 
+    	if ( null != getFile() ) 
     	{
-    		return m_file.isDirectory();
+    		return getFile().isDirectory();
     	}
     	return false;
     }
@@ -436,9 +452,9 @@ public class URLSource
      */
     public Collection getChildrenLocations() 
     {
-    	if ( null != m_file && m_file.isDirectory() )
+    	if ( null != getFile() && getFile().isDirectory() )
     	{
-    		final String[] files = m_file.list();
+    		final String[] files = getFile().list();
     		return Arrays.asList(files);
     	}
     	return Collections.EMPTY_LIST;

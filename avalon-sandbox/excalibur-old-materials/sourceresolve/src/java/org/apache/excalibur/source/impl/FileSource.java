@@ -69,7 +69,7 @@ import org.apache.excalibur.source.SourceException;
  * A {@link ModifiableSource} for 'file:/' system IDs.
  *
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version $Id: FileSource.java,v 1.3 2003/03/29 18:53:26 bloritsch Exp $
+ * @version $Id: FileSource.java,v 1.4 2003/03/31 14:21:42 bloritsch Exp $
  */
 
 public class FileSource
@@ -85,7 +85,7 @@ public class FileSource
     throws IOException {
         super.init( url, parameters );
 
-        if ( null == this.m_file ) {
+        if ( null == getFile() ) {
             throw new IllegalArgumentException("Malformed url for a file source : " + url);
         }
     }
@@ -94,7 +94,7 @@ public class FileSource
      * Get the associated file
      */
     public File getFile() {
-        return this.m_file;
+        return super.getFile();
     }
 
     /**
@@ -103,62 +103,62 @@ public class FileSource
      */
     private class FileSourceOutputStream extends FileOutputStream {
 
-        private File tmpFile;
-        private boolean isClosed = false;
-        private FileSource source;
+        private File m_tmpFile;
+        private boolean m_isClosed = false;
+        private FileSource m_source;
 
         public FileSourceOutputStream(File tmpFile, FileSource source) throws IOException {
             super(tmpFile);
-            this.tmpFile = tmpFile;
-            this.source = source;
+            m_tmpFile = tmpFile;
+            m_source = source;
         }
 
         public void close() throws IOException {
-            if (!this.isClosed) {
+            if (!m_isClosed) {
                 super.close();
                 try {
                     // Delete destination file
-                    if (this.source.getFile().exists()) {
-                        this.source.getFile().delete();
+                    if (m_source.getFile().exists()) {
+                        m_source.getFile().delete();
                     }
                     // Rename temp file to destination file
-                    tmpFile.renameTo(this.source.getFile());
+                    m_tmpFile.renameTo(m_source.getFile());
     
                 } finally {
                     // Ensure temp file is deleted, ie lock is released.
                     // If there was a failure above, written data is lost.
-                    if (tmpFile.exists()) {
-                        tmpFile.delete();
+                    if (m_tmpFile.exists()) {
+                        m_tmpFile.delete();
                     }
-                    this.isClosed = true;
+                    m_isClosed = true;
                 }
             }
 
         }
 
         public boolean canCancel() {
-            return !this.isClosed;
+            return !m_isClosed;
         }
 
         public void cancel() throws Exception {
-            if (this.isClosed) {
+            if (m_isClosed) {
                 throw new IllegalStateException("Cannot cancel : outputstrem is already closed");
             }
 
-            this.isClosed = true;
+            m_isClosed = true;
             super.close();
-            this.tmpFile.delete();
+            m_tmpFile.delete();
         }
 
         public void finalize() {
-            if (!this.isClosed && tmpFile.exists()) {
+            if (!m_isClosed && m_tmpFile.exists()) {
                 // Something wrong happened while writing : delete temp file
-                tmpFile.delete();
+                m_tmpFile.delete();
             }
         }
 
         public FileSource getSource() {
-            return this.source;
+            return m_source;
         }
     }
 
@@ -168,7 +168,7 @@ public class FileSource
      * @return true if the resource exists.
      */
     public boolean exists() {
-        return this.m_file.exists();
+        return getFile().exists();
     }
 
     /**
@@ -189,19 +189,19 @@ public class FileSource
     throws IOException, SourceException {
         // Create a temp file. It will replace the right one when writing terminates,
         // and serve as a lock to prevent concurrent writes.
-        File tmpFile = new File(this.m_file.getPath() + ".tmp");
+        File tmpFile = new File(getFile().getPath() + ".tmp");
 
         // Ensure the directory exists
         tmpFile.getParentFile().mkdirs();
 
         // Can we write the file ?
-        if (this.m_file.exists() && !this.m_file.canWrite()) {
-            throw new IOException("Cannot write to file " + this.m_file.getPath());
+        if (getFile().exists() && !getFile().canWrite()) {
+            throw new IOException("Cannot write to file " + getFile().getPath());
         }
 
         // Check if it temp file already exists, meaning someone else currently writing
         if (!tmpFile.createNewFile()) {
-            throw new ConcurrentModificationException("File " + this.m_file.getPath() +
+            throw new ConcurrentModificationException("File " + getFile().getPath() +
               " is already being written by another thread");
         }
 
@@ -254,6 +254,6 @@ public class FileSource
      * Delete the source.
      */
     public boolean delete()  {
-        return this.m_file.delete();
+        return getFile().delete();
     }
 }
