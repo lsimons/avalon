@@ -453,7 +453,7 @@ public class DefaultTimeScheduler
         Vector retval = new Vector();
         for( Iterator iterator = coll.iterator(); iterator.hasNext(); )
         {
-            TimeScheduledEntry tse = (TimeScheduledEntry)m_entries.get( (String)iterator.next() );
+            TimeScheduledEntry tse = (TimeScheduledEntry)m_entries.get( iterator.next() );
             retval.add( tse.toString() );
         }
         return retval;
