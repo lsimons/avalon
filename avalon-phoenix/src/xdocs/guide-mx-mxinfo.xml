@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>Management Guide - MXINFO File Format</title>
+    <author email="huw@apache.org">Huw Roberts</author>
+  </properties>
+  <body>
+    <section name="Outline">
+      <ul>
+        <li>
+          specified in the DTD, available here.[TODO]
+        </li>
+        <li>
+          explain the various elements
+        </li>
+        <li>
+          explain runtime requirements
+        </li>
+      </ul>
+    </section>
+    <section name="Overview" >
+      <p>
+        The mxinfo file is contains information about how the object it describes can be managed.  It
+        includes functional information intended for the management application, and descriptive data
+        to help guide the user.
+      </p>
+      <p>
+        An mxinfo file is created at design time, either automatically using xdoclet tags (TODO described here) 
+        or by hand.  At startup the mxinfo file is parsed, and in conjuntion with class introspection 
+        is used to define the in-memory metadata for the management of the target object.
+      </p>
+      <p>
+        A target object is not restricted to having a single mxinfo file, although the specifics of how that
+        works is dependant on the container (described [TODO] here).  Similarly it is expected that
+        at runtime the mxinfo file will be located in the classpath of the Target class, in the same
+        package as that class, but this is also under the control of the Container.  Finally, its worth pointing out that an mxinfo file generated from interface can be applied to
+        any class that implements the interface.
+      </p>
+    </section>
+    <section name="Example" >
+      <p>
+        Since mxinfo files are somewhat confusing in the abstractm, but straight forward in practice, 
+        the rest of this section describes an imaginary, yet somewhat plausible, mxinfo file.
+      </p>
+      <source>
+<![CDATA[        
+<?xml version="1.0"?>
+<!DOCTYPE mxinfo PUBLIC "-//PHOENIX/Mx Info DTD Version 1.0//EN"
+                  "http://jakarta.apache.org/phoenix/mxinfo_1_0.dtd">
+
+<mxinfo>
+
+    <topic name="ftpServer" >
+
+      <!-- attributes -->
+      <attribute
+        name="addressString"
+        description="Address String"
+        isWriteable="no"
+        type="java.lang.String"
+      />
+      <attribute
+        name="serverAddress"
+        description="Server bind address."
+        isWriteable="no"
+        type="java.net.InetAddress"
+      />
+
+      <!-- operations -->
+      <operation
+        name="getDefaultRoot"
+        description="Gets the default root"
+        type="java.lang.String"
+      >
+      </operation>
+      <operation
+        name="getServerPort"
+        description="Returns port that the server listens on"
+        type="java.lang.String"
+      >
+        <param
+          name="instance"
+          description="no description"
+          type="java.lang.Integer"
+        />
+      </operation>
+
+    </topic>
+
+    <proxy name="userManager" />
+
+</mxinfo>
+]]>
+      </source>
+    </section> 
+  </body>
+</document>
