@@ -51,7 +51,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleUtils;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/09/06 02:35:17 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/10/25 15:42:26 $
  * @since 4.1
  */
 class InstrumentManagerConnection
@@ -93,6 +93,7 @@ class InstrumentManagerConnection
         m_closed = true;
         
         m_treeModel = new InstrumentManagerTreeModel( this );
+        // Set the logger when the connection logger is set.
         addInstrumentManagerConnectionListener( m_treeModel );
         
         setLayout( new BorderLayout() );
@@ -168,6 +169,7 @@ class InstrumentManagerConnection
     public void enableLogging( Logger logger )
     {
         m_logger = logger.getChildLogger( "conn_" + m_host + "_" + m_port );
+        m_treeModel.enableLogging( m_logger.getChildLogger( "treeModel" ) );
     }
     
     Logger getLogger()
@@ -342,7 +344,7 @@ class InstrumentManagerConnection
             
             // Also, take this oportunity to update all of the leased samples in
             //  the model.
-            m_treeModel.updateAllLeasedSamples();
+            m_treeModel.renewAllSampleLeases();
         
             m_lastLeaseRenewalTime = now;
         }
@@ -363,14 +365,12 @@ class InstrumentManagerConnection
         m_altrmiFactory = new ClientClassAltrmiFactory( false );
         m_altrmiFactory.setHostContext( altrmiHostContext );
         
-        /*
-        System.out.println("Listing Published Objects At Server...");
+        getLogger().debug("Listing Published Altrmi Objects At Server...");
         String[] listOfPublishedObjectsOnServer = m_altrmiFactory.list();
         for ( int i = 0; i < listOfPublishedObjectsOnServer.length; i++ )
         {
-        System.out.println( "..[" + i + "]:" + listOfPublishedObjectsOnServer[i] );
+            getLogger().debug( "  [" + i + "]:" + listOfPublishedObjectsOnServer[i] );
         }
-         */
         
         m_manager = (InstrumentManagerClient)m_altrmiFactory.lookup(
             "InstrumentManagerClient" );

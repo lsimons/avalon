@@ -20,6 +20,8 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
@@ -28,6 +30,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescri
 import org.apache.excalibur.altrmi.common.AltrmiInvocationException;
 
 class InstrumentManagerTreeModel
+    extends AbstractLogEnabled
     implements InstrumentManagerConnectionListener, TreeModel
 {
     private final InstrumentManagerConnection m_connection;
@@ -63,7 +66,7 @@ class InstrumentManagerTreeModel
      */
     public void opened( InstrumentManagerConnection connection )
     {
-        //System.out.println("InstrumentManagerTreeModel.opened(" + connection + ")");
+        //getLogger.debug("InstrumentManagerTreeModel.opened(" + connection + ")");
         refreshModel();
     }
     
@@ -75,7 +78,7 @@ class InstrumentManagerTreeModel
      */
     public void closed( InstrumentManagerConnection connection )
     {
-        //System.out.println("InstrumentManagerTreeModel.closed(" + connection + ")");
+        //getLogger.debug("InstrumentManagerTreeModel.closed(" + connection + ")");
         refreshModel();
     }
     
@@ -86,7 +89,7 @@ class InstrumentManagerTreeModel
      */
     public void deleted( InstrumentManagerConnection connection )
     {
-        //System.out.println("InstrumentManagerTreeModel.deleted(" + connection + ")");
+        //getLogger.debug("InstrumentManagerTreeModel.deleted(" + connection + ")");
         refreshModel();
     }
     
@@ -116,7 +119,7 @@ class InstrumentManagerTreeModel
      */
     public Object getChild( Object parent, int index )
     {
-        // System.out.println("InstrumentManagerTreeModel.getChild(" + parent + ", " + index + ")");
+        //getLogger.debug("InstrumentManagerTreeModel.getChild(" + parent + ", " + index + ")");
         if ( parent instanceof DefaultMutableTreeNode )
         {
             DefaultMutableTreeNode node = (DefaultMutableTreeNode)parent;
@@ -139,7 +142,7 @@ class InstrumentManagerTreeModel
      */
     public int getChildCount( Object parent )
     {
-        // System.out.println("InstrumentManagerTreeModel.getChildCount(" + parent + ")");
+        //getLogger.debug("InstrumentManagerTreeModel.getChildCount(" + parent + ")");
         if ( parent instanceof DefaultMutableTreeNode )
         {
             DefaultMutableTreeNode node = (DefaultMutableTreeNode)parent;
@@ -162,7 +165,7 @@ class InstrumentManagerTreeModel
      */
     public boolean isLeaf( Object node )
     {
-        // System.out.println("InstrumentManagerTreeModel.isLeaf(" + node + ")");
+        //getLogger.debug("InstrumentManagerTreeModel.isLeaf(" + node + ")");
         if ( node == m_root )
         {
             // The root must always return false so that trees that do not
@@ -191,7 +194,7 @@ class InstrumentManagerTreeModel
      */
     public void valueForPathChanged( TreePath path, Object newValue )
     {
-        //System.out.println( "InstrumentManagerTreeModel.valueForPathChanged(" + path +
+        //getLogger.debug( "InstrumentManagerTreeModel.valueForPathChanged(" + path +
         //	", " + newValue + ")" );
     }
     
@@ -200,7 +203,7 @@ class InstrumentManagerTreeModel
      */
     public int getIndexOfChild( Object parent, Object child )
     {
-        // System.out.println("InstrumentManagerTreeModel.getIndexOfChild(" + parent + ", " + child + ")");
+        //getLogger.debug("InstrumentManagerTreeModel.getIndexOfChild(" + parent + ", " + child + ")");
         if ( parent instanceof DefaultMutableTreeNode )
         {
             DefaultMutableTreeNode node = (DefaultMutableTreeNode)parent;
@@ -219,7 +222,7 @@ class InstrumentManagerTreeModel
      */
     public void addTreeModelListener( TreeModelListener listener )
     {
-        // System.out.println("InstrumentManagerTreeModel.addTreeModelListener(" + listener + ")");
+        //getLogger.debug("InstrumentManagerTreeModel.addTreeModelListener(" + listener + ")");
         synchronized(this)
         {
             m_listeners.add( listener );
@@ -234,7 +237,7 @@ class InstrumentManagerTreeModel
      */  
     public void removeTreeModelListener( TreeModelListener listener )
     {
-        // System.out.println("InstrumentManagerTreeModel.removeTreeModelListener(" + listener + ")");
+        //getLogger.debug("InstrumentManagerTreeModel.removeTreeModelListener(" + listener + ")");
         synchronized(this)
         {
             m_listeners.remove( listener );
@@ -246,6 +249,11 @@ class InstrumentManagerTreeModel
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
+    /**
+     * Returns an optimized array of the registered TreeModelListeners.
+     *
+     * @return An array of the registered TreeModelListeners
+     */
     private TreeModelListener[] getListeners()
     {
         TreeModelListener[] listeners = m_listenerArray;
@@ -360,6 +368,13 @@ class InstrumentManagerTreeModel
         return null;
     }
     
+    /**
+     * Returns an optimized array of TreeNodes representing the leased
+     *  instrument samples in this tree model.
+     *
+     * @return An array of TreeNodes for the leased instrument samples
+     *          in the TreeModel.
+     */
     private DefaultMutableTreeNode[] getLeasedSampleArray()
     {
         DefaultMutableTreeNode[] leasedSampleArray = m_leasedSampleArray;
@@ -379,8 +394,9 @@ class InstrumentManagerTreeModel
      * Once a minute, all of the leased samples should be updated.  This is
      *  necessary to get the latest expiration times in case other processes
      *  are also updating the leases.
+     *  Called from InstrumentManagerConnection.handleLeasedSamples.
      */
-    void updateAllLeasedSamples()
+    void renewAllSampleLeases()
     {
         DefaultMutableTreeNode[] leasedSampleArray = getLeasedSampleArray();
         
@@ -395,6 +411,9 @@ class InstrumentManagerTreeModel
         }
     }
     
+    /**
+     * Remove any instrument samples whose current leases have expired.
+     */
     void purgeExpiredSamples()
     {
         DefaultMutableTreeNode[] leasedSampleArray = getLeasedSampleArray();
@@ -432,6 +451,8 @@ class InstrumentManagerTreeModel
             {
                 m_root.removeAllChildren();
                 m_elementMap.clear();
+                m_leasedSampleMap.clear();
+                m_leasedSampleArray = null;
                 fireTreeStructureChanged( new TreeModelEvent( this, m_root.getPath() ) );
             }
         }
@@ -442,6 +463,8 @@ class InstrumentManagerTreeModel
                 // All data will change.
                 m_root.removeAllChildren();
                 m_elementMap.clear();
+                m_leasedSampleMap.clear();
+                m_leasedSampleArray = null;
                 fireTreeStructureChanged( new TreeModelEvent( this, new Object[] { m_root } ) );
             }
             
