@@ -3,8 +3,9 @@
 # -----------------------------------------------------------------------------
 # Phoenix start script.
 #
-# Author: Peter Donald <peter at apache.org>
-
+# Author: Alexis Agahi <alag@users.sourceforge.net>
+#         Peter Donald <peter at apache.org>
+#
 # Environment Variable Prequisites
 #
 #   PHOENIX_OPTS       (Optional) Java runtime options used when the command is 
