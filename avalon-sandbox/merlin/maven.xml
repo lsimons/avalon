@@ -71,7 +71,7 @@
         <include name="repository/**/*"/>
       </fileset>
       <fileset dir="${basedir}">
-        <include name="LICENSE.TXT"/>
+        <include name="LICENSE.txt"/>
         <include name="README.TXT"/>
       </fileset>
     </copy>
