@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <antlib xmlns:current="ant:current"> 
 
-  <taskdef name="home" classname="org.apache.avalon.tools.home.Home"/>
+  <taskdef name="context" classname="org.apache.avalon.tools.home.Context"/>
+  <taskdef name="home" classname="org.apache.avalon.tools.tasks.HomeTask"/>
 
   <taskdef name="clean" classname="org.apache.avalon.tools.tasks.CleanTask"/> 
   <taskdef name="prepare" classname="org.apache.avalon.tools.tasks.PrepareTask"/> 
@@ -12,5 +13,6 @@
   <taskdef name="install" classname="org.apache.avalon.tools.tasks.InstallTask"/> 
   <taskdef name="plugin" classname="org.apache.avalon.tools.tasks.PluginTask"/> 
   <taskdef name="xdoc" classname="org.apache.avalon.tools.tasks.XdocTask"/> 
+  <taskdef name="reactor" classname="org.apache.avalon.tools.tasks.ReactorTask"/> 
 
 </antlib>

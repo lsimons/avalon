@@ -11,7 +11,9 @@
     <cache dir=".cache"/>
     <proxy/>
     <hosts>
-      <host>http://www.dpml.net</host>
+      <host>http://www.dpml.net/</host>
+      <host>http://www.apache.org/dist/java-repository/</host>
+      <host>http://www.ibiblio.org/maven/</host>
     </hosts>
   </repository>
 
@@ -24,25 +26,54 @@
 
     <resource>
       <info>
-        <group>avalon-framework</group>
-        <name>avalon-framework-api</name>
-        <version>4.2.0</version>
+        <group>log4j</group>
+        <name>log4j</name>
+        <version>1.2.8</version>
         <type>jar</type>
       </info>
     </resource>
+
     <resource>
       <info>
-        <group>avalon-framework</group>
-        <name>avalon-framework-impl</name>
-        <version>4.2.0</version>
+        <group>servletapi</group>
+        <name>servletapi</name>
+        <version>2.3</version>
         <type>jar</type>
       </info>
     </resource>
+
     <resource>
       <info>
-        <group>avalon-util</group>
-        <name>avalon-util-i18n</name>
-        <version>1.0.0</version>
+        <group>javamail</group>
+        <name>mailapi</name>
+        <version>1.3.1</version>
+        <type>jar</type>
+      </info>
+    </resource>
+
+    <resource>
+      <info>
+        <group>jms</group>
+        <name>jms</name>
+        <version>1.1</version>
+        <type>jar</type>
+      </info>
+    </resource>
+
+    <resource>
+      <info>
+        <group>ant</group>
+        <name>ant</name>
+        <version>1.6.1</version>
+        <type>jar</type>
+      </info>
+    </resource>
+
+    <resource>
+      <info>
+        <group>qdox</group>
+        <name>qdox</name>
+        <version>1.3</version>
         <type>jar</type>
       </info>
     </resource>
@@ -55,12 +86,212 @@
 
   <projects>
 
+    <!--
+    Avalon LogKit.
+    -->
+
+    <project basedir="../../runtime/logkit">
+      <info>
+        <group>avalon/logkit</group>
+        <name>avalon-logkit</name>
+        <version>2.0.0</version>
+      </info>
+      <dependencies>
+        <resources>
+          <resourceref key="log4j" runtime="false"/>
+          <resourceref key="servletapi" runtime="false"/>
+          <resourceref key="mailapi" runtime="false"/>
+          <resourceref key="jms" runtime="false"/>
+        </resources>
+      </dependencies>
+    </project>
+
+    <!--
+    Avalon Framework.
+    -->
+
+    <project basedir="../../runtime/framework/api">
+      <info>
+        <group>avalon/framework</group>
+        <name>avalon-framework-api</name>
+        <version>4.2.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-logkit"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/framework/impl">
+      <info>
+        <group>avalon/framework</group>
+        <name>avalon-framework-impl</name>
+        <version>4.2.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-framework-api"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <!--
+    Avalon Utilities.
+    -->
+
     <project basedir="../site">
       <info>
         <group>avalon</group>
         <name>site</name>
       </info>
     </project>
+
+    <project basedir="../../runtime/util/configuration">
+      <info>
+        <group>avalon/util</group>
+        <name>avalon-util-configuration</name>
+        <version>1.0-dev</version>
+      </info>
+      <dependencies>
+        <resources>
+          <resourceref key="avalon-framework-api"/>
+          <resourceref key="avalon-framework-impl"/>
+        </resources>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/util/criteria">
+      <info>
+        <group>avalon/util</group>
+        <name>avalon-util-criteria</name>
+        <version>1.1.0</version>
+      </info>
+    </project>
+
+    <project basedir="../../runtime/util/defaults">
+      <info>
+        <group>avalon/util</group>
+        <name>avalon-util-defaults</name>
+        <version>1.2.1</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-util-env"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/util/env">
+      <info>
+        <group>avalon/util</group>
+        <name>avalon-util-env</name>
+        <version>1.1.1</version>
+      </info>
+    </project>
+
+    <project basedir="../../runtime/util/exception">
+      <info>
+        <group>avalon/util</group>
+        <name>avalon-util-exception</name>
+        <version>1.0.0</version>
+      </info>
+    </project>
+
+    <project basedir="../../runtime/util/i18n">
+      <info>
+        <group>avalon/util</group>
+        <name>avalon-util-i18n</name>
+        <version>1.0.0</version>
+      </info>
+    </project>
+
+    <project basedir="../../runtime/util/extension/api">
+      <info>
+        <group>avalon/util</group>
+        <name>avalon-util-extension-api</name>
+        <version>1.2.0</version>
+      </info>
+    </project>
+
+    <project basedir="../../runtime/util/extension/impl">
+      <info>
+        <group>avalon/util</group>
+        <name>avalon-util-extension-impl</name>
+        <version>1.2.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-util-extension-api"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <!--
+    Avalon Meta.
+    -->
+
+    <project basedir="../../runtime/meta/api">
+      <info>
+        <group>avalon/meta</group>
+        <name>avalon-meta-api</name>
+        <version>1.4.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-framework-api"/>
+          <projectref key="avalon-framework-impl" compile="false" test="true"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/meta/spi">
+      <info>
+        <group>avalon/meta</group>
+        <name>avalon-meta-spi</name>
+        <version>1.4.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-meta-api"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/meta/impl">
+      <info>
+        <group>avalon/meta</group>
+        <name>avalon-meta-impl</name>
+        <version>1.4.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-meta-spi"/>
+          <projectref key="avalon-util-i18n"/>
+          <projectref key="avalon-util-configuration"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <plugin basedir="../../runtime/meta/tools">
+      <info>
+        <group>avalon/meta</group>
+        <name>avalon-meta-tools</name>
+        <version>1.4.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-meta-impl"/>
+        </projects>
+        <resources>
+          <resourceref key="ant"/>
+          <resourceref key="qdox"/>
+        </resources>
+      </dependencies>
+      <tasks>
+        <taskdef name="meta" class="org.apache.avalon.meta.info.MetaTask"/>
+      </tasks>
+    </plugin>
 
   </projects>
 

@@ -76,8 +76,8 @@ public class JarTask extends SystemTask
     public File getJarFile( File deliverables )
     {
         Project project = getProject();
-        Definition def = getHome().getDefinition();
-        String type = getHome().getDefinition().getInfo().getType();
+        Definition def = getHome().getDefinition( getKey() );
+        String type = def.getInfo().getType();
         File types = new File( deliverables, type + "s" );
         String filename = getJarFilename( def );
         return new File( types, filename );

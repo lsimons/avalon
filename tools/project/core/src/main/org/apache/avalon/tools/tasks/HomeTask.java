@@ -38,9 +38,10 @@ import org.apache.avalon.tools.project.Definition;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class SystemTask extends ContextualTask
+public class HomeTask extends ContextualTask
 {
-    private Home m_home;
+    private String m_id;
+    private static Home HOME;
 
    /**
     * Set the home ref id to the system home.  If not supplied the 
@@ -50,16 +51,32 @@ public class SystemTask extends ContextualTask
     */
     public void setRefid( String id )
     {
-        m_home = getHomeFromReference( id );
+        m_id = id;
     }
 
-    public Home getHome()
+    public void init() 
     {
-        if( null == m_home ) 
+        if( !isInitialized() )
         {
-            m_home = getHomeFromReference( Home.KEY );
+            super.init();
+            if( null == HOME )
+            {
+                HOME = new Home( getProject(), Home.KEY );
+            }
+            getProject().addReference( Home.KEY, HOME );
         }
-        return m_home;
+    }
+
+    private String getHomeID()
+    {
+        if( null == m_id )
+        {
+            return Home.KEY;
+        }
+        else
+        {
+            return m_id;
+        }
     }
 
     private Home getHomeFromReference( String id )
@@ -67,14 +84,7 @@ public class SystemTask extends ContextualTask
         Object object = getProject().getReference( id );
         if( null == object )
         {
-            final String error = 
-              "System home ref id '" + id 
-              + "' declared or implied in task [" 
-              + getTaskName() 
-              + "] is unknown with the project ["
-              + getProject().getName() 
-              + "].";
-            throw new BuildException( error );
+            return null;
         }
         if( object instanceof Home )
         {

@@ -52,7 +52,7 @@ public class DeclareTask extends SystemTask
     public void execute() throws BuildException 
     {
         log( "creating plugin declaration" );
-        final Definition def = getHome().getDefinition();
+        final Definition def = getHome().getDefinition( getKey() );
 
         try
         {
@@ -81,7 +81,7 @@ public class DeclareTask extends SystemTask
         File ants = new File( dir, TYPE + "s" );
         mkDir( ants );
 
-        Definition def = getHome().getDefinition();
+        Definition def = getHome().getDefinition( getKey() );
         Info info = def.getInfo();
         String filename = getFilename( info );
         return new File( ants, filename );

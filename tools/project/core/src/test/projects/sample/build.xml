@@ -6,10 +6,7 @@
 
   <property file="build.properties"/>
   <import file="${project.home}/standard.xml"/>
-
-  <x:home>
-    <x:plugin artifact="plugin:demo/demo#1.0"/>
-  </x:home>
+  <x:plugin artifact="plugin:demo/demo#1.0"/>
 
   <target name="build" depends="standard.build">
     <d:hello/>

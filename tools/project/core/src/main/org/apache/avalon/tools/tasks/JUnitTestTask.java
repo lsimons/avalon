@@ -57,11 +57,20 @@ public class JUnitTestTask extends SystemTask
     public static final String TEST_TMP_KEY = "project.test.temp";
     public static final String TEST_TMP_VALUE = "temp";
 
-    public static final String DEBUG_KEY = "test.compile.debug";
+    public static final String DEBUG_KEY = "project.test.compile.debug";
     public static final boolean DEBUG_VALUE = true;
 
-    public static final String FORK_KEY = "test.compile.fork";
+    public static final String FORK_KEY = "project.test.compile.fork";
     public static final boolean FORK_VALUE = false;
+
+    public static final String HALT_ON_ERROR_KEY = "project.test.halt-on-error";
+    public static final boolean HALT_ON_ERROR_VALUE = false;
+
+    public static final String HALT_ON_FAILURE_KEY = "project.test.halt-on-failure";
+    public static final boolean HALT_ON_FAILURE_VALUE = true;
+
+    private static final String ERROR_KEY = "project.test.error";
+    private static final String FAILURE_KEY = "project.test.failure";
 
     private File m_test;
 
@@ -76,6 +85,8 @@ public class JUnitTestTask extends SystemTask
             project.setNewProperty( TEST_SRC_KEY, "" + TEST_SRC_VALUE );
             project.setNewProperty( TEST_ENV_KEY, "" + TEST_ENV_VALUE );
             project.setNewProperty( TEST_TMP_KEY, "" + TEST_TMP_VALUE );
+            project.setNewProperty( HALT_ON_ERROR_KEY, "" + HALT_ON_ERROR_VALUE );
+            project.setNewProperty( HALT_ON_FAILURE_KEY, "" + HALT_ON_FAILURE_VALUE );
             getContext().setBuildPath( TEST_KEY, TEST_VALUE );
             m_test = getContext().getBuildPath( TEST_KEY );
         }
@@ -93,7 +104,7 @@ public class JUnitTestTask extends SystemTask
         {
             File classes = new File( m_test, "classes" );
             mkDir( classes );
-            Definition definition = getHome().getDefinition();
+            Definition definition = getHome().getDefinition( getKey() );
             Path classpath = 
               getHome().getRepository().createPath( project, definition );
 
@@ -106,9 +117,71 @@ public class JUnitTestTask extends SystemTask
             File jar = getContext().getBuildPath( "jar" );
             classpath.createPathElement().setLocation( jar );
             compile( src, classes, classpath );
+            copyCompileResource( src, classes );
             classpath.createPathElement().setLocation( classes );
-            test( src, classpath );
+
+            //
+            // setup test resources
+            //
+
+            File temp = new File( m_test, "temp" );
+            mkDir( temp );
+            copyUnitTestResource( temp );
+            test( src, classpath, temp );
         }
+
+        /*
+        System.out.println( 
+           "error: [" 
+           + project.getProperty( ERROR_KEY ) 
+           + "]" ); 
+        System.out.println( 
+           "failure: [" 
+           + project.getProperty( FAILURE_KEY ) 
+           + "]" );
+        */ 
+    }
+
+    private void copyUnitTestResource( File dest )
+    {
+        File build = getContext().getBuildDirectory();
+        File src = getUnitTestResourcesDirectory( build );
+        if( src.exists() )
+        {
+            mkDir( dest );
+            Copy copy = (Copy) getProject().createTask( "copy" );
+            copy.setPreserveLastModified( true );
+            copy.setTodir( dest );
+
+            FileSet fileset = new FileSet();
+            fileset.setDir( src );
+            copy.addFileset( fileset );
+            copy.init();
+            copy.execute();
+        }
+    }
+
+    private File getUnitTestResourcesDirectory( File build )
+    {
+        File etc = new File( build, "etc" );
+        File test = new File( etc, "test" );
+        File unit = new File( test, "unit" );
+        return unit;
+    }
+
+    private void copyCompileResource( File src, File classes )
+    {
+        Copy copy = (Copy) getProject().createTask( "copy" );
+        copy.setPreserveLastModified( true );
+        copy.setTodir( classes );
+
+        FileSet fileset = new FileSet();
+        fileset.setDir( src );
+        fileset.setIncludes( "**/**" );
+        fileset.setExcludes( "**/*.java,**/package.html" );
+        copy.addFileset( fileset );
+        copy.init();
+        copy.execute();
     }
 
     private void compile( File sources, File classes, Path classpath )
@@ -126,26 +199,23 @@ public class JUnitTestTask extends SystemTask
         javac.execute();
     }
 
-    private void test( File src, Path classpath )
+    private void test( File src, Path classpath, File base )
     {
+        Project project = getProject();
+
         FileSet fileset = new FileSet();
         fileset.setDir( src );
         fileset.createInclude().setName( "**/*TestCase.java" );
         fileset.createExclude().setName( "**/Abstract*.java" );
 
-        File base = new File( m_test, "temp" );
-        mkDir( base );
-
         JUnitTask junit = (JUnitTask) getProject().createTask( "junit" );
         junit.setFork( getForkProperty() );
+        junit.setErrorProperty( ERROR_KEY );
+        junit.setFailureProperty( FAILURE_KEY );
 
         JUnitTask.SummaryAttribute summary = new JUnitTask.SummaryAttribute();
         summary.setValue( "on" );
         junit.setPrintsummary( summary );
-        junit.setHaltonfailure( true );
-        junit.setHaltonerror( true );
-        junit.setErrorProperty( "test-errors" );
-        junit.setFailureProperty( "test-failures" );
         if( FORK_VALUE )
         {
             junit.setFork( true );
@@ -156,6 +226,12 @@ public class JUnitTestTask extends SystemTask
         junit.setReloading( true );
         junit.setFiltertrace( true );
         junit.createClasspath().add( classpath );
+        junit.setHaltonerror( 
+          getBooleanProperty( 
+            HALT_ON_ERROR_KEY, HALT_ON_ERROR_VALUE ) );
+        junit.setHaltonfailure( 
+          getBooleanProperty( 
+            HALT_ON_FAILURE_KEY, HALT_ON_FAILURE_VALUE ) );
 
         File reports = new File( m_test, "reports" );
         mkDir( reports );
@@ -179,7 +255,6 @@ public class JUnitTestTask extends SystemTask
         Environment.Variable basedir = new Environment.Variable();
         basedir.setKey( "basedir" );
         basedir.setValue( base.toString() );
-
         junit.addSysproperty( basedir );
 
         junit.init();

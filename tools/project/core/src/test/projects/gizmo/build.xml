@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="gizmo" default="dist" basedir=".">
+<project name="gizmo" default="dist" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
 
   <property file="build.properties"/>
   <import file="${project.home}/standard.xml"/>

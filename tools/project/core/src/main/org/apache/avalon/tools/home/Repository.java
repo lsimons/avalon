@@ -99,7 +99,7 @@ public class Repository
         return (ResourceRef[]) list.toArray( new ResourceRef[0] );
     }
 
-    public void getResourceRefs( Definition def, List list )
+    private void getResourceRefs( Definition def, List list )
     {
         ResourceRef[] refs = def.getResourceRefs();
         for( int i=0; i<refs.length; i++ )

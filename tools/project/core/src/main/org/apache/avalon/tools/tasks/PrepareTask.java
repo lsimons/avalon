@@ -45,6 +45,11 @@ public class PrepareTask extends ContextualTask
     private static final String SRC_FILTERED_INCLUDES_VALUE = 
       "**/*.java,**/*.x*,**/*.properties";
 
+    private static final String ETC_FILTERED_INCLUDES_KEY = 
+      "project.prepare.etc.filtered.includes";
+    private static final String ETC_FILTERED_INCLUDES_VALUE = 
+      "**/*.*";
+
     public void init() throws BuildException 
     {
         if( !isInitialized() )
@@ -53,6 +58,8 @@ public class PrepareTask extends ContextualTask
             Project project = getProject();
             project.setNewProperty(
               SRC_FILTERED_INCLUDES_KEY, SRC_FILTERED_INCLUDES_VALUE );
+            project.setNewProperty(
+              ETC_FILTERED_INCLUDES_KEY, ETC_FILTERED_INCLUDES_VALUE );
         }
     }
 
@@ -66,23 +73,28 @@ public class PrepareTask extends ContextualTask
             mkDir( target );
         }
         File src = getContext().getSrcDirectory();
+        File etc = getContext().getEtcDirectory();
         File build = getContext().getBuildDirectory();
-        if( !build.exists() )
-        {
-            log( "creating build directory" );
-            mkDir( build );
-        }
         if( src.exists() )
         {
             String filters = project.getProperty( SRC_FILTERED_INCLUDES_KEY );
             copy( src, build, true, filters, "" );
             copy( src, build, false, "**/*.*", filters );
         }
+        if( etc.exists() )
+        {
+            File buildEtcDir = new File( build, "etc" );
+            String filters = project.getProperty( ETC_FILTERED_INCLUDES_KEY );
+            copy( etc, buildEtcDir, true, filters, "" );
+            copy( etc, buildEtcDir, false, "**/*.*", filters );
+        }
     }
 
     private void copy( 
        File src, File destination, boolean filtering, String includes, String excludes )
     {
+        mkDir( destination );
+
         Copy copy = (Copy) getProject().createTask( "copy" );
         copy.setTodir( destination );
         copy.setFiltering( filtering );
@@ -98,5 +110,4 @@ public class PrepareTask extends ContextualTask
         copy.init();
         copy.execute();
     }
-
 }

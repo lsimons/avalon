@@ -63,6 +63,11 @@ public abstract class ContextualTask extends Task
         return m_init;
     }
 
+    public String getKey()
+    {
+        return getContext().getKey();
+    }
+
     public Context getContext()
     {
         if( null == m_context )
