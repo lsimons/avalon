@@ -498,6 +498,10 @@ Legal:
             <fileset dir="${target.docs}"/>
         </copy>
 
+	<copy todir="${dist.javadocs}">
+	    <fileset dir="${target.javadocs}"/>
+	</copy>
+
         <copy todir="${dist.dir}">
             <fileset dir=".">
                 <include name="README.txt"/>
