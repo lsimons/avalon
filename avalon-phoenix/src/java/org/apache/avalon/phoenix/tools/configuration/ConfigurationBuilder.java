@@ -12,7 +12,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.SAXConfigurationHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -22,7 +21,7 @@ import org.xml.sax.XMLReader;
  * Utility class used to load Configuration trees from XML files.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2002/05/20 11:40:30 $
+ * @version $Revision: 1.5 $ $Date: 2002/07/19 01:13:33 $
  */
 public class ConfigurationBuilder
 {
@@ -73,7 +72,7 @@ public class ConfigurationBuilder
      * Build a configuration object using an URI
      */
     public static Configuration build( final String uri )
-        throws SAXException, ParserConfigurationException, IOException, ConfigurationException
+        throws SAXException, ParserConfigurationException, IOException
     {
         return build( new InputSource( uri ) );
     }
@@ -82,7 +81,7 @@ public class ConfigurationBuilder
      * Build a configuration object using an XML InputSource object
      */
     public static Configuration build( final InputSource input )
-        throws SAXException, ParserConfigurationException, IOException, ConfigurationException
+        throws SAXException, ParserConfigurationException, IOException
     {
         final XMLReader reader = createXMLReader();
         final SAXConfigurationHandler handler = new SAXConfigurationHandler();
