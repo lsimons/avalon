@@ -10,7 +10,7 @@
   <project name="jakarta-avalon-excalibur">
     <package>org.apache.avalon.excalibur</package>
 
-    <ant target="dist">
+    <ant basedir="all" target="dist">
       <depend property="xerces.jar"    project="xml-xerces" id="parser"/>
       <depend property="framework.jar" project="jakarta-avalon"/>
       <depend property="logkit.jar"    project="jakarta-avalon-logkit"/>
@@ -39,7 +39,7 @@
   <project name="excalibur-extension">
     <package>org.apache.avalon.excalibur.extension</package>
 
-    <ant>
+    <ant basedir="extension">
       <depend property="junit.jar"   project="junit"/>
       <property name="version" value="@@DATE@@"/>
       <property name="junit.failonerror" value="true"/>
@@ -50,13 +50,13 @@
     <work nested="build/classes"/>
 
     <home nested="io"/>
-    <jar name="build/lib/excalibur-extension-@@DATE@@.sar"/>
+    <jar name="build/lib/excalibur-extension-@@DATE@@.jar"/>
   </project>
   
   <project name="excalibur-cli">
     <package>org.apache.avalon.excalibur.cli</package>
 
-    <ant>
+    <ant basedir="cli">
       <depend property="junit.jar" project="junit"/>
       <property name="version" value="@@DATE@@"/>
       <property name="junit.failonerror" value="true"/>
@@ -67,13 +67,13 @@
     <work nested="build/classes"/>
 
     <home nested="cli"/>
-    <jar name="build/lib/excalibur-cli-@@DATE@@.sar"/>
+    <jar name="build/lib/excalibur-cli-@@DATE@@.jar"/>
   </project>
 
   <project name="excalibur-io">
     <package>org.apache.avalon.excalibur.io</package>
 
-    <ant>
+    <ant basedir="io">
       <depend property="junit.jar"   project="junit"/>
       <property name="version" value="@@DATE@@"/>
       <property name="junit.failonerror" value="true"/>
@@ -84,13 +84,13 @@
     <work nested="build/classes"/>
 
     <home nested="io"/>
-    <jar name="build/lib/excalibur-io-@@DATE@@.sar"/>
+    <jar name="build/lib/excalibur-io-@@DATE@@.jar"/>
   </project>
 
   <project name="excalibur-i18n">
     <package>org.apache.avalon.excalibur.i18n</package>
 
-    <ant>
+    <ant basedir="i18n">
       <depend property="junit.jar"   project="junit"/>
       <property name="version" value="@@DATE@@"/>
       <property name="junit.failonerror" value="true"/>
@@ -101,13 +101,13 @@
     <work nested="build/classes"/>
 
     <home nested="io"/>
-    <jar name="build/lib/excalibur-i18n-@@DATE@@.sar"/>
+    <jar name="build/lib/excalibur-i18n-@@DATE@@.jar"/>
   </project>
 
   <project name="excalibur-naming">
     <package>org.apache.avalon.excalibur.naming</package>
 
-    <ant>
+    <ant basedir="naming">
       <depend property="junit.jar"   project="junit"/>
       <property name="version" value="@@DATE@@"/>
       <property name="junit.failonerror" value="true"/>
@@ -118,7 +118,7 @@
     <work nested="build/classes"/>
 
     <home nested="io"/>
-    <jar name="build/lib/excalibur-naming-@@DATE@@.sar"/>
+    <jar name="build/lib/excalibur-naming-@@DATE@@.jar"/>
   </project>
 
 </module>
