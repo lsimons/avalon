@@ -13,7 +13,7 @@
   <ant:property name="pom.specificationVersion" value="&avalon-activation-spec;"/>
 
   <postGoal name="java:prepare-filesystem">
-    <attainGoal name="avalon:artifact-install"/>
+    <attainGoal name="artifact:install"/>
     <attainGoal name="avalon:meta"/>
   </postGoal>
 
