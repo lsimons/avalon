@@ -81,7 +81,7 @@ import org.apache.excalibur.source.impl.validity.FileTimeStampValidity;
  * A {@link ModifiableTraversableSource} for filesystem objects.
  *
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version $Id: FileSource.java,v 1.7 2003/06/07 18:29:17 bruno Exp $
+ * @version $Id: FileSource.java,v 1.8 2003/07/08 15:11:47 crafterm Exp $
  */
 
 public class FileSource implements ModifiableTraversableSource, MoveableSource
@@ -471,7 +471,15 @@ public class FileSource implements ModifiableTraversableSource, MoveableSource
     {
         if (destination instanceof FileSource)
         {
-            if (!m_file.renameTo(((FileSource) destination).getFile()))
+            final File dest = ((FileSource) destination).getFile();
+            final File parent = dest.getParentFile();
+
+            if (parent != null)
+            {
+                parent.mkdirs(); // ensure parent directories exist
+            }
+
+            if (!m_file.renameTo(dest))
             {
                 throw new SourceException("Couldn't move " + getURI() + " to " + destination.getURI());
             }
