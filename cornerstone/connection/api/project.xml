@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+
+  <extend>${basedir}/../../project.xml</extend>
+
+  <groupId>cornerstone-connection</groupId>
+  <id>cornerstone-connection-api</id>
+  <name>Cornerstone Connection API</name>
+
+  <currentVersion>2.0.0</currentVersion>
+  <package>org.apache.avalon.cornerstone.services.connection</package>
+  <inceptionYear>2001</inceptionYear>
+  <shortDescription>Cornerstone Connection API</shortDescription>
+  
+  <dependencies>
+
+    <!-- cornerstone api dependencies -->
+
+    <dependency>
+      <groupId>cornerstone-sockets</groupId>
+      <artifactId>cornerstone-sockets-api</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>cornerstone-threads</groupId>
+      <artifactId>cornerstone-threads-api</artifactId>
+      <version>2.0</version>
+    </dependency>
+
+    <!-- excalibur api dependencies -->
+
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-api</artifactId>
+      <version>4.2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>excalibur-pool</groupId>
+      <artifactId>excalibur-pool-api</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>excalibur-thread</groupId>
+      <artifactId>excalibur-thread-api</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+
+  </dependencies>
+  
+</project>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+
+  <extend>${basedir}/../../project.xml</extend>
+
+  <groupId>cornerstone-threads</groupId>
+  <id>cornerstone-threads-tutorial</id>
+  <name>Cornerstone Threads Tutorial</name>
+  <currentVersion>2.0.0</currentVersion>
+  <package>org.apache.avalon.cornerstone.threads.tutorial</package>
+
+  <inceptionYear>2001</inceptionYear>
+  <shortDescription>Cornerstone Threads</shortDescription>
+
+  <dependencies>
+
+    <!-- cornerstone api dependencies -->
+
+    <dependency>
+      <groupId>cornerstone-threads</groupId>
+      <artifactId>cornerstone-threads-api</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+
+    <!-- avalon dependencies -->
+
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-api</artifactId>
+      <version>4.2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-impl</artifactId>
+      <version>4.2.0</version>
+    </dependency>
+
+    <!-- excalibur dependencies -->
+
+    <dependency>
+      <groupId>excalibur-thread</groupId>
+      <artifactId>excalibur-thread-api</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+
+  </dependencies>
+  
+</project>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+
+  <extend>${basedir}/../../project.xml</extend>
+
+  <groupId>cornerstone-datasources</groupId>
+  <id>cornerstone-datasources-api</id>
+  <name>Cornerstone Datasources API</name>
+  <currentVersion>1.0.0</currentVersion>
+  <package>org.apache.avalon.cornerstone.services.datasources</package>
+  <inceptionYear>2001</inceptionYear>
+  <shortDescription>Cornerstone Datasources API</shortDescription>
+
+  <dependencies>
+
+    <!-- avalon dependencies -->
+
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-api</artifactId>
+      <version>4.2.0</version>
+    </dependency>
+
+  </dependencies>
+  
+</project>
