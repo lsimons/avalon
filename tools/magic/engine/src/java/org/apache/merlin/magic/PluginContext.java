@@ -1,7 +1,6 @@
 package org.apache.merlin.magic;
 
 import java.io.File;
-import java.util.Properties;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
@@ -16,7 +15,7 @@ public class PluginContext extends AbstractLogEnabled
 {
     private String m_ProjectName;
     private File m_ProjectDir;
-    private Properties m_ProjectProperties;
+    private PluginProperties m_ProjectProperties;
 
     private String m_PluginClassname;    
     private String m_PluginName;
@@ -29,11 +28,11 @@ public class PluginContext extends AbstractLogEnabled
     
     PluginContext( File scriptDir )
     {
-        this( "fake", new File( "." ), new Properties(), "fake plugin", 
+        this( "virtual", new File( "." ), new PluginProperties(), "virtual plugin", 
               scriptDir, new File( "." ), new File( "." ) );
     }
     
-    PluginContext( String projectname, File projectDir, Properties projectProps,
+    PluginContext( String projectname, File projectDir, PluginProperties projectProps,
                    String pluginname, File pluginDir, File systemDir, File tempDir )
     {
         m_ProjectName = projectname.trim();
@@ -90,7 +89,7 @@ public class PluginContext extends AbstractLogEnabled
         return m_ProjectDir;
     }
     
-    public Properties getProjectProperties()
+    public PluginProperties getProjectProperties()
     {
         return m_ProjectProperties;
     }
@@ -127,12 +126,8 @@ public class PluginContext extends AbstractLogEnabled
     
     public String getProperty( String name )
     {
-        name = name.trim();
         String value = m_ProjectProperties.getProperty( name );
-        if( value == null )
-            return null;
-        value = value.trim();
-        return resolve( value );
+        return value;
     }
     
     public Project getAntProject()
@@ -152,70 +147,6 @@ public class PluginContext extends AbstractLogEnabled
     
     public String resolve( String value )
     {
-        // optimization for common case.
-        int pos1 = value.indexOf( "${" );
-        if( pos1 < 0 )
-            return value;
-        
-        Stack stack = new Stack();
-        StringTokenizer st = new StringTokenizer( value, "${}", true );
-        
-        while( st.hasMoreTokens() )
-        {
-            String token = st.nextToken();
-            if( token.equals( "}" ) )
-            {
-                String name = (String) stack.pop();
-                String open = (String) stack.pop();
-                if( open.equals( "${" ) )
-                {
-                    String propValue = getProperty( name );
-                    if( propValue == null )
-                        push( stack, "${" + name + "}" );
-                    else
-                        push( stack, propValue );
-                }
-                else
-                {
-                    push( stack, "${" + name + "}" );
-                }
-            }
-            else
-            {
-                if( token.equals( "$" ) )
-                    stack.push( "$" );
-                else
-                {
-                    push( stack, token );
-                }
-            }
-        }
-        String result = "";
-        while( stack.size() > 0 )
-        {
-            result = (String) stack.pop() + result;
-        }
-        return result;
-    }
-    
-    private void push( Stack stack , String value )
-    {
-        if( stack.size() > 0 )
-        {
-	        String data = (String) stack.pop();
-	        if( data.equals( "${" ) )
-	        {
-	            stack.push( data );
-	            stack.push( value );
-	        }
-	        else
-	        {
-	            stack.push( data + value );
-	        }
-        }
-        else
-        {
-            stack.push( value );
-        }
+        return m_ProjectProperties.resolve( value );
     }
 }
