@@ -55,7 +55,7 @@ import java.util.ArrayList;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.composition.data.DeploymentProfile;
+import org.apache.avalon.composition.data.ComponentProfile;
 import org.apache.avalon.composition.data.DependencyDirective;
 import org.apache.avalon.composition.data.SelectionDirective;
 import org.apache.avalon.composition.data.*;
@@ -66,17 +66,17 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/01/01 23:34:45 $
+ * @version $Revision: 1.1.2.1 $ $Date: 2004/01/09 20:37:38 $
  */
-public class XMLDeploymentProfileCreator extends XMLProfileCreator
+public class XMLComponentProfileCreator extends XMLProfileCreator
 {
    /**
-    * Creation of a {@link DeploymentProfile} from an XML configuration.
+    * Creation of a {@link ComponentProfile} from an XML configuration.
     *
     * @param config the configuration instance describing the component deployment scenario 
     * @return the deployment profile
     */
-    public DeploymentProfile createDeploymentProfile( Configuration config )
+    public ComponentProfile createComponentProfile( Configuration config )
       throws Exception
     {
         String classname = config.getAttribute( "class", null );
@@ -87,32 +87,32 @@ public class XMLDeploymentProfileCreator extends XMLProfileCreator
               "Missing 'class' attribute in component declaration:\n" + c;
             throw new ConfigurationException( error );
         }
-        return createDeploymentProfile( null, classname, config );
+        return createComponentProfile( null, classname, config );
     }
 
    /**
-    * Creation of a {@link DeploymentProfile} from an XML configuration.
+    * Creation of a {@link ComponentProfile} from an XML configuration.
     *
     * @param base the default name
     * @param config the configuration describing the component deployment scenario 
     * @return the deployment profile
     */
-    public DeploymentProfile createDeploymentProfile( 
+    public ComponentProfile createComponentProfile( 
       String base, String classname, Configuration config )
       throws Exception
     {
         final String name = getName( base, config, "untitled" );
-        return createDeploymentProfile( classname, config, name );
+        return createComponentProfile( classname, config, name );
     }
 
    /**
-    * Creation of a {@link DeploymentProfile} from an XML configuration.
+    * Creation of a {@link ComponentProfile} from an XML configuration.
     *
     * @param classname the name of the class identifying the underlying component type
     * @param config the configuration describing the component deployment scenario 
     * @return the deployment profile
     */
-    public DeploymentProfile createDeploymentProfile( 
+    public ComponentProfile createComponentProfile( 
       String classname, Configuration config, String name )
       throws Exception
     {
@@ -132,7 +132,7 @@ public class XMLDeploymentProfileCreator extends XMLProfileCreator
         final Configuration configuration = 
           config.getChild( "configuration", true );
 
-        return new DeploymentProfile( 
+        return new ComponentProfile( 
           name, activation, collection, classname, categories, context, dependencies, 
           stages, params, configuration, Mode.EXPLICIT );
     }
