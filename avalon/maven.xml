@@ -8,11 +8,11 @@
     <echo>
 To build the avalon platform you need to invoke the following three goals:
 
-  $ maven plugins
-  $ maven meta
-  $ maven merlin
+  $ maven plugins     <--- builds the core plugins
+  $ maven meta        <--- builds framework, utilities, meta and the meta api
+  $ maven merlin      <!-- builds repository, logging, composition, activation and merlin
 
-Subsequent builds can be achieved using:
+Subsequent builds can be updated using:
 
   $ maven merlin
 
@@ -29,7 +29,7 @@ A set of utility goals are also provided that build projects including the build
 
 To build a project independnet of dependent project groups is possible using any of the above targets by prepending the "x" character.  For example, to locally build the meta package without triggering dependent project builds, just enter the following command:
 
-  maven xmeta
+  $ maven xmeta
 
       </echo>
   </goal>
