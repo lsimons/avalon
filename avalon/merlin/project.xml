@@ -135,6 +135,13 @@
         <role>Kernel loading strategy, refactoring and optimization of embedded aspects.</role>
       </roles>
     </developer>
+    <developer>
+      <name>Niclas Hedhman</name>
+      <email>niclas@hedhman.org</email>
+      <roles>
+        <role>Patches improving build procedures, validating and enhancing cross-platform builds, resolving maven bugs, and enhancements to the repository subsystem.</role>
+      </roles>
+    </developer>
   </developers>
 
   <contributors>
@@ -191,13 +198,6 @@
       <email>alag@users.sf.net</email>
       <roles>
         <role>Debugging, script enhancements and release testing.</role>
-      </roles>
-    </contributor>
-    <contributor>
-      <name>Niclas Hedhman</name>
-      <email>niclas@hedhman.org</email>
-      <roles>
-        <role>Patches improving build procedures, validating and enhancing cross-platform builds, resolving maven bugs.</role>
       </roles>
     </contributor>
   </contributors>
