@@ -266,6 +266,31 @@
             to="avalon-dev@jakarta.apache.org"/>
     </project>
 
+    <project name="excalibur-configuration">
+        <package>org.apache.excalibur.configuration</package>
+
+        <ant basedir="configuration">
+            <depend property="avalon-framework.jar" project="jakarta-avalon" runtime="true"/>
+            <depend property="checkstyle.jar" project="checkstyle"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="configuration/build/classes"/>
+
+        <home nested="configuration"/>
+        <jar name="build/lib/excalibur-configuration-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+             to="avalon-dev@jakarta.apache.org"/>
+     </project>
+
+
     <project name="excalibur-containerkit">
         <package>org.apache.excalibur.containerkit</package>
 
@@ -507,6 +532,7 @@
 
         <ant basedir="merlin">
             <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
+            <depend property="excalibur-configuration.jar" project="excalibur-configuration" runtime="true"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
