@@ -10,4 +10,4 @@ for FILE in `find $BIN_DIR -name "*.jar"` ; do
 done
 CP=$CP:$ANT_HOME/lib/ant.jar:$ANT_HOME/lib/ant-trax.jar
 
-java $JVM_OPTS -Dmagic.system.dir=$SYSTEM_DIR -cp $CP org.apache.merlin.magic.Main $@
+java $JVM_OPTS -Dmagic.system.dir=$SYSTEM_DIR -cp $CP org.apache.avalon.magic.Main $@

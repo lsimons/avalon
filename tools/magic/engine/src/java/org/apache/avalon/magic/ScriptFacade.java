@@ -85,7 +85,7 @@ public class ScriptFacade extends AbstractLogEnabled
         {
             bsh.eval( m_Script );
         }
-        String expr1 = "import org.apache.merlin.magic.Plugin;  Plugin plugin = new " + m_Classname + "();";
+        String expr1 = "import org.apache.avalon.magic.Plugin;  Plugin plugin = new " + m_Classname + "();";
         bsh.eval( expr1 );
         m_Plugin = (Plugin) bsh.get( "plugin" );
         return m_Plugin;

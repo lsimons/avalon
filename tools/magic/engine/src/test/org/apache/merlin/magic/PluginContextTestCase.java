@@ -1,4 +1,4 @@
-package org.apache.merlin.magic;
+package org.apache.avalon.magic;
 
 import java.io.File;
 import java.io.InputStream;
