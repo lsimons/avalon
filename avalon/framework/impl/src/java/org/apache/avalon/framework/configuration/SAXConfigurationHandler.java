@@ -8,13 +8,13 @@
 package org.apache.avalon.framework.configuration;
 
 import java.util.ArrayList;
-import java.util.Stack;
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
+import org.xml.sax.helpers.NamespaceSupport;
 
 /**
  * A SAXConfigurationHandler helps build Configurations out of sax events.
@@ -26,10 +26,10 @@ public class SAXConfigurationHandler
     extends DefaultHandler
     implements ErrorHandler
 {
-    private final ArrayList              m_elements        = new ArrayList();
+    private final ArrayList              m_elements         = new ArrayList();
     private Configuration                m_configuration;
     private Locator                      m_locator;
-    private Stack                        m_namespaceStack  = new Stack();
+    private NamespaceSupport             m_namespaceSupport = new NamespaceSupport();
 
     public Configuration getConfiguration()
     {
@@ -50,7 +50,7 @@ public class SAXConfigurationHandler
     public void startDocument()
         throws SAXException
     {
-        m_namespaceStack.push(Namespace.getNamespace(null));
+        m_namespaceSupport.reset();
         super.startDocument();
     }
 
@@ -58,7 +58,7 @@ public class SAXConfigurationHandler
         throws SAXException
     {
         super.endDocument();
-        m_namespaceStack.clear();
+        m_namespaceSupport.reset();
     }
 
     public void characters( final char[] ch, int start, int end )
@@ -97,12 +97,17 @@ public class SAXConfigurationHandler
         {
             m_configuration = (Configuration)object;
         }
+
+        m_namespaceSupport.popContext();
     }
 
     protected DefaultConfiguration createConfiguration( final String localName,
+                                                        final String namespaceURI,
                                                         final String location )
     {
-        return new DefaultConfiguration( localName, location, (Namespace) this.m_namespaceStack.peek() );
+        final String    prefix    = m_namespaceSupport.getPrefix( namespaceURI );
+        final Namespace namespace = Namespace.getNamespace( prefix, namespaceURI );
+        return new DefaultConfiguration( localName, location, namespace );
     }
 
     public void startElement( final String namespaceURI,
@@ -111,8 +116,10 @@ public class SAXConfigurationHandler
                               final Attributes attributes )
         throws SAXException
     {
+        m_namespaceSupport.pushContext();
+
         final DefaultConfiguration configuration =
-            createConfiguration( rawName, getLocationString() );
+            createConfiguration( localName, namespaceURI, getLocationString() );
         final int size = m_elements.size() - 1;
 
         if( size > -1 )
@@ -187,18 +194,7 @@ public class SAXConfigurationHandler
     public void startPrefixMapping(String prefix, String uri)
         throws SAXException
     {
-        m_namespaceStack.push( Namespace.getNamespace( prefix, uri ) );
+        m_namespaceSupport.declarePrefix( prefix, uri );
         super.startPrefixMapping( prefix, uri );
-    }
-
-    public void endPrefixMapping(String prefix)
-        throws SAXException
-    {
-        Namespace ns = (Namespace) m_namespaceStack.pop();
-        if ( !( ns.getPrefix().equals( prefix ) ) )
-        {
-            throw new SAXException( "Uneven namespace mapping for prefix: " + prefix );
-        }
-        super.endPrefixMapping( prefix );
     }
 }

@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.net.URL;
 import java.util.Properties;
 import org.xml.sax.helpers.AttributesImpl;
+import org.xml.sax.helpers.NamespaceSupport;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import javax.xml.transform.OutputKeys;
@@ -35,7 +36,7 @@ public class DefaultConfigurationSerializer
     private TransformerHandler    m_handler;
     private OutputStream          m_out;
     private Properties            m_format = new Properties();
-    private Namespace             m_currentNamespace = Namespace.getNamespace( null );
+    private NamespaceSupport      m_namespaceSupport = new NamespaceSupport();
 
     /**
      * Build a ConfigurationSerializer
@@ -83,6 +84,7 @@ public class DefaultConfigurationSerializer
     protected void serialize( final Configuration source )
     throws SAXException
     {
+        this.m_namespaceSupport.reset();
         this.m_handler.startDocument();
         this.serializeElement(source);
         this.m_handler.endDocument();
@@ -94,6 +96,8 @@ public class DefaultConfigurationSerializer
     protected void serializeElement( final Configuration element )
     throws SAXException
     {
+        m_namespaceSupport.pushContext();
+
         AttributesImpl attr = new AttributesImpl();
         String[] attrNames = element.getAttributeNames();
 
@@ -101,20 +105,38 @@ public class DefaultConfigurationSerializer
         {
             for (int i = 0; i < attrNames.length; i++)
             {
-                attr.setAttribute(i, "", attrNames[i], attrNames[i], "CDATA",
+                attr.addAttribute("", attrNames[i], attrNames[i], "CDATA",
                                   element.getAttribute(attrNames[i], ""));
             }
         }
 
-        Namespace oldNamespace = null;
-        if ( m_currentNamespace != element.getNamespace() )
+        final Namespace namespace = element.getNamespace();
+        final String nsURI = namespace.getURI();
+        final String nsPrefix = namespace.getPrefix();
+        boolean nsWasDeclared = false;
+
+        // Is this namespace already declared?
+        final String existingURI = m_namespaceSupport.getURI( nsPrefix );
+        if ( existingURI == null || !existingURI.equals( nsURI ) )
         {
-            oldNamespace = m_currentNamespace;
-            m_currentNamespace = element.getNamespace();
-            this.m_handler.startPrefixMapping( m_currentNamespace.getPrefix(), m_currentNamespace.getURI() );
+            nsWasDeclared = true;
+            this.m_handler.startPrefixMapping( nsPrefix, nsURI );
+            this.m_namespaceSupport.declarePrefix( nsPrefix, nsURI );
         }
 
-        this.m_handler.startElement("", element.getName(), element.getName(), attr);
+        String localName = element.getName();
+        String qName = element.getName();
+        if ( nsPrefix == null || nsPrefix.length() == 0 )
+        {
+            qName = localName;
+        }
+        else
+        {
+            qName = prefix + ":" + localName;
+        }
+
+        this.m_handler.startElement(nsURI, localName, qName, attr);
+
         String value = element.getValue(null);
 
         if (null == value)
@@ -131,13 +153,14 @@ public class DefaultConfigurationSerializer
             this.m_handler.characters(value.toCharArray(), 0, value.length());
         }
 
-        this.m_handler.endElement("", element.getName(), element.getName());
+        this.m_handler.endElement(nsURI, localName, qName);
 
-        if ( null != oldNamespace )
+        if ( nsWasDeclared )
         {
-            this.m_handler.endPrefixMapping( m_currentNamespace.getPrefix() );
-            m_currentNamespace = oldNamespace;
+            this.m_handler.endPrefixMapping( nsPrefix );
         }
+
+        this.m_namespaceSupport.popContext();
     }
 
     /**
