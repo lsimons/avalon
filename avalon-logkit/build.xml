@@ -72,8 +72,11 @@ Legal:
   <property name="announce2txt" value="${tools.dir}/announcement2txt.xsl"/>
   <property name="announce2header" value="${tools.dir}/announcement2header.xsl"/>
 
+  <property name="servlet.jar" value="${lib.dir}/servlet.jar"/>
+
   <path id="project.class.path">
     <pathelement path="${java.class.path}" />
+    <pathelement path="${servlet.jar}" />
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
     </fileset>
