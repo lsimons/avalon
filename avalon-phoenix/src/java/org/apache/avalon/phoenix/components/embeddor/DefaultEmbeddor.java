@@ -33,9 +33,11 @@ import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.Deployer;
 import org.apache.avalon.phoenix.interfaces.DeploymentRecorder;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
+import org.apache.avalon.phoenix.interfaces.EmbeddorMBean;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.interfaces.PackageRepository;
+import org.apache.avalon.phoenix.Constants;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
@@ -51,7 +53,7 @@ import org.apache.log.output.io.FileTarget;
  */
 public class DefaultEmbeddor
     extends AbstractLogEnabled
-    implements Embeddor, Parameterizable
+    implements Embeddor, Parameterizable, EmbeddorMBean
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultEmbeddor.class );
@@ -75,6 +77,8 @@ public class DefaultEmbeddor
     private PackageRepository m_packageRepository;
 
     private boolean m_shutdown;
+
+    private long m_startTime;
 
     /**
      * Set parameters for this component.
@@ -123,9 +127,10 @@ public class DefaultEmbeddor
      * Kernel. Note that these are not set up properly until you have
      * called the <code>run()</code> method.
      */
-    public synchronized void initialize()
+    public void initialize()
         throws Exception
     {
+        m_startTime = System.currentTimeMillis();
         try
         {
             createComponents();
@@ -225,6 +230,64 @@ public class DefaultEmbeddor
             notifyAll();
         }
     }
+
+    /**
+     * Get name by which the server is know.
+     * Usually this defaults to "Phoenix" but the admin
+     * may assign another name. This is useful when you 
+     * are managing a cluster of Phoenix servers.
+     *
+     * @return the name of server
+     */
+    public String getName()
+    {
+        return Constants.SOFTWARE;
+    }
+
+    /**
+     * Get location of Phoenix installation
+     *
+     * @return the home directory of phoenix
+     */
+    public String getHomeDirectory()
+    {
+        return m_phoenixHome;
+    }
+
+    /**
+     * Retrieve the number of millisecond 
+     * the server has been up.
+     *
+     * @return the the number of millisecond the server has been up
+     */
+    public long getUpTime()
+    {
+        return System.currentTimeMillis() - m_startTime;
+    }
+
+    /**
+     * Retrieve a string identifying version of server.
+     * Usually looks like "v4.0.1a".
+     *
+     * @return version string of server. 
+     */
+    public String getVersion()
+    {
+        return Constants.VERSION;
+    }
+
+    /**
+     * Get a string defining the build.
+     * Possibly the date on which it was built, where it was built,
+     * with what features it was built and so forth.
+     *
+     * @return the string describing build
+     */
+    public String getBuildData()
+    {
+        return "(" + Constants.DATE + ")";
+    }
+
 
     //////////////////////
     /// HELPER METHODS ///
