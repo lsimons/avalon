@@ -47,7 +47,7 @@ import org.apache.avalon.http.HttpContextService;
 public class ForwardHandler 
     extends org.mortbay.http.handler.ForwardHandler 
     implements Startable, Parameterizable, LogEnabled, 
-               Serviceable, Contextualizable
+               Serviceable, Contextualizable, Configurable
 {
     private Logger m_Logger;
     private HttpContextService  m_Context;
