@@ -63,6 +63,12 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
 
 <s1 title="Wish List">
 
+    <s2 title="Rename server.xml to environment.xml">
+      <p>
+        Rename server.xml to environment.xml to make it more obvious 
+        what purpose it serves.
+      </p>
+    </s2>      
     <s2 title="">
       <p>
       Refactor block validation code. Write an Ant taks that uses this 
