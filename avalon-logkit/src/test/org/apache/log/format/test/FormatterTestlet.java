@@ -29,12 +29,12 @@ public final class FormatterTestlet
     private static String EOL  = System.getProperty( "line.separator", "\n" );
 
     private static String M1 = "Message1";
-    private static String M2 = "Message2";
-    private static String M3 = "Message3";
+    private static String M2 = "Message2Message2";
+    private static String M3 = "Message3Message3Message3";
 
     private static String C1 = "Category1";
-    private static String C2 = "Category2";
-    private static String C3 = "Category3";
+    private static String C2 = "Category2Category2";
+    private static String C3 = "Category3Category3Category3";
 
     private static long T1 = 0;
     private static long T2 = 1;
@@ -81,10 +81,29 @@ public final class FormatterTestlet
     private static String E3_SYSLOG_WB = "<" + (4|FACILITY_ID) + "> " + FACILITY_NAME + ": " + M3;
 
     private static String PATTERN1 = "[%8.8{category}]: %{message}\\n";
-
     private static String E1_PATTERN1 = "[Category]: " + M1 + "\n";
     private static String E2_PATTERN1 = "[Category]: " + M2 + "\n";
     private static String E3_PATTERN1 = "[Category]: " + M3 + "\n";
+
+    private static String PATTERN2 = "[%10.{category}]: %{message}\\n";
+    private static String E1_PATTERN2 = "[" + C1 + " ]: " + M1 + "\n";
+    private static String E2_PATTERN2 = "[" + C2 + "]: " + M2 + "\n";
+    private static String E3_PATTERN2 = "[" + C3 + "]: " + M3 + "\n";
+
+    private static String PATTERN3 = "[%.10{category}]: %{message}\\n";
+    private static String E1_PATTERN3 = "[" + C1 + "]: " + M1 + "\n";
+    private static String E2_PATTERN3 = "[Category2C]: " + M2 + "\n";
+    private static String E3_PATTERN3 = "[Category3C]: " + M3 + "\n";
+
+    private static String PATTERN4 = "[%+10.{category}]: %{message}\\n";
+    private static String E1_PATTERN4 = "[" + C1 + " ]: " + M1 + "\n";
+    private static String E2_PATTERN4 = "[" + C2 + "]: " + M2 + "\n";
+    private static String E3_PATTERN4 = "[" + C3 + "]: " + M3 + "\n";
+
+    private static String PATTERN5 = "[%-10.{category}]: %{message}\\n";
+    private static String E1_PATTERN5 = "[ " + C1 + "]: " + M1 + "\n";
+    private static String E2_PATTERN5 = "[" + C2 + "]: " + M2 + "\n";
+    private static String E3_PATTERN5 = "[" + C3 + "]: " + M3 + "\n";
 
     private static LogEvent createEvent( final String category,
                                          final String message,
@@ -166,5 +185,57 @@ public final class FormatterTestlet
         assertEquality( "Pattern1 formatting of E1", E1_PATTERN1, result1 );
         assertEquality( "Pattern1 formatting of E2", E2_PATTERN1, result2 );
         assertEquality( "Pattern1 formatting of E3", E3_PATTERN1, result3 );
+    }
+
+    public void testPattern2Formatter()
+    {
+        final Formatter formatter = new PatternFormatter( PATTERN2 );
+        
+        final String result1 = formatter.format( E1 );
+        final String result2 = formatter.format( E2 );
+        final String result3 = formatter.format( E3 );
+
+        assertEquality( "Pattern2 formatting of E1", E1_PATTERN2, result1 );
+        assertEquality( "Pattern2 formatting of E2", E2_PATTERN2, result2 );
+        assertEquality( "Pattern2 formatting of E3", E3_PATTERN2, result3 );
+    }
+
+    public void testPattern3Formatter()
+    {
+        final Formatter formatter = new PatternFormatter( PATTERN3 );
+        
+        final String result1 = formatter.format( E1 );
+        final String result2 = formatter.format( E2 );
+        final String result3 = formatter.format( E3 );
+        
+        assertEquality( "Pattern3 formatting of E1", E1_PATTERN3, result1 );
+        assertEquality( "Pattern3 formatting of E2", E2_PATTERN3, result2 );
+        assertEquality( "Pattern3 formatting of E3", E3_PATTERN3, result3 );
+    }
+
+    public void testPattern4Formatter()
+    {
+        final Formatter formatter = new PatternFormatter( PATTERN4 );
+        
+        final String result1 = formatter.format( E1 );
+        final String result2 = formatter.format( E2 );
+        final String result3 = formatter.format( E3 );
+
+        assertEquality( "Pattern4 formatting of E1", E1_PATTERN4, result1 );
+        assertEquality( "Pattern4 formatting of E2", E2_PATTERN4, result2 );
+        assertEquality( "Pattern4 formatting of E3", E3_PATTERN4, result3 );
+    }
+
+    public void testPattern5Formatter()
+    {
+        final Formatter formatter = new PatternFormatter( PATTERN5 );
+        
+        final String result1 = formatter.format( E1 );
+        final String result2 = formatter.format( E2 );
+        final String result3 = formatter.format( E3 );
+
+        assertEquality( "Pattern5 formatting of E1", E1_PATTERN5, result1 );
+        assertEquality( "Pattern5 formatting of E2", E2_PATTERN5, result2 );
+        assertEquality( "Pattern5 formatting of E3", E3_PATTERN5, result3 );
     }
 }
