@@ -40,7 +40,7 @@ public abstract class AbstractKernel
     extends AbstractContainer
     implements Kernel
 {
-    protected boolean             m_initialised;
+    private boolean             m_initialised;
 
     public void initialize()
         throws Exception
