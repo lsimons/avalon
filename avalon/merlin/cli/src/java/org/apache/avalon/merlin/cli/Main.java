@@ -92,7 +92,7 @@ import org.apache.commons.cli.Options;
  * Merlin command line handler.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class Main 
 {
@@ -106,7 +106,9 @@ public class Main
     private static final File USER_HOME = 
       new File( System.getProperty( "user.home" ) );
 
-    private static final String MERLIN = "merlin.properties";
+    private static final String MERLIN_PROPERTIES = "merlin.properties";
+
+    private static final String IMPLEMENTATION_KEY = "merlin.implementation";
 
     private static Options CL_OPTIONS = buildCommandLineOptions();
 
@@ -230,8 +232,8 @@ public class Main
             CommandLine line = parser.parse( CL_OPTIONS, args );
 
             File dir = getWorkingDirectory( line );
-            Artifact artifact = getDefaultImplementation( dir, line );
             File system = getMerlinSystemRepository( line );
+            Artifact artifact = getDefaultImplementation( dir, line );
 
             if( line.hasOption( "version" ) )
             {
@@ -270,7 +272,6 @@ public class Main
                 //
 
                 MAIN = new Main( context, artifact, line );
-
             }
         }
         catch( Throwable e )
@@ -320,6 +321,10 @@ public class Main
 
         m_kernel = factory.create( criteria );
     }
+
+    //----------------------------------------------------------
+    // implementation
+    //----------------------------------------------------------
 
     private void handleCommandLine( Map criteria, CommandLine line )
     {
@@ -458,73 +463,13 @@ public class Main
             String spec = line.getOptionValue( "impl" );
             return Artifact.createArtifact( spec );
         }
-
-        //
-        // check in ${user.dir}/merlin.properties and ${user.home}/merlin.properties
-        // for a "merlin.implementation" property and use it if decleared
-        //
-
-        final String key = "merlin.implementation";
-        String home = getLocalProperties( USER_HOME, MERLIN ).getProperty( key );
-        String work = getLocalProperties( base, MERLIN ).getProperty( key, home);
-        if( null != work )
+        else
         {
-            return Artifact.createArtifact( work );
-        }
-
-        //
-        // otherwise go with the defaults packaged with the jar file
-        //
- 
-        Properties properties = createDefaultProperties();
-
-        final String group = 
-          properties.getProperty( Artifact.GROUP_KEY );
-        final String name = 
-          properties.getProperty( Artifact.NAME_KEY  );
-        final String version = 
-          properties.getProperty( Artifact.VERSION_KEY );
-
-        return Artifact.createArtifact( group, name, version );
-    }
-
-   /**
-    * Load the default implementation properties.
-    * @return the implementation properties
-    */
-    private static Properties createDefaultProperties()
-    {
-        final String path = "merlin.implementation";
-        return loadProperties( path );
-    }
-
-   /**
-    * Load a properties file from a supplied resource name.
-    * @path the resource path
-    * @return the properties instance
-    */
-    private static Properties loadProperties( String path )
-    {
-        try
-        {
-            Properties properties = new Properties();
-            ClassLoader classloader = Main.class.getClassLoader();
-            InputStream input = classloader.getResourceAsStream( path );
-            if( input == null ) 
-            {
-                final String error = 
-                  "Missing resource: [" + path + "]";
-                throw new Error( error );
-            }
-            properties.load( input );
-            return properties;
-        }
-        catch ( Throwable e )
-        {
-            final String error = 
-              "Internal error. " 
-              + "Unable to locate the resource: merlin.implementation.";
-            throw new IllegalArgumentException( error );
+            return DefaultBuilder.createImplementationArtifact( 
+                Main.class.getClassLoader(), 
+                getBaseDirectory(), 
+                MERLIN_PROPERTIES, 
+                IMPLEMENTATION_KEY );
         }
     }
 
