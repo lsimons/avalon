@@ -8,7 +8,7 @@
         </authors>
     </header>
     <body>
-        <s1 title="Instruments">
+        <section><title>Instruments</title>
             <p>
                 Instruments are the actual hooks used by a component to make profiling or
                 instrumentation information available to the outside world.  Instruments are
@@ -42,6 +42,6 @@
                 memory usage of the JVM, etc.   ValueInstruments provide a single method,
                 setValue( value ).
             </p>
-        </s1>
+        </section>
     </body>
 </document>
