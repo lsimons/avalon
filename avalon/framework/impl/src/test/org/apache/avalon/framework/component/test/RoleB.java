@@ -12,5 +12,5 @@ package org.apache.avalon.framework.component.test;
  */
 public interface RoleB
 {
-    String ROLE = "org.apache.avalon.framework.component.test.RoleB";
+    String ROLE = RoleB.class.getName();
 }

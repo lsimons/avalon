@@ -44,7 +44,7 @@ package org.apache.bizserver.docs;
 
 public interface DocumentRepository extends Component
 {
-    String ROLE = "org.apache.bizserver.docs.DocumentRepository";
+    String ROLE = DocumentRepository.class.getName();
 
     Document getDocument(Principal requestor, int refId);
 }
