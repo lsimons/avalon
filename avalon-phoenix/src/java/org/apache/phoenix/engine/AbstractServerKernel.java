@@ -56,4 +56,8 @@ public abstract class AbstractServerKernel
 
         saApplication.configure( saEntry.getConfiguration() );
     }
+
+    protected void postAdd( final String name, final Entry entry )
+    {
+    }
 }
