@@ -29,7 +29,7 @@ import org.apache.avalon.framework.component.Component;
  * like Composable, Initializable, Disposable etc.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/04/24 12:35:37 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/05/10 07:54:09 $
  */
 
 public interface SourceResolver
@@ -40,6 +40,7 @@ public interface SourceResolver
     /**
      * Get a <code>Source</code> object.
      * This is a shortcut for <code>resolve(location, null, null)</code>
+     * @throws SourceNotFoundException if the source cannot be found
      */
     Source resolveURI( String location )
         throws MalformedURLException, IOException, SourceException;
@@ -54,6 +55,7 @@ public interface SourceResolver
      *               is optional and can be <code>null</code>.
      * @param parameters - Additional parameters for the URI. The parameters
      *                     are specific to the used protocol.
+     * @throws SourceNotFoundException if the source cannot be found
      */
     Source resolveURI( String location,
                        String base,
