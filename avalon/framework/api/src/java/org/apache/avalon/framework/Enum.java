@@ -106,7 +106,7 @@ import java.util.Map;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.25 $ $Date: 2004/01/11 21:58:28 $
+ * @version CVS $Revision: 1.26 $ $Date: 2004/01/11 22:16:47 $
  */
 public abstract class Enum
 {
@@ -151,26 +151,36 @@ public abstract class Enum
 
     /**
      * Tests for equality. Two Enum:s are considered equal
-     * if they have the same class names and the same names.
-     * Identity is tested for first, so this method runs fast.
+     * if they are of the same class and have the same names.
      * The method is also declared final - I (LSutic) did this to
      * allow the JIT to inline it easily.
      *
-     * @param other the other object
+     * @param o the other object
      * @return the equality status
      */
-    public final boolean equals( final Object other )
+    public final boolean equals( Object o )
     {
-        if( null == other )
-        {
+        if( this == o )
+            return true;
+        if( !(o instanceof Enum) )
             return false;
-        }
-        else
-        {
-            return other == this
-                || ( other.getClass().getName().equals( this.getClass().getName() )
-                && m_name.equals( ( (Enum)other ).m_name ) );
-        }
+
+        final Enum enum = (Enum)o;
+
+        if( !getClass().equals( enum.getClass() ) )
+            return false;
+        if( m_name != null ? !m_name.equals( enum.m_name ) : enum.m_name != null )
+            return false;
+
+        return true;
+    }
+
+    public int hashCode()
+    {
+        int result;
+        result = (m_name != null ? m_name.hashCode() : 0);
+        result = 29 * result + getClass().hashCode();
+        return result;
     }
 
     /**
@@ -178,10 +188,10 @@ public abstract class Enum
      *
      * @return a hash code value for this object
      */
-    public int hashCode()
+    /*public int hashCode()
     {
         return m_name.hashCode() ^ this.getClass().getName().hashCode();
-    }
+    }*/
 
     /**
      * Retrieve the name of this Enum item, set in the constructor.
