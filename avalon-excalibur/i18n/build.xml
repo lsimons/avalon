@@ -157,10 +157,6 @@
       <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
     </zip>
 
-    <checksum fileext=".md5">
-      <fileset dir="${dist.base}" />
-    </checksum>
-
   </target>
 
   <!-- Cleans up build and distribution directories -->
