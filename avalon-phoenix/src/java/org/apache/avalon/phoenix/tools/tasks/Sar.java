@@ -8,9 +8,6 @@
 package org.apache.avalon.phoenix.tools.tasks;
 
 import java.io.File;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.taskdefs.Jar;
-import org.apache.tools.ant.types.ZipFileSet;
 
 /**
  * Creates a Sar archive.
@@ -18,14 +15,14 @@ import org.apache.tools.ant.types.ZipFileSet;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mailto:stefan.bodewig@epost.de">Stefan Bodewig</a>
  */
-public class Sar 
-    extends Jar 
+public class Sar
+    extends Jar
 {
-    private File      m_config;
-    private File      m_assembly;
-    private File      m_environment;
+    private File m_config;
+    private File m_assembly;
+    private File m_environment;
 
-    public Sar() 
+    public Sar()
     {
         archiveType = "sar";
         emptyBehavior = "fail";
@@ -36,7 +33,7 @@ public class Sar
         setZipfile( file );
     }
 
-    public void setConfig( final File config ) 
+    public void setConfig( final File config )
     {
         m_config = config;
 
@@ -51,7 +48,7 @@ public class Sar
         }
     }
 
-    public void setAssembly( final File assembly ) 
+    public void setAssembly( final File assembly )
     {
         m_assembly = assembly;
 
@@ -66,13 +63,13 @@ public class Sar
         }
     }
 
-    public void setServer( final File server ) 
+    public void setServer( final File server )
     {
         System.err.println( "DEPRECATED: Server attribute of sar task is deprecated" );
         setEnvironment( server );
     }
 
-    public void setEnvironment( final File environment ) 
+    public void setEnvironment( final File environment )
     {
         m_environment = environment;
 
@@ -89,11 +86,11 @@ public class Sar
 
     public void addLib( final ZipFileSet zipFileSet )
     {
-        zipFileSet.setPrefix( "SAR-INF/lib");
+        zipFileSet.setPrefix( "SAR-INF/lib" );
         super.addFileset( zipFileSet );
     }
 
-    public void execute() throws BuildException 
+    public void execute() throws BuildException
     {
         if( null == m_config )
         {
@@ -124,7 +121,7 @@ public class Sar
         super.addFileset( zipFileSet );
     }
 
-    protected void cleanUp() 
+    protected void cleanUp()
     {
         super.cleanUp();
 

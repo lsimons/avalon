@@ -3,7 +3,7 @@ package org.apache.avalon.phoenix.tools.installer;
 import java.io.File;
 
 /**
- * FileDigest holds file deployment information. Information 
+ * FileDigest holds file deployment information. Information
  * used to verify if file was modified since deployment.
  */
 public class FileDigest
@@ -16,12 +16,12 @@ public class FileDigest
      * @param the file.
      * @param the checksum value of the file.
      */
-    public FileDigest(final File file, final long checksum)
+    public FileDigest( final File file, final long checksum )
     {
         m_file = file;
         m_checksum = checksum;
     }
-        
+
     /** Retrieve the file.
      *
      * @return the file.

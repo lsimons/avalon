@@ -24,7 +24,6 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.tools.infobuilder.BlockInfoBuilder;
 
-
 /**
  * Assemble a <code>SarMetaData</code> object from a Configuration
  * object. The Configuration object represents the assembly descriptor

@@ -8,20 +8,19 @@
 package org.apache.avalon.phoenix.tools.infobuilder;
 
 import java.util.ArrayList;
-import org.apache.avalon.framework.Version;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
-import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
-import org.apache.avalon.phoenix.metainfo.BlockDescriptor;
-import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.Version;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.phoenix.metainfo.BlockDescriptor;
+import org.apache.avalon.phoenix.metainfo.BlockInfo;
+import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
+import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
 
 /**
- * A BlockInfoBuilder is responsible for building <code>BlockInfo</code> 
+ * A BlockInfoBuilder is responsible for building <code>BlockInfo</code>
  * objects from Configuration objects. The format for Configuration object
  * is specified in the BlockInfo specification.
  *
@@ -64,9 +63,9 @@ public final class BlockInfoBuilder
 
         if( getLogger().isDebugEnabled() )
         {
-            final String message = REZ.getString( "blockinfo-created", 
-                                                  classname, 
-                                                  new Integer( services.length ), 
+            final String message = REZ.getString( "blockinfo-created",
+                                                  classname,
+                                                  new Integer( services.length ),
                                                   new Integer( dependencies.length ) );
             getLogger().debug( message );
         }
@@ -83,7 +82,7 @@ public final class BlockInfoBuilder
      * @return the created DependencyDescriptor
      * @exception ConfigurationException if an error occurs
      */
-    private DependencyDescriptor[] buildDependencies( final String classname, 
+    private DependencyDescriptor[] buildDependencies( final String classname,
                                                       final Configuration configuration )
         throws ConfigurationException
     {
@@ -92,12 +91,12 @@ public final class BlockInfoBuilder
 
         for( int i = 0; i < elements.length; i++ )
         {
-            final DependencyDescriptor dependency = 
+            final DependencyDescriptor dependency =
                 buildDependency( classname, elements[ i ] );
             dependencies.add( dependency );
         }
 
-        return (DependencyDescriptor[])dependencies.toArray( new DependencyDescriptor[0] );
+        return (DependencyDescriptor[])dependencies.toArray( new DependencyDescriptor[ 0 ] );
     }
 
     /**
@@ -109,7 +108,7 @@ public final class BlockInfoBuilder
      * @return the created DependencyDescriptor
      * @exception ConfigurationException if an error occurs
      */
-    private DependencyDescriptor buildDependency( final String classname, 
+    private DependencyDescriptor buildDependency( final String classname,
                                                   final Configuration dependency )
         throws ConfigurationException
     {
@@ -117,15 +116,16 @@ public final class BlockInfoBuilder
         String role = dependency.getChild( "role" ).getValue( null );
 
         //default to name of service if role unspecified
-        if( null == role ) role = service.getName();
+        if( null == role )
+            role = service.getName();
         else
         {
-            //If role is specified and it is the same as 
+            //If role is specified and it is the same as
             //service name then warn that it is redundent.
             if( role.equals( service.getName() ) )
             {
                 final String message = REZ.getString( "redundent-role", classname, role );
-                getLogger().warn( message ); 
+                getLogger().warn( message );
             }
         }
 
@@ -167,7 +167,7 @@ public final class BlockInfoBuilder
         throws ConfigurationException
     {
         final String name = service.getAttribute( "name" );
-        final Version version =  buildVersion( service.getAttribute( "version" ) );
+        final Version version = buildVersion( service.getAttribute( "version" ) );
         return new ServiceDescriptor( name, version );
     }
 
@@ -196,7 +196,7 @@ public final class BlockInfoBuilder
             return null;
         }
 
-        final Version version =  buildVersion( block.getChild("version").getValue() );
+        final Version version = buildVersion( block.getChild( "version" ).getValue() );
 
         return new BlockDescriptor( classname, version );
     }
