@@ -83,19 +83,32 @@ public class ScriptFacade extends AbstractLogEnabled
         
         BshClassManager classman = bsh.getClassManager();
         String pluginname = m_Context.getPluginName();
-        Artifact thisArtifact = Artifact.resolve( m_Context, pluginname );
-        System.out.println( thisArtifact );
-        Artifact[] deps = thisArtifact.getDependencies();
-        System.out.println( "Deps: " + deps.length  );
         
-        URL[] urls = Util.getURLs( deps );
-        for( int i = 0 ; i < urls.length ; i++ )
+        // For now, project local build scripts can not have dependencies.
+        if( "".equals( pluginname ) || ".".equals( pluginname) )
         {
-            if( getLogger().isDebugEnabled() )
-                getLogger().debug( "Adding to BeanShell classpath:" + urls[i] );
-            classman.addClassPath( urls[i] );
+        /*
+            Artifact framework = Artifact.resolve( m_Context, "avalon-framework-api" );
+            File file = framework.getContentFile();
+            classman.addClassPath( file.toURL()  );
+        */
         }
-                    
+        else
+        {
+            Artifact thisArtifact = Artifact.resolve( m_Context, pluginname );
+            System.out.println( thisArtifact );
+            Artifact[] deps = thisArtifact.getDependencies();
+            System.out.println( "Deps: " + deps.length  );
+
+            URL[] urls = Util.getURLs( deps );
+            for( int i = 0 ; i < urls.length ; i++ )
+            {
+                if( getLogger().isDebugEnabled() )
+                    getLogger().debug( "Adding to BeanShell classpath:" + urls[i] );
+                classman.addClassPath( urls[i] );
+            }
+        }
+                   
         if( ! classman.classExists( m_Classname ) )
         {
             bsh.eval( m_Script );

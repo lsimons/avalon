@@ -41,14 +41,33 @@ public class CleanPlugin extends AbstractPlugin
         throws IOException
     {   
         notifyPreMethod( "clean" );
-        delete();    
+        File basedir = m_Context.getProjectDir();
+        deleteTargets( basedir );    
+        recurse( basedir );
         notifyPostMethod( "clean" );
     }
     
-    private void delete()
+    private void recurse( File basedir )
         throws IOException
     {
-        File basedir = m_Context.getProjectDir();
+        File[] content = basedir.listFiles();
+        for( int i = 0 ; i < content.length ; i++ )
+        {
+            if( content[i].isDirectory() )
+            {
+                File magicFile = new File( content[i], "magic.properties" );
+                if( magicFile.exists() )
+                {
+                    deleteTargets( content[i] );
+                    recurse( content[i] );
+                }
+            }
+        }
+    }
+    
+    private void deleteTargets( File basedir )
+        throws IOException
+    {
         String targets = m_Context.getProperty( "clean.dirs" );
         StringTokenizer st = new StringTokenizer( targets, " ,", false );
         while( st.hasMoreTokens() )

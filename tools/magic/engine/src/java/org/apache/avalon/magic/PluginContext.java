@@ -163,7 +163,21 @@ public class PluginContext extends AbstractLogEnabled
     public String getProperty( String name )
     {
         String value = m_ProjectProperties.getProperty( name );
+        if( value == null )
+        {
+            if( name.equals( "plugin.dir" ) )
+                return m_PluginDir.getAbsolutePath();
+            if( name.equals( "system.dir" ) )
+                return m_SystemDir.getAbsolutePath();
+            if( name.equals( "temp.dir" ) )
+                return m_TempDir.getAbsolutePath();
+        }
         return value;
+    }
+    
+    public void setProperty( String name, String value )
+    {
+        m_ProjectProperties.setProperty( name, value );
     }
     
     public Iterator getPropertyKeys()

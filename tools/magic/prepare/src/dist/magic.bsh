@@ -47,9 +47,27 @@ public class PreparePlugin extends AbstractPlugin
         if( m_Initialized )
             return;
         notifyPreMethod( "init" );
+        copyLicense();
+        notifyStep( "init", "licensed-copied" );
         copySources();
         notifyPostMethod( "init" );
         m_Initialized = true;
+    }
+    
+    private void copyLicense()
+    {
+        String licFilename = m_Context.getProperty( "prepare.license.file" );
+        File fromFile;
+        
+        if( licFilename.startsWith( "/" ) )
+            fromFile = new File( licFilename );
+        else
+            fromFile = new File( m_Context.getProjectDir(), licFilename );
+            
+        String destdirname = m_Context.getProperty( "prepare.build.src.dir" );
+        File toDir = new File( m_Context.getProjectDir(), destdirname ); 
+        File toFile = new File( toDir, fromFile.getName() );
+        copyFile( fromFile, toFile );        
     }
     
     public void copySources()
@@ -112,4 +130,4 @@ public class PreparePlugin extends AbstractPlugin
             fs.addFilter( key, value );
         }
     }
-}   
+}

@@ -15,20 +15,23 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import com.jcraft.jsch.ChannelExec;
-import com.jcraft.jsch.Session;
-
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+
+import java.util.Date;
+import java.util.TimeZone;
 
 import org.apache.avalon.magic.AbstractPlugin;
 import org.apache.avalon.magic.Artifact;
+import org.apache.avalon.magic.ArtifactException;
 
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.service.ServiceException;
@@ -73,6 +76,7 @@ public class ArtifactPlugin extends AbstractPlugin
             File dest = artifact.toLocalFile();
             PreparePlugin prepare = (PreparePlugin) m_PreparePlugin;
             prepare.copyFile( content, dest );
+            metagen( artifact );
         } catch( Exception e )
         {
             e.printStackTrace();
@@ -97,6 +101,115 @@ public class ArtifactPlugin extends AbstractPlugin
         //        which probably happens with Ant filesets.
         source = source + ".md5";
         upload( source, fullDest );
+    }
+    
+    public void metagen( Artifact artifact )
+        throws IOException, ArtifactException
+    {
+        File artifactFile = artifact.toLocalFile();
+        String artifactFilename = artifactFile.getAbsolutePath();
+
+        File metaFile = new File( artifactFilename + ".meta" );
+
+        SimpleDateFormat sdf = new SimpleDateFormat( "yyyyMMdd.HHmmss" );
+        sdf.setTimeZone( TimeZone.getTimeZone("UTC") );
+        Date created = new Date( artifactFile.lastModified() );
+        String signature = sdf.format( created );
+        FileOutputStream fos = new FileOutputStream( metaFile );
+        OutputStreamWriter out = new OutputStreamWriter( fos, "ISO8859-1" );
+        PrintWriter writer = new PrintWriter( out );
+        
+        writer.println();
+        writer.println( "#" );
+        writer.println( "# Meta classifier." );
+        writer.println( "# " );
+
+        writer.println( "meta.domain = avalon" );
+        writer.println( "meta.version = 1.1" );
+
+        writer.println();
+        writer.println( "#" );
+        writer.println( "# Artifact descriptor." );
+        writer.println( "# " );
+        writer.print( "avalon.artifact.group = " );
+        writer.println( artifact.getGroupId() );
+        writer.print( "avalon.artifact.name = " );
+        writer.println( artifact.getArtifactId() );
+        writer.print( "avalon.artifact.version = " );
+        writer.println( artifact.getVersion() );
+        writer.print( "avalon.artifact.signature = " );
+        writer.println( signature );
+        
+        Artifact[] deps = artifact.getDependencies();
+        writeDeps( writer, deps, "api" );
+        writeDeps( writer, deps, "spi" );
+        writeDeps( writer, deps, "" );
+        
+        String factory = m_Context.getProperty( "avalon.artifact.factory" );
+        if( factory != null && ! "".equals( factory ) )
+        {
+            writer.println();
+            writer.println( "#" );
+            writer.println( "# Factory classname." );
+            writer.println( "#" );
+
+            writer.print( "avalon.artifact.factory = " );
+            writer.println( factory );
+        }
+        
+        String export = m_Context.getProperty( "avalon.artifact.export" );
+        if( export != null && ! "".equals( export ) )
+        {
+            writer.println();
+            writer.println( "#" );
+            writer.println( "# Service export." );
+            writer.println( "#" );
+
+            writer.print( "avalon.artifact.export = " );
+            writer.println( export );
+        }
+        writer.println();
+        writer.println( "#" );
+        writer.println( "# EOF" );
+        writer.println( "#" );
+        
+        writer.close();
+        out.close();
+        fos.close();
+    }
+
+    private void writeDeps( PrintWriter writer, Artifact[] deps, String type )
+    {
+        int index = 0;
+        for( int i = 0 ; i < deps.length ; i++ )
+        {
+            Artifact dep = deps[i];
+            
+            String clType = dep.getProperty( "avalon.classloader" );
+            if( clType == null )
+                clType = "";
+                
+            if( type.equals( clType ) )
+            {
+                if( index == 0 )
+                {
+                    String t = type.equals( "" ) ? "Impl" : type.toUpperCase();
+                    writer.println();
+                    writer.println( "# " );
+                    writer.println( "# " + t + " Dependencies" );
+                    writer.println( "# " );
+                }
+                String key = dep.toArtifactURL();
+                
+                writer.print( "avalon.artifact.dependency." );
+                writer.print( clType ); 
+                if( ! "".equals( clType ) )
+                    writer.print( "." );
+                writer.print( index++ );
+                writer.print( " = " );
+                writer.println( key );
+            }
+        }
     }
     
     private void upload( String source, String dest )
