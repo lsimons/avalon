@@ -21,5 +21,5 @@ public interface LogEnabled
      *
      * @param logger the logger
      */
-    void enableLogging ( Logger logger );
+    void enableLogging( Logger logger );
 }
