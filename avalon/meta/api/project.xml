@@ -15,19 +15,22 @@ Component meta model classes used by the assembly package.  The meta model inclu
   </description>
   
   <dependencies>
+
+    <!-- normal dependencies -->
+
     <dependency>
       <groupId>avalon-framework</groupId>
       <artifactId>avalon-framework-api</artifactId>
       <version>4.1.5</version>
     </dependency>
+
+    <!-- test dependencies -->
+
     <dependency>
       <groupId>avalon-framework</groupId> <!-- testing -->
       <artifactId>avalon-framework-impl</artifactId>
       <version>4.1.5</version>
     </dependency>
-
-    <!-- pre JDK 1.4 dependencies for testcase -->
-
     <dependency>
       <id>xml-apis</id>
       <version>2.0.2</version>

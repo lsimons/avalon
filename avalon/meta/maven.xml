@@ -33,12 +33,6 @@
   ==============================================================================
   -->
 
-  <ant:property name="maven.ui.banner.background" value="#fff"/>
-  <ant:property name="maven.ui.banner.foreground" value="#000"/>
-  <ant:property name="sun.j2se.link" value="http://java.sun.com/j2se/1.4/docs/api/"/>
-  <ant:property name="framework.api.link" value="http://avalon.apache.org/framework/api/"/>
-  <ant:property name="maven.javadoc.links" value="${sun.j2se.link},${framework.api.link}"/>
-
   <goal name="avalon:clean" prereqs="clean">
     <maven:reactor
       basedir="${basedir}"
