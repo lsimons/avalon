@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
 import org.apache.avalon.phoenix.Service;
 
 /**
- * This service provides a way to publist an arbitary object via SOAP.
+ * This service provides a way to publish an arbitary object via SOAP.
  *
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</a>
  */
@@ -26,7 +26,7 @@ public interface SOAPification
      * @param publicationName The name to publish it as.
      * @param interfacesToExpose an array of interfaces that the synamic proxy should expose
      */
-    void publish( Object obj, String publicationName, Class[] interfacesToExpose) 
+    void publish(Object obj, String publicationName, Class[] interfacesToExpose) 
         throws SOAPificationException;
     
     /**
