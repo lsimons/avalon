@@ -25,7 +25,7 @@ public class ServiceException
     final private String m_role;
 
     /**
-     * Construct a new <code>ComponentException</code> instance.
+     * Construct a new <code>ServiceException</code> instance.
      *
      * @deprecated use the String,String,Throwable version instead
      * @param message the exception message
@@ -37,7 +37,7 @@ public class ServiceException
     }
 
     /**
-     * Construct a new <code>ComponentException</code> instance.
+     * Construct a new <code>ServiceException</code> instance.
      *
      * @param message the exception message
      * @param throwable the throwable
@@ -49,7 +49,7 @@ public class ServiceException
     }
 
     /**
-     * Construct a new <code>ComponentException</code> instance.
+     * Construct a new <code>ServiceException</code> instance.
      *
      * @deprecated use the String,String version instead
      * @param message the exception message

@@ -69,7 +69,7 @@ public class DefaultServiceManager
         }
         else
         {
-            throw new ServiceException( "Unable to provide implementation for " + role );
+            throw new ServiceException( role, "Unable to provide implementation for " + role, null );
         }
     }
 
