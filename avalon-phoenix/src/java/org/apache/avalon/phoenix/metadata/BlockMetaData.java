@@ -8,7 +8,6 @@
 package org.apache.avalon.phoenix.metadata;
 
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
-import org.apache.avalon.phoenix.metainfo.InterceptorInfo;
 
 /**
  * This is the structure describing each block.
@@ -21,13 +20,13 @@ public class BlockMetaData
     private final DependencyMetaData[] m_dependencies;
     private final boolean m_disableProxy;
     private final BlockInfo m_blockInfo;
-    private final InterceptorInfo[] m_interceptors;
+    private final InterceptorMetaData[] m_interceptors;
 
     public BlockMetaData( final String name,
                           final DependencyMetaData[] dependencies,
                           final boolean disableProxy,
                           final BlockInfo blockInfo,
-                          final InterceptorInfo[] interceptors )
+                          final InterceptorMetaData[] interceptors )
     {
         m_name = name;
         m_dependencies = dependencies;
@@ -85,9 +84,9 @@ public class BlockMetaData
     /**
      * Returns the interceptors.
      * 
-     * @return InterceptorInfo[]
+     * @return InterceptorMetaData[]
      */
-    public InterceptorInfo[] getInterceptors()
+    public InterceptorMetaData[] getInterceptors()
     {
         return m_interceptors;
     }

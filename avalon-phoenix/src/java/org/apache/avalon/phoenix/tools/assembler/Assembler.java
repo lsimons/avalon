@@ -21,7 +21,7 @@ import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
-import org.apache.avalon.phoenix.metainfo.InterceptorInfo;
+import org.apache.avalon.phoenix.metadata.InterceptorMetaData;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.apache.avalon.phoenix.tools.infobuilder.BlockInfoBuilder;
 import org.apache.avalon.phoenix.tools.infobuilder.InterceptorInfoBuilder;
@@ -32,7 +32,7 @@ import org.apache.avalon.phoenix.tools.infobuilder.InterceptorInfoBuilder;
  * and is in the format specified for <tt>assembly.xml</tt> files.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.22.4.1 $ $Date: 2002/10/15 22:14:07 $
+ * @version $Revision: 1.22.4.2 $ $Date: 2002/10/20 01:00:14 $
  */
 public class Assembler
     extends AbstractLogEnabled
@@ -125,7 +125,7 @@ public class Assembler
             final Configuration proxy = block.getChild( "proxy" );
             final boolean disableProxy =
                 proxy.getAttributeAsBoolean( "disable", false );
-            final InterceptorInfo[] interceptors = m_interceptorBuilder.build( proxy ); 
+            final InterceptorMetaData[] interceptors = m_interceptorBuilder.build( proxy );
 
             final DependencyMetaData[] roles = buildDependencyMetaDatas( provides );
             final BlockInfo info = getBlockInfo( name, classname, classLoader );

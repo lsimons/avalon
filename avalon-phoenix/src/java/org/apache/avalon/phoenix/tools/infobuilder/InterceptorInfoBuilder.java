@@ -13,13 +13,13 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.phoenix.metainfo.InterceptorInfo;
+import org.apache.avalon.phoenix.metadata.InterceptorMetaData;
 
 /**
- * A InterceptorInfoBuilder is responsible for building {@link InterceptorInfo}.
+ * A InterceptorInfoBuilder is responsible for building {@link org.apache.avalon.phoenix.metadata.InterceptorMetaData}.
  * 
  * @author <a href="mailto:igorfie at yahoo.com">Igor Fedorenko</a>
- * @version $Revision: 1.1.2.1 $ $Date: 2002/10/15 22:14:07 $
+ * @version $Revision: 1.1.2.2 $ $Date: 2002/10/20 01:00:15 $
  */
 public class InterceptorInfoBuilder
 {
@@ -27,14 +27,14 @@ public class InterceptorInfoBuilder
         ResourceManager.getPackageResources( InterceptorInfoBuilder.class );
 
     /**
-     * A utility method to build an array of {@link InterceptorInfo}
+     * A utility method to build an array of {@link org.apache.avalon.phoenix.metadata.InterceptorMetaData}
      * objects from specified configuraiton.
      * 
      * @param configuration the interceptors configuration
-     * @return the created InterceptorInfo array
+     * @return the created InterceptorMetaData array
      * @throws ConfigurationException if an error occurs
      */
-    public InterceptorInfo[] build( Configuration configuration )
+    public InterceptorMetaData[] build( Configuration configuration )
         throws ConfigurationException
     {
         final boolean proxyDisabled = configuration.getAttributeAsBoolean("disable", false);
@@ -49,27 +49,27 @@ public class InterceptorInfoBuilder
 
         for( int i = 0; i < elements.length; i++ )
         {
-            final InterceptorInfo interceptor = buildInterceptor( elements[ i ] );
+            final InterceptorMetaData interceptor = buildInterceptor( elements[ i ] );
             interceptors.add( interceptor );
         }
 
-        return (InterceptorInfo[])interceptors.toArray( new InterceptorInfo[ 0 ] );
+        return (InterceptorMetaData[])interceptors.toArray( new InterceptorMetaData[ 0 ] );
     }
 
     /**
-     * A utility method to build a {@link InterceptorInfo}
+     * A utility method to build a {@link org.apache.avalon.phoenix.metadata.InterceptorMetaData}
      * object from specified configuraiton.
      *
      * @param interceptor the interceptor configuration
-     * @return the created InterceptorInfo
+     * @return the created InterceptorMetaData
      * @throws ConfigurationException if an error occurs
      */
-    private InterceptorInfo buildInterceptor( final Configuration interceptor )
+    private InterceptorMetaData buildInterceptor( final Configuration interceptor )
         throws ConfigurationException
     {
         String classname = interceptor.getAttribute( "class" );
 
-        return new InterceptorInfo( classname );
+        return new InterceptorMetaData( classname );
     }
 
 }
