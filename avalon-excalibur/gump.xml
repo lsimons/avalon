@@ -441,6 +441,42 @@
             to="avalon-dev@jakarta.apache.org"/>
     </project>
 
+    <project name="excalibur-fortress">
+        <package>org.apache.excalibur.fortress</package>
+        <package>org.apache.excalibur.mpool</package>
+
+        <ant basedir="fortress">
+          <property name="version" value="@@DATE@@"/>
+          <property name="junit.failonerror" value="true"/>
+          <property name="do.checkstyle" value="true"/>
+          <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="excalibur-altrmi" runtime="true"/>
+        <depend project="excalibur-instrument" runtime="true"/>
+        <depend project="excalibur-collections" runtime="true"/>
+        <depend project="excalibur-concurrent" runtime="true"/>
+        <depend project="excalibur-event" runtime="true"/>
+        <depend project="excalibur-logger" runtime="true"/>
+        <depend project="excalibur-sourceresolve" runtime="true"/>
+        <depend project="excalibur-thread" runtime="true"/>
+        <depend project="excalibur-util" runtime="true"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="fortress/build/classes"/>
+
+        <home nested="fortress"/>
+        <jar name="build/lib/excalibur-fortress-@@DATE@@.jar"/>
+        <jar name="build/lib/excalibur-mpool-@@DATE@@.jar"/>
+
+        <nag from="Berin Loritsch &lt;bloritsch@apache.org&gt;"
+             to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
     <project name="excalibur-i18n">
         <package>org.apache.avalon.excalibur.i18n</package>
 
