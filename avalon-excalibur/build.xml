@@ -102,7 +102,7 @@
     </target>
     
     <!-- Event -->
-    <target name="prj-event" depends="prj-collections, prj-concurrent, prj-threadcontext, prj-util">
+    <target name="prj-event" depends="prj-collections, prj-concurrent, prj-thread">
         <ant dir="event" target="${subproject-target}"/>
     </target>
     
