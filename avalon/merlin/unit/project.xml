@@ -32,49 +32,4 @@
 
   </dependencies>
 
-  <!--
-  <build>
-
-    <sourceDirectory>${basedir}/src/java/</sourceDirectory>
-    <unitTestSourceDirectory>${basedir}/src/test/</unitTestSourceDirectory>
-
-    <unitTest>
-      <includes>
-        <include>**/*Test.*</include>
-        <include>**/*TestCase.*</include>
-      </includes>
-      <excludes>
-        <exclude>**/Abstract*.*</exclude>
-      </excludes>
-      <resources>
-        <resource>
-          <directory>${basedir}/src/test</directory>
-          <includes>
-            <include>**/*.x*</include>
-          </includes>
-        </resource>
-      </resources>
-    </unitTest>
-
-    <resources>
-      <resource>
-        <directory>${basedir}/src/java</directory>
-        <includes> 
-          <include>**/*.properties</include>
-        </includes>
-      </resource>
-      <resource>
-        <directory>${basedir}/target/</directory>
-        <includes>
-          <include>**/*.app</include>
-          <include>*.meta</include>
-        </includes>
-      </resource>
-    </resources>
-
-    <jars></jars>
-
-  </build>
-  -->
-
 </project>
