@@ -173,9 +173,16 @@ Legal:
                   Checks the environment for existing resources
        ===================================================================
   -->
-  <target name="check-environment" depends="check-datasource" if="jndi.present"/>
+  <target name="check-environment">
+    <available property="jndi.present" classname="javax.naming.Context">
+      <classpath refid="project.class.path"/>
+    </available>
+    <available property="datasource.present" classname="javax.sql.DataSource">
+      <classpath refid="project.class.path"/>
+    </available>
+  </target>
 
-  <target name="check-datasource" if="datasource.present">
+  <target name="check-datasource" depends="check-environment" if="datasource.present">
     <property name="j2ee.present" value="true"/>
   </target>
 
@@ -184,13 +191,7 @@ Legal:
                          Prepares the build directory
        ===================================================================
   -->
-  <target name="prepare" depends="check-environment,setup-properties">
-    <available property="jndi.present" classname="javax.naming.Context">
-      <classpath refid="project.class.path"/>
-    </available>
-    <available property="datasource.present" classname="javax.sql.DataSource">
-      <classpath refid="project.class.path"/>
-    </available>
+  <target name="prepare" depends="check-datasource,setup-properties">
     <tstamp/>
     <mkdir dir="${build.dir}"/>
 
