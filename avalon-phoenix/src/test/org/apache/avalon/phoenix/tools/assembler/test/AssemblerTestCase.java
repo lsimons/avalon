@@ -26,24 +26,14 @@ import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
  *  An basic test case for the LogManager.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2002/09/30 23:51:30 $
+ * @version $Revision: 1.5 $ $Date: 2002/09/30 23:52:48 $
  */
 public class AssemblerTestCase
     extends TestCase
 {
-    public static final String DEFAULT_LOGFILE = "logs/default.log";
-    public static final String BLOCK_LOGFILE = "logs/myBlock.log";
-
-    private File m_baseDirectory;
-
     public AssemblerTestCase( final String name )
     {
         super( name );
-    }
-
-    protected void setUp() throws Exception
-    {
-        m_baseDirectory = new File( "." );
     }
 
     public void testBasic()
@@ -158,7 +148,8 @@ public class AssemblerTestCase
         assembler.enableLogging( new ConsoleLogger() );
         final ClassLoader classLoader = getClass().getClassLoader();
         final Configuration assembly = loadConfig( config );
-        return assembler.assembleSar( "test", assembly, m_baseDirectory, classLoader );
+        return assembler.assembleSar( "test", assembly,
+                                      new File( "." ), classLoader );
     }
 
     private Configuration loadConfig( final String config )
