@@ -41,8 +41,10 @@
  * Apache Software Foundation, please see <http://www.apache.org/> .
  */
 package org.apache.avalon.ide.eclipse.core.xmlmodel;
-
 import com.thoughtworks.xstream.alias.DefaultClassMapper;
+import com.thoughtworks.xstream.alias.ClassMapper;
+import com.thoughtworks.xstream.alias.DefaultElementMapper;
+import com.thoughtworks.xstream.alias.ElementMapper;
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.ConverterLookup;
 import com.thoughtworks.xstream.converters.basic.*;
@@ -65,29 +67,21 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.*;
 
-/**
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>*
- */
-public class XStream
-{
+public class XStream {
 
-    /**
-	 * @uml property=classMapper associationEnd={multiplicity={(1 1)}}
-	 */
-    private DefaultClassMapper classMapper = new DefaultClassMapper();
-
-    /**
-	 * @uml property=converterLookup associationEnd={multiplicity={(1 1)}}
-	 */
     private ConverterLookup converterLookup = new DefaultConverterLookup();
-
-    /**
-	 * @uml property=xmlReaderDriver associationEnd={multiplicity={(1 1)}}
-	 */
     private XMLReaderDriver xmlReaderDriver = new DomXMLReaderDriver();
+    private ClassMapper classMapper;
+    private ObjectFactory objectFactory;
 
-    public XStream()
-    {
+    public XStream() {
+        this(new SunReflectionObjectFactory(), new DefaultClassMapper(), new DefaultElementMapper());
+    }
+
+    public XStream(ObjectFactory objectFactory, ClassMapper classMapper, ElementMapper elementMapper) {
+        this.classMapper = classMapper;
+        this.objectFactory = objectFactory;
+
         alias("int", Integer.class);
         alias("float", Float.class);
         alias("double", Double.class);
@@ -112,7 +106,9 @@ public class XStream
         alias("tree-map", TreeMap.class);
         alias("tree-set", TreeSet.class);
 
-        registerConverter(new ObjectWithFieldsConverter(classMapper));
+        registerConverter(new ObjectWithFieldsConverter(classMapper,elementMapper));
+        // added to work with attributes. MerlinDeveloper
+        registerConverter(new AttributeContainerConverter(classMapper,elementMapper));        
 
         registerConverter(new IntConverter());
         registerConverter(new FloatConverter());
@@ -134,27 +130,22 @@ public class XStream
 
     }
 
-    public void alias(String elementName, Class type, Class defaultImplementation)
-    {
+    public void alias(String elementName, Class type, Class defaultImplementation) {
         classMapper.alias(elementName, type, defaultImplementation);
     }
 
-    public void alias(String elementName, Class type)
-    {
+    public void alias(String elementName, Class type) {
         alias(elementName, type, type);
     }
 
-    public String toXML(Object obj)
-    {
+    public String toXML(Object obj) {
         Writer stringWriter = new StringWriter();
         XMLWriter xmlWriter = new PrettyPrintXMLWriter(stringWriter);
         toXML(obj, xmlWriter);
         return stringWriter.toString();
     }
 
-    public void toXML(Object obj, XMLWriter xmlWriter)
-    {
-        ObjectFactory objectFactory = new SunReflectionObjectFactory();
+    public void toXML(Object obj, XMLWriter xmlWriter) {
         ObjectTree objectGraph = new ReflectionObjectGraph(obj, objectFactory);
         Converter rootConverter = converterLookup.lookupConverterForType(obj.getClass());
         xmlWriter.startElement(classMapper.lookupName(obj.getClass()));
@@ -162,13 +153,11 @@ public class XStream
         xmlWriter.endElement();
     }
 
-    public Object fromXML(String xml)
-    {
+    public Object fromXML(String xml) {
         return fromXML(xmlReaderDriver.createReader(xml));
     }
 
-    public Object fromXML(XMLReader xmlReader)
-    {
+    public Object fromXML(XMLReader xmlReader) {
         Class type = classMapper.lookupType(xmlReader.name());
         ObjectFactory objectFactory = new SunReflectionObjectFactory();
         ObjectTree objectGraph = new ReflectionObjectGraph(type, objectFactory);
@@ -177,17 +166,8 @@ public class XStream
         return objectGraph.get();
     }
 
-    public void registerConverter(Converter converter)
-    {
+    public void registerConverter(Converter converter) {
         converterLookup.registerConverter(converter);
-    }
-
-    /**
-	 * @return Returns the classMapper. @uml property=classMapper
-	 */
-    public DefaultClassMapper getClassMapper()
-    {
-        return classMapper;
     }
 
 }

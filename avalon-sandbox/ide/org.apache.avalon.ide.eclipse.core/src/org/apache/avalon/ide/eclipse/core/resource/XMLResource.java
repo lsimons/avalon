@@ -71,7 +71,6 @@ public class XMLResource
     {
         super();
         xs = new XStream();
-        xs.registerConverter(new AttributeContainerConverter(xs.getClassMapper()));
     }
 
     public void alias(String name, Class clazz)

@@ -117,7 +117,12 @@ public class TemplateResource
                     {
                         if ((line.indexOf(key)) != -1)
                         {
-                            line = line.replaceAll(key, (String) map.get(key));
+                            /* 
+                             * to retain 1.3.1 compatibiliy (WSAD) dont use "replace"
+                             * line = line.replaceAll(key, (String) map.get(key));
+                             */
+                            line = SystemResource.replaceAll(line, key, (String) map.get(key)); 
+                            
                         }
                     }
                 }
@@ -132,23 +137,28 @@ public class TemplateResource
             System.out.println(e);
         }
     }
-    public static String replaceParam(String input, DynProjectParam param)
+    public static String replaceParam(String line, DynProjectParam map)
     {
 
-        Iterator it = param.keySet().iterator();
+        Iterator it = map.keySet().iterator();
         String key;
 
         while (it.hasNext())
         {
             if ((key = (String) it.next()).startsWith("%"))
             {
-                if ((input.indexOf(key)) != -1)
+                if ((line.indexOf(key)) != -1)
                 {
-                    input = input.replaceAll(key, (String) param.get(key));
+                    /* 
+                     * to retain 1.3.1 compatibiliy (WSAD) dont use "replace"
+                     * line = line.replaceAll(key, (String) map.get(key));
+                     */
+                    line = SystemResource.replaceAll(line, key, (String) map.get(key));
+               
                 }
             }
         }
-        return input;
+        return line;
 
     }
     /**
