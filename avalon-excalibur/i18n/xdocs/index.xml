@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<document>
+
+    <properties>
+        <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+        <title>Excalibur i18n</title>
+    </properties>
+
+    <body>
+
+        <section name="Excalibur i18n">
+
+            <subsection name="Overview">
+            <p>
+              Excalibur's Internationalization package is found in
+              <code>org.apache.avalon.excalibur.i18n</code>.  Avalon
+              Excalibur includes a method of managing resources, and
+              an interface for specifying the resource.  Support for
+              XML resource bundles are still under development.
+            </p>
+            </subsection>
+
+        </section>
+
+    </body>
+
+</document>
