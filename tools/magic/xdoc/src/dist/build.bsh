@@ -174,7 +174,7 @@ public class XDocPlugin extends AbstractPlugin
             transform( transformer, srcDir, toDir, filter, extension );
         } catch( TransformerException e )
         {
-            throw new BuildException( "Invalid XML/XSL configuration of your system.", e );
+            throw new BuildException( e.getMessage(), e );
         }
     }
     
@@ -216,6 +216,8 @@ public class XDocPlugin extends AbstractPlugin
                 } catch( Exception e )
                 {
                     getLogger().error( getRelPath( newDest ) + " : " + e.getMessage() );
+                    if( "true".equals( m_Context.getProperty( "xdoc.print.stack.trace" ) ) )
+                        e.printStackTrace();
                     if( "true".equals( m_Context.getProperty( "xdoc.fail.on.error" ) ) )
                         throw new BuildException( "Unable to transform document. Message above should give more details." );
                 }
