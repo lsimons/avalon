@@ -154,7 +154,7 @@
   </target>
 
   <!-- Creates all the .jar file -->
-  <target name="jars" depends="compile,xdoclet">
+  <target name="jars" depends="compile,metagenerate">
 
     <mkdir dir="${build.lib}"/>
 
@@ -185,19 +185,18 @@
     </jar>
   </target>
 
-  <target name="xdoclet" description="Generates the XML descriptors">
-      <!-- The classpath for the task should contain the jars that contain the task -->
-      <taskdef name="phoenix-blocks"
-               classname="org.apache.avalon.phoenix.tools.xdoclet.PhoenixXDoclet"
-               classpathref="project.class.path"/>
+  <target name="metagenerate" description="Generates the XML descriptors">
 
-      <phoenix-blocks
-          destdir="${gen.dir}">
-        <fileset dir="${java.dir}">
-          <include name="**/*.java" />
-        </fileset>
-        <blockinfo/>
-      </phoenix-blocks>
+    <taskdef name="generatemeta" classname="org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateQdoxTask">
+      <classpath refid="project.class.path" />
+    </taskdef>
+
+    <generatemeta dest="${gen.dir}">
+      <fileset dir="${java.dir}">
+        <include name="**/*.java"/>
+      </fileset>
+    </generatemeta>
+
   </target>
 
   <!-- Performs unit tests -->
