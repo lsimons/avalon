@@ -92,6 +92,7 @@ class BlockEntry
             }
             catch( final Throwable throwable )
             {
+                //Ignore
             }
         }
 
