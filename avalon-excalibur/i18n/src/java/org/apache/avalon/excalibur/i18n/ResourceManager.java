@@ -60,7 +60,8 @@ public class ResourceManager
      */
     public final static Resources getPackageResources( final Class clazz )
     {
-        final String resource = clazz.getPackage().getName() + ".Resources";
+        final String name = clazz.getName();
+        final String resource = name.substring( 0, name.lastIndexOf( "." ) ) + ".Resources";
         return getBaseResources( resource );
     }
 
