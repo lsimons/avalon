@@ -20,12 +20,12 @@ import org.apache.commons.altrmi.server.AltrmiServerException;
 import org.apache.commons.altrmi.server.PublicationDescription;
 import org.apache.commons.altrmi.server.PublicationException;
 import org.apache.commons.altrmi.server.impl.AbstractServer;
-import org.apache.commons.altrmi.server.impl.socket.CompleteSocketObjectStreamServer;
+import org.apache.commons.altrmi.server.impl.socket.CompleteSocketCustomStreamServer;
 
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/03/26 11:56:17 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/03/27 16:01:52 $
  * @since 4.1
  */
 public class InstrumentManagerAltrmiServer
@@ -53,8 +53,8 @@ public class InstrumentManagerAltrmiServer
         
         InstrumentManagerClientImpl client = new InstrumentManagerClientImpl( manager );
         
-        System.out.println( "Creating CompleteSocketObjectStreamServer..." );
-        m_server = new CompleteSocketObjectStreamServer( port );
+        System.out.println( "Creating CompleteSocketCustomStreamServer..." );
+        m_server = new CompleteSocketCustomStreamServer( port );
         
         System.out.println( "Publishing InstrumentManagerClient..." );
         
