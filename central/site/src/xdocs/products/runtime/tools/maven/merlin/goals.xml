@@ -18,41 +18,37 @@
 -->
 
 <document>
-
   <properties>
     <author email="mcconnell@apache.org">Stephen McConnell</author>
     <title>Merlin Runtime</title>
   </properties>
-
   <body>
-
-    <section name="Overview">
-
-      <p>
-The Merlin Plugin for Maven includes a number of developer requirements covering meta-info generation, simulated and actual component deployment, and maven to merlin repository replication. 
-      </p>
-      <subsection name="Index">
+    <section name="Merlin Plugin for Maven">
+      <subsection name="Goals">
         <table>
-          <tr><th>Topic</th><th>Summary</th></tr>
+          <tr><th>Goal</th><th>Description</th></tr>
           <tr>
-            <td><a href="meta/index.html">Meta-Info Generation</a></td>
+            <td>merlin:simulate</td>
             <td>
-              Goal supporting the automated generation of component
-              meta-info descriptors based on javadoc tag references.
+             <p>Initiates the deployment of a block based on a 
+             ${maven.build.dir}/classes/BLOCK-INF/block.xml directive. Classes 
+             under the ${maven.build.dir}/classes directory are implicity added
+             to the container classloader.</p>
             </td>
           </tr>
           <tr>
-            <td><a href="merlin/index.html">Merlin Deployment</a></td>
+            <td>merlin:deploy</td>
             <td>
-              Plugin that enabled simpluated deployment of a merlin block.
+             <p>Initiates the deployment of a block based on a block.xml directive
+             contained in the generated jar file under the path 
+             ${maven.build.dir}/${maven.final.name}.jar.  The jar file is impliicity 
+             included within the deployment classpath.</p>
             </td>
           </tr>
         </table>
       </subsection>
     </section>
-
   </body>
-
 </document>
 
 

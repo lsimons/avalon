@@ -23,7 +23,8 @@
 
   <body>
     <menu>
-      <item name="Maven Plugins" href="maven/index.html"/>
+      <item name="Ant" href="ant/index.html"/>
+      <item name="Maven" href="maven/index.html"/>
     </menu>
   </body>
 

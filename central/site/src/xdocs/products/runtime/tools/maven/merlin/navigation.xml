@@ -23,8 +23,8 @@
 
   <body>
     <menu>
-      <item name="Meta" href="meta/index.html"/>
-      <item name="Merlin" href="merlin/index.html"/>
+      <item name="Goals" href="goals.html"/>
+      <item name="Properties" href="properties.html"/>
     </menu>
   </body>
 
