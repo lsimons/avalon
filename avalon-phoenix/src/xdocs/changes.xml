@@ -16,7 +16,15 @@
     <author name="Eung-ju Park" email="colus@apache.org" id="EP"/>
     <author name="David W." email="daveweit@optonline.net" id="DW"/>
   </devs>
-<release version="4.0b" date="September 15, 2002">
+<release version="4.0b" date="Unreleased">
+    <action dev="PD" type="add">
+        Added a monitor component that monitors the deployment directory.
+        The monitor will deploys any .sars that are added to directory, undeploy
+        .sars that are removed from directory and redeploy .sars that are
+        modified.
+    </action>
+</release>
+<release version="4.0b2" date="September 15, 2002">
     <action dev="DW" type="change">
         Started creating a Administrators guide.
     </action>
