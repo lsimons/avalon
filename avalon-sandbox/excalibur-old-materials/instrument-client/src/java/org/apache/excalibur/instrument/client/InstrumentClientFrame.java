@@ -50,7 +50,7 @@ import org.apache.avalon.framework.logger.Logger;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/10/25 16:02:00 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/10/25 16:45:03 $
  * @since 4.1
  */
 class InstrumentClientFrame
@@ -715,23 +715,26 @@ class InstrumentClientFrame
             return;
         }
         
-        // Tile the inner frames so that the individual frames will be shaped
-        //  in a way which is optimized to show the charts that they contain.
-        //  They should be wider than they are high.
-        // Try to show all frames in a single column.  Add columns if the
-        //  individual frame heights are less that 1/3 of their width.
+        // Target the frames at the specified maximum aspect ratio.  The
+        //  additional constraint that the frames will not be allowed to
+        //  be less than 70 pixels in height unless their width is less
+        //  than 100.
+        float targetRatio = 5.0f;
         
         Dimension size = getDesktopPane().getSize();
-        int rows = count;
         int cols = 1;
+        int rows = count;
         int frameWidth = size.width / cols;
         int frameHeight = size.height / rows;
-        while ( frameHeight < frameWidth / 3 )
+        float ratio = (float)frameWidth / frameHeight;
+        while ( ( rows > 1 ) && ( ( ratio > targetRatio ) ||
+            ( ( frameHeight < 70 ) && ( frameWidth > 100 ) ) ) )
         {
             cols++;
             rows = (int)Math.ceil( (float)count / cols );
             frameWidth = size.width / cols;
             frameHeight = size.height / rows;
+            ratio = (float)frameWidth / frameHeight;
         }
         
         reorganizeFrames( rows, cols, openframes );
