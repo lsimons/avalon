@@ -7,7 +7,7 @@
  */
 package org.apache.avalon.excalibur.datasource;
 
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 
 import java.lang.reflect.Constructor;
@@ -18,10 +18,10 @@ import java.sql.Connection;
  * The Factory implementation for JdbcConnections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.5 $ $Date: 2001/08/14 16:26:09 $
+ * @version CVS $Revision: 1.6 $ $Date: 2001/11/01 14:25:57 $
  * @since 4.0
  */
-public class JdbcConnectionFactory extends AbstractLoggable implements ObjectFactory
+public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectFactory
 {
     private final String m_dburl;
     private final String m_username;
@@ -124,7 +124,7 @@ public class JdbcConnectionFactory extends AbstractLoggable implements ObjectFac
             }
         }
 
-        jdbcConnection.setLogger(getLogger());
+        jdbcConnection.enableLogging(getLogger());
 
         // Not all drivers are friendly to explicitly setting autocommit
         if (jdbcConnection.getAutoCommit() != m_autoCommit) {
