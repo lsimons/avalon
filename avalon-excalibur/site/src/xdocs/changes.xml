@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
 
-<!DOCTYPE changes SYSTEM "dtd/changes-v10.dtd">
-
 <changes title="Avalon Excalibur History of Changes">
   <devs>
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
