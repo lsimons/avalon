@@ -72,10 +72,6 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderSet;
-import org.apache.avalon.phoenix.BlockContext;
-import org.apache.excalibur.policy.builder.PolicyBuilder;
-import org.apache.excalibur.policy.metadata.PolicyMetaData;
-import org.apache.excalibur.policy.reader.PolicyReader;
 import org.realityforge.classman.builder.LoaderBuilder;
 import org.realityforge.classman.builder.LoaderResolver;
 import org.realityforge.classman.metadata.ClassLoaderMetaData;
@@ -85,6 +81,9 @@ import org.realityforge.classman.metadata.JoinMetaData;
 import org.realityforge.classman.reader.ClassLoaderSetReader;
 import org.realityforge.classman.verifier.ClassLoaderVerifier;
 import org.realityforge.configkit.PropertyExpander;
+import org.realityforge.xmlpolicy.builder.PolicyBuilder;
+import org.realityforge.xmlpolicy.metadata.PolicyMetaData;
+import org.realityforge.xmlpolicy.reader.PolicyReader;
 import org.w3c.dom.Element;
 
 /**
@@ -172,9 +171,6 @@ public class DefaultClassLoaderManager
         throws ContextException
     {
         m_commonClassLoader = (ClassLoader)context.get( "common.classloader" );
-        m_data.put( BlockContext.APP_HOME_DIR, context.get( BlockContext.APP_HOME_DIR ) );
-        m_data.put( BlockContext.APP_NAME, context.get( BlockContext.APP_NAME ) );
-        //extractData( context, "phoenix.home" );
     }
 
     /**
@@ -196,6 +192,8 @@ public class DefaultClassLoaderManager
     public void initialize()
         throws Exception
     {
+        m_data.putAll( System.getProperties() );
+
         final Map defined = new HashMap();
         defined.put( "*system*", m_commonClassLoader );
         m_predefinedLoaders = Collections.unmodifiableMap( defined );
@@ -213,6 +211,7 @@ public class DefaultClassLoaderManager
      * @throws Exception if an error occurs
      */
     public ClassLoaderSet createClassLoaderSet( final Configuration environment,
+                                                final Map data,
                                                 final File homeDirectory,
                                                 final File workDirectory )
         throws Exception
@@ -220,7 +219,7 @@ public class DefaultClassLoaderManager
         //Configure policy
         final Configuration policyConfig = environment.getChild( "policy" );
         final Policy policy =
-            configurePolicy( policyConfig, homeDirectory, workDirectory );
+            configurePolicy( policyConfig, data, homeDirectory, workDirectory );
 
         final ClassLoaderSetMetaData metaData =
             getLoaderMetaData( environment );
@@ -309,10 +308,12 @@ public class DefaultClassLoaderManager
      * Setup policy based on configuration data.
      *
      * @param configuration the configuration data
+     * @param data the context data used to expand policy file
      * @param baseDirectory the applications base directory
      * @throws ConfigurationException if an error occurs
      */
     private Policy configurePolicy( final Configuration configuration,
+                                    final Map data,
                                     final File baseDirectory,
                                     final File workDirectory )
         throws Exception
@@ -326,10 +327,12 @@ public class DefaultClassLoaderManager
         setupLogger( verifier );
 
         final Element element = ConfigurationUtil.toElement( configuration );
-        final HashMap data = new HashMap();
-        data.putAll( m_data );
-        data.put( "/", File.separator );
-        m_expander.expandValues( element, data );
+        final HashMap newData = new HashMap();
+        newData.putAll( m_data );
+        newData.putAll( data );
+        newData.put( "/", File.separator );
+
+        m_expander.expandValues( element, newData );
 
         element.setAttribute( "version", "1.0" );
         try

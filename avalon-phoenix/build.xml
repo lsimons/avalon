@@ -826,7 +826,7 @@ Legal:
         <copy file="${target.lib}/phoenix-engine.jar" todir="${bin.dist.container.lib}"/>
 
         <copy file="${classman.jar}" todir="${bin.dist.container.lib}"/>
-        <copy todir="${bin.dist.container.lib}">
+        <copy todir="${bin.dist.container.lib}" flatten="true">
             <fileset refid="classman.fileset"/>
         </copy>
 
@@ -841,7 +841,7 @@ Legal:
             </fileset>
         </copy>
         <copy file="${configkit.jar}" todir="${bin.dist.tools.lib}"/>
-        <copy todir="${bin.dist.tools.lib}">
+        <copy todir="${bin.dist.tools.lib}" flatten="true">
             <fileset refid="configkit.fileset"/>
         </copy>
         <copy todir="${bin.dist.container.lib}">
@@ -1012,6 +1012,7 @@ Legal:
         <copy todir="${src.dist.lib}">
             <fileset dir="${lib.dir}">
                 <include name="excalibur*.jar"/>
+                <include name="spice*.jar"/>
                 <include name="README.txt"/>
             </fileset>
         </copy>
