@@ -168,13 +168,8 @@ public class DefaultEmbeddor
             final String role = children[ i ].getAttribute( "role" );
             final String classname = children[ i ].getAttribute( "class" );
             final String logger = children[ i ].getAttribute( "logger" );
-
-            final EmbeddorEntry entry = new EmbeddorEntry();
-            entry.setRole( role );
-            entry.setClassName( classname );
-            entry.setLoggerName( logger );
-            entry.setConfiguration( children[ i ] );
-            m_entrys[ i ] = entry;
+            m_entrys[ i ] =
+                new EmbeddorEntry( role, classname, logger, children[ i ] );
         }
     }
 
@@ -414,7 +409,7 @@ public class DefaultEmbeddor
             {
                 final String className = m_entrys[ i ].getClassName();
                 final Class clazz = Class.forName( className );
-                object = createComponent( className, clazz );
+                object = createObject( className, clazz );
                 m_entrys[ i ].setObject( object );
             }
         }
@@ -530,37 +525,38 @@ public class DefaultEmbeddor
     /**
      * Create a component that implements an interface.
      *
-     * @param component the name of the component
-     * @param clazz the name of interface/type
+     * @param classname the name of the objects class
+     * @param service the name of interface/type
      * @return the created object
      * @throws Exception if an error occurs
      */
-    private Object createComponent( final String component, final Class clazz )
+    private Object createObject( final String classname,
+                                 final Class service )
         throws Exception
     {
         try
         {
-            final Object object = Class.forName( component ).newInstance();
-            if( !clazz.isInstance( object ) )
+            final Object object = Class.forName( classname ).newInstance();
+            if( !service.isInstance( object ) )
             {
-                final String message = REZ.getString( "bad-type.error", component, clazz.getName() );
+                final String message = REZ.getString( "bad-type.error", classname, service.getName() );
                 throw new Exception( message );
             }
             return object;
         }
         catch( final IllegalAccessException iae )
         {
-            final String message = REZ.getString( "bad-ctor.error", clazz.getName(), component );
+            final String message = REZ.getString( "bad-ctor.error", service.getName(), classname );
             throw new CascadingException( message, iae );
         }
         catch( final InstantiationException ie )
         {
-            final String message = REZ.getString( "no-instantiate.error", clazz.getName(), component );
+            final String message = REZ.getString( "no-instantiate.error", service.getName(), classname );
             throw new CascadingException( message, ie );
         }
         catch( final ClassNotFoundException cnfe )
         {
-            final String message = REZ.getString( "no-class.error", clazz.getName(), component );
+            final String message = REZ.getString( "no-class.error", service.getName(), classname );
             throw new CascadingException( message, cnfe );
         }
     }

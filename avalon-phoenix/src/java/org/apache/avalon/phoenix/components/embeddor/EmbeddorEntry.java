@@ -14,20 +14,26 @@ import org.apache.avalon.framework.configuration.Configuration;
  */
 public class EmbeddorEntry
 {
-    private String m_role;
-    private Configuration m_configuration;
-    private String m_classname;
-    private String m_loggerName;
+    private final String m_role;
+    private final String m_classname;
+    private final String m_loggerName;
+    private final Configuration m_configuration;
     private Object m_object;
+
+    public EmbeddorEntry( final String role,
+                          final String classname,
+                          final String loggerName,
+                          final Configuration configuration )
+    {
+        m_role = role;
+        m_classname = classname;
+        m_loggerName = loggerName;
+        m_configuration = configuration;
+    }
 
     public String getRole()
     {
         return m_role;
-    }
-
-    public void setRole( String role )
-    {
-        m_role = role;
     }
 
     public Configuration getConfiguration()
@@ -35,19 +41,9 @@ public class EmbeddorEntry
         return m_configuration;
     }
 
-    public void setConfiguration( Configuration conf )
-    {
-        this.m_configuration = conf;
-    }
-
     public String getClassName()
     {
         return m_classname;
-    }
-
-    public void setClassName( String name )
-    {
-        m_classname = name;
     }
 
     public Object getObject()
@@ -55,7 +51,7 @@ public class EmbeddorEntry
         return m_object;
     }
 
-    public void setObject( Object object )
+    public void setObject( final Object object )
     {
         m_object = object;
     }
@@ -63,10 +59,5 @@ public class EmbeddorEntry
     public String getLoggerName()
     {
         return m_loggerName;
-    }
-
-    public void setLoggerName( String logger )
-    {
-        m_loggerName = logger;
     }
 }
