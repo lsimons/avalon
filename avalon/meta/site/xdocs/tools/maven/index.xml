@@ -82,7 +82,7 @@ XML format is more portable.</p>
 Default behaviour:
 </p>
 <source><![CDATA[
-avalon.meta.format="xml"
+avalon.meta.format = xml
 ]]></source>
           </td>
         </tr>
@@ -96,7 +96,7 @@ of the descriptor data.  This value default to false. </p>
 Default behaviour:
 </p>
 <source><![CDATA[
-avalon.meta.force="false"
+avalon.meta.force = false
 ]]></source>
           </td>
         </tr>
@@ -117,13 +117,13 @@ this property.
 Default behaviour:
 </p>
 <source><![CDATA[
-avalon.meta.type.postfix="xinfo"
+avalon.meta.type.postfix= xinfo
 ]]></source>
 <p>
 Alternative xtype behaviour:
 </p>
 <source><![CDATA[
-avalon.meta.type.postfix="xtype"
+avalon.meta.type.postfix = xtype
 ]]></source>
 
           </td>
