@@ -313,6 +313,14 @@ Legal:
   -->
   <target name="site-docs" depends="local-javadocs,local-docs">
 
+    <!-- delete all old documents but keep CVS directories -->
+    <!-- note that by doing an include the defaultexcludes (CVS dirs) will be kept -->
+    <delete>
+      <fileset dir="${www.dir}">
+        <include name="**"/>
+      </fileset>
+    </delete>
+
     <mkdir dir="${www.dir}"/>
     <copy todir="${www.dir}">
       <fileset dir="${docs.dir}" />
