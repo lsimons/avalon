@@ -26,7 +26,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.21 $ $Date: 2002/08/16 11:48:12 $
+ * @version $Revision: 1.22 $ $Date: 2002/08/16 13:37:31 $
  */
 public final class BlockInfoBuilder
     extends AbstractLogEnabled
@@ -58,16 +58,14 @@ public final class BlockInfoBuilder
         {
             if( info.getChild("stages", false ) != null )
             {
-                final String error =
-                 "Poenix does not support components declaring phase extension dependecies." 
-                 + " Class: " + classname; 
+                final String error = REZ.getString( "unsupported.stages", classname );
+
                 throw new IllegalArgumentException( error );
             }
             if( info.getChild("extensions", false ) != null )
             {
-                final String error =
-                 "Poenix does not support components declaring phase extension handlers." 
-                 + " Class: " + classname; 
+                final String error = REZ.getString( "unsupported.extensions", classname );
+
                 throw new IllegalArgumentException( error );
             }
         }
@@ -286,13 +284,18 @@ public final class BlockInfoBuilder
      */
     private String getSchemaAttribute( Configuration config ) throws ConfigurationException
     {
-        Configuration[] attributes = config.getChildren("attribute");
-        for( int i=0; i<attributes.length; i++ )
+        final Configuration[] attributes = config.getChildren( "attribute" );
+
+        for( int i = 0; i < attributes.length; i++ )
         {
-            Configuration attribute = attributes[i];
-            if( attribute.getAttribute("key").equals("phoenix:shema-type") )
-              return attribute.getAttribute("value");
+            final Configuration attribute = attributes[i];
+
+            if( attribute.getAttribute( "key" ).equals( "phoenix:schema-type" ) )
+            {
+                return attribute.getAttribute( "value" );
+            }
         }
+
         return null;
     }
 
