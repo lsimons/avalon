@@ -3,9 +3,7 @@
 <project name="metro-studio-eclipse" default="install" basedir="." 
     xmlns:x="antlib:org.apache.avalon.tools">
 
-  <property name="project.system" value="../../system/build" />
-
   <x:home index="index.xml"/>
-  <import file="${project.system}/default/reactor.xml"/>
+  <import file="${magic.templates}/default/reactor.xml"/>
 
 </project>
