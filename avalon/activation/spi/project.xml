@@ -59,7 +59,7 @@ An API supporting component assembly and deployment and decommissioning.
     <dependency>
       <groupId>avalon-extension</groupId>
       <artifactId>avalon-extension-spi</artifactId>
-      <version>1.0</version>
+      <version>1.1</version>
     </dependency>
 
     <dependency>
