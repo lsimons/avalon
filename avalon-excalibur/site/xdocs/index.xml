@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+
+<document>
+
+    <properties>
+        <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+        <title>Excalibur i18n</title>
+    </properties>
+
+    <body>
+
+        <section name="Excalibur">
+
+            <subsection name="Overview">
+            <p>
+              The Excalibur Project contains a set of utilitiy projects 
+              used in the development of container facilities and as 
+              underlying system for cause-grain components such as the 
+              Cornerstone suite.
+            </p>
+            </subsection>
+            <subsection name="Index">
+              <table>
+                <tr><th>Package</th><th>Description</th></tr>
+                <tr><td>Compatability</td><td></td></tr>
+                <tr><td>Component</td><td></td></tr>
+                <tr><td><a href="configuration/index.html">Configuration</a></td><td>
+                  <p>
+The Configuration package contains extensions to the Avalon Framework
+supporting configuration management.
+                  </p></td></tr>
+                <tr><td>Datasource</td><td></td></tr>
+                <tr><td>Event</td><td></td></tr>
+                <tr><td><a href="i18n/index.html">i18n</a></td><td>
+                  <p>
+              Excalibur's Internationalization package is found in
+              <code>org.apache.avalon.excalibur.i18n</code>.  Avalon
+              Excalibur includes a method of managing resources, and
+              an interface for specifying the resource.  Support for
+              XML resource bundles are still under development.
+                  </p></td></tr>
+                <tr><td>Instrumentation</td><td></td></tr>
+                <tr><td>Lifecycle</td><td></td></tr>
+                <tr><td>Monitor</td><td></td></tr>
+                <tr><td>Pool</td><td></td></tr>
+                <tr><td>Sourceresolver</td><td></td></tr>
+                <tr><td>Store</td><td></td></tr>
+                <tr><td>Thread</td><td></td></tr>
+                <tr><td>XMLUtil</td><td></td></tr>
+              </table>
+            </subsection>
+
+        </section>
+
+    </body>
+
+</document>
