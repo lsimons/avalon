@@ -57,6 +57,9 @@ import org.apache.avalon.framework.configuration.ConfigurationUtil;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.excalibur.xfc.Module;
+import org.apache.excalibur.xfc.data.Component1;
+import org.apache.excalibur.xfc.data.Component3;
+import org.apache.excalibur.xfc.data.Component2;
 import org.apache.excalibur.xfc.model.Model;
 import org.apache.excalibur.xfc.model.role.RoleRef;
 import org.apache.excalibur.xfc.modules.ecm.ECM;
@@ -67,7 +70,7 @@ import org.apache.excalibur.xfc.test.util.FortressTestRig;
  * XFC TestCase.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: xfcTestCase.java,v 1.15 2003/05/03 04:11:07 donaldp Exp $
+ * @version CVS $Id: xfcTestCase.java,v 1.16 2003/05/03 05:13:35 donaldp Exp $
  */
 public final class xfcTestCase extends TestCase
 {
@@ -353,9 +356,9 @@ public final class xfcTestCase extends TestCase
         // input classes to analyse
         final String[] classes =
             {
-                "org.apache.excalibur.xml.impl.JaxpParser",
-                "org.apache.excalibur.xml.xslt.XSLTProcessorImpl",
-                "org.apache.excalibur.xml.xpath.XPathProcessorImpl",
+                Component1.class.getName(),
+                Component2.class.getName(),
+                Component3.class.getName(),
             };
 
         // actual handlers these classes should use
