@@ -162,9 +162,11 @@
         <ant dir="cli" target="dist-jar"/>
         <ant dir="naming" target="dist-jar"/>
         <ant dir="monitor" target="dist-jar"/>
+        <!--
         <ant dir="altrmi" target="dist-jar"/>
         <ant dir="instrument-manager" target="dist-jar"/>
         <ant dir="instrument-client" target="dist-jar"/>
+        -->
 
         <!-- Jump through hoops to avoid jlink size bug.  -->
 
@@ -198,9 +200,11 @@
                     <include name="cli/dist/*.jar"/>
                     <include name="naming/dist/*.jar"/>
                     <include name="monitor/dist/*.jar"/>
-                    <include name="altrmi/dist/*.jar"/>
+                    <!--
                     <include name="instrument-manager/dist/*.jar"/>
                     <include name="instrument-client/dist/*.jar"/>
+                    <include name="altrmi/dist/*.jar"/>
+                    -->
                     <exclude name="*/dist/*a.jar"/> <!-- Exclude alpha quality jars -->
                  </fileset>
             </mergefiles>
