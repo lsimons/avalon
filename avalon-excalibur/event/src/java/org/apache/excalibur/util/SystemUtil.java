@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
+ Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -57,7 +57,7 @@ package org.apache.excalibur.util;
  * Windows support.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/03/22 11:29:06 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/03/22 12:31:48 $
  */
 public final class SystemUtil
 {

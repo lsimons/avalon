@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
+ Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -59,7 +59,7 @@ import org.apache.avalon.framework.service.ServiceException;
  * Context object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/03/22 11:29:09 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/03/22 12:31:51 $
  * @see ContainerConstants for the contract surrounding the Container context
  * @see <a href="http://jakarta.apache.org/avalon/framework/guide-cop-in-avalon.html">COP In Avalon</a>
  */

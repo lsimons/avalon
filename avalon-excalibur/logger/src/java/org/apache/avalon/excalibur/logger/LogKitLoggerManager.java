@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
+ Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -73,7 +73,7 @@ import org.apache.log.Priority;
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Revision: 1.12 $ $Date: 2003/03/22 11:29:12 $
+ * @version CVS $Revision: 1.13 $ $Date: 2003/03/22 12:31:56 $
  * @since 4.0
  */
 public class LogKitLoggerManager

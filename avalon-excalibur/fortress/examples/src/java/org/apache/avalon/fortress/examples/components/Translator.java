@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
+ Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -54,7 +54,7 @@ package org.apache.avalon.fortress.examples.components;
  * keys, identified by language name.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/03/22 11:29:08 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/03/22 12:31:50 $
  */
 public interface Translator
 {
