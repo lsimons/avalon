@@ -3,8 +3,8 @@
   <goal name="merlin:installer">
     <ant:property name="izPackHome" value="${env.IZPACK_HOME}"/>
     <j:if test="${izPackHome == ''}">
-      <echo>IZPACK_HOME is undefined.<echo/>
-      <echo>Skipping installer creation.<echo/>
+      <echo>IZPACK_HOME is undefined.</echo>
+      <echo>Skipping installer creation.</echo>
     </j:if>
     <j:if test="${izPackHome != ''}">
       <attainGoal name="xinstaller"/>
