@@ -274,3 +274,90 @@
     $element.content
   #end
 #end
+
+#macro(document)
+  #header()
+  #set($allSections = $root.getChild("body").getChildren("section"))
+  #foreach( $section in $allSections )
+    #section ($section)
+  #end
+  #footer()
+#end
+
+#macro ( subsection $subsection)
+  <div class="h4">
+    #if ( $subsection.getAttributeValue("anchor") )
+      #set ($anchor = $subsection.getAttributeValue("anchor"))
+    #else
+      #set ($anchor = $subsection.getAttributeValue("name"))
+    #end
+    <h4><a name="$anchor">$subsection.getAttributeValue("name")</a></h4>
+    #foreach ( $items in $subsection.getChildren() )
+      #copy($items)
+    #end
+  </div>
+#end
+
+#macro (section $section)
+  <div class="h3">
+    #if ( $section.getAttributeValue("anchor") )
+      #set ($anchor = $section.getAttributeValue("anchor"))
+    #else
+      #set ($anchor = $section.getAttributeValue("name"))
+    #end
+    <h3><a name="$anchor">$section.getAttributeValue("name")</a></h3>
+    #foreach ( $items in $section.getChildren() )
+      #if ($items.getName().equals("subsection"))
+        #subsection ($items)
+      #else
+        #copy($items)
+      #end
+    #end
+  </div>
+#end
+
+#macro (change $action)
+  <p>$action.getText() ($action.getAttributeValue("dev"))</p>
+#end
+
+#macro (changeset $release)
+  <table border="0" cellspacing="0" cellpadding="2" width="100%">
+    <tr><td bgcolor="$subbannerbg">
+      <font color="$subbannerfg" face="arial,helvetica,sanserif">
+        <strong>
+          Revision $release.getAttributeValue("version") ($release.getAttributeValue("date"))
+        </strong>
+      </font>
+    </td></tr>
+    <tr><td>
+      <blockquote>
+        <ul>
+        #foreach ($action in $release.getChildren("action"))
+        <li>#change ($action)</li>
+        #end
+        </ul>
+      </blockquote>
+    </td></tr>
+  </table>
+  </a>
+#end
+
+#macro (changes)
+  #header
+  <table border="0" cellspacing="0" cellpadding="2" width="100%">
+    <tr><td bgcolor="$bannerbg">
+      <font color="$bannerfg" face="arial,helvetica,sanserif">
+        <strong>ChangeLog</strong>
+      </font>
+    </td></tr>
+    <tr><td>
+      <blockquote>
+      #set ($releases = $root.getChildren("release"))
+      #foreach ( $release in $releases )
+        #changeset ($release)
+      #end
+      </blockquote>
+    </td></tr>
+  </table>
+  #footer
+#end
