@@ -61,7 +61,7 @@
 	<ul>
 		<li>Lifecycle management</li>
 		<li>Configuration management</li>
-		<li>Resource management</li>
+		<li>Resource management and sharing</li>
 		<li>Management exposure through JMX</li>
 		<li>Automatic (re)deployment</li>
 		<li>An isolated environment</li>
