@@ -45,12 +45,12 @@ public interface ComponentSelector
      * following call:
      *
      * <pre>
-     * try 
+     * try
      * {
      *     Generator input;
      *     input = (Generator)selector.select( new URL("foo://demo/url") );
-     * } 
-     * catch (...) 
+     * }
+     * catch (...)
      * {
      *     ...
      * }
@@ -65,6 +65,14 @@ public interface ComponentSelector
      */
     Component select( Object hint )
         throws ComponentException;
+
+    /**
+     * Check to see if a <code>Component</code> exists for a hint.
+     *
+     * @param role  a string identifying the role to check.
+     * @return True if the component exists, False if it does not.
+     */
+    boolean hasComponent( Object hint );
 
     /**
      * Return the <code>Component</code> when you are finished with it.  This

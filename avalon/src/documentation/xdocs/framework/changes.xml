@@ -8,7 +8,12 @@
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
     <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
   </devs>
-  <release version="4.0" date="Unreleased">
+  <release version="4.0" date="July 30, 2001">
+    <action dev="BL" type="add">
+      Added new method to Component Manager and Selector for discovering
+      if a Component exists inside or not.  Also augmented the default
+      versions with the basic implementation to discover them.
+    </action>
     <action dev="BL" type="add">
       Added stylesheet to convert Stylebook markup to DocBook markup.
     </action>

@@ -25,7 +25,7 @@ public class DefaultComponentSelector
      * Select the desired component.  It does not cascade, neither
      * should it.
      *
-     * @param hint the hint to retrieve Component 
+     * @param hint the hint to retrieve Component
      * @return the Component
      * @exception ComponentException if an error occurs
      */
@@ -43,6 +43,25 @@ public class DefaultComponentSelector
             throw new ComponentException( "Unable to provide implementation for " +
                                           hint.toString() );
         }
+    }
+
+    /**
+     * Returns whether a Component exists or not
+     */
+    public boolean hasComponent( final Object hint ) {
+        boolean componentExists = false;
+
+        try
+        {
+            this.release(this.select(hint));
+            componentExists = true;
+        }
+        catch (Throwable t)
+        {
+            // Ignore all throwables--we want a yes or no answer.
+        }
+
+        return componentExists;
     }
 
     /**
