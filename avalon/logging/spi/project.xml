@@ -33,11 +33,6 @@ Service provider API.
     </dependency>
     <dependency>
       <groupId>&avalon-repository-id;</groupId>
-      <artifactId>&avalon-repository-main-id;</artifactId>
-      <version>&avalon-repository-main-version;</version>
-    </dependency>
-    <dependency>
-      <groupId>&avalon-repository-id;</groupId>
       <artifactId>&avalon-repository-spi-id;</artifactId>
       <version>&avalon-repository-spi-version;</version>
     </dependency>
