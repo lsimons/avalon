@@ -12,11 +12,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
-import java.io.IOException;
 
 /**
  * Managed File based Resource.  This is convenient when you want to dynamically
@@ -26,7 +26,7 @@ import java.io.IOException;
  * OutputStream has been closed.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: FileResource.java,v 1.2 2001/12/11 09:53:30 jefft Exp $
+ * @version $Id: FileResource.java,v 1.3 2002/03/16 00:05:41 donaldp Exp $
  */
 public class FileResource extends StreamResource
 {
@@ -79,7 +79,7 @@ public class FileResource extends StreamResource
      */
     public OutputStream setResourceAsStream() throws IOException
     {
-        return new ResourceOutputStream ( new FileOutputStream( m_file ), this );
+        return new ResourceOutputStream( new FileOutputStream( m_file ), this );
     }
 
     /**
@@ -87,6 +87,6 @@ public class FileResource extends StreamResource
      */
     public Writer setResourceAsWriter() throws IOException
     {
-        return new ResourceWriter ( new FileWriter( m_file ), this );
+        return new ResourceWriter( new FileWriter( m_file ), this );
     }
 }

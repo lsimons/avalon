@@ -7,20 +7,18 @@
  */
 package org.apache.avalon.excalibur.command;
 
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.logger.NullLogger;
-import org.apache.avalon.excalibur.concurrent.Mutex;
-import org.apache.avalon.excalibur.thread.*;
-import org.apache.avalon.excalibur.thread.impl.ResourceLimitingThreadPool;
-import org.apache.avalon.excalibur.util.SystemUtil;
-
-import org.apache.avalon.excalibur.event.Source;
-import org.apache.avalon.excalibur.event.EventHandler;
-
-import java.util.HashSet;
 import java.util.HashMap;
 import java.util.Iterator;
+import org.apache.avalon.excalibur.concurrent.Mutex;
+import org.apache.avalon.excalibur.event.EventHandler;
+import org.apache.avalon.excalibur.event.Source;
+import org.apache.avalon.excalibur.thread.ThreadControl;
+import org.apache.avalon.excalibur.thread.ThreadPool;
+import org.apache.avalon.excalibur.thread.impl.ResourceLimitingThreadPool;
+import org.apache.avalon.excalibur.util.SystemUtil;
+import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.logger.NullLogger;
+import org.apache.avalon.framework.parameters.Parameters;
 
 /**
  * This is a ThreadManager that uses a certain number of threads per processor.
@@ -31,12 +29,12 @@ import java.util.Iterator;
  */
 public final class TPCThreadManager implements Runnable, ThreadManager, Disposable
 {
-    private final ThreadPool    m_threadPool;
-    private final Mutex         m_mutex = new Mutex();
-    private final HashMap       m_pipelines = new HashMap();
-    private       ThreadControl m_threadControl;
-    private       boolean       m_done = false;
-    private final long          m_sleepTime;
+    private final ThreadPool m_threadPool;
+    private final Mutex m_mutex = new Mutex();
+    private final HashMap m_pipelines = new HashMap();
+    private ThreadControl m_threadControl;
+    private boolean m_done = false;
+    private final long m_sleepTime;
 
     /**
      * The default constructor assumes there is a system property named "os.arch.cpus"
@@ -75,7 +73,7 @@ public final class TPCThreadManager implements Runnable, ThreadManager, Disposab
         int threads = Math.max( threadsPerProcessor, 1 );
 
         ResourceLimitingThreadPool tpool = new ResourceLimitingThreadPool( "TPCThreadManager",
-                ( processors * threads ) + 1, true, true, 1000L, 10L * 1000L );
+                                                                           ( processors * threads ) + 1, true, true, 1000L, 10L * 1000L );
         tpool.enableLogging( new NullLogger() );
         m_threadPool = tpool;
 
@@ -94,12 +92,12 @@ public final class TPCThreadManager implements Runnable, ThreadManager, Disposab
 
             m_pipelines.put( pipeline, new PipelineRunner( pipeline ) );
 
-            if ( m_done )
+            if( m_done )
             {
                 m_threadControl = m_threadPool.execute( this );
             }
         }
-        catch ( InterruptedException ie )
+        catch( InterruptedException ie )
         {
             // ignore for now
         }
@@ -120,13 +118,13 @@ public final class TPCThreadManager implements Runnable, ThreadManager, Disposab
 
             m_pipelines.remove( pipeline );
 
-            if ( m_pipelines.isEmpty() )
+            if( m_pipelines.isEmpty() )
             {
                 m_done = true;
                 m_threadControl.join( 1000 );
             }
         }
-        catch ( InterruptedException ie )
+        catch( InterruptedException ie )
         {
             // ignore for now
         }
@@ -150,7 +148,7 @@ public final class TPCThreadManager implements Runnable, ThreadManager, Disposab
 
             m_threadControl.join( 1000 );
         }
-        catch ( InterruptedException ie )
+        catch( InterruptedException ie )
         {
             // ignore for now
         }
@@ -163,9 +161,9 @@ public final class TPCThreadManager implements Runnable, ThreadManager, Disposab
     public final void dispose()
     {
         deregisterAll();
-        if ( m_threadPool instanceof Disposable )
+        if( m_threadPool instanceof Disposable )
         {
-            ( (Disposable) m_threadPool ).dispose();
+            ( (Disposable)m_threadPool ).dispose();
         }
 
         m_threadControl = null;
@@ -173,7 +171,7 @@ public final class TPCThreadManager implements Runnable, ThreadManager, Disposab
 
     public void run()
     {
-        while ( ! m_done )
+        while( !m_done )
         {
             try
             {
@@ -181,12 +179,12 @@ public final class TPCThreadManager implements Runnable, ThreadManager, Disposab
 
                 Iterator i = m_pipelines.values().iterator();
 
-                while ( i.hasNext() )
+                while( i.hasNext() )
                 {
-                    m_threadPool.execute( (PipelineRunner) i.next() );
+                    m_threadPool.execute( (PipelineRunner)i.next() );
                 }
             }
-            catch ( InterruptedException ie )
+            catch( InterruptedException ie )
             {
                 // ignore for now
             }
@@ -199,9 +197,9 @@ public final class TPCThreadManager implements Runnable, ThreadManager, Disposab
             {
                 Thread.sleep( m_sleepTime );
             }
-            catch ( InterruptedException ie )
+            catch( InterruptedException ie )
             {
-               // ignore and continue processing
+                // ignore and continue processing
             }
         }
     }
@@ -220,9 +218,9 @@ public final class TPCThreadManager implements Runnable, ThreadManager, Disposab
             Source[] sources = m_pipeline.getSources();
             EventHandler handler = m_pipeline.getEventHandler();
 
-            for (int i = 0; i < sources.length; i++)
+            for( int i = 0; i < sources.length; i++ )
             {
-                handler.handleEvents( sources[i].dequeueAll() );
+                handler.handleEvents( sources[ i ].dequeueAll() );
             }
         }
     }

@@ -14,28 +14,29 @@ import java.sql.SQLException;
  * in the ClassLoader.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $ $Date: 2001/12/11 09:53:28 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/03/16 00:05:40 $
  * @since 4.1
  */
-public class NoValidConnectionException extends SQLException {
+public class NoValidConnectionException extends SQLException
+{
 
     public NoValidConnectionException()
     {
-       super();
+        super();
     }
 
     public NoValidConnectionException( String message )
     {
-       super( message );
+        super( message );
     }
 
     public NoValidConnectionException( String message, String SQLState )
     {
-       super( message, SQLState );
+        super( message, SQLState );
     }
 
     public NoValidConnectionException( String message, String SQLState, int vendorCode )
     {
-       super( message, SQLState, vendorCode );
+        super( message, SQLState, vendorCode );
     }
 }

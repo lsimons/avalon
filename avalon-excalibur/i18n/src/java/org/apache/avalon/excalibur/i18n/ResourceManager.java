@@ -16,7 +16,7 @@ import java.util.HashMap;
  */
 public class ResourceManager
 {
-    private final static HashMap  c_resources   = new HashMap();
+    private final static HashMap c_resources = new HashMap();
 
     /**
      * Retrieve resource with specified basename.
@@ -102,10 +102,10 @@ public class ResourceManager
         final Package pkg = clazz.getPackage();
 
         String baseName;
-        if ( null == pkg )
+        if( null == pkg )
         {
             final String name = clazz.getName();
-            if ( -1 == name.lastIndexOf( "." ) )
+            if( -1 == name.lastIndexOf( "." ) )
             {
                 baseName = "Resources";
             }

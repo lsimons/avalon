@@ -39,7 +39,7 @@ public class DefaultCache
     {
         final Object oldValue = remove( key );
 
-        if ( m_store.isFull() )
+        if( m_store.isFull() )
         {
             remove( m_policy.selectVictim() );
         }
@@ -63,7 +63,7 @@ public class DefaultCache
     {
         Object value = null;
 
-        if ( m_store.containsKey( key ) )
+        if( m_store.containsKey( key ) )
         {
             value = m_store.remove( key );
             m_policy.remove( key );
@@ -81,7 +81,7 @@ public class DefaultCache
     public void clear()
     {
         final Object[] keys = m_store.keys();
-        for ( int i = 0; i < keys.length; i++ )
+        for( int i = 0; i < keys.length; i++ )
         {
             remove( keys[ i ] );
         }

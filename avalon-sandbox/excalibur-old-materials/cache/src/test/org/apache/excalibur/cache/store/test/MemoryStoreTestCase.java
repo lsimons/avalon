@@ -8,7 +8,6 @@
 package org.apache.avalon.excalibur.cache.store.test;
 
 import org.apache.avalon.excalibur.cache.store.MemoryStore;
-import junit.framework.TestCase;
 
 /**
  * TestCase for MemoryStore.

@@ -13,11 +13,11 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.Loggable;
-import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.LogKitLogger;
+import org.apache.avalon.framework.logger.Loggable;
 
 /**
  * The J2EE implementation for DataSources in Cocoon.  This uses the
@@ -25,15 +25,15 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * J2EE container pools the datasources properly.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.5 $ $Date: 2001/12/11 09:53:28 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/03/16 00:05:40 $
  * @since 4.0
  */
 public class J2eeDataSource
     extends AbstractLogEnabled
     implements DataSourceComponent, Loggable
 {
-    public static final String  JDBC_NAME     = "java:comp/env/jdbc/";
-    protected DataSource        m_dataSource  = null;
+    public static final String JDBC_NAME = "java:comp/env/jdbc/";
+    protected DataSource m_dataSource = null;
 
     public void setLogger( org.apache.log.Logger logger )
     {
@@ -55,7 +55,7 @@ public class J2eeDataSource
     {
         if( null == m_dataSource )
         {
-            final String databaseName = configuration.getChild("dbname").getValue();
+            final String databaseName = configuration.getChild( "dbname" ).getValue();
 
             try
             {
@@ -64,7 +64,7 @@ public class J2eeDataSource
             }
             catch( final NamingException ne )
             {
-                if (getLogger().isErrorEnabled())
+                if( getLogger().isErrorEnabled() )
                 {
                     getLogger().error( "Problem with JNDI lookup of datasource", ne );
                 }

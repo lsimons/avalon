@@ -7,9 +7,6 @@
  */
 package org.apache.avalon.excalibur.command;
 
-import org.apache.avalon.framework.activity.Executable;
-import org.apache.avalon.excalibur.event.Signal;
-
 /**
  * A DelayedCommand is a specific type of Command that denotes a an execution
  * unit that will be delayed at least X number of milliseconds.  The mechanism

@@ -41,7 +41,7 @@ public class FlipSpacesStore
      */
     public FlipSpacesStore( final int capacity )
     {
-        if ( capacity < 1 ) throw new IllegalArgumentException( "Specified capacity must be at least 1" );
+        if( capacity < 1 ) throw new IllegalArgumentException( "Specified capacity must be at least 1" );
 
         m_capacity = capacity;
         m_newCache = new HashMap( m_capacity );
@@ -63,7 +63,7 @@ public class FlipSpacesStore
         Object old = null;
         get( key );
         old = m_newCache.put( key, value );
-        if ( isFull() ) // cache full?
+        if( isFull() ) // cache full?
         {
             copySpaces();
         }
@@ -95,16 +95,16 @@ public class FlipSpacesStore
     public Object get( final Object key )
     {
         Object value = null;
-        if ( m_newCache.containsKey( key ) )
+        if( m_newCache.containsKey( key ) )
         {
             value = m_newCache.get( key ); // try new space
         }
         else
         {
-            if ( m_oldCache.containsKey( key ) )
+            if( m_oldCache.containsKey( key ) )
             {
                 value = m_oldCache.get( key ); // try old space
-                if ( isFull() ) // cache full?
+                if( isFull() ) // cache full?
                 {
                     copySpaces();
                 }
@@ -154,7 +154,7 @@ public class FlipSpacesStore
     public boolean containsKey( final Object key )
     {
         boolean rc = m_newCache.containsKey( key );
-        if ( !rc )
+        if( !rc )
         {
             rc = m_oldCache.containsKey( key );
         }

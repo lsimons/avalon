@@ -9,13 +9,13 @@ package org.apache.avalon.excalibur.datasource;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import org.apache.avalon.excalibur.pool.DefaultPoolController;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Loggable;
-import org.apache.avalon.excalibur.pool.DefaultPoolController;
 
 /**
  * The Default implementation for DataSources in Avalon.  This uses the
@@ -46,7 +46,7 @@ import org.apache.avalon.excalibur.pool.DefaultPoolController;
  *  NoAvailableConnectionException will be thrown.  (Defaults to "3")</li>
  *
  * <li>The <code>connection-class</code> attribute is used to override the Connection class returned
- *  by the DataSource from calls to getConnection().  Set this to 
+ *  by the DataSource from calls to getConnection().  Set this to
  *  "org.apache.avalon.excalibur.datasource.Jdbc3Connection" to gain access to JDBC3 features.
  *  Jdbc3Connection does not exist if your JVM does not support JDBC3.
  *  (Defaults to "org.apache.avalon.excalibur.datasource.JdbcConnection")</li>
@@ -68,14 +68,14 @@ import org.apache.avalon.excalibur.pool.DefaultPoolController;
  * </ul>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.17 $ $Date: 2002/02/08 12:04:04 $
+ * @version CVS $Revision: 1.18 $ $Date: 2002/03/16 00:05:40 $
  * @since 4.0
  */
 public class JdbcDataSource
     extends AbstractLogEnabled
     implements DataSourceComponent, Disposable, Loggable
 {
-    protected JdbcConnectionPool        m_pool;
+    protected JdbcConnectionPool m_pool;
 
     public void setLogger( final org.apache.log.Logger logger )
     {
@@ -97,7 +97,7 @@ public class JdbcDataSource
     {
         if( null == m_pool )
         {
-            final String driver = configuration.getChild( "driver" ).getValue("");
+            final String driver = configuration.getChild( "driver" ).getValue( "" );
             final String dburl = configuration.getChild( "dburl" ).getValue();
             final String user = configuration.getChild( "user" ).getValue( null );
             final String passwd = configuration.getChild( "password" ).getValue( null );
@@ -108,7 +108,7 @@ public class JdbcDataSource
             final int min = controller.getAttributeAsInteger( "min", 1 );
             final int max = controller.getAttributeAsInteger( "max", 3 );
             final long timeout = controller.getAttributeAsLong( "timeout", -1 );
-            final boolean autoCommit = configuration.getChild("auto-commit").getValueAsBoolean(true);
+            final boolean autoCommit = configuration.getChild( "auto-commit" ).getValueAsBoolean( true );
             final boolean oradb = controller.getAttributeAsBoolean( "oradb", false );
             // Get the JdbcConnection class.  The factory will resolve one if null.
             final String connectionClass = controller.getAttribute( "connection-class", null );
@@ -117,20 +117,20 @@ public class JdbcDataSource
             final int l_min;
 
             // If driver is specified....
-            if ( ! "".equals(driver) )
+            if( !"".equals( driver ) )
             {
-                if (getLogger().isDebugEnabled())
+                if( getLogger().isDebugEnabled() )
                 {
-                    getLogger().debug("Loading new driver: " + driver);
+                    getLogger().debug( "Loading new driver: " + driver );
                 }
 
                 try
                 {
                     Class.forName( driver, true, Thread.currentThread().getContextClassLoader() );
                 }
-                catch (ClassNotFoundException cnfe)
+                catch( ClassNotFoundException cnfe )
                 {
-                    if (getLogger().isWarnEnabled())
+                    if( getLogger().isWarnEnabled() )
                     {
                         getLogger().warn( "Could not load driver: " + driver, cnfe );
                     }
@@ -138,9 +138,9 @@ public class JdbcDataSource
             }
 
             // Validate the min and max pool size values.
-            if ( min < 1 )
+            if( min < 1 )
             {
-                if (getLogger().isWarnEnabled())
+                if( getLogger().isWarnEnabled() )
                 {
                     getLogger().warn( "Minumum number of connections specified must be at least 1." );
                 }
@@ -154,7 +154,7 @@ public class JdbcDataSource
 
             if( max < 1 )
             {
-                if (getLogger().isWarnEnabled())
+                if( getLogger().isWarnEnabled() )
                 {
                     getLogger().warn( "Maximum number of connections specified must be at least 1." );
                 }
@@ -163,9 +163,9 @@ public class JdbcDataSource
             }
             else
             {
-                if ( max < min )
+                if( max < min )
                 {
-                    if (getLogger().isWarnEnabled())
+                    if( getLogger().isWarnEnabled() )
                     {
                         getLogger().warn( "Maximum number of connections specified must be " +
                                           "more than the minimum number of connections." );
@@ -178,9 +178,9 @@ public class JdbcDataSource
                     l_max = max;
                 }
             }
-            
+
             // If the keepAlive disable attribute was set, then set the keepAlive query to null, disabling it.
-            if (disableKeepAlive)
+            if( disableKeepAlive )
             {
                 keepAlive = null;
             }
@@ -188,21 +188,20 @@ public class JdbcDataSource
             // If the oradb attribute was set, then override the keepAlive query.
             // This will override any specified keepalive value even if disabled.
             //  (Deprecated, but keep this for backwards-compatability)
-            if (oradb)
+            if( oradb )
             {
                 keepAlive = "SELECT 1 FROM DUAL";
 
-                if (getLogger().isWarnEnabled())
+                if( getLogger().isWarnEnabled() )
                 {
-                    getLogger().warn("The oradb attribute is deprecated, please use the" +
-                                     "keep-alive element instead.");
+                    getLogger().warn( "The oradb attribute is deprecated, please use the" +
+                                      "keep-alive element instead." );
                 }
             }
 
-            
             final JdbcConnectionFactory factory =
-                    new JdbcConnectionFactory( dburl, user, passwd, autoCommit, keepAlive, connectionClass );
-            final DefaultPoolController poolController = new DefaultPoolController(l_max / 4);
+                new JdbcConnectionFactory( dburl, user, passwd, autoCommit, keepAlive, connectionClass );
+            final DefaultPoolController poolController = new DefaultPoolController( l_max / 4 );
 
             factory.enableLogging( getLogger() );
 
@@ -213,14 +212,14 @@ public class JdbcDataSource
                 m_pool.setTimeout( timeout );
                 m_pool.initialize();
             }
-            catch (Exception e)
+            catch( Exception e )
             {
-                if (getLogger().isDebugEnabled())
+                if( getLogger().isDebugEnabled() )
                 {
-                    getLogger().debug("Error configuring JdbcDataSource", e);
+                    getLogger().debug( "Error configuring JdbcDataSource", e );
                 }
 
-                throw new ConfigurationException("Error configuring JdbcDataSource", e);
+                throw new ConfigurationException( "Error configuring JdbcDataSource", e );
             }
         }
     }
@@ -231,11 +230,11 @@ public class JdbcDataSource
     {
         try
         {
-            return (Connection) m_pool.get();
+            return (Connection)m_pool.get();
         }
         catch( final SQLException se )
         {
-            if (getLogger().isWarnEnabled())
+            if( getLogger().isWarnEnabled() )
             {
                 getLogger().warn( "Could not return Connection", se );
             }
@@ -245,7 +244,7 @@ public class JdbcDataSource
         }
         catch( final Exception e )
         {
-            if (getLogger().isWarnEnabled())
+            if( getLogger().isWarnEnabled() )
             {
                 getLogger().warn( "Could not return Connection", e );
             }

@@ -7,14 +7,14 @@
  */
 package org.apache.avalon.excalibur.i18n;
 
+import java.text.DateFormat;
 import java.text.MessageFormat;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.util.Date;
 
 /**
  * A class to simplify extracting localized strings, icons
@@ -26,19 +26,19 @@ import java.util.Date;
  */
 public class Resources
 {
-    private final static Random  RANDOM        = new Random();
+    private final static Random RANDOM = new Random();
 
     ///Local of Resources
-    private final Locale    m_locale;
+    private final Locale m_locale;
 
     ///Resource bundle referenced by manager
-    private ResourceBundle  m_bundle;
+    private ResourceBundle m_bundle;
 
     ///Base name of resource bundle
-    private String          m_baseName;
+    private String m_baseName;
 
     ///ClassLoader from which to load resources
-    private ClassLoader     m_classLoader;
+    private ClassLoader m_classLoader;
 
     /**
      * Constructor that builds a manager in default locale.
@@ -592,7 +592,7 @@ public class Resources
      */
     public String getString( final String key, final Object arg1 )
     {
-        final Object[] args = new Object[] { arg1 };
+        final Object[] args = new Object[]{arg1};
         return format( key, args );
     }
 
@@ -606,7 +606,7 @@ public class Resources
      */
     public String getString( final String key, final Object arg1, final Object arg2 )
     {
-        final Object[] args = new Object[] { arg1, arg2 };
+        final Object[] args = new Object[]{arg1, arg2};
         return format( key, args );
     }
 
@@ -624,7 +624,7 @@ public class Resources
                              final Object arg2,
                              final Object arg3 )
     {
-        final Object[] args = new Object[] { arg1, arg2, arg3 };
+        final Object[] args = new Object[]{arg1, arg2, arg3};
         return format( key, args );
     }
 
@@ -644,7 +644,7 @@ public class Resources
                              final Object arg3,
                              final Object arg4 )
     {
-        final Object[] args = new Object[] { arg1, arg2, arg3, arg4 };
+        final Object[] args = new Object[]{arg1, arg2, arg3, arg4};
         return format( key, args );
     }
 
@@ -666,7 +666,7 @@ public class Resources
                              final Object arg4,
                              final Object arg5 )
     {
-        final Object[] args = new Object[] { arg1, arg2, arg3, arg4, arg5 };
+        final Object[] args = new Object[]{arg1, arg2, arg3, arg4, arg5};
         return format( key, args );
     }
 

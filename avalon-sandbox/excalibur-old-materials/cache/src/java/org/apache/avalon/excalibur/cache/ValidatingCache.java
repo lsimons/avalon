@@ -31,7 +31,7 @@ public final class ValidatingCache
 
     private boolean validate( final Object key, final Object value )
     {
-        if ( null == m_validator )
+        if( null == m_validator )
         {
             return true;
         }
@@ -70,7 +70,7 @@ public final class ValidatingCache
     {
         Object value = m_cache.get( key );
 
-        if ( ! validate( key, value ) )
+        if( !validate( key, value ) )
         {
             remove( key );
             value = null;
@@ -88,10 +88,10 @@ public final class ValidatingCache
     {
         boolean contains = false;
 
-        if ( m_cache.containsKey( key ) )
+        if( m_cache.containsKey( key ) )
         {
             final Object value = m_cache.get( key );
-            if ( validate( key, value ) )
+            if( validate( key, value ) )
             {
                 contains = true;
             }

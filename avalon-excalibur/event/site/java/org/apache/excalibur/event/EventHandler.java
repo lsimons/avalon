@@ -7,9 +7,6 @@
  */
 package org.apache.avalon.excalibur.event;
 
-import org.apache.avalon.framework.activity.Executable;
-import org.apache.avalon.excalibur.event.Signal;
-
 /**
  * An EventHandler takes care of processing specific events in an Event Based
  * architecture.

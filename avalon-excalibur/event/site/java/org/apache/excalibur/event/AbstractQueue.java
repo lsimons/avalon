@@ -7,8 +7,6 @@
  */
 package org.apache.avalon.excalibur.event;
 
-import java.util.ArrayList;
-
 /**
  * The default queue implementation is a variable size queue.
  *
@@ -41,8 +39,8 @@ public abstract class AbstractQueue implements Queue
      */
     public boolean isFull()
     {
-        return maxSize () != -1  /* There exists an upper bound... */
-           && maxSize() - size() <= 0; /* ...and it is reached. */
+        return maxSize() != -1  /* There exists an upper bound... */
+            && maxSize() - size() <= 0; /* ...and it is reached. */
     }
 
     /**
@@ -50,7 +48,7 @@ public abstract class AbstractQueue implements Queue
      */
     public void setTimeout( final long millis )
     {
-        if ( millis > 0 )
+        if( millis > 0 )
         {
             m_timeout = millis;
         }
@@ -62,18 +60,18 @@ public abstract class AbstractQueue implements Queue
 
     protected void block( Object lock )
     {
-        if ( m_timeout > 0 )
+        if( m_timeout > 0 )
         {
             long start = System.currentTimeMillis();
             long end = start + m_timeout;
 
-            while ( start < end || size() > 0 )
+            while( start < end || size() > 0 )
             {
                 try
                 {
                     lock.wait( m_timeout );
                 }
-                catch ( InterruptedException ie )
+                catch( InterruptedException ie )
                 {
                     // ignore
                 }

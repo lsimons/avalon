@@ -38,15 +38,15 @@ public class SynchronizedCache
 
     public int capacity()
     {
-        synchronized ( m_cache )
+        synchronized( m_cache )
         {
             return m_cache.capacity();
         }
     }
-   
+
     public int size()
     {
-        synchronized ( m_cache )
+        synchronized( m_cache )
         {
             return m_cache.size();
         }
@@ -54,7 +54,7 @@ public class SynchronizedCache
 
     public Object put( final Object key, final Object value )
     {
-        synchronized ( m_cache )
+        synchronized( m_cache )
         {
             return m_cache.put( key, value );
         }
@@ -62,7 +62,7 @@ public class SynchronizedCache
 
     public Object get( final Object key )
     {
-        synchronized ( m_cache )
+        synchronized( m_cache )
         {
             return m_cache.get( key );
         }
@@ -70,7 +70,7 @@ public class SynchronizedCache
 
     public Object remove( Object key )
     {
-        synchronized ( m_cache )
+        synchronized( m_cache )
         {
             return m_cache.remove( key );
         }
@@ -78,7 +78,7 @@ public class SynchronizedCache
 
     public boolean containsKey( final Object key )
     {
-        synchronized ( m_cache )
+        synchronized( m_cache )
         {
             return m_cache.containsKey( key );
         }
@@ -86,7 +86,7 @@ public class SynchronizedCache
 
     public void clear()
     {
-        synchronized ( m_cache )
+        synchronized( m_cache )
         {
             m_cache.clear();
         }

@@ -53,7 +53,7 @@ public class TimeMapLRUPolicy
     public void remove( final Object key )
     {
         Long time = (Long)m_keyToTimeMap.remove( key );
-        if ( null != time )
+        if( null != time )
         {
             m_timeToKeyMap.remove( time );
         }
@@ -68,7 +68,7 @@ public class TimeMapLRUPolicy
 
     private Long getTime()
     {
-        synchronized ( m_lock )
+        synchronized( m_lock )
         {
             return new Long( m_time++ );
         }

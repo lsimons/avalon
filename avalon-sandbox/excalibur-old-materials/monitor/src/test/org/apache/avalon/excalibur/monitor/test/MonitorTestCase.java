@@ -8,33 +8,27 @@
 
 package org.apache.avalon.excalibur.monitor.test;
 
-import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentSelector;
-import org.apache.avalon.framework.logger.AbstractLoggable;
-
-import org.apache.avalon.excalibur.testcase.ExcaliburTestCase;
-import org.apache.avalon.excalibur.testcase.CascadingAssertionFailedError;
-import org.apache.avalon.excalibur.monitor.Monitor;
-import org.apache.avalon.excalibur.monitor.ActiveMonitor;
-import org.apache.avalon.excalibur.monitor.PassiveMonitor;
-import org.apache.avalon.excalibur.monitor.FileResource;
-
-import org.apache.log.Priority;
-
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
-
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.OutputStream;
 import java.io.Writer;
+import org.apache.avalon.excalibur.monitor.FileResource;
+import org.apache.avalon.excalibur.monitor.Monitor;
+import org.apache.avalon.excalibur.testcase.CascadingAssertionFailedError;
+import org.apache.avalon.excalibur.testcase.ExcaliburTestCase;
+import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.framework.component.ComponentException;
+import org.apache.avalon.framework.component.ComponentSelector;
+import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.log.Priority;
 
 /**
  * Junit TestCase for all the monitors in Excalibur.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: MonitorTestCase.java,v 1.7 2002/02/20 15:52:27 leif Exp $
+ * @version $Id: MonitorTestCase.java,v 1.8 2002/03/16 00:05:53 donaldp Exp $
  */
 public class MonitorTestCase extends ExcaliburTestCase
 {
@@ -44,7 +38,7 @@ public class MonitorTestCase extends ExcaliburTestCase
     public MonitorTestCase( String name )
     {
         super( name );
-        
+
         // Set the priority for default log output.
         m_logPriority = org.apache.log.Priority.INFO;
     }
@@ -57,14 +51,14 @@ public class MonitorTestCase extends ExcaliburTestCase
 
         try
         {
-            selector = (ComponentSelector) manager.lookup( Monitor.ROLE + "Selector" );
-            activeMonitor = (Monitor) selector.select( "active" );
+            selector = (ComponentSelector)manager.lookup( Monitor.ROLE + "Selector" );
+            activeMonitor = (Monitor)selector.select( "active" );
 
             internalTestProcedure( activeMonitor, true );
         }
-        catch ( ComponentException ce )
+        catch( ComponentException ce )
         {
-            if ( getLogger().isDebugEnabled() )
+            if( getLogger().isDebugEnabled() )
             {
                 getLogger().debug( "There was an error in the ActiveMonitor test", ce );
             }
@@ -73,9 +67,9 @@ public class MonitorTestCase extends ExcaliburTestCase
         }
         finally
         {
-            assertTrue(  "The monitor selector could not be retrieved.", null != selector );
+            assertTrue( "The monitor selector could not be retrieved.", null != selector );
 
-            selector.release( (Component) activeMonitor );
+            selector.release( (Component)activeMonitor );
             manager.release( selector );
         }
     }
@@ -88,14 +82,14 @@ public class MonitorTestCase extends ExcaliburTestCase
 
         try
         {
-            selector = (ComponentSelector) manager.lookup( Monitor.ROLE + "Selector" );
-            passiveMonitor = (Monitor) selector.select( "passive" );
+            selector = (ComponentSelector)manager.lookup( Monitor.ROLE + "Selector" );
+            passiveMonitor = (Monitor)selector.select( "passive" );
 
             internalTestProcedure( passiveMonitor, false );
         }
-        catch ( ComponentException ce )
+        catch( ComponentException ce )
         {
-            if ( getLogger().isDebugEnabled() )
+            if( getLogger().isDebugEnabled() )
             {
                 getLogger().debug( "There was an error in the PassiveMonitor test", ce );
             }
@@ -106,7 +100,7 @@ public class MonitorTestCase extends ExcaliburTestCase
         {
             assertTrue( "The monitor selector could not be retrieved.", null != selector );
 
-            selector.release( (Component) passiveMonitor );
+            selector.release( (Component)passiveMonitor );
             manager.release( selector );
         }
     }
@@ -139,7 +133,7 @@ public class MonitorTestCase extends ExcaliburTestCase
 
                 sleepTo = System.currentTimeMillis() + 1000L;
 
-                while( System.currentTimeMillis() < sleepTo && ( ! listener.hasBeenModified() ) )
+                while( System.currentTimeMillis() < sleepTo && ( !listener.hasBeenModified() ) )
                 {
                     try
                     {
@@ -173,7 +167,7 @@ public class MonitorTestCase extends ExcaliburTestCase
 
             sleepTo = System.currentTimeMillis() + 1000L;
 
-            while( System.currentTimeMillis() < sleepTo && ( ! listener.hasBeenModified() ) )
+            while( System.currentTimeMillis() < sleepTo && ( !listener.hasBeenModified() ) )
             {
                 try
                 {
@@ -205,7 +199,7 @@ public class MonitorTestCase extends ExcaliburTestCase
 
             sleepTo = System.currentTimeMillis() + 1000L;
 
-            while( System.currentTimeMillis() < sleepTo && ( ! listener.hasBeenModified() ) )
+            while( System.currentTimeMillis() < sleepTo && ( !listener.hasBeenModified() ) )
             {
                 try
                 {
@@ -257,17 +251,17 @@ public class MonitorTestCase extends ExcaliburTestCase
 
             if( getLogger().isInfoEnabled() )
             {
-                getLogger().info( "NOTIFICATION LATENCY: " + (System.currentTimeMillis() -
-                                   ((Long)propertyChangeEvent.getNewValue()).longValue()) +
-                                   "ms");
+                getLogger().info( "NOTIFICATION LATENCY: " + ( System.currentTimeMillis() -
+                                                               ( (Long)propertyChangeEvent.getNewValue() ).longValue() ) +
+                                  "ms" );
                 getLogger().info( "Received notification for " +
-                                  ((FileResource) propertyChangeEvent.getSource()).getResourceKey());
+                                  ( (FileResource)propertyChangeEvent.getSource() ).getResourceKey() );
                 getLogger().info( propertyChangeEvent.getPropertyName() +
                                   "\n  IS::" + (Long)propertyChangeEvent.getNewValue() +
                                   "\n  WAS::" + (Long)propertyChangeEvent.getOldValue() +
                                   "\n  TIME SINCE LAST MOD::" +
-                                  (((Long)propertyChangeEvent.getNewValue()).longValue() -
-                                  ((Long)propertyChangeEvent.getOldValue()).longValue()) );
+                                  ( ( (Long)propertyChangeEvent.getNewValue() ).longValue() -
+                                    ( (Long)propertyChangeEvent.getOldValue() ).longValue() ) );
             }
         }
     }
