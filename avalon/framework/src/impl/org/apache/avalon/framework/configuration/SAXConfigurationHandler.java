@@ -1,63 +1,20 @@
 /*
-
- ============================================================================
-                   The Apache Software License, Version 1.1
- ============================================================================
- 
- Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
- 
- Redistribution and use in source and binary forms, with or without modifica-
- tion, are permitted provided that the following conditions are met:
- 
- 1. Redistributions of  source code must  retain the above copyright  notice,
-    this list of conditions and the following disclaimer.
- 
- 2. Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
- 
- 3. The end-user documentation included with the redistribution, if any, must
-    include  the following  acknowledgment:  "This product includes  software
-    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
-    Alternately, this  acknowledgment may  appear in the software itself,  if
-    and wherever such third-party acknowledgments normally appear.
- 
- 4. The names "Jakarta", "Apache Avalon", "Avalon Excalibur", "Avalon
-    Framework" and "Apache Software Foundation"  must not be used to endorse
-    or promote products derived  from this  software without  prior written
-    permission. For written permission, please contact apache@apache.org.
- 
- 5. Products  derived from this software may not  be called "Apache", nor may
-    "Apache" appear  in their name,  without prior written permission  of the
-    Apache Software Foundation.
- 
- THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
- INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
- APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
- INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
- DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
- OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
- ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
- (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
- THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- 
- This software  consists of voluntary contributions made  by many individuals
- on  behalf of the Apache Software  Foundation and was  originally created by
- Stefano Mazzocchi  <stefano@apache.org>. For more  information on the Apache 
- Software Foundation, please see <http://www.apache.org/>.
- 
-*/
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included with this distribution in
+ * the LICENSE.txt file.
+ */
 package org.apache.avalon.framework.configuration;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
-import java.util.BitSet;
 
 /**
  * A SAXConfigurationHandler helps build Configurations out of sax events.
@@ -73,16 +30,16 @@ public class SAXConfigurationHandler
      * Likely number of nested configuration items. If more is
      * encountered the lists will grow automatically.
      */
-    private static final int EXPECTED_DEPTH  = 5;
-    private final ArrayList m_elements       = new ArrayList(EXPECTED_DEPTH);
-    private final ArrayList m_values         = new ArrayList(EXPECTED_DEPTH);
+    private static final int EXPECTED_DEPTH = 5;
+    private final ArrayList m_elements = new ArrayList( EXPECTED_DEPTH );
+    private final ArrayList m_values = new ArrayList( EXPECTED_DEPTH );
     /**
      * Contains true at index n if space in the configuration with
      * depth n is to be preserved.
      */
-    private final BitSet     m_preserveSpace = new BitSet();
-    private Configuration    m_configuration;
-    private Locator          m_locator;
+    private final BitSet m_preserveSpace = new BitSet();
+    private Configuration m_configuration;
+    private Locator m_locator;
 
     /**
      * Get the configuration object that was built.
@@ -130,7 +87,7 @@ public class SAXConfigurationHandler
         // of memory, but it's really not important enough to justify
         // resulting code complexity
         final int depth = m_values.size() - 1;
-        final StringBuffer valueBuffer = (StringBuffer) m_values.get( depth );
+        final StringBuffer valueBuffer = (StringBuffer)m_values.get( depth );
         valueBuffer.append( ch, start, end );
     }
 
@@ -149,15 +106,15 @@ public class SAXConfigurationHandler
     {
         final int depth = m_elements.size() - 1;
         final DefaultConfiguration finishedConfiguration =
-            (DefaultConfiguration) m_elements.remove( depth );
+            (DefaultConfiguration)m_elements.remove( depth );
         final String accumulatedValue =
-            ((StringBuffer) m_values.remove( depth )).toString();
+            ( (StringBuffer)m_values.remove( depth ) ).toString();
 
         if( finishedConfiguration.getChildren().length == 0 )
         {
             // leaf node
             String finishedValue;
-            if( m_preserveSpace.get(depth) )
+            if( m_preserveSpace.get( depth ) )
             {
                 finishedValue = accumulatedValue;
             }
@@ -229,7 +186,7 @@ public class SAXConfigurationHandler
             final DefaultConfiguration parent =
                 (DefaultConfiguration)m_elements.get( depth - 1 );
             parent.addChild( configuration );
-             // inherits parent's space preservation policy
+            // inherits parent's space preservation policy
             preserveSpace = m_preserveSpace.get( depth - 1 );
         }
 
@@ -243,7 +200,7 @@ public class SAXConfigurationHandler
             final String name = attributes.getQName( i );
             final String value = attributes.getValue( i );
 
-            if( ! name.equals( "xml:space" ))
+            if( !name.equals( "xml:space" ) )
             {
                 configuration.setAttribute( name, value );
             }
