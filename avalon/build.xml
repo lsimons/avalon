@@ -452,9 +452,9 @@ Legal:
 
     <copy todir="${dist.dir}">
       <fileset dir=".">
-        <include name="README"/>
+        <include name="README.txt"/>
         <include name="KEYS"/>
-        <include name="LICENSE"/>
+        <include name="LICENSE.txt"/>
       </fileset>
     </copy>
 
@@ -469,7 +469,7 @@ Legal:
 
     <copy todir="${src.dist.lib}">
       <fileset dir="${lib.dir}">
-        <include name="README" />
+        <include name="README.txt" />
       </fileset>
     </copy>
 
@@ -497,8 +497,9 @@ Legal:
     <filter token="year" value="${year}"/>
     <copy todir="${src.dist.dir}" filtering="on">
       <fileset dir=".">
-        <include name="README"/>
-        <include name="LICENSE"/>
+        <include name="README.txt"/>
+        <include name="BUILDING.txt"/>
+        <include name="LICENSE.txt"/>
         <include name="KEYS"/>
         <include name="ant.properties.sample"/>
         <include name="build.xml"/>
