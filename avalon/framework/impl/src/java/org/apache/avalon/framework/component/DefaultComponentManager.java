@@ -28,7 +28,7 @@ public class DefaultComponentManager
     private boolean                     m_readOnly;
 
     /**
-     * Construct ComponentManager with no parent.
+     * Construct ComponentLocator with no parent.
      *
      */
     public DefaultComponentManager()
@@ -37,7 +37,7 @@ public class DefaultComponentManager
     }
 
     /**
-     * Construct ComponentManager with specified parent.
+     * Construct ComponentLocator with specified parent.
      *
      * @param parent the ComponentManagers parent
      */
@@ -47,7 +47,7 @@ public class DefaultComponentManager
     }
 
     /**
-     * Retrieve Component by role from ComponentManager.
+     * Retrieve Component by role from ComponentLocator.
      *
      * @param role the role
      * @return the Component
@@ -97,7 +97,7 @@ public class DefaultComponentManager
     }
 
     /**
-     * Place Component into ComponentManager.
+     * Place Component into ComponentLocator.
      *
      * @param role the components role
      * @param component the component
@@ -115,14 +115,14 @@ public class DefaultComponentManager
      */
     public void release( final Component component )
     {
-        // if the ComponentManager handled pooling, it would be
+        // if the ComponentLocator handled pooling, it would be
         // returned to the pool here.
     }
 
     /**
-     * Build a human readable representation of ComponentManager.
+     * Build a human readable representation of ComponentLocator.
      *
-     * @return the description of ComponentManager
+     * @return the description of ComponentLocator
      */
     public String toString()
     {
@@ -143,7 +143,7 @@ public class DefaultComponentManager
     /**
      * Helper method for subclasses to retrieve parent.
      *
-     * @return the parent ComponentManager
+     * @return the parent ComponentLocator
      */
     protected final ComponentManager getParent()
     {
@@ -179,7 +179,7 @@ public class DefaultComponentManager
         if( m_readOnly )
         {
             throw new IllegalStateException
-                ( "ComponentManager is read only and can not be modified" );
+                ( "ComponentLocator is read only and can not be modified" );
         }
     }
 }

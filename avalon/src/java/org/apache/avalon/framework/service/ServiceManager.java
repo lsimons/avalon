@@ -38,7 +38,7 @@ package org.apache.avalon.framework.service;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
  * @version 1.0
- * @see org.apache.avalon.framework.service.Serviceable
+ * @see org.apache.avalon.framework.service.Composable
  * @see org.apache.avalon.framework.service.ServiceSelector
  *
  */
@@ -63,7 +63,7 @@ public interface ServiceManager
      *
      * @param role The role name of the <code>Object</code> to retrieve.
      * @return an <code>Object</code> value
-     * @throws ServiceException if an error occurs
+     * @throws ComponentException if an error occurs
      */
     Object lookup( String role )
         throws ServiceException;
@@ -81,7 +81,7 @@ public interface ServiceManager
      * allows the <code>ServiceManager</code> to handle the End-Of-Life Lifecycle
      * events associated with the <code>Object</code>.  Please note, that no
      * Exception should be thrown at this point.  This is to allow easy use of the
-     * ServiceManager system without having to trap Exceptions on a release.
+     * ComponentLocator system without having to trap Exceptions on a release.
      *
      * @param object The <code>Object</code> we are releasing.
      */

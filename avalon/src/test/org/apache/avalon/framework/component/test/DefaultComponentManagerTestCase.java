@@ -45,7 +45,7 @@ public final class DefaultComponentManagerTestCase
 
     public DefaultComponentManagerTestCase()
     {
-        this("DefaultComponentManager Test Case");
+        this("DefaultComponentLocator Test Case");
     }
 
     public DefaultComponentManagerTestCase( final String name )

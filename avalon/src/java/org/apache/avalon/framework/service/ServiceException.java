@@ -23,7 +23,7 @@ public class ServiceException
     extends CascadingException
 {
     /**
-     * Construct a new <code>ServiceException</code> instance.
+     * Construct a new <code>ComponentException</code> instance.
      *
      * @param message the exception message
      * @param throwable the throwable
@@ -34,7 +34,7 @@ public class ServiceException
     }
 
     /**
-     * Construct a new <code>ServiceException</code> instance.
+     * Construct a new <code>ComponentException</code> instance.
      *
      * @param message the exception message
      */
