@@ -35,6 +35,7 @@ import org.mortbay.util.MultiException;
 /** Wrapper for the Jetty HttpServer
  *
  * @avalon.component name="http-server" lifestyle="singleton"
+ * @avalon.service type="org.apache.avalon.http.HttpService"
  */
 public class HttpServerImpl extends HttpServer
     implements LogEnabled, Parameterizable, Startable, Disposable, HttpService

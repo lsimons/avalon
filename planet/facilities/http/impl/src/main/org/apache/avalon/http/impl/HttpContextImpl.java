@@ -97,23 +97,31 @@ public class HttpContextImpl
      * @avalon.dependency type="org.apache.avalon.http.HttpService"
      *                    key="server"
      * @avalon.dependency type="org.mortbay.http.Authenticator"
-     *                    key="authenticator"
+     *                    key="authenticator" optional="true"
      * @avalon.dependency type="org.mortbay.http.UserRealm"
-     *                    key="realm"
+     *                    key="realm" optional="true"
      * @avalon.dependency type="org.mortbay.http.RequestLog"
-     *                    key="request-log"
+     *                    key="request-log" 
      */
     public void service( ServiceManager man )
         throws ServiceException
     {
         m_HttpServer = (HttpService) man.lookup( "server" );
         
-        Authenticator auth = (Authenticator) man.lookup( "authenticator" );
-        m_HttpContext.setAuthenticator( auth );
+        try
+        {
+            Authenticator auth = (Authenticator) man.lookup( "authenticator" );
+            m_HttpContext.setAuthenticator( auth );
+        } catch( ServiceException e )
+        {} // ignore, quite ok.
         
-        UserRealm realm = (UserRealm) man.lookup( "realm" );
-        m_HttpContext.setRealm( realm );
-        m_HttpContext.setRealmName( realm.getName() ); // Is this necessary?
+        try
+        {
+            UserRealm realm = (UserRealm) man.lookup( "realm" );
+            m_HttpContext.setRealm( realm );
+            m_HttpContext.setRealmName( realm.getName() ); // Is this necessary?
+        } catch( ServiceException e )
+        {} // ignore, quite ok.
         
         RequestLog log = (RequestLog) man.lookup( "request-log" );
         m_HttpContext.setRequestLog( log );

@@ -51,9 +51,10 @@ import org.mortbay.http.HttpResponse;
  * @avalon.service type="org.mortbay.http.HttpHandler"
  */
 public class ModelHandler
-    implements Serviceable, Configurable, Contextualizable,
+    implements Serviceable, Configurable, Contextualizable, LogEnabled,
                HttpHandler, CompositionListener
 {
+    private Logger           m_Logger;
     private ContainmentModel m_Model;
     private HttpContext      m_Context;
     private String           m_Name;
@@ -62,6 +63,21 @@ public class ModelHandler
     public ModelHandler()
     {
         m_Started = false;
+    }
+    
+    /**
+     * Enable the logging system.
+     *
+     * @avalon.logger name="http"
+     */
+    public void enableLogging( Logger logger )
+    {
+        m_Logger = logger;
+    }
+    
+    public Logger getLogger()
+    {
+        return m_Logger;
     }
     
     /**
@@ -111,7 +127,7 @@ public class ModelHandler
     public void handle( String pathInContext, String pathParams, 
                         HttpRequest request, HttpResponse response ) 
     {
-        
+        getLogger().info( "Request: " + pathInContext + ", " + pathParams );
     }
 
     public void initialize( HttpContext context )

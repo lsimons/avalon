@@ -8,8 +8,14 @@
 
   <target name="build" depends="standard.build">
     <x:block name="http" embed="MAIN">
-      <x:component name="model-listener" 
-         class="org.apache.avalon.http.impl.DefaultModelListener"/>
+      <x:component name="server" 
+         class="org.apache.avalon.http.impl.HttpServerImpl"/>
+      <x:component name="socket8088" 
+         class="org.apache.avalon.http.impl.SocketListenerComponent">
+         <x:parameters>
+           <x:parameter name="port" value="8088" />
+         </x:parameters>
+      </x:component>
     </x:block>
   </target>
 
