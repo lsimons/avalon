@@ -23,8 +23,6 @@
     <path id="tools.class.path">
         <pathelement location="${junit.jar}"/>
         <pathelement location="${tools.jar}"/>
-        <fileset dir="${tools.dir}/lib"/>
-        <fileset dir="${tools.dir}/ext"/>
     </path>
 
     <path id="test.class.path">
