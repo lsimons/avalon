@@ -49,6 +49,7 @@
 */
 package org.apache.avalon.fortress.impl.role;
 
+import org.apache.avalon.fortress.RoleManager;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -59,11 +60,11 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * in the org.apache.avalon.component package.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/02/25 15:23:47 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/03/17 20:22:57 $
  * @since 4.1
  */
 public class ConfigurableRoleManager
-    extends org.apache.avalon.fortress.impl.role.AbstractRoleManager
+    extends AbstractRoleManager
     implements Configurable
 {
     /**
@@ -80,7 +81,7 @@ public class ConfigurableRoleManager
      *
      * @param parent  The parent <code>RoleManager</code>.
      */
-    public ConfigurableRoleManager( org.apache.avalon.fortress.RoleManager parent )
+    public ConfigurableRoleManager( RoleManager parent )
     {
         super( parent, null );
     }
@@ -92,7 +93,7 @@ public class ConfigurableRoleManager
      * @param parent The parent <code>RoleManager</code>.
      * @param loader the classloader
      */
-    public ConfigurableRoleManager( org.apache.avalon.fortress.RoleManager parent, ClassLoader loader )
+    public ConfigurableRoleManager( RoleManager parent, ClassLoader loader )
     {
         super( parent, loader );
     }
