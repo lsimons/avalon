@@ -15,18 +15,26 @@ package org.apache.avalon.phoenix.metadata;
 public final class BlockListenerMetaData
 {
     private final String m_name;
+    private final String m_implementationKey;
 
-    private final String m_classname;
-
-    public BlockListenerMetaData( final String name, final String classname )
+    public BlockListenerMetaData( final String name,
+                                  final String implementationKey )
     {
         m_name = name;
-        m_classname = classname;
+        m_implementationKey = implementationKey;
     }
 
+    public String getImplementationKey()
+    {
+        return m_implementationKey;
+    }
+
+    /**
+     * @deprecated Use getImplementationKey() instead.
+     */
     public String getClassname()
     {
-        return m_classname;
+        return getImplementationKey();
     }
 
     public String getName()

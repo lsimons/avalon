@@ -23,6 +23,7 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.phoenix.components.ContainerConstants;
 import org.apache.avalon.phoenix.components.util.ResourceUtil;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
@@ -30,8 +31,8 @@ import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.ManagerException;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
-import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
+import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
 import org.apache.excalibur.threadcontext.ThreadContext;
 import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
 
@@ -68,8 +69,9 @@ class DefaultApplicationContext
 
     private SystemManager m_blockManager;
 
-    private final SarMetaData m_metaData;
+    private final PartitionProfile m_profile;
     private final File m_workDirectory;
+    private final File m_homeDirectory;
 
     /**
      * The map containing all the named loaders.
@@ -81,15 +83,16 @@ class DefaultApplicationContext
      */
     private Kernel m_kernel;
 
-    protected DefaultApplicationContext( final SarMetaData metaData,
+    protected DefaultApplicationContext( final PartitionProfile profile,
+                                         final File homeDirectory,
                                          final File workDirectory,
                                          final ClassLoader classLoader,
                                          final Logger hierarchy,
                                          final Map loaders )
     {
-        if( null == metaData )
+        if( null == profile )
         {
-            throw new NullPointerException( "metaData" );
+            throw new NullPointerException( "profile" );
         }
         if( null == classLoader )
         {
@@ -103,11 +106,15 @@ class DefaultApplicationContext
         {
             throw new NullPointerException( "workDirectory" );
         }
-
-        m_metaData = metaData;
+        if( null == homeDirectory )
+        {
+            throw new NullPointerException( "homeDirectory" );
+        }
+        m_profile = profile;
         m_classLoader = classLoader;
         m_hierarchy = hierarchy;
         m_workDirectory = workDirectory;
+        m_homeDirectory = homeDirectory;
         m_loaders = loaders;
 
         final DefaultThreadContextPolicy policy = new DefaultThreadContextPolicy();
@@ -138,7 +145,7 @@ class DefaultApplicationContext
     {
         final File file =
             ResourceUtil.getFileForResource( name,
-                                             m_metaData.getHomeDirectory(),
+                                             getHomeDirectory(),
                                              m_workDirectory );
         if( !file.exists() )
         {
@@ -158,9 +165,9 @@ class DefaultApplicationContext
         }
     }
 
-    public SarMetaData getMetaData()
+    public PartitionProfile getPartitionProfile()
     {
-        return m_metaData;
+        return m_profile;
     }
 
     public ThreadContext getThreadContext()
@@ -189,15 +196,20 @@ class DefaultApplicationContext
             //return and do whatever it needs to be
             //done
             Thread.sleep( 2 );
-            m_kernel.removeApplication( m_metaData.getName() );
+            m_kernel.removeApplication( getName() );
         }
         catch( Exception e )
         {
             final String message =
                 REZ.getString( "applicationcontext.error.noremove",
-                               m_metaData.getName() );
+                               getName() );
             getLogger().error( message, e );
         }
+    }
+
+    public File getHomeDirectory()
+    {
+        return m_homeDirectory;
     }
 
     /**
@@ -260,15 +272,18 @@ class DefaultApplicationContext
         throws ConfigurationException
     {
         final Configuration configuration =
-            m_repository.getConfiguration( m_metaData.getName(),
+            m_repository.getConfiguration( getName(),
                                            component );
 
         //no validation of listeners just yet..
-        if( hasBlockListener( component, this.m_metaData.getListeners() ) )
+        final PartitionMetaData partition =
+            m_profile.getMetaData().getPartition( ContainerConstants.LISTENER_PARTITION );
+        final boolean isListener = null != partition.getComponent( component );
+        if( isListener )
         {
             return configuration;
         }
-        else if( m_validator.isValid( m_metaData.getName(),
+        else if( m_validator.isValid( getName(),
                                       component,
                                       configuration ) )
         {
@@ -299,27 +314,6 @@ class DefaultApplicationContext
     }
 
     /**
-     * Return true if specified array contains entry with specified name.
-     *
-     * @param name the blocks name
-     * @param listeners the set of BlockListenerMetaData objects to search
-     * @return true if block present, false otherwise
-     */
-    private boolean hasBlockListener( final String name,
-                                      final BlockListenerMetaData[] listeners )
-    {
-        for( int i = 0; i < listeners.length; i++ )
-        {
-            if( listeners[ i ].getName().equals( name ) )
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      *  Returns the local SystemManager where the blocks should be registered
      *  for management.
      *
@@ -330,6 +324,11 @@ class DefaultApplicationContext
     {
         final SystemManager appContext =
             m_systemManager.getSubContext( null, "application" );
-        return appContext.getSubContext( m_metaData.getName(), "block" );
+        return appContext.getSubContext( getName(), "block" );
+    }
+
+    private String getName()
+    {
+        return m_profile.getMetaData().getName();
     }
 }

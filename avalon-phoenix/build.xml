@@ -480,6 +480,7 @@ Legal:
         <copy todir="${bin.dist.lib}">
             <fileset dir="${lib.dir}">
                 <include name="excalibur*.jar"/>
+                <include name="sandbox-info-*.jar"/>                
             </fileset>
             <fileset dir="${lib.dir}/jing">
                 <include name="*.jar"/>

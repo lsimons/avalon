@@ -9,10 +9,10 @@ package org.apache.avalon.phoenix.components.util;
 
 import java.util.ArrayList;
 import org.apache.avalon.framework.Version;
-import org.apache.avalon.framework.info.Attribute;
 import org.apache.avalon.framework.info.ComponentDescriptor;
 import org.apache.avalon.framework.info.ComponentInfo;
-import org.apache.avalon.framework.info.FeatureDescriptor;
+import org.apache.avalon.framework.info.SchemaDescriptor;
+import org.apache.avalon.framework.tools.infobuilder.LegacyUtil;
 import org.apache.avalon.phoenix.metainfo.BlockDescriptor;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
@@ -22,7 +22,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * Convert a {@link ComponentInfo} into a {@link BlockInfo}.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2002/12/09 17:09:59 $
+ * @version $Revision: 1.9 $ $Date: 2003/01/25 15:47:17 $
  */
 public class ComponentInfoConverter
 {
@@ -38,12 +38,9 @@ public class ComponentInfoConverter
      */
     public static BlockInfo toBlockInfo( final ComponentInfo component )
     {
-        final BlockDescriptor descriptor =
-            toBlockDescriptor( component );
-        final ServiceDescriptor[] services =
-            toPhoenixServices( component.getServices() );
-        final ServiceDescriptor[] mxServices =
-            getMXServices( component.getServices() );
+        final BlockDescriptor descriptor = toBlockDescriptor( component );
+        final ServiceDescriptor[] services = toPhoenixServices( component.getServices() );
+        final ServiceDescriptor[] mxServices = getMXServices( component.getServices() );
         final DependencyDescriptor[] dependencys =
             toPhoenixDependencys( component.getDependencies() );
 
@@ -65,8 +62,7 @@ public class ComponentInfoConverter
         final ArrayList serviceSet = new ArrayList();
         for( int i = 0; i < services.length; i++ )
         {
-            final Attribute tag = services[ i ].getAttribute( "mx" );
-            if( null != tag )
+            if( LegacyUtil.isMxService( services[ i ] ) )
             {
                 serviceSet.add( toPhoenixService( services[ i ] ) );
             }
@@ -86,7 +82,10 @@ public class ComponentInfoConverter
         final ArrayList serviceSet = new ArrayList();
         for( int i = 0; i < services.length; i++ )
         {
-            serviceSet.add( toPhoenixService( services[ i ] ) );
+            if( !LegacyUtil.isMxService( services[ i ] ) )
+            {
+                serviceSet.add( toPhoenixService( services[ i ] ) );
+            }
         }
         return (ServiceDescriptor[])serviceSet.toArray( new ServiceDescriptor[ serviceSet.size() ] );
     }
@@ -100,9 +99,8 @@ public class ComponentInfoConverter
     private static ServiceDescriptor toPhoenixService(
         final org.apache.avalon.framework.info.ServiceDescriptor service )
     {
-        final Version version = toVersion( service );
-        final String classname = service.getType();
-        return new ServiceDescriptor( classname, version );
+        final Version version = LegacyUtil.toVersion( service );
+        return new ServiceDescriptor( service.getType(), version );
     }
 
     /**
@@ -131,7 +129,7 @@ public class ComponentInfoConverter
     private static DependencyDescriptor toPhoenixDependency(
         final org.apache.avalon.framework.info.DependencyDescriptor dependency )
     {
-        final Version version = toVersion( dependency );
+        final Version version = LegacyUtil.toVersion( dependency );
         final ServiceDescriptor service =
             new ServiceDescriptor( dependency.getType(), version );
         return new DependencyDescriptor( dependency.getKey(), service );
@@ -146,39 +144,18 @@ public class ComponentInfoConverter
     private static BlockDescriptor toBlockDescriptor( final ComponentInfo component )
     {
         final ComponentDescriptor descriptor = component.getDescriptor();
-        final Version version = toVersion( descriptor );
+        final Version version = LegacyUtil.toVersion( descriptor );
 
-        //FIXME: Assuming that getSchema is replaced with getConfigurationSchema. /LS
-        String schemaType = component.getConfigurationSchema().getType();
-        if( "".equals( schemaType ) )
+        final SchemaDescriptor schema = component.getConfigurationSchema();
+        String schemaType = null;
+        if( null != schema )
         {
-            schemaType = null;
+            schemaType = schema.getType();
         }
 
         return new BlockDescriptor( null,
                                     descriptor.getImplementationKey(),
                                     schemaType,
                                     version );
-    }
-
-    /**
-     * Create a version for a feature. Defaults to 1.0 if not specified.
-     *
-     * @param feature the feature
-     * @return the Version object
-     */
-    private static Version toVersion( final FeatureDescriptor feature )
-    {
-        final Attribute tag = feature.getAttribute( "avalon" );
-        Version version = new Version( 1, 0, 0 );
-        if( null != tag )
-        {
-            final String versionString = tag.getParameter( "version" );
-            if( null != versionString )
-            {
-                version = Version.getVersion( versionString );
-            }
-        }
-        return version;
     }
 }

@@ -7,81 +7,72 @@
  */
 package org.apache.avalon.phoenix.tools.metagenerate;
 
-import com.thoughtworks.qdox.ant.AbstractQdoxTask;
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
-import java.io.File;
 import java.io.IOException;
+import java.io.File;
+import org.apache.avalon.framework.tools.ant.FormatEnum;
 import org.apache.tools.ant.BuildException;
 
 /**
  * MetaInfo Generation Ant Taskdef
-  * @author Paul Hammant
+ * @author Paul Hammant
  */
-public class MetaGenerateTask extends AbstractQdoxTask
+public class MetaGenerateTask
+    extends org.apache.avalon.framework.tools.ant.MetaGenerateTask
 {
-
-    private File m_destDir;
-    private boolean m_inheritance = true;
-
-    /**
-     * Execute
-     */
-    public void execute()
-    {
-        super.execute();
-        try
-        {
-            m_destDir.mkdirs();
-            outputClasses();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            throw new BuildException("IOException " + e.getMessage());
-        }
-    }
-
-    /**
-     * Set the desitation
-     * @param destinationDir The destination directory
-     */
-    public void setDest(File destinationDir)
-    {
-        m_destDir = destinationDir;
-    }
+    //private boolean m_inheritance = true;
 
     /**
      * Inheritence : should parent classes of blocks be queried too?
      * @param inheritance
      */
-    public void setInheritance(boolean inheritance)
+    public void setInheritance( boolean inheritance )
     {
-        m_inheritance = inheritance;
+        //TODO: Do inheritance based on markup rather than based on task run
+        //m_inheritance = inheritance;
+    }
+
+    public void setDest( File destDir )
+    {
+        super.setDestDir( destDir );
+    }
+
+    public void execute()
+        throws BuildException
+    {
+        final FormatEnum format = new FormatEnum();
+        format.setValue( "legacy" );
+        setFormat( format);
+        super.execute();
+        outputClasses();
     }
 
     /**
      * Output the classes
-     * @throws IOException If a problem writing output
+     *
+     * @throws BuildException If a problem writing output
      */
-    protected void outputClasses() throws IOException
+    private void outputClasses()
+        throws BuildException
     {
-
-        for (int i = 0; i < allClasses.size(); i++)
+        final int size = allClasses.size();
+        for( int i = 0; i < size; i++ )
         {
-            JavaClass javaClass = (JavaClass) allClasses.get(i);
-            DocletTag block = javaClass.getTagByName("phoenix:block");
-            if (block != null)
+            final JavaClass javaClass = (JavaClass)allClasses.get( i );
+            final DocletTag topic = javaClass.getTagByName( "phoenix:mx-topic" );
+            if( topic != null )
             {
-                XinfoFactory factory = new XinfoFactory(m_destDir, javaClass,
-                        allClasses, m_inheritance);
-                factory.generate();
-            }
-            DocletTag topic = javaClass.getTagByName("phoenix:mx-topic");
-            if (topic != null)
-            {
-                MxinfoFactory factory = new MxinfoFactory(m_destDir, javaClass);
-                factory.generate();
+                final MxinfoFactory factory =
+                    new MxinfoFactory( getDestDir(), javaClass );
+                try
+                {
+                    factory.generate();
+                }
+                catch( final IOException ioe )
+                {
+                    throw new BuildException( ioe.getMessage(), ioe );
+                }
             }
         }
     }

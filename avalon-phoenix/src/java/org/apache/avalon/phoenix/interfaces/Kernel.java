@@ -10,7 +10,7 @@ package org.apache.avalon.phoenix.interfaces;
 import java.io.File;
 import java.util.Map;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
 
 /**
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
@@ -22,8 +22,8 @@ public interface Kernel
     /**
      * Adds an application to the container
      */
-    void addApplication( SarMetaData metaData,
-                         File workDirectory,
+    void addApplication( PartitionProfile profile,
+                         File homeDirectory, File workDirectory,
                          ClassLoader classLoader,
                          Logger logger,
                          Map classloaders )

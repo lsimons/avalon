@@ -11,8 +11,10 @@ import org.apache.avalon.phoenix.ApplicationEvent;
 import org.apache.avalon.phoenix.ApplicationListener;
 import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.avalon.phoenix.BlockListener;
-import org.apache.avalon.phoenix.metadata.BlockMetaData;
+import org.apache.avalon.phoenix.metainfo.BlockInfo;
+import org.apache.avalon.phoenix.components.util.ComponentInfoConverter;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
 
 /**
  * Manage a set of {@link ApplicationListener} objects and propogate
@@ -75,11 +77,12 @@ final class ListenerSupport
      */
     private BlockEvent createEvent( final BlockEntry entry )
     {
-        final BlockMetaData metaData = entry.getMetaData();
+        final ComponentProfile profile = entry.getProfile();
+        final BlockInfo blockInfo = ComponentInfoConverter.toBlockInfo( profile.getInfo() );
         final BlockEvent event =
-            new BlockEvent( metaData.getName(),
+            new BlockEvent( profile.getMetaData().getName(),
                             entry.getProxy(),
-                            metaData.getBlockInfo() );
+                            blockInfo );
         return event;
     }
 

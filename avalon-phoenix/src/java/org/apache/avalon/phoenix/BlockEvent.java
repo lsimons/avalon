@@ -21,9 +21,7 @@ public final class BlockEvent
     extends EventObject
 {
     private final String m_name;
-
     private final Object m_block;
-
     private final BlockInfo m_blockInfo;
 
     /**
@@ -41,15 +39,15 @@ public final class BlockEvent
 
         if( null == name )
         {
-            throw new NullPointerException( "name property is null" );
+            throw new NullPointerException( "name" );
         }
         if( null == block )
         {
-            throw new NullPointerException( "block property is null" );
+            throw new NullPointerException( "block" );
         }
         if( null == blockInfo )
         {
-            throw new NullPointerException( "blockInfo property is null" );
+            throw new NullPointerException( "blockInfo" );
         }
 
         m_name = name;
@@ -86,7 +84,7 @@ public final class BlockEvent
      */
     public Block getBlock()
     {
-        return (Block)m_block;
+        return (Block)getObject();
     }
 
     /**

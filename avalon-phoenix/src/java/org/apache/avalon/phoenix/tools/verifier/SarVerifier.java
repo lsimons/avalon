@@ -7,29 +7,18 @@
  */
 package org.apache.avalon.phoenix.tools.verifier;
 
-import java.util.ArrayList;
-import java.util.Stack;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.component.Composable;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.framework.parameters.Parameterizable;
-import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.tools.verifier.InfoVerifier;
+import org.apache.avalon.framework.tools.verifier.VerifyException;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockListener;
-import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
-import org.apache.avalon.phoenix.metadata.BlockMetaData;
-import org.apache.avalon.phoenix.metadata.DependencyMetaData;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
-import org.apache.avalon.phoenix.metainfo.BlockInfo;
-import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
-import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
+import org.apache.avalon.phoenix.components.ContainerConstants;
+import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
+import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
+import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
+import org.apache.avalon.phoenix.containerkit.verifier.AssemblyVerifier;
 
 /**
  * This Class verifies that Sars are valid. It performs a number
@@ -57,67 +46,51 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * </ul>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.29 $ $Date: 2002/09/15 02:07:31 $
+ * @version $Revision: 1.30 $ $Date: 2003/01/25 15:47:18 $
  */
 public class SarVerifier
-    extends AbstractLogEnabled
+    extends AssemblyVerifier
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( SarVerifier.class );
 
-    private static final Class[] FRAMEWORK_CLASSES = new Class[]
+    private final InfoVerifier m_infoVerifier = new InfoVerifier();
+
+    public void enableLogging( final Logger logger )
     {
-        LogEnabled.class,
-        Contextualizable.class,
-        Composable.class,
-        Serviceable.class,
-        Configurable.class,
-        Parameterizable.class,
-        Initializable.class,
-        Startable.class,
-        Disposable.class
-    };
+        super.enableLogging( logger );
+        m_infoVerifier.enableLogging( logger );
+    }
 
     /**
-     * Verify the specified {@link SarMetaData} object.
-     * The rules used to verify {@link SarMetaData} are specified
+     * Verify the specified {@link PartitionProfile} object.
+     * The rules used to verify {@link PartitionProfile} are specified
      * in the Class javadocs.
      *
-     * @param sar the SarMetaDat object
-     * @param classLoader the ClassLoader used to load types. This is used
-     *                    to verify that specified Class objects exist and
-     *                    implement the correct interfaces.
+     * @param profile the Sar profile
      * @throws VerifyException if an error occurs
      */
-    public void verifySar( final SarMetaData sar, final ClassLoader classLoader )
+    public void verifySar( final PartitionProfile profile,
+                           final ClassLoader classLoader )
         throws VerifyException
     {
-        final BlockMetaData[] blocks = sar.getBlocks();
-        final BlockListenerMetaData[] listeners = sar.getListeners();
+        final ComponentProfile[] blocks =
+            profile.getPartition( ContainerConstants.BLOCK_PARTITION ).getComponents();
+        final ComponentProfile[] listeners =
+            profile.getPartition( ContainerConstants.LISTENER_PARTITION ).getComponents();
 
         String message = null;
 
         message = REZ.getString( "verify-valid-names" );
         getLogger().info( message );
-        verifySarName( sar.getName() );
-        verifyValidNames( blocks );
+        verifySarName( profile.getMetaData().getName() );
         verifyValidNames( listeners );
+
+        super.verifyAssembly( blocks );
 
         message = REZ.getString( "verify-unique-names" );
         getLogger().info( message );
         checkNamesUnique( blocks, listeners );
-
-        message = REZ.getString( "verify-dependencies-mapping" );
-        getLogger().info( message );
-        verifyValidDependencies( blocks );
-
-        message = REZ.getString( "verify-dependency-references" );
-        getLogger().info( message );
-        verifyDependencyReferences( blocks );
-
-        message = REZ.getString( "verify-nocircular-dependencies" );
-        getLogger().info( message );
-        verifyNoCircularDependencies( blocks );
 
         message = REZ.getString( "verify-block-type" );
         getLogger().info( message );
@@ -129,216 +102,14 @@ public class SarVerifier
     }
 
     /**
-     * Verfiy that all Blocks have the needed dependencies specified correctly.
-     *
-     * @param blocks the BlockMetaData objects for the blocks
-     * @throws VerifyException if an error occurs
-     */
-    private void verifyValidDependencies( final BlockMetaData[] blocks )
-        throws VerifyException
-    {
-        for( int i = 0; i < blocks.length; i++ )
-        {
-            verifyDependenciesMap( blocks[ i ] );
-        }
-    }
-
-    /**
-     * Verfiy that there are no circular references between Blocks.
-     *
-     * @param blocks the BlockMetaData objects for the blocks
-     * @throws VerifyException if an error occurs
-     */
-    private void verifyNoCircularDependencies( final BlockMetaData[] blocks )
-        throws VerifyException
-    {
-        for( int i = 0; i < blocks.length; i++ )
-        {
-            final BlockMetaData block = blocks[ i ];
-
-            final Stack stack = new Stack();
-            stack.push( block );
-            verifyNoCircularDependencies( block, blocks, stack );
-            stack.pop();
-        }
-    }
-
-    /**
-     * Verfiy that there are no circular references between Blocks.
-     *
-     * @param blocks the BlockMetaData objects for the blocks
-     * @throws VerifyException if an error occurs
-     */
-    private void verifyNoCircularDependencies( final BlockMetaData block,
-                                               final BlockMetaData[] blocks,
-                                               final Stack stack )
-        throws VerifyException
-    {
-        final BlockMetaData[] dependencies = getDependencies( block, blocks );
-
-        for( int i = 0; i < dependencies.length; i++ )
-        {
-            final BlockMetaData dependency = dependencies[ i ];
-            if( stack.contains( dependency ) )
-            {
-                final String trace = getDependencyTrace( dependency, stack );
-                final String message =
-                    REZ.getString( "dependency-circular", block.getName(), trace );
-                throw new VerifyException( message );
-            }
-
-            stack.push( dependency );
-            verifyNoCircularDependencies( dependency, blocks, stack );
-            stack.pop();
-        }
-    }
-
-    /**
-     * Get a string defining path from top of stack till it reaches specified block.
-     *
-     * @param block the block
-     * @param stack the Stack
-     * @return the path of dependency
-     */
-    private String getDependencyTrace( final BlockMetaData block,
-                                       final Stack stack )
-    {
-        final StringBuffer sb = new StringBuffer();
-        sb.append( "[ " );
-
-        final String name = block.getName();
-        final int size = stack.size();
-        final int top = size - 1;
-        for( int i = top; i >= 0; i-- )
-        {
-            final BlockMetaData other = (BlockMetaData)stack.get( i );
-            if( top != i )
-            {
-                sb.append( ", " );
-            }
-            sb.append( other.getName() );
-
-            if( other.getName().equals( name ) )
-            {
-                break;
-            }
-        }
-
-        sb.append( ", " );
-        sb.append( name );
-
-        sb.append( " ]" );
-        return sb.toString();
-    }
-
-    /**
-     * Get array of dependencies for specified Block from specified Block array.
-     *
-     * @param block the block to get dependencies of
-     * @param blocks the total set of blocks in application
-     * @return the dependencies of block
-     */
-    private BlockMetaData[] getDependencies( final BlockMetaData block,
-                                             final BlockMetaData[] blocks )
-    {
-        final ArrayList dependencies = new ArrayList();
-        final DependencyMetaData[] deps = block.getDependencies();
-
-        for( int i = 0; i < deps.length; i++ )
-        {
-            final String name = deps[ i ].getName();
-            final BlockMetaData other = getBlock( name, blocks );
-            dependencies.add( other );
-        }
-
-        return (BlockMetaData[])dependencies.toArray( new BlockMetaData[ 0 ] );
-    }
-
-    /**
-     * Verfiy that the inter-Block dependencies are valid.
-     *
-     * @param blocks the BlockMetaData objects for the blocks
-     * @throws VerifyException if an error occurs
-     */
-    private void verifyDependencyReferences( final BlockMetaData[] blocks )
-        throws VerifyException
-    {
-        for( int i = 0; i < blocks.length; i++ )
-        {
-            verifyDependencyReferences( blocks[ i ], blocks );
-        }
-    }
-
-    /**
-     * Verfiy that the inter-Block dependencies are valid for specified Block.
-     *
-     * @param block the BlockMetaData object for the block
-     * @param others the BlockMetaData objects for the other blocks
-     * @throws VerifyException if an error occurs
-     */
-    private void verifyDependencyReferences( final BlockMetaData block,
-                                             final BlockMetaData[] others )
-        throws VerifyException
-    {
-        final BlockInfo info = block.getBlockInfo();
-        final DependencyMetaData[] roles = block.getDependencies();
-
-        for( int i = 0; i < roles.length; i++ )
-        {
-            final String blockName = roles[ i ].getName();
-            final String roleName = roles[ i ].getRole();
-            final ServiceDescriptor service =
-                info.getDependency( roleName ).getService();
-
-            //Get the other block that is providing service
-            final BlockMetaData other = getBlock( blockName, others );
-            if( null == other )
-            {
-                final String message =
-                    REZ.getString( "dependency-noblock", blockName, block.getName() );
-                throw new VerifyException( message );
-            }
-
-            //make sure that the block offers service
-            //that user expects it to be providing
-            final ServiceDescriptor[] services = other.getBlockInfo().getServices();
-            if( !hasMatchingService( service, services ) )
-            {
-                final String message =
-                    REZ.getString( "dependency-noservice", blockName, service, block.getName() );
-                throw new VerifyException( message );
-            }
-        }
-    }
-
-    /**
-     * Get Block with specified name from specified Block array.
-     *
-     * @param name the name of block to get
-     * @param blocks the array of Blocks to search
-     * @return the Block if found, else null
-     */
-    private BlockMetaData getBlock( final String name, final BlockMetaData[] blocks )
-    {
-        for( int i = 0; i < blocks.length; i++ )
-        {
-            if( blocks[ i ].getName().equals( name ) )
-            {
-                return blocks[ i ];
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * Verfiy that all Blocks specify classes that implement the
      * advertised interfaces.
      *
-     * @param blocks the BlockMetaData objects for the blocks
+     * @param blocks the ComponentProfile objects for the blocks
      * @throws VerifyException if an error occurs
      */
-    private void verifyBlocksType( final BlockMetaData[] blocks, final ClassLoader classLoader )
+    private void verifyBlocksType( final ComponentProfile[] blocks,
+                                   final ClassLoader classLoader )
         throws VerifyException
     {
         for( int i = 0; i < blocks.length; i++ )
@@ -354,50 +125,45 @@ public class SarVerifier
      * @param block the BlockMetaData object for the blocks
      * @throws VerifyException if an error occurs
      */
-    private void verifyBlockType( final BlockMetaData block, final ClassLoader classLoader )
+    private void verifyBlockType( final ComponentProfile block,
+                                  final ClassLoader classLoader )
         throws VerifyException
     {
-        final String name = block.getName();
-        final String classname = block.getImplementationKey();
-        Class clazz = null;
-        try
-        {
-            clazz = classLoader.loadClass( classname );
-        }
-        catch( final Exception e )
-        {
-            final String message = REZ.getString( "bad-block-class",
-                                                  name,
-                                                  classname,
-                                                  e.getMessage() );
-            throw new VerifyException( message );
-        }
+        final ComponentMetaData metaData = block.getMetaData();
+        final Class clazz = loadClass( "block", metaData, classLoader );
 
-        final Class[] interfaces =
-            getServiceClasses( name,
-                               block.getBlockInfo().getServices(),
-                               classLoader );
-
-        for( int i = 0; i < interfaces.length; i++ )
-        {
-            if( !interfaces[ i ].isAssignableFrom( clazz ) )
-            {
-                final String message = REZ.getString( "block-noimpl-service",
-                                                      name,
-                                                      classname,
-                                                      interfaces[ i ].getName() );
-                throw new VerifyException( message );
-            }
-        }
+        m_infoVerifier.verifyType( metaData.getName(),
+                                   metaData.getImplementationKey(),
+                                   block.getInfo(),
+                                   classLoader );
 
         if( Block.class.isAssignableFrom( clazz ) )
         {
             final String message =
                 REZ.getString( "verifier.implements-block.error",
-                               name,
-                               classname );
+                               metaData.getName(),
+                               metaData.getImplementationKey() );
             getLogger().error( message );
             System.err.println( message );
+        }
+    }
+
+    private Class loadClass( final String type,
+                             final ComponentMetaData metaData,
+                             final ClassLoader classLoader )
+        throws VerifyException
+    {
+        try
+        {
+            return classLoader.loadClass( metaData.getImplementationKey() );
+        }
+        catch( final Exception e )
+        {
+            final String message = REZ.getString( "bad-" + type + "-class",
+                                                  metaData.getName(),
+                                                  metaData.getImplementationKey(),
+                                                  e.getMessage() );
+            throw new VerifyException( message );
         }
     }
 
@@ -407,7 +173,7 @@ public class SarVerifier
      * @param listeners the BlockListenerMetaData objects for the listeners
      * @throws VerifyException if an error occurs
      */
-    private void verifyListenersType( final BlockListenerMetaData[] listeners,
+    private void verifyListenersType( final ComponentProfile[] listeners,
                                       final ClassLoader classLoader )
         throws VerifyException
     {
@@ -423,30 +189,18 @@ public class SarVerifier
      * @param listener the BlockListenerMetaData object for the listener
      * @throws VerifyException if an error occurs
      */
-    private void verifyListenerType( final BlockListenerMetaData listener,
+    private void verifyListenerType( final ComponentProfile listener,
                                      final ClassLoader classLoader )
         throws VerifyException
     {
-        Class clazz = null;
-        try
-        {
-            clazz = classLoader.loadClass( listener.getClassname() );
-        }
-        catch( final Exception e )
-        {
-            final String message =
-                REZ.getString( "bad-listener-class",
-                               listener.getName(),
-                               listener.getClassname(),
-                               e.getMessage() );
-            throw new VerifyException( message, e );
-        }
-
+        final ComponentMetaData metaData = listener.getMetaData();
+        final Class clazz = loadClass( "listener", metaData, classLoader );
         if( !BlockListener.class.isAssignableFrom( clazz ) )
         {
-            final String message = REZ.getString( "listener-noimpl-listener",
-                                                  listener.getName(),
-                                                  listener.getClassname() );
+            final String message =
+                REZ.getString( "listener-noimpl-listener",
+                               metaData,
+                               metaData );
             throw new VerifyException( message );
         }
     }
@@ -468,53 +222,13 @@ public class SarVerifier
     }
 
     /**
-     * Verify that the names of the specified blocks are valid.
-     *
-     * @param blocks the Blocks
-     * @throws VerifyException if an error occurs
-     */
-    private void verifyValidNames( final BlockMetaData[] blocks )
-        throws VerifyException
-    {
-        for( int i = 0; i < blocks.length; i++ )
-        {
-            final String name = blocks[ i ].getName();
-            if( !isValidName( name ) )
-            {
-                final String message = REZ.getString( "invalid-block-name", name );
-                throw new VerifyException( message );
-            }
-        }
-    }
-
-    /**
-     * Verify that the names of the specified listeners are valid.
-     *
-     * @param listeners the listeners
-     * @throws VerifyException if an error occurs
-     */
-    private void verifyValidNames( final BlockListenerMetaData[] listeners )
-        throws VerifyException
-    {
-        for( int i = 0; i < listeners.length; i++ )
-        {
-            final String name = listeners[ i ].getName();
-            if( !isValidName( name ) )
-            {
-                final String message = REZ.getString( "invalid-listener-name", name );
-                throw new VerifyException( message );
-            }
-        }
-    }
-
-    /**
      * Return true if specified name is valid.
      * Valid names consist of letters, digits or the '-' & '.' characters.
      *
      * @param name the name to check
      * @return true if valid, false otherwise
      */
-    private boolean isValidName( final String name )
+    public boolean isValidName( final String name )
     {
         final int size = name.length();
         for( int i = 0; i < size; i++ )
@@ -539,19 +253,19 @@ public class SarVerifier
      * @param listeners the listeners
      * @throws VerifyException if an error occurs
      */
-    private void checkNamesUnique( final BlockMetaData[] blocks,
-                                   final BlockListenerMetaData[] listeners )
+    private void checkNamesUnique( final ComponentProfile[] blocks,
+                                   final ComponentProfile[] listeners )
         throws VerifyException
     {
         for( int i = 0; i < blocks.length; i++ )
         {
-            final String name = blocks[ i ].getName();
+            final String name = blocks[ i ].getMetaData().getName();
             checkNameUnique( name, blocks, listeners, i, -1 );
         }
 
         for( int i = 0; i < listeners.length; i++ )
         {
-            final String name = listeners[ i ].getName();
+            final String name = listeners[ i ].getMetaData().getName();
             checkNameUnique( name, blocks, listeners, -1, i );
         }
     }
@@ -570,8 +284,8 @@ public class SarVerifier
      * @throws VerifyException if an error occurs
      */
     private void checkNameUnique( final String name,
-                                  final BlockMetaData[] blocks,
-                                  final BlockListenerMetaData[] listeners,
+                                  final ComponentProfile[] blocks,
+                                  final ComponentProfile[] listeners,
                                   final int blockIndex,
                                   final int listenerIndex )
         throws VerifyException
@@ -579,7 +293,7 @@ public class SarVerifier
         //Verify no blocks have the same name
         for( int i = 0; i < blocks.length; i++ )
         {
-            final String other = blocks[ i ].getName();
+            final String other = blocks[ i ].getMetaData().getName();
             if( blockIndex != i && name.equals( other ) )
             {
                 final String message = REZ.getString( "duplicate-name", name );
@@ -590,157 +304,12 @@ public class SarVerifier
         //Verify no listeners have the same name
         for( int i = 0; i < listeners.length; i++ )
         {
-            final String other = listeners[ i ].getName();
+            final String other = listeners[ i ].getMetaData().getName();
             if( listenerIndex != i && name.equals( other ) )
             {
                 final String message = REZ.getString( "duplicate-name", name );
                 throw new VerifyException( message );
             }
         }
-    }
-
-    /**
-     * Retrieve a list of DependencyMetaData objects for BlockMetaData
-     * and verify that there is a 1 to 1 map with dependencies specified
-     * in BlockInfo.
-     *
-     * @param block the BlockMetaData describing the block
-     * @throws VerifyException if an error occurs
-     */
-    private void verifyDependenciesMap( final BlockMetaData block )
-        throws VerifyException
-    {
-        //Make sure all role entries specified in config file are valid
-        final DependencyMetaData[] roles = block.getDependencies();
-        for( int i = 0; i < roles.length; i++ )
-        {
-            final String roleName = roles[ i ].getRole();
-            final DependencyDescriptor descriptor = block.getBlockInfo().getDependency( roleName );
-
-            //If there is no dependency descriptor in BlockInfo then
-            //user has specified an uneeded dependency.
-            if( null == descriptor )
-            {
-                final String message = REZ.getString( "unknown-dependency",
-                                                      roles[ i ].getName(),
-                                                      roleName,
-                                                      block.getName() );
-                throw new VerifyException( message );
-            }
-        }
-
-        //Make sure all dependencies in BlockInfo file are satisfied
-        final DependencyDescriptor[] dependencies = block.getBlockInfo().getDependencies();
-        for( int i = 0; i < dependencies.length; i++ )
-        {
-            final DependencyMetaData role = block.getDependency( dependencies[ i ].getRole() );
-
-            //If there is no Role then the user has failed
-            //to specify a needed dependency.
-            if( null == role )
-            {
-                final String message = REZ.getString( "unspecified-dependency",
-                                                      dependencies[ i ].getRole(),
-                                                      block.getName() );
-                throw new VerifyException( message );
-            }
-        }
-    }
-
-    /**
-     * Retrieve an array of Classes for all the services (+ the Block interface)
-     * that a Block offers. This method also makes sure all services offered are
-     * interfaces.
-     *
-     * @param name the name of block
-     * @param services the services the Block offers
-     * @param classLoader the classLoader
-     * @return an array of Classes for all the services
-     * @throws VerifyException if an error occurs
-     */
-    private Class[] getServiceClasses( final String name,
-                                       final ServiceDescriptor[] services,
-                                       final ClassLoader classLoader )
-        throws VerifyException
-    {
-        final Class[] classes = new Class[ services.length ];
-
-        for( int i = 0; i < services.length; i++ )
-        {
-            final String classname = services[ i ].getName();
-            try
-            {
-                classes[ i ] = classLoader.loadClass( classname );
-            }
-            catch( final Throwable t )
-            {
-                final String message =
-                    REZ.getString( "bad-service-class", name, classname, t.getMessage() );
-                throw new VerifyException( message, t );
-            }
-
-            if( !classes[ i ].isInterface() )
-            {
-                final String message =
-                    REZ.getString( "service-not-interface", name, classname );
-                throw new VerifyException( message );
-            }
-
-            checkNotFrameworkInterface( name, classname, classes[ i ] );
-        }
-
-        return classes;
-    }
-
-    /**
-     * Warn the user if any of the service interfaces extend
-     * a Lifecycle interface (a generally unrecomended approach).
-     *
-     * @param name the name of block
-     * @param classname the classname of block
-     * @param clazz the service implemented by block
-     */
-    private void checkNotFrameworkInterface( final String name,
-                                             final String classname,
-                                             final Class clazz )
-    {
-        for( int i = 0; i < FRAMEWORK_CLASSES.length; i++ )
-        {
-            final Class lifecycle = FRAMEWORK_CLASSES[ i ];
-            if( lifecycle.isAssignableFrom( clazz ) )
-            {
-                final String message =
-                    REZ.getString( "verifier.service-isa-lifecycle.error",
-                                   name,
-                                   classname,
-                                   clazz.getName(),
-                                   lifecycle.getName() );
-                getLogger().warn( message );
-                System.err.println( message );
-            }
-        }
-    }
-
-    /**
-     * Return true if specified service matches any of the
-     * candidate services.
-     *
-     * @param candidates an array of candidate services
-     * @param service the service
-     * @return true if candidate services contains a service that matches
-     *         specified service, false otherwise
-     */
-    private boolean hasMatchingService( final ServiceDescriptor service,
-                                        final ServiceDescriptor[] candidates )
-    {
-        for( int i = 0; i < candidates.length; i++ )
-        {
-            if( service.matches( candidates[ i ] ) )
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

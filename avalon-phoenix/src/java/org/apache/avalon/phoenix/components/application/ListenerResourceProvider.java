@@ -26,7 +26,7 @@ import org.apache.avalon.phoenix.containerkit.lifecycle.ResourceProvider;
  * Block or Listener.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/01/18 16:43:42 $
+ * @version $Revision: 1.5 $ $Date: 2003/01/25 15:47:17 $
  */
 class ListenerResourceProvider
     extends AbstractLogEnabled
@@ -63,7 +63,7 @@ class ListenerResourceProvider
         final BlockListenerMetaData metaData = getMetaData( entry );
         final ClassLoader classLoader = m_context.getClassLoader();
         final Class clazz =
-            classLoader.loadClass( metaData.getClassname() );
+            classLoader.loadClass( metaData.getImplementationKey() );
         return clazz.newInstance();
     }
 
