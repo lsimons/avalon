@@ -338,8 +338,7 @@ Legal:
       <batchtest todir="${build.reports}">
         <fileset dir="${build.classes}">
           <exclude name="**/test/Abstract*TestCase.class"/>
-          <exclude name="org/apache/avalon/excalibur/datasource/test/DataSourceTestCase.class"
-                   unless="j2ee.present"/>
+          <exclude name="org/apache/avalon/excalibur/datasource/test/DataSourceTestCase.class" unless="test.jdbc"/>
           <include name="**/test/*Profile.class" if="test.profile"/>
           <include name="**/test/*TestCase.class"/>
         </fileset>
