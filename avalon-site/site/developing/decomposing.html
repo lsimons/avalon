@@ -108,6 +108,9 @@
           <meta name="author" content="Berin Loritsch"></meta>
           <meta name="email" content="bloritsch@apache.org"></meta>
         
+          <meta name="author" content="Niclas Hedhman"></meta>
+          <meta name="email" content="niclas@apache.org"></meta>
+        
         
         
         
@@ -150,7 +153,7 @@
             <tr>
               
                 
-                <td>Last published: 25 December 2003
+                <td>Last published: 31 March 2004
                   
                 </td>
               
@@ -183,7 +186,7 @@
       |
       
       
-      <a href="../product/containers/index.html">Containers</a>
+      <a href="../product/containers/index.html">Containment</a>
       
     
       |
@@ -260,7 +263,7 @@
       <small>
       	
       	
-      		<a href="../developing/introduction.html">Overview</a>
+      		<a href="../overview.html">Overview</a>
       	
       </small>
 	  
@@ -295,6 +298,57 @@
       	
       	
       		<a href="../developing/framework.html">Avalon Framework</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../developing/merlin.html">Avalon Merlin</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../developing/repository.html">Avalon Repository</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../developing/logging.html">Avalon Logging</a>
       	
       </small>
 	  
@@ -495,10 +549,10 @@
     <p>
       
     We will use a hypothetical business server to demonstrate
-    how to identify services and Components.  After we define some
+    how to identify services and components.  After we define some
     services that are used in the system, we will take one of those
     services and define the different components needed by the
-    service.  My goal is to pass on some concepts that will help
+    service.  The goal is to pass on some concepts that will help
     you define your system in manageable pieces.
   
     </p>
@@ -509,7 +563,7 @@
       
       
         <h3>
-          <a name="System Analysis -- Identifying Components">System Analysis -- Identifying Components</a>
+          <a name="System Analysis -- Identifying components">System Analysis -- Identifying components</a>
         </h3>
       
       
@@ -518,27 +572,13 @@
       While it is beyond the scope of this presentation to provide
       a full-blown methodology, I do want to provide some pointers.
       We will start with the implementation oriented definition of
-      Components and Services, and then provide a practical definition.
+      components and services, and then provide a practical definition.
     
     </p>
    
     
     <table border="1" width="100%" cellspacing="2" cellpadding="3">
       
-    
-      
-      
-        
-      
-    
-
-    
-    <tr class="a">
-    <th>
-      Component
-    </th>
-   </tr>
-  
     
       
         
@@ -548,9 +588,23 @@
 
     
     <tr class="b">
+    <th>
+      Component
+    </th>
+   </tr>
+  
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
     <td>
       
-        A Component is the combination of a work interface, and the
+        A component is the combination of a work interface, and the
         implementation of that interface.  Its use provides a looser
         coupling between objects, allowing the implementation to
         change independently of its clients.
@@ -565,20 +619,6 @@
       
     
       
-      
-        
-      
-    
-
-    
-    <tr class="a">
-    <th>
-      Service
-    </th>
-   </tr>
-  
-    
-      
         
       
       
@@ -586,9 +626,23 @@
 
     
     <tr class="b">
+    <th>
+      Service
+    </th>
+   </tr>
+  
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
     <td>
       
-        A Service is a group of one or more Components that provide
+        A service is a group of one or more components that provide
         a complete solution.  Examples of a Service are protocol
         handlers, job schedulers, and authentication and authorization
         services.
@@ -603,7 +657,7 @@
       While these definitions provide a starting place, they don't
       give the whole picture.  In order to decompose a system (defined
       as a group of facilities that comprise a project) into the
-      necessary parts, I advocate a top-down approach.  That way you
+      necessary parts, we advocate a top-down approach.  That way you
       will avoid being bogged down in details before you know what the
       different facilities are.
     
@@ -623,8 +677,8 @@
         project is supposed to accomplish.  In the commercial world, the
         initial statement of work accomplishes this.  In the open source
         world, this is usually accomplished by an idea or brainstorming
-        session.  I can't stress enough the importance of having a high
-        level view of the project.
+        session.  It can't be stressed enough the importance of having a 
+        high level view of the project.
       
     </p>
    
@@ -672,10 +726,36 @@
       
       
         <h3>
-          <a name="Finding the Services">Finding the Services</a>
+          <a name="Identifying the Services">Identifying the Services</a>
         </h3>
       
       
+    <p>
+      
+      Application design using Component Oriented patterns, surrounds around
+      the 
+    <em>
+      Service
+    </em>
+    and decomposition of each 
+    <em>
+      Service
+    </em>
+    into
+      smaller services. This is repeated until a natural size of low-level
+      services are found, and a composition structure of the smaller
+      services into each of the larger ones. Avalon Merlin has the features
+      required to aggregate components into larger ones, and the 
+      
+    <em>
+      Service Composition Model
+    </em>
+    can be mapped one-to-one with
+      Avalon Merlin's composition model, taking design, implementation and
+      re-use to new levels.
+    
+    </p>
+   
     <p>
       
       We will use the Business Server Project to discover the services.
@@ -693,6 +773,48 @@
     
     </p>
    
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Service Contract">Service Contract</a>
+        </h4>
+      
+      
+    <p>
+      
+        It is important to realize that a 
+    <em>
+      Service Contract
+    </em>
+    is more
+        than just the Java interface. For each method in the interface,
+        there are arguments, and there are often rules surrounding these
+        arguments. Some arguments or return values are value objects that
+        belongs to the 
+    <em>
+      Service Contract
+    </em>
+   , and have rules of 
+        engagement associated with them, and the same goes for Exceptions
+        that may be used.
+        All these rules are part of the 
+    <em>
+      Service Contract
+    </em>
+    and must 
+        be well-documented This is the responsibility of the design team, 
+        and the design methodology used will prescribe how this is managed.
+        In case of no formal design methodology, we recommend that as a
+        minimum, all the pre-requisites and rules are documented as Javadocs,
+        as we have found that it is the easiest way to keep them up-to-date
+        and available to the implementation developers (many IDEs have 
+        context-sensitive JavaDoc pop-ups).
+      
+    </p>
+   
+    </div>
+  
     <div class="h4">
       
       
@@ -760,7 +882,8 @@
           a periodic basis.  Because the statement of work states "server
           automatically bills the customers 30 days after the sales order
           is filled" we need a scheduling service.  The good news is that
-          Avalon Cornerstone provides one for us so we don't have to create
+          Avalon Cornerstone (obsolete - check if it has been migrated to 
+          Avalon Components) provides one for us so we don't have to create
           our own.
         
     </p>
@@ -927,7 +1050,7 @@
         interest to use a standard interface for these services so that
         you can change vendors later.  Some services are actually multiple
         services acting as one larger service.  Some are already available
-        within Avalon Excalibur or Avalon Cornerstone.
+        within Avalon Components.
       
     </p>
    
@@ -940,7 +1063,7 @@
         than one person (or team) decompose each of the services in parallel.
         The boundaries are well defined, so there is little chance for
         overlap.  If you decide to do the parallel analysis, you should
-        come back together to identify common Components so that you can
+        come back together to identify common components so that you can
         reuse as much code as possible.
       
     </p>
@@ -957,17 +1080,21 @@
       
       
         <h3>
-          <a name="Finding Components">Finding Components</a>
+          <a name="Implementing the Services">Implementing the Services</a>
         </h3>
       
       
     <p>
       
-      We will use the Document Repository Service mentioned already for the
-      process of identifying the proper Components.  For the sake of our
-      conversation, we will now state the requirements of the Document
-      Repository Service.  The repository will use a database for persistent
-      storage, identify and authorize clients, and cache documents in memory.
+      Decomposition of a system is very much a design exercise, and once the
+      
+    <em>
+      Service Contract
+    </em>
+    is identified, it is a fairly 
+      straight-forward process of implementing the Service into a component.
+      It is during the component implementation that the Avalon specific
+      patterns starts taking center stage.
     
     </p>
    
@@ -975,119 +1102,49 @@
       
       
         <h4>
-          <a name="Practical Definition of Components">Practical Definition of Components</a>
+          <a name="Component sizes">Component sizes</a>
         </h4>
       
       
     <p>
       
-        When we talk about components, you have to think in terms of "What
-        facilities does my service need to operate?"  Avalon was conceived
-        with the concept of 
+        If the system is over-designed, it will show up as too small 
+        components. Components should be bigger than JavaBeans, but not
+        as large as commercial APIs (JavaMail for instance). After a while,
+        it will become natural to see if things are "just right" or not.
+        It is also important to recognize that the implementation must not,
+        and probably should not, be inside a single class. Experience shows
+        that it often makes sense to use several support classes, workers,
+        value objects and so on to implement the 
     <em>
-      casting
-    </em>
-    your system.  The
-        developer of the system        would come up with a list of responsibilities
-        for the Component known        as its 
-    <em>
-      role
+      Service Contract
     </em>
    .
       
     </p>
    
-    <div class="h4">
-      
-      
-        <h4>
-          <a name="What is a Role?">What is a Role?</a>
-        </h4>
-      
-      
-    <p>
-      
-          The concept of roles comes from the theater.  A play, musical, or
-          movie will have a certain number of roles that actors play.  Although
-          there never seems to be a shortage of actors, there are a finite
-          number of roles.  Its 
-    <em>
-      script
-    </em>
-    defines the
-          function or action of a role.  Just like the theatrical version, the
-          script determines how you interact with the Component.  Think of the
-          different roles in your system, and you will have your
-          
-    <em>
-      cast
-    </em>
-    of Components so to speak.
-        
-    </p>
-   
-    <p>
-      
-          A role is the contract for a type of component.  For example, our
-          Document Repository Service needs to interact with a database.
-          Avalon Excalibur defines a Component that satisfies the role "Data
-          Source".  Excalibur includes two different Components that satisfy
-          that role, depending on the setting our Service will be living in;
-          however, they both satisfy the same contracts.  The majority of
-          Avalon based systems will only use one active Component for each
-          role.  The script is the work interface: the interface with which
-          other components interact.
-        
-    </p>
-   
-    <p>
-      
-          There are specific contracts that you must define and keep in mind
-          when you specify interfaces for your Components.  The contracts
-          specify what users of the Component must provide, and what the
-          Component produces.  Sometimes you must include usage semantics in
-          the contract.  An example is the difference between a temporary
-          storage Component and a permanent storage Component.  When the
-          interface and contract are defined, you can work on your
-          implementation.
-        
-    </p>
-   
-    </div>
-  
     </div>
   
     <div class="h4">
       
       
         <h4>
-          <a name="What is a good candidate for a Component?">What is a good candidate for a Component?</a>
+          <a name="One component per Service">One component per Service</a>
         </h4>
       
       
     <p>
       
-        We have already identified four possibilities for Components within
-        our Document Repository Service: DataSourceComponent (from Excalibur),
-        Cache, Repository, and Guardian.  You should look for roles with a high
-        likelihood of multiple implementations that need to inter-operate
-        seamlessly.
+        Although Avalon Merlin supports that a single component can implement
+        more than one service, we only recommend that for components that
+        wraps third-party subsystems and APIs, where it is not possible to
+        break the thrid-party piece into multiple Avalon components. 
+    <strong>
       
-    </p>
-   
-    <p>
-      
-        Using that example, you will discover several instances where you need
-        replaceable facilities.  Most of the time, you will only be using one
-        implementation of the facility, but you need the ability to upgrade it
-        independently of the rest of the system.  Other times, you will need
-        alternate implementations due to environmental issues.  For example,
-        the "Data Source" that Excalibur defined will usually handle all the
-        JDBC Connection pooling itself-but sometimes you want to take advantage
-        of that facility built into a Java 2 Enterprise Edition (J2EE) server.
-        Excalibur solves this by having a "Data Source" that directly pools and
-        manages the JDBC connections, and one that uses Java's Naming and
-        Directory Interface (JNDI) to get the specified connection.
+        Keep One Service in One Component
+    </strong>
+   , it will increase 
+        re-usability later, and have few downsides.
       
     </p>
    
@@ -1097,40 +1154,24 @@
       
       
         <h4>
-          <a name="What is not a good Component?">What is not a good Component?</a>
+          <a name="Data are not components">Data are not components</a>
         </h4>
       
       
     <p>
       
-        People who are used to JavaBeans tend to implement everything as a
-        JavaBean.  This means everything from data modeling to transaction
-        processing.  If you used this approach with Components, you might end
-        up with an overly complex system.  Think of Components as modeling a
-        service or facility, and not data.  You could have a Component that
-        pulls data from another resource, but the data should remain distinct
-        as data.  An example of this philosophy in Avalon Excalibur is the
-        fact that the Connection is not a Component.
+        People who are used to JavaBeans tend to treat everything as 
+        components, event when it clearly is not. Value Objects, data if
+        you like, is NOT components. A more tricky example is a Network
+        Connection, which is NOT a component. The Connection Manager is 
+        the component and it can provide Connection objects, which are
+        more like value objects than components.
       
     </p>
    
     <p>
       
-        Another example could be the Guardian Component we specified earlier.
-        It could be argued that the logic involved in the Guardian is so
-        specific to the Document Repository Service that it could not be used
-        again for a completely different service.  While there are ways of
-        managing the complexity, and ways of making it flexible-sometimes the
-        extra work is not worth it.  You have to weigh your decisions in such
-        cases carefully.  If the logic performed in a potential Component is
-        going to be applied consistently then it might make sense to keep it a
-        Component.  There is room to have multiple instances of a Component in
-        a system, and they would be selected at run time.  If the logic for a
-        potential Component is specific to only one other Component, it might
-        be worth it to absorb the logic into the other Component.  Using the
-        example of the Guardian Component and the Repository Component, we
-        could argue that our Guardian is so specific to the Repository, that it
-        is not implemented as a Component.
+        Components implements Services!
       
     </p>
    
@@ -1146,9 +1187,8 @@
       
     <p>
       
-        We will list the Components that we are going to implement with a
-        description of their roles, the rationale, and their origination (if
-        the component already exists).
+        Back to our Business Server. We will list the Services that we are 
+        going to implement.
       
     </p>
    
@@ -1162,23 +1202,45 @@
       
     <p>
       
-          The DocumentRepository is the parent Component of the whole service.
-          In Avalon, services are implemented as Blocks, which are a specific
-          kind of Component.  The Block must have a work interface that extends
-          the Service marker interface.  The Block interface also extends
-          Avalon's Component interface.  Please note that Block and Service are
-          interfaces that are part of Avalon Phoenix.  In the end, a Service is
-          still technically just a specific type of Component.
+          The DocumentRepository is our method of getting Document objects from
+          persistent storage.  It interacts with the other components in the
+          service to provide security, functionality, and speed.  This
+          particular DocumentRepository will connect to a database and employ
+          the logic to build the Document objects internally.
         
     </p>
    
     <p>
       
-          The DocumentRepository is our method of getting Document objects from
-          persistent storage.  It interacts with the other Components in the
-          service to provide security, functionality, and speed.  This
-          particular DocumentRepository will connect to a database and employ
-          the logic to build the Document objects internally.
+          The DocumentRepository will end being an 
+    <em>
+      Aggregated Component
+    </em>
+   
+          from various smaller components.
+        
+    </p>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="DocumentStore">DocumentStore</a>
+        </h4>
+      
+      
+    <p>
+      
+          The DocumentStore is the main persistence handler in the repository.
+          It is this component that implements the external DocumentRepository
+          interface, as an 
+    <em>
+      Aggregated Component
+    </em>
+    can not implement any
+          code by itself.
         
     </p>
    
@@ -1194,7 +1256,7 @@
       
     <p>
       
-          The DataSourceComponent is supplied by Avalon Excalibur.  It is our
+          The DataSourceComponent is a manager of database connections. It is our
           method of retrieving valid JDBC Connection objects for our use.
         
     </p>
@@ -1214,7 +1276,7 @@
           The Cache is a short-term memory-based storage facility.  The
           DocumentRepository will use it to store Document objects referenced
           by a hash algorithm.  In order to promote the reusability of the
-          Cache Component, the stored object must implement a Cacheable
+          Cache component, the stored object must implement a Cacheable
           interface.
         
     </p>
@@ -1231,7 +1293,7 @@
       
     <p>
       
-          The Guardian Component is used to manage permissions based on the
+          The Guardian component is used to manage permissions based on the
           Principal.  The Guardian will load its permission sets from a
           database.  The Guardian will use the standard Java security model to
           enforce access to the specific Document objects.
@@ -1252,12 +1314,27 @@
       
     <p>
       
-        At this point, you should have an idea of what makes a good Component.
-        The examples describe all the Components that will be in the Document
-        Repository Service, with a brief summary of what they will do.  A quick
-        glance through the list supports the approach of only implementing
-        facilities as Components -- not data.  At this point, you should be able
-        to determine what components your services need to operate.
+        At this point, you should have an idea of how to break a large
+        application into smaller pieces, and then continuing to break
+        those pieces down to managable entities. And for each such
+        piece, you set out to define the Service interfaces and the 
+        surrounding semantic contracts, all before needing to look at
+        component implementations. In larger organizations, it will
+        be possible to achieve a high level of parallelism both in
+        Service design as well as in component implementations.
+      
+    </p>
+   
+    <p>
+      
+        You will also know that a component should not be too small, 
+        and not too large. The component should only have one concern.
+        Over time you will become an expert in component re-use, and
+        as more libraries of components becomes available, your 
+        productivity will soar. You will be well set to adopt to market
+        requirements, by easily exchange old and add new implementations
+        of well-known domain services, with little impact on the rest
+        of the system.
       
     </p>
    
@@ -1284,7 +1361,7 @@
                   
                     
                     
-                      © 1997-2003, The Apache Avalon Project
+                      © 1997-2004, The Apache Avalon Project
                     
                   
                   

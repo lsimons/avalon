@@ -84,7 +84,7 @@
         
           <title>
             Apache Avalon - 
-          Apache Avalon: Containers
+          Apache Avalon: Containment
         
           </title>
         
@@ -147,7 +147,7 @@
             <tr>
               
                 
-                <td>Last published: 12 February 2004
+                <td>Last published: 31 March 2004
                   
                 </td>
               
@@ -180,7 +180,7 @@
       |
       
       
-      <a href="../../product/containers/index.html">Containers</a>
+      <a href="../../product/containers/index.html">Containment</a>
       
     
       |
@@ -218,7 +218,7 @@
       <small>
       	
       	
-      		<a href="../../index.html">Overview</a>
+      		<a href="../../overview.html">Overview</a>
       	
       </small>
 	  
@@ -299,46 +299,12 @@
     <div>
       <small>
       	
-      		<b><a href="../../product/containers/index.html">Containers</a></b>
+      		<b><a href="../../product/containers/index.html">Containment</a></b>
       	
       	
       </small>
 	  
         
-    
-    
-    
-    
-
-    <div>
-      <small>
-      	
-      	
-      		<a href="http://avalon.apache.org/merlin">Merlin</a>
-      	
-      </small>
-	  
-        
-      
-    </div>
-  
-    
-    
-    
-    
-
-    <div>
-      <small>
-      	
-      	
-      		<a href="http://avalon.apache.org/excalibur/fortress/">Fortress</a>
-      	
-      </small>
-	  
-        
-      
-    </div>
-  
       
     </div>
   
@@ -638,61 +604,22 @@
       
       
         <h3>
-          <a name="Products">Products</a>
+          <a name="Reference Implementation">Reference Implementation</a>
         </h3>
       
       
-    <div class="h4">
-      
-      
-        <h4>
-          <a name="Container Solutions">Container Solutions</a>
-        </h4>
-      
-      
-    <p>
-      Within Avalon their are a number of container solutions. This 
-      reflects a historical divergence and a present convergence within 
-      the area of containment technology within Avalon. The original 
-      containment solutions ECM and Phoenix focussed on very different 
-      approaches to component management.  The ECM model dealt with 
-      primarily pooled objects used in environments such as 
-      
-    <a href="http://cocoon.apache.org/">Cocoon</a>
-  . The
-      Phoenix model dealt with a strict singleton model supporting 
-      project such as 
-    <a href="http://james.apache.org">James</a>
-  .  
-      Recent developments have resulted in the 
-      release of 
-      
-    <a href="http://avalon.apache.org/excalibur/fortress/">Fortress</a>
-   
-      and 
-    <a href="http://avalon.apache.org/merlin/">Merlin</a>
-  .  
-      Fortress replaces the ECM solution
-      and is positioned as a migration vehicle for components to move
-      towards Avalon's latest container - Merlin.  The Merlin container
-      is an attempt at being a flexible and adaptive embedded container
-      that leverages a set of common containment facilities.
-      Merlin provides support for legacy Phoenix components and includes 
-      many of of the lifestyle concepts introduced within Fortress.
-    </p>
-   
     
     <table border="1" width="100%" cellspacing="2" cellpadding="3">
       
     
       
-        
       
+        
       
     
 
     
-    <tr class="b">
+    <tr class="a">
     <th>
       Product
     </th>
@@ -704,13 +631,13 @@
   
     
       
-      
         
+      
       
     
 
     
-    <tr class="a">
+    <tr class="b">
     <td>
       
             
@@ -720,7 +647,8 @@
     <a name="merlin"></a>
   
               
-    <a href="http://avalon.apache.org/merlin/index.html">Avalon Merlin</a>
+    <a href="http://avalon.apache.org/merlin/index.html">Avalon 
+              Merlin</a>
   
             
     </p>
@@ -733,8 +661,14 @@
             
     <p>
       
-                The Merlin project deals with the broad area of service
-                and component management. The Merlin system is a container
+                Merlin is the Avalon container Reference Implementation.
+            
+    </p>
+   
+            
+    <p>
+      
+                The Merlin system is a container
                 that provides comprehensive support for the management of
                 complex component-based systems. Merlin uses a component
                 meta-model to facilitate the automated assembly and
@@ -746,6 +680,39 @@
     </td>
    </tr>
   
+    </table>
+  
+    </div>
+  
+    <div class="h3">
+      
+      
+        <h3>
+          <a name="Background">Background</a>
+        </h3>
+      
+      
+    
+    <table border="1" width="100%" cellspacing="2" cellpadding="3">
+      
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
+    <th>
+      Item
+    </th>
+   
+    <th>
+      Description
+    </th>
+   </tr>
+  
     
       
         
@@ -761,10 +728,10 @@
     <p>
       
               
-    <a name="fortress"></a>
+    <a name="overview"></a>
   
               
-    <a href="http://avalon.apache.org/excalibur/fortress/">Avalon Fortress</a>
+    <a href="overview.html">Containment Overview</a>
   
             
     </p>
@@ -777,11 +744,9 @@
             
     <p>
       
-              Fortress contains a framework to help you create your own
-              avalon containers.  It boasts asynchronous management of your
-              component instances, high scalability, easier maintenance of
-              your code, and easy embedding into various environments like
-              servlet engines.
+                An overview of what containment means, the purpose of a 
+                container, and an introduction to the container/component
+                contract.
             
     </p>
    
@@ -804,10 +769,10 @@
     <p>
       
               
-    <a name="ecm"></a>
+    <a name="legacy"></a>
   
               
-    <a href="http://avalon.apache.org/excalibur/component.html">ECM</a>
+    <a href="history.html">History</a>
   
             
     </p>
@@ -820,51 +785,11 @@
             
     <p>
       
-            This package contains the ExcaliburComponentManager (ECM). ECM has 
-            been depricated in favour of the new Fortress container.
-    </p>
-   
-          
-    </td>
-   </tr>
-  
-    
-      
-        
-      
-      
-    
-
-    
-    <tr class="b">
-    <td>
-      
-            
-    <p>
-      
-              
-    <a name="phoenix"></a>
-  
-              
-    <a href="http://avalon.apache.org/phoenix/index.html">Phoenix</a>
-  
-            
-    </p>
-   
-          
-    </td>
-   
-    <td>
-      
-            
-    <p>
-      
-              Phoenix is a micro-kernel designed and implemented on top of 
-              the Avalon framework. It provides a number of facilities to 
-              manage the environment of Server Applications. Such facilities 
-              include log management, classloading, thread management and 
-              security.
-            
+              Within Avalon there has been a number of container solutions. This 
+              reflects a historical divergence and a present convergence within
+              the area of containment technology within Avalon.  This section 
+              provides an historical overview and referecnes to legacy content.
+             
     </p>
    
           
@@ -872,8 +797,6 @@
    </tr>
   
     </table>
-  
-    </div>
   
     </div>
   
