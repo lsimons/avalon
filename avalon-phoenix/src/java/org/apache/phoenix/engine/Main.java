@@ -180,7 +180,7 @@ public class Main
     }
 
     /**
-     * Actually create and execute the main component of kernel.
+     * Actually create and execute the main component of embeddor.
      *
      * @exception Exception if an error occurs
      */
@@ -196,6 +196,11 @@ public class Main
 
         final PhoenixEmbeddor embeddor = new PhoenixEmbeddor();
         embeddor.parameterize( parameters );
+
+        System.out.println();
+        System.out.println( Constants.SOFTWARE + " " + Constants.VERSION );
+        System.out.println();
+
         embeddor.init();
 
         try
