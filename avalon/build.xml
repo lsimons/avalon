@@ -492,7 +492,9 @@ Legal:
       <fileset dir="${build.javadocs}"/>
     </copy>
 
-    <copy todir="${src.dist.dir}">
+    <filter token="version" value="${version}"/>
+    <filter token="year" value="${year}"/>
+    <copy todir="${src.dist.dir}" filtering="on">
       <fileset dir=".">
         <include name="README"/>
         <include name="LICENSE"/>
