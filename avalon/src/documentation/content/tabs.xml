@@ -3,8 +3,14 @@
 
 <tabs software="MyProj"
       title="MyProj"
-      copyright="Foo"
-      xmlns:xlink="http://www.w3.org/1999/xlink">
+      copyright="Foo">
 
   <tab label="Home" dir=""/>
+  <tab label="DevGuide" dir="developing"/>
+  <tab label="LogKit" dir="logkit"/>
+  <tab label="Framework" dir="framework"/>
+  <tab label="Excalibur" dir="excalibur"/>
+  <tab label="Phoenix" dir="phoenix"/>
+  <tab label="Cornerstone" dir="cornerstone"/>
+  <tab label="Apps" dir="apps"/>
 </tabs>
