@@ -25,11 +25,11 @@
                 <p>
                   You can start Phoenix with the following command:
 
-                    <source>
+                    <source><![CDATA[
 
                     > bin/run.[bat|sh]
 
-                    </source>
+                    ]]></source>
 
                 </p>
                 <p>
@@ -41,9 +41,9 @@
                   script to stop Phoenix.
                 </p>
 
-                    <source>
+                    <source><![CDATA[
                       > phoenix.sh stop
-                    </source>
+                    ]]></source>
 
                 <p>
                   phoenix.sh accepts these commands:
@@ -92,11 +92,11 @@ wrapper.dll=${wrapper.home}/lib/Wrapper.dll
                 For usage instructions, move to the <code>bin</code> directory and type
               </p>
 
-                    <source>
+                    <source><![CDATA[
 
                       > wrapper
 
-                    </source>
+                    ]]></source>
 
               <p>
                 The Wrapper configuration file is named <code>conf/wrapper.conf</code>.
