@@ -28,7 +28,7 @@ import org.apache.avalon.meta.info.Type;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/25 22:54:09 $
+ * @version $Revision: 1.6 $ $Date: 2004/03/02 00:12:16 $
  */
 public interface ComponentModel extends DeploymentModel
 {
@@ -123,7 +123,7 @@ public interface ComponentModel extends DeploymentModel
     * @return TRUE if the component type is parameterizable
     *   otherwise FALSE
     */
-    public boolean isParameterizable();
+    boolean isParameterizable();
 
    /**
     * Set the parameters to the supplied value.  The supplied 
@@ -131,7 +131,7 @@ public interface ComponentModel extends DeploymentModel
     *
     * @param parameters the supplied parameters value
     */
-    public void setParameters( Parameters parameters );
+    void setParameters( Parameters parameters );
 
    /**
     * Set the parameters to the supplied value.  The supplied 
