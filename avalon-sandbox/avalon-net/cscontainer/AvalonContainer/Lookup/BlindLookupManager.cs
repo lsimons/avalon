@@ -53,33 +53,19 @@ namespace Apache.Avalon.Container.Lookup
 	using Apache.Avalon.Framework;
 
 	/// <summary>
-	/// A blind LookupManager should exposes only dependencies instances.
+	/// A Blind <see cref="ILookupManager"/> should exposes only dependencies instances.
 	/// </summary>
-	/// <remarks>
-	/// Unfortunatelly there are situations where look-up only
-	/// dependents components is not enough. So a BlindLookupManager can
-	/// receive a parent <see cref="Apache.Avalon.Framework.ILookupManager"/> 
-	/// used to delegate the look-up.
-	/// </remarks>
-	public class BlindLookupManager : ILookupManager
+	public class BlindLookupManager : DefaultLookupManager
 	{
-		private Hashtable      m_instances;
-		private ILookupManager m_parent;
+		private Hashtable m_instances;
 
 		/// <summary>
 		/// Constructs a BlindLookupManager.
 		/// </summary>
-		/// <param name="parent">The parent 
-		/// <see cref="Apache.Avalon.Framework.ILookupManager"/>. 
-		/// This can be null.
-		/// </param>
-		public BlindLookupManager(ILookupManager parent)
+		public BlindLookupManager( DefaultContainer container ) : base(container)
 		{
 			// Shall we use a case insensitive hashtable?
 			m_instances = new Hashtable();
-
-			// This can be null
-			m_parent = parent;
 		}
 
 		/// <summary>
@@ -88,21 +74,21 @@ namespace Apache.Avalon.Container.Lookup
 		/// expose dependencies instances to the component.
 		/// </summary>
 		/// <param name="role">Role name (Could be anything)</param>
-		/// <param name="instance">Component instance</param>
-		public void Add(String role, object instance)
+		/// <param name="serviceType">Interface service type.</param>
+		public void Add(String role, Type serviceType )
 		{
 			if ( role == null || role.Length == 0 )
 			{
 				throw new ArgumentNullException( "role" );
 			}
-			if ( instance == null )
+			if ( serviceType == null )
 			{
-				throw new ArgumentNullException( "instance" );
+				throw new ArgumentNullException( "serviceType" );
 			}
 
 			// TODO: Support for Selectors
 
-			m_instances.Add( role, instance );
+			m_instances.Add( role, serviceType );
 		}
 
 		#region ILookupManager Members
@@ -113,7 +99,7 @@ namespace Apache.Avalon.Container.Lookup
 		/// <value>The component instance.</value>
 		/// <exception cref="ArgumentNullException">If the <c>role</c> argument is null.</exception>
 		/// <exception cref="Apache.Avalon.Framework.LookupException">If the <c>role</c> could not be resolved.</exception>
-		public object this[String role]
+		public override object this[String role]
 		{
 			get
 			{
@@ -122,43 +108,24 @@ namespace Apache.Avalon.Container.Lookup
 					throw new ArgumentNullException( "role" );
 				}
 
-				object instance = m_instances[role];
+				Type service = (Type) m_instances[role];
 
-				if ( instance == null && m_parent != null )
+				if ( service == null )
 				{
-					instance = m_parent[role];
+					throw new LookupException( role );
 				}
 
-				if ( instance == null )
-				{
-					throw new LookupException( role, "Instance not found." );
-				}
-
-				return instance;
+				return base[ service.FullName ];
 			}
 		}
 
 		/// <summary>
 		/// Releases the component associated with the given role.
 		/// </summary>
-		/// <remarks>
-		/// A BlindLookupManager should not release anything as its not 
-		/// have ownership of any component.
-		/// </remarks>
 		/// <exception cref="ArgumentNullException">If the <c>role</c> argument is null.</exception>
-		public void Release(object resource)
+		public override void Release(object resource)
 		{
-			// Sanity check
-			if ( resource == null )
-			{
-				throw new ArgumentNullException( "resource" );
-			}
-
-			// TODO: We shall not release dependent components
-			// but we must release components returned by the parent
-			// ILookupManager. While this "to do" is not resolved,
-			// Dispose probabily is not been called for a lot of 
-			// components
+			base.Release( resource );
 		}
 
 		/// <summary>
@@ -167,7 +134,7 @@ namespace Apache.Avalon.Container.Lookup
 		/// <param name="role">A String identifying the lookup name to check.</param>
 		/// <returns>True if the resource exists; otherwise, false.</returns>
 		/// <exception cref="ArgumentNullException">If the <c>role</c> argument is null.</exception>
-		public bool Contains(String role)
+		public override bool Contains(String role)
 		{
 			if ( role == null || role.Length == 0 )
 			{
@@ -175,11 +142,6 @@ namespace Apache.Avalon.Container.Lookup
 			}
 
 			bool contains = m_instances.Contains( role );
-
-			if (!contains && m_parent != null)
-			{
-				contains = m_parent.Contains(role);
-			}
 
 			return contains;
 		}

@@ -138,7 +138,7 @@ namespace Apache.Avalon.Container
 					ContainerUtil.EnableLogging(instance, m_loggerManager[entry.LoggerName]);
 				}
 
-				BlindLookupManager lookupManager = new BlindLookupManager(m_container.LookupManager);
+				BlindLookupManager lookupManager = new BlindLookupManager(m_container);
 
 				if (entry.Dependencies.Length != 0)
 				{
@@ -313,14 +313,14 @@ namespace Apache.Avalon.Container
 		}
 
 		private void OnSetupDependencies(object instance, ComponentEntry entry, 
-			String dependencyRole, String dependencyKey, object dependencyInstance)
+			String dependencyRole, String dependencyKey, ILookupManager manager)
 		{
 			if (Events[DependenciesEvent] != null)
 			{
 				System.Delegate del = Events[DependenciesEvent];
 				del.Method.Invoke(del.Target, new object[] 
 					{new LifecycleEventArgs(instance, entry, 
-						dependencyRole, dependencyInstance, dependencyKey)});
+						dependencyRole, dependencyKey, manager)});
 			}									   
 		}
 		#endregion
@@ -442,13 +442,9 @@ namespace Apache.Avalon.Container
 						m_logger.Debug("  Dependency: '{0}'", depEntry.ComponentType.FullName);
 					}
 
-					// "Release" are deferred to container shutdown
+					lookupManager.Add(dep.Key, dep.DependencyType);
 
-					object depInstance = depEntry.Handler.GetInstance();
-					
-					lookupManager.Add(dep.Key, depInstance);
-
-					OnSetupDependencies(instance, entry, depRole, dep.Key, depInstance);
+					OnSetupDependencies(instance, entry, depRole, dep.Key, lookupManager);
 				}
 			}
 		}
@@ -487,8 +483,8 @@ namespace Apache.Avalon.Container
 		private object         m_component;
 		private ComponentEntry m_entry;
 		private String         m_dependencyRole;
-		private object         m_dependencyInstance;
 		private String         m_dependencyKey;
+		private ILookupManager m_lookupManager;
 
 		internal LifecycleEventArgs(object component, ComponentEntry entry)
 		{
@@ -497,11 +493,19 @@ namespace Apache.Avalon.Container
 		}
 
 		internal LifecycleEventArgs(object component, ComponentEntry entry, 
-			String dependencyRole, object dependencyInstance, String dependencyKey) : this(component, entry)
+			String dependencyRole, String dependencyKey, ILookupManager lookupManager) : this(component, entry)
 		{
-			m_dependencyRole     = dependencyRole;
-			m_dependencyInstance = dependencyInstance;
-			m_dependencyKey      = dependencyKey;
+			m_dependencyRole = dependencyRole;
+			m_dependencyKey  = dependencyKey;
+			m_lookupManager  = lookupManager;
+		}
+
+		public ILookupManager LookupManager
+		{
+			get
+			{
+				return m_lookupManager;
+			}
 		}
 
 		public object Component
@@ -545,14 +549,6 @@ namespace Apache.Avalon.Container
 			get
 			{
 				return m_dependencyKey;
-			}
-		}
-
-		public object DependencyInstance
-		{
-			get
-			{
-				return m_dependencyInstance;
 			}
 		}
 	}

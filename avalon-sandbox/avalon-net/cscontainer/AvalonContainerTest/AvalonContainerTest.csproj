@@ -114,6 +114,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "LookupScopeTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "PicoContainerExtensionTestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -140,6 +145,21 @@
                 />
                 <File
                     RelPath = "Components\Calculator.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\Entity.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\EntityLocator.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\ErroneousComponent.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

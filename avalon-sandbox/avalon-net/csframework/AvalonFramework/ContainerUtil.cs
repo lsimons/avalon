@@ -72,7 +72,7 @@ namespace Apache.Avalon.Framework
 		/// Supplies specified object with Logger if it implements the
 		/// <see cref="ILogEnabled"/> interface.
 		/// </summary>
-		/// <param name="component"></param>
+		/// <param name="component">The component instance</param>
 		/// <param name="logger">The Logger to enable component with.</param>
 		/// <exception cref="ArgumentException">
 		/// If the component is <see cref="ILogEnabled"/> but <see cref="ILogger"/> is null.
@@ -92,6 +92,18 @@ namespace Apache.Avalon.Framework
 
 				((ILogEnabled) component).EnableLogging(logger);
 			}
+		}
+
+		/// <summary>
+		/// Checks if the specified components supports IStartable
+		/// or IDisposable interfaces - meaning that it cares about Stop
+		/// or disposable phases.
+		/// </summary>
+		/// <param name="component">The component instance</param>
+		/// <returns>true if the component wants the shutdown phase.</returns>
+		public static bool ExpectsDispose(object component)
+		{
+			return (component is IStartable) || (component is IDisposable);
 		}
 
 		/// <summary>
@@ -208,7 +220,6 @@ namespace Apache.Avalon.Framework
 			if (component is IStartable)
 			{
 				( (IStartable) component).Stop();
-
 			}
 		}
 

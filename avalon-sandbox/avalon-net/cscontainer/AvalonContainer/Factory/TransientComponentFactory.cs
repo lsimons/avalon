@@ -51,7 +51,14 @@ namespace Apache.Avalon.Container.Factory{	using System;	using System.Collect
 		{
 			object instance = base.Create( componentType );
 
-			m_instances.Add(instance);
+			// This should be done to reduce the probably of 
+			// leaks caused by not releasing components.
+			// If a component doesn't supports Dipose, then 
+			// we won't keep the instances.
+			if (ContainerUtil.ExpectsDispose(instance))
+			{
+				m_instances.Add(instance);
+			}
 
 			return instance;
 		}		public override bool IsOwner( object componentInstance )

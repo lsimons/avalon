@@ -118,10 +118,6 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "TODO.txt"
-                    BuildAction = "Content"
-                />
-                <File
                     RelPath = "Attributes\CustomFactoryBuilder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -208,6 +204,11 @@
                 />
                 <File
                     RelPath = "Lookup\DefaultLookupManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Lookup\InternalLookupManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

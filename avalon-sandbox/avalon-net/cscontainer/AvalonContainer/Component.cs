@@ -71,7 +71,7 @@ namespace Apache.Avalon.Container
 		public ComponentEntry(AvalonComponentAttribute attribute, Type type, AvalonDependencyAttribute[] dependencies)
 		{
 			m_lifestyle     = attribute.Lifestyle;
-			m_configName    = attribute.ConfigurationName;
+			m_configName    = attribute.Name;
 			m_loggerName    = attribute.LoggerName;
 			m_componentType = type;
 			m_dependencies  = dependencies;

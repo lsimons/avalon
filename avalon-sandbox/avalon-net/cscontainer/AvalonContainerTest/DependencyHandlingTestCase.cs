@@ -61,12 +61,13 @@ namespace Apache.Avalon.Container.Test
 		[Test]
 		public void ShutDownOrderCheck()
 		{
-			Assertion.AssertEquals(6, m_container.ShutDownOrder.Length);
+			Assertion.AssertEquals(9, m_container.ShutDownOrder.Length);
 
-			Assertion.AssertEquals(typeof(IBus).FullName, m_container.ShutDownOrder[0].Name);
-			Assertion.AssertEquals(typeof(IVehicle).FullName, m_container.ShutDownOrder[1].Name);
-			Assertion.AssertEquals(typeof(IRadio).FullName, m_container.ShutDownOrder[2].Name);
-			Assertion.AssertEquals(typeof(IEngine).FullName, m_container.ShutDownOrder[3].Name);
+			Assertion.AssertEquals(typeof(IEntityLocator).FullName, m_container.ShutDownOrder[0].Name);
+			Assertion.AssertEquals(typeof(IBus).FullName, m_container.ShutDownOrder[1].Name);
+			Assertion.AssertEquals(typeof(IVehicle).FullName, m_container.ShutDownOrder[2].Name);
+			Assertion.AssertEquals(typeof(IRadio).FullName, m_container.ShutDownOrder[3].Name);
+			Assertion.AssertEquals(typeof(IEngine).FullName, m_container.ShutDownOrder[4].Name);
 		}
 
 		[Test]

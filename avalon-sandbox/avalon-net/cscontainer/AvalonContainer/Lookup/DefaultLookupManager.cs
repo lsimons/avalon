@@ -69,7 +69,7 @@ namespace Apache.Avalon.Container.Lookup
 
 		#region ILookupManager Members
 
-		public object this[ String role ]
+		public virtual object this[ String role ]
 		{
 			get
 			{
@@ -91,7 +91,7 @@ namespace Apache.Avalon.Container.Lookup
 			}
 		}
 
-		public void Release(object resource)
+		public virtual void Release(object resource)
 		{
 			if ( resource == null )
 			{
@@ -107,7 +107,7 @@ namespace Apache.Avalon.Container.Lookup
 			}
 		}
 
-		public bool Contains( String role )
+		public virtual bool Contains( String role )
 		{
 			if ( role == null )
 			{
