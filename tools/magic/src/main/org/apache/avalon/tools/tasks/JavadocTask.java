@@ -47,6 +47,8 @@ public class JavadocTask extends SystemTask
     private static final Link J2SE = 
       new Link( "http://java.sun.com/j2se/1.4/docs/api/" );
 
+    public static final String JAVADOC_PRODUCTION_KEY = "project.javadoc.enabled";
+
     public static class Link
     {
         private String m_href;
@@ -182,17 +184,21 @@ public class JavadocTask extends SystemTask
 
     public void execute() throws BuildException
     {
-        Definition def = getReferenceDefinition();
-        File root = getJavadocRootDirectory( def );
-        Path classpath = def.getPath( getProject(), Policy.RUNTIME );
+        String actionable = getProject().getProperty( JAVADOC_PRODUCTION_KEY );
+        if( "true".equals( actionable ) )
+        {
+            Definition def = getReferenceDefinition();
+            File root = getJavadocRootDirectory( def );
+            Path classpath = def.getPath( getProject(), Policy.RUNTIME );
 
-        File api = new File( root, "api" );
-        File spi = new File( root, "spi" );
-        File imp = new File( root, "impl" );
+            File api = new File( root, "api" );
+            File spi = new File( root, "spi" );
+            File imp = new File( root, "impl" );
 
-        setup( def, classpath, ResourceRef.API, api, false );
-        setup( def, classpath, ResourceRef.SPI, spi, false );
-        setup( def, classpath, ResourceRef.IMPL, imp,  true );
+            setup( def, classpath, ResourceRef.API, api, false );
+            setup( def, classpath, ResourceRef.SPI, spi, false );
+            setup( def, classpath, ResourceRef.IMPL, imp,  true );
+        }
     }
 
     private void setup( 

@@ -91,14 +91,13 @@
       <name>site</name>
     </info>
     <dependencies>
-      <include key="avalon-merlin-cli" runtime="false"/>
-      <include key="avalon-repository-cli" runtime="false"/>
+      <include key="avalon-runtime"/>
     </dependencies>
   </project>
 
-    <!--
-    Avalon LogKit.
-    -->
+  <!--
+  Avalon LogKit.
+  -->
 
   <project basedir="../../runtime/logkit">
     <info>
