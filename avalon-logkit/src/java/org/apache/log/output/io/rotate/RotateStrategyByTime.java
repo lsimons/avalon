@@ -42,7 +42,7 @@ public class RotateStrategyByTime
     {
         m_startingTime = System.currentTimeMillis();
         m_currentRotation = 0;
-        setTimeInterval( timeInterval );
+        m_timeInterval = timeInterval;
     }
 
     /**
