@@ -100,7 +100,7 @@ import org.apache.log.Priority;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.33 $ $Date: 2002/11/08 01:49:52 $
+ * @version CVS $Revision: 1.34 $ $Date: 2002/11/08 03:10:36 $
  */
 public class PatternFormatter
     implements Formatter, org.apache.log.Formatter
@@ -294,17 +294,27 @@ public class PatternFormatter
             if( escapeMode )
             {
                 if( 'n' == pattern[ index ] )
+                {
                     sb.append( EOL );
+                }
                 else if( 't' == pattern[ index ] )
+                {
                     sb.append( '\t' );
+                }
                 else
+                {
                     sb.append( pattern[ index ] );
+                }
                 escapeMode = false;
             }
             else if( '\\' == pattern[ index ] )
+            {
                 escapeMode = true;
+            }
             else
+            {
                 sb.append( pattern[ index ] );
+            }
             index++;
         }
 
@@ -425,7 +435,6 @@ public class PatternFormatter
             else
             {
                 final String data = formatPatternRun( event, run );
-
                 if( null != data )
                 {
                     append( sb, run.m_minSize, run.m_maxSize, run.m_rightJustify, data );
