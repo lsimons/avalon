@@ -245,29 +245,28 @@ final class BCELWrapperGenerator
         final String wrapperClassName =
             classToWrap.getName() + WRAPPER_CLASS_SUFFIX;
 
-        // Create BCEL class generator
-        m_classGenerator =
-            new ClassGen(
-                wrapperClassName,
-                WRAPPER_SUPERCLASS_NAME,
-                null,
-                Constants.ACC_FINAL
-            |Constants.ACC_PUBLIC
-            |Constants.ACC_SUPER,
-                extractInterfaceNames( interfacesToImplement ) );
-
-        // Initialize method-field generator
-        m_codeGenerator.init(
-            wrapperClassName,
-            WRAPPER_SUPERCLASS_NAME,
-            javaClassToWrap,
-            m_classGenerator );
-
-        final byte[] byteCode = buildWrapper( javaInterfacesToImplement );
-
         Class generatedClass;
         synchronized ( m_bcelClassLoader )
         {
+            // Create BCEL class generator
+            m_classGenerator =
+                new ClassGen(
+                    wrapperClassName,
+                    WRAPPER_SUPERCLASS_NAME,
+                    null,
+                    Constants.ACC_FINAL
+                |Constants.ACC_PUBLIC
+                |Constants.ACC_SUPER,
+                    extractInterfaceNames( interfacesToImplement ) );
+
+            // Initialize method-field generator
+            m_codeGenerator.init(
+                wrapperClassName,
+                WRAPPER_SUPERCLASS_NAME,
+                javaClassToWrap,
+                m_classGenerator );
+
+            final byte[] byteCode = buildWrapper( javaInterfacesToImplement );
             m_bcelClassLoader.setByteCode( byteCode );
             generatedClass = m_bcelClassLoader.loadClass( wrapperClassName );
             m_bcelClassLoader.clearByteCode();
