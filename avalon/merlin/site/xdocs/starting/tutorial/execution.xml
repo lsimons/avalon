@@ -52,7 +52,7 @@ Alternatively you can deploy the component from the jar file.
         </p>
 
 <source><![CDATA[
-$ merlin -execute target\merlin-hello-tutorial-1.0.jar
+$ merlin -execute target\hello-1.1.jar
 ]]></source>
 
         <p>
@@ -60,9 +60,7 @@ $ merlin -execute target\merlin-hello-tutorial-1.0.jar
         </p>
 
 <source><![CDATA[
-[INFO   ] (tutorial.hello): logging
-[INFO   ] (tutorial.hello): initialization
-[INFO   ] (tutorial.hello): execution
+[INFO   ] (tutorial.hello): instantiated
 [INFO   ] (tutorial.hello): disposal
 ]]></source>
 
