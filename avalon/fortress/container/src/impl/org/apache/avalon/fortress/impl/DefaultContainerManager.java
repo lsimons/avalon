@@ -76,7 +76,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * See that interface for a description.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.20 $ $Date: 2003/05/27 18:39:47 $
+ * @version CVS $Revision: 1.21 $ $Date: 2003/05/28 13:28:34 $
  */
 public class DefaultContainerManager
     implements Initializable, Disposable, ContainerManager, ContainerManagerConstants
@@ -205,7 +205,7 @@ public class DefaultContainerManager
             ContainerUtil.enableLogging( instance, m_logger );
             ContainerUtil.contextualize( instance, implContext );
 
-            final ServiceManager serviceManager = createServiceManager( implContext );
+            final ServiceManager serviceManager = createServiceManager( managerContext );
 
             ContainerUtil.service( instance, serviceManager );
 
