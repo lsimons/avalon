@@ -4,7 +4,7 @@
 
   <pomVersion>3</pomVersion>
   <groupId>excalibur</groupId>
-  <id>cornerstone-home</id>
+  <id>excalibur-home</id>
   <name>Excalibur Component Suite</name>
   <currentVersion>1.0</currentVersion>
 
@@ -14,6 +14,15 @@
     <logo>http://avalon.apache.org/images/apache-avalon-logo.png</logo>
   </organization>
   <inceptionYear>1997</inceptionYear>
+
+  <logo>${basedir}/../site/excalibur_logo.gif</logo>
+  <licenses>
+    <license>
+      <name>Apache Software License 1.1</name>
+      <distribution>repo</distribution>
+      <url>http://www.apache.org/LICENSE.txt</url>
+    </license>
+  </licenses>
 
   <package>org.apache.avalon.cornerstone</package>
   <gumpRepositoryId>avalon-components</gumpRepositoryId>
@@ -200,14 +209,6 @@
           <include>LICENSE.txt</include>
         </includes>
       </resource>
-<!--
-      <resource>
-        <directory>${basedir}/conf</directory>
-        <targetPath>BLOCK-INF</targetPath>
-        <includes>
-          <include>block.xml</include>
-        </includes>
-</resource> -->
     </resources>
   </build>
 
