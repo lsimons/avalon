@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.Hashtable;
 
 /**
- * The ContextMap contains non-hierarchial context information 
+ * The ContextMap contains non-hierarchical context information 
  * relevent to a particular LogEvent. It may include information
  * such as;
  *
