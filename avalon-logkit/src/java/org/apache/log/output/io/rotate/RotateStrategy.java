@@ -26,7 +26,6 @@ public interface RotateStrategy
      * Check if a log rotation is neccessary at this time.
      *
      * @param data the serialized version of last message written to the log system
-     * @param event the LogEvent that initiated last message
      * @param file the File that we are writing to
      * @return boolean return true if log rotation is neccessary, else false
      */

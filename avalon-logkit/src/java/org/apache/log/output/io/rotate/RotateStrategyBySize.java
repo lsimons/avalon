@@ -14,7 +14,7 @@ import java.io.File;
  *
  * @author <a href="mailto:bh22351@i-one.at">Bernhard Huber</a>
  */
-public class RotateStrategyBySize 
+public class RotateStrategyBySize
     implements RotateStrategy
 {
     private long m_maxSize;
@@ -22,7 +22,7 @@ public class RotateStrategyBySize
 
     /**
      * Rotate logs by size.
-     * By default do log rotation after writing approx. 1MB of messages
+     * By default do log rotation before writing approx. 1MB of messages
      */
     public RotateStrategyBySize()
     {
@@ -32,9 +32,9 @@ public class RotateStrategyBySize
     /**
      *  Rotate logs by size.
      *
-     *  @param max_size rotate after writing max_size [byte] of messages
+     *  @param maxSize rotate before writing maxSize [byte] of messages
      */
-    public RotateStrategyBySize( final long maxSize ) 
+    public RotateStrategyBySize( final long maxSize )
     {
         m_currentSize = 0;
         m_maxSize = maxSize;
@@ -43,7 +43,7 @@ public class RotateStrategyBySize
     /**
      * reset log size written so far.
      */
-    public void reset() 
+    public void reset()
     {
         m_currentSize = 0;
     }
@@ -61,7 +61,7 @@ public class RotateStrategyBySize
         {
             m_currentSize = 0;
             return true;
-        } 
+        }
         else
         {
             return false;
