@@ -15,9 +15,6 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
 import org.apache.avalon.framework.CascadingException;
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -25,13 +22,14 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.Constants;
+import org.apache.avalon.phoenix.components.LifecycleUtil;
 import org.apache.avalon.phoenix.interfaces.Deployer;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.avalon.phoenix.interfaces.EmbeddorMBean;
@@ -67,7 +65,7 @@ public class DefaultEmbeddor
 
     private String m_phoenixHome;
 
-    private EmbeddorEntry[] m_components;
+    private EmbeddorEntry[] m_entrys;
 
     /**
      * If true, flag indicates that the Embeddor should continue running
@@ -164,19 +162,19 @@ public class DefaultEmbeddor
         throws ConfigurationException
     {
         final Configuration[] children = configuration.getChildren( "component" );
-        m_components = new EmbeddorEntry[ children.length ];
+        m_entrys = new EmbeddorEntry[ children.length ];
         for( int i = 0; i < children.length; i++ )
         {
             final String role = children[ i ].getAttribute( "role" );
             final String classname = children[ i ].getAttribute( "class" );
             final String logger = children[ i ].getAttribute( "logger" );
-            final Configuration childConfiguration = children[ i ];
 
-            m_components[ i ] = new EmbeddorEntry();
-            m_components[ i ].setRole( role );
-            m_components[ i ].setClassName( classname );
-            m_components[ i ].setLoggerName( logger );
-            m_components[ i ].setConfiguration( childConfiguration );
+            final EmbeddorEntry entry = new EmbeddorEntry();
+            entry.setRole( role );
+            entry.setClassName( classname );
+            entry.setLoggerName( logger );
+            entry.setConfiguration( children[ i ] );
+            m_entrys[ i ] = entry;
         }
     }
 
@@ -294,9 +292,9 @@ public class DefaultEmbeddor
             final String message = REZ.getString( "embeddor.error.shutdown.failed" );
             getLogger().fatalError( message, e );
         }
-        for( int i = 0; i < m_components.length; i++ )
+        for( int i = 0; i < m_entrys.length; i++ )
         {
-            m_components[ i ].setObject( null );
+            m_entrys[ i ].setObject( null );
         }
         System.gc(); // make sure resources are released
     }
@@ -412,12 +410,12 @@ public class DefaultEmbeddor
         Object object;
         try
         {
-            for( int i = 0; i < m_components.length; i++ )
+            for( int i = 0; i < m_entrys.length; i++ )
             {
-                final String className = m_components[ i ].getClassName();
+                final String className = m_entrys[ i ].getClassName();
                 final Class clazz = Class.forName( className );
                 object = createComponent( className, clazz );
-                m_components[ i ].setObject( object );
+                m_entrys[ i ].setObject( object );
             }
         }
         catch( Exception e )
@@ -487,12 +485,12 @@ public class DefaultEmbeddor
     private void setupComponents()
         throws Exception
     {
-        for( int i = 0; i < m_components.length; i++ )
+        for( int i = 0; i < m_entrys.length; i++ )
         {
-            final Object component = m_components[ i ].getObject();
-            final String loggerName = m_components[ i ].getLoggerName();
-            final Configuration configuration = m_components[ i ].getConfiguration();
-            setupComponent( component, loggerName, configuration );
+            final EmbeddorEntry entry = m_entrys[ i ];
+            setupComponent( entry.getObject(),
+                            entry.getLoggerName(),
+                            entry.getConfiguration() );
         }
     }
 
@@ -500,70 +498,32 @@ public class DefaultEmbeddor
      * Setup a component and run it through al of it's
      * setup lifecycle stages.
      *
-     * @param component the component
+     * @param object the component
      * @throws Exception if an error occurs
      */
-    private void setupComponent( final Object component,
+    private void setupComponent( final Object object,
                                  final String loggerName,
-                                 Configuration config )
+                                 final Configuration config )
         throws Exception
     {
-        setupLogger( component, loggerName );
-        if( component instanceof Contextualizable )
-        {
-            ( (Contextualizable)component ).contextualize( m_context );
-        }
-        if( component instanceof Serviceable )
-        {
-            final ServiceManager serviceManager = getServiceManager();
-            ( (Serviceable)component ).service( serviceManager );
-        }
-        if( component instanceof Parameterizable )
-        {
-            ( (Parameterizable)component ).parameterize( m_parameters );
-        }
-        else if( component instanceof Configurable )
-        {
-            ( (Configurable)component ).configure( config );
-        }
-        if( component instanceof Initializable )
-        {
-            ( (Initializable)component ).initialize();
-        }
-        if( component instanceof Startable )
-        {
-            ( (Startable)component ).start();
-        }
+        final Logger childLogger = getLogger().getChildLogger( loggerName );
+        LifecycleUtil.logEnable( object, childLogger );
+        LifecycleUtil.contextualize( object, m_context );
+        LifecycleUtil.service( object, getServiceManager() );
+        LifecycleUtil.parameterize( object, m_parameters );
+        LifecycleUtil.configure( object, config );
+        LifecycleUtil.initialize( object );
+        LifecycleUtil.start( object );
     }
 
     private void shutdownComponents()
         throws Exception
     {
-        for( int i = 0; i < m_components.length; i++ )
+        for( int i = 0; i < m_entrys.length; i++ )
         {
-            final EmbeddorEntry entry = m_components[ i ];
-            shutdownComponent( entry.getObject() );
-        }
-    }
-
-    /**
-     * Shutdown a component and run it through al of it's
-     * shutdown lifecycle stages.
-     *
-     * @param component the component
-     * @throws Exception if an error occurs
-     */
-    private void shutdownComponent( final Object component )
-        throws Exception
-    {
-        if( null == component ) return;
-        if( component instanceof Startable )
-        {
-            ( (Startable)component ).stop();
-        }
-        if( component instanceof Disposable )
-        {
-            ( (Disposable)component ).dispose();
+            final Object object = m_entrys[ i ].getObject();
+            if( null == object ) continue;
+            LifecycleUtil.shutdown( object );
         }
     }
 
@@ -609,9 +569,9 @@ public class DefaultEmbeddor
     {
         final DefaultServiceManager serviceManager = new DefaultServiceManager();
         serviceManager.put( Embeddor.ROLE, this );
-        for( int i = 0; i < m_components.length; i++ )
+        for( int i = 0; i < m_entrys.length; i++ )
         {
-            final String role = m_components[ i ].getRole();
+            final String role = m_entrys[ i ].getRole();
             final Object component = getEmbeddorComponent( role );
             serviceManager.put( role, component );
         }
@@ -640,12 +600,12 @@ public class DefaultEmbeddor
 
     private Object getEmbeddorComponent( final String role )
     {
-        for( int i = 0; i < m_components.length; i++ )
+        for( int i = 0; i < m_entrys.length; i++ )
         {
-            final EmbeddorEntry entry = m_components[ i ];
+            final EmbeddorEntry entry = m_entrys[ i ];
             if( entry.getRole().equals( role ) )
             {
-                return m_components[ i ].getObject();
+                return m_entrys[ i ].getObject();
             }
         }
         // Should never happen
