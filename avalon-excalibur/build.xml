@@ -273,7 +273,7 @@ Legal:
   </target>
 
   <target name="test" depends="compile" >
-    <mkdir dir="${build.testdocs}"/>
+    <mkdir dir="${build.reports}"/>
 
     <echo message="Performing Unit Tests" />
     <junit fork="false" printsummary="yes">
