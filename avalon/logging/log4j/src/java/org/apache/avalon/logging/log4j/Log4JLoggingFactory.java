@@ -43,7 +43,7 @@ import org.apache.log4j.xml.DOMConfigurator;
  * A Log4J factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class Log4JLoggingFactory
     implements Factory
@@ -86,7 +86,7 @@ public class Log4JLoggingFactory
 
    /**
     * Create a new instance of an application.
-    * @param criteria the creation criteria
+    * @param criteriaMap the creation criteria
     * @return the application instance
     */
     public Object create( Map criteriaMap ) 
