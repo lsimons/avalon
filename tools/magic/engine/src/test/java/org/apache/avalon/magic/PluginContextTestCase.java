@@ -5,6 +5,7 @@ import java.io.InputStream;
 
 import junit.framework.TestCase;
 
+import org.apache.tools.ant.Project;
 
 /**
  * @author Niclas Hedhman, niclas@hedhman.org
@@ -16,6 +17,9 @@ public class PluginContextTestCase extends TestCase
     private File m_PluginDir;
     private File m_SystemDir;
     private File m_ProjectDir;
+    private File m_ProjectSystemDir;
+    private File m_TempDir;
+    private Project m_Project;
     
     /*
      * @see TestCase#setUp()
@@ -35,9 +39,19 @@ public class PluginContextTestCase extends TestCase
         
         m_SystemDir = new File( "target/system");
         m_SystemDir.mkdir();
-
-        m_Context = new PluginContext( " testcase project ", m_ProjectDir, projectProps,
-                "testcase plugin", m_PluginDir, m_SystemDir );
+        
+        m_Context = new PluginContext
+        ( 
+            " testcase project ", 
+            m_ProjectDir,
+            m_ProjectSystemDir, 
+            projectProps,
+            "testcase plugin", 
+            m_PluginDir, 
+            m_SystemDir,
+            m_TempDir,
+            m_Project
+        );
         m_Context.setPluginClassname( "TestCasePlugin");
     }
 

@@ -8,6 +8,9 @@
     <mkdir dir="${java.build.src.dir}" />
     <mkdir dir="${java.build.classes.dir}" />
     <mkdir dir="${jar.build.resources.dir}" />
+    <available file="${test.src.dir}" property="test-sources-available" />
+    <available file="${test.resources.dir}" property="test-resources-available" />
+    <available file="${test.environment.dir}" property="test-environment-available" />
     
     <copy todir="${build.src.dir}" filtering="on">
       <fileset dir="${src.dir}"  >
@@ -35,8 +38,8 @@
            fork="${java.compile.fork}"
     >
       <classpath>
-        <path location="${maven.repository}/avalon-framework/jars/avalon-framework-api-4.2.0.jar" />
-        <path location="${maven.repository}/avalon-framework/jars/avalon-framework-impl-4.2.0.jar" />
+        <path location="${maven.repository}/avalon/framework/jars/avalon-framework-api-4.2.0.jar" />
+        <path location="${maven.repository}/avalon/framework/jars/avalon-framework-impl-4.2.0.jar" />
         <path location="${maven.repository}/bsh/jars/bsh-2.0b1.jar" />
         <path location="${maven.repository}/ant/jars/ant-1.6.jar" />
       </classpath>
@@ -44,7 +47,7 @@
   </target>
   
   <target name="package" depends="build" >
-    <property name="jar-built-file" value="${jar.file.dir}/magic.jar" />
+    <property name="jar-built-file" value="${basedir}/${jar.file.dir}/magic.jar" />
     <jar destfile="${jar-built-file}"
          basedir="${jar.classes.dir}"
          manifest="${jar.manifest.file}"
@@ -64,13 +67,111 @@
       <fileset dir="${build.src.dir}/dist" includes="**" />
     </copy>
     <copy todir="${build.dist.dir}/bin" >
-      <fileset dir="${maven.repository}/avalon-framework/jars/" includes="avalon-framework-api-4.2.0.jar" />
-      <fileset dir="${maven.repository}/avalon-framework/jars/" includes="avalon-framework-impl-4.2.0.jar" />
+      <fileset dir="${maven.repository}/avalon/framework/jars/" includes="avalon-framework-api-4.2.0.jar" />
+      <fileset dir="${maven.repository}/avalon/framework/jars/" includes="avalon-framework-impl-4.2.0.jar" />
       <fileset dir="${maven.repository}/bsh/jars/" includes="bsh-2.0b1.jar" />
     </copy>
     
     <copy todir="${build.dist.dir}/bin" file="${jar-built-file}" />
     <chmod file="${build.dist.dir}/bin/magic" perm="+x" />
+  </target>
+  
+  <target name="test" depends="prepare, package, test-copy-resources, test-copy-environment, test-compile, test-execute, test-report" >
+  </target>
+  
+  <target name="test-compile" if="test-sources-available" >
+    <mkdir dir="${test.build.classes.dir}" />
+    <javac srcdir="${test.build.src.dir}"
+           destdir="${test.build.classes.dir}"
+           debug="${test.compile.debug}"
+           fork="${test.compile.fork}"
+    >
+      <classpath>
+        <pathelement path="${jar-built-file}" />
+        <pathelement path="${maven.repository}/avalon/framework/jars/avalon-framework-api-4.2.0.jar" />
+      </classpath>
+    </javac>
+  </target>
+  
+  <target name="test-copy-resources" if="test-resources-available" >
+    <mkdir dir="${test.build.resources.dir}" />
+    <copy todir="${test.build.resources.dir}"
+          overwrite="false"
+    >
+      <fileset dir="${test.resources.dir}" includes="**" />
+    </copy>
+  </target>
+  
+  <target name="test-copy-environment" if="test-environment-available" >
+    <mkdir dir="${test.build.environment.dir}" />
+    <copy todir="${test.build.environment.dir}"
+          overwrite="false"
+    >
+      <fileset dir="${test.environment.dir}" includes="**" />
+    </copy>
+  </target>
+  
+  <target name="test-execute" if="test-sources-available" >
+    <mkdir dir="${test.build.environment.dir}/temp" />
+    <mkdir dir="${test.reports.dir}" />
+    <mkdir dir="${test.fancy.reports.dir}" />
+    <junit 
+        fork="${test.fork}"
+        printsummary="${test.print.summary}" 
+        haltonfailure="${test.halt.on.failure}"
+        haltonerror="${test.halt.on.error}"
+        errorproperty="test-errors"
+        failureproperty="test-failures"
+        dir="${test.build.environment.dir}"
+        showoutput="${test.show.output}"
+        tempdir="${test.build.environment.dir}/temp"
+        reloading="${test.reload.classes}"
+        filtertrace="${test.filter.stack.trace}"
+    >
+      <classpath>
+        <pathelement path="${jar-built-file}" />
+        <pathelement path="${basedir}/${test.build.classes.dir}" />
+        <pathelement path="${basedir}/${test.build.resources.dir}" />
+        <pathelement path="${maven.repository}/avalon/framework/jars/avalon-framework-api-4.2.0.jar" />
+      </classpath>
+      <sysproperty key="basedir" value="${basedir}"/>      
+      <formatter type="plain"/>
+      <formatter type="xml"/>
+
+      <batchtest todir="${test.reports.dir}">
+        <fileset dir="${test.build.src.dir}">
+          <include name="${test.includes}"/>
+          <exclude name="${test.excludes}"/>
+        </fileset>
+      </batchtest>
+    </junit>
+    <condition property="test-produce-reports" >
+      <and>
+        <istrue value="${test.fancy.report}" />
+        <istrue value="${test-sources-available}" />
+      </and>
+    </condition>
+  </target>
+  
+  <target name="test-report" if="test-produce-reports"  >
+    <mkdir dir="${test.reports.dir}" />
+    <mkdir dir="${test.fancy.reports.dir}" />
+    <junitreport todir="${test.reports.dir}" >
+      <fileset dir=".">
+        <include name="**/TEST-*.xml"/>
+      </fileset>
+      <report 
+            format="${test.fancy.report.format}" 
+            todir="${test.fancy.reports.dir}"
+      />
+    </junitreport>
+    <fail if="test-errors" >There were Unittest ERRORS.</fail>
+    <fail if="test-failures" >There were Unittest FAILURES.</fail>
+  </target>
+  
+  <!-- Include the Fancy test report in the distribution  -->
+  <target name="test-report-package" if="test.fancy.report.dist" >
+  
   </target>
   
   <target name="clean" depends="prepare" >
