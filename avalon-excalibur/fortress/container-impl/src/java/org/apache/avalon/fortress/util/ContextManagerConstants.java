@@ -23,7 +23,7 @@ import org.apache.avalon.fortress.ContainerManagerConstants;
  * Provides constants used to access the Context object for containers.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.9 $ $Date: 2004/02/28 15:16:26 $
+ * @version CVS $Revision: 1.10 $ $Date: 2004/04/03 18:10:35 $
  */
 public interface ContextManagerConstants extends ContainerManagerConstants
 {
@@ -37,6 +37,7 @@ public interface ContextManagerConstants extends ContainerManagerConstants
 
     String ROLE_MANAGER_CONFIGURATION = "impl.roleManager.config";
     String ROLE_MANAGER_CONFIGURATION_URI = "impl.roleManager.config.uri";
-
+    String ROLE_MANAGER_CLASS = "impl.roleManager.class";
+    
     String CONFIGURATION_URI = "impl.configuration.uri";
 }

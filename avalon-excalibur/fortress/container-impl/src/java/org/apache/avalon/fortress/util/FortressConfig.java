@@ -34,7 +34,7 @@ import java.net.URL;
 
 /**
  * Helper class to create a m_context for the ContextManager.
- * @version CVS $Revision: 1.22 $ $Date: 2004/02/28 15:16:26 $
+ * @version CVS $Revision: 1.23 $ $Date: 2004/04/03 18:10:35 $
  */
 public final class FortressConfig
 {
@@ -287,6 +287,27 @@ public final class FortressConfig
         m_context.put( ContextManagerConstants.ROLE_MANAGER_CONFIGURATION_URI, null );
     }
 
+    public void setRoleManagerClass( final String containerClass )
+    throws ClassNotFoundException
+    {
+        ClassLoader classLoader;
+        try
+        {
+            classLoader = (ClassLoader) m_context.get( ClassLoader.class.getName() );
+        }
+        catch ( ContextException ce )
+        {
+            classLoader = Thread.currentThread().getContextClassLoader();
+        }
+
+        setRoleManagerClass( classLoader.loadClass( containerClass ) );
+    }   
+
+    public void setRoleManagerClass( final Class clazz )
+    {
+        m_context.put( ContextManagerConstants.ROLE_MANAGER_CLASS, clazz );
+    }
+    
     public void setRoleManagerConfiguration( final String location )
     {
         m_context.put( ContextManagerConstants.ROLE_MANAGER_CONFIGURATION_URI, location );
