@@ -83,7 +83,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.2.3 $ $Date: 2004/01/06 23:16:49 $
+ * @version $Revision: 1.1.2.4 $ $Date: 2004/01/08 12:51:17 $
  */
 public class DefaultComponentContext extends DefaultDeploymentContext 
   implements ComponentContext
@@ -144,7 +144,7 @@ public class DefaultComponentContext extends DefaultDeploymentContext
       File home, File temp, String partition )
     {
         super( 
-          logger, partition, name, profile.getMode(),
+          logger, context.getSystemContext(), partition, name, profile.getMode(),
           context.getDependencyGraph() );
 
         if( partition == null )
@@ -197,16 +197,6 @@ public class DefaultComponentContext extends DefaultDeploymentContext
     //==============================================================
     // ContainmentContext
     //==============================================================
-
-   /**
-    * Return the system context.
-    *
-    * @return the system context
-    */
-    public SystemContext getSystemContext()
-    {
-        return m_context.getSystemContext();
-    }
 
    /**
     * Return the containment context.

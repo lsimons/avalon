@@ -90,7 +90,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10.2.5 $ $Date: 2004/01/07 20:34:42 $
+ * @version $Revision: 1.10.2.6 $ $Date: 2004/01/08 12:51:16 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
   implements Block, CompositionEventListener
@@ -205,6 +205,21 @@ public abstract class AbstractBlock extends AbstractAppliance
     //-------------------------------------------------------------------
 
    /**
+    * Return an appliance relative to a specific path.
+    * @param source the appliance path
+    * @return the appliance
+    * @exception IllegalArgumentException if the supplied path is invalid
+    * @exception ApplianceException if an error occurs during appliance
+    *    resolution
+    */
+    public Appliance locate( String source )
+    {
+        DeploymentModel model =
+          getContainmentModel().getModel( source );
+        return locate( model );
+    }
+
+   /**
     * Return an appliance relative to a supplied model.
     * @param model the meta model
     * @return the appliance
@@ -212,11 +227,6 @@ public abstract class AbstractBlock extends AbstractAppliance
     *    resolution
     */
     public Appliance locate( DeploymentModel model )
-    {
-        return getAppliance( model );
-    }
-
-    private Appliance getAppliance( final DeploymentModel model )
     {
         return getAppliance( model, true );
     }
@@ -238,21 +248,6 @@ public abstract class AbstractBlock extends AbstractAppliance
         {
             return null;
         }
-    }
-
-   /**
-    * Return an appliance relative to a specific path.
-    * @param source the appliance path
-    * @return the appliance
-    * @exception IllegalArgumentException if the supplied path is invalid
-    * @exception ApplianceException if an error occurs during appliance
-    *    resolution
-    */
-    public Appliance locate( String source )
-    {
-        DeploymentModel model =
-          getContainmentModel().getModel( source );
-        return getAppliance( model );
     }
 
     //-------------------------------------------------------------------
@@ -301,8 +296,8 @@ public abstract class AbstractBlock extends AbstractAppliance
                 for( int i=0; i<startup.length; i++ )
                 {
                     final DeploymentModel child = startup[i];
-                    final Appliance appliance = getAppliance( child );
-                    deployer.deploy( appliance, timeout );
+                    final Appliance appliance = locate( child );
+                    deployer.deploy( child );
                 }
             }
             finally

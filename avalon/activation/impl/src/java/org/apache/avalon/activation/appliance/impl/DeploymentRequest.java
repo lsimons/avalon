@@ -55,11 +55,12 @@ import java.lang.reflect.InvocationTargetException;
 import org.apache.avalon.activation.appliance.Deployable;
 import org.apache.avalon.activation.appliance.DeploymentException;
 import org.apache.avalon.activation.appliance.FatalDeploymentException;
+import org.apache.avalon.composition.model.DeploymentModel;
 
 /**
  * A deployment request handler.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2.2.1 $ $Date: 2004/01/07 12:57:25 $
+ * @version $Revision: 1.2.2.2 $ $Date: 2004/01/08 12:51:16 $
  */
 class DeploymentRequest
 {
@@ -67,8 +68,9 @@ class DeploymentRequest
     // immutable state
     //------------------------------------------------------------
 
-    private final Deployable m_deployable;
+    private final DeploymentModel m_deployable;
     private final Thread m_deploymentThread;
+    private long m_timeout;
     
     //------------------------------------------------------------
     // mutable state
@@ -82,37 +84,38 @@ class DeploymentRequest
     // constructor
     //------------------------------------------------------------
 
-    DeploymentRequest( Deployable deployable, Thread deploymentThread )
+    DeploymentRequest( DeploymentModel deployable, Thread deploymentThread )
     {
         m_deployable = deployable;
         m_completed = false;
         m_interrupted = false;
         m_exception = null;
         m_deploymentThread = deploymentThread;
+        m_timeout = deployable.getDeploymentTimeout();
     }
 
     //------------------------------------------------------------
     // implementation
     //------------------------------------------------------------
 
-    Deployable getDeployable()
+    DeploymentModel getDeployable()
     {
         return m_deployable;
     }
 
-    void waitForCompletion( long timeout )
+    void waitForCompletion()
         throws Exception
     {
         synchronized( this )
         {
-            wait( timeout );
+            wait( m_timeout ); // wait for startup
             processException();
             if( m_completed )
             {
                 return;
             }
             m_deploymentThread.interrupt();
-            wait( timeout );
+            wait( m_timeout ); // wait for shutdown
             processException();
             if( m_interrupted || m_completed )
             {
@@ -120,7 +123,7 @@ class DeploymentRequest
                   "deployment target: [" 
                   + m_deployable 
                   + "] did not respond within the timeout period: [" 
-                  + timeout
+                  + m_timeout
                   + "] and was successfully interrupted.";
                 throw new DeploymentException( error );
             }
@@ -130,7 +133,7 @@ class DeploymentRequest
                   "deployment target: [" 
                   + m_deployable 
                   + "] did not respond within the timeout period: [" 
-                  + timeout
+                  + m_timeout
                   + "] and failed to respond to an interrupt.";
                 throw new FatalDeploymentException( error );
             }

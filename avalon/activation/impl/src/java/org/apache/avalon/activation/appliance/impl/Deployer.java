@@ -52,6 +52,7 @@ package org.apache.avalon.activation.appliance.impl;
 
 import org.apache.avalon.activation.appliance.Deployable;
 
+import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 
 import org.apache.avalon.framework.logger.Logger;
@@ -63,7 +64,7 @@ import org.apache.avalon.framework.logger.Logger;
  * serve basis.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2.2.3 $ $Date: 2004/01/07 20:34:42 $
+ * @version $Revision: 1.2.2.4 $ $Date: 2004/01/08 12:51:16 $
  * @see DeploymentRequest
  */
 class Deployer
@@ -110,7 +111,7 @@ class Deployer
      * Deploys the given Deployable, and allows a maximum time
      * for the deployment to complete.
      *
-     * @param deployable the deployable appliance
+     * @param deployable the deployable model
      * @param timeout the maximum time to allow for deployment
      *
      * @throws DeploymentException if the deployment was not 
@@ -124,10 +125,10 @@ class Deployer
      * @throws InvocationTargetException if the deployment throws a
      *   Throwable subclass that is NOT of type Exception or Error.
      **/
-    void deploy( Deployable deployable, long timeout )
+    void deploy( DeploymentModel deployable )
         throws Exception
     {
-        if( deployable == null )
+        if( null == deployable )
         {
             throw new NullPointerException( "deployable" );
         }
@@ -138,7 +139,7 @@ class Deployer
         DeploymentRequest req = 
           new DeploymentRequest( deployable, m_deploymentThread );
         m_deploymentFIFO.put( req );
-        req.waitForCompletion( timeout );
+        req.waitForCompletion();
     }
 
     /** 
@@ -166,10 +167,26 @@ class Deployer
             while( true )
             {
                 DeploymentRequest req = (DeploymentRequest) m_deploymentFIFO.get();
-                Deployable deployable = req.getDeployable();
+                DeploymentModel deployable = req.getDeployable();
+                if( null == deployable.getHandler() )
+                {
+                    final String error =
+                      "No handler assigned to model: " + deployable;
+                    throw new IllegalStateException( error );
+                }
+                if( !( deployable.getHandler() instanceof Deployable ) )
+                {
+                    final String error =
+                      "Deployment handler assigned to model: " + deployable
+                      + " does not implement the deployable contract";
+                    throw new IllegalStateException( error );
+                }
+
+                Deployable target = (Deployable) deployable.getHandler();
+
                 try
                 {
-                    deployable.deploy();
+                    target.deploy();
                     req.done();
                 } 
                 catch( InterruptedException e )

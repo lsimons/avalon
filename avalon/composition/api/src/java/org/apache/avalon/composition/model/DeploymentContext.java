@@ -60,7 +60,7 @@ import org.apache.avalon.composition.data.Mode;
  * Deployment context that is supplied to a deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2.2.2 $ $Date: 2004/01/04 21:28:59 $
+ * @version $Revision: 1.2.2.3 $ $Date: 2004/01/08 12:51:17 $
  */
 public interface DeploymentContext extends Context 
 {
@@ -95,6 +95,13 @@ public interface DeploymentContext extends Context
     * @return the logging channel
     */
     Logger getLogger();
+
+   /**
+    * Return the system context.
+    *
+    * @return the system context
+    */
+    SystemContext getSystemContext();
 
    /**
     * Return the dependency graph used to construct 

@@ -77,7 +77,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * Implementation of a containment supplied to a containment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2.2.4 $ $Date: 2004/01/06 23:16:49 $
+ * @version $Revision: 1.2.2.5 $ $Date: 2004/01/08 12:51:17 $
  */
 public class DefaultContainmentContext extends DefaultDeploymentContext 
   implements ContainmentContext
@@ -100,8 +100,6 @@ public class DefaultContainmentContext extends DefaultDeploymentContext
     private final ClassLoaderModel m_classloader;
 
     private final ContainmentProfile m_profile;
-
-    private final SystemContext m_system;
 
     private final ModelRepository m_repository;
 
@@ -152,7 +150,7 @@ public class DefaultContainmentContext extends DefaultDeploymentContext
       File home, File temp, ContainmentModel parent, 
       ContainmentProfile profile, String partition, String name )
     {
-        super( logger, partition, name, profile.getMode(), graph );
+        super( logger, system, partition, name, profile.getMode(), graph );
 
         if( system == null )
         {
@@ -192,7 +190,6 @@ public class DefaultContainmentContext extends DefaultDeploymentContext
 
         m_repository = new DefaultModelRepository( repository, logger );
 
-        m_system = system;
         m_classloader = model;
         m_home = home;
         m_temp = temp;
@@ -203,16 +200,6 @@ public class DefaultContainmentContext extends DefaultDeploymentContext
     //---------------------------------------------------------
     // ContainmentContext
     //---------------------------------------------------------
-
-   /**
-    * Return the system context.
-    *
-    * @return the system context
-    */
-    public SystemContext getSystemContext()
-    {
-        return m_system;
-    }
 
    /**
     * Return the working directory from which containers may 
