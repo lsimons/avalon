@@ -33,7 +33,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ActiveMonitor.java,v 1.14 2002/09/07 12:14:01 donaldp Exp $
+ * @version $Id: ActiveMonitor.java,v 1.15 2002/09/07 12:15:00 donaldp Exp $
  */
 public final class ActiveMonitor
     extends org.apache.avalon.excalibur.monitor.impl.ActiveMonitor
@@ -75,6 +75,5 @@ public final class ActiveMonitor
         final Resource[] resources =
             MonitorUtil.configureResources( resourcesConfig, m_logger );
         addResources( resources );
-
     }
 }
