@@ -13,10 +13,10 @@
   <body>
     <s1 title="Introduction">
       <p>
-        The purpose of the <code>environment.xml</code> file is to configure environmental 
-        or Server Application wide settings. Currently this means being able to set the 
-        security policy and configure logging settings. A sample <code>environment.xml</code> 
-        follows. Previously thread pool settings were also configured in this 
+        The purpose of the <code>environment.xml</code> file is to configure environmental
+        or Server Application wide settings. Currently this means being able to set the
+        security policy and configure logging settings. A sample <code>environment.xml</code>
+        follows. Previously thread pool settings were also configured in this
         section but this has been deprecated. Note that previously the information stored in
         <code>environment.xml</code> was stored in a file named <code>server.xml</code>.
       </p>
@@ -29,25 +29,25 @@
 
     <logs>
       <category name="" target="default" priority="DEBUG" />
-      <category name="myAuthorizer" target="myAuthorizer-target" 
+      <category name="myAuthorizer" target="myAuthorizer-target"
                 priority="DEBUG" />
 
-      <log-target name="default" 
+      <log-target name="default"
                   location="/logs/default.log" />
-      <log-target name="myAuthorizer-target" 
+      <log-target name="myAuthorizer-target"
                   location="/logs/authorizer.log" />
     </logs>
 
     <policy>
-      <keystore name="foo-keystore" 
-                location="file:${app.home}${/}conf${/}keystore" 
-                type="JKS" /> 
+      <keystore name="foo-keystore"
+                location="file:${app.home}${/}conf${/}keystore"
+                type="JKS" />
 
-      <grant signed-by="Bob" 
-             code-base="file:${app.home}${/}SAR-INF${/}lib${/}*" 
+      <grant signed-by="Bob"
+             code-base="file:${app.home}${/}SAR-INF${/}lib${/}*"
              key-store="foo-keystore" >
-        <permission class="java.io.FilePermission" 
-                    target="${/}tmp${/}*" 
+        <permission class="java.io.FilePermission"
+                    target="${/}tmp${/}*"
                     action="read,write" />
       </grant>
     </policy>
@@ -56,26 +56,56 @@
 
       </source>
       <p>
-        The format of the policy section should be self evident if the assembler 
-        has experience with standard policy files. It should be noted that if no 
+        The format of the policy section should be self evident if the assembler
+        has experience with standard policy files. It should be noted that if no
         policy section is given then the Server Application runs at full permissions.
-        The evaluation of properties occurs in a similar manner to standard 
-        policy file property expansion. There are a number of extra properties that 
+        The evaluation of properties occurs in a similar manner to standard
+        policy file property expansion. There are a number of extra properties that
         will be evaluated. These include; <code>app.home</code> and <code>app.name</code>.
       </p>
       <p>
-        The logs section can currently have two types of elements; <em>log-target</em>s 
+        The logs section can currently have two types of elements; <em>log-target</em>s
         which represent destinations for logging and <em>category</em>s. There must be a
-        log-target with the name "default". Categories are hierarchial in nature, have a 
-        priority and are associated with one or more log-targets. See the logging 
+        log-target with the name "default". Categories are hierarchial in nature, have a
+        priority and are associated with one or more log-targets. See the logging
         documentation for a further description of this section.
+      </p>
+      <p>
+        There is another type of log configuration. It is more configurable.
+        Specify version attribute with logs elements. See javadoc of
+        org.apache.avalon.excalibur.logger package for detailed description.
+        Below is example configuration.
+        <source><![CDATA[
+<logger version="1.1">
+<factories>
+  <factory type="file"
+           class="org.apache.avalon.excalibur.logger.factory.FileTargetFactory"/>
+</factories>
+
+<categories>
+  <category name="" log-level="INFO">
+    <log-target id-ref="default"/>
+  </category>
+</categories>
+
+<targets>
+  <file id="default">
+    <filename>${app.home}/logs/default-</filename>
+    <append>true</append>
+    <rotation type="unique" pattern="yyyyMMdd" suffix=".log">
+      <date>yyyyMMdd</date>
+    </rotation>
+  </file>
+</targets>
+</logger>
+]]></source>
       </p>
     </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.3 $ $Date: 2002/03/01 09:07:06 $
+      $Revision: 1.4 $ $Date: 2002/03/13 16:29:05 $
     </legal>
   </footer>
 </document>
