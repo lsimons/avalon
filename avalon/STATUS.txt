@@ -1,5 +1,5 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2003/01/31 16:52:03 $]
+Last modified at [$Date: 2003/02/01 09:50:47 $]
 
 Background:
 
@@ -69,30 +69,23 @@ Resolved Issues:
       Proposal: [http://marc.theaimsgroup.com/?l=avalon-dev&m=104339946013500&w=2]
       Result:   [http://marc.theaimsgroup.com/?l=avalon-dev&m=104400855421800&w=2]
 
-
-Pending issues:
-
-
     o The STATUS file is a great mean of synching the community agenda. 
-      To be effective, it must be uptodate, and I can't do it all myself. 
+      For each [Proposal] and [Vote] 
+      and release there be an entry in the STATUS file, that has to be 
+      updated by the original item proposal.
       Proposals should be entered as such, votes should have listed all 
       current votes and the vote start date, and when the issue item is 
       completed, the names of the voters are removed and it's resolved, 
       positive or negative. Releases too should be listed.
+      *NOTE*
       Votes and all action items that are placed in the STATUS file
       are valid if done by their rules. In other words, the STATUS file 
-      does not validate them in any way, it's just a community synch tool.
-      If something doesn't go into the status file, it still exists and is
-      perfectly valid.
-      I'm asking you, do you want that for each [Proposal] and [Vote] 
-      and release there be an entry in the STATUS file, that has to be 
-      updated by the original item proposal? 
+      does not validate them in any way, it's just a community synch 
+      tool. If something doesn't go into the status file, it 
+      still exists and is perfectly valid.
+
       
-      [20020119]
-      +1: nicolaken, leosimons, mcconnell, jefft
-      +0:
-      -0: leosutic
-      -1:      
+Pending issues:
       
     o Coming up with a set of bylaws for the project
 
