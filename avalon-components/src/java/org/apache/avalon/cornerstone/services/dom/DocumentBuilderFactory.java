@@ -22,7 +22,7 @@ import javax.xml.parsers.DocumentBuilder;
  */
 public interface DocumentBuilderFactory
 {
-    String ROLE = "org.apache.avalon.cornerstone.services.dom.DocumentBuilderFactory";
+    String ROLE = DocumentBuilderFactory.class.getName();
 
     /**
      * Creates a new instance of a {@link javax.xml.parsers.DocumentBuilder}

@@ -17,7 +17,7 @@ import org.apache.avalon.phoenix.Service;
  */
 public interface SOAPification
 {
-    String ROLE = "org.apache.avalon.cornerstone.services.soapification.SOAPification";
+    String ROLE = SOAPification.class.getName();
   
     /**
      * Publish a set of interfaces

@@ -16,11 +16,11 @@ import java.rmi.RemoteException;
  * This service provides a way to publish an <code>Remote<code> object via RMI.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public interface RMIfication
 {
-    String ROLE = "org.apache.avalon.cornerstone.services.rmification.RMIfication";
+    String ROLE = RMIfication.class.getName();
 
     /**
      * Publish a set of interfaces

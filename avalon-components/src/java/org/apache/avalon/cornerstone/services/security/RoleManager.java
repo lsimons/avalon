@@ -19,7 +19,7 @@ import java.security.Principal;
  */
 public interface RoleManager
 {
-    String ROLE = "org.apache.avalon.cornerstone.services.security.RoleManager";
+    String ROLE = RoleManager.class.getName();
 
     boolean isPrincipalInRole( Principal principal, String role );
 }

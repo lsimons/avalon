@@ -18,7 +18,7 @@ import org.apache.avalon.phoenix.Service;
 public interface Store
     extends ComponentSelector
 {
-    String ROLE = "org.apache.avalon.cornerstone.services.store.Store";
+    String ROLE = Store.class.getName();
 
     /**
      * This method accept a Configuration object as hint and return the

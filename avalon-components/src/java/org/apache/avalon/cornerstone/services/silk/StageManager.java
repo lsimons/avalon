@@ -23,11 +23,11 @@ import org.apache.avalon.excalibur.event.Source;
  * </p>
  *
  * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/02/05 13:40:59 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/02/17 01:45:57 $
  */
 
 public interface StageManager {
-    String ROLE = "org.apache.avalon.cornerstone.services.silk.SilkServer";
+    String ROLE = StageManager.class.getName();
 
     /**
      * Gets the sink for a specified stage name.

@@ -17,7 +17,7 @@ import org.apache.avalon.phoenix.Service;
  */
 public interface SocketManager
 {
-    String ROLE = "org.apache.avalon.cornerstone.services.sockets.SocketManager";
+    String ROLE = SocketManager.class.getName();
 
     /**
      * Retrieve a server socket factory by name.

@@ -19,7 +19,7 @@ import java.security.Principal;
 public interface MutableRealm
     extends Realm
 {
-    String ROLE = "org.apache.avalon.cornerstone.services.security.MutableRealm";
+    String ROLE = MutableRealm.class.getName();
 
     void addPrincipal( Principal principal );
     void removePrincipal( Principal principal );
