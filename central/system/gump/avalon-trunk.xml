@@ -2823,6 +2823,33 @@
        from="Magic Integration &lt;dev@avalon.apache.org&gt;"/>
   </project>
 
+  <project name="magic-xdoc-plugin">
+    <license name="central/system/license/LICENSE.TXT"/>
+    <ant basedir="tools/spells/xdoc">
+      <!-- for magic -->
+      <property name="build.sysclasspath" value="last"/> 
+      <property name="magic.home" reference="home" project="magic"/>
+      <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.ant" project="ant" id="ant"/>
+      <depend property="gump.resource.junit" project="junit"/>
+      <depend property="gump.resource.ant-junit" project="ant" id="junit"/>
+      <depend property="gump.resource.ant-nodeps" project="ant" id="nodeps"/>
+      <depend property="gump.resource.saxon" project="saxon">
+        <noclasspath/>
+      </depend>
+      <!-- end for -->
+    </ant>
+    <depend project="magic" runtime="true" inherit="runtime"/> 
+    <!-- for gump -->
+    <depend project="avalon-tools-magic"><noclasspath/></depend>
+    <!-- end for -->
+    <home nested="tools/spells/xdoc/target/deliverables"/>
+    <jar name="jars/magic-xdoc-plugin-@@DATE@@.jar"/>
+    <nag to="dev@avalon.apache.org"
+       from="Magic Integration &lt;dev@avalon.apache.org&gt;"/>
+  </project>
+
   <project name="avalon-repository-util">
     <license name="central/system/license/LICENSE.TXT"/>
     <ant basedir="runtime/repository/util">
