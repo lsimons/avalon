@@ -5,6 +5,7 @@
       <ResourceTemplate>
         <directoryType>StandardBlock</directoryType>
         <templateId>HelloWorld Tutorial</templateId>
+        <description>this is the hello world help</description>
         <wizardPages/>
         <resources>
           <Resource>
@@ -18,7 +19,12 @@
             <packageName></packageName>
           </Resource>
         </resources>
-        <libraries/>
+        <libraries>
+          <Library>
+            <name>avalon-framework-api</name>
+            <version>4.1.5</version>
+          </Library>
+        </libraries>
       </ResourceTemplate>
     </entry>
     <entry>
@@ -58,27 +64,22 @@
             <Directory>
               <name>impl</name>
               <isSource>true</isSource>
-              <libraries/>
             </Directory>
             <Directory>
               <name>api</name>
               <isSource>true</isSource>
-              <libraries/>
             </Directory>
             <Directory>
               <name>impl/BLOCK-INF</name>
               <isSource>false</isSource>
-              <libraries/>
             </Directory>
             <Directory>
               <name>test</name>
               <isSource>true</isSource>
-              <libraries/>
             </Directory>
             <Directory>
               <name>docs</name>
               <isSource>false</isSource>
-              <libraries/>
             </Directory>
           </directories>
         </DirectoryTemplate>
@@ -91,22 +92,18 @@
             <Directory>
               <name>src</name>
               <isSource>true</isSource>
-              <libraries/>
             </Directory>
             <Directory>
               <name>src/BLOCK-INF</name>
               <isSource>false</isSource>
-              <libraries/>
             </Directory>
             <Directory>
               <name>test</name>
               <isSource>true</isSource>
-              <libraries/>
             </Directory>
             <Directory>
               <name>docs</name>
               <isSource>false</isSource>
-              <libraries/>
             </Directory>
           </directories>
         </DirectoryTemplate>

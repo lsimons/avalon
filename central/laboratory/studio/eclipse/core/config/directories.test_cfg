@@ -8,27 +8,22 @@
           <Directory>
             <name>impl</name>
             <isSource>true</isSource>
-            <libraries/>
           </Directory>
           <Directory>
             <name>api</name>
             <isSource>true</isSource>
-            <libraries/>
           </Directory>
           <Directory>
             <name>impl/BLOCK-INF</name>
             <isSource>false</isSource>
-            <libraries/>
           </Directory>
           <Directory>
             <name>test</name>
             <isSource>true</isSource>
-            <libraries/>
           </Directory>
           <Directory>
             <name>docs</name>
             <isSource>false</isSource>
-            <libraries/>
           </Directory>
         </directories>
       </DirectoryTemplate>
@@ -41,22 +36,18 @@
           <Directory>
             <name>src</name>
             <isSource>true</isSource>
-            <libraries/>
           </Directory>
           <Directory>
             <name>src/BLOCK-INF</name>
             <isSource>false</isSource>
-            <libraries/>
           </Directory>
           <Directory>
             <name>test</name>
             <isSource>true</isSource>
-            <libraries/>
           </Directory>
           <Directory>
             <name>docs</name>
             <isSource>false</isSource>
-            <libraries/>
           </Directory>
         </directories>
       </DirectoryTemplate>
