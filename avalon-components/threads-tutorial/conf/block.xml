@@ -22,6 +22,4 @@ Thread Tutorial.
         class="org.apache.avalon.cornerstone.threads.tutorial.ThreadConsumer" 
         activation="true"/>
 
-   </implementation>
-
 </container>
