@@ -22,6 +22,7 @@ import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.fortress.MetaInfoManager;
 import org.apache.avalon.fortress.RoleManager;
 import org.apache.avalon.fortress.impl.role.ConfigurableRoleManager;
+import org.apache.avalon.fortress.impl.role.ECMMetaInfoManager;
 import org.apache.avalon.fortress.impl.role.ECMRoleManager;
 import org.apache.avalon.fortress.impl.role.FortressRoleManager;
 import org.apache.avalon.fortress.impl.role.Role2MetaInfoManager;
@@ -86,7 +87,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.54 $ $Date: 2004/04/05 11:07:08 $
+ * @version CVS $Revision: 1.55 $ $Date: 2004/04/05 12:05:38 $
  * @since 4.1
  */
 public class ContextManager
@@ -670,7 +671,10 @@ public class ContextManager
             // if we use the ecm role manager then we don't wrap it inside a service meta manager!
             if ( roleManager instanceof ECMRoleManager )
             {
-                mim = new Role2MetaInfoManager( roleManager );                
+                final ECMMetaInfoManager metaManager =
+                    new ECMMetaInfoManager( new Role2MetaInfoManager( roleManager ), classLoader );
+                metaManager.enableLogging( m_loggerManager.getLoggerForCategory( "system.meta" ) );
+                mim = metaManager;                
             }
             else
             {

@@ -25,6 +25,7 @@ import org.apache.avalon.fortress.impl.DefaultContainer;
 import org.apache.avalon.fortress.impl.handler.ComponentHandler;
 import org.apache.avalon.fortress.impl.handler.LEAwareComponentHandler;
 import org.apache.avalon.fortress.impl.lookup.FortressServiceSelector;
+import org.apache.avalon.fortress.impl.role.ECMMetaInfoManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.container.ContainerUtil;
@@ -133,74 +134,42 @@ public class DefaultECMContainer extends DefaultContainer {
         for ( int i = 0; i < elements.length; i++ )
         {
             final Configuration element = elements[i];
-            String hint = element.getAttribute( "id", null );
-            if ( null == hint ) {
-                // Fortress requires a hint, so we just give it one :)
-                hint = element.getLocation();
-            }
-            final String className = getClassname( element );
-            
-            final int activation = ComponentHandlerMetaData.ACTIVATION_BACKGROUND;
-            final ComponentHandlerMetaData metaData =
-                new ComponentHandlerMetaData( hint, className, element, activation );
 
             // figure out Role
             String role = getRole( element );
-            final int pos = role.indexOf('/');
-            if ( pos != -1 ) {
-                hint = role.substring(pos+1);
-                role = role.substring(0, pos);
+            if ( role.endsWith("Selector") ) 
+            {
+                processSelector(role.substring(0, role.length()-8), element );
             }
-            try 
+            else
             {
-                final MetaInfoEntry metaEntry = m_metaManager.getMetaInfoForClassname( className );
-                if ( null == metaEntry )
+            
+                // get the implementation
+                final String className = getClassname( element );
+    
+                final int pos = role.indexOf('/');
+                final String hint;
+                if ( pos != -1 ) 
                 {
-                    final String message = "No role defined for " + className;
-                    throw new IllegalArgumentException( message );
-                }
-
-                if ( DEFAULT_ENTRY.equals( metaData.getName() ) ||
-                        SELECTOR_ENTRY.equals( metaData.getName() ) )
+                    hint = role.substring(pos+1);
+                    role = role.substring(0, pos);
+                } 
+                else
                 {
-                    throw new IllegalArgumentException( "Using a reserved id name" + metaData.getName() );
+                    hint = null;
                 }
-
-                // create a handler for the combo of Role+MetaData
-                final ComponentHandler handler =
-                        getComponentHandler( className, 
-                                             getComponentHandlerClassName( className, element), 
-                                             metaData );
-
-                // put the role into our role mapper. If the role doesn't exist
-                // yet, just stuff it in as DEFAULT_ENTRY. If it does, we create a
-                // ServiceSelector and put that in as SELECTOR_ENTRY.
-                Map hintMap = (Map) m_mapper.get( role );
-
-                // Initialize the hintMap if it doesn't exist yet.
-                if ( null == hintMap )
+                
+                final String shortName;
+                if ( "component".equals( element.getName() )) 
                 {
-                    hintMap = createHintMap();
-                    hintMap.put( DEFAULT_ENTRY, handler );
-                    hintMap.put( SELECTOR_ENTRY,
-                            new FortressServiceSelector( this, role ) );
-                    m_mapper.put( role, hintMap );
+                    shortName = null;
                 }
-
-                hintMap.put( hint, handler );
-
-                if ( element.getAttributeAsBoolean( "default", false ) )
+                else
                 {
-                    hintMap.put( DEFAULT_ENTRY, handler );
+                    shortName = element.getName();
                 }
-            } 
-            catch ( ConfigurationException ce )
-            {
-                throw ce;
-            } 
-            catch ( Exception e ) 
-            {
-                throw new ConfigurationException( "Could not add component", e );
+                
+                this.addComponent(role, hint, shortName, className, element );
             }
             
             if ( getLogger().isDebugEnabled() ) 
@@ -293,10 +262,10 @@ public class DefaultECMContainer extends DefaultContainer {
         return handler;
     }
 
-    protected Class getComponentHandlerClassName(final String defaultClassName, Configuration config ) 
+    protected Class getComponentHandlerClass(final String defaultClassName, final String shortName ) 
         throws Exception
     {
-        if ( "component".equals( config.getName() ) ) 
+        if ( shortName == null ) 
         {
             String handlerClassName = null;
             
@@ -334,12 +303,12 @@ public class DefaultECMContainer extends DefaultContainer {
         } 
         else 
         {
-            final MetaInfoEntry roleEntry = m_metaManager.getMetaInfoForShortName( config.getName() );
+            final MetaInfoEntry roleEntry = m_metaManager.getMetaInfoForShortName( shortName );
             if ( null == roleEntry )
             {
                   
                 final String message = "No class found matching configuration name " +
-                        "[name: " + config.getName() + ", location: " + config.getLocation() + "]";
+                        "[name: " + shortName + "]";
                 throw new ConfigurationException( message );
             }
             
@@ -347,4 +316,103 @@ public class DefaultECMContainer extends DefaultContainer {
         }
     }
     
+    protected void processSelector(String role, Configuration config)
+        throws ConfigurationException
+    {
+        final Configuration[] children = config.getChildren();
+        if ( children != null ) 
+        {
+            for(int i=0; i<children.length; i++)
+            {
+                final Configuration element = children[i];       
+                final String hint = element.getAttribute("name");
+                final String className = element.getAttribute("class");
+                
+                if ( m_metaManager instanceof ECMMetaInfoManager )
+                {
+                    try
+                    {
+                        ((ECMMetaInfoManager)m_metaManager).addSelectorComponent(role, hint, className, getComponentHandlerClass(className, null).getName());
+                    } 
+                    catch (ConfigurationException ce )
+                    {
+                        throw ce;
+                    }
+                    catch (Exception e)
+                    {
+                        throw new ConfigurationException("Unable to add selector component.", e);
+                    }
+                }
+                addComponent(role, hint, null, className, element );
+            }
+        }
+    }
+    
+    protected void addComponent(final String role,
+                                String hint,
+                                String shortName,
+                                final String className,
+                                final Configuration element)
+        throws ConfigurationException
+    {
+        final int activation = ComponentHandlerMetaData.ACTIVATION_BACKGROUND;
+
+        // Fortress requires a hint, so we just give it one :) (if missing)
+        final String metaDataHint = element.getAttribute( "id", element.getLocation() );
+        
+        if ( hint == null )
+        {
+            hint = metaDataHint;
+        }
+        
+        final ComponentHandlerMetaData metaData =
+            new ComponentHandlerMetaData( metaDataHint, className, element, activation );
+
+        try 
+        {
+
+            if ( DEFAULT_ENTRY.equals( metaData.getName() ) ||
+                    SELECTOR_ENTRY.equals( metaData.getName() ) )
+            {
+                throw new IllegalArgumentException( "Using a reserved id name" + metaData.getName() );
+            }
+
+            // create a handler for the combo of Role+MetaData
+            final ComponentHandler handler =
+                    getComponentHandler( className, 
+                                         getComponentHandlerClass( className, shortName), 
+                                         metaData );
+
+            // put the role into our role mapper. If the role doesn't exist
+            // yet, just stuff it in as DEFAULT_ENTRY. If it does, we create a
+            // ServiceSelector and put that in as SELECTOR_ENTRY.
+            Map hintMap = (Map) m_mapper.get( role );
+
+            // Initialize the hintMap if it doesn't exist yet.
+            if ( null == hintMap )
+            {
+                hintMap = createHintMap();
+                hintMap.put( DEFAULT_ENTRY, handler );
+                hintMap.put( SELECTOR_ENTRY,
+                        new FortressServiceSelector( this, role ) );
+                m_mapper.put( role, hintMap );
+            }
+
+            hintMap.put( hint, handler );
+
+            if ( element.getAttributeAsBoolean( "default", false ) )
+            {
+                hintMap.put( DEFAULT_ENTRY, handler );
+            }
+        } 
+        catch ( ConfigurationException ce )
+        {
+            throw ce;
+        } 
+        catch ( Exception e ) 
+        {
+            throw new ConfigurationException( "Could not add component", e );
+        }
+    }
+        
 }
