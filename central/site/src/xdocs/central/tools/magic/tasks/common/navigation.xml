@@ -26,6 +26,7 @@
       <item name="Home" href="home.html"/>
       <item name="Info" href="info.html"/>
       <item name="Filter" href="filter.html"/>
+      <item name="Property" href="property.html"/>
       <item name="Prepare" href="prepare.html"/>
       <item name="Clean" href="clean.html"/>
     </menu>
