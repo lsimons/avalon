@@ -37,7 +37,7 @@
           <tr>
             <td>Scope</td>
             <td>
-              Applies to a class and interfaces.
+              Applies to classes and interfaces.
             </td>
           </tr>
           <tr>
@@ -274,7 +274,7 @@
   <mkdir dir="${build.qdox}"/>
 
   <taskdef name="generatemeta"
-      classname="org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateQdoxTask">
+      classname="org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateTask">
     <classpath refid="project.class.path" />
   </taskdef>
 
@@ -285,7 +285,7 @@
   </generatemeta>
 
 </target>
- ]]>
+]]>
       </source>
       <p>
         Where build.qdox is where the .mxinfo files should be placed, and java.dir
