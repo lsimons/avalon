@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project default="main" basedir=".">
+<project name="Avalon Cornerstone" default="main" basedir=".">
 
   <!--
     Give user a chance to override without editing this file
@@ -91,11 +91,11 @@
   <!-- Main target -->
   <target name="main" depends="jars" description="Generates the files minus documentation">
     <ant antfile="build.xml" dir="apps/overlord" target="main"
-         inheritall="false"/>  
+         inheritall="false"/>
     <ant antfile="build.xml" dir="apps/simpleserver" target="main"
-         inheritall="false"/>  
+         inheritall="false"/>
     <ant antfile="build.xml" dir="apps/xcommander" target="main"
-         inheritall="false"/>  
+         inheritall="false"/>
   </target>
 
   <target name="all" depends="main,docs" description="Generates the files including documentation"/>
@@ -108,26 +108,26 @@
 
   <!-- COmpile the project -->
   <target name="compile">
-  
-    <available property="jsse.present" 
-        classname="javax.net.ssl.SSLServerSocket" 
+
+    <available property="jsse.present"
+        classname="javax.net.ssl.SSLServerSocket"
         classpathref="project.class.path"/>
 
-    <available classname="electric.registry.Registry" 
-        classpathref="project.class.path" 
+    <available classname="electric.registry.Registry"
+        classpathref="project.class.path"
         property="glue.present"/>
-        
-    <available classname="javax.xml.parsers.DocumentBuilderFactory" 
-        classpathref="project.class.path" 
-        property="DocumentBuilderFactory.present"/>        
 
-    <available classname="javax.xml.parsers.SAXParserFactory" 
-        classpathref="project.class.path" 
-        property="SAXParserFactory.present"/>  
-        
-    <available classname="java.beans.XMLDecoder" 
-        classpathref="project.class.path" 
-        property="LTPJB.present"/>        
+    <available classname="javax.xml.parsers.DocumentBuilderFactory"
+        classpathref="project.class.path"
+        property="DocumentBuilderFactory.present"/>
+
+    <available classname="javax.xml.parsers.SAXParserFactory"
+        classpathref="project.class.path"
+        property="SAXParserFactory.present"/>
+
+    <available classname="java.beans.XMLDecoder"
+        classpathref="project.class.path"
+        property="LTPJB.present"/>
 
     <mkdir dir="${build.classes}"/>
 
@@ -145,15 +145,15 @@
       <exclude name="org/apache/avalon/cornerstone/blocks/dom/**.java"
                unless="DocumentBuilderFactory.present" />
       <exclude name="org/apache/avalon/cornerstone/services/dom/**.java"
-               unless="DocumentBuilderFactory.present" />               
+               unless="DocumentBuilderFactory.present" />
       <exclude name="org/apache/avalon/cornerstone/blocks/sax/**.java"
                unless="SAXParserFactory.present" />
       <exclude name="org/apache/avalon/cornerstone/services/sax/**.java"
-               unless="SAXParserFactory.present" />                            
+               unless="SAXParserFactory.present" />
       <exclude name="org/apache/avalon/cornerstone/blocks/masterstore/xml/**.java"
                unless="LTPJB.present" />
 
-               
+
     </javac>
 
     <copy todir="${build.classes}">
@@ -164,7 +164,7 @@
 
   </target>
 
-  <!-- Creates all the .jar file -->  
+  <!-- Creates all the .jar file -->
   <target name="jars" depends="compile">
 
     <mkdir dir="${build.lib}"/>
@@ -175,7 +175,7 @@
       <include name="org/apache/avalon/cornerstone/blocks/**"/>
       <include name="org/apache/avalon/cornerstone/services/**"/>
     </jar>
-  
+
   </target>
 
   <target name="xdoclet" description="Generates the XML descriptors">
@@ -267,7 +267,7 @@
     <mkdir dir="${build.xdocs}"/>
     <mkdir dir="${build.dir}/work"/>
 
-    <!-- Base pointers for non-xdocs documentation. Override these 
+    <!-- Base pointers for non-xdocs documentation. Override these
          in .ant.properties to link to local docs -->
     <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
     <property name="framework.base" value="http://jakarta.apache.org/avalon/framework"/>
@@ -318,37 +318,37 @@
       <arg value="-f${xdocs.dir}/cornerstone.uris"/>
       <classpath refid="tools.class.path"/>
     </java>
-       
-    <!-- 
+
+    <!--
       This is needed as Cocoon tries to resolve all references during styling.
       The apps xdocs are only generated in subsequent steps.
     -->
-    
+
     <replace file="${docs.dir}/apps.html" token="@link1@" value="&lt;a"/>
     <replace file="${docs.dir}/apps.html" token="@link2@" value="&gt;"/>
     <replace file="${docs.dir}/apps.html" token="@link3@" value="&lt;/a&gt;"/>
-    
+
   </target>
 
   <target name="docs" depends="javadocs,xdocs"/>
 
   <!-- Create the binary distribution -->
-  <target name="bin-dist" depends="all">  
+  <target name="bin-dist" depends="all">
 
     <!-- bin.dist.dir usually already specified -->
     <property name="bin.dist.dir" value="dist"/>
     <property name="bin.dist.docs" value="${bin.dist.dir}/docs"/>
 
-    
+
     <copy todir="${bin.dist.docs}">
       <fileset dir="${docs.dir}"/>
-    </copy>   
+    </copy>
 
     <copy file="${build.lib}/cornerstone.jar" tofile="${bin.dist.dir}/cornerstone-${version}.jar"/>
 
     <chmod dir="${bin.dist.dir}" perm="go-rwx" />
   </target>
-  
+
   <!-- Create the source distribution -->
   <target name="src-dist" depends="docs">
 
@@ -423,7 +423,7 @@
       <fileset dir="apps">
         <include name="*/dist/*.sar"/>
       </fileset>
-    </copy>    
+    </copy>
   </target>
 
   <!-- Completely build all dists -->
@@ -486,7 +486,7 @@
 
     <antcall target="distributions-apps" inheritall="false">
       <param name="dist.dir" value="${dist.name}" />
-    </antcall>       
+    </antcall>
 
   </target>
 
@@ -548,18 +548,18 @@
     <ant antfile="build.xml" dir="apps/xcommander" target="distclean"
          inheritall="false"/>
   </target>
-  
-  
+
+
   <!-- Delegated (to apps/xxxxxx) Targets -->
 
   <target name="overlord" depends="compile" description="Delegates to build.xml in apps/overlord">
     <ant antfile="build.xml" dir="apps/overlord" target="${apps-target}" inheritall="false"/>
-  </target>  
+  </target>
   <target name="simpleserver" depends="compile" description="Delegates to build.xml in apps/simpleserver">
     <ant antfile="build.xml" dir="apps/simpleserver" target="${apps-target}" inheritall="false"/>
-  </target>  
+  </target>
   <target name="xcommander" depends="compile" description="Delegates to build.xml in apps/xcommander">
     <ant antfile="build.xml" dir="apps/xcommander" target="${apps-target}" inheritall="false"/>
-  </target>  
-  
+  </target>
+
 </project>
