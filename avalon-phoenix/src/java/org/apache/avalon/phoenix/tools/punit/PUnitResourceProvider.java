@@ -7,24 +7,24 @@
  */
 package org.apache.avalon.phoenix.tools.punit;
 
-import org.apache.excalibur.containerkit.lifecycle.ResourceProvider;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.component.WrapperComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.excalibur.containerkit.lifecycle.ResourceProvider;
 
 /**
  * PUnitResourceProvider
+ *
  * @author Paul Hammant
  */
 public class PUnitResourceProvider
     implements ResourceProvider
 {
-
     private ServiceManager m_serviceManager;
-    private ComponentManager m_componentManager;
     private Configuration m_configuration;
     private Logger m_logger;
 
@@ -33,22 +33,24 @@ public class PUnitResourceProvider
      * @param serviceManager The service manager
      * @param configuration The configuration
      */
-    public PUnitResourceProvider( ServiceManager serviceManager,
-                                  Configuration configuration, Logger logger )
+    public PUnitResourceProvider( final ServiceManager serviceManager,
+                                  final Configuration configuration,
+                                  final Logger logger )
     {
         m_serviceManager = serviceManager;
-        m_componentManager = new PUnitComponentManager(serviceManager);
         m_configuration = configuration;
         m_logger = logger;
     }
 
     /**
      * Create an object
+     *
      * @param object The object
      * @return The returned object
      * @throws Exception If a problm
      */
-    public Object createObject(Object object) throws Exception
+    public Object createObject( final Object object )
+        throws Exception
     {
         return object;
     }
@@ -59,7 +61,7 @@ public class PUnitResourceProvider
      * @return The Logger
      * @throws Exception If a problem
      */
-    public Logger createLogger(Object object) throws Exception
+    public Logger createLogger( final Object object ) throws Exception
     {
         return m_logger;
     }
@@ -70,7 +72,8 @@ public class PUnitResourceProvider
      * @return the context
      * @throws Exception If a problem
      */
-    public Context createContext(Object object) throws Exception
+    public Context createContext( final Object object )
+        throws Exception
     {
         return new PUnitBlockContext();
     }
@@ -81,9 +84,9 @@ public class PUnitResourceProvider
      * @return The comp mgr
      * @throws Exception If a problem
      */
-    public ComponentManager createComponentManager(Object object) throws Exception
+    public ComponentManager createComponentManager( Object object ) throws Exception
     {
-        return m_componentManager;
+        return new WrapperComponentManager( m_serviceManager );
     }
 
     /**
@@ -92,18 +95,21 @@ public class PUnitResourceProvider
      * @return The service manager
      * @throws Exception If a problem
      */
-    public ServiceManager createServiceManager(Object object) throws Exception
+    public ServiceManager createServiceManager( final Object object )
+        throws Exception
     {
         return m_serviceManager;
     }
 
     /**
      * Create some Configuration
+     *
      * @param object For this object
      * @return The configuration
      * @throws Exception If a problem
      */
-    public Configuration createConfiguration(Object object) throws Exception
+    public Configuration createConfiguration( final Object object )
+        throws Exception
     {
         return m_configuration;
     }
@@ -114,9 +120,10 @@ public class PUnitResourceProvider
      * @return The parameters
      * @throws Exception If a problem
      */
-    public Parameters createParameters(Object object) throws Exception
+    public Parameters createParameters( final Object object )
+        throws Exception
     {
-        //TODO
-        throw new UnsupportedOperationException();
+        final Configuration configuration = createConfiguration( object );
+        return Parameters.fromConfiguration( configuration );
     }
 }

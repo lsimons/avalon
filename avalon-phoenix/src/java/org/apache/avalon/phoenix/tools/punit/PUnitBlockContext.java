@@ -9,6 +9,7 @@ package org.apache.avalon.phoenix.tools.punit;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.phoenix.BlockContext;
 
 import java.io.File;
@@ -19,49 +20,51 @@ import java.io.InputStream;
  * @author Paul Hammant
  */
 public class PUnitBlockContext
+    extends DefaultContext
     implements BlockContext
 {
 
     public File getBaseDirectory()
     {
-        // TODO
-        return null;
+        try
+        {
+            return (File)get( BlockContext.APP_HOME_DIR );
+        }
+        catch( ContextException e )
+        {
+            return new File( "." );
+        }
     }
 
     public String getName()
     {
-        // TODO
-        return null;
+        try
+        {
+            return (String)get( BlockContext.APP_NAME );
+        }
+        catch( ContextException e )
+        {
+            return "myBlock";
+        }
     }
-
 
     public void requestShutdown()
     {
-        //TODO
     }
 
-    // TODO
-    public InputStream getResourceAsStream(String name)
+    public InputStream getResourceAsStream( String name )
     {
         return null;
     }
 
-    public Logger getLogger(String name)
+    public Logger getLogger( String name )
     {
         throw new UnsupportedOperationException();
     }
 
-    public ClassLoader getClassLoader(String name)
-            throws Exception
+    public ClassLoader getClassLoader( String name )
+        throws Exception
     {
-        // TODO
         return null;
     }
-
-    public Object get(Object o) throws ContextException
-    {
-        //TODO
-        return null;
-    }
-
 }
