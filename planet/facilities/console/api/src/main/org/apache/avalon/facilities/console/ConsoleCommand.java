@@ -34,6 +34,8 @@ public interface ConsoleCommand
      */
     String getDescription();
     
-    void execute( BufferedReader input, BufferedWriter output, String[] arguments )
+    void execute( CommandInterpreter intp, 
+                  BufferedReader input, BufferedWriter output, 
+                  String[] arguments )
         throws Exception;
 }

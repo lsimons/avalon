@@ -23,6 +23,7 @@ import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 
+import org.apache.avalon.facilities.console.CommandInterpreter;
 import org.apache.avalon.facilities.console.Console;
 import org.apache.avalon.facilities.console.ConsoleCommand;
 
@@ -35,25 +36,25 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 
 /**
- * @avalon.component name="console-viewmodel" lifestyle="singleton"
+ * @avalon.component name="console-showmodel" lifestyle="singleton"
  * @avalon.service type="org.apache.avalon.facilities.console.ConsoleCommand"
  */
-public class ViewModelCmd
+public class ShowModelCmd
     implements ConsoleCommand, Serviceable, Contextualizable
 {
     String LINE = 
       "\n-----------------------------------------------------------";
     
-    private ContainmentModel m_RootModel;
+    private String m_Name;
     
     public String getName()
     {
-        return "viewmodel";
+        return m_Name;
     }
     
     public String getDescription()
     {
-        String str = "usage: viewmodel (path)\n\nDisplays the composition model.";
+        String str = "usage: " + m_Name + " (path)\n\nDisplays the composition model.";
         return str;
     }
     
@@ -66,16 +67,15 @@ public class ViewModelCmd
      *
      * @exception ContextException if a contextualization error occurs
      *
-     * @avalon.entry key="urn:composition:containment.model" 
-     *               type="org.apache.avalon.composition.model.ContainmentModel" 
-     *
+     * @avalon.entry key="urn:avalon:name" 
+     *               type="java.lang.String" 
      */
     public void contextualize( Context ctx ) 
         throws ContextException
     {
-        m_RootModel = (ContainmentModel) ctx.get( "urn:composition:containment.model" );
+        m_Name = (String) ctx.get( "urn:avalon:name" );
     }
-    
+
     /**
      * @avalon.dependency type="org.apache.avalon.facilities.console.Console"
      *                    key="console"
@@ -87,16 +87,18 @@ public class ViewModelCmd
         console.addCommand( this );
     }
     
-    public void execute( BufferedReader input, BufferedWriter output, String[] arguments )
+    public void execute( CommandInterpreter intp, BufferedReader input, BufferedWriter output, String[] arguments )
         throws Exception
     {
         output.newLine();
+        ContainmentModel current = intp.getCurrentContainer();
         String path;
         if( arguments.length == 0 )
-            path = "/";
+            path = current.getPath();
         else
             path = arguments[0];
-        DeploymentModel model = m_RootModel.getModel( path );
+            
+        DeploymentModel model = current.getModel( path );
         
         String result = printModel( model );
         output.write( result );
