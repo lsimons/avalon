@@ -1,5 +1,5 @@
 /*
- * Copyright 1997-2004 Apache Software Foundation
+ * Copyright 1997-2004 The Apache Software Foundation
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ package org.apache.avalon.framework.component;
  * </p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.20 $ $Date: 2004/01/26 19:49:46 $
+ * @version CVS $Revision: 1.21 $ $Date: 2004/02/11 14:34:24 $
  */
 public interface Composable
 {

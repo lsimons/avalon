@@ -1,5 +1,5 @@
 /*
- * Copyright 1997-2004 Apache Software Foundation
+ * Copyright 1997-2004 The Apache Software Foundation
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ import org.apache.log.util.StackIntrospector;
  * </ul>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.28 $ $Date: 2004/01/26 19:50:33 $
+ * @version CVS $Revision: 1.29 $ $Date: 2004/02/11 14:34:26 $
  */
 public class AvalonFormatter
     extends ExtendedPatternFormatter
