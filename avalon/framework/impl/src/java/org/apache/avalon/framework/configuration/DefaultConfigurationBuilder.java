@@ -18,8 +18,11 @@ package org.apache.avalon.framework.configuration;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -61,7 +64,7 @@ import org.xml.sax.XMLReader;
  * </p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.32 $ $Date: 2004/02/11 14:34:25 $
+ * @version CVS $Revision: 1.33 $ $Date: 2004/04/03 23:55:54 $
  */
 public class DefaultConfigurationBuilder
 {
@@ -250,6 +253,21 @@ public class DefaultConfigurationBuilder
             m_handler.clear();
             m_parser.parse( input );
             return m_handler.getConfiguration();
+        }
+    }
+
+    /**
+     * Sets the <code>EntityResolver</code> to 
+     * be used by parser. Useful when dealing with xml
+     * files that reference external entities.
+     * 
+     * @param resolver implementation of <code>EntityResolver</code>
+     */
+    public void setEntityResolver( final EntityResolver resolver )
+    {
+        synchronized( this )
+        {
+            m_parser.setEntityResolver( resolver );
         }
     }
 }
