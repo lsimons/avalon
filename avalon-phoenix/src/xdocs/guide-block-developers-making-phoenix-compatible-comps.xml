@@ -1,48 +1,46 @@
 <?xml version="1.0"?>
 
-<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
-
 <document>
   <header>
-    <title>Avalon Phoenix - Guide - Making components that are Phoenix compatible</title>
-    <authors>
-      <person name="Paul Hammant" email="hammant@apache.org"/>
-    </authors>
+    <title>Guide - Making components that are Phoenix compatible</title>
+
+      <author name="Paul Hammant" email="hammant@apache.org"/>
+
   </header>
   <body>
-    <s1 title="Introduction">
+    <section name="Introduction">
       <p>
-      Quite often reusable components are made elsewhere.  Apache has a number 
+      Quite often reusable components are made elsewhere.  Apache has a number
       of places where this activity is going on.  While we get it right most of
       the time, some components developer elsewhere are harder to use in Phoenix
       </p>
-    </s1>
-    <s1 title="Things to remember">
+    </section>
+    <section name="Things to remember">
       <p>
-        There are a number of common sense things to remember when making or 
+        There are a number of common sense things to remember when making or
         adapting a Java component to be reusable in Phoenix as block.
       </p>
-      <s2 title="Beanification">      
+      <s2 title="Beanification">
         <p>
           <ul>
             <li>Have a public empty constructor for your main class</li>
             <li>Have setters for its configuration.</li>
             <li>Do not assume that the File is where dependancies are - people may reuse this in jars, applets etc.</li>
-            <li>Divorce your main method (if appl) from your main class - Phoenix does not call main methods.</li>            
-            <li>Consider that the setup and initialization of the bean does not happen in the 
-                constructor - as a convenience to the user, have an initialize() method</li>            
-            <li>If the comp has start/stop functinality consider having start() and stop() methods.</li>  
+            <li>Divorce your main method (if appl) from your main class - Phoenix does not call main methods.</li>
+            <li>Consider that the setup and initialization of the bean does not happen in the
+                constructor - as a convenience to the user, have an initialize() method</li>
+            <li>If the comp has start/stop functinality consider having start() and stop() methods.</li>
             <li>Try to avoid Singleton concepts.  There could be multiple blocks in one sar using differnt (by design) instances of your bean</li>
           </ul>
         </p>
-      </s2>              
+      </s2>
       <s2 title="Inversion of Control Pattern">
-         The IoC pattern is described <link href="http://jakarta.apache.org/avalon/framework/inversion-of-control.html">
-         here</link>.  This means for Phoenix avoiding static concepts including loggers.
+         The IoC pattern is described <a href="http://jakarta.apache.org/avalon/framework/inversion-of-control.html">
+         here</a>.  This means for Phoenix avoiding static concepts including loggers.
       </s2>
       <s2 title="Sepearation of interface and implementation">
         <p>
-         The separation of interface/impl pattern is described <link href="http://jakarta.apache.org/avalon/framework/separation-of-interface-and-implementation.html">here</link>.  
+         The separation of interface/impl pattern is described <a href="http://jakarta.apache.org/avalon/framework/separation-of-interface-and-implementation.html">here</a>.
          For Phoenix is means we can (if done completely) mount the implementation jar in place where hosted client compoennts (beans, servlets etc) can use the API, bit not see the implementation.  We can also reimplement or wrap
          bits of the implementation.  For example we could write a pluggable implementation that could, for a certain API
          journal some methods, but still delegate to the real impl.  Which pluggable impl is used by Phoenix when it
@@ -64,8 +62,8 @@
         .. might be useful.  Just because you can only see a ServerSocket interface does not mean that others do.
         </p>
       </s2>
-    </s1>
-    <s1 title="Example compatible comp">
+    </section>
+    <section name="Example compatible comp">
     <p>
       Below are an interface and implemmentation that are suitably separated, are beanlike and is in accordance
       with the IoC pattern...
@@ -180,8 +178,8 @@ public class EJBBlock extends AbstractLoggable implements Block, Composable {
 }
 </source>
     </p>
-    </s1>
-    <s1 title="Misconceptions">
+    </section>
+    <section name="Misconceptions">
       <p>
         The following are worth stating:
         <ul>
@@ -190,22 +188,16 @@ public class EJBBlock extends AbstractLoggable implements Block, Composable {
           <li>Being Phoenix compatible can be for tools that are intended for client-side as well as server use.</li>
         </ul>
       </p>
-    </s1>
-     <s1 title="Guide Contents">
+    </section>
+     <section name="Guide Contents">
        <ol>
-        <li><link href="guide-block-developers-what-is-a-block.html">What is a block?</link></li>
-        <li><link href="guide-block-developers-what-is-a-block-listener.html">What is a block listener?</link></li>
-        <li><link href="guide-block-developers-what-is-an-application-listener.html">What is an application listener?</link></li>
-        <li><link href="guide-block-developers-creating-a-block.html">How do I create a block?</link></li>
+        <li><a href="guide-block-developers-what-is-a-block.html">What is a block?</a></li>
+        <li><a href="guide-block-developers-what-is-a-block-listener.html">What is a block listener?</a></li>
+        <li><a href="guide-block-developers-what-is-an-application-listener.html">What is an application listener?</a></li>
+        <li><a href="guide-block-developers-creating-a-block.html">How do I create a block?</a></li>
         <li>How do I make my components phoenix-compatible?</li>
-        <li><link href="reference-blockinfo-specification.html">BlockInfo specification</link></li>
+        <li><a href="reference-blockinfo-specification.html">BlockInfo specification</a></li>
        </ol>
-      </s1>
+      </section>
   </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/05/12 19:52:49 $
-    </legal>
-  </footer>
 </document>

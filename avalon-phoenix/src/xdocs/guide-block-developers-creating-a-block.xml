@@ -1,19 +1,17 @@
 <?xml version="1.0"?>
 
-<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
-
 <document>
   <header>
-    <title>Avalon Phoenix - Guide - Creating a Block</title>
-    <authors>
+    <title>Guide - Creating a Block</title>
+
       <person id="PD" name="Peter Donald" email="peter@apache.org"/>
-    </authors>
+
   </header>
   <body>
-    <s1 title="Introduction">
+    <section name="Introduction">
       <p>
-        This document will describe the process for creating your first block. There 
-        are essentially three steps that must be completed before your block is ready 
+        This document will describe the process for creating your first block. There
+        are essentially three steps that must be completed before your block is ready
         for assembling.
       </p>
       <ol>
@@ -21,40 +19,40 @@
         <li>Write the BlockInfo meta-info description file.</li>
         <li>Package the component and related resources into a block jar file.</li>
       </ol>
-    </s1>
-    <s1 title="Writing the Block component">
+    </section>
+    <section name="Writing the Block component">
       <p>
         Writing the Block is the main task you will be called to do. It follows all
-        the rules of writing a standard Avalon component. Block writers must also 
-        extend the <code>org.apache.phoenix.Block</code> interface. 
+        the rules of writing a standard Avalon component. Block writers must also
+        extend the <code>org.apache.phoenix.Block</code> interface.
       </p>
       <p>
         If a block implements the Composer interface it will be passed an instance
         of <code>org.apache.phoenix.BlockContext</code> which is an extended version
-        of <code>org.apache.avalon.Context</code>. Other than this minor change the 
-        Block's container (the Phoenix Kernel) supports all the Avalon lifecycle 
-        methods or will in the near future (at the moment suspend/resume is not yet 
+        of <code>org.apache.avalon.Context</code>. Other than this minor change the
+        Block's container (the Phoenix Kernel) supports all the Avalon lifecycle
+        methods or will in the near future (at the moment suspend/resume is not yet
         supported).
       </p>
       <p>
         The block can implement an instance of <code>org.apache.phoenix.Service</code>
-        if it wishes to export a service to external blocks. It is also possible to 
+        if it wishes to export a service to external blocks. It is also possible to
         aquire services from other blocks in the <code>compose()</code> method.
       </p>
-    </s1>
-    <s1 title="Write the BlockInfo">
+    </section>
+    <section name="Write the BlockInfo">
       <p>
-        You must create this file to indicate which services this Block depends upon 
-        and those services which it offers. It is more fully documented in the 
-        <link href="reference-blockinfo-specification.html">BlockInfo Specification</link> document.
+        You must create this file to indicate which services this Block depends upon
+        and those services which it offers. It is more fully documented in the
+        <a href="reference-blockinfo-specification.html">BlockInfo Specification</a> document.
       </p>
-    </s1>
-    <s1 title="Create the jar package">
+    </section>
+    <section name="Create the jar package">
       <p>
         The final step is packaging up the implementation files, BlockInfos and other
-        resources into a jar file. The jar file is a standard jar file with special manifest 
+        resources into a jar file. The jar file is a standard jar file with special manifest
         entries. For each Block that is included in the jar, a new manifest attribute
-        must be added, namely &quot;Avalon-Block: true&quot;. An example manifest file is 
+        must be added, namely &quot;Avalon-Block: true&quot;. An example manifest file is
         displayed below.
       </p>
       <source>
@@ -64,22 +62,16 @@ Created-By: Apache Avalon Project
 Name: com/biz/cornerstone/blocks/MyBlock.class
 Avalon-Block: true
       </source>
-    </s1>
-     <s1 title="Guide Contents">
+    </section>
+     <section name="Guide Contents">
        <ol>
-        <li><link href="guide-block-developers-what-is-a-block.html">What is a block?</link></li>
-        <li><link href="guide-block-developers-what-is-a-block-listener.html">What is a block listener?</link></li>
-        <li><link href="guide-block-developers-what-is-an-application-listener.html">What is an application listener?</link></li>
+        <li><a href="guide-block-developers-what-is-a-block.html">What is a block?</a></li>
+        <li><a href="guide-block-developers-what-is-a-block-listener.html">What is a block listener?</a></li>
+        <li><a href="guide-block-developers-what-is-an-application-listener.html">What is an application listener?</a></li>
         <li>How do I create a block?</li>
-        <li><link href="guide-block-developers-making-phoenix-compatible-comps.html">How do I make my components phoenix-compatible?</link></li>
-        <li><link href="reference-blockinfo-specification.html">BlockInfo specification</link></li>
+        <li><a href="guide-block-developers-making-phoenix-compatible-comps.html">How do I make my components phoenix-compatible?</a></li>
+        <li><a href="reference-blockinfo-specification.html">BlockInfo specification</a></li>
        </ol>
-      </s1>
+      </section>
   </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/05/12 19:52:49 $
-    </legal>
-  </footer>
 </document>

@@ -1,22 +1,20 @@
 <?xml version="1.0"?>
 
-<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
-
 <document>
 
  <header>
-  <title>Avalon Phoenix - Todo</title>
-  <authors>
-   <person name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/>
-  </authors>
+  <title>Todo</title>
+
+   <author name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/>
+
  </header>
 
 <body>
 
-<s1 title="Todo">
+<section name="Todo">
 
 <p>
-This document describes functionality that is either missing or not finished 
+This document describes functionality that is either missing or not finished
 within Phoenix.
 </p>
 
@@ -59,9 +57,9 @@ If you need more detailed help, please join, then send mail to the mailing
 list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
 </p>
 
-</s1>
+</section>
 
-<s1 title="Wish List">
+<section name="Wish List">
 
     <s2 title="Separate and Antify Validation code">
       <p>
@@ -234,9 +232,9 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
       Define and implement some Transaction pattern for the Repository. Maybe JTA?
       </p>
     </s2>
-</s1>
+</section>
 
-<s1 title="Ongoing work">
+<section name="Ongoing work">
     <s2 title="Help needed!">
       <p>
       We can really use some help here! This is a top priority and all
@@ -256,9 +254,9 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
       </p>
     </s2>
 
-</s1>
+</section>
 
-<s1 title="Very Important Work to Complete">
+<section name="Very Important Work to Complete">
 
     <s2 title="Java Management eXtentions">
       <p>
@@ -273,7 +271,7 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
       </p>
     </s2>
 
-</s1>
+</section>
 
 </body>
 </document>

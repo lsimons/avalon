@@ -1,22 +1,20 @@
 <?xml version="1.0"?>
 
-<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
-
 <document>
   <header>
-    <title>Avalon Phoenix - Project Structure</title>
-    <authors>
-      <person name="Leo Simons" email="leosimons@apache.org"/>
-    </authors>
+    <title>Project Structure</title>
+
+      <author name="Leo Simons" email="leosimons@apache.org"/>
+
   </header>
   <body>
-      <s1 title="Introduction">
+      <section name="Introduction">
 <p>Avalon Phoenix has seen lots of refactoring to create an intuitive
 code layout. It is usually quite easy to find what you need. This document
 provides an overview of the project structure. It is still under
 construction.</p>
-      </s1>
-      <s1 title="Package structure">
+      </section>
+      <section name="Package structure">
 <source>
 org.apache.avalon.phoenix
 |
@@ -45,8 +43,8 @@ org.apache.avalon.phoenix
    |- verifier
    |- xdoclet
 </source>
-      </s1>
-      <s1 title="CVS Directory structure">
+      </section>
+      <section name="CVS Directory structure">
 <source>
 jakarta-avalon
 |
@@ -77,13 +75,7 @@ jakarta-avalon
 |- README.txt
 |- WARNING.txt
 </source>
-      </s1>
+      </section>
   </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/05/12 19:52:49 $
-    </legal>
-  </footer>
 </document>
 

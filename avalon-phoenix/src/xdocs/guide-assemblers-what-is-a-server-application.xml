@@ -1,47 +1,39 @@
 <?xml version="1.0"?>
 
-<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
-
 <document>
   <header>
-    <title>Avalon Phoenix - Guide - What is a Server Application?</title>
-    <authors>
+    <title>Guide - What is a Server Application?</title>
+
       <person id="PD" name="Peter Donald" email="peter@apache.org"/>
       <person id="BL" name="Berin Loritsch" email="bloritsch@apache.org"/>
-    </authors>
+
   </header>
   <body>
-    <s1 title="Introduction">
+    <section name="Introduction">
       <p>
         In Phoenix, a Server Application is a set of Blocks that act in concert
-        to provide a unified user service. Example Server Applications include a Mail 
-        Server, File Server, Web Server etc. The Server Application is a high level 
+        to provide a unified user service. Example Server Applications include a Mail
+        Server, File Server, Web Server etc. The Server Application is a high level
         component that contains a set of Block components.
       </p>
       <p>
-        A Server Application requires a number of components other than Blocks to 
-        be complete. A Server Application requires configuration files to define 
+        A Server Application requires a number of components other than Blocks to
+        be complete. A Server Application requires configuration files to define
         Server Application wide settings (threading, security, logging), to define
-        how blocks are wired together, and to define configuration data for the 
-        Block instances. A Block can also require other resources that are 
+        how blocks are wired together, and to define configuration data for the
+        Block instances. A Block can also require other resources that are
         application specific.
       </p>
-    </s1>
-     <s1 title="Guide Contents">
+    </section>
+     <section name="Guide Contents">
        <ol>
         <li>What is a Server Application?</li>
-        <li><link href="guide-assemblers-creating-a-server-application.html">How do I create a Server Application?</link></li>
-        <li><link href="reference-config-xml-specification.html">config.xml specification</link></li>
-	<li><link href="reference-assembly-xml-specification.html">assembly.xml specification</link></li>
-        <li><link href="reference-environment-xml-specification.html">environment.xml specification</link></li>
+        <li><a href="guide-assemblers-creating-a-server-application.html">How do I create a Server Application?</a></li>
+        <li><a href="reference-config-xml-specification.html">config.xml specification</a></li>
+	<li><a href="reference-assembly-xml-specification.html">assembly.xml specification</a></li>
+        <li><a href="reference-environment-xml-specification.html">environment.xml specification</a></li>
        </ol>
-      </s1>
+      </section>
   </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/05/12 19:52:49 $
-    </legal>
-  </footer>
 </document>
 

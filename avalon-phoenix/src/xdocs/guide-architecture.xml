@@ -1,21 +1,19 @@
 <?xml version="1.0"?>
 
-<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
-
 <document>
   <header>
-    <title>Avalon Phoenix - Guide - Architectural overview</title>
-    <authors>
-      <person name="Leo Simons" email="leosimons@apache.org"/>
-    </authors>
+    <title>Guide - Architectural overview</title>
+
+      <author name="Leo Simons" email="leosimons@apache.org"/>
+
   </header>
   <body>
-    <s1 title="Introduction">
+    <section name="Introduction">
       <p>
         This document briefly describes the Phoenix server architecture.
       </p>
-    </s1>
-    <s1 title="Multiple Server Application hosting">
+    </section>
+    <section name="Multiple Server Application hosting">
       <p>
         Phoenix hosts one or more server applications at the same time in the same Virtual machine.
       </p>
@@ -33,8 +31,8 @@
         and non-existant currently at Apache is an EJB Server.  This would be able to host it's own
         bean applications and might use the web server for it's HTTP needs.
       </p>
-    </s1>
-    <s1 title="Packaging of a Server Application">
+    </section>
+    <section name="Packaging of a Server Application">
       <p>
         Phoenix application are distriuted in a single archive.
       </p>
@@ -76,12 +74,6 @@
         tool for making sar files.  See the "Block Developers Guide" (left
         margin of this page) for more what/how/why.
       </p>
-    </s1>
+    </section>
   </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/05/12 19:52:49 $
-    </legal>
-  </footer>
 </document>

@@ -1,16 +1,14 @@
 <?xml version="1.0"?>
 
-<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
-
 <document>
   <header>
-    <title>Avalon Phoenix - Reference - Specification of environment.xml</title>
-    <authors>
+    <title>Reference - Specification of environment.xml</title>
+
       <person id="PD" name="Peter Donald" email="peter@apache.org"/>
-    </authors>
+
   </header>
   <body>
-    <s1 title="Introduction">
+    <section name="Introduction">
       <p>
         The purpose of the <code>environment.xml</code> file is to configure environmental
         or Server Application wide settings. Currently this means being able to set the
@@ -19,8 +17,8 @@
         section but this has been deprecated. Note that previously the information stored in
         <code>environment.xml</code> was stored in a file named <code>server.xml</code>.
       </p>
-    </s1>
-    <s1 title="Sample environment.xml file">
+    </section>
+    <section name="Sample environment.xml file">
       <source><![CDATA[
 <?xml version="1.0"?>
 
@@ -103,23 +101,17 @@
 
 <targets>
   <file id="default">
-    <filename>${app.home}/logs/default-</filename>
+    <filename>{app.home}/logs/default-</filename">
     <append>true</append>
     <rotation type="unique" pattern="yyyyMMdd" suffix=".log">
       <date>yyyyMMdd</date>
     </rotation>
   </file>
 </targets>
-</logger>
-]]></source>
+</logger>]]>
+</source>
       </p>
-    </s1>
+    </section>
   </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/05/12 19:52:50 $
-    </legal>
-  </footer>
 </document>
 
