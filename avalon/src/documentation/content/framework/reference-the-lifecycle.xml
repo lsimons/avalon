@@ -20,7 +20,7 @@
       <p>
         The Avalon project provides an
         application that functions as a container for componentized applications 
-        called <link href="@PHOENIX_BASE@/index.html">Phoenix</link>.  This is not 
+        called <link href="../phoenix/index.html">Phoenix</link>.  This is not 
         exclusive, components adhering to lifecycle interfaces, can be mounted in 
         custom containers.  Cocoon and others mounts their own containers for 
         components and invoke relevant methods from the lifecycle interfaces.  See

@@ -79,7 +79,7 @@
 <title>Avalon Framework Reference Documentation</title>
         <p>
            Besides the
-           <link href="@AVALON_BASE@/api/index.html">Javadocs</link>, we have
+           <link href="../api/index.html">Javadocs</link>, we have
            <link href="diagrams/">Class diagrams</link>, the
            <link href="reference-the-lifecycle.html">Lifecycle specification</link> and the
            <link href="reference-containers.html">List of containers</link>.
