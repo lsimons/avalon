@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE blockinfo PUBLIC "-//PHOENIX/Block Info DTD Version 1.0//EN"
-                  "http://jakarta.apache.org/phoenix/blockinfo_1_0.dtd">
+                  "http://jakarta.apache.org/avalon/dtds/phoenix/blockinfo_1_0.dtd">
 
 <blockinfo>
 
