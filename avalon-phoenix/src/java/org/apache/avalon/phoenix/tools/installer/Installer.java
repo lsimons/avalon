@@ -286,12 +286,14 @@ public class Installer
             //Don't expand anything below SAR-INF directory unless they
             //are the config.xml or server.xml files which will be expanded
             //as a special case atm.
+            //NOTE: We expand everything at this time now but this will change
+            //in the future
             if( name.startsWith( SAR_INF ) &&
                 !name.equals( SERVER_XML ) &&
                 !name.equals( ENV_XML ) &&
                 !name.equals( CONFIG_XML ) )
             {
-                expand = false;
+                //expand = false;
 
                 if( false == classesAdded &&
                     name.startsWith( CLASSES ) )
