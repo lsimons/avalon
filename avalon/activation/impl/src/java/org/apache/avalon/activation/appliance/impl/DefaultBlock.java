@@ -75,7 +75,7 @@ import org.apache.avalon.framework.logger.Logger;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7.2.2 $ $Date: 2004/01/07 13:58:11 $
+ * @version $Revision: 1.7.2.3 $ $Date: 2004/01/08 09:43:45 $
  */
 public class DefaultBlock extends AbstractBlock implements Home
 {
@@ -279,11 +279,21 @@ public class DefaultBlock extends AbstractBlock implements Home
                 Object object = provider.resolve();
                 return method.invoke( object, args );
             }
+            catch( UndeclaredThrowableException e )
+            {
+                Throwable cause = e.getUndeclaredThrowable();
+                if( cause != null ) throw cause;
+                final String error = 
+                  "Delegation error raised by component: " + m_model.getQualifiedName();
+                throw new ApplianceException( error, e );
+            }
             catch( InvocationTargetException e )
             {
+                Throwable cause = e.getTargetException();
+                if( cause != null ) throw cause;
                 final String error = 
-                  "Delegation error raised by provider: " + provider;
-                throw new ApplianceException( error, e.getTargetException() );
+                  "Delegation error raised by component: " + m_model.getQualifiedName();
+                throw new ApplianceException( error, e );
             }
             catch( Throwable e )
             {
