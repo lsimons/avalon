@@ -47,7 +47,7 @@ public class DefaultLogManager
      * Constant used to define LogManager class to use log4j log format and system.
      */
     private static final String VERSION_LOG4J =
-        "org.apache.avalon.excalibur.logger.Log4jConfLoggerManager";
+        "org.apache.avalon.excalibur.logger.Log4JConfLoggerManager";
 
     /**
      * Create a Logger hierarchy for specified application.
