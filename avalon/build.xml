@@ -194,19 +194,17 @@ Legal:
     </target>
 
     <target name="jar-exceptionutil" depends="compile-exceptionutil, prepare-conf">
-        <copy
-            file="${conf.dir}/MANIFEST.MF"
-            tofile="${build.conf}/MANIFEST-EXCEPTIONUTIL.MF">
-            <filterset>
-                <filter token="name" value="avalon-exceptionutil"/>
-                <filter token="version" value="${version}"/>
-            </filterset>
-        </copy>
         <mkdir dir="${build.lib}"/>
         <jar jarfile="${build.lib}/exceptionutil.jar"
             basedir="${build.classes}"
-            compress="${compress.jars}"
-            manifest="${build.conf}/MANIFEST-EXCEPTIONUTIL.MF">
+            compress="${compress.jars}">
+            <manifest>
+              <attribute name="Extension-Name" value="avalon-exceptionutil"/>
+              <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
+              <attribute name="Specification-Version" value="1.0"/>
+              <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+              <attribute name="Implementation-Version" value="${version}"/>
+            </manifest>
             <include name="org/apache/avalon/framework/ExceptionUtil.class" />
             <include name="org/apache/avalon/framework/Cascading*" />
             <zipfileset dir="${build.conf}" prefix="META-INF/">
@@ -338,16 +336,16 @@ Legal:
     <filter token="link3.href"        value="http://jakarta.apache.org/avalon/"/>
     <filter token="group-logo.src"    value="images/jakarta-logo.gif"/>
     <filter token="group-logo.href"   value="http://jakarta.apache.org/"/>
-    <filter token="project-logo.src"  value="images/header.gif"/>                    
-    <filter token="project-logo.href" value="http://jakarta.apache.org/avalon/"/>                    
-    <filter token="year" value="2002"/>  
-    <filter token="vendor" value="Apache Software Foundation"/>  
-    
+    <filter token="project-logo.src"  value="images/header.gif"/>
+    <filter token="project-logo.href" value="http://jakarta.apache.org/avalon/"/>
+    <filter token="year" value="2002"/>
+    <filter token="vendor" value="Apache Software Foundation"/>
+
         <mkdir dir="${build.context}"/>
         <mkdir dir="${build.docs}"/>
         <mkdir dir="${build.xdocs}"/>
         <mkdir dir="${build.dir}/work"/>
-        
+
         <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
         <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
         <property name="framework.base" value="http://jakarta.apache.org/avalon/framework"/>
@@ -386,14 +384,14 @@ Legal:
         <copy todir="${build.xdocs}" filtering="on" overwrite="true">
             <fileset dir="${xdocs.dir}"/>
         </copy>
-        
 
-        <copy file="${context.dir}/resources/schema/CatalogManager.properties" 
+
+        <copy file="${context.dir}/resources/schema/CatalogManager.properties"
               todir="${build.context}/resources/schema" filtering="off"/>
-                
+
         <echo message="-------------------------------------------------------------"/>
         <echo message="  Building docs, please stand by ..."/>
-        
+
         <java classname="org.apache.cocoon.Main" fork="true" maxmemory="128m" failonerror="true">
             <arg value="-c${build.context}/"/>
             <arg value="-d${build.docs}"/>
@@ -410,7 +408,7 @@ Legal:
 
        <echo message="  ...docs generated succesfully in ./build/docs dir."/>
        <echo message="-------------------------------------------------------------"/>
-    
+
         <mkdir dir="${build.docs}/framework/diagrams"/>
         <copy todir="${build.docs}/framework/diagrams" filtering="off">
             <fileset dir="${context.dir}/diagrams"/>
@@ -538,12 +536,11 @@ Legal:
 
     </target>
 
-    <!-- Copies and filters the manifest and license. Used by jar and dist -->
+    <!-- Copies and filters the license. Used by jar and dist -->
     <target name="prepare-conf">
         <mkdir dir="${build.conf}"/>
         <copy todir="${build.conf}" flatten="true">
             <fileset dir="." includes="LICENSE.txt"/>
-            <fileset dir="${conf.dir}" includes="MANIFEST.MF"/>
 
             <filterset>
                 <filter token="name" value="${framework.name}"/>
@@ -559,8 +556,14 @@ Legal:
         <mkdir dir="${build.lib}"/>
         <jar jarfile="${build.lib}/${framework.name}.jar"
             basedir="${build.classes}"
-            compress="${compress.jars}"
-            manifest="${build.conf}/MANIFEST.MF">
+            compress="${compress.jars}">
+            <manifest>
+              <attribute name="Extension-Name" value="${framework.name}"/>
+              <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
+              <attribute name="Specification-Version" value="1.0"/>
+              <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+              <attribute name="Implementation-Version" value="${version}"/>
+            </manifest>
             <exclude name="**/test/*"/>
             <include name="org/apache/avalon/framework/**"/>
             <zipfileset dir="${build.conf}" prefix="META-INF/">
