@@ -56,7 +56,7 @@ package org.apache.avalon.fortress;
  * to enable "self-healing" configuration files.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2003/04/18 17:08:20 $
+ * @version $Revision: 1.10 $ $Date: 2003/04/18 17:09:32 $
  */
 public class RoleEntry
 {
@@ -76,8 +76,7 @@ public class RoleEntry
      * @param  handlerClass    <code>Class</code> to instantiate the
      *                         component handler
      *
-     * @exception <code>IllegalArgumentException</code> if any argument is
-     *         <code>null</code>.
+     * @exception IllegalArgumentException if any argument is <code>null</code>.
      */
     public RoleEntry( final String role,
                       final String shortName,
