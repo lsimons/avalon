@@ -36,7 +36,7 @@ import org.apache.avalon.phoenix.components.configuration.ConfigurationRepositor
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 import org.apache.avalon.phoenix.components.kapi.BlockEntry;
 import org.apache.avalon.phoenix.components.kapi.BlockInvocationHandler;
-import org.apache.avalon.phoenix.metadata.RoleMetaData;
+import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -262,11 +262,11 @@ public class StartupPhase
         throws Exception
     {
         final DefaultComponentManager componentManager = new DefaultComponentManager();
-        final RoleMetaData[] roles = entry.getMetaData().getRoles();
+        final DependencyMetaData[] roles = entry.getMetaData().getDependencies();
 
         for( int i = 0; i < roles.length; i++ )
         {
-            final RoleMetaData role = roles[ i ];
+            final DependencyMetaData role = roles[ i ];
             final BlockEntry dependency = (BlockEntry)m_container.getEntry( role.getName() );
 
             componentManager.put( role.getRole(), 

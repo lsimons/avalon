@@ -12,12 +12,12 @@ package org.apache.avalon.phoenix.metadata;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public final class RoleMetaData
+public final class DependencyMetaData
 {
     private final String        m_name;
     private final String        m_role;
 
-    public RoleMetaData( final String name, final String role )
+    public DependencyMetaData( final String name, final String role )
     {
         m_name = name;
         m_role = role;

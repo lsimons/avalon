@@ -16,19 +16,19 @@ import  org.apache.avalon.phoenix.metainfo.BlockInfo;
  */
 public class BlockMetaData
 {
-    private final String           m_name;
-    private final String           m_classname;
-    private final RoleMetaData[]   m_roles;
+    private final String               m_name;
+    private final String               m_classname;
+    private final DependencyMetaData[] m_dependencies;
 
     private BlockInfo              m_blockInfo;
 
     public BlockMetaData( final String name,
                           final String classname,
-                          final RoleMetaData[] roles )
+                          final DependencyMetaData[] dependencies )
     {
         m_name = name;
         m_classname = classname;
-        m_roles = roles;
+        m_dependencies = dependencies;
     }
 
     public String getName()
@@ -51,21 +51,21 @@ public class BlockMetaData
         m_blockInfo = blockInfo;
     }
 
-    public RoleMetaData getRole( final String interfaceName )
+    public DependencyMetaData getDependency( final String name )
     {
-        for( int i = 0; i < m_roles.length; i++ )
+        for( int i = 0; i < m_dependencies.length; i++ )
         {
-            if( m_roles[ i ].getRole().equals( interfaceName ) )
+            if( m_dependencies[ i ].getRole().equals( name ) )
             {
-                return m_roles[ i ];
+                return m_dependencies[ i ];
             }
         }
 
         return null;
     }
 
-    public RoleMetaData[] getRoles()
+    public DependencyMetaData[] getDependencies()
     {
-        return m_roles;
+        return m_dependencies;
     }
 }
