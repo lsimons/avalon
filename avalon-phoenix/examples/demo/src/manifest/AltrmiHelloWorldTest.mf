@@ -1,6 +1,0 @@
-Manifest-Version: 1.0
-Main-Class: org.apache.avalon.apps.demos.altrmihelloworldserver.AltrmiHelloWorldServerTester
-Class-Path: altrmi-common.jar altrmi-client-interfaces.jar altrmi-client-impl.jar
-
-
-
