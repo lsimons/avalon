@@ -17,7 +17,7 @@
 package org.apache.avalon.composition.model;
 
 /**
- * indicates a cyclic dependency problem in e.g. the assembly of models.
+ * Indicates a cyclic dependency problem in the assembly of models.
  */
 public class CyclicDependencyException extends RuntimeException
 {
