@@ -66,7 +66,7 @@ import org.apache.avalon.framework.parameters.Parameters;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:stephan@apache.org">Stephan Michels</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/11/09 12:46:57 $
+ * @version CVS $Revision: 1.2 $ $Date: 2004/02/14 02:56:54 $
  */
 public final class SourceUtil
 {
@@ -262,6 +262,66 @@ public final class SourceUtil
         final StringBuffer out = new StringBuffer( s.length() );
         final ByteArrayOutputStream buf = new ByteArrayOutputStream( 32 );
         final OutputStreamWriter writer = new OutputStreamWriter( buf );
+        for( int i = 0; i < s.length(); i++ )
+        {
+            int c = s.charAt( i );
+            if( charactersDontNeedingEncoding.get( c ) )
+            {
+                out.append( (char)c );
+            }
+            else
+            {
+                try
+                {
+                    writer.write( c );
+                    writer.flush();
+                }
+                catch( IOException e )
+                {
+                    buf.reset();
+                    continue;
+                }
+                byte[] ba = buf.toByteArray();
+                for( int j = 0; j < ba.length; j++ )
+                {
+                    out.append( '%' );
+                    char ch = Character.forDigit( ( ba[ j ] >> 4 ) & 0xF, 16 );
+                    // converting to use uppercase letter as part of
+                    // the hex value if ch is a letter.
+                    if( Character.isLetter( ch ) )
+                    {
+                        ch -= characterCaseDiff;
+                    }
+                    out.append( ch );
+                    ch = Character.forDigit( ba[ j ] & 0xF, 16 );
+                    if( Character.isLetter( ch ) )
+                    {
+                        ch -= characterCaseDiff;
+                    }
+                    out.append( ch );
+                }
+                buf.reset();
+            }
+        }
+
+        return out.toString();
+    }
+
+    /**
+     * Translates a string into <code>x-www-form-urlencoded</code> format
+     * with specified encoding
+     *
+     * @param   s   <code>String</code> to be translated.
+     * @param	enc The name of a supported charset
+     * @return  the translated <code>String</code>.
+     * @throws UnsupportedEncodingException
+     */
+    public static String encode( String s, String enc ) throws UnsupportedEncodingException
+    {
+        // Why not use the java.net.URLEncoder for this purpose?
+        final StringBuffer out = new StringBuffer( s.length() );
+        final ByteArrayOutputStream buf = new ByteArrayOutputStream( 32 );
+        final OutputStreamWriter writer = new OutputStreamWriter( buf, enc );
         for( int i = 0; i < s.length(); i++ )
         {
             int c = s.charAt( i );

@@ -76,7 +76,7 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * Description of a source which is described by an URL.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/11/09 12:46:57 $
+ * @version CVS $Revision: 1.2 $ $Date: 2004/02/14 02:56:54 $
  */
 public class URLSource extends AbstractSource implements Source
 {
@@ -89,6 +89,9 @@ public class URLSource extends AbstractSource implements Source
 
     /** The <code>SourceParameters</code> used for a post*/
     protected SourceParameters m_parameters;
+
+    /** The encoding of the <code>SourceParameters</code>*/
+    protected String m_encoding;
 
     /** Is this a post? */
     protected boolean m_isPost = false;
@@ -123,6 +126,8 @@ public class URLSource extends AbstractSource implements Source
 
         m_url = url;
         m_isPost = false;
+        // get the default system encoding in case no encoding is specified
+        m_encoding = System.getProperties().getProperty("file.property", "ISO-8859-1");
 
         if (null != parameters)
         {
@@ -131,6 +136,10 @@ public class URLSource extends AbstractSource implements Source
             
             if ("POST".equalsIgnoreCase(method))
                 m_isPost = true;
+
+            final String encoding = (String) parameters.get(SourceResolver.URI_ENCODING);
+            if (encoding != null && !"".equals(encoding))
+                m_encoding = encoding;
         }
         
         if (null != m_parameters && m_parameters.hasParameters() && !m_isPost)
@@ -149,7 +158,7 @@ public class URLSource extends AbstractSource implements Source
                 values = m_parameters.getParameterValues(key);
                 while (values.hasNext() == true)
                 {
-                    value = SourceUtil.encode((String) values.next());
+                    value = SourceUtil.encode((String) values.next(), m_encoding);
                     if (first == false)
                         urlBuffer.append('&');
                     first = false;
@@ -248,7 +257,7 @@ public class URLSource extends AbstractSource implements Source
                     values = m_parameters.getParameterValues(key);
                     while (values.hasNext() == true)
                     {
-                        value = SourceUtil.encode((String) values.next());
+                        value = SourceUtil.encode((String) values.next(), m_encoding);
                         if (first == false)
                             buffer.append('&');
                         first = false;
