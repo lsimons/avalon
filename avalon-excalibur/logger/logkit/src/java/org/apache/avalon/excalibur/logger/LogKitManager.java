@@ -16,19 +16,29 @@
  */
 package org.apache.avalon.excalibur.logger;
 
+import org.apache.log.Hierarchy;
+import org.apache.log.Logger;
+
 /**
- * LogTargetFactoryManageable Interface, use this to set the LogTargetFactoryManager
- * for child Components.
+ * LogKitManager Interface.
+ *
+ * @deprecated we should use the new LoggerManager interface that directly
+ *             supports the new framework Logger interface.
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 09:12:03 $
- * @since 4.0
+ * @version CVS $Revision: 1.1 $ $Date: 2004/02/19 09:12:03 $
  */
-public interface LogTargetFactoryManageable
+public interface LogKitManager
 {
     /**
-     * Sets the LogTargetFactoryManager for child components.  Can be for special
-     * purpose components, however it is used mostly internally.
+     * Find a logger based on a category name.
      */
-    void setLogTargetFactoryManager( LogTargetFactoryManager logTargetFactoryManager );
+    Logger getLogger( String categoryName );
+
+    /**
+     * Retrieve Hierarchy for Loggers configured by the system.
+     *
+     * @return the Hierarchy
+     */
+    Hierarchy getHierarchy();
 }

@@ -17,18 +17,20 @@
 package org.apache.avalon.excalibur.logger;
 
 /**
- * LogTargetFactoryManageable Interface, use this to set the LogTargetFactoryManager
- * for child Components.
+ * LogKitManageable Interface, use this to set the LogKitManagers for child
+ * Components.
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 09:12:03 $
+ * @version CVS $Revision: 1.1 $ $Date: 2004/02/19 09:12:03 $
  * @since 4.0
  */
-public interface LogTargetFactoryManageable
+public interface LogKitManageable
 {
     /**
-     * Sets the LogTargetFactoryManager for child components.  Can be for special
+     * Sets the LogKitManager for child components.  Can be for special
      * purpose components, however it is used mostly internally.
+     *
+     * @param logKitManager The LogKitManager fot child components.
      */
-    void setLogTargetFactoryManager( LogTargetFactoryManager logTargetFactoryManager );
+    void setLogKitManager( final LogKitManager logKitManager );
 }

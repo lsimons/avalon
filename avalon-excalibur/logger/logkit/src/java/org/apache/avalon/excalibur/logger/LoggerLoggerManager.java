@@ -16,19 +16,29 @@
  */
 package org.apache.avalon.excalibur.logger;
 
+import org.apache.avalon.framework.logger.Logger;
+
 /**
- * LogTargetFactoryManageable Interface, use this to set the LogTargetFactoryManager
- * for child Components.
+ * A LoggerManager that operates off of an existing Logger instance.
  *
- * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 09:12:03 $
- * @since 4.0
+ * @author <a href="proyal@apache.org">Peter Royal</a>
  */
-public interface LogTargetFactoryManageable
+public class LoggerLoggerManager implements LoggerManager
 {
-    /**
-     * Sets the LogTargetFactoryManager for child components.  Can be for special
-     * purpose components, however it is used mostly internally.
-     */
-    void setLogTargetFactoryManager( LogTargetFactoryManager logTargetFactoryManager );
+    private final Logger logger;
+
+    public LoggerLoggerManager( Logger logger )
+    {
+        this.logger = logger;
+    }
+
+    public Logger getLoggerForCategory( String categoryName )
+    {
+        return logger.getChildLogger( categoryName );
+    }
+
+    public Logger getDefaultLogger()
+    {
+        return logger;
+    }
 }
