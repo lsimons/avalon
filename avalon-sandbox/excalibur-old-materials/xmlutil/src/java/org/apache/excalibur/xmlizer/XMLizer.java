@@ -19,7 +19,7 @@ import org.xml.sax.SAXException;
  * into SAX events.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/24 07:46:30 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/07/10 09:28:05 $
  */
 
 public interface XMLizer
@@ -43,6 +43,5 @@ public interface XMLizer
                 String         systemID,
                 ContentHandler handler )
     throws SAXException, IOException, ComponentException;
-
 }
 
