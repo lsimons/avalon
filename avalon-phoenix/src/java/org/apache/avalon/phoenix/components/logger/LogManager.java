@@ -12,6 +12,7 @@ import java.net.URL;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.log.Hierarchy;
+import org.apache.avalon.phoenix.metadata.SarMetaData;
 
 /**
  * Interface that is used to manage Log objects for a Sar.
@@ -23,6 +24,6 @@ public interface LogManager
 {
     String ROLE = "org.apache.avalon.phoenix.components.logger.LogManager";
 
-    Hierarchy createHierarchy( String name, File baseDirectory, Configuration logs )
+    Hierarchy createHierarchy( SarMetaData metaData, Configuration logs )
         throws Exception;
 }
