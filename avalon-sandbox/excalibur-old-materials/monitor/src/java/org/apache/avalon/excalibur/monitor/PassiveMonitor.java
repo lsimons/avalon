@@ -38,10 +38,10 @@ import java.util.Collections;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: PassiveMonitor.java,v 1.3 2001/12/11 09:53:30 jefft Exp $
+ * @version $Id: PassiveMonitor.java,v 1.4 2002/02/15 16:18:15 bloritsch Exp $
  */
 public final class PassiveMonitor extends AbstractLoggable
-    implements Monitor, Component, ThreadSafe, Configurable
+    implements Monitor, ThreadSafe, Configurable
 {
     private static final Class[]    m_constructorParams = new Class[] { String.class };
     private              Map        m_resources         = new HashMap();
