@@ -69,13 +69,12 @@ import org.xml.sax.ext.LexicalHandler;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/22 10:06:04 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/07/07 07:20:33 $
  */
 public class JaxpParser
     extends AbstractLogEnabled
     implements Parser, ErrorHandler, Composable, Parameterizable, Poolable
 {
-
     /** the SAX Parser factory */
     protected SAXParserFactory factory;
 
@@ -115,20 +114,17 @@ public class JaxpParser
         throws ComponentException
     {
         this.manager = manager;
-        if( this.manager.hasComponent( EntityResolver.ROLE ) )
+        if( manager.hasComponent( EntityResolver.ROLE ) )
         {
-            this.resolver = (EntityResolver)this.manager.lookup( EntityResolver.ROLE );
-            if( this.getLogger().isDebugEnabled() )
+            resolver = (EntityResolver)manager.lookup( EntityResolver.ROLE );
+            if( getLogger().isDebugEnabled() )
             {
-                this.getLogger().debug( "JaxpParser: Using EntityResolver: " + this.resolver );
+                getLogger().debug( "JaxpParser: Using EntityResolver: " + resolver );
             }
         }
     }
 
-    /**
-     * Configure
-     */
-    public void parameterize( Parameters params )
+    public void parameterize( final Parameters params )
         throws ParameterException
     {
         // Validation and namespace prefixes parameters
@@ -214,16 +210,17 @@ public class JaxpParser
      * or implement the <code>LexicalHandler</code> as well.
      * The parse should take care of this.
      */
-    public void parse( InputSource in, ContentHandler consumer )
+    public void parse( final InputSource in,
+                       final ContentHandler consumer )
         throws SAXException, IOException
     {
         if( consumer instanceof LexicalHandler )
         {
-            this.parse( in, consumer, (LexicalHandler)consumer );
+            parse( in, consumer, (LexicalHandler)consumer );
         }
         else
         {
-            this.parse( in, consumer, null );
+            parse( in, consumer, null );
         }
     }
 
@@ -234,12 +231,12 @@ public class JaxpParser
      * <code>LexicalHandler</code> as well.
      * The parse should take care of this.
      */
-    public void parse( InputSource in,
-                       ContentHandler contentHandler,
-                       LexicalHandler lexicalHandler )
+    public void parse( final InputSource in,
+                       final ContentHandler contentHandler,
+                       final LexicalHandler lexicalHandler )
         throws SAXException, IOException
     {
-        this.setupXMLReader();
+        setupXMLReader();
 
         // Ensure we will use a fresh new parser at next parse in case of failure
         XMLReader tmpReader = this.reader;
@@ -253,17 +250,19 @@ public class JaxpParser
                                        lexicalHandler );
             }
         }
-        catch( SAXException e )
+        catch( final SAXException e )
         {
-            this.getLogger().warn( "SAX2 driver does not support property: " +
-                                   "'http://xml.org/sax/properties/lexical-handler'" );
+            final String message =
+                "SAX2 driver does not support property: " +
+                "'http://xml.org/sax/properties/lexical-handler'";
+            getLogger().warn( message );
         }
 
         tmpReader.setErrorHandler( this );
         tmpReader.setContentHandler( contentHandler );
-        if( null != this.resolver )
+        if( null != resolver )
         {
-            tmpReader.setEntityResolver( this.resolver );
+            tmpReader.setEntityResolver( resolver );
         }
 
         tmpReader.parse( in );
@@ -276,25 +275,27 @@ public class JaxpParser
     /**
      * Parses a new Document object from the given InputSource.
      */
-    public Document parseDocument( InputSource input )
+    public Document parseDocument( final InputSource input )
         throws SAXException, IOException
     {
-        this.setupDocumentBuilder();
+        setupDocumentBuilder();
 
         // Ensure we will use a fresh new parser at next parse in case of failure
         DocumentBuilder tmpBuilder = this.docBuilder;
         this.docBuilder = null;
 
-        if( null != this.resolver )
+        if( null != resolver )
         {
-            tmpBuilder.setEntityResolver( this.resolver );
+            tmpBuilder.setEntityResolver( resolver );
         }
 
         Document result = tmpBuilder.parse( input );
 
         // Here, parsing was successful : restore this.builder
-        if( this.reuseParsers )
+        if( reuseParsers )
+        {
             this.docBuilder = tmpBuilder;
+        }
 
         return result;
     }
@@ -305,27 +306,31 @@ public class JaxpParser
     protected void setupXMLReader()
         throws SAXException
     {
-        if( null == this.reader )
+        if( null == reader )
         {
             // Create the XMLReader
             try
             {
-                this.reader = factory.newSAXParser().getXMLReader();
+                reader = factory.newSAXParser().getXMLReader();
             }
-            catch( ParserConfigurationException pce )
+            catch( final ParserConfigurationException pce )
             {
-                throw new SAXException( "Cannot produce a valid parser", pce );
+                final String message = "Cannot produce a valid parser";
+                throw new SAXException( message, pce );
             }
-            if( this.nsPrefixes )
+            if( nsPrefixes )
             {
                 try
                 {
-                    this.reader.setFeature( "http://xml.org/sax/features/namespace-prefixes", this.nsPrefixes );
+                    reader.setFeature( "http://xml.org/sax/features/namespace-prefixes",
+                                       nsPrefixes );
                 }
-                catch( SAXException e )
+                catch( final SAXException se )
                 {
-                    this.getLogger().warn( "SAX2 XMLReader does not support setting feature: " +
-                                           "'http://xml.org/sax/features/namespace-prefixes'" );
+                    final String message =
+                        "SAX2 XMLReader does not support setting feature: " +
+                        "'http://xml.org/sax/features/namespace-prefixes'";
+                    this.getLogger().warn( message );
                 }
             }
         }
@@ -337,15 +342,16 @@ public class JaxpParser
     protected void setupDocumentBuilder()
         throws SAXException
     {
-        if( null == this.docBuilder )
+        if( null == docBuilder )
         {
             try
             {
-                this.docBuilder = this.docFactory.newDocumentBuilder();
+                docBuilder = docFactory.newDocumentBuilder();
             }
-            catch( ParserConfigurationException pce )
+            catch( final ParserConfigurationException pce )
             {
-                throw new SAXException( "Could not create DocumentBuilder", pce );
+                final String message = "Could not create DocumentBuilder";
+                throw new SAXException( message, pce );
             }
         }
     }
@@ -356,50 +362,55 @@ public class JaxpParser
     public Document createDocument()
         throws SAXException
     {
-        this.setupDocumentBuilder();
-        return this.docBuilder.newDocument();
+        setupDocumentBuilder();
+        return docBuilder.newDocument();
     }
 
     /**
      * Receive notification of a recoverable error.
      */
-    public void error( SAXParseException e )
+    public void error( final SAXParseException spe )
         throws SAXException
     {
-        final String msg = "Error parsing " + e.getSystemId() + " (line " +
-            e.getLineNumber() + " col. " + e.getColumnNumber() +
-            "): " + e.getMessage();
-        if( this.stopOnRecoverableError )
+        final String message =
+            "Error parsing " + spe.getSystemId() + " (line " +
+            spe.getLineNumber() + " col. " + spe.getColumnNumber() +
+            "): " + spe.getMessage();
+        if( stopOnRecoverableError )
         {
-            throw new SAXException( msg, e );
+            throw new SAXException( message, spe );
         }
-        this.getLogger().error( msg, e );
+        getLogger().error( message, spe );
     }
 
     /**
      * Receive notification of a fatal error.
      */
-    public void fatalError( SAXParseException e )
+    public void fatalError( final SAXParseException spe )
         throws SAXException
     {
-        throw new SAXException( "Fatal error parsing " + e.getSystemId() + " (line " +
-                                e.getLineNumber() + " col. " + e.getColumnNumber() +
-                                "): " + e.getMessage(), e );
+        final String message =
+            "Fatal error parsing " + spe.getSystemId() + " (line " +
+            spe.getLineNumber() + " col. " + spe.getColumnNumber() +
+            "): " + spe.getMessage();
+        throw new SAXException( message, spe );
     }
 
     /**
      * Receive notification of a warning.
      */
-    public void warning( SAXParseException e )
+    public void warning( final SAXParseException spe )
         throws SAXException
     {
-        final String msg = "Warning parsing " + e.getSystemId() + " (line " +
-            e.getLineNumber() + " col. " + e.getColumnNumber() +
-            "): " + e.getMessage();
-        if( this.stopOnWarning )
+        final String message =
+            "Warning parsing " + spe.getSystemId() + " (line " +
+            spe.getLineNumber() + " col. " + spe.getColumnNumber() +
+            "): " + spe.getMessage();
+
+        if( stopOnWarning )
         {
-            throw new SAXException( msg, e );
+            throw new SAXException( message, spe );
         }
-        this.getLogger().warn( msg, e );
+        getLogger().warn( message, spe );
     }
 }
