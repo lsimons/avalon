@@ -11,3 +11,4 @@ velocity.log*
 .classpath
 .project
 maven.log
+target
