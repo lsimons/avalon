@@ -54,7 +54,7 @@ package org.apache.excalibur.instrument.manager.interfaces;
  *  Instrument.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/02/20 17:08:19 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/09/08 09:00:47 $
  * @since 4.1
  */
 public interface InstrumentDescriptor
@@ -104,6 +104,15 @@ public interface InstrumentDescriptor
     int getType();
     
     /**
+     * Returns a reference to the descriptor of the Instrumentable of the
+     *  instrument.
+     *
+     * @return A reference to the descriptor of the Instrumentable of the
+     *  instrument.
+     */
+    InstrumentableDescriptor getInstrumentableDescriptor();
+    
+    /**
      * Returns a InstrumentSampleDescriptor based on its name.
      *
      * @param instrumentSampleName Name of the InstrumentSample being requested.
@@ -134,9 +143,6 @@ public interface InstrumentDescriptor
      *                   InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MEAN.
      *
      * @return A Descriptor of the requested InstrumentSample.
-     *
-     * @throws NoSuchInstrumentSampleException If the specified InstrumentSample
-     *                                      does not exist.
      */
     InstrumentSampleDescriptor createInstrumentSample( String sampleDescription,
                                                        long sampleInterval,
