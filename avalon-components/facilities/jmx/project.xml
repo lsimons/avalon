@@ -1,67 +1,16 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <project>
-
+  <extend>${basedir}/../project.xml</extend>
+  
   <groupId>avalon-jmx</groupId>
-  <id>jmx-master</id>
   <name>JMX Facility Master POM</name>
-
-  <inceptionYear>2004</inceptionYear>
-  <repository>
-    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:avalon/merlin/facilities/jmx</connection>
-    <url>http://cvs.apache.org/viewcvs/avalon/merlin/facilities/jmx</url>
-  </repository>
-  <shortDescription>Master Maven POM for JMX Component Manager facility for Merlin</shortDescription>
+  <currentVersion>0.9</currentVersion>
+  
+  <shortDescription>Master Maven POM for JMX Component Manager facility for Avalon</shortDescription>
   <description>
     JMX Component Manager facility for Avalon which exports
     management interfaces for components.
   </description>
   
-  <build>
-
-    <nagEmailAddress>dev@avalon.apache.org</nagEmailAddress>
-    <sourceDirectory>${basedir}/src/java</sourceDirectory>
-    <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
-    <integrationUnitTestSourceDirectory/>
-    <aspectSourceDirectory/>
-
-    <unitTest>
-      <includes>
-        <include>**/*TestCase*</include>
-      </includes>
-      <excludes>
-      </excludes>
-      <resources>
-        <resource>
-          <directory>${basedir}/src/test</directory>
-          <includes> 
-            <include>**/*.dtd</include>
-            <include>**/*.properties</include>
-            <include>**/*.x*</include>
-            <include>**/*.mf</include>
-            <include>**/*.jar</include>
-          </includes>
-        </resource>
-      </resources>
-    </unitTest>
-    
-    <resources>
-      <resource>
-        <directory>${basedir}/src/java</directory>
-        <includes>
-          <include>**/*.dtd</include>
-          <include>**/*.properties</include>
-          <include>**/*.x*</include>
-        </includes>
-      </resource>
-      <resource>
-        <directory>${basedir}/conf</directory>
-        <targetPath>BLOCK-INF</targetPath>
-        <includes>
-          <include>block.xml</include>
-        </includes>
-      </resource>
-    </resources>
-    <jars></jars>
-  </build>
 </project>
