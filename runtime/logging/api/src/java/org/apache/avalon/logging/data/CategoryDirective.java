@@ -39,7 +39,7 @@ import java.io.Serializable;
  *    &lt;/categories&gt;
  * </pre>
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/24 21:55:37 $
+ * @version $Id$
  */
 public class CategoryDirective implements Serializable
 {

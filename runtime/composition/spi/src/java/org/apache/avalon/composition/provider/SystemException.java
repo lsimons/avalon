@@ -23,7 +23,7 @@ import org.apache.avalon.framework.CascadingException;
  * Exception to indicate that there was a system related error.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:23:35 $
+ * @version $Id$
  */
 public class SystemException
         extends CascadingException

@@ -30,7 +30,7 @@ import org.apache.avalon.util.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/04/04 23:33:56 $
+ * @version $Id$
  */
 public class DefaultRuntime implements Runtime
 {

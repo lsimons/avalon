@@ -26,7 +26,7 @@ import org.apache.log.output.net.DatagramOutputTarget;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version 1.0
+ * @version $Id$
  */
 
 public class SyslogTarget extends DatagramOutputTarget 

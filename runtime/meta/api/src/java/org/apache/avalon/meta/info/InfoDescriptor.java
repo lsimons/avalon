@@ -39,7 +39,7 @@ import org.apache.avalon.framework.Version;
  * name of container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/01/24 23:20:45 $
+ * @version $Id$
  */
 public final class InfoDescriptor extends Descriptor
 {

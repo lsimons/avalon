@@ -22,7 +22,7 @@ package org.apache.avalon.composition.info;
  * artifact delivery strategy.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/03/13 23:26:58 $
+ * @version $Id$
  */
 public abstract class DeliveryDescriptor
 {

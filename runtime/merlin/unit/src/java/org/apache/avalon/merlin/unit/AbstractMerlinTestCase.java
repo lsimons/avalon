@@ -40,7 +40,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * Merlin default application factory.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.27 $
+ * @version $Id$
  */
 public abstract class AbstractMerlinTestCase extends TestCase
 {

@@ -28,7 +28,7 @@ import org.apache.avalon.meta.info.Type;
  * get i9nput and output streams relative to a type.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.3 $
+ * @version $Id$
  */
 public interface ResourceLocator
 {

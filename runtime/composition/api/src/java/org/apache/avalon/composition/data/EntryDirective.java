@@ -48,7 +48,7 @@ import java.io.Serializable;
  * @see Parameter
  * @see ContextDirective
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:25:24 $
+ * @version $Id$
  */
 public abstract class EntryDirective implements Serializable
 {

@@ -26,7 +26,7 @@ import org.apache.avalon.meta.info.Type;
  * of a {@link Type} to an output stream.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/21 13:27:04 $
+ * @version $Id$
  */
 public interface TypeWriter
 {

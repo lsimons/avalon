@@ -37,7 +37,7 @@ import org.xml.sax.helpers.NamespaceSupport;
  * A ConfigurationSerializer serializes configurations via SAX2 compliant parser.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.26 $ $Date: 2004/02/11 14:34:25 $
+ * @version $Id$
  */
 public class DefaultConfigurationSerializer
 {

@@ -27,7 +27,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * Interface defining the contract for profile selection.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/21 23:54:42 $
+ * @version $Id$
  */
 public interface ProfileSelector
 {

@@ -43,7 +43,7 @@ package org.apache.avalon.composition.data;
  * @see EntryDirective
  * @see Parameter
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:24 $
+ * @version $Id$
  */
 public class ImportDirective extends EntryDirective
 {

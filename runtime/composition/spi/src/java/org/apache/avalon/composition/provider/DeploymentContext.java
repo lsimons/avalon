@@ -28,7 +28,7 @@ import org.apache.avalon.composition.data.DeploymentProfile;
  * Deployment context that is supplied to a deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/11 01:30:38 $
+ * @version $Id$
  */
 public interface DeploymentContext extends Context 
 {

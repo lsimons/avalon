@@ -25,7 +25,7 @@ import java.io.StringWriter;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @author <a href="mailto:stuart.roebuck@adolos.com">Stuart Roebuck</a>
- * @version CVS $Revision: 1.16 $ $Date: 2004/02/28 11:31:25 $
+ * @version $Id$
  */
 public final class StackIntrospector
 {

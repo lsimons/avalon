@@ -30,7 +30,7 @@ import java.util.Properties;
  * name of container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/03/17 10:50:03 $
+ * @version $Id$
  */
 public final class SecurityDescriptor extends Descriptor
 {

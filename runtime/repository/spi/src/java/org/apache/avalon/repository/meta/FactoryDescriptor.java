@@ -30,7 +30,7 @@ import org.apache.avalon.repository.RepositoryRuntimeException;
  * artifacts.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $
+ * @version $Id$
  */
 public class FactoryDescriptor extends ArtifactDescriptor
 {

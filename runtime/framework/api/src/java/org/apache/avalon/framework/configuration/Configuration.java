@@ -132,7 +132,7 @@ package org.apache.avalon.framework.configuration;
  * </pre>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.29 $ $Date: 2004/02/11 14:34:24 $
+ * @version $Id$
  */
 public interface Configuration
 {

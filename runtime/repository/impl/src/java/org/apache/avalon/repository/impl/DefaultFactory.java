@@ -35,7 +35,7 @@ import org.apache.avalon.util.i18n.Resources;
  * The default repository factory implementation.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $
+ * @version $Id$
  */
 public class DefaultFactory implements Factory
 {

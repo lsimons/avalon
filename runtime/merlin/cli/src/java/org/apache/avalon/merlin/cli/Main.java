@@ -53,7 +53,7 @@ import org.apache.commons.cli.Options;
  * Merlin command line handler.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.23 $
+ * @version $Id$
  */
 public class Main 
 {

@@ -38,7 +38,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * Merlin default application factory.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.17 $
+ * @version $Id$
  */
 public class MerlinBean
 {

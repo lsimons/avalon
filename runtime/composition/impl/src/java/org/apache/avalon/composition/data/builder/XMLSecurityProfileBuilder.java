@@ -38,7 +38,7 @@ import org.apache.avalon.meta.info.PermissionDescriptor;
  * <p>Implementation of the default security builder.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/03/17 10:39:11 $
+ * @version $Id$
  */
 public final class XMLSecurityProfileBuilder
 {

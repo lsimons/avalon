@@ -44,7 +44,7 @@ import org.apache.avalon.util.configuration.ConfigurationUtil;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2004/03/17 10:39:11 $
+ * @version $Id$
  */
 public class XMLComponentProfileCreator extends XMLProfileCreator
 {

@@ -38,7 +38,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Implementation of the default Merlin Kernel.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.12 $ $Date: 2004/03/17 10:50:04 $
+ * @version $Id$
  */
 public class DefaultKernel implements Kernel, Disposable
 {

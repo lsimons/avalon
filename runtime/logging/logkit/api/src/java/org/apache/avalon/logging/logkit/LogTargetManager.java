@@ -23,7 +23,7 @@ import org.apache.log.LogTarget;
  * LogTargetManager Interface.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/24 21:55:39 $
+ * @version $Id$
  */
 public interface LogTargetManager
 {

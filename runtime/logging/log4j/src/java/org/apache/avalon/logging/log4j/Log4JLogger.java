@@ -26,7 +26,7 @@ import org.apache.log4j.Level;
  * implementation strategy.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $
+ * @version $Id$
  */
 public class Log4JLogger 
     implements Logger

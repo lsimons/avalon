@@ -49,7 +49,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.33 $
+ * @version $Id$
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {

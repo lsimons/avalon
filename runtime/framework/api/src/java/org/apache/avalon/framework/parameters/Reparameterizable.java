@@ -23,7 +23,7 @@ package org.apache.avalon.framework.parameters;
  * Reconfigurable interface.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.13 $ $Date: 2004/02/11 14:34:25 $
+ * @version $Id$
  */
 public interface Reparameterizable extends Parameterizable
 {

@@ -23,7 +23,7 @@ import org.apache.avalon.merlin.Kernel;
  * A event raised by a kernel signaling a state change.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/03/17 10:39:11 $
+ * @version $Id$
  */
 public class KernelStateEvent extends KernelEvent
 {

@@ -27,7 +27,7 @@ import org.apache.avalon.repository.Artifact;
  * applied to the factory criteria.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $
+ * @version $Id$
  */
 public class FactoryDirective implements Serializable
 {

@@ -30,7 +30,7 @@ import org.apache.avalon.util.i18n.Resources;
  * Merlin command line handler.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Id$
  */
 public class RepositoryVerifier 
 {

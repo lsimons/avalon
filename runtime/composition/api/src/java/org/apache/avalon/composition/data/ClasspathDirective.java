@@ -25,7 +25,7 @@ import org.apache.avalon.repository.Artifact;
  * Description of classpath.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/05/01 17:03:42 $
+ * @version $Id$
  */
 public final class ClasspathDirective implements Serializable
 {

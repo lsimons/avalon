@@ -36,7 +36,7 @@ import java.util.jar.Manifest;
  * <code>guide/extensions/versioning.html</code>.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/04/06 07:42:48 $
+ * @version $Id$
  */
 public final class Specification
 {

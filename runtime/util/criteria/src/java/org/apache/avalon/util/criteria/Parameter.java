@@ -25,7 +25,7 @@ import java.io.Serializable;
  * of an allowable parameter within a crieria instance.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Id$
  */
 public class Parameter implements Serializable
 {

@@ -26,7 +26,7 @@ import com.thoughtworks.qdox.model.JavaMethod;
  * A doclet tag handler supporting 'logger' tags.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/03/17 10:50:03 $
+ * @version $Id$
  */
 public class SchemaTag extends AbstractTag
 {

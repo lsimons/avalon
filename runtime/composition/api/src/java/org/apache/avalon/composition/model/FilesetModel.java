@@ -31,7 +31,7 @@ import org.apache.avalon.composition.data.IncludeDirective;
  * a classpath.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/04/21 17:52:00 $
+ * @version $Id$
  */
 public interface FilesetModel {
     /**

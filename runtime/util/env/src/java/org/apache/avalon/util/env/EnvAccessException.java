@@ -24,7 +24,7 @@ import java.io.IOException;
  * environment parameters.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $
+ * @version $Id$
  */
 public class EnvAccessException extends IOException
 {

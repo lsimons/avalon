@@ -23,7 +23,7 @@ import org.apache.avalon.composition.model.DeploymentModel;
  * Defintion of runtime services.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/04/04 23:33:56 $
+ * @version $Id$
  */
 public interface Runtime
 {

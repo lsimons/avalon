@@ -23,7 +23,7 @@ import org.apache.avalon.repository.RepositoryException;
  * Exception to indicate that there was a repository related meta error.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:20:05 $
+ * @version $Id$
  */
 public class MetaException extends RepositoryException
 {

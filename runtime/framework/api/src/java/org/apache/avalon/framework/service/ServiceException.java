@@ -22,7 +22,7 @@ import org.apache.avalon.framework.CascadingException;
  * It is usually thrown by ServiceManager or ServiceSelector.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.21 $ $Date: 2004/02/11 14:34:25 $
+ * @version $Id$
  */
 public class ServiceException
     extends CascadingException

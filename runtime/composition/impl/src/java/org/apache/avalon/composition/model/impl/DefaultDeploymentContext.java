@@ -30,7 +30,7 @@ import org.apache.avalon.composition.data.Mode;
  * Default implementation of a deployment context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/03/11 01:30:38 $
+ * @version $Id$
  */
 public class DefaultDeploymentContext extends DefaultContext 
   implements DeploymentContext

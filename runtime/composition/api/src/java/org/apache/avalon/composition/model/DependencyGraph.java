@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * consumers and providers models.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:25 $
+ * @version $Id$
  */
 public class DependencyGraph
 {

@@ -21,7 +21,7 @@ package org.apache.avalon.composition.model;
  * Exception raised in response to an commissioning failure.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Id$
  */
 public class CommissioningException extends CompositionException
 {

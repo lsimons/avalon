@@ -24,7 +24,7 @@ import java.io.Serializable;
  *
  * @see DeploymentProfile
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:24 $
+ * @version $Id$
  */
 public class Mode implements Serializable
 {

@@ -40,7 +40,7 @@ import org.apache.avalon.meta.info.PermissionDescriptor;
  *
  * TODO: Address configuration schema support
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.11 $ $Date: 2004/02/25 12:47:33 $
+ * @version $Id$
  */
 public class XMLTypeWriter
     implements TypeWriter

@@ -25,7 +25,7 @@ import org.apache.avalon.composition.data.Targets;
  * from an input stream.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:25:30 $
+ * @version $Id$
  */
 public interface TargetsCreator
 {

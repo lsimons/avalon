@@ -27,7 +27,7 @@ import org.apache.avalon.meta.info.Service;
  * exist, although this is not necessary.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.3 $
+ * @version $Id$
  */
 public interface Verifier
 {

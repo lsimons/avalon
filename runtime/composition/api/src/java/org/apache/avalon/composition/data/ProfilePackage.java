@@ -23,7 +23,7 @@ import java.io.Serializable;
  * A collection of profiles packaged with a component type.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:24 $
+ * @version $Id$
  */
 public class ProfilePackage implements Serializable
 {

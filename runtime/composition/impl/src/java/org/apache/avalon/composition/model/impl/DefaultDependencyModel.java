@@ -36,7 +36,7 @@ import org.apache.avalon.util.i18n.Resources;
  * Default implementation of the deplendency model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/03/17 10:39:10 $
+ * @version $Id$
  */
 public class DefaultDependencyModel extends DefaultDependent implements DependencyModel
 {

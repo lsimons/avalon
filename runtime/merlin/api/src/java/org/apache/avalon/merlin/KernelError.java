@@ -23,7 +23,7 @@ import org.apache.avalon.framework.CascadingError;
  * Exception to indicate that there was a kernel error.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:25:31 $
+ * @version $Id$
  */
 public class KernelError
     extends CascadingError

@@ -51,7 +51,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * A repository for services, types and profiles.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2004/05/09 23:51:08 $
+ * @version $Id$
  */
 class Scanner extends AbstractLogEnabled
 {

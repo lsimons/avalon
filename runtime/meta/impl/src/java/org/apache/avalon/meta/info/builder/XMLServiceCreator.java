@@ -43,7 +43,7 @@ import org.xml.sax.InputSource;
  * of a service into a {@link Service} instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/03/08 11:24:52 $
+ * @version $Id$
  */
 public class XMLServiceCreator
     implements ServiceCreator

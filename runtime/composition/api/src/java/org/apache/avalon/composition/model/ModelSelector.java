@@ -31,7 +31,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * driven approach).
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/21 23:54:42 $
+ * @version $Id$
  */
 public interface ModelSelector
 {

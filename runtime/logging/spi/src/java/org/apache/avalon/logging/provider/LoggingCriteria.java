@@ -29,7 +29,7 @@ import org.apache.avalon.framework.logger.Logger;
  * system parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $
+ * @version $Id$
  */
 public interface LoggingCriteria extends Map 
 {

@@ -31,7 +31,7 @@ import org.apache.avalon.util.criteria.CriteriaException;
  * a string to a string array based on a supplied token.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $
+ * @version $Id$
  */
 public class ArtifactSequenceParameter extends Parameter
 {

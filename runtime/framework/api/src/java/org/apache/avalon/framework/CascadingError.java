@@ -20,7 +20,7 @@ package org.apache.avalon.framework;
  * Allows recording of nested exceptions.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.14 $ $Date: 2004/02/11 14:34:24 $
+ * @version $Id$
  */
 public class CascadingError
     extends Error

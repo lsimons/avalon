@@ -26,7 +26,7 @@ import org.apache.avalon.meta.info.PermissionDescriptor;
  * set of permissions that are associated under a named profile.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:08 $
+ * @version $Id$
  */
 public final class SecurityProfile implements Serializable
 {

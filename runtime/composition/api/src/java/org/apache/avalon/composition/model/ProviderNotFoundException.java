@@ -21,7 +21,7 @@ package org.apache.avalon.composition.model;
  * Exception raised in response to a model provider resolution failure.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/03/07 22:10:39 $
+ * @version $Id$
  */
 public final class ProviderNotFoundException
         extends AssemblyException

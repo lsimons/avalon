@@ -26,7 +26,7 @@ import org.apache.avalon.composition.model.ContainmentModel;
  * addition or removal of a subsidiary model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/24 22:18:21 $
+ * @version $Id$
  */
 public class CompositionEvent extends java.util.EventObject
 {

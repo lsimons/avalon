@@ -23,7 +23,7 @@ package org.apache.avalon.extension;
  * of object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/24 22:39:31 $
+ * @version $Id$
  * @see Extension
  */
 public final class Compatability

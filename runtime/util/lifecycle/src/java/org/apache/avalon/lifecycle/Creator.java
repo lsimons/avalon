@@ -25,7 +25,7 @@ import org.apache.avalon.framework.context.Context;
  * and destroy stages must implement this interface.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.3 $ $Date: 2004/02/28 11:47:19 $
+ * @version $Id$
  */
 public interface Creator
 {

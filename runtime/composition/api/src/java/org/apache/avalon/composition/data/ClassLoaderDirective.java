@@ -23,7 +23,7 @@ import java.io.Serializable;
  * Description of classloader.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/04/07 16:49:22 $
+ * @version $Id$
  */
 public final class ClassLoaderDirective implements Serializable
 {

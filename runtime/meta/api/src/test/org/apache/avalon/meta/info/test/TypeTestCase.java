@@ -29,7 +29,7 @@ import java.io.*;
  * TypeTestCase does XYZ
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $ Revision: 1.1 $
+ * @version $Id$
  */
 public class TypeTestCase extends TestCase
 {

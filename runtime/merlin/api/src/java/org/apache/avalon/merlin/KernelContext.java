@@ -24,7 +24,7 @@ import org.apache.avalon.composition.model.ContainmentModel;
 /**
  * The context argument supplied to a new kernel instance.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/03/17 10:39:11 $
+ * @version $Id$
  */
 public interface KernelContext
 {

@@ -23,7 +23,7 @@ import org.apache.avalon.logging.provider.LoggingException;
  * Exception to indicate that there was a logging target creation error.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/24 21:55:39 $
+ * @version $Id$
  */
 public class LogTargetException
         extends LoggingException

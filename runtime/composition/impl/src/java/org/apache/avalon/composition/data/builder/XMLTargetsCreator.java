@@ -29,7 +29,7 @@ import org.apache.avalon.framework.configuration.Configuration;
  * instance from a Configuration object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/03/17 10:39:11 $
+ * @version $Id$
  */
 public class XMLTargetsCreator extends XMLComponentProfileCreator 
 {

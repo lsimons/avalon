@@ -32,7 +32,7 @@ import org.apache.avalon.meta.info.DependencyDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.23 $ $Date: 2004/03/17 10:30:08 $
+ * @version $Id$
  */
 public interface ContainmentModel extends DeploymentModel
 {

@@ -37,7 +37,7 @@ import org.apache.avalon.logging.data.CategoriesDirective;
  * Model desribing a deployment scenario.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.20 $ $Date: 2004/03/17 10:30:08 $
+ * @version $Id$
  */
 public interface DeploymentModel extends Commissionable, Resolver
 {

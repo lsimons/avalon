@@ -20,7 +20,7 @@ package org.apache.avalon.framework.logger;
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @deprecated Use {@link AbstractLogEnabled} instead.
- * @version CVS $Revision: 1.19 $ $Date: 2004/02/11 14:34:26 $
+ * @version $Id$
  */
 public abstract class AbstractLoggable
     implements Loggable

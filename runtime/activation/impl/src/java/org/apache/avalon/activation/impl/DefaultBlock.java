@@ -35,7 +35,7 @@ import org.apache.avalon.util.i18n.Resources;
 /**
  * Composite appliance.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/04/04 23:33:56 $
+ * @version $Id$
  */
 public class DefaultBlock extends AbstractAppliance
 {

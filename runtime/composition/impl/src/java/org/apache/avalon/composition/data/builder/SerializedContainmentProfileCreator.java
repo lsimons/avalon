@@ -27,7 +27,7 @@ import org.apache.avalon.composition.data.ContainmentProfile;
  * serialized object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Id$
  */
 public class SerializedContainmentProfileCreator
     implements ContainmentProfileCreator

@@ -24,7 +24,7 @@ import org.apache.avalon.merlin.unit.AbstractMerlinTestCase;
  * Merlin default application factory.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Id$
  */
 public class MerlinTestCase extends AbstractMerlinTestCase
 {

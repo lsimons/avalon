@@ -56,7 +56,7 @@ import org.apache.avalon.util.i18n.Resources;
  * A factory enabling the establishment of new composition model instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.16 $ $Date: 2004/05/09 23:51:08 $
+ * @version $Id$
  */
 public class DefaultModelFactory
   implements ModelFactory

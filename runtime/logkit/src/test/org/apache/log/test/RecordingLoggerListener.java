@@ -25,7 +25,7 @@ import org.apache.log.util.LoggerListener;
  * A logger listener that records the log messages it receives.
  *
  * @author Peter Donald
- * @version $Revision: 1.6 $ $Date: 2004/02/28 11:31:24 $
+ * @version $Id$
  */
 class RecordingLoggerListener
     extends LoggerListener

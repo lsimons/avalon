@@ -27,7 +27,7 @@ import java.util.HashMap;
  * TestCase for {@link Enum}.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.3 $ $Date: 2004/02/21 13:27:02 $
+ * @version $Id$
  */
 public class EnumTestCase
     extends TestCase

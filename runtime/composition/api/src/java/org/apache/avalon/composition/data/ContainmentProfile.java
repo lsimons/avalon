@@ -29,7 +29,7 @@ import org.apache.avalon.logging.data.CategoriesDirective;
  * the a container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.11 $ $Date: 2004/04/07 16:49:22 $
+ * @version $Id$
  */
 public class ContainmentProfile extends DeploymentProfile
 {

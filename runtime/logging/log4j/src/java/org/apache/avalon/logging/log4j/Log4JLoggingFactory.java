@@ -42,7 +42,7 @@ import org.apache.log4j.xml.DOMConfigurator;
  * A Log4J factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $
+ * @version $Id$
  */
 public class Log4JLoggingFactory
     implements LoggingFactory

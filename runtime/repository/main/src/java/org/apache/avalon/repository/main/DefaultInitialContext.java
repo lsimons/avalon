@@ -52,7 +52,7 @@ import org.apache.avalon.repository.util.RepositoryUtils;
  * methods using the newly configured ClassLoader.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.27 $
+ * @version $Id$
  */
 public class DefaultInitialContext extends AbstractBuilder implements InitialContext
 {

@@ -58,7 +58,7 @@ import com.thoughtworks.qdox.model.JavaClass;
  * </table>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/03/17 10:50:03 $
+ * @version $Id$
  */
 public class TypeTag extends AbstractTag
 {

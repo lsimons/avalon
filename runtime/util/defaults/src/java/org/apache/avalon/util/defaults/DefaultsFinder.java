@@ -22,7 +22,7 @@ package org.apache.avalon.util.defaults ;
  * Finds a set of default property values.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $
+ * @version $Id$
  */
 public interface DefaultsFinder
 {

@@ -21,7 +21,7 @@ package org.apache.avalon.logging.logkit;
  * Exception to indicate that a log target reference is unknown.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/03/17 10:50:04 $
+ * @version $Id$
  */
 public class UnknownLogTargetException
         extends LogTargetException

@@ -31,7 +31,7 @@ import java.util.Set;
  * A doclet tag handler supporting 'logger' tags.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/21 13:27:04 $
+ * @version $Id$
  */
 public class LoggerTag extends AbstractTag
 {

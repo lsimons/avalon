@@ -27,7 +27,7 @@ import org.apache.avalon.composition.model.DeploymentModel;
  * management aspects and service resolution aspects.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/10 16:31:16 $
+ * @version $Id$
  */
 public interface Kernel extends KernelController
 {

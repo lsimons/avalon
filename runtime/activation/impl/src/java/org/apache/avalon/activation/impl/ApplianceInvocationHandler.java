@@ -39,7 +39,7 @@ import org.apache.avalon.framework.logger.Logger;
  * by one, some or all of it's interfaces.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/04/07 16:49:21 $
+ * @version $Id$
  */
 public final class ApplianceInvocationHandler 
   implements InvocationHandler, Reclaimer

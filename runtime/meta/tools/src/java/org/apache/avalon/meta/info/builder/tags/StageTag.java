@@ -28,7 +28,7 @@ import com.thoughtworks.qdox.model.JavaClass;
  * A doclet tag handler for the 'stage' tag.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/21 13:27:04 $
+ * @version $Id$
  */
 public class StageTag extends AbstractTag
 {

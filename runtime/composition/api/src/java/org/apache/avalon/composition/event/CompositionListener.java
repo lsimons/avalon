@@ -24,7 +24,7 @@ import java.util.EventListener;
  * A listener for model composition changes.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/24 22:18:21 $
+ * @version $Id$
  */
 public interface CompositionListener extends EventListener
 {

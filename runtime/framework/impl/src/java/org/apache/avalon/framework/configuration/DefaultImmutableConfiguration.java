@@ -23,7 +23,7 @@ import java.util.HashMap;
  * An immutable implementation of the <code>Configuration</code> interface.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/11 14:34:25 $
+ * @version $Id$
  */
 public class DefaultImmutableConfiguration
     extends AbstractConfiguration

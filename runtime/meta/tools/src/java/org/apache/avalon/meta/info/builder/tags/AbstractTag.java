@@ -32,7 +32,7 @@ import org.apache.avalon.framework.Version;
  * A doclet tag representing the name of the Type.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/21 13:27:04 $
+ * @version $Id$
  */
 public class AbstractTag
 {

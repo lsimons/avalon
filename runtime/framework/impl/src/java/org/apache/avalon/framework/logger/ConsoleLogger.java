@@ -21,7 +21,7 @@ package org.apache.avalon.framework.logger;
  * does not have a logger to supply.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.14 $ $Date: 2004/02/11 14:34:26 $
+ * @version $Id$
  */
 public final class ConsoleLogger
     implements Logger

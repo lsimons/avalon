@@ -47,7 +47,7 @@ import org.apache.avalon.util.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.32 $ $Date: 2004/05/09 23:51:08 $
+ * @version $Id$
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext

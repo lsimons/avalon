@@ -29,7 +29,7 @@ import org.apache.avalon.meta.info.Type;
  * Defintion of a component deployment context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/03/17 10:39:11 $
+ * @version $Id$
  */
 public interface ComponentContext extends DeploymentContext
 {
