@@ -52,33 +52,8 @@ public class Application extends AbstractLogEnabled implements Serviceable, Disp
     {
         getLogger().info( "servicing application" );
 
-        LocationService locator = null;
-        Object object = manager.lookup( "locator" );
-        if( object instanceof LocationService )
-        {
-            locator = (LocationService) object;
-        }
-        else
-        {
-            final String error = 
-              "Object " + object.getClass().getName() 
-              + " does not implement the LocatorService class.";
-            throw new ServiceException( "locator", error );
-        }
-
-        PublisherService publisher = null;
-        object = manager.lookup( "publisher" );
-        if( object instanceof PublisherService )
-        {
-            publisher = (PublisherService) object;
-        }
-        else
-        {
-            final String error = 
-              "Object " + object.getClass().getName() 
-              + " does not implement the PublisherService class.";
-            throw new ServiceException( "publisher", error );
-        }
+        LocationService locator = (LocationService) manager.lookup( "locator" );
+        PublisherService publisher = (PublisherService) manager.lookup( "publisher" );
 
         //
         // get the location from the locator and publish
