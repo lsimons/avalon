@@ -77,7 +77,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * See that interface for a description.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.14 $ $Date: 2003/04/18 20:02:29 $
+ * @version CVS $Revision: 1.15 $ $Date: 2003/04/21 13:35:51 $
  */
 public class DefaultContainerManager
     implements Initializable, Disposable, org.apache.avalon.fortress.ContainerManager, org.apache.avalon.fortress.ContainerManagerConstants
@@ -144,20 +144,8 @@ public class DefaultContainerManager
     {
         try
         {
-            final String logCategory = (String) initParameters.get( ContextManagerConstants.LOG_CATEGORY );
             final LoggerManager loggerManager = (LoggerManager) initParameters.get( LoggerManager.ROLE );
-            final Logger logger;
-
-            if ( null == logCategory )
-            {
-                logger = loggerManager.getDefaultLogger();
-            }
-            else
-            {
-                logger = loggerManager.getLoggerForCategory( logCategory );
-            }
-
-            return logger;
+            return loggerManager.getDefaultLogger();
         }
         catch ( ContextException ce )
         {
