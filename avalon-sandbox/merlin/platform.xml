@@ -119,7 +119,8 @@
     <!-- excalibur dependencies -->
     
     <dependency>
-      <id>excalibur-lifecycle</id>
+      <groupId>excalibur-lifecycle</groupId>
+      <artifactId>excalibur-lifecycle-api</artifactId>
       <version>1.0</version>
     </dependency>
 
