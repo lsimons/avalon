@@ -200,7 +200,7 @@ public class DefaultKernel
     private ComponentManager createComponentManager()
     {
         final DefaultComponentManager componentManager = new DefaultComponentManager();
-        //componentManager.put( SystemManager.ROLE, m_systemManager );
+        componentManager.put( SystemManager.ROLE, m_systemManager );
         componentManager.put( ConfigurationRepository.ROLE, m_repository );
         componentManager.makeReadOnly();
         return componentManager;
