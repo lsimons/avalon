@@ -16,7 +16,7 @@ import org.apache.avalon.excalibur.instrument.InstrumentManager;
 import org.apache.avalon.excalibur.component.ComponentHandler;
 import org.apache.avalon.excalibur.component.ExcaliburComponentSelector;
 import org.apache.avalon.excalibur.component.RoleManager;
-import org.apache.avalon.excalibur.logger.LogKitManager;
+import org.apache.avalon.excalibur.component.LogkitLoggerManager;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Context;
@@ -24,7 +24,7 @@ import org.apache.avalon.framework.context.Context;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/04/03 13:18:29 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/06/04 06:40:39 $
  * @since 4.1
  */
 public class InstrumentComponentSelector
@@ -35,7 +35,7 @@ public class InstrumentComponentSelector
 
     /** Instrumentable Name assigned to this Instrumentable */
     private String m_instrumentableName;
-    
+
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -80,12 +80,12 @@ public class InstrumentComponentSelector
                                                     final ComponentManager componentManager,
                                                     final Context context,
                                                     final RoleManager roleManager,
-                                                    final LogKitManager logkitManager )
+                                                    final LogkitLoggerManager logkitManager )
         throws Exception
     {
         String instrumentableName =
             configuration.getAttribute( "instrumentable", configuration.getAttribute( "name" ) );
-        
+
         return InstrumentComponentHandler.getComponentHandler( componentClass,
                                                                configuration,
                                                                componentManager,
@@ -109,7 +109,7 @@ public class InstrumentComponentSelector
     {
         m_instrumentManager = instrumentManager;
     }
-    
+
     /*---------------------------------------------------------------
      * Instrumentable Methods
      *-------------------------------------------------------------*/
@@ -130,7 +130,7 @@ public class InstrumentComponentSelector
     {
         m_instrumentableName = name;
     }
-    
+
     /**
      * Gets the name of the Instrumentable.
      *
@@ -172,7 +172,7 @@ public class InstrumentComponentSelector
         Collection values = getComponentHandlers().values();
         Instrumentable[] children = new Instrumentable[ values.size() ];
         values.toArray( children );
-        
+
         return children;
     }
 }

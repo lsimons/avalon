@@ -16,14 +16,14 @@ import org.apache.avalon.excalibur.instrument.InstrumentManager;
 import org.apache.avalon.excalibur.component.ComponentHandler;
 import org.apache.avalon.excalibur.component.ExcaliburComponentManager;
 import org.apache.avalon.excalibur.component.RoleManager;
-import org.apache.avalon.excalibur.logger.LogKitManager;
+import org.apache.avalon.excalibur.component.LogkitLoggerManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Context;
 
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/04/03 13:18:29 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/06/04 06:40:39 $
  * @since 4.1
  */
 public class InstrumentComponentManager
@@ -35,7 +35,7 @@ public class InstrumentComponentManager
 
     /** Instrumentable Name assigned to this Instrumentable */
     private String m_instrumentableName = "component-manager";
-    
+
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -77,14 +77,14 @@ public class InstrumentComponentManager
                                                     final Configuration configuration,
                                                     final Context context,
                                                     final RoleManager roleManager,
-                                                    final LogKitManager logkitManager )
+                                                    final LogkitLoggerManager logkitManager )
         throws Exception
     {
         if( m_instrumentManager == null )
         {
             throw new IllegalStateException( "The InstrumentManager was not yet set." );
         }
-        
+
         String instrumentableName =
             configuration.getAttribute( "instrumentable", configuration.getName() );
 
@@ -114,10 +114,10 @@ public class InstrumentComponentManager
         throws Exception
     {
         m_instrumentManager.registerInstrumentable( this, m_instrumentableName );
-        
+
         super.initialize();
     }
-    
+
     /*---------------------------------------------------------------
      * InstrumentManageable Methods
      *-------------------------------------------------------------*/
@@ -131,7 +131,7 @@ public class InstrumentComponentManager
     {
         m_instrumentManager = instrumentManager;
     }
-    
+
     /*---------------------------------------------------------------
      * Instrumentable Methods
      *-------------------------------------------------------------*/
@@ -152,7 +152,7 @@ public class InstrumentComponentManager
     {
         m_instrumentableName = name;
     }
-    
+
     /**
      * Gets the name of the Instrumentable.
      *
@@ -194,7 +194,7 @@ public class InstrumentComponentManager
         Collection values = getComponentHandlers().values();
         Instrumentable[] children = new Instrumentable[ values.size() ];
         values.toArray( children );
-        
+
         return children;
     }
 }

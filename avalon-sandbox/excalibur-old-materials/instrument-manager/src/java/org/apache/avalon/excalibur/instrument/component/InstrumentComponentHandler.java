@@ -13,7 +13,7 @@ import org.apache.avalon.excalibur.instrument.InstrumentManager;
 import org.apache.avalon.excalibur.component.ComponentHandler;
 import org.apache.avalon.excalibur.component.DefaultComponentFactory;
 import org.apache.avalon.excalibur.component.RoleManager;
-import org.apache.avalon.excalibur.logger.LogKitManager;
+import org.apache.avalon.excalibur.component.LogkitLoggerManager;
 import org.apache.avalon.excalibur.pool.Poolable;
 
 import org.apache.avalon.framework.component.ComponentManager;
@@ -25,7 +25,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/04/10 05:39:37 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/06/04 06:40:39 $
  * @since 4.1
  */
 public abstract class InstrumentComponentHandler
@@ -34,7 +34,7 @@ public abstract class InstrumentComponentHandler
 {
     /** Instrumentable Name assigned to this Instrumentable */
     private String m_instrumentableName = "component-manager";
-    
+
     /*---------------------------------------------------------------
      * Static Methods
      *-------------------------------------------------------------*/
@@ -60,7 +60,7 @@ public abstract class InstrumentComponentHandler
         final ComponentManager componentManager,
         final Context context,
         final RoleManager roleManager,
-        final LogKitManager logkitManager,
+        final LogkitLoggerManager logkitManager,
         final InstrumentManager instrumentManager,
         final String instrumentableName )
         throws Exception
@@ -111,10 +111,10 @@ public abstract class InstrumentComponentHandler
         {
             handler = new DefaultComponentHandler( factory, configuration );
         }
-        
+
         // Register the new handler with the instrumentManager if it exists.
         ((Instrumentable)handler).setInstrumentableName( instrumentableName );
-        
+
         return handler;
     }
 
@@ -128,7 +128,7 @@ public abstract class InstrumentComponentHandler
     public InstrumentComponentHandler()
     {
     }
-    
+
     /*---------------------------------------------------------------
      * Instrumentable Methods
      *-------------------------------------------------------------*/
@@ -149,7 +149,7 @@ public abstract class InstrumentComponentHandler
     {
         m_instrumentableName = name;
     }
-    
+
     /**
      * Gets the name of the Instrumentable.
      *
