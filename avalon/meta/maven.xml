@@ -37,7 +37,7 @@
 
   <goal name="avalon:build">
     <maven:reactor basedir="${basedir}"
-      includes="**/project.xml"
+      includes="*/project.xml"
       excludes="project.xml"
       goals=""
       banner="Building:"
