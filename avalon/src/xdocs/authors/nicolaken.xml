@@ -1,0 +1,107 @@
+<?xml version="1.0" standalone="no"?>
+
+<!DOCTYPE author PUBLIC "-//OASIS//DTD DocBook XML V4.1//EN"
+                         "dtd/docbookx.dtd">
+
+<author id="peter.html">
+  <honorific>Mr</honorific>
+  <!-- "Nicola Ken" is my name, Ken is not my middle name, at least
+       this is what I had to do to not have it removed :-/  -->
+  <firstname>Nicola Ken</firstname>
+  <surname>Barozzi</surname>
+  <address  format="linespecific">
+    <email>nicolaken@apache.org</email>
+  </address>
+  <affiliation>
+    <shortaffil>AISA</shortaffil>
+    <jobtitle>Project Manager</jobtitle>
+    <orgname>Aisa Industrial Automation Engineering</orgname>
+    <orgdiv>Management</orgdiv>
+  </affiliation>    
+  <affiliation>
+    <shortaffil>INTEXTI</shortaffil>
+    <jobtitle>Architecture Lead</jobtitle>
+    <orgname>Intexti</orgname>
+    <orgdiv>Software Development</orgdiv>
+  </affiliation>    
+  <affiliation>
+    <shortaffil>ASF</shortaffil>
+    <jobtitle>Committer</jobtitle>
+    <orgname>Apache Software Foundation</orgname>
+    <orgdiv>Apache Avalon</orgdiv>
+  </affiliation>
+  <affiliation>
+    <shortaffil>ASF</shortaffil>
+    <jobtitle>Committer</jobtitle>
+    <orgname>Apache Software Foundation</orgname>
+    <orgdiv>Apache Cocoon</orgdiv>
+  </affiliation>
+  <affiliation>
+    <shortaffil>ASF</shortaffil>
+    <jobtitle>Committer</jobtitle>
+    <orgname>Apache Software Foundation</orgname>
+    <orgdiv>Apache POI</orgdiv>
+  </affiliation>
+  <affiliation>
+    <shortaffil>ASF</shortaffil>
+    <jobtitle>Committer</jobtitle>
+    <orgname>Apache Software Foundation</orgname>
+    <orgdiv>Apache Forrest</orgdiv>
+  </affiliation>
+  <affiliation>
+    <shortaffil>KRYSALIS</shortaffil>
+    <jobtitle>Founder, PMC and Committer</jobtitle>
+    <orgname>Krysalis Community Project</orgname>
+    <orgdiv>Krysalis Centipede</orgdiv>
+  </affiliation>
+  <affiliation>
+    <shortaffil>KRYSALIS</shortaffil>
+    <jobtitle>Founder and Committer</jobtitle>
+    <orgname>Krysalis Community Project</orgname>
+    <orgdiv>Krysalis Monarch</orgdiv>
+  </affiliation> 
+  <affiliation>
+    <shortaffil>KRYSALIS</shortaffil>
+    <jobtitle>Committer</jobtitle>
+    <orgname>Krysalis Community Project</orgname>
+    <orgdiv>Krysalis Wings</orgdiv>
+  </affiliation>
+  <affiliation>
+    <shortaffil>KRYSALIS</shortaffil>
+    <jobtitle>Committer</jobtitle>
+    <orgname>Krysalis Community Project</orgname>
+    <orgdiv>Krysalis Ant Tasks</orgdiv>
+  </affiliation>
+  <affiliation>
+    <shortaffil>AISA</shortaffil>
+    <jobtitle>Project Manager</jobtitle>
+    <orgname>Aisa Industrial Automation Engineering</orgname>
+    <orgdiv>Management</orgdiv>
+  </affiliation>    
+  
+      
+    
+   <authorblurb>
+    <para>
+      Nicola Ken Barozzi is a committer for Jakarta POI, 
+      which he helped in entering Jakarta, Avalon, 
+      and for Apache Cocoon and Apache Forrest on Xml-Apache. 
+    </para>
+    <para>
+      The work with these projects have made him found the 
+      Krysalis Community Project, with the aim of incubating 
+      his own and other projects till/if a community creates 
+      round them. 
+    </para>
+    <para>
+      He started the Krysalis Centipede build system to make 
+      building projects a simple thing, since it had become a 
+      too common activity to be a pleasure. 
+   </para>
+    <para>
+     FAQ: You can call him Nicola, Ken, or Nicola Ken, as you wish. 
+    </para>
+
+  </authorblurb>
+</author>
+
