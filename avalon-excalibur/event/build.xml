@@ -17,7 +17,6 @@
         <pathelement location="${excalibur-threadcontext.jar}"/>
         <pathelement location="${excalibur-scratchpad.jar}"/>
         <pathelement location="${avalon-framework.jar}"/>
-        <pathelement location="${excalibur-util.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
         <pathelement path="${java.class.path}"/>
     </path>
@@ -48,7 +47,6 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCollections"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkConcurrent"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkUtil"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkThreadcontext"/>
     </target>
 
