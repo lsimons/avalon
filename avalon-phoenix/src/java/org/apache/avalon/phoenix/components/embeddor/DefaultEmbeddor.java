@@ -475,7 +475,10 @@ public class DefaultEmbeddor
     {
         final String filename = file.getName();
         int index = filename.lastIndexOf( '.' );
-        if( -1 == index ) {index = filename.length();}
+        if( -1 == index )
+        {
+            index = filename.length();
+        }
         final String name = filename.substring( 0, index );
         final File canonicalFile = file.getCanonicalFile();
         deployFile( name, canonicalFile );
@@ -537,7 +540,10 @@ public class DefaultEmbeddor
         for( int i = 0; i < m_entrys.length; i++ )
         {
             final Object object = m_entrys[ i ].getObject();
-            if( null == object ) {continue;}
+            if( null == object )
+            {
+                continue;
+            }
             ContainerUtil.shutdown( object );
         }
     }
