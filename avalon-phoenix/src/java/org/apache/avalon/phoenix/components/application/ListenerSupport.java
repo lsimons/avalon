@@ -11,8 +11,8 @@ import org.apache.avalon.phoenix.ApplicationEvent;
 import org.apache.avalon.phoenix.ApplicationListener;
 import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.avalon.phoenix.BlockListener;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
+import org.apache.avalon.phoenix.metadata.SarMetaData;
 
 /**
  * Manage a set of <code>ApplicationListener</code> objects and propogate
@@ -108,19 +108,22 @@ final class ListenerSupport
         int index = 0;
         while( index < m_listeners.length )
         {
-            if( m_listeners[ index ] == listener ) break;
+            if( m_listeners[ index ] == listener )
+            {
+                break;
+            }
             index++;
         }
 
         if( m_listeners.length != index )
         {
-            final ApplicationListener[] listeners = new ApplicationListener[ m_listeners.length - 1 ];
+            final ApplicationListener[] listeners =
+                new ApplicationListener[ m_listeners.length - 1 ];
             System.arraycopy( m_listeners, 0, listeners, 0, index );
             final int length = m_listeners.length - index - 1;
             System.arraycopy( m_listeners, index + 1, listeners, index, length );
         }
     }
-
 
     /**
      * Add a BlockListener to those requiring notification of
@@ -147,19 +150,22 @@ final class ListenerSupport
         int index = 0;
         while( index < m_blockListeners.length )
         {
-            if( m_blockListeners[ index ] == listener ) break;
+            if( m_blockListeners[ index ] == listener )
+            {
+                break;
+            }
             index++;
         }
 
         if( m_blockListeners.length != index )
         {
-            final BlockListener[] listeners = new BlockListener[ m_blockListeners.length - 1 ];
+            final BlockListener[] listeners =
+                new BlockListener[ m_blockListeners.length - 1 ];
             System.arraycopy( m_blockListeners, 0, listeners, 0, index );
             final int length = m_blockListeners.length - index - 1;
             System.arraycopy( m_blockListeners, index + 1, listeners, index, length );
         }
     }
-
 
     /**
      * Notification that the application is starting
