@@ -137,6 +137,7 @@ public class EventThreadPool
     {
         try
         {
+            worker.interrupted();
             m_pool.release( worker );
         }
         catch( Throwable e )
