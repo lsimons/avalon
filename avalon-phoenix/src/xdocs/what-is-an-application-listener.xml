@@ -4,8 +4,7 @@
 
 <document>
   <header>
-    <title>Block Developers Guide</title>
-    <subtitle>What is an Application Listener?</subtitle>
+    <title>Phoenix Block Developer's Guide - What is an Application Listener?</title>
     <authors>
       <person id="PH" name="Paul Hammant" email="Paul_Hammant@yahoo.com"/>      
     </authors>
@@ -44,7 +43,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/02/02 12:20:24 $
+      $Revision: 1.2 $ $Date: 2002/04/02 18:56:21 $
     </legal>
   </footer>
 </document>

@@ -2,7 +2,7 @@
 
 <!DOCTYPE changes SYSTEM "dtd/changes-v10.dtd">
 
-<changes title="Avalon/Phoenix History of Changes">
+<changes title="Phoenix - History of Changes">
   <devs>
     <person name="Federico Barbieri" email="fede@apache.org" id="FB"/>
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>

@@ -11,6 +11,7 @@
     <menu-item label="Features" href="features.html"/>
     <menu-item type="external" id="downloads" label="Download" href="http://jakarta.apache.org/builds/jakarta-avalon/release/phoenix"/>
     <menu-item label="Getting Started" href="getting-started.html"/>
+    <menu-item label="Making compatible components" href="making-phoenix-compatible-comps.html"/>
     <menu-item label="Installation" href="install.html"/>
     <menu-item label="A Future" href="afuture.html"/>
     <menu-item label="Todo" href="todo.html"/>
@@ -26,7 +27,7 @@
     <menu-item label="Overview" href="deployers-guide.html"/>
   </menu>
 
-  <menu label="Assemblers Guide">
+  <menu label="Assembler's Guide">
     <menu-item label="Overview" href="assemblers-guide.html"/>
     <menu-item label="What is a Server Application?" href="what-is-a-server-application.html"/>
     <menu-item label="Creating a Server Application" href="creating-a-server-application.html"/>
@@ -35,7 +36,7 @@
     <menu-item label="environment.xml Specification" href="environment-xml-specification.html"/>
   </menu>
 
-  <menu label="Block Developers Guide">
+  <menu label="Block Developer's Guide">
     <menu-item label="Overview" href="block-developers-guide.html" />
     <menu-item label="What is a Block?" href="what-is-a-block.html" />
     <menu-item label="What is a Block Listener?" href="what-is-a-block-listener.html" />

@@ -4,13 +4,13 @@
 
 <document>
   <header>
-    <title>A future</title>
+    <title>Phoenix - A future</title>
     <authors>
       <person name="Paul Hammant" email="Paul_Hammant@yahoo.com"/>
     </authors>
   </header>
   <body>
-    <s1 title="Overview">
+    <s1 title="Introduction">
       <p>
         A long term aim of Phoenix is to provide a platform that hosts multiple third party applications written only in Java within a single virtual machine.  The Phoenix platform is currently hosted on an Operating System such as Unix, Windows or Mac.  It could function directly on top of a Java Operating System.  A CPU combined with a suitable amount of memory, a basic BIOS, a Kernal, a suitable JVM and runtime library, could mount Phoenix and hosted server applications.
       </p>      
