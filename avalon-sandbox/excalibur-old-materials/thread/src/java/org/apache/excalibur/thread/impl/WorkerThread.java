@@ -77,6 +77,11 @@ public class WorkerThread
      * True if this thread is alive and not scheduled for shutdown.
      */
     private boolean m_alive;
+    
+    /**
+     * True if this thread needs to clear the interrupt flag
+     */
+    private boolean m_clearInterruptFlag;
 
     /**
      * The thread pool this thread is associated with.
@@ -103,6 +108,7 @@ public class WorkerThread
         setName( name );
         m_work = null;
         m_alive = true;
+        m_clearInterruptFlag = false;
         m_pool = pool;
 
         setDaemon( false );
@@ -128,6 +134,7 @@ public class WorkerThread
             {
                 preExecute();
                 m_work.execute();
+                if (m_clearInterruptFlag) clearInterruptFlag();
                 m_threadControl.finish( null );
             }
             catch( final ThreadDeath threadDeath )
@@ -149,6 +156,7 @@ public class WorkerThread
                 debug( "done." );
                 m_work = null;
                 m_threadControl = null;
+                if (m_clearInterruptFlag) clearInterruptFlag();
                 postExecute();
             }
 
@@ -169,6 +177,7 @@ public class WorkerThread
     {
         if( m_alive )
         {
+            if (m_clearInterruptFlag) clearInterruptFlag();
             m_pool.releaseWorker( this );
         }
     }
@@ -187,11 +196,28 @@ public class WorkerThread
      */
     protected void preExecute()
     {
+        clearInterruptFlag();
         //TODO: Thread name setting should reuse the
         //ThreadContext code if ThreadContext used.
     }
 
     /**
+	 * 
+	 */
+	public void clearInterruptFlag()
+    {
+		if (Thread.currentThread().equals(this))
+        {
+            Thread.interrupted();
+            m_clearInterruptFlag = false;
+        }
+        else
+        {
+            m_clearInterruptFlag = true;
+        }
+	}
+
+	/**
      * Set the <tt>alive</tt> variable to false causing the worker to die.
      * If the worker is stalled and a timeout generated this call, this method
      * does not change the state of the worker (that must be destroyed in other

@@ -209,6 +209,7 @@ class BasicThreadPool
      */
     protected void releaseWorker( final WorkerThread worker )
     {
+        worker.clearInterruptFlag();
         m_pool.put( (SimpleWorkerThread)worker );
     }
 }
