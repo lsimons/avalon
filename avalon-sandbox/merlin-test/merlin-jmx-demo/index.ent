@@ -1,1 +1,0 @@
-<!ENTITY % merlin-jmx-demo-entities SYSTEM "file:versioning/merlin-jmx-demo.ent"> %merlin-jmx-demo-entities;
