@@ -4,7 +4,7 @@
 
 <document>
   <header>
-    <title>Phoenix Block Developer's Guide - Preface</title>
+    <title>Avalon Phoenix - Guide - for Block Developers</title>
     <authors>
       <person name="Berin Loritsch" email="bloritsch@apache.org"/>
     </authors>
@@ -19,7 +19,7 @@
     	<p>The BDG is written for developers who want to create
 		  blocks for Phoenix. It is assumed that you are familiar with Java, XML, Avalon 
           patterns and server side security issues. This book provides an overview of 
-          the underlying technology, Java classes and interfaces, component model, and 
+          the underlying technology, Java classes and interfaces, component model, and
           behavior of server Blocks within Phoenix.</p>
 		<p>While this book concentrates on server fundamentals, it should not
 		  be construed as a &ldquo;dummy's&rdquo; book. Server side programming
@@ -32,26 +32,27 @@
 	 </s1> 
      <s1 title="Organization">
       <p>
-       Here is how the information is presented. The first X chapters are
+       Here is how the information is presented. The first few chapters are
        foundational material, and describe the basic concepts you can use in your
        own blocks. The later chapters specify in detail the formal requirements of
-       Block implementations. 
+       Block implementations.
       </p>
 	 </s1>
-     <s1 title="Sections">
+     <s1 title="Contents">
        <ol>
-        <li><link href="what-is-a-block.html">What is a block?</link></li>
-        <li><link href="what-is-a-block-listener.html">What is a block listener?</link></li>
-        <li><link href="what-is-an-application-listener.html">What is an application listener?</link></li>        
-        <li><link href="creating-a-block.html">How do I create a block?</link></li>
-        <li><link href="blockinfo-specification.html">BlockInfo specification</link></li>
+        <li><link href="guide-block-developers-what-is-a-block.html">What is a block?</link></li>
+        <li><link href="guide-block-developers-what-is-a-block-listener.html">What is a block listener?</link></li>
+        <li><link href="guide-block-developers-what-is-an-application-listener.html">What is an application listener?</link></li>
+        <li><link href="guide-block-developers-creating-a-block.html">How do I create a block?</link></li>
+        <li><link href="guide-block-developers-making-phoenix-compatible-comps.html">How do I make my components phoenix-compatible?</link></li>
+        <li><link href="reference-blockinfo-specification.html">BlockInfo specification</link></li>
        </ol>
-	 </s1>
+      </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.3 $ $Date: 2002/04/02 18:56:21 $
+      $Revision: 1.1 $ $Date: 2002/05/12 19:52:50 $
     </legal>
   </footer>
 </document>

@@ -5,7 +5,7 @@
 <document>
 
  <header>
-  <title>Phoenix - Todo</title>
+  <title>Avalon Phoenix - Todo</title>
   <authors>
    <person name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/>
   </authors>
@@ -21,41 +21,41 @@ within Phoenix.
 </p>
 
 <p>
-Wish List functionality is stuff that we would like to see implemented, but is 
-not critical for release. This is the area where you can take ownership of a 
+Wish List functionality is stuff that we would like to see implemented, but is
+not critical for release. This is the area where you can take ownership of a
 part of the project and contribute back.
 </p>
 
 <p>
-Very Important Work to Complete is stuff that we feel is holding up a release of 
+Very Important Work to Complete is stuff that we feel is holding up a release of
 Avalon.
 </p>
 
 <p>
-If you are a new developer to Phoenix or even an existing developer, these are 
-areas where you can take ownership and help complete. Please do not ask us how 
-you can help, but rather specific questions about how you think that these items 
-should be implemented. It is up to you to take initiative and provide solutions 
-to the missing functionality described below. ;-) If your see yourself as more 
-of a application (rather than infrastructure) writer, then perhaps peruse 
+If you are a new developer to Phoenix or even an existing developer, these are
+areas where you can take ownership and help complete. Please do not ask us how
+you can help, but rather specific questions about how you think that these items
+should be implemented. It is up to you to take initiative and provide solutions
+to the missing functionality described below. ;-) If your see yourself as more
+of a application (rather than infrastructure) writer, then perhaps peruse
 Cornerstone's to-do list - it's even more ambitious.
 </p>
 
 <p>
-Documentation is *always* appreciated in any form. There are two ways to provide 
-helpful documentation. The first way is to write up HTML or straight text 
-documentation and send it to one of the primary authors directly (we are also 
-willing to give you CVS write access if you wish). The second way is to post 
-Questions/Answers to the FAQ under the Avalon sections there. 
-There is a Getting Started document named 
-"getting-started.html" that could always use additional documentation, examples 
-and clarification. You need to take the initiative and just start writing down 
-your thoughts and concerns and questions and answers and then giving those back 
+Documentation is *always* appreciated in any form. There are two ways to provide
+helpful documentation. The first way is to write up HTML or straight text
+documentation and send it to one of the primary authors directly (we are also
+willing to give you CVS write access if you wish). The second way is to post
+Questions/Answers to the FAQ under the Avalon sections there.
+There is a Getting Started document named
+"getting-started.html" that could always use additional documentation, examples
+and clarification. You need to take the initiative and just start writing down
+your thoughts and concerns and questions and answers and then giving those back
 to us.
 </p>
 
 <p>
-If you need more detailed help, please join, then send mail to the mailing 
+If you need more detailed help, please join, then send mail to the mailing
 list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
 </p>
 
@@ -65,19 +65,18 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
 
     <s2 title="Separate and Antify Validation code">
       <p>
-      Refactor block validation code. Write an Ant taks that uses this 
+      Refactor block validation code. Write an Ant taks that uses this
       and validates the block jar files and another task that validates the
       assembly.xml file.
       </p>
-    </s2>      
-    <s2 title="Log messages">      
+    </s2>
+    <s2 title="Log messages">
       <p>
-      Refactor Log messages so that they are structured in a manner more 
+      Refactor Log messages so that they are structured in a manner more
       suitable for administrators rather than developers.
       </p>
       <p>
-      Refactor Log messages so that they are structured in a manner more 
-      suitable for administrators rather than developers.
+      update 12/05/02: mostly done.
       </p>
     </s2>
 
@@ -94,7 +93,7 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
     <s2 title="Time Scheduler changes">
       <p>
       Rework the DefaultTimeScheduler so that entrys are removed from heap when
-      reset. Otherwise it could lead to excessive buildup of invalidated entries 
+      reset. Otherwise it could lead to excessive buildup of invalidated entries
       if many are reset but remain in heap.
       </p>
     </s2>
@@ -108,8 +107,11 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
 
     <s2 title="Virtual File System / Jars within Jars">
       <p>
-      Implement a simple read-only VFS so that .sar files do not need to be 
+      Implement a simple read-only VFS so that .sar files do not need to be
       expanded.
+      </p>
+      <p>
+      update 12/05/02: done.
       </p>
     </s2>
 
@@ -124,6 +126,9 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
       <p>
       Determine if we need a naming service. If so provide a simple JNDI based naming
       service possibly built on top of cadastre.
+      </p>
+      <p>
+      update 12/05/02: we've decided not to do so at this time.
       </p>
     </s2>
 
@@ -151,9 +156,9 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
       gets sent the new configuration.
       </p>
       <p>
-      A mechanism to allow one block to be the master of another's configuration 
+      A mechanism to allow one block to be the master of another's configuration
       programmatically.  This would mean that whilst in use, the configuration
-      could change.  It could happen invisibly or as part of human interaction 
+      could change.  It could happen invisibly or as part of human interaction
       via some UI.  The blocks woyld be granted configuration-update rights in
       assembly.xml.  Discussed on the list in late Aug, early Sept 2001.
       </p>
@@ -161,7 +166,7 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
       Define and implement needed stuff to allow hot and warm reconfiguration at
       runtime.
       </p>
-      
+
     </s2>
 
     <s2 title="Proxy Interfaces">
@@ -174,6 +179,9 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
     <s2 title="Management Console">
       <p>
       Management console/Client interface. CLI version aswell as a GUI version.
+      </p>
+      <p>
+      update 12/05/02: we have a draft of concept.
       </p>
     </s2>
 
@@ -190,7 +198,7 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
       JMS (Java Messaging Service) for the Connection Manager. It
       will provide a standard and flexible connection service and
       messaging service. It allows for both point to point messaging
-      and multicast messaging (subscriber/provider). 
+      and multicast messaging (subscriber/provider).
       </p>
     </s2>
 
@@ -213,8 +221,11 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
 
     <s2 title="Remote Control">
       <p>
-      Write some code to remotely control Phoenix. (This will most likely be 
+      Write some code to remotely control Phoenix. (This will most likely be
       rolled into JMX support).
+      </p>
+      <p>
+      update 12/05/02: done (through jmx).
       </p>
     </s2>
 
@@ -226,6 +237,12 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
 </s1>
 
 <s1 title="Ongoing work">
+    <s2 title="Help needed!">
+      <p>
+      We can really use some help here! This is a top priority and all
+      contributions will be welcomed.
+      </p>
+    </s2>
 
     <s2 title="Documentation">
       <p>
@@ -251,10 +268,8 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
       robust.
       </p>
       <p>
-      Leo Simmons, (our key JMX developer to Aug 2001) has gone off travelling, and 
-      sadly will not be taking a laptop.  We're looking for people to work along 
-      the lines of Apache princlples in a team to take over Leo's work and finish 
-      this off.
+      update 12/05/02: we're at roughly 80% functionality. We're
+      using MX4J as our default MBeanServer.
       </p>
     </s2>
 

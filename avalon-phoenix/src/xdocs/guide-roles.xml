@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Avalon Phoenix - Reference - Development Roles</title>
+    <authors>
+      <person name="Leo Simons" email="leosimons@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Introduction">
+      <p>
+        In phoenix-based development, we identify several roles. Each of these has its own
+	guide. If you plan to aid in the development of phoenix itself, or if you are
+	responsible for all these aspects, you should read all the guides. Otherwise, you
+	should be able to learn everything you need to know from the guide that fits your
+	role.
+      </p>
+    </s1>
+    <s1 title="The Administrator">
+      <p>The administrator is responsible for getting phoenix to run and for keeping it
+      running. He typically controls the startup and shutdown of the standalone server
+      or daemon, and uses a management console to keep the server in top condition.</p>
+
+      <p><link href="guide-administrator.html">Administrator's Guide</link></p>
+    </s1>
+    <s1 title="The Deployer">
+      <p>The deployer manages (un/re)deployment of the applications hosted withing phoenix,
+      typically through a management console. In real life, this is often the same person
+       as the adminstrator.</p>
+
+      <p><link href="guide-deployer.html">Deployer's Guide</link></p>
+    </s1>
+    <s1 title="The Assembler">
+      <p>The assembler takes pre-written blocks and glues these together to create a
+       server application. Assemblers usually work closely with block developers.</p>
+
+      <p><link href="guide-assemblers.html">Assembler Guide</link></p>
+    </s1>
+    <s1 title="The Block Developer">
+      <p>The block developer creates reusable components (called blocks) that can be
+       wired together to form a server applications.</p>
+
+      <p><link href="guide-block-developers.html">Block Developers Guide</link></p>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2002/05/12 19:52:50 $
+    </legal>
+  </footer>
+</document>

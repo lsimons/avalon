@@ -4,7 +4,7 @@
 
 <document>
   <header>
-    <title>Phoenix - Making components that are Phoenix compatible</title>
+    <title>Avalon Phoenix - Guide - Making components that are Phoenix compatible</title>
     <authors>
       <person name="Paul Hammant" email="hammant@apache.org"/>
     </authors>
@@ -43,31 +43,31 @@
       <s2 title="Sepearation of interface and implementation">
         <p>
          The separation of interface/impl pattern is described <link href="http://jakarta.apache.org/avalon/framework/separation-of-interface-and-implementation.html">here</link>.  
-         For Phoenix is means we can (if done completely) mount the implementation jar in place where hosted client compoennts (beans, servlets etc) can use the API, bit not see the implementation.  We can also reimplement or wrap 
-         bits of the implementation.  For example we could write a pluggable implementation that could, for a certain API 
-         journal some methods, but still delegate to the real impl.  Which pluggable impl is used by Phoenix when it 
+         For Phoenix is means we can (if done completely) mount the implementation jar in place where hosted client compoennts (beans, servlets etc) can use the API, bit not see the implementation.  We can also reimplement or wrap
+         bits of the implementation.  For example we could write a pluggable implementation that could, for a certain API
+         journal some methods, but still delegate to the real impl.  Which pluggable impl is used by Phoenix when it
          boots is determined in assembly.xml of course.
         </p>
       </s2>
       <s2 title="Opening up the API">
         <p>
-         Given that you have divided into interface and impl, there are probably plenty of methods you 
-         can put method in the interface you never though might be used.  For example if you are making JDBC 
-         compliant relational database, and it is a bean, you could easily think that the only use would be 
-         clients via JDBC over sockets.  Well, given that Phoenix can now mount the RDBMS block, it might want 
+         Given that you have divided into interface and impl, there are probably plenty of methods you
+         can put method in the interface you never though might be used.  For example if you are making JDBC
+         compliant relational database, and it is a bean, you could easily think that the only use would be
+         clients via JDBC over sockets.  Well, given that Phoenix can now mount the RDBMS block, it might want
          to be reused by other blocks that other people have developed inside the the same SAR file.  In that case
          have beanlike methods of ...
         <ol>
           <li>Database createDatabase(String name)</li>
-          <li>Database cloneDatabase(String name)</li>      
-        </ol>         
+          <li>Database cloneDatabase(String name)</li>
+        </ol>
         .. might be useful.  Just because you can only see a ServerSocket interface does not mean that others do.
         </p>
-      </s2> 
-    </s1> 
+      </s2>
+    </s1>
     <s1 title="Example compatible comp">
     <p>
-      Below are an interface and implemmentation that are suitably separated, are beanlike and is in accordance 
+      Below are an interface and implemmentation that are suitably separated, are beanlike and is in accordance
       with the IoC pattern...
 <source>
 package examplecomp;
@@ -89,19 +89,19 @@ public class MyWebServer implements WebServer {
         // whatever.
     }
     public void start() {
-        // whatever.    
+        // whatever.
     }
     public void stop() {
-        // whatever.    
-    }   
+        // whatever.
+    }
     public void mountWar(String contextName, URL pathToWar) {
         // whatever.
     }
     public void unMountWar(String contextName) {
         // whatever.
-    }    
+    }
 }
-</source>      
+</source>
       For standalone mode, it might be launched like so:
 <source>
 package examplecomp.main;
@@ -111,7 +111,7 @@ public class WebServerMain {
         ws.setPort(Integer.parseInt(args[0]));
         ws.initialize();
         ws.start();
-        ws.mountWar(args[1], new File(args[2]).toURL());       
+        ws.mountWar(args[1], new File(args[2]).toURL());
     }
 }
 </source>
@@ -132,11 +132,11 @@ public class WebServerBlock extends AbstractLoggable implements Block, WebServer
 
     public void initialize() throws Exception {
         mWebServer.setPort(mPort);
-        mWebServer.initialize();    
+        mWebServer.initialize();
     }
 
     public final void start() throws Exception {
-        mWebServer.start();    
+        mWebServer.start();
     }
 
     public void stop() throws Exception {
@@ -144,16 +144,16 @@ public class WebServerBlock extends AbstractLoggable implements Block, WebServer
     }
 
     public void mountWar(String contextName, String pathToWar) {
-        mWebServer.mountWar(contextName, pathToWar);        
+        mWebServer.mountWar(contextName, pathToWar);
     }
-    
+
     public void unMountWar(String contextName) {
-        mWebServer.unMountWar(contextName);        
+        mWebServer.unMountWar(contextName);
     }
 }
 </source>
-      This basically shows the impl wrapped and taking its configuration from the config.xml 
-      that phonix prefers from configuration.  The the developer wanted they could ignore 
+      This basically shows the impl wrapped and taking its configuration from the config.xml
+      that phonix prefers from configuration.  The the developer wanted they could ignore
       that place of configuration and use their own config files.  If the WebServer block were
       being reused by another Phoenix block (say an EJB server), it might be like so:
 <source>
@@ -161,7 +161,7 @@ package somebeanserver;
 public class EJBBlock extends AbstractLoggable implements Block, Composable {
 
     private WebServer mWebServer;
-    
+
     public void compose(final ComponentManager compMgr) throws ComponentException {
         mWebServer = compMgr.lookup("WebServer");
     }
@@ -173,15 +173,15 @@ public class EJBBlock extends AbstractLoggable implements Block, Composable {
             mWebServer.mountWar(warContextNames[i], wars[i]);
         }
     }
-    
+
     public void unMountEar(String contextName) {
         // whatever
     }
 }
-</source>      
+</source>
     </p>
     </s1>
-    <s1 title="Misconceptions">    
+    <s1 title="Misconceptions">
       <p>
         The following are worth stating:
         <ul>
@@ -189,13 +189,23 @@ public class EJBBlock extends AbstractLoggable implements Block, Composable {
           <li>Being Phoenix compatible is just as useful for whole servers as it is for small components.</li>
           <li>Being Phoenix compatible can be for tools that are intended for client-side as well as server use.</li>
         </ul>
-      </p>    
-    </s1>    
+      </p>
+    </s1>
+     <s1 title="Guide Contents">
+       <ol>
+        <li><link href="guide-block-developers-what-is-a-block.html">What is a block?</link></li>
+        <li><link href="guide-block-developers-what-is-a-block-listener.html">What is a block listener?</link></li>
+        <li><link href="guide-block-developers-what-is-an-application-listener.html">What is an application listener?</link></li>
+        <li><link href="guide-block-developers-creating-a-block.html">How do I create a block?</link></li>
+        <li>How do I make my components phoenix-compatible?</li>
+        <li><link href="reference-blockinfo-specification.html">BlockInfo specification</link></li>
+       </ol>
+      </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2002/04/03 07:33:43 $
+      $Revision: 1.1 $ $Date: 2002/05/12 19:52:49 $
     </legal>
   </footer>
 </document>

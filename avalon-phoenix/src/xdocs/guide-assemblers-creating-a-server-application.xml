@@ -4,7 +4,7 @@
 
 <document>
   <header>
-    <title>Phoenix Server Assembler's Guide - Creating a Server Application</title>
+    <title>Avalon Phoenix - Guide - Creating a Server Application</title>
     <authors>
       <person id="PD" name="Peter Donald" email="peter@apache.org"/>
     </authors>
@@ -37,7 +37,7 @@
       <p>
         Configuration data for blocks is stored in the config.xml file.
         For more detail on the format of config.xml see the 
-        <link href="config-xml-specification.html">specification</link>.
+        <link href="reference-config-xml-specification.html">specification</link>.
       </p>
     </s1>
     <s1 title="Write the assembly.xml file">
@@ -46,9 +46,9 @@
         the instances of Blocks that are part of the Server Application. Each 
         Block has a name. Each block may also have dependencies that need to be 
         satisfied and this can be done via the 'provide' sub-elements. The
-        provide element maps block instances from the Server Application namespace 
+        provide element maps block instances from the Server Application namespace
         to the Block role namespace specified in BlockInfo files. For more detail 
-        on the format of assembly.xml see the <link href="assembly-xml-specification.html">
+        on the format of assembly.xml see the <link href="reference-assembly-xml-specification.html">
         specification</link>.
       </p>
     </s1>
@@ -57,7 +57,7 @@
         The next stage is to write the environment.xml file. The environment.xml is used to
         configure the code-based security policy, log management and thread pooling.
         For more detail on the format of environment.xml see the 
-        <link href="environment-xml-specification.html">specification</link>.
+        <link href="reference-environment-xml-specification.html">specification</link>.
       </p>
     </s1>
     <s1 title="Create the sar file">
@@ -70,11 +70,20 @@
         should be stored in the <code>SAR-INF/lib/</code> directory.
       </p>
     </s1>
+     <s1 title="Guide Contents">
+       <ol>
+        <li><link href="guide-assemblers-what-is-a-server-application.html">What is a Server Application?</link></li>
+        <li>How do I create a Server Application?</li>
+        <li><link href="reference-config-xml-specification.html">config.xml specification</link></li>
+	<li><link href="reference-assembly-xml-specification.html">assembly.xml specification</link></li>
+        <li><link href="reference-environment-xml-specification.html">environment.xml specification</link></li>
+       </ol>
+      </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.6 $ $Date: 2002/04/02 18:56:21 $
+      $Revision: 1.1 $ $Date: 2002/05/12 19:52:49 $
     </legal>
   </footer>
 </document>

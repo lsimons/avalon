@@ -4,7 +4,7 @@
 
 <document>
   <header>
-    <title>Phoenix Block Developer's Guide - Creating a Block</title>
+    <title>Avalon Phoenix - Guide - Creating a Block</title>
     <authors>
       <person id="PD" name="Peter Donald" email="peter@apache.org"/>
     </authors>
@@ -46,7 +46,7 @@
       <p>
         You must create this file to indicate which services this Block depends upon 
         and those services which it offers. It is more fully documented in the 
-        <link href="blockinfo-specification.html">BlockInfo Specification</link> document.
+        <link href="reference-blockinfo-specification.html">BlockInfo Specification</link> document.
       </p>
     </s1>
     <s1 title="Create the jar package">
@@ -65,11 +65,21 @@ Name: com/biz/cornerstone/blocks/MyBlock.class
 Avalon-Block: true
       </source>
     </s1>
+     <s1 title="Guide Contents">
+       <ol>
+        <li><link href="guide-block-developers-what-is-a-block.html">What is a block?</link></li>
+        <li><link href="guide-block-developers-what-is-a-block-listener.html">What is a block listener?</link></li>
+        <li><link href="guide-block-developers-what-is-an-application-listener.html">What is an application listener?</link></li>
+        <li>How do I create a block?</li>
+        <li><link href="guide-block-developers-making-phoenix-compatible-comps.html">How do I make my components phoenix-compatible?</link></li>
+        <li><link href="reference-blockinfo-specification.html">BlockInfo specification</link></li>
+       </ol>
+      </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.5 $ $Date: 2002/04/02 18:56:21 $
+      $Revision: 1.1 $ $Date: 2002/05/12 19:52:49 $
     </legal>
   </footer>
 </document>

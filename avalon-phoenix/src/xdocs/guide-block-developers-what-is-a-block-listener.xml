@@ -4,7 +4,7 @@
 
 <document>
   <header>
-    <title>Phoenix Block Developer's Guide - What is a Block Listener?</title>
+    <title>Avalon Phoenix - Guide - What is a Block Listener?</title>
     <authors>
       <person id="PD" name="Peter Donald" email="peter@apache.org"/>
       <person id="PH" name="Paul Hammant" email="Paul_Hammant@yahoo.com"/>      
@@ -39,7 +39,7 @@
         number of SOAPClients that was specific to application. A better approach 
         to modelling these relationships would be to use a BlockListener to "wire" 
         together the SOAPClient services in Blocks to the SOAPServer service. As 
-        soon as any Block is detected that implements a SOAPClient service it could 
+        soon as any Block is detected that implements a SOAPClient service it could
         be registered with the SOAPServer.
       </p>
     </s1>
@@ -56,11 +56,21 @@
         &lt;listener class="pkg.MyBlockListener" name="a-suitable-name" /&gt;      
       </source>
     </s1>
-  </body>
+     <s1 title="Guide Contents">
+       <ol>
+        <li><link href="guide-block-developers-what-is-a-block.html">What is a block?</link></li>
+        <li>What is a block listener?</li>
+        <li><link href="guide-block-developers-what-is-an-application-listener.html">What is an application listener?</link></li>
+        <li><link href="guide-block-developers-creating-a-block.html">How do I create a block?</link></li>
+        <li><link href="guide-block-developers-making-phoenix-compatible-comps.html">How do I make my components phoenix-compatible?</link></li>
+        <li><link href="reference-blockinfo-specification.html">BlockInfo specification</link></li>
+       </ol>
+      </s1>
+</body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2002/04/02 18:56:21 $
+      $Revision: 1.1 $ $Date: 2002/05/12 19:52:49 $
     </legal>
   </footer>
 </document>

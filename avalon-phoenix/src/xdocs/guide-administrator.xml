@@ -4,7 +4,7 @@
 
 <document>
   <header>
-    <title>Phoenix - Administrator Documentation</title>
+    <title>Avalon Phoenix - Guide - for Administrators</title>
     <authors>
       <person name="Berin Loritsch" email="bloritsch@apache.org"/>
     </authors>
@@ -19,9 +19,16 @@
       </p>
       <s2 title="Target Audience">
         <p>
-          This documentation describes the care and feeding of the Avalon
+          This documentation will describe the care and feeding of the Avalon
           Phoenix kernel from the point of view of the administrator.
-          It will be expanded as the system becomes more complete.
+        </p>
+      </s2>
+      <s2 title="Guide non-existent, but features are there">
+	<p>
+          We currently have no info on this whatsoever. However, this doesn't
+	  mean that Phoenix is not easy to administrate - the contrary is true,
+	  since our tight integration with JMX exposes the entire kernel at
+	  runtime.
         </p>
       </s2>
     </s1>
@@ -29,7 +36,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2002/04/02 18:56:21 $
+      $Revision: 1.1 $ $Date: 2002/05/12 19:52:49 $
     </legal>
   </footer>
 </document>

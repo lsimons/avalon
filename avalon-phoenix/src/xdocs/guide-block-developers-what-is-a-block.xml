@@ -4,14 +4,14 @@
 
 <document>
   <header>
-    <title>Phoenix Block Developer's Guide - What is a Block?</title>
+    <title>Avalon Phoenix - Guide - What is a Block?</title>
     <authors>
       <person id="FB" name="Federico Barbieri" email="fede@apache.org"/>
     </authors>
   </header>
   <body>
     <s1 title="Introduction">
-      <p>In Avalon, there are three component layers:</p>
+      <p>In Avalon Phoenix, there are three component layers:</p>
         <ul>
           <li>Blocks</li>
           <li>Components</li>
@@ -29,17 +29,27 @@
     </s1>
     <s1 title="What is a Block?">
       <p>
-        A Block is a Component on a larger scale. It is usually the 
-        implementation of a Service. Examples of Blocks are 
-        "Persistent Object Store", "Connection Pools", "XML Database", 
+        A Block is a Component on a larger scale. It is usually the
+        implementation of a Service. Examples of Blocks are
+        "Persistent Object Store", "Connection Pools", "XML Database",
         "Authenticator" and so on.
       </p>
     </s1>
+     <s1 title="Guide Contents">
+       <ol>
+        <li>What is a block?</li>
+        <li><link href="guide-block-developers-what-is-a-block-listener.html">What is a block listener?</link></li>
+        <li><link href="guide-block-developers-what-is-an-application-listener.html">What is an application listener?</link></li>
+        <li><link href="guide-block-developers-creating-a-block.html">How do I create a block?</link></li>
+        <li><link href="guide-block-developers-making-phoenix-compatible-comps.html">How do I make my components phoenix-compatible?</link></li>
+        <li><link href="reference-blockinfo-specification.html">BlockInfo specification</link></li>
+       </ol>
+      </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2002/04/02 18:56:21 $
+      $Revision: 1.1 $ $Date: 2002/05/12 19:52:49 $
     </legal>
   </footer>
 </document>

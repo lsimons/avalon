@@ -4,7 +4,7 @@
 
 <document>
   <header>
-    <title>Phoenix Server Assembler's Guide - Specification of assembly.xml </title>
+    <title>Avalon Phoenix - Reference - Specification of assembly.xml </title>
     <authors>
       <person id="PD" name="Peter Donald" email="peter@apache.org"/>
     </authors>
@@ -57,7 +57,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.7 $ $Date: 2002/04/02 18:56:21 $
+      $Revision: 1.1 $ $Date: 2002/05/12 19:52:50 $
     </legal>
   </footer>
 </document>
