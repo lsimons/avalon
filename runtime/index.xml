@@ -784,6 +784,19 @@
     </dependencies>
   </project>
 
+  <project basedir="merlin/unit">
+    <info>
+      <group>avalon/merlin</group>
+      <name>avalon-merlin-unit</name>
+      <version>3.3.1</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-repository-main"/>
+      <include key="avalon-merlin-impl" build="false"/>
+    </dependencies>
+  </project>
+
   <project basedir="main" key="avalon-runtime">
     <info>
       <group>avalon</group>
@@ -815,19 +828,5 @@
       <include key="jms"/>
     </dependencies>
   </project>
-
-  <!--
-  <project basedir="merlin/unit">
-    <info>
-      <group>avalon/merlin</group>
-      <name>avalon-merlin-unit</name>
-      <version>3.3.0</version>
-    </info>
-    <dependencies>
-      <include key="avalon-repository-main"/>
-      <include key="avalon-merlin-impl" build="false" test="false"/>
-    </dependencies>
-  </project>
-  -->
 
 </index>
