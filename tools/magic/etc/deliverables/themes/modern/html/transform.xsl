@@ -167,7 +167,13 @@
   <xsl:template match="a">
     <a>
       <xsl:attribute name="class">doclink</xsl:attribute>
+      <xsl:if test="@name != ''" >
+        <xsl:attribute name="name"><xsl:value-of select="@name" /></xsl:attribute>
+      </xsl:if>
+      
       <xsl:choose>
+        <xsl:when test="not( boolean( @href ) )" >
+        </xsl:when>
         <!-- Test if a root reference -->
         <xsl:when test="substring( @href, 1, 1 ) = '/'" >
           <xsl:attribute name="href"><xsl:value-of select="concat( $relativepath[position() = last()], @href)" /></xsl:attribute>
