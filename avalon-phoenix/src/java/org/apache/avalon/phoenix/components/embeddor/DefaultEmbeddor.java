@@ -12,9 +12,13 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
 import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.activity.Startable;
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.excalibur.container.Container;
 import org.apache.avalon.framework.component.Composable;
+import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.DefaultComponentManager;
+import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -31,6 +35,7 @@ import org.apache.avalon.phoenix.components.manager.SystemManager;
 import org.apache.avalon.phoenix.components.installer.Installer;
 import org.apache.avalon.phoenix.components.installer.Installation;
 import org.apache.avalon.phoenix.components.deployer.Deployer;
+import org.apache.avalon.phoenix.components.classloader.ClassLoaderManager;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
@@ -57,36 +62,17 @@ public class DefaultEmbeddor
     private static final String    DEFAULT_LOG_FILE     = PHOENIX_HOME + "/logs/phoenix.log";
     private static final String    DEFAULT_APPS_PATH    = PHOENIX_HOME + "/apps";
 
-    private static final String    DEFAULT_INSTALLER    =
-        System.getProperty( "phoenix.installer",
-                            "org.apache.avalon.phoenix.components.installer.DefaultInstaller" );
-
-    private static final String    DEFAULT_DEPLOYER     =
-        System.getProperty( "phoenix.deployer",
-                            "org.apache.avalon.phoenix.components.deployer.DefaultSarDeployer" );
-
-    private static final String    DEFAULT_KERNEL       =
-        System.getProperty( "phoenix.kernel",
-                            "org.apache.avalon.phoenix.components.kernel.DefaultKernel" );
-
-    private static final String    DEFAULT_MANAGER      =
-        System.getProperty( "phoenix.manager",
-                            "org.apache.avalon.phoenix.components.manager.NoopSystemManager" );
-
-    private static final String    DEFAULT_REPOSITORY   =
-        System.getProperty( "phoenix.repository",
-                            "org.apache.avalon.phoenix.components.configuration.DefaultConfigurationRepository" );
-
     private final static String  DEFAULT_FORMAT =
         "%{time} [%7.7{priority}] (%{category}): %{message}\\n%{throwable}";
 
     private Parameters     m_parameters;
 
-    private Kernel                   m_kernel;
     private Installer                m_installer;
+    private ClassLoaderManager       m_classLoaderManager;
+    private ConfigurationRepository  m_repository;
+    private Kernel                   m_kernel;
     private Deployer                 m_deployer;
     private SystemManager            m_systemManager;
-    private ConfigurationRepository  m_repository;
 
     private boolean                  m_shutdown;
 
@@ -123,7 +109,8 @@ public class DefaultEmbeddor
     public void parameterize( final Parameters parameters )
         throws ParameterException
     {
-        m_parameters = parameters;
+        m_parameters = createDefaultParameters();
+        m_parameters.merge( parameters );
     }
 
     /**
@@ -134,23 +121,17 @@ public class DefaultEmbeddor
     public void initialize()
         throws Exception
     {
-        createComponents();
-    }
-
-    /**
-     * Setup and Start the Logger, Deployer, SystemManager and Kernel.
-     *
-     * @exception Exception if an error occurs
-     */
-    public void start()
-        throws Exception
-    {
         try
         {
+            createComponents();
+
             // setup core handler components
-            setupComponents();
-            m_systemManager.start();
-            m_kernel.start();
+            setupComponent( m_installer );
+            setupComponent( m_classLoaderManager );
+            setupComponent( m_repository );
+            setupComponent( m_deployer );
+            setupComponent( m_systemManager );
+            setupComponent( m_kernel );
 
             //Uncomment next bit to try registering...
             //TODO: Logger and SystemManager itself aswell???
@@ -190,44 +171,32 @@ public class DefaultEmbeddor
     }
 
     /**
-     * Shutdown all the resources associated with kernel.
-     */
-    public void stop()
-        throws Exception
-    {
-        shutdown();
-
-        if( null != m_systemManager )
-        {
-            m_systemManager.unregister( "Phoenix.Kernel" );
-            m_systemManager.unregister( "Phoenix.Embeddor" );
-            m_systemManager.stop();
-        }
-
-        if( null != m_kernel )
-        {
-            m_kernel.stop();
-        }
-    }
-
-    /**
      * Release all the resources associated with kernel.
      */
     public void dispose()
     {
-        if( null != m_systemManager )
+        shutdown();
+
+        try
         {
-            m_systemManager.dispose();
-            m_systemManager = null;
+            shutdownComponent( m_systemManager );
+            shutdownComponent( m_deployer );
+            shutdownComponent( m_kernel );
+            shutdownComponent( m_repository );
+            shutdownComponent( m_classLoaderManager );
+            shutdownComponent( m_installer );
+        }
+        catch( final Exception e )
+        {
+            // whoops!
+            final String message = REZ.getString( "embeddor.error.shutdown.failed" );
+            getLogger().fatalError( message, e );
         }
 
-        if( null != m_kernel )
-        {
-            m_kernel.dispose();
-            m_kernel = null;
-        }
-
+        m_systemManager = null;
+        m_kernel = null;
         m_repository = null;
+        m_classLoaderManager = null;
         m_deployer = null;
         m_installer = null;
 
@@ -259,55 +228,27 @@ public class DefaultEmbeddor
         final Logger logger = createLogger();
         setLogger( logger );
 
-        m_installer = createInstaller();
-        m_repository = createRepository();
-        m_deployer = createDeployer();
-        m_systemManager = createSystemManager();
-        m_kernel = createKernel();
-    }
+        String component = null;
 
-    /**
-     * Setup the deployer and kernel components.
-     * Note that after this method these components are ready to be used
-     */
-    private void setupComponents()
-        throws Exception
-    {
-        setupLogger( m_repository );
-        setupLogger( m_installer );
+        component = m_parameters.getParameter( Installer.ROLE );
+        m_installer = (Installer)createComponent( component, Installer.class );
 
-        try
-        {
-            setupDeployer();
-        }
-        catch( final Exception e )
-        {
-            final String message = REZ.getString( "embeddor.error.setup.deployer" );
-            getLogger().fatalError( message, e );
-            throw e;
-        }
+        component = m_parameters.getParameter( ConfigurationRepository.ROLE );
+        m_repository = 
+            (ConfigurationRepository)createComponent( component, ConfigurationRepository.class );
 
-        try
-        {
-            setupSystemManager();
-        }
-        catch( final Exception e )
-        {
-            final String message = REZ.getString( "embeddor.error.setup.manager" );
-            getLogger().fatalError( message, e );
-            throw e;
-        }
+        component = m_parameters.getParameter( ClassLoaderManager.ROLE );
+        m_classLoaderManager = 
+            (ClassLoaderManager)createComponent( component, ClassLoaderManager.class );
 
-        try
-        {
-            setupKernel();
-        }
-        catch( final Exception e )
-        {
-            final String message = REZ.getString( "embeddor.error.setup.kernel" );
-            getLogger().fatalError( message, e );
-            throw e;
-        }
+        component = m_parameters.getParameter( Deployer.ROLE );
+        m_deployer = (Deployer)createComponent( component, Deployer.class );
+
+        component = m_parameters.getParameter( SystemManager.ROLE );
+        m_systemManager = (SystemManager)createComponent( component, SystemManager.class );
+
+        component = m_parameters.getParameter( Kernel.ROLE );
+        m_kernel = (Kernel)createComponent( component, Kernel.class );
     }
 
     /**
@@ -340,97 +281,6 @@ public class DefaultEmbeddor
 
         logger.info( "Logger started" );
         return logger;
-    }
-
-    /**
-     * Creates a new repository from the Parameters's repository-class variable.
-     *
-     * @return the new ConfigurationRepository
-     * @exception ConfigurationException if an error occurs
-     */
-    private ConfigurationRepository createRepository()
-        throws ConfigurationException
-    {
-        final String className =
-            m_parameters.getParameter( "repository-class", DEFAULT_REPOSITORY );
-        try
-        {
-            return (ConfigurationRepository)Class.forName( className ).newInstance();
-        }
-        catch( final Exception e )
-        {
-            final String message = REZ.getString( "embeddor.error.create.repository", className );
-            getLogger().warn( message, e );
-            throw new ConfigurationException( message, e );
-        }
-    }
-
-    /**
-     * Creates a new installer from the Parameters's installer-class variable.
-     *
-     * @return the new Installer
-     * @exception ConfigurationException if an error occurs
-     */
-    private Installer createInstaller()
-        throws ConfigurationException
-    {
-        final String className =
-            m_parameters.getParameter( "installer-class", DEFAULT_INSTALLER );
-        try
-        {
-            return (Installer)Class.forName( className ).newInstance();
-        }
-        catch( final Exception e )
-        {
-            final String message = REZ.getString( "embeddor.error.create.installer", className );
-            getLogger().warn( message, e );
-            throw new ConfigurationException( message, e );
-        }
-    }
-
-    /**
-     * Creates a new deployer from the Parameters's deployer-class variable.
-     *
-     * @return the new Deployer
-     * @exception ConfigurationException if an error occurs
-     */
-    private Deployer createDeployer()
-        throws ConfigurationException
-    {
-        final String className =
-            m_parameters.getParameter( "deployer-class", DEFAULT_DEPLOYER );
-        try
-        {
-            return (Deployer)Class.forName( className ).newInstance();
-        }
-        catch( final Exception e )
-        {
-            final String message = REZ.getString( "embeddor.error.create.deployer", className );
-            getLogger().warn( message, e );
-            throw new ConfigurationException( message, e );
-        }
-    }
-
-    /**
-     * Sets up the Deployer. If it is Loggable, it gets a reference
-     * to the Embeddor's logger. If it is Contextualizable it is
-     * passed a Context. If it is a Composable it is given a
-     * ComponentManager which references the Kernel, cast to a
-     * Container.
-     */
-    private void setupDeployer()
-        throws Exception
-    {
-        setupLogger( m_deployer );
-
-        if( m_deployer instanceof Composable )
-        {
-            final DefaultComponentManager componentManager = new DefaultComponentManager();
-            componentManager.put( Container.ROLE, m_kernel );
-            componentManager.put( ConfigurationRepository.ROLE, m_repository );
-            componentManager.put( Installer.ROLE, m_installer );
-            ((Composable)m_deployer).compose( componentManager );
-        }
     }
 
     /**
@@ -484,125 +334,138 @@ public class DefaultEmbeddor
     }
 
     /**
-     * Creates a new SystemManager from the Parameters's manager-class parameter.
+     * Setup a component and run it through al of it's 
+     * setup lifecycle stages.
      *
-     * @return the created SystemManager
-     * @exception ConfigurationException if an error occurs
-     */
-    private SystemManager createSystemManager()
-        throws ConfigurationException
-    {
-        final String className =
-            m_parameters.getParameter( "manager-class", DEFAULT_MANAGER );
-        try
-        {
-            return (SystemManager)Class.forName( className ).newInstance();
-        }
-        catch( final Exception e )
-        {
-            final String message = REZ.getString( "embeddor.error.create.manager", className );
-            getLogger().warn( message, e );
-            throw new ConfigurationException( message, e );
-        }
-    }
-
-    /**
-     * Sets up the SystemManager. We determine whether it supports Loggable
-     * and Configurable and supply information based on that.
-     *
+     * @param component the component
      * @exception Exception if an error occurs
      */
-    private void setupSystemManager()
+    private void setupComponent( final Component component )
         throws Exception
     {
-        setupLogger( m_systemManager );
+        setupLogger( component );
 
-        if( m_systemManager instanceof Parameterizable )
+        if( component instanceof Composable )
         {
-            ((Parameterizable)m_systemManager).parameterize( m_parameters );
-        }
-        else if( m_systemManager instanceof Configurable )
-        {
-            final String location = m_parameters.getParameter( "manager-configuration-source", null );
-            final Configuration configuration = getConfigurationFor( location );
-
-            ((Configurable)m_systemManager).configure( configuration );
+            final ComponentManager componentManager = getComponentManager();
+            ((Composable)component).compose( componentManager );
         }
 
-        m_systemManager.initialize();
-    }
-
-    /**
-     * Creates a new kernel from the Parameters's kernel-class parameter.
-     *
-     * @return the created Kernel
-     * @exception ConfigurationException if an error occurs
-     */
-    private Kernel createKernel()
-        throws ConfigurationException
-    {
-        final String className = m_parameters.getParameter( "kernel-class", DEFAULT_KERNEL );
-        try
+        if( component instanceof Parameterizable )
         {
-            return (Kernel)Class.forName( className ).newInstance();
+            ((Parameterizable)component).parameterize( m_parameters );
         }
-        catch( final Exception e )
+
+        if( component instanceof Initializable )
         {
-            final String message = REZ.getString( "embeddor.error.create.kernel", className );
-            getLogger().warn( message, e );
-            throw new ConfigurationException( message, e );
+            ((Initializable)component).initialize();
+        }
+
+        if( component instanceof Startable )
+        {
+            ((Startable)component).start();
         }
     }
 
     /**
-     * Sets up the Kernel. We determine whether it supports Loggable
-     * and Configurable and supply information based on that.
+     * Shutdown a component and run it through al of it's 
+     * shutdown lifecycle stages.
      *
+     * @param component the component
      * @exception Exception if an error occurs
      */
-    private void setupKernel()
+    private void shutdownComponent( final Component component )
         throws Exception
     {
-        setupLogger( m_kernel );
+        if( null == component ) return;
 
-        if( m_kernel instanceof Composable )
+        if( component instanceof Startable )
         {
-            final DefaultComponentManager componentManager = new DefaultComponentManager();
-            componentManager.put( SystemManager.ROLE, m_systemManager );
-            componentManager.put( ConfigurationRepository.ROLE, m_repository );
-            ((Composable)m_kernel).compose( componentManager );
+            ((Startable)component).stop();
         }
 
-        /*
-          if( m_kernel instanceof Parameterizable )
-          {
-          final String location = m_parameters.getParameter( "kernel-parameters-source", null );
-          final Parameters parameters = getParametersFor( location );
-
-          ((Parameterizable)m_kernel).parameterize( parameters );
-          }
-          else
-        */
-
-        if( m_kernel instanceof Configurable )
+        if( component instanceof Disposable )
         {
-            final String location = m_parameters.getParameter( "kernel-configuration-source", null );
-            final Configuration configuration = getConfigurationFor( location );
-
-            ((Configurable)m_kernel).configure( configuration );
+            ((Disposable)component).dispose();
         }
-
-        m_kernel.initialize();
     }
 
     /**
-     * Allow subclasses to get access to deployer.
+     * Create a component that implements an interface.
      *
-     * @return the Deployer
+     * @param component the name of the component
+     * @param clazz the name of interface/type
+     * @return the created object
+     * @exception Exception if an error occurs
      */
-    protected final Deployer getDeployer()
+    private Object createComponent( final String component, final Class clazz )
+        throws Exception
     {
-        return m_deployer;
+        try
+        {
+            final Object object = Class.forName( component ).newInstance();
+
+            if( !clazz.isInstance( object ) )
+            {
+                final String message = REZ.getString( "bad-type.error", component, clazz.getName() );
+                throw new Exception( message );
+            }
+
+            return object;
+        }
+        catch( final IllegalAccessException iae )
+        {
+            final String message = REZ.getString( "bad-ctor.error", clazz.getName(), component );
+            throw new Exception( message );
+        }
+        catch( final InstantiationException ie )
+        {
+            final String message =
+                REZ.getString( "no-instantiate.error", clazz.getName(), component );
+            throw new Exception( message );
+        }
+        catch( final ClassNotFoundException cnfe )
+        {
+            final String message =
+                REZ.getString( "no-class.error", clazz.getName(), component );
+            throw new Exception( message );
+        }
+    }
+
+    private ComponentManager getComponentManager()
+    {
+        final DefaultComponentManager componentManager = new DefaultComponentManager();
+
+        componentManager.put( Installer.ROLE, m_installer );
+        componentManager.put( ClassLoaderManager.ROLE, m_classLoaderManager );
+        componentManager.put( ConfigurationRepository.ROLE, m_repository );
+        componentManager.put( Deployer.ROLE, m_deployer );
+        componentManager.put( SystemManager.ROLE, m_systemManager );
+        componentManager.put( Kernel.ROLE, m_kernel );
+
+        return componentManager;
+    }
+
+    /**
+     * Create default properties which includes default names of all components.
+     * Overide this in sub-classes to change values.
+     *
+     * @return the Parameters
+     */
+    private Parameters createDefaultParameters()
+    {
+        final Parameters defaults = new Parameters();
+
+        final String PREFIX = "org.apache.avalon.phoenix.components.";
+        defaults.setParameter( Installer.ROLE, PREFIX + "installer.DefaultInstaller" );
+        defaults.setParameter( Deployer.ROLE, PREFIX + "deployer.DefaultSarDeployer" );
+        defaults.setParameter( Kernel.ROLE, PREFIX + "kernel.DefaultKernel" );
+        defaults.setParameter( SystemManager.ROLE, PREFIX + "manager.NoopSystemManager" );
+        defaults.setParameter( ConfigurationRepository.ROLE, 
+                               PREFIX + "configuration.DefaultConfigurationRepository" );
+        defaults.setParameter( ClassLoaderManager.ROLE, 
+                               PREFIX + "classloader.DefaultClassLoaderManager" );
+        return defaults;
     }
 
     /**
