@@ -597,6 +597,23 @@ Legal:
 
   </target>
 
+  <!-- Makes the Phoneix Development Kit -->
+  <target name="make-pdk" depends="compile">
+
+    <zip file="${dist.base}/phoenix-devkit.zip">
+      <fileset dir="src/pdk">
+        <include name="**"/>
+      </fileset>
+      <fileset dir=".">
+        <include name="lib/**"/>
+      </fileset>
+      <fileset dir="build">
+        <include name="lib/phoenix-client.jar"/>
+      </fileset>      
+    </zip>
+    
+  </target>
+
   <!-- Cleans up build and distribution directories -->
   <target name="clean" depends="setup-properties" description="cleans up the created directories">
     <delete dir="${build.dir}" />
