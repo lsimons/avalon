@@ -23,6 +23,7 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.excalibur.util.SystemUtil;
 
 import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
+import EDU.oswego.cs.dl.util.concurrent.ThreadFactory;
 
 /**
  * This is a ThreadManager that uses a certain number of threads per
@@ -104,11 +105,21 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
             throw new IllegalStateException( "ThreadManager is already initailized" );
         }
 
-        final int maxPoolSize = ( m_processors * m_threadsPerProcessor ) + 1;
+        final int maxPoolSize = Math.max(( m_processors * m_threadsPerProcessor ) + 1, m_processors + 1);
         m_threadPool = new PooledExecutor( m_processors + 1 );
         m_threadPool.setMinimumPoolSize( 2 ); // at least two threads
         m_threadPool.setMaximumPoolSize( maxPoolSize );
         m_threadPool.waitWhenBlocked();
+        m_threadPool.setThreadFactory( new ThreadFactory() {
+            public Thread newThread(Runnable run) {
+                Thread newThread = new Thread(run);
+
+                newThread.setDaemon( true );
+                newThread.setPriority( Thread.MIN_PRIORITY );
+
+                return newThread;
+            }
+        });
         if( maxPoolSize == 2 )
         {
             // The PooledExecutor has an inherent race condition between releasing threads
