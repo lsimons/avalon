@@ -247,9 +247,31 @@ public class Home extends DataType
         try
         {
             final Element root = ElementHelper.getRootElement( source );
-            final Element[] elements = ElementHelper.getChildren( root );
-            final File anchor = source.getParentFile();
-            buildLocalList( anchor, elements );
+            final String rootElementName = root.getTagName();
+            if( "index".equals( rootElementName ) )
+            {
+                //
+                // its a native magic index
+                //
+
+                final Element[] elements = ElementHelper.getChildren( root );
+                final File anchor = source.getParentFile();
+                buildLocalList( anchor, elements );
+            }
+            else if( "project".equals( rootElementName ) )
+            {
+                //
+                // its probably a maven project definition
+                //
+
+                buildFromMavenProject( source, root );
+            }
+            else
+            {
+                final String error = 
+                  "Unrecognized rooot element [" + rootElementName + "].";
+                throw new BuildException( error );
+            }
         }
         catch( Throwable e )
         {
@@ -451,6 +473,23 @@ public class Home extends DataType
           "resource".equals( tag ) 
           || "project".equals( tag )
           || "plugin".equals( tag ) );
+    }
+
+   /**
+    * Create a magic index from a maven project file.
+    * @param root the root DOM element of the maven project file
+    */
+    private void buildFromMavenProject( File file, Element root )
+    {
+        //
+        // maven uses the notion of project inheritance which is 
+        // functionally equivalent to magic's index inclusion
+        // .. so the first step is to resolve the any project
+        // that the target project extends
+        //
+        
+        throw new UnsupportedOperationException();
+
     }
 
     /*

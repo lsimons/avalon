@@ -74,7 +74,6 @@ public class PluginTask extends SystemTask
             // get the xml definition of the plugin
             //
 
-
             final String id = getArtifactSpec();
             final Info info = Info.create( getHome(), id );
 

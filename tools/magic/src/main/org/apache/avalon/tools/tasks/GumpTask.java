@@ -102,11 +102,44 @@ public class GumpTask extends SystemTask
     {
     }
 
-    public static class Cvs extends Href
+    public static class Repository extends Href
+    {
+        private String m_repository;
+        private String m_dir;
+
+        public void setRepository( String repository )
+        {
+            m_repository = repository;
+        }
+
+        public void setDir( String dir )
+        {
+            if( dir.endsWith( "/" ) )
+            {
+                m_dir = dir;
+            }
+            else
+            {
+                m_dir = dir + "/";
+            }
+        }
+
+        public String getRepository()
+        {
+            return m_repository;
+        }
+
+        public String getDir()
+        {
+            return m_dir;
+        }
+    }
+
+    public static class Cvs extends Repository
     {
     }
 
-    public static class Svn extends Href
+    public static class Svn extends Repository
     {
     }
 
@@ -286,11 +319,27 @@ public class GumpTask extends SystemTask
 
         if( null != m_svn )
         {
-            writer.write( "\n  <svn href=\"" + m_svn.getHref() + "\"/>" );
+            if( null != m_svn.getHref() )
+            {
+                writer.write( "\n  <svn href=\"" + m_svn.getHref() + "\"/>" );
+            }
+            else
+            {
+                writer.write( "\n  <svn repository=\"" + m_svn.getRepository() 
+                  + "\" dir=\"" + m_svn.getDir() + "\"/>" );
+            }
         }
-        else if( null != m_svn )
+        else if( null != m_cvs )
         {
-            writer.write( "\n  <cvs href=\"" + m_cvs.getHref() + "\"/>" );
+            if( null != m_cvs.getHref() )
+            {
+                writer.write( "\n  <cvs href=\"" + m_cvs.getHref() + "\"/>" );
+            }
+            else
+            {
+                writer.write( "\n  <cvs repository=\"" + m_cvs.getRepository() 
+                  + "\" dir=\"" + m_cvs.getDir() + "\"/>" );
+            }
         }
 
         Definition[] definitions = home.getDefinitions();
@@ -399,13 +448,18 @@ public class GumpTask extends SystemTask
         writer.write( 
            "\n      <!-- for magic -->" );
         writer.write( 
+           "\n      <depend name=\"magic.home\" resource=\"home\"" );
+        writer.write( 
+           "\n          project=\"avalon-tools-magic-home\" inherit=\"runtime\" />" );
+        writer.write( 
            "\n      <property name=\"gump.signature\" value=\"@@DATE@@\"/>" );
 
         boolean flag = false;
         for( int i=0; i<refs.length; i++ )
         {
             Resource resource = getHome().getResource( refs[i] );
-            if( !(resource instanceof Definition) )
+            boolean ignorable = resource.getGump().isIgnorable();
+            if( !(resource instanceof Definition) && !ignorable )
             {
                 if( !flag )
                 {
@@ -423,22 +477,22 @@ public class GumpTask extends SystemTask
                 {
                     writer.write( " id=\"" + id + "\"" );
                 }
-                writer.write( ">" );
-                writer.write( "\n        <noclasspath/>" );
-                writer.write( "\n      </depend>" );
+
+                if( resource.getGump().isClasspathEntry() )
+                {
+                    writer.write( "/>" );
+                }
+                else
+                {
+                    writer.write( ">" );
+                    writer.write( "\n        <noclasspath/>" );
+                    writer.write( "\n      </depend>" );
+                }
             }
         }
 
         writer.write( "\n      <!-- end for -->" );
         writer.write( "\n    </ant>" );       
-
-        //
-        // add the magic bootstrap dependency
-        //
-
-        writer.write( "\n    <!-- magic -->" );
-        writer.write( 
-          "\n    <depend project=\"avalon-tools-magic-bootstrap\" inherit=\"true\" runtime=\"true\"/>" );
 
         //
         // add dependencies for gump to do its sequencing correctly
@@ -448,7 +502,8 @@ public class GumpTask extends SystemTask
         for( int i=0; i<refs.length; i++ )
         {
             Resource resource = getHome().getResource( refs[i] );
-            if( resource instanceof Definition )
+            boolean ignorable = resource.getGump().isIgnorable();
+            if( ( resource instanceof Definition ) && !ignorable )
             {
                 if( !flag )
                 {
@@ -456,8 +511,20 @@ public class GumpTask extends SystemTask
                     writer.write( "\n    <!-- for gump -->" );
                 }
                 String key = resource.getKey();
+
                 writer.write( 
-                  "\n    <depend project=\"" + key + "\"><noclasspath/></depend>" );
+                  "\n    <depend project=\"" + key + "\"" );
+
+                if( resource.getGump().isClasspathEntry() )
+                {
+                    writer.write( "/>" );
+                }
+                else
+                {
+                    writer.write( ">" );
+                    writer.write( "\n      <noclasspath/>" );
+                    writer.write( "\n    </depend>" );
+                }
             }
         }
 
@@ -478,18 +545,18 @@ public class GumpTask extends SystemTask
         {
             writer.write( 
               "\n    <jar name=\"" + type + "s/" 
-              + filename + "\"/>" );
+              + name + "-@@DATE@@." + type  + "\"/>" );
         }
         if( "plugin".equals( type ) )
         {
             writer.write( 
               "\n    <jar name=\"jars/" 
-              + filename + "\"/>" );
+              + name + "-@@DATE@@." + type  + "\"/>" );
         }
         else if( "doc".equals( type ) )
         {
             writer.write( 
-              "\n    <!-- doc output is relative to the module root -->" );
+              "\n    <!-- doc output is relative merlin home docs cache -->" );
         }
 
         writer.write( "\n    <nag to=\"dev@avalon.apache.org\"" ); 

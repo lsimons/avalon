@@ -22,7 +22,8 @@
       <type>jar</type>
     </info>
     <gump>
-      <ignore/>
+      <!--<ignore/>-->
+      <classpath/>
       <alias>ant</alias>
       <id>nodeps</id>
     </gump>
@@ -36,7 +37,8 @@
       <type>jar</type>
     </info>
     <gump>
-      <ignore/>
+      <!--<ignore/>-->
+      <classpath/>
       <alias>ant</alias>
       <id>junit</id>
     </gump>

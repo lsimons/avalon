@@ -83,4 +83,29 @@
     <delete dir="${target}"/> 
   </target>
 
+  <target name="signature-check" unless="gump.signature.declared">
+    <fail maessage="Required property 'gump.signature' is undefined."/>
+  </target>
+
+  <!--
+  Setup magic's home directory.  This task will be invoked by gump
+  following the bootstrap phase. The location of magic.home will be 
+  establised as target/target/${gump.signature}.
+  -->
+  <target name="home" depends="signature-check">
+    <property name="home" location="${basedir}/target/${gump.signature}"/>
+    <echo>Creating 'magic.home' in ${home}</echo>
+    <mkdir dir="${home}"/>
+    <mkdir dir="${home}/docs"/>
+    <mkdir dir="${home}/cache"/>
+    <mkdir dir="${home}/templates"/>
+    <mkdir dir="${home}/themes"/>
+    <copy todir="${home}/templates">
+      <fileset dir="target/deliverables/templates"/>
+    </copy>
+    <copy todir="${home}/themes">
+      <fileset dir="target/deliverables/themes"/>
+    </copy>
+  </target>
+
 </project>
