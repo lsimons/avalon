@@ -23,8 +23,8 @@ package org.apache.excalibur.source;
  * the implementations details should be hidden, otherwise
  * the class SourceUtils can be used.
  *
- * @author <a href="stephan@apache.org">Stephan Michels</a>
- * @version CVS $Id: MoveableSource.java,v 1.3 2004/02/19 08:36:15 cziegeler Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Id: MoveableSource.java,v 1.4 2004/02/25 10:33:19 niclas Exp $
  */
 public interface MoveableSource extends Source
 {

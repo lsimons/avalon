@@ -39,8 +39,8 @@ import org.apache.avalon.framework.parameters.Parameters;
  * in the <code>parameters</code> argument of
  * {@link SourceResolver#resolveURI(String, String, Map)}.
  *
- * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: SourceParameters.java,v 1.2 2004/02/19 08:36:15 cziegeler Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Id: SourceParameters.java,v 1.3 2004/02/25 10:33:19 niclas Exp $
  */
 public final class SourceParameters
     implements Serializable, Cloneable

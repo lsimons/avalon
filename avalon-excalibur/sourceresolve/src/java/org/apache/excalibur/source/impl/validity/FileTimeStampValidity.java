@@ -23,8 +23,8 @@ import org.apache.excalibur.source.SourceValidity;
 /**
  * A validation object for time-stamps.
  *
- * @author <a href="mailto:volker.schmitt@basf-it-services.com">Volker Schmitt</a>
- * @version CVS $Revision: 1.2 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $
  */
 public final class FileTimeStampValidity
     implements SourceValidity

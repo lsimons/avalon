@@ -22,7 +22,7 @@ import org.apache.avalon.excalibur.collections.BinaryHeap;
 
 /**
  *
- * @author Peter Donald
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public final class BinaryHeapTestCase
     extends TestCase

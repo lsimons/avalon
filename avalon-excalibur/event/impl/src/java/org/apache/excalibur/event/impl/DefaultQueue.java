@@ -30,7 +30,7 @@ import EDU.oswego.cs.dl.util.concurrent.ReentrantLock;
  * thread safe, however the overhead in synchronization costs a few extra
  * milliseconds.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public final class DefaultQueue extends AbstractQueue
 {

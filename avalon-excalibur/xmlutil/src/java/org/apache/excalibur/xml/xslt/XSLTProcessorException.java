@@ -21,8 +21,7 @@ import org.apache.avalon.framework.CascadingException;
 /**
  * This exception is thrown by the XSLTProcessor. It will wrap any exceptions thrown throughout the processing process.
  *
- * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
- * @author <a href="mailto:proyal@managingpartners.com">Peter Royal</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class XSLTProcessorException
     extends CascadingException

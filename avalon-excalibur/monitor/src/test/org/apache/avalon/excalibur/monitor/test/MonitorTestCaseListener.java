@@ -21,6 +21,9 @@ import java.beans.PropertyChangeListener;
 
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
+/*
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ */
 class MonitorTestCaseListener
     extends AbstractLogEnabled
     implements PropertyChangeListener

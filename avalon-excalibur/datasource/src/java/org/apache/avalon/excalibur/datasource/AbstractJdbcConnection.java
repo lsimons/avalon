@@ -42,9 +42,8 @@ import org.apache.avalon.framework.logger.Logger;
  * The Connection object used in conjunction with the JdbcDataSource
  * object.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/25 09:20:17 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:11 $
  * @since 4.1
  */
 public class AbstractJdbcConnection

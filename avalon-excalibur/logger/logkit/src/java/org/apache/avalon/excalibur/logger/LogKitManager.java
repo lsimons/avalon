@@ -25,8 +25,8 @@ import org.apache.log.Logger;
  * @deprecated we should use the new LoggerManager interface that directly
  *             supports the new framework Logger interface.
  *
- * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.1 $ $Date: 2004/02/19 09:12:03 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.2 $ $Date: 2004/02/25 10:33:16 $
  */
 public interface LogKitManager
 {

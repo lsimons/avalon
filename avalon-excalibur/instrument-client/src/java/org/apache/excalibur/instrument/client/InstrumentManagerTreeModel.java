@@ -32,6 +32,9 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClien
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
 
+/**
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ */
 class InstrumentManagerTreeModel
     extends AbstractLogEnabled
     implements InstrumentManagerConnectionListener, TreeModel

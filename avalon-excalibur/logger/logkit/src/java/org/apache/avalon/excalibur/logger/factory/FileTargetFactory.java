@@ -124,8 +124,8 @@ import org.apache.log.output.io.rotate.UniqueFileStrategy;
  *  </dd>
  * </dl>
  *
- * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 09:12:06 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:16 $
  * @since 4.0
  */
 public class FileTargetFactory

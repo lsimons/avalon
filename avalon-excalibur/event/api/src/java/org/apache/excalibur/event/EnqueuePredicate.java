@@ -27,8 +27,8 @@ package org.apache.excalibur.event;
  * runs in the context of the <b>caller of enqueue()</b>, which
  * means it must be simple and fast.
  *
- * @version $Revision: 1.2 $
- * @author  <a href="mailto:schierma@users.sourceforge.net">schierma</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.3 $
  */
 public interface EnqueuePredicate
 {

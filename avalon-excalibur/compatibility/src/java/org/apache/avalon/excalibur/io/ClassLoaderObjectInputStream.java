@@ -26,8 +26,8 @@ import java.io.StreamCorruptedException;
  * A special ObjectInputStream to handle highly transient classes hosted
  * by Avalon components that are juggling many classloaders.
  *
- * @author <a href="mailto:paul_hammant@yahoo.com">Paul Hammant</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/24 09:06:46 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.3 $ $Date: 2004/02/25 10:33:07 $
  */
 public class ClassLoaderObjectInputStream
     extends ObjectInputStream

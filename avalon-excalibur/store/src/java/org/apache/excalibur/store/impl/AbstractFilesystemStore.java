@@ -30,10 +30,8 @@ import org.apache.excalibur.store.Store;
  * all other objects are serialized. This class must be subclassed
  * in order to set the directory the store should work on.
  *
- * @author ?
- * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Id: AbstractFilesystemStore.java,v 1.2 2004/02/19 08:31:24 cziegeler Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Id: AbstractFilesystemStore.java,v 1.3 2004/02/25 10:33:20 niclas Exp $
  */
 public abstract class AbstractFilesystemStore
 extends AbstractReadWriteStore

@@ -31,6 +31,8 @@ import org.apache.avalon.excalibur.monitor.StreamResource;
 
 /**
  * The MockResource object so that we can enable the tests.
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class MockResource extends StreamResource
 {

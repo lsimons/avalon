@@ -18,6 +18,8 @@ package org.apache.avalon.excalibur.component.test;
 
 /**
  * @deprecated ECM is no longer supported
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public interface PoolableTestObjectInterface {
     public static final String ROLE = PoolableTestObjectInterface.class.getName();

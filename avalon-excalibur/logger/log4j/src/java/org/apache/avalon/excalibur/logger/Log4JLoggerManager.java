@@ -27,9 +27,8 @@ import org.apache.log4j.spi.LoggerRepository;
  * a Logger for your system.  This manager does not set up the categories--it
  * leaves that as an excercise for Log4J's construction.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 09:12:06 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:16 $
  * @since 4.1
  */
 public class Log4JLoggerManager extends AbstractLoggerManager

@@ -25,6 +25,8 @@ import org.apache.avalon.excalibur.naming.rmi.test.RMIContextTestCase;
 /**
  * A basic test suite that tests all the naming package.
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class NamingTestSuite
 {

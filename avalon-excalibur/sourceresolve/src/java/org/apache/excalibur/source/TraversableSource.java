@@ -23,9 +23,8 @@ import java.util.Collection;
  * A traversable source is a source that can have children and
  * a parent, like a file system.
  *
- * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.3 $ $Date: 2004/02/19 08:36:15 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.4 $ $Date: 2004/02/25 10:33:19 $
  */
 public interface TraversableSource extends Source {
 

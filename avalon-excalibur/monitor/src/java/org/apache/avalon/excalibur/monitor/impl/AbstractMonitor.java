@@ -28,9 +28,8 @@ import org.apache.avalon.excalibur.monitor.Resource;
  * can extend. The particular monitoring policy is defined by the particular
  * implementation.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author Peter Donald
- * @version $Id: AbstractMonitor.java,v 1.3 2004/02/21 15:38:45 cziegeler Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Id: AbstractMonitor.java,v 1.4 2004/02/25 10:33:17 niclas Exp $
  */
 public abstract class AbstractMonitor
     implements Monitor

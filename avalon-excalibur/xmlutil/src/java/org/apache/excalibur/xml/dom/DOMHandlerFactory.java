@@ -22,8 +22,8 @@ import org.w3c.dom.Document;
  * The factory creates a DOMHandler encapsulating a DOM document. The document
  * behaviour is setup by the factory.
  *
- * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 08:28:32 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:20 $
  */
 public interface DOMHandlerFactory
 {

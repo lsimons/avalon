@@ -20,8 +20,8 @@ package org.apache.excalibur.source;
  * A modifiable traversable source. This adds to {@link ModifiableSource} the
  * ability to create a directory.
  * 
- * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 08:36:15 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:19 $
  */
 public interface ModifiableTraversableSource extends ModifiableSource, TraversableSource
 {

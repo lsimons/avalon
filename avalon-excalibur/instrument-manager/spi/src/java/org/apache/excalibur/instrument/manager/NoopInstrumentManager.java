@@ -23,8 +23,8 @@ import org.apache.excalibur.instrument.Instrumentable;
 /**
  * A no-op implementation of an InstrumentManager
  *
- * @author <a href="proyal@apache.org">peter royal</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/25 09:20:20 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:14 $
  */
 public class NoopInstrumentManager implements InstrumentManager
 {

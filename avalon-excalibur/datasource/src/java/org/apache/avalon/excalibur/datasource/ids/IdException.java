@@ -22,8 +22,8 @@ import org.apache.avalon.framework.CascadingException;
 /**
  * Thrown when it was not possible to allocate an Id.
  *
- * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/25 09:20:18 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:11 $
  * @since 4.1
  */
 public class IdException

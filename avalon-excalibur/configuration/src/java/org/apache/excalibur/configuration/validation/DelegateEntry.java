@@ -21,7 +21,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 /**
  * Configuration Validator entry for the DelegatingConfigurationValidator.
  *
- * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 class DelegateEntry
 {

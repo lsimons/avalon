@@ -20,9 +20,7 @@ package org.apache.avalon.excalibur.collections;
  * The BufferUnderflowException is used when the buffer is already empty
  *
  * @deprecated use org.apache.commons.collections.BufferUnderflowException instead
- *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class BufferUnderflowException extends RuntimeException
 {

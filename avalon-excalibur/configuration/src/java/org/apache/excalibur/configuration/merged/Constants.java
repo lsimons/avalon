@@ -19,7 +19,7 @@ package org.apache.excalibur.configuration.merged;
 /**
  * Constants used by this package
  *
- * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 interface Constants
 {

@@ -24,8 +24,8 @@ import org.w3c.dom.NodeList;
 /**
  *  Implementation of the <code>NodeList</code> interface.<P>
  *
- * @author <a href="mailto:cziegeler@s-und-n.de">Carsten Ziegeler</a>
- * @version CVS $Id: NodeListImpl.java,v 1.2 2004/02/19 08:28:33 cziegeler Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Id: NodeListImpl.java,v 1.3 2004/02/25 10:33:21 niclas Exp $
 */
 public class NodeListImpl implements NodeList {
 

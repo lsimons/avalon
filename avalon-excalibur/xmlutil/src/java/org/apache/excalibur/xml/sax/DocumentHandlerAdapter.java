@@ -30,8 +30,8 @@ import org.xml.sax.helpers.NamespaceSupport;
  * This class is an utility class adapting a SAX version 1.0
  * {@link DocumentHandler} to receive SAX version 2.0 events.
  *
- * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 08:28:33 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:20 $
  */
 public class DocumentHandlerAdapter
     implements ContentHandler

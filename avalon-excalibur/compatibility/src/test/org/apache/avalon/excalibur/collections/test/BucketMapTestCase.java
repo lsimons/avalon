@@ -22,7 +22,7 @@ import org.apache.avalon.excalibur.collections.BucketMap;
 
 /**
  *
- * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public final class BucketMapTestCase
     extends TestCase

@@ -31,8 +31,8 @@ import org.apache.avalon.framework.component.Component;
  * the handling of a URI containing this new scheme to the factory,
  * and the factory can create a corresponding {@link Source} object.
  * 
- * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: SourceFactory.java,v 1.2 2004/02/19 08:36:15 cziegeler Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Id: SourceFactory.java,v 1.3 2004/02/25 10:33:19 niclas Exp $
  */
 public interface SourceFactory
     extends Component

@@ -43,7 +43,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * </ol>
  *
  * @see ConfigurationSplitter
- * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class ConfigurationMerger
 {

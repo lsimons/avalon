@@ -30,7 +30,7 @@ import org.apache.avalon.framework.parameters.Parameters;
  * This TestCase fills a Jisp store with <code>MAX_ENTRIES</code>
  * and then tests the remove() and clear() methods.
  *  
- * @author borgesc
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class ClearJispFilesystemStoreTestCase extends TestCase {
     

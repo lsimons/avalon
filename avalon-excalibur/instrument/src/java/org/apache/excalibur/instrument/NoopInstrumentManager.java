@@ -20,8 +20,8 @@ package org.apache.excalibur.instrument;
 /**
  * An InstrumentManager which doesn't do anything.
  *
- * @author <a href="mail at leosimons dot com">Leo Simons</a>
- * @version $Id: NoopInstrumentManager.java,v 1.2 2004/02/25 09:20:19 niclas Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Id: NoopInstrumentManager.java,v 1.3 2004/02/25 10:33:13 niclas Exp $
  */
 public class NoopInstrumentManager implements InstrumentManager
 {

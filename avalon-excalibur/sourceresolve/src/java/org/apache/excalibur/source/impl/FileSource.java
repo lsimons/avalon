@@ -42,8 +42,8 @@ import org.apache.excalibur.source.impl.validity.FileTimeStampValidity;
 /**
  * A {@link ModifiableTraversableSource} for filesystem objects.
  *
- * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version $Id: FileSource.java,v 1.3 2004/02/19 08:36:16 cziegeler Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Id: FileSource.java,v 1.4 2004/02/25 10:33:19 niclas Exp $
  */
 
 public class FileSource implements ModifiableTraversableSource, MoveableSource

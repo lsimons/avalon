@@ -23,9 +23,8 @@ package org.apache.avalon.excalibur.collections;
  * other things.
  *
  * @deprecated use org.apache.commons.collections.Buffer instead
- *
- * @author  <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/24 09:06:43 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:06 $
  * @since 4.0
  */
 public interface Buffer

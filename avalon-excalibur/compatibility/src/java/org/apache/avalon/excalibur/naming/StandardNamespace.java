@@ -27,8 +27,8 @@ import javax.naming.spi.NamingManager;
 /**
  * Namespace that directly uses NamingManager.
  *
- * @author Peter Donald
- * @version $Revision: 1.3 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.4 $
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  */
 public class StandardNamespace

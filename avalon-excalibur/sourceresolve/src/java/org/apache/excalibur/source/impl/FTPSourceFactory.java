@@ -33,7 +33,7 @@ import org.apache.excalibur.source.SourceFactory;
  * @x-avalon.info name=ftp-source
  * @x-avalon.lifestyle type=singleton
  * 
- * @author <a href="mailto:unico@hippo.nl">Unico Hommes</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public final class FTPSourceFactory extends URLSourceFactory implements SourceFactory, ThreadSafe
 {

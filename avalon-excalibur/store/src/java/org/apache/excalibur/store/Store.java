@@ -30,13 +30,8 @@ import org.apache.avalon.framework.component.Component;
  * persistent. Therefore with the two role TRANSIENT_STORE and
  * PERSISTENT_STORE you get a store with exactly that behaviour.
  *
- * @author <a href="mailto:scoobie@betaversion.org">Federico Barbieri</a>
- *         (Betaversion Productions)
- * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
- *         (Apache Software Foundation)
- * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
- *         (Apache Software Foundation, Exoffice Technologies)
- * @version CVS $Id: Store.java,v 1.3 2004/02/19 08:31:25 cziegeler Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Id: Store.java,v 1.4 2004/02/25 10:33:19 niclas Exp $
  */
 public interface Store
     extends Component

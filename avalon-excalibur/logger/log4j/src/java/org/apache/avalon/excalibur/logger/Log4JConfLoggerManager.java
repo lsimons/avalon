@@ -30,8 +30,8 @@ import org.w3c.dom.NodeList;
  * A LoggerManager for Log4j that will configure the Log4j subsystem
  * using specified configuration.
  *
- * @author <a href="mailto:Ole.Bulbuk at ebp.de">Ole Bulbuk</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/19 09:12:06 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.3 $ $Date: 2004/02/25 10:33:16 $
  */
 public class Log4JConfLoggerManager
     extends Log4JLoggerManager

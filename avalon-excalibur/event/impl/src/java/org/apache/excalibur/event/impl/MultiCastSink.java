@@ -36,8 +36,8 @@ import org.apache.excalibur.event.SinkFullException;
  * than one sink the multicast sink will try to enqueue the
  * element always to <b>only one</b> of these sinks.
  *
- * @version $Revision: 1.2 $
- * @author  <a href="mailto:schierma@users.sourceforge.net">schierma</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.3 $
  */
 public class MultiCastSink implements Sink
 {
@@ -207,7 +207,7 @@ public class MultiCastSink implements Sink
      * on all of these objects.
      * @since May 16, 2002
      *
-     * @author <a href = "mailto:mschier@earthlink.net">schierma</a>
+     * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
      */
     private static final class DefaultPreparedEnqueue
         implements PreparedEnqueue

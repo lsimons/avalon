@@ -32,8 +32,8 @@ import org.xml.sax.SAXException;
 
 /**
  *
- * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004/02/24 11:28:40 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.4 $ $Date: 2004/02/25 10:33:16 $
  */
 public class Log4JConfTestCase
     extends TestCase

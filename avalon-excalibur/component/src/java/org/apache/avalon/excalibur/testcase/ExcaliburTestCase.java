@@ -225,8 +225,8 @@ import org.apache.log.output.io.StreamTarget;
  *
  * @deprecated ECM is no longer supported
  *
- * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version $Id: ExcaliburTestCase.java,v 1.3 2004/02/19 09:24:17 cziegeler Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Id: ExcaliburTestCase.java,v 1.4 2004/02/25 10:33:10 niclas Exp $
  */
 public class ExcaliburTestCase
     extends TestCase

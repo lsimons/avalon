@@ -21,7 +21,7 @@ package org.apache.excalibur.event.command;
  * hand in hand with the CommandManager, and can be expanded to work with a
  * SEDA like architecture.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public interface ThreadManager
 {

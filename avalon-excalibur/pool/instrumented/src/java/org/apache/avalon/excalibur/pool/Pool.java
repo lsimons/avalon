@@ -21,10 +21,8 @@ import org.apache.avalon.framework.component.Component;
 /**
  * This is an <code>Pool</code> that caches Poolable objects for reuse.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
- * @author <a href="mailto:donaldp@mad.scientist.com">Peter Donald</a>
- * @version CVS $Revision: 1.3 $ $Date: 2004/02/21 15:38:46 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.4 $ $Date: 2004/02/25 10:33:18 $
  * @since 4.0
  */
 public interface Pool

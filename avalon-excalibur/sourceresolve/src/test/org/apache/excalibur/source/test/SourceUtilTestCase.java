@@ -23,8 +23,8 @@ import junit.framework.TestCase;
 /**
  * Test case for SourceUtil.
  *
- * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version $Id: SourceUtilTestCase.java,v 1.2 2004/02/19 08:36:15 cziegeler Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Id: SourceUtilTestCase.java,v 1.3 2004/02/25 10:33:19 niclas Exp $
  */
 public class SourceUtilTestCase extends TestCase
 {

@@ -26,6 +26,8 @@ import javax.naming.NamingException;
 
 /**
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */ 
 public class DefaultNameParser
     implements Serializable, NameParser

@@ -29,6 +29,9 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClien
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleUtils;
 
+/**
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ */
 class InstrumentSampleNodeData
     extends NodeData
 {

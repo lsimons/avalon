@@ -24,7 +24,7 @@ import org.apache.excalibur.event.Queue;
 /**
  * The default queue implementation is a variabl size queue.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public abstract class AbstractQueueTestCase extends TestCase
 {

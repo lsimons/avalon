@@ -20,8 +20,8 @@ package org.apache.avalon.excalibur.pool;
  * This is a <code>PoolController</code> that controls how many
  * instances of a <code>Poolable</code> are created at one time.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/21 15:38:46 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:18 $
  * @since 4.0
  */
 public class DefaultPoolController

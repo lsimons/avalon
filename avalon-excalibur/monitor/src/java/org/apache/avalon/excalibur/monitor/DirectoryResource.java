@@ -29,8 +29,8 @@ import java.util.Set;
  * are added, removed or modified in directory then it will
  * send an event indicating the change.
  *
- * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004/02/21 15:38:46 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.4 $ $Date: 2004/02/25 10:33:17 $
  */
 public class DirectoryResource
     extends Resource

@@ -27,7 +27,7 @@ import EDU.oswego.cs.dl.util.concurrent.ReentrantLock;
  * the maximum number of elements are set, this <code>Queue</code> cannot be
  * changed.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  *
  * @deprecated Use the DefaultQueue as it properly supports the EnqueuePredicates
  */

@@ -44,8 +44,8 @@ import org.apache.excalibur.instrument.ValueInstrument;
  *             ComponentManager interface.  Please use the
  *             AbstractServiceManagerServlet.
  *
- * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 09:24:16 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:09 $
  * @since 4.2
  */
 public abstract class AbstractComponentManagerServlet

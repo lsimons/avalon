@@ -25,8 +25,8 @@ import org.apache.excalibur.util.CPUParser;
  * Parses the Windows 2000 environment--the same class should work for other
  * Windows versions, but I only have one to test.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/24 14:45:52 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:13 $
  */
 public final class Windows2000 implements CPUParser
 {

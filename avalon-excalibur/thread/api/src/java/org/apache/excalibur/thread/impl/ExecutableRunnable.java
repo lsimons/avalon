@@ -23,7 +23,6 @@ import org.apache.excalibur.thread.Executable;
  * an {@link Executable} object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author Peter Donald
  */
 final class ExecutableRunnable
     implements Executable

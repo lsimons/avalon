@@ -24,7 +24,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
 /**
  * Test the ConfigurationUtil class
  *
- * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public final class ConfigurationUtilTestCase extends TestCase
 {

@@ -32,7 +32,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 /**
  * Default ConfigurationValidator implementation that allows schemas to be plugged-in
  *
- * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class DelegatingConfigurationValidatorFactory
     extends AbstractLogEnabled

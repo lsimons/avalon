@@ -36,8 +36,8 @@ import java.io.Serializable;
  * Remember to call {@link #isValid(SourceValidity)} when {@link #isValid()} returned
  * <code>0</code> !
  *
- * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 08:36:15 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:19 $
  */
 public interface SourceValidity
     extends Serializable

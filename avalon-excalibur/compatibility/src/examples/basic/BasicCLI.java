@@ -25,8 +25,7 @@ import org.apache.avalon.excalibur.cli.CLUtil;
 /**
  * Demonstrates Basic example of command line utilities.
  *
- * @author <a href="jeff@socialchange.net.au">Jeff Turner</a>
- * @author Peter Donald
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/cli/
  */
 public class BasicCLI

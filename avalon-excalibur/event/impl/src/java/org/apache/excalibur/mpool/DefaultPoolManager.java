@@ -29,8 +29,8 @@ import org.apache.excalibur.event.command.RepeatedCommand;
  * asynchronously.  The contract is that the controller type is specified in
  * the constructor.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/24 14:45:55 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:13 $
  * @since 4.1
  */
 public class DefaultPoolManager implements PoolManager

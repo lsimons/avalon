@@ -22,7 +22,7 @@ import java.io.PrintWriter;
 import org.apache.avalon.framework.CascadingException;
 
 /**
- * @author cziegeler
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class XPathException extends CascadingException {
 

@@ -23,8 +23,8 @@ import org.xml.sax.ContentHandler;
  * ContentHandler encapsulating a DOM document. The document tree is built
  * from SAX events sent to the handler.
  *
- * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 08:28:32 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:20 $
  */
 public interface DOMHandler
     extends ContentHandler

@@ -28,6 +28,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
+/**
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ */
 public class DefaultDOMHandlerFactoryTestCase extends ExcaliburTestCase
 {
     

@@ -26,8 +26,8 @@ import org.apache.avalon.framework.CascadingThrowable;
  *
  * @deprecated ECM is no longer supported
  *
- * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version $Id: CascadingAssertionFailedError.java,v 1.2 2004/02/19 09:24:17 cziegeler Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Id: CascadingAssertionFailedError.java,v 1.3 2004/02/25 10:33:10 niclas Exp $
  */
 public class CascadingAssertionFailedError
     extends AssertionFailedError

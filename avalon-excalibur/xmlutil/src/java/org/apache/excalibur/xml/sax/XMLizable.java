@@ -23,8 +23,8 @@ import org.xml.sax.SAXException;
  * This interface can be implemented by classes willing to provide an XML representation
  * of their current state as SAX events.
  *
- * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 08:28:33 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:21 $
  */
 public interface XMLizable
 {

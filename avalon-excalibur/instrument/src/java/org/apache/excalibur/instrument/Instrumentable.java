@@ -26,8 +26,8 @@ package org.apache.excalibur.instrument;
  *  as if instrument data were being collected.  The Instruments are optimized
  *  so as not to reduce performance when they are not being used.
  *
- * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/25 09:20:19 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:13 $
  * @since 4.1
  */
 public interface Instrumentable

@@ -25,6 +25,8 @@ import org.apache.avalon.excalibur.pool.Recyclable;
 /**
  * Hack class to work around the dynamic proxy issues of not allowing
  * abstract base classes as an "interface".
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public interface PoolSettable extends Recyclable
 {

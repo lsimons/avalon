@@ -45,8 +45,7 @@ import org.apache.log.output.io.FileTarget;
  * style logging configuration from
  * <a href="http://jakarta.apache.org/avalon/phoenix">Phoenix</a>.
  *
- * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
- * @author Peter Donald
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class SimpleLogKitManager
     extends AbstractLogEnabled

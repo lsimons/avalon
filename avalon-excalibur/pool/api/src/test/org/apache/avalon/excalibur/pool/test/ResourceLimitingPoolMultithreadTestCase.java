@@ -31,8 +31,8 @@ import com.clarkware.junitperf.TimedTest;
 import com.clarkware.junitperf.Timer;
 
 /**
- * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/21 15:38:45 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:18 $
  * @since 4.1
  */
 public final class ResourceLimitingPoolMultithreadTestCase

@@ -19,7 +19,7 @@ package org.apache.excalibur.event.command;
 /**
  * NullCommandFailureHandler is used to do nothing if a command fails.
  *
- * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version CVS $ Revision: 1.1 $
  */
 public class NullCommandFailureHandler implements CommandFailureHandler

@@ -87,9 +87,8 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * @x-avalon.info name=informix
  * @x-avalon.lifestyle type=singleton
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/25 09:20:17 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:11 $
  * @since 4.0
  */
 public class InformixDataSource

@@ -21,8 +21,8 @@ package org.apache.excalibur.util;
  * perform architecture dependant processing for determining the number of CPUs,
  * and the generic infomation about them.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/24 14:45:56 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:13 $
  */
 public interface CPUParser
 {

@@ -25,11 +25,8 @@ import java.util.NoSuchElementException;
  * by parameters passed to constructor.
  *
  * @deprecated use org.apache.commons.collections.BinaryHeap instead;
- *
- * @author Peter Donald
- * @author <a href="mailto:ram.chidambaram@telus.com">Ram Chidambaram</a>
- * @author <a href="mailto:stansburyc@earthlink.net">Chad Stansbury</a>
- * @version CVS $Revision: 1.3 $ $Date: 2004/02/24 09:06:43 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.4 $ $Date: 2004/02/25 10:33:06 $
  * @since 4.0
  */
 public final class BinaryHeap

@@ -26,8 +26,8 @@ import org.apache.avalon.framework.logger.Logger;
  * lifecycle but also some "meaningfull" interfaces.
  * This object proxies LoggerManager interface.
  *
- * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 09:12:05 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:17 $
  * @since 4.0
  */
 public class LoggerManagerTee extends AvalonTee implements LoggerManager

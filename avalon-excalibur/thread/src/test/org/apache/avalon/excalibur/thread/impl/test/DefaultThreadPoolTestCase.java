@@ -23,7 +23,7 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
 /**
  * TestCase for DefaultThreadPool.
  *
- * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class DefaultThreadPoolTestCase
     extends TestCase

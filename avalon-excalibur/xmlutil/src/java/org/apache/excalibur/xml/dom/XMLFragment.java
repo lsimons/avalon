@@ -24,9 +24,8 @@ import org.w3c.dom.Node;
  * to provide an XML representation of their current state.
  * <br/>
  *
- * @author <a href="mailto:sylvain.wallez@anyware-tech.com">Sylvain Wallez</a>
- * @author <a href="mailto:ricardo@apache.org">Ricardo Rocha</a> for the original XObject class
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 08:28:32 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:20 $
  */
 public interface XMLFragment
 {

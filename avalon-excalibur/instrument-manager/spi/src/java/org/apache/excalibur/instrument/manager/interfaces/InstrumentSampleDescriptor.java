@@ -21,8 +21,8 @@ package org.apache.excalibur.instrument.manager.interfaces;
  * Describes an InstrumentSample and acts as a Proxy to protect the original
  *  InstrumentSample object.
  *
- * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/25 09:20:23 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:16 $
  * @since 4.1
  */
 public interface InstrumentSampleDescriptor

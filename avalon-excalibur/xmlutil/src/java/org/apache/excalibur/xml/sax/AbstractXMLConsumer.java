@@ -26,9 +26,8 @@ import org.xml.sax.SAXException;
  * by the <code>XMLConsumer</code> interface.
  *
  * @deprecated Can be constructed using no operation handlers.
- * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
- *         (Apache Software Foundation, Exoffice Technologies)
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 08:28:33 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:20 $
  */
 public abstract class AbstractXMLConsumer
     extends AbstractLogEnabled

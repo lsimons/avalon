@@ -41,11 +41,8 @@ import org.apache.avalon.framework.logger.Logger;
  * See {@link org.apache.avalon.excalibur.logger.util.LoggerSwitch} for
  * more details.
  *
- * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 09:12:03 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:16 $
  * @since 4.0
  */
 public abstract class AbstractLoggerManager

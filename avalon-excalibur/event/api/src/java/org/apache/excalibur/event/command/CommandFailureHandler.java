@@ -22,7 +22,7 @@ package org.apache.excalibur.event.command;
  * be thrown by a Command.  That way the application using the CommandManager can properly
  * manage what happens when an exception is thrown.
  *
- * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version CVS Revision: 1.1 $
  */
 public interface CommandFailureHandler

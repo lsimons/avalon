@@ -27,8 +27,8 @@ import org.apache.avalon.framework.activity.Disposable;
  * This is used to profile and compare various pool implementations
  *  given a single access thread.
  *
- * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version $Id: SingleThreadedPoolComparisonProfile.java,v 1.2 2004/02/21 15:38:45 cziegeler Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Id: SingleThreadedPoolComparisonProfile.java,v 1.3 2004/02/25 10:33:18 niclas Exp $
  */
 public class SingleThreadedPoolComparisonProfile
     extends PoolComparisonProfileAbstract

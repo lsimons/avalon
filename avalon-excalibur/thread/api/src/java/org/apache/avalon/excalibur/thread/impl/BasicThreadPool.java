@@ -32,7 +32,6 @@ import org.apache.excalibur.thread.impl.WorkerThread;
  * The ThreadPool that binds to Legacy Pooling implementation.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @author Peter Donald
  * @deprecated Only used by deprecated components. Will remove in the future
  */
 class BasicThreadPool

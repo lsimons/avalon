@@ -26,10 +26,7 @@ import junit.framework.TestCase;
 import org.apache.avalon.excalibur.collections.BucketMap;
 
 /**
- * @author bloritsch
- *
- * To change this generated comment edit the template variable "typecomment":
- * Window>Preferences>Java>Templates.
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class ThreadedMapTest extends TestCase
 {

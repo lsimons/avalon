@@ -31,7 +31,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  *
  * @deprecated ECM is no longer supported
  *
- * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public abstract class AbstractDualLogEnabledInstrumentable
     extends AbstractDualLogEnabled

@@ -35,8 +35,6 @@ import junit.framework.TestCase;
 import org.apache.avalon.excalibur.io.FileUtil;
 import org.apache.avalon.excalibur.io.IOUtil;
 
-// Note: jdk1.2 dependency
-
 /**
  * This is used to test IOUtil for correctness. The following checks are performed:
  * <ul>
@@ -49,7 +47,7 @@ import org.apache.avalon.excalibur.io.IOUtil;
  * Due to interdependencies in IOUtils and IOUtilsTestlet, one bug may cause
  * multiple tests to fail.
  *
- * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public final class IOUtilTestCase
     extends TestCase

@@ -36,8 +36,8 @@ import org.apache.excalibur.store.Store;
  * This is a base implementation for stores that are synchronized by
  * using a read/write lock.
  * 
- * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Id: AbstractReadWriteStore.java,v 1.3 2004/02/19 08:31:24 cziegeler Exp $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Id: AbstractReadWriteStore.java,v 1.4 2004/02/25 10:33:20 niclas Exp $
  */
 public abstract class AbstractReadWriteStore
 extends AbstractLogEnabled

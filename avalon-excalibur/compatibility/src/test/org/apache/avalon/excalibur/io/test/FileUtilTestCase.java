@@ -30,7 +30,7 @@ import org.apache.avalon.excalibur.io.FileUtil;
 /**
  * This is used to test FileUtil for correctness.
  *
- * @author Peter Donald
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public final class FileUtilTestCase
     extends TestCase

@@ -48,8 +48,8 @@ import org.apache.log.output.io.StreamTarget;
  *
  * @deprecated ECM is no longer supported
  *
- * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version $Revision: 1.2 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.3 $
  */
 public class ExcaliburComponentManagerTestCase extends TestCase
 {

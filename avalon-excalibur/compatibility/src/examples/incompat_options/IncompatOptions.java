@@ -27,7 +27,7 @@ import org.apache.avalon.excalibur.cli.CLUtil;
  * In this demo the quiet and verbose options are incompatible with
  * each other.
  *
- * @author Peter Donald
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/cli/
  */
 public class IncompatOptions

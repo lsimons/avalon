@@ -31,7 +31,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * ConfigurationMerger to reconstruct the original Configuration
  *
  * @see ConfigurationMerger
- * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class ConfigurationSplitter
 {

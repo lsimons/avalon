@@ -33,8 +33,8 @@ import org.apache.excalibur.source.impl.validity.NOPValidity;
  * Description of a source which is described by the resource protocol
  * which gets a resource from the classloader.
  *
- * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 08:36:16 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:19 $
  */
 public final class ResourceSource
     extends AbstractSource

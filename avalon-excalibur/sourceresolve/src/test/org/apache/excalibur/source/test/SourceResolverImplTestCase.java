@@ -29,6 +29,9 @@ import org.apache.excalibur.source.SourceFactory;
 import org.apache.excalibur.source.impl.ResourceSourceFactory;
 import org.apache.excalibur.source.impl.SourceResolverImpl;
 
+/**
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ */
 public class SourceResolverImplTestCase extends TestCase
 {
 
