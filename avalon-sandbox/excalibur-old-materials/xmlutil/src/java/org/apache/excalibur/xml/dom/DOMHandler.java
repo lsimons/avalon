@@ -5,7 +5,6 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-
 package org.apache.excalibur.xml.dom;
 
 import org.w3c.dom.Document;
@@ -16,10 +15,9 @@ import org.xml.sax.ContentHandler;
  * from SAX events sent to the handler.
  *
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/06 19:58:18 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/16 10:42:36 $
  */
-public interface DOMHandler extends ContentHandler {
-    
+public interface DOMHandler extends ContentHandler
+{
     Document getDocument();
-    
 }

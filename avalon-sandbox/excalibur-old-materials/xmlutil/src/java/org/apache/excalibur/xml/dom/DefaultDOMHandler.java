@@ -15,7 +15,7 @@ import org.apache.avalon.excalibur.xml.ContentHandlerWrapper;
 
 /**
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/12 21:08:35 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/08/16 10:42:36 $
  */
 public class DefaultDOMHandler 
     extends ContentHandlerWrapper
@@ -51,5 +51,4 @@ public class DefaultDOMHandler
     {
         if ( !m_ignoreComments ) super.comment( ch, start, len );
     }
-    
 }
