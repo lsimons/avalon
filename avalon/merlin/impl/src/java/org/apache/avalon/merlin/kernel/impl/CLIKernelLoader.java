@@ -4,25 +4,21 @@ package org.apache.avalon.merlin.kernel.impl;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
 import java.util.Locale;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
-import javax.management.ObjectName;
 
 import org.apache.avalon.composition.util.ExceptionHelper;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.merlin.kernel.Kernel;
 import org.apache.avalon.merlin.kernel.KernelContext;
 import org.apache.avalon.merlin.kernel.KernelException;
@@ -37,7 +33,6 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 import org.xml.sax.SAXException;
 
 /**

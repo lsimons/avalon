@@ -60,12 +60,11 @@ import org.apache.avalon.composition.data.DependencyDirective;
 import org.apache.avalon.composition.data.SelectionDirective;
 import org.apache.avalon.composition.data.*;
 import org.apache.avalon.meta.info.InfoDescriptor;
-import org.apache.excalibur.configuration.ConfigurationUtil;
 
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2003/10/19 10:31:01 $
+ * @version $Revision: 1.5 $ $Date: 2003/10/28 20:21:00 $
  */
 public class XMLDeploymentProfileCreator extends XMLProfileCreator
 {

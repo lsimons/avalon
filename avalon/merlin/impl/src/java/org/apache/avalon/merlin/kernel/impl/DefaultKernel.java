@@ -50,8 +50,6 @@
 
 package org.apache.avalon.merlin.kernel.impl;
 
-import java.io.File;
-import java.io.InputStream;
 import java.net.URL;
 import javax.management.NotificationBroadcasterSupport;
 import javax.management.AttributeChangeNotification;
@@ -64,44 +62,24 @@ import org.apache.avalon.merlin.kernel.KernelException;
 import org.apache.avalon.merlin.kernel.KernelRuntimeException;
 import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.Block;
-import org.apache.avalon.activation.appliance.Engine;
 import org.apache.avalon.activation.appliance.Composite;
-import org.apache.avalon.activation.appliance.ServiceContext;
-import org.apache.avalon.activation.appliance.UnknownServiceException;
 import org.apache.avalon.activation.appliance.impl.DefaultBlock;
 import org.apache.avalon.activation.appliance.impl.DefaultServiceContext;
 import org.apache.avalon.composition.data.TargetDirective;
-import org.apache.avalon.composition.data.CategoryDirective;
-import org.apache.avalon.composition.data.ContainmentProfile;
-import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
 import org.apache.avalon.composition.logging.LoggingManager;
-import org.apache.avalon.composition.logging.LoggingDescriptor;
-import org.apache.avalon.composition.logging.TargetDescriptor;
-import org.apache.avalon.composition.logging.TargetProvider;
-import org.apache.avalon.composition.logging.impl.DefaultLoggingManager;
-import org.apache.avalon.composition.model.SystemContext;
-import org.apache.avalon.composition.model.ModelFactory;
-import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.ContainmentContext;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
-import org.apache.avalon.composition.model.impl.DefaultSystemContext;
-import org.apache.avalon.composition.model.impl.DefaultModelFactory;
-import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.util.ExceptionHelper;
 import org.apache.avalon.composition.util.StringHelper;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.DefaultConfiguration;
-import org.apache.avalon.framework.Version;
 import org.apache.excalibur.mpool.PoolManager;
 
 /**
  * Implementation of the default Merlin Kernel.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2003/10/17 03:26:29 $
+ * @version $Revision: 1.6 $ $Date: 2003/10/28 20:21:01 $
  */
 public class DefaultKernel extends NotificationBroadcasterSupport 
   implements Kernel, DefaultKernelMBean

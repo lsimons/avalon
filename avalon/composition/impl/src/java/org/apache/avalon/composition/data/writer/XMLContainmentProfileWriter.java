@@ -67,13 +67,12 @@ import org.apache.avalon.composition.data.RepositoryDirective;
 import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.data.FilesetDirective;
 import org.apache.avalon.composition.data.IncludeDirective;
-import org.apache.avalon.meta.info.DependencyDescriptor;
 
 /**
  * Write {@link ContainmentProfile} objects to a stream as xml documents.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:45 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
  */
 public class XMLContainmentProfileWriter extends XMLDeploymentProfileWriter
 {

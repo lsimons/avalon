@@ -3,33 +3,18 @@
 package org.apache.avalon.merlin.kernel.impl;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
-import java.util.Locale;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.Block;
 import org.apache.avalon.composition.util.ExceptionHelper;
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.merlin.kernel.Kernel;
-import org.apache.avalon.merlin.kernel.KernelContext;
 import org.apache.avalon.merlin.kernel.KernelException;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.repository.BlockManifest;
 import org.apache.avalon.repository.Repository;
-import org.xml.sax.SAXException;
 
 /**
  * The DefaultLoader loads a Merlin Kernel based on a supplied argument map.

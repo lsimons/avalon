@@ -53,10 +53,6 @@ import junit.framework.TestCase;
 import org.apache.avalon.composition.data.Parameter;
 import org.apache.avalon.composition.data.MetaDataException;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.lang.reflect.Constructor;
-
 /**
  * ParameterTestCase does XYZ
  *

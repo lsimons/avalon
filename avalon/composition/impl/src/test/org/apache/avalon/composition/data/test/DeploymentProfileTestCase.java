@@ -55,12 +55,7 @@ import org.apache.avalon.composition.data.*;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
-import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.avalon.framework.Version;
-
-import java.util.Properties;
 
 /**
  * ProfileTestCase does XYZ

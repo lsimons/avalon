@@ -57,9 +57,6 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.meta.ConfigurationBuilder;
 import org.apache.avalon.composition.data.Targets;
-import org.apache.avalon.composition.data.TargetDirective;
-import org.apache.avalon.composition.data.MetaDataException;
-import org.apache.avalon.composition.data.MetaDataRuntimeException;
 import org.apache.avalon.composition.data.builder.TargetsCreator;
 
 import org.xml.sax.InputSource;
@@ -70,7 +67,7 @@ import org.xml.sax.InputSource;
  * objects from a configuration object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:35 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
  */
 public final class TargetsBuilder implements TargetsCreator
 {

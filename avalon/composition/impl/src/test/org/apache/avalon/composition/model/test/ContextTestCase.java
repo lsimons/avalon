@@ -3,20 +3,13 @@
 package org.apache.avalon.composition.model.test;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.Date;
 
-import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ContextModel;
 import org.apache.avalon.composition.model.AbstractTestCase;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.meta.info.DependencyDescriptor;
-import org.apache.avalon.meta.info.ServiceDescriptor;
-import org.apache.avalon.composition.model.testa.Facade;
 
 public class ContextTestCase extends AbstractTestCase
 {
@@ -118,7 +111,7 @@ public class ContextTestCase extends AbstractTestCase
             date = (Date) context.get( "time" );
             try
             {
-                Thread.currentThread().sleep( 1200 );
+                Thread.sleep( 1200 );
             }
             catch( Throwable e )
             {

@@ -53,8 +53,6 @@ package org.apache.avalon.composition.model.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.jar.Manifest;
 import java.net.JarURLConnection;
@@ -63,20 +61,15 @@ import java.net.URLClassLoader;
 
 import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.data.ClassLoaderDirective;
-import org.apache.avalon.composition.data.ClasspathDirective;
 import org.apache.avalon.composition.data.FilesetDirective;
 import org.apache.avalon.composition.data.IncludeDirective;
 import org.apache.avalon.composition.data.RepositoryDirective;
 import org.apache.avalon.composition.data.ResourceDirective;
-import org.apache.avalon.composition.data.Profile;
 import org.apache.avalon.composition.model.ClassLoaderContext;
 import org.apache.avalon.composition.model.ClassLoaderModel;
-import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.TypeRepository;
 import org.apache.avalon.composition.model.ServiceRepository;
-import org.apache.avalon.composition.model.TypeUnknownException;
 import org.apache.avalon.composition.model.ModelException;
-import org.apache.avalon.composition.util.ExceptionHelper;
 import org.apache.avalon.composition.util.StringHelper;
 import org.apache.avalon.repository.Repository;
 import org.apache.avalon.extension.Extension;
@@ -89,10 +82,6 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.meta.info.DependencyDescriptor;
-import org.apache.avalon.meta.info.ReferenceDescriptor;
-import org.apache.avalon.meta.info.StageDescriptor;
-import org.apache.avalon.meta.info.Type;
 
 /**
  * <p>Implementation of a classloader model within which a 
@@ -121,7 +110,7 @@ import org.apache.avalon.meta.info.Type;
  * and the extensions package.
  * </p>
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:54 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
  */
 public class DefaultClassLoaderModel extends AbstractLogEnabled 
   implements ClassLoaderModel

@@ -52,10 +52,7 @@ package org.apache.avalon.composition.data.test;
 import junit.framework.TestCase;
 import org.apache.avalon.composition.data.MetaDataException;
 import org.apache.avalon.composition.data.Parameter;
-import org.apache.avalon.composition.data.EntryDirective;
 import org.apache.avalon.composition.data.ConstructorDirective;
-
-import java.util.HashMap;
 
 /**
  * ConstructorDirectiveTestCase does XYZ

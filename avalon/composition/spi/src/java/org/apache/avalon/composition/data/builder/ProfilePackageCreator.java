@@ -50,16 +50,14 @@
 
 package org.apache.avalon.composition.data.builder;
 
-import java.io.InputStream;
 import org.apache.avalon.composition.data.ProfilePackage;
-import org.apache.avalon.meta.info.Type;
 
 /**
  * Interface used to create a {@link ProfilePackage}
  * from an input stream.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:32:29 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:01 $
  */
 public interface ProfilePackageCreator
 {

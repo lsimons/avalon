@@ -3,14 +3,12 @@
 package org.apache.avalon.composition.data;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.composition.data.ContainmentProfile;
-import org.apache.avalon.composition.data.builder.ContainmentProfileBuilder;
 import org.apache.avalon.composition.data.builder.SerializedContainmentProfileCreator;
 import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
 import org.apache.avalon.composition.data.writer.SerializedContainmentProfileWriter;

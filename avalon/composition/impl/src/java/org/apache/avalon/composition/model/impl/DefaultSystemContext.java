@@ -51,9 +51,7 @@
 package org.apache.avalon.composition.model.impl;
 
 import java.io.File;
-import java.util.Map;
 import java.net.URL;
-import java.net.URLClassLoader;
 
 import org.apache.avalon.composition.logging.LoggingManager;
 import org.apache.avalon.composition.logging.LoggingDescriptor;
@@ -65,7 +63,6 @@ import org.apache.avalon.repository.Repository;
 import org.apache.avalon.repository.impl.DefaultFileRepository;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.context.DefaultContext;
@@ -76,7 +73,7 @@ import org.apache.avalon.composition.data.CategoryDirective;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:32:14 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext

@@ -51,12 +51,10 @@
 package org.apache.avalon.composition.model.impl;
 
 import java.io.File;
-import java.util.Map;
 
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.ContainmentContext;
 import org.apache.avalon.composition.model.ClassLoaderModel;
-import org.apache.avalon.composition.model.TypeRepository;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -68,7 +66,7 @@ import org.apache.avalon.composition.data.ContainmentProfile;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:56 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
  */
 public class DefaultContainmentContext extends DefaultContext 
   implements ContainmentContext

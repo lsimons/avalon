@@ -55,15 +55,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.meta.ConfigurationBuilder;
-import org.apache.avalon.composition.data.Profile;
 import org.apache.avalon.composition.data.ContainmentProfile;
-import org.apache.avalon.composition.data.DeploymentProfile;
-import org.apache.avalon.composition.data.MetaDataException;
-import org.apache.avalon.composition.data.MetaDataRuntimeException;
 
 import org.xml.sax.InputSource;
 
@@ -73,7 +68,7 @@ import org.xml.sax.InputSource;
  * objects from a configuration object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/04 11:53:04 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/28 20:21:00 $
  */
 public final class ContainmentProfileBuilder implements ContainmentProfileCreator
 {

@@ -3,12 +3,16 @@
 package org.apache.avalon.composition.model.testd;
 
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.ServiceException;
+
+//
+// TODO check why we are importing and implementing Serviceable
+// but its not in the class definition
+//
 
 public class TestD extends AbstractLogEnabled
   implements Initializable, D

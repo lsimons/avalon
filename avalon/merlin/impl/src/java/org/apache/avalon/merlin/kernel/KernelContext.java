@@ -7,7 +7,6 @@ import java.net.URL;
 
 import org.apache.avalon.repository.Repository;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.logging.LoggingManager;
 import org.apache.avalon.composition.model.ModelFactory;
