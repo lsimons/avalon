@@ -172,7 +172,7 @@ Legal:
                 unless="logkit.present"/>
             <exclude name="org/apache/avalon/framework/logger/Jdk14Logger.java"
                 unless="jdk14.present"/>
-                
+
             <!-- leave out test cases if junit not installed -->
             <exclude name="org/apache/avalon/framework/test/**"
                 unless="junit.present"/>
@@ -645,9 +645,8 @@ Legal:
 
     <!-- Cleans up build and distribution directories -->
     <target name="clean" depends="setup-properties" description="cleans up the created directories">
-        <delete dir="${target.dir}" />
+      <delete dir="${target.dir}" />
 	<delete dir="${dist.dir}" />
-	<delete dir="build.dir" />
         <delete>
             <fileset dir="." includes="**/*~" defaultexcludes="no"/>
         </delete>
