@@ -86,8 +86,11 @@ Legal:
     <property name="status2changes" value="${phoenix.tools.dir}/status2changes.xsl"/>
 
     <!-- Invoke 'ant get-mx4j' to get these -->
-    <property name="mx4j.jar" value="${repo.dir}/mx4j-1.1.1/lib/mx4j-jmx.jar"/>
-    <property name="mx4j-tools.jar" value="${repo.dir}/mx4j-1.1.1/lib/mx4j-tools.jar"/>
+    <property name="mx4j.jar" value="${repo.dir}/mx4j/mx4j-1.1.1/lib/mx4j-jmx.jar"/>
+    <property name="mx4j-tools.jar" value="${repo.dir}/mx4j/mx4j-1.1.1/lib/mx4j-tools.jar"/>
+
+    <!-- Invoke 'ant get-beanshell' to get this -->
+    <property name="beanshell.jar" value="${repo.dir}/beanshell/bsh-1.2b7.jar"/>
 
     <path id="project.class.path">
         <pathelement location="${xerces.jar}"/>
@@ -97,11 +100,19 @@ Legal:
         <pathelement location="${wrapper.jar}"/>
         <pathelement path="${mx4j.jar}"/>
         <pathelement path="${mx4j-tools.jar}"/>
+        <pathelement path="${beanshell.jar}"/>
         <pathelement path="${java.class.path}"/>
 
         <fileset dir="${lib.dir}">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${lib.dir}/container">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${lib.dir}/deploy">
             <include name="**/*.jar"/>
         </fileset>
+
         <pathelement path="${target.classes}"/>
     </path>
 
@@ -136,6 +147,7 @@ Legal:
         </available>
         <antcall target="check-mx4j2"/>
     </target>
+
     <target name="check-mx4j2" unless="mx4j.present">
         <echo>**************************</echo>
         <echo>* Please execute target  *</echo>
@@ -163,15 +175,26 @@ Legal:
 
     <!-- Get the jars from the MX4J project. -->
     <!-- For licensing reasons, we are unable to put these Jars in our CVS or source distributions. -->
-    <target name="get-mx4j">
-        <mkdir dir="${repo.dir}"/>
+    <target name="get-mx4j" description="Get the MX4J distribution from SourceForge.">
+        <mkdir dir="${repo.dir}/mx4j"/>
         <get src="http://telia.dl.sourceforge.net/sourceforge/mx4j/mx4j-1.1.1.tar.gz"
-            dest="${repo.dir}/mx4j.tar.gz"
+            dest="${repo.dir}/mx4j/mx4j.tar.gz"
             verbose="true"
             usetimestamp="true"/>
-        <gunzip src="${repo.dir}/mx4j.tar.gz" dest="${repo.dir}"/>
-        <untar src="${repo.dir}/mx4j.tar" dest="${repo.dir}"/>
+        <gunzip src="${repo.dir}/mx4j/mx4j.tar.gz" dest="${repo.dir}/mx4j"/>
+        <untar src="${repo.dir}/mx4j/mx4j.tar" dest="${repo.dir}/mx4j"/>
     </target>
+
+    <!-- Get the jars from the Beanshell project. -->
+    <!-- For licensing reasons, we are unable to put these Jars in our CVS or source distributions. -->
+    <!-- And given it is optional, it would be a bit of a byte-size waste anyway                    -->
+    <target name="get-beanshell" description="Get the BeanShell jar from beansehll.org.">
+        <mkdir dir="${repo.dir}/beanshell"/>
+        <get src="http://www.beanshell.org/bsh-1.2b7.jar"
+            dest="${repo.dir}/beanshell/bsh-1.2b7.jar"
+            verbose="true"
+            usetimestamp="true"/>
+    </target>      
 
     <!-- Prepares the build directory -->
     <target name="prepare" depends="check-environment">
@@ -365,8 +388,8 @@ Legal:
             </fileset>
         </jar>
 
-        <jar jarfile="${target.lib}/phoenix-bsh-commands.jar">
-            <zipfileset dir="src/bsh" prefix="bsh/commands/">
+        <jar jarfile="${target.lib}/phoenix-beanshell-commands.jar">
+            <zipfileset dir="src/beanshell" prefix="bsh/commands/">
                 <include name="**"/>
             </zipfileset>
         </jar>
@@ -427,12 +450,8 @@ Legal:
 
     <!-- Copy BeanShell jars -->
     <target name="dist-beanshell" description="Copies Beanshell jars" if="beanshell.jars">
-        <copy file="${target.lib}/phoenix-bsh-commands.jar" todir="${bin.dist.container.lib}"/>
-        <copy todir="${bin.dist.container.lib}/">
-            <fileset dir="${lib.dir}">
-                <include name="bsh-*"/>
-            </fileset>
-        </copy>
+        <copy file="${target.lib}/phoenix-beanshell-commands.jar" todir="${bin.dist.container.lib}"/>
+        <copy file="${beanshell.jar}" todir="${bin.dist.container.lib}"/>
     </target>
 
     <!-- Create the lite build -->
