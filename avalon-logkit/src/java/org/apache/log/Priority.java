@@ -7,12 +7,15 @@
  */
 package org.apache.log;
 
+import java.io.Serializable;
+
 /**
- * CLass representing and holding constants for priority.
+ * Class representing and holding constants for priority.
  * 
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public final class Priority
+    implements Serializable
 {
     /**
      * Developer orientated messages, usually used during developement of product.
