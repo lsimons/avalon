@@ -15,7 +15,7 @@ import org.apache.log.Logger;
 import org.apache.log.Priority;
 import org.apache.log.format.PatternFormatter;
 import org.apache.log.format.RawFormatter;
-import org.apache.log.output.StreamTarget;
+import org.apache.log.output.io.StreamTarget;
 import org.apache.log.util.OutputStreamLogger;
 import org.apache.log.util.StackIntrospector;
 import org.apache.testlet.AbstractTestlet;
@@ -34,7 +34,7 @@ public final class UtilTestlet
     private final static String MSG = "No soup for you!";
     private final static String RMSG = MSG;
     private final static String METHOD_RESULT = UtilTestlet.class.getName() + ".";
-    
+
     private String getResult( final ByteArrayOutputStream output )
     {
         final String result = output.toString();
@@ -56,7 +56,7 @@ public final class UtilTestlet
         logger.debug( MSG );
         final String result = getResult( output );
         final String expected = METHOD_RESULT + "testStackIntrospector()";
-        assert( "StackIntrospector", result.startsWith( expected ) );     
+        assert( "StackIntrospector", result.startsWith( expected ) );
         //result of StackIntrospector.getCallerMethod( Logger.class );
         */
     }

@@ -8,8 +8,8 @@
 package org.apache.log;
 
 import java.util.Hashtable;
-import org.apache.log.output.StreamTarget;
 import org.apache.log.format.PatternFormatter;
+import org.apache.log.output.io.StreamTarget;
 
 /**
  * This class encapsulates a basic independent log hierarchy.
@@ -20,20 +20,20 @@ import org.apache.log.format.PatternFormatter;
 public class Hierarchy
 {
     ///Format of default formatter
-    private static final String  FORMAT = 
+    private static final String  FORMAT =
         "%7.7{priority} %5.5{time}   [%8.8{category}] (%{context}): %{message}\\n%{throwable}";
 
     ///The instance of default hierarchy
     private static final Hierarchy  c_hierarchy      = new Hierarchy();
 
-    ///The root logger which contains all Loggers in this hierarchy 
+    ///The root logger which contains all Loggers in this hierarchy
     private Logger                  m_rootLogger;
 
     /**
      * Retrieve the default hierarchy.
      *
      * <p>In most cases the default LogHierarchy is the only
-     * one used in an application. However when security is 
+     * one used in an application. However when security is
      * a concern or multiple independent applications will
      * be running in same JVM it is advantageous to create
      * new Hierarchies rather than reuse default.</p>
