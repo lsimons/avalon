@@ -584,6 +584,23 @@
              to="avalon-dev@jakarta.apache.org"/>
     </project>
 
+    <project name="excalibur-fortress-examples">
+        <package>org.apache.excalibur.fortress.examples</package>
+
+        <ant basedir="fortress/examples" target="jar">
+            <property name="version" value="@@DATE@@"/>
+        </ant>
+
+        <depend project="excalibur-fortress" inherit="all" runtime="true"/>
+        <!-- for the servlet examples -->
+        <depend project="jakarta-servletapi"/>
+
+        <jar name="build/lib/excalibur-fortress-examples-@@DATE@@.jar"/>
+
+        <nag from="Gump Integration Build &lt;avalon-dev@jakarta.apache.org&gt;"
+             to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
     <project name="excalibur-i18n">
         <package>org.apache.avalon.excalibur.i18n</package>
 
