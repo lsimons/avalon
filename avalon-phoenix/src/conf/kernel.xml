@@ -39,9 +39,10 @@
             logger="manager">
 
             <!--
-              By default the Mx4J Http Adaptor will bind a webserver to all
-              network interfaces. If you wish to restrict it to only one
-              interface (say localhost) then uncomment and edit the next line.
+              By default the Mx4J Http Adaptor will bind a webserver to a
+              single network interface, localhost. If you wish to restrict it to 
+              only one a different interface, include that below. To bind to all
+              interfaces, use 0.0.0.0 as the value.
             -->
             <!--
             <manager-adaptor-host>localhost</manager-adaptor-host>
