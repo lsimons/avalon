@@ -29,6 +29,7 @@ public abstract class PUnitTestCase extends TestCase implements PUnit
      */
     public PUnitTestCase()
     {
+        super( PUnitTestCase.class.getName() );
     }
 
     /**
