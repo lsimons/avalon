@@ -54,67 +54,48 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
-import java.net.MalformedURLException;
-import java.util.StringTokenizer;
-
-import org.apache.avalon.repository.Artifact;
-import org.apache.avalon.activation.appliance.CascadingIOException;
 
 /**
  * Repository URL protocol handler.  
  */
-public class ArtifactURLConnection extends AbstractURLConnection
+public class BlockHandler extends URLStreamHandler
 {
-    /**
-     * Creation of a new handler. 
-     * @param url the url to establish a connection with
-     * @param type the default type if no type specified
-     * @exception NullPointerException if the supplied repository argument is null
-     */
-     ArtifactURLConnection( URL url ) 
-       throws NullPointerException, IOException
-     {
-         super( url );
-     }
 
     /**
-     * Return the Artifact specified by this URL.
-     * @return the artifact instance
+     * Opens a connection to the specified URL.
+     *
+     * @param url A URL to open a connection to.
+     * @return The established connection.
+     * @throws IOException If a connection failure occurs.
      */
-     public Object getContent() throws IOException
-     {
-         return super.getContent( "jar" );
-     }
+    protected URLConnection openConnection( final URL url )
+      throws IOException
+    {
+        return new BlockURLConnection( url );
+    }
 
-    /**
-     * Return the Artifact specified by this URL.
-     * @return the artifact instance
-     */
-     protected Object getContent( String defaultType ) throws IOException
-     {
-         try
-         {
-             final String path = getURL().getPath();
-             final int i = path.lastIndexOf( "/" );
-             final String group = path.substring( 0, i );
-             final String name = path.substring( i+1 );
-             final String version = getVersion( url );
-             final String type = getType( getURL(), defaultType );
-             return Artifact.createArtifact( group, name, version, type );
-         }
-         catch( Throwable e )
-         {
-             final String error = 
-               "Unexpected exception while resolving url [" + getURL() + "].";
-             throw new CascadingIOException( error );
-         }
-     }
+    protected int getDefaultPort()
+    {
+        return 0;
+    }
 
-     private String getType( URL url, String type )
-     {
-         return getQueryField( url, "type", type );
-     }
-
-
-
+    protected String toExternalForm( URL url )
+    {
+	  StringBuffer result = new StringBuffer( "block:" );
+        if (url.getFile() != null )
+        {
+            result.append(url.getFile());
+        }
+	  if (url.getQuery() != null ) 
+        {
+	      result.append("?");
+            result.append(url.getQuery());
+	  }
+	  if (url.getRef() != null ) 
+        {
+	      result.append("#");
+            result.append(url.getRef());
+	  }
+	  return result.toString();
+    }
 }

@@ -63,7 +63,7 @@ import org.apache.avalon.activation.appliance.CascadingIOException;
 /**
  * Repository URL protocol handler.  
  */
-public class ArtifactURLConnection extends AbstractURLConnection
+public class BlockURLConnection extends AbstractURLConnection
 {
     /**
      * Creation of a new handler. 
@@ -71,8 +71,8 @@ public class ArtifactURLConnection extends AbstractURLConnection
      * @param type the default type if no type specified
      * @exception NullPointerException if the supplied repository argument is null
      */
-     ArtifactURLConnection( URL url ) 
-       throws NullPointerException, IOException
+     BlockURLConnection( URL url ) 
+       throws IOException
      {
          super( url );
      }
@@ -83,38 +83,6 @@ public class ArtifactURLConnection extends AbstractURLConnection
      */
      public Object getContent() throws IOException
      {
-         return super.getContent( "jar" );
+         return super.getContent( "block" );
      }
-
-    /**
-     * Return the Artifact specified by this URL.
-     * @return the artifact instance
-     */
-     protected Object getContent( String defaultType ) throws IOException
-     {
-         try
-         {
-             final String path = getURL().getPath();
-             final int i = path.lastIndexOf( "/" );
-             final String group = path.substring( 0, i );
-             final String name = path.substring( i+1 );
-             final String version = getVersion( url );
-             final String type = getType( getURL(), defaultType );
-             return Artifact.createArtifact( group, name, version, type );
-         }
-         catch( Throwable e )
-         {
-             final String error = 
-               "Unexpected exception while resolving url [" + getURL() + "].";
-             throw new CascadingIOException( error );
-         }
-     }
-
-     private String getType( URL url, String type )
-     {
-         return getQueryField( url, "type", type );
-     }
-
-
-
 }

@@ -57,7 +57,6 @@ import java.net.URLStreamHandler;
 
 import org.apache.avalon.repository.Repository;
 
-
 /**
  * Repository URL protocol handler.  
  */

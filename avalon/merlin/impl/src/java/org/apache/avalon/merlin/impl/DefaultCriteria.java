@@ -85,7 +85,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -708,7 +708,11 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
 
     private URL resolveURL( File base, String value ) throws Exception
     {
-        if( value.startsWith( "artifact:" ) )
+        if( value.startsWith( "block:" ) )
+        {
+            return new URL( null, value, new BlockHandler() );
+        }
+        else if( value.startsWith( "artifact:" ) )
         {
             return new URL( null, value, new ArtifactHandler() );
         }
