@@ -120,6 +120,9 @@ Legal:
         <fileset dir="${lib.dir}">
             <include name="*.jar"/>
         </fileset>
+        <fileset dir="${lib.dir}/tools">
+            <include name="*.jar"/>
+        </fileset>
         <fileset dir="${lib.dir}/container">
             <include name="*.jar"/>
         </fileset>
@@ -735,26 +738,29 @@ Legal:
         <property name="bin.dist.apps" value="${bin.dist.dir}/apps"/>
         <property name="bin.dist.ext" value="${bin.dist.dir}/ext"/>
         <property name="bin.dist.lib" value="${bin.dist.dir}/lib"/>
+        <property name="bin.dist.tools.lib" value="${bin.dist.dir}/tools/lib"/>
         <property name="bin.dist.container.lib" value="${bin.dist.bin}/lib"/>
         <property name="bin.dist.conf" value="${bin.dist.dir}/conf"/>
 
-        <mkdir dir="${bin.dist.bin}/lib"/>
+        <mkdir dir="${bin.dist.container.lib}"/>
+        <mkdir dir="${bin.dist.tools.lib}"/>
         <mkdir dir="${bin.dist.apps}"/>
         <mkdir dir="${bin.dist.ext}"/>
         <mkdir dir="${bin.dist.lib}"/>
         <mkdir dir="${bin.dist.conf}"/>
 
         <copy file="${target.lib}/phoenix-client.jar" todir="${bin.dist.lib}/"/>
-        <copy file="${target.lib}/phoenix-tools.jar" todir="${bin.dist.lib}/"/>
+        <copy file="${target.lib}/phoenix-tools.jar" todir="${bin.dist.tools.lib}/"/>
         <copy file="${target.lib}/phoenix-loader.jar" todir="${bin.dist.bin}/"/>
         <copy file="${target.lib}/phoenix-engine.jar" todir="${bin.dist.container.lib}"/>
 
         <copy file="${logkit.jar}" todir="${bin.dist.lib}"/>
         <copy file="${framework.jar}" todir="${bin.dist.lib}"/>
         <copy file="${excalibur-instrument.jar}" todir="${bin.dist.lib}"/>
-        <copy todir="${bin.dist.lib}">
-            <fileset dir="${lib.dir}">
-                <include name="excalibur*.jar"/>
+        <copy todir="${bin.dist.tools.lib}">
+            <fileset dir="${lib.dir}/tools">
+                <include name="excalibur-i18n*.jar"/>
+                <include name="qdox*.jar"/>
             </fileset>
             <fileset dir="${target.lib}">
                 <include name="phoenix-containerkit.jar"/>
