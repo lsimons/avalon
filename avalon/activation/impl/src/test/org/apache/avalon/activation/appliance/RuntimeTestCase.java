@@ -2,7 +2,7 @@
 
 package org.apache.avalon.activation.appliance;
 
-import org.apache.avalon.activation.appliance.impl.DefaultBlock;
+import org.apache.avalon.activation.appliance.impl.AbstractBlock;
 import org.apache.avalon.composition.util.ExceptionHelper;
 import org.apache.avalon.framework.activity.Disposable;
 
@@ -65,7 +65,7 @@ public class RuntimeTestCase extends AbstractTestCase
         //
 
         getLogger().debug( "creating root block" );
-        Block block = DefaultBlock.createRootBlock( m_context, m_model );
+        Block block = AbstractBlock.createRootBlock( m_context, m_model );
         getLogger().debug( "block: " + block );
 
         //

@@ -35,7 +35,7 @@
     <dependency>
       <groupId>merlin</groupId>
       <artifactId>merlin-kernel-impl</artifactId>
-      <version>3.2-dev</version>
+      <version>3.2.1-dev</version>
     </dependency>
 
     <dependency>
@@ -46,12 +46,12 @@
     <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-spi</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2.1-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-impl</artifactId>
-      <version>1.2.1-dev</version>
+      <version>1.2.2-dev</version>
     </dependency>
 
     <dependency>
