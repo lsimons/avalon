@@ -13,10 +13,10 @@
 
    <classloader>
      <classpath>
-       <artifact>artifact:jar:avalon/test/avalon-test-testa</artifact>
-       <artifact>artifact:jar:avalon/test/avalon-test-testb</artifact>
-       <artifact>artifact:jar:avalon/test/avalon-test-testc</artifact>
-       <artifact>artifact:jar:avalon/test/avalon-test-testd</artifact>
+       <artifact>@TEST-A-SPEC@</artifact>
+       <artifact>@TEST-B-SPEC@</artifact>
+       <artifact>@TEST-C-SPEC@</artifact>
+       <artifact>@TEST-D-SPEC@</artifact>
        <artifact>@FRAMEWORK-IMPL-SPEC@</artifact>
      </classpath>
    </classloader>
@@ -27,7 +27,7 @@
 
      <classloader>
        <classpath>
-         <artifact>artifact:jar:avalon/test/avalon-test-teste</artifact>
+         <artifact>@TEST-E-SPEC@</artifact>
        </classpath>
      </classloader>
 
