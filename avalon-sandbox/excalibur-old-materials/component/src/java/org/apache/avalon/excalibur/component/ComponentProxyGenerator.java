@@ -99,8 +99,7 @@ public final class ComponentProxyGenerator
      */
     public Component getProxy( String role, Object service ) throws Exception
     {
-	Lookup value = parseRole( role );
-        Class serviceInterface = m_classLoader.loadClass( value.role );
+        Class serviceInterface = m_classLoader.loadClass( role );
 
         return (Component)Proxy.newProxyInstance( m_classLoader,
                                                   new Class[]{Component.class, serviceInterface},
@@ -139,35 +138,5 @@ public final class ComponentProxyGenerator
                 throw ite.getTargetException();
             }
         }
-    }
-
-    private Lookup parseRole( String role )
-    {
-        Lookup lookup = new Lookup();
-        lookup.role = role;
-        lookup.hint = AbstractContainer.DEFAULT_ENTRY;
-
-        if ( role.endsWith("Selector") )
-        {
-            lookup.role = role.substring(0, role.length() - "Selector".length());
-            lookup.hint = AbstractContainer.SELECTOR_ENTRY;
-        }
-
-        int index = role.lastIndexOf("/");
-
-        // needs to be further than the first character
-        if ( index > 0 )
-        {
-            lookup.role = role.substring(0, index);
-            lookup.hint = role.substring(index + 1);
-        }
-
-        return lookup;
-    }
-
-    private final static class Lookup
-    {
-        public String role;
-        public String hint;
     }
 }
