@@ -76,6 +76,7 @@ public final class Main
 
             data.put( "common.classloader", ClassLoader.getSystemClassLoader() );
             data.put( "container.classloader", classLoader );
+            data.put( "phoenix.home", new File( findPhoenixHome() ) );
 
             //Setup context classloader
             Thread.currentThread().setContextClassLoader( classLoader );
