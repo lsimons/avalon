@@ -1,15 +1,18 @@
 <project default="jar:install-snapshot" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
-  <ant:property file="${basedir}/../build.properties"/>
-  <ant:property file="${basedir}/../project.properties"/>
   <ant:property file="project.properties"/>
+  <ant:property name="maven.docs.src" value="${basedir}/merlin-platform/xdocs"/>
   <ant:property name="merlin.build.inst" value="merlin"/>
-  <ant:property name="merlin.build.inst.dir" value="${maven.build.dir}/${merlin.build.inst}"/>
+  <ant:property name="merlin.build.inst.dir" 
+    value="${maven.build.dir}/${merlin.build.inst}"/>
   <ant:property name="maven.jar.manifest.extensions.add" value="true"/>
-
   <ant:property name="maven.checkstyle.format" value="avalon"/>
   <ant:property name="pom.organization.identifier" value="ASF"/>
   <ant:property name="pom.specificationVersion" value="1.0"/>
+  <ant:property name="maven.license.licenseFile" value="${basedir}/LICENSE.txt"/>
+  <ant:property name="maven.javadoc.stylesheet" 
+    value="${basedir}/merlin-platform/src/etc/stylesheet.css"/>
+
   <ant:property environment="env"/>
   <ant:property name="merlin.home" value="${env.MERLIN_HOME}"/>
 
@@ -17,6 +20,7 @@
     <attainGoal name="merlin:clean"/>
     <attainGoal name="merlin:dist"/>
     <attainGoal name="merlin:site"/>
+    <attainGoal name="merlin:tutorials"/>
     <attainGoal name="merlin:package"/>
     <attainGoal name="merlin:replicate"/>
   </goal>
@@ -50,7 +54,6 @@
     into the user's local repository and put a copy in the 
     build target install directory.
     -->
-
     <maven:reactor
       basedir="${basedir}"
       includes="**/project.xml"
@@ -58,6 +61,7 @@
       goals="jar:install-snapshot"
       banner="Installing:"
       ignoreFailures="false" />
+    <attainGoal name="merlin:plugin"/>
 
     <maven:reactor
       basedir="${basedir}"
@@ -70,13 +74,13 @@
        toDir="${merlin.build.inst.dir}/bin/lib"/>
 
     <!--
-    Import the dependent jar files referenced by the SMP 
-    subproject into the install directory.
+    Import the dependent jar files referenced by platform.xml
+    into the install directory.
     -->
     <maven:reactor
       basedir="${basedir}"
-      includes="merlin-platform/project.xml"
-      goals="merlin-import-external-jars"
+      includes="platform.xml"
+      goals="ximport"
       banner="Resolving dependencies:"
       ignoreFailures="false"/>
 
@@ -95,8 +99,6 @@
        file="${merlin.build.inst.dir}/repository/xerces/jars/xerces-2.4.0.jar" 
        toDir="${merlin.build.inst.dir}/ext"/>
     <delete dir="${merlin.build.inst.dir}/repository/xerces"/>
-
-    <attainGoal name="merlinx-install-plugin"/>
 
     <!--
     Add the supporting resources.
@@ -122,7 +124,15 @@
         <include name="INSTALLATION.TXT"/>
       </fileset>
     </ant:copy>
+  </goal>
 
+  <goal name="merlin:plugin">
+    <maven:reactor
+      basedir="${basedir}"
+      includes="merlin-plugin/project.xml"
+      goals="plugin:install"
+      banner="Installing plugin:"
+      ignoreFailures="false"/>
   </goal>
 
   <goal name="merlin:package">
@@ -147,76 +157,84 @@
     <j:set var="docs.name" value="${maven.final.name}-docs-${timestamp}"/>
     <ant:echo>Building doc kit: ${docs.name}.zip</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${docs.name}.zip">
-      <zipfileset dir="${basedir}/merlin-platform/target/docs" prefix="docs"/>
+      <zipfileset dir="${maven.build.dir}/docs" prefix="docs"/>
     </ant:zip>
 
     <j:set var="tutorial.name" value="${maven.final.name}-tutorial-${timestamp}"/>
     <ant:echo>Building tutorial kit: ${tutorial.name}.zip</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${tutorial.name}.zip">
-      <zipfileset dir="${basedir}/merlin-platform/target/tutorials" prefix="tutorial"/>
+      <zipfileset dir="${basedir}/target/tutorials" prefix="tutorial"/>
     </ant:zip>
 
   </goal>
 
   <!--
-  Import the jar files declared as dependecies of the smp project.  This
+  Import the jar files declared as dependecies from platform.xml.  This
   includes all of the external jar files needed to run merlin.  Dependent 
   jar files are copied from the user's local repository to the merlin 
-  install system library.
+  install repository.
   -->
-  <goal name="merlin-import-external-jars">
+  <goal name="ximport">
     <j:forEach var="dep" items="${pom.dependencies}">
-      <mkdir dir="${basedir}/../target/${merlin.build.inst}/repository/${dep.artifactDirectory}/jars"/>
+      <mkdir dir="${maven.build.dir}/${merlin.build.inst}/repository/${dep.artifactDirectory}/jars"/>
       <copy 
-        todir="${basedir}/../target/${merlin.build.inst}/repository/${dep.artifactDirectory}/jars/"
+        todir="${maven.build.dir}/${merlin.build.inst}/repository/${dep.artifactDirectory}/jars/"
         file="${maven.repo.local}/${dep.artifactDirectory}/jars/${dep.artifact}"/>
     </j:forEach>
   </goal>
 
   <!--
-  The site goal is called by the merlin-install goal and handles the generation
-  of the documetation for the entire Merlin project including the related sub-
-  projects.
+  Generation of the documentation for the entire Merlin project including the 
+  related subprojects.
   -->
   <goal name="merlin:site"
     description="Build the Merlin site.">
     <maven:reactor
       basedir="${basedir}"
-      includes="merlin-platform/project.xml"
-      goals="xjavadoc,site"
-      banner="Building site."
+      includes="platform.xml"
+      goals="xjavadoc,license,site"
+      banner="Building site:"
       ignoreFailures="false"/>
   </goal>
 
 
-  <!-- convinience docs generation within runing javadoc -->
-  <goal name="merlin-site-xdocs"
-    description="Build the Merlin site.">
+  <!--
+  The the tuturials.
+  -->
+  <goal name="merlin:tutorials"
+    description="Build tutorials.">
     <maven:reactor
       basedir="${basedir}"
-      includes="merlin-platform/project.xml"
-      goals="site"
-      banner="Building site."
+      includes="platform.xml"
+      goals="xtutorials"
+      banner="Building tutorials:"
       ignoreFailures="false"/>
   </goal>
 
-  <!-- convinience javadoc generation within runing xdocs -->
-  <goal name="merlin-site-javadoc"
-    description="Build the Merlin site.">
-    <maven:reactor
-      basedir="${basedir}"
-      includes="merlin-platform/project.xml"
-      goals="xjavadoc"
-      banner="Building site."
-      ignoreFailures="false"/>
+  <goal name="xtutorials">
+    <ant:mkdir dir="${basedir}/target/tutorials"/>
+    <ant:copy todir="${basedir}/target/tutorials">
+      <fileset dir="${basedir}/merlin-platform/tutorials">
+        <include name="README.TXT"/>
+        <include name="project.xml"/>
+        <include name="maven.xml"/>
+        <include name="hello/**"/>
+        <include name="configuration/**"/>
+        <include name="context/**"/>
+        <include name="composition/**"/>
+        <include name="dependencies/**"/>
+        <exclude name="**/target/**"/>
+        <exclude name="**/*.log"/>
+      </fileset>
+    </ant:copy>
   </goal>
 
   <goal name="xjavadoc">
-    <ant:mkdir dir="${basedir}/target/docs/api" />
+    <ant:mkdir dir="${maven.build.dir}/docs/api" />
     <ant:property name="copyright"
       value="Copyright &amp;copy; ${year} ${pom.organization.name}. All Rights Reserved." />
     <ant:property name="title" value="${pom.name} ${pom.currentVersion} API"/>
-    <ant:javadoc destdir="${basedir}/target/docs/api" 
+    <ant:javadoc destdir="${maven.build.dir}/docs/api" 
 	doctitle="&lt;h1&gt;Merlin Service Management API&lt;/h1&gt;" 
       noindex="false" author="true" use="true"
 	windowtitle="${title}" 
@@ -226,17 +244,18 @@
         <j:forEach var="packageGroup" items="${pom.packageGroups}">
           <group title="${packageGroup.title}" packages="${packageGroup.packages}"/>
         </j:forEach>
-        <sourcepath path="${basedir}/../repository/spi/src/java"/>
-        <sourcepath path="${basedir}/../repository/impl/src/java"/>
-        <sourcepath path="${basedir}/../extension-spi/src/java"/>
-        <sourcepath path="${basedir}/../extension/src/java"/>
-        <sourcepath path="${basedir}/../composition-spi/src/java"/>
-        <sourcepath path="${basedir}/../composition/src/java"/>
-        <sourcepath path="${basedir}/../activation-api/src/java"/>
-        <sourcepath path="${basedir}/../activation-spi/src/java"/>
-        <sourcepath path="${basedir}/../activation/src/java"/>
-        <sourcepath path="${basedir}/../kernel/spi/src/java"/>
-        <sourcepath path="${basedir}/../kernel/impl/src/java"/>
+        <sourcepath path="${basedir}/repository/spi/src/java"/>
+        <sourcepath path="${basedir}/repository/impl/src/java"/>
+        <sourcepath path="${basedir}/extension-spi/src/java"/>
+        <sourcepath path="${basedir}/extension/src/java"/>
+        <sourcepath path="${basedir}/composition/api/src/java"/>
+        <sourcepath path="${basedir}/composition/spi/src/java"/>
+        <sourcepath path="${basedir}/composition/impl/src/java"/>
+        <sourcepath path="${basedir}/activation-api/src/java"/>
+        <sourcepath path="${basedir}/activation-spi/src/java"/>
+        <sourcepath path="${basedir}/activation/src/java"/>
+        <sourcepath path="${basedir}/kernel/spi/src/java"/>
+        <sourcepath path="${basedir}/kernel/impl/src/java"/>
         <classpath>
           <path refid="maven.dependency.classpath"/>
 	  </classpath>
@@ -251,39 +270,6 @@
 	  <link href="${excalibur.event.link}" />
     </ant:javadoc>
   </goal>
-
-  <!--
-  The site goal is called by the merlin-install goal and handles the generation
-  of the documetation for the entire Merlin project including the related sub-
-  projects.
-  -->
-  <goal name="merlin-site-deploy"
-    description="Deploy the Merlin site.">
-    <maven:reactor
-      basedir="${basedir}"
-      includes="merlin-platform/project.xml"
-      goals="site:fsdeploy"
-      banner="Deploying site."
-      ignoreFailures="false"/>
-  </goal>
-
-  <!--
-  Install the merlin plugin into the Maven plugin suite.
-  -->
-  <goal name="merlin-install-plugin" prereqs="merlin:dist" 
-      description="Install Merlin Maven plugin.">
-    <attainGoal name="merlinx-install-plugin"/>
-  </goal>
-
-  <goal name="merlinx-install-plugin">
-    <maven:reactor
-      basedir="${basedir}"
-      includes="merlin-plugin/project.xml"
-      goals="plugin:install"
-      banner="Installing plugin:"
-      ignoreFailures="false"/>
-  </goal>
-
 
   <!--
   ==============================================================================
