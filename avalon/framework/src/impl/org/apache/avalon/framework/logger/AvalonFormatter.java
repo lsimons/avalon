@@ -47,6 +47,6 @@ public class AvalonFormatter
      */
     protected String getTime( final long time, final String format )
     {
-        return new Date().toString();
+        return String.valueOf(System.currentTimeMillis());
     }
 }
