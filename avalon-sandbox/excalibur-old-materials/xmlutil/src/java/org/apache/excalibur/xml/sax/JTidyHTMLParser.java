@@ -17,6 +17,7 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.avalon.framework.component.Component;
 import org.apache.excalibur.xml.dom.DOMSerializer;
 import org.apache.excalibur.xml.sax.Parser;
 import org.w3c.dom.Document;
@@ -33,10 +34,10 @@ import java.util.Properties;
  * to SAX events.
  *
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/12/06 22:08:50 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/12/07 01:00:51 $
  */
 public final class JTidyHTMLParser extends AbstractLogEnabled
-        implements Parser, Serviceable, Configurable, Initializable, ThreadSafe
+        implements Parser, Serviceable, Configurable, Initializable, ThreadSafe, Component
 {
     private DOMSerializer m_serializer;
     private Tidy m_tidy;
