@@ -103,7 +103,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.15.2.3 $ $Date: 2004/01/07 20:34:42 $
+ * @version $Revision: 1.15.2.4 $ $Date: 2004/01/08 09:42:58 $
  */
 public class DefaultAppliance extends AbstractAppliance implements Appliance
 {
@@ -999,6 +999,13 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
 
     private Object createProvider( Object instance ) throws ApplianceException
     {
+        if( getDeploymentModel().
+          getType().getInfo().
+            getAttribute( "urn:merlin:proxy", "true" ).equals( "false" ) )
+        {
+            return instance;
+        }
+
         Class[] classes = m_model.getInterfaces();
         try
         {
