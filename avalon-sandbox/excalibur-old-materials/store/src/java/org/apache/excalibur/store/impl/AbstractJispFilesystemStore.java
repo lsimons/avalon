@@ -54,6 +54,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.NoSuchElementException;
 
 import com.coyotegulch.jisp.BTreeIndex;
 import com.coyotegulch.jisp.BTreeIterator;
@@ -72,7 +73,7 @@ import org.apache.excalibur.store.Store;
  *
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.14 2003/07/29 03:58:34 vgritsenko Exp $
+ * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.15 2003/07/31 02:51:32 vgritsenko Exp $
  */
 public abstract class AbstractJispFilesystemStore
 extends AbstractLogEnabled
@@ -319,9 +320,8 @@ implements Store, ThreadSafe {
     {
         try 
         {
-            BTreeObjectEnumeration enum = new BTreeObjectEnumeration(new BTreeIterator(m_Index), this);
-            return enum;
-        } 
+            return new BTreeObjectEnumeration(new BTreeIterator(m_Index), this);
+        }
         catch (Exception ignore) 
         {
             return Collections.enumeration(Collections.EMPTY_LIST);
@@ -354,6 +354,7 @@ implements Store, ThreadSafe {
     
     class BTreeObjectEnumeration implements Enumeration 
     {
+        private Object m_Next;
         private BTreeIterator m_Iterator;
         private AbstractJispFilesystemStore m_Store;
 
@@ -361,54 +362,59 @@ implements Store, ThreadSafe {
         {
             m_Iterator = iterator;
             m_Store = store;
+
+            // Obtain first element. If any.
+            try
+            {
+                m_Next = m_Iterator.getKey();
+            }
+            catch (IOException ioe)
+            {
+                m_Store.getLogger().error("store(..): Exception", ioe);
+                m_Next = null;
+            }
         }
 
         public boolean hasMoreElements() 
         {
-            boolean hasMore = false;
-            Object tmp = null;
-
-            try 
-            {
-                tmp = m_Iterator.getKey();
-
-                if(m_Iterator.moveNext()) 
-                {
-                    hasMore = true;
-                }
-    
-                /* resets iterator to the old state **/
-                m_Iterator.moveTo((KeyObject)tmp);
-            } 
-            catch (IOException ioe) 
-            {
-                m_Store.getLogger().error("store(..): Exception", ioe);
-            }
-            catch (ClassNotFoundException cnfe) 
-            {
-                m_Store.getLogger().error("store(..): Exception", cnfe);
-            }
-            return hasMore;
+            return (m_Next != null);
         }
 
-        public Object nextElement() 
+        public Object nextElement() throws NoSuchElementException
         {
-            Object tmp = null;
-
-            try 
+            if (m_Next == null)
             {
-                tmp = m_Iterator.getKey();
-                m_Iterator.moveNext();
-            } 
+                throw new NoSuchElementException();
+            }
+
+            // Save current element
+            Object tmp = m_Next;
+
+            // Advance to the next element
+            try
+            {
+                if (m_Iterator.moveNext())
+                {
+                    m_Next = m_Iterator.getKey();
+                }
+                else
+                {
+                    // Can't move to the next element - no more elements.
+                    m_Next = null;
+                }
+            }
             catch (IOException ioe) 
             {
                 m_Store.getLogger().error("store(..): Exception", ioe);
-            } 
+                m_Next = null;
+            }
             catch (ClassNotFoundException cnfe) 
             {
                 m_Store.getLogger().error("store(..): Exception", cnfe);
+                m_Next = null;
             }
-            // return the real key
+
+            // Return the real key
             return ((JispKey) tmp).getKey();
         }
     }
