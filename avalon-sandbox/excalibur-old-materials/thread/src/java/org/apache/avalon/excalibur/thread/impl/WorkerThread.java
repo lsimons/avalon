@@ -76,6 +76,7 @@ class WorkerThread
 
             try
             {
+                //TODO: Thread name setting should reuse the ThreadContext code.
                 Thread.currentThread().setName( m_name );
                 if( null != m_context ) ThreadContext.setThreadContext( m_context );
                 m_work.execute();
