@@ -48,61 +48,53 @@
 
 */
 
-package org.apache.avalon.merlin;
+package org.apache.avalon.merlin.impl;
 
-import org.apache.avalon.merlin.event.KernelEventListener;
-import org.apache.avalon.activation.appliance.Appliance;
-import org.apache.avalon.activation.appliance.Block;
+import java.util.ArrayList;
 
-/**
- * A Kernel is the root of a containment solution. This interfaces 
- * defines the contract for any kernel implementation covering 
- * management aspects and service resolution aspects.
- *
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/14 16:32:39 $
- */
-public interface Kernel extends KernelController
+
+class SimpleFIFO
 {
-    static final int INITIALIZING = 0;
-    static final int INITIALIZED = 1;
-    static final int STARTING = 2;
-    static final int ASSEMBLY = 3;
-    static final int DEPLOYMENT = 4;
-    static final int STARTED = 5;
-    static final int STOPPING = 6;
-    static final int DECOMMISSIONING = 7;
-    static final int DISSASSEMBLY = 8;
-    static final int STOPPED = 9;
-
-   /**
-    * Add a kernel listener.
-    * @param listener the kernel listener to be added
-    */
-    void addKernelEventListener( KernelEventListener listener );
-
-   /**
-    * Remove a kernel listener.
-    * @param listener the kernel listener to be removed
-    */
-    void removeKernelEventListener( KernelEventListener listener );
-
-   /**
-    * Return the root block.
-    * @return the root application containment block
-    */
-    Block getBlock();
-
-   /**
-    * Return the applicance matching the supplied path.
-    * @return the appliance
-    */
-    Appliance locate( String path ) throws KernelException;
-
-   /**
-    * Return the current state of the kernel.
-    * @return the kernel state
-    */
-    int getState();
-
-}
+    private ArrayList m_Queue;
+    
+    SimpleFIFO()
+    {
+        m_Queue = new ArrayList();
+    }
+    
+    void clear()
+    {
+        synchronized( this )
+        {
+            m_Queue.clear();
+        }
+    }
+    
+    void put( Object obj )
+    {
+        synchronized( this )
+        {
+            m_Queue.add( obj );
+            notifyAll();
+        }
+    }
+    
+    Object get()
+        throws InterruptedException
+    {
+        synchronized( this )
+        {
+            while( m_Queue.size() == 0 )
+                wait(100);
+            return m_Queue.remove(0);
+        }
+    }
+    
+    int size()
+    {
+        synchronized( this )
+        {
+            return m_Queue.size();
+        }
+    }
+} 
