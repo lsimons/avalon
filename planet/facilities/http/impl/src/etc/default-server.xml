@@ -26,7 +26,7 @@
   <component name="secondary" class="test.http.TestComponent" profile="secondary"/>
 
 <!-- Actual Facility  -->  
-  <component name="socketlistener" class="org.apache.avalon.http.impl.SocketListenerComponent">
+  <component name="socketlistener" class="org.apache.avalon.http.impl.SocketListener">
     <parameters>
       <parameter name="port" value="8088"/>
       <parameter name="hostname" value="0.0.0.0"/>
