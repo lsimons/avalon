@@ -187,16 +187,16 @@ public class DeclareTask extends SystemTask
         final String pad = padding + "  ";
         final ResourceRef[] resources =
           def.getResourceRefs( getProject(), Policy.RUNTIME, ResourceRef.ANY, true );
-        writeResourceRefs( writer, pad, resources );
+        writeResourceRefs( writer, pad, resources, "jar" );
         if( flag )
         {
-            writeResource( writer, pad, def );
+            writeResource( writer, pad, def, "jar" );
         }
         writer.write( "\n" + padding + "</classpath>" );
     }
 
     private void writeResourceRefs( 
-      final Writer writer, final String pad, final ResourceRef[] resources )
+      final Writer writer, final String pad, final ResourceRef[] resources, String type )
       throws IOException
     {
         for( int i=0; i<resources.length; i++ )
@@ -206,20 +206,22 @@ public class DeclareTask extends SystemTask
             if( policy.isRuntimeEnabled() )
             {
                 final Resource resource = getHome().getResource( ref );
-                writeResource( writer, pad, resource );
+                writeResource( writer, pad, resource, type );
             }
         }
     }
 
     private void writeResource( 
-      final Writer writer, final String pad, final Resource resource )
+      final Writer writer, final String pad, final Resource resource, String type )
       throws IOException
     {
         final Info info = resource.getInfo();
+        if( !info.getType().equals( type ) )
+          return;
+
         final String name = info.getName();
         final String group = info.getGroup();
         final String version = info.getVersion();
-        final String type = info.getType();
 
         writer.write( "\n" );
         writer.write( pad );
