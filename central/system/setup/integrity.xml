@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="integrity" default="check-for-project" basedir="." xmlns:x="antlib:org.apache.avalon.tools">
+
+  <available property="project.available" classname="org.apache.avalon.tools.home.Home"/>
+
+  <target name="check-for-project" unless="project.available">
+
+    <echo>
+#--------------------------------------------------------------------------------
+# Please invoke the bootstrap target in order to install prerequisite resources
+# and tools necessary to build avalon.
+#
+# $ ant setup
+#
+# Once the bootstrap resources have been build you can proceed with any of the 
+# classic build targets.
+#--------------------------------------------------------------------------------      
+    </echo>
+    <fail message="Bootstrap resources not present."/>
+  </target>
+
+</project>

@@ -19,7 +19,7 @@
   <property name="target.deliverables.dir" value="${target}/deliverables"/>
   <property name="target.deliverables.jars.dir" value="${target.deliverables.dir}/jars"/>
 
-  <property name="toolkit.jar" value="${project.name}-${bootstrap-version}.jar"/>
+  <property name="toolkit.jar" value="${project.name}.jar"/>
 
   <target name="prepare">
 

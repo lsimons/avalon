@@ -51,13 +51,32 @@ public class BarTask extends SystemTask
     public static final String BAR_EXT = "bar";
     public static final String ASC_EXT = "asc";
     public static final String GPG_EXE_KEY = "project.gpg.exe";
+
+    private String m_name;
+
+    public void setName( String name )
+    {
+        m_name = name;
+    }
     
+    private String getName( Definition def )
+    {
+        if( null == m_name )
+        {
+            return def.getFilename( BAR_EXT );
+        }
+        else
+        {
+            return m_name;
+        }
+    }
+
     public void execute() throws BuildException 
     {
         File deliverables = 
           getContext().getDeliverablesDirectory();
         Definition def = getHome().getDefinition( getKey() );
-        String filename = def.getFilename( BAR_EXT );
+        String filename = getName( def );
         String type = def.getInfo().getType();
         File types = new File( deliverables, BAR_EXT + "s" );
         File bar = new File( types, filename );
