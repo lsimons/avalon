@@ -37,11 +37,15 @@ public class Main
     private static final String    DEFAULT_MANAGER      =
         System.getProperty( "phoenix.manager", "org.apache.avalon.phoenix.engine.PhoenixManager" );
 
+    private static final String DEFAULT_REGISTRY_PORT =
+        System.getProperty( "phoenix.port", "1111" );
+
     private static final int       DEBUG_LOG_OPT        = 'd';
     private static final int       HELP_OPT             = 'h';
     private static final int       LOG_FILE_OPT         = 'l';
     private static final int       APPS_PATH_OPT        = 'a';
 
+    private String                 m_registry_port      = DEFAULT_REGISTRY_PORT;
     private String                 m_appsPath           = DEFAULT_APPS_PATH;
     private String                 m_logFile            = DEFAULT_LOG_FILE;
     private boolean                m_debugLog;
@@ -200,6 +204,7 @@ public class Main
         parameters.setParameter( "kernel-class", DEFAULT_KERNEL );
         parameters.setParameter( "kernel-configuration-source", null );
 
+        parameters.setParameter( "manager-registry-port", m_registry_port );
         parameters.setParameter( "manager-class", DEFAULT_MANAGER );
         parameters.setParameter( "manager-configuration-source", null );
 
