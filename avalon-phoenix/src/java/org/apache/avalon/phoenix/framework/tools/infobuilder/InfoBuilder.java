@@ -8,12 +8,12 @@
 package org.apache.avalon.phoenix.framework.tools.infobuilder;
 
 import java.io.InputStream;
+
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.phoenix.framework.info.ComponentInfo;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.phoenix.framework.info.ComponentInfo;
 
 /**
  * A InfoBuilder is responsible for building {@link ComponentInfo}
@@ -21,7 +21,7 @@ import org.apache.avalon.framework.logger.Logger;
  * is specified in the <a href="package-summary.html#external">package summary</a>.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/03/01 03:39:47 $
+ * @version $Revision: 1.2 $ $Date: 2003/03/03 14:16:02 $
  */
 public final class InfoBuilder
     extends AbstractLogEnabled
