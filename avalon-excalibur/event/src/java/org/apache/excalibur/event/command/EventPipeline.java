@@ -7,7 +7,7 @@
  */
 package org.apache.avalon.excalibur.command;
 
-import org.apache.avalon.excalibur.event.Sink;
+import org.apache.avalon.excalibur.event.Source;
 import org.apache.avalon.excalibur.event.EventHandler;
 
 /**
@@ -20,10 +20,10 @@ import org.apache.avalon.excalibur.event.EventHandler;
 public interface EventPipeline
 {
     /**
-     * There can be many different sinks to merge into a pipeline.  For the
+     * There can be many different sources to merge into a pipeline.  For the
      * CommandManager, there is only one sink.
      */
-    Sink[] getSinks();
+    Source[] getSources();
 
     /**
      * Returns the reference to the EventHandler that the events from all the

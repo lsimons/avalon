@@ -60,7 +60,7 @@ public final class DefaultQueue extends AbstractQueue
     }
 
     public PreparedEnqueue prepareEnqueue( final QueueElement[] elements )
-        throws SourceException
+        throws SinkException
     {
         PreparedEnqueue enqueue = null;
 
@@ -70,7 +70,7 @@ public final class DefaultQueue extends AbstractQueue
 
             if ( maxSize() > 0 && elements.length + m_reserve + size() > maxSize() )
             {
-                throw new SourceFullException("Not enough room to enqueue these elements.");
+                throw new SinkFullException("Not enough room to enqueue these elements.");
             }
 
             enqueue = new DefaultPreparedEnqueue( this, elements );
@@ -114,7 +114,7 @@ public final class DefaultQueue extends AbstractQueue
     }
 
     public void enqueue( final QueueElement[] elements )
-        throws SourceException
+        throws SinkException
     {
         final int len = elements.length;
 
@@ -123,7 +123,7 @@ public final class DefaultQueue extends AbstractQueue
             m_mutex.acquire();
             if (  maxSize() > 0 && elements.length + m_reserve + size() > maxSize() )
             {
-                throw new SourceFullException("Not enough room to enqueue these elements.");
+                throw new SinkFullException("Not enough room to enqueue these elements.");
             }
 
             for ( int i = 0; i < len; i++ )
@@ -141,14 +141,14 @@ public final class DefaultQueue extends AbstractQueue
     }
 
     public void enqueue( final QueueElement element )
-        throws SourceException
+        throws SinkException
     {
         try
         {
             m_mutex.acquire();
             if (  maxSize() > 0 && 1 + m_reserve + size() > maxSize() )
             {
-                throw new SourceFullException("Not enough room to enqueue these elements.");
+                throw new SinkFullException("Not enough room to enqueue these elements.");
             }
 
             m_elements.add( element );

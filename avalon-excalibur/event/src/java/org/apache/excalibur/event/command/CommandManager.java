@@ -15,7 +15,7 @@ import org.apache.avalon.excalibur.event.EventHandler;
 import org.apache.avalon.excalibur.event.Queue;
 import org.apache.avalon.excalibur.event.QueueElement;
 import org.apache.avalon.excalibur.event.Signal;
-import org.apache.avalon.excalibur.event.Sink;
+import org.apache.avalon.excalibur.event.Source;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,7 +38,7 @@ public class CommandManager implements EventPipeline
     private final Mutex        m_mutex          = new Mutex();
     private final EventHandler m_eventHandler   = new CommandEventHandler(
             Collections.unmodifiableMap( m_signalHandlers ) );
-    private final Sink[]       m_sinks          = new Sink[] { m_queue };
+    private final Source[]     m_sources        = new Source[] { m_queue };
 
     public CommandManager()
     {
@@ -108,9 +108,9 @@ public class CommandManager implements EventPipeline
         }
     }
 
-    public final Sink[] getSinks()
+    public final Source[] getSources()
     {
-        return m_sinks;
+        return m_sources;
     }
 
     public final EventHandler getEventHandler()
