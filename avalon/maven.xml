@@ -11,6 +11,41 @@ Top level solution not in place yet - but it's underway.
   </goal>
 
   <!--
+  <goal name="avalon:build" description="Build the Avalon Platform."
+    prereqs="xmeta,xutil,xrepo,xlogging,xcomposition,xactivation,xmerlin"/>
+  -->
+
+  <goal name="xall">
+    <maven:reactor basedir="${basedir}"
+      includes="**/project.xml"
+      excludes="merlin/project.xml,util/project.xml,meta/project.xml,repository/project.xml,logging/project.xml"
+      banner="Building:"
+      goals=""
+      ignoreFailures="false" 
+      postProcessing="false" />
+  </goal>
+
+  <goal name="xutil">
+    <maven:reactor basedir="${basedir}"
+      includes="util/project.xml"
+      banner="Building:"
+      goals="avalon:build"
+      ignoreFailures="false" 
+      postProcessing="false" />
+  </goal>
+
+
+
+  <goal name="xmeta">
+    <maven:reactor basedir="meta"
+      includes="project.xml"
+      banner="Building:"
+      goals="avalon:build"
+      ignoreFailures="false" 
+      postProcessing="false" />
+  </goal>
+
+  <!--
   ==============================================================================
   filter resources 
   ==============================================================================
