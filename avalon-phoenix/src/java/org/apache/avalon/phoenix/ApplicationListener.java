@@ -17,7 +17,8 @@ package org.apache.avalon.phoenix;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
-public interface ApplicationListener extends BlockListener
+public interface ApplicationListener
+    extends BlockListener
 {
 
     /**
