@@ -5,6 +5,11 @@
    <!-- logging system parameters -->
    <logging priority="DEBUG" name="kernel"/>
 
+   <parameters>
+     <parameter name="urn:avalon:composition.deployment.timeout" 
+         value="10000" />
+   </parameters>
+
    <repository>
      <hosts>
        <host path="http://dpml.net/"/>

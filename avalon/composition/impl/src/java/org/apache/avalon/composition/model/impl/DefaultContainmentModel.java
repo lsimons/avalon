@@ -120,7 +120,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.14 $ $Date: 2004/01/04 12:05:21 $
+ * @version $Revision: 1.15 $ $Date: 2004/01/09 12:00:36 $
  */
 public class DefaultContainmentModel extends DefaultModel 
   implements ContainmentModel
@@ -153,6 +153,8 @@ public class DefaultContainmentModel extends DefaultModel
         }
     }
 
+    private static final long DEFAULT_DEPLOYMENT_TIMEOUT = 10000;
+   
     //==============================================================
     // state
     //==============================================================
@@ -227,9 +229,11 @@ public class DefaultContainmentModel extends DefaultModel
     {
         SystemContext sc = m_context.getSystemContext();
         Parameters params = sc.getSystemParameters();
-        return params.getParameterAsLong( "deployment-timeout", 1000 );
+        return params.getParameterAsLong( 
+          "urn:avalon:composition.deployment.timeout", 
+          DEFAULT_DEPLOYMENT_TIMEOUT );
     }
-   
+
    /**
     * Return the set of services produced by the model.
     * @return the services
