@@ -53,7 +53,6 @@ import javax.mail.Address;
 import javax.mail.Session;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.ContextException;
@@ -98,7 +97,7 @@ import org.apache.log.output.net.SMTPOutputLogTarget;
  * <p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/04/07 11:24:34 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/05/27 07:30:28 $
  * @since 4.1
  */
 public class SMTPTargetFactory
@@ -177,7 +176,7 @@ public class SMTPTargetFactory
     {
         final Configuration sessionConfig = config.getChild( "session", false );
 
-        if ( null == sessionConfig )
+        if( null == sessionConfig )
         {
             final String contextkey =
                 m_configuration.getAttribute( "context-key", "session-context" );
@@ -187,7 +186,7 @@ public class SMTPTargetFactory
                 throw new ConfigurationException( "Context not available" );
             }
 
-            return (Session) m_context.get( contextkey );
+            return (Session)m_context.get( contextkey );
         }
         else
         {

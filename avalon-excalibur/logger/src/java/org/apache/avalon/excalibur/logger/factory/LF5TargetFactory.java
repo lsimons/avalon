@@ -66,26 +66,26 @@ import org.apache.log.output.lf5.LF5LogTarget;
  * &lt;/lf5&gt;
  * </pre>
  *
- * The optional "NDC-pattern" configuration defines the pattern that will be used to 
+ * The optional "NDC-pattern" configuration defines the pattern that will be used to
  * format the log event for display on the "NDC" line in the Swing GUI.
  *
  * @author <a href="sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/03/22 12:46:49 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/05/27 07:30:28 $
  */
 
 public class LF5TargetFactory implements LogTargetFactory
 {
     public LogTarget createTarget( final Configuration configuration )
-      throws ConfigurationException
+        throws ConfigurationException
     {
         LF5LogTarget result = new LF5LogTarget();
-        
+
         Configuration child = configuration.getChild( "NDC-pattern", false );
-        if ( null != child )
+        if( null != child )
         {
             result.setNDCFormatter( new FormatterFactory().createFormatter( child ) );
         }
-        
+
         return result;
     }
 }

@@ -50,7 +50,6 @@
 package org.apache.avalon.excalibur.logger.factory;
 
 import javax.servlet.ServletContext;
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.ContextException;
@@ -86,7 +85,7 @@ import org.apache.log.output.ServletOutputLogTarget;
  * </dl>
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/04/07 11:25:33 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/05/27 07:30:28 $
  * @since 4.0
  */
 public final class ServletTargetFactory
