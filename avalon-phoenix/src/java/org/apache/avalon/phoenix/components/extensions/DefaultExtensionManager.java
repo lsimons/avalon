@@ -25,9 +25,9 @@ import org.apache.avalon.phoenix.interfaces.ExtensionManagerMBean;
  * PhoenixPackageRepository
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2002/05/10 11:07:58 $
+ * @version $Revision: 1.1 $ $Date: 2002/05/10 12:02:12 $
  */
-public class PhoenixPackageRepository
+public class DefaultExtensionManager
     extends DefaultPackageRepository
     implements LogEnabled, Parameterizable, Initializable, Disposable,
     PackageRepository, ExtensionManagerMBean
@@ -40,7 +40,7 @@ public class PhoenixPackageRepository
      */
     private String[] m_path;
 
-    public PhoenixPackageRepository()
+    public DefaultExtensionManager()
     {
         super( new File[ 0 ] );
     }
