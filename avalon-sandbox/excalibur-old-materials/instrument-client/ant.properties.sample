@@ -6,24 +6,21 @@
 # external modules that this component depend on.  Copy this file to
 # "ant.properties" in the source directory, and customize it as needed.
 #
-# The property values in ant.properties are overridden by
-# ${user.home}/.ant.properties and ../ant.properties
+# The ant.properties values in this directory apply only to this component.
+# It is overridden by ../ant.properties and ~/build.properties
+# It overrides all default.properties files and ~/.ant.properties
 #
-# $Id: ant.properties.sample,v 1.2.2.2 2002/04/04 14:14:19 jefft Exp $
+# $Id: ant.properties.sample,v 1.2.2.3 2002/04/06 13:21:56 jefft Exp $
 # -----------------------------------------------------------------------------
-
-# --------------------------------------------------
-#      COMPONENT-SPECIFIC REQUIRED LIBRARIES
-# --------------------------------------------------
-
 
 # ----- Compile Control Flags -----
 build.debug=on
 build.optimize=off
 build.deprecation=off
+#build.compiler=jikes
 
 # ----- Base Directory in which all the packages are stored -----
-base.path=/opt
+base.path=${basedir}/../..
 
 # --------------------------------------------------
 #                REQUIRED LIBRARIES
@@ -44,19 +41,18 @@ excalibur-altrmi-client-interfaces.jar=${excalibur-altrmi.home}/excalibur-altrmi
 excalibur-altrmi-common.jar=${excalibur-altrmi.home}/excalibur-altrmi-common.jar
 excalibur-altrmi-generator.jar=${excalibur-altrmi.home}/excalibur-altrmi-generator.jar
 
-# ----- JUnit Unit Test Suite, version 3.7 or later -----
+# --------------------------------------------------
+#                OPTIONAL LIBRARIES
+# --------------------------------------------------
+
+# ----- JUnit Unit Test Suite, version 3.7 or later. -----
+#  Not needed if junit.jar is in $ANT_HOME/lib 
 junit.home=${base.path}/junit3.7
 junit.lib=${junit.home}
 junit.jar=${junit.lib}/junit.jar
 
 
-
-# --------------------------------------------------
-#                OPTIONAL LIBRARIES
-# --------------------------------------------------
-
 # ----- Checkstyle, version 2.1 or later -----
-
 # Uncomment the 'do.checkstyle' flag property to enable checkstyle
 # do.checkstyle=
 checkstyle.home=${base.path}/checkstyle-2.1
