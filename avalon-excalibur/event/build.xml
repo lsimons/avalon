@@ -30,7 +30,7 @@
     <target name="main" depends="jar" description="Build the project"/>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
 
-    <target name="dependencies" description="Check dependencies">
+    <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCollections"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkConcurrent"/>
