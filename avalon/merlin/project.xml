@@ -118,6 +118,13 @@
         <role>Documentation improvements and corrections.</role>
       </roles>
     </developer>
+    <developer>
+      <name>Alex Karasulu</name>
+      <email>aok123@bellsouth.net</email>
+      <roles>
+        <role>Kernel loading strategy, refactoring and optimization of embedded aspects.</role>
+      </roles>
+    </developer>
   </developers>
 
   <contributors>

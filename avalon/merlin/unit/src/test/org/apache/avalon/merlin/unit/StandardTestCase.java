@@ -49,8 +49,6 @@
 
 package org.apache.avalon.merlin.unit;
 
-import java.net.URL;
-
 import org.apache.avalon.merlin.unit.AbstractMerlinTestCase;
 
 /**

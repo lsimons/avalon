@@ -53,7 +53,6 @@ package org.apache.avalon.merlin.unit;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.activity.Executable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.ConfigurationException;
