@@ -8,7 +8,7 @@
 
   <target name="build" depends="standard.build">
     <x:block name="http" embed="MAIN">
-      <x:component name="listener" 
+      <x:component name="model-listener" 
          class="org.apache.avalon.http.impl.DefaultModelListener"/>
     </x:block>
   </target>

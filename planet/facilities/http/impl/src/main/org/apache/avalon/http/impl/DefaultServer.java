@@ -102,6 +102,11 @@ public class DefaultServer
     private HashMap m_ComponentMap;
      
 
+    public DefaultServer()
+    {
+        m_ComponentMap = new HashMap();
+    }
+    
    //---------------------------------------------------------
    // LogEnabled
    //---------------------------------------------------------
@@ -275,8 +280,10 @@ public class DefaultServer
     public void register( ComponentModel model )
     {
         final String path = model.getPath();
-        final String url = (String) m_ComponentMap.get( path );
-        
+        String url = (String) m_ComponentMap.get( path );
+        if( url == null )
+            url = path;
+            
         getLogger().info( 
           "registering servlet: " 
           + path + " to url: " + url );
