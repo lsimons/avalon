@@ -166,7 +166,7 @@ public class Log4JLoggingFactory
         if( src.startsWith( "file:" ) )
         {
             src = src.substring( 5 );
-            while( src.startsWith( "/" ) )
+            while( src.startsWith( "//" ) )
                 src = src.substring( 1 );
             configureFile( src, interval );
         }
