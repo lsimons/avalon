@@ -29,7 +29,6 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.service.WrapperServiceManager;
 import org.apache.avalon.framework.thread.ThreadSafe;
-import org.apache.excalibur.container.legacy.ComponentProxyGenerator;
 import org.apache.excalibur.instrument.InstrumentManageable;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.instrument.Instrumentable;
@@ -41,7 +40,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.15 $ $Date: 2002/11/09 08:36:27 $
+ * @version CVS $Revision: 1.16 $ $Date: 2002/11/09 08:41:03 $
  * @since 4.0
  */
 public class DefaultComponentFactory

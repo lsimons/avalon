@@ -16,7 +16,6 @@
         <pathelement location="${logkit.jar}"/>
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${excalibur-collections.jar}"/>
-        <pathelement location="${excalibur-container.jar}"/>
         <pathelement location="${excalibur-logger.jar}"/>
         <pathelement location="${excalibur-instrument.jar}"/>
         <pathelement location="${excalibur-instrument-manager.jar}"/>
@@ -26,7 +25,7 @@
 
         <!-- Optional jars -->
         <pathelement location="${servlet.jar}"/>
-        
+
         <pathelement path="${java.class.path}"/>
     </path>
 
@@ -58,7 +57,7 @@
             <classpath refid="project.class.path"/>
         </available>
     </target>
-    
+
     <!-- Check that if we want servlet logging support, our logkit.jar has it enabled too -->
     <target name="dependencies.servlet" if="servlet.present">
             <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
@@ -76,7 +75,6 @@
     <target name="dependencies" depends="dependencies.optional" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkLogkit"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkContainer"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrument"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrumentManager"/>
@@ -94,7 +92,7 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkTestcase"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrument"/>
     </target>
-    
+
     <target name="servlet-warn" unless="servlet.present"
         description="Outputs a warning if javax.servlet.* classes are missing during compilation">
         <echo>*********************************************************************************</echo>
@@ -204,7 +202,7 @@
             </zipfileset>
         </jar>
     </target>
-    
+
     <!-- Creates all the .jar file -->
     <target name="jar" depends="compile, prepare-conf, jar-servlet" description="Generates the jar files">
 
@@ -447,10 +445,10 @@
         <fileset dir="${build.docs}">
           <include name="**"/>
         </fileset>
-      </copy>    
+      </copy>
 
     </target>
-    
+
     <target name="site" depends="javadocs, docs" description=" Places Docs ready for hosting on website">
 
       <mkdir dir="../site/dist/docs/${dir-name}"/>
