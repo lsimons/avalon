@@ -30,8 +30,23 @@ limitations under the License.
 
     <!-- Information management -->
 
+    <target name="jbs:msg" unless="be.real.quiet">
+        <echo>=======================================================================
+   ${msg}
+=======================================================================</echo>
+    </target>
+    
+    <macrodef name="msg">
+        <attribute name="message"/>
+        <sequential>
+            <antcall target="jbs:msg">
+                <param name="msg" value="@{message}"/>
+            </antcall>
+        </sequential>
+    </macrodef>
+
     <target name="jbs:info" depends="jbs:init">
-        <echo>
+        <msg message="
   JBS was called without arguments. JBS is a
   set of ant (http://ant.apache.org/) buildfiles that can be included
   from other ant buildfiles in order to simplify those buildfiles.
@@ -51,11 +66,11 @@ limitations under the License.
   Note these are likely not directly callable; your project buildfile
   will have defined its own targets. Try 'ant -buildhelp' for
   information on the targets available to you.
-        </echo>
+        "/>
     </target>
 
     <target name="jbs:debug" unless="do.not.debug">
-        <echo>=======================================================================
+        <msg message="
   JBS has been invoked, with these settings (some may be defaults):
 
   user.home               = ${user.home}
@@ -77,12 +92,11 @@ limitations under the License.
   jarfile      = ${jbs.build.dir}/${project.name}-${project.version}.jar
   javadocs     = ${jbs.build.dir}/docs/apidocs
   junitreports = ${jbs.build.dir}/docs/junitreports
-=======================================================================</echo>
+        "/>
     </target>
 
     <target name="jbs:warn-project.name" unless="project.name.set">
-        <echo>=======================================================================
-                               WARNING!
+        <msg message="                  WARNING!
 
   The property 'project.name' has not been set. This will result in a
   jar file with a rather dumb name, being
@@ -90,38 +104,33 @@ limitations under the License.
   ${jbs.build.dir}/${project.name}-${project.version}.jar
 
   To fix this, add a property to the gump build definition or the
-  properties file for the current component.
-=======================================================================</echo>
+  properties file for the current component."/>
     </target>
 
     <target name="jbs:warn-avail-java-src" unless="java.src.present">
-        <echo>=======================================================================
-                     WARNING for ${project.name}!
+        <msg message="                  WARNING for ${project.name}!
 
   The directory
 
             ${jbs.src.dir}/java
 
   does not exist. This means the jar that will be created will be
-  empty.
-=======================================================================</echo>
+  empty."/>
     </target>
 
     <target name="jbs:warn-avail-test-src" unless="test.src.present">
-        <echo>=======================================================================
-                     WARNING for ${project.name}!
+        <msg message="                  WARNING for ${project.name}!
 
   The directory
 
             ${jbs.src.dir}/test
 
-  does not exist. This means no unit tests will be run.
-=======================================================================</echo>
+  does not exist. This means no unit tests will be run."/>
     </target>
 
     <target name="jbs:warn-avail-no-sources" if="no.sources.available">
-        <echo>=======================================================================
-                      ERROR for ${project.name}!
+        <msg message="                   ERROR for ${project.name}!
+
 
   This project does not contain any java source files in
 
@@ -129,13 +138,11 @@ limitations under the License.
             ${jbs.src.dir}/test
 
   that means it is not possible to generate any classes, jars or
-  javadocs.
-=======================================================================</echo>
+  javadocs."/>
     </target>
 
     <target name="jbs:warn-avail-no-source-dir" if="no.source.dir">
-        <fail>
-=======================================================================
+        <fail>=======================================================================
                       ERROR for ${project.name}!
 
   This project does not contain a source directory
@@ -143,10 +150,9 @@ limitations under the License.
             ${jbs.src.dir}
 
   that means it is not possible to generate anything!
-=======================================================================
-        </fail>
+=======================================================================</fail>
     </target>
-
+    
     <target name="jbs:warn-avail" unless="do.not.warn">
         <antcall target="jbs:warn-avail-no-source-dir"/>
         <antcall target="jbs:warn-avail-no-sources"/>
@@ -161,17 +167,17 @@ limitations under the License.
 
     <target name="jbs:jar" unless="no.source.dir"
             depends="jbs:java-compile, jbs:java-test, jbs:bin-jar">
-        <echo>Jar Generated as
+        <msg message="Jar Generated as
 
-    ${jbs.build.dir}/${project.name}-${project.version}.jar</echo>
+    ${jbs.build.dir}/${project.name}-${project.version}.jar"/>
     </target>
 
     <target name="jbs:dist" unless="no.source.dir"
             depends="jbs:src-dist, jbs:bin-dist">
-         <echo>Distributions generated as
+         <msg message="Distributions generated as
 
     ${jbs.build.dir}/dist/${project.name}-${project.version}-bin.zip
-    ${jbs.build.dir}/dist/${project.name}-${project.version}-src.zip</echo>
+    ${jbs.build.dir}/dist/${project.name}-${project.version}-src.zip"/>
     </target>
 
     <target name="jbs:reports" unless="no.source.dir"
@@ -238,9 +244,7 @@ limitations under the License.
 
     <target name="jbs:java-compile" if="java.src.present"
             depends="jbs:init,jbs:get-dependencies">
-        <echo>=======================================================================
-   Compiling Sources for ${project.name}
-=======================================================================</echo>
+        <msg message="Compiling Sources for ${project.name}"/>
         <mkdir dir="${jbs.build.dir}"/>
         <mkdir dir="${jbs.build.dir}/classes"/>
         <javac
@@ -261,9 +265,7 @@ limitations under the License.
 
     <target name="jbs:java-test-compile" if="test.src.present" unless="do.not.test"
             depends="jbs:init, jbs:java-compile">
-        <echo>=======================================================================
-   Compiling Tests for ${project.name}
-======================================================================</echo>
+        <msg message="Compiling Tests for ${project.name}"/>
         <mkdir dir="${jbs.build.dir}/test-classes"/>
         <mkdir dir="${jbs.build.dir}/classes"/>
         <javac
@@ -285,9 +287,7 @@ limitations under the License.
 
     <target name="jbs:java-test" if="test.src.present" unless="do.not.test"
             depends="jbs:init, jbs:java-test-compile">
-        <echo>=======================================================================
-   Running tests for ${project.name}
-======================================================================</echo>
+        <msg message="Running tests for ${project.name}"/>
         <taskdef
                 name="junit"
                 classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"/>
@@ -321,9 +321,7 @@ limitations under the License.
 
     <target name="jbs:java-test-reports" if="test.src.present" unless="do.not.test"
             depends="jbs:init, jbs:java-test">
-        <echo>=======================================================================
-   Generating test reports for ${project.name}
-=======================================================================</echo>
+        <msg message="Generating test reports for ${project.name}"/>
 
         <mkdir dir="${jbs.build.dir}/docs/junitreports"/>
 
@@ -335,11 +333,9 @@ limitations under the License.
         </junitreport>
     </target>
 
-    <target name="jbs:bin-jar" if="java.src.present" unless="do.not.test"
+    <target name="jbs:bin-jar" if="java.src.present"
             depends="jbs:init, jbs:compile, jbs:test">
-        <echo>=======================================================================
- Generating jar for ${project.name}
-=======================================================================</echo>
+        <msg message="Generating jar for ${project.name}"/>
 
         <mkdir dir="${jbs.build.dir}/classes"/>
         <jar destfile="${jbs.build.dir}/${project.name}-${project.version}.jar" basedir="${jbs.build.dir}/classes"/>
@@ -347,9 +343,7 @@ limitations under the License.
 
     <target name="jbs:javadocs" if="java.src.present"
             depends="jbs:init,jbs:jar">
-        <echo>=======================================================================
-   Generating javadocs for ${project.name}
-=======================================================================</echo>
+        <msg message="Generating javadocs for ${project.name}"/>
 
         <mkdir dir="${jbs.build.dir}/docs"/>
         <mkdir dir="${jbs.build.dir}/docs/apidocs"/>
@@ -378,9 +372,7 @@ limitations under the License.
 
     <target name="jbs:clover" if="test.src.present" unless="do.not.test"
             depends="jbs:init">
-        <echo>=======================================================================
-   Generating clover report for ${project.name}
-=======================================================================</echo>
+        <msg message="Generating clover report for ${project.name}"/>
 
         <taskdef resource="clovertasks"/>
         <typedef resource="clovertypes"/>
@@ -413,9 +405,7 @@ limitations under the License.
 
     <target name="jbs:bin-dist" unless="no.source.dir"
             depends="jbs:init,jbs:distclean,jbs:jar,jbs:javadocs">
-        <echo>=======================================================================
-   Building Binary Distribution for ${project.name}
-=======================================================================</echo>
+        <msg message="Building Binary Distribution for ${project.name}"/>
 
         <mkdir dir="${jbs.build.dir}"/>
         <mkdir dir="${jbs.build.dir}/${project.name}-${project.version}"/>
@@ -453,9 +443,7 @@ limitations under the License.
 
     <target name="jbs:src-dist" unless="no.source.dir"
             depends="jbs:init,jbs:distclean,jbs:jar,jbs:javadocs">
-        <echo>=======================================================================
-   Building Source Distribution for ${project.name}
-=======================================================================</echo>
+        <msg message="Building Source Distribution for ${project.name}"/>
 
         <mkdir dir="${jbs.build.dir}"/>
         <mkdir dir="${jbs.build.dir}/${project.name}-${project.version}"/>
@@ -495,15 +483,14 @@ limitations under the License.
             depends="jbs:init, jbs:no-dependency-warning, jbs:actually-get-dependencies"/>
 
     <target name="jbs:no-dependency-warning" if="skip.dependencies" depends="jbs:init">
-        <echo>=======================================================================
-                       NOTE for ${project.name}!
+        <msg message="                    NOTE for ${project.name}!
 
   We're not actually setting the dependency.classpath property to a
   meaningful value, because the skip.dependencies property has been
   set. Likely, we're being called from gump,
 
-    http://jakarta.apache.org/gump/
-=======================================================================</echo>
+    http://jakarta.apache.org/gump/"/>
+
     </target>
     <target name="jbs:actually-get-dependencies" unless="skip.dependencies" depends="jbs:init">
         <available property="dependencies.file.available" file="dependencies.list"/>
@@ -525,8 +512,9 @@ $artifact [$version [$group [$repository]]]
         if( project.getProperty("dependencies.file.available") != null )
         {
             skipAllDownloads = project.getProperty("do.not.download");
+            quiet = project.getProperty("be.real.quiet");
             
-            if(skipAllDownloads == null)
+            if(skipAllDownloads == null && quiet == null)
             {
               msg =  "=======================================================================\n";
               msg += "   Downloading dependencies for " + project.getProperty("project.name") + "\n";
@@ -749,9 +737,7 @@ $artifact $version [$group [$repository]]
     <!-- Repository management -->
 
     <target name="jbs:jar:install" depends="jbs:init,jbs:jar" if="java.src.present">
-        <echo>=======================================================================
-   Installing ${project.name} jar into local repository
-=======================================================================</echo>
+        <msg message="Installing ${project.name} jar into local repository"/>
 
         <mkdir dir="${jbs.home}/repository/${project.name}/jars/"/>
         <copy todir="${jbs.home}/repository/${project.name}/jars/"
@@ -759,9 +745,7 @@ $artifact $version [$group [$repository]]
     </target>
 
     <target name="jbs:jar:install-snapshot" depends="jbs:init,jbs:jar" if="java.src.present">
-        <echo>=======================================================================
-   Installing ${project.name} jar into local repository as snapshot
-=======================================================================</echo>
+        <msg message="Installing ${project.name} jar into local repository as snapshot"/>
 
         <mkdir dir="${jbs.home}/repository/${project.name}/jars/"/>
         <tstamp>
@@ -776,14 +760,13 @@ $artifact $version [$group [$repository]]
     <!-- Gump descriptor -->
 
     <target name="jbs:gump-descriptor" depends="jbs:init">
-        <echo>=======================================================================
-   Creating gump descriptor for ${project.name}
+        <msg message="Creating gump descriptor for ${project.name}
 =======================================================================
  The descriptor will be generated as gump-${project.name}.xml. You may
  want to do some hand-editing before renaming it to gump.xml (or moving
  it elsewhere). If you want to automate the editing of the file (or publish
- it somewhere), define a target named "customize-gump-descritor" in your
- project buildfile.</echo>
+ it somewhere), define a target named 'customize-gump-descritor' in your
+ project buildfile."/>
 
         <!--
 file format:
