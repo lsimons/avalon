@@ -17,7 +17,7 @@ import java.text.ParseException;
 import java.util.Date;
 
 /**
- * A class to simplify extracting localized strings, icons 
+ * A class to simplify extracting localized strings, icons
  * and other common resources from a ResourceBundle.
  *
  * Reworked to mirror behaviour of StringManager from Tomcat (format() to getString()).
@@ -37,6 +37,9 @@ public class Resources
     ///Base name of resource bundle
     private String          m_baseName;
 
+    ///ClassLoader from which to load resources
+    private ClassLoader     m_classLoader;
+
     /**
      * Constructor that builds a manager in default locale.
      *
@@ -44,7 +47,19 @@ public class Resources
      */
     public Resources( final String baseName )
     {
-        this( baseName, Locale.getDefault() );
+        this( baseName, Locale.getDefault(), null );
+    }
+
+    /**
+     * Constructor that builds a manager in default locale
+     * using specified ClassLoader.
+     *
+     * @param baseName the base name of ResourceBundle
+     * @param classLoader the classLoader to load ResourceBundle from
+     */
+    public Resources( final String baseName, final ClassLoader classLoader )
+    {
+        this( baseName, Locale.getDefault(), classLoader );
     }
 
     /**
@@ -55,8 +70,23 @@ public class Resources
      */
     public Resources( final String baseName, final Locale locale )
     {
+        this( baseName, locale, null );
+    }
+
+    /**
+     * Constructor that builds a manager in specified locale.
+     *
+     * @param baseName the base name of ResourceBundle
+     * @param locale the Locale for resource bundle
+     * @param classLoader the classLoader to load ResourceBundle from
+     */
+    public Resources( final String baseName,
+                      final Locale locale,
+                      final ClassLoader classLoader )
+    {
         m_baseName = baseName;
         m_locale = locale;
+        m_classLoader = classLoader;
 
         if( null == baseName )
         {
@@ -68,7 +98,6 @@ public class Resources
             throw new NullPointerException( "locale property is null" );
         }
     }
-
 
     /**
      * Retrieve a boolean from bundle.
@@ -439,7 +468,7 @@ public class Resources
         final String value = bundle.getString( key );
         try
         {
-            final DateFormat format = 
+            final DateFormat format =
                 DateFormat.getDateInstance( DateFormat.DEFAULT, m_locale );
             return format.parse( value );
         }
@@ -484,7 +513,7 @@ public class Resources
         final String value = bundle.getString( key );
         try
         {
-            final DateFormat format = 
+            final DateFormat format =
                 DateFormat.getTimeInstance( DateFormat.DEFAULT, m_locale );
             return format.parse( value );
         }
@@ -529,7 +558,7 @@ public class Resources
         final String value = bundle.getString( key );
         try
         {
-            final DateFormat format = 
+            final DateFormat format =
                 DateFormat.getDateTimeInstance( DateFormat.DEFAULT, DateFormat.DEFAULT, m_locale );
             return format.parse( value );
         }
@@ -590,9 +619,9 @@ public class Resources
      * @param arg3 an arg
      * @return the formatted string
      */
-    public String getString( final String key, 
-                             final Object arg1, 
-                             final Object arg2, 
+    public String getString( final String key,
+                             final Object arg1,
+                             final Object arg2,
                              final Object arg3 )
     {
         final Object[] args = new Object[] { arg1, arg2, arg3 };
@@ -609,9 +638,9 @@ public class Resources
      * @param arg4 an arg
      * @return the formatted string
      */
-    public String getString( final String key, 
-                             final Object arg1, 
-                             final Object arg2, 
+    public String getString( final String key,
+                             final Object arg1,
+                             final Object arg2,
                              final Object arg3,
                              final Object arg4 )
     {
@@ -692,7 +721,11 @@ public class Resources
         if( null == m_bundle )
         {
             // bundle wasn't cached, so load it, cache it, and return it.
-            final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+            ClassLoader classLoader = m_classLoader;
+            if( null == classLoader )
+            {
+                classLoader = Thread.currentThread().getContextClassLoader();
+            }
             if( null != classLoader )
             {
                 m_bundle = ResourceBundle.getBundle( m_baseName, m_locale, classLoader );
