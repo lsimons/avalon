@@ -33,7 +33,7 @@
         <table>
           <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
           <tr>
-            <td>host</td><td>0..1</td>
+            <td>host</td><td>0..n</td>
             <td>
              <p>Declaration of a remote host.  The value of the element 
              is an http address of a server the implements the Maven 
