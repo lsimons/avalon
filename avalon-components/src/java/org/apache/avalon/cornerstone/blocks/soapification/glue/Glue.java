@@ -52,6 +52,7 @@ public class Glue
     protected int mPort;
     protected String mBindingAddress;
     protected WebServer mWebServer;
+    protected String mBaseName;
 
     public void initialize()
     {

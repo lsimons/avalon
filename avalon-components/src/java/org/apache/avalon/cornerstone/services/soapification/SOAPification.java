@@ -15,7 +15,7 @@ import org.apache.avalon.phoenix.Service;
  *
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</a>
  */
-public interface SOAPification extends Service
+public interface SOAPification
 {
     String ROLE = "org.apache.avalon.cornerstone.services.soapification.SOAPification";
   

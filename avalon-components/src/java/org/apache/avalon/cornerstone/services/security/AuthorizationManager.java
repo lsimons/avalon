@@ -21,7 +21,6 @@ import org.apache.avalon.phoenix.Service;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public interface AuthorizationManager
-    extends Service
 {
     //Permissions getPermissions( Principal principal );
     void checkPermission( Principal principal, Permission permission )

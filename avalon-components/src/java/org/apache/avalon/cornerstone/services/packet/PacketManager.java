@@ -17,7 +17,6 @@ import org.apache.avalon.phoenix.Service;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public interface PacketManager
-    extends Service
 {
     String ROLE = "org.apache.avalon.cornerstone.services.packet.PacketManager";
 
