@@ -23,7 +23,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.10 $ $Date: 2002/08/06 11:57:39 $
+ * @version CVS $Revision: 1.1 $ $Date: 2002/09/11 12:47:26 $
  * @deprecated As Block interface is deprecated this class is also
  *             deprecated with no replacement.
  */

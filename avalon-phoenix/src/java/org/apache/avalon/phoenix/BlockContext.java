@@ -83,7 +83,7 @@ public interface BlockContext
      * stop objects from using the Block when it is in an invalid state.
      *
      * <p>The proxy also allows Phoenix to associate "Context" information with
-     * the object. For instance, a {@link Block} may expect to run with a
+     * the object. For instance, a Block may expect to run with a
      * specific ContextClassLoader set. However if this Block were to be passed
      * to another component that processed the Block in a thread that did not
      * have the correct context information setup, then the Block could fail
