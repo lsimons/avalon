@@ -102,6 +102,7 @@ public abstract class AbstractURLConnection extends URLConnection
      */
      protected String getVersion( URL url )
      {
+         if( null != url.getRef() ) return url.getRef();
          return getQueryField( url, "version", null );
      } 
 
