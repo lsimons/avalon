@@ -11,13 +11,28 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * API for accessing attributes.
  */
 public class Attributes {
     
-    private final static Map classRepositories = new HashMap ();
+    /**
+     * A cache of attribute repositories. The map used is a WeakHashMap keyed on the
+     * Class owning the attribute repository. This works because Class objects use
+     * the identity function to compare for equality - i.e. if the two classes
+     * have the same name, and are loaded from the same two ClassLoaders, then
+     * <code>class1 == class2</code>. Also, <code>(class1.equals(class2)) == (class1 ==
+     * class2)</code>. This means that a once a Class reference has been garbage-collected,
+     * it can't be re-created. Thus we can treat the cache map as a normal map - the only
+     * entries that will ever disappear are those we can't look up anyway because we
+     * can't ever create the key for them!
+     *
+     * <p>Also, this will keep the cache from growing too big in environments where
+     * classes are loaded and unloaded all the time (i.e. application servers).
+     */
+    private final static Map classRepositories = new WeakHashMap ();
     
     private static List initList = new ArrayList ();
     
@@ -52,7 +67,7 @@ public class Attributes {
                 throw new RepositoryError (iae);
             }
             
-            classRepositories.put (clazz, cached); // Should be keyed on ClassLoader as well.
+            classRepositories.put (clazz, cached);
             
             initList.remove (initList.size () - 1);
             
