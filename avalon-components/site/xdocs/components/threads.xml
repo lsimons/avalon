@@ -19,10 +19,7 @@
       </subsection>
       <subsection name="Deployment Facts">
         <table>
-          <tr><td>Container Support</td><td>
-           <a href="http://avalon.apache.org/excalibur/fortress/">Fortress</a>, 
-           <a href="http://avalon.apache.org/sandbox/merlin/">Merlin</a>, 
-           <a href="http://avalon.apache.org/phoenix/">Phoenix</a>.</td>
+          <tr><td>Containment</td><td>Classic Framework 4.</td>
           </tr>
           <tr><td>Lifestyle</td><td>singleton</td></tr>
           <tr><td>Lifecycle</td>
@@ -121,6 +118,9 @@
         </table>
       </subsection>
       <subsection name="Runtime">
+<p>
+To execute this demonstation please make sure that you copy the cornerstone-threads-* jar files from your Maven repository to you <a href="http://avalon.apache.org/sandbox/merlin/">Merlin</a> repository.
+</p>
 <source><![CDATA[
 $ cd avalon-cornerstone\threads\tutorial
 $ merlin target\cornerstone-threads-tutorial-1.0.jar
@@ -154,6 +154,7 @@ using the cornerstone thread manager.
       </subsection>
       
     </section>
+
   </body>
 
 </document>
