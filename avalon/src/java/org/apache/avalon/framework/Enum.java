@@ -167,9 +167,9 @@ public abstract class Enum
         }
         else
         {
-            return other == this ||
-                ( other.getClass().getName().equals( this.getClass().getName() ) &&
-                m_name.equals( ( (Enum)other ).m_name ) );
+            return other == this 
+                || ( other.getClass().getName().equals( this.getClass().getName() ) 
+                && m_name.equals( ( (Enum)other ).m_name ) );
         }
     }
 
