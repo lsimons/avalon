@@ -11,6 +11,8 @@ import junit.framework.TestCase;
 import org.apache.avalon.excalibur.pool.DefaultPool;
 import org.apache.avalon.excalibur.pool.Poolable;
 import org.apache.avalon.excalibur.pool.SingleThreadedPool;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.logger.LogKitLogger;
 
 /**
  * This is used to profile the Pool implementation.
@@ -20,18 +22,29 @@ import org.apache.avalon.excalibur.pool.SingleThreadedPool;
 public final class PoolProfile
     extends TestCase
 {
-    org.apache.log.Logger logger = org.apache.log.Hierarchy.getDefaultHierarchy().getLoggerFor( "test" );
-    org.apache.log.Logger poolLogger = org.apache.log.Hierarchy.getDefaultHierarchy().getLoggerFor( "pool" );
+    Logger logger;
+    Logger poolLogger;
+
 
     public PoolProfile( String name )
     {
         super( name );
 
         // Set to debug to see more useful information.
-        logger.setPriority( org.apache.log.Priority.INFO );
+        logger = getLogger( "test", org.apache.log.Priority.INFO );
 
         // The output from the pools is too much data to be useful, so use a different logger.
-        poolLogger.setPriority( org.apache.log.Priority.INFO );
+        poolLogger = getLogger( "pool", org.apache.log.Priority.INFO );
+    }
+
+    private Logger getLogger( final String name, final org.apache.log.Priority priority)
+    {
+        final org.apache.log.Logger l =
+            org.apache.log.Hierarchy.getDefaultHierarchy().getLoggerFor( name );
+
+        l.setPriority( priority );
+
+        return new LogKitLogger( l );
     }
 
     public static class A
@@ -663,7 +676,7 @@ public final class PoolProfile
         logger.info( "SMALL Sized Objects with thread safe pools" );
 
         final DefaultPool pool1 = new DefaultPool( A.class, 5, 10 );
-        pool1.setLogger( poolLogger );
+        pool1.enableLogging( poolLogger );
         final long pool1Start = System.currentTimeMillis();
         final int pool1Factor = 1;
         final int pool1Loops = TEST_SIZE / pool1Factor;
@@ -683,7 +696,7 @@ public final class PoolProfile
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 1: " + Runtime.getRuntime().freeMemory() );
 
         final DefaultPool pool2 = new DefaultPool( A.class, 5, 10 );
-        pool2.setLogger( poolLogger );
+        pool2.enableLogging( poolLogger );
         final long pool2Start = System.currentTimeMillis();
         final int pool2Factor = 10;
         final int pool2Loops = TEST_SIZE / pool2Factor;
@@ -721,7 +734,7 @@ public final class PoolProfile
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 2: " + Runtime.getRuntime().freeMemory() );
 
         final DefaultPool pool3 = new DefaultPool( A.class, 5, 10 );
-        pool3.setLogger( poolLogger );
+        pool3.enableLogging( poolLogger );
         final long pool3Start = System.currentTimeMillis();
         final int pool3Factor = 15;
         final int pool3Loops = TEST_SIZE / pool3Factor;
@@ -769,7 +782,7 @@ public final class PoolProfile
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 3: " + Runtime.getRuntime().freeMemory() );
 
         final DefaultPool pool4 = new DefaultPool( A.class, 5, 10 );
-        pool4.setLogger( poolLogger );
+        pool4.enableLogging( poolLogger );
         final long pool4Start = System.currentTimeMillis();
         final int pool4Factor = 20;
         final int pool4Loops = TEST_SIZE / pool4Factor;
@@ -861,7 +874,7 @@ public final class PoolProfile
         Thread.currentThread().sleep( 2 );
 
         final DefaultPool pool1 = new DefaultPool( B.class, 5, 10 );
-        pool1.setLogger( poolLogger );
+        pool1.enableLogging( poolLogger );
         final long pool1Start = System.currentTimeMillis();
         final int pool1Factor = 1;
         final int pool1Loops = TEST_SIZE / pool1Factor;
@@ -881,7 +894,7 @@ public final class PoolProfile
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 1: " + Runtime.getRuntime().freeMemory() );
 
         final DefaultPool pool2 = new DefaultPool( B.class, 5, 10 );
-        pool2.setLogger( poolLogger );
+        pool2.enableLogging( poolLogger );
         final long pool2Start = System.currentTimeMillis();
         final int pool2Factor = 10;
         final int pool2Loops = TEST_SIZE / pool2Factor;
@@ -931,7 +944,7 @@ public final class PoolProfile
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 2: " + Runtime.getRuntime().freeMemory() );
 
         final DefaultPool pool3 = new DefaultPool( B.class, 5, 10 );
-        pool3.setLogger( poolLogger );
+        pool3.enableLogging( poolLogger );
         final long pool3Start = System.currentTimeMillis();
         final int pool3Factor = 15;
         final int pool3Loops = TEST_SIZE / pool3Factor;
@@ -996,7 +1009,7 @@ public final class PoolProfile
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 3: " + Runtime.getRuntime().freeMemory() );
 
         final DefaultPool pool4 = new DefaultPool( B.class, 5, 10 );
-        pool4.setLogger( poolLogger );
+        pool4.enableLogging( poolLogger );
         final long pool4Start = System.currentTimeMillis();
         final int pool4Factor = 20;
         final int pool4Loops = TEST_SIZE / pool4Factor;
@@ -1108,7 +1121,7 @@ public final class PoolProfile
         Thread.currentThread().sleep( 2 );
 
         final DefaultPool pool1 = new DefaultPool( C.class, 5, 10 );
-        pool1.setLogger( poolLogger );
+        pool1.enableLogging( poolLogger );
         final long pool1Start = System.currentTimeMillis();
         final int pool1Factor = 1;
         final int pool1Loops = TEST_SIZE / pool1Factor;
@@ -1129,7 +1142,7 @@ public final class PoolProfile
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 1: " + Runtime.getRuntime().freeMemory() );
 
         final DefaultPool pool2 = new DefaultPool( C.class, 5, 10 );
-        pool2.setLogger( poolLogger );
+        pool2.enableLogging( poolLogger );
         final long pool2Start = System.currentTimeMillis();
         final int pool2Factor = 10;
         final int pool2Loops = TEST_SIZE / pool2Factor;
@@ -1179,7 +1192,7 @@ public final class PoolProfile
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 2: " + Runtime.getRuntime().freeMemory() );
 
         final DefaultPool pool3 = new DefaultPool( C.class, 5, 10 );
-        pool3.setLogger( poolLogger );
+        pool3.enableLogging( poolLogger );
         final long pool3Start = System.currentTimeMillis();
         final int pool3Factor = 15;
         final int pool3Loops = TEST_SIZE / pool3Factor;
@@ -1244,7 +1257,7 @@ public final class PoolProfile
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 3: " + Runtime.getRuntime().freeMemory() );
 
         final DefaultPool pool4 = new DefaultPool( C.class, 5, 10 );
-        pool4.setLogger( poolLogger );
+        pool4.enableLogging( poolLogger );
         final long pool4Start = System.currentTimeMillis();
         final int pool4Factor = 20;
         final int pool4Loops = TEST_SIZE / pool4Factor;
