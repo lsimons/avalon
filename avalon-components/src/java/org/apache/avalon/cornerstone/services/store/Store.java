@@ -11,7 +11,14 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceSelector;
 
 /**
- * @author Federico Barbieri <fede@apache.org>
+ * Allows selection from a number of configured Repositories.
+ * Selection criterion is passed in as a <tt>Configuration</tt>
+ * object.
+ *
+ * @see Repository
+ * @see ObjectRepository
+ * @see StreamRepository
+ * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  */
 public interface Store
     extends ServiceSelector
@@ -19,14 +26,26 @@ public interface Store
     String ROLE = Store.class.getName();
 
     /**
-     * This method accept a Configuration object as policy and returns the
-     * corresponding Repository.
-     * The Configuration must be in the form of:
-     * <repository destinationURL="[URL of this repository]"
-     *             type="[repository type ex. OBJECT or STREAM or MAIL etc.]"
-     *             model="[repository model ex. PERSISTENT or CACHE etc.]">
-     *   [addition configuration]
-     * </repository>
+     * Selects a Repository configured for the given <tt>policy</tt>.
+     * The <tt>policy</tt> must be an instance of
+     * {@link org.apache.avalon.framework.configuration.Configuration}.
+     * The following attributes are used by the Store and thus are mandatory
+     * in the <tt>policy</tt> parameter:
+     * <pre>
+     * &lt;repository destinationURL="[URL of this repository]"
+     *             type="[repository type e.g. OBJECT, STREAM or MAIL]"
+     *             model="[repository model e.g. PERSISTENT, CACHE]"&gt;
+     *   [additional configuration]
+     * &lt;/repository&gt;
+     * </pre>
+     * <p>
+     * The <tt>policy</tt> is used both to select the appropriate
+     * Repository and to configure it.
+     * </p>
+     *
+     * @param policy a {@link org.apache.avalon.framework.configuration.Configuration} object identifying the sought Repository
+     * @return requested {@link Repository}
+     * @throws ServiceException if no repository matches <tt>policy</tt>
      */
     Object select( Object policy )
         throws ServiceException;
