@@ -74,7 +74,7 @@ public class DefaultServiceSelector
      *
      * @param hint the hint to retrieve Object
      * @return the Object
-     * @throws ComponentException if an error occurs
+     * @throws ServiceException if an error occurs
      */
     public Object select( Object hint )
         throws ServiceException
@@ -87,8 +87,8 @@ public class DefaultServiceSelector
         }
         else
         {
-            throw new ServiceException( "Unable to provide implementation for " +
-                                        hint.toString() );
+            throw new ServiceException( "Unable to provide implementation for "
+                                        + hint.toString() );
         }
     }
 

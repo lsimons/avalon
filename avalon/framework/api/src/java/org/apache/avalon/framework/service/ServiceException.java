@@ -65,7 +65,7 @@ import org.apache.avalon.framework.CascadingException;
 public class ServiceException
     extends CascadingException
 {
-    final private String m_key;
+    private final String m_key;
 
     /**
      * Construct a new <code>ServiceException</code> instance.
@@ -82,6 +82,7 @@ public class ServiceException
     /**
      * Construct a new <code>ServiceException</code> instance.
      *
+     * @param key the lookup key
      * @param message the exception message
      * @param throwable the throwable
      */
