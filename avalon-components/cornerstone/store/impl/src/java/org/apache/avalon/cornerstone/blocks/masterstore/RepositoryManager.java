@@ -53,6 +53,9 @@ public class RepositoryManager
     protected ServiceManager m_serviceManager;
     protected Context m_context;
 
+   /**
+    * @avalon.entry key="urn:avalon:home" type="java.io.File"
+    */
     public void contextualize( final Context context )
     {
         m_context = context;
