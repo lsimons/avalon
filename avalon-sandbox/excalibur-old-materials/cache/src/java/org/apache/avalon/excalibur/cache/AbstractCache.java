@@ -40,12 +40,12 @@ public abstract class AbstractCache
         CacheEvent event = null;
 
         final int s = m_listeners.size();
+        if( 0 < s )
+        {
+            event = new CacheEvent( this, key, value );
+        }
         for( int i = 0; i < s; i++ )
         {
-            if( event == null )
-            {
-                event = new CacheEvent( this, key, value );
-            }
             ( (CacheListener)m_listeners.get( i ) ).added( event );
         }
     }
@@ -55,12 +55,12 @@ public abstract class AbstractCache
         CacheEvent event = null;
 
         final int s = m_listeners.size();
+        if( 0 < s )
+        {
+            event = new CacheEvent( this, key, value );
+        }
         for( int i = 0; i < s; i++ )
         {
-            if( event == null )
-            {
-                event = new CacheEvent( this, key, value );
-            }
             ( (CacheListener)m_listeners.get( i ) ).removed( event );
         }
     }
