@@ -40,5 +40,10 @@
         <component role="org.apache.avalon.excalibur.extension.PackageRepository"
             class="org.apache.avalon.phoenix.components.extensions.DefaultExtensionManager"
             logger="packages"/>
+<!--
+        <component role="org.apache.avalon.excalibur.extension.PackageRepository"
+            class="org.apache.avalon.excalibur.extension.NoopPackageRepository"
+            logger="packages"/>
+-->
     </embeddor>
 </phoenix>
