@@ -128,7 +128,6 @@ class ConnectionRunner
             m_runners.add( this );
 
             getLogger().debug( "Starting connection on " + m_socket );
-            setupLogger( m_handler );
             m_handler.handleConnection( m_socket );
             getLogger().debug( "Ending connection on " + m_socket );
         }
