@@ -46,7 +46,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.23 $
+ * @version $Revision: 1.24 $
  */
 public abstract class AbstractMerlinTestCase extends TestCase
 {
@@ -58,8 +58,8 @@ public abstract class AbstractMerlinTestCase extends TestCase
 
     private static final String IMPLEMENTATION_KEY = "merlin.implementation";
 
-    private static final String APPLICANCE_CLASSNAME = 
-      "org.apache.avalon.activation.appliance.Appliance";
+    private static final String DEPLOYMENT_MODEL_CLASSNAME = 
+      "org.apache.avalon.composition.model.DeploymentModel";
 
     //----------------------------------------------------------
     // immutable state
@@ -72,6 +72,7 @@ public abstract class AbstractMerlinTestCase extends TestCase
     private Object m_root;
 
     private Method m_locate;
+    private Method m_runtime;
     private Method m_resolve;
     private Method m_shutdown;
 
@@ -170,17 +171,17 @@ public abstract class AbstractMerlinTestCase extends TestCase
                 new Class[0] );
             Method method = 
               m_kernel.getClass().getMethod( 
-                "getBlock", 
+                "getModel", 
                 new Class[0] );
             m_root = method.invoke( m_kernel, new Object[0] );
             m_locate = 
               m_root.getClass().getMethod( 
-                "locate", 
+                "getModel", 
                 new Class[]{ String.class } );
-            Class applianceClass = 
-              m_classloader.loadClass( APPLICANCE_CLASSNAME );
+            Class modelClass = 
+              m_classloader.loadClass( DEPLOYMENT_MODEL_CLASSNAME );
             m_resolve = 
-              applianceClass.getMethod( "resolve", new Class[0] );
+              modelClass.getMethod( "resolve", new Class[0] );
         }
         catch( Throwable e )
         {
@@ -220,8 +221,8 @@ public abstract class AbstractMerlinTestCase extends TestCase
 
         try
         {
-            Object appliance =  m_locate.invoke( m_root, new Object[]{ path } );
-            return m_resolve.invoke( appliance, new Object[0] );
+            Object model =  m_locate.invoke( m_root, new Object[]{ path } );
+            return m_resolve.invoke( model, new Object[0] );
         }
         catch( InvocationTargetException ite )
         {

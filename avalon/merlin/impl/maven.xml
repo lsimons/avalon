@@ -18,15 +18,24 @@
   <postGoal name="java:compile">
     <ant:echo file="${maven.build.dir}/classes/merlin.properties">
 #
-# Merlin Implementation target specification.
-#
-
+# merlin system implementation
 merlin.implementation = ${pom.groupId}:${pom.artifactId};${pom.currentVersion}
 
 #
-# logging system implementation
+# logging implementation
 merlin.logging.implementation = ${merlin.logging.implementation}
 
+#
+# runtime implementation
+merlin.runtime.implementation = ${merlin.runtime.implementation}
+
+#
+# runtime code secure implementation
+merlin.runtime.csi.implementation = ${merlin.runtime.csi.implementation}
+
+#
+# EOF
+#
 </ant:echo>
     <ant:mkdir dir="${maven.repo.local}/${pom.groupId}/properties"/>
     <ant:copy toDir="${maven.repo.local}/${pom.groupId}/properties" 
