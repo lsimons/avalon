@@ -35,6 +35,8 @@
         <pathelement location="${excalibur-component.jar}"/>
         <pathelement location="${excalibur-collections.jar}"/>
         <pathelement location="${excalibur-pool.jar}"/>
+        <pathelement location="${excalibur-instrument.jar}"/>
+        <pathelement location="${excalibur-container.jar}"/>
         <path refid="project.class.path"/>
     </path>
     <property name="cp" refid="test.class.path"/>
@@ -58,6 +60,7 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkTestcase"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkComponent"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCollections"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrument"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkPool"/>
     </target>
 

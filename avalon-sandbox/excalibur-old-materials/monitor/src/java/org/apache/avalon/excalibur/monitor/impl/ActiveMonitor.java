@@ -14,7 +14,7 @@ package org.apache.avalon.excalibur.monitor.impl;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Id: ActiveMonitor.java,v 1.3 2002/09/08 00:02:45 donaldp Exp $
+ * @version $Id: ActiveMonitor.java,v 1.4 2002/09/30 09:38:49 donaldp Exp $
  */
 public class ActiveMonitor
     extends AbstractMonitor
@@ -42,7 +42,7 @@ public class ActiveMonitor
     /**
      * Set to false to shutdown the thread.
      */
-    private boolean m_keepRunning = true;
+    private volatile boolean m_keepRunning = true;
 
     /**
      * Set the frequency with which the monitor
@@ -80,35 +80,24 @@ public class ActiveMonitor
         throws Exception
     {
         m_keepRunning = false;
+        m_monitorThread.interrupt();
         m_monitorThread.join();
     }
 
     public final void run()
     {
-        while( m_keepRunning )
-        {
-            long currentTestTime = System.currentTimeMillis();
-            final long sleepTillTime = currentTestTime + m_frequency;
-
-            while( (currentTestTime = System.currentTimeMillis()) < sleepTillTime )
-            {
-                delay( sleepTillTime - currentTestTime );
-            }
-
-            scanAllResources();
-        }
-    }
-
-    private void delay( final long delay )
-    {
         try
         {
-            Thread.sleep( delay );
+            while( m_keepRunning )
+            {
+                Thread.sleep( m_frequency );
+                scanAllResources();
+            }
         }
         catch( InterruptedException e )
         {
-            // ignore interrupted exception and keep sleeping until it's
-            // time to wake up
+            // clears the interrupted status
+            Thread.interrupted();
         }
     }
 }
