@@ -31,11 +31,14 @@ import java.util.ArrayList;
  * </ul>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/24 15:25:00 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/24 21:35:31 $
  */
 public final class PermissionDescriptor
         implements Serializable
 {
+
+    private static final String[] EMPTY_ACTIONS = 
+      new String[0];
 
     /**
      * The permission classname.
@@ -59,7 +62,7 @@ public final class PermissionDescriptor
      * @param actions the permission actions
      */
     public PermissionDescriptor( 
-      final String classname, final String name, final String actions )
+      final String classname, final String name, final String[] actions )
     {
         if ( null == classname )
         {
@@ -68,7 +71,14 @@ public final class PermissionDescriptor
 
         m_classname = classname;
         m_name = name;
-        m_actions = expandActions( actions );
+        if( null == actions )
+        {
+           m_actions = EMPTY_ACTIONS;
+        }
+        else
+        {
+            m_actions = actions;
+        }
     }
 
     /**
@@ -116,7 +126,6 @@ public final class PermissionDescriptor
         if ( isEqual )
         {
             PermissionDescriptor permission = (PermissionDescriptor) other;
-
             isEqual = isEqual && m_classname.equals( permission.m_classname );
             if ( null == m_name )
             {
@@ -171,5 +180,23 @@ public final class PermissionDescriptor
             list.add( tokenizer.nextToken() );
         }
         return (String[]) list.toArray( new String[0] );
+    }
+
+    public String toString()
+    {
+        String list = "";
+        for( int i=0; i<m_actions.length; i++ )
+        {
+            list = list + m_actions[i];
+            if( i < (m_actions.length - 1 ))
+            {
+                list = list + ", ";
+            }
+        } 
+        return "[permission class=" 
+          + getClassname()
+          + " name=" + getName()
+          + " actions=" + list
+          + "]";
     }
 }

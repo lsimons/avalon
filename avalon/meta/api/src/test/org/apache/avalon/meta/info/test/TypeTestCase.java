@@ -34,6 +34,7 @@ import java.io.*;
 public class TypeTestCase extends TestCase
 {
     private InfoDescriptor m_descriptor;
+    private SecurityDescriptor m_security;
     private CategoryDescriptor[] m_loggers;
     private ContextDescriptor m_context;
     private ServiceDescriptor[] m_services;
@@ -54,6 +55,7 @@ public class TypeTestCase extends TestCase
         m_reference = new ReferenceDescriptor(TypeTestCase.class.getName());
         m_key = TypeTestCase.class.getName();
         m_descriptor = createSimpleInfo(TypeTestCase.class.getName());
+        m_security = new SecurityDescriptor( null, null );
         m_loggers = new CategoryDescriptor[] {
             new CategoryDescriptor("name", new Properties())
         };
@@ -78,6 +80,7 @@ public class TypeTestCase extends TestCase
     {
         assertNotNull(type);
         checkArray(m_loggers, type.getCategories());
+        assertEquals( m_security, type.getSecurity() );
         assertEquals( m_defaults, type.getConfiguration() );
         assertEquals( m_context, type.getContext());
         checkArray(m_dependencies, type.getDependencies());
@@ -106,7 +109,7 @@ public class TypeTestCase extends TestCase
     {
         Type type = 
           new Type(
-            m_descriptor, m_loggers, m_context, m_services, m_dependencies, 
+            m_descriptor, m_security, m_loggers, m_context, m_services, m_dependencies, 
             m_stages, m_extensions, m_defaults);
         checkType(type);
     }
@@ -115,7 +118,7 @@ public class TypeTestCase extends TestCase
     {
         Type type = 
           new Type( 
-            m_descriptor, m_loggers, m_context, m_services, m_dependencies, 
+            m_descriptor, m_security, m_loggers, m_context, m_services, m_dependencies, 
             m_stages, m_extensions, m_defaults );
 
         checkType( type );
