@@ -1,8 +1,5 @@
 <?xml version="1.0" standalone="no"?>
 
-<!DOCTYPE author PUBLIC "-//OASIS//DTD DocBook XML V4.1//EN"
-                         "dtd/docbookx.dtd">
-
 <author id="peter.html">
   <honorific>Mr</honorific>
   <firstname>Peter</firstname>
@@ -25,15 +22,15 @@
     <para>
        Peter initially became involved with Avalon after he realized that
        his own product (Telanon) showed remarkable similarities to Avalon.
-       He is the main architect and developer for the Phoenix application 
-       server, and the LogKit logging toolkit. He is also involved with 
+       He is the main architect and developer for the Phoenix application
+       server, and the LogKit logging toolkit. He is also involved with
        the Ant project.
     </para>
     <para>
        Outside the scope of the ASF, Peter is actively building a distributed
-       virtual environment (DVE). This DVE is based on Phoenix and is dervied 
-       from work in military simulations, interactive entertainment industry 
-       (ie 3D games), and the academic community. He has also completed studies 
+       virtual environment (DVE). This DVE is based on Phoenix and is dervied
+       from work in military simulations, interactive entertainment industry
+       (ie 3D games), and the academic community. He has also completed studies
        in areas such as linguistics, logic, philosophy, psychology, neuroscience,
        mythology/history and computer science.
     </para>

@@ -1,8 +1,5 @@
 <?xml version="1.0" standalone="no"?>
 
-<!DOCTYPE author PUBLIC "-//OASIS//DTD DocBook XML V4.1//EN"
-                         "dtd/docbookx.dtd">
-
 <author id="peter.html">
   <honorific>Mr</honorific>
   <!-- "Nicola Ken" is my name, Ken is not my middle name, at least
@@ -17,13 +14,13 @@
     <jobtitle>Project Manager</jobtitle>
     <orgname>Aisa Industrial Automation Engineering</orgname>
     <orgdiv>Management</orgdiv>
-  </affiliation>    
+  </affiliation>
   <affiliation>
     <shortaffil>INTEXTI</shortaffil>
     <jobtitle>Architecture Lead</jobtitle>
     <orgname>Intexti</orgname>
     <orgdiv>Software Development</orgdiv>
-  </affiliation>    
+  </affiliation>
   <affiliation>
     <shortaffil>ASF</shortaffil>
     <jobtitle>Committer</jobtitle>
@@ -59,7 +56,7 @@
     <jobtitle>Founder and Committer</jobtitle>
     <orgname>Krysalis Community Project</orgname>
     <orgdiv>Krysalis Monarch</orgdiv>
-  </affiliation> 
+  </affiliation>
   <affiliation>
     <shortaffil>KRYSALIS</shortaffil>
     <jobtitle>Committer</jobtitle>
@@ -77,29 +74,29 @@
     <jobtitle>Project Manager</jobtitle>
     <orgname>Aisa Industrial Automation Engineering</orgname>
     <orgdiv>Management</orgdiv>
-  </affiliation>    
-  
-      
-    
+  </affiliation>
+
+
+
    <authorblurb>
     <para>
-      Nicola Ken Barozzi is a committer for Jakarta POI, 
-      which he helped in entering Jakarta, Avalon, 
-      and for Apache Cocoon and Apache Forrest on Xml-Apache. 
+      Nicola Ken Barozzi is a committer for Jakarta POI,
+      which he helped in entering Jakarta, Avalon,
+      and for Apache Cocoon and Apache Forrest on Xml-Apache.
     </para>
     <para>
-      The work with these projects have made him found the 
-      Krysalis Community Project, with the aim of incubating 
-      his own and other projects till/if a community creates 
-      round them. 
+      The work with these projects have made him found the
+      Krysalis Community Project, with the aim of incubating
+      his own and other projects till/if a community creates
+      round them.
     </para>
     <para>
-      He started the Krysalis Centipede build system to make 
-      building projects a simple thing, since it had become a 
-      too common activity to be a pleasure. 
+      He started the Krysalis Centipede build system to make
+      building projects a simple thing, since it had become a
+      too common activity to be a pleasure.
    </para>
     <para>
-     FAQ: You can call him Nicola, Ken, or Nicola Ken, as you wish. 
+     FAQ: You can call him Nicola, Ken, or Nicola Ken, as you wish.
     </para>
 
   </authorblurb>
