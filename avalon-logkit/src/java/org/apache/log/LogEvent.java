@@ -36,14 +36,14 @@ public final class LogEvent
     ///The priority of LogEvent. (Must not be null)
     private Priority      m_priority;
 
+    ///The context map associated with LogEvent. (May be null).
+    private ContextMap    m_contextMap;
+
     /**
      * The context stack associated with LogEvent. (May be null)
      * @deprecated ContextStack has been deprecated and thus so has this field.
      */
-    private ContextStack  m_contextStack;
-
-    ///The context map associated with LogEvent. (May be null).
-    private ContextMap    m_contextMap;
+    private transient ContextStack  m_contextStack;
 
     /**
      * Get Priority for LogEvent.
@@ -209,8 +209,10 @@ public final class LogEvent
     private Object readResolve()
         throws ObjectStreamException
     {
-        String priorityName = "";
-        
+        if( null == m_category ) m_category = "";
+        if( null == m_message ) m_message = "";
+
+        String priorityName = "";       
         if( null != m_priority ) 
         {
             priorityName = m_priority.getName();
