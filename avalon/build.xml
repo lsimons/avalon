@@ -58,7 +58,7 @@ Legal:
   <property name="build.classes" value="${build.dir}/classes"/>
   <property name="build.javadocs" value="${build.dir}/javadocs"/>
   <property name="build.docs" value="${build.dir}/docs"/>
-  <property name="build.xdocs" value="${build.dir}/xdocs"/>
+  <property name="build.context" value="${build.dir}/documentation"/>
 
   <!--
        ===================================================================
@@ -72,8 +72,8 @@ Legal:
   <property name="docs.dir" value="docs"/>
   <property name="www.dir" value="www"/>
   <property name="javadocs.dir" value="${docs.dir}/api"/>
-  <property name="avalon.skin" value="${tools.dir}/lib/jakarta-style.jar"/>
-  <property name="xdocs.dir" value="${src.dir}/xdocs"/>
+  <property name="skins.dir" value="${src.dir}/skins"/>
+  <property name="context.dir" value="${src.dir}/documentation"/>
   <property name="stylesheets.dir" value="${skins.dir}"/>
 
   <property name="dist.name" value="${Name}-${version}"/>
@@ -207,12 +207,11 @@ Legal:
   </target>
 
   <!-- Prepares the documentation directory -->
-  <target name="xdocs" depends="setup-properties">
+  <target name="xdocs" depends="jar">
 
-    <mkdir dir="${build.xdocs}"/>
+    <mkdir dir="${build.context}"/>
     <mkdir dir="${build.docs}"/>
-    <mkdir dir="${build.docs}/framework"/>
-    <mkdir dir="${build.docs}/excalibur"/>
+    <mkdir dir="${build.dir}/work"/>
 
     <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
     <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
@@ -230,41 +229,31 @@ Legal:
     <filter token="LOGKIT_BASE" value="${logkit.base}"/>
     <filter token="TESTLET_BASE" value="${testlet.base}"/>
 
-<!--
-    <copy todir="${build.xdocs}" filtering="on">
-      <fileset dir="${xdocs.dir}">
-        <exclude name="**/images/**"/>
+    <copy todir="${build.context}" filtering="on">
+      <fileset dir="${context.dir}">
+        <exclude name="resources/**"/>
       </fileset>
     </copy>
 
     <copy todir="${build.docs}" filtering="off">
-      <fileset dir="${xdocs.dir}">
+      <fileset dir="${context.dir}/resources">
         <include name="**/images/**"/>
       </fileset>
     </copy>
 
-    <taskdef name="stylebook" classname="org.apache.tools.ant.taskdefs.optional.StyleBook">
-      <classpath refid="tools.class.path"/>
-    </taskdef>
+    <java classname="org.apache.cocoon.Main" fork="true">
+      <arg value="-c${build.context}/"/>
+      <arg value="-d${build.docs}"/>
+      <arg value="-w${build.dir}/work"/>
+      <arg value="-l${build.dir}/work/cocoon.log"/>
+      <arg value="-uINFO"/>
+      <arg line="index.html features.html authors/index.html history/index.html developing/index.html license.html mail.html history/call-to-vote.html history/changes.html history/what-is-a-server.html history/need-for-avalon.html authors/bloritsch.html code-standards.html framework/index.html excalibur/index.html developing/changes.html developing/introduction.html developing/decomposing.html developing/framework.html developing/implementing.html developing/conclusion.html excalibur/changes.html excalibur/cli.html excalibur/collections.html excalibur/component.html excalibur/concurrent.html excalibur/datasource.html excalibur/io.html excalibur/pool.html excalibur/property.html excalibur/i18n.html excalibur/pipeline.html excalibur/proxy.html excalibur/thread.html framework/changes.html framework/patterns.html framework/reuse-standards.html framework/inversion-of-control.html framework/separation-of-concerns.html framework/security.html framework/what-is-a-component.html framework/what-is-a-composer.html framework/designing-a-component.html framework/lifecycle.html"/>
+      <classpath>
+        <path refid="test.class.path"/>
+	<fileset dir="${build.lib}"/>
+      </classpath>
+    </java>
 
-    <stylebook targetdirectory="${build.docs}/framework"
-               book="${build.xdocs}/framework/book.xml"
-               skindirectory="${avalon.skin}">
-      <classpath refid="tools.class.path" />
-    </stylebook>
-
-    <stylebook targetdirectory="${build.docs}/excalibur"
-               book="${build.xdocs}/excalibur/book.xml"
-               skindirectory="${avalon.skin}">
-      <classpath refid="tools.class.path" />
-    </stylebook>
-
-    <stylebook targetdirectory="${build.docs}"
-               book="${build.xdocs}/book.xml"
-               skindirectory="${avalon.skin}">
-      <classpath refid="tools.class.path" />
-    </stylebook>
--->
   </target>
 
   <!-- Create the API documentation -->
