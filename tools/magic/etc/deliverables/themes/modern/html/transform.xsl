@@ -233,7 +233,7 @@
         <div class="menu">
           <xsl:if test="count( item ) = 0" >
             <xsl:attribute name="class">no-border</xsl:attribute>
-            <span class="dummy" />
+            <span class="dummy"></span>
           </xsl:if>
           <xsl:apply-templates select="menu" >
             <xsl:with-param name="dir" select="concat( $dir, '../')" />
