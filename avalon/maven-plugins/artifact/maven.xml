@@ -1,14 +1,6 @@
 <project default="plugin:install" xmlns:ant="jelly:ant">
 
-  <postGoal name="plugin:install" >
-    <attainGoal name="plugin:deploy" />
-  </postGoal>
-  
   <preGoal name="jar:jar">
-    <attainGoal name="avalon:generate"/>
-  </preGoal>
-  
-  <goal name="avalon:generate">
     <echo message="starting"/>
     <mkdir dir="${maven.build.dir}/classes"/>
     <ant:xslt in="${basedir}/project.xml" out="${maven.build.dir}/classes/project.xml"
@@ -18,6 +10,6 @@
       <outputproperty name="indent" value="yes"/>
     </ant:xslt>
     <echo message="done"/>
-  </goal>
+  </preGoal>
 
 </project>

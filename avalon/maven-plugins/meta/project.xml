@@ -112,19 +112,9 @@
         <id>xdoclet+jmx-module</id>
         <version>1.2b2</version>
     </dependency>
-
   </dependencies>
   
   <build>
-    <sourceDirectory>${basedir}/src/java</sourceDirectory>
-    <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
-
-    <unitTest>
-      <includes>
-        <include>**/*Test.java</include>
-      </includes>
-    </unitTest>
-
     <resources>
       <resource>
         <directory>${basedir}/src/plugin-resources</directory>
@@ -139,7 +129,5 @@
         </includes>
       </resource>
     </resources>
-
   </build>
-
 </project>

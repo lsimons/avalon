@@ -132,16 +132,14 @@ public class HelloComponent
         <p>
           In order for Merlin to recognize this class as a component, we need to
           generate a &lt;classname&gt;.xinfo file. This can be done
-          automatically by including a pre-goal as shown below into the 
-          maven.xml file. 
+          automatically by enabling the Meta Plug-in, by entering in 
+          project.properties;
         </p>
 <source><![CDATA[
-<preGoal name="java:compile">
-  <attainGoal name="avalon:meta"/>
-</preGoal>
+avalon.meta.enabled=true
 ]]></source>
         <p>
-          The avalon:meta plugin looks for @avalon tags in the
+          The avalon-meta plugin looks for @avalon tags in the
           source code, to generate the correct Type Descriptor. In the above 
           example it will find the @avalon.component tag in the class level 
           javadocs and generate component the descriptors for us (see below). 
