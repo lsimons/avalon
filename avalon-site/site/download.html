@@ -106,8 +106,6 @@
     <div>
      <!-- START DOWNLOAD PAGE CONTENT -->
 
-<a name="Download Notes"></a><h3>Verify Releases</h3>
-
       <p>Use the links below to download a binary distribution of
       Avalon from one of our mirrors.  It's a good idea to
       <a href="[location]#Verify Releases">verify the integrity</a>
@@ -146,6 +144,13 @@
         <input type="submit" value="Change">
       </form>
 
+<a name="Projects"></a><h4>License</h4>
+
+<p>All avalon products are distributed under the terms of a slightly
+modified Apache Software License (version 1.1). See our
+<a href="license.html">License</a> page, or the LICENSE.txt files
+included in each distribution.</p>
+
 <a name="Projects"></a><h3>Projects</h3>
 
 <p>Here's a list of the most commonly requested distributions. You can
@@ -155,21 +160,43 @@ range of our various distributions, including older versions.</p>
 <p>Please note: we're still filling up this list; its incomplete
 at the moment.</p>
 
+<!-- lets maintain alphabetical order, peeps! -->
 <table border="1" width="100%" cellspacing="2" cellpadding="3">
     <tr class="a">
       <th>Product</th>
       <th>Binary</th>
       <th>Source</th>
+      <th>Jars</th>
     </tr>
+    <tr class="a">
+<td><a href="/fortress/">Avalon-Fortress</a></td>
+<td><a href="[preferred]/avalon/fortress/binaries">binaries</a></td>
+<td><a href="[preferred]/avalon/fortress/source">broswe</a></td>
+<td><a href="[preferred]/avalon/fortress/jars">jars</a></td>
+   </tr>
     <tr class="b">
 <td><a href="/framework/">Avalon-Framework</a></td>
-<td><a href="[preferred]/avalon/framework/binaries">browse</a></td>
-<td><a href="[preferred]/avalon/framework/source">browse</a></td>
+<td><a href="[preferred]/avalon/framework/binaries">binaries</a></td>
+<td><a href="[preferred]/avalon/framework/source">source</a></td>
+<td><a href="[preferred]/avalon/framework/jars">jars</a></td>
    </tr>
     <tr class="a">
-<td><a href="/framework/">Avalon-Merlin</a></td>
-<td><a href="[preferred]/avalon/merlin/binaries">browse</a></td>
-<td><a href="[preferred]/avalon/merlin/source">browe</a></td>
+<td><a href="/logkit/">Avalon-Logkit</a></td>
+<td><a href="[preferred]/avalon/logkit/binaries">binaries</a></td>
+<td><a href="[preferred]/avalon/logkit/source">broswe</a></td>
+<td><a href="[preferred]/avalon/logkit/jars">jars</a></td>
+   </tr>
+    <tr class="a">
+<td><a href="/merlin/">Avalon-Merlin</a></td>
+<td><a href="[preferred]/avalon/merlin/binaries">binaries</a></td>
+<td><a href="[preferred]/avalon/merlin/source">broswe</a></td>
+<td><a href="[preferred]/avalon/merlin/jars">jars</a></td>
+   </tr>
+    <tr class="a">
+<td><a href="/phoenix/">Avalon-Phoenix</a></td>
+<td><a href="[preferred]/avalon/phoenix/binaries">binaries</a></td>
+<td><a href="[preferred]/avalon/phoenix/source">broswe</a></td>
+<td><a href="[preferred]/avalon/phoenix/jars">jars</a></td>
    </tr>
 </table>
 
@@ -199,6 +226,20 @@ using</p>
 % gpg --verify name-of-distributed-file.tar.gz.asc
 </code></p>
 
+<a name="Maven Repository"></a><h3>A Maven Repository</h3>
+
+<p>The avalon distribution layout is compatible with the
+<a href="http://maven.apache.org/">Maven</a> repository format. To
+enable maven to automatically use your chosen distribution mirror
+as a remote repository, add a line to your project.properties file:
+</p>
+
+<p><code>
+maven.repo.remote = [preferred]/avalon,http://www.ibiblio.org/maven
+</code></p>
+
+<p>Doing so will ensure that your maven-enabled projects will always
+be able to find the latest avalon binaries.</p>
      <!-- END DOWNLOAD PAGE CONTENT -->
     </div>
 
