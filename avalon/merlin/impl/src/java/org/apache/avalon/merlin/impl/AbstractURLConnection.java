@@ -148,7 +148,6 @@ public abstract class AbstractURLConnection extends URLConnection
      */
      protected String getQueryField( URL url, String field, String fallback )
      {
-System.out.println( "url: " + url + ", field: " + field + ", fallback: " + fallback );
          String query = url.getQuery();
          if( null != query ) 
          {
