@@ -76,61 +76,60 @@
       <section name="Plugin Facilities">
         <subsection name="Factory Pattern">
           <p>
-          A plugin facility is requred to implement on of the following 
-          constructor patterns.
+          A plugin facility is requred to impliment one of the following 
+          ranked constructor patterns.
           </p>
           <table>
             <tr><th>Constructor</th><th>Description</th></tr>
             <tr>
-              <td>
-<source>
-public MyFactory( 
-    InitialContext context, 
-    ClassLoader loader )
-{
-}</source></td>
+              <td>Context and ClassLoader</td>
               <td>
                   Creation of a new factory using a supplied initial
                   repository context and a classloader established by
                   the bootstrap facility.  The classloader will be 
                   fully populated in accordance with the metadata
                   published by the factory.
+<source>
+public MyFactory( 
+    InitialContext context, 
+    ClassLoader classloader )
+{
+}</source>
               </td>
             </tr>
             <tr>
-              <td>
-<source>
-public MyFactory( 
-    InitialContext context )
-{
-}</source></td>
+              <td>Context</td>
               <td>
                   Creation of a new factory using a supplied initial
                   repository context.
-              </td>
-            </tr>
-            <tr>
-              <td>
 <source>
 public MyFactory( 
     InitialContext context )
 {
-}</source></td>
+}</source>
+              </td>
+            </tr>
+            <tr>
+              <td>ClassLoader</td>
               <td>
                   Creation of a new factory using a supplied classloader 
                   established by the bootstrap facility.  The classloader 
                   will be fully populated in accordance with the metadata
                   published by the factory.
-              </td>
+<source>
+public MyFactory( 
+    ClassLoader classloader )
+{
+}</source></td>
             </tr>
             <tr>
+              <td>Null Constructor</td>
               <td>
+                  Creation of a new factory.
 <source>
 public MyFactory()
 {
-}</source></td>
-              <td>
-                  Creation of a new factory.
+}</source>
               </td>
             </tr>
           </table>
