@@ -36,7 +36,7 @@ of Phoenix.</abstract>
         is a production ready mail server that sits on Phoenix.
       </para>
     </description>
-    <changes version="@version@" file="changes.xml"/>
+    <changes version="@version@" file="status.xml"/>
     <downloads name="Avalon" base="http://jakarta.apache.org/builds/jakarta-avalon/release/phoenix"/>
   </project>
 
