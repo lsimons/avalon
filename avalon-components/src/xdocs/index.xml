@@ -7,7 +7,7 @@
     <title>Cornerstone Developer Documentation</title>
     <subtitle>Introduction</subtitle>
     <authors>
-      <person name="Avalon Documentation Team" email="bloritsch@apache.org"/>
+      <person name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/>
     </authors>
   </header>
   <body>
@@ -22,7 +22,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/03/02 04:25:59 $
+      $Revision: 1.2 $ $Date: 2001/03/13 20:41:51 $
     </legal>
   </footer>
 </document>
