@@ -74,7 +74,7 @@ import org.apache.excalibur.instrument.ValueInstrument;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/12/11 14:15:33 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/12/11 14:18:00 $
  * @since 4.0
  */
 public abstract class ComponentHandler
@@ -377,7 +377,7 @@ public abstract class ComponentHandler
         ThreadSafeComponentHandler handler = new ThreadSafeComponentHandler( componentInstance );
         
         // Use the class name as intrument name
-        handler.setInstrumentableName( componentInstance.getClass().getName() );
+        handler.setInstrumentableName( ExcaliburComponentManager.INSTRUMENTABLE_NAME + "." + componentInstance.getClass().getName() );
         
         return handler;
     }
@@ -391,7 +391,7 @@ public abstract class ComponentHandler
     public ComponentHandler()
     {
         // Initialize the Instrumentable elements.
-        setInstrumentableName( "unnamed handler" );
+        setInstrumentableName( ExcaliburComponentManager.INSTRUMENTABLE_NAME + ".unnamed handler" );
         addInstrument( m_referencesInstrument = new ValueInstrument( "references" ) );
         addInstrument( m_getsInstrument = new CounterInstrument( "gets" ) );
         addInstrument( m_putsInstrument = new CounterInstrument( "puts" ) );
