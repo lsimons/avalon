@@ -19,8 +19,8 @@ package org.apache.log.output;
 import org.apache.log.LogEvent;
 import org.apache.log.format.Formatter;
 
-/**
- * Abstract output target.
+/** Abstract output target.
+ *
  * Any new output target that is writing to a single connected
  * resource should extend this class directly or indirectly.
  *
@@ -30,15 +30,10 @@ import org.apache.log.format.Formatter;
 public abstract class AbstractOutputTarget
     extends AbstractTarget
 {
-    /**
-     * Formatter for target.
-     *
-     */
+    /** Formatter for target. */
     private Formatter m_formatter;
 
-    /**
-     * Parameterless constructor.
-     */
+    /** Parameterless constructor.  */
     public AbstractOutputTarget()
     {
     }

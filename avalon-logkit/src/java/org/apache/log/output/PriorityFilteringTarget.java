@@ -39,7 +39,7 @@ public class PriorityFilteringTarget
     private LogTarget m_targets[];
 
     /**
-     * @param Priority The priority used to filter
+     * @param priority The priority used to filter
      * @param closeWrappedTarget see AbstractWrappingTarget
      */
     public PriorityFilteringTarget(Priority priority,
@@ -51,7 +51,7 @@ public class PriorityFilteringTarget
     }
 
     /**
-     * @param Priority The priority used to filter
+     * @param priority The priority used to filter
      */
     public PriorityFilteringTarget(Priority priority)
     {

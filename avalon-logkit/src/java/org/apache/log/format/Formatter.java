@@ -18,8 +18,7 @@ package org.apache.log.format;
 
 import org.apache.log.LogEvent;
 
-/**
- * This defines the interface for components that wish to serialize
+/** This defines the interface for components that wish to serialize
  * LogEvents into Strings.
  *
  * @author Peter Donald
