@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.36 $
+                   Version $Revision: 1.37 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -345,11 +345,13 @@ To use it, type 'ant -f depchecker.xml'
             <property name="proj.jar.name" value="excalibur-instrument-manager-0.3.jar"/>
             <property name="path" value="${excalibur-instrument-manager.jar}"/>
             <property name="proj.home" value="${basedir}/../instrument"/>
+            <property name="proj.target" value="dist-manager-jar"/>
         </ant>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
             <property name="proj.jar.name" value="excalibur-instrument-manager-interfaces-0.3.jar"/>
             <property name="path" value="${excalibur-instrument-manager-interfaces.jar}"/>
             <property name="proj.home" value="${basedir}/../instrument"/>
+            <property name="proj.target" value="dist-manager-jar"/>
         </ant>
     </target>
     <target name="checkCollections">
@@ -447,20 +449,6 @@ To use it, type 'ant -f depchecker.xml'
             <property name="proj.jar.name" value="excalibur-monitor.jar"/>
             <property name="path" value="${excalibur-monitor.jar}"/>
             <property name="proj.home" value="${basedir}/../monitor"/>
-        </ant>
-    </target>
-    <target name="checkManagerInterfaces">
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="proj.jar.name" value="excalibur-instrument-manager-interfaces.jar"/>
-            <property name="path" value="${excalibur-instrument-manager-interfaces.jar}"/>
-            <property name="proj.home" value="${basedir}/../instrument-manager"/>
-        </ant>
-    </target>
-    <target name="checkManager">
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="proj.jar.name" value="excalibur-instrument-manager.jar"/>
-            <property name="path" value="${excalibur-instrument-manager.jar}"/>
-            <property name="proj.home" value="${basedir}/../instrument-manager"/>
         </ant>
     </target>
     <target name="checkI18N">
