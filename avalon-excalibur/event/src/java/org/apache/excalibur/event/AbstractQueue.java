@@ -10,7 +10,7 @@ package org.apache.avalon.excalibur.event;
 import java.util.ArrayList;
 
 /**
- * The default queue implementation is a variabl size queue.
+ * The default queue implementation is a variable size queue.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
