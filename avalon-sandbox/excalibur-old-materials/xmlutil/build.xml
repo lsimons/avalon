@@ -111,7 +111,7 @@
             <exclude name="**/test/**"/>
         </javac>
 
-        <!-- generate fortress meta descriptors -->
+	<!-- generate fortress meta descriptors
         <taskdef name="fortress-collect-meta"
                  classname="org.apache.avalon.fortress.tools.ComponentMetaInfoCollector">
             <classpath refid="project.class.path"/>
@@ -119,7 +119,10 @@
 
         <fortress-collect-meta destdir="${build.classes}">
             <fileset dir="${java.dir}"/>
-        </fortress-collect-meta>
+    </fortress-collect-meta>
+
+    Remove for the time being.
+    -->
 
         <!-- copy resources to same location as .class files -->
         <copy todir="${build.classes}">
