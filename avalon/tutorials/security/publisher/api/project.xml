@@ -4,7 +4,7 @@
 
   <extend>${basedir}/../../../project.xml</extend>
 
-  <id>publisher-api</id>
+  <id>secure-publisher-api</id>
   <name>Composition Publisher API Tutorial</name>
   <currentVersion>1.0</currentVersion>
 
