@@ -34,21 +34,6 @@ public class SingleAppEmbeddor
     ///Sole application hosted in kernel
     private Application m_application;
 
-    /**
-     * Use ContextClassLoaderManager for ClassLoaderManager.
-     *
-     * @return the Parameters
-     */
-    protected Parameters createDefaultParameters()
-    {
-        final Parameters defaults = super.createDefaultParameters();
-        final String PREFIX = "org.apache.avalon.phoenix.components.";
-        defaults.setParameter( ClassLoaderManager.ROLE,
-                               PREFIX + "classloader.ContextClassLoaderManager" );
-        defaults.setParameter( PackageRepository.ROLE,
-                               PREFIX + "extensions.NoopPackageRepository" );
-        return defaults;
-    }
 
     /**
      * Deploy a single application.

@@ -57,7 +57,7 @@ Legal:
   <property name="xerces.file" value="xerces.jar"/>
   <property name="xerces.jar" value="${xerces.dir}/${xerces.file}"/>
   <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.2.0-D8.jar"/>
-  <property name="framework.jar" value="${lib.dir}/avalon-framework-4.1.2.jar"/>
+  <property name="framework.jar" value="${lib.dir}/avalon-framework-20022103.jar"/>
   <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur-4.1.jar"/>
   <property name="scratchpad.jar" value="${lib.dir}/avalon-scratchpad-4.1.jar"/>
   <property name="logkit.jar" value="${lib.dir}/logkit-1.0.1.jar"/>
@@ -228,6 +228,7 @@ Legal:
     <mkdir dir="${bin.dist.apps}"/>
     <mkdir dir="${bin.dist.ext}"/>
     <mkdir dir="${bin.dist.lib}"/>
+    <mkdir dir="${bin.dist.conf}"/>
 
     <copy file="${build.lib}/phoenix-loader.jar" todir="${bin.dist.bin}/"/>
     <copy file="${build.lib}/phoenix-engine.jar" todir="${bin.dist.bin}"/>
@@ -241,6 +242,7 @@ Legal:
     <copy file="${excalibur.jar}" todir="${bin.dist.lib}"/>
     <copy file="${scratchpad.jar}" todir="${bin.dist.lib}"/>
     <copy file="${xerces.jar}" todir="${bin.dist.lib}"/>
+    <copy file="${conf.dir}/kernel.xml" todir="${bin.dist.conf}"/>
     <!--
     This was not copying for relatively local ..\jakarta-avalon\tools\lib\xerces.jar - PH
     <copy todir="${bin.dist.lib}">
