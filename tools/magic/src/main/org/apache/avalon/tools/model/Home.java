@@ -78,7 +78,7 @@ public class Home extends DataType
    /**
     * Creation of a new home using a supplied index.
     * @param project the ant project establishing the home
-    * @param magic the magic system instance
+    * @param system the magic system instance
     * @param index the magic project index
     */
     protected Home( Project project, Magic system, File index )

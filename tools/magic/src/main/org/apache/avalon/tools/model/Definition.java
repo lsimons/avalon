@@ -46,7 +46,7 @@ public class Definition extends Resource
     * @param path the basedir as a relative path
     * @param info a descriptor of the name, grolup, version and delivery status
     * @param gump addition gump idiosyncracies
-    * @param resource the set of resource dependencies
+    * @param resources the set of resource dependencies
     * @param plugins the set of plugin dependencies
     */
     public Definition( 

@@ -43,7 +43,7 @@ public class ElementHelper
 {
    /**
     * Return the root element of the supplied file.
-    * @para definition the file to load
+    * @param definition the file to load
     * @exception BuildException if the error occurs during root element establishment
     */
     public static Element getRootElement( final File definition )
@@ -96,7 +96,7 @@ public class ElementHelper
 
    /**
     * Return the root element of the supplied input stream.
-    * @para input the input stream containing a XML definition
+    * @param input the input stream containing a XML definition
     * @exception BuildException if the error occurs during root element establishment
     */
     public static Element getRootElement( final InputStream input )
