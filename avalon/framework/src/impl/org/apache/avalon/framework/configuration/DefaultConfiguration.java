@@ -134,7 +134,6 @@ public class DefaultConfiguration
      *
      * @param defaultValue the default value to return if value malformed or empty
      * @return a <code>String</code> value
-     * @exception ConfigurationException If the value is not present.
      */
     public String getValue( final String defaultValue ) 
     {
