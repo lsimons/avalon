@@ -61,8 +61,6 @@ class LifecycleHelper
     public void startup( final BlockEntry entry )
         throws Exception
     {
-        if( State.VOID != entry.getState() ) return;
-
         final BlockMetaData metaData = entry.getMetaData();
         final String name = metaData.getName();
 
@@ -146,8 +144,6 @@ class LifecycleHelper
     public void shutdown( final BlockEntry entry )
         throws Exception
     {
-        if( State.STARTED != entry.getState() ) return;
-
         final BlockMetaData metaData = entry.getMetaData();
         final String name = metaData.getName();
 

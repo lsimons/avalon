@@ -59,8 +59,7 @@ public final class DefaultServerApplication
     //these are the facilities (internal components) of ServerApplication
     private ApplicationFrame  m_frame;
 
-    private StartupPhase      m_startup;
-    private ShutdownPhase     m_shutdown;
+    private LifecycleHelper   m_lifecycle;
 
     private SarMetaData       m_metaData;
     private ClassLoader       m_classLoader;
@@ -109,11 +108,8 @@ public final class DefaultServerApplication
         m_frame = new DefaultApplicationFrame( m_classLoader, m_metaData );
         setupComponent( m_frame, "frame" );
 
-        m_startup = new StartupPhase( this, m_frame );
-        setupLogger( m_startup, "lifecycle" );
-
-        m_shutdown = new ShutdownPhase( m_frame );
-        setupLogger( m_shutdown, "lifecycle" );
+        m_lifecycle = new LifecycleHelper( this, m_frame );
+        setupLogger( m_lifecycle, "lifecycle" );
     }
 
     /**
@@ -277,8 +273,8 @@ public final class DefaultServerApplication
             try
             {
                 final BlockEntry entry = (BlockEntry)m_entrys.get( block );
-                if( PHASE_STARTUP == name ) m_startup.visitBlock( entry );
-                else m_shutdown.visitBlock( entry );
+                if( PHASE_STARTUP == name ) m_lifecycle.startup( entry );
+                else m_lifecycle.shutdown( entry );
             }
             catch( final Exception e )
             {
