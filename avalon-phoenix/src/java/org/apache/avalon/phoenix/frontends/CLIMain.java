@@ -58,6 +58,8 @@ public final class CLIMain
     private int m_exitCode;
 
     private ShutdownHook m_hook;
+    
+    private boolean m_shuttingDown;
 
     /**
      * Main entry point.
@@ -260,34 +262,42 @@ public final class CLIMain
      */
     public synchronized void shutdown()
     {
-        //Null hook so it is not tried to be removed
-        //when we are shutting down. (Attempting to remove
-        //hook during shutdown raises an exception).
-        m_hook = null;
-
-        if( null != m_embeddor )
+        // Depending on how the shutdown process is initiated, it is possible
+        //  that the shutdown() method can be recursively called from within
+        //  the call to notifyObservers below.
+        if ( !m_shuttingDown )
         {
-            final String message = REZ.getString( "main.exit.notice" );
-            System.out.println( message );
-            System.out.flush();
-
-            try
+            m_shuttingDown = true;
+            
+            //Null hook so it is not tried to be removed
+            //when we are shutting down. (Attempting to remove
+            //hook during shutdown raises an exception).
+            m_hook = null;
+    
+            if( null != m_embeddor )
             {
-                ContainerUtil.shutdown( m_embeddor );
+                final String message = REZ.getString( "main.exit.notice" );
+                System.out.println( message );
+                System.out.flush();
+    
+                try
+                {
+                    ContainerUtil.shutdown( m_embeddor );
+                }
+                catch( final Throwable throwable )
+                {
+                    handleException( throwable );
+                }
+                finally
+                {
+                    m_embeddor = null;
+                }
             }
-            catch( final Throwable throwable )
-            {
-                handleException( throwable );
-            }
-            finally
-            {
-                m_embeddor = null;
-            }
+    
+            // Notify any observers that Phoenix is shutting down
+            setChanged();
+            notifyObservers( "shutdown" );
         }
-
-        // Notify any observers that Phoenix is shutting down
-        setChanged();
-        notifyObservers( "shutdown" );
     }
 
     /**
