@@ -227,7 +227,10 @@ public class DefaultClassLoaderManager
                     final URL url = new URL( "jar:" + element + "!/" );
                     final JarURLConnection connection = (JarURLConnection)url.openConnection();
                     final Manifest manifest = connection.getManifest();
-                    manifests.add( manifest );
+                    if( null != manifest )
+                    {
+                        manifests.add( manifest );
+                    }
                 }
                 catch( final IOException ioe )
                 {
