@@ -5,6 +5,9 @@
 
  Avalon/Excalibur build file
 
+Type './build.sh' (Unix) or 'build' (Windows) to build. The flag '-projecthelp'
+will list normal targets. If combined with '-verbose', all targets are printed.
+
 Authors:
  Federico Barbieri <scoobie@apache.org>
  Berin Loritsch <bloritsch@apache.org>
@@ -116,28 +119,11 @@ Legal:
   </path>
 
   <!-- Main target -->
-  <target name="main" depends="all" />
+  <target name="main" depends="all" description="generates the Avalon distribution without the javadocs"/>
 
   <!-- Help on usage -->
   <target name="usage">
-    <echo message=""/>
-    <echo message="${Name} Build file"/>
-    <echo message="-------------------------------------------------------------"/>
-    <echo message=""/>
-    <echo message=" available targets are:"/>
-    <echo message=""/>
-    <echo message="   all          -> generates the ${Name} jar files"/>
-    <echo message="   check        -> perform unit tests"/>
-    <echo message="   compile      -> compiles the source code"/>
-    <echo message="   javadocs     -> generates the API documentation"/>
-    <echo message="   docs         -> generates the ${Name} Documentation"/>
-    <echo message="   printerdocs  -> generates the ${Name} printer Documentation"/>
-    <echo message="   dist         -> generates the ${Name} distribution"/>
-    <echo message="   clean        -> cleans up the created directories"/>
-    <echo message="   distclean    -> cleans up all genereated files and directories"/>
-    <echo message=""/>
-    <echo message="-------------------------------------------------------------"/>
-    <echo message=""/>
+    <echo message="Use the -projecthelp option instead"/>
   </target>
 
   <target name="help" depends="usage"/>
@@ -206,7 +192,7 @@ Legal:
   </target>
 
   <!-- Compiles the source code -->
-  <target name="compile" depends="prepare">
+  <target name="compile" depends="prepare" description="compiles the source code">
 
     <mkdir dir="${build.classes}"/>
     <mkdir dir="${build.scratchpad}"/>
@@ -274,7 +260,7 @@ Legal:
 
   <target name="test" depends="check"/>
 
-  <target name="check" depends="compile" >
+  <target name="check" depends="compile" description="perform unit tests">
     <mkdir dir="${build.reports}"/>
 
     <echo message="Performing Unit Tests" />
@@ -364,7 +350,7 @@ Legal:
   </target>
 
   <!-- Create the API documentation -->
-  <target name="javadocs">
+  <target name="javadocs" description="generates the API documentation">
 
     <delete dir="${build.javadocs}"/>
     <mkdir dir="${build.javadocs}"/>
@@ -479,7 +465,7 @@ Legal:
   </target>
 
   <!-- Creates all the .jar files -->
-  <target name="all" depends="compile">
+  <target name="all" depends="compile" description="generates the Excalibur jar files">
 
     <mkdir dir="${build.lib}"/>
 
@@ -552,12 +538,13 @@ Legal:
 
   </target>
 
-  <target name="printerdocs" depends="javadocs">
+  <target name="printerdocs" depends="javadocs"
+        description="generates the Excalibur printer documentation">
     <echo message="Printer friendly docs are not yet implemented"/>
   </target>
 
   <!-- Prepares the documentation directory -->
-  <target name="docs" depends="javadocs">
+  <target name="docs" depends="javadocs" description="generates the Excalibur documentation">
 
     <mkdir dir="${build.context}"/>
     <mkdir dir="${build.xdocs}"/>
@@ -675,7 +662,8 @@ Legal:
   </target>
 
   <!-- Completely build all dists -->
-  <target name="dist" depends="announcement,site-docs">
+  <target name="dist" depends="announcement,site-docs"
+        description="generates the Excalibur distribution">
     <mkdir dir="${dist.base}"/>
 
     <antcall target="dist-base">
@@ -737,7 +725,7 @@ Legal:
   </target>
 
   <!-- Cleans up build and distribution directories -->
-  <target name="clean" depends="setup-properties">
+  <target name="clean" depends="setup-properties" description="cleans up the created directories">
     <delete dir="${build.dir}" />
     <delete dir="${dist.dir}" />
     <delete dir="test" /> <!-- unit testing output directory -->
@@ -747,7 +735,7 @@ Legal:
   </target>
 
   <!-- Cleans absolutely everything up -->
-  <target name="distclean" depends="clean">
+  <target name="distclean" depends="clean" description="cleans up all generated files and directories">
     <delete dir="${docs.dir}" />
     <delete dir="${dist.base}" />
     <delete dir="${src.dist.dir}" />
