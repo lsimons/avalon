@@ -14,7 +14,7 @@ package org.apache.excalibur.instrument;
  *  times that a method is accessed.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/10/02 01:47:02 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/11/28 15:52:03 $
  * @since 4.1
  */
 public class CounterInstrument
@@ -57,6 +57,8 @@ public class CounterInstrument
      *  present and there are no registered CounterInstrumentListeners.
      *
      * @param count A positive integer to increment the counter by.
+     *
+     * @throws IllegalArgumentException If the count is not positive.
      */
     public void increment( int count )
     {
