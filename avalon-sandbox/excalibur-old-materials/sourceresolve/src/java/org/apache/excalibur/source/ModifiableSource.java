@@ -57,7 +57,6 @@ package org.apache.excalibur.source;
 import java.io.OutputStream;
 
 /**
-/**
  * Description of a modifiable source. This interface provides a 
  * simple interface for manipulation data.
  * for accessing a source of data.
