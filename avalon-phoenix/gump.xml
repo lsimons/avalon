@@ -40,7 +40,6 @@
     <depend project="rhino"/>
     <!-- depend project="xdoclet" inherit="jars"/ -->
     <depend project="xdoclet-ant14" runtime="true"/>
-    <depend project="log4j" runtime="true"/>
     <depend project="jarv" runtime="true"/>
     <depend project="jakarta-site2" inherit="all" />
     <option project="jakarta-servletapi-4"/>
