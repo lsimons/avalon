@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.48 $
+                   Version $Revision: 1.49 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -312,6 +312,14 @@ To use it, type 'ant -f depchecker.xml'
         </ant>
     </target>
 
+    <target name="checkCommonsCollections">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="proj.jar.name" value="commons-collections-2.1.jar"/>
+            <property name="path" value="${commons-collections.jar}"/>
+            <property name="proj.home" value="${basedir}/../lib"/>
+        </ant>
+    </target>
+
     <target name="checkEvent">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
             <property name="proj.jar.name" value="excalibur-event.jar"/>
@@ -346,13 +354,13 @@ To use it, type 'ant -f depchecker.xml'
     <target name="checkCompatibility">
       <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
         <property name="proj.jar.name" value="excalibur-compatibility-1.0.jar"/>
-	<property name="path" value="${excalibur-compatibility.jar}"/>
-	<property name="proj.home" value="${basedir}/../compatibility"/>
+	    <property name="path" value="${excalibur-compatibility.jar}"/>
+	    <property name="proj.home" value="${basedir}/../compatibility"/>
       </ant>
     </target>
     <target name="checkInstrument">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="proj.jar.name" value="excalibur-instrument-0.3.jar"/>
+            <property name="proj.jar.name" value="excalibur-instrument-1.0.jar"/>
             <property name="path" value="${excalibur-instrument.jar}"/>
             <property name="proj.home" value="${basedir}/../instrument"/>
         </ant>
