@@ -51,6 +51,10 @@ package org.apache.avalon.apps.sevak.blocks.jetty;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Set;
+import java.util.Collections;
+import java.net.UnknownHostException;
+
 import org.apache.avalon.apps.sevak.Sevak;
 import org.apache.avalon.apps.sevak.SevakContext;
 import org.apache.avalon.apps.sevak.SevakException;
@@ -67,15 +71,16 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+
 import org.mortbay.http.SocketListener;
 import org.mortbay.jetty.Server;
-import org.mortbay.jetty.servlet.WebApplicationContext;
 import org.mortbay.util.Log;
 import org.mortbay.util.MultiException;
 
 /**
  * @phoenix:block
  * @phoenix:service name="org.apache.avalon.apps.sevak.Sevak"
+ * @phoenix:mx-topic name="ServletContainer"
  *
  * Jetty Wrapper.
  *
@@ -84,18 +89,18 @@ import org.mortbay.util.MultiException;
  *
  * @author  Paul Hammant
  * @author  Ulrich Mayring
+ * @author  Peter Royal
  * @version 1.0
  */
 public class JettySevak extends AbstractLogEnabled
     implements Sevak, Startable, Contextualizable, Configurable, Initializable, Serviceable
 {
-
     private Server m_server;
 
     /** Virtual host to bind the Jetty to.  null implies all hosts are in context. */
     private String m_hostName;
 
-    private HashMap m_webapps = new HashMap();
+    private HashMap m_webcontexts = new HashMap();
     private int m_port;
     private int m_minThreads;
     private int m_maxThreads;
@@ -152,7 +157,25 @@ public class JettySevak extends AbstractLogEnabled
      */
     public void initialize() throws Exception
     {
-        m_server = new Server();
+        m_server = createHttpServer();
+        m_server.addListener( createSocketListener() );
+
+        PhoenixLogSink phoenixLogSink = new PhoenixLogSink();
+        phoenixLogSink.enableLogging( getLogger() );
+        Log.instance().add( phoenixLogSink );
+
+        RequestLogger logger = (RequestLogger)
+            m_sevakContext.getServiceManager().lookup( RequestLogger.ROLE );
+        m_server.setRequestLog( new JettyRequestLogAdapter( logger ) );
+    }
+
+    protected Server createHttpServer()
+    {
+        return new Server();
+    }
+
+    private SocketListener createSocketListener() throws UnknownHostException
+    {
         SocketListener listener = new SocketListener();
 
         if( null != m_hostName )
@@ -163,14 +186,7 @@ public class JettySevak extends AbstractLogEnabled
         listener.setPort( m_port );
         listener.setMinThreads( m_minThreads );
         listener.setMaxThreads( m_maxThreads );
-        m_server.addListener( listener );
-        PhoenixLogSink phoenixLogSink = new PhoenixLogSink();
-        phoenixLogSink.enableLogging( getLogger() );
-        Log.instance().add( phoenixLogSink );
-
-        RequestLogger logger = (RequestLogger)
-            m_sevakContext.getServiceManager().lookup( RequestLogger.ROLE );
-        m_server.setRequestLog( new JettyRequestLogAdapter( logger ) );
+        return listener;
     }
 
     /**
@@ -218,63 +234,231 @@ public class JettySevak extends AbstractLogEnabled
      * Deploy a webapp
      * @param context the contxct for the webapp
      * @param pathToWebAppFolder the path to it
-     * @param avalonContext The optional context to apply to servlets (LogEnabled, Serviceable).
+     * @param sevakContext The optional context to apply to servlets (LogEnabled, Serviceable).
      * @throws SevakException if a problem
      */
     public void deploy( String context, File pathToWebAppFolder, SevakContext sevakContext )
         throws SevakException
     {
-        String webAppURL = null;
+        if( m_webcontexts.containsKey( context ) )
+        {
+            throw new SevakException( "Context '" + context + "' has already been deployed" );
+        }
+
+        WebApplicationContextHolder holder;
 
         try
         {
-            webAppURL = pathToWebAppFolder.toURL().toString();
-            // This still does not work.
-
-            WebApplicationContext ctx =
-                new SevakWebApplicationContext( sevakContext, m_sarRootDir, webAppURL );
-            ctx.setContextPath( context );
-            m_server.addContext( m_hostName, ctx );
-
-            if( getLogger().isInfoEnabled() )
-                getLogger().info( "deploying context=" + context + ", webapp=" + webAppURL
-                                  + " to host=" + ( m_hostName == null ? "(All Hosts)" : m_hostName ) );
-
-            ctx.setExtractWAR( m_extractWebArchive );
-            m_webapps.put( context, ctx );
-            ctx.start();
+            holder = new WebApplicationContextHolder( context,
+                                                      pathToWebAppFolder,
+                                                      sevakContext,
+                                                      m_sarRootDir,
+                                                      m_extractWebArchive );
+            m_webcontexts.put( context, holder );
         }
         catch( Exception e )
         {
-            final String msg = "Problem deploying web application (" + webAppURL + ") in Jetty";
+            final String msg = "Problem deploying web application (" + pathToWebAppFolder
+                + ") in Jetty";
 
+            throw new SevakException( msg, e );
+        }
+
+        deploy( context );
+    }
+
+    /**
+     * Get a list of all webapps currently installed with the container
+     *
+     * @phoenix:mx-attribute
+     *
+     * @return The list of all contexts installed in the container
+     */
+    public Set getContextList()
+    {
+        return Collections.unmodifiableSet( m_webcontexts.keySet() );
+    }
+
+    /**
+     * Get the status of an installed webapp
+     *
+     * @phoenix:mx-operation
+     *
+     * @param context webapp to get status of
+     * @return status of webapp
+     * @throws SevakException if any problems occur
+     */
+    public String getStatus( String context ) throws SevakException
+    {
+        final WebApplicationContextHolder holder = getWebApplicationContextHolder( context );
+
+        return holder.getStatus();
+    }
+
+    /**
+     * Start a stopped webapp
+     *
+     * @phoenix:mx-operation
+     *
+     * @param context webapp to start
+     * @throws SevakException if any problems occur
+     */
+    public void start( String context ) throws SevakException
+    {
+        final WebApplicationContextHolder holder = getWebApplicationContextHolder( context );
+
+        try
+        {
+            holder.start();
+        }
+        catch( Exception e )
+        {
+            final String msg = "Unable to start '" + context + "' : " + e.getMessage();
+            getLogger().error( msg, e );
             throw new SevakException( msg, e );
         }
     }
 
     /**
-     * Undeploy a webapp.
-     * @param context the context
-     * @throws SevakException if a problem
+     * Stop a running webapp
+     *
+     * @phoenix:mx-operation
+     *
+     * @param context webapp to stop
+     * @throws SevakException if any problems occur
      */
-    public void undeploy( String context ) throws SevakException
+    public void stop( String context ) throws SevakException
     {
-        WebApplicationContext ctx = (WebApplicationContext)m_webapps.get( context );
+        final WebApplicationContextHolder holder = getWebApplicationContextHolder( context );
 
         try
         {
-            ctx.stop();
+            holder.stop();
+        }
+        catch( Exception e )
+        {
+            final String msg = "Unable to stop '" + context + "' : " + e.getMessage();
+            getLogger().error( msg, e );
+            throw new SevakException( msg, e );
+        }
+    }
+
+    /**
+     * Redeploy a webapp. This operation fully reloads the webapp, and is equivalent to
+     * doing undeploy() followed by deploy()
+     *
+     * @phoenix:mx-operation
+     *
+     * @param context webapp to reload
+     * @throws SevakException if any problems occur
+     */
+    public void redeploy( String context ) throws SevakException
+    {
+        try
+        {
+            undeploy( context );
+            deploy( context );
+        }
+        catch( SevakException e )
+        {
+            getLogger().error( "Exception restarting: " + context, e );
+
+            throw e;
+        }
+    }
+
+    /**
+     * Deploy a webapp
+     *
+     * @phoenix:mx-operation
+     *
+     * @param context webapp to deploy
+     * @throws SevakException if any problems occur
+     */
+    public void deploy( String context ) throws SevakException
+    {
+        final WebApplicationContextHolder holder = getWebApplicationContextHolder( context );
+
+        //Set the context classloader because the current classloader will be that of the
+        Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
+
+        try
+        {
+            m_server.addContext( m_hostName, holder.create() );
+
+            if( getLogger().isInfoEnabled() )
+                getLogger().info( "deploying context=" + context + ", webapp="
+                                  + holder.getWebappUrl() + " to host="
+                                  + ( m_hostName == null ? "(All Hosts)" : m_hostName ) );
+
+            holder.start();
+        }
+        catch( Exception e )
+        {
+            final String msg = "Unable to deploy '" + context + "' : " + e.getMessage();
+
+            getLogger().error( msg, e );
+            throw new SevakException( msg, e );
+        }
+    }
+
+    private WebApplicationContextHolder getWebApplicationContextHolder( String context )
+        throws SevakException
+    {
+        WebApplicationContextHolder holder =
+            (WebApplicationContextHolder)m_webcontexts.get( context );
+
+        if( null == holder )
+        {
+            throw new SevakException( "Unknown context: " + context );
+        }
+
+        return holder;
+    }
+
+    /**
+     * Start a stopped webapp
+     *
+     * @phoenix:mx-operation
+     *
+     * @param context webapp to start
+     * @throws SevakException if any problems occur
+     */
+    public void undeploy( String context ) throws SevakException
+    {
+        final WebApplicationContextHolder holder = getWebApplicationContextHolder( context );
+
+        try
+        {
+            holder.stop();
         }
         catch( InterruptedException e )
         {
-            throw new SevakException( "Problem stopping web application in Jetty", e );
+            final String msg = "Problem stopping web application in Jetty";
+
+            getLogger().error( msg, e );
+
+            throw new SevakException( msg, e );
         }
 
-        m_server.removeContext( ctx );
-        ctx.destroy();
-        m_webapps.remove( context );
-    }
+        if( !m_server.removeContext( holder.getWebApplicationContext() ) )
+        {
+            getLogger().warn( "Potential problems removing context" );
+        }
 
+        try
+        {
+            holder.destroy();
+        }
+        catch( Exception e )
+        {
+            final String msg = "Problem destroying web application in Jetty";
+
+            getLogger().error( msg, e );
+
+            throw new SevakException( msg, e );
+        }
+    }
 }
 
 
