@@ -182,7 +182,7 @@
       Once you understand the principles behind Avalon Framework, you will
       be able to comprehend any system built on Avalon.  Once you can
       comprehend the system, you will be able to catch bugs more quickly
-      that are due to misuse of the framework.
+      that are due to the misuse of the framework.
     </para>
     <section>
       <title>There is no Magic Formula</title>
@@ -225,7 +225,9 @@
         always externally managed.  This phrase was originally coined
         by Brian Foote in one of his papers
         <footnote>
-          <ulink url="http://www.laputan.org/drc/drc.html">http://www.laputan.org/drc/drc.html</ulink>
+          <para>
+            <ulink url="http://www.laputan.org/drc/drc.html">http://www.laputan.org/drc/drc.html</ulink>
+          </para>
         </footnote>.
         Everything a Component needs in the way of Contexts,
         Configurations, and Loggers is given to the Component.  In fact,
@@ -249,7 +251,14 @@
       <title>Separation of Concerns</title>
       <para>
         The idea that you should view your problem space from different
-        concern areas resulted in the Separation of Concerns (SOC) pattern.
+        concern areas resulted in the Separation of Concerns (SOC) pattern
+        <footnote>
+          <para>
+            <ulink href="http://www.research.ibm.com/hyperspace/MDSOC.htm">
+              http://www.research.ibm.com/hyperspace/MDSOC.htm
+            </ulink>
+          </para>
+        </footnote>.
         An example would be viewing a web server from different viewpoints
         of the same problem space.  A web server must be secure, stable,
         manageable, configurable, and comply with the HTTP specifications.
