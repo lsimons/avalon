@@ -24,11 +24,6 @@ ConfigurationUtil
 Provides a static list operation that is helpful in debugging.  The list
 operation generates a simple string representation of a configuration.
 
-Also provides a branch operation to take a Configuration object and rename it but
-retain all attributes and children
-
-Also provides an equals operation to test if two Configuration objects represent the same thing
-
 ConfigurationMerger
 -------------------
 Similar to the CascadingConfiguration in that it takes two Configuration's and
