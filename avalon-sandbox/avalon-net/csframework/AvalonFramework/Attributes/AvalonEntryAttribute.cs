@@ -54,7 +54,7 @@ namespace Apache.Avalon.Framework
 	/// required by a component.
 	/// </summary>
 	[AttributeUsage(
-		 AttributeTargets.Method|AttributeTargets.Property,
+		 AttributeTargets.Constructor|AttributeTargets.Method|AttributeTargets.Property,
 		 AllowMultiple=false,Inherited=true)]
 	public class AvalonEntryAttribute : Attribute
 	{
