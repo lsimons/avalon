@@ -24,7 +24,8 @@ public interface ConnectionHandlerFactory
         throws Exception;
 
     /**
-     * Release a previously created ConnectionHandler e.g. for spooling.
+     * Release a previously created ConnectionHandler.
+     * e.g. for spooling.
      */
     void releaseConnectionHandler( ConnectionHandler connectionHandler );
 

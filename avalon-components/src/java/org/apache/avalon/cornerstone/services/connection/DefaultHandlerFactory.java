@@ -35,7 +35,8 @@ public class DefaultHandlerFactory
     }
 
     /**
-     * Release a previously created ConnectionHandler e.g. for spooling.
+     * Release a previously created ConnectionHandler.
+     * e.g. for spooling.
      */
     public void releaseConnectionHandler(ConnectionHandler connectionHandler)
     {
