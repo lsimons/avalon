@@ -129,13 +129,16 @@ public class ReactorTask extends Sequential
             {
                 final Definition def = defs[i];
                 project.setProperty( "reactor.key", def.getKey() );
-                project.setProperty( "reactor.version", def.getInfo().getVersion() );
                 project.setProperty( "reactor.name", def.getInfo().getName() );
                 project.setProperty( "reactor.group", def.getInfo().getGroup() );
+                project.setProperty( "reactor.version", def.getInfo().getVersion() );
                 project.setProperty( "reactor.basedir", def.getBaseDir().toString() );
                 project.setProperty( "reactor.path", def.getInfo().getPath() );
                 project.setProperty( "reactor.uri", def.getInfo().getURI() );
                 project.setProperty( "reactor.spec", def.getInfo().getSpec() );
+                project.setProperty( "reactor.type", def.getInfo().getType() );
+                project.setProperty( "reactor.filename", def.getInfo().getFilename() );
+                project.setProperty( "reactor.short-filename", def.getInfo().getShortFilename() );
                 super.execute();
             }
         }
