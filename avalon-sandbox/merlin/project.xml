@@ -57,6 +57,11 @@
       <id>leosimons</id>
       <email>leosimons@apache.org</email>
     </developer>
+    <developer>
+      <name>Berin Loritsch</name>
+      <id>bloritsch</id>
+      <email>bloritsch@apache.org</email>
+    </developer>
   </developers>
 
   <contributors>
@@ -69,11 +74,6 @@
       <name>Marcus Crafter</name>
       <id>crafterm</id>
       <email>crafterm@apache.org</email>
-    </contributor>
-    <contributor>
-      <name>Berin Loritsch</name>
-      <id>bloritsch</id>
-      <email>bloritsch@apache.org</email>
     </contributor>
     <contributor>
       <name>Richard Wallace</name>
