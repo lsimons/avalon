@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-
-<project default="jar:install" xmlns:j="jelly:core" xmlns:ant="jelly:ant">
-    <!-- include the excalibur-wide custom project properties -->
-    <property file="${basedir}/project.properties"/>
-
-</project>
-
