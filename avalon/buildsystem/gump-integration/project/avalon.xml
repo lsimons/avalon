@@ -15,7 +15,10 @@
         descriptor. -->
 
         <package>org.apache.avalon</package>
-        <mkdir dir="framework/target/classes"/>
+        <mkdir dir="framework/api/target/classes"/>
+        <mkdir dir="framework/api/target/test-classes"/>
+        <mkdir dir="framework/impl/target/classes"/>
+        <mkdir dir="framework/impl/target/test-classes"/>
         <ant target="dist" basedir="framework">
             <property name="project.version" value="@@DATE@@"></property>
         </ant>
@@ -28,14 +31,14 @@
         <depend runtime="true" project="jakarta-log4j"/>
         <depend runtime="true" project="avalon-logkit"/>
 
-        <work nested="framework/target/classes"/>
-        <work nested="framework/target/api-classes"/>
-        <work nested="framework/target/impl-classes"/>
-        <work nested="framework/target/test-classes"/>
+        <work nested="framework/api/target/classes"/>
+        <work nested="framework/api/target/test-classes"/>
+        <work nested="framework/impl/target/classes"/>
+        <work nested="framework/impl/target/test-classes"/>
 
         <home nested="framework"/>
         <jar name="target/avalon-framework-@@DATE@@.jar" id="combined"/>
-        <javadoc nested="framework/target/docs/apidocs"/>
+        <javadoc nested="framework/api/target/docs/apidocs"/>
 
         <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"/>
     </project>
