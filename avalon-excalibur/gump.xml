@@ -196,6 +196,34 @@
             to="avalon-dev@jakarta.apache.org"/>
     </project>
 
+    <project name="excalibur-component">
+        <package>org.apache.avalon.excalibur.component</package>
+
+        <ant basedir="component">
+            <depend property="junit.jar" project="junit"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <depend project="checkstyle"/>
+        <depend project="excalibur-pool"/>
+        <depend project="excalibur-logger"/>
+        <depend project="excalibur-collections"/>
+        <depend project="jakarta-avalon-logkit"/>
+        <depend project="jakarta-avalon"/>
+        <work nested="component/build/classes"/>
+
+        <home nested="component"/>
+        <jar name="build/lib/excalibur-component-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
     <project name="excalibur-concurrent">
         <package>org.apache.avalon.excalibur.concurrent</package>
 
@@ -401,6 +429,31 @@
 
         <home nested="lang"/>
         <jar name="build/lib/excalibur-lang-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="excalibur-logger">
+        <package>org.apache.avalon.excalibur.logger</package>
+
+        <ant basedir="logger">
+            <depend property="junit.jar" project="junit"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <depend project="checkstyle"/>
+        <depend project="jakarta-avalon"/>
+        <depend project="jakarta-avalon-logkit"/>
+        <work nested="logger/build/classes"/>
+
+        <home nested="logger"/>
+        <jar name="build/lib/excalibur-logger-@@DATE@@.jar"/>
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
