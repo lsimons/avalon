@@ -106,12 +106,12 @@
   -->
 
   <goal name="avalon:build" description="Build Merlin."
-    prereqs="avalon:build-main,avalon:build-kernel,avalon:build-externals,avalon:xinstall"/>
+    prereqs="xmain,xkernel,xplugin,xexternals,xinstall"/>
 
-  <goal name="avalon:build-main" description="Build Merlin.">
+  <goal name="xmain" description="Build Merlin.">
 
     <maven:reactor basedir="${basedir}"
-      includes="api/project.xml,impl/project.xml,../composition/**/project.xml,../activation/**/project.xml"
+      includes="api/project.xml,impl/project.xml"
       banner="Installing:"
       goals="jar:install"
       ignoreFailures="false" 
@@ -149,7 +149,7 @@
     </j:forEach>
   </goal>
 
-  <goal name="avalon:build-kernel">
+  <goal name="xkernel">
     <maven:reactor basedir="${basedir}"
       includes="unit/project.xml,cli/project.xml"
       goals="jar:install"
@@ -192,7 +192,7 @@
     </j:forEach>
   </goal>
 
-  <goal name="avalon:build-externals" description="Build Externals.">
+  <goal name="xexternals">
     <maven:reactor basedir="${basedir}"
       includes="external.xml"
       banner="Installing:"
@@ -215,6 +215,14 @@
     </j:forEach>
   </goal>
 
+  <goal name="xplugin">
+    <maven:reactor basedir="${basedir}"
+      includes="plugin/plugin.xml"
+      banner="Installing:"
+      ignoreFailures="false" 
+      postProcessing="false" />
+  </goal>
+
   <!--
   ==============================================================================
   build the merlin installation 
@@ -224,7 +232,7 @@
   <goal name="avalon:install" 
     description="Build the Merlin distribution." prereqs="avalon:build"/>
 
-  <goal name="avalon:xinstall">
+  <goal name="xinstall">
     <!-- add supporting resources -->
     <ant:copy toDir="${merlin.build.inst.dir}">
       <fileset dir="${basedir}">

@@ -15,6 +15,26 @@ Top level solution not in place yet - but it's underway.
     prereqs="xmeta,xutil,xrepo,xlogging,xcomposition,xactivation,xmerlin"/>
   -->
 
+  <goal name="plugins" prereqs="xplugins"/>
+
+  <goal name="util" prereqs="xutil"/>
+  <goal name="framework" prereqs="xframework"/>
+  <goal name="meta" prereqs="framework,xmeta"/>
+  <goal name="repository" prereqs="util,xrepository"/>
+  <goal name="logging" prereqs="repository,xlogging"/>
+  <goal name="composition" prereqs="repository,meta,logging,xcomposition"/>
+  <goal name="activation" prereqs="composition,xactivation"/>
+  <goal name="merlin" prereqs="activation,xmerlin"/>
+
+  <goal name="xframework">
+    <maven:reactor basedir="${basedir}"
+      includes="framework/project.xml"
+      banner="Building:"
+      goals="avalon:build"
+      ignoreFailures="false" 
+      postProcessing="false" />
+  </goal>
+
   <goal name="xutil">
     <maven:reactor basedir="${basedir}"
       includes="util/project.xml"
