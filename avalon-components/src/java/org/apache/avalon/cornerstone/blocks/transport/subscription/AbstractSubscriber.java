@@ -29,7 +29,7 @@ import org.apache.commons.altrmi.common.AltrmiConnectionException;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 
 public abstract class AbstractSubscriber
@@ -55,12 +55,12 @@ public abstract class AbstractSubscriber
 
       if (proxyClassLocation.equals("client"))
       {
-         mAltrmiFactory = new ClientClassAltrmiFactory();
+         mAltrmiFactory = new ClientClassAltrmiFactory(false);
       }
       else
          if (proxyClassLocation.equals("server"))
          {
-            mAltrmiFactory = new ServerClassAltrmiFactory();
+            mAltrmiFactory = new ServerClassAltrmiFactory(false);
          }
          else
          {
@@ -69,16 +69,22 @@ public abstract class AbstractSubscriber
          }
    }
 
-   public Object lookup (String s)
-      throws AltrmiConnectionException
-   {
-      return mAltrmiFactory.lookup(s);
-   }
+   /**
+    * Method lookup
+    *
+    *
+    * @param publishedName
+    *
+    * @return
+    *
+    * @throws AltrmiConnectionException
+    *
+    */
 
-   public Object lookup (String s, boolean beanOnly)
+   public Object lookup (String publishedName)
       throws AltrmiConnectionException
    {
-      return mAltrmiFactory.lookup(s, beanOnly);
+      return mAltrmiFactory.lookup(publishedName);
    }
 
    /**
