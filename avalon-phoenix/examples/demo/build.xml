@@ -93,39 +93,6 @@
 
     </target>
 
-    <!-- Compiles project -->
-    <target name="compile">
-
-        <mkdir dir="${target.dir}/example-classes"/>
-        <mkdir dir="${target.dir}/genjava"/>
-        <mkdir dir="${target.dir}/genclasses"/>
-        <mkdir dir="${target.dir}/genjava2"/>
-        <mkdir dir="${target.dir}/genclasses2"/>
-
-        <javac srcdir="${java.dir}"
-            destdir="${target.classes}"
-            debug="${build.debug}"
-            optimize="${build.optimize}"
-            deprecation="${build.deprecation}">
-            <classpath refid="project.class.path"/>
-
-        </javac>
-
-        <rmic base="${target.classes}"
-            classname="org.apache.avalon.apps.demos.rmihelloworldserver.RMIHelloWorldServerImpl"
-            stubVersion="1.2">
-            <classpath refid="project.class.path"/>
-        </rmic>
-
-        <copy todir="${target.classes}">
-            <fileset dir="${java.dir}">
-                <exclude name="**/test/**"/>
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>
-
-    </target>
-
 
     <!-- Make .xinfo and manifest automatically for blocks -->
     <target name="phoenix-metagenerate" depends="compile">
@@ -220,7 +187,6 @@
                 <include name="cornerstone.jar"/>
                 <include name="excalibur-thread*.jar"/>
                 <include name="excalibur-pool*.jar"/>
-                <include name="excalibur-collections*.jar"/>
             </lib>
 
         </sar>
