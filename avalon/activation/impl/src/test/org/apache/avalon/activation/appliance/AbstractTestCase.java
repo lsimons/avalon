@@ -115,9 +115,11 @@ public abstract class AbstractTestCase extends TestCase
         InitialContext context = 
           new DefaultInitialContext( getMavenRepositoryDirectory() );
   
+        long timeout = 3000;
+
         m_system = 
           DefaultSystemContext.createSystemContext( 
-            context, base, local, ConsoleLogger.LEVEL_INFO, m_secured, 3000 );
+            context, base, local, ConsoleLogger.LEVEL_INFO, m_secured, timeout );
         m_logger = m_system.getLogger();
 
         //
