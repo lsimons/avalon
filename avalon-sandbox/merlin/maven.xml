@@ -31,7 +31,7 @@
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml,merlin-extensions/merlin-jmx/project.xml,merlin-extensions/merlin-jndi/project.xml,merlin-extensions/merlin-servlet/project.xml"
-      excludes="merlin-platform/*,merlin-plugin/*"
+      excludes="merlin-platform/*,merlin-plugin/*,activation-spi/*,activation/*"
       goals="merlin-propergate"
       banner="Installing:"
       ignoreFailures="false" />
@@ -236,8 +236,10 @@
         <sourcepath path="${basedir}/../meta/src/java"/>
         <sourcepath path="${basedir}/../extension-spi/src/java"/>
         <sourcepath path="${basedir}/../extension/src/java"/>
+        <!--
         <sourcepath path="${basedir}/../activation-spi/src/java"/>
         <sourcepath path="${basedir}/../activation/src/java"/>
+        -->
         <sourcepath path="${basedir}/../composition-spi/src/java"/>
         <sourcepath path="${basedir}/../composition/src/java"/>
         <sourcepath path="${basedir}/../assembly-spi/src/java"/>
@@ -286,7 +288,7 @@
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml,merlin-extensions/*/project.xml"
-      excludes="merlin-platform/*"
+      excludes="merlin-platform/*,activation-spi/*,activation/*"
       goals="clean"
       banner="Cleaning subproject:"
       ignoreFailures="false"/>
