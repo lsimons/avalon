@@ -200,7 +200,7 @@ public void service( ServiceManager man )
           </tr>
           <tr>
             <td>
-    boolean&#160;isSettable(&#160;Object container,&#160;String memberName&#160;)<br/>
+    boolean&#160;isSettable(<br/>&#160;&#160;&#160;&#160;Object&#160;container,&#160;String&#160;memberName&#160;)<br/>
     &#160;&#160;&#160;&#160;throws ReflectionException;
             </td>
             <td>
