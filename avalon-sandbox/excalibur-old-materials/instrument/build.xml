@@ -50,7 +50,7 @@
         <pathelement location="${checkstyle.jar}"/>
     </path>
         
-    <target name="main" depends="dist" description="Build the project"/>
+    <target name="main" depends="jar" description="Build the project"/>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
 
     <!-- Compiles the source code -->
