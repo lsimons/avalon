@@ -31,7 +31,9 @@
 
       <subsection name="Description">
         <p>
-          TO BE DONE
+          A named security profile.  A profile contains a set of permissions
+          that are assiated with the profile name and may be assigned to a 
+          component via a target declaration.
         </p>
       </subsection>
 

@@ -33,7 +33,7 @@
       <subsection name="Description">
 <p>
 Multiple actions may be contained within the scope of a permission.  
-Each action contains a single value.
+Each action contains a single action value.
 </p>
       </subsection>
 
