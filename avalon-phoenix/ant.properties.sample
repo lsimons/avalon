@@ -30,7 +30,8 @@
 
 #tools.jar=../jakarta-avalon/tools
 
-# The path to xerces.jar
-#xerces.jar=${tools.dir}/lib/xerces.jar
+# The directory containing the xerces.jar file
+#xerces.dir=${tools.dir}/lib
 
-
+# The xerces.jar filename
+#xerces.file=xerces.jar

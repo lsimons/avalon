@@ -24,9 +24,11 @@
   Distribution
   ------------
   Distribution contains the following:
-  -xerces.jar               Any SAX2 parser will work. By default xerces is used.
   -phoenix-engine.jar       The Phoenix kernel
   -phoenix-loader.jar       Phoenix loader
+
+  Distributions built above JDK1.3 will include the following:
+  -xerces.jar               Any SAX2 parser will work. By default xerces is used.
 
   Installation Instructions and Documentation
   -------------------------------------------
