@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.excalibur.cache.test;
 
-import org.apache.avalon.excalibur.cache.Cache;
 import org.apache.avalon.excalibur.cache.LRUCache;
 
 /**
@@ -25,6 +24,6 @@ public class LRUCacheTestCase
 
     protected void setUp()
     {
-        m_cache = new LRUCache( 10 );
+        m_cache = new LRUCache( STORE_SIZE );
     }
 }

@@ -25,6 +25,6 @@ public class TimeMapLRUCacheTestCase
 
     protected void setUp()
     {
-        m_cache = new TimeMapLRUCache( 10 );
+        m_cache = new TimeMapLRUCache( STORE_SIZE );
     }
 }

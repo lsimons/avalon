@@ -24,6 +24,6 @@ public class FlipSpacesStoreTestCase
 
     protected void setUp()
     {
-        m_store = new FlipSpacesStore( 10 );
+        m_store = new FlipSpacesStore( STORE_SIZE );
     }
 }
