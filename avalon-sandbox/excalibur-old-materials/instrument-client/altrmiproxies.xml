@@ -17,7 +17,7 @@
     </path>
 
     <taskdef name="altrmiproxies"
-        classname="org.apache.excalibur.altrmi.generator.ant.AltrmiProxyTask">
+        classname="org.apache.excalibur.altrmi.generator.ant.ProxyGenerationTask">
         <classpath>
           <path refid="project.class.path" />
           <pathelement path="${build.manager.classes}"/>
