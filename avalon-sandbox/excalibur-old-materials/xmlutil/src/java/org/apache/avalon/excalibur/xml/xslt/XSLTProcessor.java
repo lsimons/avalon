@@ -22,7 +22,7 @@ import org.apache.excalibur.source.SourceResolver;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessor.java,v 1.3 2002/05/02 10:04:05 cziegeler Exp $
+ * @version CVS $Id: XSLTProcessor.java,v 1.4 2002/05/02 11:29:11 cziegeler Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
@@ -32,6 +32,18 @@ public interface XSLTProcessor extends Component
      * The role implemented by an <code>XSLTProcessor</code>.
      */
     String ROLE = XSLTProcessor.class.getName();
+
+    /**
+     * Set the TransformerFactory for this instance.
+     * The <code>factory</code> is invoked to return a
+     * <code>TransformerHandler</code> to perform the transformation.
+     *
+     * @param classname the name of the class implementing
+     * <code>TransformerFactory</code> value. If an error is found
+     * or the indicated class doesn't implement the required interface
+     * the original factory of the component is maintained.
+     */
+    void setTransformerFactory(String classname);
 
     /**
      * <p>Return a <code>TransformerHandler</code> for a given
