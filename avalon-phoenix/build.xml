@@ -390,6 +390,9 @@ Legal:
       <include name="org/apache/avalon/phoenix/metainfo/**"/>
       <include name="org/apache/avalon/phoenix/metadata/**"/>
       <include name="org/apache/avalon/phoenix/tools/**"/>
+      <zipfileset dir="${src.dir}/schema" prefix="org/apache/avalon/phoenix/tools">
+        <include name="*.dtd"/>
+      </zipfileset>
     </jar>
 
     <jar jarfile="${build.lib}/phoenix-loader.jar"
