@@ -107,8 +107,8 @@ Legal:
     <pathelement path="${java.class.path}" />
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
-      <exclude name="logkit.jar"/>
-      <exclude name="xerces.jar"/>
+      <exclude name="logkit*.jar"/>
+      <exclude name="xerces*.jar"/>
     </fileset>
     <pathelement path="${build.classes}" />
   </path>
@@ -173,35 +173,8 @@ Legal:
     <property name="src.dist.tools" value="${src.dist.dir}/tools"/>
   </target>
 
-  <!-- Checks the environment for existing resources -->
-  <target name="check-environment">
-    <available property="jndi.present" classname="javax.naming.Context">
-      <classpath refid="project.class.path"/>
-    </available>
-    <available property="datasource.present" classname="javax.sql.DataSource">
-      <classpath refid="project.class.path"/>
-    </available>
-    <available property="jdbc3.present" classname="java.sql.Savepoint">
-      <classpath refid="project.class.path"/>
-    </available>
-  </target>
-
-  <target name="check-datasource" depends="check-environment" if="datasource.present">
-    <property name="j2ee.present" value="true"/>
-  </target>
-
-  <target name="jdbc2" unless="jdbc3.present">
-    <copy file="${java.dir}/org/apache/avalon/excalibur/datasource/Jdbc2Connection.java"
-          tofile="${build.src}/org/apache/avalon/excalibur/datasource/JdbcConnection.java"/>
-  </target>
-
-  <target name="jdbc3" if="jdbc3.present">
-    <copy file="${java.dir}/org/apache/avalon/excalibur/datasource/Jdbc3Connection.java"
-          tofile="${build.src}/org/apache/avalon/excalibur/datasource/JdbcConnection.java" />
-  </target>
-
   <!-- Prepares the build directory -->
-  <target name="prepare" depends="check-datasource,setup-properties,jdbc2,jdbc3">
+  <target name="prepare">
     <tstamp/>
     <mkdir dir="${build.dir}"/>
   </target>
@@ -210,14 +183,6 @@ Legal:
   <target name="compile" depends="prepare">
 
     <mkdir dir="${build.classes}"/>
-    <mkdir dir="${build.scratchpad}"/>
-
-<!--
-    <depend closure="yes"
-            cache="${dep}"
-            srcdir="${java.dir}"
-            destdir="${build.classes}" />
--->
 
     <javac srcdir="${java.dir}"
            destdir="${build.classes}"
@@ -226,56 +191,7 @@ Legal:
            deprecation="${deprecation}">
       <classpath refid="project.class.path" />
       <src path="${test.dir}"/>
-      <src path="${build.src}"/>
-      <exclude name="org/apache/avalon/excalibur/datasource/J2eeDataSource.java"
-               unless="j2ee.present"/>
-      <exclude name="org/apache/avalon/excalibur/datasource/Jdbc2Connection.java"/>
-      <exclude name="org/apache/avalon/excalibur/datasource/Jdbc3Connection.java"/>
     </javac>
-
-    <javac srcdir="${scratchpad.dir}"
-           destdir="${build.scratchpad}"
-           debug="${debug}"
-           optimize="${optimize}"
-           deprecation="${deprecation}">
-      <classpath refid="project.class.path" />
-    </javac>
-
-  </target>
-
-  <target name="test" depends="compile" > 
-    <echo message="Performing Unit Tests" />
-    <test showSuccess="true" showBanner="false" showTrace="true" forceShowTrace="true" > 
-       <classpath refid="test.class.path" />
-       <testlet>org.apache.avalon.excalibur.cli.test.ClutilTestlet</testlet>
-       <testlet>org.apache.avalon.excalibur.collections.test.BinaryHeapTestlet</testlet>
-       <!-- <testlet>org.apache.avalon.excalibur.datasource.test.DataSourceTestlet</testlet> -->
-       <testlet>org.apache.avalon.excalibur.io.test.FileUtilTestlet</testlet>
-       <testlet>org.apache.avalon.excalibur.io.test.IOUtilTestlet</testlet>
-       <testlet>org.apache.avalon.excalibur.property.test.PropertyUtilTestlet</testlet>
-    </test>
-  </target>
-
-  <!-- Creates the clutil.jar file -->
-  <target name="compile-clutil" depends="prepare">
-
-    <mkdir dir="${build.classes}"/>
-
-    <javac srcdir="${java.dir}"
-           destdir="${build.classes}"
-           debug="${debug}"
-           optimize="${optimize}"
-           deprecation="${deprecation}">
-      <include name="org/apache/avalon/excalibur/cli/*" />
-    </javac>
-  </target>
-
-  <target name="jar-clutil" depends="compile-clutil">
-    <mkdir dir="${build.lib}"/>
-    <jar jarfile="${build.lib}/clutil.jar" basedir="${build.classes}">
-      <include name="org/apache/avalon/excalibur/cli/*" />
-      <exclude name="org/apache/avalon/excalibur/cli/test/*" />
-    </jar>
   </target>
 
   <!-- Creates the exceptionutil.jar file -->
@@ -450,34 +366,16 @@ Legal:
 
   <!-- Creates all the .jar files -->
   <target name="jar" depends="compile">
-
     <mkdir dir="${build.lib}"/>
-
-    <jar jarfile="${build.lib}/${excalibur.name}.jar" basedir="${build.classes}">
-      <include name="org/apache/avalon/excalibur/**"/>
-      <exclude name="**/test/*"/>
-    </jar>
-
     <jar jarfile="${build.lib}/${framework.name}.jar" basedir="${build.classes}">
       <include name="org/apache/avalon/framework/**"/>
       <exclude name="**/test/*"/>
     </jar>
-
-    <jar jarfile="${build.lib}/${testlets.name}.jar" basedir="${build.classes}">
-      <include name="**/test/*"/>
-    </jar>
-    <jar jarfile="${build.lib}/${scratchpad.name}.jar" basedir="${build.scratchpad}"/>
-
   </target>
 
   <target name="install" depends="jar,install-check-cjan">
-
     <mkdir dir="${cjan.lib}" />
     <copy file="${build.lib}/${framework.name}.jar" todir="${cjan.lib}"/>
-    <copy file="${build.lib}/${excalibur.name}.jar" todir="${cjan.lib}"/>
-    <copy file="${build.lib}/${scratchpad.name}.jar" todir="${cjan.lib}"/>
-    <copy file="${build.lib}/${testlets.name}.jar" todir="${cjan.lib}"/>
-
   </target>
 
   <target name="install-check-cjan" unless="cjan.lib">
@@ -489,9 +387,6 @@ Legal:
 
     <mkdir dir="${dist.dir}"/>
     <copy file="${build.lib}/${framework.name}.jar" tofile="${dist.dir}/${framework.name}-${version}.jar"/>
-    <copy file="${build.lib}/${excalibur.name}.jar" tofile="${dist.dir}/${excalibur.name}-${version}.jar"/>
-    <copy file="${build.lib}/${testlets.name}.jar" tofile="${dist.dir}/${testlets.name}-${version}.jar"/>
-    <copy file="${build.lib}/${scratchpad.name}.jar" tofile="${dist.dir}/${scratchpad.name}-${version}.jar"/>
 
     <mkdir dir="${dist.docs}"/>
     <mkdir dir="${dist.javadocs}"/>
@@ -507,6 +402,8 @@ Legal:
     <copy todir="${dist.dir}">
       <fileset dir=".">
         <include name="README"/>
+        <include name="KEYS"/>
+        <include name="LICENSE"/>
       </fileset>
     </copy>
 
@@ -525,16 +422,11 @@ Legal:
 
     <copy todir="${src.dist.lib}">
       <fileset dir="${lib.dir}">
-        <include name="bytecode.jar" />
-<!--
-        <include name="xerces.jar" />
-        <include name="logkit.jar" />
--->
+        <include name="README" />
       </fileset>
     </copy>
 
-    <copy file="${logkit.jar}" tofile="${src.dist.lib}/logkit.jar"/>
-    <copy file="${xerces.jar}" tofile="${src.dist.lib}/xerces.jar"/>
+    <copy file="${logkit.jar}" todir="${src.dist.lib}"/>
 
     <copy todir="${src.dist.src}">
       <fileset dir="${src.dir}"/>
@@ -551,6 +443,8 @@ Legal:
     <copy todir="${src.dist.dir}">
       <fileset dir=".">
         <include name="README"/>
+        <include name="LICENSE"/>
+        <include name="KEYS"/>
         <include name="build.bat"/>
         <include name="build.sh"/>
         <include name="build.xml"/>
