@@ -364,13 +364,13 @@ public class CommandManager implements EventPipeline, Disposable, EnqueuePredica
             }
             catch( Exception e )
             {
-                boolean keepProcessing =
+                boolean stopProcessing =
                         getCommandFailureHandler().handleCommandFailure((Command)element, e);
 
                 /* If we are no longer processing, then we clear out the Queue and refuse to accept
                  * any more commands.  Essentially the CommandManager is closed.
                  */
-                if ( ! keepProcessing )
+                if ( stopProcessing )
                 {
                     m_isAccepting = false;
                     m_queue.dequeueAll();
