@@ -8,7 +8,8 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.parameters.Parameters;
 
-public class PUnitResourceProvider implements ResourceProvider
+public class PUnitResourceProvider
+    implements ResourceProvider
 {
     public Object createObject(Object o) throws Exception
     {
