@@ -46,12 +46,32 @@
   </xsl:template>
 
   <xsl:template match="project">
-    <xsl:call-template name="word-wrap">
-      <xsl:with-param name="text" select="normalize-space(description)"/>
-      <xsl:with-param name="count" select="0"/>
-    </xsl:call-template>
-    <xsl:text>
+    <xsl:choose>
+      <xsl:when test="description/para">
+        <xsl:for-each select="description/para">
+	  <xsl:call-template name="word-wrap">
+	    <xsl:with-param name="text">
+	      <xsl:apply-templates select="."/>
+	    </xsl:with-param>
+	    <xsl:with-param name="count" select="0"/>
+	  </xsl:call-template>
+	  <xsl:text>
 
+</xsl:text>
+	</xsl:for-each>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:call-template name="word-wrap">
+          <xsl:with-param name="text">
+	    <xsl:apply-templates select="description"/>
+	  </xsl:with-param>
+          <xsl:with-param name="count" select="0"/>
+        </xsl:call-template>
+	<xsl:text>
+</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:text>
 For more information about </xsl:text>
     <xsl:value-of select="title"/>
     <xsl:text>, please go to
@@ -80,16 +100,16 @@ Downloads for </xsl:text><xsl:value-of select="title"/> available at
 
   </xsl:template>
 
-  <xsl:template match="p">
+  <xsl:template match="para">
     <xsl:apply-templates/>
     <xsl:text>
 </xsl:text>
   </xsl:template>
 
-  <xsl:template match="link">
+  <xsl:template match="ulink">
     <xsl:value-of select="."/>
     <xsl:text> (</xsl:text>
-    <xsl:value-of select="@href"/>
+    <xsl:value-of select="@uri"/>
     <xsl:text>)</xsl:text>
   </xsl:template>
 
@@ -97,7 +117,7 @@ Downloads for </xsl:text><xsl:value-of select="title"/> available at
     <xsl:for-each select="action">
       <xsl:text>*) </xsl:text>
       <xsl:call-template name="word-wrap">
-        <xsl:with-param name="text" select="normalize-space(.)"/>
+        <xsl:with-param name="text" select="."/>
         <xsl:with-param name="count" select="0"/>
       </xsl:call-template><xsl:text> </xsl:text>
       <xsl:if test="@dev">
@@ -122,22 +142,23 @@ Downloads for </xsl:text><xsl:value-of select="title"/> available at
   <xsl:template name="word-wrap">
     <xsl:param name="text"/>
     <xsl:param name="count"/>
+    <xsl:param name="mytext" select="normalize-space($text)"/>
     <xsl:choose>
       <xsl:when test="$count > 40">
         <xsl:text>
 </xsl:text>
         <xsl:call-template name="word-wrap">
-          <xsl:with-param name="text" select="$text"/>
+          <xsl:with-param name="text" select="$mytext"/>
           <xsl:with-param name="count" select="0"/>
         </xsl:call-template>
       </xsl:when>
-      <xsl:when test="not(contains($text,' '))">
+      <xsl:when test="not(contains($mytext,' '))">
         <xsl:text> </xsl:text>
-        <xsl:value-of select="$text"/>
+        <xsl:value-of select="$mytext"/>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:variable name="word" select="substring-before($text,' ')"/>
-        <xsl:variable name="remainder" select="substring-after($text,' ')"/>
+        <xsl:variable name="word" select="substring-before($mytext,' ')"/>
+        <xsl:variable name="remainder" select="substring-after($mytext,' ')"/>
         <xsl:text> </xsl:text>
         <xsl:value-of select="$word"/>
         <xsl:if test="string-length($word) > 0">
