@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.xml;
+package org.apache.excalibur.xml.dom;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
@@ -17,7 +17,7 @@ import org.w3c.dom.Node;
  *
  * @author <a href="mailto:sylvain.wallez@anyware-tech.com">Sylvain Wallez</a>
  * @author <a href="mailto:ricardo@apache.org">Ricardo Rocha</a> for the original XObject class
- * @version CVS $Revision: 1.2 $ $Date: 2002/07/07 07:16:44 $
+ * @version CVS $Revision: 1.1 $ $Date: 2003/01/14 09:39:36 $
  */
 public interface XMLFragment
 {

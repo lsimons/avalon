@@ -9,12 +9,13 @@ package org.apache.excalibur.xml.dom;
 
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.sax.TransformerHandler;
-import org.apache.avalon.excalibur.xml.ContentHandlerWrapper;
+
+import org.apache.excalibur.xml.sax.ContentHandlerWrapper;
 import org.w3c.dom.Document;
 
 /**
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/11/12 23:35:34 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/01/14 09:39:36 $
  */
 public class DefaultDOMHandler
     extends ContentHandlerWrapper

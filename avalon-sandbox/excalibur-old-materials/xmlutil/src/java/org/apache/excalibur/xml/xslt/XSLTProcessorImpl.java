@@ -24,7 +24,7 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TemplatesHandler;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamSource;
-import org.apache.avalon.excalibur.xml.XMLizable;
+import org.apache.excalibur.xml.sax.XMLizable;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.ComponentException;
@@ -64,7 +64,7 @@ import org.xml.sax.XMLFilter;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.21 2003/01/14 07:38:22 cziegeler Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.22 2003/01/14 09:39:36 cziegeler Exp $
  * @version 1.0
  * @since   July 11, 2001
  */

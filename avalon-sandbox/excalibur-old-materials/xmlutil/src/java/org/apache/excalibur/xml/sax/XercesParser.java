@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.xml;
+package org.apache.excalibur.xml.sax;
 
 import java.io.IOException;
 import org.apache.avalon.framework.activity.Initializable;
@@ -25,11 +25,12 @@ import org.xml.sax.ext.LexicalHandler;
 /**
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  *         (Apache Software Foundation, Exoffice Technologies)
- * @version CVS $Revision: 1.7 $ $Date: 2002/10/02 01:52:24 $
+ * @version CVS $Revision: 1.1 $ $Date: 2003/01/14 09:39:37 $
  */
 public final class XercesParser
     extends AbstractLogEnabled
-    implements Parser, ErrorHandler, ThreadSafe, Initializable
+    implements Parser, org.apache.excalibur.xml.dom.Parser,
+                ErrorHandler, ThreadSafe, Initializable
 {
     public void initialize()
         throws Exception
