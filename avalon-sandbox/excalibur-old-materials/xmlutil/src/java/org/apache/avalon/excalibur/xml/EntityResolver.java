@@ -12,8 +12,10 @@ import org.apache.avalon.framework.component.Component;
 /**
  * A component that uses catalogs for resolving Entities.
  *
+ * @deprecated Moved to org.apache.excalibur.xml package. Removed dependency
+ * on Component.
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/07/07 05:22:00 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/10/31 02:48:37 $
  */
 public interface EntityResolver
     extends Component, org.xml.sax.EntityResolver
