@@ -41,6 +41,17 @@
             </td>
           </tr>
           <tr>
+            <td><a href="svn.html">Building Merlin from SVN</a></td>
+            <td>
+              <p>
+                Instruction on how to build the latest greatest version
+                of the Avalon platform.  These instructions are target towards
+                bleeding edge developers that are interested in tracking and 
+                contributing to the day to development and platform evolution.
+              </p>
+            </td>
+          </tr>
+          <tr>
             <td><a href="nt.html">Merlin NT Service</a></td>
             <td>
               <p>

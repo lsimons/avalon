@@ -16,12 +16,100 @@
       for transitive inheritance of dependency information.
       </p>
       <p>
-      An example of a Magic project defintion is shown below:
+      An example of a Magic project defintion:
       </p>
-<source>
-</source>
+<source><![CDATA[
+<project basedir="../../runtime/framework/impl">
+  <info>
+    <group>avalon/framework</group>
+    <name>avalon-framework-impl</name>
+    <version>4.2.0</version>
+  </info>
+  <dependencies>
+    <include key="avalon-framework-api"/>
+  </dependencies>
+</project>
+]]></source>
+
+      <p>
+      The above XML fragment is taken from a index.xml file.  The index.xml 
+      contains the resource, project, and plugin defintions for a suite of 
+      interconnected systems.  Within magic, plugins and projects are derived
+      from the notion of a resouce.  A resource can be viewed as a logical 
+      artifact accessible from a repository cache using group, name and version 
+      information.  A project extends this concept to include a local basedir 
+      refernce (the root of the project directory) and a set of dependencies.
+      Plugins extend the concept of project to include the delcaration of 
+      the Ant tasks they provide to the classic ant build environment. 
+      </p>
+
+      <p>
+      Dependendency declarations within a project refernce the name of another 
+      another project within the scope of an index.xml file.  As such, a 
+      dependency declaration can be resolved to an artifact group, name, version
+      and type, and from this information, a repository based resource can be 
+      resolved, or in the case of a project or plugin reference, a target can be 
+      built as part of a higher-level build scenario. 
+      </p>
+
+      <p>
+      The declaration of dependendency implicitly introduced a dependency 
+      by the dependee on the dependent of the dependency. In other words, dependency
+      declarations are transative.  Magic provides support for the qualification of 
+      transativate dependency inheritance relative to the following four policies: 
+      </p>
+
+      <ul>
+        <li>ANY</li>
+        <li>BUILD</li>
+        <li>TEST</li>
+        <li>RUNTIME</li>
+      </ul>
+
+      <p>
+      A set of ant tasks use magic dependency information to construct respective  
+      classpaths and classloaders when executing classic ant tasks such as 
+      javac, junit, or custom tasks dealing with runtime artifacts (e.g. dynamic plugin
+      loading, plugin data generators, deployment meta-data, etc., etc. )
+      </p>
+
+      <p>
+      In the case of RUNTIME dependencies, Magic differntiates between the following
+      classloader categories.
+      </p>
+
+      <ul>
+        <li>ANY</li>
+        <li>API</li>
+        <li>SPI</li>
+        <li>IMPL</li>
+      </ul>
+
+      <p>
+      A dependency declared as RUNTIME enabled with a tag API
+      will result in the aggreggation of all of the dependents of the dependant within
+      an API path scope.  The same principal holds true for SPI and IMPL tags with 
+      the exception of non-repition of path entires in lower-level path declarations.
+      In the impication of the term "lower-level" is realtive to the ordering of classloaders
+      resolved from API, SPI and IMPL path declarations.  An IMPL classloader has a SPI
+      classloader as parent, and in turn an SPI classloader has an API as parent. This
+      chaining of classloaders provides the posibility for embedded applications to 
+      control which classloader is supplied to their runtime sub-systems.  For example, 
+      a plugin executing withing a particular environment can cotrol which classloader is 
+      used (typically an API or SPI loader) when deployed child units (plugins, components, 
+      etc.).
+      </p>
+
+      <p>
+      While technically duanting, the above classloader chaining strategy delivers
+      the potential for applications to take control over the management of resourse 
+      isolation - a fundamental security principal in component-based-development.
+      Secondly, the actual implementation of classloader chaining becomes 
+      strait-forward once a declarative model is put in place.
+      </p> 
 
     </section>
+
   </body>
 
 </document>

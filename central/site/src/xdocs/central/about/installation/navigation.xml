@@ -19,16 +19,16 @@
 
 <project>
 
- <title>Apache Avalon Central</title>
+  <title>Merlin</title>
 
- <body>
+  <body>
     <menu>
-      <item name="Installation" href="installation/index.html"/>
-      <item name="Basic" href="basic/index.html"/>
-      <item name="Advanced" href="advanced/index.html"/>
-      <item name="COP" href="cop/index.html"/>
-      <item name="FAQ" href="http://wiki.apache.org/avalon/FrequentlyAskedQuestions"/>
+      <item name="Source" href="svn.html"/>
+      <item name="Binary" href="binary.html"/>
+      <item name="NT Service" href="nt.html"/>
+      <item name="Other Versions" href="archive/index.html"/>
     </menu>
+
  </body>
 
 </project>
