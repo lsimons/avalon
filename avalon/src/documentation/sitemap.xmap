@@ -236,14 +236,14 @@
 
   
    
-<!--   -->
+<!--  
    <map:match pattern="**developing-with-avalon.pdf">
      <map:generate src="content/xdocs/developing/index.xml"/>
      <map:transform type="xinclude"/> 
      <map:transform src="library/xslt/docbook2fo.xsl"/>
      <map:serialize type="pdf"/>
    </map:match>
-<!-- -->      
+-->      
    <!-- ================  Static  =========================== -->
    
    <map:match pattern="skin/**.js">
