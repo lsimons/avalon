@@ -5,30 +5,35 @@ Example block deployment descriptor.
 
 <container name="root">
 
-   <classloader>
+  <classloader>
+    <classpath>
+      <fileset dir="."/>
+      <repository>
+        <resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/>
+      </repository>
+    </classpath>
+    <grant>
+      <permission class="java.util.PropertyPermission" name="java.*" >
+        <action>read</action>
+      </permission>
+      <permission class="java.util.PropertyPermission" name="org.apache.*" >
+        <action>read</action>
+        <action>write</action>
+      </permission>
+      <permission class="java.lang.RuntimePermission" name="getClassLoader" />
+    </grant>
+  </classloader>
 
-     <classpath>
-       <fileset dir="."/>
-       <repository>
-         <resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/>
-       </repository>
-     </classpath>
-
-     <grant>
-       <permission class="java.util.PropertyPermission" name="java.*" >
-         <action>read</action>
-       </permission>
-       <permission class="java.util.PropertyPermission" name="org.apache.*" >
-         <action>read</action>
-         <action>write</action>
-       </permission>
-       <permission class="java.lang.RuntimePermission" name="getClassLoader" />
-     </grant>
-
-   </classloader>
-
-   <component name="test"
+  <container name="Component1" >
+    <component name="test"
        class="org.apache.avalon.activation.appliance.grant.components.TestComponent"
        activation="startup"/>
+  </container>
 
+  <container name="Component2" >
+    <component name="anothertest"
+       class="org.apache.avalon.activation.appliance.grant.components.AnotherTestComponent"
+       activation="startup">
+    </component>
+  </container>
 </container>
