@@ -52,9 +52,9 @@
         <xsl:when test="contains( @href, 'index.html') and contains( @href, '/')" >
           <xsl:attribute name="href"><xsl:value-of select="substring-before( @href, 'index.html' ) " /></xsl:attribute>
           <xsl:attribute name="name"><xsl:value-of select="@name" /></xsl:attribute>
-          <xsl:if test="contains( $fullpath, substring-before( @href, 'index.html' ) )" >
+          <xsl:if test="contains( $fullpath, substring-before( @href, '/' ) )" >
             <xsl:attribute name="selected">true</xsl:attribute>
-          </xsl:if>
+          </xsl:if> 
         </xsl:when>
         <!-- Contains an html file without a directory -->
         <xsl:when test="contains( @href, '.html') and not( contains( @href, '/') )" >
@@ -65,7 +65,7 @@
         <xsl:when test="contains( @href, 'index.html') and contains( @href, '/')" >
           <xsl:attribute name="href"><xsl:value-of select="substring-before( @href, 'index.html' ) " /></xsl:attribute>
           <xsl:attribute name="name"><xsl:value-of select="@name" /></xsl:attribute>
-          <xsl:if test="contains( $fullpath, substring-before( @href, 'index.html' ) )" >
+          <xsl:if test="contains( $fullpath, substring-before( @href, '/' ) )" >
             <xsl:attribute name="selected">true</xsl:attribute>
           </xsl:if>
         </xsl:when>
