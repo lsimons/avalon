@@ -16,9 +16,9 @@ import java.rmi.server.RemoteObject;
 import java.rmi.server.UnicastRemoteObject;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
+import org.apache.avalon.excalibur.baxter.JavaBeanMBean;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.baxter.JavaBeanMBean;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
@@ -27,6 +27,7 @@ import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.components.kernel.DefaultKernel;
 import org.apache.avalon.phoenix.components.kernel.DefaultKernelMBean;
+import org.apache.avalon.phoenix.components.manager.rmiadaptor.RMIAdaptorImpl;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.Deployer;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
@@ -37,7 +38,6 @@ import org.apache.avalon.phoenix.interfaces.KernelMBean;
 import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.interfaces.ManagerException;
 import org.apache.avalon.phoenix.interfaces.PackageRepository;
-import org.apache.jmx.adaptor.RMIAdaptorImpl;
 
 /**
  * This component is responsible for managing phoenix instance.
