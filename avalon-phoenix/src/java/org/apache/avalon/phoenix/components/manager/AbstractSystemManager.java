@@ -30,7 +30,7 @@ public abstract class AbstractSystemManager
     private static final Resources REZ =
         ResourceManager.getPackageResources( AbstractSystemManager.class );
 
-    protected final static class ManagedEntry
+    protected static final class ManagedEntry
     {
         ///Object passed in for management
         protected Object m_object;

@@ -47,7 +47,7 @@ public final class CLIMain
     private static final String DEFAULT_CONF_FILE =
         File.separator + "conf" + File.separator + "kernel.xml";
 
-    private final static String DEFAULT_FORMAT =
+    private static final String DEFAULT_FORMAT =
         "%7.7{priority} %23.23{time:yyyy-MM-dd' 'HH:mm:ss.SSS} [%8.8{category}] (%{context}): " +
         "%{message}\n%{throwable}";
 

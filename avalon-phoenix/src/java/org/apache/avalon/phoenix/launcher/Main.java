@@ -26,9 +26,9 @@ import java.util.StringTokenizer;
  */
 public final class Main
 {
-    private final static String MAIN_CLASS = "org.apache.avalon.phoenix.frontends.CLIMain";
-    private final static String MAIN_JAR = "phoenix-engine.jar";
-    private final static String LOADER_JAR = "phoenix-loader.jar";
+    private static final String MAIN_CLASS = "org.apache.avalon.phoenix.frontends.CLIMain";
+    private static final String MAIN_JAR = "phoenix-engine.jar";
+    private static final String LOADER_JAR = "phoenix-loader.jar";
 
     private static Object c_frontend;
 
@@ -38,7 +38,7 @@ public final class Main
      * @param args the command line arguments
      * @throws Exception if an error occurs
      */
-    public final static void main( final String[] args )
+    public static final void main( final String[] args )
         throws Exception
     {
         int exitCode = startup( args, new Hashtable(), true );
@@ -58,7 +58,7 @@ public final class Main
      *
      * @throws Exception if an error occurs
      */
-    protected final static int startup( final String[] args,
+    protected static final int startup( final String[] args,
                                         final Hashtable data,
                                         final boolean blocking )
         throws Exception
@@ -105,7 +105,7 @@ public final class Main
      * external (calling) application. Protected to allow
      * access from DaemonLauncher.
      */
-    protected final static void shutdown()
+    protected static final void shutdown()
     {
         if( null == c_frontend ) return;
         try
@@ -132,7 +132,7 @@ public final class Main
      * @return the engine file
      * @throws Exception if an error occurs
      */
-    private final static File findEngineJar()
+    private static final File findEngineJar()
         throws Exception
     {
         String phoenixHome = System.getProperty( "phoenix.home", null );
@@ -153,7 +153,7 @@ public final class Main
     /**
      *  Finds the LOADER_JAR file in the classpath.
      */
-    private final static File findLoaderDir()
+    private static final File findLoaderDir()
         throws Exception
     {
         final String classpath = System.getProperty( "java.class.path" );
