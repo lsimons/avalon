@@ -10,7 +10,7 @@ package org.apache.avalon.excalibur.instrument.client;
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/03/26 11:32:24 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/03/30 01:30:49 $
  * @since 4.1
  */
 interface InstrumentManagerConnectionListener
@@ -19,26 +19,23 @@ interface InstrumentManagerConnectionListener
      * Called when the connection is opened.  May be called more than once if 
      *  the connection to the InstrumentManager is reopened.
      *
-     * @param host Host of the connection.
-     * @param host Port of the connection.
+     * @param connection Connection which was opened.
      */
-    void opened( String host, int port );
+    void opened( InstrumentManagerConnection connection );
     
     /**
      * Called when the connection is closed.  May be called more than once if 
      *  the connection to the InstrumentManager is reopened.
      *
-     * @param host Host of the connection.
-     * @param host Port of the connection.
+     * @param connection Connection which was closed.
      */
-    void closed( String host, int port );
+    void closed( InstrumentManagerConnection connection );
     
     /**
-     * Called when the connection is disposed.  All references should be removed.
+     * Called when the connection is deleted.  All references should be removed.
      *
-     * @param host Host of the connection.
-     * @param host Port of the connection.
+     * @param connection Connection which was deleted.
      */
-    void disposed( String host, int port );
+    void deleted( InstrumentManagerConnection connection );
 }
 

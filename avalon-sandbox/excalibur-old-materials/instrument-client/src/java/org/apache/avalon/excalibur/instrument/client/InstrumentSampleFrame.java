@@ -31,7 +31,7 @@ import org.apache.commons.altrmi.common.AltrmiInvocationException;
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/03/28 04:06:18 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/03/30 01:30:49 $
  * @since 4.1
  */
 class InstrumentSampleFrame
@@ -121,10 +121,9 @@ class InstrumentSampleFrame
      * Called when the connection is opened.  May be called more than once if 
      *  the connection to the InstrumentManager is reopened.
      *
-     * @param host Host of the connection.
-     * @param host Port of the connection.
+     * @param connection Connection which was opened.
      */
-    public void opened( String host, int port )
+    public void opened( InstrumentManagerConnection connection )
     {
         // Status changed, so reinitialize the frame.
         init();
@@ -134,22 +133,20 @@ class InstrumentSampleFrame
      * Called when the connection is closed.  May be called more than once if 
      *  the connection to the InstrumentManager is reopened.
      *
-     * @param host Host of the connection.
-     * @param host Port of the connection.
+     * @param connection Connection which was closed.
      */
-    public void closed( String host, int port )
+    public void closed( InstrumentManagerConnection connection )
     {
         // Status changed, so reinitialize the frame.
         init();
     }
     
     /**
-     * Called when the connection is disposed.  All references should be removed.
+     * Called when the connection is deleted.  All references should be removed.
      *
-     * @param host Host of the connection.
-     * @param host Port of the connection.
+     * @param connection Connection which was deleted.
      */
-    public void disposed( String host, int port )
+    public void deleted( InstrumentManagerConnection connection )
     {
         hideFrame();
     }

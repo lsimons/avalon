@@ -23,7 +23,7 @@ import org.apache.commons.altrmi.common.AltrmiInvocationException;
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/03/28 04:06:18 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/03/30 01:30:49 $
  * @since 4.1
  */
 class InstrumentManagerConnection
@@ -36,6 +36,7 @@ class InstrumentManagerConnection
     private InstrumentManagerClient m_manager;
     
     private ArrayList m_listeners = new ArrayList();
+    private InstrumentManagerConnectionListener[] m_listenerArray;
     
     /*---------------------------------------------------------------
      * Constructors
@@ -105,12 +106,18 @@ class InstrumentManagerConnection
                 "InstrumentManagerClient" );
             
             m_closed = false;
-            
-            // Notify the listeners.
-            for ( Iterator iter = m_listeners.iterator(); iter.hasNext(); )
-            {
-                ((InstrumentManagerConnectionListener)iter.next()).opened( m_host, m_port);
-            }
+        }
+        
+        // Notify the listeners.
+        InstrumentManagerConnectionListener[] listeners = m_listenerArray;
+        if ( listeners == null )
+        {
+            listeners = updateListenerArray();
+        }
+        
+        for ( int i = 0; i < listeners.length; i++ )
+        {
+            listeners[i].opened( this );
         }
     }
     
@@ -131,13 +138,23 @@ class InstrumentManagerConnection
         }
     }
     
+    /**
+     * Returns true if the connection is currently closed.
+     *
+     * @return True if the connection is currently closed.
+     */
     public boolean isClosed()
     {
         return m_closed;
     }
     
+    /**
+     * Closes the connection, but keeps it around.  If the remote instrument manager
+     *  is running the connection will reopen itself.
+     */
     public void close()
     {
+        System.out.println("InstrumentManagerConnection.close()");
         synchronized (this)
         {
             if ( !m_closed )
@@ -146,31 +163,58 @@ class InstrumentManagerConnection
                 m_manager = null;
                 m_altrmiFactory.close();
                 m_altrmiFactory = null;
+                // Uncomment this when it gets implemented.
+                // m_altrmiHostContext.close();
                 m_altrmiHostContext = null;
-                
-                // Notify the listeners.
-                for ( Iterator iter = m_listeners.iterator(); iter.hasNext(); )
-                {
-                    ((InstrumentManagerConnectionListener)iter.next()).closed( m_host, m_port);
-                }
             }
+        }
+        
+        // Notify the listeners.
+        InstrumentManagerConnectionListener[] listeners = m_listenerArray;
+        if ( listeners == null )
+        {
+            listeners = updateListenerArray();
+        }
+        
+        for ( int i = 0; i < listeners.length; i++ )
+        {
+            listeners[i].closed( this );
         }
     }
     
-    public void dispose()
+    /**
+     * Called when the connection should be closed and then deleted along with
+     *  any frames and resources that are associated with it.
+     */
+    void delete()
     {
-        synchronized (this)
+        close();
+        
+        // Notify the listeners.
+        InstrumentManagerConnectionListener[] listeners = m_listenerArray;
+        if ( listeners == null )
         {
-            if ( !isClosed() )
-            {
-                close();
-            }
-            
-            // Notify the listeners.
-            for ( Iterator iter = m_listeners.iterator(); iter.hasNext(); )
-            {
-                ((InstrumentManagerConnectionListener)iter.next()).disposed( m_host, m_port);
-            }
+            listeners = updateListenerArray();
+        }
+        
+        for ( int i = 0; i < listeners.length; i++ )
+        {
+            listeners[i].deleted( this );
+        }
+    }
+        
+    /**
+     * Updates the cached array of listeners so that it can be used without synchronization.
+     *
+     * @returns An array of listeners.  Will never be null and is thread safe.
+     */
+    private InstrumentManagerConnectionListener[] updateListenerArray()
+    {
+        synchronized(this)
+        {
+            m_listenerArray = new InstrumentManagerConnectionListener[ m_listeners.size() ];
+            m_listeners.toArray( m_listenerArray );
+            return m_listenerArray;
         }
     }
     
@@ -187,6 +231,8 @@ class InstrumentManagerConnection
                 }
                 catch ( AltrmiInvocationException e )
                 {
+                    System.out.println("Ping Failed.");
+                    e.printStackTrace();
                     // Socket was closed.
                     close();
                 }
@@ -199,6 +245,7 @@ class InstrumentManagerConnection
         synchronized (this)
         {
             m_listeners.add( listener );
+            m_listenerArray = null;
         }
     }
     
@@ -207,6 +254,7 @@ class InstrumentManagerConnection
         synchronized (this)
         {
             m_listeners.remove( listener );
+            m_listenerArray = null;
         }
     }
 }
