@@ -153,6 +153,7 @@ the LICENSE.txt file.
        description="Compiles the bootstrap source code" unless="uptodate-bootstrap">
     
     <echo message="compiling bootstrap"/>
+    <ant antfile="${excalibur.home}/i18n/build.xml" inheritall="false"/>
     <mkdir dir="${build.bootstrap}"/>
 
     <javac srcdir="${java.dir}"
