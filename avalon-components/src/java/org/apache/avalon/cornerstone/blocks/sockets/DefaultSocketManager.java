@@ -50,6 +50,7 @@ public class DefaultSocketManager
      *
      * @param configuration the Configuration
      * @exception ConfigurationException if an error occurs
+     * @phoenix:configuration-schema type="relax-ng"
      */
     public void configure( final Configuration configuration )
         throws ConfigurationException

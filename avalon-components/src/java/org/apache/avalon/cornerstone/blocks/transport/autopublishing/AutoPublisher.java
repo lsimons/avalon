@@ -25,7 +25,7 @@ import org.apache.excalibur.altrmi.server.PublicationException;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class AutoPublisher
     implements Configurable, ApplicationListener
@@ -35,6 +35,9 @@ public class AutoPublisher
     private Map m_publications;
     private Vector m_events = new Vector();
 
+    /**
+     * @phoenix:configuration-schema type="relax-ng"
+     */
     public void configure( final Configuration configuration ) throws ConfigurationException
     {
 

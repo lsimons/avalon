@@ -30,7 +30,7 @@ import org.apache.excalibur.altrmi.server.impl.socket.PartialSocketCustomStreamS
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
  * @author Mike Miller.
  * @author Peter Royal.
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class SocketStreamPublisher
     extends AbstractPublisher
@@ -43,6 +43,9 @@ public class SocketStreamPublisher
     private String m_socketStreamServerClass;
     private boolean m_allAddresses = false;
 
+    /**
+     * @phoenix:configuration-schema type="relax-ng"
+     */
     public final void configure( Configuration configuration ) throws ConfigurationException
     {
 
