@@ -20,10 +20,12 @@
             <menu-item label="Instrument Client" href="http://avalon.apache.org/excalibur/instrument-client/"/>
             <menu-item href="http://avalon.apache.org/excalibur/component/" label="Excalibur Component Manager"/>
             <menu-item href="http://avalon.apache.org/excalibur/fortress/" label="Excalibur Fortress"/>
-        </menu>
+    </menu>
+    <!--  Temporarily disable until there is content
         <menu label="How To">
             <menu-item label="Implement Instrumentable" href="instrumentable-howto.html"/>
             <menu-item label="Extend AbstractInstrumentable" href="abstract-instrumentable-howto.html"/>
-        </menu>
+    </menu>
+    -->
     
 </book>

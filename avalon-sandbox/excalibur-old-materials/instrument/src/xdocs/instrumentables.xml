@@ -34,11 +34,13 @@
                 The third and fourth methods, getInstruments and getChildInstrumentables, are
                 each called once by an InstrumentManager to query the Instrumentable for a list
                 of the Instruments and child Instrumentables that is making available.
-            </p>
+	</p>
+	<!-- temporarily commented out until there is some content
             <p>
-                Please see the <link href="instrumentable-howto.html">Instrumentable How-To</link>
+		    Please see the <link href="instrumentable-howto.html">Instrumentable How-To</link>
                 for an example.
-            </p>
+	</p>
+	-->
             <p>
                 Implementing the Instrumentable interface directly requires a little bit of work,
                 but is necessary in cases where the parent class can not be controlled.  In most
@@ -52,9 +54,9 @@
                 classpath.)
             </p>
             <p>
-                Please see the
+		    <!-- Please see the
                 <link href="abstract-instrumentable-howto.html">AbstractInstrumentable How-To</link>
-                for an example.  An example of the AbstractLogEnabledInstrumentable helper class is
+		for an example. -->  An example of the AbstractLogEnabledInstrumentable helper class is
                 not included as its usage is identical to AbstractInstrumentable.
             </p>
         </section>
