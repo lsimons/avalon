@@ -83,7 +83,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.22 $ $Date: 2003/05/01 10:21:38 $
+ * @version CVS $Revision: 1.23 $ $Date: 2003/06/28 12:09:23 $
  * @since 4.0
  */
 public class DefaultComponentFactory
@@ -239,7 +239,7 @@ public class DefaultComponentFactory
             }
         }
 
-        if( component instanceof Loggable )
+        else if( component instanceof Loggable )
         {
             if( null == m_loggerManager || null == m_configuration )
             {
