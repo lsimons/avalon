@@ -82,7 +82,13 @@ public class FormatterFactory
 
         if( "extended".equals( type ) )
         {
-            return new ExtendedPatternFormatter( format );
+            /*Normally ExtendPatternFormatter would look for callers
+             *of Logger.class.  But when Excalibur Logger provides a
+             *facade, the user class/method is actually one-level deeper.
+             *We therefore create the pattern-formatter with an
+             *additional depth-offset of 1.
+             */
+            return new ExtendedPatternFormatter( format, 1 );
         }
 
         if( "raw".equals( type ) )
