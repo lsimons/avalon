@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.apache.merlin.magic.AbstractPlugin;
 import org.apache.merlin.magic.Plugin;
 import org.apache.merlin.magic.PluginContext;
 
@@ -15,7 +16,7 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.taskdefs.Javac;
+import org.apache.tools.ant.taskdefs.Jar;
 
 public class JarPlugin extends AbstractPlugin
     implements Serviceable
@@ -34,23 +35,23 @@ public class JarPlugin extends AbstractPlugin
         if( m_Jarred )
             return;
         
-        JavaPlugin java = (JavaPlugin) m_JavaPlugin;
+        JavacPlugin java = (JavacPlugin) m_JavaPlugin;
         java.compile();
         
         notifyPreMethod( "jar" );
-        prepareManifest()
+        File manifest = prepareManifest();
         notifyStep( "jar", "manifest-created" );
-        createJar();    
+        createJar( manifest );    
         notifyPostMethod( "jar" );
         m_Jarred = true;
     }
     
     private File prepareManifest()
     {
-        String manifestName = m_PluginContext.getProperty( "jar.manifest" );
+        String manifestName = m_Context.getProperty( "jar.manifest" );
         File srcManifest = new File( manifestName ); 
 
-        String destDirName = m_PluginContext.getProperty( "jar.manifest.build.dir" );
+        String destDirName = m_Context.getProperty( "jar.manifest.build.dir" );
         File toDir = new File( destDirName ); 
         
         Copy copy = (Copy) m_Project.createTask( "copy" );
@@ -59,39 +60,24 @@ public class JarPlugin extends AbstractPlugin
         copy.init();
         copy.execute();
         
-        fireManifestPrepared();
         File manifest = new File( toDir, srcManifest.getName() );
         return manifest;
     }
         
     private void createJar( File manifest )
     {
-        String jarFilename = m_PluginContext.getProperty( "jar.filename" );
+        String jarFilename = m_Context.getProperty( "jar.filename" );
         File jarFile = new File( jarFilename ); 
         File destDir = jarFile.getParentFile(); 
         destDir.mkdirs();
-                
-        
-        String classpath = m_PluginContext.getProperty( "java.class.path" );
-        
+        File fromDir = new File( m_Context.getProperty( "jar.build.src.dir" ) );
+
         Jar jar = (Jar) m_Project.createTask( "jar" );
         /* Set the destination */
-        jar.setJarfile( jarFile );
-        jar.setDeprecation( true );
-        javac.setDebug( true );
+        jar.setDestFile( jarFile );
+        jar.setBasedir( fromDir );
         
-        /* Add Class path defined in the build.properties  */
-        Path cp = javac.createClasspath();
-        Path.PathElement pe = cp.createPathElement();
-        pe.setPath( classpath );
-        /* Later; also add dependency Jars */
-        
-        /* Add the source path */
-        Path src = javac.createSrc();
-        Path.PathElement srcPE = src.createPathElement();
-        srcPE.setLocation( fromDir );
-        
-        javac.init();
-        javac.execute(); 
+        jar.init();
+        jar.execute(); 
     }
 }   
