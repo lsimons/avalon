@@ -57,7 +57,7 @@ import java.util.Hashtable;
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.EntryModel;
 import org.apache.avalon.composition.model.ContainmentContext;
-import org.apache.avalon.composition.model.DeploymentContext;
+import org.apache.avalon.composition.model.ComponentContext;
 import org.apache.avalon.composition.model.ModelRuntimeException;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.context.ContextException;
@@ -73,17 +73,17 @@ import org.apache.avalon.meta.info.EntryDescriptor;
  * Default implementation of a deployment context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.1.2.1 $ $Date: 2004/01/04 17:23:16 $
  */
-public class DefaultDeploymentContext extends DefaultContext 
-  implements DeploymentContext
+public class DefaultComponentContext extends DefaultContext 
+  implements ComponentContext
 {
     //==============================================================
     // static
     //==============================================================
 
     private static final Resources REZ =
-            ResourceManager.getPackageResources( DefaultDeploymentContext.class );
+            ResourceManager.getPackageResources( DefaultComponentContext.class );
 
     //==============================================================
     // immutable state
@@ -131,7 +131,7 @@ public class DefaultDeploymentContext extends DefaultContext
     * @param temp a temporary directory 
     * @param partition the partition name 
     */
-    public DefaultDeploymentContext( 
+    public DefaultComponentContext( 
       Logger logger, String name, ContainmentContext context, 
       DeploymentProfile profile, Type type, Class clazz, 
       File home, File temp, String partition )
@@ -340,7 +340,11 @@ public class DefaultDeploymentContext extends DefaultContext
             key = entry.getKey();
         }
         
-        if( key.equals( NAME_KEY ) )
+        if( key.startsWith( "urn:merlin:" ) )
+        {
+            return getSystemContext().get( key );
+        }
+        else if( key.equals( NAME_KEY ) )
         {
             return getName();
         }

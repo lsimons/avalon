@@ -59,12 +59,12 @@ import org.apache.avalon.meta.info.Type;
 import org.apache.avalon.composition.data.DeploymentProfile;
 
 /**
- * Defintion of a deployment context.
+ * Defintion of a component deployment context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/28 12:53:48 $
+ * @version $Revision: 1.1.2.1 $ $Date: 2004/01/04 17:23:16 $
  */
-public interface DeploymentContext
+public interface ComponentContext
 {
     /**
      * The standard context entry key for the partition name.

@@ -62,7 +62,7 @@ import java.util.ArrayList;
  * consumers and providers models.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.2.1 $ $Date: 2004/01/03 22:08:21 $
+ * @version $Revision: 1.1.2.2 $ $Date: 2004/01/04 17:23:16 $
  */
 public class DependencyGraph
 {
@@ -341,13 +341,10 @@ public class DependencyGraph
             final ArrayList done,
             final ArrayList order )
     {
-        if( model instanceof Composite )
+        Model[] providers = model.getProviders();
+        for( int i = (providers.length - 1); i > -1; i-- )
         {
-            Model[] providers = ((Composite)model).getProviders();
-            for( int i = (providers.length - 1); i > -1; i-- )
-            {
-                visitcomponent( providers[i], true, done, order );
-            }
+            visitcomponent( providers[i], true, done, order );
         }
     }
 
@@ -370,16 +367,13 @@ public class DependencyGraph
             final Model other =
                     (Model) m_models.get( i );
 
-            if( model instanceof Composite )
+            final Model[] providers = other.getProviders();
+            for( int j = 0; j < providers.length; j++ )
             {
-                final Model[] providers = ((Composite)other).getProviders();
-                for( int j = 0; j < providers.length; j++ )
+                Model provider = providers[j];
+                if( provider.equals( model ) )
                 {
-                    Model provider = providers[j];
-                    if( provider.equals( model ) )
-                    {
-                        visitcomponent( other, false, done, order );
-                    }
+                    visitcomponent( other, false, done, order );
                 }
             }
         }

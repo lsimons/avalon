@@ -48,19 +48,31 @@
 
 */
 
-package org.apache.avalon.composition.model.impl;
+package org.apache.avalon.composition.model;
 
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.composition.data.DeploymentProfile;
 
 /**
- * A null component.
+ * A factory enabling the establishment of new deployment model instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:32:15 $
+ * @version $Revision: 1.1.2.1 $ $Date: 2004/01/04 17:23:16 $
  */
-public class NullComponent
+public interface ComponentModelFactory
 {
-    public String toString()
-    {
-        return "[null-component]";
-    }
+   /**
+    * Creation of a new instance of a deployment model within
+    * a supplied containment context.
+    *
+    * @param logger the system logging channel to be assigned 
+    * @param parent the containment context
+    * @param profile a containment profile 
+    * @return a deployment model contained within the parent 
+    *   containment model
+    * @exception ModelException if an error occurs during model establishment
+    */
+    ComponentModel createComponentModel( 
+      Logger logger, ContainmentModel parent, DeploymentProfile profile ) 
+      throws ModelException;
 }

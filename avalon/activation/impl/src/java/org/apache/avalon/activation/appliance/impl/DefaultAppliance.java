@@ -78,7 +78,7 @@ import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.composition.logging.LoggingManager;
 import org.apache.avalon.composition.model.ContextModel;
 import org.apache.avalon.composition.model.DependencyModel;
-import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.StageModel;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
@@ -104,7 +104,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.15 $ $Date: 2003/12/22 21:28:09 $
+ * @version $Revision: 1.15.2.1 $ $Date: 2004/01/04 17:23:16 $
  */
 public class DefaultAppliance extends AbstractAppliance
   implements Composite, DefaultApplianceMBean
@@ -134,7 +134,7 @@ public class DefaultAppliance extends AbstractAppliance
    /**
     * The deployment model characterizing this appliance instance.
     */
-    private final DeploymentModel m_model;
+    private final ComponentModel m_model;
 
    /**
     * The engine from which we resolve dependent appliances during asembly.
@@ -195,13 +195,13 @@ public class DefaultAppliance extends AbstractAppliance
     //-------------------------------------------------------------------
 
     public DefaultAppliance( 
-      Logger logger, ServiceContext context, DeploymentModel model, Engine engine )
+      Logger logger, ServiceContext context, ComponentModel model, Engine engine )
     {
         super( logger.getChildLogger( "appliance" ), model );
 
         m_logger = logger;
         m_context = context;
-        m_model = (DeploymentModel) model;
+        m_model = (ComponentModel) model;
         m_engine = engine;
     }
 
@@ -323,8 +323,8 @@ public class DefaultAppliance extends AbstractAppliance
                     // interface
                     //
 
-                    DeploymentModel model = 
-                       (DeploymentModel) m_contextProvider.getModel();
+                    ComponentModel model = 
+                       (ComponentModel) m_contextProvider.getModel();
                     Class handler = 
                       model.getDeploymentClass();
 
@@ -814,7 +814,7 @@ public class DefaultAppliance extends AbstractAppliance
             // TODO: add operation to Appliance interface so that we can 
             // verify assignability
  
-            Class c = ((DeploymentModel)provider.getModel()).getDeploymentClass();
+            Class c = ((ComponentModel)provider.getModel()).getDeploymentClass();
             getLogger().debug( "processing create: " + c.getName() 
               + ", [" +  Creator.class.isAssignableFrom( c ) + "]" );
 
@@ -926,7 +926,7 @@ public class DefaultAppliance extends AbstractAppliance
             // verify assignability
             //
 
-            Class c = ((DeploymentModel)provider.getModel()).getDeploymentClass();
+            Class c = ((ComponentModel)provider.getModel()).getDeploymentClass();
             if( Accessor.class.isAssignableFrom( c ) )
             {
                 Accessor handler = (Accessor) provider.resolve();
@@ -1086,7 +1086,7 @@ public class DefaultAppliance extends AbstractAppliance
     }
 
     private Logger getTargetLogger( 
-      LoggingManager logging, DeploymentModel model )
+      LoggingManager logging, ComponentModel model )
     {
         if( LogEnabled.class.isAssignableFrom( model.getDeploymentClass() ) )
         {
@@ -1288,7 +1288,7 @@ public class DefaultAppliance extends AbstractAppliance
         *
         * @exception LifecycleException
         */
-        public DeploymentModel getDeploymentModel()
+        public ComponentModel getComponentModel()
         {
             return m_model;
         }

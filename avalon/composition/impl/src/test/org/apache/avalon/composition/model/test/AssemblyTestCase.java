@@ -3,9 +3,8 @@
 package org.apache.avalon.composition.model.test;
 
 import org.apache.avalon.composition.model.Model;
-import org.apache.avalon.composition.model.Composite;
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.DependencyModel;
 import org.apache.avalon.composition.model.AbstractTestCase;
 import org.apache.avalon.util.exception.ExceptionHelper;
@@ -51,19 +50,16 @@ public class AssemblyTestCase extends AbstractTestCase
         {
             printContainmentModel( lead, (ContainmentModel) model );
         }
-        else if( model instanceof DeploymentModel ) 
+        else if( model instanceof ComponentModel ) 
         {
-            printDeploymentModel( lead, (DeploymentModel) model );
+            printComponentModel( lead, (ComponentModel) model );
         }
     }
 
     private void printContainmentModel( String lead, ContainmentModel model )
     {
         System.out.println( lead + "model:" + model );
-        if( model instanceof Composite )
-        {
-            printCompositeModel( "\t" + lead, (Composite) model );
-        }
+        printCompositeModel( "\t" + lead, model );
         Model[] models = model.getModels();
         if( models.length > 0 )
         {
@@ -96,16 +92,13 @@ public class AssemblyTestCase extends AbstractTestCase
         }
     }
 
-    private void printDeploymentModel( String lead, DeploymentModel model )
+    private void printComponentModel( String lead, ComponentModel model )
     {
         System.out.println( lead + "model:" + model );
-        if( model instanceof Composite )
-        {
-            printCompositeModel( lead, (Composite) model );
-        }
+        printCompositeModel( lead, model );
     }
 
-    private void printCompositeModel( String lead, Composite model )
+    private void printCompositeModel( String lead, Model model )
     {
         Model[] models = model.getProviderGraph();
         for( int i=0; i<models.length; i++ )
