@@ -45,7 +45,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.13 $ $Date: 2002/11/07 12:45:23 $
+ * @version CVS $Revision: 1.14 $ $Date: 2002/11/07 18:27:52 $
  * @since 4.0
  */
 public class DefaultComponentFactory
@@ -78,9 +78,12 @@ public class DefaultComponentFactory
     private LogkitLoggerManager m_loggerManager;
 
     /** Components created by this factory, and their associated ComponentLocator
-     *  proxies, if they are Composables.
+     *  proxies, if they are Composables.  These must be seperate maps in case
+     *  a component falls into more than one category, which they often do.
      */
-    private final BucketMap m_components = new BucketMap();
+    private final BucketMap m_composableProxies = new BucketMap();
+    private final BucketMap m_serviceableProxies = new BucketMap();
+    private final BucketMap m_componentProxies = new BucketMap();
 
     /** Instrument Manager to register objects created by this factory with (May be null). */
     private InstrumentManager m_instrumentManager;
@@ -237,15 +240,16 @@ public class DefaultComponentFactory
             ContainerUtil.contextualize( component, m_context );
         }
 
-        Object proxy = null;
-
         if( component instanceof Composable )
         {
             // wrap the real CM with a proxy, see below for more info
             final ComponentManagerProxy manager =
                 new ComponentManagerProxy( m_componentManager );
             ContainerUtil.compose( component, manager );
-            proxy = manager;
+            
+            // Store the mapping of the component manager to its proxy so it can
+            //  be found to be decommissioned later.
+            m_composableProxies.put( component, manager );
         }
 
         if( component instanceof Serviceable )
@@ -254,7 +258,10 @@ public class DefaultComponentFactory
             final ServiceManagerProxy manager =
                 new ServiceManagerProxy( m_componentManager );
             ContainerUtil.service( component, manager );
-            proxy = manager;
+            
+            // Store the mapping of the component manager to its proxy so it can
+            //  be found to be decommissioned later.
+            m_serviceableProxies.put( component, manager );
         }
 
         if( component instanceof RoleManageable )
@@ -289,16 +296,15 @@ public class DefaultComponentFactory
         }
         ContainerUtil.start( component );
 
-        m_components.put( component, proxy );
-
         // If the component is not an instance of Component then wrap it in a proxy.
         //  This makes it possible to use components which are not real Components
-        //  with the ECM.
+        //  with the ECM.  We need to remember to unwrap this when the component is
+        //  decommissioned.
         Component returnableComponent;
         if( !( component instanceof Component ) )
         {
             returnableComponent = m_proxyGenerator.getProxy( m_role, component );
-            m_components.put( returnableComponent, component );
+            m_componentProxies.put( returnableComponent, component );
         }
         else
         {
@@ -316,40 +322,39 @@ public class DefaultComponentFactory
     public final void decommission( final Object component )
         throws Exception
     {
-        Object check = m_components.get( component );
-        Object decommission;
-        if( check instanceof ServiceManager || check instanceof ComponentManager || null == check )
-        {
-            decommission = component;
-        }
-        else
-        {
-            decommission = check;
-            m_components.remove( component );
-        }
-
         if( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "ComponentFactory decommissioning instance of " +
                                m_componentClass.getName() + "." );
         }
-
-        ContainerUtil.stop( component );
-        ContainerUtil.dispose( component );
-
-        if( decommission instanceof Composable )
+        
+        // See if we need to unwrap this component.  It may have been wrapped in a proxy
+        //  by the ProxyGenerator.
+        Object decommissionComponent = m_componentProxies.remove( component );
+        if ( null == decommissionComponent )
         {
-            // ensure any components looked up by this Composable are properly
-            // released, if they haven't been released already
-            ( (ComponentManagerProxy)m_components.get( decommission ) ).releaseAll();
+            // It was not wrapped.
+            decommissionComponent = component;
         }
-
-        if( decommission instanceof Serviceable )
+        
+        ContainerUtil.stop( decommissionComponent );
+        ContainerUtil.dispose( decommissionComponent );
+        
+        if ( decommissionComponent instanceof Composable )
         {
-            ( (ServiceManagerProxy)m_components.get( decommission ) ).releaseAll();
+            // A proxy will have been created.  Ensure that components created by it
+            //  are also released. 
+            ((ComponentManagerProxy)m_composableProxies.remove( decommissionComponent )).
+                releaseAll();
         }
-
-        m_components.remove( decommission );
+        
+        if ( decommissionComponent instanceof Serviceable )
+        {
+            // A proxy will have been created.  Ensure that components created by it
+            //  are also released. 
+            ((ServiceManagerProxy)m_serviceableProxies.remove( decommissionComponent )).
+                releaseAll();
+        }
     }
 
     /*---------------------------------------------------------------
@@ -357,25 +362,6 @@ public class DefaultComponentFactory
      *-------------------------------------------------------------*/
     public final void dispose()
     {
-        Component[] components = new Component[ m_components.keySet().size() ];
-
-        m_components.keySet().toArray( components );
-
-        for( int i = 0; i < components.length; i++ )
-        {
-            try
-            {
-                decommission( components[ i ] );
-            }
-            catch( final Exception e )
-            {
-                if( getLogger().isWarnEnabled() )
-                {
-                    getLogger().warn( "Error decommissioning component: " +
-                                      getCreatedClass().getName(), e );
-                }
-            }
-        }
     }
 
     /*---------------------------------------------------------------
@@ -474,7 +460,11 @@ public class DefaultComponentFactory
         extends WrapperServiceManager
     {
         private final ComponentManager m_realManager;
-        private final Collection m_unreleased = new ArrayList();
+        
+        /** Use a BucketMap rather than an ArrayList as above because this will
+         *   contain Proxy instances.  And proxy instances always return false for
+         *   equals() making a test for inclusion in the list always fail. */
+        private final BucketMap m_unreleased = new BucketMap();
 
         ServiceManagerProxy( final ComponentManager manager )
         {
@@ -498,7 +488,7 @@ public class DefaultComponentFactory
 
         private synchronized void addUnreleased( final Object component )
         {
-            m_unreleased.add( component );
+            m_unreleased.put( component, component );
         }
 
         private synchronized void removeUnreleased( final Object component )
@@ -517,8 +507,9 @@ public class DefaultComponentFactory
 
             synchronized( this )
             {
-                unreleased = new Object[ m_unreleased.size() ];
-                m_unreleased.toArray( unreleased );
+                Collection unreleasedC = m_unreleased.keySet();
+                unreleased = new Object[ unreleasedC.size() ];
+                unreleasedC.toArray( unreleased );
             }
 
             for( int i = 0; i < unreleased.length; i++ )
