@@ -23,7 +23,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/11/07 05:20:41 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/11/12 04:05:14 $
  * @since 4.1
  */
 public abstract class AbstractDataSourceIdGenerator
@@ -72,7 +72,7 @@ public abstract class AbstractDataSourceIdGenerator
      *  is controlling it.
      *
      * @param manager which curently owns the component.
-     * @avalon.service interface="org.apache.avalon.excalibur.datasource.DataSourceComponentSelector"
+     * @avalon.dependency interface="org.apache.avalon.excalibur.datasource.DataSourceComponentSelector"
      */
     public void service( final ServiceManager manager )
         throws ServiceException
