@@ -1,18 +1,31 @@
 package org.apache.avalon.attributes.compiler;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.PrintStream;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.jar.JarFile;
+import java.util.jar.JarEntry;
+import java.util.jar.JarOutputStream;
+
 import org.apache.avalon.attributes.AttributeRepositoryClass;
 import org.apache.avalon.attributes.Attributes;
 import org.apache.avalon.attributes.Indexed;
+import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.FileSet;
-
-import xjavadoc.*;
-import xjavadoc.ant.*;
-import java.util.*;
+import org.apache.tools.ant.types.Path;
 
 /**
  * Ant task to compile attribute indexes. Usage:
@@ -20,25 +33,24 @@ import java.util.*;
  * <pre><code>
  *     &lt;taskdef resource="org/apache/avalon/attributes/anttasks.properties"/&gt;
  *     
- *     &lt;attribute-indexer destFile="META-INF/attrs.index"&gt;
- *         &lt;fileset dir="classes/" includes="*.class"/&gt;
+ *     &lt;attribute-indexer jarFile="myclasses.jar"&gt;
+ *         &lt;classpath&gt;
+ *             ...
+ *         &lt;/classpath&gt;
  *     &lt;/attribute-indexer&gt;
  * </code></pre>
  *
- * The task should be run after compiling the Java sources (including those generated
- * by the <tt>attribute-compiler</tt> task), and the nested <tt>&lt;fileset/&gt;</tt> elements
- * should include the resulting class files.
- *
- * <p>Note: This task isn't that tested, and is pre-alpha. Amog other things, you have to name the
- * destination file <tt>attrs.index</tt> and it has to be reachable via 
- * <tt>ClassLoader.getResource("META-INF/attrs.index")</tt>. I'd like to change this into something
- * that has a lot less unstated assumptions and requirements.
+ * The task will inspect the classes in the given jar and add a <tt>META-INF/attrs.index</tt>
+ * file to it, which contains the index information. The classpath element is required and
+ * must contain all dependencies for the attributes used.
  */
 public class AttributeIndexer extends Task {
     
-    private final ArrayList fileSets = new ArrayList ();
-    private File destFile;
+    private File jarFile;
     private HashMap attributes = new HashMap ();
+    private Path classPath;
+    
+    private final static String INDEX_FILENAME = "META-INF/attrs.index";
     
     public AttributeIndexer () {
     }
@@ -52,79 +64,106 @@ public class AttributeIndexer extends Task {
         thisAttr.add (className);
     }
     
-    public void addFileset (FileSet set) {
-        fileSets.add (set);
+    public void setJarfile (File jarFile) {
+        this.jarFile = jarFile;
     }
     
-    
-    public void setDestfile (File destFile) {
-        this.destFile = destFile;
+    public Path createClasspath () {
+        this.classPath = new Path(project);
+        return classPath;
     }
     
     private static final String SUFFIX = "$__org_apache_avalon_Attributes";
     private static final String CLASS_SUFFIX = SUFFIX + ".class";
     private static final String SOURCE_SUFFIX = SUFFIX + ".java";
     
+    protected void copyEntry (JarFile jar, JarEntry entry, JarOutputStream outputStream) throws Exception {
+        outputStream.putNextEntry (entry);
+        
+        if (!entry.isDirectory ()) {
+            InputStream is = new BufferedInputStream (jar.getInputStream (entry));
+            try {
+                byte[] buffer = new byte[16384];
+                while (true) {
+                    int numRead = is.read (buffer, 0, 16384);
+                    if (numRead == 0 || numRead == -1) {
+                        break;
+                    }
+                    
+                    outputStream.write (buffer, 0, numRead);
+                }
+            } finally {
+                is.close ();
+            }
+        }
+    }
+    
     public void execute () throws BuildException {
         try {
+            log ("Building attribute index for " + jarFile.getPath ());
             
-            ArrayList urls = new ArrayList ();
-            Iterator iter = fileSets.iterator ();
-            while (iter.hasNext ()) {
-                FileSet fs = (FileSet) iter.next ();
-                urls.add (fs.getDir (project).toURL ());
-            }
+            AntClassLoader cl = new AntClassLoader (this.getClass ().getClassLoader (), project, classPath, true);
+            cl.addPathElement (jarFile.getPath ());
             
-            ClassLoader cl = new URLClassLoader ((URL[]) urls.toArray (new URL[0]), this.getClass ().getClassLoader ());
-            
-            iter = fileSets.iterator ();
-            while (iter.hasNext ()) {
-                FileSet fs = (FileSet) iter.next ();
-                File fromDir = fs.getDir(project);
-                
-                String[] srcFiles = fs.getDirectoryScanner(project).getIncludedFiles();
-                
-                for (int i = 0; i < srcFiles.length; i++) {
-                    String className = srcFiles[i].replace ('/', '.').replace ('\\', '.');
-                    if (className.endsWith (CLASS_SUFFIX)) {
-                        String baseClassName = className.substring (0, className.length () - CLASS_SUFFIX.length ());
-                        className = className.substring (0, className.length () - 6);
-                        Class repoClass = cl.loadClass (className);
-                        AttributeRepositoryClass repo = (AttributeRepositoryClass) repoClass.newInstance ();
-                        Collection classAttrs = repo.getClassAttributes ();
-                        
-                        Collection indexedAttrs = new HashSet ();
-                        Iterator inner = classAttrs.iterator ();
-                        while (inner.hasNext ()) {
-                            indexedAttrs.add (inner.next ().getClass ());
+            JarFile jar = new JarFile (jarFile);
+            File newJarFile = new File (jarFile.getPath () + ".new");
+            JarOutputStream output = new JarOutputStream (new FileOutputStream (newJarFile));
+            try {
+                Enumeration enum = jar.entries ();
+                while (enum.hasMoreElements ()) {
+                    JarEntry entry = (JarEntry) enum.nextElement ();
+                    if (!entry.isDirectory ()) {
+                        String className = entry.getName ().replace ('/', '.').replace ('\\', '.');
+                        if (className.endsWith (CLASS_SUFFIX)) {
+                            String baseClassName = className.substring (0, className.length () - CLASS_SUFFIX.length ());
+                            className = className.substring (0, className.length () - 6);
+                            Class repoClass = cl.loadClass (className);
+                            AttributeRepositoryClass repo = (AttributeRepositoryClass) repoClass.newInstance ();
+                            Collection classAttrs = repo.getClassAttributes ();
+                            
+                            Collection indexedAttrs = new HashSet ();
+                            Iterator inner = classAttrs.iterator ();
+                            while (inner.hasNext ()) {
+                                indexedAttrs.add (inner.next ().getClass ());
+                            }
+                            
+                            indexedAttrs = Attributes.getClassesWithAttributeType (indexedAttrs, Indexed.class);
+                            
+                            inner = indexedAttrs.iterator ();
+                            while (inner.hasNext ()) {
+                                addAttribute (baseClassName, ((Class) inner.next ()).getName ());
+                            }
                         }
-                        
-                        indexedAttrs = Attributes.getClassesWithAttributeType (indexedAttrs, Indexed.class);
-                        
-                        inner = indexedAttrs.iterator ();
-                        while (inner.hasNext ()) {
-                            addAttribute (baseClassName, ((Class) inner.next ()).getName ());
-                        }
+                    }  
+                    
+                    if (!entry.getName ().equals (INDEX_FILENAME)) {
+                        copyEntry (jar, entry, output);
                     }
                 }
-            }   
-            
-            destFile.getParentFile ().mkdirs ();
-            PrintWriter pw = new PrintWriter (new FileWriter (destFile));
-            try {
+                
+                output.putNextEntry (new JarEntry (INDEX_FILENAME));
+                
+                
                 Iterator attrs = attributes.keySet ().iterator ();
                 while (attrs.hasNext ()) {
                     String attrName = (String) attrs.next ();
-                    pw.println ("Attribute: " + attrName);
+                    output.write (("Attribute: " + attrName + "\n").getBytes ());
+                    
                     Iterator classes = ((Collection) attributes.get (attrName)).iterator ();
                     while (classes.hasNext ()) {
-                        pw.println ("Class: " + classes.next ());
+                        output.write (("Class: " + classes.next () + "\n").getBytes ());
                     }
-                    pw.println ();
+                    output.write ("\n".getBytes ());
                 }
             } finally {
-                pw.close ();
+                output.close ();
+                jar.close ();
             }
+            
+            cl.cleanup ();
+            
+            jarFile.delete ();
+            newJarFile.renameTo (jarFile);
         } catch (Exception e) {
             e.printStackTrace ();
             throw new BuildException (e.toString ());
