@@ -48,63 +48,36 @@
 namespace Apache.Avalon.Container.Test
 {
 	using System;
+	using System.Security.Permissions;
+	using System.IO;
+	using System.Reflection;
 	using NUnit.Framework;
 
+	using Apache.Avalon.Container.Configuration;
+	using Apache.Avalon.Framework;
 	using Apache.Avalon.Container.Test.Components;
 
 	/// <summary>
-	/// Summary description for DependencyHandlingTestCase.
+	/// Summary description for PublicConstructorTestCase.
 	/// </summary>
 	[TestFixture]
-	public class DependencyHandlingTestCase : ContainerTestCase
+	public class PublicConstructorTestCase : ContainerTestCase
 	{
 		[Test]
-		public void ShutDownOrderCheck()
+		public void LookupForErroneousComponent()
 		{
-			Assertion.AssertEquals(10, m_container.ShutDownOrder.Length);
-
-			Assertion.AssertEquals(typeof(IEntityLocator).FullName, m_container.ShutDownOrder[0].Name);
-			Assertion.AssertEquals(typeof(IBus).FullName, m_container.ShutDownOrder[1].Name);
-			Assertion.AssertEquals(typeof(IVehicle).FullName, m_container.ShutDownOrder[2].Name);
-			Assertion.AssertEquals(typeof(IRadio).FullName, m_container.ShutDownOrder[3].Name);
-			Assertion.AssertEquals(typeof(IEngine).FullName, m_container.ShutDownOrder[4].Name);
-		}
-
-		[Test]
-		public void ComponentWithDependency()
-		{
-			IVehicle vehicle = null;
-			
 			try
 			{
-				vehicle = (IVehicle) m_container.LookupManager[ typeof(IVehicle).FullName ];
+				Object x = m_container.LookupManager[ typeof(IAirBus).FullName ];
+				Assertion.Fail( "A non-constructable component should not be lookup'ed." );
 			}
-			finally
+			catch( LookupException )
 			{
-				if (vehicle != null)
-				{
-					m_container.LookupManager.Release(vehicle);
-				}
+				// Ok, expected.
 			}
-		}
-
-		[Test]
-		public void ComponentWithInheritedDependency()
-		{
-			IBus bus = null;
-
-			try
+			catch(Exception e)
 			{
-				bus = (IBus) m_container.LookupManager[ typeof(IBus).FullName ];
-
-				bus.Travel();
-			}
-			finally
-			{
-				if (bus != null)
-				{
-					m_container.LookupManager.Release(bus);
-				}
+				Assertion.Fail( "We should receive a LookupException exception." );
 			}
 		}
 	}

@@ -85,14 +85,14 @@
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "nunit.framework"
-                    AssemblyName = "nunit.framework"
-                    HintPath = "C:\Program Files\NUnit V2.0\bin\nunit.framework.dll"
-                />
-                <Reference
                     Name = "AvalonFramework"
                     Project = "{A4DA9A13-FD5A-42A0-97C5-18CEDA5CB1A5}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "nunit.framework"
+                    AssemblyName = "nunit.framework"
+                    HintPath = "..\..\..\..\..\..\..\dotnet\NUnit2\bin\nunit.framework.dll"
                 />
             </References>
         </Build>
@@ -120,6 +120,11 @@
                 />
                 <File
                     RelPath = "PicoContainerExtensionTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "PublicConstructorTestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -65,6 +65,14 @@ namespace Apache.Avalon.Container.Test.Components
 		void LandOff();
 	}
 
+	/// <summary>
+	/// Definition for IAirBus service.
+	/// </summary>
+	public interface IAirBus 
+	{
+		void ReachTheMoon();
+	}
+
 	[AvalonService( typeof(IAirplane) )]
 	[AvalonComponent( "Airplane", Lifestyle.Transient )]
 	public class Airplane : IAirplane, ILookupEnabled
@@ -108,4 +116,26 @@ namespace Apache.Avalon.Container.Test.Components
 
 		#endregion
 	}
+
+
+	[AvalonService( typeof(IAirBus) )]
+	[AvalonComponent( "AirBus", Lifestyle.Transient )]
+	public class AirBus : IAirBus
+	{
+		public AirBus(int passengersCount)
+		{
+		}
+
+		#region IAirBus Members
+
+		public void ReachTheMoon()
+		{
+			// TODO:  Add AirBus.ReachTheMoon implementation
+		}
+
+		#endregion
+
+	}
+
+	
 }

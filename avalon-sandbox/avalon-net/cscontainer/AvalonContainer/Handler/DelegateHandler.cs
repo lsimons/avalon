@@ -51,6 +51,7 @@ namespace Apache.Avalon.Container.Handler
 	using System.Threading;
 	using System.Runtime.Remoting.Proxies;
 
+	using Apache.Avalon.Framework;
 	using Apache.Avalon.Container.Services;
 
 	/// <summary>
@@ -71,7 +72,14 @@ namespace Apache.Avalon.Container.Handler
 
 		public object GetInstance()
 		{
-			return Factory.Create(m_componentEntry.ComponentType);
+			try
+			{
+				return Factory.Create(m_componentEntry.ComponentType);
+			}
+			catch(Exception inner)
+			{
+				throw new LookupException("Error instantiating component.", inner);
+			}
 		}
 
 		public void PutInstance(object instance)
