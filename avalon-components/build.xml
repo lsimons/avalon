@@ -27,7 +27,6 @@
     developers this part makes no difference.
   -->
   <property name="build.compiler.emacs" value="on"/>
-  <property name="build.compiler.warnings" value="true"/>
 <!--  <property name="build.compiler.pedantic" value="true"/> -->
   <property name="build.compiler.depend" value="true"/>
   <property name="build.compiler.fulldepend" value="true"/>
@@ -230,7 +229,7 @@
 
     <mkdir dir="${build.lib}"/>
 
-    <jar jarfile="${build.lib}/avalon-cornerstone-compilation.jar"
+    <jar file="${build.lib}/avalon-cornerstone-compilation.jar"
          basedir="${build.classes}">
       <exclude name="**/Default*"/>
       <exclude name="**/*.xinfo"/>
@@ -249,7 +248,7 @@
   
     <mkdir dir="${build.lib}"/>  
   
-    <jar jarfile="${build.lib}/cornerstone.bar"
+    <jar file="${build.lib}/cornerstone.bar"
          basedir="${build.classes}"
          manifest="${manifest.dir}/cornerstone.mf">
       <include name="org/apache/avalon/cornerstone/blocks/**"/>
@@ -623,7 +622,7 @@
       </fileset>
     </copy>        
 
-    <zip zipfile="${dist.base}/${dist.name}-bin.zip"
+    <zip file="${dist.base}/${dist.name}-bin.zip"
          basedir="${dist.name}/.."
          includes="${dist.name}/**"/>
 
@@ -633,7 +632,7 @@
       </tarfileset>
     </tar>
 
-    <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz"
+    <gzip file="${dist.base}/${dist.name}-bin.tar.gz"
           src="${dist.base}/${dist.name}-bin.tar"/>
 
     <delete file="${dist.base}/${dist.name}-bin.tar"/>
@@ -643,7 +642,7 @@
       <param name="src.dist.dir" value="${dist.name}" />
     </antcall>
 
-    <zip zipfile="${dist.base}/${dist.name}-src.zip"
+    <zip file="${dist.base}/${dist.name}-src.zip"
          basedir="${dist.name}/.."
          includes="${dist.name}/**"/>
 
@@ -657,7 +656,7 @@
       </tarfileset>
     </tar>
 
-    <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz"
+    <gzip file="${dist.base}/${dist.name}-src.tar.gz"
           src="${dist.base}/${dist.name}-src.tar"/>
 
     <antcall target="distributions-apps">
