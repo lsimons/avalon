@@ -70,6 +70,30 @@ import org.apache.excalibur.event.Source;
  * give Commands to this system.  You <strong>must</strong> register this
  * with a ThreadManager for it to work.
  *
+ * <p><strong>Source Example</strong></p>
+ * <pre>
+
+      //
+      // Set up the ThreadManager that the CommandManager will use
+      //
+
+      ThreadManager threadManager = new TPCThreadManager();
+      threadManager.enableLogging( getLogger().getChildLogger("threadmanager") );
+      Parameters params = new Parameters();
+      params.setParameter( "threads-per-processor", "2" );
+      params.setParameter( "sleep-time", "1000" );
+      params.setParameter( "block-timeout", "250" );
+      threadManager.parameterize( params );
+      threadManager.initialize();
+
+      //
+      // Set up the CommandManager
+      //
+
+      CommandManager commandManager = new CommandManager();
+      threadManager.register( commandManager );
+ * </pre>
+ *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
 public class CommandManager implements EventPipeline
