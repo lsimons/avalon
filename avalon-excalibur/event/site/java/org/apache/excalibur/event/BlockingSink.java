@@ -21,7 +21,7 @@ public interface BlockingSink {
    *
    * @return the next <code>QueueElement</code> on the queue
    */
-  public QueueElement dequeue(int millis);
+  public QueueElement dequeue(long millis);
 
   /**
    * Dequeues all available elements, or returns <code>null</code> if there is
@@ -29,7 +29,7 @@ public interface BlockingSink {
    *
    * @return all pending <code>QueueElement</code>s on the queue
    */
-  public QueueElement[] dequeueAll(int millis);
+  public QueueElement[] dequeueAll(long millis);
 
   /**
    * Dequeues at most <code>num</code> available elements, or returns
@@ -37,6 +37,6 @@ public interface BlockingSink {
    *
    * @return At most <code>num</code> <code>QueueElement</code>s on the queue
    */
-  public QueueElement[] dequeue(int num, int millis);
+  public QueueElement[] dequeue(int num, long millis);
 
 }
