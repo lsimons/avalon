@@ -182,9 +182,10 @@ limitations under the License.
         </includes>
       </resource>
       <resource>
-        <directory>${basedir}/../</directory>
+        <directory>${avalon.buildsystem}/site</directory>
         <includes>
-          <include>LICENSE.txt</include>
+          <include>LICENSE*</include>
+          <include>NOTICE*</include>
         </includes>
       </resource>
       <resource>
