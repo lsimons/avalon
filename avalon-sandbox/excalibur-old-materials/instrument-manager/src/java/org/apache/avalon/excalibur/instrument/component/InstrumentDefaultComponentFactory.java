@@ -21,7 +21,7 @@ import org.apache.avalon.framework.context.Context;
  * Factory for Avalon Instrumentable components.
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/03/26 11:56:16 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/03/29 14:03:49 $
  * @since 4.0
  */
 public class InstrumentDefaultComponentFactory
@@ -39,9 +39,10 @@ public class InstrumentDefaultComponentFactory
      * @param configuration the <code>Configuration</code> object to pass to new instances.
      * @param componentManager the component manager to pass to <code>Composable</code>s.
      * @param context the <code>Context</code> to pass to <code>Contexutalizable</code>s.
-     * @param roles the <code>RoleManager</code> to pass to <code>DefaultComponentSelector</code>s.
-     * @param instrumentManager the <code>InstrumentManager</code> to register the component with if
-     *        it is a Instrumentable.
+     * @param roles the <code>RoleManager</code> to pass to 
+     *              <code>DefaultComponentSelector</code>s.
+     * @param instrumentManager the <code>InstrumentManager</code> to register the component
+     *                          with if it is a Instrumentable.
      */
     public InstrumentDefaultComponentFactory( final Class componentClass,
                                               final Configuration configuration,
