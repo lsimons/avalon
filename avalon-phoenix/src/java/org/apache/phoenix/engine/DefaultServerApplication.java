@@ -200,17 +200,17 @@ public final class DefaultServerApplication
         Configuration configuration = null;
 
         configuration = m_configuration.getChild( "logs" );
-        setupComponent( m_logManager, "<core>.logs", configuration );
+        setupComponent( m_logManager, "<core>.log", configuration );
 
         configuration = m_configuration.getChild( "threads" );
-        setupComponent( m_threadManager, "<core>.threads", configuration );
+        setupComponent( m_threadManager, "<core>.thread", configuration );
 
         configuration = m_configuration.getChild( "policy" );
-        setupComponent( m_policyManager, "<policy>", configuration );
+        setupComponent( m_policyManager, "<core>.policy", configuration );
 
-        setupComponent( m_classLoaderManager );
+        setupComponent( m_classLoaderManager, "<core>.classloader", null );
 
-        setupComponent( m_configurationRepository );
+        setupComponent( m_configurationRepository, "<core>.configuration-repository", null );
 
         setupComponent( m_dag, "<core>.dag", null );
     }
