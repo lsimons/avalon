@@ -49,7 +49,8 @@ public class Logger
      * @param category the fully qualified name of category
      * @param logTargets the LogTargets associated with logger
      * @param parent the parent logger (used for inheriting from)
-     * @deprecated You should not be using this constructor directly.
+     * @deprecated You should not be using this constructor directly. It will soon 
+     *             be becoming package access only.
      */
     protected Logger( final Hierarchy hierarchy, 
                       final String category, 
@@ -150,6 +151,11 @@ public class Logger
         }
     }
 
+    /**
+     * Retrieve priority associated with Logger.
+     *
+     * @return the loggers priority
+     */
     public final Priority getPriority()
     {
         return m_priority;
