@@ -38,7 +38,7 @@ import org.apache.avalon.http.HttpContextService;
 
 /**
  * @avalon.component name="http-dump-handler" lifestyle="singleton"
- * @avalon.server    type="org.mortbay.http.HttpHandler"
+ * @avalon.service   type="org.mortbay.http.HttpHandler"
  */
 public class DumpHandler 
     extends org.mortbay.http.handler.DumpHandler 

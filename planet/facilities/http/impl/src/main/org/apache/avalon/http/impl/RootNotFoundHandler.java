@@ -38,7 +38,7 @@ import org.apache.avalon.http.HttpContextService;
 
 /**
  * @avalon.component name="http-rootnotfound-handler" lifestyle="singleton"
- * @avalon.server    type="org.mortbay.http.HttpHandler"
+ * @avalon.service   type="org.mortbay.http.HttpHandler"
  */
 public class RootNotFoundHandler 
     extends org.mortbay.http.handler.RootNotFoundHandler 

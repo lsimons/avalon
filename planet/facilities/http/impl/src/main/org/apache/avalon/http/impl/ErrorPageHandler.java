@@ -38,7 +38,7 @@ import org.apache.avalon.http.HttpContextService;
 
 /**
  * @avalon.component name="http-errorpage-handler" lifestyle="singleton"
- * @avalon.server    type="org.mortbay.http.HttpHandler"
+ * @avalon.service   type="org.mortbay.http.HttpHandler"
  */
 public class ErrorPageHandler 
     extends org.mortbay.http.handler.ErrorPageHandler 

@@ -38,7 +38,7 @@ import org.apache.avalon.http.HttpContextService;
 
 /**
  * @avalon.component name="http-security-handler" lifestyle="singleton"
- * @avalon.server    type="org.mortbay.http.HttpHandler"
+ * @avalon.service   type="org.mortbay.http.HttpHandler"
  */
 public class SecurityHandler 
     extends org.mortbay.http.handler.SecurityHandler 
