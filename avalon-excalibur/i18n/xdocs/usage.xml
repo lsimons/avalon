@@ -11,7 +11,7 @@
 
         <section name="Excalibur i18n">
 
-          <section name="Usage">
+          <subsection name="Usage">
             <p>
                 Using the i18n code is really straightforward; several 
                 examples of internationalized applications exist within 
@@ -68,7 +68,7 @@ doStuff method is invalid; it is {0}, which is plain silly!
             </p>
         </subsection>
 
-        </section>
+      </section>
 
     </body>
 
