@@ -26,7 +26,7 @@ public interface ClassLoaderManager
     /**
      * Create a <code>ClassLoader</code> for a specific application.
      *
-     * @param server the configuration "server.xml" for the application
+     * @param environment the configuration "environment.xml" for the application
      * @param source the source of application. (usually the name of the .sar file
      *               or else the same as baseDirectory)
      * @param baseDirectory the base directory of application
@@ -34,7 +34,7 @@ public interface ClassLoaderManager
      * @return the ClassLoader created
      * @throws Exception if an error occurs
      */
-    ClassLoader createClassLoader( Configuration server,
+    ClassLoader createClassLoader( Configuration environment,
                                    File source,
                                    File baseDirectory,
                                    String[] classPath )
