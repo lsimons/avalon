@@ -50,9 +50,7 @@
 package org.apache.avalon.fortress.impl;
 
 import org.apache.avalon.excalibur.logger.LoggerManager;
-import org.apache.avalon.fortress.InitializationException;
-import org.apache.avalon.fortress.MetaInfoManager;
-import org.apache.avalon.fortress.RoleManager;
+import org.apache.avalon.fortress.*;
 import org.apache.avalon.fortress.util.ContextManager;
 import org.apache.avalon.fortress.util.LifecycleExtensionManager;
 import org.apache.avalon.framework.activity.Disposable;
@@ -63,8 +61,8 @@ import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.Loggable;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -78,10 +76,10 @@ import org.apache.excalibur.mpool.PoolManager;
  * See that interface for a description.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.19 $ $Date: 2003/05/23 17:31:20 $
+ * @version CVS $Revision: 1.20 $ $Date: 2003/05/27 18:39:47 $
  */
 public class DefaultContainerManager
-    implements Initializable, Disposable, org.apache.avalon.fortress.ContainerManager, org.apache.avalon.fortress.ContainerManagerConstants
+    implements Initializable, Disposable, ContainerManager, ContainerManagerConstants
 {
     private final ContextManager m_contextManager;
     private final Logger m_logger;

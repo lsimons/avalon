@@ -52,8 +52,11 @@ package org.apache.avalon.fortress.util;
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.fortress.RoleManager;
+import org.apache.avalon.fortress.MetaInfoManager;
 import org.apache.avalon.fortress.impl.role.ConfigurableRoleManager;
 import org.apache.avalon.fortress.impl.role.FortressRoleManager;
+import org.apache.avalon.fortress.impl.role.ServiceMetaManager;
+import org.apache.avalon.fortress.impl.role.Role2MetaInfoManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -117,7 +120,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.28 $ $Date: 2003/05/22 14:44:04 $
+ * @version CVS $Revision: 1.29 $ $Date: 2003/05/27 18:39:47 $
  * @since 4.1
  */
 public final class ContextManager
@@ -196,7 +199,14 @@ public final class ContextManager
         //  warning or error messages.  However in most cases, the debug
         //  information should not be displayed, so turn it off by default.
         //  Unfortunately, there is not a very good place to make this settable.
-        m_primordialLogger = new ConsoleLogger( ConsoleLogger.LEVEL_INFO );
+        if ( m_logger == null )
+        {
+            m_primordialLogger = new ConsoleLogger( ConsoleLogger.LEVEL_INFO );
+        }
+        else
+        {
+            m_primordialLogger = null;
+        }
     }
 
     /**
@@ -229,7 +239,7 @@ public final class ContextManager
     {
         initializeServiceManager();
         initializeLoggerManager();
-        initializeRoleManager();
+        initializeMetaInfoManager();
         initializeCommandQueue();
         initializePoolManager();
         initializeContext();
@@ -300,16 +310,19 @@ public final class ContextManager
     }
     
     /**
-     * Checks if a specified entry in <code>rootContext</code>
+     * Checks if a specified entry in <code>context</code>
      * has been supplied by the invoker.
+     *
+     * @param context  The context to check
+     * @param key      The key name to check
      */
-    protected boolean entryPresent( final String key )
+    protected boolean entryPresent( Context context, final String key )
     {
         boolean isPresent = false;
         
         try
         {
-            m_rootContext.get( key );
+            context.get( key );
             isPresent = true;
         }
         catch( ContextException ce )
@@ -492,14 +505,25 @@ public final class ContextManager
      *
      * @throws Exception if there is an error.
      */
-    protected void initializeRoleManager() throws Exception
+    protected RoleManager obtainRoleManager() throws Exception
     {
         /* we don't want an error message from getConfiguration, so
          * check if there is job to do first
          */
-        if ( entryPresent(RoleManager.ROLE) ) return;
-        if ( !entryPresent(  ROLE_MANAGER_CONFIGURATION     ) &&
-             !entryPresent(  ROLE_MANAGER_CONFIGURATION_URI )    ) return;
+        if ( entryPresent( m_rootContext, RoleManager.ROLE) )
+        {
+            /* RoleManager is a compatibility mechanism to read in ECM roles files.  The role manager will be wrapped
+             * by a MetaInfoManager.  So we hide the RoleManager here from the contaienr implementation.
+             */
+            m_childContext.put( RoleManager.ROLE, null );
+            return (RoleManager)m_rootContext.get( RoleManager.ROLE );
+        }
+
+        if ( !entryPresent( m_rootContext, ROLE_MANAGER_CONFIGURATION     ) &&
+             !entryPresent( m_rootContext, ROLE_MANAGER_CONFIGURATION_URI )    )
+        {
+            return null;
+        }
 
         Configuration roleConfig =
             getConfiguration( ROLE_MANAGER_CONFIGURATION, ROLE_MANAGER_CONFIGURATION_URI );
@@ -507,18 +531,18 @@ public final class ContextManager
         if ( roleConfig == null )
         {
             // Something went wrong, but the error has already been reported
-            return;
+            return null;
         }
 
         // Get the context Logger Manager
         final LoggerManager loggerManager = (LoggerManager) m_childContext.get( LoggerManager.ROLE );
 
+        // Lookup the context class loader
+        final ClassLoader classLoader = (ClassLoader) m_rootContext.get( ClassLoader.class.getName() );
+
         // Create a logger for the role manager
         final Logger rmLogger = loggerManager.getLoggerForCategory(
             roleConfig.getAttribute( "logger", "system.roles" ) );
-
-        // Lookup the context class loader
-        final ClassLoader classLoader = (ClassLoader) m_rootContext.get( ClassLoader.class.getName() );
 
         // Create a parent role manager with all the default roles
         final FortressRoleManager frm = new FortressRoleManager( null, classLoader );
@@ -531,7 +555,45 @@ public final class ContextManager
         rm.configure( roleConfig );
 
         assumeOwnership( rm );
-        m_childContext.put( RoleManager.ROLE, rm );
+        return rm;
+    }
+
+    protected void initializeMetaInfoManager() throws Exception
+    {
+        final boolean mmSupplied = entryPresent( m_rootContext, MetaInfoManager.ROLE );
+        RoleManager roleManager = obtainRoleManager();
+        final boolean rmSupplied = roleManager != null;
+
+        if ( mmSupplied )
+        {
+            if ( rmSupplied )
+            {
+                getLogger().warn( "MetaInfoManager found, ignoring RoleManager" );
+            }
+
+            // Otherwise everything is ok, and we continue on (i.e. return)
+        }
+        else
+        {
+            final LoggerManager loggerManager = (LoggerManager)m_childContext.get( LoggerManager.ROLE );
+            final ClassLoader classLoader = (ClassLoader)m_rootContext.get( ClassLoader.class.getName() );
+
+            if ( ! rmSupplied )
+            {
+                final FortressRoleManager newRoleManager = new FortressRoleManager( null, classLoader );
+                newRoleManager.enableLogging(loggerManager.getLoggerForCategory("system.roles"));
+                newRoleManager.initialize();
+
+                roleManager = newRoleManager;
+            }
+
+            final ServiceMetaManager metaManager = new ServiceMetaManager( new Role2MetaInfoManager( roleManager ), classLoader );
+
+            metaManager.enableLogging( loggerManager.getLoggerForCategory("system.meta") );
+            metaManager.initialize();
+            assumeOwnership( metaManager );
+            m_childContext.put( MetaInfoManager.ROLE, metaManager );
+        }
     }
 
     /**
@@ -817,6 +879,7 @@ public final class ContextManager
 
             if ( obj instanceof CommandManager ) retVal = 0;
             if ( obj instanceof ThreadManager ) retVal = 2;
+            if ( obj instanceof LoggerManager ) retVal = 3;
 
             return retVal;
         }
