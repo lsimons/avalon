@@ -29,7 +29,6 @@ import org.apache.avalon.cornerstone.services.connection.ConnectionHandler;
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandlerFactory;
 
 import org.apache.excalibur.thread.ThreadPool;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
  * Support class for the DefaultConnectionManager.
@@ -38,7 +37,6 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 class Connection
-    extends AbstractLogEnabled
     implements Runnable
 {
     private final ServerSocket m_serverSocket;
@@ -48,15 +46,19 @@ class Connection
 
     //Need to synchronize access to thread object
     private Thread m_thread;
+    protected ConnectionMonitor monitor;
 
     public Connection( final ServerSocket serverSocket,
                        final ConnectionHandlerFactory handlerFactory,
-                       final ThreadPool threadPool )
+                       final ThreadPool threadPool,
+                       final ConnectionMonitor monitor)
     {
         m_serverSocket = serverSocket;
         m_handlerFactory = handlerFactory;
         m_threadPool = threadPool;
+        this.monitor = monitor;
     }
+
 
     public void dispose()
         throws Exception
@@ -102,8 +104,7 @@ class Connection
             {
                 final Socket socket = m_serverSocket.accept();
                 final ConnectionRunner runner =
-                    new ConnectionRunner( socket, m_runners, m_handlerFactory );
-                setupLogger( runner );
+                    new ConnectionRunner( socket, m_runners, m_handlerFactory, monitor );
                 m_threadPool.execute( runner );
             }
             catch( final InterruptedIOException iioe )
@@ -113,12 +114,12 @@ class Connection
             catch( final IOException ioe )
             {
                 final String message = "Exception accepting connection";
-                getLogger().error( message, ioe );
+                monitor.acceptingConnectionException(this.getClass(), message, ioe );
             }
             catch( final Exception e )
             {
                 final String message = "Exception executing runner";
-                getLogger().error( message, e );
+                monitor.unexpectedException(this.getClass(), message, e );
             }
         }
 
@@ -131,22 +132,24 @@ class Connection
 }
 
 class ConnectionRunner
-    extends AbstractLogEnabled
     implements Runnable
 {
     private Socket m_socket;
     private Thread m_thread;
     private List m_runners;
     private ConnectionHandlerFactory m_handlerFactory;
+    private ConnectionMonitor monitor;
     private boolean m_finished;
 
     ConnectionRunner( final Socket socket,
                       final List runners,
-                      final ConnectionHandlerFactory handlerFactory )
+                      final ConnectionHandlerFactory handlerFactory,
+                      final ConnectionMonitor monitor)
     {
         m_socket = socket;
         m_runners = runners;
         m_handlerFactory = handlerFactory;
+        this.monitor = monitor;
     }
 
     public void dispose()
@@ -197,7 +200,7 @@ class ConnectionRunner
         catch( final Exception e )
         {
             final String message = "Error handling connection";
-            getLogger().warn( message, e );
+            monitor.unexpectedException(this.getClass(), message, e );
         }
 
         if( null != handler )
@@ -227,13 +230,13 @@ class ConnectionRunner
      */
     private void debugBanner( final boolean starting )
     {
-        if( getLogger().isDebugEnabled() )
+        if( monitor.isDebugEnabled(this.getClass()) )
         {
             final String prefix = ( starting ) ? "Starting" : "Ending";
             final String message =
                 prefix + " connection on " +
                 m_socket.getInetAddress().getHostAddress();
-            getLogger().debug( message );
+            monitor.debugMessage(this.getClass(), message );
         }
     }
 
@@ -249,7 +252,7 @@ class ConnectionRunner
         catch( final IOException ioe )
         {
             final String message = "Error shutting down connection";
-            getLogger().warn( message, ioe );
+            monitor.shutdownSocketWarning(this.getClass(), message, ioe );
         }
     }
 }
