@@ -33,6 +33,7 @@ public class SingleAppEmbeddor
     extends PhoenixEmbeddor
     implements ComponentManager
 {
+    ///Sole application hosted in kernel
     private Application    m_application;
 
     /**
@@ -52,11 +53,21 @@ public class SingleAppEmbeddor
         m_application = getKernel().getApplication( applicationName );
     }
 
+    /**
+     * List all block names in application.
+     *
+     * @return the list of all block names
+     */
     public Iterator list()
     {
         return m_application.list();
     }
 
+    /**
+     * Get a Block by name.
+     *
+     * @return the block in application
+     */
     public Component lookup( final String role )
         throws ComponentException
     {
@@ -74,6 +85,11 @@ public class SingleAppEmbeddor
         return component;
     }
 
+    /**
+     * Release block back to application.
+     *
+     * @param component the block
+     */
     public void release( final Component component )
     {
     }
