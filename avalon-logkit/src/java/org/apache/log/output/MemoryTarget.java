@@ -26,22 +26,22 @@ public class MemoryTarget
     extends AbstractTarget
 {
     ///Buffer for all the LogEvents
-    private final LogEvent[]  m_buffer;
+    private final LogEvent[] m_buffer;
 
     ///Priority at which to push LogEvents to next LogTarget
-    private Priority          m_threshold;
+    private Priority m_threshold;
 
     ///Target to push LogEvents to
-    private LogTarget         m_target;
+    private LogTarget m_target;
 
     ///Count of used events
-    private int               m_used;
+    private int m_used;
 
     ///Position of last element inserted
-    private int               m_index;
+    private int m_index;
 
     ///Flag indicating whether it is possible to overite elements in array
-    private boolean           m_overwrite;
+    private boolean m_overwrite;
 
     public MemoryTarget( final LogTarget target,
                          final int size,
@@ -73,7 +73,8 @@ public class MemoryTarget
         //Check if it is full
         if( isFull() )
         {
-            if( m_overwrite ) m_used--;
+            if( m_overwrite )
+                m_used--;
             else
             {
                 getErrorHandler().error( "Memory buffer is full", null, event );
@@ -81,10 +82,11 @@ public class MemoryTarget
             }
         }
 
-        if( 0 == m_used ) m_index = 0;
+        if( 0 == m_used )
+            m_index = 0;
         else
         {
-            m_index = (m_index + 1) % m_buffer.length;
+            m_index = ( m_index + 1 ) % m_buffer.length;
         }
         m_buffer[ m_index ] = event;
         m_used++;
@@ -137,7 +139,7 @@ public class MemoryTarget
 
             for( int i = 0; i < size; i++ )
             {
-                final int index = (base + i) % m_buffer.length;
+                final int index = ( base + i ) % m_buffer.length;
 
                 //process event in buffer
                 m_target.processEvent( m_buffer[ index ] );

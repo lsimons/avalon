@@ -8,7 +8,6 @@
 package org.apache.log.output;
 
 import org.apache.log.LogEvent;
-import org.apache.log.LogTarget;
 import org.apache.log.format.Formatter;
 
 /**
@@ -27,7 +26,7 @@ public abstract class AbstractOutputTarget
      * @deprecated You should not be directly accessing this attribute
      *             as it will become private next release
      */
-    protected Formatter    m_formatter;
+    protected Formatter m_formatter;
 
     /**
      * Parameterless constructor.

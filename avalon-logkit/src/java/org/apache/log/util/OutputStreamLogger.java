@@ -7,16 +7,16 @@
  */
 package org.apache.log.util;
 
-import org.apache.log.Priority;
 import org.apache.log.Logger;
+import org.apache.log.Priority;
 
 /**
  * Redirect an output stream to a logger.
- * This class is useful to redirect standard output or 
+ * This class is useful to redirect standard output or
  * standard error to a Logger. An example use is
  *
  * <pre>
- * final OutputStreamLogger outputStream = 
+ * final OutputStreamLogger outputStream =
  *     new OutputStreamLogger( logger, Priority.DEBUG );
  * final PrintStream output = new PrintStream( outputStream, true );
  *
@@ -28,7 +28,7 @@ import org.apache.log.Logger;
  */
 public class OutputStreamLogger
     extends LoggerOutputStream
-{    
+{
     /**
      * Construct OutputStreamLogger to write to a particular logger at a particular priority.
      *
@@ -36,7 +36,7 @@ public class OutputStreamLogger
      * @param priority the priority at which to log
      * @deprecated Use LoggerOutputStream as this class was misnamed.
      */
-    public OutputStreamLogger( final Logger logger, 
+    public OutputStreamLogger( final Logger logger,
                                final Priority priority )
     {
         super( logger, priority );

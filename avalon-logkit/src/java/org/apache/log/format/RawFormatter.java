@@ -10,7 +10,7 @@ package org.apache.log.format;
 import org.apache.log.LogEvent;
 
 /**
- * Basic formatter that just returns raw 
+ * Basic formatter that just returns raw
  * message string and ignores remainder of LogEvent.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>

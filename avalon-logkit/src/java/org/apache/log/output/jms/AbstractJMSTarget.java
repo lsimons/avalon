@@ -7,13 +7,12 @@
  */
 package org.apache.log.output.jms;
 
+import javax.jms.Message;
+import javax.jms.Session;
 import javax.jms.TopicConnection;
 import javax.jms.TopicPublisher;
 import javax.jms.TopicSession;
-import javax.jms.Session;
-import javax.jms.Message;
 import org.apache.log.LogEvent;
-import org.apache.log.LogTarget;
 import org.apache.log.output.AbstractTarget;
 
 /**
@@ -25,7 +24,7 @@ public abstract class AbstractJMSTarget
     extends AbstractTarget
 {
     ///Appropriate MessageBuilder
-    private MessageBuilder   m_builder;
+    private MessageBuilder m_builder;
 
     public AbstractJMSTarget( final MessageBuilder builder )
     {
@@ -33,6 +32,7 @@ public abstract class AbstractJMSTarget
     }
 
     protected abstract void send( Message message );
+
     protected abstract Session getSession();
 
     /**
@@ -76,5 +76,6 @@ public abstract class AbstractJMSTarget
     }
 
     protected abstract void openConnection();
+
     protected abstract void closeConnection();
 }

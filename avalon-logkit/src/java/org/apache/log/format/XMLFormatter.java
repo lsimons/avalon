@@ -7,8 +7,8 @@
  */
 package org.apache.log.format;
 
-import org.apache.log.LogEvent;
 import java.util.Date;
+import org.apache.log.LogEvent;
 
 /**
  * Basic XML formatter that writes out a basic XML-ified log event.
@@ -21,19 +21,19 @@ import java.util.Date;
 public class XMLFormatter
     implements Formatter, org.apache.log.Formatter
 {
-    private static final String EOL       = System.getProperty( "line.separator", "\n" );
+    private static final String EOL = System.getProperty( "line.separator", "\n" );
 
-    //Booleans indicating whether or not we 
+    //Booleans indicating whether or not we
     //print out a particular field
-    private boolean m_printTime           = true;
-    private boolean m_printRelativeTime   = false;
-    private boolean m_printPriority       = true;
-    private boolean m_printCategory       = true;
-    private boolean m_printContext        = true;
-    private boolean m_printMessage        = true;
-    private boolean m_printException      = true;
+    private boolean m_printTime = true;
+    private boolean m_printRelativeTime = false;
+    private boolean m_printPriority = true;
+    private boolean m_printCategory = true;
+    private boolean m_printContext = true;
+    private boolean m_printMessage = true;
+    private boolean m_printException = true;
 
-    private boolean m_printNumericTime    = true;
+    private boolean m_printNumericTime = true;
 
     /**
      * Print out time field to log.
@@ -117,11 +117,11 @@ public class XMLFormatter
 
         sb.append( "<log-entry>" );
         sb.append( EOL );
-        
+
         if( m_printTime )
         {
             sb.append( "  <time>" );
-            
+
             if( m_printNumericTime )
             {
                 sb.append( event.getTime() );

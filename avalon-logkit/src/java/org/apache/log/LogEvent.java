@@ -21,31 +21,31 @@ public final class LogEvent
     implements Serializable
 {
     //A Constant used when retrieving time relative to start of applicaiton start
-    private final static long   START_TIME           = System.currentTimeMillis();
+    private final static long START_TIME = System.currentTimeMillis();
 
     ///The category that this LogEvent concerns. (Must not be null)
-    private String        m_category;
+    private String m_category;
 
     ///The message to be logged. (Must not be null)
-    private String        m_message;
+    private String m_message;
 
     ///The exception that caused LogEvent if any. (May be null)
-    private Throwable     m_throwable;
+    private Throwable m_throwable;
 
     ///The time in millis that LogEvent occurred
-    private long          m_time;
+    private long m_time;
 
     ///The priority of LogEvent. (Must not be null)
-    private Priority      m_priority;
+    private Priority m_priority;
 
     ///The context map associated with LogEvent. (May be null).
-    private ContextMap    m_contextMap;
+    private ContextMap m_contextMap;
 
     /**
      * The context stack associated with LogEvent. (May be null)
      * @deprecated ContextStack has been deprecated and thus so has this field.
      */
-    private transient ContextStack  m_contextStack;
+    private transient ContextStack m_contextStack;
 
     /**
      * Get Priority for LogEvent.
@@ -200,7 +200,6 @@ public final class LogEvent
     {
         m_time = time;
     }
-
 
     /**
      * Helper method that replaces deserialized priority with correct singleton.

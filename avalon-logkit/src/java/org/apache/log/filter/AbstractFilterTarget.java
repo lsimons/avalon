@@ -17,11 +17,11 @@ import org.apache.log.LogTarget;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
-public abstract class AbstractFilterTarget 
+public abstract class AbstractFilterTarget
     implements FilterTarget, LogTarget
 {
     //Log targets in filter chain
-    private LogTarget   m_targets[];
+    private LogTarget m_targets[];
 
     /**
      * Add a new target to output chain.
@@ -32,7 +32,7 @@ public abstract class AbstractFilterTarget
     {
         if( null == m_targets )
         {
-            m_targets = new LogTarget[] { target };
+            m_targets = new LogTarget[]{target};
         }
         else
         {
@@ -56,9 +56,10 @@ public abstract class AbstractFilterTarget
      *
      * @param event the log event
      */
-    public void processEvent( final LogEvent event ) 
+    public void processEvent( final LogEvent event )
     {
-        if( null == m_targets || filter( event ) ) return;
+        if( null == m_targets || filter( event ) )
+            return;
         else
         {
             for( int i = 0; i < m_targets.length; i++ )

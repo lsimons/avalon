@@ -17,7 +17,7 @@ import java.io.File;
  * @author <a href="mailto:bh22351@i-one.at">Bernhard Huber</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
-public interface FileStrategy 
+public interface FileStrategy
 {
     /**
      * Get the next log file to rotate to.

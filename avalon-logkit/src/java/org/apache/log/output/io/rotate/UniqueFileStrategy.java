@@ -8,7 +8,6 @@
 package org.apache.log.output.io.rotate;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -30,7 +29,7 @@ import java.util.Date;
 public class UniqueFileStrategy
     implements FileStrategy
 {
-    private File    m_baseFile;
+    private File m_baseFile;
 
     private SimpleDateFormat m_formatter;
 
@@ -68,11 +67,12 @@ public class UniqueFileStrategy
         }
         else
         {
-            final String dateString = m_formatter.format(new Date());
-            sb.append(dateString);
+            final String dateString = m_formatter.format( new Date() );
+            sb.append( dateString );
         }
 
-        if( m_suffix != null ) {
+        if( m_suffix != null )
+        {
             sb.append( m_suffix );
         }
 

@@ -14,7 +14,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import javax.sql.DataSource;
 import org.apache.log.ContextMap;
-import org.apache.log.Hierarchy;
 import org.apache.log.LogEvent;
 
 /**
@@ -25,10 +24,10 @@ import org.apache.log.LogEvent;
 public class DefaultJDBCTarget
     extends AbstractJDBCTarget
 {
-    private final String          m_table;
-    private final ColumnInfo[]    m_columns;
-    
-    private PreparedStatement     m_statement;
+    private final String m_table;
+    private final ColumnInfo[] m_columns;
+
+    private PreparedStatement m_statement;
 
     public DefaultJDBCTarget( final DataSource dataSource,
                               final String table,
@@ -147,7 +146,10 @@ public class DefaultJDBCTarget
 
         if( null != m_statement )
         {
-            try { m_statement.close(); }
+            try
+            {
+                m_statement.close();
+            }
             catch( final SQLException se )
             {
                 getErrorHandler().error( "Error closing statement", se, null );
@@ -169,41 +171,41 @@ public class DefaultJDBCTarget
 
         switch( info.getType() )
         {
-        case ColumnType.RELATIVE_TIME:
-            statement.setLong( index + 1, event.getRelativeTime() );
-            break;
+            case ColumnType.RELATIVE_TIME:
+                statement.setLong( index + 1, event.getRelativeTime() );
+                break;
 
-        case ColumnType.TIME:
-            statement.setTimestamp( index + 1, new Timestamp( event.getTime() ) );
-            break;
+            case ColumnType.TIME:
+                statement.setTimestamp( index + 1, new Timestamp( event.getTime() ) );
+                break;
 
-        case ColumnType.MESSAGE:
-            statement.setString( index + 1, event.getMessage() );
-            break;
+            case ColumnType.MESSAGE:
+                statement.setString( index + 1, event.getMessage() );
+                break;
 
-        case ColumnType.CATEGORY:
-            statement.setString( index + 1, event.getCategory() );
-            break;
+            case ColumnType.CATEGORY:
+                statement.setString( index + 1, event.getCategory() );
+                break;
 
-        case ColumnType.PRIORITY:
-            statement.setString( index + 1, event.getPriority().getName() );
-            break;
+            case ColumnType.PRIORITY:
+                statement.setString( index + 1, event.getPriority().getName() );
+                break;
 
-        case ColumnType.CONTEXT:
-            statement.setString( index + 1, getContextMap( event.getContextMap(),
-                                                           info.getAux() ) );
-            break;
+            case ColumnType.CONTEXT:
+                statement.setString( index + 1, getContextMap( event.getContextMap(),
+                                                               info.getAux() ) );
+                break;
 
-        case ColumnType.STATIC:
-            statement.setString( index + 1, info.getAux() );
-            break;
+            case ColumnType.STATIC:
+                statement.setString( index + 1, info.getAux() );
+                break;
 
-        case ColumnType.THROWABLE:
-            statement.setString( index + 1, getStackTrace( event.getThrowable() ) );
-            break;
+            case ColumnType.THROWABLE:
+                statement.setString( index + 1, getStackTrace( event.getThrowable() ) );
+                break;
 
-        default:
-            throw new IllegalStateException( "Unknown ColumnType: " + info.getType() );
+            default:
+                throw new IllegalStateException( "Unknown ColumnType: " + info.getType() );
         }
     }
 
@@ -230,27 +232,27 @@ public class DefaultJDBCTarget
         if( null == map ) return "";
         return map.get( aux, "" ).toString();
     }
-/*
-  protected String getHostName( final LogEvent event, final String aux )
-  {
-  String result = null;
+    /*
+      protected String getHostName( final LogEvent event, final String aux )
+      {
+      String result = null;
 
-  final ContextMap map = event.getContextMap();
-  if( null != map )
-  {
-  final Object object = map.get( "hostname" );
-  if( null != object )
-  {
-  result = object.toString();
-  }
-  }
+      final ContextMap map = event.getContextMap();
+      if( null != map )
+      {
+      final Object object = map.get( "hostname" );
+      if( null != object )
+      {
+      result = object.toString();
+      }
+      }
 
-  if( null == result )
-  {
-  result = "Unknown hostname";
-  }
+      if( null == result )
+      {
+      result = "Unknown hostname";
+      }
 
-  return result;
-  }
-*/
+      return result;
+      }
+    */
 }

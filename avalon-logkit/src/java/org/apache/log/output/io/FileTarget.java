@@ -21,10 +21,10 @@ public class FileTarget
     extends StreamTarget
 {
     ///File we are writing to
-    private File     m_file;
+    private File m_file;
 
     ///Flag indicating whether or not file should be appended to
-    private boolean  m_append;
+    private boolean m_append;
 
     /**
      * Construct file target to write to a file with a formatter.

@@ -22,10 +22,10 @@ public abstract class AbstractJDBCTarget
     extends AbstractTarget
 {
     ///Datasource to extract connections from
-    private DataSource     m_dataSource;
+    private DataSource m_dataSource;
 
     ///Database connection
-    private Connection     m_connection;
+    private Connection m_connection;
 
     protected AbstractJDBCTarget( final DataSource dataSource )
     {

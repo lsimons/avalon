@@ -24,7 +24,7 @@ public class WriterTarget
      * @deprecated Accessing this variable in subclasses is no longer supported
      *             and will become private in the future.
      */
-    protected Writer             m_output;
+    protected Writer m_output;
 
     /**
      * Construct target with a specific writer and formatter.

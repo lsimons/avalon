@@ -1,17 +1,16 @@
-/* 
- * Copyright (C) The Apache Software Foundation. All rights reserved. 
- * 
- * This software is published under the terms of the Apache Software License 
- * version 1.1, a copy of which has been included with this distribution in 
- * the LICENSE file. 
- */ 
+/*
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included with this distribution in
+ * the LICENSE file.
+ */
 package org.apache.log.output.test;
 
 import java.net.InetAddress;
-import org.apache.log.Hierarchy; 
+import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
-import org.apache.log.Priority;
 import org.apache.log.format.Formatter;
 import org.apache.log.format.RawFormatter;
 import org.apache.log.format.SyslogFormatter;
@@ -49,7 +48,7 @@ public final class DatagramTest
                 new DatagramOutputTarget( address, 514, formatter );
 
             final Logger logger = Hierarchy.getDefaultHierarchy().getLoggerFor( "foo" );
-            logger.setLogTargets( new LogTarget[] { target } );
+            logger.setLogTargets( new LogTarget[]{target} );
 
             logger.warn( message, new Exception() );
         }

@@ -12,7 +12,7 @@ package org.apache.log.output;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
-public class NullOutputLogTarget 
+public class NullOutputLogTarget
     extends AbstractOutputTarget
 {
     public NullOutputLogTarget()

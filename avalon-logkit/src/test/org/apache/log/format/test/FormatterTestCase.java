@@ -7,16 +7,16 @@
  */
 package org.apache.log.format.test;
 
-import org.apache.log.ContextStack;
+import junit.framework.TestCase;
 import org.apache.log.ContextMap;
-import org.apache.log.format.Formatter;
+import org.apache.log.ContextStack;
 import org.apache.log.LogEvent;
 import org.apache.log.Priority;
-import org.apache.log.format.RawFormatter;
-import org.apache.log.format.XMLFormatter;
-import org.apache.log.format.SyslogFormatter;
+import org.apache.log.format.Formatter;
 import org.apache.log.format.PatternFormatter;
-import junit.framework.TestCase;
+import org.apache.log.format.RawFormatter;
+import org.apache.log.format.SyslogFormatter;
+import org.apache.log.format.XMLFormatter;
 
 /**
  * Test suite for the formatters.
@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 public final class FormatterTestCase
     extends TestCase
 {
-    private static String EOL  = System.getProperty( "line.separator", "\n" );
+    private static String EOL = System.getProperty( "line.separator", "\n" );
 
     private static String M1 = "Message1";
     private static String M2 = "Message2Message2";
@@ -53,44 +53,44 @@ public final class FormatterTestCase
     private static LogEvent E2 = createEvent( C2, M2, null, T2, P2, null, CM2 );
     private static LogEvent E3 = createEvent( C3, M3, null, T3, P3, null, null );
 
-    private static String E1_XML =  "<log-entry>" + EOL + 
-        "  <time>" + T1 + "</time>" + EOL + 
-        "  <priority>" + P1.getName() + "</priority>" + EOL + 
+    private static String E1_XML = "<log-entry>" + EOL +
+        "  <time>" + T1 + "</time>" + EOL +
+        "  <priority>" + P1.getName() + "</priority>" + EOL +
         "  <category>" + C1 + "</category>" + EOL +
-        "  <message><![CDATA[" + M1 + "]]></message>" + EOL + 
+        "  <message><![CDATA[" + M1 + "]]></message>" + EOL +
         "</log-entry>" + EOL;
 
-    private static String E2_XML =  "<log-entry>" + EOL + 
-        "  <time>" + T2 + "</time>" + EOL + 
-        "  <priority>" + P2.getName() + "</priority>" + EOL + 
+    private static String E2_XML = "<log-entry>" + EOL +
+        "  <time>" + T2 + "</time>" + EOL +
+        "  <priority>" + P2.getName() + "</priority>" + EOL +
         "  <category>" + C2 + "</category>" + EOL +
-        "  <message><![CDATA[" + M2 + "]]></message>" + EOL + 
+        "  <message><![CDATA[" + M2 + "]]></message>" + EOL +
         "</log-entry>" + EOL;
 
-    private static String E3_XML =  "<log-entry>" + EOL + 
-        "  <time>" + T3 + "</time>" + EOL + 
-        "  <priority>" + P3.getName() + "</priority>" + EOL + 
+    private static String E3_XML = "<log-entry>" + EOL +
+        "  <time>" + T3 + "</time>" + EOL +
+        "  <priority>" + P3.getName() + "</priority>" + EOL +
         "  <category>" + C3 + "</category>" + EOL +
-        "  <message><![CDATA[" + M3 + "]]></message>" + EOL + 
+        "  <message><![CDATA[" + M3 + "]]></message>" + EOL +
         "</log-entry>" + EOL;
 
-    private static int FACILITY_ID = 9<<3; //cron
+    private static int FACILITY_ID = 9 << 3; //cron
     private static String FACILITY_NAME = "cron"; //cron
 
-    private static String E1_SYSLOG = "<" + (2|FACILITY_ID) + "> " + M1;
-    private static String E2_SYSLOG = "<" + (3|FACILITY_ID) + "> " + M2;
-    private static String E3_SYSLOG = "<" + (4|FACILITY_ID) + "> " + M3;
+    private static String E1_SYSLOG = "<" + ( 2 | FACILITY_ID ) + "> " + M1;
+    private static String E2_SYSLOG = "<" + ( 3 | FACILITY_ID ) + "> " + M2;
+    private static String E3_SYSLOG = "<" + ( 4 | FACILITY_ID ) + "> " + M3;
 
-    private static String E1_SYSLOG_WB = "<" + (2|FACILITY_ID) + "> " + FACILITY_NAME + ": " + M1;
-    private static String E2_SYSLOG_WB = "<" + (3|FACILITY_ID) + "> " + FACILITY_NAME + ": " + M2;
-    private static String E3_SYSLOG_WB = "<" + (4|FACILITY_ID) + "> " + FACILITY_NAME + ": " + M3;
+    private static String E1_SYSLOG_WB = "<" + ( 2 | FACILITY_ID ) + "> " + FACILITY_NAME + ": " + M1;
+    private static String E2_SYSLOG_WB = "<" + ( 3 | FACILITY_ID ) + "> " + FACILITY_NAME + ": " + M2;
+    private static String E3_SYSLOG_WB = "<" + ( 4 | FACILITY_ID ) + "> " + FACILITY_NAME + ": " + M3;
 
     private static String PATTERN1 = "[%8.8{category}]: %{message}" + EOL;
     private static String E1_PATTERN1 = "[Category]: " + M1 + EOL;
     private static String E2_PATTERN1 = "[Category]: " + M2 + EOL;
     private static String E3_PATTERN1 = "[Category]: " + M3 + EOL;
 
-    private static String PATTERN2 = "[%10.{category}]: %{message}"+ EOL;
+    private static String PATTERN2 = "[%10.{category}]: %{message}" + EOL;
     private static String E1_PATTERN2 = "[" + C1 + " ]: " + M1 + EOL;
     private static String E2_PATTERN2 = "[" + C2 + "]: " + M2 + EOL;
     private static String E3_PATTERN2 = "[" + C3 + "]: " + M3 + EOL;
@@ -129,9 +129,9 @@ public final class FormatterTestCase
 
     private static String PATTERN9 = "[%{method}]: %{message}" + EOL;
     private static String E1_PATTERN9 = "[com.biz.MyObject.myMethod(MyObject:53)]: " + M1 + EOL;
-    private static String E2_PATTERN9_START = "[" + CLASS_PREFIX +"testPattern9Formatter(";
+    private static String E2_PATTERN9_START = "[" + CLASS_PREFIX + "testPattern9Formatter(";
     private static String E2_PATTERN9_END = ")]: " + M2 + EOL;
-    private static String E3_PATTERN9_START = "[" + CLASS_PREFIX +"testPattern9Formatter(";
+    private static String E3_PATTERN9_START = "[" + CLASS_PREFIX + "testPattern9Formatter(";
     private static String E3_PATTERN9_END = ")]: " + M3 + EOL;
 
     private static String PATTERN10 = "[%{context:method}]: %{message}" + EOL;
@@ -243,11 +243,11 @@ public final class FormatterTestCase
     public void testPattern1Formatter()
     {
         final Formatter formatter = new PatternFormatter( PATTERN1 );
-        
+
         final String result1 = formatter.format( E1 );
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );
-        
+
         assertEquals( "Pattern1 formatting of E1", E1_PATTERN1, result1 );
         assertEquals( "Pattern1 formatting of E2", E2_PATTERN1, result2 );
         assertEquals( "Pattern1 formatting of E3", E3_PATTERN1, result3 );
@@ -256,7 +256,7 @@ public final class FormatterTestCase
     public void testPattern2Formatter()
     {
         final Formatter formatter = new PatternFormatter( PATTERN2 );
-        
+
         final String result1 = formatter.format( E1 );
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );
@@ -269,11 +269,11 @@ public final class FormatterTestCase
     public void testPattern3Formatter()
     {
         final Formatter formatter = new PatternFormatter( PATTERN3 );
-        
+
         final String result1 = formatter.format( E1 );
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );
-        
+
         assertEquals( "Pattern3 formatting of E1", E1_PATTERN3, result1 );
         assertEquals( "Pattern3 formatting of E2", E2_PATTERN3, result2 );
         assertEquals( "Pattern3 formatting of E3", E3_PATTERN3, result3 );
@@ -282,7 +282,7 @@ public final class FormatterTestCase
     public void testPattern4Formatter()
     {
         final Formatter formatter = new PatternFormatter( PATTERN4 );
-        
+
         final String result1 = formatter.format( E1 );
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );
@@ -295,7 +295,7 @@ public final class FormatterTestCase
     public void testPattern5Formatter()
     {
         final Formatter formatter = new PatternFormatter( PATTERN5 );
-        
+
         final String result1 = formatter.format( E1 );
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );
@@ -308,7 +308,7 @@ public final class FormatterTestCase
     public void testPattern6Formatter()
     {
         final Formatter formatter = new PatternFormatter( PATTERN6 );
-        
+
         final String result1 = formatter.format( E1 );
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );
@@ -321,7 +321,7 @@ public final class FormatterTestCase
     public void testPattern7Formatter()
     {
         final Formatter formatter = new PatternFormatter( PATTERN7 );
-        
+
         final String result1 = formatter.format( E1 );
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );
@@ -334,7 +334,7 @@ public final class FormatterTestCase
     public void testPattern8Formatter()
     {
         final Formatter formatter = new PatternFormatter( PATTERN8 );
-        
+
         final String result1 = formatter.format( E1 );
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );
@@ -343,30 +343,30 @@ public final class FormatterTestCase
         assertEquals( "Pattern8 formatting of E2", E2_PATTERN8, result2 );
         assertEquals( "Pattern8 formatting of E3", E3_PATTERN8, result3 );
     }
-/*
-    public void testPattern9Formatter()
-    {
-        final Formatter formatter = new PatternFormatter( PATTERN9 );
-        
-        final String result1 = formatter.format( E1 );
-        final String result2 = formatter.format( E2 );
-        final String result3 = formatter.format( E3 );
+    /*
+        public void testPattern9Formatter()
+        {
+            final Formatter formatter = new PatternFormatter( PATTERN9 );
 
-        System.out.println( "results1: " + result1 );
-        System.out.println( "results2: " + result2 );
-        System.out.println( "results3: " + result3 );
+            final String result1 = formatter.format( E1 );
+            final String result2 = formatter.format( E2 );
+            final String result3 = formatter.format( E3 );
 
-        assertEquals( "Pattern9 formatting of E1", E1_PATTERN9, result1 );
-        assertTrue( "Pattern9 formatting of E2", result2.startsWith( E2_PATTERN9_START ) );
-        assertTrue( "Pattern9 end formatting of E2", result2.endsWith( E2_PATTERN9_END ) );
-        assertTrue( "Pattern9 formatting of E3", result3.startsWith( E3_PATTERN9_START ) );
-        assertTrue( "Pattern9 end formatting of E3", result3.endsWith( E3_PATTERN9_END ) );
-    }
-*/
+            System.out.println( "results1: " + result1 );
+            System.out.println( "results2: " + result2 );
+            System.out.println( "results3: " + result3 );
+
+            assertEquals( "Pattern9 formatting of E1", E1_PATTERN9, result1 );
+            assertTrue( "Pattern9 formatting of E2", result2.startsWith( E2_PATTERN9_START ) );
+            assertTrue( "Pattern9 end formatting of E2", result2.endsWith( E2_PATTERN9_END ) );
+            assertTrue( "Pattern9 formatting of E3", result3.startsWith( E3_PATTERN9_START ) );
+            assertTrue( "Pattern9 end formatting of E3", result3.endsWith( E3_PATTERN9_END ) );
+        }
+    */
     public void testPattern10Formatter()
     {
         final Formatter formatter = new PatternFormatter( PATTERN10 );
-        
+
         final String result1 = formatter.format( E1 );
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );
@@ -379,7 +379,7 @@ public final class FormatterTestCase
     public void testPattern11Formatter()
     {
         final Formatter formatter = new PatternFormatter( PATTERN11 );
-        
+
         final String result1 = formatter.format( E1 );
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );

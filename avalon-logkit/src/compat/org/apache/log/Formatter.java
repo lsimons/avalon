@@ -8,7 +8,7 @@
 package org.apache.log;
 
 /**
- * This defines the interface for components that wish to serialize 
+ * This defines the interface for components that wish to serialize
  * LogEvents into Strings.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>

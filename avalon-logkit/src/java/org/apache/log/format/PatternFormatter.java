@@ -71,7 +71,7 @@ import org.apache.log.Priority;
  *         <td>Specifies the context map parameter name.</td>
  *       </tr><tr>
  *         <td><b>time</b></td>
- *         <td>Specifies the pattern to be pass to 
+ *         <td>Specifies the pattern to be pass to
  *         {@link java.text.SimpleDateFormat SimpleDateFormat} to format the time.</td>
  *       </tr>
  *     </table>
@@ -89,63 +89,63 @@ import org.apache.log.Priority;
  * </p><p>
  * The format string specifies that the logger should first print the
  * time value of the log event without size restriction, then the
- * priority of the log event with a minimum and maximum size of 5, 
+ * priority of the log event with a minimum and maximum size of 5,
  * then the category of the log event right justified with a minimum
  * and maximum size of 10, followed by the message of the log event
  * without any size restriction.
  * </p>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.26 $ $Date: 2002/02/11 13:27:02 $
+ * @version CVS $Revision: 1.27 $ $Date: 2002/03/27 22:07:56 $
  */
 public class PatternFormatter
     implements Formatter, org.apache.log.Formatter
 {
-    private final static int     TYPE_TEXT            = 1;
-    private final static int     TYPE_CATEGORY        = 2;
-    private final static int     TYPE_CONTEXT         = 3;
-    private final static int     TYPE_MESSAGE         = 4;
-    private final static int     TYPE_TIME            = 5;
-    private final static int     TYPE_RELATIVE_TIME   = 6;
-    private final static int     TYPE_THROWABLE       = 7;
-    private final static int     TYPE_PRIORITY        = 8;
+    private final static int TYPE_TEXT = 1;
+    private final static int TYPE_CATEGORY = 2;
+    private final static int TYPE_CONTEXT = 3;
+    private final static int TYPE_MESSAGE = 4;
+    private final static int TYPE_TIME = 5;
+    private final static int TYPE_RELATIVE_TIME = 6;
+    private final static int TYPE_THROWABLE = 7;
+    private final static int TYPE_PRIORITY = 8;
 
     /**
      * The maximum value used for TYPEs. Subclasses can define their own TYPEs
      * starting at <code>MAX_TYPE + 1</code>.
      */
-    protected final static int   MAX_TYPE               = TYPE_PRIORITY;
+    protected final static int MAX_TYPE = TYPE_PRIORITY;
 
-    private final static String  TYPE_CATEGORY_STR      = "category";
-    private final static String  TYPE_CONTEXT_STR       = "context";
-    private final static String  TYPE_MESSAGE_STR       = "message";
-    private final static String  TYPE_TIME_STR          = "time";
-    private final static String  TYPE_RELATIVE_TIME_STR = "rtime";
-    private final static String  TYPE_THROWABLE_STR     = "throwable";
-    private final static String  TYPE_PRIORITY_STR      = "priority";
+    private final static String TYPE_CATEGORY_STR = "category";
+    private final static String TYPE_CONTEXT_STR = "context";
+    private final static String TYPE_MESSAGE_STR = "message";
+    private final static String TYPE_TIME_STR = "time";
+    private final static String TYPE_RELATIVE_TIME_STR = "rtime";
+    private final static String TYPE_THROWABLE_STR = "throwable";
+    private final static String TYPE_PRIORITY_STR = "priority";
 
-    private final static String  SPACE_16               = "                ";
-    private final static String  SPACE_8                = "        ";
-    private final static String  SPACE_4                = "    ";
-    private final static String  SPACE_2                = "  ";
-    private final static String  SPACE_1                = " ";
+    private final static String SPACE_16 = "                ";
+    private final static String SPACE_8 = "        ";
+    private final static String SPACE_4 = "    ";
+    private final static String SPACE_2 = "  ";
+    private final static String SPACE_1 = " ";
 
-    private final static String  EOL                    = System.getProperty( "line.separator", "\n" );
+    private final static String EOL = System.getProperty( "line.separator", "\n" );
 
     protected static class PatternRun
     {
-        public String     m_data;
-        public boolean    m_rightJustify;
-        public int        m_minSize;
-        public int        m_maxSize;
-        public int        m_type;
-        public String     m_format;
+        public String m_data;
+        public boolean m_rightJustify;
+        public int m_minSize;
+        public int m_maxSize;
+        public int m_type;
+        public String m_format;
     }
 
-    private PatternRun                      m_formatSpecification[];
+    private PatternRun m_formatSpecification[];
 
-    private SimpleDateFormat                m_simpleDateFormat;
-    private final Date                      m_date = new Date();
+    private SimpleDateFormat m_simpleDateFormat;
+    private final Date m_date = new Date();
 
     /**
      * @deprecated Use constructor PatternFormatter(String pattern) as this does not
@@ -176,19 +176,20 @@ public class PatternFormatter
         final int start = index++;
 
         //first check for a +|- sign
-        if( '+' == pattern[ index ] ) index++;
+        if( '+' == pattern[ index ] )
+            index++;
         else if( '-' == pattern[ index ] )
         {
             run.m_rightJustify = true;
             index++;
         }
 
-        if( Character.isDigit( pattern[ index ] ))
+        if( Character.isDigit( pattern[ index ] ) )
         {
             int total = 0;
             while( Character.isDigit( pattern[ index ] ) )
             {
-                total = total * 10 + (pattern[ index ] - '0');
+                total = total * 10 + ( pattern[ index ] - '0' );
                 index++;
             }
             run.m_minSize = total;
@@ -199,12 +200,12 @@ public class PatternFormatter
         {
             index++;
 
-            if( Character.isDigit( pattern[ index ] ))
+            if( Character.isDigit( pattern[ index ] ) )
             {
                 int total = 0;
                 while( Character.isDigit( pattern[ index ] ) )
                 {
-                    total = total * 10 + (pattern[ index ] - '0');
+                    total = total * 10 + ( pattern[ index ] - '0' );
                     index++;
                 }
                 run.m_maxSize = total;
@@ -221,7 +222,7 @@ public class PatternFormatter
         int typeStart = index;
 
         while( index < pattern.length &&
-               pattern[ index ]!= ':' && pattern[ index ] != '}' )
+            pattern[ index ] != ':' && pattern[ index ] != '}' )
         {
             index++;
         }
@@ -249,8 +250,8 @@ public class PatternFormatter
         if( index >= pattern.length || '}' != pattern[ index ] )
         {
             throw new
-                IllegalArgumentException("Unterminated type in pattern at character "
-                                         + index );
+                IllegalArgumentException( "Unterminated type in pattern at character "
+                                          + index );
         }
 
         index++;
@@ -286,13 +287,18 @@ public class PatternFormatter
         {
             if( escapeMode )
             {
-                if( 'n' == pattern[ index ] ) sb.append( EOL );
-                else if( 't' == pattern[ index ] ) sb.append( '\t' );
-                else sb.append( pattern[ index ] );
+                if( 'n' == pattern[ index ] )
+                    sb.append( EOL );
+                else if( 't' == pattern[ index ] )
+                    sb.append( '\t' );
+                else
+                    sb.append( pattern[ index ] );
                 escapeMode = false;
             }
-            else if( '\\' == pattern[ index ] ) escapeMode = true;
-            else sb.append( pattern[ index ] );
+            else if( '\\' == pattern[ index ] )
+                escapeMode = true;
+            else
+                sb.append( pattern[ index ] );
             index++;
         }
 
@@ -434,28 +440,34 @@ public class PatternFormatter
     {
         switch( run.m_type )
         {
-        case TYPE_RELATIVE_TIME: return getRTime( event.getRelativeTime(), run.m_format );
-        case TYPE_TIME: return getTime( event.getTime(), run.m_format );
-        case TYPE_THROWABLE: return getStackTrace( event.getThrowable(), run.m_format );
-        case TYPE_MESSAGE: return getMessage( event.getMessage(), run.m_format );
-        case TYPE_CATEGORY: return getCategory( event.getCategory(), run.m_format );
-        case TYPE_PRIORITY: return getPriority( event.getPriority(), run.m_format );
+            case TYPE_RELATIVE_TIME:
+                return getRTime( event.getRelativeTime(), run.m_format );
+            case TYPE_TIME:
+                return getTime( event.getTime(), run.m_format );
+            case TYPE_THROWABLE:
+                return getStackTrace( event.getThrowable(), run.m_format );
+            case TYPE_MESSAGE:
+                return getMessage( event.getMessage(), run.m_format );
+            case TYPE_CATEGORY:
+                return getCategory( event.getCategory(), run.m_format );
+            case TYPE_PRIORITY:
+                return getPriority( event.getPriority(), run.m_format );
 
-        case TYPE_CONTEXT:
-            if( null == run.m_format ||
-                run.m_format.startsWith( "stack" ) )
-            {
-                //Print a warning out to stderr here
-                //to indicate you are using a deprecated feature?
-                return getContext( event.getContextStack(), run.m_format );
-            }
-            else
-            {
-                return getContextMap( event.getContextMap(), run.m_format );
-            }
+            case TYPE_CONTEXT:
+                if( null == run.m_format ||
+                    run.m_format.startsWith( "stack" ) )
+                {
+                    //Print a warning out to stderr here
+                    //to indicate you are using a deprecated feature?
+                    return getContext( event.getContextStack(), run.m_format );
+                }
+                else
+                {
+                    return getContextMap( event.getContextMap(), run.m_format );
+                }
 
-        default:
-            throw new IllegalStateException( "Unknown Pattern specification." + run.m_type );
+            default:
+                throw new IllegalStateException( "Unknown Pattern specification." + run.m_type );
         }
     }
 
@@ -566,7 +578,7 @@ public class PatternFormatter
      */
     protected String getTime( final long time, final String format )
     {
-        if ( null == format )
+        if( null == format )
         {
             return Long.toString( time );
         }
@@ -592,12 +604,18 @@ public class PatternFormatter
      */
     protected int getTypeIdFor( final String type )
     {
-        if( type.equalsIgnoreCase( TYPE_CATEGORY_STR ) ) return TYPE_CATEGORY;
-        else if( type.equalsIgnoreCase( TYPE_CONTEXT_STR ) ) return TYPE_CONTEXT;
-        else if( type.equalsIgnoreCase( TYPE_MESSAGE_STR ) ) return TYPE_MESSAGE;
-        else if( type.equalsIgnoreCase( TYPE_PRIORITY_STR ) ) return TYPE_PRIORITY;
-        else if( type.equalsIgnoreCase( TYPE_TIME_STR ) ) return TYPE_TIME;
-        else if( type.equalsIgnoreCase( TYPE_RELATIVE_TIME_STR ) ) return TYPE_RELATIVE_TIME;
+        if( type.equalsIgnoreCase( TYPE_CATEGORY_STR ) )
+            return TYPE_CATEGORY;
+        else if( type.equalsIgnoreCase( TYPE_CONTEXT_STR ) )
+            return TYPE_CONTEXT;
+        else if( type.equalsIgnoreCase( TYPE_MESSAGE_STR ) )
+            return TYPE_MESSAGE;
+        else if( type.equalsIgnoreCase( TYPE_PRIORITY_STR ) )
+            return TYPE_PRIORITY;
+        else if( type.equalsIgnoreCase( TYPE_TIME_STR ) )
+            return TYPE_TIME;
+        else if( type.equalsIgnoreCase( TYPE_RELATIVE_TIME_STR ) )
+            return TYPE_RELATIVE_TIME;
         else if( type.equalsIgnoreCase( TYPE_THROWABLE_STR ) )
         {
             return TYPE_THROWABLE;
@@ -632,7 +650,7 @@ public class PatternFormatter
             }
             else
             {
-                index +=  addTextRun( stack, pattern, index );
+                index += addTextRun( stack, pattern, index );
             }
         }
 

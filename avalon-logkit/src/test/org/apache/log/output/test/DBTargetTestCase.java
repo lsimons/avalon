@@ -7,26 +7,15 @@
  */
 package org.apache.log.output.test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import junit.framework.TestCase;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
-import org.apache.log.Priority;
-import org.apache.log.format.ExtendedPatternFormatter;
-import org.apache.log.format.PatternFormatter;
-import org.apache.log.format.RawFormatter;
-import org.apache.log.output.AbstractOutputTarget;
-import org.apache.log.output.MemoryTarget;
-import org.apache.log.output.io.FileTarget;
-import org.apache.log.output.io.SafeFileTarget;
-import org.apache.log.output.io.StreamTarget;
-import org.apache.log.output.io.WriterTarget;
-import org.apache.log.output.db.*;
-import junit.framework.TestCase;
+import org.apache.log.output.db.ColumnInfo;
+import org.apache.log.output.db.ColumnType;
+import org.apache.log.output.db.DefaultDataSource;
+import org.apache.log.output.db.DefaultJDBCTarget;
+import org.apache.log.output.db.NormalizedJDBCTarget;
 
 /**
  * Test suite for the DB output target.
@@ -47,19 +36,19 @@ public final class DBTargetTestCase
     public void testBasicTarget()
         throws Exception
     {
-        final DefaultDataSource dataSource = 
+        final DefaultDataSource dataSource =
             new DefaultDataSource( "jdbc:postgresql:avalon-logkit", "avalon", "" );
 
         final ColumnInfo[] columns =
-        {
-            new ColumnInfo( "TIME", ColumnType.TIME, null ),
-            new ColumnInfo( "PRIORITY", ColumnType.PRIORITY, null ),
-            new ColumnInfo( "CATEGORY", ColumnType.CATEGORY, null ),
-            new ColumnInfo( "HOSTNAME", ColumnType.STATIC, "helm.realityforge.net" ),
-            new ColumnInfo( "MESSAGE", ColumnType.MESSAGE, null )
-        };
+            {
+                new ColumnInfo( "TIME", ColumnType.TIME, null ),
+                new ColumnInfo( "PRIORITY", ColumnType.PRIORITY, null ),
+                new ColumnInfo( "CATEGORY", ColumnType.CATEGORY, null ),
+                new ColumnInfo( "HOSTNAME", ColumnType.STATIC, "helm.realityforge.net" ),
+                new ColumnInfo( "MESSAGE", ColumnType.MESSAGE, null )
+            };
 
-        final DefaultJDBCTarget target = 
+        final DefaultJDBCTarget target =
             new DefaultJDBCTarget( dataSource, "log_entrys", columns );
 
         final Logger logger = getNewLogger( target );
@@ -69,19 +58,19 @@ public final class DBTargetTestCase
     public void testNumericConstants()
         throws Exception
     {
-        final DefaultDataSource dataSource = 
+        final DefaultDataSource dataSource =
             new DefaultDataSource( "jdbc:postgresql:avalon-logkit", "avalon", "" );
 
         final ColumnInfo[] columns =
-        {
-            new ColumnInfo( "TIME", ColumnType.TIME, null ),
-            new ColumnInfo( "PRIORITY", ColumnType.PRIORITY, null ),
-            new ColumnInfo( "CATEGORY", ColumnType.CATEGORY, null ),
-            new ColumnInfo( "HOSTNAME", ColumnType.STATIC, "helm.realityforge.net" ),
-            new ColumnInfo( "MESSAGE", ColumnType.MESSAGE, null )
-        };
+            {
+                new ColumnInfo( "TIME", ColumnType.TIME, null ),
+                new ColumnInfo( "PRIORITY", ColumnType.PRIORITY, null ),
+                new ColumnInfo( "CATEGORY", ColumnType.CATEGORY, null ),
+                new ColumnInfo( "HOSTNAME", ColumnType.STATIC, "helm.realityforge.net" ),
+                new ColumnInfo( "MESSAGE", ColumnType.MESSAGE, null )
+            };
 
-        final NormalizedJDBCTarget target = 
+        final NormalizedJDBCTarget target =
             new NormalizedJDBCTarget( dataSource, "log_entrys2", columns );
 
         final Logger logger = getNewLogger( target );
@@ -95,7 +84,7 @@ public final class DBTargetTestCase
     {
         final Hierarchy hierarchy = new Hierarchy();
         final Logger logger = hierarchy.getLoggerFor( "myCategory" );
-        logger.setLogTargets( new LogTarget[] { target } );
+        logger.setLogTargets( new LogTarget[]{target} );
         return logger;
     }
 }

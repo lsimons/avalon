@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.Hashtable;
 
 /**
- * The ContextMap contains non-hierarchical context information 
+ * The ContextMap contains non-hierarchical context information
  * relevent to a particular LogEvent. It may include information
  * such as;
  *
@@ -33,15 +33,15 @@ public final class ContextMap
     implements Serializable
 {
     ///Thread local for holding instance of map associated with current thread
-    private static final ThreadLocal c_context   = new InheritableThreadLocal();
+    private static final ThreadLocal c_context = new InheritableThreadLocal();
 
     private final ContextMap m_parent;
 
     ///Container to hold map of elements
-    private Hashtable  m_map       = new Hashtable();
+    private Hashtable m_map = new Hashtable();
 
     ///Flag indicating whether this map should be readonly
-    private transient boolean    m_readOnly;
+    private transient boolean m_readOnly;
 
     /**
      * Get the Current ContextMap.
@@ -150,8 +150,10 @@ public final class ContextMap
     {
         final Object object = get( key );
 
-        if( null != object ) return object;
-        else return defaultObject;
+        if( null != object )
+            return object;
+        else
+            return defaultObject;
     }
 
     /**

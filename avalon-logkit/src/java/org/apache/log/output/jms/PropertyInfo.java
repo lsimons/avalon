@@ -12,16 +12,16 @@ package org.apache.log.output.jms;
  *
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
  */
-public class PropertyInfo 
+public class PropertyInfo
 {
     ///Name of property
-    private final String   m_name;
+    private final String m_name;
 
     ///Type/Source of property
-    private final int      m_type;
+    private final int m_type;
 
     ///Auxilliary parameters (ie constant or sub-format)
-    private final String   m_aux; //may be null
+    private final String m_aux; //may be null
 
     public PropertyInfo( final String name, final int type, final String aux )
     {

@@ -7,11 +7,11 @@
  */
 package org.apache.log.output.db;
 
-import java.util.HashMap;
-import java.sql.Statement;
-import java.sql.ResultSet;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashMap;
 import javax.sql.DataSource;
 import org.apache.log.LogEvent;
 
@@ -19,7 +19,7 @@ import org.apache.log.LogEvent;
  * JDBC target that writes to normalized tables.
  * This reduces overhead and cost of querying/storing logs.
  *
- * <p>Parts based on JDBC logger from prottomatter by 
+ * <p>Parts based on JDBC logger from prottomatter by
  * <a href="mailto:nate@protomatter.com">Nate Sammons</a></p>
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
@@ -27,8 +27,8 @@ import org.apache.log.LogEvent;
 public class NormalizedJDBCTarget
     extends DefaultJDBCTarget
 {
-    private HashMap  m_categoryIDs = new HashMap();
-    private HashMap  m_priorityIDs = new HashMap();
+    private HashMap m_categoryIDs = new HashMap();
+    private HashMap m_priorityIDs = new HashMap();
 
     public NormalizedJDBCTarget( final DataSource dataSource,
                                  final String table,
@@ -51,20 +51,20 @@ public class NormalizedJDBCTarget
 
         switch( info.getType() )
         {
-        case ColumnType.CATEGORY:
-            tableName = getTable() + "_" + ColumnType.CATEGORY_STR + "_SET";
-            id = getID( tableName, m_categoryIDs, event.getCategory() );
-            statement.setInt( index + 1, id );
-            break;
+            case ColumnType.CATEGORY:
+                tableName = getTable() + "_" + ColumnType.CATEGORY_STR + "_SET";
+                id = getID( tableName, m_categoryIDs, event.getCategory() );
+                statement.setInt( index + 1, id );
+                break;
 
-        case ColumnType.PRIORITY:
-            tableName = getTable() + "_" + ColumnType.PRIORITY_STR + "_SET";
-            id = getID( tableName, m_priorityIDs, event.getPriority().getName() );
-            statement.setInt( index + 1, id );
-            break;
+            case ColumnType.PRIORITY:
+                tableName = getTable() + "_" + ColumnType.PRIORITY_STR + "_SET";
+                id = getID( tableName, m_priorityIDs, event.getPriority().getName() );
+                statement.setInt( index + 1, id );
+                break;
 
-        default:
-            super.specifyColumn( statement, index, event );
+            default:
+                super.specifyColumn( statement, index, event );
         }
     }
 
@@ -77,7 +77,7 @@ public class NormalizedJDBCTarget
         // see if it's been put in before.
         Statement statement = null;
         ResultSet resultSet = null;
-        
+
         try
         {
             statement = getConnection().createStatement();
@@ -91,13 +91,13 @@ public class NormalizedJDBCTarget
                 idMap.put( instance, newID );
                 return newID.intValue();
             }
-       
+
             resultSet.close();
 
             //Note that the next part should be a transaction but
             //it is not mega vital so ...
 
-            //Find the max id in table and set 
+            //Find the max id in table and set
             //max to it's value if any items are present in table
             final String maxQuerySql = "SELECT MAX(ID) FROM " + tableName;
             resultSet = statement.executeQuery( maxQuerySql );
@@ -106,7 +106,7 @@ public class NormalizedJDBCTarget
             resultSet.close();
 
             final int newID = max + 1;
-            final String insertSQL = "INSERT INTO " + tableName + 
+            final String insertSQL = "INSERT INTO " + tableName +
                 " (ID, NAME) VALUES ( " + newID + ", '" + instance + "')";
             statement.executeUpdate( insertSQL );
 
@@ -118,13 +118,23 @@ public class NormalizedJDBCTarget
             // close up shop
             if( null != resultSet )
             {
-                try { resultSet.close(); } 
-                catch( final Exception e ) {}
+                try
+                {
+                    resultSet.close();
+                }
+                catch( final Exception e )
+                {
+                }
             }
             if( null != statement )
             {
-                try { statement.close(); } 
-                catch( final Exception e ) {}
+                try
+                {
+                    statement.close();
+                }
+                catch( final Exception e )
+                {
+                }
             }
         }
     }
