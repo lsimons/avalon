@@ -16,13 +16,30 @@ import java.rmi.RemoteException;
  * This service provides a way to publish an <code>Remote<code> object via RMI.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
- * @version $Revision: 1.5 $
+ * @author Mauro Talevi
+ * @version $Revision: 1.6 $
  */
 public interface RMIfication
 {
     String ROLE = RMIfication.class.getName();
 
     /**
+     * Export a Remote object
+     *
+     * @param remote the remote object to export
+     */
+    void export( Remote remote )
+        throws RemoteException;
+
+    /**
+     * Unexport a Remote object
+     *
+     * @param remote the remote object to unexport
+     */
+    void unexport( Remote remote )
+        throws RemoteException;
+
+     /**
      * Publish a set of interfaces
      *
      * @param remote the remote object to publish

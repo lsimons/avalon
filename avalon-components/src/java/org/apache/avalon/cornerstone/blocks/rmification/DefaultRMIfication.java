@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.RMISecurityManager;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -32,7 +33,8 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * @phoenix:service name="org.apache.avalon.cornerstone.services.rmification.RMIfication"
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
- * @version $Revision: 1.9 $
+ * @author Mauro Talevi
+ * @version $Revision: 1.10 $
  */
 public class DefaultRMIfication
     extends AbstractLogEnabled
@@ -56,6 +58,15 @@ public class DefaultRMIfication
         throws Exception
     {
         m_remotes = new HashMap();
+        // check if SecurityManager is set
+        if ( System.getSecurityManager() == null ) {
+            System.setSecurityManager( new RMISecurityManager() );
+            if( getLogger().isInfoEnabled() )
+            {
+                final String message = "RMISecurityManager set";
+                getLogger().info( message );
+            }
+        }
 
         if( m_createRegistry )
         {
@@ -85,12 +96,36 @@ public class DefaultRMIfication
         m_remotes = null;
     }
 
+    public void export( final Remote remote )
+        throws RemoteException
+    {
+        UnicastRemoteObject.exportObject( remote );
+
+        if( getLogger().isDebugEnabled() )
+        {
+            final String message = "Exported Remote " + remote.toString();
+            getLogger().debug( message );
+        }
+    }
+
+    public void unexport( final Remote remote  )
+        throws RemoteException
+    {
+        UnicastRemoteObject.unexportObject( remote, true );
+
+        if( getLogger().isDebugEnabled() )
+        {
+            final String message = "Unexported Remote " + remote.toString();
+            getLogger().debug( message );
+        }
+    }
+
     public void publish( final Remote remote, final String publicationName )
         throws RemoteException, MalformedURLException
     {
         synchronized( m_remotes )
         {
-            UnicastRemoteObject.exportObject( remote );
+            export( remote );
             m_registry.rebind( publicationName, remote );
 
             m_remotes.put( publicationName, remote );
@@ -111,7 +146,7 @@ public class DefaultRMIfication
             final Remote remote = (Remote) m_remotes.get( publicationName );
 
             m_registry.unbind( publicationName );
-            UnicastRemoteObject.unexportObject( remote, true );
+            unexport( remote );
 
             m_remotes.remove( publicationName );
         }
