@@ -1,3 +1,6 @@
-<project default="multiproject:install">
+<project default="multiproject:install" xmlns:j="jelly:core">
+
+  <j:set var="maven.multiproject.includes" 
+      value="**/project.xml"/>
 
 </project>
