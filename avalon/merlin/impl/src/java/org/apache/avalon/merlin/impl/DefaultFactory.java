@@ -39,7 +39,6 @@ import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.impl.DefaultSystemContextFactory;
 import org.apache.avalon.composition.provider.SystemContext;
 import org.apache.avalon.composition.provider.SystemContextFactory;
-import org.apache.avalon.composition.util.StringHelper;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -227,7 +226,7 @@ public class DefaultFactory implements Factory
             buffer.append( "\n" );
             buffer.append( REZ.getString( "info.listing" ) );
             buffer.append( LINE );
-            createInfoListing( buffer, hosts, m_context, criteria );
+            createInfoListing( buffer, hosts, m_context, criteria, systemContext );
             buffer.append( "\n" );
             buffer.append( LINE );
             getLogger().info( buffer.toString() );
@@ -268,7 +267,7 @@ public class DefaultFactory implements Factory
             {
                 getLogger().debug( 
                   "installing: " 
-                  + StringHelper.toString( url ) );
+                  + systemContext.toString( url ) );
             }
 
             try
@@ -701,7 +700,7 @@ public class DefaultFactory implements Factory
 
     private void createInfoListing( 
       StringBuffer buffer, String[] hosts, InitialContext context, 
-      KernelCriteria criteria )
+      KernelCriteria criteria, SystemContext system )
     {
         buffer.append( "\n" );
         buffer.append( 
@@ -814,7 +813,7 @@ public class DefaultFactory implements Factory
         for( int i=0; i<hosts.length; i++ )
         {   
             if( i>0 ) buffer.append( "," );  
-            buffer.append( StringHelper.toString( hosts[i] ) );
+            buffer.append( system.toString( hosts[i] ) );
         }
 
         buffer.append( "\n  ${merlin.deployment} == " );
@@ -822,7 +821,7 @@ public class DefaultFactory implements Factory
         for( int i=0; i<urls.length; i++ )
         {   
             if( i>0 ) buffer.append( "," );  
-            buffer.append( StringHelper.toString( urls[i] ) );
+            buffer.append( system.toString( urls[i] ) );
         }
     }
 

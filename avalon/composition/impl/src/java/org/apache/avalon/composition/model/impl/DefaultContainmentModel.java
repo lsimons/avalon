@@ -56,7 +56,7 @@ import org.apache.avalon.composition.provider.ModelFactory;
 import org.apache.avalon.composition.provider.SecurityModel;
 import org.apache.avalon.composition.provider.ComponentContext;
 import org.apache.avalon.composition.provider.ContainmentContext;
-import org.apache.avalon.composition.util.StringHelper;
+import org.apache.avalon.composition.provider.SystemContext;
 import org.apache.avalon.composition.util.DefaultState;
 
 import org.apache.avalon.logging.provider.LoggingManager;
@@ -84,7 +84,7 @@ import org.apache.avalon.util.i18n.Resources;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.44 $ $Date: 2004/05/01 17:03:43 $
+ * @version $Revision: 1.45 $ $Date: 2004/05/09 23:51:08 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -949,8 +949,9 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
 
         if( getLogger().isDebugEnabled() )
         {
+            SystemContext system = m_context.getSystemContext();
             final String message = 
-              StringHelper.toString( REZ.getString( "containment.add", name ) );
+              REZ.getString( "containment.add", system.toString( name ) );
             getLogger().debug( message );
         }
 

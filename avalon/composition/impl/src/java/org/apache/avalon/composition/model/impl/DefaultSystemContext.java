@@ -47,7 +47,7 @@ import org.apache.avalon.util.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.31 $ $Date: 2004/04/04 23:33:56 $
+ * @version $Revision: 1.32 $ $Date: 2004/05/09 23:51:08 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext
@@ -406,9 +406,87 @@ public class DefaultSystemContext extends DefaultContext
         getRuntime().release( model, instance );
     }
 
+   /**
+    * Prepare a string representation of an object for presentation.
+    * @param object the object to parse
+    * @return the presentation string
+    */
+    public String toString( Object object )
+    {
+        if( object == null ) return "";
+
+        if( object instanceof String )
+        {
+            return processString( (String) object );
+        }
+        else
+        {
+            return processString( object.toString() );
+        }
+    }
+
+   /**
+    * Prepare a string representation of an object for presentation.
+    * @param name the value to parse
+    * @return the presentation string
+    */
+    public String processString( String name )
+    {
+        if( name == null ) return "";
+
+        String str = name.replace( '\\', '/' );
+
+        String base = getBaseDirectory().toString().replace( '\\', '/' );
+        if( str.indexOf( base ) > -1 )
+        {
+            return getString( str, base, "${merlin.dir}" );
+        }
+
+        final String dir = 
+          System.getProperty( "user.dir" ).replace( '\\', '/' );
+        if( str.indexOf( dir ) > -1 )
+        {
+            return getString( str, dir, "${user.dir}" );
+        }
+        
+        return name;
+    }
+
+   /**
+    * Prepare a string representation of an object array for presentation.
+    * @param objects the array of objects
+    * @return the presentation string
+    */
+    public String toString( Object[] objects )
+    {
+        StringBuffer buffer = new StringBuffer();
+        for( int i=0; i<objects.length; i++ )
+        {
+            if( i > 0 ) buffer.append( ";" );
+            buffer.append( toString( objects[i] ) );
+        }
+        return buffer.toString();
+    }
+
     //------------------------------------------------------------------
     // runtime operations
     //------------------------------------------------------------------
+
+    private String getString( String name, String pattern, String replacement )
+    {
+        final int n = name.indexOf( pattern );
+        if( n == -1 ) return name;
+        if( name.startsWith( pattern ) )
+        {
+            return replacement + name.substring( pattern.length() );
+        }
+        else
+        {
+            String header = name.substring( 0, n );
+            String tail = name.substring( n + pattern.length() );
+            return header + replacement + tail; 
+        }
+    }
 
    /**
     * Return the runtime factory.

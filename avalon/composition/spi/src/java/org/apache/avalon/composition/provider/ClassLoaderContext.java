@@ -36,7 +36,7 @@ import org.apache.avalon.repository.Repository;
  * Defintion of a working context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:23:35 $
+ * @version $Revision: 1.2 $ $Date: 2004/05/09 23:51:08 $
  */
 public interface ClassLoaderContext extends Context
 {
@@ -116,4 +116,10 @@ public interface ClassLoaderContext extends Context
     */
     URL[] getImplicitURLs();
 
+   /**
+    * Return the system context.
+    *
+    * @return the system context
+    */
+    SystemContext getSystemContext();
 }

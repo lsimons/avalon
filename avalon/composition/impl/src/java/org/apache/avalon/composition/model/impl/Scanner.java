@@ -31,7 +31,7 @@ import java.util.zip.ZipEntry;
 
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.data.builder.ProfilePackageBuilder;
-import org.apache.avalon.composition.util.StringHelper;
+import org.apache.avalon.composition.provider.SystemContext;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
@@ -51,7 +51,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * A repository for services, types and profiles.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/03/17 10:39:10 $
+ * @version $Revision: 1.10 $ $Date: 2004/05/09 23:51:08 $
  */
 class Scanner extends AbstractLogEnabled
 {
@@ -94,6 +94,11 @@ class Scanner extends AbstractLogEnabled
      */
     private ClassLoader m_classloader;
 
+    /**
+     * System context.
+     */
+    private SystemContext m_system;
+
     //===================================================================
     // constructor
     //===================================================================
@@ -106,13 +111,18 @@ class Scanner extends AbstractLogEnabled
      * @param logger the logging channel
      * @param classloader the classloader
      */
-    public Scanner( Logger logger, ClassLoader classloader )
+    public Scanner( Logger logger, SystemContext system, ClassLoader classloader )
     {
         if( classloader == null )
         {
             throw new NullPointerException( "classloader" );
         }
+        if( system == null )
+        {
+            throw new NullPointerException( "system" );
+        }
         m_classloader = classloader;
+        m_system = system;
         enableLogging( logger );
     }
 
@@ -147,7 +157,7 @@ class Scanner extends AbstractLogEnabled
             final String message =
               REZ.getString( 
                 "scanner.scanning", 
-                StringHelper.toString( url.toString() ) );
+                m_system.toString( url.toString() ) );
             getLogger().debug( message );
         }
 
@@ -195,7 +205,9 @@ class Scanner extends AbstractLogEnabled
             if( !uri.toString().endsWith( "!/" ) )
             {
                 final String error =
-                  REZ.getString( "scanner.nested-jar-unsupported.error", url.toString() );
+                  REZ.getString( 
+                    "scanner.nested-jar-unsupported.error", 
+                    url.toString() );
                 throw new ModelException( error );
             }
 
