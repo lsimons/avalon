@@ -55,7 +55,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.17 $
+ * @version $Revision: 1.18 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -160,7 +160,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
             new PackedParameter( 
               MERLIN_DEPLOYMENT, ",", new String[0] ),
             new Parameter( 
-              MERLIN_KERNEL, URL.class, null ),
+              MERLIN_KERNEL, String.class, null ),
             new Parameter( 
               MERLIN_LOGGING_CONFIG, 
               File.class, null ),
@@ -194,7 +194,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
               Long.class, new Long( 1000 ) ),
             new Parameter( 
               MERLIN_CODE_SECURITY_ENABLED, 
-              Boolean.class, new Boolean( true ) )
+              Boolean.class, new Boolean( false ) )
          };
     }
 
@@ -459,18 +459,47 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
     */
     public URL getKernelURL()
     {
-        URL url = (URL) get( MERLIN_KERNEL );
-        if( null != url ) return url;
-        File conf = getConfigDirectory();
-        if( null == conf ) return null;
-        File kernel = new File( conf, "kernel.xml" );
-        if( kernel.exists() )
+        String uri = (String) get( MERLIN_KERNEL );
+        if( null == uri )
         {
-            return toURL( kernel );
+            File conf = getConfigDirectory();
+            if( null == conf ) return null;
+            File kernel = new File( conf, "kernel.xml" );
+            if( kernel.exists() )
+            {
+                return toURL( kernel );
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else if( uri.indexOf( ":" ) < 0 )
+        {
+            File target = new File( uri );
+            if( target.exists() )
+            {
+                return toURL( target );
+            }
+            else
+            {
+                File base = getWorkingDirectory();
+                target = new File( base, uri );
+                if( target.exists() )
+                {
+                    return toURL( target );
+                }
+                else
+                {
+                    final String error = 
+                      "Kernel file not found [" + target + "].";
+                    throw new KernelRuntimeException( error );
+                }
+            }
         }
         else
         {
-            return null;
+            return toURL( uri );
         }
     }
 
@@ -633,13 +662,13 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
    /**
     * Return the code security enabled status.
     *
-    * @return TRUE if code security is enabled
+    * @return TRUE if code security is enabled - default is false
     */
     public boolean isCodeSecurityEnabled()
     {
         Boolean value = (Boolean) get( MERLIN_CODE_SECURITY_ENABLED );
         if( null != value ) return value.booleanValue();
-        return true;
+        return false;
     }
 
     //--------------------------------------------------------------
@@ -747,15 +776,15 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
         }
     }
 
-    private URL resolveURL( File base, String value ) throws Exception
+    private URL resolveURL( File base, String value )
     {
         if( value.startsWith( "block:" ) )
         {
-            return new URL( null, value, new BlockHandler() );
+            return blockSpecToURL( value );
         }
         else if( value.startsWith( "artifact:" ) )
         {
-            return new URL( null, value, new ArtifactHandler() );
+            return artifactSpecToURL( value );
         }
 
         try
@@ -799,6 +828,58 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
               "Unable to transform the file [" 
                   + file.toString()
                   + "] to a URL.";
+            throw new KernelRuntimeException( error, e );
+        }
+    }
+
+    private URL blockSpecToURL( String spec )
+    {
+        if( null == spec ) throw new NullPointerException( "spec" );
+        try
+        {
+            return new URL( null, spec, new BlockHandler() );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Unable to transform the block specification [" 
+                + spec
+                + "] to a URL.";
+            throw new KernelRuntimeException( error, e );
+        }
+    }
+
+    private URL artifactSpecToURL( String spec )
+    {
+        if( null == spec ) throw new NullPointerException( "spec" );
+        try
+        {
+            return new URL( null, spec, new ArtifactHandler() );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Unable to transform the artifact specification [" 
+                + spec
+                + "] to a URL.";
+            throw new KernelRuntimeException( error, e );
+        }
+    }
+
+    private URL toURL( String spec )
+    {
+        if( null == spec ) throw new NullPointerException( "spec" );
+
+        try
+        {
+            return new URL( spec );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Unable to construct url from spec [" 
+                + spec
+                + "].";
             throw new KernelRuntimeException( error, e );
         }
     }

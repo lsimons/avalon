@@ -98,8 +98,7 @@ public class DefaultFactory implements Factory
     private static Resources REZ =
         ResourceManager.getPackageResources( DefaultFactory.class );
 
-    private static final String LINE = 
-      "\n-----------------------------------------------------------";
+    private static final String LINE = InitialContext.LINE;
 
     private static final XMLComponentProfileCreator CREATOR = 
       new XMLComponentProfileCreator();
@@ -922,6 +921,14 @@ public class DefaultFactory implements Factory
         buffer.append( 
           "\n  ${merlin.autostart} == " 
           + criteria.isAutostartEnabled() );
+
+        buffer.append( 
+          "\n  ${merlin.code.security.enabled} == " 
+          + criteria.isCodeSecurityEnabled() );
+
+        buffer.append( 
+          "\n  ${merlin.deployment.timeout} == " 
+          + criteria.getDeploymentTimeout() );
 
         buffer.append( 
           "\n  ${merlin.repository} == " 

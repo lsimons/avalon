@@ -59,7 +59,7 @@ import org.apache.commons.cli.Options;
  * Merlin command line handler.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.15 $
+ * @version $Revision: 1.16 $
  */
 public class Main 
 {
@@ -106,6 +106,10 @@ public class Main
         Option info = new Option(
            "info",
            REZ.getString( "cli-info-description" ) );
+
+        Option secure = new Option(
+           "secure",
+           REZ.getString( "cli-secure-description" ) );
 
         Option locale = OptionBuilder
            .hasArg()
@@ -174,6 +178,7 @@ public class Main
         options.addOption( info );
         options.addOption( debug );
         options.addOption( audit );
+        options.addOption( secure );
         options.addOption( install );
         options.addOption( home );
         options.addOption( context );
@@ -310,6 +315,7 @@ public class Main
         setDebugPolicy( criteria, line );
         setAuditPolicy( criteria, line );
         setServerPolicy( criteria, line );
+        setSecurityPolicy( criteria, line );
         setAnchorDirectory( criteria, line );
         setContextDirectory( criteria, line );
         setRepositoryDirectory( criteria, line );
@@ -410,6 +416,14 @@ public class Main
         if( line.hasOption( "execute" ) )
         {
             criteria.put( "merlin.server", new Boolean( false ) );
+        }
+    }
+
+    private void setSecurityPolicy( Map criteria, CommandLine line )
+    {
+        if( line.hasOption( "secure" ) )
+        {
+            criteria.put( "merlin.code.security.enabled", new Boolean( true ) );
         }
     }
 
