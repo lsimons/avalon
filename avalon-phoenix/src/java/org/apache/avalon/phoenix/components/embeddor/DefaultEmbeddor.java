@@ -15,6 +15,8 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
 import org.apache.avalon.framework.CascadingException;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -45,7 +47,7 @@ import org.apache.avalon.phoenix.interfaces.Kernel;
  */
 public class DefaultEmbeddor
     extends AbstractLogEnabled
-    implements Embeddor, Contextualizable, Parameterizable, Configurable, EmbeddorMBean
+    implements Embeddor, EmbeddorMBean, Contextualizable, Parameterizable, Configurable, Initializable, Disposable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultEmbeddor.class );
