@@ -12,4 +12,6 @@ velocity.log
 project.xml
 project.properties
 maven.log
+maven.xml
 target
+xdocs
