@@ -288,7 +288,7 @@
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
              to="avalon-dev@jakarta.apache.org"/>
-     </project>
+    </project>
 
 
     <project name="excalibur-containerkit">
