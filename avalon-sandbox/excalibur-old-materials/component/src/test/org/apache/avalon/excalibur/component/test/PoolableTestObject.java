@@ -58,13 +58,11 @@ import org.apache.avalon.framework.logger.Logger;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/03/04 17:15:06 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/05/01 10:15:13 $
  */
 public class PoolableTestObject
-    implements Component, Initializable, Recyclable, Disposable, Poolable
+    implements PoolableTestObjectInterface, Initializable, Recyclable, Disposable, Poolable
 {
-    public static final String ROLE = PoolableTestObject.class.getName();
-
     /** Semaphore used to synchronize access to m_instanceCounter */
     private static Object m_semaphore = new Object();
 
