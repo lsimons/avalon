@@ -10,7 +10,126 @@
     <author name="Peter Donald" email="peter@apache.org" id="PD"/>
     <author name="Paul Hammant" email="Paul_Hammant@yahoo.com" id="PH"/>
     <author name="Mircea Toma" email="mirceatoma@home.com" id="MT"/>
+    <author name="Stephen McConnell" email="mcconnell@osm.net" id="SM"/>
   </devs>
+<release version="4.0a4" date="Unreleased">
+
+    <action dev="PD" type="add">
+        Update documentation and move to Anakia for document generation.
+   </action>
+    <action dev="PD" type="add">
+Remove deprecated functionality for deploying old style .sar files or
+deploying from a directory.
+   </action>
+    <action dev="PD" type="add">
+Remove deprecated Service interface.
+   </action>
+    <action dev="PD" type="add">
+Remove some deprecated methods from BlockContext.
+   </action>
+     <action dev="PD" type="add">
+Warn users if their blocks Work interfaces/Services implement
+any lifecycle interfaces.
+    </action>
+    <action dev="SM" type="add">
+       Allow name sub-element in block section of BlockInfo.
+   </action>
+     <action dev="PD" type="add">
+        Add "sar:" URL protocol handling to policy section in environment.xml
+        file.
+    </action>
+     <action dev="PD" type="add">
+        Blocks no longre need to implement Block interface. Block interface
+        is thus deprecated as is AbstractBlock. This was done to facilitate
+        sharing of components between multiple containers.
+    </action>
+
+     <action dev="PD" type="add">
+        Extrace Blocks to directory based on name deployed with rather than
+        .sar name (to support multiple deployments of same .sar). Submitted
+        By: Ulrich Mayring (ulim@denic.de)
+    </action>
+    <action dev="PD" type="add">
+        Rework deployer such that jars are extracted to a temporary work
+        directory and then deleted when application is undeployed. This is
+        to work around the JVM locking and caching the jars and thus allowing
+        users to redeploy applications. Submitted By: Ulrich Mayring
+ (ulim@denic.de)
+    </action>
+    <action dev="PD" type="add">
+        Updated build script so it will work when installed in a directory
+        with spaces. Submitted By: dsmiley@mitre.org (David Smiley)
+    </action>
+    <action dev="PD" type="add">
+        Use MX4J project to provide the JMX management kernel rather than
+        RI.
+    </action>
+    <action dev="PD" type="add">
+        Make phoenix use a temporary located in its hierarchy by setting
+        the JVM system property "java.io.tmp". By default this temporary
+        location is $PHOENIX_HOME/temp
+    </action>
+    <action dev="PD" type="add">
+        Rework Embeddor so that it instantiates kernel components from a
+        by reading the contents of conf/kernel.xml file.
+        Submitted By: Joerg Bauer (bauer@denic.de)
+    </action>
+    <action dev="PD" type="add">
+        Add XDoclet tasks to generate the manifest and BlockInfo files
+        based on javadoc tags inserted into Blocks java file. Originally
+        Submitted By: vinay nair (vinayc77@yahoo.com)
+    </action>
+    <action dev="SM" type="add">
+        Added javadoc to more classes and added in package.html files
+        where appropriate.
+    </action>
+    <action dev="PH" type="add">
+        Added ApplicationListener objects that implement all same
+        funcitonality as BlockListener but also provide support
+        for Application Starting/Stopping/Failure events and
+        provide access to SarMetaData. Consequently deprecated
+        BlockListener interface.
+    </action>
+    <action dev="PD" type="add">
+Enhanced DefaultManager to support authenticated connecitons.
+Submitted By: "Jorg Bauer/Denic" (bauer@denic.de)
+    </action>
+    <action dev="MT" type="change">
+Add support for Parameterizable blocks. Submitted by:
+Brian Olsen (brian@mmmanager.org)
+    </action>
+    <action dev="PD" type="add">
+Allow Blocks to declare that they are able to be exported to a Management
+subsystem (ie JMS) by making their blocks declare (Management-access-points/)
+        in their BlockInfo. Blocks will be exported to JMX with names like
+        "application=Foo,name=MrBlock,role=org.apache.MyManagementInterface"
+    </action>
+  <action dev="PD" type="change">
+    Validate the assembly.xml file and any BlockInfo files if they
+    declare the DTD correctly.
+  </action>
+  <action dev="PD" type="change">
+    Add native daemon support by using the daemon created in the
+    http://wrapper.sourceforge.net/ project. Submitted By:
+    Leif Mortenson (leif@silveregg.co.jp)
+  </action>
+  <action dev="PD" type="fix">
+    Fixed bug where application names were inapropriately prefixed
+    to log categories. Submitted By Antal Attila (atech@nolimits.ro)
+  </action>
+  <action dev="PD" type="fix">
+    Fixed bug where application names were inapropriately prefixed
+    to log categories.
+  </action>
+  <action dev="PD" type="change">
+    Allow jars contained within the .sar file to declare dependencies
+    on libraries using the standard JDK1.2+ Extension mechanism. For
+    more information about optional packages, see the document
+    Optional Package Versioning in the documentation bundle for your
+    Java2 Standard Edition package, in the file
+    guide/extensions/versioning.html.
+  </action>
+</release>
 <release version="4.0a3" date="November 13, 2001">
   <action dev="PD" type="change">
     Add documentation describing BlockListener.
