@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1//EN"
-                         "./dtd/docbookx.dtd">
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+                  "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
 
 <chapter xmlns:xi="http://www.w3.org/2001/XInclude"
          xml:base="context://content/xdocs/developing/">
@@ -123,7 +123,7 @@
       you to use now.  They are mature and only getting better.  While
       Avalon Phoenix and Avalon Cornerstone are under heavy development,
       anything you write for them will be usable with only minor
-      modifications in the future. 
+      modifications in the future.
     </para>
   </section>
 </chapter>

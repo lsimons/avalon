@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1//EN"
-                         "./dtd/docbookx.dtd">
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+                  "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
 
 <chapter xmlns:xi="http://www.w3.org/2001/XInclude"
          xml:base="context://content/xdocs/developing/">
@@ -1020,7 +1020,7 @@ public void myMethod()
     <section>
       <title>Collection Utilities</title>
       <para>
-        The collection utilities provide some enhancements to the 
+        The collection utilities provide some enhancements to the
         <trademark>Java</trademark> Collections API.  Among them is the ability
         to find the intersections between two lists and a
         <classname>PriorityQueue</classname> that is an enhancement to
