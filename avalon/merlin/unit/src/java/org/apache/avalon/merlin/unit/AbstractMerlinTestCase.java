@@ -78,7 +78,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.17 $
+ * @version $Revision: 1.18 $
  */
 public abstract class AbstractMerlinTestCase extends TestCase
 {
@@ -324,19 +324,53 @@ public abstract class AbstractMerlinTestCase extends TestCase
 
     private static String getMavenHome()
     {
+System.out.println( 
+  "### ${maven.home} == [" 
+  + System.getProperty( "maven.home" ) 
+  + "]" );
+System.out.println( 
+  "### ${maven.home.local} == [" 
+  + System.getProperty( "maven.home.local" ) 
+  + "]" );
+System.out.println( 
+  "### MAVEN_HOME == [" 
+  + getEnvValue( "MAVEN_HOME" ) 
+  + "]" );
+System.out.println( 
+  "### MAVEN_HOME_LOCAL == [" 
+  + getEnvValue( "MAVEN_HOME_LOCAL" ) 
+  + "]" );
+
         try
         {
             String local = 
               System.getProperty( 
                 "maven.home.local", 
                 Env.getEnvVariable( "MAVEN_HOME_LOCAL" ) );
+
+System.out.println( 
+  "### local == [" 
+  + local 
+  + "]" );
+
             if( null != local ) return local;
 
             String maven = 
               System.getProperty( 
                 "maven.home", 
                 Env.getEnvVariable( "MAVEN_HOME" ) );
+
+System.out.println( 
+  "### maven == [" 
+  + maven 
+  + "]" );
+
             if( null != maven ) return maven;
+
+System.out.println( 
+  "### fallback == [" 
+  + System.getProperty( "user.home" ) + File.separator + ".maven" 
+  + "]" );
 
             return System.getProperty( "user.home" ) + File.separator + ".maven";
 
@@ -348,6 +382,18 @@ public abstract class AbstractMerlinTestCase extends TestCase
             final String message = 
               ExceptionHelper.packException( error, e, true );
             throw new RuntimeException( message );
+        }
+    }
+
+    private static String getEnvValue( String key )
+    {
+        try
+        {
+            return Env.getEnvVariable( key );
+        }
+        catch( Throwable e )
+        {
+            throw new RuntimeException( e.toString() );
         }
     }
 
