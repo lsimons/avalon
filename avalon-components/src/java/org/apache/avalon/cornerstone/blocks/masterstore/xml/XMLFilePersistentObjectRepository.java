@@ -23,7 +23,7 @@ import org.apache.avalon.cornerstone.services.store.ObjectRepository;
  * for all public subclasses of java.awt.Component in J2SE and the types of
  * all of their properties, recursively. All other classes will be handled
  * with the default persistence delegate which assumes the class follows
- * the beans conventions" (snipped from Bigparade)
+ * the beans conventions" (snipped from the BugParade)
  *
  * Basically, don't use this block for anything other than Swing component
  * serialization.  Sun will have to do a lot of work writing a
