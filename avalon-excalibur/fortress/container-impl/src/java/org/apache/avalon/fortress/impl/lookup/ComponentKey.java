@@ -55,20 +55,21 @@ package org.apache.avalon.fortress.impl.lookup;
  */
 final class ComponentKey
 {
-    private final Object component;
-    
-    public ComponentKey( Object component )
+    private final Object m_component;
+
+    public ComponentKey( final Object component )
     {
-        this.component = component;
+        m_component = component;
     }
-    
+
     public boolean equals( Object other )
     {
-        return (other instanceof ComponentKey) && ((ComponentKey) other).component == this.component;
+        return ( other instanceof ComponentKey ) &&
+            ( (ComponentKey)other ).m_component == m_component;
     }
-    
+
     public int hashCode()
     {
-        return component.hashCode();
+        return m_component.hashCode();
     }
 }
