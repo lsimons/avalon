@@ -25,7 +25,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * is specified in the BlockInfo specification.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2002/05/10 02:43:04 $
+ * @version $Revision: 1.13 $ $Date: 2002/05/12 02:02:26 $
  */
 public final class BlockInfoBuilder
     extends AbstractLogEnabled
@@ -205,15 +205,17 @@ public final class BlockInfoBuilder
     {
         if( 0 == block.getChildren().length )
         {
-            final String message = REZ.getString( "missing-block", classname );
+            final String message =
+                REZ.getString( "missing-block", classname );
             getLogger().warn( message );
             System.err.println( message );
             return null;
         }
 
+        final String name = block.getAttribute( "name", null );
         final Version version = buildVersion( block.getChild( "version" ).getValue() );
 
-        return new BlockDescriptor( classname, version );
+        return new BlockDescriptor( name, classname, version );
     }
 
     /**
