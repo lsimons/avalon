@@ -77,7 +77,7 @@ public class JavacPlugin extends AbstractPlugin
         Path.PathElement pe = cp.createPathElement();
         pe.setPath( classpath );
 
-        ArtifactPlugin ap = ((ArtifactPlugin) m_ArtifactPlugin);
+        ArtifactPlugin ap = (ArtifactPlugin) m_ArtifactPlugin;
         String projectname = m_Context.getProjectName();
         Artifact thisArtifact = ap.locate( projectname );
         Artifact[] deps = ap.getDependencies( thisArtifact );
