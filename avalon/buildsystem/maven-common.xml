@@ -331,7 +331,7 @@ directory yourself using a command such as
         <ant:mkdir dir="${maven.build.dir}"/>
         <j:if test="${api.src.present}">
             <ant:zip destfile="${maven.build.dir}/${maven.final.name}.jar">
-                <ant:zipfileset src="${pom.artifactId}-api-${pom.currentVersion}.jar"/>
+                <ant:zipfileset src="${maven.build.dir}/${pom.artifactId}-api-${pom.currentVersion}.jar"/>
             </ant:zip>
         </j:if>
         <j:if test="${impl.src.present}">
