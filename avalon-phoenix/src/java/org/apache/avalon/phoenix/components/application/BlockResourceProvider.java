@@ -32,13 +32,14 @@ import org.apache.avalon.phoenix.containerkit.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
+import org.apache.excalibur.instrument.InstrumentManager;
 
 /**
  * The accessor used to access resources for a particular
  * Block or Listener.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.17 $ $Date: 2003/03/01 08:39:14 $
+ * @version $Revision: 1.18 $ $Date: 2003/03/17 03:42:20 $
  */
 class BlockResourceProvider
     extends AbstractLogEnabled
@@ -105,6 +106,34 @@ class BlockResourceProvider
         final ComponentProfile profile = getProfileFor( entry );
         final String name = profile.getMetaData().getName();
         return m_context.getLogger( name );
+    }
+
+    /**
+     * Create a new InstrumentMaanger object for component.
+     *
+     * @param entry the entry
+     * @return a new InstrumentManager object for component
+     * @throws Exception if unable to create resource
+     */
+    public InstrumentManager createInstrumentManager( Object entry )
+        throws Exception
+    {
+        return m_context.getInstrumentManager();
+    }
+
+    /**
+     * Create a name for this components instrumentables.
+     *
+     * @param entry the entry
+     * @return the String to use as the instrumentable name
+     * @throws Exception if unable to create resource
+     */
+    public String createInstrumentableName( Object entry )
+        throws Exception
+    {
+        final ComponentProfile profile = getProfileFor( entry );
+        final String name = profile.getMetaData().getName();
+        return m_context.getInstrumentableName( name );
     }
 
     /**

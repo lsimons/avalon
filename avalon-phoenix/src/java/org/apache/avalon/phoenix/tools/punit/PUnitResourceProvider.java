@@ -15,6 +15,8 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.phoenix.containerkit.lifecycle.ResourceProvider;
+import org.apache.excalibur.instrument.manager.NoopInstrumentManager;
+import org.apache.excalibur.instrument.InstrumentManager;
 
 /**
  * PUnitResourceProvider
@@ -64,6 +66,32 @@ public class PUnitResourceProvider
     public Logger createLogger( final Object object ) throws Exception
     {
         return m_logger;
+    }
+
+    /**
+     * Create a new InstrumentMaanger object for component.
+     *
+     * @param entry the entry
+     * @return a new InstrumentManager object for component
+     * @throws Exception if unable to create resource
+     */
+    public InstrumentManager createInstrumentManager( Object entry )
+        throws Exception
+    {
+        return new NoopInstrumentManager();
+    }
+
+    /**
+     * Create a name for this components instrumentables.
+     *
+     * @param entry the entry
+     * @return the String to use as the instrumentable name
+     * @throws Exception if unable to create resource
+     */
+    public String createInstrumentableName( Object entry )
+        throws Exception
+    {
+        return "punit";
     }
 
     /**

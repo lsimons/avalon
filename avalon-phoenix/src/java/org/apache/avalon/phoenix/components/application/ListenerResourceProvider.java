@@ -21,13 +21,14 @@ import org.apache.avalon.phoenix.containerkit.lifecycle.ResourceProvider;
 import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
 import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
+import org.apache.excalibur.instrument.InstrumentManager;
 
 /**
  * The accessor used to access resources for a particular
  * Block or Listener.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003/03/01 08:39:14 $
+ * @version $Revision: 1.9 $ $Date: 2003/03/17 03:42:20 $
  */
 class ListenerResourceProvider
     extends AbstractLogEnabled
@@ -81,6 +82,33 @@ class ListenerResourceProvider
         final ComponentMetaData metaData = getMetaData( entry );
         final String name = metaData.getName();
         return m_context.getLogger( name );
+    }
+
+    /**
+     * Create a new InstrumentMaanger object for component.
+     *
+     * @param entry the entry
+     * @return a new InstrumentManager object for component
+     * @throws Exception if unable to create resource
+     */
+    public InstrumentManager createInstrumentManager( Object entry )
+        throws Exception
+    {
+        return m_context.getInstrumentManager();
+    }
+
+    /**
+     * Create a name for this components instrumentables.
+     *
+     * @param entry the entry
+     * @return the String to use as the instrumentable name
+     * @throws Exception if unable to create resource
+     */
+    public String createInstrumentableName( Object entry )
+        throws Exception
+    {
+        final String name = getMetaData( entry ).getName();
+        return m_context.getInstrumentableName( name );
     }
 
     public Context createContext( final Object entry )

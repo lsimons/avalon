@@ -13,10 +13,12 @@ import org.apache.avalon.phoenix.containerkit.kernel.AbstractServiceKernel;
 import org.apache.avalon.phoenix.containerkit.kernel.ComponentEntry;
 import org.apache.avalon.phoenix.containerkit.lifecycle.impl.AbstractResourceProvider;
 import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
+import org.apache.excalibur.instrument.InstrumentManager;
+import org.apache.excalibur.instrument.manager.NoopInstrumentManager;
 
 /**
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/18 16:43:43 $
+ * @version $Revision: 1.2 $ $Date: 2003/03/17 03:42:20 $
  */
 public class SimpleResourceProvider
     extends AbstractResourceProvider
@@ -53,5 +55,18 @@ public class SimpleResourceProvider
     {
         final ComponentMetaData component = getMetaData( entry );
         return getLogger().getChildLogger( component.getName() );
+    }
+
+    public InstrumentManager createInstrumentManager( Object entry )
+        throws Exception
+    {
+        return new NoopInstrumentManager();
+    }
+
+    public String createInstrumentableName( Object entry )
+        throws Exception
+    {
+        final ComponentMetaData component = getMetaData( entry );
+        return component.getName();
     }
 }
