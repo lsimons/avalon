@@ -39,7 +39,7 @@ import org.apache.avalon.framework.configuration.Configuration;
  * <p><image src="doc-files/Type.gif" border="0"/></p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/04/08 05:43:31 $
+ * @version $Revision: 1.7 $ $Date: 2004/04/08 05:49:54 $
  */
 public class Type implements Serializable
 {
@@ -414,6 +414,7 @@ public class Type implements Serializable
     */
     public boolean equals(Object other)
     {
+System.out.println( "0" );
         if( ! (other instanceof Type ) )
             return false;
 
@@ -430,13 +431,12 @@ public class Type implements Serializable
             
         if( ! m_context.equals( t.m_context ) )
             return false;
-            
+
         for( int i=0; i<m_loggers.length; i++ )
         {
             if( ! m_loggers[i].equals( t.m_loggers[i] ) )
                 return false;
         }
-        
         for( int i=0; i<m_services.length; i++ )
         {
             if( ! m_services[i].equals( t.m_services[i] ) )
@@ -449,12 +449,12 @@ public class Type implements Serializable
         }
         for( int i=0; i<m_stages.length; i++ )
         {
-            if( m_stages[i].equals( t.m_stages[i] ) )
+            if( ! m_stages[i].equals( t.m_stages[i] ) )
                 return false;
         }
         for( int i=0; i<m_extensions.length; i++ )
         {
-            if( m_extensions[i].equals( t.m_extensions[i] ) )
+            if( ! m_extensions[i].equals( t.m_extensions[i] ) )
                 return false;
         }
         return true;
