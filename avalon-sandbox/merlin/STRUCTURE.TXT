@@ -19,8 +19,9 @@ STRUCTURE:
         +- api                   composition API
         +- spi                   composition SPI
         +- impl                  composition framework implementation
-    +-- extension                jar manegement implementation
-    +-- extension-spi            jar manegement SPI interfaces and classes
+    +-- extension                
+        +-- impl                 jar management implementation
+        +-- spi                  jar management SPI interfaces and classes
     +-- kernel                   
         +- bootstrap             kernel bootstrap
         +- spi                   kernel interfaces
