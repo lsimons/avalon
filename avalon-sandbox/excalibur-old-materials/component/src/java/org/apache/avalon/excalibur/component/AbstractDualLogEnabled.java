@@ -16,9 +16,9 @@ import org.apache.avalon.framework.logger.Loggable;
  * for backwards compatability.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1.2.1 $ $Date: 2002/05/18 05:31:08 $
+ * @version $Revision: 1.1.2.2 $ $Date: 2002/05/23 18:14:01 $
  */
-class AbstractDualLogEnabled
+public class AbstractDualLogEnabled
     extends AbstractLogEnabled
     implements Loggable
 {
