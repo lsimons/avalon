@@ -8,8 +8,9 @@
   <xsl:param name="directory" />
   <xsl:param name="file" />
   <xsl:param name="fullpath" />
-  <xsl:param name="svn-location" />
+  <xsl:param name="public-location" />
   <xsl:param name="copyright" />
+  <xsl:param name="copyright_url" />
   <xsl:param name="logoright_file" />
   <xsl:param name="logoright_url" />
   <xsl:param name="logoleft_file" />
@@ -95,10 +96,21 @@
       </div>
       
       <div class="footer" >
-        <span class="copyright"><xsl:value-of select="$copyright" /></span>
+        <xsl:choose>
+          <xsl:when test="$copyright_url = ''" >
+            <span class="copyright"><xsl:value-of select="$copyright" /></span>
+          </xsl:when>
+          <xsl:otherwise>
+            <span class="copyright">
+              <a><xsl:attribute name="href" ><xsl:value-of select="$copyright_url" /></xsl:attribute>
+                <xsl:value-of select="$copyright" />
+              </a>
+            </span>
+          </xsl:otherwise>
+        </xsl:choose>
         <div class="views" >
           <a  id="xmllink" class="viewlink" >
-            <xsl:attribute name="href"><xsl:value-of select="$svn-location" /></xsl:attribute>
+            <xsl:attribute name="href"><xsl:value-of select="$public-location" /></xsl:attribute>
             <img>
               <xsl:attribute name="src"><xsl:value-of select="$relativepath[position() = last()]" />images/xml.gif</xsl:attribute>
             </img>
@@ -248,7 +260,7 @@
       </xsl:choose>
       <xsl:attribute name="href">      
         <xsl:choose>
-          <xsl:when test="contains( @href, '.html' )" >
+          <xsl:when test="contains( @href, '.' )" >
             <xsl:value-of select="concat( $dir, @href )" />
           </xsl:when>
           <xsl:otherwise>
