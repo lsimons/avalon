@@ -45,16 +45,35 @@
               <attribute name="Port" type="java.lang.Integer">8082</attribute>
               <attribute name="AuthenticationMethod" type="java.lang.String">basic</attribute>
 
-              <invoke name="addAuthorization">
-                  <parameter type="java.lang.String">jmx</parameter>
-                  <parameter type="java.lang.String">jmx</parameter>
-              </invoke>
+              <startup>
+                  <invoke name="addAuthorization">
+                      <parameter type="java.lang.String">jmx</parameter>
+                      <parameter type="java.lang.String">jmx</parameter>
+                  </invoke>
+                  <invoke name="start"/>
+              </startup>
+              <shutdown>
+                  <invoke name="stop"/>
+              </shutdown>
           </mbean>
 
           <mbean name="Naming:type=rmiregistry" class="mx4j.tools.naming.NamingService">
+              <startup>
+                  <invoke name="start"/>
+              </startup>
+              <shutdown>
+                  <invoke name="stop"/>
+              </shutdown>
           </mbean>
           <mbean name="Adaptor:protocol=JRMP" class="mx4j.adaptor.rmi.jrmp.JRMPAdaptor">
               <attribute name="JNDIName" type="java.lang.String">jrmp</attribute>
+
+              <startup>
+                  <invoke name="start"/>
+              </startup>
+              <shutdown>
+                  <invoke name="stop"/>
+              </shutdown>
           </mbean>
 
         </component>

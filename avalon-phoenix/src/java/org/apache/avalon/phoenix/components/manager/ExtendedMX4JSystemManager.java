@@ -47,6 +47,7 @@ public class ExtendedMX4JSystemManager
     private File m_homeDir;
     private Configuration m_configuration;
     private Map m_jmxMBeans;
+    private Map m_jmxMBeanConfs;
 
     public void contextualize( Context context )
         throws ContextException
@@ -78,6 +79,7 @@ public class ExtendedMX4JSystemManager
         super.initialize();
 
         m_jmxMBeans = new HashMap();
+        m_jmxMBeanConfs = new HashMap();
         final Configuration[] mBeanConfs = m_configuration.getChildren( "mbean" );
         for ( int i = 0; i < mBeanConfs.length; i++ )
         {
@@ -136,37 +138,16 @@ public class ExtendedMX4JSystemManager
                 mBeanServer.setAttribute( objectName, new Attribute( name, new ObjectName( value ) ) );
             }
 
-            //invoke operations
-            final Configuration[] invokes = mBeanConf.getChildren( "invoke" );
-            for ( int i = 0; i < invokes.length; i++ )
-            {
-                final Configuration invoke = invokes[ i ];
-                final Configuration[] paramConfs = invoke.getChildren( "parameter" );
-
-                final String operationName = invoke.getAttribute( "name" );
-                final String[] types = new String[ paramConfs.length ];
-                final Object[] values = new Object[ paramConfs.length ];
-                for ( int j = 0; j < paramConfs.length; j++ )
-                {
-                    types[ j ] = paramConfs[ j ].getAttribute( "type" );
-                    values[ j ] = paramConfs[ j ].getValue( null );
-                    if ( null != values[ j ] )
-                    {
-                        final Class valueClass = Class.forName( types[ j ] );
-                        values[ j ] = valueConverter.convert( valueClass, values[ j ], null );
-                    }
-                }
-                mBeanServer.invoke( objectName, operationName, values, types );
-            }
-
-            //start mbean
-            mBeanServer.invoke( objectName, "start", null, null );
+            //invoke startup operations
+            final Configuration[] invokes = mBeanConf.getChild( "startup", true ).getChildren( "invoke" );
+            invokeOperations( mBeanServer, objectName, invokes );
 
             m_jmxMBeans.put( objectName.getCanonicalName(), objectName );
+            m_jmxMBeanConfs.put( objectName.getCanonicalName(), mBeanConf );
         }
         catch ( final Exception e )
         {
-            final String message = REZ.getString( "jmxmanager.error.jmxmbean.initialize" );
+            final String message = REZ.getString( "jmxmanager.error.jmxmbean.initialize", objectName );
             getLogger().error( message , e );
         }
     }
@@ -176,16 +157,55 @@ public class ExtendedMX4JSystemManager
         final MBeanServer mBeanServer = getMBeanServer();
 
         final ObjectName objectName = (ObjectName)m_jmxMBeans.get( name );
+        final Configuration mBeanConf = (Configuration)m_jmxMBeanConfs.get( name );
         try
         {
-            //stop mbean.
-            mBeanServer.invoke( objectName, "stop", null, null );
+            final Configuration[] invokes = mBeanConf.getChild( "shutdown", true ).getChildren( "invoke" );
+            invokeOperations( mBeanServer, objectName, invokes );
         }
         catch ( final Exception e )
         {
-            final String message = REZ.getString( "jmxmanager.error.jmxmbean.dispose" );
+            final String message = REZ.getString( "jmxmanager.error.jmxmbean.dispose", objectName );
             getLogger().error( message , e );
         }
+    }
+
+    private void invokeOperations( final MBeanServer mBeanServer,
+                                   final ObjectName objectName,
+                                   final Configuration[] invokes )
+        throws Exception
+    {
+        for ( int i = 0; i < invokes.length; i++ )
+        {
+            final Configuration invoke = invokes[ i ];
+            invokeOperation( mBeanServer, objectName, invoke );
+        }
+    }
+
+    private void invokeOperation( final MBeanServer mBeanServer,
+                                  final ObjectName objectName,
+                                  final Configuration invoke )
+        throws Exception
+    {
+        final Converter valueConverter = new SimpleMasterConverter();
+
+        final String operationName = invoke.getAttribute( "name" );
+        final Configuration[] paramConfs = invoke.getChildren( "parameter" );
+        final String[] types = new String[ paramConfs.length ];
+        final Object[] values = new Object[ paramConfs.length ];
+        for ( int i = 0; i < paramConfs.length; i++ )
+        {
+            final String type = paramConfs[ i ].getAttribute( "type" );
+            Object value = paramConfs[ i ].getValue( null );
+            if ( null != value )
+            {
+                final Class valueClass = Class.forName( type );
+                value = valueConverter.convert( valueClass, value, null );
+            }
+            types[ i ] = type;
+            values[ i ] = value;
+        }
+        mBeanServer.invoke( objectName, operationName, values, types );
     }
 
     protected MBeanServer createMBeanServer()
