@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.52 $
+                   Version $Revision: 1.53 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -270,7 +270,7 @@ To use it, type 'ant -f depchecker.xml'
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
             <property name="proj.jar.name" value="excalibur-fortress-tools-1.0.jar"/>
             <property name="path" value="${excalibur-fortress-tools.jar}"/>
-            <property name="proj.home" value="${basedir}/../fortress"/>
+            <property name="proj.home" value="${basedir}/../lib"/>
         </ant>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
             <property name="proj.jar.name" value="qdox.jar"/>
