@@ -1,0 +1,612 @@
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  
+      
+  
+
+      
+      
+      
+      
+      
+      
+        
+         
+      
+      
+
+      
+      
+      
+      
+
+      
+      
+      
+
+      
+
+
+  
+  
+
+   
+   
+
+
+
+    <!DOCTYPE html PUBLIC "-//CollabNet//DTD XHTML 1.0 Transitional//EN" "http://www.collabnet.com/dtds/collabnet_transitional_10.dtd">
+
+    <html>
+      <head>
+        
+        
+          <title>
+            Avalon Sandbox - 
+          Javadoc Tag Specification
+        
+          </title>
+        
+        
+        
+        
+        
+        <style type="text/css">
+          @import url("../../style/tigris.css");
+          @import url("../../style/maven.css");
+          @import url("../../style/osm.css");
+        </style>
+        
+        <link rel="stylesheet" href="../../style/print.css" type="text/css" media="print"></link>
+        
+          <meta name="author" value="Stephen McConnell"></meta>
+          <meta name="email" value="mcconnell@apache.org"></meta>
+        
+      </head>
+
+      <body marginwidth="0" class="composite" marginheight="0">
+        <div id="banner">
+          <table height="103" border="0" width="100%" cellpadding="8" cellspacing="0">
+            <tr>
+              
+              <td>
+                
+                
+                  
+                  
+                  
+                    
+                  
+                  
+                  
+                  
+                  
+                  <a href="http://jakarta.apache.org/">
+                    <img border="0" alt="Apache Software Foundation" src="http://avalon.apache.org/images/apache-avalon-logo.png" align="left"></img>
+                  </a>
+                
+              </td>
+
+              <td>
+                <div id="login" align="right">
+                  <a href="http://apachecon.com/2003/US/index.html">
+                    <img border="0" src="http://www.apache.org/~ceki/ac2003/ac2003-150.gif"></img>
+                  </a>
+                </div>
+              </td>
+
+
+              
+              
+            </tr>
+          </table>
+        </div>
+
+        <div id="breadcrumbs">
+          <table border="0" width="100%" cellpadding="4" cellspacing="0">
+            <tr>
+              
+              <td>
+                <div align="right">
+                  
+                  
+                  
+                    
+    
+    
+      
+      
+      
+      <a href="
+        http://apache.org/
+      ">
+        Apache
+      </a>
+      
+    
+      |
+      
+      
+      <a href="
+        http://avalon.apache.org/
+      ">
+        Avalon
+      </a>
+      
+    
+      |
+      
+      
+      <a href="
+        http://avalon.apache.org/product/framework/
+      ">
+        Framework
+      </a>
+      
+    
+      |
+      
+      
+      <a href="
+        http://avalon.apache.org/product/containers/
+      ">
+        Containers
+      </a>
+      
+    
+      |
+      
+      
+      <a href="
+        http://avalon.apache.org/product/components/
+      ">
+        Components
+      </a>
+      
+    
+  
+                  
+                  
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        
+        <table border="0" width="100%" cellpadding="8" cellspacing="0"> 
+          <tr valign="top">
+            <td width="200" id="leftcol">
+              <div id="navcolumn">
+                
+
+                
+                  
+    <div>
+      <strong>About Avalon Meta</strong>
+      
+    <div>
+      
+      
+      <small><a href="../../index.html">Overview</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="../../tutorial/index.html">Getting Started</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="../../meta/index.html">Meta Model</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="../../tools/index.html">Tools</a></small>
+      
+    <div>
+      
+      
+      <small><a href="../../tools/tags/index.html">Javadoc Tags Reference</a></small>
+      
+    <div>
+      
+      
+      <small><a href="../../tools/tags/type.html">Component</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="../../tools/tags/attribute.html">Attribute</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="../../tools/tags/service.html">Service</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="../../tools/tags/logger.html">Logger</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="../../tools/tags/configuration.html">Configuration</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="../../tools/tags/context.html">Context</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="../../tools/tags/entry.html">Entry</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="../../tools/tags/dependency.html">Dependency</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="../../tools/tags/stage.html">Stage</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="../../tools/tags/extension.html">Extension</a></small>
+      
+    </div>
+  
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="../../tools/ant.html">Meta-Info Generator Task</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="../../tools/maven/index.html">Avalon Plugin for Maven</a></small>
+      
+    </div>
+  
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="../../api/index.html">Javadoc</a></small>
+      
+    </div>
+  
+    </div>
+  
+                
+
+                
+                
+
+                
+                
+                <div>
+                  <strong>Project Documentation</strong>
+                  
+                  <div>
+                    <small>
+                      <a href="../../project-info.html">Project Info</a>
+                    </small>
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                  </div>
+                  <div>
+                    <small>
+                      <a href="../../maven-reports.html">Project Reports</a>
+                    </small>
+                    
+                      
+                        
+                         
+                         
+                           
+                           
+                        
+                           
+                           
+                        
+                           
+                           
+                        
+                        
+                        
+                      
+                      
+                    
+                  </div>
+                  
+                  
+                  <div>
+                    <small>
+                      <a href="../../license.html">License</a>
+                    </small>
+                  </div>
+                </div>
+              
+                
+              </div>
+            </td>
+            <td>
+              <div id="bodycol">
+                
+                <div class="app">
+                  
+                  
+    <div class="h3">
+      
+      
+        <h3>
+          <a name="Javadoc Tags">Javadoc Tags</a>
+        </h3>
+      
+      
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Service Tag">Service Tag</a>
+        </h4>
+      
+      
+    <p>
+      The service tag when used within a class declares the ability of the compoent type to export one or more work interfaces. Under class scope a component may declare 0..n service export declarations.  When used within an interface, the tag declares the interface as a managable service.  A service tag may appear once in a interface defintion.
+    </p>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Attributes">Attributes</a>
+        </h4>
+      
+      
+    
+    <table border="1" width="100%" cellspacing="2" cellpadding="3">
+      
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <th>
+      Attribute
+    </th>
+   
+    <th>
+      Required
+    </th>
+   
+    <th>
+      Description
+    </th>
+   </tr>
+  
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
+    <td>
+      type
+    </td>
+   
+    <td>
+      required in class scope
+    </td>
+   
+    <td>
+      
+              
+    <p>
+      The service interface classname. This attribute is automatically
+                 assigned the interface classname when declared in an interface.
+    </p>
+   
+            
+    </td>
+   </tr>
+  
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <td>
+      version
+    </td>
+   
+    <td>
+      no
+    </td>
+   
+    <td>
+      
+              
+    <p>
+      
+                The service version.
+                If not declared the service export is assumed to be version 1.0.
+    </p>
+   
+            
+    </td>
+   </tr>
+  
+    </table>
+  
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Example">Example</a>
+        </h4>
+      
+      
+    <div id="source">
+      <pre>
+package org.apache.avalon.playground;
+
+/**
+ * Example of a component declaring export of a set of services.  
+ *
+ * @avalon.component version="5.1" name="vault"
+ * @avalon.service type="somwhere.Vault;
+ * @avalon.service type="somwhere.KeystoreHandler" version="2.1.1;
+ */
+public class DefaultVault implements Vault, KeystoreHandler
+{
+  ...
+}
+</pre>
+    </div>
+  
+    <p>
+      Generated meta-info type descriptor:
+    </p>
+   
+    <div id="source">
+      <pre>
+&lt;type&gt;
+  &lt;info&gt;
+    &lt;version&gt;5.1.0&lt;/version&gt;
+    &lt;name&gt;vault&lt;/name&gt;
+  &lt;/info&gt;
+  &lt;services&gt;
+    &lt;service type="somwhere.Vault" version="1.0.0"/&gt;
+    &lt;service type="somwhere.KeystoreHandler" version="2.1.1"/&gt;
+  &lt;/services&gt;
+&lt;/type&gt;
+</pre>
+    </div>
+  
+    </div>
+  
+    </div>
+  
+                  
+                  
+                  
+                  
+                  
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <div id="footer">
+          <table border="0" cellpadding="4" cellspacing="0">
+            <tr>
+              <td>
+                
+                  
+                    
+                    
+                       2000-2003, Apache Software Foundation
+                    
+                  
+                  
+                
+
+                
+              </td>
+              
+            </tr>
+          </table>
+        </div>
+      </body>
+    </html>
+  
