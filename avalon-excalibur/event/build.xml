@@ -13,7 +13,7 @@
     <path id="project.class.path">
         <pathelement location="${commons-collections.jar}"/>
         <pathelement location="${build.classes}"/>
-        <pathelement location="${excalibur-concurrent.jar}"/>
+        <pathelement location="${util.concurrent.jar}"/>
         <pathelement location="${excalibur-thread.jar}"/>
         <pathelement location="${excalibur-scratchpad.jar}"/>
         <pathelement location="${avalon-framework.jar}"/>
@@ -44,7 +44,6 @@
 
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkConcurrent"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkThread"/>
     </target>
@@ -300,6 +299,12 @@
         <mkdir dir="${dist.dir}"/>
         <copy todir="${dist.dir}">
             <fileset dir="${build.lib}">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>
+        <mkdir dir="${dist.dir}/lib"/>
+        <copy todir="${dist.dir}/lib">
+            <fileset dir="lib">
                 <include name="*.jar"/>
             </fileset>
         </copy>

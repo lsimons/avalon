@@ -51,7 +51,7 @@ package org.apache.excalibur.event.command;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import org.apache.avalon.excalibur.concurrent.Mutex;
+import EDU.oswego.cs.dl.util.concurrent.ReentrantLock;
 import org.apache.excalibur.event.EventHandler;
 import org.apache.excalibur.event.Source;
 import org.apache.excalibur.thread.ThreadControl;
@@ -68,7 +68,7 @@ import org.apache.excalibur.thread.ThreadPool;
 public final class TPSPThreadManager implements Runnable, ThreadManager
 {
     private final ThreadPool m_threadPool;
-    private final Mutex m_mutex = new Mutex();
+    private final ReentrantLock m_mutex = new ReentrantLock();
     private final HashMap m_pipelines = new HashMap();
     private ThreadControl m_threadControl;
     private boolean m_done = false;

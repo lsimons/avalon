@@ -52,7 +52,7 @@ package org.apache.excalibur.event.command;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import org.apache.avalon.excalibur.concurrent.Mutex;
+import EDU.oswego.cs.dl.util.concurrent.ReentrantLock;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
@@ -72,7 +72,7 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
     implements Runnable, ThreadManager, Initializable, Disposable
 {
     /** The Mutex used in this ThreadManager */
-    private final Mutex m_mutex = new Mutex();
+    private final ReentrantLock m_mutex = new ReentrantLock();
 
     /** The pipelines we are managing */
     private final HashMap m_pipelines = new HashMap();
