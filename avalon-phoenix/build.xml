@@ -153,28 +153,28 @@ Legal:
     <target name="init-linux" if="is.Linux">
         <property name="is.Unix" value="true"/>
         <property name="is.shell.bash" value="true"/>
-        <property name="phoenix-wrapper.sh" value="${script.dir}/phoenix-wrapper.bash"/>
+        <property name="phoenix-wrapper.sh" value="${script.dir}/${name}-wrapper.bash"/>
         <property name="wrapper.dist.name" value="wrapper_linux_${wrapper.version}"/>
         <property name="dist.name.wrapper" value="${name}_linux_${version}"/>
     </target>
     <target name="init-solaris" if="is.SunOS">
         <property name="is.Unix" value="true"/>
         <property name="is.shell.sh" value="true"/>
-        <property name="phoenix-wrapper.sh" value="${script.dir}/phoenix-wrapper.sh"/>
+        <property name="phoenix-wrapper.sh" value="${script.dir}/${name}-wrapper.sh"/>
         <property name="wrapper.dist.name" value="wrapper_solaris_${wrapper.version}"/>
         <property name="dist.name.wrapper" value="${name}_solaris_${version}"/>
     </target>
     <target name="init-aix" if="is.AIX">
         <property name="is.Unix" value="true"/>
         <property name="is.shell.sh" value="true"/>
-        <property name="phoenix-wrapper.sh" value="${script.dir}/phoenix-wrapper.sh"/>
+        <property name="phoenix-wrapper.sh" value="${script.dir}/${name}-wrapper.sh"/>
         <property name="wrapper.dist.name" value="wrapper_aix_${wrapper.version}"/>
         <property name="dist.name.wrapper" value="${name}_aix_${version}"/>
     </target>
     <target name="init-hpux" if="is.HP-UX">
         <property name="is.Unix" value="true"/>
         <property name="is.shell.sh" value="true"/>
-        <property name="phoenix-wrapper.sh" value="${script.dir}/phoenix-wrapper.sh"/>
+        <property name="phoenix-wrapper.sh" value="${script.dir}/${name}-wrapper.sh"/>
         <property name="wrapper.dist.name" value="wrapper_hpux_${wrapper.version}"/>
         <property name="dist.name.wrapper" value="${name}_hpux_${version}"/>
     </target>
@@ -244,9 +244,18 @@ Legal:
             verbose="true"
             usetimestamp="true"/>
         <unzip src="${repo.dir}/wrapper/${wrapper.dist.name}.zip" dest="${repo.dir}/wrapper"/>
-        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/bin/Wrapper.exe" todir="${repo.dir}/wrapper/bin"/>
-        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/lib/Wrapper.dll" todir="${repo.dir}/wrapper/bin"/>
-        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/lib/wrapper.jar" todir="${repo.dir}/wrapper/bin"/>
+        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/bin/Wrapper.exe"
+            todir="${repo.dir}/wrapper/bin"/>
+        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/lib/Wrapper.dll"
+            todir="${repo.dir}/wrapper/bin"/>
+        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/lib/wrapper.jar"
+            todir="${repo.dir}/wrapper/bin"/>
+        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/src/bin/App.bat.in"
+            tofile="${repo.dir}/wrapper/bin/${Name}.bat"/>
+        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/src/bin/InstallApp-NT.bat.in"
+            tofile="${repo.dir}/wrapper/bin/Install${Name}-NT.bat"/>
+        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/src/bin/UninstallApp-NT.bat.in"
+            tofile="${repo.dir}/wrapper/bin/Uninstall${Name}-NT.bat"/>
     </target>
     <target name="get-wrapper-unix" if="is.Unix">
         <mkdir dir="${repo.dir}/wrapper"/>
@@ -256,10 +265,28 @@ Legal:
             usetimestamp="true"/>
         <gunzip src="${repo.dir}/wrapper/${wrapper.dist.name}.tar.gz" dest="${repo.dir}/wrapper"/>
         <untar src="${repo.dir}/wrapper/${wrapper.dist.name}.tar" dest="${repo.dir}/wrapper"/>
-        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/bin/wrapper" todir="${repo.dir}/wrapper/bin"/>
-        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/bin/realpath" todir="${repo.dir}/wrapper/bin"/>
-        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/lib/libwrapper.so" todir="${repo.dir}/wrapper/bin"/>
-        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/lib/wrapper.jar" todir="${repo.dir}/wrapper/bin"/>
+        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/bin/wrapper"
+            todir="${repo.dir}/wrapper/bin"/>
+        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/bin/realpath"
+            todir="${repo.dir}/wrapper/bin"/>
+        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/lib/libwrapper.so"
+            todir="${repo.dir}/wrapper/bin"/>
+        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/lib/wrapper.jar"
+            todir="${repo.dir}/wrapper/bin"/>
+        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/bin/src/sh.script.in"
+            tofile="${repo.dir}/wrapper/bin/${name}-wrapper.sh">
+            <filterset>
+                <filter token="app.name" value="${name}"/>
+                <filter token="app.long.name" value="${long.name}"/>
+            </filterset>
+        </copy>
+        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/bin/src/bash.script.in"
+            tofile="${repo.dir}/wrapper/bin/${name}-wrapper.bash">
+            <filterset>
+                <filter token="app.name" value="${name}"/>
+                <filter token="app.long.name" value="${long.name}"/>
+            </filterset>
+        </copy>
     </target>
     <target name="get-wrapper"
         depends="get-wrapper-test, get-wrapper-windows, get-wrapper-unix"
@@ -271,19 +298,19 @@ Legal:
         <copy file="${repo.dir}/wrapper/bin/Wrapper.exe" todir="${bin.dist.bin}"/>
         <copy file="${repo.dir}/wrapper/bin/Wrapper.dll" todir="${bin.dist.bin}"/>
         
-        <copy file="${script.dir}/Phoenix.bat" todir="${bin.dist.bin}"/>
-        <copy file="${script.dir}/InstallPhoenix-NT.bat" todir="${bin.dist.bin}"/>
-        <copy file="${script.dir}/UninstallPhoenix-NT.bat" todir="${bin.dist.bin}"/>
+        <copy file="${repo.dir}/wrapper/bin/${Name}.bat" todir="${bin.dist.bin}"/>
+        <copy file="${repo.dir}/wrapper/bin/Install${Name}-NT.bat" todir="${bin.dist.bin}"/>
+        <copy file="${repo.dir}/wrapper/bin/Uninstall${Name}-NT.bat" todir="${bin.dist.bin}"/>
     </target>
     <target name="dist-lite-wrapper-unix" depends="dist-lite" if="wrapper.present.Unix">
         <copy file="${repo.dir}/wrapper/bin/wrapper" todir="${bin.dist.bin}"/>
         <copy file="${repo.dir}/wrapper/bin/realpath" todir="${bin.dist.bin}"/>
         <copy file="${repo.dir}/wrapper/bin/libwrapper.so" todir="${bin.dist.bin}"/>
         
-        <copy file="${phoenix-wrapper.sh}" tofile="${bin.dist.bin}/phoenix-wrapper.sh"/>
-	<chmod file="${bin.dist.bin}/*.sh" perm="u+x"/>
-	<chmod file="${bin.dist.bin}/realpath" perm="u+x"/>
-	<chmod file="${bin.dist.bin}/wrapper" perm="u+x"/>
+        <copy file="${phoenix-wrapper.sh}" tofile="${bin.dist.bin}/${name}-wrapper.sh"/>
+        <chmod file="${bin.dist.bin}/*.sh" perm="u+x"/>
+        <chmod file="${bin.dist.bin}/realpath" perm="u+x"/>
+        <chmod file="${bin.dist.bin}/wrapper" perm="u+x"/>
     </target>
     <target name="dist-lite-wrapper" depends="dist-lite-wrapper-windows, dist-lite-wrapper-unix"
         if="wrapper.present"
@@ -958,9 +985,9 @@ Legal:
         <copy file="${wrapper.jar}" todir="${dist.name.wrapper}/bin"/>
         <copy file="${conf.dir}/wrapper.conf" todir="${dist.name.wrapper}/conf"/>
         
-        <copy file="${script.dir}/Phoenix.bat" todir="${dist.name.wrapper}/bin"/>
-        <copy file="${script.dir}/InstallPhoenix-NT.bat" todir="${dist.name.wrapper}/bin"/>
-        <copy file="${script.dir}/UninstallPhoenix-NT.bat" todir="${dist.name.wrapper}/bin"/>
+        <copy file="${repo.dir}/wrapper/bin/${Name}.bat" todir="${dist.name.wrapper}/bin"/>
+        <copy file="${repo.dir}/wrapper/bin/Install${Name}-NT.bat" todir="${dist.name.wrapper}/bin"/>
+        <copy file="${repo.dir}/wrapper/bin/Uninstall${Name}-NT.bat" todir="${dist.name.wrapper}/bin"/>
         
         <zip zipfile="${dist.base}/${dist.name.wrapper}-bin.zip">
             <fileset dir="${dist.name.wrapper}/..">
@@ -982,7 +1009,7 @@ Legal:
         <copy file="${wrapper.jar}" todir="${dist.name.wrapper}/bin"/>
         <copy file="${conf.dir}/wrapper.conf" todir="${dist.name.wrapper}/conf"/>
         
-        <copy file="${phoenix-wrapper.sh}" todir="${dist.name.wrapper}/bin/phoenix-wrapper.sh"/>
+        <copy file="${phoenix-wrapper.sh}" todir="${dist.name.wrapper}/bin/${name}-wrapper.sh"/>
         
         <tar longfile="gnu" tarfile="${dist.base}/${dist.name.wrapper}-bin.tar">
             <tarfileset dir="${dist.name.wrapper}/.." mode="755" username="avalon" group="avalon">
