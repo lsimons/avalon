@@ -14,19 +14,43 @@ package org.apache.log;
  */
 public class Logger
 {
+    ///Separator character use to separate different categories
     public final static char    CATEGORY_SEPARATOR   = '.';
 
+    ///The hierarchy logger associated with. WIll be replaced with ErrorHandler in future
     private final Hierarchy     m_hierarchy;
+
+    ///Logger to inherit logtargets and prioritys from
     private final Logger        m_parent;
+
+    ///the fully qualified name of category
     private final String        m_category;
 
+    ///The list of child loggers associated with this logger
     private Logger[]            m_children;
 
+    ///The log-targets this logger writes to
     private LogTarget[]         m_logTargets;
+
+    ///Indicate that logTargets were set with setLogTargets() rather than inherited
     private boolean             m_logTargetsForceSet;
+
+    ///The priority threshold associated with logger
     private Priority            m_priority;
+
+    ///Indicate that priority was set with setPriority() rather than inherited
     private boolean             m_priorityForceSet;
 
+    /**
+     * Protected constructor for use inside the logging toolkit.
+     * You should not be using this constructor directly.
+     *
+     * @param hierarchy the logging hierarchy logger is associated with
+     * @param category the fully qualified name of category
+     * @param logTargets the LogTargets associated with logger
+     * @param parent the parent logger (used for inheriting from)
+     * @deprecated You should not be using this constructor directly.
+     */
     protected Logger( final Hierarchy hierarchy, 
                       final String category, 
                       final LogTarget[] logTargets, 
@@ -247,7 +271,7 @@ public class Logger
         {
             for( int i = 0; i < targets.length; i++ )
             {
-                //No need to clone as addition of a log-target 
+                //No need to clone array as addition of a log-target 
                 //will result in changin whole array                
                 targets[ i ].processEvent( event );
             }
@@ -494,11 +518,21 @@ public class Logger
         resetChildLogTargets( false );
     }
 
+    /**
+     * Unset the logtargets for this logger.
+     * This logger (and thus all child loggers who don't specify logtargets) will 
+     * inherit from the parents LogTargets.
+     */
     public synchronized void unsetLogTargets()
     {
         unsetLogTargets( false );
     }
 
+    /**
+     * Unset the logtargets for this logger and all child loggers if recursive is set.
+     * The loggers unset (and all child loggers who don't specify logtargets) will 
+     * inherit from the parents LogTargets.
+     */
     public synchronized void unsetLogTargets( final boolean recursive )
     {
         if( null != m_parent ) m_logTargets = m_parent.getLogTargets();
