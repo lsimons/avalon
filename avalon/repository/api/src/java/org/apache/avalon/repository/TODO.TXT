@@ -1,6 +1,0 @@
-
-Repository interface
---------------------
-Consider removal of the getArtifact( ... ) operations as these are 
-domain specific and no longer needed if the Artifact class is used.
-

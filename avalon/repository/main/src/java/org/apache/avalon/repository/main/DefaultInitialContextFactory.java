@@ -79,7 +79,7 @@ import org.apache.avalon.util.defaults.Defaults;
  * </pre>
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class DefaultInitialContextFactory implements InitialContextFactory
 {
@@ -117,6 +117,14 @@ public class DefaultInitialContextFactory implements InitialContextFactory
     private ClassLoader m_classloader;
 
     private String[] m_hosts;
+
+    private String m_proxyHost;
+
+    private int m_proxyPort;
+
+    private String m_proxyUsername;
+
+    private String m_proxyPassword;
 
     // ------------------------------------------------------------------------
     // constructor
@@ -245,6 +253,47 @@ public class DefaultInitialContextFactory implements InitialContextFactory
     }
 
    /**
+    * Set the proxy host name.  If not supplied proxy usage will be 
+    * disabled.
+    *
+    * @param host the proxy host name
+    */
+    public void setProxyHost( String host )
+    {
+        m_proxyHost = host;
+    }
+
+   /**
+    * Set the proxy host port.
+    *
+    * @param port the proxy port
+    */
+    public void setProxyPort( int port )
+    {
+        m_proxyPort = port;
+    }
+
+   /**
+    * Set the proxy username.
+    *
+    * @param username the proxy username
+    */
+    public void setProxyUsername( String username )
+    {
+        m_proxyUsername = username;
+    }
+
+   /**
+    * Set the proxy account password.
+    *
+    * @param password the proxy password
+    */
+    public void setProxyPassword( String password )
+    {
+        m_proxyPassword = password;
+    }
+
+   /**
     * Creation of an inital context based on the system and working 
     * directory, parent classloader, repository cache manager implementation
     * artifact, cache directory, and remote hosts sequence supplied to the 
@@ -262,6 +311,10 @@ public class DefaultInitialContextFactory implements InitialContextFactory
               getImplementation(),
               getWorkingDirectory(),
               getCacheDirectory(),
+              getProxyHost(),
+              getProxyPort(),
+              getProxyUsername(),
+              getProxyPassword(),
               getHosts() );
         }
         catch( Throwable e )
@@ -346,6 +399,52 @@ public class DefaultInitialContextFactory implements InitialContextFactory
         String value = m_properties.getProperty( InitialContext.HOSTS_KEY );
         if( null == value ) return new String[0];
         return expandHosts( value );
+    }
+
+   /**
+    * Get the proxy host name.
+    *
+    * @return the proxy host name
+    */
+    public String getProxyHost()
+    {
+        if( null != m_proxyHost ) return m_proxyHost;
+        return m_properties.getProperty( InitialContext.PROXY_HOST_KEY );
+    }
+
+   /**
+    * Get the proxy host port.
+    *
+    * @return the proxy port
+    */
+    public int getProxyPort()
+    {
+        if( m_proxyPort > -1 ) return m_proxyPort;
+        String value = m_properties.getProperty( InitialContext.PROXY_PORT_KEY );
+        if( value != null ) return Integer.parseInt( value );
+        return -1;
+    }
+
+   /**
+    * Get the proxy username.
+    *
+    * @return the proxy username
+    */
+    public String getProxyUsername()
+    {
+        if( null != m_proxyUsername ) return m_proxyUsername;
+        return m_properties.getProperty( InitialContext.PROXY_USERNAME_KEY );
+    }
+
+   /**
+    * Set the proxy account password.
+    *
+    * @return the proxy password
+    */
+    public String getProxyPassword()
+    {
+        if( null != m_proxyPassword ) return m_proxyPassword;
+        return m_properties.getProperty( InitialContext.PROXY_PASSWORD_KEY );
     }
 
     // ------------------------------------------------------------------------

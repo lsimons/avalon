@@ -41,7 +41,6 @@ import org.apache.avalon.repository.RepositoryException;
 import org.apache.avalon.repository.RepositoryRuntimeException;
 import org.apache.avalon.repository.meta.FactoryDescriptor;
 import org.apache.avalon.repository.meta.MetaException;
-import org.apache.avalon.repository.provider.CacheManager;
 import org.apache.avalon.repository.util.LoaderUtils;
 import org.apache.avalon.repository.util.RepositoryUtils;
 
@@ -50,13 +49,18 @@ import org.apache.avalon.repository.util.RepositoryUtils;
  * an underlying file system.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/01/24 23:20:05 $
+ * @version $Revision: 1.7 $ $Date: 2004/02/19 07:37:46 $
  */
 public class DefaultRepository implements Repository
 {
     //------------------------------------------------------------------
     // immutable state 
     //------------------------------------------------------------------
+
+   /**
+    * The cache directory.
+    */
+    private File m_cache;
 
    /**
     * Sequence of remote hosts.
@@ -67,8 +71,6 @@ public class DefaultRepository implements Repository
     * Sequence of remote hosts.
     */
     private final String[] m_roots;
-
-    private final CacheManager m_cache;
     
     //------------------------------------------------------------------
     // constructor 
@@ -81,7 +83,7 @@ public class DefaultRepository implements Repository
     * @exception NullPointerException if the cache or hosts argument
     * is null
     */
-    public DefaultRepository( CacheManager cache, String[] hosts )
+    public DefaultRepository( File cache, String[] hosts )
     {
         if( cache == null ) throw new NullPointerException( "cache" );
         if( hosts == null ) throw new NullPointerException( "hosts" );
@@ -135,7 +137,7 @@ public class DefaultRepository implements Repository
         throws RepositoryException
     {
         return LoaderUtils.getResource( 
-          artifact, m_roots, m_cache.getCacheDirectory(), true );
+          artifact, m_roots, m_cache, true );
     }
 
     /**
@@ -149,7 +151,7 @@ public class DefaultRepository implements Repository
         throws RepositoryException
     {
         return LoaderUtils.getResource( 
-          artifact, mime, m_roots, m_cache.getCacheDirectory(), true );
+          artifact, mime, m_roots, m_cache, true );
     }
         
     /**

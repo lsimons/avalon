@@ -62,7 +62,7 @@ import org.apache.commons.cli.Options;
  * Merlin command line handler.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class Main 
 {
@@ -195,6 +195,8 @@ public class Main
                   new DefaultInitialContextFactory( "avalon", dir );
                 factory.setCacheDirectory( cache );
                 factory.setHosts( hosts );
+                
+                InitialContext context = factory.createInitialContext();
 
                 //
                 // process the commandline and do the real work
