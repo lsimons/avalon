@@ -89,7 +89,7 @@ class MyComponent
 
     myMethod() 
     {
-        logger.log("MyComponent", "Hello World!", Logger.INFO);
+        logger.info("Hello World!");
     }
 }
         </source>
@@ -109,7 +109,7 @@ class MyComponent
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.5 $ $Date: 2001/07/05 14:10:38 $
+      $Revision: 1.6 $ $Date: 2001/07/05 14:16:59 $
     </legal>
   </footer>
 </document>
