@@ -6,7 +6,7 @@
    Author: Huw Roberts <huw*apache.org>
 
    An MxInfo is an XML file used to describe the management info for Blocks
-   and other manageable resources.  It is located side-by-side with the 
+   and other manageable resources.  It is located side-by-side with the
    managed .class file.  It describes the operations and attributes that can
    bes used to manage the object.
 
@@ -25,7 +25,7 @@ The mxinfo is the document root, it defines one or more management topics.
 -->
 <!ELEMENT mxinfo (topic*,proxy*)>
 <!ATTLIST mxinfo id ID #IMPLIED
-          xmlns CDATA #FIXED "http://jakarta.apache.org/avalon/dtds/phoenix/mxinfo_1_0.dtd" >
+          xmlns CDATA #FIXED "http://avalon.apache.org/dtds/phoenix/mxinfo_1_0.dtd" >
 
 <!--
 The topic element describes a set of attributes and operations relating to a
@@ -58,7 +58,7 @@ name         the name of the proxy class.  it will be instantiated and passed an
   >
 
 <!--
-an element defining an attribute that can be get and/or set on the 
+an element defining an attribute that can be get and/or set on the
 managed object.
 
 It defines:
@@ -67,8 +67,8 @@ name         the name of the attribute. This must be equal the name of the attri
              in the managed class, following the usual get/set conventions.
 description  a human friendly description of the attribute.
 type         (optional) the class returned by the method.
-isReadable   (optional) whether or not the value of the attribute can be get.  
-isWriteable  (optional) whether or not the value of the attribute can be set.  
+isReadable   (optional) whether or not the value of the attribute can be get.
+isWriteable  (optional) whether or not the value of the attribute can be set.
 isIs         (optional) whether or not the attibute is accessed with a method of the
              syntax 'isAttributeName'.  If omitted it will be determined through
              introspection of the class.
@@ -83,13 +83,13 @@ isIs         (optional) whether or not the attibute is accessed with a method of
        isWriteable  (yes|no) #IMPLIED
        isIs         (yes|no) #IMPLIED
   >
- 
+
 <!--
 An element defining a method that can be called on the managed object.
 
 It defines:
 
-name         the name of the operation. This must be the name of method in 
+name         the name of the operation. This must be the name of method in
              the managed class.
 description  a human friendly description of the operation
 type         (optional) the return value of the method
