@@ -3037,7 +3037,7 @@
       <depend property="gump.resource.antlr" project="antlr">
         <noclasspath/>
       </depend>
-      <depend property="gump.resource.bcel" project="bcel">
+      <depend property="gump.resource.bcel" project="jakarta-bcel">
         <noclasspath/>
       </depend>
       <depend property="gump.resource.commons-beanutils-core" project="commons-beanutils-core">
@@ -3049,7 +3049,7 @@
       <depend property="gump.resource.commons-logging" project="commons-logging" id="commons-logging">
         <noclasspath/>
       </depend>
-      <depend property="gump.resource.regexp" project="regexp">
+      <depend property="gump.resource.regexp" project="jakarta-regexp">
         <noclasspath/>
       </depend>
       <!-- end for -->
