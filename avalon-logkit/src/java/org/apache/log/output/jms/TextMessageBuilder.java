@@ -35,7 +35,7 @@ public class TextMessageBuilder
         m_content = content;
     }
     
-    public Message buildMessage( Session session, LogEvent event )
+    public Message buildMessage( final Session session, final LogEvent event )
         throws JMSException
     {
         synchronized( session )
@@ -43,7 +43,7 @@ public class TextMessageBuilder
             final TextMessage message = session.createTextMessage();
 
             message.setText( getText( event ) );
-            for (int i = 0; i < m_properties.length; i++)
+            for( int i = 0; i < m_properties.length; i++ )
             {
                 setProperty( message, i, event );
             }
