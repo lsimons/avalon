@@ -6,9 +6,6 @@ project.properties
 maven.log
 maven.xml
 bin
-meta
-meta-spi
-meta-tools
 .classpath
 .project
 Avalon Sandbox.iml
