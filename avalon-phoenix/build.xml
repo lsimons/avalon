@@ -347,10 +347,15 @@ Legal:
     </target>
 
 
-    <!-- Create the lite build -->
+    <!-- Copy MX4J jars to the bin/lin dir (and modify) -->
     <target name="dist-mx4j" description="Copies MX4J jars" if="mx4j.present">
 	<copy file="${mx4j.jar}" todir="${bin.dist.bin}/lib"/>
 	<copy file="${mx4j-tools.jar}" todir="${bin.dist.bin}/lib"/>
+        <jar jarfile="${bin.dist.bin}/lib/mx4j-tools.jar" update="true">
+            <zipfileset dir="src/mx4j/xsl" prefix="mx4j/adaptor/http/xsl/">
+                <include name="common.xsl"/>
+            </zipfileset>        
+        </jar>	
     </target>
 
     <!-- Copy BeanShell jars -->
