@@ -11,7 +11,14 @@
     <section name="Cornerstone Components">
     <subsection name="Index">
       <table>
-        <tr><th>Topic</th><th>Description</th><th>Status</th></tr>
+        <tr>
+          <th>Topic</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Javadocs</th>
+          <th>Usage Docs</th>
+          <th>Testcases</th>
+        </tr>
         <tr><td><a href="connection.html">Connection</a></td>
           <td>
             <p>
@@ -24,8 +31,11 @@
             </p>
           </td>
           <td>CANDIDATE</td>
+          <td>[1]</td>
+          <td>No</td>
+          <td>No</td>
         </tr>
-        <tr><td><a href="datasource.html">Deatsource</a></td>
+        <tr><td><a href="datasource.html">Datasource</a></td>
           <td>
             <p>
             The DataSourceSelector service provides a way to select 
@@ -35,6 +45,9 @@
             </p>
           </td>
           <td>CANDIDATE</td>
+          <td>[1]</td>
+          <td>No</td>
+          <td>No</td>
         </tr>
         <tr><td><a href="scheduler.html">Scheduler</a></td>
           <td>
@@ -48,6 +61,9 @@
            </p>
           </td>
           <td>CANDIDATE</td>
+          <td>[1]</td>
+          <td>No</td>
+          <td>No</td>
         </tr>
         <tr><td><a href="sockets.html">Sockets</a></td>
           <td>
@@ -58,6 +74,9 @@
             </p>
           </td>
           <td>CANDIDATE</td>
+          <td>[1]</td>
+          <td>No</td>
+          <td>No</td>
         </tr>
         <tr><td><a href="store.html">Store</a></td>
           <td>
@@ -71,6 +90,9 @@
               </p>
           </td>
           <td>CANDIDATE</td>
+          <td>[1]</td>
+          <td>No</td>
+          <td>No</td>
         </tr>
         <tr><td><a href="threads.html">Threads</a></td>
           <td>
@@ -82,8 +104,20 @@
             </p>
           </td>
           <td>CANDIDATE</td>
+          <td>[1]</td>
+          <td>No</td>
+          <td>No</td>
         </tr>
       </table>
+      <p>
+        <strong>[1]</strong>Rudimentary Javadocs.
+      </p>
+      <p>
+        <strong>[2]</strong>Basic Javadocs.
+      </p>
+      <p>
+        <strong>[3]</strong>Excellent Javadocs.
+      </p>
     </subsection>
     </section>
   </body>

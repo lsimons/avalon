@@ -29,6 +29,7 @@
       <id>excalibur-pool</id>
       <version>1.2</version>
     </dependency>
+    
     <dependency>
       <id>excalibur-datasource</id>
       <version>1.1.1</version>
