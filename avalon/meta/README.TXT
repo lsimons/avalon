@@ -10,12 +10,12 @@ Where?
 ------
 
    For more detailed information, visit the online documentation at:
-   http://avalon.apache.org/sandbox/meta
+   http://avalon.apache.org/avalon/meta
 
 Structure:
 ----------
 
-/avalon-sandbox
+/avalon
  /meta
    /api ...................... immutable meta-info directives
    /spi ...................... meta model service interfaces
