@@ -513,11 +513,13 @@ Legal:
     <jar jarfile="${build.lib}/avalon-${name}.jar" basedir="${build.classes}">
       <include name="org/apache/avalon/excalibur/**"/>
       <exclude name="**/test/*"/>
+      <exclude name="ListTest*"/>
     </jar>
 
     <jar jarfile="${build.lib}/${scratchpad.name}.jar" basedir="${build.scratchpad}">
       <include name="org/apache/avalon/excalibur/**"/>
       <exclude name="**/test/*"/>
+      <exclude name="ListTest*"/>
     </jar>
 
   </target>
