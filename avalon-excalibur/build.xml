@@ -158,6 +158,7 @@
         <ant dir="logger" target="dist-jar"/>
         <ant dir="component" target="dist-jar"/>
         <ant dir="sourceresolve" target="dist-jar"/>
+        <ant dir="store" target="dist-jar"/>
         <ant dir="testcase" target="dist-jar"/>
         <ant dir="datasource" target="dist-jar"/>
         <ant dir="util" target="dist-jar"/>
@@ -165,7 +166,6 @@
         <ant dir="cli" target="dist-jar"/>
         <ant dir="naming" target="dist-jar"/>
         <ant dir="monitor" target="dist-jar"/>
-        <ant dir="store" target="dist-jar"/>
         <!--
         <ant dir="altrmi" target="dist-jar"/>
         <ant dir="instrument-manager" target="dist-jar"/>
