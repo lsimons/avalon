@@ -1,7 +1,0 @@
-
-Remoting:
--- Supports different formatters
--- Unregister channel in MConnectorServer dispose
-
-MX:
--- Supports query

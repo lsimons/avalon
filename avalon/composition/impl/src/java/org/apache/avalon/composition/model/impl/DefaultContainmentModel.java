@@ -88,8 +88,10 @@ import org.apache.avalon.composition.model.ModelRuntimeException;
 import org.apache.avalon.composition.model.ModelSelector;
 import org.apache.avalon.composition.model.ProfileSelector;
 import org.apache.avalon.composition.model.TypeRepository;
+import org.apache.avalon.composition.model.ServiceModel;
 import org.apache.avalon.composition.logging.LoggingManager;
 import org.apache.avalon.composition.util.StringHelper;
+
 import org.apache.avalon.repository.Repository;
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.RepositoryException;
@@ -111,7 +113,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13 $ $Date: 2004/01/01 13:08:56 $
+ * @version $Revision: 1.13.4.3 $ $Date: 2004/01/12 07:12:01 $
  */
 public class DefaultContainmentModel extends DefaultModel 
   implements ContainmentModel
@@ -161,6 +163,8 @@ public class DefaultContainmentModel extends DefaultModel
 
     private final LinkedList m_compositionListeners = new LinkedList();
 
+    private ServiceModel[] m_services;
+
     //==============================================================
     // constructor
     //==============================================================
@@ -186,6 +190,29 @@ public class DefaultContainmentModel extends DefaultModel
         else
         {
             m_partition = getPath() + getName() + SEPERATOR;
+        }
+
+        ClassLoader classloader = context.getClassLoader();
+        ServiceDirective[] export = 
+          context.getContainmentProfile().getExportDirectives();
+        m_services = new DefaultServiceModel[ export.length ];
+        for( int i=0; i<export.length; i++ )
+        {
+            ServiceDirective service = export[i];
+            String classname = service.getReference().getClassname();
+            try
+            {
+                Class clazz = classloader.loadClass( classname );
+                m_services[i] = new DefaultServiceModel( service, clazz ); 
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Cannot load service class [" 
+                  + classname 
+                  + "].";
+                throw new ModelException( error, e );
+            }
         }
 
         Profile[] profiles = context.getContainmentProfile().getProfiles();
@@ -215,7 +242,7 @@ public class DefaultContainmentModel extends DefaultModel
     */
     public ServiceDescriptor[] getServices()
     {
-        return getExportDirectives();
+        return m_context.getContainmentProfile().getExportDirectives();
     }
 
    /**
@@ -282,6 +309,34 @@ public class DefaultContainmentModel extends DefaultModel
         {
             m_compositionListeners.remove( listener );
         }
+    }
+
+   /**
+    * Return the set of service export mappings
+    * @return the set of export directives published by the model
+    */
+    public ServiceModel[] getServiceModels()
+    {
+        return m_services;
+    }
+
+   /**
+    * Return the set of service export directives for a supplied class.
+    * @param clazz a cleaa identifying the directive
+    * @return the export directives
+    */
+    public ServiceModel getServiceModel( Class clazz )
+    {
+        ServiceModel[] models = getServiceModels();
+        for( int i=0; i<models.length; i++ )
+        {
+            ServiceModel model = models[i];
+            if( clazz.isAssignableFrom( model.getServiceClass() ) )
+            {
+                return model;
+            }
+        }
+        return null;
     }
 
    /**
@@ -1094,24 +1149,6 @@ public class DefaultContainmentModel extends DefaultModel
         }
     }
 
-   /**
-    * Return the set of service export mappings
-    * @return the set of export directives published by the model
-    */
-    public ServiceDirective[] getExportDirectives()
-    {
-        return m_context.getContainmentProfile().getExportDirectives();
-    }
-
-   /**
-    * Return the set of service export directives for a supplied class.
-    * @param clazz a cleaa identifying the directive
-    * @return the export directives
-    */
-    public ServiceDirective getExportDirective( Class clazz )
-    {
-        return m_context.getContainmentProfile().getExportDirective( clazz );
-    }
 
     //==============================================================
     // implementation

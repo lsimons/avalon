@@ -8,7 +8,7 @@
   <id>avalon-activation-impl</id>
   <name>Avalon Activation Framework</name>
   <package>org.apache.avalon.activation</package>
-  <currentVersion>1.2.4</currentVersion>
+  <currentVersion>1.2.6</currentVersion>
 
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Runtime activation framework.</shortDescription>
