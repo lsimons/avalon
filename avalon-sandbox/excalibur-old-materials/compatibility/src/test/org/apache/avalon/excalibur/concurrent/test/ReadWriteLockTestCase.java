@@ -399,15 +399,15 @@ public class ReadWriteLockTestCase
         assertTrue( !wla.hasSuccess() );
 
         //
-        // ...and release the read lock.
-        //
-        lock.release();
-
-        //
         // Avoid race condition.
         //
         wla.join();
         assertTrue( !wla.hasSuccess() );
+        
+        //
+        // ...and release the read lock.
+        //
+        lock.release();
         
         //
         // Right, we are in the condition described by Drissman.
