@@ -276,6 +276,7 @@
 
 
   <goal name="avalon:test">
+    <!--- DOES NOT WORK -->
     <j:choose>
         <echo>PROPERTY: '${merlin.snapshot}'</echo>
       <j:when test="${merlin.snapshot == 'true'}">
@@ -295,15 +296,6 @@
 
   <goal name="avalon:package">
 
-    <j:choose>
-      <j:when test="${merlin.snapshot == 'true'}">
-        <echo>SNAPSHOT BUILD</echo>
-      </j:when>
-      <j:otherwise>
-        <echo>RELEASE BUILD</echo>
-      </j:otherwise>
-    </j:choose>
-   
     <!--
     <j:set var="package.name" value="${maven.final.name}-dist"/>
     -->
