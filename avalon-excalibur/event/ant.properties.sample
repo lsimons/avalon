@@ -9,7 +9,7 @@
 # The ant.properties values in this directory apply only to this component, and
 # override the defaults in ../ant.properties.
 #
-# $Id: ant.properties.sample,v 1.1 2002/03/28 15:17:07 bloritsch Exp $
+# $Id: ant.properties.sample,v 1.2 2002/03/30 21:33:20 donaldp Exp $
 # -----------------------------------------------------------------------------
 
 # --------------------------------------------------
@@ -35,6 +35,10 @@ junit.home=${base.path}/junit3.7
 junit.lib=${junit.home}
 junit.jar=${junit.lib}/junit.jar
 
+# ----- Excalibur Collections, version 1.0 or later -----
+excalibur-collections.home=${base.path}/excalibur-collections-1.0
+excalibur-collections.lib=${excalibur-collections.home}
+excalibur-collections.jar=${excalibur-collections.lib}/excalibur-collections-1.0.jar
 
 
 # --------------------------------------------------
