@@ -13,7 +13,7 @@
 
   <!-- services that are offered by this block -->
   <services>
-    <service name="org.apache.cornerstone.services.sockets.SocketManager" version="1.0" />
+    <service name="org.apache.avalon.cornerstone.services.sockets.SocketManager" version="1.0" />
   </services>
 
 </blockinfo>

@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
 Created-By: Apache Avalon Project
 
-Name: org/apache/cornerstone/demos/helloworldserver/HelloWorldServerImpl.class
+Name: org/apache/avalon/cornerstone/demos/helloworldserver/HelloWorldServerImpl.class
 Avalon-Block: true

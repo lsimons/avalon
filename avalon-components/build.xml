@@ -164,9 +164,9 @@
            optimize="${optimize}"
            deprecation="${deprecation}">
       <classpath refid="project.class.path" />
-      <exclude name="org/apache/cornerstone/blocks/serversocket/TLSServerSocketAcceptor.java"
+      <exclude name="org/apache/avalon/cornerstone/blocks/serversocket/TLSServerSocketAcceptor.java"
                unless="jsse.present" />
-      <exclude name="org/apache/cornerstone/blocks/sockets/TLSServerSocketFactory.java"
+      <exclude name="org/apache/avalon/cornerstone/blocks/sockets/TLSServerSocketFactory.java"
                unless="jsse.present" />
     </javac>
 
@@ -197,32 +197,32 @@
     <jar jarfile="${build.lib}/cornerstone.bar"
          basedir="${build.classes}"
          manifest="${manifest.dir}/cornerstone.mf">
-      <include name="org/apache/cornerstone/blocks/**"/>
-      <include name="org/apache/cornerstone/services/**"/>
+      <include name="org/apache/avalon/cornerstone/blocks/**"/>
+      <include name="org/apache/avalon/cornerstone/services/**"/>
     </jar>
 
     <jar jarfile="${build.lib}/demo-httpproxy.bar"
          basedir="${build.classes}"
          manifest="${manifest.dir}/http-proxy-demo.mf">
-      <include name="org/apache/cornerstone/demos/httpproxy/*"/>
+      <include name="org/apache/avalon/cornerstone/demos/httpproxy/*"/>
     </jar>
 
     <jar jarfile="${build.lib}/demo-xcommander.bar"
          basedir="${build.classes}"
          manifest="${manifest.dir}/demo-xcommander.mf">
-      <include name="org/apache/cornerstone/demos/xcommander/**"/>
+      <include name="org/apache/avalon/cornerstone/demos/xcommander/**"/>
     </jar>
 
     <jar jarfile="${build.lib}/demo-helloworld.bar"
          basedir="${build.classes}"
          manifest="${manifest.dir}/helloworld-demo.mf">
-      <include name="org/apache/cornerstone/demos/helloworldserver/*"/>
+      <include name="org/apache/avalon/cornerstone/demos/helloworldserver/*"/>
     </jar>
 
     <jar jarfile="${build.lib}/demo-simpleserver.bar"
          basedir="${build.classes}"
          manifest="${manifest.dir}/simpleserver-demo.mf">
-      <include name="org/apache/cornerstone/demos/simpleserver/*"/>
+      <include name="org/apache/avalon/cornerstone/demos/simpleserver/*"/>
     </jar>
 
     <jar jarfile="${build.lib}/avalon-demo.sar">
@@ -280,7 +280,7 @@
         <pathelement path="${java.class.path}" />
       </classpath>
 
-      <testlet>org.apache.cornerstone.services.scheduler.test.CronTimeTriggerTestlet</testlet>
+      <testlet>org.apache.avalon.cornerstone.services.scheduler.test.CronTimeTriggerTestlet</testlet>
     </test>
 
   </target>

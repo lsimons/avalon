@@ -1,0 +1,37 @@
+/*
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included with this distribution in
+ * the LICENSE file.
+ */
+package org.apache.avalon.cornerstone.demos.xcommander.saxhandlers;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import org.apache.avalon.cornerstone.demos.xcommander.*;
+import org.xml.sax.Attributes;
+
+/**
+ *
+ *
+ * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
+ */
+public class ConstructorElementHandler 
+    extends MethodElementHandler
+{
+    public void start( final Attributes attributes )
+    {
+        name = "Constructor";
+    }
+
+    public String getNamespaceURI()
+    {
+        return "constructor";
+    }
+
+    public String getLocalName()
+    {
+        return "constructor";
+    }
+}

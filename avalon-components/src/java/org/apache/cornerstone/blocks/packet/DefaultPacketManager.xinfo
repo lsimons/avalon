@@ -12,7 +12,7 @@
 
   <!-- services that are offered by this block -->
   <services>
-    <service name="org.apache.cornerstone.services.packet.PacketManager" version="1.0" />
+    <service name="org.apache.avalon.cornerstone.services.packet.PacketManager" version="1.0" />
   </services>
 
 </blockinfo>

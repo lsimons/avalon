@@ -1,20 +1,20 @@
 Manifest-Version: 1.0
-Created-By: Jakarta Apache Avalon/Phoenix Project
+Created-By: Jakarta Apache Avalon/Cornerstone Project
 
-Name: org/apache/cornerstone/blocks/masterstore/RepositoryManager.class
+Name: org/apache/avalon/cornerstone/blocks/masterstore/RepositoryManager.class
 Avalon-Block: true
 
-Name: org/apache/cornerstone/blocks/scheduler/DefaultTimeScheduler.class
+Name: org/apache/avalon/cornerstone/blocks/scheduler/DefaultTimeScheduler.class
 Avalon-Block: true
 
-Name: org/apache/cornerstone/blocks/sockets/DefaultSocketManager.class
+Name: org/apache/avalon/cornerstone/blocks/sockets/DefaultSocketManager.class
 Avalon-Block: true
 
-Name: org/apache/cornerstone/blocks/connection/DefaultConnectionManager.class
+Name: org/apache/avalon/cornerstone/blocks/connection/DefaultConnectionManager.class
 Avalon-Block: true
 
-Name: org/apache/cornerstone/blocks/packet/DefaultPacketManager.class
+Name: org/apache/avalon/cornerstone/blocks/packet/DefaultPacketManager.class
 Avalon-Block: true
 
-Name: org/apache/cornerstone/blocks/datasource/DefaultDataSourceSelector.class
+Name: org/apache/avalon/cornerstone/blocks/datasource/DefaultDataSourceSelector.class
 Avalon-Block: true
