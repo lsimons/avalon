@@ -8,8 +8,6 @@
 package org.apache.avalon.phoenix.components.frame;
 
 import java.io.File;
-import java.net.URL;
-import java.security.Policy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -36,10 +34,9 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.BlockContext;
-import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.BlockEvent;
+import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
-import org.apache.avalon.phoenix.components.listeners.BlockListenerSupport;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Logger;
 
@@ -188,7 +185,7 @@ public class DefaultApplicationFrame
     }
 
     /**
-     * Notification that a block is just about to be 
+     * Notification that a block is just about to be
      * removed from Server Application.
      *
      * @param event the BlockEvent
@@ -252,7 +249,7 @@ public class DefaultApplicationFrame
     public BlockContext createBlockContext( final String name )
     {
         final DefaultBlockContext context =
-            new DefaultBlockContext( getLogger(), this, m_context );
+            new DefaultBlockContext( getLogger( name ), this, m_context );
         context.setLogger( getLogger() );
         context.put( BlockContext.NAME, name );
         context.makeReadOnly();
