@@ -77,7 +77,7 @@
   </action>
   <action dev="PD" type="update">
   Moved instance variables to private instead of protected were appopriate.
-  This allows to decrease maintanence cost justt in case someone inherits
+  This allows to decrease maintanence cost just in case someone inherits
   from one of our classes.
   </action>
   <action dev="PD" type="remove">

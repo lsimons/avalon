@@ -56,7 +56,7 @@ Legal:
   <property name="lib.dir" value="lib"/>
   <property name="java.dir" value="${src.dir}/java"/>
   <property name="test.dir" value="${src.dir}/test"/>
-  <property name="tools.dir" value="tools"/>
+  <property name="tools.dir" value="../jakarta-avalon/tools"/>
   <property name="docs.dir" value="docs"/>
   <property name="www.dir" value="www"/>
   <property name="avalon.skin" value="${tools.dir}/lib/jakarta-style.jar"/>
