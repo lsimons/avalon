@@ -63,7 +63,7 @@ package org.apache.avalon.framework.configuration;
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version CVS $Revision: 1.21 $ $Date: 2002/11/07 08:35:27 $
+ * @version CVS $Revision: 1.22 $ $Date: 2002/11/13 01:07:11 $
  */
 public abstract class AbstractConfiguration
     implements Configuration
@@ -112,9 +112,11 @@ public abstract class AbstractConfiguration
         }
         catch( final Exception nfe )
         {
-            throw new ConfigurationException( "Cannot parse the value \"" + value +
-                                              "\" as an integer in the configuration element \"" +
-                                              getName() + "\" at " + getLocation() );
+            final String message =
+                "Cannot parse the value \"" + value +
+                "\" as an integer in the configuration element \"" +
+                getName() + "\" at " + getLocation();
+            throw new ConfigurationException( message );
         }
     }
 
@@ -173,9 +175,11 @@ public abstract class AbstractConfiguration
         }
         catch( final Exception nfe )
         {
-            throw new ConfigurationException( "Cannot parse the value \"" + value +
-                                              "\" as a long in the configuration element \"" +
-                                              getName() + "\" at " + getLocation() );
+            final String message =
+                "Cannot parse the value \"" + value +
+                "\" as a long in the configuration element \"" +
+                getName() + "\" at " + getLocation();
+            throw new ConfigurationException( message );
         }
     }
 
@@ -216,9 +220,11 @@ public abstract class AbstractConfiguration
         }
         catch( final Exception nfe )
         {
-            throw new ConfigurationException( "Cannot parse the value \"" + value +
-                                              "\" as a float in the configuration element \"" +
-                                              getName() + "\" at " + getLocation() );
+            final String message =
+                "Cannot parse the value \"" + value +
+                "\" as a float in the configuration element \"" +
+                getName() + "\" at " + getLocation();
+            throw new ConfigurationException( message );
         }
     }
 
@@ -261,9 +267,11 @@ public abstract class AbstractConfiguration
         }
         else
         {
-            throw new ConfigurationException( "Cannot parse the value \"" + value +
-                                              "\" as a boolean in the configuration element \"" +
-                                              getName() + "\" at " + getLocation() );
+            final String message =
+                "Cannot parse the value \"" + value +
+                "\" as a boolean in the configuration element \"" +
+                getName() + "\" at " + getLocation();
+            throw new ConfigurationException( message );
         }
     }
 
@@ -339,9 +347,11 @@ public abstract class AbstractConfiguration
         }
         catch( final Exception nfe )
         {
-            throw new ConfigurationException( "Cannot parse the value \"" + value +
-                                              "\" as an integer in the attribute \"" +
-                                              name + "\" at " + getLocation() );
+            final String message =
+                "Cannot parse the value \"" + value +
+                "\" as an integer in the attribute \"" +
+                name + "\" at " + getLocation();
+            throw new ConfigurationException( message );
         }
     }
 
@@ -405,9 +415,11 @@ public abstract class AbstractConfiguration
         }
         catch( final Exception nfe )
         {
-            throw new ConfigurationException( "Cannot parse the value \"" + value +
-                                              "\" as a long in the attribute \"" +
-                                              name + "\" at " + getLocation() );
+            final String message =
+                "Cannot parse the value \"" + value +
+                "\" as a long in the attribute \"" +
+                name + "\" at " + getLocation();
+            throw new ConfigurationException( message );
         }
     }
 
@@ -452,9 +464,11 @@ public abstract class AbstractConfiguration
         }
         catch( final Exception e )
         {
-            throw new ConfigurationException( "Cannot parse the value \"" + value +
-                                              "\" as a float in the attribute \"" +
-                                              name + "\" at " + getLocation() );
+            final String message =
+                "Cannot parse the value \"" + value +
+                "\" as a float in the attribute \"" +
+                name + "\" at " + getLocation();
+            throw new ConfigurationException( message );
         }
     }
 
@@ -501,26 +515,28 @@ public abstract class AbstractConfiguration
         }
         else
         {
-            throw new ConfigurationException( "Cannot parse the value \"" + value +
-                                              "\" as a boolean in the attribute \"" +
-                                              name + "\" at " + getLocation() );
+            final String message =
+                "Cannot parse the value \"" + value +
+                "\" as a boolean in the attribute \"" +
+                name + "\" at " + getLocation();
+            throw new ConfigurationException( message );
         }
     }
 
     private boolean isTrue( final String value )
     {
-        return value.equalsIgnoreCase( "true" )
-            || value.equalsIgnoreCase( "yes" )
-            || value.equalsIgnoreCase( "on" )
-            || value.equalsIgnoreCase( "1" );
+        return value.equalsIgnoreCase( "true" ) ||
+            value.equalsIgnoreCase( "yes" ) ||
+            value.equalsIgnoreCase( "on" ) ||
+            value.equalsIgnoreCase( "1" );
     }
 
     private boolean isFalse( final String value )
     {
-        return value.equalsIgnoreCase( "false" )
-            || value.equalsIgnoreCase( "no" )
-            || value.equalsIgnoreCase( "off" )
-            || value.equalsIgnoreCase( "0" );
+        return value.equalsIgnoreCase( "false" ) ||
+            value.equalsIgnoreCase( "no" ) ||
+            value.equalsIgnoreCase( "off" ) ||
+            value.equalsIgnoreCase( "0" );
     }
 
     /**
