@@ -28,7 +28,7 @@ import org.apache.log.Priority;
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/05/22 13:05:19 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/07/09 11:18:38 $
  * @since 4.0
  */
 public class LogKitLoggerManager
@@ -132,7 +132,7 @@ public class LogKitLoggerManager
     }
 
     /**
-     * Reads a context object.
+     * Reads a context object that will be supplied to the log target factory manager.
      *
      * @param context The context object.
      * @throws ContextException if the context is malformed
