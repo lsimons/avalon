@@ -20,8 +20,10 @@ package org.apache.avalon.cornerstone.blocks.masterstore;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+
 import org.apache.avalon.cornerstone.services.store.Repository;
 import org.apache.avalon.cornerstone.services.store.Store;
+
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
