@@ -144,10 +144,11 @@ import org.apache.log.Priority;
  * and maximum size of 10, followed by the message of the log event
  * without any size restriction.
  * </p>
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.35 $ $Date: 2003/02/03 17:40:12 $
+ * @version CVS $Revision: 1.36 $ $Date: 2003/02/05 06:14:13 $
  */
 public class PatternFormatter
     implements Formatter, org.apache.log.Formatter
@@ -208,6 +209,10 @@ public class PatternFormatter
     {
     }
 
+   /**
+    * Creation of a new patter formatter baseed on a supplied pattern.
+    * @param pattern the patter 
+    */
     public PatternFormatter( final String pattern )
     {
         parse( pattern );
@@ -230,7 +235,9 @@ public class PatternFormatter
 
         //first check for a +|- sign
         if( '+' == pattern[ index ] )
+        {
             index++;
+        }
         else if( '-' == pattern[ index ] )
         {
             run.m_rightJustify = true;
@@ -267,15 +274,14 @@ public class PatternFormatter
 
         if( index >= pattern.length || '{' != pattern[ index ] )
         {
-            throw
-                new IllegalArgumentException( "Badly formed pattern at character " +
-                                              index );
+            throw new IllegalArgumentException( 
+               "Badly formed pattern at character " + index );
         }
 
         int typeStart = index;
 
-        while( index < pattern.length &&
-            pattern[ index ] != ':' && pattern[ index ] != '}' )
+        while( index < pattern.length 
+           && pattern[ index ] != ':' && pattern[ index ] != '}' )
         {
             index++;
         }
@@ -302,9 +308,9 @@ public class PatternFormatter
 
         if( index >= pattern.length || '}' != pattern[ index ] )
         {
-            throw new
-                IllegalArgumentException( "Unterminated type in pattern at character "
-                                          + index );
+            throw new IllegalArgumentException( 
+              "Unterminated type in pattern at character "
+              + index );
         }
 
         index++;
@@ -332,7 +338,10 @@ public class PatternFormatter
         final int start = index;
         boolean escapeMode = false;
 
-        if( '%' == pattern[ index ] ) index++;
+        if( '%' == pattern[ index ] )
+        {
+            index++;
+        }
 
         final StringBuffer sb = new StringBuffer();
 
@@ -516,8 +525,8 @@ public class PatternFormatter
                 return getPriority( event.getPriority(), run.m_format );
 
             case TYPE_CONTEXT:
-                if( null == run.m_format ||
-                    run.m_format.startsWith( "stack" ) )
+                if( null == run.m_format 
+                    || run.m_format.startsWith( "stack" ) )
                 {
                     //Print a warning out to stderr here
                     //to indicate you are using a deprecated feature?
@@ -732,8 +741,8 @@ public class PatternFormatter
 
         while( index < size )
         {
-            if( pattern[ index ] == '%' &&
-                !( index != size - 1 && pattern[ index + 1 ] == '%' ) )
+            if( pattern[ index ] == '%' 
+                && !( index != size - 1 && pattern[ index + 1 ] == '%' ) )
             {
                 index += addPatternRun( stack, pattern, index );
             }
