@@ -106,7 +106,7 @@ public class DefaultEmbeddor
      * @param parameters the Parameters for embeddor
      * @exception ParameterException if an error occurs
      */
-    public void parameterize( final Parameters parameters )
+    public synchronized void parameterize( final Parameters parameters )
         throws ParameterException
     {
         m_parameters = createDefaultParameters();
@@ -118,7 +118,7 @@ public class DefaultEmbeddor
      * Kernel. Note that these are not set up properly until you have
      * called the <code>run()</code> method.
      */
-    public void initialize()
+    public synchronized void initialize()
         throws Exception
     {
         try
@@ -168,7 +168,7 @@ public class DefaultEmbeddor
     /**
      * Release all the resources associated with kernel.
      */
-    public void dispose()
+    public synchronized void dispose()
     {
         shutdown();
 
@@ -216,7 +216,7 @@ public class DefaultEmbeddor
      * Note that these components are not ready to be used
      * until setupComponents() is called.
      */
-    private void createComponents()
+    private synchronized void createComponents()
         throws Exception
     {
         final Logger logger = createLogger();
@@ -321,7 +321,7 @@ public class DefaultEmbeddor
         }
     }
 
-    protected final void deployFile( final String name, final File file )
+    protected final synchronized void deployFile( final String name, final File file )
         throws Exception
     {
         m_deployer.deploy( name, file.toURL() );
