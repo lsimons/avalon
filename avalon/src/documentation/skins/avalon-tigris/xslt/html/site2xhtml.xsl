@@ -40,25 +40,25 @@
 		
 			<!-- breadcrumb trail (javascript-generated) -->
 			<div id="breadcrumbs">
-              <a href="@link1.href@" class="menu">@link1@ &gt;</a>
-              <a href="@link2.href@" class="menu">@link2@ &gt;</a>
-              <a href="@link3.href@" class="menu">@link3@</a>   
+              <a href="@link1.href@" class="menu">@link1@ &gt;<xsl:text> </xsl:text></a>
+              <a href="@link2.href@" class="menu">@link2@ &gt;&#160;</a>
+              <!-- <a href="@link3.href@" class="menu">@link3@</a> -->
 				<!-- -->
    				<script language="JavaScript1.2" type="text/javascript">
    			     <![CDATA[ 
 					function sentenceCase(str) {
 						var lower = str.toLowerCase();
-						return lower.substr(0,1).toUpperCase() + lower.substr(1);
+						return lower; //.substr(0,1).toUpperCase() + lower.substr(1);
 					}
 					function getDirsAsArray() {
 						var trail = document.location.pathname.split("/");
 						var lastdir = (trail[trail.length-1].indexOf(".html") != -1)? trail.length-2 : trail.length-1;
-						var urlprefix = "/avalon/";
+						var urlprefix = ""; //"/avalon/";
 						var postfix = " &gt"; 
 						for(var i = 1; i <= lastdir; i++) {
 							document.writeln('<a href=' + urlprefix + trail[i] + ' class="menu">' + sentenceCase(trail[i]) + '</a>'+postfix);
 							urlprefix += trail[i] + "/";
-							if(i == lastdir-1) postfix = ":";
+							if(i == lastdir-1) postfix = "";							
 						}
 					}
 					getDirsAsArray();
