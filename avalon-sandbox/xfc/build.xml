@@ -14,7 +14,6 @@
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${build.classes}"/>
         <pathelement location="${checkstyle.jar}"/>
-<!--        <pathelement location="${excalibur-meta.jar}"/> -->
         <pathelement location="${excalibur-cli.jar}"/>
         <pathelement path="${java.class.path}"/>
     </path>
@@ -32,7 +31,6 @@
     <property name="cp" refid="test.class.path"/>
 
     <target name="main" depends="jar" description="Build the project">
-<!--        <copy todir="${build.lib}" file="${excalibur-meta.jar}"/> -->
         <copy todir="${build.lib}" file="${excalibur-cli.jar}"/>
         <copy todir="${build.lib}" file="${avalon-framework.jar}"/>
         <copy todir="${build.lib}" file="${xerces.jar}"/>
@@ -44,7 +42,6 @@
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkMeta"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCli"/>	
     </target>
 
