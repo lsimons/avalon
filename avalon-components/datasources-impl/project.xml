@@ -20,7 +20,7 @@
     <dependency>
       <groupId>cornerstone-datasources</groupId>
       <artifactId>cornerstone-datasources-api</artifactId>
-      <version>1.0</version>
+      <version>SNAPSHOT</version>
     </dependency>
 
     <!-- excalibur dependencies -->
@@ -37,8 +37,14 @@
     <!-- avalon dependencies -->
 
     <dependency>
-      <id>avalon-framework</id>
-      <version>4.1.4</version>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-api</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-impl</artifactId>
+      <version>SNAPSHOT</version>
     </dependency>
 
     <!-- pre JDK 1.4 dependencies -->

@@ -17,14 +17,15 @@ Thread Block deployment directive.
 
    <implementation>
 
-     <categories priority="INFO"/>
-
      <engine>
        <classpath>
          <repository>
-           <resource id="excalibur:excalibur-thread" version="1.1.1"/>
-           <resource id="excalibur:excalibur-event" version="2.0"/>
-           <resource id="cornerstone:cornerstone-threads-api" version="1.0"/>
+           <resource id="avalon-framework:avalon-framework-api" version="SNAPSHOT"/>
+           <resource id="avalon-framework:avalon-framework-impl" version="SNAPSHOT"/>
+           <resource id="excalibur-thread:excalibur-thread" version="1.1.1"/>
+           <resource id="excalibur-event:excalibur-event" version="1.0.3"/>
+           <resource id="cornerstone-threads:cornerstone-threads-api" version="SNAPSHOT"/>
+           <resource id="cornerstone-threads:cornerstone-threads-impl" version="SNAPSHOT"/>
          </repository>
        </classpath>
      </engine>

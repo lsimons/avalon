@@ -17,8 +17,9 @@
     <!-- avalon dependencies -->
 
     <dependency>
-      <id>avalon-framework</id>
-      <version>4.1.4</version>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-api</artifactId>
+      <version>SNAPSHOT</version>
     </dependency>
 
   </dependencies>

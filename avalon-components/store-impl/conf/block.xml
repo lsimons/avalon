@@ -20,8 +20,9 @@ Thread Block deployment directive.
      <engine>
        <classpath>
          <repository>
-           <resource id="cornerstone-store:cornerstone-store-api" version="1.0"/>
-           <resource id="cornerstone-store:cornerstone-store-impl" version="1.0"/>
+           <resource id="avalon-framework:avalon-framework-impl" version="SNAPSHOT"/>
+           <resource id="cornerstone-store:cornerstone-store-api" version="SNAPSHOT"/>
+           <resource id="cornerstone-store:cornerstone-store-impl" version="SNAPSHOT"/>
          </repository>
        </classpath>
      </engine>
