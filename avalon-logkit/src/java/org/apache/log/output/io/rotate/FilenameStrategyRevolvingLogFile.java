@@ -38,8 +38,11 @@ public class FilenameStrategyRevolvingLogFile
     ///a revolving suffix formatter
     private DecimalFormat  m_decimalFormat;
 
-    public FilenameStrategyRevolvingLogFile() 
+    private File    m_baseFile;
+
+    public FilenameStrategyRevolvingLogFile( final File baseFile )
     {
+        m_baseFile = baseFile;
         m_rotation = m_rotationMinValue;
         m_decimalFormat = new DecimalFormat( PATTERN );
     }
@@ -49,11 +52,11 @@ public class FilenameStrategyRevolvingLogFile
      *
      * @return File the calculated file name
      */
-    public File getLogFileName( final File baseFileName ) 
+    public File nextFile() 
     {
         final StringBuffer sb = new StringBuffer();
         final FieldPosition fp = new FieldPosition( NumberFormat.INTEGER_FIELD );
-        sb.append( baseFileName );
+        sb.append( m_baseFile );
 
         final StringBuffer result = m_decimalFormat.format( m_rotation, sb, fp );
         m_rotation += 1;

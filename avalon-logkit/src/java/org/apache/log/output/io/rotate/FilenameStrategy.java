@@ -15,17 +15,16 @@ import java.io.File;
  * the real file name.
  *
  * @author <a href="mailto:bh22351@i-one.at">Bernhard Huber</a>
+ * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public interface FilenameStrategy 
 {
     /**
-     * Get 'calculated' log file name.
+     * Get the next log file to rotate to.
      *
-     * @param baseFileName the base file name
-     * @return File file which has been calculated from a given
-     *         base file name.
+     * @return the file to rotate to
      */
-    File getLogFileName( File baseFileName );
+    File nextFile();
 }
 
 
