@@ -87,7 +87,7 @@ import java.util.StringTokenizer;
  * </ul>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.25 $ $Date: 2003/02/11 15:58:37 $
+ * @version CVS $Revision: 1.26 $ $Date: 2003/02/11 16:19:27 $
  */
 public final class Version
     implements Serializable
@@ -105,6 +105,7 @@ public final class Version
      * @return the new Version object
      * @throws NumberFormatException if an error occurs
      * @throws IllegalArgumentException if an error occurs
+     * @since 4.1
      */
     public static Version getVersion( final String version )
         throws NumberFormatException, IllegalArgumentException
@@ -157,6 +158,7 @@ public final class Version
      * Retrieve major component of version.
      *
      * @return the major component of version
+     * @since 4.1
      */
     public int getMajor()
     {
@@ -167,6 +169,7 @@ public final class Version
      * Retrieve minor component of version.
      *
      * @return the minor component of version
+     * @since 4.1
      */
     public int getMinor()
     {
@@ -177,6 +180,7 @@ public final class Version
      * Retrieve micro component of version.
      *
      * @return the micro component of version.
+     * @since 4.1
      */
     public int getMicro()
     {
@@ -192,6 +196,7 @@ public final class Version
      * @param other The other <code>Version</code> object to be compared with this
      *          for equality.
      * @return <b>true</b> if this <code>Version</code> is compatible with the specified one
+     * @since 4.1
      */
     public boolean equals( final Version other )
     {
