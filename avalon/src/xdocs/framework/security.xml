@@ -17,8 +17,8 @@
         In this context security is defined as protection of data, and
         quality of service (QOS).  Both of these fall under security because
         a system must protect itself from these two forms of attack.  When
-        a company loses a system, they lose business, and the money the
-        lose are scary amounts.
+        a company loses a system, they lose business, and the money they
+        lose can reach scary amounts.
       </p>
       <p>
         For the purpose of this discussion, we will address the first
@@ -40,9 +40,9 @@
           is the correct one.
         </p>
         <p>
-          There are two sides of authentication.  There is the side that you
-          are authenticating an entity you want to do business with.  Then there
-          is the side of an entity wanting to do business with you.  This is
+          There are two sides of authentication.  On one side, you are
+          authenticating an entity you want to do business with.  On the other
+          side, there is an entity wanting to do business with you.  This is
           best understood when you bring it into a financial realm.  Let's say
           you want to get a loan from XYZ bank.  If you initiate the exchange
           at their facility, you have already authenticated them--although you
@@ -101,7 +101,7 @@
         <ol>
           <li>
             Never expose anything that does not need to be exposed.  Information
-            hiding is as much an important part of security as it is in Component
+            hiding is as important in security as it is in Component
             Oriented Programming (COP).
           </li>
           <li>
@@ -110,7 +110,7 @@
           </li>
           <li>
             Any Component that originates from another source, and especially over
-            a wire should be treated with suspicion.  Authenticate it, and if it
+            a wire, should be treated with suspicion.  Authenticate it, and if it
             checks out, trust it.  Otherwise, don't give it access--you don't know
             where it's been or who created it.
           </li>
@@ -120,23 +120,23 @@
         </ol>
       </s2>
     </s1>
-    <s1 title="From the Sublime to the Rediculous">
+    <s1 title="From the Sublime to the Ridiculous">
       <p>
         Throughout my short career I have been exposed to a wide range of security
         implementations.  Having worked for a DoD contractor, I learned about physical
         security requirements (how to manage paper files, and the rules and regulations
         regarding secure information).  However in a recent attempt to install a
-        solution at our customer's site, I learned the most about computer security
+        solution at our customer's site, I learned more about computer security
         than I have at any other time.
       </p>
       <p>
-        Our customer, being a well known corporation whom I will call ACME for
-        anonymity is in custody of sensitive information.  Product movement data,
+        Our customer, a well known corporation whom I will call ACME for
+        anonymity, is in custody of sensitive information.  Product movement data,
         financial data, and demographic data are all stored in one of a couple
         huge server farms.  Our application was to reside in the De-Militarize
         Zone (DMZ), and talk to a database behind the firewall.  When they discovered
         that the application server we chose required Remote Procedure Calls (the
-        result of many CERT advisories in the Unix world) we hit a brick wall.  Our
+        subject of many CERT advisories in the Unix world), we hit a brick wall.  Our
         application was no longer trusted, and was not to be installed.  Luckily
         the next version of the application server fixed that problem.
       </p>
@@ -144,45 +144,46 @@
         In the midst of this, I decided to learn as much as I could about operating
         in a hardened environment.  Hardening involves turning off access to anything
         that is not needed, and only allowing what is needed.  All mail servers, ftp
-        servers, rpc services, telnet, or any other clear text communications port needs
-        to be removed.  All communications into and out of the box needs to be
+        servers, rpc services, telnet, and any other clear text communications ports need
+        to be removed.  All communication into and out of the box needs to be
         encrypted, with the exception of HTTP (although we were using HTTPS).
       </p>
       <p>
         All of this was necessary.  I understand the principles behind it.  However,
         I decided to ask their security analyst how to learn more--so we don't run
         into this problem again.  He gave me a link to
-        <link href="http://www.sans.org">SANS institute</link> and a word of advice, &quot;Be
-        paranoid.  Don't trust anything.&quot;
+        <link href="http://www.sans.org">SANS institute</link> and a word of
+        advice: &quot;Be paranoid.  Don't trust anything.&quot;
       </p>
       <p>
         There is a point where the aforementioned philosophy goes a bit too far.  The
-        case and point relates to a story I heard working with the DoD.  During the
+        case in point relates to a story I heard working with the DoD.  During the
         height of the &quot;Cold War&quot; between the US and Russia, a US commanding
         officer required that all the computers be placed on these huge power
         conditioners to reduce the Electro-Magnetic Interference (EMI) coming from the
         power line feedback of the computers.  His rationalization was that he was
 	positive KGB agents had the technology that they could read the EMI interference
 	on the power lines and read the bits on the computers.  In hind sight this is
-	improbable, no one can identify the bits travelling on a computer from EMI in the
+	improbable; no one can identify the bits travelling on a computer from EMI in the
 	power lines due to the level of noise (clocks, addressing lines,
 	<em>encrypted data</em>, and other computers on the network).
       </p>
       <p>
         The security industry have a general rule of thumb to ensure that you don't spend
-	too much time in this area.  It should be more costly to crack the server than
+	too much time in this area:  The cost of cracking the server should
+        be more than
 	the information that is protected is worth.  Basically it boils down to this:
 	sites like Slashdot and SourceForge do not require as much security as a Bank.
 	Protecting free information is not as critical as protecting peoples bank accounts.
-	I am not minimizing the contributions of the afformentioned sites to the world
+	I am not minimizing the contributions of the aforementioned sites to the world
 	as a whole, but people become much more agitated if their bank account is wiped
 	clean than if their news article is defaced.  This is not to say that if you are
-	protecting free information that you can safely ignore security.  While the information
+	protecting free information then you can safely ignore security.  While the information
 	is monetarily free to customers, it has value that can be measured in pride, respect,
 	and accountability.
       </p>
       <p>
-        The morale of the story is be paranoid to a point.  Avalon is designed to be
+        The moral of the story is be paranoid to a point.  Avalon is designed to be
         a trusted system, and will be improved to work in an untrusted network.
       </p>
     </s1>
@@ -190,7 +191,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.6 $ $Date: 2002/01/31 15:43:52 $
+      $Revision: 1.7 $ $Date: 2002/02/15 23:05:08 $
     </legal>
   </footer>
 </document>

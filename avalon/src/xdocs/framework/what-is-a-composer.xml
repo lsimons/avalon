@@ -15,7 +15,7 @@
     <s1 title="Introduction"> 
       <p>
         In Avalon, Composable is defined as an active entity that controls
-        or uses Components.  It's best analogy is that of a musical composer.
+        or uses Components.  Its best analogy is that of a musical composer.
         The musical composer chooses what instruments (Components) by their
         role in the symphony (system) and tells them which notes to play.
       </p> 
@@ -71,7 +71,7 @@ final MyComponent component = (MyComponent)manager.
         <p>
           Sometimes you will have several Components that function in the same role.
           For those cases, you will use the ComponentSelector to choose the exact
-          one you need.  The best way to describe it's proper use is the scenario
+          one you need.  The best way to describe its proper use is the scenario
           described here.  You have several formatters that have the same Role:
           to take an input document and format it according to the rules in the
           individual Component implementations.  One formatter may take a text file
@@ -107,7 +107,7 @@ final Formatter formatter = (Formatter)selector.select( myURL );
 	  Both the ComponentManager and the ComponentSelector require you to
 	  release your Component when you are done with it.  The method used
 	  to do this is "release".  One way of handling this is to use the
-	  try/catch/finally construct.  Four your convenience, the following
+	  try/catch/finally construct.  For your convenience, the following
 	  code can help:
 	</p>
 	<source>
@@ -181,7 +181,7 @@ finally
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2002/01/31 15:43:52 $
+      $Revision: 1.5 $ $Date: 2002/02/15 23:05:08 $
     </legal>
   </footer>
 </document>
