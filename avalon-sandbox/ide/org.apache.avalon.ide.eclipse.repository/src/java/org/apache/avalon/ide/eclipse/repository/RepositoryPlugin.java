@@ -44,11 +44,23 @@
  */
 package org.apache.avalon.ide.eclipse.repository;
        
+import java.util.HashMap;
+
+import org.apache.avalon.ide.eclipse.repository.plugins.*;
+import org.apache.avalon.ide.repository.RepositoryAgentFactory;
 import org.apache.avalon.ide.repository.RepositoryTypeRegistry;
 import org.apache.avalon.ide.repository.tools.common.SimpleRepositoryRegistry;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IPluginDescriptor;
+import org.eclipse.core.runtime.IPluginEvent;
+import org.eclipse.core.runtime.IPluginListener;
+import org.eclipse.core.runtime.IPluginRegistry;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
@@ -57,6 +69,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  * @author Niclas Hedhman, niclas@hedhman.org
  */
 public class RepositoryPlugin extends AbstractUIPlugin
+    implements IPluginListener
 {
     //The shared instance.
     private static RepositoryPlugin m_Plugin;
@@ -64,6 +77,8 @@ public class RepositoryPlugin extends AbstractUIPlugin
     private ResourceManager m_ResourceManager;
     private SimpleRepositoryRegistry m_RepositoryTypeRegistry;
 
+    private HashMap m_PluginHandlers;
+    
     /**
 	 * The constructor.
 	 */
@@ -73,6 +88,9 @@ public class RepositoryPlugin extends AbstractUIPlugin
         m_Plugin = this;
         m_ResourceManager = new ResourceManager();
         m_RepositoryTypeRegistry = new SimpleRepositoryRegistry();
+        createHandlers();
+        
+        Platform.addPluginListener( this );
     }
 
     public RepositoryTypeRegistry getRepositoryTypeRegistry()
@@ -100,4 +118,59 @@ public class RepositoryPlugin extends AbstractUIPlugin
     {
         return m_Plugin.m_ResourceManager;
     }
+    
+    private void instantiateRepositoryAgentFactories()
+        throws CoreException
+    {
+        IPluginRegistry registry = Platform.getPluginRegistry();
+        IExtensionPoint point = registry.getExtensionPoint("org.eclipse.sample.sampleExtensionPoint");
+        IExtension[] extensions = point.getExtensions();
+        for (int i = 0; i < extensions.length; i++) 
+        {
+            IConfigurationElement[] elements = extensions[i].getConfigurationElements();
+            for (int j = 0; j < elements.length; j++) 
+            {
+                RepositoryAgentFactory object = (RepositoryAgentFactory) elements[j].createExecutableExtension("extension");
+                System.out.println("Found an executable extension: " + object);
+            }
+       }
+    }
+    
+    public void pluginChanged( IPluginEvent[] event )
+    {
+        for( int i=0 ; i < event.length ; i++ )
+        {
+            Integer type = new Integer( event[i].getType() );
+            PluginHandler handler = (PluginHandler) m_PluginHandlers.get( type );
+            IPluginDescriptor descriptor = event[i].getPluginDescriptor();
+            try
+            {
+                handler.handle( descriptor );
+            } catch( PluginHandlerException e )
+            {
+                // SHOULD-DO Error Handling
+                e.printStackTrace();
+                
+            }
+        }
+    }
+    
+    private void createHandlers()
+    {
+        m_PluginHandlers = new HashMap();
+        createHandler(IPluginEvent.INSTALLED, new PluginHandlerInstalled() );
+        createHandler(IPluginEvent.RESOLVED, new PluginHandlerResolved() );
+        createHandler(IPluginEvent.STARTED, new PluginHandlerStarted() );
+        createHandler(IPluginEvent.STOPPED, new PluginHandlerStopped() );
+        createHandler(IPluginEvent.UNINSTALLED, new PluginHandlerUninstalled() );
+        createHandler(IPluginEvent.UNRESOLVED, new PluginHandlerUnresolved() );
+        createHandler(IPluginEvent.UPDATED, new PluginHandlerUpdated() );
+    }
+    
+    private void createHandler( int type, PluginHandler handler )
+    {
+        Integer t = new Integer( type );
+        m_PluginHandlers.put( t, handler );
+    }
 }
+     

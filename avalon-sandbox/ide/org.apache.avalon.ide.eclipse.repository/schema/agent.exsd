@@ -3,25 +3,27 @@
 <schema targetNamespace="org.apache.avalon.ide.eclipse.repository">
 <annotation>
       <appInfo>
-         <meta.schema 
-             plugin="org.apache.avalon.ide.eclipse.repository" 
-             id="repository" 
-             name="Avalon Repository"
-         />
+         <meta.schema plugin="org.apache.avalon.ide.eclipse.repository" id="agent" name="Avalon Repository Agent"/>
       </appInfo>
       <documentation>
-         For registration of new Avalon Repository types.
+         The Repository Agent extension is all about registration of RepositoryAgentFactory implementations, that knows how to contact repositories, on-line and off-line.
       </documentation>
    </annotation>
 
    <element name="extension">
+      <annotation>
+         <documentation>
+            Definition of the Repository Agent extension point.
+         </documentation>
+      </annotation>
       <complexType>
          <sequence>
+            <element ref="description"/>
          </sequence>
-         <attribute name="point" type="string" use="required">
+         <attribute name="name" type="string" use="default" value="Sample Repository Agent">
             <annotation>
                <documentation>
-                  
+                  The name of the Repository Agent plug-in. This name will be used on-screen.
                </documentation>
             </annotation>
          </attribute>
@@ -32,49 +34,29 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="name" type="string">
+         <attribute name="point" type="string" use="required">
             <annotation>
                <documentation>
                   
                </documentation>
             </annotation>
          </attribute>
-      </complexType>
-   </element>
-
-   <element name="type">
-      <complexType>
-         <sequence>
-         </sequence>
-         <attribute name="classname" type="string" use="required">
+         <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  The classname of the implementation of the RepositoryAgentFactory.
-               </documentation>
-            </annotation>
-         </attribute>
-         <attribute name="urn-id" type="string" use="required">
-            <annotation>
-               <documentation>
-                  The &apos;urn-id&apos; must be in the form of 
-[urnliterals]:[urn-identifier]
-where [urnliterls] is &quot;urn&quot; and the [urn-identifier] is a established globally unique name, only containing alpha-numeric characters, dash (-) and underscore (_).
+                  The classname of the RepositoryAgentFactory interface, of course inclusive of the package name.
                </documentation>
             </annotation>
          </attribute>
       </complexType>
    </element>
 
-   <element name="description">
+   <element name="description" type="string">
       <annotation>
          <documentation>
-            A description of the Repository type.
+            A longer description of the capabilities of the RepositoryAgent and its factory.
          </documentation>
       </annotation>
-      <complexType>
-         <sequence>
-         </sequence>
-      </complexType>
    </element>
 
    <annotation>
@@ -82,7 +64,7 @@ where [urnliterls] is &quot;urn&quot; and the [urn-identifier] is a established 
          <meta.section type="since"/>
       </appInfo>
       <documentation>
-         [Enter the first release in which this extension point appears.]
+         The first release.
       </documentation>
    </annotation>
 
@@ -118,7 +100,7 @@ where [urnliterls] is &quot;urn&quot; and the [urn-identifier] is a established 
          <meta.section type="copyright"/>
       </appInfo>
       <documentation>
-         
+         Copyright 2003, Apache Software Foundation, All Rights Reserved.
       </documentation>
    </annotation>
 
