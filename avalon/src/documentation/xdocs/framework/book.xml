@@ -2,7 +2,8 @@
 
 <book software="Framework" 
       title="Framework Documentation" 
-      copyright="@year@ The Apache Software Foundation">
+      copyright="@year@ The Apache Software Foundation"
+      xmlns:xlink="http://www.w3.org/1999/xlink">
 
   <project label="Jakarta main" href="/" />
   <project label="Avalon main" href="../index.html" />

@@ -152,7 +152,7 @@
         All of this was necessary.  I understand the principles behind it.  However,
         I decided to ask their security analyst how to learn more--so we don't run
         into this problem again.  He gave me a link to
-        <link href="www.sans.org">SANS institute</link> and a word of advice, &quot;Be
+        <link href="http://www.sans.org">SANS institute</link> and a word of advice, &quot;Be
         paranoid.  Don't trust anything.&quot;
       </p>
       <p>
@@ -190,7 +190,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/07/18 14:35:44 $
+      $Revision: 1.2 $ $Date: 2001/11/26 20:24:21 $
     </legal>
   </footer>
 </document>

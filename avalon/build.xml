@@ -294,11 +294,7 @@ Legal:
       <arg value="-w${build.dir}/work"/>
       <arg value="-l${build.dir}/work/cocoon.log"/>
       <arg value="-uINFO"/>
-      <arg value="-f${context.dir}/root.uris"/>
-      <arg value="-f${context.dir}/authors.uris"/>
-      <arg value="-f${context.dir}/developing.uris"/>
-      <arg value="-f${context.dir}/framework.uris"/>
-      <arg value="-f${context.dir}/history.uris"/>
+      <arg value="index.html"/>
       <classpath>
         <path refid="tools.class.path"/>
         <fileset dir="${tools.dir}/ext"/>
