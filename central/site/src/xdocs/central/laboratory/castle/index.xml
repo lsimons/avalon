@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
-"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
-<article>
-  <title>Avalon Castle Container</title>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Team</author>
+    <title>Avalon Castle Container</title>
+  </properties>
 
-  <section>
-    <title>A container for CLI</title>
+  <body>
 
-    <para>Avalon Castle is the last one of a few attempts to deliver a
+  <section name="A container for CLI">
+    <p>Avalon Castle is the last one of a few attempts to deliver a
     container for the CLI (.Net and Mono) world. Although it can be viewed as
     a port of Avalon, it benefits from several features offered by the
-    CLR.</para>
+    CLR.</p>
 
-    <para>Other important difference of Castle container is its simplicity.
+    <p>Other important difference of Castle container is its simplicity.
     Based on Microkernel pattern, the user can easily modified, extend or
     adapt it to match his requirements. No hard contracts, no obligations.
-    Just good and old Inversion of Control and stills Avalon.</para>
+    Just good and old Inversion of Control and stills Avalon.</p>
   </section>
 
-  <section>
-    <title>Primary differences</title>
-
-    <para>The first difference to be noticed relates to the no obligation of
-    using Avalon interfaces or attributes at all. </para>
+  <section name="What's different?">
+    <p>The first difference to be noticed relates to no obligation of
+    using Avalon interfaces or attributes at all. </p>
   </section>
-</article>
+
+  </body>
+</document>
