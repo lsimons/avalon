@@ -22,7 +22,7 @@ import org.apache.commons.altrmi.common.MethodRequest;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class RmiPublisher extends AbstractPublisher
 {
@@ -56,10 +56,8 @@ public class RmiPublisher extends AbstractPublisher
     public void initialize() throws Exception
     {
 
-        m_AltrmiServer = new RmiServer(mHost, mPort);
+        m_AbstractServer = new RmiServer(mHost, mPort);
 
         super.initialize();
     }
-
-
 }

@@ -10,37 +10,37 @@ package org.apache.avalon.cornerstone.blocks.transport.publishing;
 
 
 
-import org.apache.commons.altrmi.server.AltrmiPublisher;
-import org.apache.commons.altrmi.server.PublicationException;
-import org.apache.commons.altrmi.server.AltrmiServer;
-import org.apache.commons.altrmi.server.ClassRetriever;
-import org.apache.commons.altrmi.server.AltrmiAuthenticator;
-import org.apache.commons.altrmi.server.MethodInvocationHandler;
-import org.apache.commons.altrmi.server.impl.classretrievers.JarFileClassRetriever;
-import org.apache.commons.altrmi.server.impl.classretrievers.NoClassRetriever;
-import org.apache.commons.altrmi.common.MethodRequest;
-import org.apache.commons.altrmi.server.PublicationDescription;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.component.Composable;
-import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockContext;
-import org.apache.avalon.cornerstone.services.sockets.SocketManager;
+import org.apache.commons.altrmi.server.AltrmiPublisher;
+import org.apache.commons.altrmi.server.ClassRetriever;
+import org.apache.commons.altrmi.server.AltrmiAuthenticator;
+import org.apache.commons.altrmi.server.PublicationException;
+import org.apache.commons.altrmi.server.PublicationDescription;
+import org.apache.commons.altrmi.server.MethodInvocationHandler;
+import org.apache.commons.altrmi.server.impl.AbstractServer;
+import org.apache.commons.altrmi.server.impl.classretrievers.NoClassRetriever;
+import org.apache.commons.altrmi.server.impl.classretrievers.JarFileClassRetriever;
+import org.apache.commons.altrmi.common.MethodRequest;
+
+import java.io.File;
 
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-import java.net.MalformedURLException;
-import java.io.File;
 import java.net.URL;
+import java.net.MalformedURLException;
 
 
 /**
@@ -48,14 +48,14 @@ import java.net.URL;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public abstract class AbstractPublisher extends AbstractLogEnabled
-        implements AltrmiPublisher, Startable, Composable, Contextualizable,
-                   Configurable, Initializable, Block
+        implements AltrmiPublisher, Startable, Composable, Contextualizable, Configurable,
+                   Initializable, Block
 {
 
-    protected AltrmiServer m_AltrmiServer;
+    protected AbstractServer m_AbstractServer;
     private ClassRetriever m_ClassRetriever;
     protected AltrmiAuthenticator m_AltrmiAuthenticator;
     protected File mBaseDirectory;
@@ -81,21 +81,33 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
 
             while (st.hasMoreTokens())
             {
-                try {
+                try
+                {
                     String url = st.nextToken();
-                    if (url.startsWith("./")) {
-                        File file = new File(mBaseDirectory, url.substring(2,url.length()));
+
+                    if (url.startsWith("./"))
+                    {
+                        File file = new File(mBaseDirectory, url.substring(2, url.length()));
+
                         vector.add(file.toURL());
-                    } else {
-                         vector.add(new URL(url));
                     }
-                } catch (MalformedURLException e) {
-                    getLogger().debug("Can't create URL from config element 'gerneratedClassJarURLs'",e);
+                    else
+                    {
+                        vector.add(new URL(url));
+                    }
+                }
+                catch (MalformedURLException e)
+                {
+                    getLogger()
+                        .debug("Can't create URL from config element 'gerneratedClassJarURLs'",
+                               e);
                 }
             }
 
             URL[] urls = new URL[vector.size()];
+
             vector.copyInto(urls);
+
             m_ClassRetriever = new JarFileClassRetriever(urls);
         }
         else if (classRetrieverType.equals("none"))
@@ -113,10 +125,12 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      * Method contextualize
      *
      *
-     * @param mContext
+     *
+     * @param context
      *
      */
-    public void contextualize(final Context context) {
+    public void contextualize(final Context context)
+    {
         mBaseDirectory = ((BlockContext) context).getBaseDirectory();
     }
 
@@ -144,8 +158,8 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
     */
     public void initialize() throws Exception
     {
-        m_AltrmiServer.setClassRetriever(m_ClassRetriever);
-        m_AltrmiServer.setAuthenticator(m_AltrmiAuthenticator);
+        m_AbstractServer.setClassRetriever(m_ClassRetriever);
+        m_AbstractServer.setAuthenticator(m_AltrmiAuthenticator);
     }
 
     /**
@@ -156,12 +170,14 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      * @param asName
      * @param interfaceToExpose
      *
-     * @throws AltrmiPublicationException
+     *
+     * @throws PublicationException
      *
      */
-    public void publish(Object implementation, String asName, Class interfaceToExpose) throws PublicationException
+    public void publish(Object implementation, String asName, Class interfaceToExpose)
+            throws PublicationException
     {
-        m_AltrmiServer.publish(implementation, asName, interfaceToExpose);
+        m_AbstractServer.publish(implementation, asName, interfaceToExpose);
     }
 
     /**
@@ -171,15 +187,16 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      * @param implementation
      * @param asName
      * @param publicationDescription
-     * @param aClass1
      *
-     * @throws AltrmiPublicationException
+     *
+     * @throws PublicationException
      *
      */
-    public void publish(Object implementation, String asName, PublicationDescription publicationDescription)
-            throws PublicationException
+    public void publish(
+            Object implementation, String asName, PublicationDescription publicationDescription)
+                throws PublicationException
     {
-        m_AltrmiServer.publish(implementation, asName, publicationDescription);
+        m_AbstractServer.publish(implementation, asName, publicationDescription);
     }
 
     /**
@@ -189,12 +206,13 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      * @param o
      * @param s
      *
-     * @throws AltrmiPublicationException
+     *
+     * @throws PublicationException
      *
      */
     public void unPublish(Object o, String s) throws PublicationException
     {
-        m_AltrmiServer.unPublish(o, s);
+        m_AbstractServer.unPublish(o, s);
     }
 
     /**
@@ -205,12 +223,13 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      * @param s
      * @param o1
      *
-     * @throws AltrmiPublicationException
+     *
+     * @throws PublicationException
      *
      */
     public void replacePublished(Object o, String s, Object o1) throws PublicationException
     {
-        m_AltrmiServer.replacePublished(o, s, o1);
+        m_AbstractServer.replacePublished(o, s, o1);
     }
 
     /**
@@ -220,7 +239,7 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      */
     public void start() throws Exception
     {
-        m_AltrmiServer.start();
+        m_AbstractServer.start();
     }
 
     /**
@@ -230,7 +249,7 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      */
     public void stop() throws Exception
     {
-        m_AltrmiServer.stop();
+        m_AbstractServer.stop();
     }
 
     /**
@@ -245,7 +264,6 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      */
     public MethodInvocationHandler getMethodInvocationHandler(MethodRequest request, String s)
     {
-        return m_AltrmiServer.getMethodInvocationHandler(request, s);
+        return m_AbstractServer.getMethodInvocationHandler(request, s);
     }
-
 }
