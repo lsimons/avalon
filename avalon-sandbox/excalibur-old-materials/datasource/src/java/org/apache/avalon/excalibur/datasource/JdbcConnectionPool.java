@@ -21,7 +21,7 @@ import org.apache.avalon.framework.activity.Initializable;
  * thread to manage the number of SQL Connections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.13 $ $Date: 2001/12/11 09:53:28 $
+ * @version CVS $Revision: 1.14 $ $Date: 2001/12/21 16:58:06 $
  * @since 4.0
  */
 public class JdbcConnectionPool
@@ -85,13 +85,13 @@ public class JdbcConnectionPool
                 try
                 {
                     curMillis = System.currentTimeMillis();
-                    m_mutex.unlock();
+                    m_mutex.release();
 
                     thread.wait( endTime - curMillis );
                 }
                 finally
                 {
-                    m_mutex.lock();
+                    m_mutex.acquire();
                 }
 
                 try
@@ -143,15 +143,10 @@ public class JdbcConnectionPool
             }
 
             try {
-                m_mutex.lock();
+                m_mutex.acquire();
                 if (m_active.contains(obj))
                 {
                     m_active.remove(obj);
-                }
-
-                if (m_ready.contains(obj))
-                {
-                    m_ready.remove(obj);
                 }
 
                 this.removePoolable(obj);
@@ -170,7 +165,7 @@ public class JdbcConnectionPool
             }
             finally
             {
-                m_mutex.unlock();
+                m_mutex.release();
             }
         }
 
