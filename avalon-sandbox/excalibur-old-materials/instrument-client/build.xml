@@ -39,8 +39,11 @@
     <property name="dist.dir" value="${basedir}/dist"/>
     <property name="dist.javadocs" value="${dist.dir}/docs/api"/>
 
-    <!-- property to specify name of zip/jar files -->
+    <!-- name of .zip/.tar.gz/.bz2 files and their top-level directory -->
     <property name="dist.name" value="${name}-${version}"/>
+
+    <!-- name of jar file -->
+    <property name="jar.name" value="${name}-${version}.jar"/>
 
     <!-- property indicating directory where all distribution archives are placed -->
     <property name="dist.base" value="distributions"/>
@@ -138,7 +141,7 @@
 
         <mkdir dir="${build.lib}"/>
 
-        <jar jarfile="${build.lib}/${dist.name}.jar"
+        <jar jarfile="${build.lib}/${jar.name}"
             basedir="${build.classes}"
             compress="${build.compress}"
             manifest="${build.conf}/MANIFEST.MF">
@@ -269,10 +272,10 @@
     <!-- Creates the distribution -->
     <target name="dist"
         depends="prepare-conf, jar, test-reports, checkstyle-report, javadocs"
-        description="Generates the jar files">
+        description="Generates a distribution (jar + javadocs + unit tests + checkstyle reports)">
 
         <mkdir dir="${dist.dir}"/>
-        <copy file="${build.lib}/${dist.name}.jar" todir="${dist.dir}"/>
+        <copy file="${build.lib}/${jar.name}" todir="${dist.dir}"/>
         <copy file="${build.conf}/LICENSE.txt" todir="${dist.dir}"/>
         <copy file="../KEYS" todir="${dist.dir}"/>
         <copy file="README.txt" todir="${dist.dir}"/>
@@ -305,6 +308,19 @@
         </checksum>
         -->
         <delete dir="${dist.dir}" />
+
+    </target>
+
+    <!-- Creates a minimal distribution -->
+    <target name="dist.lite"
+        depends="jar, test, javadocs"
+        description="Generates a minimal distribution (jar + javadocs)">
+
+        <mkdir dir="${dist.dir}"/>
+        <copy file="${build.lib}/${jar.name}" todir="${dist.dir}"/>
+        <copy file="../LICENSE.txt" todir="${dist.dir}"/>
+        <copy file="../KEYS" todir="${dist.dir}"/>
+        <copy file="README.txt" todir="${dist.dir}"/>
 
     </target>
 
