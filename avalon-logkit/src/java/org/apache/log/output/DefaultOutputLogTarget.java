@@ -13,28 +13,35 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import org.apache.log.format.PatternFormatter;
 import org.apache.log.Hierarchy;
+import org.apache.log.Formatter;
 
 /**
  * This is a basic Output log target that writes to a stream.
  * The format is specified via a string.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @deprecated Use WriterTarget or StreamTarget as appropriate as this class 
+ *             encourages unsafe behaviour
  */
 public class DefaultOutputLogTarget
-    extends AbstractOutputTarget
+    extends WriterTarget
 {
-    protected Writer             m_output;
+    private static final String  FORMAT = 
+        "%7.7{priority} %5.5{time}   [%8.8{category}] (%{context}): %{message}\\n%{throwable}";
 
     /**
      * Initialize the default pattern.
      *
+     * @deprecated This is no longer the recomended way to set formatter. It is recomended
+     *             that it be passed into constructor.
      */
     protected void initPattern()
     {
-        final PatternFormatter formatter = new PatternFormatter();
-        formatter.setFormat( "%7.7{priority} %5.5{time}   [%8.8{category}] " +
-                             "(%{context}): %{message}\\n%{throwable}" );
-        m_formatter = formatter;
+    }
+
+    public DefaultOutputLogTarget( final Formatter formatter )
+    {
+        this( new OutputStreamWriter( System.out ), formatter );
     }
 
     /**
@@ -53,7 +60,7 @@ public class DefaultOutputLogTarget
      */
     public DefaultOutputLogTarget( final OutputStream output )
     {
-        this( new OutputStreamWriter( output) );
+        this( new OutputStreamWriter( output ) );
     }
 
     /**
@@ -63,33 +70,23 @@ public class DefaultOutputLogTarget
      */
     public DefaultOutputLogTarget( final Writer writer )
     {
-        m_output = writer;
-
-        initPattern();
+        this( writer, new PatternFormatter( FORMAT ) );
     }
 
-    /**
-     * Concrete implementation of output that writes out to underlying writer.
-     *
-     * @param data the data to output
-     */
-    protected void output( final String data )
+    public DefaultOutputLogTarget( final Writer writer, final Formatter formatter )
     {
-        try
-        {
-            m_output.write( data );
-            m_output.flush();
-        }
-        catch (IOException ioe)
-        {
-            Hierarchy.getDefaultHierarchy().log("Caught an IOException", ioe);
-        }
+        super( writer, formatter );
+        initPattern();
     }
 
     /**
      * Set the format string for this target.
      *
      * @param format the format string
+     * @deprecated This method is unsafe as it assumes formatter is PatternFormatter 
+     *             and accesses a protected attribute. Instead of calling this method
+     *             It is recomended that a fully configured formatter is passed into 
+     *             constructor.
      */
     public void setFormat( final String format )
     {

@@ -20,7 +20,7 @@ public class NullOutputLogTarget
      *
      * @param data the data to be output
      */
-    protected void output( final String data )
+    protected void write( final String data )
     {
     }
 }
