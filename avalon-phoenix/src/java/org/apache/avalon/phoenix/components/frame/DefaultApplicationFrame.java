@@ -243,6 +243,7 @@ public class DefaultApplicationFrame
         if( groups.length > 0 )
         {
             final String message = REZ.getString( "frame.warn.thread-pools" );
+            getLogger().warn( message );
             System.err.println( message );
         }
 
