@@ -6,7 +6,7 @@
 # modules that Phoenix depends on.  Copy this file to ".ant.properties"
 # in the top-level source directory, and customize it as needed.
 #
-# $Id: ant.properties.sample,v 1.14.2.1 2002/10/15 22:33:11 hammant Exp $
+# $Id: ant.properties.sample,v 1.14.2.2 2003/02/08 15:36:22 hammant Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Environment Flags -----
@@ -50,11 +50,11 @@ tools.jar=${java.home}/../j2sdk1.3/lib/tools.jar
 # To link to local documentation, run the "dist" target for each project and
 # uncomment and customize the following variables.
 #avalon.base=${basedir}/dist/docs
-#excalibur.base=${basedir}/../jakarta-avalon-excalibur/dist/docs
-#phoenix.base=${basedir}/../jakarta-avalon-phoenix/dist/docs
-#logkit.base=${basedir}/../jakarta-avalon-logkit/dist/docs
-#cornerstone.base=${basedir}/../jakarta-avalon-cornerstone/dist/docs
-#testlet.base=${basedir}/../jakarta-avalon-testlet/dist/docs
+#excalibur.base=${basedir}/../avalon-excalibur/dist/docs
+#phoenix.base=${basedir}/../avalon-phoenix/dist/docs
+#logkit.base=${basedir}/../avalon-logkit/dist/docs
+#cornerstone.base=${basedir}/../avalon-cornerstone/dist/docs
+#testlet.base=${basedir}/../avalon-testlet/dist/docs
 
 # ----- Phoenix home (for installs) -----
 phoenix.home=phoenix-home
