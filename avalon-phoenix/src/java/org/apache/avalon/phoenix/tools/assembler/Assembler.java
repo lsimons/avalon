@@ -14,7 +14,6 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
@@ -23,6 +22,7 @@ import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.tools.infobuilder.BlockInfoBuilder;
+import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 
 /**
  * Assemble a <code>SarMetaData</code> object from a Configuration
@@ -159,10 +159,10 @@ public class Assembler
             throw new AssemblyException( message );
         }
 
-        final DefaultConfigurationBuilder configBuilder = new DefaultConfigurationBuilder();
         try
         {
-            final Configuration info = configBuilder.build( resource.toString() );
+            final Configuration info = ConfigurationBuilder.build( resource.toString() );
+
             return m_builder.build( classname, info );
         }
         catch( final Exception e )
