@@ -22,7 +22,7 @@ import org.xml.sax.helpers.AttributesImpl;
  * A SAXConfigurationHandler helps build Configurations out of sax events.
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class SAXConfigurationHandler
     extends DefaultHandler

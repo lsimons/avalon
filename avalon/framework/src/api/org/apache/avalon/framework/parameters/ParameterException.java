@@ -13,7 +13,7 @@ import org.apache.avalon.framework.CascadingException;
  * Thrown when a <code>Parameterizable</code> component cannot be parameterized
  * properly, or if a value cannot be retrieved properly.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public final class ParameterException
     extends CascadingException

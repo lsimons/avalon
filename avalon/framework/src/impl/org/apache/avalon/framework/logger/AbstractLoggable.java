@@ -10,7 +10,7 @@ package org.apache.avalon.framework.logger;
 /**
  * Utility class to allow construction of easy components that will perform logging.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public abstract class AbstractLoggable
     implements Loggable

@@ -11,7 +11,7 @@ package org.apache.avalon.framework;
  * Interface which all cascadign throwables should implement.
  * Allows recording of nested exceptions.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface CascadingThrowable
 {

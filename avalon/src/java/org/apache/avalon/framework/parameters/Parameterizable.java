@@ -14,7 +14,7 @@ package org.apache.avalon.framework.parameters;
  * Initializable.initialize(). It is incompatible with the 
  * Configurable interface.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface Parameterizable
 {

@@ -23,7 +23,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * to access property values by type.
  *
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class Parameters
     implements Serializable

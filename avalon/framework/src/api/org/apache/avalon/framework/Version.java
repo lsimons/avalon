@@ -40,7 +40,7 @@ package org.apache.avalon.framework;
  * @author <a href="mailto:pier@apache.org">Pierpaolo Fumagalli</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:rlogiacco@mail.com">Roberto Lo Giacco</a>
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public final class Version
 {

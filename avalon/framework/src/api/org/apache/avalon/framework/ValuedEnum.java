@@ -38,7 +38,8 @@ import java.util.Map;
  * import org.apache.avalon.framework.context.Contextualizable;
  * import org.apache.avalon.framework.context.ContextException;
  * 
- * public class MyComponent implements Contextualizable {
+ * public class MyComponent implements Contextualizable 
+ * {
  *   JavaVersion requiredVer = JavaVersion.JAVA1_2;
  * 
  *   public void contextualize(Context context)
@@ -63,7 +64,7 @@ import java.util.Map;
  * should be defined in the Enum class, as shown above.
  * </p>
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
  */
 public abstract class ValuedEnum
