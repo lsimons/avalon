@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+
+<document>
+
+    <properties>
+        <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+        <title>Excalibur - Please volunteer to write documentation</title>
+    </properties>
+
+    <body>
+
+        <section name="The document you're looking for is no longer available">
+            <p>
+                Excalibur contains a lot of components that have no significant
+                amount of documentation besides their javadocs. In order to
+                reduce maintainance overhead and be able to focus on the things
+                we deem most important, we have decided to stop actively
+                maintaining those documentation sets.
+            </p>
+
+            <p>
+                You have reached this page because you have tried to acces such
+                a set of obsolete documentation. The javadocs for all excalibur
+                packages can be found at
+
+                <a href="http://avalon.apache.org/excalibur/api/">http://avalon.apache.org/excalibur/api/</a>.
+            </p>
+        </section>
+
+        <section name="Volunteers wanted!">
+            <p>
+                I think everyone agrees that the absence of documentation for
+                the component you're interested in is a bit of a shame. We are
+                looking for volunteers to write this documentation. If you're
+                interested in helping out, please drop by on the Avalon
+                Development mailing list
+
+                (<a href="http://avalon.apache.org/mailing-lists.html">Subscription information</a>)
+
+                for more information on how to do just that.
+            </p>
+        </section>
+    </body>
+
+</document>
