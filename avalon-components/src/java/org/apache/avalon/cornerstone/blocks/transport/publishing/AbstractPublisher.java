@@ -15,8 +15,10 @@ import org.apache.commons.altrmi.server.PublicationException;
 import org.apache.commons.altrmi.server.AltrmiServer;
 import org.apache.commons.altrmi.server.ClassRetriever;
 import org.apache.commons.altrmi.server.AltrmiAuthenticator;
+import org.apache.commons.altrmi.server.MethodInvocationHandler;
 import org.apache.commons.altrmi.server.impl.classretrievers.JarFileClassRetriever;
 import org.apache.commons.altrmi.server.impl.classretrievers.NoClassRetriever;
+import org.apache.commons.altrmi.common.MethodRequest;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.activity.Initializable;
@@ -45,7 +47,7 @@ import java.net.URL;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public abstract class AbstractPublisher extends AbstractLogEnabled
         implements AltrmiPublisher, Startable, Composable, Contextualizable,
@@ -281,4 +283,20 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
     {
         m_AltrmiServer.stop();
     }
+
+    /**
+     * Method getMethodInvocationHandler
+     *
+     *
+     * @param request
+     * @param s
+     *
+     * @return
+     *
+     */
+    public MethodInvocationHandler getMethodInvocationHandler(MethodRequest request, String s)
+    {
+        return m_AltrmiServer.getMethodInvocationHandler(request, s);
+    }
+
 }

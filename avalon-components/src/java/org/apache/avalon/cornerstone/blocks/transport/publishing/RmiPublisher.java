@@ -13,6 +13,8 @@ package org.apache.avalon.cornerstone.blocks.transport.publishing;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.commons.altrmi.server.impl.rmi.RmiServer;
+import org.apache.commons.altrmi.server.MethodInvocationHandler;
+import org.apache.commons.altrmi.common.MethodRequest;
 
 
 /**
@@ -20,45 +22,44 @@ import org.apache.commons.altrmi.server.impl.rmi.RmiServer;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
-
-public class RmiPublisher
-   extends AbstractPublisher
+public class RmiPublisher extends AbstractPublisher
 {
-   private String mHost;
-   private int    mPort;
 
-   /**
-    * Pass the <code>Configuration</code> to the <code>Configurable</code>
-    * class. This method must always be called after the constructor
-    * and before any other method.
-    *
-    * @param configuration the class configurations.
-    */
+    private String mHost;
+    private int mPort;
 
-   public void configure (Configuration configuration)
-      throws ConfigurationException
-   {
-      super.configure(configuration);
+    /**
+     * Pass the <code>Configuration</code> to the <code>Configurable</code>
+     * class. This method must always be called after the constructor
+     * and before any other method.
+     *
+     * @param configuration the class configurations.
+     */
+    public void configure(Configuration configuration) throws ConfigurationException
+    {
 
-      mPort = configuration.getChild("port").getValueAsInteger();
-      mHost = configuration.getChild("host").getValue();
-   }
+        super.configure(configuration);
 
-   /**
-    * Initialialize the component. Initialization includes
-    * allocating any resources required throughout the
-    * components lifecycle.
-    *
-    * @exception Exception if an error occurs
-    */
+        mPort = configuration.getChild("port").getValueAsInteger();
+        mHost = configuration.getChild("host").getValue();
+    }
 
-   public void initialize ()
-      throws Exception
-   {
-      m_AltrmiServer = new RmiServer(mHost, mPort);
+    /**
+     * Initialialize the component. Initialization includes
+     * allocating any resources required throughout the
+     * components lifecycle.
+     *
+     * @exception Exception if an error occurs
+     */
+    public void initialize() throws Exception
+    {
 
-      super.initialize();
-   }
+        m_AltrmiServer = new RmiServer(mHost, mPort);
+
+        super.initialize();
+    }
+
+
 }

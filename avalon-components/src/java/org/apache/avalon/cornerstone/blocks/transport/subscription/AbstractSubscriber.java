@@ -30,7 +30,7 @@ import org.apache.commons.altrmi.common.AltrmiAuthentication;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public abstract class AbstractSubscriber extends AbstractLogEnabled
         implements AltrmiInterfaceLookup, Configurable, Initializable, Block {
@@ -119,5 +119,9 @@ public abstract class AbstractSubscriber extends AbstractLogEnabled
      */
     public void close() {
         mAltrmiFactory.close();
+    }
+
+    public String[] list() {
+        return mAltrmiFactory.list();
     }
 }
