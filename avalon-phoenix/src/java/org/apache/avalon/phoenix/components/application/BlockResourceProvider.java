@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Collections;
 import java.lang.reflect.Array;
 
 /**
@@ -39,7 +40,7 @@ import java.lang.reflect.Array;
  * Block or Listener.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2002/10/01 07:29:27 $
+ * @version $Revision: 1.9 $ $Date: 2002/10/01 07:50:56 $
  */
 class BlockResourceProvider
     extends AbstractLogEnabled
@@ -257,7 +258,9 @@ class BlockResourceProvider
             }
             else
             {
-                map.put( key, value );
+                final Map smap =
+                    Collections.unmodifiableMap( (Map)value);
+                map.put( key, smap );
             }
         }
 

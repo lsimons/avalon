@@ -17,7 +17,7 @@ import java.util.Map;
  * A test component.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/10/01 07:30:25 $
+ * @version $Revision: 1.2 $ $Date: 2002/10/01 07:50:56 $
  */
 public class Component4
     implements Serviceable
@@ -41,9 +41,29 @@ public class Component4
         checkService( "c2a", services );
         checkService( "c2b", services );
         checkService( "fred", services );
+
+        checkReadOnly( services );
     }
 
-    private void checkService( final String name, final Map services ) throws ServiceException
+    private void checkReadOnly( final Map services )
+        throws ServiceException
+    {
+        try
+        {
+            services.put( "s", services.get( "fred" ) );
+        }
+        catch( Exception e )
+        {
+            return;
+        }
+
+        throw new ServiceException( "Was able to modify map " +
+                                    "retrieved from ServiceManager" );
+    }
+
+    private void checkService( final String name,
+                               final Map services )
+        throws ServiceException
     {
         final Object service1 = services.get( name );
         if( null == service1 )
