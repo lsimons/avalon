@@ -67,7 +67,7 @@ import org.xml.sax.InputSource;
  * objects from a configuration object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.3 $ $Date: 2003/11/03 18:54:18 $
  */
 public final class TargetsBuilder implements TargetsCreator
 {
@@ -83,7 +83,7 @@ public final class TargetsBuilder implements TargetsCreator
 
 
     /**
-     * Create a {@link TargetDirective} from a stream.
+     * Create a {@link Targets} instance from a stream.
      *
      * @param inputStream the stream that the resource is loaded from
      * @return the target directive

@@ -93,7 +93,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/11/03 06:14:08 $
+ * @version $Revision: 1.2 $ $Date: 2003/11/03 18:54:18 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
   implements Block, Composite
@@ -104,7 +104,7 @@ public abstract class AbstractBlock extends AbstractAppliance
 
     /**
      * Create a root containment block.
-     * @param context the service context
+     * @param services the service context
      * @param model the root containment model
      * @return the appliance
      */
