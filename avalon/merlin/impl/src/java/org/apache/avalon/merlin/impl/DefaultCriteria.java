@@ -85,7 +85,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -524,8 +524,10 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
     private File resolveWorkingFile( File file )
     {
         if( null == file ) return getWorkingDirectory();
-        if( file.isAbsolute() ) return file;
-        return new File( getWorkingDirectory(), file.toString() );
+        if( file.isAbsolute() ) return getCanonicalForm( file );
+        
+        File relative = new File( getWorkingDirectory(), file.toString() );
+        return getCanonicalForm( relative );
     }
 
     private void printProperties( Properties properties, String label )
@@ -667,8 +669,24 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
         String base = System.getProperty( "basedir" );
         if( null != base )
         {
-            return new File( base );
+            return getCanonicalForm( new File( base ) );
         }
-        return new File( System.getProperty( "user.dir" ) );
+        return getCanonicalForm( 
+          new File( System.getProperty( "user.dir" ) ) );
+    }
+
+    private static File getCanonicalForm( File file )
+    {
+        try
+        {
+            return file.getCanonicalFile();
+        }
+        catch( Throwable e )
+        {
+            final String error =
+              "Unable to resolve cononical representation of: "
+              + file; 
+            throw new KernelRuntimeException( error, e );
+        }
     }
 }
