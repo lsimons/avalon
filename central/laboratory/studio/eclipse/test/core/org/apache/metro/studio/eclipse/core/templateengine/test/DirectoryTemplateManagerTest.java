@@ -19,9 +19,6 @@ limitations under the License.
 package org.apache.metro.studio.eclipse.core.templateengine.test;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
 import java.util.Vector;
 
 import junit.framework.TestCase;
@@ -37,8 +34,6 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-
-import com.thoughtworks.xstream.XStream;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Metro Development Team</a>
@@ -62,22 +57,13 @@ public class DirectoryTemplateManagerTest extends TestCase
      */
     public final void testCreateLoadConfigFile()
     {
-        XStream xstream = new XStream();
-        DirectoryTemplateManager.initXStream(xstream);
+        DirectoryTemplateManager.initXStream();
         DirectoryTemplateManager m = new DirectoryTemplateManager();
         
         m.addDirectoryTemplate(createStandardBlock());        
         m.addDirectoryTemplate(createImplApiBlock()); 
         
-        try
-        {
-            Writer out = new FileWriter(configFileLocation);
-            xstream.toXML(m, out);
-        } catch (IOException e)
-        {
-            fail("unable to write config file");
-        }
-        
+        m.store(configFileLocation);
         m = DirectoryTemplateManager.load(configFileLocation);
         
         assertNotNull("Could not reload xml file", m);
