@@ -10,7 +10,7 @@
 # It is overridden by ../ant.properties and ~/build.properties
 # It overrides all default.properties files and ~/.ant.properties
 #
-# $Id: ant.properties.sample,v 1.5 2002/04/08 10:32:10 jefft Exp $
+# $Id: ant.properties.sample,v 1.6 2002/04/25 02:29:40 jefft Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Control Flags -----
@@ -27,9 +27,9 @@ base.path=${basedir}/../..
 # --------------------------------------------------
 
 # ----- Logkit -----
-avalon-logkit.home=${basedir}/../../jakarta-avalon-logkit
-avalon-logkit.lib=${avalon-logkit.home}/build/lib
-avalon-logkit.jar=${avalon-logkit.lib}/logkit.jar
+logkit.home=${basedir}/../../jakarta-avalon-logkit
+logkit.lib=${logkit.home}/build/lib
+logkit.jar=${logkit.lib}/logkit.jar
 
 # ----- Avalon Framework -----
 avalon-framework.home=${basedir}/../../jakarta-avalon

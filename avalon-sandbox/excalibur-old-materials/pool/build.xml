@@ -13,7 +13,8 @@
     <path id="project.class.path">
         <pathelement path="${java.class.path}"/>
         <pathelement location="${build.classes}"/>
-        <pathelement location="${avalon-logkit.jar}"/>
+        <pathelement location="${avalon-logkit.jar}"/> <!-- deprecated -->
+        <pathelement location="${logkit.jar}"/>
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${excalibur-collections.jar}"/>
         <pathelement location="${excalibur-instrument.jar}"/>
