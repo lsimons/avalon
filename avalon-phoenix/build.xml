@@ -58,7 +58,8 @@ Legal:
     <property name="script.dir" value="${src.dir}/script"/>
     <property name="lib.dir" value="lib"/>
     <property name="tools.dir" value="../jakarta-avalon/tools"/>
-
+    <property name="phoenix.tools.dir" value="tools"/>
+    
     <property name="dist.name" value="${name}-${version}"/>
     <property name="dist.base" value="distributions"/>
     <property name="bin.dist.dir" value="dist"/>
@@ -73,11 +74,12 @@ Legal:
     <property name="logkit.jar" value="${lib.dir}/logkit-1.1.1.jar"/>
     <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
     
-    <property name="announce2txt" value="${tools.dir}/announcement2txt.xsl"/>
-    <property name="announce2header" value="${tools.dir}/announcement2header.xsl"/>    
-    <property name="announce2readme" value="${tools.dir}/announcement2readme.xsl"/>    
-    <property name="announce2site" value="${tools.dir}/announcement2site.xsl"/>    
-
+    <property name="announce2txt" value="${phoenix.tools.dir}/announcement2txt.xsl"/>
+    <property name="announce2header" value="${phoenix.tools.dir}/announcement2header.xsl"/>    
+    <property name="announce2readme" value="${phoenix.tools.dir}/announcement2readme.xsl"/>    
+    <property name="announce2site" value="${phoenix.tools.dir}/announcement2site.xsl"/>    
+    <property name="status2changes" value="${phoenix.tools.dir}/status2changes.xsl"/>  
+    
     <!-- Invoke 'ant get-mx4j' to get these -->
     <property name="mx4j.jar" value="mx4j/mx4j-1.1.1/lib/mx4j-jmx.jar"/>
     <property name="mx4j-tools.jar" value="mx4j/mx4j-1.1.1/lib/mx4j-tools.jar"/>
@@ -840,11 +842,13 @@ phoenix-punit.jar needs to be used with excalibur-containerkit-1.0.jar
         <copy todir="${build.dir}" filtering="on">
           <mapper type="flatten"/>
           <fileset dir=".">
-            <include name="tools/announcement.xml"/>
+            <include name="${phoenix.tools.dir}/announcement.xml"/>
             <include name="status.xml"/>
           </fileset>
         </copy>
 
+        <style style="${status2changes}"  in="${build.dir}/status.xml" 
+                                          out="${build.dir}/changes.xml"/>
         <style style="${announce2txt}"    in="${build.dir}/announcement.xml" 
                                           out="Announcement.txt"/>
         <style style="${announce2header}" in="${build.dir}/announcement.xml"          
