@@ -163,6 +163,8 @@ Note you need maven rc2 or later, and you need to make sure xalan-2.5.1.jar is i
         value="&avalon-logging-logkit-artifact;"/>
     <ant:filter token="STANDARD_RUNTIME" 
         value="&avalon-activation-artifact;"/>
+    <ant:filter token="FRAMEWORK_IMPL_VERSION" 
+        value="&avalon-framework-impl-version;"/>
   </preGoal>
 
   <postGoal name="java:compile">
