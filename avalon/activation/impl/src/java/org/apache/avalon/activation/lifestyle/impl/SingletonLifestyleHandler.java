@@ -51,8 +51,6 @@
 package org.apache.avalon.activation.lifestyle.impl;
 
 import java.lang.ref.Reference;
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
 
 import org.apache.avalon.activation.lifecycle.Factory;
 import org.apache.avalon.framework.activity.Disposable;
@@ -60,7 +58,7 @@ import org.apache.avalon.framework.logger.Logger;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/10/17 06:44:49 $
+ * @version $Revision: 1.4 $ $Date: 2003/10/18 00:34:19 $
  */
 public class SingletonLifestyleHandler extends AbstractLifestyleHandler
   implements Disposable

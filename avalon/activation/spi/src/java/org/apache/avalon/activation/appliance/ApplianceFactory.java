@@ -51,7 +51,6 @@
 package org.apache.avalon.activation.appliance;
 
 import org.apache.avalon.composition.model.Model;
-import org.apache.avalon.framework.logger.Logger;
 
 /**
  * An appliance factory is a service that provides support for the creation
@@ -61,7 +60,7 @@ import org.apache.avalon.framework.logger.Logger;
  * type is based on.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:30:57 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/18 00:34:20 $
  */
 
 public interface ApplianceFactory

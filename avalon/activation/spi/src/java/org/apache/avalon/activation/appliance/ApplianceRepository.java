@@ -50,9 +50,6 @@
 
 package org.apache.avalon.activation.appliance;
 
-import java.net.URL;
-import java.util.Map;
-
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 
@@ -62,7 +59,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * a stage or service dependency.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:30:57 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/18 00:34:20 $
  */
 public interface ApplianceRepository
 {

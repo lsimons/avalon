@@ -58,8 +58,6 @@ import java.util.Map;
 import java.util.Hashtable;
 
 import org.apache.avalon.activation.appliance.Appliance;
-import org.apache.avalon.activation.appliance.ApplianceException;
-import org.apache.avalon.activation.appliance.ApplianceRuntimeException;
 import org.apache.avalon.activation.appliance.Home;
 import org.apache.avalon.composition.util.ExceptionHelper;
 import org.apache.avalon.framework.logger.Logger;

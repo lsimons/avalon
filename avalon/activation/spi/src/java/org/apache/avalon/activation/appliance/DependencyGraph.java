@@ -57,11 +57,6 @@ package org.apache.avalon.activation.appliance;
 
 import java.util.ArrayList;
 
-import org.apache.avalon.composition.model.Model;
-import org.apache.avalon.composition.model.DeploymentModel;
-import org.apache.avalon.meta.info.DependencyDescriptor;
-import org.apache.avalon.meta.info.StageDescriptor;
-
 /**
  * <p>Utility class to help aquire a ordered graph of
  * consumers and providers for specific components.</p>
@@ -70,7 +65,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:30:59 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/18 00:34:20 $
  */
 public class DependencyGraph
 {

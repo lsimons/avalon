@@ -2,31 +2,9 @@
 
 package org.apache.avalon.activation.appliance;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-
-import org.apache.avalon.activation.appliance.*;
-import org.apache.avalon.activation.appliance.impl.*;
-import org.apache.avalon.composition.logging.LoggingManager;
-import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.SystemContext;
-import org.apache.avalon.composition.model.impl.DefaultModelFactory;
-import org.apache.avalon.composition.model.impl.DefaultSystemContext;
-import org.apache.avalon.composition.data.ServiceDirective;
-import org.apache.avalon.composition.data.ContainmentProfile;
-import org.apache.avalon.composition.data.ClassLoaderDirective;
+import org.apache.avalon.activation.appliance.impl.DefaultBlock;
 import org.apache.avalon.composition.util.ExceptionHelper;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.meta.info.DependencyDescriptor;
-import org.apache.avalon.meta.info.ServiceDescriptor;
-import org.apache.excalibur.mpool.PoolManager;
-
-import junit.framework.TestCase;
 
 public class RuntimeTestCase extends AbstractTestCase
 {

@@ -56,7 +56,6 @@
 package org.apache.avalon.playground.basic;
 
 import java.io.File;
-import java.util.Map;
 
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.DefaultContext;
