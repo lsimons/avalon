@@ -434,6 +434,15 @@ public class DefaultTimeScheduler
             public void run()
             {
                 doRunEntry( entry );
+                // Stefan Scheifert:
+                // rescheduleEntry( entry, false );
+                //
+                // and then don't reschedule in the main run()
+                // this will ensure long-running events are
+                // queued
+                //
+                // LSD:
+                // that might break other apps. No-can-do.
             }
         };
 
