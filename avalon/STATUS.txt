@@ -1,5 +1,5 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2003/01/20 17:29:21 $]
+Last modified at [$Date: 2003/01/21 16:11:01 $]
 
 Background:
 
@@ -71,10 +71,10 @@ Pending issues:
       The information about the authors will still be present in commit 
       messages and in the site credits.
       [20020119]
-      +1: nicolaken, leosimons, mcconnell, leosutic
-      +0:
-      -0: bloritsch
-      -1: hammant, proyal, jefft, leif, lmccay 
+      +1: mcconnell, leosutic
+      +0: nicolaken
+      -0: 
+      -1: hammant, proyal, jefft, leif, lmccay, leosimons, bloritsch
       
     o The STATUS file is a great mean of synching the community agenda. 
       To be effective, it must be uptodate, and I can't do it all myself. 
