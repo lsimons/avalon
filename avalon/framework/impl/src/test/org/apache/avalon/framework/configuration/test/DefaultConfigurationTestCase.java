@@ -21,6 +21,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.ConfigurationUtil;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
+import org.apache.avalon.framework.configuration.MutableConfiguration;
 
 /**
  * Test the basic public methods of DefaultConfiguration.
@@ -187,5 +188,54 @@ public final class DefaultConfigurationTestCase extends TestCase
             // OK, this is what we expect - the attribute wasn't found.
         }
     }
+    
+    public void testMutable() throws Exception   
+    {   
+        MutableConfiguration root = new DefaultConfiguration( "root", "-" );   
+        root.setAttribute( "root1", "root1" );   
+        root.setAttribute( "root2", "root2" );   
+        root.getMutableChild( "child1" ).setAttribute( "child1-attr1", "child1-attr1" );   
+        root.getMutableChild( "child1" ).setAttribute( "child1-attr2", "child1-attr2" );   
+        root.getMutableChild( "child2" ).setAttribute( "child2-attr1", "child2-attr1" );   
+        root.getMutableChild( "child2" ).setAttribute( "child2-attr2", "child2-attr2" );   
+        
+        assertEquals( "root1", root.getAttribute( "root1" ) );   
+        assertEquals( "root2", root.getAttribute( "root2" ) );   
+        assertEquals( "child1-attr1", root.getChild( "child1" ).getAttribute( "child1-attr1" ) );   
+        assertEquals( "child1-attr2", root.getChild( "child1" ).getAttribute( "child1-attr2" ) );   
+        assertEquals( "child2-attr1", root.getChild( "child2" ).getAttribute( "child2-attr1" ) );   
+        assertEquals( "child2-attr2", root.getChild( "child2" ).getAttribute( "child2-attr2" ) );   
+        
+        assertEquals( null, root.getMutableChild( "child3", false ) );   
+        
+        assertEquals( 2, root.getChildren().length );   
+        
+        assertEquals( 2, root.getMutableChildren().length );   
+        assertEquals( 1, root.getMutableChildren( "child1" ).length );   
+        assertEquals( 1, root.getMutableChildren( "child2" ).length );   
+        assertTrue( root.getMutableChildren( "child1" )[0] == root.getChild( "child1" ) );   
+        
+        // Add an immutable child.   
+        DefaultConfiguration immutableChild = new DefaultConfiguration( "immutable-child", "-" );   
+        immutableChild.makeReadOnly();   
+        
+        try   
+        {   
+            immutableChild.setAttribute( "attr", "attr" );   
+            fail( "Read-only DefaultConfiguration wasn't read-only!" );   
+        }   
+        catch (IllegalStateException ise)   
+        {   
+            // expected   
+        }   
+        
+        root.addChild( immutableChild );   
+        
+        // OK, ask to have it back.   
+        root.getMutableChild( "immutable-child" ).setAttribute( "attr", "attr" );   
+        
+        assertEquals( 1, root.getChildren( "immutable-child" ).length );   
+        assertEquals( "attr", root.getChild( "immutable-child" ).getAttribute( "attr" ) );   
+    }     
 }
 
