@@ -100,6 +100,9 @@ using System.Runtime.CompilerServices;
 //   (*) Delay Signing is an advanced option - see the Microsoft .NET Framework
 //       documentation for more information on this.
 //
+
+#if STRONG
 [assembly: AssemblyDelaySign(false)]
-[assembly: AssemblyKeyFile("")]
+[assembly: AssemblyKeyFile("../../../../ApacheAvalon.snk")]
 [assembly: AssemblyKeyName("")]
+#endif

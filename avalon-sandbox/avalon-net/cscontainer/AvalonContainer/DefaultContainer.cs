@@ -283,7 +283,7 @@ namespace Apache.Avalon.Container
 			InternalComponentHandler handler = 
 				new InternalComponentHandler( logger, extensionsConfiguration, lifecycleManager );
 
-			BlindLookupManager lookUpManager = new BlindLookupManager();
+			BlindLookupManager lookUpManager = new BlindLookupManager(LookupManager);
 			lookUpManager.Add( typeof(IComponentFactoryManager).FullName, m_factoryManager );
 			lookUpManager.Add( typeof(ILoggerManager).FullName, m_loggerManager );
 			lookUpManager.Add( "Container", this );
@@ -296,7 +296,7 @@ namespace Apache.Avalon.Container
 		{
 			foreach(Assembly assembly in assemblies)
 			{
-				 Pair[] pairs = AssemblyUtil.FindTypesUsingAttribute(
+				Pair[] pairs = AssemblyUtil.FindTypesUsingAttribute(
 					assembly, typeof( AvalonServiceAttribute ));
 
 				foreach(Pair pair in pairs)

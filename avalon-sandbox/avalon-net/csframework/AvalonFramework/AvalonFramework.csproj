@@ -28,7 +28,7 @@
                     BaseAddress = "285212672"
                     CheckForOverflowUnderflow = "false"
                     ConfigurationOverrideFile = ""
-                    DefineConstants = "DEBUG;TRACE"
+                    DefineConstants = "DEBUG;TRACE;STRONG"
                     DocumentationFile = ""
                     DebugSymbols = "true"
                     FileAlignment = "4096"
@@ -80,9 +80,9 @@
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.XML.dll"
                 />
                 <Reference
-                    Name = "log4net-net-1.1"
-                    AssemblyName = "log4net-net-1.1"
-                    HintPath = "..\bin\log4net-net-1.1.dll"
+                    Name = "log4net-1-1"
+                    AssemblyName = "log4net-1-1"
+                    HintPath = "..\bin\log4net-1-1.dll"
                 />
             </References>
         </Build>
