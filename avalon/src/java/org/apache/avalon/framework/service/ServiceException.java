@@ -18,6 +18,7 @@ import org.apache.avalon.framework.CascadingException;
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</a>
  */
 public class ServiceException
     extends CascadingException
@@ -75,5 +76,21 @@ public class ServiceException
     public String getRole()
     {
         return m_role;
+    }
+
+    /**
+     * Override super's message to add role if applicable.
+     * @return a message.
+     */
+    public String getMessage()
+    {
+        if (m_role == null)
+        {
+            return super.getMessage();
+        }
+        else
+        {
+            return super.getMessage() + " (Role='" + m_role+ "')";
+        }
     }
 }
