@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.apache.merlin.magic.AbstractPlugin;
 import org.apache.merlin.magic.Plugin;
 import org.apache.merlin.magic.PluginContext;
 
@@ -18,56 +19,30 @@ import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Javac;
 
-public class JavacPlugin extends AbstractLogEnabled
+public class JavacPlugin extends AbstractPlugin
     implements Plugin, Contextualizable
 {
-    private PluginContext m_PluginContext;
-    
     private Project m_Project;
-    
-    private ArrayList m_CompileListeners;
     
     private boolean m_Compiled = false;
         
-    public void contextualize( Context ctx )
-    {
-        m_PluginContext = (PluginContext) ctx;
-        m_Project = m_PluginContext.getAntProject();
-    }
-    
     public void compile()
     {   
         if( m_Compiled )
             return;
-        notifyPreCompile();
+        notifyPreMethod( "compile" );
         copySources();
-        notifyPrepareCompile();
+        notifyStep( "compile", "sources-copied" );
         executeCompile();    
-        notifyPostCompile();
+        notifyPostMethod( "compile" );
         m_Compiled = true;
-    }
-    
-    public void addCompileListener( CompileListener listener )
-    {
-        if( m_CompileListeners == null )
-        {
-            m_CompileListeners = new ArrayList();
-        }
-        m_CompileListeners.add( listener );
-    }
-    
-    public void removeCompileListener( CompileListener listener )
-    {
-        if( m_CompileListeners == null )
-            return;
-        m_CompileListeners.remove( listener );
     }
     
     private void copySources()
     {
-        String destdirname = m_PluginContext.getProperty( "java.build.src.dir" );
+        String destdirname = m_Context.getProperty( "java.build.src.dir" );
         File toDir = new File( destdirname ); 
-        String srcdirname = m_PluginContext.getProperty( "java.src.dir" );
+        String srcdirname = m_Context.getProperty( "java.src.dir" );
         File fromDir = new File( srcdirname ); 
         
         FileSet from = new FileSet();
@@ -84,14 +59,14 @@ public class JavacPlugin extends AbstractLogEnabled
     
     private void executeCompile()
     {
-        String destdirname = m_PluginContext.getProperty( "java.build.dest.dir" );
+        String destdirname = m_Context.getProperty( "java.build.dest.dir" );
         File toDir = new File( destdirname ); 
         toDir.mkdirs();
                 
-        String srcdirname = m_PluginContext.getProperty( "java.build.src.dir" );
+        String srcdirname = m_Context.getProperty( "java.build.src.dir" );
         File fromDir = new File( srcdirname ); 
         
-        String classpath = m_PluginContext.getProperty( "java.class.path" );
+        String classpath = m_Context.getProperty( "java.class.path" );
         
         Javac javac = (Javac) m_Project.createTask( "javac" );
         /* Set the destination */
@@ -112,50 +87,5 @@ public class JavacPlugin extends AbstractLogEnabled
         
         javac.init();
         javac.execute(); 
-    }
-    
-    private void notifyPreCompile()
-    {
-        if( m_CompileListeners == null )
-            return;
-        Iterator list = m_CompileListeners.iterator();
-        while( list.hasNext() )
-        {
-            CompileListener listener = (CompileListener) list.next();
-            listener.preCompile();
-        }
-    }
-    
-    private void notifyPrepareCompile()
-    {
-        if( m_CompileListeners == null )
-            return;
-        Iterator list = m_CompileListeners.iterator();
-        while( list.hasNext() )
-        {
-            CompileListener listener = (CompileListener) list.next();
-            listener.prepareCompile();
-        }
-    }
-    
-    private void notifyPostCompile()
-    {
-        if( m_CompileListeners == null )
-            return;
-        Iterator list = m_CompileListeners.iterator();
-        while( list.hasNext() )
-        {
-            CompileListener listener = (CompileListener) list.next();
-            listener.postCompile();
-        }
-    }
-    
-    public interface CompileListener
-    {
-        void preCompile();
-        
-        void prepareCompile();
-        
-        void postCompile();
     }
 }   
