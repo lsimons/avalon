@@ -13,19 +13,19 @@ class EmptyCachedRepository implements CachedRepository {
     
     private final static Collection EMPTY_COLLECTION = new ArrayList (0);
     
-    public Collection getAttributes () throws Exception {
+    public Collection getAttributes () {
         return EMPTY_COLLECTION;
     }
     
-    public Collection getAttributes (Field f) throws Exception {
+    public Collection getAttributes (Field f) {
         return EMPTY_COLLECTION;
     }
     
-    public Collection getAttributes (Method m) throws Exception {
+    public Collection getAttributes (Method m) {
         return EMPTY_COLLECTION;
     }
     
-    public Collection getAttributes (Constructor c) throws Exception {
+    public Collection getAttributes (Constructor c) {
         return EMPTY_COLLECTION;
     }
 }

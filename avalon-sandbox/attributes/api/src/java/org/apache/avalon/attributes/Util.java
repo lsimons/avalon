@@ -6,15 +6,15 @@ import java.lang.reflect.Method;
 
 class Util {
     
-    public static String getSignature (Method m) throws Exception {
+    public static String getSignature (Method m) {
         return m.getName () + "(" + getParameterList (m.getParameterTypes ()) + ")";
     }
     
-    public static String getSignature (Constructor c) throws Exception {
+    public static String getSignature (Constructor c) {
         return "(" + getParameterList (c.getParameterTypes ()) + ")";
     }
     
-    public static String decodedClassName (String rawName) throws Exception {
+    public static String decodedClassName (String rawName) throws IllegalArgumentException {
         if (!rawName.startsWith ("[")) {
             return rawName;
         } else {
@@ -42,7 +42,7 @@ class Util {
         }
     }
     
-    public static String getParameterList (Class[] params) throws Exception {
+    public static String getParameterList (Class[] params) {
         StringBuffer sb = new StringBuffer ();
         for (int i = 0; i < params.length; i++) {
             if (i > 0) {

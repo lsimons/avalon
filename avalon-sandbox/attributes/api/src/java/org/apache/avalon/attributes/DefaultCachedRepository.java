@@ -72,7 +72,7 @@ class DefaultCachedRepository implements CachedRepository {
         }
     }
     
-    private static Collection getInheritableAttributes (Collection attrs) throws Exception {
+    private static Collection getInheritableAttributes (Collection attrs) {
         HashSet result = new HashSet ();
         
         Iterator iter = attrs.iterator ();
@@ -85,7 +85,7 @@ class DefaultCachedRepository implements CachedRepository {
         return result;
     }
     
-    private static Collection getInheritableClassAttributes (Class c) throws Exception {
+    private static Collection getInheritableClassAttributes (Class c) {
         if (c == null) {
             return new ArrayList (0);
         }
@@ -105,7 +105,7 @@ class DefaultCachedRepository implements CachedRepository {
         return result;
     }
     
-    private static Collection getInheritableMethodAttributes (Class c, String methodName, Class[] methodParams) throws Exception {
+    private static Collection getInheritableMethodAttributes (Class c, String methodName, Class[] methodParams) {
         if (c == null) {
             return new ArrayList (0);
         }

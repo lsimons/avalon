@@ -15,6 +15,7 @@
 
     <menu name="About Avalon Attributes">
       <item name="Overview" href="/index.html"/>
+      <item name="API" href="/api/index.html"/>
     </menu>
 
  </body>

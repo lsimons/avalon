@@ -5,9 +5,11 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,7 +54,7 @@ public class Attributes {
             
             classRepositories.put (clazz, cached); // Should be keyed on ClassLoader as well.
             
-            initList.removeLast ();
+            initList.remove (initList.size () - 1);
             
             return cached;
         }
@@ -89,7 +91,7 @@ public class Attributes {
     /**
      * Selects from a collection of attributes only those with a given class.
      */
-    private static Collection getAttributes (Collection attrs, Class attributeClass) throws Exception {
+    private static Collection getAttributes (Collection attrs, Class attributeClass) {
         HashSet result = new HashSet ();
         Iterator iter = attrs.iterator ();
         while (iter.hasNext ()) {

@@ -14,7 +14,33 @@
         A precompiler for java that enables the use of attributes as seen in C#.
     </description>
     
+    <build>
+        <unitTestSourceDirectory>${basedir}/target/temp</unitTestSourceDirectory>
+    </build>
+    
     <dependencies>
+        <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant</artifactId>
+            <version>1.5</version>
+        </dependency>
+        
+        <dependency>
+            <id>xdoclet+xjavadoc</id>
+            <version>1.0</version>
+        </dependency>
+        
+        <dependency>
+            <id>commons-collections</id>
+            <version>2.1</version>
+        </dependency>
+       
+        
+        <dependency>
+            <groupId>avalon-attributes</groupId>
+            <artifactId>avalon-attributes-compiler</artifactId>
+            <version>SNAPSHOT</version>
+        </dependency>
     </dependencies>
     
     <packageGroups>
