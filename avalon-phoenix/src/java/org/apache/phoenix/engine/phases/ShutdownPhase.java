@@ -15,9 +15,10 @@ import org.apache.avalon.Disposable;
 import org.apache.avalon.Stoppable;
 import org.apache.avalon.atlantis.ApplicationException;
 import org.apache.avalon.util.thread.ThreadContext;
-import org.apache.avalon.util.thread.ThreadManager;
+import org.apache.phoenix.engine.facilities.ThreadManager;
 import org.apache.phoenix.engine.blocks.BlockEntry;
 import org.apache.phoenix.engine.blocks.BlockVisitor;
+import org.apache.phoenix.engine.facilities.ClassLoaderManager;
 
 /**
  *
@@ -33,10 +34,13 @@ public class ShutdownPhase
     public void compose( final ComponentManager componentManager )
         throws ComponentManagerException
     {
-        m_classLoader = (ClassLoader)componentManager.lookup( "java.lang.ClassLoader" );
+        final ClassLoaderManager classLoaderManager = (ClassLoaderManager)componentManager.
+            lookup( "org.apache.phoenix.engine.facilities.ClassLoaderManager" );
+
+        m_classLoader = classLoaderManager.getClassLoader();
 
         m_threadManager = (ThreadManager)componentManager.
-            lookup( "org.apache.avalon.util.thread.ThreadManager" );
+            lookup( "org.apache.phoenix.engine.facilities.ThreadManager" );
     }
 
     /**

@@ -7,7 +7,6 @@
  */
 package org.apache.phoenix.engine;
 
-import java.security.Policy;
 import java.util.HashMap;
 import java.util.Iterator;
 import org.apache.avalon.Component;
@@ -24,21 +23,21 @@ import org.apache.avalon.atlantis.ApplicationException;
 import org.apache.avalon.camelot.AbstractContainer;
 import org.apache.avalon.camelot.ContainerException;
 import org.apache.avalon.camelot.Entry;
-import org.apache.avalon.camelot.Factory;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
-import org.apache.avalon.util.thread.ThreadManager;
 import org.apache.phoenix.engine.blocks.BlockDAG;
 import org.apache.phoenix.engine.blocks.BlockEntry;
 import org.apache.phoenix.engine.blocks.BlockVisitor;
 import org.apache.phoenix.engine.blocks.RoleEntry;
+import org.apache.phoenix.engine.facilities.ClassLoaderManager;
 import org.apache.phoenix.engine.facilities.ConfigurationRepository;
 import org.apache.phoenix.engine.facilities.DefaultConfigurationRepository;
 import org.apache.phoenix.engine.facilities.DefaultLogManager;
 import org.apache.phoenix.engine.facilities.DefaultThreadManager;
 import org.apache.phoenix.engine.facilities.PolicyManager;
-import org.apache.phoenix.engine.facilities.classmanager.SarClassLoader;
+import org.apache.phoenix.engine.facilities.ThreadManager;
+import org.apache.phoenix.engine.facilities.classloader.DefaultClassLoaderManager;
 import org.apache.phoenix.engine.facilities.policy.DefaultPolicyManager;
 import org.apache.phoenix.engine.phases.ShutdownPhase;
 import org.apache.phoenix.engine.phases.StartupPhase;
@@ -73,7 +72,7 @@ public final class DefaultServerApplication
     protected DefaultLogManager        m_logManager;
     protected PolicyManager            m_policyManager;
     protected ThreadManager            m_threadManager;
-    protected SarClassLoader           m_classLoader;
+    protected ClassLoaderManager       m_classLoaderManager;
 
     //these are the facilities (internal components) of ServerApplication
     protected ConfigurationRepository  m_configurationRepository;
@@ -184,7 +183,7 @@ public final class DefaultServerApplication
 
         m_configurationRepository = new DefaultConfigurationRepository();
 
-        m_classLoader = new SarClassLoader();
+        m_classLoaderManager = new DefaultClassLoaderManager();
         m_threadManager = new DefaultThreadManager();
         m_policyManager = new DefaultPolicyManager();
     }
@@ -208,7 +207,7 @@ public final class DefaultServerApplication
         configuration = m_configuration.getChild( "policy" );
         setupComponent( m_policyManager, "<policy>", configuration );
 
-        setupComponent( m_classLoader );
+        setupComponent( m_classLoaderManager );
 
         setupComponent( m_configurationRepository );
 
@@ -326,10 +325,13 @@ public final class DefaultServerApplication
     {
         final DefaultComponentManager componentManager = new DefaultComponentManager();
         componentManager.put( "org.apache.avalon.camelot.Container", this );
-        componentManager.put( "org.apache.phoenix.engine.facilities.PolicyManager", m_policyManager );
-        componentManager.put( "java.lang.ClassLoader", m_classLoader );
+        componentManager.put( "org.apache.phoenix.engine.facilities.PolicyManager",
+                              m_policyManager );
+        componentManager.put( "org.apache.phoenix.engine.facilities.ClassLoaderManager",
+                              m_classLoaderManager );
         componentManager.put( "NOT_DONE_YET", m_logManager );
-        componentManager.put( "org.apache.avalon.util.thread.ThreadManager", m_threadManager );
+        componentManager.put( "org.apache.phoenix.engine.facilities.ThreadManager",
+                              m_threadManager );
         componentManager.put( "org.apache.phoenix.engine.facilities.ConfigurationRepository",
                               m_configurationRepository );
 

@@ -30,7 +30,7 @@ import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.util.thread.ThreadContext;
-import org.apache.avalon.util.thread.ThreadManager;
+import org.apache.phoenix.engine.facilities.ThreadManager;
 import org.apache.phoenix.Block;
 import org.apache.phoenix.BlockContext;
 import org.apache.phoenix.engine.SarContextResources;
@@ -38,6 +38,7 @@ import org.apache.phoenix.engine.blocks.BlockEntry;
 import org.apache.phoenix.engine.blocks.BlockVisitor;
 import org.apache.phoenix.engine.blocks.DefaultBlockContext;
 import org.apache.phoenix.engine.blocks.RoleEntry;
+import org.apache.phoenix.engine.facilities.ClassLoaderManager;
 import org.apache.phoenix.engine.facilities.ConfigurationRepository;
 import org.apache.phoenix.metainfo.BlockInfo;
 import org.apache.phoenix.metainfo.BlockUtil;
@@ -56,10 +57,10 @@ public class StartupPhase
     private ThreadManager               m_threadManager;
 
     ///Factory used to build instance of Block
-    private Factory                  m_factory;
+    private Factory                     m_factory;
 
     ///base context used to setup hosted blocks
-    private DefaultContext           m_baseBlockContext;
+    private DefaultContext              m_baseBlockContext;
 
     /**
      * The container (ie kernel) which this phase is associated with.
@@ -83,7 +84,10 @@ public class StartupPhase
     public void compose( final ComponentManager componentManager )
         throws ComponentManagerException
     {
-        m_classLoader = (ClassLoader)componentManager.lookup( "java.lang.ClassLoader" );
+        final ClassLoaderManager classLoaderManager = (ClassLoaderManager)componentManager.
+            lookup( "org.apache.phoenix.engine.facilities.ClassLoaderManager" );
+
+        m_classLoader = classLoaderManager.getClassLoader();
 
         m_factory = new SimpleFactory( m_classLoader );
 
@@ -91,7 +95,7 @@ public class StartupPhase
             lookup( "org.apache.avalon.camelot.Container" );
 
         m_threadManager = (ThreadManager)componentManager.
-            lookup( "org.apache.avalon.util.thread.ThreadManager" );
+            lookup( "org.apache.phoenix.engine.facilities.ThreadManager" );
 
         m_repository = (ConfigurationRepository)componentManager.
             lookup( "org.apache.phoenix.engine.facilities.ConfigurationRepository" );
@@ -146,7 +150,7 @@ public class StartupPhase
             if( object instanceof Composer )
             {
                 getLogger().debug( "Pre-Composition Stage" );
-                final ComponentManager componentManager = 
+                final ComponentManager componentManager =
                     createComponentManager( name, entry );
                 ((Composer)object).compose( componentManager );
                 getLogger().debug( "Composition successful." );
