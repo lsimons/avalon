@@ -12,8 +12,12 @@
     <person name="Leif Mortenson" email="leif@apache.org" id="LM"/>
     <person name="Eung-ju Park" email="colus@apache.org" id="EP"/>
     <person name="Carston Ziegler" email="cziegler@apache.org" id="CZ"/>
+    <person name="Peter Royal" email="proyal@apache.org" id="PR"/>
   </devs>
   <release version="@version@" date="@date@">
+    <action dev="PR" type="fix">
+      PriorityFilterTargetFactory throws a ConfigurationException
+      upon invalid targets
     <action dev="CZ" type="add">
       The ExcaliburComponentSelector does not instantiate a Component 
       for the hasComponent() test anymore.
