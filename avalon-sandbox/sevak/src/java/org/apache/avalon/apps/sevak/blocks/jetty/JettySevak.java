@@ -48,7 +48,10 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
 {
 
     private Server m_server;
+    
+    /** Virtual host to bind the context to.  null implies all hosts are in context. */
     private String m_hostName;
+    
     private HashMap m_webapps = new HashMap();
     private int m_port;
     private File m_sarRootDir;
@@ -78,7 +81,7 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
      */
     public void configure(final Configuration configuration) throws ConfigurationException
     {
-        m_hostName = configuration.getChild("hostname").getValue("localhost");
+        m_hostName = configuration.getChild("hostname").getValue( null );
         m_port = configuration.getChild("port").getValueAsInteger(8080);
     }
 
@@ -151,8 +154,9 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
             ctx.setContextPath(context);
             m_server.addContext(m_hostName,ctx);
 
-            System.out.println("deploying context=" + context + ", webapp=" + webAppURL + " to host="
-                    + m_hostName);
+            System.out.println("deploying context=" + context + ", webapp=" + webAppURL
+                + " to host=" + ( m_hostName == null ? "(All Hosts)" : m_hostName ) );
+                
             ctx.setExtractWAR(true);
             m_webapps.put(context, ctx);
             ctx.start();
