@@ -29,9 +29,13 @@ final class ManagementRegistration
     private static final Map c_map = new HashMap();
 
     public static final ManagementRegistration KERNEL =
-        new ManagementRegistration( Kernel.ROLE, "Kernel", new Class[]{KernelMBean.class} );
+        new ManagementRegistration( Kernel.ROLE,
+                                    "Kernel",
+                                    new Class[]{KernelMBean.class} );
     public static final ManagementRegistration EXTENSION_MANAGER =
-        new ManagementRegistration( PackageRepository.ROLE, "ExtensionManager", new Class[]{ExtensionManagerMBean.class} );
+        new ManagementRegistration( PackageRepository.ROLE,
+                                    "ExtensionManager",
+                                    new Class[]{ExtensionManagerMBean.class} );
     public static final ManagementRegistration EMBEDDOR =
         new ManagementRegistration( Embeddor.ROLE, "Embeddor", new Class[]{EmbeddorMBean.class} );
     public static final ManagementRegistration DEPLOYER =
@@ -39,7 +43,9 @@ final class ManagementRegistration
     public static final ManagementRegistration LOG_MANAGER =
         new ManagementRegistration( LogManager.ROLE, "LogManager", new Class[]{} );
     public static final ManagementRegistration CONFIGURATION_REPOSITORY =
-        new ManagementRegistration( ConfigurationRepository.ROLE, "ConfigurationManager", new Class[]{} );
+        new ManagementRegistration( ConfigurationRepository.ROLE,
+                                    "ConfigurationManager",
+                                    new Class[]{} );
     //TODO: Need information for SystemManager?
 
     private String m_role;
