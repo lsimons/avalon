@@ -59,7 +59,7 @@ import org.apache.avalon.composition.model.ContainmentModel;
  * management aspects and service resolution aspects.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/07 17:44:10 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/12 17:12:45 $
  */
 public interface Kernel extends Controller
 {
@@ -74,5 +74,11 @@ public interface Kernel extends Controller
     * @return the containment block
     */
     Block getBlock( ContainmentModel model ) throws KernelException;
+
+   /**
+    * Return the root block.
+    * @return the containment block
+    */
+    Block getRootBlock();
 
 }

@@ -101,7 +101,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * Implementation of the default Merlin Kernel.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/07 17:44:09 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/12 17:12:45 $
  */
 public class DefaultKernel extends NotificationBroadcasterSupport 
   implements Kernel, DefaultKernelMBean
@@ -411,6 +411,16 @@ public class DefaultKernel extends NotificationBroadcasterSupport
               + model.getPath() + "].";
             throw new KernelRuntimeException( error, e );
         }
+    }
+
+   /**
+    * Return the root block.
+    * @return the containment block
+    */
+    public Block getRootBlock()
+    {
+        if( m_block == null ) throw new IllegalStateException( "not-started" );
+        return m_block;
     }
 
     //--------------------------------------------------------------
