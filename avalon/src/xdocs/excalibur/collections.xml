@@ -8,16 +8,22 @@
     <subtitle>Java Collection Extensions</subtitle>
     <authors>
       <person name="Leo Simons" email="mail@leosimons.com"/>
+      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
     </authors>
   </header>
   <body>
     <s1 title="Filling the gap in java.util">
+      <p>
+        The Collection Utilities in <code>org.apache.avalon.excalibur.collection</code>
+	provide a number of high speed collection implementations as well as some utilities
+	to allow you to execute Set mathematics on a list.
+      </p>
     </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/04/26 19:38:33 $
+      $Revision: 1.2 $ $Date: 2001/06/01 18:10:27 $
     </legal>
   </footer>
 </document>

@@ -15,20 +15,21 @@
   </menu>
 
   <menu label="Released Components">
-    <menu-item label="Command-line inspection" source="cli.xml"/>
+    <menu-item label="Command-Line Inspection" source="cli.xml"/>
     <menu-item label="Collections" source="collections.xml"/>
-    <menu-item label="Component utilities" source="component.xml"/>
-    <menu-item label="Concurrent threading" source="concurrent.xml"/>
-    <menu-item label="IO utilities" source="io.xml"/>
-    <menu-item label="Pooling support" source="pool.xml"/>
-    <menu-item label="Property utilities" source="property.xml"/>
-    <menu-item label="Threading utilities" source="thread.xml"/>
+    <menu-item label="Component Utilities" source="component.xml"/>
+    <menu-item label="Concurrent Threading" source="concurrent.xml"/>
+    <menu-item label="DataSource Management" source="datasource.xml"/>
+    <menu-item label="IO Utilities" source="io.xml"/>
+    <menu-item label="Pooling Support" source="pool.xml"/>
+    <menu-item label="Property Utilities" source="property.xml"/>
   </menu>
 
   <menu label="Components under Development">
-    <menu-item label="i18n" source="i18n.xml"/>
-    <menu-item label="Piping support" source="pipeline.xml"/>
-    <menu-item label="Proxy implementation" source="proxy.xml"/>
+    <menu-item label="Internationalization" source="i18n.xml"/>
+    <menu-item label="Piping Support" source="pipeline.xml"/>
+    <menu-item label="Proxy Implementation" source="proxy.xml"/>
+    <menu-item label="Thread Pool Management" source="thread.xml"/>
   </menu>
 </book>
 
