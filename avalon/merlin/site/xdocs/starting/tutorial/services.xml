@@ -177,7 +177,7 @@ public class RandomGeneratorProvider extends AbstractLogEnabled
 </type>
 ]]></source>
         <p>
-          The <a href="dependencies.html">following tutorial</a> presents the 
+          The <a href="dependencies/auto.html">following tutorial</a> presents the 
           use of this service by HelloComponent.
         </p>
 
