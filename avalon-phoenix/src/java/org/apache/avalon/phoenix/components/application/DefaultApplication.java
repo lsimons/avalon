@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.lang.ThreadContext;
+import org.apache.excalibur.threadcontext.ThreadContext;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.ApplicationEvent;
 import org.apache.avalon.phoenix.Block;

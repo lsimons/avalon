@@ -7,7 +7,7 @@
  */
 package org.apache.avalon.phoenix.interfaces;
 
-import org.apache.avalon.excalibur.lang.ThreadContext;
+import org.apache.excalibur.threadcontext.ThreadContext;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
