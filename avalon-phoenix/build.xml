@@ -79,6 +79,7 @@ Legal:
   <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur.jar"/>
   <property name="scratchpad.jar" value="${lib.dir}/avalon-scratchpad.jar"/>
   <property name="logkit.jar" value="${lib.dir}/logkit.jar"/>
+  <property name="tools.jar" value="${tools.jar}/../lib/tools.jar"/>
 
   <path id="project.class.path">
     <pathelement location="${xerces.jar}"/>
@@ -98,7 +99,7 @@ Legal:
   <path id="tools.class.path">
     <pathelement location="${xerces.jar}"/>
     <pathelement location="${testlet.jar}"/>
-    <pathelement location="${java.home}/../lib/tools.jar"/>
+    <pathelement location="${tools.jar}"/>
     <fileset dir="${tools.dir}/lib">
       <exclude name="ant.jar" />
       <exclude name="testlet.jar"/>

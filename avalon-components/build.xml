@@ -78,6 +78,7 @@
   <property name="scratchpad.jar" value="${lib.dir}/avalon-scratchpad.jar"/>
   <property name="phoenix-client.jar" value="${lib.dir}/phoenix-client.jar"/>
   <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
+  <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
   <path id="project.class.path">
     <pathelement location="${framework.jar}"/>
@@ -98,7 +99,7 @@
   </path>
 
   <path id="tools.class.path">
-    <pathelement location="${java.home}/../lib/tools.jar"/>
+    <pathelement location="${tools.jar}"/>
     <fileset dir="${tools.dir}/lib">
       <exclude name="ant.jar" />
     </fileset>
