@@ -53,6 +53,9 @@ import junit.framework.TestCase;
 import org.apache.avalon.fortress.util.ContextManager;
 import org.apache.avalon.fortress.util.FortressConfig;
 import org.apache.avalon.framework.logger.NullLogger;
+import org.apache.avalon.framework.container.ContainerUtil;
+import org.apache.excalibur.instrument.manager.DefaultInstrumentManager;
+import org.apache.excalibur.instrument.InstrumentManager;
 
 /**
  * ContextManagerTestCase does XYZ
@@ -63,6 +66,7 @@ import org.apache.avalon.framework.logger.NullLogger;
 public class ContextManagerTestCase extends TestCase
 {
     private ContextManager m_manager;
+    private InstrumentManager m_instrManager;
 
     public ContextManagerTestCase( String name )
     {
@@ -74,14 +78,22 @@ public class ContextManagerTestCase extends TestCase
         FortressConfig config = new FortressConfig( FortressConfig.createDefaultConfig() );
         config.setContainerConfiguration( "resource://org/apache/avalon/fortress/test/data/test1.xconf" );
         config.setLoggerManagerConfiguration( "resource://org/apache/avalon/fortress/test/data/test1.xlog" );
+
+        m_instrManager = new DefaultInstrumentManager();
+        ContainerUtil.enableLogging(m_instrManager, new NullLogger());
+        ContainerUtil.initialize(m_instrManager);
+        config.setInstrumentManager(m_instrManager);
+
         m_manager = new ContextManager( config.getContext(), new NullLogger() );
         m_manager.initialize();
     }
 
-    public void testContextManager()
+    public void testContextManager() throws Exception
     {
         assertNotNull( m_manager.getChildContext() );
         assertNotNull( m_manager.getContainerManagerContext() );
+        assertNotNull( m_manager.getContainerManagerContext().get(InstrumentManager.ROLE));
+        assertSame( m_instrManager, m_manager.getContainerManagerContext().get( InstrumentManager.ROLE ) );
     }
 
     public void tearDown()
