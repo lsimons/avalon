@@ -647,7 +647,7 @@ public class Logger
             return;
         }
 
-        m_priority = m_parent.getPriority();
+        m_priority = m_parent.m_priority;
         resetChildPriorities( recursive );
     }
 
