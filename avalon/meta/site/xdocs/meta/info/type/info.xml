@@ -10,24 +10,6 @@
 
     <section name="Info Descriptor">
 
-      <subsection name="Attributes">
-        <table>
-          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
-          <tr>
-            <td>collection</td><td>no</td>
-            <td>
-             Declaration of a decommissioning policy default override.  If 
-             the value is "liberal" the component will be decommissioned automatically
-             if all references to the component have ben released.  If the value is
-             "conservative" the component will be maintained for the life of its parent
-             (where parent for a singleton is the jvm and for a thread lifestyle - the 
-             parent is the thread).  The default policy is "liberal" for transient and 
-             pooled components and "conservative" for singelton and thread lifestyles.
-            </td>
-          </tr>
-        </table>
-      </subsection>
-
       <subsection name="Nested Elements">
         <table>
           <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
@@ -54,6 +36,15 @@
             <td><a href="../attributes/index.html">attributes</a></td><td>0..1</td>
             <td>
              Declaration of a set of attributes associated with the component type.
+            </td>
+          </tr>
+          <tr>
+            <td>collection</td><td>0..1</td>
+            <td>
+             Declaration of a garbage collection policy default override.  If 
+             the value is "liberal" the component will be decommissioned automatically
+             if all references to the component have been released.  If the value is
+             "conservative" the component will be maintained for the life of its parent.
             </td>
           </tr>
         </table>
@@ -88,7 +79,7 @@ The org.apache.avalon.meta.info.infoDescriptor class describes the component typ
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2003/10/30 00:44:51 $
+      $Revision: 1.5 $ $Date: 2003/12/11 08:48:12 $
     </legal>
   </footer>
 

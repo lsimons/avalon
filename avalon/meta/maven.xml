@@ -36,43 +36,21 @@
   </goal>
 
   <goal name="avalon:build">
-    
-    <echo>
-
-Building the framework using the default target "avalon:build".
-The complete set of target include:
-
-  avalon:clean
-  avalon:build ---------- default goal
-  avalon:build-snapshot
-  avalon:dist
-  avalon:site
-    </echo>
-
-    <maven:reactor
-      basedir="${basedir}"
-      includes="*/project.xml"
+    <maven:reactor basedir="${basedir}"
+      includes="**/project.xml"
+      excludes="project.xml"
       goals=""
       banner="Building:"
-      ignoreFailures="false"/>
-    <ant:copy todir="${maven.build.dir}">
-      <ant:fileset dir="${basedir}/api/target">
-        <ant:include name="${pom.artifactId}-api-${pom.currentVersion}.jar"/>
-      </ant:fileset>
-      <ant:fileset dir="${basedir}/spi/target">
-        <ant:include name="${pom.artifactId}-spi-${pom.currentVersion}.jar"/>
-      </ant:fileset>
-      <ant:fileset dir="${basedir}/impl/target">
-        <ant:include name="${pom.artifactId}-impl-${pom.currentVersion}.jar"/>
-      </ant:fileset>
-      <ant:fileset dir="${basedir}/tools/target">
-        <ant:include name="${pom.artifactId}-tools-${pom.currentVersion}.jar"/>
-      </ant:fileset>
-      <ant:fileset dir="${basedir}/plugin/target">
-        <ant:include name="${pom.artifactId}-plugin-${meta.plugin.version}.jar"/>
-      </ant:fileset>
-    </ant:copy>
+      ignoreFailures="false"
+      postProcessing="true" />
 
+    <ant:copy todir="${maven.build.dir}">
+      <j:forEach var="child" items="${reactorProjects}">
+        <ant:fileset dir="${child.file.parentFile}/target">
+          <ant:include name="${child.artifactId}-${child.currentVersion}.jar"/>
+        </ant:fileset>
+      </j:forEach>
+    </ant:copy>
   </goal>
 
   <goal name="avalon:build-snapshot">
@@ -150,11 +128,7 @@ The complete set of target include:
     <!-- Copy Jars -->
     <ant:copy todir="${maven.dist.bin.assembly.dir}">
       <ant:fileset dir="${maven.build.dir}">
-        <ant:include name="${pom.artifactId}-api-${pom.currentVersion}.jar"/>
-        <ant:include name="${pom.artifactId}-spi-${pom.currentVersion}.jar"/>
-        <ant:include name="${pom.artifactId}-impl-${pom.currentVersion}.jar"/>
-        <ant:include name="${pom.artifactId}-tools-${pom.currentVersion}.jar"/>
-        <ant:include name="${pom.artifactId}-plugin-${meta.plugin.version}.jar"/>
+        <ant:include name="*.jar"/>
         <ant:include name="docs/**"/>
       </ant:fileset>
     </ant:copy>
@@ -215,6 +189,7 @@ The complete set of target include:
     <ant:mkdir dir="${maven.dist.dir}"/>
   </goal>
 
+
   <goal
     name="xdist:build-bin" 
     prereqs="xdist:build-setup,xdist:prepare-bin-filesystem"
@@ -229,13 +204,14 @@ The complete set of target include:
       zipfile="${maven.dist.dir}/${maven.final.name}.tar.gz"
       src="${maven.dist.dir}/${maven.final.name}.tar"
     />
-    
+    <checksum file="${maven.dist.dir}/${maven.final.name}.tar.gz"/>
     <ant:delete file="${maven.dist.dir}/${maven.final.name}.tar"/>
 
     <!-- Create a zip file -->
     <ant:zip zipfile="${maven.dist.dir}/${maven.final.name}.zip">
       <ant:zipfileset dir="${maven.dist.bin.archive.dir}"/>
     </ant:zip>
+    <checksum file="${maven.dist.dir}/${maven.final.name}.zip"/>
   </goal>
 
   <goal
@@ -247,19 +223,18 @@ The complete set of target include:
     <ant:tar longfile="gnu" tarfile="${maven.dist.dir}/${maven.final.name}-src.tar">
       <ant:tarfileset dir="${maven.dist.src.archive.dir}"/>
     </ant:tar>
-
     <ant:gzip 
       zipfile="${maven.dist.dir}/${maven.final.name}-src.tar.gz" 
       src="${maven.dist.dir}/${maven.final.name}-src.tar"
     />
-    
+    <checksum file="${maven.dist.dir}/${maven.final.name}-src.tar.gz"/>
     <ant:delete file="${maven.dist.dir}/${maven.final.name}-src.tar"/>
 
     <!-- Create a zip file -->
     <ant:zip zipfile="${maven.dist.dir}/${maven.final.name}-src.zip">
       <ant:zipfileset dir="${maven.dist.src.archive.dir}"/>
     </ant:zip>
-
+    <checksum file="${maven.dist.dir}/${maven.final.name}-src.zip"/>
   </goal>
 
   <postGoal name="java:prepare-filesystem">

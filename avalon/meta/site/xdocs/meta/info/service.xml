@@ -14,8 +14,6 @@
 <p>
 The org.apache.avalon.meta.info.ServiceDefinition class describes a type of service. It suppliments the classic Java interface with a version identifier and attributes.  A ServiceDefintion may be referenced by multiple components that will typically suppliment the defintion in terms of additional  attributes.  References to a ServiceDefintion concern a component type declaration of depedencies, service access points, lifestyle extension ability, and lifestyle extension depedencies.</p>
 
-<img src="./../../images/ServiceDefinition.gif" />
-
 <p>An instance of ServiceDescriptor is created using a ServiceBuilder.  The following code fragment shows the creation of new ServiceBuilder and the creation of a ServiceDefinition using the builder.</p>
 <source>
   //

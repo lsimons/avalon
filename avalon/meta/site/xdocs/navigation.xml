@@ -15,7 +15,6 @@
 
     <menu name="About Avalon Meta">
       <item name="Overview" href="/index.html"/>
-      <item name="Getting Started" href="/tutorial/index.html"/>
       <item name="Meta Model" href="/meta/index.html"/>
       <item name="Tools" href="/tools/index.html"/>
       <item name="Javadoc" href="/api/index.html"/>
