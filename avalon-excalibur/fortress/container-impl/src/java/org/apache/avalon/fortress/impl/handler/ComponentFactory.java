@@ -70,7 +70,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.10 $ $Date: 2003/03/19 12:50:03 $
+ * @version CVS $Revision: 1.11 $ $Date: 2003/03/19 12:50:56 $
  * @since 4.0
  */
 public class ComponentFactory
@@ -152,7 +152,6 @@ public class ComponentFactory
     * implemented by the component class.
     *
     * @return the new instance
-    * @exception
     */
     public Object newInstance()
         throws Exception
