@@ -82,6 +82,7 @@ Legal:
   <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.2.0-D13.jar"/>
   <property name="bsf.jar" value="${tools.dir}/lib/bsf.jar"/>
   <property name="junit.jar" value="${tools.dir}/lib/junit-3.7.jar"/>
+  <property name="junitperf.jar" value="${tools.dir}/lib/junitperf.jar"/>
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
   <property name="jaxen.jar" value="${lib.dir}/jaxen-full.jar"/>
   <property name="saxpath.jar" value="${lib.dir}/saxpath.jar"/>
@@ -99,6 +100,7 @@ Legal:
     <pathelement location="${bsf.jar}"/>
     <pathelement location="${xerces.jar}"/>
     <pathelement location="${junit.jar}"/>
+    <pathelement location="${junitperf.jar}"/>
     <pathelement location="${jaxen.jar}"/>
     <pathelement location="${saxpath.jar}"/>
     <pathelement path="${java.class.path}" />
@@ -315,37 +317,37 @@ Legal:
         <fileset dir="${build.classes}">
           <include name="**/test/*Profile.class" if="test.profile"/>
           <include name="**/test/*TestCase.class"/>
-                    
+
           <exclude name="**/test/Abstract*TestCase.class"/>
           <exclude name="org/apache/avalon/excalibur/datasource/test/DataSourceTestCase.class" unless="test.jdbc"/>
-                    
+
           <!-- Slow tests only run when test.all property set -->
           <exclude name="org/apache/avalon/excalibur/naming/rmi/test/RMIContextTestCase.class" unless="test.all"/>
           <exclude name="org/apache/avalon/excalibur/logger/test/LogKitManagementTestCase.class" unless="test.all"/>
           <exclude name="org/apache/avalon/excalibur/concurrent/test/ReadWriteLockTestCase.class" unless="test.all"/>
           <exclude name="org/apache/avalon/excalibur/monitor/test/MonitorTestCase.class" unless="test.all"/>
         </fileset>
-                
+
         <!-- Scratchpad tests -->
         <fileset dir="${build.scratchpad}">
           <include name="**/test/*TestCase.class"/>
           <include name="**/test/*Profile.class" if="test.profile"/>
           <exclude name="**/test/Abstract*TestCase.class"/>
           <exclude name="**/test/*PerformanceTestCase.class" unless="test.profile"/>
-                    
+
           <!-- Slow tests only run when test.all property set -->
           <exclude name="org/apache/avalon/excalibur/pool/test/*Multithread*TestCase.class" unless="test.all"/>
         </fileset>
       </batchtest>
     </junit>
-        
+
     <junitreport todir="${build.reports}">
       <fileset dir="${build.reports}">
         <include name="TEST-*.xml"/>
       </fileset>
       <report format="frames" todir="${build.testdocs}"/>
     </junitreport>
-    
+
     <!-- Clean up the xml reports used by the junitreport task -->
     <delete>
         <fileset dir="${build.reports}" includes="TEST-*.xml"/>
@@ -356,14 +358,14 @@ Legal:
     <property name="test.all" value="true"/>
   </target>
   <target name="test-all" depends="test-all-prep, check"/>
-    
+
   <!-- Run a subset of the tests -->
   <target name="test-subset-check" unless="junit.test">
     <fail message="junit.test not specified.  Example usage: build -Djunit.test=**/ResourceLimiting*TestCase.class test-subset" />
   </target>
   <target name="test-subset" depends="test-subset-check, compile" description="perferm a subset of unit tests">
     <mkdir dir="${build.reports}"/>
-    
+
     <junit fork="true" printsummary="yes" dir="${build.reports}">
       <formatter type="plain"/>  <!-- text reports for humans     -->
       <classpath>
@@ -411,7 +413,7 @@ Legal:
     <mkdir dir="${build.javadocs}"/>
 
     <mkdir dir="${build.src}"/>
-            
+
     <!-- Copy patched versions of JdbcConnection classes -->
     <copy file="${java.dir}/org/apache/avalon/excalibur/datasource/AbstractJdbcConnection.java"
         tofile="${build.src}/org/apache/avalon/excalibur/datasource/AbstractJdbcConnection.java"
@@ -419,7 +421,7 @@ Legal:
     <copy file="${java.dir}/org/apache/avalon/excalibur/datasource/JdbcConnection.java"
         tofile="${build.src}/org/apache/avalon/excalibur/datasource/JdbcConnection.java"
         filtering="yes"/>
-            
+
     <!-- Ugly hack work around to remove duplicates
     of JdbcConnection so javadoc won't be confused -->
     <copy todir="${build.src}">
@@ -427,7 +429,7 @@ Legal:
         <!-- copied above with filters -->
         <exclude name="org/apache/avalon/excalibur/datasource/AbstractJdbcConnection.java"/>
         <exclude name="org/apache/avalon/excalibur/datasource/JdbcConnection.java"/>
-        
+
         <!-- not wanted for javadocs -->
         <exclude name="org/apache/avalon/excalibur/datasource/Jdbc3Connection.java"/>
         <exclude name="org/apache/avalon/excalibur/datasource/Jdbc2Connection.java"/>
@@ -457,7 +459,7 @@ Legal:
   <target name="javadocs-scratchpad">
     <delete dir="${build.javadocs-scratchpad}"/>
     <mkdir dir="${build.javadocs-scratchpad}"/>
-        
+
     <javadoc packagenames="org.apache.*"
         sourcepath="${scratchpad.dir}"
         destdir="${build.javadocs-scratchpad}"
@@ -480,15 +482,15 @@ Legal:
     <!-- Copy the main javadocs -->
     <delete dir="${javadocs.dir}"/>
     <mkdir dir="${javadocs.dir}"/>
-        
+
     <copy todir="${javadocs.dir}">
       <fileset dir="${build.javadocs}" />
     </copy>
-            
+
     <!-- Copy the scratchpad javadocs -->
     <delete dir="${javadocs-scratchpad.dir}"/>
     <mkdir dir="${javadocs-scratchpad.dir}"/>
-        
+
     <copy todir="${javadocs-scratchpad.dir}">
       <fileset dir="${build.javadocs-scratchpad}" />
     </copy>
@@ -551,7 +553,7 @@ Legal:
         <exclude name="xdocs/**"/> <!-- use xdocs from excalibur -->
       </fileset>
     </copy>
-        
+
     <!-- Copy files from jakarta-avalon-excalibur src/xdocs -->
     <copy todir="${build.xdocs}" filtering="on">
       <fileset dir="${xdocs.dir}">
@@ -694,7 +696,7 @@ Legal:
         <exclude name="xdocs/**"/> <!-- use xdocs from excalibur -->
       </fileset>
     </copy>
-        
+
     <!-- Copy files from jakarta-avalon-excalibur src/xdocs -->
     <copy todir="${build.xdocs}" filtering="on" overwrite="yes">
       <fileset dir="${xdocs.dir}">
