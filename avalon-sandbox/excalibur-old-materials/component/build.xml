@@ -15,12 +15,13 @@
         <pathelement location="${avalon-logkit.jar}"/> <!-- deprecated -->
         <pathelement location="${logkit.jar}"/>
         <pathelement location="${avalon-framework.jar}"/>
-        <pathelement location="${excalibur-collections.jar}"/>
         <pathelement location="${excalibur-logger.jar}"/>
         <pathelement location="${excalibur-instrument.jar}"/>
         <pathelement location="${excalibur-instrument-manager.jar}"/>
         <pathelement location="${excalibur-instrument-manager-interfaces.jar}"/>
         <pathelement location="${excalibur-pool.jar}"/>
+        <pathelement location="${util.concurrent.jar}"/>
+        <pathelement location="${commons-collections.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
 
         <!-- Optional jars -->
@@ -42,14 +43,11 @@
         <pathelement location="${excalibur-util.jar}"/>
         <pathelement location="${excalibur-testcase.jar}"/>
         <pathelement location="${excalibur-i18n.jar}"/>
-        <pathelement location="${excalibur-instrument.jar}"/>
-        <pathelement location="${excalibur-instrument-manager.jar}"/>
-        <pathelement location="${excalibur-instrument-manager-interfaces.jar}"/>
         <path refid="project.class.path"/>
     </path>
     <property name="cp" refid="test.class.path"/>
 
-    <target name="main" depends="jar" description="Build the project"/>
+    <target name="main" depends="big-jar" description="Build the project"/>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
 
     <!-- Checks the environment for existing resources -->
@@ -79,7 +77,6 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrument"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrumentManager"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCollections"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkLogger"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkPool"/>
     </target>
@@ -91,7 +88,6 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkJUnit"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkUtil"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkTestcase"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrument"/>
     </target>
 
     <target name="servlet-warn" unless="servlet.present"
@@ -225,6 +221,36 @@
                 <include name="LICENSE.txt"/>
             </zipfileset>
         </jar>
+    </target>
+
+
+    <target name="big-jar" depends="jar" description="Build the big jar with all dependencies included">
+      <copy file="${excalibur-altrmi-registry.jar}" todir="${build.dir}/tempjars"/>
+      <copy file="${excalibur-altrmi-common.jar}" todir="${build.dir}/tempjars"/>
+      <copy file="${excalibur-altrmi-server-impl.jar}" todir="${build.dir}/tempjars"/>
+      <copy file="${excalibur-altrmi-server-interfaces.jar}" todir="${build.dir}/tempjars"/>
+      <copy file="${excalibur-altrmi-client-impl.jar}" todir="${build.dir}/tempjars"/>
+      <copy file="${excalibur-altrmi-client-interfaces.jar}" todir="${build.dir}/tempjars"/>
+      <copy file="${excalibur-i18n.jar}" todir="${build.dir}/tempjars"/>
+      <copy file="${excalibur-instrument.jar}" todir="${build.dir}/tempjars"/>
+      <copy file="${excalibur-instrument-manager.jar}" todir="${build.dir}/tempjars"/>
+      <copy file="${excalibur-instrument-manager-interfaces.jar}" todir="${build.dir}/tempjars"/>
+      <copy file="${excalibur-logger.jar}" todir="${build.dir}/tempjars"/>
+      <copy file="${excalibur-pool.jar}" todir="${build.dir}/tempjars"/>
+      <copy file="${build.lib}/${jar.name}" todir="${build.dir}/tempjars"/>
+
+      <jar destfile="${build.lib}/${name}-complete-${version}.jar">
+        <manifest>
+          <attribute name="Extension-Name" value="${name}"/>
+          <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
+          <attribute name="Specification-Version" value="1.0"/>
+          <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+          <attribute name="Implementation-Version" value="${package-version}"/>
+        </manifest>
+        <zipgroupfileset dir="${build.dir}/tempjars">
+          <include name="*.jar"/>
+        </zipgroupfileset>
+      </jar>
     </target>
 
     <!-- Creates all the Javadocs -->
@@ -392,7 +418,7 @@
     </target>
 
     <!-- Creates a mini jar-only distribution -->
-    <target name="dist-jar" depends="jar">
+    <target name="dist-jar" depends="big-jar">
         <mkdir dir="${dist.dir}"/>
         <copy todir="${dist.dir}">
             <fileset dir="${build.lib}">
