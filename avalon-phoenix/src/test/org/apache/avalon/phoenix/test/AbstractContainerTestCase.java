@@ -60,12 +60,13 @@ import org.apache.avalon.phoenix.interfaces.ContainerConstants;
 import org.apache.avalon.phoenix.components.deployer.PhoenixProfileBuilder;
 import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
+import org.xml.sax.InputSource;
 
 /**
  * Abstract class which TestCases can extend.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003/03/23 00:19:49 $
+ * @version $Revision: 1.9 $ $Date: 2003/04/05 03:57:09 $
  */
 public class AbstractContainerTestCase
     extends TestCase
@@ -80,7 +81,9 @@ public class AbstractContainerTestCase
     {
         final PhoenixProfileBuilder assembler = new PhoenixProfileBuilder();
         assembler.enableLogging( new ConsoleLogger() );
-        final Configuration assembly = loadConfig( config );
+        final URL resource = getClass().getResource( config );
+        assertNotNull( "Config resource: " + config, resource );
+        final Configuration assembly = ConfigurationBuilder.build( new InputSource( resource.toExternalForm() ), true );
         final Map parameters = new HashMap();
         parameters.put( ContainerConstants.ASSEMBLY_NAME, "test" );
         parameters.put( ContainerConstants.ASSEMBLY_CONFIG, assembly );
@@ -88,10 +91,4 @@ public class AbstractContainerTestCase
         return assembler.buildProfile( parameters );
     }
 
-    protected Configuration loadConfig( final String config )
-        throws Exception
-    {
-        final URL resource = getClass().getResource( config );
-        return ConfigurationBuilder.build( resource.toExternalForm() );
-    }
 }
