@@ -105,15 +105,19 @@
     </developer>
     <developer>
       <name>Aaron Far</name>
-      <email>Aaron.Farr@am.sony.com</email>
+      <email>farra@apache.org</email>
+      <id>farra</id>
       <roles>
         <role>Testing, bug reporting, and early access trial participation.</role>
+        <role>AltRMI extensions.</role>
+        <role>JMS extensions.</role>
       </roles>
       <organization>Sony Electronics</organization>
     </developer>
     <developer>
       <name>Neeme Praks</name>
       <email>neeme@apache.org</email>
+      <id>neeme</id>
       <roles>
         <role>Documentation improvements and corrections.</role>
       </roles>
@@ -121,6 +125,7 @@
     <developer>
       <name>Alex Karasulu</name>
       <email>aok123@bellsouth.net</email>
+      <id>akarasulu</id>
       <roles>
         <role>Kernel loading strategy, refactoring and optimization of embedded aspects.</role>
       </roles>

@@ -24,7 +24,7 @@ An API supporting component assembly and deployment and decommissioning.
     <dependency>
       <groupId>avalon-repository</groupId>
       <artifactId>avalon-repository-spi</artifactId>
-      <version>1.0b1</version>
+      <version>1.1-dev</version>
     </dependency>
 
     <dependency>
