@@ -27,8 +27,6 @@
       <item name="Info" href="info.html"/>
       <item name="Filter" href="filter.html"/>
       <item name="Prepare" href="prepare.html"/>
-      <item name="Plugin" href="plugin.html"/>
-      <item name="Reactor" href="reactor.html"/>
       <item name="Clean" href="clean.html"/>
     </menu>
  </body>

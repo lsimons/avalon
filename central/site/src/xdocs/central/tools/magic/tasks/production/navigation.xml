@@ -26,9 +26,9 @@
       <item name="Artifact" href="artifact.html"/>
       <item name="Javac" href="javac.html"/>
       <item name="Jar" href="jar.html"/>
-      <item name="Junit" href="junit.html"/>
-      <item name="Declare" href="declare.html"/>
       <item name="Bar" href="bar.html"/>
+      <item name="Declare" href="declare.html"/>
+      <item name="Junit" href="junit.html"/>
       <item name="Install" href="install.html"/>
     </menu>
  </body>
