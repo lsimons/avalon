@@ -57,7 +57,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * </ul>
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.15 $ $Date: 2002/05/19 05:24:58 $
+ * @version $Revision: 1.16 $ $Date: 2002/05/20 11:35:55 $
  */
 public class SarVerifier
     extends AbstractLogEnabled
@@ -212,11 +212,16 @@ public class SarVerifier
         for( int i = top; i >= 0; i-- )
         {
             final BlockMetaData other = (BlockMetaData)stack.get( i );
-
-            if( top != i ) sb.append( ", " );
+            if( top != i )
+            {
+                sb.append( ", " );
+            }
             sb.append( other.getName() );
 
-            if( other.getName().equals( name ) ) break;
+            if( other.getName().equals( name ) )
+            {
+                break;
+            }
         }
 
         sb.append( ", " );
