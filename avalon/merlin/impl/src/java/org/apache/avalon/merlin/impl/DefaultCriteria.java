@@ -85,7 +85,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -98,12 +98,16 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
 
     private static final File USER_DIR = 
       getBaseDirectory();
+
     private static final File USER_HOME = 
       new File( System.getProperty( "user.home" ) );
+
     private static final File TEMP_DIR = 
       new File( System.getProperty( "java.io.tmpdir" ) );
+
     private static final File AVALON_HOME_DIR = 
       getAvalonHomeDirectory();
+
     private static final File MERLIN_HOME_DIR = 
       getMerlinHomeDirectory();
 
@@ -153,7 +157,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
         return new Parameter[]{
         new Parameter( 
           MERLIN_REPOSITORY,
-          File.class, AVALON_HOME_DIR ),
+          File.class, new File( AVALON_HOME_DIR, "repository" ) ),
         new Parameter( 
           MERLIN_HOME,
           File.class, MERLIN_HOME_DIR ),
@@ -280,7 +284,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
           new Defaults( 
              Parameter.getKeys( super.getParameters() ), new String[0], finders );
 
-        printProperties( defaults, "defaults" );
+        //printProperties( defaults, "defaults" );
 
         //
         // add ${merlin.dir} to assist in synbol expansion then expand
