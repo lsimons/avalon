@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.apache.avalon.developer3"
-      label="MerlinDeveloper Feature"
-      version="0.0.3"
+      id="org.apache.metro.studio"
+      label="MetroStudio Feature"
+      version="0.1.0"
       provider-name="Apache Software Foundation"
-      os="win32"
-      ws="win32"
       nl="en_US"
-      arch="x86"
       primary="true"
       exclusive="true">
 
@@ -20,7 +17,7 @@
    </license>
 
    <url>
-      <update label="MerlinDeveloper Updates" url="http://merlin.softwarefabrik.biz/MerlinDeveloper/updates/"/>
+      <update label="MetroStudio Updates" url="http://merlin.softwarefabrik.biz/MetroStudio/updates/"/>
    </url>
 
    <requires>
@@ -31,29 +28,35 @@
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.core.boot"/>
       <import plugin="org.junit"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
+      <import plugin="org.eclipse.ui.editors"/>
       <import plugin="org.eclipse.debug.ui"/>
       <import plugin="org.eclipse.debug.core"/>
       <import plugin="org.eclipse.jdt.debug.ui"/>
       <import plugin="org.eclipse.pde.ui"/>
       <import plugin="org.eclipse.swt"/>
+      <import plugin="org.eclipse.jdt.ui"/>
    </requires>
 
    <plugin
-         id="org.apache.avalon.MerlinDeveloperCore"
+         id="org.apache.metro.studio.core"
          download-size="0"
          install-size="0"
-         version="0.0.2"/>
+         version="0.1.0"/>
 
    <plugin
-         id="org.apache.avalon.MerlinDeveloperLaunch"
+         id="org.apache.metro.studio.launch"
          download-size="0"
          install-size="0"
-         version="0.0.3"/>
+         version="0.1.0"/>
 
    <plugin
-         id="org.apache.avalon.MerlinDeveloperUI"
+         id="org.apache.metro.studio.ui"
          download-size="0"
          install-size="0"
-         version="0.0.1"/>
+         version="0.1.0"/>
 
 </feature>
