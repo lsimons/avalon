@@ -16,8 +16,9 @@ import org.apache.excalibur.source.*;
 
 /**
  * A factory for the Resource protocol
+ *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: ResourceSourceFactory.java,v 1.2 2002/04/24 12:35:37 cziegeler Exp $
+ * @version $Id: ResourceSourceFactory.java,v 1.3 2002/05/01 09:11:47 donaldp Exp $
  */
 public class ResourceSourceFactory
     extends AbstractLogEnabled

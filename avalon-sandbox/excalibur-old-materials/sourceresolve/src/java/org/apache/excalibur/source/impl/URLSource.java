@@ -24,7 +24,7 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * Description of a source which is described by an URL.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/04/24 12:35:37 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/05/01 09:11:47 $
  */
 
 public class URLSource
@@ -175,7 +175,7 @@ public class URLSource
      */
     public long getLastModified()
     {
-        this.getInfos();
+        getInfos();
         return this.lastModificationDate;
     }
 
@@ -189,7 +189,7 @@ public class URLSource
     public InputStream getInputStream()
         throws IOException, SourceException
     {
-        this.getInfos();
+        getInfos();
         InputStream input = null;
         if( this.isFile == true )
         {

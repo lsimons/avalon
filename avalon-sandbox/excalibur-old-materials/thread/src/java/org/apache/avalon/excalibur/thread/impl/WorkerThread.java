@@ -79,6 +79,7 @@ class WorkerThread
                 if( null != m_context ) ThreadContext.setThreadContext( m_context );
                 m_work.execute();
                 m_threadControl.finish( null );
+                if( null != m_context ) ThreadContext.setThreadContext( null );
             }
             catch( final ThreadDeath threadDeath )
             {

@@ -77,8 +77,9 @@ public class DefaultThreadPool
 
     public Object newInstance()
     {
-        final String name = new StringBuffer( getName() ).append( " Worker #" ).append( m_level++ ).toString();
-        final WorkerThread worker = new WorkerThread( this, name, m_pool, m_context );
+        final String name = getName() + " Worker #" + m_level++;
+        final WorkerThread worker = 
+	    new WorkerThread( this, name, m_pool, m_context.duplicate() );
         worker.setDaemon( true );
         worker.enableLogging( m_logger );
         worker.start();
