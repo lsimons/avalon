@@ -58,7 +58,6 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  */
 public class DefaultVerifier
     extends AbstractLoggable
-    implements Verifier
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultVerifier.class );
