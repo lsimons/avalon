@@ -105,7 +105,7 @@ public class DefaultContext
         if( null == m_parent )
         {
             // There was no parent, and no data
-            throw new ContextException( "Unable to locate " + key );
+            throw new ContextException( "Unable to resolve context key: " + key );
         }
 
         return m_parent.get( key );
