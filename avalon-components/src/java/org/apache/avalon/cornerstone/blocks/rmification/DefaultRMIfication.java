@@ -30,7 +30,7 @@ import org.apache.avalon.cornerstone.services.rmification.RMIfication;
  * Default implementation of <code>RMIfication</code>.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class DefaultRMIfication
     extends AbstractLogEnabled
@@ -38,7 +38,7 @@ public class DefaultRMIfication
 {
     private int m_port;
     private Registry m_registry;
-    private Map m_remoteObjects;
+    private Map m_remotes;
 
     public void configure( final Configuration configuration )
         throws ConfigurationException
@@ -49,47 +49,59 @@ public class DefaultRMIfication
     public void initialize()
         throws Exception
     {
-        m_remoteObjects = new HashMap();
+        m_remotes = new HashMap();
 
         m_registry = LocateRegistry.createRegistry( m_port );
-        getLogger().debug( "RMI registry created on port " + m_port );
+        if ( getLogger().isInfoEnabled() )
+        {
+            final String message = "RMI registry created on port " + m_port;
+            getLogger().info( message );
+        }
     }
 
     public void dispose()
     {
         m_registry = null;
 
-        m_remoteObjects.clear();
-        m_remoteObjects = null;
+        m_remotes.clear();
+        m_remotes = null;
     }
 
     public void publish( final Remote remote, final String publicationName )
         throws RemoteException, MalformedURLException
     {
-        synchronized ( m_remoteObjects )
+        synchronized ( m_remotes )
         {
             UnicastRemoteObject.exportObject( remote );
             m_registry.rebind( publicationName, remote );
 
-            m_remoteObjects.put( publicationName, remote );
+            m_remotes.put( publicationName, remote );
         }
 
-        getLogger().debug( "Published " + publicationName );
+        if ( getLogger().isDebugEnabled() )
+        {
+            final String message = "Published " + publicationName;
+            getLogger().debug( message );
+        }
     }
 
     public void unpublish( final String publicationName )
         throws RemoteException, NotBoundException, MalformedURLException
     {
-        synchronized ( m_remoteObjects )
+        synchronized ( m_remotes )
         {
-            final Remote remote = (Remote)m_remoteObjects.get( publicationName );
+            final Remote remote = (Remote)m_remotes.get( publicationName );
 
             m_registry.unbind( publicationName );
             UnicastRemoteObject.unexportObject( remote, true );
 
-            m_remoteObjects.remove( publicationName );
+            m_remotes.remove( publicationName );
         }
 
-        getLogger().debug( "Unpublished " + publicationName );
+        if ( getLogger().isDebugEnabled() )
+        {
+            final String message = "Unpublished " + publicationName;
+            getLogger().debug( message );
+        }
     }
 }
