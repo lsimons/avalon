@@ -7,63 +7,32 @@
  */
 package org.apache.avalon.phoenix.metainfo;
 
-import javax.swing.Icon;
-import java.net.URL;
-import java.util.Locale;
 import org.apache.avalon.framework.Version;
 
 /**
- * This descrbes information about the block that is used by administration 
- * tools during configuration and upgrade but is not neccesary for running.
- * 
+ *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class BlockDescriptor
 {
+    private final String          m_classname;
     private final Version         m_version;
-    private final Contributor[]   m_contributors;
-    private final Icon            m_icon;
-    private final Icon            m_largeIcon;
+    //private final ConfigSchema    m_schema;
 
-    public BlockDescriptor( final Version version, 
-                            final Contributor[] contributors,
-                            final Icon icon,
-                            final Icon largeIcon )
+    public BlockDescriptor( final String classname, final Version version )
     {
+        m_classname = classname;
         m_version = version;
-        m_contributors = contributors;
-        m_icon = icon;
-        m_largeIcon = largeIcon;
     }
 
     /**
-     * Get a list of contributors who helped create block.
+     * Retrieve the Class Name of Block.
      *
-     * @return an array of Contributors
+     * @return the Class Name of block
      */
-    public Contributor[] getContributors()
+    public String getClassName()
     {
-        return m_contributors;
-    }
-
-    /**
-     * Get a 16x16 Color Icon for block.
-     *
-     * @return a 16x16 Color Icon for block
-     */
-    public Icon getIcon()
-    {
-        return m_icon;
-    }
-
-    /**
-     * Get a 32x32 Color Icon for block.
-     *
-     * @return a 32x32 Color Icon for block
-     */
-    public Icon getLargeIcon()
-    {
-        return m_largeIcon;
+        return m_classname;
     }
 
     /**
