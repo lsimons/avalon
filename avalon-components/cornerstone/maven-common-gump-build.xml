@@ -143,10 +143,9 @@ DEBUG INFO
     </target>
 
     <target name="avalon:jar"
-        depends="avalon:init, avalon:api-compile, avalon:impl-compile, avalon:java-compile, avalon:test, avalon:api-jar, avalon:impl-jar, avalon:regular-jar"/>
+        depends="avalon:init, avalon:java-compile, avalon:test, avalon:regular-jar"/>
 
-    <target name="avalon:java-compile" if="java.src.present"
-            depends="avalon:init,avalon:api-compile,avalon:impl-compile">
+    <target name="avalon:java-compile" if="java.src.present">
         <echo>
 =======================================================================
  Compiling Sources
