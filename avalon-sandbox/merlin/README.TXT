@@ -17,8 +17,10 @@ STRUCTURE:
     +-- merlin-cli               merlin command line handler
     +-- merlin-core              merlin kernel, block, and container 
     +-- merlin-spi               merlin SPI interfaces and classes
+    +-- merlin-plugin            plugin for Maven 
     +-- meta                     meta package implementation
     +-- meta-spi                 meta SPI interfaces and classes
+    +-- meta-tools               meta info generator task
     +-- merlin-extensions        
           +- merlin-jndi         merlin JNDI connector
     +-- merlin-smp               site and installation resources

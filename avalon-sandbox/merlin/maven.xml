@@ -3,15 +3,6 @@
   <property name="merlin.build.inst" value="inst"/>
   <property name="merlin.build.inst.dir" value="${maven.build.dir}/${merlin.build.inst}"/>
 
-  <!--
-  <property name="ibiblio.rep.remote" 
-    value="http://www.ibiblio.org/maven"/>
-  <property name="avalon.rep.remote" 
-    value="http://www.osm.net/repository"/>
-  <property name="maven.repo.remote" 
-    value="${avalon.rep.remote},${ibiblio.rep.remote}"/>
-  -->
-
   <property name="maven.checkstyle.format" value="avalon"/>
   <property name="maven.jar.manifest" value="${basedir}/src/etc/project.mf"/>
   <property name="pom.organization.identifier" value="ASF"/>
@@ -132,12 +123,39 @@
   -->
   <goal name="merlin-site"
     description="Build the Merlin site.">
+
     <maven:reactor
       basedir="${basedir}"
       includes="merlin-smp/project.xml"
       goals="site"
       banner="Building site."
       ignoreFailures="false"/>
+
+  </goal>
+
+  <!--
+  The site goal is called by the merlin-install goal and handles the generation
+  of the documetation for the entire Merlin project including the related sub-
+  projects.
+  -->
+  <goal name="merlin-site-deploy"
+    description="Deploy the Merlin site.">
+
+    <maven:reactor
+      basedir="${basedir}"
+      includes="merlin-smp/project.xml"
+      goals="site:fsdeploy"
+      banner="Deploying site."
+      ignoreFailures="false"/>
+
+  </goal>
+
+  <!--
+  The update goal generates the merlin site and deploys it to locat site repository.
+  -->
+  <goal name="merlin-update">
+    <attainGoal name="merlin-site"/>
+    <attainGoal name="merlin-site-deploy"/>
   </goal>
 
   <!--
