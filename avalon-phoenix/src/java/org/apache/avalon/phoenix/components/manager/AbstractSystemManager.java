@@ -8,6 +8,8 @@
 package org.apache.avalon.phoenix.components.manager;
 
 import java.util.HashMap;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 
 /**
@@ -19,6 +21,9 @@ public abstract class AbstractSystemManager
     extends AbstractLoggable
     implements SystemManager
 {
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( AbstractSystemManager.class );
+
     protected final static class ManagedEntry
     {
         ///Object passed in for management
@@ -53,7 +58,8 @@ public abstract class AbstractSystemManager
         checkRegister( name, object );
         if( null == interfaces )
         {
-            throw new IllegalArgumentException( "Null interfaces parameter" );
+            final String message = REZ.format( "manager.error.interfaces.null", name );
+            throw new IllegalArgumentException( message );
         }
 
         verifyInterfaces( object, interfaces );
@@ -102,7 +108,8 @@ public abstract class AbstractSystemManager
 
         if( null == entry )
         {
-            throw new ManagerException( "No such entry" );
+            final String message = REZ.format( "manager.error.unregister.noentry", name );
+            throw new ManagerException( message );
         }
 
         unexport( name, entry.m_exportedObject );
@@ -158,15 +165,16 @@ public abstract class AbstractSystemManager
 
             if( !clazz.isInterface() )
             {
-                throw new ManagerException( "Can not export " + clazz.getName() +
-                                            " for management as it is not an interface" );
+                final String message = 
+                    REZ.format( "manager.error.verify.notinterface", clazz.getName() );
+                throw new ManagerException( message );
             }
 
             if( !clazz.isInstance( object ) )
             {
-                throw new ManagerException( "Can not export " + clazz.getName() +
-                                            " for management as object does not " +
-                                            "implement interface" );
+                final String message = 
+                    REZ.format( "manager.error.verify.notinstance", clazz.getName() );
+                throw new ManagerException( message );
             }
 
             verifyInterface( clazz );
@@ -187,17 +195,18 @@ public abstract class AbstractSystemManager
     {
         if( null == object )
         {
-            throw new IllegalArgumentException( "Null object parameter" );
+            throw new NullPointerException( "object" );
         }
 
         if( null == name )
         {
-            throw new IllegalArgumentException( "Null name parameter" );
+            throw new NullPointerException( "name" );
         }
 
         if( null != m_entrys.get( name ) )
         {
-            throw new ManagerException( "Entry already exisits" );
+            final String message = REZ.format( "manager.error.register.exists", name );
+            throw new ManagerException( message );
         }
     }
 }

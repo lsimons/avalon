@@ -10,6 +10,8 @@ package org.apache.avalon.phoenix.components.kernel;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.camelot.AbstractContainer;
 import org.apache.avalon.framework.camelot.Container;
 import org.apache.avalon.framework.camelot.ContainerException;
@@ -37,6 +39,9 @@ public abstract class AbstractKernel
     extends AbstractContainer
     implements Application
 {
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( AbstractKernel.class );
+
     private boolean             m_autoStart;
 
     public void initialize()
@@ -91,7 +96,8 @@ public abstract class AbstractKernel
             }
             catch( final ContainerException ce )
             {
-                getLogger().warn( "Error disposing entry " + name, ce );
+                final String message = REZ.format( "kernel.error.entry.dispose", name );
+                getLogger().warn( message, ce );
             }
         }
     }
@@ -110,7 +116,8 @@ public abstract class AbstractKernel
             try { startEntry( name, entry ); }
             catch( final Exception e )
             {
-                getLogger().warn( "Failed to start application " + name, e );
+                final String message = REZ.format( "kernel.error.entry.start", name );
+                getLogger().warn( message, e );
             }
         }
     }
@@ -152,7 +159,8 @@ public abstract class AbstractKernel
                 //so invalid instance is not used
                 entry.setInstance( null );
 
-                throw new ContainerException( "Failed to initialize application", t );
+                final String message = REZ.format( "kernel.error.entry.initialize", name );
+                throw new ContainerException( message, t );
             }
 
             //Give sub-class chance to do something post
@@ -186,8 +194,8 @@ public abstract class AbstractKernel
         }
         else
         {
-            getLogger().warn( "Failed to stop application " + name +
-                              " as it is not initialized/started" );
+            final String message = REZ.format( "kernel.error.entry.nostop", name );
+            getLogger().warn( message );
         }
     }
 
