@@ -26,7 +26,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * Not Synchronized.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/03 15:00:38 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/08/05 11:53:24 $
  * @since 4.1
  */
 class InstrumentableProxy
@@ -117,8 +117,8 @@ class InstrumentableProxy
     {
         synchronized( this )
         {
-            // The description is optional
-            m_description = configuration.getAttribute( "description", m_name );
+            // The description is optional.  Default to the description from the constructor.
+            m_description = configuration.getAttribute( "description", m_description );
 
             if( getLogger().isDebugEnabled() )
             {
