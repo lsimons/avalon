@@ -1,0 +1,977 @@
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  
+      
+  
+
+      
+      
+      
+      
+      
+      
+        
+         
+      
+      
+
+      
+      
+      
+      
+
+      
+      
+      
+
+      
+
+  
+  
+
+  
+  
+
+   
+   
+
+
+    
+	
+	
+
+    
+    
+      
+	
+	
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+    <html>
+      <head>
+        
+        
+          <title>
+            Avalon Framework - 
+          
+        
+          </title>
+        
+        
+        
+        <style type="text/css">
+          @import url("../style/tigris.css");
+          @import url("../style/maven.css");
+        </style>
+        
+        
+        
+        
+        
+        <link rel="stylesheet" href="../style/print.css" type="text/css" media="print"></link>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></meta>
+        
+        
+        
+        
+      </head>
+
+      <body class="composite">
+
+        <div id="banner">
+          <table height="103" border="0" width="100%" cellpadding="8" cellspacing="0">
+            <tr>
+              
+              <td>
+                
+                
+                  
+                  
+                  
+                    
+                  
+                  
+                  
+                  
+                  
+                  <a href="http://avalon.apache.org/">
+                    <img border="0" alt="Apache Software Foundation" src="http://avalon.apache.org/images/apache-avalon-logo.png" align="left"></img>
+                  </a>
+                
+              </td>
+
+              
+
+              <td>
+                <div id="login" align="right">
+                  <a href="http://apachecon.com/2003/US/index.html">
+                    <img border="0" src="http://www.apache.org/~ceki/ac2003/ac2003-150.gif"></img>
+                  </a>
+                </div>
+              </td>
+
+              
+            </tr>
+          </table>
+        </div>
+        <div id="breadcrumbs">
+          <table border="0" width="100%" cellpadding="4" cellspacing="0">
+            <tr>
+              
+              <td>
+                <div align="right">
+                  
+                  
+                  
+                    
+    
+    
+      
+      
+      
+      <a href="http://apache.org/">Apache</a>
+      
+    
+      |
+      
+      
+      <a href="http://avalon.apache.org/">Avalon</a>
+      
+    
+      |
+      
+      
+      <a href="http://avalon.apache.org/product/framework/">Framework</a>
+      
+    
+      |
+      
+      
+      <a href="http://avalon.apache.org/product/containers/">Containers</a>
+      
+    
+      |
+      
+      
+      <a href="http://avalon.apache.org/product/components/">Components</a>
+      
+    
+  
+                  
+                  
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        
+        <table border="0" width="100%" cellpadding="8" cellspacing="0"> 
+          <tr valign="top">
+            <td width="20%" id="leftcol">
+              <div id="navcolumn">
+                
+
+                
+                  
+    <div>
+      <strong>About Avalon Framework</strong>
+      
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../index.html">Overview</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../cop/index.html">Component Oriented</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../principals/index.html">Component Development</a>
+      	
+      </small>
+	  
+        
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      		<b><a href="../principals/lifecycle.html">Lifecycle</a></b>
+      	
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../principals/containment.html">Containment</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../api/index.html">Javadoc</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    </div>
+  
+                
+                
+                
+                
+
+                
+                
+                <div>
+                  <strong>Project Documentation</strong>
+                  <div>
+                    <small>
+                      <a href="../index.html">About Avalon Framework</a>
+                    </small>
+                  </div>
+                  <div>
+                    <small>
+                      <a href="../project-info.html">Project Info</a>
+                    </small>
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                  </div>
+                  <div>
+                    <small>
+                      <a href="../maven-reports.html">Project Reports</a>
+                    </small>
+                    
+					
+                    
+                    
+                      
+                      
+                    
+                      
+                      
+                    
+                      
+                      
+                    
+                    
+                    
+                    
+                  </div>
+                  
+                  
+                  
+                  
+                  
+                    <div>
+                      <small>
+                        
+                        <a href="http://maven.apache.org/development-process.html">Development Process</a>
+                      </small>
+                    </div>
+                  
+                </div>
+              
+              
+                
+                
+                
+                
+              
+                
+              </div>
+            </td>
+            <td rowspan="2">
+              <div id="bodycol">
+                
+                <div class="app">
+                  
+                  
+    <div class="h3">
+      
+      
+        <h3>
+          <a name="Introduction">Introduction</a>
+        </h3>
+      
+      
+    <p>
+      
+        A component lives within something called a container. The contract between a 
+        container and a contained component is simple: the container is required to 
+        take a component through what is called its 
+    <strong>
+      lifecycle
+    </strong>
+   .
+      
+    </p>
+   
+    <p>
+      
+        The Avalon project provides an
+        application that functions as a container for componentized applications 
+        called 
+    <link href="http://avalon.apache.org/phoenix/index.html">
+      Phoenix
+    </link>
+   .  This is not 
+        exclusive, components adhering to lifecycle interfaces, can be mounted in 
+        custom containers.  Cocoon and others mounts their own containers for 
+        components and invoke relevant methods from the lifecycle interfaces.  See
+        
+    <link href="reference-containers.html">
+      Containers
+    </link>
+   .
+      
+    </p>
+   
+    <p>
+      
+        The lifecyle methods from the Avalon Framework sub-project are designed to be
+        used by just about any component hosted by any container.  Of course, the API
+        in question may well require additional interfaces for strongly typed 
+        functionality, but these interfaces should negate the need for any duplication
+        of effort.
+      
+    </p>
+   
+    </div>
+  
+    <div class="h3">
+      
+      
+        <h3>
+          <a name="The Lifecycle">The Lifecycle</a>
+        </h3>
+      
+      
+    <p>
+      
+        The lifecycle of a component specifies the methods that can be called on it,
+        and the order in which this may happen. Some methods can be called only once
+        in a specific 
+    <code>
+      phase
+    </code>
+    of a component's lifecycle, others may
+        be called multiple times. These methods are called the lifecycle methods.
+      
+    </p>
+   
+    <p>
+      
+        It is up to each container to indicate which lifecycle methods it will honor.
+        This should be clearly documented together with the description of the
+        container. A sister project to Phoenix supports all of the lifecycle methods defined in the
+        Avalon Framework API.
+      
+    </p>
+   
+    </div>
+  
+    <div class="h3">
+      
+      
+        <h3>
+          <a name="The Lifecycle Interfaces">The Lifecycle Interfaces</a>
+        </h3>
+      
+      
+    <p>
+      
+        A component exposes its lifecycle methods by implementing the lifecycle
+        interfaces. Each of these defines one or more methods that represent a
+        specific phase in a component's lifecycle. The defined interfaces are:
+      
+    </p>
+   
+    <ol>
+      
+        
+    <li>
+      LogEnabled
+    </li>
+   
+        
+    <li>
+      Contextualizable
+    </li>
+   
+        
+    <li>
+      Serviceable (replacement for Composable)
+    </li>
+   
+        
+    <li>
+      Configurable
+    </li>
+   
+        
+    <li>
+      Parameterizable
+    </li>
+   
+        
+    <li>
+      Initializable
+    </li>
+   
+        
+    <li>
+      Startable
+    </li>
+   
+        
+    <li>
+      Suspendable
+    </li>
+   
+        
+    <li>
+      Recontextualizable
+    </li>
+   
+        
+    <li>
+      Recomposable
+    </li>
+   
+        
+    <li>
+      Reconfigurable
+    </li>
+   
+        
+    <li>
+      Reparameterizable
+    </li>
+   
+        
+    <li>
+      Stoppable
+    </li>
+   
+        
+    <li>
+      Disposable
+    </li>
+   
+      
+    </ol>
+   
+    <p>
+      
+    <i>
+      
+        
+    <strong>
+      Note:
+    </strong>
+   java.lang.Runnable has also been in use as a lifecycle
+        interface. This is not recommended and is not supported by Avalon. Instead,
+        the run() method is the responsibility of the component itself. If you wish
+        to use it, call it from within start() or another method.  
+      
+    </i>
+   
+    </p>
+   
+    </div>
+  
+    <div class="h3">
+      
+      
+        <h3>
+          <a name="Phase Order">Phase Order</a>
+        </h3>
+      
+      
+    <p>
+      
+        The order in which the various lifecycle methods are called is very specific.
+        While none are required (it is possible to have a component implementing
+        none of the lifecycle methods, although the use of that would be limited),
+        some can only be used when others are as well. This is best explained using
+        a few examples.
+      
+    </p>
+   
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Simple Examples">Simple Examples</a>
+        </h4>
+      
+      
+    <p>
+      The lifecycle of a component implementing only Configurable for
+        example will be:
+    </p>
+   
+    <ol>
+      
+          
+    <li>
+      constructor
+    </li>
+   
+          
+    <li>
+      configure
+    </li>
+   
+          
+    <li>
+      finalize
+    </li>
+   
+        
+    </ol>
+   
+    <p>
+      The lifecycle of a component implementing only Serviceable will be:
+    </p>
+   
+    <ol>
+      
+          
+    <li>
+      constructor
+    </li>
+   
+          
+    <li>
+      service
+    </li>
+   
+          
+    <li>
+      finalize
+    </li>
+   
+        
+    </ol>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Complete">Complete</a>
+        </h4>
+      
+      
+    <p>
+      
+          If a component implements more than one interface the order of
+          the events (service, configure etc.) follow a specific order. A component
+          implementing all above interfaces (including Runnable) will follow these
+          specific paths.
+        
+    </p>
+   
+    <p>
+      
+          Startup Phase:
+        
+    </p>
+   
+    <ol>
+      
+          
+    <li>
+      constructor 
+    <strong>
+      as a consequence of instantiation
+    </strong>
+   
+
+    </li>
+   
+          
+    <li>
+      contextualize
+    </li>
+   
+          
+    <li>
+      service or compose
+    </li>
+   
+          
+    <li>
+      configure
+    </li>
+   
+          
+    <li>
+      parameterize
+    </li>
+   
+          
+    <li>
+      initialize
+    </li>
+   
+          
+    <li>
+      start
+    </li>
+   
+        
+    </ol>
+   
+    <p>
+      
+          At various or repeated times after startup:
+        
+    </p>
+   
+    <ol>
+      
+          
+    <li>
+      suspend
+    </li>
+   
+          
+    <li>
+      recontextualize
+    </li>
+   
+          
+    <li>
+      recompose
+    </li>
+   
+          
+    <li>
+      reconfigure
+    </li>
+   
+          
+    <li>
+      reparameterize
+    </li>
+   
+          
+    <li>
+      resume
+    </li>
+   
+        
+    </ol>
+   
+    <p>
+      
+          Shutdown Phase:
+        
+    </p>
+   
+    <ol>
+      
+          
+    <li>
+      stop
+    </li>
+   
+          
+    <li>
+      dispose
+    </li>
+   
+          
+    <li>
+      finalize 
+    <strong>
+      at some indeterminate moment by the garbage collector
+    </strong>
+   
+
+    </li>
+   
+        
+    </ol>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Phases executed once">Phases executed once</a>
+        </h4>
+      
+      
+    <p>
+      
+          These lifecycle methods are only called once in the entire life of a
+          component:
+        
+    </p>
+   
+    <ul>
+      
+          
+    <li>
+      contextualize
+    </li>
+   
+          
+    <li>
+      service
+    </li>
+   
+          
+    <li>
+      configure
+    </li>
+   
+          
+    <li>
+      parameterize
+    </li>
+   
+          
+    <li>
+      initialize
+    </li>
+   
+          
+    <li>
+      dispose
+    </li>
+   
+        
+    </ul>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Phases executed once or more">Phases executed once or more</a>
+        </h4>
+      
+      
+    <p>
+      
+          These lifecycle methods are called at least once and possibly more, depending
+          on the container:
+        
+    </p>
+   
+    <ul>
+      
+          
+    <li>
+      start
+    </li>
+   
+          
+    <li>
+      stop
+    </li>
+   
+        
+    </ul>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="The Suspendable Interface">The Suspendable Interface</a>
+        </h4>
+      
+      
+    <p>
+      
+          The methods suspend() and resume() are not guaranteed to be called at all,
+          even when implemented. They can be called more than once, but only after
+          one another and between start() and stop(). The reason they exist is so 
+          the container can notify the component it needs to temporarily stop 
+          any operations. The container may need to perform some synchronized operation 
+          on one of the components used by this component, or it may wish to call any 
+          of the following methods, which can also be called zero or more times, and 
+          only between a suspend() and a resume().
+        
+    </p>
+   
+    <ul>
+      
+          
+    <li>
+      recontextualize()
+    </li>
+   
+          
+    <li>
+      recompose()
+    </li>
+   
+          
+    <li>
+      reconfigure()
+    </li>
+   
+          
+    <li>
+      reparameterize()
+    </li>
+   
+        
+    </ul>
+   
+    </div>
+  
+    </div>
+  
+                  
+                  
+                  
+                  
+                  
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <div id="footer">
+          <table border="0" style="width:100%" cellpadding="4" cellspacing="0">
+            
+            <tr>
+              <td>
+                
+                  
+                    
+                    
+                      © 2000-2003, Apache Software Foundation
+                    
+                  
+                  
+                
+
+                
+              </td>
+              
+            </tr>
+          </table>
+        </div>
+      </body>
+    </html>
+  

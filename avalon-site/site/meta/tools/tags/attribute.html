@@ -1,0 +1,816 @@
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  
+      
+  
+
+      
+      
+      
+      
+      
+      
+        
+         
+      
+      
+
+      
+      
+      
+      
+
+      
+      
+      
+
+      
+
+  
+  
+
+  
+  
+
+   
+   
+
+
+    
+	
+	
+
+    
+    
+      
+	
+	
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+    <html>
+      <head>
+        
+        
+          <title>
+            Avalon Sandbox - 
+          Javadoc Tag Specification
+        
+          </title>
+        
+        
+        
+        <style type="text/css">
+          @import url("../../style/tigris.css");
+          @import url("../../style/maven.css");
+        </style>
+        
+        
+        
+        
+        
+        <link rel="stylesheet" href="../../style/print.css" type="text/css" media="print"></link>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></meta>
+        
+          <meta name="author" content="Stephen McConnell"></meta>
+          <meta name="email" content="mcconnell@apache.org"></meta>
+        
+        
+        
+        
+      </head>
+
+      <body class="composite">
+
+        <div id="banner">
+          <table height="103" border="0" width="100%" cellpadding="8" cellspacing="0">
+            <tr>
+              
+              <td>
+                
+                
+                  
+                  
+                  
+                    
+                  
+                  
+                  
+                  
+                  
+                  <a href="http://avalon.apache.org/">
+                    <img border="0" alt="Apache Software Foundation" src="http://avalon.apache.org/images/apache-avalon-logo.png" align="left"></img>
+                  </a>
+                
+              </td>
+
+              
+
+              <td>
+                <div id="login" align="right">
+                  <a href="http://apachecon.com/2003/US/index.html">
+                    <img border="0" src="http://www.apache.org/~ceki/ac2003/ac2003-150.gif"></img>
+                  </a>
+                </div>
+              </td>
+
+              
+            </tr>
+          </table>
+        </div>
+        <div id="breadcrumbs">
+          <table border="0" width="100%" cellpadding="4" cellspacing="0">
+            <tr>
+              
+              <td>
+                <div align="right">
+                  
+                  
+                  
+                    
+    
+    
+      
+      
+      
+      <a href="http://apache.org/">Apache</a>
+      
+    
+      |
+      
+      
+      <a href="http://avalon.apache.org/">Avalon</a>
+      
+    
+      |
+      
+      
+      <a href="http://avalon.apache.org/product/framework/">Framework</a>
+      
+    
+      |
+      
+      
+      <a href="http://avalon.apache.org/product/containers/">Containers</a>
+      
+    
+      |
+      
+      
+      <a href="http://avalon.apache.org/product/components/">Components</a>
+      
+    
+  
+                  
+                  
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        
+        <table border="0" width="100%" cellpadding="8" cellspacing="0"> 
+          <tr valign="top">
+            <td width="20%" id="leftcol">
+              <div id="navcolumn">
+                
+
+                
+                  
+    <div>
+      <strong>About Avalon Meta</strong>
+      
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../../index.html">Overview</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../../tutorial/index.html">Getting Started</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../../meta/index.html">Meta Model</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../../tools/index.html">Tools</a>
+      	
+      </small>
+	  
+        
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../../tools/tags/index.html">Javadoc Tags Reference</a>
+      	
+      </small>
+	  
+        
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../../tools/tags/type.html">Component</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      		<b><a href="../../tools/tags/attribute.html">Attribute</a></b>
+      	
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../../tools/tags/service.html">Service</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../../tools/tags/logger.html">Logger</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../../tools/tags/configuration.html">Configuration</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../../tools/tags/context.html">Context</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../../tools/tags/entry.html">Entry</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../../tools/tags/dependency.html">Dependency</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../../tools/tags/stage.html">Stage</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../../tools/tags/extension.html">Extension</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../../tools/ant.html">Meta-Info Generator Task</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../../tools/maven/index.html">Avalon Plugin for Maven</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../../api/index.html">Javadoc</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    </div>
+  
+                
+                
+                
+                
+
+                
+                
+                <div>
+                  <strong>Project Documentation</strong>
+                  <div>
+                    <small>
+                      <a href="../../index.html">About Avalon Meta</a>
+                    </small>
+                  </div>
+                  <div>
+                    <small>
+                      <a href="../../project-info.html">Project Info</a>
+                    </small>
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                  </div>
+                  <div>
+                    <small>
+                      <a href="../../maven-reports.html">Project Reports</a>
+                    </small>
+                    
+					
+                    
+                    
+                      
+                      
+                    
+                      
+                      
+                    
+                      
+                      
+                    
+                    
+                    
+                    
+                  </div>
+                  
+                  
+                  
+                  
+                  
+                    <div>
+                      <small>
+                        
+                        <a href="http://maven.apache.org/development-process.html">Development Process</a>
+                      </small>
+                    </div>
+                  
+                </div>
+              
+              
+                
+                
+                
+                
+              
+                
+              </div>
+            </td>
+            <td rowspan="2">
+              <div id="bodycol">
+                
+                <div class="app">
+                  
+                  
+    <div class="h3">
+      
+      
+        <h3>
+          <a name="Javadoc Tags">Javadoc Tags</a>
+        </h3>
+      
+      
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Attribute Tag">Attribute Tag</a>
+        </h4>
+      
+      
+    <p>
+      An attribute may be declared within an interface or class. When declared under an interface the attribute will be included in the generated service defintion.  When declared under a class, the attribute will be included in the info element of the type defintion.
+    </p>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Attributes">Attributes</a>
+        </h4>
+      
+      
+    
+    <table border="1" width="100%" cellspacing="2" cellpadding="3">
+      
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <th>
+      Attribute
+    </th>
+   
+    <th>
+      Required
+    </th>
+   
+    <th>
+      Description
+    </th>
+   </tr>
+  
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
+    <td>
+      key
+    </td>
+   
+    <td>
+      yes
+    </td>
+   
+    <td>
+      
+              
+    <p>
+      The attribute lookup key.
+    </p>
+   
+            
+    </td>
+   </tr>
+  
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <td>
+      value
+    </td>
+   
+    <td>
+      no
+    </td>
+   
+    <td>
+      
+              
+    <p>
+      The attribute value. If not declared, a null value is assumed.
+    </p>
+   
+            
+    </td>
+   </tr>
+  
+    </table>
+  
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Example">Example</a>
+        </h4>
+      
+      
+    <div id="source">
+      <pre>
+package org.apache.avalon.playground;
+
+/**
+ * Example of the declaration of a series of attributes.
+ *
+ * @avalon.attribute key="description" value="an example"
+ * @avalon.attribute key="color" value="red"
+ * @avalon.attribute key="priority" value="normal"
+ */
+public interface MyService
+{
+  ...
+}
+</pre>
+    </div>
+  
+    <p>
+      Generated meta-info when declared within an interface:
+    </p>
+   
+    <div id="source">
+      <pre>
+&lt;service&gt;
+  &lt;attributes&gt;
+    &lt;attribute name="description" value="an example"/&gt;
+    &lt;attribute name="color" value="red"/&gt;
+    &lt;attribute name="priority" value="normal"/&gt;
+  &lt;/attributes&gt;
+&lt;/service&gt;
+</pre>
+    </div>
+  
+    <p>
+      Generated meta-info when declared within an class:
+    </p>
+   
+    <div id="source">
+      <pre>
+&lt;type&gt;
+  &lt;info&gt;
+    &lt;attributes&gt;
+      &lt;attribute name="description" value="an example"/&gt;
+      &lt;attribute name="color" value="red"/&gt;
+      &lt;attribute name="priority" value="normal"/&gt;
+    &lt;/attributes&gt;
+  &lt;/info&gt;
+&lt;/type&gt;
+</pre>
+    </div>
+  
+    </div>
+  
+    </div>
+  
+                  
+                  
+                  
+                  
+                  
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <div id="footer">
+          <table border="0" style="width:100%" cellpadding="4" cellspacing="0">
+            
+            <tr>
+              <td>
+                
+                  
+                    
+                    
+                      © 2000-2003, Apache Software Foundation
+                    
+                  
+                  
+                
+
+                
+              </td>
+              
+            </tr>
+          </table>
+        </div>
+      </body>
+    </html>
+  
