@@ -13,7 +13,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import org.apache.avalon.AbstractLoggable;
+import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
 
@@ -23,7 +23,7 @@ import org.apache.avalon.configuration.ConfigurationException;
  * J2EE container pools the datasources properly.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/04/17 03:07:46 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/04/18 13:15:48 $
  */
 public class J2eeDataSource
     extends AbstractLoggable

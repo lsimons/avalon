@@ -7,9 +7,9 @@
  */
 package org.apache.excalibur.thread;
 
-import org.apache.avalon.Loggable;
-import org.apache.avalon.Poolable;
+import org.apache.avalon.logger.Loggable;
 import org.apache.excalibur.pool.ObjectFactory;
+import org.apache.excalibur.pool.Poolable;
 import org.apache.excalibur.pool.SoftResourceLimitingPool;
 import org.apache.log.Logger;
 

@@ -15,8 +15,8 @@ import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
 import java.util.Map;
-import org.apache.avalon.AbstractLoggable;
-import org.apache.avalon.Recyclable;
+import org.apache.avalon.logger.AbstractLoggable;
+import org.apache.excalibur.pool.Recyclable;
 import org.apache.excalibur.pool.Pool;
 
 /**
@@ -28,7 +28,7 @@ import org.apache.excalibur.pool.Pool;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/04/17 03:07:46 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/04/18 13:15:48 $
  */
 public class JdbcConnection
     extends AbstractLoggable
