@@ -1,4 +1,4 @@
-RedirectMatch ^/index.html http://avalon.apache.org/products/index.html
+RedirectMatch ^/index.html http://avalon.apache.org/product/index.html
 RedirectMatch ^/apps(.*) http://avalon.apache.org/phoenix/applications.html
 RedirectMatch ^/sandbox/meta(.*) http://avalon.apache.org/meta
 RedirectMatch ^/sandbox/merlin(.*) http://avalon.apache.org/merlin

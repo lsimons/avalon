@@ -6,10 +6,10 @@
   </properties> 
 
   <body>
-    <section name="Products">
+    <section name="Avalon Products">
       <p>
-        Avalon consists of a number of products and sub-projects supporting
-        service and component management.
+        Avalon consists of a number of products and sub-projects 
+        supporting service and component management.
       </p>
       <table>
         <tr>
@@ -17,7 +17,7 @@
           <th>Description</th>
         </tr>
         <tr>
-          <td><a href="/products/framework/index.html">Framework</a></td>
+          <td><a href="product/framework/index.html">Framework</a></td>
           <td>
               <p>The framework collection includes a component meta model 
               used to describe component dependencies towards a container, 
@@ -26,7 +26,7 @@
             </td>
         </tr>
         <tr>
-          <td><a href="products/containers/index.html">Containment</a></td>
+          <td><a href="product/containers/index.html">Containment</a></td>
           <td>
               <p>
                 A container is a platform supporting the management of 
@@ -37,7 +37,7 @@
             </td>
         </tr>
         <tr>
-          <td><a href="products/components/index.html">Components</a></td>
+          <td><a href="product/components/index.html">Components</a></td>
           <td>
               <p>The components page provides a summary of the two main
               component groups in Avalon.</p>
