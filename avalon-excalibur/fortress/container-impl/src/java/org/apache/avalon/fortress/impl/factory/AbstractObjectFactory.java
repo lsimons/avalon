@@ -71,6 +71,8 @@ import org.apache.excalibur.mpool.ObjectFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * AbstractObjectFactory does XYZ
@@ -138,8 +140,8 @@ public abstract class AbstractObjectFactory implements ObjectFactory, Instrument
     public abstract void dispose( Object object ) throws Exception;
 
     /* (non-Javadoc)
-    * @see org.apache.excalibur.instrument.Instrumentable#setInstrumentableName(java.lang.String)
-    */
+     * @see org.apache.excalibur.instrument.Instrumentable#setInstrumentableName(java.lang.String)
+     */
     public final void setInstrumentableName( final String name )
     {
         if ( m_delegateFactory instanceof Instrumentable )
@@ -149,8 +151,8 @@ public abstract class AbstractObjectFactory implements ObjectFactory, Instrument
     }
 
     /* (non-Javadoc)
-    * @see org.apache.excalibur.instrument.Instrumentable#getInstrumentableName()
-    */
+     * @see org.apache.excalibur.instrument.Instrumentable#getInstrumentableName()
+     */
     public final String getInstrumentableName()
     {
         if ( m_delegateFactory instanceof Instrumentable )
@@ -162,8 +164,8 @@ public abstract class AbstractObjectFactory implements ObjectFactory, Instrument
     }
 
     /* (non-Javadoc)
-    * @see org.apache.excalibur.instrument.Instrumentable#getInstruments()
-    */
+     * @see org.apache.excalibur.instrument.Instrumentable#getInstruments()
+     */
     public final Instrument[] getInstruments()
     {
         if ( m_delegateFactory instanceof Instrumentable )
@@ -175,8 +177,8 @@ public abstract class AbstractObjectFactory implements ObjectFactory, Instrument
     }
 
     /* (non-Javadoc)
-    * @see org.apache.excalibur.instrument.Instrumentable#getChildInstrumentables()
-    */
+     * @see org.apache.excalibur.instrument.Instrumentable#getChildInstrumentables()
+     */
     public final Instrumentable[] getChildInstrumentables()
     {
         if ( m_delegateFactory instanceof Instrumentable )
@@ -197,48 +199,43 @@ public abstract class AbstractObjectFactory implements ObjectFactory, Instrument
      */
     protected static Class[] guessWorkInterfaces( final Class clazz )
     {
-        final ArrayList list = new ArrayList();
-        guessWorkInterfaces( clazz, list );
+        final HashSet workInterfaces = new HashSet();
+        
+        // Get *all* interfaces
+        guessWorkInterfaces( clazz, workInterfaces );
 
-        list.add( Component.class );
-        return (Class[]) list.toArray( new Class[list.size()] );
+        // Make sure we have Component in there.
+        workInterfaces.add( Component.class );
+        
+        // Remove the invalid ones.
+        for ( int j = 0; j < INVALID_INTERFACES.length; j++ )
+        {
+            workInterfaces.remove(INVALID_INTERFACES[j]);
+        }
+        
+        return (Class[]) workInterfaces.toArray( new Class[workInterfaces.size()] );
     }
 
     /**
      * Get a list of interfaces to proxy by scanning through
-     * all interfaces a class implements and skipping invalid interfaces
-     * (as defined in {@link #INVALID_INTERFACES}).
+     * all interfaces a class implements.
      *
      * @param clazz the class
      * @param list the list of current work interfaces
      */
     private static void guessWorkInterfaces( final Class clazz,
-                                             final ArrayList list )
+                                             final Set workInterfaces )
     {
         if ( null != clazz )
         {
             final Class[] interfaces = clazz.getInterfaces();
 
-            boolean skip;
             for ( int i = 0; i < interfaces.length; i++ )
             {
-                skip = false;
-                for ( int j = 0; j < INVALID_INTERFACES.length; j++ )
-                {
-                    if ( interfaces[i] == INVALID_INTERFACES[j] )
-                    {
-                        skip = true;
-                        continue;
-                    }
-                }
-
-                if ( !skip )
-                {
-                    list.add( interfaces[i] );
-                }
+                workInterfaces.add( interfaces[i] );
             }
 
-            guessWorkInterfaces( clazz.getSuperclass(), list );
+            guessWorkInterfaces( clazz.getSuperclass(), workInterfaces );
         }
     }
 }
