@@ -157,6 +157,7 @@ public class JavadocTask extends SystemTask
     private String m_id;
     private String m_title;
     private List m_links = new ArrayList();
+    private boolean m_staged = false;
 
     public void setId( String id )
     {
@@ -166,6 +167,11 @@ public class JavadocTask extends SystemTask
     public void setTitle( String title )
     {
         m_title = title;
+    }
+
+    public void setStaged( boolean staged )
+    {
+        m_staged = staged;
     }
 
     public Link createLink()
@@ -178,16 +184,26 @@ public class JavadocTask extends SystemTask
     public void execute() throws BuildException
     {
         Definition def = getReferenceDefinition();
+
+        log( "Generating javadoc for project: " + def, Project.MSG_VERBOSE );
+
         File root = def.getDocDirectory();
         Path classpath = def.getPath( getProject(), Policy.RUNTIME );
 
-        File api = new File( root, "api" );
-        File spi = new File( root, "spi" );
-        File imp = new File( root, "impl" );
+        if( m_staged )
+        {
+            File api = new File( root, "api" );
+            File spi = new File( root, "spi" );
+            File imp = new File( root, "impl" );
 
-        setup( def, classpath, ResourceRef.API, api, false );
-        setup( def, classpath, ResourceRef.SPI, spi, false );
-        setup( def, classpath, ResourceRef.IMPL, imp,  true );
+            setup( def, classpath, ResourceRef.API, api, false );
+            setup( def, classpath, ResourceRef.SPI, spi, false );
+            setup( def, classpath, ResourceRef.IMPL, imp,  true );
+        }
+        else
+        {
+            setup( def, classpath, ResourceRef.ANY, root,  true );
+        }
     }
 
     private void setup( 
@@ -288,24 +304,6 @@ public class JavadocTask extends SystemTask
 
         javadoc.execute();
     }
-
-    /*
-    private File getJavadocRootDirectory( Definition def )
-    {
-        //File docs = getContext().getDocsDirectory();
-        File docs = getDocRoot( def );
-        
-        String version = def.getInfo().getVersion();
-        if( null == version )
-        {
-            return docs;
-        }
-        else
-        {
-            return new File( docs, version );
-        }
-    }
-    */
 
     private String getTitle( Definition def, int category )
     {

@@ -51,7 +51,6 @@ public class InstallTask extends SystemTask
     public void execute() throws BuildException 
     {
         Definition definition = getReferenceDefinition();
-        log( "installing deliverables" );
         installDeliverables( definition );
     }
 
@@ -74,6 +73,7 @@ public class InstallTask extends SystemTask
         File deliverables = new File( target, Context.DELIVERABLES );
         if( deliverables.exists() )
         {
+            log( "Installing deliverables", Project.MSG_VERBOSE );
             File cache = getHome().getRepository().getCacheDirectory();
             FileSet fileset = new FileSet();
             fileset.setDir( deliverables );

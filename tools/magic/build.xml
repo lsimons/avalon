@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="avalon-tools-magic" default="dist" basedir="." 
+<project name="avalon-tools-magic" default="install" basedir="." 
     xmlns:x="antlib:org.apache.avalon.tools">
 
   <property file="build.properties"/>
@@ -8,6 +8,12 @@
 
   <target name="package" depends="standard.package">
     <x:bar name="avalon-tools.bar"/>
+  </target>
+
+  <target name="javadoc" depends="prepare">
+    <x:javadoc title="Avalon Magic" id="avalon-tools-magic">
+      <x:link href="http://java.sun.com/j2se/1.4/docs/api" />
+    </x:javadoc>
   </target>
 
   <target name="install" depends="standard.install">

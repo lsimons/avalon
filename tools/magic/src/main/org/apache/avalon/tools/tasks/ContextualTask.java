@@ -24,7 +24,7 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.taskdefs.Javac;
+import org.apache.tools.ant.taskdefs.Property;
 import org.apache.tools.ant.taskdefs.Mkdir;
 import org.apache.tools.ant.taskdefs.optional.junit.FormatterElement;
 import org.apache.tools.ant.taskdefs.optional.junit.JUnitTask;
@@ -45,6 +45,9 @@ import org.apache.avalon.tools.model.Definition;
  */
 public abstract class ContextualTask extends Task
 {
+    private static final String USER_PROPERTIES = "user.properties";
+    private static final String BUILD_PROPERTIES = "build.properties";
+
     private boolean m_init = false;
     private Context m_context;
 
@@ -53,6 +56,7 @@ public abstract class ContextualTask extends Task
         if( !isInitialized() )
         {
             Project project = getProject();
+            setupProperties( project, project.getBaseDir() );
             m_context = Context.getContext( project );
             m_init = true;
         }
@@ -83,5 +87,31 @@ public abstract class ContextualTask extends Task
         mkdir.setDir( dir );
         mkdir.init();
         mkdir.execute();
+    }
+
+    protected void setupProperties( Project project, File dir )
+    {
+        setupUserProperties( project, dir );
+        setupBuildProperties( project, dir );
+    }
+
+    private void setupUserProperties( Project project, File dir )
+    {
+        File user = Context.getFile( dir, USER_PROPERTIES );
+        loadProperties( project, user );
+    }
+
+    private void setupBuildProperties( Project project, File dir )
+    {
+        File build = Context.getFile( dir, BUILD_PROPERTIES );
+        loadProperties( project, build );
+    }
+
+    protected void loadProperties( Project project, File file ) throws BuildException 
+    {
+        Property props = (Property) project.createTask( "property" );
+        props.init();
+        props.setFile( file );
+        props.execute();
     }
 }
