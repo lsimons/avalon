@@ -92,6 +92,42 @@ public abstract class AbstractPolicy
     }
 
     /**
+     * Create a permission set for a codeBase.
+     * These are read-write permissions and can be written till until the
+     * time in which they are applied to code.
+     *
+     * @param location the location of codes to apply permission set to.
+     * @param signers a comma seperated string of thos who signed codebase
+     * @return the new permission set
+     * @exception MalformedURLException if location string is malformed
+     */
+    protected Permissions createPermissionSetFor( final String location,
+                                                  final Certificate[] signers )
+        throws MalformedURLException
+    {
+        return createPermissionSetFor( new URL( location ), signers );
+    }
+
+    protected Permissions createPermissionSetFor( final URL url,
+                                                  final Certificate[] signers )
+    {
+        getLogger().debug( "createPermissionSetFor(" + url + ");" );
+
+        final PolicyEntry entry = new PolicyEntry();
+        entry.m_codeSource = new CodeSource( url, signers );
+        entry.m_codeSource = normalize( entry.m_codeSource );
+        entry.m_permissions = new Permissions();
+
+        m_entries.add( entry );
+        return entry.m_permissions;
+    }
+
+    protected final Logger getLogger()
+    {
+        return m_logger;
+    }
+
+    /**
      * Normalizing CodeSource involves removing relative addressing
      * (like .. and .) for file urls.
      *
@@ -138,48 +174,19 @@ public abstract class AbstractPolicy
         return new CodeSource( finalLocation, codeSource.getCertificates() );
     }
 
-    protected void copyPermissions( final Permissions destination, final Permissions src )
+    /**
+     * Utility method to cpoy permissions from specified source to specified destination.
+     *
+     * @param destination the destination of permissions
+     * @param source the source of permissions
+     */
+    private void copyPermissions( final Permissions destination, 
+                                  final Permissions source )
     {
-        final Enumeration enum = src.elements();
+        final Enumeration enum = source.elements();
         while( enum.hasMoreElements() )
         {
             destination.add( (Permission)enum.nextElement() );
         }
-    }
-
-    /**
-     * Create a permission set for a codeBase.
-     * These are read-write permissions and can be written till until the
-     * time in which they are applied to code.
-     *
-     * @param location the location of codes to apply permission set to.
-     * @param signers a comma seperated string of thos who signed codebase
-     * @return the new permission set
-     * @exception MalformedURLException if location string is malformed
-     */
-    protected Permissions createPermissionSetFor( final String location,
-                                                  final Certificate[] signers )
-        throws MalformedURLException
-    {
-        return createPermissionSetFor( new URL( location ), signers );
-    }
-
-    protected Permissions createPermissionSetFor( final URL url,
-                                                  final Certificate[] signers )
-    {
-        getLogger().debug( "createPermissionSetFor(" + url + ");" );
-
-        final PolicyEntry entry = new PolicyEntry();
-        entry.m_codeSource = new CodeSource( url, signers );
-        entry.m_codeSource = normalize( entry.m_codeSource );
-        entry.m_permissions = new Permissions();
-
-        m_entries.add( entry );
-        return entry.m_permissions;
-    }
-
-    protected final Logger getLogger()
-    {
-        return m_logger;
     }
 }
