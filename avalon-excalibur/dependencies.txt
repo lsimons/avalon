@@ -13,7 +13,7 @@ Current at: Thu Apr  4 23:02:23 EST 2002
 * i18n -> .
 * instrument -> .
 * io -> .
-* lang -> .
+* threadcontext -> .
 * naming -> .
 * tar -> .
 * zip -> .
@@ -28,6 +28,6 @@ Current at: Thu Apr  4 23:02:23 EST 2002
 instrument-client -> altrmi-client-impl
 * instrument-manager -> logkit, logger, framework, core, collections, instrument, altrmi-common, altrmi-server-impl, altrmi-server-interfaces, component, pool
 * logger -> logkit, framework, (testcase)
-* thread -> pool, lang, logkit, framework
+* thread -> pool, threadcontext, logkit, framework
 * pool -> framework, collections, concurrent, logkit
 * testcase -> framework, component, logkit, logger
