@@ -79,7 +79,7 @@
     <!-- Check that if we want servlet logging support, our logkit.jar has it enabled too -->
     <target name="dependencies.servlet" if="servlet.present">
             <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
-                <property name="name" value="logkit.jar"/>
+                <property name="proj.jar.name" value="logkit.jar"/>
                 <property name="class" value="org.apache.log.output.ServletOutputLogTarget"/>
                 <property name="classpath" value="${cp}"/>
                 <property name="remedy" value="Recompile LogKit with servlet support enabled, or disable servlet support in ${Name} by setting a blank 'servlet.jar' property in ant.properties"/>
@@ -89,18 +89,17 @@
     <!-- Check that if we want JDBC logging support, our logkit.jar has it enabled too -->
     <target name="dependencies.datasource" if="datasource.present">
             <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
-                <property name="name" value="logkit.jar"/>
+                <property name="proj.jar.name" value="logkit.jar"/>
                 <property name="class" value="org.apache.log.output.db.ColumnInfo"/>
                 <property name="classpath" value="${cp}"/>
                 <property name="remedy" value="Recompile LogKit with JDBC logging support enabled, or disable JDBC support in ${Name} by setting a blank 'jdbc.jar' property in ant.properties"/>
             </ant>
-            <echo>hooray</echo>
     </target>
 
     <!-- Check that if we want JMS logging support, our logkit.jar has it enabled too -->
     <target name="dependencies.jms" if="jms.present">
             <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
-                <property name="name" value="logkit.jar"/>
+                <property name="proj.jar.name" value="logkit.jar"/>
                 <property name="class" value="org.apache.log.output.jms.JMSQueueTarget"/>
                 <property name="classpath" value="${cp}"/>
                 <property name="remedy" value="Recompile LogKit with JMS support enabled, or disable JMS support in ${Name} by setting a blank 'jms.jar' property in ant.properties"/>
