@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>News</title>
+  </properties> 
+
+  <body>
+    <section name="News Archive December 2003">
+   <subsection name="06-DEC-2003: New Wiki Site">
+    <p>
+      Thanks to Leo Simons and the other good folks of Apache Infrastructure,
+      Avalon has a new wiki site!  The new 
+      <a href="http://moin.sourceforge.net/">MoinMoin</a> based site is at
+      <a href="http://wiki.apache.org/avalon">http://wiki.apache.org/avalon</a>.
+      Please contribute to our growing documentation!
+
+    </p>
+   </subsection>
+
+    </section>
+  </body>
+</document>
+

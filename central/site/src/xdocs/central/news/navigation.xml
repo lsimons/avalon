@@ -2,10 +2,13 @@
 
 <project>
 
- <title>Apache Avalon Central</title>
+ <title>Apache Avalon News</title>
 
  <body>
     <menu>
+      <item name="Latest News" href="index.html"/>
+      <item name="News Archive: 2004" href="2004/index.html"/>
+      <item name="News Archive: 2003" href="2003/index.html"/>
     </menu>
  </body>
 
