@@ -13,15 +13,15 @@
     <s1 title="Introduction">
       <p>If you are completely new to Avalon, the Framework subproject is not
       the easiest place to start. We suggest you take a look at the
-      <link href="@AVALON_BASE@/phoenix/getting-started.html">Avalon Phoenix getting started document</link>
+      <link href="../phoenix/getting-started.html">Avalon Phoenix getting started document</link>
       first, as it will take you through downloading, installing and then
       running something (a very simple server program) much more concrete.</p>
 
       <p>Probably the next smart step is to learn by example. Take a look at
-      one or two of the <link href="@AVALON_BASE@/apps">applications</link>
+      one or two of the <link href="../apps/index.html">applications</link>
       that use avalon and at how well these are set up, and at some of the
-      available <link href="@AVALON_BASE@/excalibur">components (in Excalibur)</link>
-      and <link href="@AVALON_BASE@/cornerstone">services (in Cornerstone)</link>
+      available <link href="../excalibur/index.html">components (in Excalibur)</link>
+      and <link href="../cornerstone/index.html">services (in Cornerstone)</link>
       Avalon offers.</p>
 
       <p>You will find that the Framework has an important role in each and
