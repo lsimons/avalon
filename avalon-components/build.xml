@@ -677,10 +677,17 @@
   -->
   <target name="distributions">
     <mkdir dir="${dist.base}"/>
+    <mkdir dir="${dist.base}/phoenix-apps"/>
 
     <antcall target="dist">
       <param name="dist.dir" value="${dist.name}" />
     </antcall>
+
+    <copy todir="${dist.base}/phoenix-apps" flatten="true">
+      <fileset dir="${dist.name}">
+        <include name="*.sar"/>
+      </fileset>
+    </copy>        
 
     <zip zipfile="${dist.base}/${dist.name}-bin.zip"
          basedir="${dist.name}/.."
@@ -719,6 +726,10 @@
     <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz"
           src="${dist.base}/${dist.name}-src.tar"/>
 
+    <antcall target="distributions-apps">
+      <param name="dist.dir" value="${dist.name}" />
+    </antcall>
+
     <delete file="${dist.base}/${dist.name}-src.tar"/>
     <delete dir="${dist.name}" />
 
@@ -748,9 +759,23 @@
   
   <!--
        ===================================================================
+           Distribute Applications as "apps" subdir of distributions/
+       ===================================================================
+  -->
+  <target name="distributions-apps" depends="apps-jars">
+    <copy todir="${dist.base}/phoenix-apps" flatten="true">
+      <fileset dir="apps">
+        <include name="*/dist/*.sar"/>
+      </fileset>
+    </copy>    
+  </target>
+
+  <!--
+       ===================================================================
                    Targets in other build.xml files (apps)
        ===================================================================
   -->
+  
   <target name="apps-jars" depends="jars, ftpserver, jesktop"/>
   <target name="apps-deploy" depends="jars, ftpserver-deploy, jesktop-deploy"/>
   
