@@ -258,7 +258,7 @@ public class DefaultFactory implements Factory
         // install any blocks declared within the kernel context
         //
 
-        getLogger().info( "install phase" );
+        getLogger().debug( "install phase" );
         URL[] urls = criteria.getDeploymentURLs();
         for( int i=0; i<urls.length; i++ )
         {
@@ -266,7 +266,7 @@ public class DefaultFactory implements Factory
 
             if( getLogger().isInfoEnabled() )
             {
-                getLogger().info( 
+                getLogger().debug( 
                   "installing: " 
                   + StringHelper.toString( url ) );
             }
@@ -472,7 +472,7 @@ public class DefaultFactory implements Factory
     private ContainmentModel createApplicationModel( 
       SystemContext system, Configuration config ) throws Exception
     {
-        getLogger().info( "building application model" );
+        getLogger().debug( "building application model" );
         LoggingManager logging = system.getLoggingManager();
         final Logger logger = logging.getLoggerForCategory("");
         ClassLoader api = system.getAPIClassLoader();
