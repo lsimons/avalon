@@ -54,12 +54,14 @@
  */
 package org.apache.avalon.magic.test.impl;
 
+import java.io.File;
+
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.service.DefaultServiceManager;
-import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.magic.impl.Avalon2PicoAdapter;
 
 import junit.framework.TestCase;
@@ -68,24 +70,179 @@ import junit.framework.TestCase;
  *
  *
  * @author <a href="mail at leosimons dot com">Leo Simons</a>
- * @version $Id: Avalon2PicoAdapterTestCase.java,v 1.1 2003/08/16 15:43:53 leosimons Exp $
+ * @version $Id: Avalon2PicoAdapterTestCase.java,v 1.2 2003/08/21 20:58:31 leosimons Exp $
  */
 public class Avalon2PicoAdapterTestCase extends TestCase
 {
     public void testLogEnabledPicoComponent() throws Exception
     {
-        AssertionLogger logger = new AssertionLogger( this );
         Tweety tweety = (Tweety)Avalon2PicoAdapter.getProxy( TweetyImpl.class );
 
+        AssertionLogger logger = new AssertionLogger( this );
         ContainerUtil.enableLogging( tweety, logger );
         ContainerUtil.contextualize( tweety, new DefaultContext() );
         ContainerUtil.service( tweety, new DefaultServiceManager() );
         ContainerUtil.configure( tweety, new DefaultConfiguration( "blah" ) );
-        ContainerUtil.parameterize( tweety, new Parameters() );
+        //ContainerUtil.parameterize( tweety, new Parameters() ); -- from config
         ContainerUtil.initialize( tweety );
         ContainerUtil.start( tweety );
 
         tweety.chilp();
         assertTrue( "The Logger was not properly passed to the proxied pico-style component", logger.isInfoCalled() );
+    }
+
+    public void testContextualizablePicoComponent() throws Exception
+    {
+        Tweety tweety = (Tweety)Avalon2PicoAdapter.getProxy( TweetyImpl2.class );
+
+        Logger logger = new ConsoleLogger();
+        ContainerUtil.enableLogging( tweety, logger );
+
+        AssertionContext context = new AssertionContext();
+        context.put( File.class.getName(), new File(".") );
+        context.makeReadOnly();
+        ContainerUtil.contextualize( tweety, context );
+        ContainerUtil.service( tweety, new DefaultServiceManager() );
+        ContainerUtil.configure( tweety, new DefaultConfiguration( "blah" ) );
+        //ContainerUtil.parameterize( tweety, new Parameters() ); -- from config
+        ContainerUtil.initialize( tweety );
+        ContainerUtil.start( tweety );
+
+        tweety.chilp();
+        assertTrue( "The homedir was not passed by retrieving it from the context", context.isGetCalled() );
+    }
+
+    public void testServicablePicoComponent() throws Exception
+    {
+        Tweety tweety = (Tweety)Avalon2PicoAdapter.getProxy( TweetyImpl2.class );
+
+        Logger logger = new ConsoleLogger();
+        ContainerUtil.enableLogging( tweety, logger );
+
+        DefaultContext context = new DefaultContext();
+        context.makeReadOnly();
+        ContainerUtil.contextualize( tweety, context );
+
+        AssertionServiceManager sm = new AssertionServiceManager();
+        sm.put( File.class.getName(), new File(".") );
+        sm.makeReadOnly();
+        ContainerUtil.service( tweety, sm );
+        ContainerUtil.configure( tweety, new DefaultConfiguration( "blah" ) );
+        //ContainerUtil.parameterize( tweety, new Parameters() ); -- from config
+        ContainerUtil.initialize( tweety );
+        ContainerUtil.start( tweety );
+
+        tweety.chilp();
+        assertTrue( "The homedir was not passed by retrieving it from the servicemanager", sm.isLookupCalled() );
+    }
+
+    public void testConfigurablePicoComponent() throws Exception
+    {
+        Tweety tweety = (Tweety)Avalon2PicoAdapter.getProxy( TweetyImpl3.class );
+
+        Logger logger = new ConsoleLogger();
+        ContainerUtil.enableLogging( tweety, logger );
+
+        DefaultContext context = new DefaultContext();
+        context.makeReadOnly();
+        ContainerUtil.contextualize( tweety, context );
+
+        DefaultServiceManager sm = new DefaultServiceManager();
+        sm.makeReadOnly();
+        ContainerUtil.service( tweety, sm );
+
+        AssertionConfiguration conf = new AssertionConfiguration( "blah" );
+        conf.setAttribute( "message", "dummy message");
+        conf.makeReadOnly();
+        ContainerUtil.configure( tweety, conf );
+        //ContainerUtil.parameterize( tweety, new Parameters() );
+        ContainerUtil.initialize( tweety );
+        ContainerUtil.start( tweety );
+
+        tweety.chilp();
+        assertTrue( "The message was not passed by retrieving it from the configuration", conf.isGetAttributeCalled() );
+    }
+
+    public void testParameterizedPicoComponent() throws Exception
+    {
+        // note the difference: TweetyImpl4 is 'parameterizable',
+        // not configurable
+        Tweety tweety = (Tweety)Avalon2PicoAdapter.getProxy( TweetyImpl4.class );
+
+        Logger logger = new ConsoleLogger();
+        ContainerUtil.enableLogging( tweety, logger );
+
+        DefaultContext context = new DefaultContext();
+        context.makeReadOnly();
+        ContainerUtil.contextualize( tweety, context );
+
+        DefaultServiceManager sm = new DefaultServiceManager();
+        sm.makeReadOnly();
+        ContainerUtil.service( tweety, sm );
+
+        AssertionConfiguration conf = new AssertionConfiguration( "blah" );
+        AssertionConfiguration conf2 = new AssertionConfiguration( "parameter" );
+        conf2.setAttribute( "name", "message");
+        conf2.setAttribute( "value", "empty message");
+        conf2.makeReadOnly();
+        conf.addChild( conf2 );
+        conf.makeReadOnly();
+        ContainerUtil.configure( tweety, conf );
+        //ContainerUtil.parameterize( tweety, new Parameters() );
+        ContainerUtil.initialize( tweety );
+        ContainerUtil.start( tweety );
+
+        tweety.chilp();
+        assertTrue( "The message was not passed by retrieving it from the configuration", conf2.isGetAttributeCalled() );
+    }
+
+    public void testServicedLoggerOverridesLogEnabledLogger() throws Exception
+    {
+        Tweety tweety = (Tweety)Avalon2PicoAdapter.getProxy( TweetyImpl.class );
+
+        AssertionLogger firstlogger = new AssertionLogger( this );
+        ContainerUtil.enableLogging( tweety, firstlogger );
+        ContainerUtil.contextualize( tweety, new DefaultContext() );
+
+        AssertionLogger secondlogger = new AssertionLogger( this );
+        DefaultServiceManager sm = new DefaultServiceManager();
+        sm.put( Logger.class.getName(), secondlogger );
+        sm.makeReadOnly();
+        ContainerUtil.service( tweety, sm );
+        ContainerUtil.configure( tweety, new DefaultConfiguration( "blah" ) );
+        //ContainerUtil.parameterize( tweety, new Parameters() ); -- from config
+        ContainerUtil.initialize( tweety );
+        ContainerUtil.start( tweety );
+
+        tweety.chilp();
+        assertFalse( "The first Logger was used by the proxied pico-style component", firstlogger.isInfoCalled() );
+        assertTrue( "The second Logger was not used by the proxied pico-style component", secondlogger.isInfoCalled() );
+    }
+
+    public void testServicedFileOverridesContextualizedFile() throws Exception
+    {
+        Tweety tweety = (Tweety)Avalon2PicoAdapter.getProxy( TweetyImpl2.class );
+
+        ConsoleLogger logger = new ConsoleLogger();
+        ContainerUtil.enableLogging( tweety, logger );
+
+        AssertionContext context = new AssertionContext();
+        context.put( File.class.getName(), new File(".") );
+        context.makeReadOnly();
+        ContainerUtil.contextualize( tweety, context );
+
+        AssertionServiceManager sm = new AssertionServiceManager();
+        sm.put( File.class.getName(), new File(".") );
+        sm.makeReadOnly();
+        ContainerUtil.service( tweety, sm );
+        ContainerUtil.configure( tweety, new DefaultConfiguration( "blah" ) );
+        //ContainerUtil.parameterize( tweety, new Parameters() ); -- from config
+        ContainerUtil.initialize( tweety );
+        ContainerUtil.start( tweety );
+
+        tweety.chilp();
+        assertFalse( "The first File was used by the proxied pico-style component", context.isGetCalled() );
+        assertTrue( "The second File was not used by the proxied pico-style component", sm.isLookupCalled() );
+
     }
 }

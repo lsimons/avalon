@@ -77,6 +77,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.container.ContainerUtil;
+import org.apache.avalon.framework.parameters.Parameters;
 
 /**
  * An InvocationHandler that intercepts calls to the avalon-framework
@@ -84,8 +85,6 @@ import org.apache.avalon.framework.container.ContainerUtil;
  * initialize, an instance is created with the constructor arguments
  * populated from stuff retrieved from the avalon-framework lifecycle
  * arguments.
- *
- * TODO: fully support the complete lifecycle
  *
  * Usage:
  *
@@ -128,7 +127,7 @@ import org.apache.avalon.framework.container.ContainerUtil;
  * used by avalon containers internally to automagicallly support
  * PicoContainer-compatible components.
  *
- * @version $Id: Avalon2PicoAdapter.java,v 1.1 2003/08/16 15:43:53 leosimons Exp $
+ * @version $Id: Avalon2PicoAdapter.java,v 1.2 2003/08/21 20:58:31 leosimons Exp $
  */
 public class Avalon2PicoAdapter implements InvocationHandler
 {
@@ -385,6 +384,7 @@ public class Avalon2PicoAdapter implements InvocationHandler
         ContainerUtil.service( m_target, getServiceManager() );
         ContainerUtil.contextualize( m_target, getContext() );
         ContainerUtil.configure( m_target, getConfiguration() );
+        ContainerUtil.parameterize( m_target, Parameters.fromConfiguration( getConfiguration() ) );
         ContainerUtil.initialize( m_target );
 
         initialized = true;
@@ -398,14 +398,10 @@ public class Avalon2PicoAdapter implements InvocationHandler
 
         for( int i = 0; i < paramTypes.length; i++ )
         {
-            if( paramTypes[i].isAssignableFrom( Logger.class ) )
+            // first try a (reversed) avalon lifecycle ordering
+            if( paramTypes[i].isAssignableFrom( Parameters.class ) )
             {
-                args.add( i, getLog() );
-                break;
-            }
-            if( paramTypes[i].isAssignableFrom( Context.class ) )
-            {
-                args.add( i, getContext() );
+                args.add( i, Parameters.fromConfiguration( getConfiguration() ) );
                 break;
             }
             if( paramTypes[i].isAssignableFrom( Configuration.class ) )
@@ -418,11 +414,15 @@ public class Avalon2PicoAdapter implements InvocationHandler
                 args.add( i, getServiceManager() );
                 break;
             }
-
             if( getServiceManager().hasService( getRole( paramTypes[i] ) ) )
             {
                 Object comp = getServiceManager().lookup( paramTypes[i].getName() );
                 args.add( i, comp );
+                break;
+            }
+            if( paramTypes[i].isAssignableFrom( Context.class ) )
+            {
+                args.add( i, getContext() );
                 break;
             }
 
@@ -439,6 +439,11 @@ public class Avalon2PicoAdapter implements InvocationHandler
             if( comp != null )
             {
                 args.add( i, comp );
+                break;
+            }
+            if( paramTypes[i].isAssignableFrom( Logger.class ) )
+            {
+                args.add( i, getLog() );
                 break;
             }
 
