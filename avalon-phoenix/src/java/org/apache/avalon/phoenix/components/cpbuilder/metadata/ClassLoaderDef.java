@@ -12,10 +12,10 @@ import org.apache.avalon.excalibur.extension.Extension;
 /**
  * This class defines a specific classloader, made up of
  * {@link EntryDef}, {@link Extension} and
- * {@link FilesetDef} objects.
+ * {@link FileSetDef} objects.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/09/01 00:51:37 $
+ * @version $Revision: 1.2 $ $Date: 2002/09/01 04:11:46 $
  */
 public class ClassLoaderDef
 {
@@ -44,13 +44,13 @@ public class ClassLoaderDef
     /**
      * The Filesets that are added to this ClassLoader.
      */
-    private final FilesetDef[] m_filesets;
+    private final FileSetDef[] m_filesets;
 
     public ClassLoaderDef( final String name,
                                 final String parent,
                                 final EntryDef[] elements,
                                 final Extension[] extensions,
-                                final FilesetDef[] filesets )
+                                final FileSetDef[] filesets )
     {
         m_name = name;
         m_parent = parent;
@@ -109,7 +109,7 @@ public class ClassLoaderDef
      * @return the filesets added to Classloader.
      * @see #m_filesets
      */
-    public FilesetDef[] getFilesets()
+    public FileSetDef[] getFilesets()
     {
         return m_filesets;
     }
