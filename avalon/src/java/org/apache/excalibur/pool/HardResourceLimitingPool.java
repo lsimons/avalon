@@ -68,31 +68,16 @@ public class HardResourceLimitingPool
             getLogger().debug("Caught init exception", e);
         }
     }
-    /**
-     * Retrieve an object from pool.
-     *
-     * @return an object from Pool
-     */
-    public final synchronized Poolable get() throws Exception
+
+    protected final Poolable newPoolable() throws Exception
     {
-        while ( this.m_ready.size() == 0 || this.m_currentCount > this.m_max )
+        if (m_count < m_max)
         {
-            try { wait(); }
-            catch( final InterruptedException ie ) { }
+            m_count++;
+            return (Poolable) this.m_factory.newInstance();
         }
 
-        return super.get();
-    }
-
-    /**
-     * Place an object in pool.
-     *
-     * @param poolable the object to be placed in pool
-     */
-    public final synchronized void put( final Poolable poolable )
-    {
-        super.put( poolable );
-
-        notify();
+        throw new InstantiationException("Cannot create more than " +
+                                         m_max + " instances for the pool.");
     }
 }

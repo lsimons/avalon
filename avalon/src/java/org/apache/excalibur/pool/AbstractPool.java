@@ -7,8 +7,9 @@
  */
 package org.apache.excalibur.pool;
 
-import java.util.Stack;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
+import org.apache.excalibur.concurrent.Lock;
 import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.avalon.thread.ThreadSafe;
@@ -18,61 +19,25 @@ import org.apache.avalon.thread.ThreadSafe;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public class AbstractPool
+public abstract class AbstractPool
     extends AbstractLoggable
     implements Pool, ThreadSafe
 {
+    public final static int        DEFAULT_POOL_SIZE  = 8;
     protected final ObjectFactory  m_factory;
-    protected final int            m_min;
-    protected int                  m_max;
-    protected int                  m_currentCount  = 0;
-    protected Vector               m_active        = new Vector();
-    protected Stack                m_ready         = new Stack();
+    protected List                 m_active           = new ArrayList();
+    protected List                 m_ready            = new ArrayList();
+    protected Lock                 m_mutex            = new Lock();
+    protected boolean              m_initialized      = false;
+    protected int                  m_count            = 0;
 
     /**
      * Create an AbstractPool.  The pool requires a factory, and can
      * optionally have a controller.
      */
-    public AbstractPool( final ObjectFactory factory,
-                         final int min,
-                         final int max ) throws Exception
+    public AbstractPool( final ObjectFactory factory ) throws Exception
     {
         m_factory = factory;
-        int t_max = max;
-        int t_min = min;
-
-        if( min < 0 )
-        {
-            if( null != getLogger() )
-            {
-                getLogger().warn( "Minumum number of poolables specified is " +
-                                  "less than 0, using 0" );
-            }
-
-            t_min = 0;
-        }
-        else
-        {
-            t_min = min;
-        }
-
-        if( ( max < min ) || ( max < 1 ) )
-        {
-            if( null != getLogger() )
-            {
-                getLogger().warn( "Maximum number of poolables specified must be at " +
-                                  "least 1 and must be greater than the minumum number " +
-                                  "of connections" );
-            }
-            t_max = ( min > 1 ) ? min : 1;
-        }
-        else
-        {
-            t_max = max;
-        }
-
-        m_max = t_max;
-        m_min = t_min;
 
         if( !(this instanceof Initializable) )
         {
@@ -83,51 +48,24 @@ public class AbstractPool
     protected void initialize()
         throws Exception
     {
-        for( int i = 0; i < m_min; i++ )
+        this.m_mutex.lock();
+
+        for( int i = 0; i < AbstractPool.DEFAULT_POOL_SIZE; i++ )
         {
-            m_ready.push( m_factory.newInstance() );
-            m_currentCount++;
+            m_ready.add( m_factory.newInstance() );
+            m_count++;
         }
+
+        this.m_initialized = true;
+
+        this.m_mutex.unlock();
     }
 
     public int size() {
-        int count = this.m_currentCount;
-        return count;
+        return m_count;
     }
 
-    public synchronized Poolable get()
-        throws Exception
-    {
-        Poolable obj = null;
+    public abstract Poolable get() throws Exception;
 
-        if( 0 == m_ready.size() )
-        {
-            obj = (Poolable)m_factory.newInstance();
-            m_currentCount++;
-        }
-        else
-        {
-            obj = (Poolable)m_ready.pop();
-        }
-
-        m_active.addElement( obj );
-
-        if( null != getLogger() )
-        {
-            getLogger().debug( m_factory.getCreatedClass().getName() + ": requested from the pool." );
-        }
-
-        return obj;
-    }
-
-    public synchronized void put( final Poolable obj )
-    {
-        m_active.removeElement( obj );
-        m_ready.push( obj );
-
-        if( null != getLogger() )
-        {
-            getLogger().debug( m_factory.getCreatedClass().getName() + ": returned to the pool." );
-        }
-    }
+    public abstract void put( final Poolable obj );
 }

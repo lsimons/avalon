@@ -14,12 +14,10 @@ import org.apache.avalon.activity.Initializable;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public class SoftResourceLimitingPool 
-    extends AbstractPool 
+public class SoftResourceLimitingPool
+    extends DefaultPool
     implements Resizable
 {
-    protected final PoolController m_controller;
-
     /**
      * Create an SoftResourceLimitingPool.  The pool requires a factory,
      * and can optionally have a controller.
@@ -27,8 +25,7 @@ public class SoftResourceLimitingPool
     public SoftResourceLimitingPool( final ObjectFactory factory,
                                      final int min ) throws Exception
     {
-        super(factory, min, min * 2);
-        this.m_controller = null;
+        super(factory, null, min, min * 2);
     }
 
     /**
@@ -39,8 +36,7 @@ public class SoftResourceLimitingPool
                                      final int min,
                                      final int max ) throws Exception
     {
-        super(factory, min, max);
-        this.m_controller = null;
+        super(factory, null, min, max);
     }
 
     /**
@@ -50,81 +46,81 @@ public class SoftResourceLimitingPool
     public SoftResourceLimitingPool( final ObjectFactory factory,
                                      final PoolController controller,
                                      final int min,
-                                     final int max ) 
+                                     final int max )
         throws Exception
     {
-        super( factory, min, max );
-        m_controller = controller;
+        super( factory, controller, min, max );
     }
 
-    public void initialize() 
+    public void initialize()
     {
         grow( m_min );
     }
 
-    public synchronized void grow( final int amount )
+    public void grow( final int amount )
     {
-        for( int i = 0; i < amount; i++ ) 
+        try
         {
-            try
-            {
-                m_ready.push( m_factory.newInstance() );
-                m_currentCount++;
-            } 
-            catch( final Exception e )
-            {
-                if( null != getLogger() )
-                {
-                    getLogger().debug( m_factory.getCreatedClass().getName() +
-                                       ": could not be instantiated.", e );
-                }
-            }
-            
-            notify();
-        }
-    }
+            m_mutex.lock();
 
-    public synchronized void shrink( final int amount )
-    {
-        for( int i = 0; i < amount; i++ )
-        {
-            if( m_ready.size() > m_min )
+            for( int i = 0; i < amount; i++ )
             {
                 try
                 {
-                    m_factory.decommission( m_ready.pop() );
-                    m_currentCount--;
-                } 
+                    m_ready.add( this.newPoolable() );
+                }
                 catch( final Exception e )
                 {
                     if( null != getLogger() )
                     {
                         getLogger().debug( m_factory.getCreatedClass().getName() +
-                                           ": improperly decommissioned.", e );
+                                           ": could not be instantiated.", e );
                     }
                 }
             }
         }
+        catch (InterruptedException ie)
+        {
+            getLogger().warn("Interrupted while waiting on lock", ie);
+        }
+        finally
+        {
+            m_mutex.unlock();
+        }
     }
 
-    public Poolable get() 
-        throws Exception
+    public void shrink( final int amount )
     {
-        if( m_ready.size() == 0 )
+        try
         {
-            grow( (null == m_controller) ? m_max - m_min : m_controller.grow() );
+            m_mutex.lock();
+
+            for( int i = 0; i < amount; i++ )
+            {
+                if( m_ready.size() > m_min )
+                {
+                    try
+                    {
+                        m_factory.decommission( m_ready.remove(0) );
+                        m_count--;
+                    }
+                    catch( final Exception e )
+                    {
+                        if( null != getLogger() )
+                        {
+                            getLogger().debug( m_factory.getCreatedClass().getName() +
+                                               ": improperly decommissioned.", e );
+                        }
+                    }
+                }
+            }
         }
-
-        return super.get();
-    }
-
-    public void put( final Poolable poolable )
-    {
-        if( m_ready.size() > m_max )
+        catch (InterruptedException ie)
         {
-            shrink( (null == m_controller) ? m_ready.size() - (m_max + 1) : m_controller.shrink() );
         }
-
-        super.put( poolable );
+        finally
+        {
+            m_mutex.unlock();
+        }
     }
 }
