@@ -177,20 +177,20 @@ public class DefaultDeployer
     /**
      * Helper method to load configuration data.
      *
-     * @param file the source of configuration data
+     * @param location the location of configuration data as a url
      * @return the Configuration
      * @exception DeploymentException if an error occurs
      */
-    private Configuration getConfigurationFor( final URL url )
+    private Configuration getConfigurationFor( final String location )
         throws DeploymentException
     {
         try
         {
-            return m_builder.build( url.toString() );
+            return m_builder.build( location );
         }
         catch( final Exception e )
         {
-            final String message = REZ.getString( "deploy.error.config.create", url );
+            final String message = REZ.getString( "deploy.error.config.create", location );
             throw new DeploymentException( message, e );
         }
     }
