@@ -31,57 +31,9 @@ import org.apache.avalon.composition.data.IncludeDirective;
  * a classpath.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/04/19 19:53:24 $
+ * @version $Revision: 1.4 $ $Date: 2004/04/21 17:52:00 $
  */
 public interface FilesetModel {
-
-    /**
-     * Establishes the base directory anchor for the fileset resolution.
-     * 
-     * @param anchor the base directory anchor
-     */
-    void setBaseDirectory(File anchor);
-    /**
-     * Establishes the set of <code>IncludeDirective</code> objects
-     * to use during fileset resolution.
-     * 
-     * @param includes array of <code>IncludeDirective</code> objects
-     */
-    void setIncludeDirectives(IncludeDirective[] includes);
-    /**
-     * Establishes the set of <code>ExcludeDirective</code> objects
-     * to use during fileset resolution.
-     * 
-     * @param excludes array of <code>ExcludeDirectives</code>
-     */
-    void setExcludeDirectives(ExcludeDirective[] excludes);
-    /**
-     * Establishes a set of default includes to use during fileset
-     * resolution in lieu of an explicit specification of a set
-     * of <code>IncludeDirective</code> objects.
-     * 
-     * @param defaultIncludes array of <code>String</code> objects
-     * representing a set of default fileset includes
-     */
-    void setDefaultIncludes(String[] defaultIncludes);
-    /**
-     * Establishes a set of default excludes to use during fileset
-     * resolution in lieu of an explicit specification of a set
-     * of <code>ExcludeDirective</code> objects.
-     * 
-     * @param defaultExcludes array of <code>String</code> objects
-     * representing a set of default fileset excludes
-     */
-    void setDefaultExcludes(String[] defaultExcludes);
-    /**
-     * Returns a set of <code>File</code> objects representing the
-     * results of the fileset resolution.  This array will contain
-     * fully qualified filenames based on the base directory anchor.
-     * 
-     * @return an array list of <code>File</code> objects
-     * to include in the classpath
-     */
-    ArrayList getIncludes();
     /**
      * Resolves the specified include and exclude directives from
      * the base directory anchor and produces an array of files
