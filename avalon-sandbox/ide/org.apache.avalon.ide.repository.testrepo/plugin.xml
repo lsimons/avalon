@@ -15,6 +15,7 @@
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.apache.avalon.ide.eclipse.repository"/>
+      <import plugin="org.eclipse.core.runtime"/>
    </requires>
 
 
@@ -22,8 +23,8 @@
          point="org.apache.avalon.ide.eclipse.repository.agent">
       <scheme
             name="Test Repository Agent"
-            prefix="testrepo"
-            class="org.apache.avalon.ide.repository.testrepo.TestRepoRepositoryAgentFactory">
+            class="org.apache.avalon.ide.repository.testrepo.TestRepoRepositoryAgentFactory"
+            prefix="testrepo">
          <description>
             This Repository Agent only exists to aid in the creation of the Repository View Plug-In and should not be used beyond that.
          </description>
