@@ -31,7 +31,7 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.phoenix.Constants;
-import org.apache.avalon.phoenix.components.LifecycleUtil;
+import org.apache.avalon.phoenix.components.ComponentUtil;
 import org.apache.avalon.phoenix.interfaces.Deployer;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.avalon.phoenix.interfaces.EmbeddorMBean;
@@ -504,13 +504,13 @@ public class DefaultEmbeddor
         throws Exception
     {
         final Logger childLogger = getLogger().getChildLogger( loggerName );
-        LifecycleUtil.logEnable( object, childLogger );
-        LifecycleUtil.contextualize( object, m_context );
-        LifecycleUtil.service( object, getServiceManager() );
-        LifecycleUtil.parameterize( object, m_parameters );
-        LifecycleUtil.configure( object, config );
-        LifecycleUtil.initialize( object );
-        LifecycleUtil.start( object );
+        ComponentUtil.logEnable( object, childLogger );
+        ComponentUtil.contextualize( object, m_context );
+        ComponentUtil.service( object, getServiceManager() );
+        ComponentUtil.parameterize( object, m_parameters );
+        ComponentUtil.configure( object, config );
+        ComponentUtil.initialize( object );
+        ComponentUtil.start( object );
     }
 
     private void shutdownComponents()
@@ -521,7 +521,7 @@ public class DefaultEmbeddor
         {
             final Object object = m_entrys[ i ].getObject();
             if( null == object ) continue;
-            LifecycleUtil.shutdown( object );
+            ComponentUtil.shutdown( object );
         }
     }
 
