@@ -60,7 +60,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * the information is hard-coded.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/03/17 20:22:56 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/03/17 20:55:37 $
  * @since 4.1
  */
 public abstract class AbstractRoleManager
@@ -70,7 +70,7 @@ public abstract class AbstractRoleManager
    /**
     * The classloader used to load and check roles and components.
     */
-    protected final ClassLoader m_loader;
+    private final ClassLoader m_loader;
 
     /**
      * Map for shorthand to RoleEntry
@@ -225,6 +225,17 @@ public abstract class AbstractRoleManager
         {
             return null;
         }
+    }
+    
+    /**
+     * Get the classloader used for the RoleManager for any class that
+     * extends this one.
+     * 
+     * @return ClassLoader
+     */
+    protected ClassLoader getLoader()
+    {
+        return m_loader;
     }
 }
 
