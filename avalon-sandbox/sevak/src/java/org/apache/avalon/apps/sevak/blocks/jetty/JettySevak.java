@@ -27,6 +27,7 @@ import org.mortbay.jetty.Server;
 import org.mortbay.jetty.servlet.WebApplicationContext;
 import org.mortbay.util.MultiException;
 import org.mortbay.util.InetAddrPort;
+import org.mortbay.util.Log;
 
 
 /**
@@ -51,27 +52,50 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
     private int m_port;
 
 
+    /**
+     * Contruct a Jetty block
+     */
     public JettySevak()
     {
-        m_server = new Server();
     }
+
+    /**
+     * Contextualize
+     * @param context the context
+     */
 
     public void contextualize(final Context context)
     {
         //this.m_context = (BlockContext) context;
     }
 
+    /**
+     * Configure
+     * @param configuration the configuration
+     * @throws ConfigurationException if a problem
+     */
     public void configure(final Configuration configuration) throws ConfigurationException
     {
         m_hostName = configuration.getChild("hostname").getValue("localhost");
         m_port = configuration.getChild("port").getValueAsInteger(8080);
     }
 
+    /**
+     * Initialize
+     * @throws Exception if a problem
+     */
     public void initialize() throws Exception
     {
+        m_server = new Server();
         m_server.addListener(new InetAddrPort(m_hostName, m_port));
+        PhoenixLogSink phoenixLogSink = new PhoenixLogSink();
+        phoenixLogSink.enableLogging(getLogger());
+        Log.instance().add(phoenixLogSink);
     }
 
+    /**
+     * Start
+     */
     public final void start()
     {
         try
@@ -84,6 +108,9 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
         }
     }
 
+    /**
+     * Stop
+     */
     public void stop()
     {
         try
@@ -96,6 +123,12 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
         }
     }
 
+    /**
+     * Deploy a webapp
+     * @param context the contxct for the webapp
+     * @param pathToWebAppFolder the pathc to it
+     * @throws SevakException if a problem
+     */
     public void deploy(String context, File pathToWebAppFolder) throws SevakException
     {
         try
@@ -112,12 +145,16 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
         }
     }
 
+    /**
+     * Undeploy a webapp.
+     * @param context the context
+     * @throws SevakException if a problem
+     */
     public void undeploy(String context) throws SevakException
     {
         WebApplicationContext ctx = (WebApplicationContext) m_webapps.get(context);
         ctx.destroy();
         m_webapps.remove(context);
     }
-
 
 }
