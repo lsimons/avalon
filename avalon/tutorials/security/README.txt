@@ -1,21 +1,24 @@
 
-Composition Management
-======================
+Security enabled Composition Management
+=======================================
 
 Overview
 --------
 
-This tutorial presents the creation of virtual components
-using composition of package containers.  In this demonstration
-we have three application groups, a top level application, a 
-locator system, and a publisher system.  The top level app
-pulls in the two sub-systems as virtual components.  The sub-
-systems are themselves fully deployable blocks in their 
-own right (although in this demonstratotion they represent
-very simple sub-systems).  In practice, the combination of 
-packaged deployment profiles, default configurations, 
-auto discovery, auto assembly, and block composition provides
-a powerful framework complex systems delivery.
+This is an extension of the tutorial/composition, in that here
+we use security profiles to GRANT access for one component, but
+not the other, to the Location, which is configured to 
+"Europe.France.Paris" in the Application.xprofile defaults.
+One application component has the security enabled for Spain
+and the other has the security enabled for France. 
+
+This tutorial is interesting as it shows that it is possible
+to grant different security access to the same codebase, which
+is not possible in standard Java security policies.
+
+For more information about the other aspects of this example, 
+please check the tutorial/composition, which is practically
+identical.
 
 Build and execution instructions:
 ---------------------------------
