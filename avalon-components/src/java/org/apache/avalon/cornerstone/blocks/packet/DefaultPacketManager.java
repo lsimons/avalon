@@ -78,6 +78,12 @@ public class DefaultPacketManager
                                                 name );
         }
 
+        //Make sure timeout is specified for socket.
+        if( 0 == socket.getSoTimeout() )
+        {
+            socket.setSoTimeout( 500 );
+        }
+
         final Acceptor acceptor = new Acceptor( socket, handlerFactory, threadPool );
         setupLogger( acceptor );
         m_acceptors.put( name, acceptor );
