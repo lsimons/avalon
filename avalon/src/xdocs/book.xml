@@ -11,15 +11,9 @@
     <menu-item label="Overview" href="index.html"/>
     <menu-item label="Features" href="features.html"/>
     <menu-item label="Getting Started" href="framework/getting-started.html" />
-    <menu-item label="Download" href="download.html" />
+    <menu-item label="Download Binaries" href="http://jakarta.apache.org/site/binindex.html" />
+    <menu-item label="Download Source" href="http://jakarta.apache.org/site/sourceindex.html" />
     <menu-item label="Case Studies" href="case-studies.html" />
-    
-      <!-- history pages -->
-      <menu-item type="hidden" href="history/call-to-vote.html"/>
-      <menu-item type="hidden" href="history/what-is-a-server.html"/>
-      <menu-item type="hidden" href="history/need-for-avalon.html"/>
-      <menu-item type="hidden" href="history/changes.html"/>
-
     <menu-item label="License" href="license.html"/>   
     <menu-item label="Contributors" href="authors/index.html"/>
   </menu>
@@ -40,11 +34,7 @@
   </menu>
 
   <menu label="For Developers">
-    <menu-item label="Changes" href="changes.html" />
     <menu-item label="Coding standards" href="code-standards.html" />
-    <!--
-    <menu-item label="Project structure" href="project-structure.html" />
-    -->
     <menu-item label="CVS" href="http://cvs.apache.org/viewcvs/jakarta-avalon/.html" />
     <menu-item label="Mailing Lists" href="mail.html"/>
   </menu>

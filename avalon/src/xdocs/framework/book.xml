@@ -30,7 +30,7 @@
 
   <menu label="Reference">
     <menu-item type="external" id="api-docs" label="API Docs" href="@AVALON_BASE@/api/index.html"/>
-    <menu-item type="external" id="diagrams" label="Diagrams Docs" href="diagrams/index.html"/>
+    <menu-item type="external" id="diagrams" label="Diagrams Docs" href="diagrams/"/>
     <menu-item label="The Lifecycle" href="reference-the-lifecycle.html"/>
   </menu>
 
