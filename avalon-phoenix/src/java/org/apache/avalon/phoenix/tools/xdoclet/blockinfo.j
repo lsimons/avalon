@@ -17,6 +17,13 @@
     </XDtClass:forAllClassTags>
   </services>
 
+  <!-- interfaces that may be exported to manange this block -->
+  <management-access-points>
+    <XDtClass:forAllClassTags tagName="phoenix:mx">
+    <service name="<XDtClass:classTagValue tagName="phoenix:mx" paramName="name"/>"<XDtClass:ifHasClassTag tagName="phoenix:mx" paramName="version"> version="<XDtClass:classTagValue tagName="phoenix:mx" paramName="version"/>"</XDtClass:ifHasClassTag>/>
+    </XDtClass:forAllClassTags>
+  </management-access-points>
+
   <!-- services that are required by this block -->
   <dependencies>
     <XDtMethod:ifHasMethod name="compose"
