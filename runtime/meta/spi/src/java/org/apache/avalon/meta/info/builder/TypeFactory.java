@@ -19,6 +19,7 @@ package org.apache.avalon.meta.info.builder;
 
 import org.apache.avalon.meta.info.Type;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.parameters.Parameters;
 
 /**
  * Simple interface used to create {@link Type}
@@ -43,5 +44,19 @@ public interface TypeFactory extends TypeCreator
      */
     Type createType( String path, Configuration xinfo, Configuration defaults )
         throws Exception;
+
+    /**
+     * Create a {@link Type} using a supplied type configuration and default configuration
+     *
+     * @param path the class resource name of component type that we are looking up
+     * @param xinfo the configuration fragment for the type
+     * @param defaults the configuration fragment for the default configuration
+     * @param params the default parameters
+     * @return the newly created {@link Type}
+     * @exception Exception if an error occurs
+     */
+    Type createType( String path, Configuration xinfo, Configuration defaults, Parameters params )
+        throws Exception;
+
 
 }
