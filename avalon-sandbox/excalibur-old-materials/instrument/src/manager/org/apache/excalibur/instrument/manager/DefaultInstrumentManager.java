@@ -41,7 +41,7 @@ import org.apache.avalon.framework.service.ServiceException;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/08/05 02:53:11 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/08/05 11:51:59 $
  * @since 4.1
  */
 public class DefaultInstrumentManager
@@ -287,7 +287,9 @@ public class DefaultInstrumentManager
      *-------------------------------------------------------------*/
     /**
      * Instrumentable to be registered with the instrument manager.  Should be
-     *  called whenever an Instrumentable is created.
+     *  called whenever an Instrumentable is created.  The '.' character is
+     *  used to denote a child Instrumentable and can be used to register the
+     *  instrumentable at a specific point in an instrumentable hierarchy.
      *
      * @param instrumentable Instrumentable to register with the InstrumentManager.
      * @param instrumentableName The name to use when registering the Instrumentable.
@@ -301,35 +303,72 @@ public class DefaultInstrumentManager
 
         synchronized( m_semaphore )
         {
-            // If the instrumentable does not implement ThreadSafe, then it is possible that
-            //  another one of its instance was already registered.  If so, then the
-            //  Instruments will all be the same.  The new instances still need to be
-            //  registered however.
-            InstrumentableProxy instrumentableProxy =
-                (InstrumentableProxy)m_instrumentableProxies.get( instrumentableName );
-            if( instrumentableProxy == null )
+            // If the specified instrumentable name contains '.' chars then we need to
+            //  make sure we register the instrumentable at the correct location, creating
+            //  any parent instrumentables as necessary.
+            int pos = instrumentableName.indexOf( '.' );
+            if ( pos >= 0 )
             {
-                // This is a Instrumentable that has not been seen before.
-                instrumentableProxy = new InstrumentableProxy(
-                    this, null, instrumentableName, instrumentableName );
-                instrumentableProxy.enableLogging( getLogger() );
-                // Do not call configure here because there is no configuration
-                //  for discovered instrumentables.
-                m_instrumentableProxies.put( instrumentableName, instrumentableProxy );
-
-                // Clear the optimized arrays
-                m_instrumentableProxyArray = null;
-                m_instrumentableDescriptorArray = null;
-
-                // Recursively register all the Instruments in this and any child Instrumentables.
-                registerInstrumentableInner(
-                    instrumentable, instrumentableProxy, instrumentableName );
-            }
-            else
-            {
-                // Additional Instrumentable instance.  Possible that new Instruments could be found.
-                registerInstrumentableInner(
-                    instrumentable, instrumentableProxy, instrumentableName );
+                String parentName = instrumentableName.substring( 0, pos );
+                String childName =
+                    instrumentableName.substring( pos + 1 );
+                InstrumentableProxy instrumentableProxy =
+                    (InstrumentableProxy)m_instrumentableProxies.get( parentName );
+                if( instrumentableProxy == null )
+                {
+                    // This is a Instrumentable that has not been seen before.
+                    instrumentableProxy = new InstrumentableProxy(
+                        this, null, parentName, parentName );
+                    instrumentableProxy.enableLogging( getLogger() );
+                    // Do not call configure here because there is no configuration
+                    //  for discovered instrumentables.
+                    m_instrumentableProxies.put( parentName, instrumentableProxy );
+    
+                    // Clear the optimized arrays
+                    m_instrumentableProxyArray = null;
+                    m_instrumentableDescriptorArray = null;
+    
+                    // Recursively register all the Instruments in this and any child Instrumentables.
+                    registerDummyInstrumentableInner(
+                        instrumentable, instrumentableProxy, parentName, childName );
+                }
+                else
+                {
+                    // Additional Instrumentable instance.  Possible that new Instruments could be found.
+                    registerDummyInstrumentableInner(
+                        instrumentable, instrumentableProxy, parentName, childName );
+                }
+            } else {
+                // If the instrumentable does not implement ThreadSafe, then it is possible that
+                //  another one of its instance was already registered.  If so, then the
+                //  Instruments will all be the same.  The new instances still need to be
+                //  registered however.
+                InstrumentableProxy instrumentableProxy =
+                    (InstrumentableProxy)m_instrumentableProxies.get( instrumentableName );
+                if( instrumentableProxy == null )
+                {
+                    // This is a Instrumentable that has not been seen before.
+                    instrumentableProxy = new InstrumentableProxy(
+                        this, null, instrumentableName, instrumentableName );
+                    instrumentableProxy.enableLogging( getLogger() );
+                    // Do not call configure here because there is no configuration
+                    //  for discovered instrumentables.
+                    m_instrumentableProxies.put( instrumentableName, instrumentableProxy );
+    
+                    // Clear the optimized arrays
+                    m_instrumentableProxyArray = null;
+                    m_instrumentableDescriptorArray = null;
+    
+                    // Recursively register all the Instruments in this and any child Instrumentables.
+                    registerInstrumentableInner(
+                        instrumentable, instrumentableProxy, instrumentableName );
+                }
+                else
+                {
+                    // Additional Instrumentable instance.  Possible that new Instruments could be found.
+                    registerInstrumentableInner(
+                        instrumentable, instrumentableProxy, instrumentableName );
+                }
             }
         }
     }
@@ -957,6 +996,79 @@ public class DefaultInstrumentManager
             }
 
             return m_instrumentableDescriptorArray;
+        }
+    }
+
+    /**
+     * Called as a place holder to handle the registration of instrumentables
+     *  that do not really exist.  This makes it possible to register
+     *  instrumentables at arbitrary locations in the instrumentable hierarchy.
+     *
+     * @param instrumentable The instrumentable that was registered below a dummy
+     *                       parent.
+     * @param instrumentableProxy The proxy assigned to the current placeholder
+     *                            instrumentable.
+     * @param instrumentableName The name of the current placeholder
+     *                           instrumentable.
+     * @param childName The name of the child instrumentable to register.  May
+     *                  contain further '.' characters.
+     */
+    private void registerDummyInstrumentableInner( Instrumentable instrumentable,
+                                                   InstrumentableProxy instrumentableProxy,
+                                                   String instrumentableName,
+                                                   String childName )
+        throws Exception
+    {
+        // If the specified instrumentable name contains '.' chars then we need to
+        //  make sure we register the instrumentable at the correct location, creating
+        //  any parent instrumentables as necessary.
+        int pos = childName.indexOf( '.' );
+        if ( pos >= 0 )
+        {
+            String newParentName = childName.substring( 0, pos );
+            String newChildName =
+                childName.substring( pos + 1 );
+            
+            String fullChildName = instrumentableName + "." + newParentName;
+            
+            getLogger().debug( "Registering Child Instrumentable: " + fullChildName );
+            
+            // See if a proxy exists for the child Instrumentable yet.
+            InstrumentableProxy proxy =
+                instrumentableProxy.getChildInstrumentableProxy( fullChildName );
+            if( proxy == null )
+            {
+                proxy = new InstrumentableProxy(
+                    this, instrumentableProxy, fullChildName, newParentName );
+                proxy.enableLogging( getLogger() );
+                
+                instrumentableProxy.addChildInstrumentableProxy( proxy );
+            }
+            
+            // Recurse to the child
+            registerDummyInstrumentableInner( instrumentable, proxy, fullChildName, newChildName );
+        }
+        else
+        {
+            // The child does not contain and '.' characters, so we are at the correct location.
+            String fullChildName = instrumentableName + "." + childName;
+            
+            getLogger().debug( "Registering Child Instrumentable: " + fullChildName );
+            
+            // See if a proxy exists for the child Instrumentable yet.
+            InstrumentableProxy proxy =
+                instrumentableProxy.getChildInstrumentableProxy( fullChildName );
+            if( proxy == null )
+            {
+                proxy = new InstrumentableProxy(
+                    this, instrumentableProxy, fullChildName, childName );
+                proxy.enableLogging( getLogger() );
+                
+                instrumentableProxy.addChildInstrumentableProxy( proxy );
+            }
+            
+            // Recurse to the child
+            registerInstrumentableInner( instrumentable, proxy, fullChildName );
         }
     }
 
