@@ -516,8 +516,8 @@
   <goal name="xjavadoc">
 
     <maven:reactor basedir="${basedir}"
-      includes="activation/**/project.xml,composition/**/project.xml,extension/**/project.xml,kernel/**/project.xml,facilities/**/project.xml"
-      excludes="**/target/**,facilities/*/project.xml,**/test/project.xml"
+      includes="activation/**/project.xml,composition/**/project.xml,kernel/**/project.xml"
+      excludes="**/target/**,facilities/**/project.xml,**/test/project.xml"
       banner="Site Prep:"
       ignoreFailures="false"
       postProcessing="true" />
@@ -557,9 +557,11 @@
           <group title="${packageGroup.title}" packages="${packageGroup.packages}"/>
         </j:forEach>
 
+        <!--
         <classpath>
           <path refid="maven.dependency.classpath"/>
 	  </classpath>
+        -->
 
 	  <link href="${sun.j2se.link}" />
 	  <link href="${avalon.framework.link}" />
