@@ -63,6 +63,7 @@ import org.apache.log.output.AbstractTarget;
 /**
  * Abstract JDBC target.
  *
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public abstract class AbstractJDBCTarget
@@ -74,6 +75,10 @@ public abstract class AbstractJDBCTarget
     ///Database connection
     private Connection m_connection;
 
+   /**
+    * Creation of a new instance of the AbstractJDBCTarget.
+    * @param dataSource the JDBC datasource
+    */
     protected AbstractJDBCTarget( final DataSource dataSource )
     {
         m_dataSource = dataSource;
@@ -83,6 +88,7 @@ public abstract class AbstractJDBCTarget
      * Process a log event, via formatting and outputting it.
      *
      * @param event the log event
+     * @exception Exception if an event processing error occurs
      */
     protected synchronized void doProcessEvent( final LogEvent event )
         throws Exception
@@ -161,11 +167,17 @@ public abstract class AbstractJDBCTarget
      */
     protected synchronized boolean isStale()
     {
-        if( null == m_connection ) return true;
+        if( null == m_connection ) 
+        {
+            return true;
+        }
 
         try
         {
-            if( m_connection.isClosed() ) return true;
+            if( m_connection.isClosed() ) 
+            {
+                return true;
+            }
         }
         catch( final SQLException se )
         {
