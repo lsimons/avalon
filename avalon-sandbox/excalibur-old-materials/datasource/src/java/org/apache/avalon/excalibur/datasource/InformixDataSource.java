@@ -21,11 +21,31 @@ import com.informix.jdbcx.IfxConnectionPoolDataSource;
 import com.informix.jdbcx.IfxDataSource;
 
 /**
- * The Informix implementation for DataSources in Cocoon.  This uses the
- * <code>com.informix.jdbcx.IfxConnectionPoolDataSource</code> object.
+ * The Informix implementation for DataSources in Excalibur.  This uses the
+ * <code>com.informix.jdbcx.IfxConnectionPoolDataSource</code> object.  It uses
+ * the following format for configuration (italics mark information you change):
+ *
+ * <pre>
+ *   &lt;informix&gt;
+ *     &lt;pool-controller init="<i>5</i>" min="<i>5</i>" max="<i>10</i>"/&gt;
+ *     &lt;dbname&gt;<i>dbname</i>&lt;/dbname&gt;
+ *     &lt;servername&gt;<i>servername</i>&lt;/servername&gt;
+ *     &lt;host port="<i>2000</i>"&gt;<i>host</i>&lt;/host&gt;
+ *     &lt;user&gt;<i>user</i>&lt;/user&gt;
+ *     &lt;password&gt;<i>user</i>&lt;/password&gt;
+ *   &lt;informix&gt;
+ * </pre>
+ *
+ * Informix doesn't like the JdbcDataSource Component, so we gave it it's own.
+ * Do not use this datasource if you are planning on using your J2EE server's
+ * connection pooling.
+ *
+ * You must have Informix's JDBC 2.2 or higher jar file, as well as the extensions
+ * jar file (<code>ifxjdbc.jar</code> and <code>ifxjdbcx.jar</code>).  Also, this
+ * DataSource requires the Avalon Cadastre package because it uses the MemoryContext.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/08/07 20:20:46 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/08/07 20:44:22 $
  * @since 4.0
  */
 public class InformixDataSource
@@ -66,9 +86,7 @@ public class InformixDataSource
     }
 
     /**
-     * Set up the Informix driver for direct use.  It doesn't like the JdbcDataSource
-     * Component, so we gave it it's own.  Do not use this datasource if you are in
-     * a J2EE setting.
+     * Set up the Informix driver for direct use.
      */
     public void configure(Configuration conf) throws ConfigurationException
     {
