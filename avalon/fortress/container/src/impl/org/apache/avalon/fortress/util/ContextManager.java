@@ -74,7 +74,9 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.DefaultServiceSelector;
 import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.ServiceException;
 import org.apache.excalibur.event.Sink;
+import org.apache.excalibur.event.Queue;
 import org.apache.excalibur.event.command.CommandManager;
 import org.apache.excalibur.event.command.TPCThreadManager;
 import org.apache.excalibur.event.command.ThreadManager;
@@ -117,7 +119,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.35 $ $Date: 2003/05/30 16:11:46 $
+ * @version CVS $Revision: 1.36 $ $Date: 2003/05/30 17:21:07 $
  * @since 4.1
  */
 public final class ContextManager
@@ -341,6 +343,7 @@ public final class ContextManager
         m_childContext.put( Sink.ROLE, null );
         m_childContext.put( MetaInfoManager.ROLE, null );
         m_childContext.put( PoolManager.ROLE, null );
+        m_childContext.put( LifecycleExtensionManager.ROLE, null );
     }
 
     /**
@@ -680,7 +683,7 @@ public final class ContextManager
     protected void initializeServiceManager() throws Exception
     {
         final ServiceManager parent = (ServiceManager) get( m_rootContext, SERVICE_MANAGER, null );
-        final DefaultServiceManager manager = new DefaultServiceManager( parent );
+        final DefaultServiceManager manager = new EAServiceManager( parent, getLogger().getChildLogger("compat") );
 
         /**
          * We assume that if there is a parent ServiceManager provided,
@@ -748,7 +751,6 @@ public final class ContextManager
             return null;
         }
 
-        SourceResolver resolver = null;
         Source src = null;
         try
         {
@@ -1011,6 +1013,39 @@ public final class ContextManager
             if ( obj instanceof LoggerManager ) retVal = 3;
 
             return retVal;
+        }
+    }
+
+    /**
+     * This is a compatibility thing for early adopters of Fortress so that they will use the
+     * correct ROLE for the CommandSink.
+     */
+    private static final class EAServiceManager extends DefaultServiceManager
+    {
+        private final Logger m_ealogger;
+
+        public EAServiceManager( ServiceManager parent, Logger logger )
+        {
+            super( parent );
+            m_ealogger = logger;
+        }
+
+        public Object lookup(String role) throws ServiceException
+        {
+            if ( Queue.ROLE.equals( role ) )
+            {
+                m_ealogger.info("Using deprecated role (Queue.ROLE) for the Command Sink.  Use \"Sink.ROLE\" instead.");
+                return lookup(Sink.ROLE);
+            }
+
+            return super.lookup( role );
+        }
+
+        public boolean hasService(String role)
+        {
+            if (Queue.ROLE.equals( role ) ) return hasService(Sink.ROLE);
+
+            return super.hasService( role );
         }
     }
 }
