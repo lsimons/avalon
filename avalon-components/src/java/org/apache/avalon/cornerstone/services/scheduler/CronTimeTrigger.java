@@ -114,6 +114,22 @@ public class CronTimeTrigger
             if( -1 == m_minute ) next.set( Calendar.MINUTE, 0 );
         }
 
+        {
+            //This block will update day of month if it is out of bounds
+            //For instance if you ask to schedule on 30th of everymonth
+            //this section will set the day to 28th (or 29th) in febuary 
+            //as there is no 30th
+            final Calendar targetMonth = (GregorianCalendar)next.clone();
+            targetMonth.set( Calendar.DAY_OF_MONTH, 1 );
+            targetMonth.set( Calendar.MONTH, m_month );
+
+            final int maxDayCount = targetMonth.getActualMaximum( Calendar.DAY_OF_MONTH );
+            if( maxDayCount < next.get( Calendar.DAY_OF_MONTH ) ) 
+            {
+                next.set( Calendar.DAY_OF_MONTH, maxDayCount );
+            }
+        }
+
         //use zeroed constant to make if statements easier to read
         final int minute = ( -1 != m_minute ) ? m_minute : 0;
         final int rminute = relativeTo.get( Calendar.MINUTE );
@@ -128,11 +144,6 @@ public class CronTimeTrigger
         //use zeroed constant to make if statements easier to read
         final int hour = ( -1 != m_hour ) ? m_hour : 0;
         final int rhour = relativeTo.get( Calendar.HOUR_OF_DAY );
-
-        //System.out.println("m_month=" + m_month );
-        //System.out.println("m_hour=" + m_hour );
-        //System.out.println("m_minute=" + m_minute );
-        //System.out.println("relativeTo=" + rhour + ":" + rminute );
 
         if( -1 == m_dayOfMonth && -1 == m_dayOfWeek &&
             (
@@ -154,7 +165,7 @@ public class CronTimeTrigger
         }
 
         final int month = ( -1 != m_month ) ? m_month : 0;
-        final int dayOfMonth = ( -1 != m_dayOfMonth ) ? m_dayOfMonth : 0;
+        int dayOfMonth = ( -1 != m_dayOfMonth ) ? m_dayOfMonth : 0;
 
         //update the year if ran job for this year
         if( -1 != m_month && -1 == m_year &&
