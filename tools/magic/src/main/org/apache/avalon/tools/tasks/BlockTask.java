@@ -653,7 +653,6 @@ public class BlockTask extends DeclareTask
             String uri, String localName, String qName, String value)
             throws BuildException
         {
-       	     System.out.println("setting DynamicAttribute with: " + localName + ", " + qName + ", " + value );
              m_attributes.put( qName, value );
         }
 
