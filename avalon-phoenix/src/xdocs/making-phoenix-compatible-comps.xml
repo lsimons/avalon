@@ -71,48 +71,121 @@
       with the IoC pattern...
 <source>
 package examplecomp;
-public interface StockQuoteService {
-    Quote getQuote(String symbol);
+public interface WebServer {
+    void mountWar(String contextName, URL pathToWar);
+    void unMountWar(String contextName);
 }
 
-package examplecomp;
-public class Quote {
-   public final BigDecimal ...
-   public Quote(...);
-   public BigDecimal getXXX() {
-       ...
-   }
-}
+package examplecomp.server;
+public class MyWebServer implements WebServer {
 
-package examplecomp.impl;
-public class DefaultStockQuoteService implements StockQuoteService {
-
-    public DefaultStockQuoteService() {
+    public MyWebServer() {
         // whatever.
     }
-    public void setConfiguration(Properties props) {
-        // not very beanlike but OK for reuse.    
+    public void setPort(int port) {
+        // this is one configuration item.
     }
     public void initialize() {
         // whatever.
     }
-    public Quote getQuote(String symbol) {
+    public void start() {
+        // whatever.    
+    }
+    public void stop() {
+        // whatever.    
+    }   
+    public void mountWar(String contextName, URL pathToWar) {
         // whatever.
-        return new Quote(...);
+    }
+    public void unMountWar(String contextName) {
+        // whatever.
+    }    
+}
+</source>      
+      For standalone mode, it might be launched like so:
+<source>
+package examplecomp.main;
+public class WebServerMain {
+    public static void main(String[] args) throws Exception {
+        MyWebServer ws = new WebServer();
+        ws.setPort(Integer.parseInt(args[0]));
+        ws.initialize();
+        ws.start();
+        ws.mountWar(args[1], new File(args[2]).toURL());       
+    }
+}
+</source>
+      When we are trying to run this in phoeinix we might have this wrapper:
+<source>
+package examplecomp.block;
+public class WebServerBlock extends AbstractLoggable implements Block, WebServer, Startable, Configurable, Initializable {
+    private int mPort;
+    private WebServer mWebServer;
+
+    public WebServerBlock() {
+        mWebServer = new MyWebServer();
+    }
+
+    public void configure(final Configuration configuration) throws ConfigurationException {
+        mPort = configuration.getChild("port").getValueAsInteger( 9001 );
+    }
+
+    public void initialize() throws Exception {
+        mWebServer.setPort(mPort);
+        mWebServer.initialize();    
+    }
+
+    public final void start() throws Exception {
+        mWebServer.start();    
+    }
+
+    public void stop() throws Exception {
+	mWebServer.stop();
+    }
+
+    public void mountWar(String contextName, String pathToWar) {
+        mWebServer.mountWar(contextName, pathToWar);        
+    }
+    
+    public void unMountWar(String contextName) {
+        mWebServer.unMountWar(contextName);        
+    }
+}
+</source>
+      This basically shows the impl wrapped and taking its configuration from the config.xml 
+      that phonix prefers from configuration.  The the developer wanted they could ignore 
+      that place of configuration and use their own config files.  If the WebServer block were
+      being reused by another Phoenix block (say an EJB server), it might be like so:
+<source>
+package somebeanserver;
+public class EJBBlock extends AbstractLoggable implements Block, Composable {
+
+    private WebServer mWebServer;
+    
+    public void compose(final ComponentManager compMgr) throws ComponentException {
+        mWebServer = compMgr.lookup("WebServer");
+    }
+
+    public void mountEar(String contextName, String pathToEar) {
+        String[] warContextNames = getWarContexts(pathToEar);
+        URL[] wars = getWarFiles(pathToEar);
+        for (int i = 0; i &lt; wars.length; i++) {
+            mWebServer.mountWar(warContextNames[i], wars[i]);
+        }
+    }
+    
+    public void unMountEar(String contextName) {
+        // whatever
     }
 }
 </source>      
-      The interface is from the clients reuse point of view. The setConfiguration(..) and intialize(..) 
-      are something that the container will do after instantiating the bean abd are implementation specific.  
-      This is the IoC pattern at work - the bean is instantiated then decorated with additonal stuff 
-      until it is instructed to go.
     </p>
     </s1>
     <s1 title="Misconceptions">    
       <p>
         The following are worth stating:
         <ul>
-          <li>You do not have to implement any Avalon interfaces to be reusable inside Avalon.</li>
+          <li>You do not have to implement any Avalon interfaces to be reusable (wrap strategy) inside Avalon.</li>
           <li>Being Phoenix compatible is just as useful for whole servers as it is for small components.</li>
           <li>Being Phoenix compatible can be for tools that are intended for client-side as well as server use.</li>
         </ul>
@@ -122,7 +195,7 @@ public class DefaultStockQuoteService implements StockQuoteService {
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/04/02 18:56:21 $
+      $Revision: 1.2 $ $Date: 2002/04/03 07:33:43 $
     </legal>
   </footer>
 </document>
