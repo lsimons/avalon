@@ -9,17 +9,20 @@ package org.apache.avalon.phoenix.frontends;
 
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.Constants;
 import org.apache.avalon.phoenix.components.embeddor.DefaultEmbeddor;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
+import java.util.Hashtable;
 
 /**
  * The class to load the kernel and start it running.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @author <a href="mail@leosimons.com">Leo Simons</a>
+ * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
  */
 public final class CLIMain
 {
@@ -39,7 +42,7 @@ public final class CLIMain
      *
      * @param args[] the command line arguments
      */
-    public void main( final String args[] )
+    public int main( final String args[], final Hashtable data )
     {
         try
         {
@@ -48,7 +51,7 @@ public final class CLIMain
 
             if( false == setup.parseCommandLineOptions( args ) )
             {
-                return;
+                return 0;
             }
 
             System.out.println();
@@ -58,14 +61,14 @@ public final class CLIMain
             final Parameters parameters = setup.getParameters();
             final String phoenixHome = System.getProperty( "phoenix.home", ".." );
             parameters.setParameter( "phoenix.home", phoenixHome );
-            execute( parameters );
+            execute( parameters, data );
         }
         catch( final Throwable throwable )
         {
             handleException( throwable );
         }
 
-        System.exit( m_exitCode );
+        return m_exitCode;
     }
 
     /**
@@ -73,10 +76,10 @@ public final class CLIMain
      *
      * @exception Exception if an error occurs
      */
-    private void execute( final Parameters parameters )
+    private void execute( final Parameters parameters, final Hashtable data )
         throws Exception
     {
-        if( false == startup( parameters ) )
+        if( false == startup( parameters, data ) )
         {
             return;
         }
@@ -109,13 +112,17 @@ public final class CLIMain
     /**
      * Startup the embeddor.
      */
-    protected synchronized boolean startup( final Parameters parameters )
+    protected synchronized boolean startup( final Parameters parameters, final Hashtable data )
     {
         try
         {
             m_embeddor = new DefaultEmbeddor();
-            //m_embeddor = new SingleAppEmbeddor();
-            //parameters.setParameter( "application-location", "../apps/avalon-demo.sar" );
+
+            if( m_embeddor instanceof Contextualizable )
+            {
+                final DefaultContext context = new DefaultContext( data );
+                ( (Contextualizable)m_embeddor ).contextualize( context );
+            }
 
             if( m_embeddor instanceof Parameterizable )
             {
@@ -142,14 +149,15 @@ public final class CLIMain
     {
         if( null == m_hook || null == m_embeddor )
         {
-            //We were shutdown gracefully but the shutdown hook 
+            //We were shutdown gracefully but the shutdown hook
             //thread was not removed. This can occur when an earlier
             //shutdown hook caused a shutdown() request to be processed
             return;
         }
 
         final String message = REZ.getString( "main.abnormal-exit.notice" );
-        System.out.println( message );
+        System.out.print( message );
+        System.out.print( " " );
         System.out.flush();
 
         shutdown();
