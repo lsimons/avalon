@@ -58,6 +58,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.excalibur.source.Source;
+import org.apache.excalibur.source.SourceException;
+import org.apache.excalibur.source.SourceNotFoundException;
 import org.apache.excalibur.source.SourceValidity;
 import org.apache.excalibur.source.impl.validity.NOPValidity;
 
@@ -67,7 +69,7 @@ import org.apache.excalibur.source.impl.validity.NOPValidity;
  * FIXME: Get mime-type, content-length, lastModified
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/12/15 11:56:48 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/01/27 10:38:44 $
  */
 public final class ResourceSource
     extends AbstractSource
@@ -88,14 +90,18 @@ public final class ResourceSource
      * Return an <code>InputStream</code> object to read from the source.
      */
     public InputStream getInputStream()
-        throws IOException
+        throws IOException, SourceException
     {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         if( loader == null )
         {
             loader = getClass().getClassLoader();
         }
-        return loader.getResourceAsStream( m_location );
+
+        InputStream in = loader.getResourceAsStream( m_location );
+        if ( in == null )
+          throw new SourceNotFoundException( "Source '"+m_location+"' was not found" );
+        return in;
     }
 
     /**
