@@ -185,6 +185,12 @@ Legal:
        ===================================================================
   -->
   <target name="prepare" depends="check-environment,setup-properties">
+    <available property="jndi.present" classname="javax.naming.Context">
+      <classpath refid="project.class.path"/>
+    </available>
+    <available property="datasource.present" classname="javax.sql.DataSource">
+      <classpath refid="project.class.path"/>
+    </available>
     <tstamp/>
     <mkdir dir="${build.dir}"/>
 
