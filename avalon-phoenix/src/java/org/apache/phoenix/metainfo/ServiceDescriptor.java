@@ -15,7 +15,7 @@ import org.apache.avalon.camelot.Descriptor;
  * 
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public interface ServiceInfo
+public interface ServiceDescriptor
     extends Descriptor
 {
     /**
@@ -37,8 +37,8 @@ public interface ServiceInfo
      * Determine if other service will match this service.
      * To match a service has to have same name and must comply with version.
      *
-     * @param other the other ServiceInfo
+     * @param other the other ServiceDescriptor
      * @return true if matches, false otherwise
      */
-    boolean matches( ServiceInfo other );
+    boolean matches( ServiceDescriptor other );
 }

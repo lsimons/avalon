@@ -20,7 +20,7 @@ import org.apache.phoenix.engine.blocks.BlockEntry;
 import org.apache.phoenix.engine.blocks.RoleEntry;
 import org.apache.phoenix.metainfo.BlockInfo;
 import org.apache.phoenix.metainfo.BlockUtil;
-import org.apache.phoenix.metainfo.ServiceInfo;
+import org.apache.phoenix.metainfo.ServiceDescriptor;
 
 /**
  * Component responsible for building componentManager information for entry.
@@ -58,7 +58,7 @@ public class DefaultComponentManagerBuilder
         for( int i = 0; i < roleEntrys.length; i++ )
         {
             final String dependencyName = roleEntrys[ i ].getName();
-            final ServiceInfo serviceInfo = 
+            final ServiceDescriptor serviceDescriptor = 
                 info.getDependency( roleEntrys[ i ].getRole() ).getService();
 
             try
@@ -69,12 +69,12 @@ public class DefaultComponentManagerBuilder
                     (BlockEntry)m_serverApplication.getEntry( dependencyName );
 
                 //make sure that the block offers service it supposed to be providing
-                final ServiceInfo[] services = dependency.getBlockInfo().getServices();
-                if( !BlockUtil.hasMatchingService( services, serviceInfo ) )
+                final ServiceDescriptor[] services = dependency.getBlockInfo().getServices();
+                if( !BlockUtil.hasMatchingService( services, serviceDescriptor ) )
                 {
                     throw new ComponentManagerException( "Dependency " + dependencyName + 
                                                          " does not offer service required: " + 
-                                                         serviceInfo );
+                                                         serviceDescriptor );
                 }
 
                 componentManager.put( roleEntrys[ i ].getRole(), dependency.getBlock() );

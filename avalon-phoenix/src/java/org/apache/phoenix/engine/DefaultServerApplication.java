@@ -51,7 +51,7 @@ import org.apache.phoenix.engine.facilities.SarClassLoader;
 import org.apache.phoenix.engine.phases.DefaultPhase;
 import org.apache.phoenix.engine.phases.Phase;
 import org.apache.phoenix.engine.phases.Traversal;
-import org.apache.phoenix.metainfo.DependencyInfo;
+import org.apache.phoenix.metainfo.DependencyDescriptor;
 
 /**
  * This is the basic container of blocks. A server application 
@@ -336,9 +336,9 @@ public class DefaultServerApplication
         for( int i = 0; i < roleEntrys.length; i++ )
         {
             final String role = roleEntrys[ i ].getRole();
-            final DependencyInfo info = entry.getBlockInfo().getDependency( role );
+            final DependencyDescriptor descriptor = entry.getBlockInfo().getDependency( role );
             
-            if( null == info )
+            if( null == descriptor )
             {
                 final String message = "Unknown dependency " + roleEntrys[ i ].getName() + 
                     " with role " + role + " declared for Block " + name;
@@ -349,7 +349,7 @@ public class DefaultServerApplication
         }
 
         //Make sure all dependencies in BlockInfo file are satisfied
-        final DependencyInfo[] dependencies = entry.getBlockInfo().getDependencies();
+        final DependencyDescriptor[] dependencies = entry.getBlockInfo().getDependencies();
         for( int i = 0; i < dependencies.length; i++ )
         {
             final RoleEntry roleEntry = 

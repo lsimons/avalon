@@ -15,8 +15,8 @@ import org.apache.avalon.Composer;
 import org.apache.avalon.camelot.ContainerException;
 import org.apache.phoenix.Block;
 import org.apache.phoenix.engine.ServerApplication;
-import org.apache.phoenix.metainfo.DependencyInfo;
-import org.apache.phoenix.metainfo.ServiceInfo;
+import org.apache.phoenix.metainfo.DependencyDescriptor;
+import org.apache.phoenix.metainfo.ServiceDescriptor;
 
 /**
  * This is the dependency graph for blocks.
@@ -68,14 +68,14 @@ public class BlockDAG
     {
         getLogger().debug( "Traversing dependencies for " + name );
 
-        final DependencyInfo[] infos = entry.getBlockInfo().getDependencies();
-        for( int i = 0; i < infos.length; i++ )
+        final DependencyDescriptor[] descriptors = entry.getBlockInfo().getDependencies();
+        for( int i = 0; i < descriptors.length; i++ )
         {
-            final ServiceInfo serviceInfo = infos[ i ].getService();
-            final String role = infos[ i ].getRole();
+            final ServiceDescriptor serviceDescriptor = descriptors[ i ].getService();
+            final String role = descriptors[ i ].getRole();
 
             getLogger().debug( "Traversing dependency of " + name + " with role " + role + 
-                               " to provide service " + serviceInfo.getName() );
+                               " to provide service " + serviceDescriptor.getName() );
 
             //roleEntry should NEVER be null as it is checked when 
             //entry is added to container

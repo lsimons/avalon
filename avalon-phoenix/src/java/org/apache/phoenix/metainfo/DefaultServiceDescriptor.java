@@ -14,13 +14,13 @@ import org.apache.avalon.util.Version;
  * 
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public final class DefaultServiceInfo 
-    implements ServiceInfo
+public final class DefaultServiceDescriptor 
+    implements ServiceDescriptor 
 {
     protected final Version                    m_version;
     protected final String                     m_name;
 
-    public DefaultServiceInfo( final String name, final Version version )
+    public DefaultServiceDescriptor( final String name, final Version version )
     {
         m_name = name;
         m_version = version;
@@ -55,7 +55,7 @@ public final class DefaultServiceInfo
      * @param other the other ServiceInfo
      * @return true if matches, false otherwise
      */
-    public boolean matches( ServiceInfo other )
+    public boolean matches( final ServiceDescriptor other )
     {
         return 
             other.getName().equals( m_name ) &&

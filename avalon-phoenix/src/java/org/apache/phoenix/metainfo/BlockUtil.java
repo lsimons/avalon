@@ -23,7 +23,7 @@ public final class BlockUtil
     {
     }
 
-    public static boolean implementsService( final Block block,  final ServiceInfo service )
+    public static boolean implementsService( final Block block,  final ServiceDescriptor service )
     {
         try
         {
@@ -37,8 +37,8 @@ public final class BlockUtil
         return false;
     }
 
-    public static boolean hasMatchingService( final ServiceInfo[] candidates, 
-                                              final ServiceInfo service )
+    public static boolean hasMatchingService( final ServiceDescriptor[] candidates, 
+                                              final ServiceDescriptor service )
     {
         for( int i = 0; i < candidates.length; i++ )
         {

@@ -23,7 +23,7 @@ import org.apache.log.Logger;
 import org.apache.phoenix.Block;
 import org.apache.phoenix.engine.blocks.BlockEntry;
 import org.apache.phoenix.metainfo.BlockUtil;
-import org.apache.phoenix.metainfo.ServiceInfo;
+import org.apache.phoenix.metainfo.ServiceDescriptor;
 
 /**
  * Component responsible for building componentManager information for entry.
@@ -89,7 +89,7 @@ public class DefaultComponentBuilder
                                         final Block block )
         throws ApplicationException
     {
-        final ServiceInfo[] services = blockEntry.getBlockInfo().getServices();
+        final ServiceDescriptor[] services = blockEntry.getBlockInfo().getServices();
         for( int i = 0; i < services.length; i++ )
         {
             if( false == BlockUtil.implementsService( block, services[ i ] ) )

@@ -33,10 +33,10 @@ public final class BlockInfoBuilder
         Configuration configuration  = null;
 
         configuration = info.getChild( "services" );
-        final ServiceInfo services[] = buildServices( configuration );
+        final ServiceDescriptor services[] = buildServices( configuration );
 
         configuration = info.getChild( "dependencies" );
-        final DependencyInfo dependencies[] = buildDependencies( configuration );
+        final DependencyDescriptor dependencies[] = buildDependencies( configuration );
 
         configuration = info.getChild( "meta" );
         final BlockDescriptor descriptor = buildBlockDescriptor( configuration );
@@ -44,55 +44,55 @@ public final class BlockInfoBuilder
         return new DefaultBlockInfo( descriptor, services, dependencies );
     }
 
-    protected DependencyInfo[] buildDependencies( final Configuration configuration )
+    protected DependencyDescriptor[] buildDependencies( final Configuration configuration )
         throws ConfigurationException
     {
-        if( null == configuration ) return new DependencyInfo[0];
+        if( null == configuration ) return new DependencyDescriptor[0];
 
         final Configuration[] elements = configuration.getChildren( "dependency" );
-        final ArrayList infos = new ArrayList();
+        final ArrayList descriptors = new ArrayList();
 
         for( int i = 0; i < elements.length; i++ )
         {
-            final DependencyInfo info = buildDependency( elements[ i ] );
-            infos.add( info );
+            final DependencyDescriptor descriptor = buildDependency( elements[ i ] );
+            descriptors.add( descriptor );
         }
 
-        return (DependencyInfo[]) infos.toArray( new DependencyInfo[0] );
+        return (DependencyDescriptor[]) descriptors.toArray( new DependencyDescriptor[0] );
     }
 
-    protected DependencyInfo buildDependency( final Configuration dependency )
+    protected DependencyDescriptor buildDependency( final Configuration dependency )
         throws ConfigurationException
     {
         final String role = dependency.getChild( "role" ).getValue();
-        final ServiceInfo serviceInfo = buildService( dependency.getChild( "service" ) );
+        final ServiceDescriptor serviceDescriptor = buildService( dependency.getChild( "service" ) );
 
-        return new DefaultDependencyInfo( role, serviceInfo );
+        return new DefaultDependencyDescriptor( role, serviceDescriptor );
     }
 
-    protected ServiceInfo[] buildServices( final Configuration servicesSet )
+    protected ServiceDescriptor[] buildServices( final Configuration servicesSet )
         throws ConfigurationException
     {
-        if( null == servicesSet ) return new ServiceInfo[0];
+        if( null == servicesSet ) return new ServiceDescriptor[0];
 
         final Configuration[] elements = servicesSet.getChildren( "service" );
-        final ArrayList infos = new ArrayList();
+        final ArrayList descriptors = new ArrayList();
 
         for( int i = 0; i < elements.length; i++ )
         {
-            final ServiceInfo info = buildService( elements[ i ] );
-            infos.add( info );
+            final ServiceDescriptor descriptor = buildService( elements[ i ] );
+            descriptors.add( descriptor );
         }
 
-        return (ServiceInfo[])infos.toArray( new ServiceInfo[0] );
+        return (ServiceDescriptor[])descriptors.toArray( new ServiceDescriptor[0] );
     }
 
-    protected ServiceInfo buildService( final Configuration service )
+    protected ServiceDescriptor buildService( final Configuration service )
         throws ConfigurationException
     {
         final String name = service.getAttribute( "name" );
         final Version version =  buildVersion( service.getAttribute( "version" ) );
-        return new DefaultServiceInfo( name, version );
+        return new DefaultServiceDescriptor( name, version );
     }
 
     protected Version buildVersion( final String version )

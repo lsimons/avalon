@@ -31,14 +31,14 @@ public interface BlockInfo
      *
      * @return an array of Services (can be null)
      */
-    ServiceInfo[] getServices();
+    ServiceDescriptor[] getServices();
 
     /**
      * Return an array of Service dependencies that this Block depends upon.
      *
      * @return an array of Service dependencies (may be null) 
      */
-    DependencyInfo[] getDependencies();
+    DependencyDescriptor[] getDependencies();
 
     /**
      * Retrieve a dependency with a particular role.
@@ -46,5 +46,5 @@ public interface BlockInfo
      * @param role the role
      * @return the dependency or null if it does not exist
      */
-    DependencyInfo getDependency( String role );
+    DependencyDescriptor getDependency( String role );
 }
