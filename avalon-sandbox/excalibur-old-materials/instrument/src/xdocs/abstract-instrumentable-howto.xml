@@ -8,10 +8,10 @@
         </authors>
     </header>
     <body>
-        <s1 title="AbstractInstrumentable How-Tos">
+        <section><title>AbstractInstrumentable How-Tos</title>
             <p>
                 To do.
             </p>
-        </s1>
+        </section>
     </body>
 </document>

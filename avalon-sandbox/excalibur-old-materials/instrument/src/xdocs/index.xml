@@ -9,7 +9,7 @@
     </authors>
   </header>
   <body>
-    <s1 title="Introduction">
+    <section><title>Introduction</title>
       <p>
         Excalibur Instrument is an instrumentation utility that allows you
         to attach a separate JVM to your running application to determine its
@@ -20,10 +20,10 @@
       </p>
       <p>
         In order to use this in your projects, you need to set up your project
-        using an Instrument aware container (<link href="../fortress/">Fortress</link>
+        using an Instrument aware container (<link href="http://avalon.apache.org/excalibur/fortress/">Fortress</link>
         is one of them), and set up your components according to the specifications
         <link href="instrumentables.html">here</link>.
       </p>
-    </s1>
+    </section>
   </body>
 </document>

@@ -13,10 +13,10 @@
     <path id="project.class.path">
         <pathelement location="${build.classes}"/>
         <pathelement location="${checkstyle.jar}"/>
-        
+
         <!-- Optional jars -->
         <pathelement location="${avalon-framework.jar}"/>
-        
+
         <pathelement path="${java.class.path}"/>
     </path>
 
@@ -419,7 +419,7 @@
       <mkdir dir="${build.dir}/work"/>
 
       <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
-      <ant antfile="../cocoonbuild.xml"/>
+      <ant antfile="${basedir}/../forrestbuild.xml"/>
 
       <copy todir="${docs.dir}">
         <fileset dir="${build.docs}">
