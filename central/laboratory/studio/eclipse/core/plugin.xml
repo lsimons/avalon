@@ -19,6 +19,10 @@
       <library name="lib/commons-logging.jar"/>
       <library name="lib/avalon-util-defaults-1.2.1.jar"/>      
       <library name="lib/avalon-util-env-1.1.1.jar"/>      
+      <library name="lib/metro-event-0.0.1.jar"/>   
+      <library name="lib/avalon-repository-api-2.0.0.jar"/>
+      <library name="lib/avalon-repository-spi-2.0.0.jar"/>
+      <library name="lib/avalon-repository-main-2.0.0.jar"/>      
    </runtime>
    <requires>
       <import plugin="org.eclipse.core.resources"/>
