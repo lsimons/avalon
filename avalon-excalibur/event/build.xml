@@ -19,6 +19,7 @@
         <pathelement location="${excalibur-pool.jar}"/>
         <pathelement location="${excalibur-scratchpad.jar}"/>
         <pathelement location="${excalibur-core.jar}"/>
+        <pathelement location="${excalibur-instrument.jar}"/>
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${excalibur-util.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
@@ -33,7 +34,6 @@
     </path>
 
     <path id="test.class.path">
-        <pathelement location="${excalibur-instrument.jar}"/>
         <pathelement location="${build.testclasses}"/>
         <pathelement location="${junit.jar}"/>
         <path refid="project.class.path"/>
