@@ -56,8 +56,8 @@
 </p>
 <p>
     Firstly you will need to get the demo-helloword.sar file and drop it into
-    the apps directory of Phoenix.  Get it from <link href="TODO">TODO</link> or build
-    it from its CVS - <link href="http://cvs.apache.org/viewcvs/jakarta-avalon-apps/demo/">
+    the apps directory of Phoenix.  Currently it needs to be built from CVS -
+    <link href="http://cvs.apache.org/viewcvs/jakarta-avalon-apps/demo/">
     http://cvs.apache.org/viewcvs/jakarta-avalon-apps/demo/</link>.
 </p>
 <p>
