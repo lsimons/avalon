@@ -35,8 +35,9 @@ class           the class of block instance
 
 provide         declare that particular blocks that will provide
                 the block with particular services
+proxy           TODO:description
 -->
-<!ELEMENT block (provide*)>
+<!ELEMENT block (provide*,proxy?)>
   <!ATTLIST block class CDATA #REQUIRED>
   <!ATTLIST block name CDATA #REQUIRED>
 
@@ -50,6 +51,14 @@ name    the name of the block that will provide service
 <!ELEMENT provide EMPTY>
   <!ATTLIST provide role CDATA #REQUIRED>
   <!ATTLIST provide name CDATA #REQUIRED>
+
+<!--
+TODO:description
+
+disable TODO:description
+-->
+<!ELEMENT proxy EMPTY>
+  <!ATTLIST proxy disable CDATA #REQUIRED>
 
 <!--
 The block element declares a listener exists in the application.

@@ -30,7 +30,7 @@ import org.apache.avalon.phoenix.tools.infobuilder.BlockInfoBuilder;
  * and is in the format specified for <code>assembly.xml</code> files.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.18 $ $Date: 2002/08/06 11:57:42 $
+ * @version $Revision: 1.19 $ $Date: 2002/08/18 08:23:34 $
  */
 public class Assembler
     extends AbstractLogEnabled
@@ -119,12 +119,15 @@ public class Assembler
             final String name = block.getAttribute( "name" );
             final String classname = block.getAttribute( "class" );
             final Configuration[] provides = block.getChildren( "provide" );
+            final Configuration proxy = block.getChild( "proxy" );
+            final boolean disableProxy =
+                proxy.getAttributeAsBoolean( "disable", false );
 
             final DependencyMetaData[] roles = buildDependencyMetaDatas( provides );
             final BlockInfo info = getBlockInfo( name, classname, classLoader );
 
 
-            return new BlockMetaData( name, roles, info );
+            return new BlockMetaData( name, roles, disableProxy, info );
         }
         catch( final ConfigurationException ce )
         {
