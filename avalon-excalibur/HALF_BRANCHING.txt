@@ -1,15 +1,15 @@
-					=======================================
-								 Half-branching
+                    =======================================
+                                 Half-branching
 
-									  aka
-						 
-						   branching only some files
-							  in a CVS repository
+                                      aka
+                         
+                           branching only some files
+                              in a CVS repository
 
 
-						 Jeff Turner <jefft@apache.org>
-								$Revision: 1.1 $
-						  $Date: 2002/05/07 00:39:53 $
+                         Jeff Turner <jefft@apache.org>
+                                $Revision: 1.2 $
+                          $Date: 2002/05/07 03:46:07 $
                     =======================================
 
 
@@ -204,33 +204,33 @@ All done!
 
 find . -name "CVS" -exec rm -r {} \;
 
-	This means, "find all the files called "CVS", and for each one found, run
-	'rm -r <the file found>'.
+    This means, "find all the files called "CVS", and for each one found, run
+    'rm -r <the file found>'.
 
 cvs add `find tools -type f -not -path "*/CVS/*"`
 
-	Means "In the tools directory, find all files which don't have the path
-	*/CVS/*", ie all files except those in the CVS directories.
+    Means "In the tools directory, find all files which don't have the path
+    */CVS/*", ie all files except those in the CVS directories.
 
 
 find . -name "Entries" -exec perl -i -pe 's:/$:/Tcentipede:g' {} \;
 
-	Means find all files called "Entries", and for each one, run this perl command".
-	The perl command deserves further dissection:
+    Means find all files called "Entries", and for each one, run this perl command".
+    The perl command deserves further dissection:
 
-	perl -i -pe 's:/$:/Tcentipede:g' <some file>
+    perl -i -pe 's:/$:/Tcentipede:g' <some file>
 
-		The '-i' means "don't create any backup". If instead you use '-i.old',
-		modified files will be backed up with a .old extension.
+        The '-i' means "don't create any backup". If instead you use '-i.old',
+        modified files will be backed up with a .old extension.
 
-		Not sure what -pe does, but the 'e' means "here comes an expression".
+        Not sure what -pe does, but the 'e' means "here comes an expression".
 
-		's:/$:/Tcentipede:g' is a search and replace. ':' is the delimiter.
-		The format is s:<FROM>:<TO>:<FLAGS>:
-		where:
-			<FROM> is '/$', meaning "the last / at the end of the line"
-			<TO> is '/Tcentipede'
-			<FLAGS> is 'g', meaning "do this for every line in the file".
+        's:/$:/Tcentipede:g' is a search and replace. ':' is the delimiter.
+        The format is s:<FROM>:<TO>:<FLAGS>:
+        where:
+            <FROM> is '/$', meaning "the last / at the end of the line"
+            <TO> is '/Tcentipede'
+            <FLAGS> is 'g', meaning "do this for every line in the file".
 
 
 
