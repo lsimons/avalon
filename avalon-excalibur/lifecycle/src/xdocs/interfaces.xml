@@ -1,45 +1,43 @@
-<?xml version="1.0"?>
-<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
-<!-- 
- Copyright 2004 The Apache Software Foundation
- Licensed  under the  Apache License,  Version 2.0  (the "License");
- you may not use  this file  except in  compliance with the License.
- You may obtain a copy of the License at 
- 
-   http://www.apache.org/licenses/LICENSE-2.0
- 
- Unless required by applicable law or agreed to in writing, software
- distributed  under the  License is distributed on an "AS IS" BASIS,
- WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
- implied.
-  
- See the License for the specific language governing permissions and
- limitations under the License.
+<!--
+     Copyright 2004 The Apache Software Foundation
+     Licensed  under the  Apache License,  Version 2.0  (the "License");
+     you may not use  this file  except in  compliance with the License.
+     You may obtain a copy of the License at
+     
+     http://www.apache.org/licenses/LICENSE-2.0
+     
+     Unless required by applicable law or agreed to in writing, software
+     distributed  under the  License is distributed on an "AS IS" BASIS,
+     WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+     implied.
+     
+     See the License for the specific language governing permissions and
+     limitations under the License.
 -->
 <document>
-  <header>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Development Team</author>
     <title>Extension Interfaces</title>
-    <authors>
-      <person name="Avalon Development Team" email="dev@avalon.apache.org"/>
-    </authors>
-  </header>
+  </properties>
   <body>
-
-  <section><title>Lifestyle Extension Interfaces</title>
+    <section name="Lifestyle Extension Interfaces" >
 
       <p>
-      A container manages extensions using an extension handler.  Handlers may implement
-      the <code>Creator</code> and/or <code>Accessor</code> interfaces.  A creator extension
-      will be activated during the create and destroy stages of a component lifecycle.  A
-      accessor extension will be activated during the access and release stages.
+        A container manages extensions using an extension handler.  Handlers
+        may implement the <code>Creator</code> and/or <code>Accessor</code> 
+        interfaces. A creator extension will be activated during the create and
+        destroy stages of a component lifecycle. A accessor extension will be 
+        activated during the access and release stages.
       </p>
 
-      <section><title>The Creator Interface</title>
+      <section name="The Creator Interface" >
 
-<p>The <code>Creator</code> interface describes the create and destroy
-stages that occur between a component and a container
-during service management.  Lifecycle extensions supporting create
-and destroy stages must implement this interface.</p>
+        <p>
+          The <code>Creator</code> interface describes the create and destroy
+          stages that occur between a component and a container
+          during service management.  Lifecycle extensions supporting create
+          and destroy stages must implement this interface.
+        </p>
 
       <source>
  package org.apache.avalon.lifecycle;
@@ -72,13 +70,13 @@ and destroy stages must implement this interface.</p>
      </source>
       </section>
 
-      <section><title>Accessor Interface</title>
-<p>
-The <code>Accessor</code> interface describes the access and release
-stages that occur between a service or component manager and a container
-during service deployment.  Lifecycle extensions supporting access
-and release stages must implement this interface.
-</p>
+      <section name="Accessor Interface" >
+        <p>
+          The <code>Accessor</code> interface describes the access and release
+          stages that occur between a service or component manager and a 
+          container during service deployment. Lifecycle extensions supporting 
+          access and release stages must implement this interface.
+        </p>
 <source>
  package org.apache.avalon.lifecycle;
 
@@ -108,14 +106,7 @@ and release stages must implement this interface.
 
  }
 </source>
-   </section>
-  </section>
-
+      </section>
+    </section>
   </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2004/02/28 11:47:21 $
-    </legal>
-  </footer>
 </document>

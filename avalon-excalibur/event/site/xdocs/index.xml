@@ -1,35 +1,33 @@
-<?xml version="1.0"?>
-<!-- 
- Copyright 2004 The Apache Software Foundation
- Licensed  under the  Apache License,  Version 2.0  (the "License");
- you may not use  this file  except in  compliance with the License.
- You may obtain a copy of the License at 
- 
-   http://www.apache.org/licenses/LICENSE-2.0
- 
- Unless required by applicable law or agreed to in writing, software
- distributed  under the  License is distributed on an "AS IS" BASIS,
- WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
- implied.
-  
- See the License for the specific language governing permissions and
- limitations under the License.
+<!--
+     Copyright 2004 The Apache Software Foundation
+     Licensed  under the  Apache License,  Version 2.0  (the "License");
+     you may not use  this file  except in  compliance with the License.
+     You may obtain a copy of the License at
+     
+     http://www.apache.org/licenses/LICENSE-2.0
+     
+     Unless required by applicable law or agreed to in writing, software
+     distributed  under the  License is distributed on an "AS IS" BASIS,
+     WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+     implied.
+     
+     See the License for the specific language governing permissions and
+     limitations under the License.
 -->
 <document>
-  <header>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Development Team</author>
     <title>About Excalibur Event</title>
-    <authors>
-      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
-    </authors>
-  </header>
+  </properties>
   <body>
-    <section><title>Introduction</title>
+    <section name="Introduction" >
       <p>
         This is the Excalibur Event package which includes event queues,
         asynchronous command processing, and the interfaces to support
         event based programming.  Event is heavily influenced by Matt
         Welsh's work with the
-        <fork href="http://www.cs.berkeley.edu/~mdw/proj/seda/">SEDA architecture</fork>.
+        <a href="http://www.cs.berkeley.edu/~mdw/proj/seda/" target="_new" >
+        SEDA architecture</a>.
         We forked the portion of his SandStorm server that had to do with
         event processing.  From there we cleaned up the API and made it as
         generic as we could.
@@ -47,10 +45,4 @@
       </p>
     </section>
   </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.10 $ $Date: 2004/02/28 11:47:30 $
-    </legal>
-  </footer>
 </document>
