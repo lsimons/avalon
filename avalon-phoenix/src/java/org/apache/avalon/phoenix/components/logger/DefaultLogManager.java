@@ -57,8 +57,6 @@ public class DefaultLogManager
      * @param classLoader the ClassLoader for application
      * @return the Log hierarchy
      * @throws Exception if unable to create Loggers
-     * @todo pass classLoader down into LogKitManager and
-     *       use that to try to load targets.
      */
     public Logger createHierarchy( final SarMetaData metaData,
                                    final Configuration logs,
