@@ -64,17 +64,10 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * Defintion of a working context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.1.1.2.4 $ $Date: 2004/01/06 23:16:49 $
+ * @version $Revision: 1.1.1.1.2.5 $ $Date: 2004/01/08 12:51:16 $
  */
 public interface ContainmentContext extends DeploymentContext
 {
-   /**
-    * Return the system context.
-    *
-    * @return the system context
-    */
-    SystemContext getSystemContext();
-
    /**
     * Return the classloader model.
     *

@@ -62,20 +62,21 @@ public class RuntimeTestCase extends AbstractTestCase
     {
 
         //
-        // 1. create the root block using the service context
+        // 1. assemble the model during which all dependencies
+        //    are resolved (deployment and runtime)
+        //
+
+        getLogger().debug( "model assembly" );
+        m_model.assemble();
+
+        //
+        // 2. create the root block using the service context
         //    and the root containment model
         //
 
         getLogger().debug( "creating root block" );
         Block block = AbstractBlock.createRootBlock( m_system, m_model );
         getLogger().debug( "block: " + block );
-
-        //
-        // 2. assemble the block during which all dependencies
-        //    are resolved (deployment and runtime)
-        //
-
-        block.getContainmentModel().assemble();
 
         //
         // 3. deploy the block during which any 'activate on startup'

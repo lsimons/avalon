@@ -53,17 +53,21 @@ package org.apache.avalon.composition.model.impl;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.DeploymentContext;
 import org.apache.avalon.composition.model.DependencyGraph;
+import org.apache.avalon.composition.model.SystemContext;
+import org.apache.avalon.composition.data.Mode;
+
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.parameters.Parameters;
+
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.composition.data.Mode;
 
 
 /**
  * Abstract model base class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9.2.7 $ $Date: 2004/01/07 12:49:42 $
+ * @version $Revision: 1.9.2.8 $ $Date: 2004/01/08 12:51:17 $
  */
 public abstract class DefaultDeploymentModel
   implements DeploymentModel
@@ -208,5 +212,18 @@ public abstract class DefaultDeploymentModel
     {
         boolean equal = super.equals( other ); 
         return equal;
+    }
+
+   /** 
+    * Return the maximum allowable duration for the deployment
+    * of the component represented by this model.
+    *
+    * @return the maximum time expressed in millisecond
+    */
+    public long getDeploymentTimeout()
+    {
+        SystemContext sc = m_context.getSystemContext();
+        Parameters params = sc.getSystemParameters();
+        return params.getParameterAsLong( "deployment-timeout", 1000 );
     }
 }

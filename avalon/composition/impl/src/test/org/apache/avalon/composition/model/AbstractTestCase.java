@@ -90,7 +90,6 @@ public abstract class AbstractTestCase extends TestCase
 
     public void printContainmentModel( String lead, ContainmentModel model )
     {
-        System.out.println( lead + "model:" + model );
         printDeploymentModel( lead, model );
         DeploymentModel[] models = model.getModels();
         if( models.length > 0 )
@@ -126,12 +125,17 @@ public abstract class AbstractTestCase extends TestCase
 
     public void printComponentModel( String lead, ComponentModel model )
     {
-        System.out.println( lead + "model:" + model );
         printDeploymentModel( lead, model );
     }
 
     public void printDeploymentModel( String lead, DeploymentModel model )
     {
+        System.out.println( 
+          lead 
+          + "model:" 
+          + model + "(" 
+          + model.getDeploymentTimeout() 
+          + ")" );
 
         DeploymentModel[] providers = model.getProviderGraph();
         DeploymentModel[] consumers = model.getConsumerGraph();

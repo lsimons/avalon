@@ -52,6 +52,7 @@ package org.apache.avalon.composition.model.impl;
 
 import org.apache.avalon.composition.model.DependencyGraph;
 import org.apache.avalon.composition.model.DeploymentContext;
+import org.apache.avalon.composition.model.SystemContext;
 
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.Logger;
@@ -61,7 +62,7 @@ import org.apache.avalon.composition.data.Mode;
  * Default implementation of a deployment context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2.2.3 $ $Date: 2004/01/06 23:16:49 $
+ * @version $Revision: 1.2.2.4 $ $Date: 2004/01/08 12:51:17 $
  */
 public class DefaultDeploymentContext extends DefaultContext 
   implements DeploymentContext
@@ -75,6 +76,7 @@ public class DefaultDeploymentContext extends DefaultContext
     private final Logger m_logger;
     private final Mode m_mode;
     private final DependencyGraph m_graph;
+    private final SystemContext m_system;
 
     //---------------------------------------------------------
     // constructor
@@ -90,7 +92,7 @@ public class DefaultDeploymentContext extends DefaultContext
     * @param graph the parent deployment assembly graph
     */
     public DefaultDeploymentContext( 
-      Logger logger, String partition, String name, 
+      Logger logger, SystemContext system, String partition, String name, 
       Mode mode, DependencyGraph graph )
     {
         if( logger == null )
@@ -105,6 +107,10 @@ public class DefaultDeploymentContext extends DefaultContext
         {
             throw new NullPointerException( "mode" );
         }
+        if( system == null )
+        {
+            throw new NullPointerException( "system" );
+        }
 
         m_graph = new DependencyGraph( graph );
         if( graph != null )
@@ -113,6 +119,7 @@ public class DefaultDeploymentContext extends DefaultContext
         }
 
         m_logger = logger;
+        m_system = system;
         m_partition = partition;
         m_name = name;
         m_mode = mode;
@@ -122,6 +129,16 @@ public class DefaultDeploymentContext extends DefaultContext
     //---------------------------------------------------------
     // DeploymentContext
     //---------------------------------------------------------
+
+   /**
+    * Return the system context.
+    *
+    * @return the system context
+    */
+    public SystemContext getSystemContext()
+    {
+        return m_system;
+    }
 
    /**
     * Return the profile name.

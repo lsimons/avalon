@@ -123,7 +123,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13.2.11 $ $Date: 2004/01/07 12:49:14 $
+ * @version $Revision: 1.13.2.12 $ $Date: 2004/01/08 12:51:17 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -234,9 +234,16 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     */
     public long getDeploymentTimeout()
     {
-        SystemContext system = m_context.getSystemContext();
-        Parameters params = system.getSystemParameters();
-        return params.getParameterAsLong( "deployment-timeout", 1000 );
+        long n = super.getDeploymentTimeout();
+        if( isAssembled() )
+        {
+            DeploymentModel[] startup = getStartupGraph();
+            for( int i=0; i<startup.length; i++ )
+            {
+                n = ( n + startup[i].getDeploymentTimeout() );
+            }
+        }
+        return n;
     }
 
    /**

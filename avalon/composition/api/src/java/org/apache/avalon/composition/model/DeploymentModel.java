@@ -59,7 +59,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * Model desribing a deployment scenario.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.7.2.4 $ $Date: 2004/01/07 12:45:41 $
+ * @version $Revision: 1.7.2.5 $ $Date: 2004/01/08 12:51:17 $
  */
 public interface DeploymentModel
 {
@@ -165,6 +165,14 @@ public interface DeploymentModel
      *    the completion of the assembly phase 
      */
     DeploymentModel[] getProviders();
+
+   /** 
+    * Returns the maximum allowable time for deployment.
+    *
+    * @return the maximum time expressed in millisecond of how 
+    * long a deployment may take.
+    **/
+   long getDeploymentTimeout();
 
 
 }
