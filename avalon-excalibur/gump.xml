@@ -36,26 +36,6 @@
     <javadoc nested="build/javadocs" module="jakarta-avalon"/>
   </project>
 
-  <project name="excalibur-extension">
-    <package>org.apache.avalon.excalibur.extension</package>
-
-    <ant basedir="extension">
-      <depend property="junit.jar"   project="junit"/>
-      <property name="version" value="@@DATE@@"/>
-      <property name="junit.failonerror" value="true"/>
-      <property name="do.checkstyle" value="true"/>
-    </ant>
-
-    <depend project="jakarta-ant"/>
-    <depend project="xml-xerces"/>
-    <depend project="xml-xalan2"/>
-    <depend project="checkstyle"/>
-    <work nested="extension/build/classes"/>
-
-    <home nested="extension"/>
-    <jar name="build/lib/excalibur-extension-@@DATE@@.jar"/>
-  </project>
-
   <project name="excalibur-cache">
     <package>org.apache.avalon.excalibur.cache</package>
 
@@ -97,6 +77,46 @@
     <jar name="build/lib/excalibur-cli-@@DATE@@.jar"/>
   </project>
 
+    <project name="excalibur-extension">
+      <package>org.apache.avalon.excalibur.extension</package>
+
+      <ant basedir="extension">
+        <depend property="junit.jar"   project="junit"/>
+        <property name="version" value="@@DATE@@"/>
+        <property name="junit.failonerror" value="true"/>
+        <property name="do.checkstyle" value="true"/>
+      </ant>
+
+      <depend project="jakarta-ant"/>
+      <depend project="xml-xerces"/>
+      <depend project="xml-xalan2"/>
+      <depend project="checkstyle"/>
+      <work nested="extension/build/classes"/>
+
+      <home nested="extension"/>
+      <jar name="build/lib/excalibur-extension-@@DATE@@.jar"/>
+    </project>
+
+    <project name="excalibur-i18n">
+      <package>org.apache.avalon.excalibur.i18n</package>
+
+      <ant basedir="i18n">
+        <depend property="junit.jar" project="junit"/>
+        <property name="version" value="@@DATE@@"/>
+        <property name="junit.failonerror" value="true"/>
+        <property name="do.checkstyle" value="true"/>
+      </ant>
+
+      <depend project="jakarta-ant"/>
+      <depend project="xml-xerces"/>
+      <depend project="xml-xalan2"/>
+      <depend project="checkstyle"/>
+      <work nested="i18n/build/classes"/>
+
+      <home nested="i18n"/>
+      <jar name="build/lib/excalibur-i18n-@@DATE@@.jar"/>
+    </project>
+
   <project name="excalibur-io">
     <package>org.apache.avalon.excalibur.io</package>
 
@@ -115,26 +135,6 @@
 
     <home nested="io"/>
     <jar name="build/lib/excalibur-io-@@DATE@@.jar"/>
-  </project>
-
-  <project name="excalibur-i18n">
-    <package>org.apache.avalon.excalibur.i18n</package>
-
-    <ant basedir="i18n">
-      <depend property="junit.jar" project="junit"/>
-      <property name="version" value="@@DATE@@"/>
-      <property name="junit.failonerror" value="true"/>
-      <property name="do.checkstyle" value="true"/>
-    </ant>
-
-    <depend project="jakarta-ant"/>
-    <depend project="xml-xerces"/>
-    <depend project="xml-xalan2"/>
-    <depend project="checkstyle"/>
-    <work nested="i18n/build/classes"/>
-
-    <home nested="i18n"/>
-    <jar name="build/lib/excalibur-i18n-@@DATE@@.jar"/>
   </project>
 
   <project name="excalibur-naming">
