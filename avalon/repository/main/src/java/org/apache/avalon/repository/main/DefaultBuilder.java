@@ -54,7 +54,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class DefaultBuilder extends AbstractBuilder implements Builder
 {
@@ -314,7 +314,7 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
     * @return the delegate factory
     * @exception RepositoryRuntimeException if the declared class does 
     *    not implement the factory interface
-    * @see getFactoryClass
+    * @see #getFactoryClass
     */
     public Factory getFactory()
     {
