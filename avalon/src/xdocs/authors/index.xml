@@ -81,6 +81,10 @@
             <entry><ulink uri="lsimons.html">Leo Simons</ulink></entry>
             <entry><ulink uri="mailto:leosimons@apache.org">Leo Simons</ulink></entry>
           </row>
+          <row>
+            <entry><ulink uri="leif.html">Leif Mortenson</ulink></entry>
+            <entry><ulink uri="mailto:leif@apache.org">leif@apache.org</ulink></entry>
+          </row>
         </tbody>
       </tgroup>
     </table>
