@@ -8,7 +8,9 @@
     <!-- include the excalibur-wide custom project properties -->
     <property file="${basedir}/project.properties"/>
     <property file="${basedir}/../project.properties"/>
-
+    <property file="${basedir}/../../project.properties"/>
+    <property file="${basedir}/../../../project.properties"/>
+    
     <goal name="check">
         <!-- friendly error in case file is not available -->
         <ant:available file="${avalon.buildsystem}/maven-common.xml"
