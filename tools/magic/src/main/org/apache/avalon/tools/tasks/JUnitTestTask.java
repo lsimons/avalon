@@ -24,10 +24,12 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Exit;
 import org.apache.tools.ant.taskdefs.Javac;
+import org.apache.tools.ant.taskdefs.Concat;
 import org.apache.tools.ant.taskdefs.optional.junit.BatchTest;
 import org.apache.tools.ant.taskdefs.optional.junit.FormatterElement;
 import org.apache.tools.ant.taskdefs.optional.junit.JUnitTask;
 import org.apache.tools.ant.types.Environment;
+import org.apache.tools.ant.types.FileList;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
@@ -147,14 +149,6 @@ public class JUnitTestTask extends SystemTask
                 fail( message );
             }
         }
-    }
-
-    private void fail( final String message )
-    {
-        final Exit exit = (Exit) getProject().createTask( "fail" );
-        exit.setMessage( message );
-        exit.init();
-        exit.execute();
     }
 
     private void copyUnitTestResource( final File dest )
@@ -339,5 +333,54 @@ public class JUnitTestTask extends SystemTask
         {
             return Project.toBoolean( value );
         }
+    }
+
+    private void fail( final String message )
+    {
+        final File reports = getContext().getTestReportsDirectory();
+        if( reports.exists() && getHome().isGump() )
+        {
+            FileSet list = new FileSet();
+            list.setDir( reports );
+            list.setIncludes( "**/*.txt" );
+
+            Concat concat = (Concat) getProject().createTask( "concat" );
+            concat.addFileset( list );
+            concat.addHeader( getHeader() );
+            concat.addFooter( getFooter() );
+            concat.setTaskName( getTaskName() );
+            concat.init();
+            concat.execute();
+        }
+
+        final Exit exit = (Exit) getProject().createTask( "fail" );
+        exit.setMessage( message );
+        exit.init();
+        exit.execute();
+    }
+
+    private Concat.TextElement getHeader()
+    {
+        Concat.TextElement header = new Concat.TextElement();
+        header.setProject( getProject() );
+        header.addText(
+    "-------------------------------------------------------------------------------" 
++ "\n One or more errors occured during unit tests."
++ "\n Listing error reports."
++ "\n-------------------------------------------------------------------------------" 
++ "\n" );
+        return header;
+    }
+
+    private Concat.TextElement getFooter()
+    {
+        Concat.TextElement footer = new Concat.TextElement();
+        footer.setProject( getProject() );
+        footer.addText(
+    "-------------------------------------------------------------------------------"
++ "\nEnd of Listing."
++ "\n-------------------------------------------------------------------------------" 
++ "\n" );
+        return footer;
     }
 }
