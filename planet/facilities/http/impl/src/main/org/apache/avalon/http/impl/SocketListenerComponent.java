@@ -1,0 +1,133 @@
+/* 
+ * Copyright 2004 Apache Software Foundation
+ * Licensed  under the  Apache License,  Version 2.0  (the "License");
+ * you may not use  this file  except in  compliance with the License.
+ * You may obtain a copy of the License at 
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed  under the  License is distributed on an "AS IS" BASIS,
+ * WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ * implied.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.apache.avalon.http.impl;
+
+import org.apache.avalon.framework.activity.Startable;
+
+import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.logger.Logger;
+
+import org.apache.avalon.framework.parameters.ParameterException;
+import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Parameters;
+
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+
+import org.apache.avalon.http.HttpService;
+
+import org.mortbay.http.SocketListener;
+
+/** Wrapper for the Jetty SocketListener.
+ *
+ * @avalon.component name="http-socket-listener" lifestyle="singleton"
+ */
+public class SocketListenerComponent
+    implements Parameterizable, Startable, Serviceable, LogEnabled
+{
+    private SocketListener m_SocketListener;
+    
+    private HttpService m_HttpServer;
+    private Logger      m_Logger;
+    
+    public SocketListenerComponent()
+    {
+        m_SocketListener = new SocketListener();
+    }
+    
+    /**
+     * Enable the logging system.
+     *
+     * @avalon.logger name="http"
+     */
+    public void enableLogging( Logger logger )
+    {
+        m_Logger = logger;
+    }
+    
+    public Logger getLogger()
+    {
+        return m_Logger;
+    }
+    
+    public void parameterize( Parameters params )
+        throws ParameterException
+    {
+        int reserve = params.getParameterAsInteger( "buffer-reserve", -1 );
+        if( reserve > 0 )
+            m_SocketListener.setBufferReserve( reserve );
+        
+        int size = params.getParameterAsInteger( "buffer-size", -1 );
+        if( size > 0 )
+            m_SocketListener.setBufferSize( size );
+    
+        int confPort = params.getParameterAsInteger( "confidential-port", -1 );
+        if( confPort > 0 )
+            m_SocketListener.setConfidentialPort( confPort );
+        
+        String confScheme = params.getParameter( "confidential-scheme", null );
+        if( confScheme != null )
+            m_SocketListener.setConfidentialScheme( confScheme );
+    
+        String defScheme = params.getParameter( "default-scheme", null );
+        if( defScheme != null )
+            m_SocketListener.setDefaultScheme( defScheme );
+        
+        int integralPort = params.getParameterAsInteger( "integral-port", -1 );
+        if( integralPort > 0 )
+            m_SocketListener.setIntegralPort( integralPort );
+        
+        String integralScheme = params.getParameter( "integral-scheme", null );
+        if( integralScheme != null )
+            m_SocketListener.setIntegralScheme( integralScheme );
+    
+        int lowResMs = params.getParameterAsInteger( "low-resource-persist-ms", -1 );
+        if( lowResMs > 0 )
+            m_SocketListener.setLowResourcePersistTimeMs( lowResMs );
+        
+        boolean identify = params.getParameterAsBoolean( "identify-listener", false );
+        m_SocketListener.setIdentifyListener( identify );
+        
+        
+    }
+    
+    /**
+     * @avalon.dependency type="org.apache.avalon.http.HttpService" 
+     *                    key="server"
+     */
+    public void service( ServiceManager man )
+        throws ServiceException
+    {
+        m_HttpServer = (HttpService) man.lookup( "server" );
+    }
+    
+    public void start()
+        throws Exception
+    {
+        m_HttpServer.addListener( m_SocketListener );
+        m_SocketListener.start();
+    }
+    
+    public void stop()
+        throws Exception
+    {
+        m_SocketListener.stop();
+        m_HttpServer.removeListener( m_SocketListener );
+    }
+} 
