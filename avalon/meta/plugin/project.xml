@@ -5,7 +5,7 @@
   <pomVersion>3</pomVersion>
   <id>avalon-meta-plugin</id>
   <name>Avalon Meta Model Plugin</name>
-  <currentVersion>1.3</currentVersion>
+  <currentVersion>1.3.1</currentVersion>
   <description>Avalon Plugin for Maven</description>
   <shortDescription>Avalon Plugin for Maven</shortDescription>
   <package>org.apache.avalon</package>
@@ -36,7 +36,7 @@
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-impl</artifactId>
-      <version>1.3</version>
+      <version>1.3.1</version>
     </dependency>
     <dependency>
       <groupId>avalon-meta</groupId>

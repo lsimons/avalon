@@ -70,7 +70,7 @@ import org.apache.avalon.meta.info.Type;
  *
  * TODO: Address configuration schema support
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2003/12/11 08:48:12 $
+ * @version $Revision: 1.6 $ $Date: 2004/01/01 21:48:37 $
  */
 public class XMLTypeWriter
     implements TypeWriter
@@ -286,7 +286,8 @@ public class XMLTypeWriter
         throws IOException
     {
         writer.write( "\n    <entry key=\"" );
-        writer.write( entry.getKey() + "\" " );
+        writer.write( entry.getKey() );
+        writer.write( "\" " );
 
         if( !entry.getClassname().equals( "java.lang.String" ) )
         {
@@ -294,21 +295,20 @@ public class XMLTypeWriter
             writer.write( entry.getClassname() );
             writer.write( "\" " );
         }
-
-        if( entry.getAlias() != null )
+        if(( entry.getAlias() != null ) && !entry.getAlias().equals( entry.getKey() ) )
         {
-            if( !entry.getAlias().equals( entry.getKey() ) )
-            {
-                writer.write( "alias=\"" + entry.getAlias() + "\" " );
-            }
+            writer.write( "alias=\"" + entry.getAlias() );
+            writer.write( "\" " );
         }
         if( entry.isOptional() )
         {
-            writer.write( "\" optional=\"true\" " );
+            writer.write( "optional=\"true\" " );
+            writer.write( "\" " );
         }
         if( entry.isVolatile() )
         {
-            writer.write( "\" volatile=\"true\" " );
+            writer.write( "volatile=\"true\" " );
+            writer.write( "\" " );
         }
 
         writer.write( "/>" );
