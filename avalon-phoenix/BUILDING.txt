@@ -1,5 +1,4 @@
 
-
                Building The Phoenix Application Server
                =======================================
 
@@ -64,7 +63,19 @@ component of Phoenix.
 * Unpack the reference implementation into a convenient location so that
   it resides in its own subdirectory.
 
-(3) Customize Build Properties For This Subproject
+(3) Download and Install the Java Service Wrapper 2.2.2 Implementation
+
+NOTE:  This step is only required if you wish to allow the Phoenix server
+to be accessible as a win32 Service or a unix daemon.
+
+* Download the Java Service Wrapper (version 2.2.2 or later) from
+
+    http://wrapper.sourceforge.net/
+
+* Unpack the product into a convenient location so that it resides in 
+  its own subdirectory.
+
+(4) Customize Build Properties For This Subproject
 
 Most Jakarta subprojects allow you to customize Ant properties (with default
 values defined in the "build.xml" file.  This is done by creating a text file
@@ -79,7 +90,7 @@ way to satisfy these dependencies is to copy the "ant.properties.sample"
 file (in the top-level Phoenix source directory) to ".ant.properties", and
 then edit it to suit your environment.  On Unix, this would be done as:
 
-  cd ${tomcat.source}
+  cd ${phoenix.source}
   cp ant.properties.sample .ant.properties
   emacs .ant.properties
 
@@ -87,7 +98,7 @@ NOTE:  Be *sure* that you do not check "ant.properties" in to the CVS
 repository.  This file is local to your own development environment, and
 each developer will have their own version.
 
-(4) Build A Binary Distribution
+(5) Build A Binary Distribution
 
 Open a command line shell, and issue the following commands:
 
