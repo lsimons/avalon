@@ -3,7 +3,7 @@
  *
  * This software is published under the terms of the Apache Software License
  * version 1.1, a copy of which has been included with this distribution in
- * the LICENSE file.
+ * the LICENSE.txt file.
  */
 package org.apache.jmx.adaptor;
 
@@ -19,7 +19,7 @@ import javax.management.*;
  * to remote operations.
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/04/25 01:02:15 $
+ * @version CVS $Revision: 1.3 $ $Date: 2001/12/11 10:13:36 $
  */
 public interface RMIAdaptor
      extends Remote

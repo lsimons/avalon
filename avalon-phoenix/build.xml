@@ -524,8 +524,8 @@ Legal:
 
     <copy todir="${bin.dist.dir}" filtering="on">
       <fileset dir=".">
-        <include name="README"/>
-        <include name="WARNING"/>
+        <include name="README.txt"/>
+        <include name="WARNING.txt"/>
         <include name="LICENSE"/>
       </fileset>
     </copy>
@@ -567,8 +567,8 @@ Legal:
 
     <copy todir="${src.dist.dir}" filtering="on">
       <fileset dir=".">
-        <include name="README"/>
-        <include name="WARNING"/>
+        <include name="README.txt"/>
+        <include name="WARNING.txt"/>
         <include name="LICENSE"/>
         <include name="BUILDING.txt"/>
         <include name="build.xml"/>
