@@ -13,10 +13,12 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.CascadingException;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.phoenix.components.LifecycleUtil;
 import org.apache.avalon.phoenix.components.application.DefaultApplication;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
@@ -120,16 +122,20 @@ public class DefaultKernel
         {
             try
             {
-                application = new DefaultApplication( entry.getMetaData() );
-                setupLogger( application, name );
+                final DefaultApplication newApp =
+                    new DefaultApplication( entry.getMetaData() );
+
+                final Logger childLogger = getLogger().getChildLogger( name );
+                LifecycleUtil.logEnable( newApp, childLogger );
 
                 final ApplicationContext context = createApplicationContext( entry );
-                application.setApplicationContext( context );
+                newApp.setApplicationContext( context );
 
-                application.initialize();
-                application.start();
+                LifecycleUtil.initialize( newApp );
+                LifecycleUtil.start( newApp );
 
-                entry.setApplication( application );
+                entry.setApplication( newApp );
+                application = newApp;
             }
             catch( final Throwable t )
             {
@@ -138,14 +144,18 @@ public class DefaultKernel
                 entry.setApplication( null );
 
                 final String message =
-                    REZ.getString( "kernel.error.entry.initialize", entry.getMetaData().getName() );
+                    REZ.getString( "kernel.error.entry.initialize",
+                                   entry.getMetaData().getName() );
                 throw new CascadingException( message, t );
             }
 
             // manage application
             try
             {
-                m_systemManager.register( name + ",type=Application", application, new Class[]{ApplicationMBean.class} );
+                final String managementName = name + ",type=Application";
+                m_systemManager.register( managementName,
+                                          application,
+                                          new Class[]{ApplicationMBean.class} );
             }
             catch( final Throwable t )
             {
@@ -163,8 +173,7 @@ public class DefaultKernel
         if( null != application )
         {
             entry.setApplication( null );
-            application.stop();
-            application.dispose();
+            LifecycleUtil.shutdown( application );
         }
         else
         {
@@ -181,7 +190,8 @@ public class DefaultKernel
         throws Exception
     {
         final String name = metaData.getName();
-        final SarEntry entry = new SarEntry( metaData, classLoader, hierarchy, server );
+        final SarEntry entry =
+            new SarEntry( metaData, classLoader, hierarchy, server );
         m_entrys.put( name, entry );
 
         try
@@ -199,17 +209,32 @@ public class DefaultKernel
     private ApplicationContext createApplicationContext( final SarEntry entry )
         throws Exception
     {
+        final SarMetaData metaData = entry.getMetaData();
+        final String name = metaData.getName();
+
         final DefaultApplicationContext context =
-            new DefaultApplicationContext( entry.getMetaData(),
+            new DefaultApplicationContext( metaData,
                                            entry.getClassLoader(),
                                            entry.getHierarchy() );
 
-        setupLogger( context, entry.getMetaData().getName() + ".frame" );
-
-        final ServiceManager serviceManager = createServiceManager();
-        ( (Serviceable)context ).service( serviceManager );
-        context.configure( entry.getConfiguration() );
+        LifecycleUtil.logEnable( context, createContextLogger( name ) );
+        LifecycleUtil.service( context, createServiceManager() );
+        LifecycleUtil.configure( context, entry.getConfiguration() );
         return context;
+    }
+
+    /**
+     * Create a logger for specified ApplicationContext.
+     *
+     * @param name the name of application name
+     * @return the Logger for context
+     */
+    private Logger createContextLogger( final String name )
+    {
+        final String loggerName = name + ".frame";
+        final Logger childLogger =
+            getLogger().getChildLogger( loggerName );
+        return childLogger;
     }
 
     private ServiceManager createServiceManager()
