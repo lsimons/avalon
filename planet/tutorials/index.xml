@@ -23,6 +23,109 @@
   </project>
 
   <!--
+  Context Tutorials.
+  -->
+
+  <project basedir="context/alias">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-context-alias</name>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="context/avalon">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-context-avalon</name>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="context/casting">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-context-casting</name>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="context/custom">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-context-custom</name>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="context/injection">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-context-injection</name>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="context/plus">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-context-plus</name>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="context/strategy">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-context-strategy</name>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+      <include key="avalon-composition-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <!--
   Dynamics Tutorial.
   -->
 
