@@ -27,9 +27,19 @@
   <body>
 
     <section name="Lifestyle Specification">
-      <p>
-IN PREPARATION
-      </p>
+
+      <subsection name="Transient">
+      </subsection>
+
+      <subsection name="Thread">
+      </subsection>
+
+      <subsection name="Pooled">
+      </subsection>
+
+      <subsection name="Singleton">
+      </subsection>
+
     </section>
 
   </body>

@@ -28,8 +28,347 @@
 
     <section name="Lifecycle Management Specification">
       <p>
-IN PREPARATION
+Lifecycle management concerns the process of incarnation, runtime management, and etherialization.  Incarnation is the sequence involving instantiation and possible application of a series of lifecycle stage processes (such as configuration, contextualization, etc.).  Runtime management deals with the suspension, resumption of a component.  Etherialization represents the process of component end-of-life processing possibly involving the application of multiple lifecycle phases (e.g. disposal).
       </p>
+
+      <subsection name="Incarnation">
+    
+        <p>
+Just as objects are instantiated, the equivalent process from a component is "incarnation".  Incarnation involves instantiation, a series of optional artifact delivery stages, and an optional execution phase.  Component incarnation is managed exclusively by a container.  Occurances of component icarnation are controlled by as associated component implementation <a href="../lifestyle/index.html">lifestyle</a> characteristic.
+        </p>
+
+        <table>
+          <tr>
+            <td><strong><p>Phase</p></strong></td>
+            <td><strong><p>Description</p></strong></td>
+          </tr>
+          <tr>
+            <td><p>instantiation</p></td>
+            <td>
+<p>
+A component may declare either a null constructor, or, a single constructor with any lifecycle artifact as a parameter argument where arguments may be in any combination or order. Recognized lifecycle artificats include 
+<a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/logger/Logger.html">Logger</a>,                
+<a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/context/Context.html">Context</a>,                
+<a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/parameters/Parameters.html">Parameters</a>,                
+<a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/service/ServiceManager.html">ServiceManager</a>, and/or            
+<a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/configuration/Configuration.html">Configuration</a>. In addition, the Context object may be substituted with a custom context interface and implementation.
+</p>
+<p>
+NOTE: A component implementation may not duplicate constructor injection of lifecycle artifacts with the equivalent lifecycle stage.
+</p>
+<p><i>Example:</i></p>
+<source>
+  /**
+   * Creation of a new widget.
+   *
+   * @param logger a logging channel
+   * @avalon.dependency type="tutorial.Gizmo" key="gizmo"
+   */
+   public DefaultWidget( Logger logger, ServiceManager manager ) 
+     throws ServiceException
+   {
+       m_logger = logger;
+       m_logger.info( "hello" );
+       m_gizmo = (Gizmo) manager.lookup( "gizmo" );
+   }
+</source>
+            </td>
+          </tr>
+          <tr>
+            <td><a name="logging"/><p>logging</p></td>
+            <td>
+<p>Optional Logger delivery strategy.  A component implementation may implement the <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/logger/LogEnabled.html">LogEnabled</a> interface.  The container will supply the component root logger via the enableLogging operation.</p>
+<p><i>Example:</i></p>
+<source>
+    /**
+     * Supply of a logging channel by the container to this 
+     * component.
+     *
+     * @param logger the logging channel
+     */
+     public void enableLogging( Logger logger )
+     {
+         m_logger = logger;
+     }
+</source>
+            </td>
+          </tr>
+          <tr>
+            <td><a name="contextualization"/><p>contextualization</p></td>
+            <td>
+<p>Optional context delivery strategy.  A component implementation may implement the <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/context/Contextualizable.html">Contextualizable</a> interface.  The container will supply a component context via the contextualize operation.  The context instance will be pre-populated by the container will all requested entries.</p>
+<p><i>Example:</i></p>
+<source>
+    /**
+     * Supply of a context object to the component.
+     *
+     * @param context the component context
+     * @avalon.entry key="urn:avalon:home" type="java.io.File"
+     * @exception ContextException if an error occurs during 
+     *   context entry resolution
+     */
+     public void contextualize( Context context ) 
+       throws ContextException
+     {
+         m_home = (File) context.get( "urn:avalon:home" );
+     }
+</source>
+            </td>
+          </tr>
+          <tr>
+            <td><a name="service"/><p>service</p></td>
+            <td>
+<p>Optional service manager delivery strategy.  A component implementation may implement the <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/service/Serviceable.html">Serviceable</a> interface.  The container will supply a service manager supporting all declared service dependencies.</p>
+<p><i>Example:</i></p>
+<source>
+    /**
+     * Supply of the service manager to the component from which 
+     * dependent services may be accessed relative to a service key.
+     *
+     * @param manager the supplied service manager
+     * @avalon.dependency type="tutorial.Gizmo" key="gizmo"
+     * @avalon.dependency type="tutorial.Widget" key="widget"
+     * @exception ServiceException if an error occurs during 
+     *   service resolution
+     */
+     public void service( ServiceManager manager ) 
+       throws ServiceException
+     {
+         m_gizmo = (Gizmo) manager.lookup( "gizmo" );
+         m_widget = (Widget) manager.lookup( "widget" );
+     }
+</source>
+<p>Note: the usage of the key attribute on a service dependency tag is optional.  If not supplied, an implementation my request the service using the type argument (i.e. the service classname).  The recommended practice is to declare a local key.</p>
+            </td>
+          </tr>
+          <tr>
+            <td><a name="configuration"/><p>configuration</p></td>
+            <td>
+<p>Optional configuration delivery strategy.  A component implementation may implement the <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/configuration/Configurable.html">Configurable</a> interface.  The container will supply a component configuration via the configure operation.</p>
+<p><i>Example:</i></p>
+<source>
+    /**
+     * Supply of the component configuration by the container.
+     *
+     * @param config the component configuration
+     * @exception ConfigurationException if an error occurs during 
+     *   configuration handling
+     */
+     public void configure( Configuration config ) 
+       throws ConfigurationException
+     {
+         Configuration location = config.getChild( "location" );
+         m_address = location.getAttribute( "address" );
+     }
+</source>
+            </td>
+          </tr>
+          <tr>
+            <td><a name="parameterization"/><p>parameterization</p></td>
+            <td>
+<p>Optional parameters delivery strategy.  A component may implement the <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/parameters/Parameterizable.html">Parameterizable</a> interface.  The container will supply a parameters instance via the parameterize operation.</p>
+<p><i>Example:</i></p>
+<source>
+    /**
+     * Supply of parameters to the component by the container
+     *
+     * @param params the component parameters
+     * @exception ParameterException if an error occurs during 
+     *   parameter handling
+     */
+     public void parameterize( Parameters params ) 
+       throws ParameterException
+     {
+         m_secure = params.getParameterAsBoolean( "secure" );
+         m_count = params.getParameterAsInteger( "count" );
+     }
+</source>
+            </td>
+          </tr>
+          <tr>
+            <td><a name="custom"/><p>custom stage</p></td>
+            <td>
+<p>Optional custom lifecycle stage.  A component may implement zero or more custom lifecycle stages.  Stages will be applied to the component in the order of avalon.stage declarations.  </p>
+<p><i>Example:</i></p>
+<source>
+/**
+ * Component declaring a custom stage dependency.
+ *
+ * @avalon.component name="demo" lifestyle="singleton" version="1.0"
+ * @avalon.stage id="urn:demo:demonstratable"
+ */
+public class HelloComponent extends AbstractLogEnabled 
+  implements Demonstratable
+{
+    /**
+     * A custom lifecycle stage implementation.
+     *
+     * @param message a message from the custom lifecycle 
+     *    stage handler
+     */
+    public void demo( String message )
+    {
+        getLogger().info( "extension said: " + message );
+    }
+}
+</source>
+            </td>
+          </tr>
+          <tr>
+            <td><a name="initialization"/><p>initialization</p></td>
+            <td>
+<p>Optional initialization stage.  A component may implement the <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/activity/Initializable.html">Initializable</a> interface.  The container will invoke initialization following completion of the delivery of lifecycle artifacts and any custom lifecycle stages.</p>
+<p><i>Example:</i></p>
+<source>
+    /**
+     * Initialization of the component by the container.
+     *
+     * @exception Exception if an error occurs during 
+     *   the initialization phase
+     */
+     public void initialize() throws Exception
+     {
+         ...
+     }
+</source>
+            </td>
+          </tr>
+          <tr>
+            <td><a name="execution"/><p>execution</p></td>
+            <td>
+<p>Optional execution stage.  A component may implement either the <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/activity/Startable.html">Startable</a> or <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/activity/Executable.html">Executable</a> interfaces.  If the component implements Executable the execute method will be invoked before the component instance is exposed to any other component.  If the component implements the Startable interface the container will invoke the start operation.  An implementation is responsible for establishing a working thread and returned from the start operation promptly.</p>
+<p><i>Executable Example:</i></p>
+<source>
+    /**
+     * Execute implementation.
+     */
+     public void execute()
+     {
+         ...
+     }
+</source>
+
+<p><i>Startable Example:</i></p>
+
+<source>
+    /**
+     * Start the component.
+     */
+     public void start() throws Exception
+     {
+         ...
+     }
+</source>
+
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Runtime Management">
+
+      <p>
+Runtime management deals with interaction with a component between the incarnation and etherialization stages.  The Avalon framework defines the notion of a suspendable component.  The framework also defines a number of delivery interfaces dealing with reintroduction of lifecycle artificats. None of the framework reintroduction interfaces are supported - instead, runtime management is approached as a management concern wherein any existing artifact delivery interface may be reused by a container while a component is under a suspended state.  The action of resumption is equivalent to the notion of re-initialization.
+      </p>
+
+        <table>
+          <tr>
+            <td><strong><p>Phase</p></strong></td>
+            <td><strong><p>Description</p></strong></td>
+          </tr>
+          <tr>
+            <td><p>suspension</p></td>
+            <td>
+<p>
+A component implementing the the <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/activity/Suspendable.html">Suspendable</a> lifecycle may be suspended by a container management system. Following suspension a container may re-apply lifecycle artifact delivery stages (logging, contextualization, service, parameterization). 
+</p>
+<p><i>Suspendable Example:</i></p>
+<source>
+    /**
+     * Suspend the component.
+     */
+     public void suspend()
+     {
+         ...
+     }
+</source>
+            </td>
+          </tr>
+          <tr>
+            <td><p>suspension</p></td>
+            <td>
+<p>
+A component implementing the the <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/activity/Suspendable.html">Suspendable</a> lifecycle may be placed back into operation following suspension by a container management system.
+</p>
+<p><i>Suspendable Example:</i></p>
+<source>
+    /**
+     * Resume execution.
+     */
+     public void resume()
+     {
+         ...
+     }
+</source>
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Etherialization">
+
+        <p>
+The etherialization stage is the component equivalent of an object finalization.  Etherialization covers the stopping of a running component and subsequent disposal.  Initiation of the etherialization phase on a component instance is exclusively controlled by it's container.
+        </p>
+
+        <table>
+          <tr>
+            <td><strong><p>Phase</p></strong></td>
+            <td><strong><p>Description</p></strong></td>
+          </tr>
+          <tr>
+            <td><p>execution</p></td>
+            <td>
+<p>
+A component implementing the the <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/activity/Startable.html">Startable</a> lifecycle interface will be shutdown by the container. 
+</p>
+<p><i>Startable Example:</i></p>
+
+<source>
+    /**
+     * Stop the component.
+     */
+     public void stop() throws Exception
+     {
+         ...
+     }
+</source>
+            </td>
+          </tr>
+          <tr>
+            <td><p>disposal</p></td>
+            <td>
+<p>
+A component may participate in end-of-life processing by implementing the 
+<a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/activity/Disposable.html">Disposable</a> lifecycle interface. An implementation will typically released references during this stage.
+</p>
+<p><i>Startable Example:</i></p>
+
+<source>
+    /**
+     * Disposal of the component.
+     */
+     public void dispose()
+     {
+         ...
+     }
+</source>
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
     </section>
 
   </body>

@@ -27,9 +27,22 @@
   <body>
 
     <section name="Lifecycle Artifacts">
-      <p>
-IN PREPARATION
-      </p>
+
+      <subsection name="Logger">
+      </subsection>
+
+      <subsection name="Context">
+      </subsection>
+
+      <subsection name="ServiceManager">
+      </subsection>
+
+      <subsection name="Configuration">
+      </subsection>
+
+      <subsection name="Parameters">
+      </subsection>
+
     </section>
 
   </body>
