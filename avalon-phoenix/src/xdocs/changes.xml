@@ -12,7 +12,16 @@
     <author name="Mircea Toma" email="mirceatoma@home.com" id="MT"/>
     <author name="Stephen McConnell" email="mcconnell@osm.net" id="SM"/>
     <author name="Peter Royal" email="proyal@apache.org" id="PR"/>
+    <author name="Huw Roberts" email="huw@apache.org" id="HR"/>    
   </devs>
+<release version="4.0b" date="Unreleased">  
+    <action dev="HR" type="add">
+        Lots of work on JMX capability for Phoenix.
+    </action>
+    <action dev="PH" type="add">
+        BeanShell debug tools for Kernel.
+    </action>    
+</release>
 <release version="4.0a4" date="Unreleased">
     <action dev="PR" type="add">
         Added start of configuration validation framework
