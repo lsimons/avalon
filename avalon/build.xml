@@ -450,12 +450,12 @@ Legal:
       </fileset>
     </copy>
 
-    <fixcrlf srcdir="${src.dist.dir}" includes="build.sh" cr="remove"/>
-    <fixcrlf srcdir="${src.dist.dir}" includes="build.bat" cr="add"/>
-    <fixcrlf srcdir="${src.dist.tools}/bin" includes="*.sh" cr="remove"/>
-    <fixcrlf srcdir="${src.dist.tools}/bin" includes="ant" cr="remove"/>
-    <fixcrlf srcdir="${src.dist.tools}/bin" includes="antRun" cr="remove"/>
-    <fixcrlf srcdir="${src.dist.tools}/bin" includes="*.bat" cr="add"/>
+    <fixcrlf srcdir="${src.dist.dir}" includes="build.sh" eol="lf"/>
+    <fixcrlf srcdir="${src.dist.dir}" includes="build.bat" eol="crlf"/>
+    <fixcrlf srcdir="${src.dist.tools}/bin" includes="*.sh" eol="lf"/>
+    <fixcrlf srcdir="${src.dist.tools}/bin" includes="ant" eol="lf"/>
+    <fixcrlf srcdir="${src.dist.tools}/bin" includes="antRun" eol="lf"/>
+    <fixcrlf srcdir="${src.dist.tools}/bin" includes="*.bat" eol="crlf"/>
 
     <chmod perm="+x">
       <fileset dir="${src.dist.dir}">
@@ -463,7 +463,7 @@ Legal:
       </fileset>
     </chmod>
 
-    <fixcrlf srcdir="${src.dist.src}/java" includes="**/*.java" cr="remove"/>
+    <fixcrlf srcdir="${src.dist.src}/java" includes="**/*.java" eol="lf"/>
 
     <chmod dir="${src.dist.dir}" perm="go-rwx" />
 
