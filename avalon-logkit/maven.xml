@@ -34,7 +34,7 @@
           javamail/jars
         </ant:fail>
         <ant:fail unless="jms.present">
-          Avalon LogKit must have JavaMail in your repository.  You must
+          Avalon LogKit must have JMS in your repository.  You must
           download it manually from the URL provided here:
 
           http://java.sun.com/products/jms/docs.html
