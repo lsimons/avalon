@@ -54,8 +54,8 @@ public class PackageRepositoryTestCase
         m_baseDirectory =
           new File( 
             root, 
-            "../classes/org/apache/avalon/extension/test/" ).getCanonicalFile();
-
+            "../classes/org/apache/avalon/extension/test/" 
+          ).getCanonicalFile();
         m_pathElement1 = new File( m_baseDirectory, "path1" );
         m_pathElement2 = new File( m_baseDirectory, "path2" );
         m_path = new File[]{m_pathElement1, m_pathElement2};
