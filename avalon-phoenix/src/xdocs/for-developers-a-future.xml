@@ -3,9 +3,7 @@
 <document>
   <header>
     <title>A future</title>
-
-      <author name="Paul Hammant" email="Paul_Hammant@yahoo.com"/>
-
+    <author name="Paul Hammant" email="Paul_Hammant@yahoo.com"/>
   </header>
   <body>
     <section name="Introduction">
@@ -22,12 +20,20 @@
         <graphic srccredit="&#169; Sun Microsystems" fileref="http://www.sun.com/products-n-solutions/hw/networking/images/prodsplash/x1.jpg" format="JPEG"/>
       </figure>
       <p>
-        If that rackable server had 32 such CPUs, each with 128Mb of memory all booting Phoenix. And if the CPUs shared a single hard drive, we might have a machine that was tuned to CPU intensive activities. Cocoon/Tomcat, EJB clusters, might be load balanced by one of the CPUs running a Phoenix load balancer.  Alternate scenarios are for virtual site hosting.  It could be a "1U" render or bean farm with each internal CPU having its own TCP/IP address.
+        If that rackable server had 32 such CPUs, each with 128Mb of memory all
+        booting Phoenix. And if the CPUs shared a single hard drive, we might have
+        a machine that was tuned to CPU intensive activities. Cocoon/Tomcat, EJB
+        clusters, might be load balanced by one of the CPUs running a Phoenix load
+        balancer.  Alternate scenarios are for virtual site hosting.  It could be
+        a "1U" render or bean farm with each internal CPU having its own TCP/IP
+        address.
       </p>
     </section>
     <section name="Is all this possible?">
       <p>
-        Well there are already romable J2SE implementations that are available for StrongARM chips on Compaq's handheld iPAQ.  We are there already, but for the client side rather than the server side.
+        Well there are already romable J2SE implementations that are available for
+        StrongARM chips on Compaq's handheld iPAQ.  We are there already, but for
+        the client side rather than the server side.
       </p>
     </section>
   </body>

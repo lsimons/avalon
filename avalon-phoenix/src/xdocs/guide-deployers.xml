@@ -3,9 +3,7 @@
 <document>
   <header>
     <title>Guide - for Deployers</title>
-
-      <author name="Peter Donald" email="peter@apache.org"/>
-
+    <author name="Peter Donald" email="peter@apache.org"/>
   </header>
   <body>
     <section name="Introduction">

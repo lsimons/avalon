@@ -36,13 +36,13 @@
       <p>The assembler takes pre-written blocks and glues these together to create a
        server application. Assemblers usually work closely with block developers.</p>
 
-      <p><a href="guide-assemblers.html">Assembler Guide</a></p>
+      <p><a href="assemblers/index.html">Assembler Guide</a></p>
     </section>
     <section name="The Block Developer">
       <p>The block developer creates reusable components (called blocks) that can be
        wired together to form a server applications.</p>
 
-      <p><a href="guide-block-developers.html">Block Developers Guide</a></p>
+      <p><a href="bdg/index.html">Block Developers Guide</a></p>
     </section>
   </body>
 </document>

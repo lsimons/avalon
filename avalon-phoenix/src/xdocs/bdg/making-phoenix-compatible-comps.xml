@@ -197,12 +197,12 @@ public class EJBBlock
     </section>
      <section name="Guide Contents">
        <ol>
-        <li><a href="guide-block-developers-what-is-a-block.html">What is a block?</a></li>
-        <li><a href="guide-block-developers-what-is-a-block-listener.html">What is a block listener?</a></li>
-        <li><a href="guide-block-developers-what-is-an-application-listener.html">What is an application listener?</a></li>
-        <li><a href="guide-block-developers-creating-a-block.html">How do I create a block?</a></li>
+        <li><a href="what-is-a-block.html">What is a block?</a></li>
+        <li><a href="what-is-a-block-listener.html">What is a block listener?</a></li>
+        <li><a href="what-is-an-application-listener.html">What is an application listener?</a></li>
+        <li><a href="creating-a-block.html">How do I create a block?</a></li>
         <li>How do I make my components phoenix-compatible?</li>
-        <li><a href="reference-blockinfo-specification.html">BlockInfo specification</a></li>
+        <li><a href="blockinfo-specification.html">BlockInfo specification</a></li>
        </ol>
       </section>
   </body>

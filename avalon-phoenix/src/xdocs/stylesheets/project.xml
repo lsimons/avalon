@@ -21,17 +21,17 @@
             <item name="Development Roles" href="/guide-roles.html"/>
             <item name="for Administrators" href="/guide-administrator.html"/>
             <item name="for Deployers" href="/guide-deployers.html"/>
-            <item name="for Assemblers" href="/guide-assemblers.html"/>
-            <item name="for Block Developers" href="/guide-block-developers.html" />
+            <item name="for Assemblers" href="/assemblers/index.html"/>
+            <item name="for Block Developers" href="/bdg/index.html" />
             <item name="Example configuration" href="/guide-example-configuration.html" />
         </menu>
 
         <menu name="Reference">
             <item name="API Docs" href="/api/index.html"/>
-            <item name="config.xml Specification" href="/reference-config-xml-specification.html"/>
-            <item name="assembly.xml Specification" href="/reference-assembly-xml-specification.html"/>
-            <item name="environment.xml Specification" href="/reference-environment-xml-specification.html"/>
-            <item name="BlockInfo Specification" href="/reference-blockinfo-specification.html" />
+            <item name="config.xml Specification" href="/assemblers/config-xml-specification.html"/>
+            <item name="assembly.xml Specification" href="/assemblers/assembly-xml-specification.html"/>
+            <item name="environment.xml Specification" href="/assemblers/environment-xml-specification.html"/>
+            <item name="BlockInfo Specification" href="/bdg/blockinfo-specification.html" />
         </menu>
 
         <menu name="For Developers">
