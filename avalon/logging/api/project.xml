@@ -26,7 +26,7 @@ Meta data for logging category directives.
     <dependency>
       <groupId>avalon-repository</groupId>
       <artifactId>avalon-repository-api</artifactId>
-      <version>1.3-SNAPSHOT</version>
+      <version>2.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
