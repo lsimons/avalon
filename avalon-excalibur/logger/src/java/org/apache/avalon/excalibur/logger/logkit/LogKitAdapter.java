@@ -47,67 +47,58 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.excalibur.logger;
+package org.apache.avalon.excalibur.logger.logkit;
 
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.ConfigurationUtil;
-import org.apache.log4j.xml.DOMConfigurator;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.excalibur.logger.LoggerManager;
+import org.apache.avalon.framework.logger.LogKitLogger;
+import org.apache.log.Hierarchy;
 
 /**
- * A LoggerManager for Log4j that will configure the Log4j subsystem
- * using specified configuration.
+ * This class sits on top of an existing LogKit Hierarchy
+ * and returns logger wrapping LogKit loggers.
  *
- * @author <a href="mailto:Ole.Bulbuk at ebp.de">Ole Bulbuk</a>
- * @version $Revision: 1.6 $ $Date: 2003/06/11 10:52:10 $
+ * Attach PrefixDecorator and/or CachingDecorator if desired.
+ *
+ * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
+ * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
+ * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
+ * @version CVS $Revision: 1.1 $ $Date: 2003/06/11 10:52:11 $
+ * @since 4.0
  */
-public class Log4JConfLoggerManager
-    extends Log4JLoggerManager
-    implements Configurable
+public class LogKitAdapter extends AbstractLogEnabled implements LoggerManager
 {
     /**
-     * Work around a weird compilation problem. Can not call
-     * the constructor from fortress/ContextManager, get a
-     * file org\apache\log4j\spi\LoggerRepository.class not found
-     *         new Log4JConfLoggerManager( lmDefaultLoggerName, lmLoggerName );
+     * The hierarchy that really produces loggers.
      */
+    protected final Hierarchy m_hierarchy;
 
-    public static Log4JConfLoggerManager newInstance( final String prefix,
-            final String switchToCategory )
+    /**
+     * Initialized <code>LogKitAdapter</code> to operate
+     * of a certain LogKit <code>Hierarchy</code>.
+     */
+    public LogKitAdapter( final Hierarchy hierarchy )
     {
-        return new Log4JConfLoggerManager( prefix, switchToCategory );
+        if ( hierarchy == null ) throw new NullPointerException( "hierarchy" );
+        m_hierarchy = hierarchy;
     }
 
-    public Log4JConfLoggerManager( final String prefix, final String switchToCategory )
+    /**
+     * Return the Logger for the specified category.
+     */
+    public Logger getLoggerForCategory( final String categoryName )
     {
-        super( prefix, switchToCategory );
+        return new LogKitLogger( m_hierarchy.getLoggerFor( categoryName ) );
     }
 
-    public Log4JConfLoggerManager()
+    /**
+     * Return the default Logger.  This is basically the same
+     * as getting the Logger for the "" category.
+     */
+    public Logger getDefaultLogger()
     {
-    }
-
-    public void configure( final Configuration configuration )
-        throws ConfigurationException
-    {
-        final Element element = ConfigurationUtil.toElement( configuration );
-        final Document document = element.getOwnerDocument();
-        final Element newElement = document.createElement( "log4j:configuration" );
-        final NodeList childNodes = element.getChildNodes();
-        final int length = childNodes.getLength();
-        for( int i = 0; i < length; i++ )
-        {
-            final Node node = childNodes.item( i );
-            final Node newNode = node.cloneNode( true );
-            newElement.appendChild( newNode );
-        }
-
-        document.appendChild( newElement );
-        DOMConfigurator.configure( newElement );
+        return new LogKitLogger( m_hierarchy.getRootLogger() );
     }
 }

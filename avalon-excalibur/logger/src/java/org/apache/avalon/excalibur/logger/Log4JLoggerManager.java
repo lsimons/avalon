@@ -63,8 +63,8 @@ import org.apache.log4j.spi.LoggerRepository;
  * leaves that as an excercise for Log4J's construction.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:tagunov at apache.org">Anton Tagunov</a>
- * @version CVS $Revision: 1.16 $ $Date: 2003/06/10 08:29:37 $
+ * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
+ * @version CVS $Revision: 1.17 $ $Date: 2003/06/11 10:52:10 $
  * @since 4.1
  */
 public class Log4JLoggerManager extends AbstractLoggerManager

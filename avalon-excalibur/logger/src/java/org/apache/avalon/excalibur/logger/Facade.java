@@ -49,65 +49,76 @@
 */
 package org.apache.avalon.excalibur.logger;
 
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.ConfigurationUtil;
-import org.apache.log4j.xml.DOMConfigurator;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.apache.avalon.excalibur.logger.LoggerManager;
+import org.apache.avalon.excalibur.logger.logkit.LogKitAdapter;
+import org.apache.avalon.excalibur.logger.logkit.LogKitLoggerHelper;
+import org.apache.avalon.excalibur.logger.logkit.LogKitConfHelper;
+import org.apache.avalon.excalibur.logger.log4j.Log4JConfAdapter;
+import org.apache.avalon.excalibur.logger.decorator.LogToSelfDecorator;
+import org.apache.avalon.excalibur.logger.decorator.PrefixDecorator;
+import org.apache.avalon.excalibur.logger.decorator.CachingDecorator;
+import org.apache.avalon.excalibur.logger.util.LoggerManagerTee;
+import org.apache.log.Hierarchy;
 
 /**
- * A LoggerManager for Log4j that will configure the Log4j subsystem
- * using specified configuration.
+ * A facade to the modularized *LoggerManager building system.
+ * Add methods here to create LoggerManagers to your preference.
  *
- * @author <a href="mailto:Ole.Bulbuk at ebp.de">Ole Bulbuk</a>
- * @version $Revision: 1.6 $ $Date: 2003/06/11 10:52:10 $
+ * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
+ * @version CVS $Revision: 1.1 $ $Date: 2003/06/11 10:52:10 $
+ * @since 4.0
  */
-public class Log4JConfLoggerManager
-    extends Log4JLoggerManager
-    implements Configurable
+
+public class Facade
 {
     /**
-     * Work around a weird compilation problem. Can not call
-     * the constructor from fortress/ContextManager, get a
-     * file org\apache\log4j\spi\LoggerRepository.class not found
-     *         new Log4JConfLoggerManager( lmDefaultLoggerName, lmLoggerName );
+     * Assemble a new LoggerManager running on top of LogKit
+     * configured from a configuration file logging to a supplied
+     * logger as a fallback.
+     * Use this method as a sample showing how to assemble your
+     * own LoggerManager running on top of LogKit flavour.
      */
-
-    public static Log4JConfLoggerManager newInstance( final String prefix,
-            final String switchToCategory )
+    public static LoggerManager createLogKitConfigurable( 
+            final String prefix, final String switchTo )
     {
-        return new Log4JConfLoggerManager( prefix, switchToCategory );
+        final org.apache.log.Hierarchy hierarchy = new Hierarchy();
+
+        final LoggerManager bare = new LogKitAdapter( hierarchy );
+        final LoggerManager decorated = applyDecorators( bare, prefix, switchTo );
+        final LoggerManagerTee tee = new LoggerManagerTee( decorated );
+
+        tee.addTee( new LogKitLoggerHelper( hierarchy ) );
+        tee.addTee( new LogKitConfHelper( hierarchy ) );
+        tee.makeReadOnly();
+
+        return tee;
     }
 
-    public Log4JConfLoggerManager( final String prefix, final String switchToCategory )
+    /**
+     * Assemble LoggerManager for Log4J system configured
+     * via a configuration file. All the logging errors
+     * will go to System.err however.
+     */
+    public static LoggerManager createLog4JConfigurable(
+            final String prefix, final String switchTo )
     {
-        super( prefix, switchToCategory );
+        final LoggerManager bare = new Log4JConfAdapter();
+        final LoggerManager decorated = applyDecorators( bare, prefix, switchTo );
+        return decorated;
     }
 
-    public Log4JConfLoggerManager()
+    private static LoggerManager applyDecorators( LoggerManager target,
+            final String prefix, final String switchTo )
     {
-    }
-
-    public void configure( final Configuration configuration )
-        throws ConfigurationException
-    {
-        final Element element = ConfigurationUtil.toElement( configuration );
-        final Document document = element.getOwnerDocument();
-        final Element newElement = document.createElement( "log4j:configuration" );
-        final NodeList childNodes = element.getChildNodes();
-        final int length = childNodes.getLength();
-        for( int i = 0; i < length; i++ )
+        if ( switchTo != null )
         {
-            final Node node = childNodes.item( i );
-            final Node newNode = node.cloneNode( true );
-            newElement.appendChild( newNode );
+            target = new LogToSelfDecorator( target, switchTo );
         }
-
-        document.appendChild( newElement );
-        DOMConfigurator.configure( newElement );
+        if ( prefix != null && prefix.length() > 0 )
+        {
+            target = new PrefixDecorator( target, prefix );
+        }
+        target = new CachingDecorator( target );
+        return target;
     }
 }

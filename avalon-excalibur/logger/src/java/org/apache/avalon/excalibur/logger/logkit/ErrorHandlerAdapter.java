@@ -47,67 +47,69 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.excalibur.logger;
+package org.apache.avalon.excalibur.logger.logkit;
 
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.ConfigurationUtil;
-import org.apache.log4j.xml.DOMConfigurator;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.log.ErrorHandler;
+import org.apache.log.Priority;
+import org.apache.log.LogEvent;
 
 /**
- * A LoggerManager for Log4j that will configure the Log4j subsystem
- * using specified configuration.
+ * This class adapts o.a.a.f.logger.Logger
+ * to the LogKit ErrorHandler interface.
  *
- * @author <a href="mailto:Ole.Bulbuk at ebp.de">Ole Bulbuk</a>
- * @version $Revision: 1.6 $ $Date: 2003/06/11 10:52:10 $
+ * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
+ * @version CVS $Revision: 1.1 $ $Date: 2003/06/11 10:52:11 $
+ * @since 4.0
  */
-public class Log4JConfLoggerManager
-    extends Log4JLoggerManager
-    implements Configurable
+
+public class ErrorHandlerAdapter implements ErrorHandler
 {
-    /**
-     * Work around a weird compilation problem. Can not call
-     * the constructor from fortress/ContextManager, get a
-     * file org\apache\log4j\spi\LoggerRepository.class not found
-     *         new Log4JConfLoggerManager( lmDefaultLoggerName, lmLoggerName );
-     */
+    private final Logger m_reliableLogger;
 
-    public static Log4JConfLoggerManager newInstance( final String prefix,
-            final String switchToCategory )
+    public ErrorHandlerAdapter( final Logger reliableLogger )
     {
-        return new Log4JConfLoggerManager( prefix, switchToCategory );
+       if ( reliableLogger == null )
+       {
+           throw new NullPointerException( "reliableLogger" );
+       }
+       m_reliableLogger = reliableLogger;
     }
 
-    public Log4JConfLoggerManager( final String prefix, final String switchToCategory )
+    public void error( final String message, final Throwable throwable, final LogEvent event )
     {
-        super( prefix, switchToCategory );
-    }
+        // let them know we're not OK
+        m_reliableLogger.fatalError( message, throwable );
 
-    public Log4JConfLoggerManager()
-    {
-    }
+        // transmit the original error
+        final Priority p = event.getPriority();
+        final String nestedMessage = "nested log event: " + event.getMessage();
 
-    public void configure( final Configuration configuration )
-        throws ConfigurationException
-    {
-        final Element element = ConfigurationUtil.toElement( configuration );
-        final Document document = element.getOwnerDocument();
-        final Element newElement = document.createElement( "log4j:configuration" );
-        final NodeList childNodes = element.getChildNodes();
-        final int length = childNodes.getLength();
-        for( int i = 0; i < length; i++ )
+        if ( p == Priority.DEBUG )
         {
-            final Node node = childNodes.item( i );
-            final Node newNode = node.cloneNode( true );
-            newElement.appendChild( newNode );
+            m_reliableLogger.debug( nestedMessage, event.getThrowable() );
         }
-
-        document.appendChild( newElement );
-        DOMConfigurator.configure( newElement );
+        else if ( p == Priority.INFO )
+        {
+            m_reliableLogger.info( nestedMessage, event.getThrowable() );
+        }
+        else if ( p == Priority.WARN )
+        {
+            m_reliableLogger.warn( nestedMessage, event.getThrowable() );
+        }
+        else if ( p == Priority.ERROR )
+        {
+            m_reliableLogger.error( nestedMessage, event.getThrowable() );
+        }
+        else if ( p == Priority.FATAL_ERROR)
+        {
+            m_reliableLogger.fatalError( nestedMessage, event.getThrowable() );
+        }
+        else
+        {
+            /** This just plainly can't happen :-)*/
+            m_reliableLogger.error( "unrecognized priority " + nestedMessage, 
+                event.getThrowable() );
+        }
     }
 }

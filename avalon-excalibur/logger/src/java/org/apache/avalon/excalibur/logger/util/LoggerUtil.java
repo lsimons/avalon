@@ -47,67 +47,50 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.excalibur.logger;
-
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.ConfigurationUtil;
-import org.apache.log4j.xml.DOMConfigurator;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+package org.apache.avalon.excalibur.logger.util;
 
 /**
- * A LoggerManager for Log4j that will configure the Log4j subsystem
- * using specified configuration.
+ * This class implements utility methods for building LoggerManager-s.
  *
- * @author <a href="mailto:Ole.Bulbuk at ebp.de">Ole Bulbuk</a>
- * @version $Revision: 1.6 $ $Date: 2003/06/11 10:52:10 $
+ * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
+ * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
+ * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
+ * @version CVS $Revision: 1.1 $ $Date: 2003/06/11 10:52:11 $
+ * @since 4.0
  */
-public class Log4JConfLoggerManager
-    extends Log4JLoggerManager
-    implements Configurable
+public class LoggerUtil
 {
     /**
-     * Work around a weird compilation problem. Can not call
-     * the constructor from fortress/ContextManager, get a
-     * file org\apache\log4j\spi\LoggerRepository.class not found
-     *         new Log4JConfLoggerManager( lmDefaultLoggerName, lmLoggerName );
+     * Generates a full category name given a prefix and category.  Either may be
+     *  null.
+     *
+     * @param prefix Prefix or parent category.
+     * @param category Child category name.
      */
-
-    public static Log4JConfLoggerManager newInstance( final String prefix,
-            final String switchToCategory )
+    public static String getFullCategoryName( final String prefix, final String category )
     {
-        return new Log4JConfLoggerManager( prefix, switchToCategory );
-    }
-
-    public Log4JConfLoggerManager( final String prefix, final String switchToCategory )
-    {
-        super( prefix, switchToCategory );
-    }
-
-    public Log4JConfLoggerManager()
-    {
-    }
-
-    public void configure( final Configuration configuration )
-        throws ConfigurationException
-    {
-        final Element element = ConfigurationUtil.toElement( configuration );
-        final Document document = element.getOwnerDocument();
-        final Element newElement = document.createElement( "log4j:configuration" );
-        final NodeList childNodes = element.getChildNodes();
-        final int length = childNodes.getLength();
-        for( int i = 0; i < length; i++ )
+        if( ( null == prefix ) || ( prefix.length() == 0 ) )
         {
-            final Node node = childNodes.item( i );
-            final Node newNode = node.cloneNode( true );
-            newElement.appendChild( newNode );
+            if( category == null )
+            {
+                return "";
+            }
+            else
+            {
+                return category;
+            }
         }
-
-        document.appendChild( newElement );
-        DOMConfigurator.configure( newElement );
+        else
+        {
+            if( ( null == category ) || ( category.length() == 0 ) )
+            {
+                return prefix;
+            }
+            else
+            {
+                return prefix + org.apache.log.Logger.CATEGORY_SEPARATOR + category;
+            }
+        }
     }
 }

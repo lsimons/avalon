@@ -47,67 +47,49 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.excalibur.logger;
+package org.apache.avalon.excalibur.logger.log4j;
 
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.ConfigurationUtil;
-import org.apache.log4j.xml.DOMConfigurator;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.excalibur.logger.LoggerManager;
+import org.apache.log4j.spi.LoggerRepository;
+import org.apache.avalon.framework.logger.Log4JLogger;
 
 /**
- * A LoggerManager for Log4j that will configure the Log4j subsystem
- * using specified configuration.
+ * This class sits on top of an existing Log4J Hierarchy
+ * and returns logger wrapping Log4J loggers.
  *
- * @author <a href="mailto:Ole.Bulbuk at ebp.de">Ole Bulbuk</a>
- * @version $Revision: 1.6 $ $Date: 2003/06/11 10:52:10 $
+ * Attach PrefixDecorator and/or CachingDecorator if desired.
+ *
+ * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
+ * @version CVS $Revision: 1.1 $ $Date: 2003/06/11 10:52:10 $
+ * @since 4.0
  */
-public class Log4JConfLoggerManager
-    extends Log4JLoggerManager
-    implements Configurable
+public class Log4JAdapter extends AbstractLogEnabled implements LoggerManager
 {
+    protected final LoggerRepository m_hierarchy;
+
+    public Log4JAdapter( final LoggerRepository hierarchy )
+    {
+        if ( hierarchy == null ) throw new NullPointerException( "hierarchy" );
+        m_hierarchy = hierarchy;
+    }
+
     /**
-     * Work around a weird compilation problem. Can not call
-     * the constructor from fortress/ContextManager, get a
-     * file org\apache\log4j\spi\LoggerRepository.class not found
-     *         new Log4JConfLoggerManager( lmDefaultLoggerName, lmLoggerName );
+     * Return the Logger for the specified category.
      */
-
-    public static Log4JConfLoggerManager newInstance( final String prefix,
-            final String switchToCategory )
+    public Logger getLoggerForCategory( final String categoryName )
     {
-        return new Log4JConfLoggerManager( prefix, switchToCategory );
+        return new Log4JLogger( m_hierarchy.getLogger( categoryName ) );
     }
 
-    public Log4JConfLoggerManager( final String prefix, final String switchToCategory )
+    /**
+     * Return the default Logger.  This is basically the same
+     * as getting the Logger for the "" category.
+     */
+    public Logger getDefaultLogger()
     {
-        super( prefix, switchToCategory );
-    }
-
-    public Log4JConfLoggerManager()
-    {
-    }
-
-    public void configure( final Configuration configuration )
-        throws ConfigurationException
-    {
-        final Element element = ConfigurationUtil.toElement( configuration );
-        final Document document = element.getOwnerDocument();
-        final Element newElement = document.createElement( "log4j:configuration" );
-        final NodeList childNodes = element.getChildNodes();
-        final int length = childNodes.getLength();
-        for( int i = 0; i < length; i++ )
-        {
-            final Node node = childNodes.item( i );
-            final Node newNode = node.cloneNode( true );
-            newElement.appendChild( newNode );
-        }
-
-        document.appendChild( newElement );
-        DOMConfigurator.configure( newElement );
+        return getLoggerForCategory( "" );
     }
 }
