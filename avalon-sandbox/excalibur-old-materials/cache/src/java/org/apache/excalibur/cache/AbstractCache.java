@@ -17,35 +17,11 @@ import java.util.Iterator;
 public abstract class AbstractCache
     implements Cache
 {
-    protected CacheValidator m_validator;
     protected ArrayList m_listeners;
 
     public AbstractCache()
     {
-        this( null );
-    }
-
-    public AbstractCache( final CacheValidator validator )
-    {
-        setValidator( validator );
         m_listeners = new ArrayList();
-    }
-
-    public void setValidator( final CacheValidator validator )
-    {
-        m_validator = validator;
-    }
-
-    protected boolean validate( final Object key, final Object value )
-    {
-        if ( null == m_validator )
-        {
-            return true;
-        }
-        else
-        {
-            return m_validator.validate( key, value );
-        }
     }
 
     public void addListener( final CacheListener listener )

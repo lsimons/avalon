@@ -70,15 +70,7 @@ public class DefaultCache
         synchronized ( m_store )
         {
             value = m_store.get( key );
-            if ( validate( key, value ) )
-            {
-                m_policy.hit( key );
-            }
-            else
-            {
-                remove( key );
-                value = null;
-            }
+            m_policy.hit( key );
         }
 
         return value;
@@ -100,25 +92,10 @@ public class DefaultCache
 
     public boolean containsKey( final Object key )
     {
-        boolean contains = false;
-
         synchronized ( m_store )
         {
-            if ( m_store.containsKey( key ) )
-            {
-                final Object value = m_store.get( key );
-                if ( validate( key, value ) )
-                {
-                    contains = true;
-                }
-                else
-                {
-                    remove( key );
-                }
-            }
+            return m_store.containsKey( key );
         }
-
-        return contains;
     }
 
     public void clear()
