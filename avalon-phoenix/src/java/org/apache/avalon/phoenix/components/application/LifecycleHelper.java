@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.phoenix.components.application;
 
-import org.apache.avalon.excalibur.container.State;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.CascadingException;
