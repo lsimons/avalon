@@ -58,10 +58,8 @@ public class MemoryCacheStore
         return m_entries.containsKey( key );
     }
 
-    public Iterator list()
+    public Object[] keys()
     {
-        final ArrayList list = new ArrayList();
-        list.addAll( m_entries.keySet() );
-        return list.iterator();
+        return m_entries.keySet().toArray();
     }
 }
