@@ -12,6 +12,8 @@ import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
+import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 
 /**
  * Embeddor to host only a single application.
@@ -30,6 +32,21 @@ public class SingleAppEmbeddor
 {
     ///Sole application hosted in kernel
     private Application    m_application;
+
+    /**
+     * Use ContextClassLoaderManager for ClassLoaderManager.
+     *
+     * @return the Parameters
+     */
+    protected Parameters createDefaultParameters()
+    {
+        final Parameters defaults = super.createDefaultParameters();
+
+        final String PREFIX = "org.apache.avalon.phoenix.components.";
+        defaults.setParameter( ClassLoaderManager.ROLE,
+                               PREFIX + "classloader.ContextClassLoaderManager" );
+        return defaults;
+    }
 
     /**
      * Deploy a single application.
