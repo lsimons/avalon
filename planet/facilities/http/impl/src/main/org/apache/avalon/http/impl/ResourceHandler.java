@@ -102,7 +102,7 @@ public class ResourceHandler
         setDirAllowed( dirAllowed );
 
         boolean redirectWelcome = params.getParameterAsBoolean( "redirect-welcome", false );
-        setDirAllowed( redirectWelcome );
+        setRedirectWelcome( redirectWelcome );
 
         int minGzip = params.getParameterAsInteger( "min-gzip-length", -1 );        
         if( minGzip > 0 )
