@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.apache.avalon.Disposable;
+import org.apache.avalon.activity.Disposable;
 import org.apache.avalon.component.Component;
 import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.component.ComponentManager;
@@ -33,7 +33,7 @@ import org.apache.avalon.thread.ThreadSafe;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/04/20 20:48:34 $
+ * @version CVS $Revision: 1.3 $ $Date: 2001/04/25 14:24:39 $
  */
 public class DefaultComponentSelector
     extends AbstractLoggable
@@ -298,7 +298,7 @@ public class DefaultComponentSelector
                                                       m_roles );
 
             handler.setLogger( getLogger() );
-            handler.init();
+            handler.initialize();
             m_componentHandlers.put( hint, handler );
             getLogger().debug( "Adding " + component.getName() + " for " + hint.toString() );
         }
@@ -322,7 +322,7 @@ public class DefaultComponentSelector
             final ComponentHandler handler =
                 ComponentHandler.getComponentHandler( (Component)instance );
             handler.setLogger( getLogger() );
-            handler.init();
+            handler.initialize();
             m_componentHandlers.put( hint, handler );
             getLogger().debug( "Adding " + instance.getClass().getName() + " for " + hint.toString() );
         }

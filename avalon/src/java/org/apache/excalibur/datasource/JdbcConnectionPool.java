@@ -13,20 +13,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.apache.avalon.activity.Disposable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.logger.AbstractLoggable;
-import org.apache.avalon.Disposable;
-import org.apache.avalon.Initializable;
-import org.apache.excalibur.pool.Poolable;
-import org.apache.excalibur.pool.Recyclable;
 import org.apache.excalibur.concurrent.Lock;
 import org.apache.excalibur.pool.Pool;
+import org.apache.excalibur.pool.Poolable;
+import org.apache.excalibur.pool.Recyclable;
 
 /**
  * The Pool implementation for JdbcConnections.  It uses a background
  * thread to manage the number of SQL Connections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $ $Date: 2001/04/20 20:48:35 $
+ * @version CVS $Revision: 1.4 $ $Date: 2001/04/25 14:24:42 $
  */
 public class JdbcConnectionPool
     extends AbstractLoggable
@@ -69,7 +69,7 @@ public class JdbcConnectionPool
         m_autoCommit = autoCommit;
     }
 
-    public void init()
+    public void initialize()
     {
         m_initThread = new Thread( this );
         m_initThread.start();

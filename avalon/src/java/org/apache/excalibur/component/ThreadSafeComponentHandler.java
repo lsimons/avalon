@@ -7,12 +7,12 @@
  */
 package org.apache.excalibur.component;
 
-import org.apache.avalon.component.Component;
-import org.apache.avalon.configuration.Configuration;
-import org.apache.avalon.component.ComponentManager;
-import org.apache.avalon.context.Context;
 import org.apache.avalon.Stoppable;
-import org.apache.avalon.Disposable;
+import org.apache.avalon.activity.Disposable;
+import org.apache.avalon.component.Component;
+import org.apache.avalon.component.ComponentManager;
+import org.apache.avalon.configuration.Configuration;
+import org.apache.avalon.context.Context;
 import org.apache.log.Logger;
 
 /**
@@ -20,7 +20,7 @@ import org.apache.log.Logger;
  * and destroyed correctly.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/04/20 20:48:34 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/04/25 14:24:39 $
  */
 public class ThreadSafeComponentHandler extends ComponentHandler {
     private Component m_instance;
@@ -68,7 +68,7 @@ public class ThreadSafeComponentHandler extends ComponentHandler {
     /**
      * Initialize the ComponentHandler.
      */
-    public void init()
+    public void initialize()
     throws Exception
     {
         if( m_initialized ) return;

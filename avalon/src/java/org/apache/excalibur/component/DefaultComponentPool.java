@@ -9,8 +9,8 @@ package org.apache.excalibur.component;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.avalon.Disposable;
-import org.apache.avalon.Initializable;
+import org.apache.avalon.activity.Disposable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.avalon.thread.ThreadSafe;
 import org.apache.excalibur.concurrent.Lock;
@@ -78,7 +78,7 @@ public class DefaultComponentPool
         m_maximum = maximum;
     }
 
-    public void init()
+    public void initialize()
         throws Exception
     {
         m_initializationThread = new Thread( this );

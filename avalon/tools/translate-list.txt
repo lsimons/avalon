@@ -36,3 +36,11 @@ import org.apache.avalon.util.i18n.|import org.apache.excalibur.i18n.
 import org.apache.avalon.util.io.|import org.apache.excalibur.io.
 import org.apache.avalon.util.pool.|import org.apache.excalibur.pool.
 import org.apache.avalon.util.thread.|import org.apache.excalibur.thread.
+import org.apache.avalon.util.Enum;|import org.apache.avalon.Enum;
+import org.apache.avalon.util.ValuedEnum;|import org.apache.avalon.ValuedEnum;
+import org.apache.avalon.util.Version;|import org.apache.avalon.Version;
+import org.apache.avalon.util.Proxy|import org.apache.excalibur.proxy.Proxy
+import org.apache.avalon.util.Property|import org.apache.excalibur.property.Property
+import org.apache.avalon.Pipeline;|import org.apache.excalibur.pipeline.Pipeline;
+import org.apache.avalon.Processor|import org.apache.excalibur.pipeline.Processor
+import org.apache.avalon.Stage;|import org.apache.excalibur.pipeline.Stage;

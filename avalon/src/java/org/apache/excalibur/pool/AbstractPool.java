@@ -9,8 +9,8 @@ package org.apache.excalibur.pool;
 
 import java.util.Stack;
 import java.util.Vector;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.logger.AbstractLoggable;
-import org.apache.avalon.Initializable;
 import org.apache.avalon.thread.ThreadSafe;
 
 /**
@@ -76,11 +76,11 @@ public class AbstractPool
 
         if( !(this instanceof Initializable) )
         {
-            init();
+            initialize();
         }
     }
 
-    protected void init()
+    protected void initialize()
         throws Exception
     {
         for( int i = 0; i < m_min; i++ )
