@@ -43,7 +43,7 @@
 
     <!-- Classpath for product -->
     <path id="project.class.path">
-        <pathelement location="${java.class.path}"/>
+        <pathelement path="${java.class.path}"/>
         <pathelement location="${build.classes}"/>
         <pathelement location="${junit.jar}"/>
     </path>
