@@ -14,14 +14,14 @@ import org.apache.avalon.framework.CascadingException;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public class SourceClosedException extends SourceException
+public class SinkException extends CascadingException
 {
-     public SourceClosedException( String message )
+     public SinkException( String message )
      {
          super( message );
      }
 
-     public SourceClosedException( String message, Throwable e )
+     public SinkException( String message, Throwable e )
      {
          super( message, e );
      }

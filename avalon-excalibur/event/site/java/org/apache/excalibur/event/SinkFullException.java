@@ -10,18 +10,19 @@ package org.apache.avalon.excalibur.event;
 import org.apache.avalon.framework.CascadingException;
 
 /**
- * A SourceException is thrown when an enqueue operation fails.
+ * A SinkException is thrown when an enqueue operation occurs on a queue that is
+ * already full.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public class SourceException extends CascadingException
+public class SinkFullException extends SinkException
 {
-     public SourceException( String message )
+     public SinkFullException( String message )
      {
          super( message );
      }
 
-     public SourceException( String message, Throwable e )
+     public SinkFullException( String message, Throwable e )
      {
          super( message, e );
      }
