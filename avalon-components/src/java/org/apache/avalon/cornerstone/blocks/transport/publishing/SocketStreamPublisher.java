@@ -30,7 +30,7 @@ import org.apache.excalibur.altrmi.server.impl.socket.PartialSocketCustomStreamS
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
  * @author Mike Miller.
  * @author Peter Royal.
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class SocketStreamPublisher
     extends AbstractPublisher
@@ -43,13 +43,6 @@ public class SocketStreamPublisher
     private String m_socketStreamServerClass;
     private boolean m_allAddresses = false;
 
-    /**
-     * Pass the <code>Configuration</code> to the <code>Configurable</code>
-     * class. This method must always be called after the constructor
-     * and before any other method.
-     *
-     * @param configuration the class configurations.
-     */
     public final void configure( Configuration configuration ) throws ConfigurationException
     {
 
@@ -110,12 +103,6 @@ public class SocketStreamPublisher
         }
     }
 
-    /**
-     * Construct an appropriate ConnectionHandler.
-     *
-     * @return the new ConnectionHandler
-     * @exception Exception if an error occurs
-     */
     public ConnectionHandler createConnectionHandler() throws Exception
     {
         final PartialSocketStreamConnectionHandler handler =
@@ -135,13 +122,6 @@ public class SocketStreamPublisher
     {
     }
 
-    /**
-     * Initialialize the component. Initialization includes
-     * allocating any resources required throughout the
-     * components lifecycle.
-     *
-     * @exception Exception if an error occurs
-     */
     public void initialize() throws Exception
     {
         setAbstractServer( (AbstractPartialSocketStreamServer)Class.forName( m_socketStreamServerClass ).newInstance() );
