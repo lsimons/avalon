@@ -21,12 +21,12 @@
 
     <properties>
         <author email="mcconnell@apache.org">Stephen McConnell</author>
-        <title>Avalon Repository - Tutorials</title>
+        <title>Merlin Runtime</title>
     </properties>
 
     <body>
 
-      <section name="Avalon Repository - Tutorials">
+      <section name="Avalon Repository - Example">
 
          <p>The following example is taken from the the 
          <a href="http://avalon.apache.org/merlin">Merlin</a> project. 
@@ -51,7 +51,7 @@ InitialContext context = new DefaultInitialContext( cache );
         <subsection name="Declare what you want to embed">
           <source>
 String spec =
-  "artifact:avalon-logging/avalon-logkit?version=1.0-SNAPSHOT"
+  "artifact:avalon-logging/avalon-logkit?version=1.0.0"
 Artifact artifact =
   Artifact.createArtifact( spec );
           </source>

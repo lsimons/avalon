@@ -21,9 +21,6 @@
   </properties>
   <body>
     <section name="Features">
-      <p>
-        <strong>This document is under construction!</strong>
-      </p>
       <p>The LogKit provides the following features:</p>
       <ul>
         <li>Decouples LogEvent generation from LogEvent handling.</li>

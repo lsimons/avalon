@@ -22,7 +22,8 @@
   <body>
     <menu>
       <item name="Features" href="features.html"/>
-      <item name="Whitepaper" href="whitepaper.html"/>
+      <item name="Configuration" href="targets/index.html"/>
+      <item name="Examples" href="examples/index.html"/>
     </menu>
   </body>
 

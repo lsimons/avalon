@@ -25,7 +25,12 @@
 
   <body>
     <menu>
-      <item name="Getting Started" href="start/index.html"/>
+      <item name="Artifact" href="artifact.html"/>
+      <item name="Classloader" href="classloader.html"/>
+      <item name="Provider SPI" href="spi.html"/>
+      <item name="Bootstrap System" href="bootstrap.html"/>
+      <item name="Reference Impl" href="reference.html"/>
+      <item name="Example" href="example/index.html"/>
       <item name="Tools" href="tools/index.html"/>
     </menu>
   </body>
