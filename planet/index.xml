@@ -159,6 +159,55 @@
   </project>
 
   <!--
+  Avalon DB.
+  -->
+
+  <resource>
+    <info>
+      <group>commons-dbcp</group>
+      <name>commons-dbcp</name>
+      <version>1.2</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>commons-pool</group>
+      <name>commons-pool</name>
+      <version>1.1</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <project basedir="facilities/dbcp/api">
+    <info>
+      <group>avalon/dbcp</group>
+      <name>avalon-dbcp-api</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+  </project>
+
+  <project basedir="facilities/dbcp/impl">
+    <info>
+      <group>avalon/dbcp</group>
+      <name>avalon-dbcp-impl</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-dbcp-api"/>
+      <include key="avalon-framework-impl"/>
+      <include key="commons-dbcp"/>
+      <include key="commons-pool"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <!--
   Avalon Tutorials.
   -->
 
