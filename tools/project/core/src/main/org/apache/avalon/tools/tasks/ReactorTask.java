@@ -62,7 +62,11 @@ public class ReactorTask extends SystemTask
 
     public void init()
     {
-        m_path = new Path( getProject() );
+        if( !isInitialized() )
+        {
+            super.init();
+            m_path = new Path( getProject() );
+        }
     }
 
     public void addConfigured( final Path path )

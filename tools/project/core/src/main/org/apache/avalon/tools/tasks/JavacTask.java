@@ -92,10 +92,32 @@ public class JavacTask extends SystemTask
             copy.addFileset( fileset );
             copy.init();
             copy.execute();
+
+            copyMainResource( classes );
         }
         else
         {
             log( "no src main to compile : " + main.toString() );
+        }
+    }
+
+    private void copyMainResource( File dest )
+    {
+        File build = getContext().getBuildDirectory();
+        File etc = new File( build, "etc" );
+        File src = new File( etc, "main" );
+        if( src.exists() )
+        {
+            mkDir( dest );
+            Copy copy = (Copy) getProject().createTask( "copy" );
+            copy.setPreserveLastModified( true );
+            copy.setTodir( dest );
+
+            FileSet fileset = new FileSet();
+            fileset.setDir( src );
+            copy.addFileset( fileset );
+            copy.init();
+            copy.execute();
         }
     }
 

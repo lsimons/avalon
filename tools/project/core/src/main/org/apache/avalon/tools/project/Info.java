@@ -27,6 +27,8 @@ import org.apache.tools.ant.BuildException;
  */
 public class Info 
 {
+    public static final String PROTOCOL = "artifact";
+
     public static Info create( String id )
     {
         int i = id.indexOf( ":" );
@@ -113,7 +115,8 @@ public class Info
 
     public String getURI()
     {
-        StringBuffer buffer = new StringBuffer();
+        StringBuffer buffer = new StringBuffer( PROTOCOL );
+        buffer.append( ":" );
         buffer.append( getType() );
         buffer.append( ":" );
         buffer.append( getGroup() );
@@ -126,7 +129,6 @@ public class Info
         }
         return buffer.toString();
     }
-
 
     public String toString()
     {

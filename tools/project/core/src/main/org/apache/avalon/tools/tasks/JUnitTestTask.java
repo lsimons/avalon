@@ -70,6 +70,8 @@ public class JUnitTestTask extends SystemTask
     public static final String HALT_ON_FAILURE_KEY = "project.test.halt-on-failure";
     public static final boolean HALT_ON_FAILURE_VALUE = true;
 
+    public static final String CACHE_PATH_KEY = "project.repository.cache.path";
+
     private static final String ERROR_KEY = "project.test.error";
     private static final String FAILURE_KEY = "project.test.failure";
 
@@ -274,10 +276,28 @@ public class JUnitTestTask extends SystemTask
         basedir.setValue( base.toString() );
         junit.addSysproperty( basedir );
 
+        Environment.Variable cache = new Environment.Variable();
+        cache.setKey( CACHE_PATH_KEY );
+        cache.setValue( getCachePath() );
+        junit.addSysproperty( cache );
+
         junit.setErrorProperty( ERROR_KEY );
         junit.setFailureProperty( FAILURE_KEY );
 
         junit.execute();
+    }
+
+    private String getCachePath()
+    {
+        String value = getProject().getProperty( CACHE_PATH_KEY );
+        if( null != value )
+        {
+            return value;
+        }
+        else
+        {
+            return getHome().getRepository().getCacheDirectory().toString();
+        }
     }
 
     private boolean getDebugProperty()

@@ -25,9 +25,9 @@ package org.apache.avalon.tools.project;
  */
 public class ProjectRef extends ResourceRef
 {
-    public ProjectRef( String key, Policy policy )
+    public ProjectRef( String key, Policy policy, String tag )
     {
-        super( key, policy );
+        super( key, policy, tag );
     }
 
     public String toString()

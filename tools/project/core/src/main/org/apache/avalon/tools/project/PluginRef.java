@@ -25,9 +25,9 @@ package org.apache.avalon.tools.project;
  */
 public class PluginRef extends ProjectRef
 {
-    public PluginRef( String key, Policy policy )
+    public PluginRef( String key, Policy policy, String tag )
     {
-        super( key, policy );
+        super( key, policy, tag );
     }
 
     public String toString()

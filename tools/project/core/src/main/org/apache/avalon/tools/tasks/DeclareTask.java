@@ -112,7 +112,7 @@ public class DeclareTask extends SystemTask
    /**
     * Write the XML header.
     * @param writer the writer
-     * @throws IOException if unable to write xml
+    * @throws IOException if unable to write xml
     */
     private void writeHeader( final Writer writer )
         throws IOException
