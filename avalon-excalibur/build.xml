@@ -26,11 +26,6 @@
     <!--  within Excalibur should be listed in the depends list.      -->
     <!--  Do not include test dependent jars in the depends list.     -->
 
-    <!-- Cache -->
-    <target name="prj-cache">
-        <ant dir="cache" target="${subproject-target}"/>
-    </target>
-
     <!-- Cli -->
     <target name="prj-compatibility">
       <ant dir="compatibility" target="${subproject-target}"/>
@@ -154,7 +149,7 @@
         depends="prj-compatibility, prj-loader,
                 prj-naming, prj-threadcontext, 
 		prj-i18n, prj-extension,
-                prj-cache, prj-configuration, prj-event,
+                prj-configuration, prj-event,
                 prj-thread, prj-monitor, prj-fortress, prj-datasource,
                 prj-instrument, prj-store, prj-logger, prj-policy,
                 prj-pool, prj-xmlutil, prj-lifecycle,
@@ -187,8 +182,6 @@
             <pathelement location="instrument/src/test"/>
 	    <pathelement location="compatibility/src/java"/>
 	    <pathelement location="compatibility/src/test"/>
-            <pathelement location="cache/src/java"/>
-            <pathelement location="cache/src/test"/>
             <pathelement location="extension/src/java"/>
             <pathelement location="extension/src/test"/>
             <pathelement location="i18n/src/java"/>
