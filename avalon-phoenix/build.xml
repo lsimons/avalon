@@ -28,10 +28,10 @@ Legal:
 
   <property name="name" value="phoenix"/>
   <property name="Name" value="Phoenix"/>
-  <property name="version" value="4.0a3"/>
+  <property name="version" value="4.0a4"/>
   <property name="year" value="1999-2001"/>
   <property name="status" value="alpha"/>
-  <property name="release" value="1st"/>
+  <property name="release" value="4th"/>
   <property name="short.version" value="4.0a"/>
 
   <property name="build.debug" value="on"/>
