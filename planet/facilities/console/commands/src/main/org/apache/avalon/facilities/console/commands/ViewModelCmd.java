@@ -35,12 +35,15 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 
 /**
- * @avalon.component name="console-dummy" lifestyle="singleton"
+ * @avalon.component name="console-viewmodel" lifestyle="singleton"
  * @avalon.service type="org.apache.avalon.facilities.console.ConsoleCommand"
  */
 public class ViewModelCmd
     implements ConsoleCommand, Serviceable, Contextualizable
 {
+    String LINE = 
+      "\n-----------------------------------------------------------";
+    
     private ContainmentModel m_RootModel;
     
     public String getName()
@@ -95,83 +98,94 @@ public class ViewModelCmd
             path = arguments[0];
         DeploymentModel model = m_RootModel.getModel( path );
         
-        printModel( output, "", model );
+        String result = printModel( model );
+        output.write( result );
         output.newLine();
         output.flush();
     }
 
-    public void printModel( BufferedWriter output, String lead, DeploymentModel model )
-        throws IOException
+    public String printModel( DeploymentModel model )
+    {
+        StringBuffer buffer = new StringBuffer( "audit report" );
+        buffer.append( LINE );
+        buffer.append( "\nApplication Model" );
+        buffer.append( LINE );
+        buffer.append( "\n" );
+        printModel( buffer, "  ", model );
+        buffer.append( "\n" );
+        buffer.append( LINE );
+        return buffer.toString();
+    }
+
+    public void printModel( StringBuffer buffer, String lead, DeploymentModel model )
     {
         if( model instanceof ContainmentModel )
         {
-            printContainmentModel( output, lead, (ContainmentModel) model );
+            printContainmentModel( buffer, lead, (ContainmentModel) model );
         }
         else if( model instanceof ComponentModel ) 
         {
-            printComponentModel( output, lead, (ComponentModel) model );
+            printComponentModel( buffer, lead, (ComponentModel) model );
         }
     }
 
-    public void printContainmentModel( BufferedWriter output, String lead, ContainmentModel model )
-        throws IOException
+    public void printContainmentModel( 
+      StringBuffer buffer, String lead, ContainmentModel model )
     {
-        printDeploymentModel( output, lead, model );
+        buffer.append( 
+          "\n" + lead 
+          + "container:" 
+          + model 
+          + ")" );
+        printDeploymentModel( buffer, lead, model );
         DeploymentModel[] models = model.getModels();
         if( models.length > 0 )
         {
-            output.write( lead + "  children:" );
-            output.newLine();
+            buffer.append( "\n" + lead + "  children:" );
             for( int i=0; i<models.length; i++ )
             {
                 DeploymentModel m = models[i];
-                printModel( output, "    " + lead, m );
+                printModel( buffer, "    " + lead, m );
             }
         }
         models = model.getStartupGraph();
         if( models.length > 0 )
         {
-            output.write( lead + "  startup:" );
-            output.newLine();
+            buffer.append( "\n" + lead + "  startup:" );
             for( int i=0; i<models.length; i++ )
             {
                 DeploymentModel m = models[i];
-                output.write( "    " + lead + (i+1) + ": " + m );
-                output.newLine();
+                buffer.append( "\n" + "    " + lead + (i+1) + ": " + m );
             }
         }
         models = ((ContainmentModel)model).getShutdownGraph();
         if( models.length > 0 )
         {
-            output.write( lead + "  shutdown:" );
-            output.newLine();
+            buffer.append( "\n" + lead + "  shutdown:" );
             for( int i=0; i<models.length; i++ )
             {
                 DeploymentModel m = models[i];
-                output.write( "    " + lead + (i+1) + ": " + m );
-                output.newLine();
+                buffer.append( "\n" + "    " + lead + (i+1) + ": " + m );
             }
         }
     }
 
-    public void printComponentModel( BufferedWriter output, String lead, ComponentModel model )
-        throws IOException
+    public void printComponentModel( 
+      StringBuffer buffer, String lead, ComponentModel model )
     {
-        printDeploymentModel( output, lead, model );
-    }
-
-    public void printDeploymentModel( BufferedWriter output, String lead, DeploymentModel model )
-        throws IOException
-    {
-        output.write( 
-          lead 
-          + "model:" 
+        buffer.append( 
+          "\n" + lead 
+          + "component:" 
           + model + "(" 
           + model.getDeploymentTimeout() 
           + ")" );
+        printDeploymentModel( buffer, lead, model );
+    }
 
-        output.newLine();
-        DeploymentModel[] providers = model.getProviderGraph();
+    public void printDeploymentModel( 
+      StringBuffer buffer, String lead, DeploymentModel model )
+    {
+        DeploymentModel[] providers = model.getProviders();
         DeploymentModel[] consumers = model.getConsumerGraph();
 
         if(( providers.length == 0 ) && ( consumers.length == 0 ))
@@ -182,17 +196,29 @@ public class ViewModelCmd
         if( providers.length > 0 ) for( int i=0; i<providers.length; i++ )
         {
             DeploymentModel m = providers[i];
-            output.write( lead + "  <-- " + m );
-            output.newLine();
+            buffer.append( "\n" + lead + "  <-- consumes: " + m  );
         }
 
         if( consumers.length > 0 ) for( int i=0; i<consumers.length; i++ )
         {
             DeploymentModel m = consumers[i];
-            output.write( lead + "  --> " + m );
-            output.newLine();
+            if( isDirectProvider( m, model ) )
+            {
+                buffer.append( "\n" + lead + "  --> supplies: " + m );
+            }
         }
     }
 
+    private boolean isDirectProvider( DeploymentModel consumer, DeploymentModel model )
+    {
+        String name = model.getQualifiedName();
+        DeploymentModel[] providers = consumer.getProviders();
+        for( int i=0; i<providers.length; i++ )
+        {
+             DeploymentModel m = providers[i];
+             if( m.getQualifiedName().equals( name ) ) return true;
+        }
+        return false;
+    }
 }
  
