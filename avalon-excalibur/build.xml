@@ -35,6 +35,7 @@ Legal:
   <property name="status" value="final"/>
   <property name="short.version" value="4.1"/>
   <property name="year" value="1999-2001"/>
+  <property name="compress.jars" value="true"/>
 
   <property name="excalibur.name" value="avalon-${name}"/>
   <property name="scratchpad.name" value="avalon-scratchpad"/>
@@ -385,7 +386,7 @@ Legal:
 
   <target name="jar-clutil" depends="compile-clutil">
     <mkdir dir="${build.lib}"/>
-    <jar file="${build.lib}/clutil.jar" basedir="${build.classes}">
+    <jar file="${build.lib}/clutil.jar" basedir="${build.classes}" compress="${compress.jars}">
       <include name="org/apache/avalon/excalibur/cli/*" />
       <exclude name="org/apache/avalon/excalibur/cli/test/*" />
     </jar>
@@ -538,13 +539,13 @@ Legal:
 
     <mkdir dir="${build.lib}"/>
 
-    <jar jarfile="${build.lib}/avalon-${name}.jar" basedir="${build.classes}">
+    <jar jarfile="${build.lib}/avalon-${name}.jar" basedir="${build.classes}" compress="${compress.jars}">
       <include name="org/apache/avalon/excalibur/**"/>
       <exclude name="**/test/*"/>
       <exclude name="ListTest*"/>
     </jar>
 
-    <jar jarfile="${build.lib}/${scratchpad.name}.jar" basedir="${build.scratchpad}">
+    <jar jarfile="${build.lib}/${scratchpad.name}.jar" basedir="${build.scratchpad}" compress="${compress.jars}">
       <include name="org/apache/avalon/excalibur/**"/>
       <exclude name="**/test/*"/>
       <exclude name="ListTest*"/>

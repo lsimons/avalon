@@ -40,6 +40,7 @@ Legal:
   <property name="debug" value="on"/>
   <property name="optimize" value="off"/>
   <property name="deprecation" value="off"/>
+  <property name="compress.jars" value="true"/>
 
   <!-- Set the properties for intermediate directory -->
   <property name="build.dir" value="build"/>
@@ -192,7 +193,7 @@ Legal:
 
   <target name="jar-exceptionutil" depends="compile-exceptionutil">
     <mkdir dir="${build.lib}"/>
-    <jar jarfile="${build.lib}/exceptionutil.jar" basedir="${build.classes}">
+    <jar jarfile="${build.lib}/exceptionutil.jar" basedir="${build.classes}" compress="${compress.jars}">
       <include name="org/apache/avalon/framework/ExceptionUtil.class" />
       <include name="org/apache/avalon/framework/Cascading*" />
     </jar>
@@ -433,7 +434,7 @@ Legal:
   <!-- Creates all the .jar files -->
   <target name="all" depends="compile" description="generates the Avalon jar files">
     <mkdir dir="${build.lib}"/>
-    <jar jarfile="${build.lib}/${framework.name}.jar" basedir="${build.classes}">
+    <jar jarfile="${build.lib}/${framework.name}.jar" basedir="${build.classes}" compress="${compress.jars}">
       <include name="org/apache/avalon/framework/**"/>
       <exclude name="**/test/*"/>
     </jar>
