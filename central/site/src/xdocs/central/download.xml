@@ -28,9 +28,9 @@
       <p>
         Use the links below to download a binary distribution of
         Avalon from one of our mirrors.  It's a good idea to
-        <a href="[location]#Verify Releases">verify the integrity</a>
+        verify the integrity 
         of the downloaded files using signatures downloaded from our
-        main distribution directory.
+        main distribution directory (see below).
       </p>
 
       <p>
@@ -48,8 +48,7 @@
         <a href="[preferred]/avalon/">mirror</a>.
       </p>
 
-      <a name="Mirror"></a>
-      <subsection name="Mirror" >
+      <subsection name="Mirror">
         <p>
           You are currently using the <strong>[preferred]</strong>.
           If you encounter a problem with this mirror, please select another
@@ -73,31 +72,36 @@
         </form>
 
       </subsection>
-      
-      <a name="License"></a>
+
       <subsection name="License" >
         <p>
           All avalon products are distributed under the terms of The Apache 
           Software License (version 2.0). See our 
-          <a href="/license.html">License</a> page, or the LICENSE.txt 
+          <a href="../license.html">License</a> page, or the LICENSE.txt 
           files included in each distribution.
         </p>
       </subsection>
       
-      <a name="Downloads"></a>
-      <subsection name="Product Downloads" >
+      <subsection name="Jar Repository">
         <p>
-          Here's a list of the most commonly requested distributions. You can
-          <a href="[preferred]/avalon/">browse</a> the repository for a full
-          range of our various distributions, including older versions.
-        </p>
-        <p>
-          Please note: we're still filling up this list; its incomplete
-          at the moment.
-        </p>
+	 All Avalon jars can also be found in the 
+	 <a href="http://www.ibiblio.org/maven">iBiblio.org</a>
+	 repository for use with Maven and other repository-aware
+	 applications.
+	</p>
       </subsection>
 
-      <a name="Products"></a>
+      </section>
+      <section name="Product Downloads" >
+        <p>
+	  This is only a list of the most commonly requested
+	  distributions. You can
+          <a href="[preferred]/avalon/">browse</a> 
+          the repository for a full
+          range of our various software distributions, 
+	  including older versions.
+        </p>
+
       <subsection name="Products" >
         <!-- lets maintain alphabetical order, peeps! -->
         <table >
@@ -107,20 +111,28 @@
             <th>Source</th>
             <th>Jars</th>
           </tr>
+         <!-- template row
+	  <tr>
+            <td><a href="[preferred]/avalon/"></a></td>
+	    <td><a href="[preferred]/avalon//binaries">binaries</a></td>
+	    <td><a href="[preferred]/avalon//source">source</a></td>
+	    <td><a href="[preferred]/avalon//jars">jars</a></td>
+	  </tr>
+	  -->
           <tr>
-            <td><a href="/framework/">Avalon-Framework</a></td>
+            <td><a href="[preferred]/avalon/framework/">Avalon Framework</a></td>
             <td><a href="[preferred]/avalon/framework/binaries">binaries</a></td>
             <td><a href="[preferred]/avalon/framework/source">source</a></td>
             <td><a href="[preferred]/avalon/framework/jars">jars</a></td>
           </tr>
           <tr>
-            <td><a href="/logkit/">Avalon-Logkit</a></td>
+            <td><a href="[preferred]/logkit/">Avalon Logkit</a></td>
             <td><a href="[preferred]/avalon/logkit/binaries">binaries</a></td>
             <td><a href="[preferred]/avalon/logkit/source">browse</a></td>
             <td><a href="[preferred]/avalon/logkit/jars">jars</a></td>
           </tr>
           <tr>
-            <td><a href="/merlin/">Avalon-Merlin</a></td>
+            <td><a href="[preferred]/merlin/">Avalon Merlin</a></td>
             <td><a href="[preferred]/avalon/merlin/binaries">binaries</a></td>
             <td><a href="[preferred]/avalon/merlin/source">browse</a></td>
             <td><a href="[preferred]/avalon/merlin/jars">jars</a></td>
@@ -128,9 +140,8 @@
         </table>
       </subsection>
 
-      <a name="Legacy"></a>      
       <subsection name="Legacy Material" >
-        <table border="1" width="100%" cellspacing="2" cellpadding="3">
+        <table>
           <tr>
             <th>Product</th>
             <th>Binary</th>
@@ -138,21 +149,28 @@
             <th>Jars</th>
           </tr>
           <tr>
-            <td><a href="/excalibur/fortress/">Avalon-Fortress</a></td>
+            <td><a href="/excalibur/fortress/">Avalon Fortress</a></td>
             <td><a href="[preferred]/avalon/avalon-fortress/binaries">binaries</a></td>
             <td><a href="[preferred]/avalon/avalon-fortress/source">browse</a></td>
             <td><a href="[preferred]/avalon/avalon-fortress/jars">jars</a></td>
           </tr>
           <tr>
-            <td><a href="/phoenix/">Avalon-Phoenix</a></td>
+            <td><a href="/phoenix/">Avalon Phoenix</a></td>
             <td><a href="[preferred]/avalon/phoenix/binaries">binaries</a></td>
             <td><a href="[preferred]/avalon/phoenix/source">browse</a></td>
             <td><a href="[preferred]/avalon/phoenix/jars">jars</a></td>
           </tr>
         </table>
+	<p>
+	  The latest Excalibur and Fortress releases can now be found
+	  at the <a href="http://excalibur.apache.org">Excalibur Project</a>.
+	</p>
+	<p>
+	  Phoenix development has been continued in the Codehaus.org
+	  <a href="http://loom.codehaus.org">Loom</a> project.
+	</p>
       </subsection>
             
-      <a name="Verify Releases"></a>
       <subsection name="Verify Releases" >
         <p>
           It is essential that you verify the integrity of the downloaded
