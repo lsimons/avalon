@@ -38,9 +38,9 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
  */
 public abstract class AbstractKernel
     extends AbstractContainer
-    implements Kernel
+    implements Application
 {
-    private boolean             m_initialised;
+    private boolean             m_autoStart;
 
     public void initialize()
         throws Exception
@@ -57,6 +57,7 @@ public abstract class AbstractKernel
     public void start()
         throws Exception
     {
+        m_autoStart = true;
         final Iterator names = list();
         while( names.hasNext() )
         {
@@ -69,6 +70,7 @@ public abstract class AbstractKernel
     public void stop()
         throws Exception
     {
+        m_autoStart = false;
         final Iterator names = list();
         while( names.hasNext() )
         {
@@ -80,8 +82,6 @@ public abstract class AbstractKernel
 
     public void dispose()
     {
-        m_initialised = false;
-
         final Iterator names = list();
         while( names.hasNext() )
         {
@@ -99,23 +99,23 @@ public abstract class AbstractKernel
         }
     }
 
+
     /**
-     * Retrieve Application from container.
-     * The Application that is returned must be initialized
-     * and prepared for manipulation.
+     * After being added to container, start the entry if kernel is started.
      *
-     * @param name the name of application
-     * @return the application
-     * @exception ContainerException if an error occurs
+     * @param name the name of entry
+     * @param entry the entry
      */
-    public Application getApplication( String name )
-        throws ContainerException
+    protected void postAdd( final String name, final Entry entry )
     {
-        final Entry entry = getEntry( name );
-
-        initializeEntry( name, entry );
-
-        return (Application)entry.getInstance();
+        if( m_autoStart )
+        {
+            try { startEntry( name, entry ); }
+            catch( final Exception e )
+            {
+                getLogger().warn( "Failed to start application " + name, e );
+            }
+        }
     }
 
     /**

@@ -9,9 +9,9 @@ package org.apache.avalon.phoenix.engine.phases;
 
 import java.io.File;
 import java.net.URL;
+import org.apache.avalon.framework.CascadingException;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.atlantis.ApplicationException;
 import org.apache.avalon.framework.camelot.Container;
 import org.apache.avalon.framework.camelot.ContainerException;
 import org.apache.avalon.framework.camelot.Entry;
@@ -101,10 +101,10 @@ public class StartupPhase
      *
      * @param name the name of block
      * @param entry the BlockEntry
-     * @exception ApplicationException if walking is to be stopped
+     * @exception Exception if walking is to be stopped
      */
     public void visitBlock( final String name, final BlockEntry entry )
-        throws ApplicationException
+        throws Exception
     {
         if( entry.getState() != BlockEntry.BASE &&
             null != entry.getState() ) return;
@@ -183,7 +183,7 @@ public class StartupPhase
         }
         catch( final Exception e )
         {
-            throw new ApplicationException( "Failed to load block " + name, e );
+            throw new CascadingException( "Failed to load block " + name, e );
         }
     }
 
@@ -210,12 +210,12 @@ public class StartupPhase
      * @param name the name of block
      * @param blockEntry the blockEntry
      * @param block the Block
-     * @exception ApplicationException if verification fails
+     * @exception Exception if verification fails
      */
     private void verifyBlockServices( final String name,
                                       final BlockEntry entry,
                                       final Block block )
-        throws ApplicationException
+        throws Exception
     {
         final ServiceDescriptor[] services = entry.getBlockInfo().getServices();
         for( int i = 0; i < services.length; i++ )
@@ -225,7 +225,7 @@ public class StartupPhase
                 final String message = "Block " + name + " fails to implement " +
                     "advertised service " + services[ i ];
                 getLogger().warn( message );
-                throw new ApplicationException( message );
+                throw new Exception( message );
             }
         }
     }

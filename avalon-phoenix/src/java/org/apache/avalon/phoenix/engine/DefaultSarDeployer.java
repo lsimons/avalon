@@ -20,7 +20,6 @@ import org.apache.avalon.excalibur.io.InvertedFileFilter;
 import org.apache.avalon.excalibur.io.PrefixFileFilter;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.atlantis.Application;
-import org.apache.avalon.framework.atlantis.Kernel;
 import org.apache.avalon.framework.camelot.Container;
 import org.apache.avalon.framework.camelot.ContainerException;
 import org.apache.avalon.framework.camelot.Deployer;

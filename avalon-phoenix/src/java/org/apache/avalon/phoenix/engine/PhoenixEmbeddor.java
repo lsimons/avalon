@@ -13,7 +13,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.atlantis.Embeddor;
-import org.apache.avalon.framework.atlantis.Kernel;
+import org.apache.avalon.framework.atlantis.Application;
 import org.apache.avalon.framework.atlantis.SystemManager;
 import org.apache.avalon.framework.camelot.Container;
 import org.apache.avalon.framework.camelot.Deployer;
@@ -70,7 +70,7 @@ public class PhoenixEmbeddor
 
     private Parameters     m_parameters;
 
-    private Kernel                   m_kernel;
+    private Application              m_kernel;
     private Deployer                 m_deployer;
     private SystemManager            m_systemManager;
     private ConfigurationRepository  m_repository;
@@ -136,18 +136,13 @@ public class PhoenixEmbeddor
         {
             // setup core handler components
             setupComponents();
-
-            //TODO: Deploying should go into execute!!!
-            deployDefaultApplications();
-
             m_systemManager.start();
-
             m_kernel.start();
 
             //Uncomment next bit to try registering...
             //TODO: Logger and SystemManager itself aswell???
-            m_systemManager.register( "Phoenix.Kernel", m_kernel );
-            m_systemManager.register( "Phoenix.Embeddor", this );
+            //m_systemManager.register( "Phoenix.Kernel", m_kernel );
+            //m_systemManager.register( "Phoenix.Embeddor", this );
         }
         catch( final Exception e )
         {
@@ -170,7 +165,7 @@ public class PhoenixEmbeddor
     public void execute()
         throws Exception
     {
-        //TODO: Insert default deployment here...
+        deployDefaultApplications();
 
         // loop until <code>Shutdown</code> is created.
         while( !m_shutdown )
@@ -350,9 +345,11 @@ public class PhoenixEmbeddor
         catch( final Exception e )
         {
             final String message = REZ.format( "embeddor.error.create.repository", className );
+            getLogger().warn( message, e );
             throw new ConfigurationException( message, e );
         }
     }
+
     /**
      * Creates a new deployer from the Parameters's deployer-class variable.
      *
@@ -371,6 +368,7 @@ public class PhoenixEmbeddor
         catch( final Exception e )
         {
             final String message = REZ.format( "embeddor.error.create.deployer", className );
+            getLogger().warn( message, e );
             throw new ConfigurationException( message, e );
         }
     }
@@ -456,6 +454,7 @@ public class PhoenixEmbeddor
         catch( final Exception e )
         {
             final String message = REZ.format( "embeddor.error.create.manager", className );
+            getLogger().warn( message, e );
             throw new ConfigurationException( message, e );
         }
     }
@@ -492,17 +491,18 @@ public class PhoenixEmbeddor
      * @return the created Kernel
      * @exception ConfigurationException if an error occurs
      */
-    private Kernel createKernel()
+    private Application createKernel()
         throws ConfigurationException
     {
         final String className = m_parameters.getParameter( "kernel-class", DEFAULT_KERNEL );
         try
         {
-            return (Kernel)Class.forName( className ).newInstance();
+            return (Application)Class.forName( className ).newInstance();
         }
         catch( final Exception e )
         {
             final String message = REZ.format( "embeddor.error.create.kernel", className );
+            getLogger().warn( message, e );
             throw new ConfigurationException( message, e );
         }
     }
@@ -563,7 +563,7 @@ public class PhoenixEmbeddor
      *
      * @return the Kernel
      */
-    protected final Kernel getKernel()
+    protected final Application getKernel()
     {
         return m_kernel;
     }
