@@ -38,7 +38,7 @@ import javax.management.ReflectionException;
  * MBeans if you wish to do so.
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/04/24 05:00:53 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/04/25 07:56:12 $
  */
 class DefaultDynamicMBean 
     implements DynamicMBean
@@ -376,7 +376,8 @@ class DefaultDynamicMBean
                 ops.add( methods[i] );
             }
         }
-        return (Method[])ops.toArray();
+
+        return (Method[])ops.toArray( new Method[0] );
     }
 
     /**
@@ -420,9 +421,11 @@ class DefaultDynamicMBean
                 issers.add( methods[i] );
             }
         }
-        m[0] = (Method[])getters.toArray();
-        m[1] = (Method[])setters.toArray();
-        m[2] = (Method[])issers.toArray();
+
+        final Method[] type = new Method[ 0 ];
+        m[0] = (Method[])getters.toArray( type );
+        m[1] = (Method[])setters.toArray( type );
+        m[2] = (Method[])issers.toArray( type );
         return m;
     }
 
@@ -503,6 +506,7 @@ class DefaultDynamicMBean
                 }
             }
             attributeName = attributeName.substring( 0, 1 ).toLowerCase() + attributeName.substring( 1 );
+
             try
             {
                 info[beginIndex] = new MBeanAttributeInfo( attributeName, "", getter, setter );
@@ -511,6 +515,7 @@ class DefaultDynamicMBean
             {
                 throw new NotCompliantMBeanException();
             }
+
             beginIndex++;
         }
 
