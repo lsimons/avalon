@@ -21,7 +21,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ricardo@apache.org">Ricardo Rocha</a>
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.1.2.2 $ $Date: 2002/05/18 06:14:35 $
+ * @version CVS $Revision: 1.1.2.3 $ $Date: 2002/05/22 20:21:44 $
  * @since 4.0
  */
 public class DefaultRoleManager
@@ -147,7 +147,16 @@ public class DefaultRoleManager
             getLogger().debug( "looking up classname for hint " + shorthand );
         }
 
-        return (String)hintMap.get( shorthand );
+        final String s = ( String ) hintMap.get( shorthand );
+
+        if( s == null && null != m_parent )
+        {
+            return m_parent.getDefaultClassNameForHint( role, shorthand );
+        }
+        else
+        {
+            return s;
+        }
     }
 
     /**
