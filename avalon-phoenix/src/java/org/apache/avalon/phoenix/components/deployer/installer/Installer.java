@@ -24,7 +24,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.io.ExtensionFileFilter;
 import org.apache.avalon.excalibur.io.FileUtil;
 import org.apache.avalon.excalibur.io.IOUtil;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
@@ -34,20 +33,13 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2002/05/15 12:48:59 $
+ * @version $Revision: 1.8 $ $Date: 2002/05/15 13:00:57 $
  */
 public class Installer
     extends AbstractLogEnabled
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( Installer.class );
-
-    private static final String OLD_ASSEMBLY_XML = "conf" + File.separator + "assembly.xml";
-
-    private static final String OLD_CONFIG_XML = "conf" + File.separator + "config.xml";
-    private static final String OLD_SERVER_XML = "conf" + File.separator + "server.xml";
-    private static final String OLD_BLOCKS = "blocks";
-    private static final String OLD_LIB = "lib";
 
     private static final String META_INF = "META-INF";
     private static final String SAR_INF = "SAR-INF";
@@ -176,18 +168,7 @@ public class Installer
 
             //Get Zipfile representing .sar file
             final ZipFile zipFile = new ZipFile( file );
-            if( isDeprecated( zipFile ) )
-            {
-                final String message =
-                    REZ.getString( "deprecated-sar-format", url );
-                System.err.println( message );
-                getLogger().warn( message );
-                return installDeprecated( url, file, zipFile );
-            }
-            else
-            {
-                return install( name, url, file, zipFile );
-            }
+            return install( name, url, file, zipFile );
         }
         catch( final IOException ioe )
         {
@@ -223,56 +204,6 @@ public class Installer
         finally
         {
             IOUtil.shutdownStream( input );
-        }
-    }
-
-    /**
-     * Check if zipfile represents the deprecated sar format or
-     * whether it conforms to new format of using "SAR-INF/".
-     *
-     * @param zipFile the zipfile
-     * @return true if old format, else false
-     */
-    private boolean isDeprecated( final ZipFile zipFile )
-        throws InstallationException
-    {
-        boolean oldStyle = false;
-        boolean newStyle = false;
-
-        final Enumeration entries = zipFile.entries();
-        while( entries.hasMoreElements() )
-        {
-            final ZipEntry entry = (ZipEntry)entries.nextElement();
-            final String name = fixName( entry.getName() );
-
-            if( name.startsWith( OLD_BLOCKS ) ||
-                name.startsWith( OLD_LIB ) ||
-                name.equals( "conf/assembly.xml" ) ||
-                name.equals( "conf/config.xml" ) ||
-                name.equals( "conf/server.xml" ) )
-            {
-                oldStyle = true;
-            }
-
-            if( name.startsWith( SAR_INF ) )
-            {
-                newStyle = true;
-            }
-        }
-
-        if( oldStyle && newStyle )
-        {
-            final String message = REZ.getString( "mixed-sar" );
-            throw new InstallationException( message );
-        }
-        else if( !oldStyle && !newStyle )
-        {
-            final String message = REZ.getString( "invalid-sar" );
-            throw new InstallationException( message );
-        }
-        else
-        {
-            return oldStyle;
         }
     }
 
@@ -556,58 +487,6 @@ public class Installer
     }
 
     /**
-     * Create an Installation from a Sar in deprecated format.
-     *
-     * @param file the file designating the sar
-     * @param zipFile the ZipFile object for sar
-     * @return the Installaiton
-     */
-    private Installation installDeprecated( final URL url,
-                                            final File file,
-                                            final ZipFile zipFile )
-        throws InstallationException
-    {
-        final ArrayList digests = new ArrayList();
-        final File directory = getDestinationFor( file );
-
-        final Enumeration entries = zipFile.entries();
-        while( entries.hasMoreElements() )
-        {
-            final ZipEntry entry = (ZipEntry)entries.nextElement();
-            if( entry.isDirectory() ) continue;
-
-            final String name = fixName( entry.getName() );
-
-            //Expand the file if not in META-INF directory
-            if( !name.startsWith( META_INF ) )
-            {
-                final File destination = new File( directory, name );
-                if( !destination.exists() )
-                {
-                    expandFile( zipFile, entry, destination );
-                    calculateDigest( entry, destination, digests );
-                }
-                else
-                {
-                    final String message = REZ.getString( "file-in-the-way", url, name, directory );
-                    getLogger().warn( message );
-                }
-            }
-        }
-
-        final String[] classPath = getClassPathForDirectory( directory );
-        final String config = getURLAsString( new File( directory, OLD_CONFIG_XML ) );
-        final String assembly = getURLAsString( new File( directory, OLD_ASSEMBLY_XML ) );
-        final String server = getURLAsString( new File( directory, OLD_SERVER_XML ) );
-        final FileDigest[] fileDigests = (FileDigest[])digests.toArray( new FileDigest[ 0 ] );
-        final long timestamp = System.currentTimeMillis();
-
-        return new Installation( file, directory, directory,
-                                 config, assembly, server,
-                                 classPath, fileDigests, timestamp );
-    }
-
-    /**
      * Get File object for URL.
      * Currently it assumes that URL is a file URL but in the
      * future it will allow downloading of remote URLs thus enabling
@@ -685,54 +564,6 @@ public class Installer
         {
             IOUtil.shutdownStream( input );
             IOUtil.shutdownStream( output );
-        }
-    }
-
-    /**
-     * Get destination that .sar should be expanded to.
-     *
-     * @param file the file object representing .sar archive
-     * @return the destination to expand archive
-     */
-    private File getDestinationFor( final File file )
-    {
-        final String base =
-            FileUtil.removeExtension( FileUtil.removePath( file.getName() ) );
-
-        return ( new File( m_baseDirectory, base ) ).getAbsoluteFile();
-    }
-
-    /**
-     * Get Classpath for application.
-     *
-     * @return the list of URLs in ClassPath
-     */
-    private String[] getClassPathForDirectory( final File directory )
-    {
-        final File blockDir = new File( directory, "blocks" );
-        final File libDir = new File( directory, "lib" );
-
-        final ArrayList urls = new ArrayList();
-        getURLsAsStrings( urls, blockDir, new String[]{".bar"} );
-        getURLsAsStrings( urls, libDir, new String[]{".jar", ".zip"} );
-        return (String[])urls.toArray( new String[ 0 ] );
-    }
-
-    /**
-     * Add all matching files in directory to url list.
-     *
-     * @param urls the url list
-     * @param directory the directory to scan
-     * @param extensions the list of extensions to match
-     */
-    private void getURLsAsStrings( final ArrayList urls, final File directory, final String[] extensions )
-    {
-        final ExtensionFileFilter filter = new ExtensionFileFilter( extensions );
-        final File[] files = directory.listFiles( filter );
-        if( null == files ) return;
-        for( int i = 0; i < files.length; i++ )
-        {
-            urls.add( getURLAsString( files[ i ] ) );
         }
     }
 
