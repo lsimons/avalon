@@ -32,7 +32,7 @@ package org.apache.avalon.framework.configuration;
  * <p>
  * Type-safe utility methods are provided for retrieving attribute and element
  * values as <code>String</code>, <code>int</code>, <code>long</code>,
- * <code>float</code> and <code>boolean</code>. 
+ * <code>float</code> and <code>boolean</code>.
  * </p>
  * <p>
  * As an example, consider a <code>Configuration</code> built from this XML:
@@ -102,7 +102,7 @@ public interface Configuration
      *
      * @return a Namespace object describing the namespace of the Configuration
      */
-    Namespace getNamespace();
+    String getNamespace();
 
     /**
      * Return a new <code>Configuration</code> instance encapsulating the

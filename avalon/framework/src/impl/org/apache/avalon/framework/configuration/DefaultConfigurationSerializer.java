@@ -111,9 +111,14 @@ public class DefaultConfigurationSerializer
             }
         }
 
-        final Namespace namespace = element.getNamespace();
-        final String nsURI = namespace.getURI();
-        final String nsPrefix = namespace.getPrefix();
+        final String nsURI = element.getNamespace();
+        String nsPrefix = "";
+
+        if ( element instanceof AbstractConfiguration )
+        {
+            nsPrefix = ((AbstractConfiguration) element).getPrefix();
+        }
+
         boolean nsWasDeclared = false;
 
         // Is this namespace already declared?

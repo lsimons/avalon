@@ -15,11 +15,18 @@ package org.apache.avalon.framework.configuration;
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
- * @version CVS $Revision: 1.9 $ $Date: 2001/11/19 11:47:37 $
+ * @version CVS $Revision: 1.10 $ $Date: 2001/11/19 16:59:15 $
  */
 public abstract class AbstractConfiguration
     implements Configuration
 {
+    /**
+     * Returns the prefix of the namespace.  This is only used as a serialization
+     * hint, therefore is not part of the client API.  It should be included in
+     * all Configuration implementations though.
+     */
+    protected abstract String getPrefix();
+
     /**
      * Returns the value of the configuration element as an <code>int</code>.
      *
@@ -281,7 +288,7 @@ public abstract class AbstractConfiguration
         catch( final Exception nfe )
         {
             throw new ConfigurationException( "Cannot parse the value \"" + value +
-                                              "\" as an integer in the attribute \"" + 
+                                              "\" as an integer in the attribute \"" +
                                               name + "\" at " + getLocation() );
         }
     }
@@ -347,7 +354,7 @@ public abstract class AbstractConfiguration
         catch( final Exception nfe )
         {
             throw new ConfigurationException( "Cannot parse the value \"" + value +
-                                              "\" as a long in the attribute \"" + 
+                                              "\" as a long in the attribute \"" +
                                               name + "\" at " + getLocation() );
         }
     }
@@ -394,7 +401,7 @@ public abstract class AbstractConfiguration
         catch( final Exception e )
         {
             throw new ConfigurationException( "Cannot parse the value \"" + value +
-                                              "\" as a float in the attribute \"" + 
+                                              "\" as a float in the attribute \"" +
                                               name + "\" at " + getLocation() );
         }
     }
@@ -443,7 +450,7 @@ public abstract class AbstractConfiguration
         else
         {
             throw new ConfigurationException( "Cannot parse the value \"" + value +
-                                              "\" as a boolean in the attribute \"" + 
+                                              "\" as a boolean in the attribute \"" +
                                               name + "\" at " + getLocation() );
         }
     }
