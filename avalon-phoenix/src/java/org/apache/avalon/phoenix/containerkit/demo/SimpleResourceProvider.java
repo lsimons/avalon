@@ -48,6 +48,21 @@
 
 */
 
+package org.apache.avalon.phoenix.containerkit.demo;
+
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.phoenix.containerkit.factory.ComponentFactory;
+import org.apache.avalon.phoenix.containerkit.kernel.AbstractServiceKernel;
+import org.apache.avalon.phoenix.containerkit.kernel.ComponentEntry;
+import org.apache.avalon.phoenix.containerkit.lifecycle.impl.AbstractResourceProvider;
+import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
+import org.apache.excalibur.instrument.InstrumentManager;
+import org.apache.excalibur.instrument.manager.NoopInstrumentManager;
+
+/**
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.4 $ $Date: 2003/03/22 12:07:11 $
+ */
 public class SimpleResourceProvider
     extends AbstractResourceProvider
 {

@@ -48,6 +48,25 @@
 
 */
 
+package org.apache.avalon.phoenix.frontends;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.component.ComponentException;
+import org.apache.avalon.framework.component.ComponentManager;
+import org.apache.avalon.framework.component.Composable;
+import org.apache.avalon.phoenix.components.embeddor.SingleAppEmbeddor;
+import org.apache.avalon.phoenix.interfaces.Embeddor;
+
+/**
+ * WARNING: DO NOT USE THIS SERVLET FOR PRODUCTION SERVICE. THIS IS EXPERIMENTAL.
+ * Composable servlet for easy life with <tt>PhoenixServlet</tt>.
+ *
+ * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
+ * @deprecated
+ */
 public abstract class ComposableServlet
     extends HttpServlet
     implements Composable

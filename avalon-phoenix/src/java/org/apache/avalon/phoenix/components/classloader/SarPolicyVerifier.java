@@ -48,6 +48,19 @@
 
 */
 
+package org.apache.avalon.phoenix.components.classloader;
+
+import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.excalibur.policy.verifier.PolicyVerifier;
+
+/**
+ * A simple adapter for verifier to support logging to
+ * Phoenixs subsystem.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.4 $ $Date: 2003/03/22 12:07:08 $
+ */
 class SarPolicyVerifier
     extends PolicyVerifier
     implements LogEnabled

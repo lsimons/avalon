@@ -48,6 +48,29 @@
 
 */
 
+package org.apache.avalon.phoenix.interfaces;
+
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.logger.Logger;
+
+/**
+ * Interface that is used to manage Log objects for a Sar.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ */
+public interface LogManager
+{
+    String ROLE = LogManager.class.getName();
+
+    /**
+     * Create a Logger hierarchy for an applicaiton.
+     *
+     * @param logs the configuration data for logs
+     * @param context the context in which to build hierarchy
+     * @return the configured Logger hierarchy
+     * @throws Exception if an error occurs
+     */
     Logger createHierarchy( Configuration logs, Context context )
         throws Exception;
 }

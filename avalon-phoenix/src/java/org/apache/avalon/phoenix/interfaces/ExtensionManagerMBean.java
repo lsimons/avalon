@@ -48,6 +48,41 @@
 
 */
 
+package org.apache.avalon.phoenix.interfaces;
+
+import java.io.File;
+
+/**
+ * Management interface to ExtensionManager.
+ *
+ * @phoenix:mx-topic name="ExtensionManager"
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.8 $ $Date: 2003/03/22 12:07:14 $
+ */
+public interface ExtensionManagerMBean
+{
+    String ROLE = ExtensionManagerMBean.class.getName();
+
+    /**
+     * Retrieve an array of paths where each
+     * element in array represents a directory
+     * in which the ExtensionManager will look
+     * for Extensions.
+     *
+     * @phoenix:mx-attribute
+     *
+     * @return the list of paths to search in
+     */
+    File[] getPaths();
+
+    /**
+     * Force the ExtensionManager to rescan the paths
+     * to discover new Extensions that have been added
+     * or remove old Extensions that have been removed.
+     *
+     * @phoenix:mx-operation
+     */
     void rescanPath();
 
     //Extension[] getExtension();

@@ -48,6 +48,18 @@
 
 */
 
+package org.apache.avalon.phoenix.components.manager;
+
+import java.util.ArrayList;
+import javax.management.MBeanServer;
+import javax.management.MBeanServerFactory;
+
+/**
+ * This is a hosted version of System Manager. It assumes
+ * a MBeanServer is already running.
+ *
+ * @author <a href="mailto:sshort at postx.com">Steve Short</a>
+ */
 public class HostedSystemManager
     extends AbstractJMXManager
 {

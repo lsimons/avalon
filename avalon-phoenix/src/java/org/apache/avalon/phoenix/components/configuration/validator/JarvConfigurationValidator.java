@@ -48,6 +48,79 @@
 
 */
 
+package org.apache.avalon.phoenix.components.configuration.validator;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.excalibur.io.FileUtil;
+import org.apache.avalon.excalibur.io.IOUtil;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.DefaultConfiguration;
+import org.apache.avalon.framework.configuration.DefaultConfigurationSerializer;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
+import org.apache.avalon.phoenix.interfaces.ConfigurationValidatorMBean;
+import org.iso_relax.verifier.Schema;
+import org.iso_relax.verifier.Verifier;
+import org.iso_relax.verifier.VerifierConfigurationException;
+import org.iso_relax.verifier.VerifierFactory;
+import org.iso_relax.verifier.VerifierHandler;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+
+/**
+ * A validator that is capable of validating any schema supported by the JARV
+ * engine. <a href="http://iso-relax.sourceforge.net/">http://iso-relax.sourceforge.net/</a>
+ *
+ * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
+ */
+public class JarvConfigurationValidator
+    extends AbstractLogEnabled
+    implements Configurable, Initializable, ConfigurationValidator,
+    ConfigurationValidatorMBean
+{
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( JarvConfigurationValidator.class );
+
+    private String m_schemaType;
+
+    private String m_schemaLanguage;
+
+    private String m_verifierFactoryClass;
+
+    private String m_debugPath;
+
+    private final DefaultConfigurationSerializer m_serializer =
+        new DefaultConfigurationSerializer();
+
+    private final Map m_schemaURLs = Collections.synchronizedMap( new HashMap() );
+
+    private final Map m_schemas = Collections.synchronizedMap( new HashMap() );
+
+    private VerifierFactory m_verifierFactory;
+
+    /**
+     * There are two possible configuration options for this class. They are mutually exclusive.
+     * <ol>
+     *   <li>&lt;schema-language&gt;<i>schema language uri</i>&lt;/schema-language&gt;</li>
+     *   <li>&lt;verifier-factory-class&gt;<i>classname</i>&lt;/verifier-factory-class&gt;<br>
+     *      The fully-qualified classname to use as a verifier factory.
+     *   </li>
+     * </ol>
+     *
+     * @see <a href="http://iso-relax.sourceforge.net/apiDoc/org/iso_relax/verifier/VerifierFactory.html#newInstance(java.lang.String)">
+     *    http://iso-relax.sourceforge.net/apiDoc/org/iso_relax/verifier/VerifierFactory.html#newInstance(java.lang.String)</a>
+     */
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {

@@ -48,6 +48,29 @@
 
 */
 
+package org.apache.avalon.phoenix.components.configuration.validator;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.container.ContainerUtil;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
+import org.apache.avalon.phoenix.interfaces.ConfigurationValidatorMBean;
+
+/**
+ * Default ConfigurationValidator implementation that allows schemas to be plugged-in
+ *
+ * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
+ */
 public class DelegatingConfigurationValidator extends AbstractLogEnabled
     implements Configurable, Initializable, Disposable,
     ConfigurationValidator, ConfigurationValidatorMBean

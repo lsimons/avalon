@@ -48,6 +48,13 @@
 
 */
 
+package org.apache.avalon.phoenix.metadata;
+
+/**
+ * This is the structure describing the instances of roles provided to each block.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ */
 public final class DependencyMetaData
 {
     private final String m_name;

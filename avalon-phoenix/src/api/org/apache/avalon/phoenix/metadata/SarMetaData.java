@@ -48,6 +48,15 @@
 
 */
 
+package org.apache.avalon.phoenix.metadata;
+
+import java.io.File;
+
+/**
+ * MetaData for the application.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ */
 public class SarMetaData
 {
     private final String m_name;

@@ -48,6 +48,34 @@
 
 */
 
+package org.apache.avalon.phoenix.components.manager;
+
+import mx4j.log.Logger;
+
+/**
+ * A class to pipe MX4J's own logger to the one Phoenix wants to use.
+ */
+public class MX4JLoggerAdapter extends Logger
+{
+    private static org.apache.avalon.framework.logger.Logger avalonLogger;
+
+    /**
+     * This is really bad.  A static way of introducing a logger to a tool.
+     * @param logger the Avalon logger.
+     */
+    public static void setLogger( final org.apache.avalon.framework.logger.Logger logger )
+    {
+        avalonLogger = logger;
+    }
+
+    /**
+     * This overides the method in the super class to actually deliver Avalon
+     * Logging to MX4J
+     *
+     * @param level the debug/warn/error level.
+     * @param message the message to log.
+     * @param throwable a message that may be sent.
+     */
     protected void log( final int level, final Object message, final Throwable throwable )
     {
         switch( level )

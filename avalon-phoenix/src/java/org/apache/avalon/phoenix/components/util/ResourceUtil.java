@@ -48,6 +48,34 @@
 
 */
 
+package org.apache.avalon.phoenix.components.util;
+
+import java.io.File;
+import java.net.MalformedURLException;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+
+/**
+ * A utility class for working with resources in default sar layout.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.4 $ $Date: 2003/03/22 12:07:11 $
+ */
+public class ResourceUtil
+{
+    private static final String SAR_PROTOCOL = "sar:";
+    private static final String SAR_INF = "SAR-INF/";
+    private static final String CLASSES = SAR_INF + "classes";
+    private static final String LIB = SAR_INF + "lib";
+
+    /**
+     * Expand any URLs with sar: protocol so that
+     * they accurately match the actual location
+     *
+     * @param codeBase the input url
+     * @return the result url, modified to file url if it
+     *         is protocol "sar:"
+     * @throws ConfigurationException if invalidly specified URL
+     */
     public static String expandSarURL( final String codeBase,
                                        final File baseDirectory,
                                        final File workDirectory )

@@ -48,5 +48,49 @@
 
 */
 
+package org.apache.avalon.phoenix.interfaces;
+
+import java.io.File;
+import java.util.Map;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
+
+/**
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ */
+public interface Kernel
+{
+    String ROLE = Kernel.class.getName();
+
+    /**
+     * Adds an application to the container
+     */
+    void addApplication( PartitionProfile profile,
+                         File homeDirectory, File workDirectory,
+                         ClassLoader classLoader,
+                         Logger logger,
+                         Map classloaders )
+        throws Exception;
+
+    /**
+     * Removes the application from the container
+     *
+     * @param name the name of application to remove
+     */
+    void removeApplication( String name )
+        throws Exception;
+
+    /**
+     * Gets the named application
+     *
+     * @param name the name of application
+     */
+    Application getApplication( String name );
+
+    /**
+     * Gets the list of applications running in the container
+     *
+     * @return applicationNames The array of application names
+     */
     String[] getApplicationNames();
 }

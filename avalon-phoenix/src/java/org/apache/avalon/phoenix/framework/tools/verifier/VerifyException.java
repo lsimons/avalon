@@ -48,6 +48,46 @@
 
 */
 
+package org.apache.avalon.phoenix.framework.tools.verifier;
+
+/**
+ * Exception to indicate error verifying a Block or application.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.4 $ $Date: 2003/03/22 12:07:14 $
+ */
+public final class VerifyException
+    extends Exception
+{
+    private final Throwable m_throwable;
+
+    /**
+     * Construct a new <code>VerifyException</code> instance.
+     *
+     * @param message The detail message for this exception.
+     */
+    public VerifyException( final String message )
+    {
+        this( message, null );
+    }
+
+    /**
+     * Construct a new <code>VerifyException</code> instance.
+     *
+     * @param message The detail message for this exception.
+     * @param throwable the root cause of the exception
+     */
+    public VerifyException( final String message, final Throwable throwable )
+    {
+        super( message );
+        m_throwable = throwable;
+    }
+
+    /**
+     * Retrieve cause of exception.
+     *
+     * @return the exception that caused this exception.
+     */
     public Throwable getCause()
     {
         return m_throwable;

@@ -48,6 +48,18 @@
 
 */
 
+package org.apache.avalon.phoenix.components.configuration.validator;
+
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
+import org.apache.avalon.phoenix.interfaces.ConfigurationValidatorMBean;
+
+/**
+ * A ConfigurationValidator that always says everything is okay
+ *
+ * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
+ */
 public class NoopConfigurationValidator
     implements ConfigurationValidator, ConfigurationValidatorMBean
 {

@@ -48,6 +48,28 @@
 
 */
 
+package org.apache.avalon.phoenix.components.embeddor;
+
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.avalon.excalibur.packagemanager.ExtensionManager;
+import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
+import org.apache.avalon.phoenix.interfaces.ConfigurationRepositoryMBean;
+import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
+import org.apache.avalon.phoenix.interfaces.ConfigurationValidatorMBean;
+import org.apache.avalon.phoenix.interfaces.Deployer;
+import org.apache.avalon.phoenix.interfaces.DeployerMBean;
+import org.apache.avalon.phoenix.interfaces.Embeddor;
+import org.apache.avalon.phoenix.interfaces.EmbeddorMBean;
+import org.apache.avalon.phoenix.interfaces.ExtensionManagerMBean;
+import org.apache.avalon.phoenix.interfaces.Kernel;
+import org.apache.avalon.phoenix.interfaces.KernelMBean;
+import org.apache.avalon.phoenix.interfaces.LogManager;
+
+/**
+ *
+ * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
+ */
 final class ManagementRegistration
 {
     private static final Map c_map = new HashMap();

@@ -48,6 +48,19 @@
 
 */
 
+package org.apache.avalon.phoenix.components.kernel;
+
+import java.io.File;
+import java.util.Map;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
+import org.apache.avalon.phoenix.interfaces.Application;
+
+/**
+ * This is the structure describing each server application before it is loaded.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ */
 final class SarEntry
 {
     private final PartitionProfile m_profile;

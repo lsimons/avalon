@@ -48,6 +48,51 @@
 
 */
 
+package org.apache.avalon.phoenix.components.configuration;
+
+import java.io.File;
+import java.io.IOException;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.excalibur.io.FileUtil;
+import org.apache.avalon.framework.CascadingRuntimeException;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.ConfigurationUtil;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.apache.avalon.framework.configuration.DefaultConfigurationSerializer;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.phoenix.components.util.PropertyUtil;
+import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
+import org.apache.avalon.phoenix.interfaces.ConfigurationRepositoryMBean;
+import org.apache.excalibur.configuration.merged.ConfigurationMerger;
+import org.apache.excalibur.configuration.merged.ConfigurationSplitter;
+import org.xml.sax.SAXException;
+
+/**
+ * <p>
+ * A ConfigurationRepository that will store partial configurations on disk.
+ * </p><p>
+ * When a Configuration is retrieved from the repository, the configuration from disk is
+ * <i>merged</i> with the configuration from the SAR. This merge is accompilished via
+ * {@link ConfigurationMerger#merge}.
+ * </p><p>
+ * When a Configuration is stored in the repository, if there is no <i>transient</i>, that is,
+ * configuration from the SAR, Configuration information, the first store is that. Subsequent
+ * calls to storeConfiguration will persist the difference between the <i>transient</i>
+ * Configuration and the passed configuration to disk. The differences are computed via
+ * {@link ConfigurationSplitter#split}
+ * </p>
+ *
+ * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
+ * @see org.apache.excalibur.configuration.merged.ConfigurationMerger
+ * @see org.apache.excalibur.configuration.merged.ConfigurationSplitter
+ */
 public class FileSystemPersistentConfigurationRepository extends AbstractLogEnabled
     implements ConfigurationRepository, Contextualizable, Configurable, Initializable,
     ConfigurationRepositoryMBean

@@ -48,6 +48,36 @@
 
 */
 
+package org.apache.avalon.phoenix.containerkit.lifecycle;
+
+import org.apache.avalon.framework.CascadingException;
+
+/**
+ * Exception to indicate error processing a component through its lifecycle.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:12 $
+ */
+public final class LifecycleException
+    extends CascadingException
+{
+    /**
+     * Construct a new <code>VerifyException</code> instance.
+     *
+     * @param message The detail message for this exception.
+     */
+    public LifecycleException( final String message )
+    {
+        this( message, null );
+    }
+
+    /**
+     * Construct a new <code>VerifyException</code> instance.
+     *
+     * @param message The detail message for this exception.
+     * @param throwable the root cause of the exception
+     */
     public LifecycleException( final String message, final Throwable throwable )
     {
         super( message, throwable );

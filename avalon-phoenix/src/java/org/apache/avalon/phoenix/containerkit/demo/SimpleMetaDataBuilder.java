@@ -48,6 +48,27 @@
 
 */
 
+package org.apache.avalon.phoenix.containerkit.demo;
+
+import java.util.ArrayList;
+import java.util.Map;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.apache.avalon.phoenix.framework.info.Attribute;
+import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
+import org.apache.avalon.phoenix.containerkit.metadata.DependencyMetaData;
+import org.apache.avalon.phoenix.containerkit.metadata.MetaDataBuilder;
+import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
+import org.xml.sax.InputSource;
+
+/**
+ * Load metadata from some source. The source is usually
+ * one or more xml config files.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.4 $ $Date: 2003/03/22 12:07:11 $
+ */
 public class SimpleMetaDataBuilder
     implements MetaDataBuilder
 {

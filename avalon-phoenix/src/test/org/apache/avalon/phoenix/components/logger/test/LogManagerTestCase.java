@@ -48,6 +48,32 @@
 
 */
 
+package org.apache.avalon.phoenix.components.logger.test;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import junit.framework.TestCase;
+import org.apache.avalon.excalibur.io.FileUtil;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.apache.avalon.framework.container.ContainerUtil;
+import org.apache.avalon.framework.logger.ConsoleLogger;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.avalon.phoenix.components.logger.DefaultLogManager;
+import org.apache.avalon.phoenix.interfaces.LogManager;
+import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
+import org.apache.avalon.phoenix.metadata.BlockMetaData;
+import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.avalon.phoenix.BlockContext;
+
+/**
+ *  An basic test case for the LogManager.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.10 $ $Date: 2003/03/22 12:07:17 $
+ */
 public class LogManagerTestCase
     extends TestCase
 {

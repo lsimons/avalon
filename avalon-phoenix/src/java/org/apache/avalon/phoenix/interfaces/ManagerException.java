@@ -48,6 +48,15 @@
 
 */
 
+package org.apache.avalon.phoenix.interfaces;
+
+import org.apache.avalon.framework.CascadingException;
+
+/**
+ * The ManagerException used to indicate problems with managers.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ */
 public class ManagerException
     extends CascadingException
 {

@@ -48,6 +48,62 @@
 
 */
 
+package org.apache.avalon.phoenix.components.manager;
+
+import javax.management.Attribute;
+import javax.management.MBeanServer;
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+
+/**
+ * Support JMX MBean lifecycle.
+ *
+ * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
+ */
+public class MBeanScripter
+{
+    private final MBeanServer m_mBeanServer;
+    private final Configuration m_configuration;
+    private final ObjectName m_objectName;
+
+    public MBeanScripter( final MBeanServer mBeanServer,
+                          final Configuration configuration )
+        throws ConfigurationException, MalformedObjectNameException
+    {
+        m_mBeanServer = mBeanServer;
+        m_configuration = configuration;
+        m_objectName = new ObjectName( m_configuration.getAttribute( "name" ) );
+    }
+
+    public String getName()
+    {
+        return m_objectName.getCanonicalName();
+    }
+
+    public ObjectName getObjectName()
+    {
+        return m_objectName;
+    }
+
+    /**
+     * Create MBean and invoke startup operations.
+     */
+    public void startup()
+        throws Exception
+    {
+        m_mBeanServer.createMBean( m_configuration.getAttribute( "class" ),
+                                   getObjectName(), null );
+
+        setAttributes();
+        setUses();
+        invokeStartupOperations();
+    }
+
+    /**
+     * Invoke shutdown operations.
+     */
     public void shutdown()
         throws Exception
     {

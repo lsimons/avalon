@@ -48,6 +48,29 @@
 
 */
 
+package org.apache.avalon.phoenix.containerkit.metadata;
+
+import java.util.Map;
+
+/**
+ * Load metadata for an Assembly from some source.
+ * The source is usually one or more xml config files.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:12 $
+ */
+public interface MetaDataBuilder
+{
+    /**
+     * Load metadata from a particular source
+     * using specified map of parameters. The content
+     * of the parameters is left unspecified.
+     *
+     * @param parameters the parameters indicating method to load meta data source
+     * @return the set of components in metadata
+     * @throws Exception if unable to load or resolve
+     *         meta data for any reason
+     */
     PartitionMetaData buildAssembly( Map parameters )
         throws Exception;
 }

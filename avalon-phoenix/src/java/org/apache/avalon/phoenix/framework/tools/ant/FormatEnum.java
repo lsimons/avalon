@@ -48,6 +48,17 @@
 
 */
 
+package org.apache.avalon.phoenix.framework.tools.ant;
+
+import org.apache.tools.ant.types.EnumeratedAttribute;
+
+/**
+ * This is an enumeration that gives the option of either
+ * outputting as xml or as a serialized format.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:13 $
+ */
 public class FormatEnum
     extends EnumeratedAttribute
 {

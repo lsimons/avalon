@@ -48,6 +48,16 @@
 
 */
 
+package org.apache.avalon.phoenix.components.configuration.validator;
+
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
+
+/**
+ * Configuration Validator entry for the DelegatingConfigurationValidator.
+ *
+ * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
+ */
 class DelegateEntry
 {
     private final String m_schemaType;
