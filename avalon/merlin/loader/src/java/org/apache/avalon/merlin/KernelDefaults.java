@@ -76,10 +76,13 @@ import org.apache.avalon.merlin.env.EnvAccessException ;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class KernelDefaults
 {
+    private static final String MERLIN_HOME_ENV = "MERLIN_HOME";
+    private static final String MERLIN_REPO_LOCAL_ENV = "MERLIN_REPO_LOCAL";
+
     private static final String [] s_keys =
     {
         "merlin.policy.server",
@@ -164,28 +167,7 @@ public class KernelDefaults
         // Stage II - get some properties from the environment.
         //
 
-        File l_merlinHome = null ;
-        try 
-        {
-            final String merlinHomeEnv = Env.getVariable( "MERLIN_HOME" );
-            if( merlinHomeEnv != null )
-            {
-                l_merlinHome = new File( merlinHomeEnv ) ;
-            }
-            else
-            {
-                final String userHome = System.getProperty( "user.home" );
-                if( userHome != null )
-                {
-                    File userDir = new File( userHome );
-                    l_merlinHome = new File( userDir, ".merlin" ) ;
-                }
-            }
-        }
-        catch( EnvAccessException e )
-        {
-            e.printStackTrace( System.err ) ;
-        }
+        File l_merlinHome = getMerlinHome();
         
         if ( null != l_merlinHome && l_merlinHome.exists() )
         {    
@@ -196,12 +178,8 @@ public class KernelDefaults
                     l_sysRepo.getAbsolutePath() ) ;
             }
             
-            //
-            // TODO need to provide support for an env supplied 
-            // user repository override value
-            //
+            File l_userRepo = getMerlinUserRepository( l_merlinHome );
 
-            File l_userRepo = new File( l_merlinHome, "repository" ) ;
             if ( l_userRepo.exists() )
             {
                 s_defaults.setProperty( USER_REPO_KEY, 
@@ -458,6 +436,70 @@ public class KernelDefaults
         }
         
         return false ;
+    }
+
+   /**
+    * Return the default value of the merlin installation home. The 
+    * value returned corresponds to the environment variable MERLIN_HOME.
+    * If the env variable is undefined, return ${user.home}/.merlin
+    * @return the default merlin install path
+    */ 
+    private static File getMerlinHome()
+    {
+        File l_merlinHome = null ;
+        try 
+        {
+            final String merlinHomeEnv = Env.getVariable( MERLIN_HOME_ENV );
+            if( merlinHomeEnv != null )
+            {
+                return new File( merlinHomeEnv ) ;
+            }
+            else
+            {
+                final String userHome = System.getProperty( "user.home" );
+                if( userHome != null )
+                {
+                    File userDir = new File( userHome );
+                    return new File( userDir, ".merlin" ) ;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+        catch( EnvAccessException e )
+        {
+            e.printStackTrace( System.err ) ;
+            return null;
+        }
+    }
+
+   /**
+    * Return the default value of the merlin local user repository. The 
+    * value returned corresponds to the environment variable MERLIN_REPO_LOCAL.
+    * If the env variable is undefined, return ${merlin.home}/repository
+    * @return the default merlin local user repository path
+    */ 
+    private static File getMerlinUserRepository( File home )
+    {
+        try 
+        {
+            final String userRepoEnv = Env.getVariable( MERLIN_REPO_LOCAL_ENV );
+            if( userRepoEnv != null )
+            {
+                return new File( userRepoEnv ) ;
+            }
+            else
+            {
+                return new File( home, "repository" );
+            }
+        }
+        catch( EnvAccessException e )
+        {
+            e.printStackTrace( System.err ) ;
+            return null;
+        }
     }
 }
 

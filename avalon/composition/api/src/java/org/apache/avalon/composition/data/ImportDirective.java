@@ -50,8 +50,6 @@
 
 package org.apache.avalon.composition.data;
 
-import java.io.Serializable;
-
 /**
  * An inport directive used within a context directive to request a container scoped values.
  *
@@ -78,7 +76,7 @@ import java.io.Serializable;
  * @see EntryDirective
  * @see Parameter
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:07 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 12:53:48 $
  */
 public class ImportDirective extends EntryDirective
 {

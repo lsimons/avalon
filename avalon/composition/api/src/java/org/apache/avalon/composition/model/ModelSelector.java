@@ -52,7 +52,6 @@ package org.apache.avalon.composition.model;
 
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
-import org.apache.avalon.composition.data.Profile;
 
 /**
  * Interface implemented by a service selection implementation mechanism.  Classes
@@ -64,7 +63,7 @@ import org.apache.avalon.composition.data.Profile;
  * driven approach).
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:19 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 12:53:48 $
  */
 public interface ModelSelector
 {

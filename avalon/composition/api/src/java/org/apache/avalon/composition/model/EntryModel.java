@@ -50,17 +50,12 @@
 
 package org.apache.avalon.composition.model;
 
-import java.util.Map;
-
-import org.apache.avalon.framework.context.Context;
-
-
 /**
  * <p>Specification of a context enty model from which a 
  * a context value can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:17 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 12:53:48 $
  */
 public interface EntryModel
 {

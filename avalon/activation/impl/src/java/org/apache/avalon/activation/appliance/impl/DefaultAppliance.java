@@ -103,7 +103,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2003/10/22 01:45:37 $
+ * @version $Revision: 1.10 $ $Date: 2003/10/28 12:53:48 $
  */
 public class DefaultAppliance extends AbstractAppliance
   implements Composite, DefaultApplianceMBean
@@ -431,6 +431,12 @@ public class DefaultAppliance extends AbstractAppliance
         }
     }
 
+    /**
+     * Return the set of appliances assigned as deployment and runtime providers.
+     * @return the extenernal providers consumed by the appliance
+     * @exception IllegalStateException if invoked prior to 
+     *    the completion of the assembly phase 
+     */
     public Appliance[] getProviders()
     {
         final ArrayList list = new ArrayList();

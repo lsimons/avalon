@@ -51,8 +51,6 @@
 package org.apache.avalon.composition.data;
 
 import java.io.Serializable;
-import java.lang.reflect.Constructor;
-import java.util.Map;
 
 /**
  * A <code>Parameter</code> represents a single constructor typed argument value.  A parameter
@@ -90,7 +88,7 @@ import java.util.Map;
  * @see EntryDirective
  * @see ImportDirective
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:09 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 12:53:48 $
  */
 public class Parameter implements Serializable
 {

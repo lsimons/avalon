@@ -52,15 +52,13 @@ package org.apache.avalon.composition.data;
 
 import java.io.Serializable;
 
-import org.apache.avalon.meta.info.Type;
-
 
 /**
  * Description of a set of categories.
  *
  * @see CategoryDirective
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:02 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 12:53:48 $
  */
 public class CategoriesDirective extends CategoryDirective implements Serializable
 {

@@ -50,8 +50,6 @@
 
 package org.apache.avalon.composition.model;
 
-import java.util.Map;
-
 import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.parameters.Parameters;
@@ -61,7 +59,7 @@ import org.apache.avalon.meta.info.Type;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2003/10/19 10:31:01 $
+ * @version $Revision: 1.5 $ $Date: 2003/10/28 12:53:48 $
  */
 public interface DeploymentModel extends Model
 {

@@ -52,18 +52,11 @@ package org.apache.avalon.composition.data;
 
 import java.io.Serializable;
 
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.meta.info.DependencyDescriptor;
-import org.apache.avalon.meta.info.ReferenceDescriptor;
-import org.apache.avalon.meta.info.ServiceDescriptor;
-
 /**
  * Abstract base class for DeploymentProfile and ContainmentProfile.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:09 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 12:53:48 $
  */
 public abstract class Profile implements Serializable
 {

@@ -50,13 +50,11 @@
 
 package org.apache.avalon.composition.model;
 
-import org.apache.avalon.framework.CascadingException;
-
 /**
  * Exception to indicate that a profile is unknown.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:21 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 12:53:48 $
  */
 public final class ProfileUnknownException
         extends ProfileException
