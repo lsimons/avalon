@@ -52,7 +52,9 @@ public class PackageRepositoryTestCase
 
         File root = new File( System.getProperty( "basedir" ) );
         m_baseDirectory =
-            ( new File( root, "target/test-classes/org/apache/avalon/extension/test/" ) ).getCanonicalFile();
+          new File( 
+            root, 
+            "../classes/org/apache/avalon/extension/test/" ).getCanonicalFile();
 
         m_pathElement1 = new File( m_baseDirectory, "path1" );
         m_pathElement2 = new File( m_baseDirectory, "path2" );
