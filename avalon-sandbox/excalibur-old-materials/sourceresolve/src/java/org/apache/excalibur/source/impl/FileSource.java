@@ -81,7 +81,7 @@ import org.apache.excalibur.source.impl.validity.FileTimeStampValidity;
  * A {@link ModifiableTraversableSource} for filesystem objects.
  *
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version $Id: FileSource.java,v 1.8 2003/07/08 15:11:47 crafterm Exp $
+ * @version $Id: FileSource.java,v 1.9 2003/11/07 08:15:45 cziegeler Exp $
  */
 
 public class FileSource implements ModifiableTraversableSource, MoveableSource
@@ -526,7 +526,12 @@ public class FileSource implements ModifiableTraversableSource, MoveableSource
                         m_source.getFile().delete();
                     }
                     // Rename temp file to destination file
-                    m_tmpFile.renameTo(m_source.getFile());
+                    if (!m_tmpFile.renameTo(m_source.getFile())) 
+                    {
+                       throw new IOException("Could not rename " + 
+                         m_tmpFile.getAbsolutePath() + 
+                         " to " + m_source.getFile().getAbsolutePath());
+                    }
 
                 }
                 finally
