@@ -91,11 +91,8 @@ public abstract class AbstractService
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
-        m_connectionManager = (ConnectionManager)componentManager.
-            lookup( "org.apache.avalon.cornerstone.services.connection.ConnectionManager" );
-
-        m_socketManager = (SocketManager)componentManager.
-            lookup( "org.apache.avalon.cornerstone.services.sockets.SocketManager" );
+        m_connectionManager = (ConnectionManager)componentManager.lookup( ConnectionManager.ROLE );
+        m_socketManager = (SocketManager)componentManager.lookup( SocketManager.ROLE );
 
         if( m_factory instanceof Composable )
         {
