@@ -21,7 +21,7 @@
         <li>Select the blocks you wish to assemble.</li>
         <li>Write the config.xml file.</li>
         <li>Write the assembly.xml file.</li>
-        <li>Write the server.xml file.</li>
+        <li>Write the environment.xml file.</li>
         <li>Package the component and related resources into a sar file.</li>
       </ol>
     </s1>
@@ -53,19 +53,19 @@
         specification</link>.
       </p>
     </s1>
-    <s1 title="Write the server.xml file">
+    <s1 title="Write the environment.xml file">
       <p>
-        The next stage is to write the server.xml file. The server.xml is used to
+        The next stage is to write the environment.xml file. The environment.xml is used to
         configure the code-based security policy, log management and thread pooling.
-        For more detail on the format of server.xml see the 
-        <link href="server-xml-specification.html">specification</link>.
+        For more detail on the format of environment.xml see the 
+        <link href="environment-xml-specification.html">specification</link>.
       </p>
     </s1>
     <s1 title="Create the sar file">
       <p>
         The sar file format is the standard distribution format of Phoenix Server
         Applications. It is a standard Jar file with a specific directory layout. 
-        The config.xml, server.xml and assembly.xml file must be stored in 
+        The config.xml, environment.xml and assembly.xml file must be stored in 
         <code>SAR-INF/</code> directory of the archive. All jar files, including
         both those that contain blocks and those that contain support classes
         should be stored in the <code>SAR-INF/lib/</code> directory.
@@ -75,7 +75,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.3 $ $Date: 2001/11/05 23:41:03 $
+      $Revision: 1.4 $ $Date: 2001/11/10 21:03:57 $
     </legal>
   </footer>
 </document>
