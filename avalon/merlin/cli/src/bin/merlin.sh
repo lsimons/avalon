@@ -47,7 +47,7 @@ if $cygwin; then
   [ -n "$CLASSPATH" ] && CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
 fi
 
-MERLIN_BOOTSTRAP_JAR=$MERLIN_HOME/bin/lib/@MERLIN_CLI_JAR@
+MERLIN_BOOTSTRAP_JAR=$MERLIN_HOME/system/merlin/jars/@MERLIN_CLI_JAR@
 
 echo "Starting Merlin."
 echo "================"
