@@ -36,7 +36,7 @@ import javax.swing.JComponent;
  * Draws a nice pretty chart given a set of data.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/28 11:47:21 $
+ * @version CVS $Revision: 1.6 $ $Date: 2004/04/05 16:18:05 $
  * @since 4.1
  */
 public class LineChart
@@ -320,8 +320,8 @@ public class LineChart
     {
         if( chartHeight > 0 )
         {
-            int horizonalLineLabeledInterval = (int)Math.ceil(
-                (float)fontHeight / ( yLabelInterval * chartHeight / ( m_max - m_min ) ) );
+            int horizonalLineLabeledInterval = (int)Math.ceil( (float)fontHeight
+                / ( (long)yLabelInterval * chartHeight / ( m_max - m_min ) ) );
             int horizontalLineNumber = 0;
             for( int i = ( (int)Math.ceil( (float)m_min / yLabelInterval ) ) * yLabelInterval;
                  i < m_max; i += yLabelInterval )
