@@ -49,14 +49,32 @@
 */
 package org.apache.avalon.ide.repository;
 
-/**
+/** Exception that indicates a URN problem in the RepositoryTypeRegistry.
+ * 
  * @author Niclas Hedhman, niclas@hedhman.org
  */
-public interface URNDescriptor
+public class InvalidSchemeException extends RepositoryException
 {
-    String getURN();
-    
-    String getName();
-    
-    String getDescription();
+
+    /** Constructor with a short message of the problem.
+     * 
+     * @param message A non-localized, human-readable message in plain english, describing
+     * the problem that has occurred.
+     */
+    public InvalidSchemeException(String message)
+    {
+        super(message);
+    }
+
+    /** Constructor for nested exceptions.
+     * 
+     * @param message A non-localized, human-readable message in plain english, describing
+     * the problem that has occurred.
+     * @param cause The root cause of the exception.
+     */
+    public InvalidSchemeException(String message, Exception cause)
+    {
+        super(message, cause);
+    }
+
 }

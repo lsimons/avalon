@@ -47,111 +47,38 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.ide.repository.tools.common;
+package org.apache.avalon.ide.repository;
 
-import org.apache.avalon.ide.repository.InvalidURNException;
-import org.apache.avalon.ide.repository.URNDescriptor;
-
-/** A simple URNDescriptor container for generic purposes.
+/** This is an interface to describe the Locator mechanism for the Repository
+ * Agent and its factory.
+ * 
+ * A typical Repository is identified by a scheme and an URL, for instance;
+ * <pre>
+ *   maven:http://avalon.apache.org/repository
+ * </pre>
+ * where "maven" is the <i>Scheme</i>, not inclusive of the colon (:), and
+ * "http://avalon.apache.org/repository" is the URL. This interface is only
+ * handling the <i>Scheme</i> part, whereas the URL is a runtime aspect.
  * 
  * @author Niclas Hedhman, niclas@hedhman.org
  */
-public class URNDescriptorImpl implements URNDescriptor
+public interface RepositorySchemeDescriptor
 {
-    private String m_URN;
-    private String m_Name;
-    private String m_Description;
-    
-    public URNDescriptorImpl( String urn, String name, String desc )
-        throws InvalidURNException
-    {
-        m_URN = normalize( urn );
-        m_Name = name;
-        m_Description = desc;
-    }
-    
-    /* (non-Javadoc)
-     * @see org.apache.avalon.repository.tools.URNDescriptor#getURN()
-     */
-    public String getURN()
-    {
-        return m_URN;
-    }
-
-    /* (non-Javadoc)
-     * @see org.apache.avalon.repository.tools.URNDescriptor#getName()
-     */
-    public String getName()
-    {
-        return m_Name;
-    }
-
-    /* (non-Javadoc)
-     * @see org.apache.avalon.repository.tools.URNDescriptor#getDescription()
-     */
-    public String getDescription()
-    {
-        return m_Description;
-    }
-
-    public String toExternalName()
-    {
-        return "urn:" + m_URN;
-    }
-
-    /** Validates a URN name and then calls the parseURN. 
+    /** Returns the Scheme described in the descriptor.
      * 
-     * @param urn to be normalized.
-     * @return A valid type.
-     * @throws InvalidURNException if the URN contains invalid characters.
+     * @return The <i>Scheme</i>, not inclusive of the colon (:)
      */
-    private String normalize(String urn) throws InvalidURNException
-    {
-        int colonCounter = 0;
-        for (int i = 0; i < urn.length(); i++)
-        {
-            char ch = urn.charAt(i);
-            if( ch == ':')
-                colonCounter++;
-            if( colonCounter == 2 )
-                break; // Anything beyond the second colon could be legal.
-                
-            if (!(Character.isLetterOrDigit(ch) || ch == '-' || ch == '_' || ch == ':' ))
-            {
-                throw new InvalidURNException("Illegal characters in URN. Only Letter, Digit, dash and underscored allowed.");
-            }
-        }
-        return parse( urn );
-    }
-
-    /** Drops any initial "urn:" and any trailing [location].
+    String getScheme();
+    
+    /** Returns the official full name of the Scheme.
      * 
-     * @param urn to be parsed for a [type].
-     * @return The type in the URN.
+     * @return A human-readable name of the Scheme.
      */
-    private String parse(String urn)
-    {
-        urn = urn.trim();
-        if (urn.startsWith("urn:"))
-            urn = urn.substring(4);
-        int pos = urn.indexOf(':');
-        if (pos < 0)
-            return urn;
-        return urn.substring(pos + 1);
-    }
+    String getName();
     
-    public String toString()
-    {
-        return toExternalName();
-    }
-    
-    public int hashCode()
-    {
-        return m_URN.hashCode();
-    }
-    
-    public boolean equals( Object o )
-    {
-        return m_URN.equals( o );
-    }
+    /** Returns a longer description of the Scheme.
+     * 
+     * @return A human-readable description of the Scheme.
+     */
+    String getDescription();
 }
