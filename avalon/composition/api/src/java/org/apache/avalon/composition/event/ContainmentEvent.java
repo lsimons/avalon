@@ -48,53 +48,37 @@
 
 */
 
-package org.apache.avalon.activation.appliance;
+package org.apache.avalon.composition.event;
 
-import java.net.URL;
-
-import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.ContainmentModel;
 
+
 /**
- * A block is an appliance that manages a set of subsidiary 
- * appliance instances.
+ * A event object that descirbes a containment model related event.
  *
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/12/29 14:31:21 $
+ * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version $Revision: 1.1 $ $Date: 2003/12/29 14:31:21 $
  */
-public interface Block extends Appliance, Engine
+public class ContainmentEvent extends ModelEvent
 {
-   /**
-    * Return the containment metamodel associated with the block.
-    * @return the containment model
-    */
-    ContainmentModel getContainmentModel();
+    /**
+     * Create a ContainmentEvent instance.
+     *
+     * @param model the source containment model
+     */
+    public ContainmentEvent( final ContainmentModel model )
+    {
+        super( model );
+    }
 
-   /**
-    * Add a model as a child to this block.
-    * WARNING: this method may/will be removed
-    * @param model the model to add as a child of the block
-    * @return the appliance established to handle the model
-    * @exception ApplianceException if a error occurs
-    */
-    //Appliance addModel( Model model ) throws ApplianceException;
-
-   /**
-    * Add a model as a child to this block.
-    * WARNING: this method may/will be removed
-    * @param url the model url
-    * @return the appliance established to handle the model
-    * @exception ApplianceException if a error occurs
-    */
-    //Appliance addModel( URL url ) throws ApplianceException;
-
-   /**
-    * Add a model as a child to this block.
-    * WARNING: this method may/will be removed
-    * @param url the model url
-    * @return the appliance established to handle the model
-    * @exception ApplianceException if a error occurs
-    */
-    //void removeAppliance( String name ) throws ApplianceException;
+    /**
+     * Return the the containment model that generated the event.
+     *
+     * @return the source containment model
+     */
+    public ContainmentModel getContainmentModel()
+    {
+        return (ContainmentModel) super.getModel();
+    }
 
 }

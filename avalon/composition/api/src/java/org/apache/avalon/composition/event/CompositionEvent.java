@@ -48,53 +48,54 @@
 
 */
 
-package org.apache.avalon.activation.appliance;
-
-import java.net.URL;
+package org.apache.avalon.composition.event;
 
 import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.ContainmentModel;
 
+
 /**
- * A block is an appliance that manages a set of subsidiary 
- * appliance instances.
+ * A event raised by a containment model as a result of the 
+ * addition or removal of a subsidiary model.
  *
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/12/29 14:31:21 $
+ * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version $Revision: 1.1 $ $Date: 2003/12/29 14:31:21 $
  */
-public interface Block extends Appliance, Engine
+public class CompositionEvent extends ContainmentEvent
 {
-   /**
-    * Return the containment metamodel associated with the block.
-    * @return the containment model
-    */
-    ContainmentModel getContainmentModel();
+    /**
+     * The model added or removed from the containment model.
+     */
+    private final Model m_child;
 
-   /**
-    * Add a model as a child to this block.
-    * WARNING: this method may/will be removed
-    * @param model the model to add as a child of the block
-    * @return the appliance established to handle the model
-    * @exception ApplianceException if a error occurs
-    */
-    //Appliance addModel( Model model ) throws ApplianceException;
+    /**
+     * Create a CompositionEvent event.
+     *
+     * @param name the base category name
+     */
+    public CompositionEvent( final ContainmentModel source, Model child )
+    {
+        super( source );
+        m_child = child;
+    }
 
-   /**
-    * Add a model as a child to this block.
-    * WARNING: this method may/will be removed
-    * @param url the model url
-    * @return the appliance established to handle the model
-    * @exception ApplianceException if a error occurs
-    */
-    //Appliance addModel( URL url ) throws ApplianceException;
+    /**
+     * Return the child that was added or removed from the containment 
+     * model.
+     *
+     * @return the source containment model
+     */
+    public Model getChild()
+    {
+        return m_child;
+    }
 
-   /**
-    * Add a model as a child to this block.
-    * WARNING: this method may/will be removed
-    * @param url the model url
-    * @return the appliance established to handle the model
-    * @exception ApplianceException if a error occurs
-    */
-    //void removeAppliance( String name ) throws ApplianceException;
-
+    public String toString()
+    {
+        return "composition-event: [source: [" 
+          + getContainmentModel() 
+          + "], child: [" 
+          + getChild() 
+          + "]]";
+    } 
 }

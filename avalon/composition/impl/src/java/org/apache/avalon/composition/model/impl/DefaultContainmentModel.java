@@ -56,6 +56,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.LinkedList;
+import java.util.Iterator;
 import java.util.Hashtable;
 import java.util.ArrayList;
 import java.util.Map;
@@ -73,6 +75,8 @@ import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.data.builder.XMLTargetsCreator;
 import org.apache.avalon.composition.data.builder.ContainmentProfileBuilder;
 import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
+import org.apache.avalon.composition.event.CompositionEvent;
+import org.apache.avalon.composition.event.CompositionEventListener;
 import org.apache.avalon.composition.model.ClassLoaderContext;
 import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.ContainmentModel;
@@ -99,13 +103,15 @@ import org.apache.avalon.meta.info.ServiceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 import org.apache.avalon.meta.info.Type;
 
+import org.apache.avalon.util.exception.ExceptionHelper;
+
 
 /**
  * Containment model implmentation within which composite models are aggregated
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.11 $ $Date: 2003/12/28 22:30:18 $
+ * @version $Revision: 1.12 $ $Date: 2003/12/29 14:31:21 $
  */
 public class DefaultContainmentModel extends DefaultModel 
   implements ContainmentModel
@@ -152,6 +158,8 @@ public class DefaultContainmentModel extends DefaultModel
      * The assigned logging categories.
      */
     private CategoriesDirective m_categories;
+
+    private final LinkedList m_compositionListeners = new LinkedList();
 
     //==============================================================
     // constructor
@@ -251,6 +259,32 @@ public class DefaultContainmentModel extends DefaultModel
     // ContainmentModel
     //==============================================================
 
+
+   /**
+    * Add a composition listener to the model.
+    * @param listener the composition listener
+    */
+    public void addCompositionListener( CompositionEventListener listener )
+    {
+        synchronized( m_compositionListeners )
+        {
+            m_compositionListeners.add( listener );
+        }
+    }
+
+   /**
+    * Remove a composition listener from the model.
+    * @param listener the composition listener
+    */
+    public void removeCompositionListener( CompositionEventListener listener )
+    {
+        synchronized( m_compositionListeners )
+        {
+            m_compositionListeners.remove( listener );
+        }
+    }
+
+
    /**
     * Return the logging categories. 
     * @return the logging categories
@@ -343,9 +377,34 @@ public class DefaultContainmentModel extends DefaultModel
         synchronized( m_models )
         {
             m_models.put( name, model );
+            CompositionEvent event = new CompositionEvent( this, model );
+            fireModelAddedEvent( event );
             return model;
         }
     }
+
+    private void fireModelAddedEvent( CompositionEvent event )
+    {
+        Iterator iterator = m_compositionListeners.iterator();
+        while( iterator.hasNext() )
+        {
+            final CompositionEventListener listener = 
+              (CompositionEventListener) iterator.next();
+            try
+            {
+                listener.modelAdded( event );
+            }
+            catch( Throwable e )
+            {
+                final String message = 
+                  "A composition listener raised an exception";
+                final String error = 
+                  ExceptionHelper.packException( message, e, true );
+                getLogger().warn( error );
+            }
+        }
+    }
+
 
    /**
     * Removal of a named model for the containment model.
@@ -357,7 +416,7 @@ public class DefaultContainmentModel extends DefaultModel
     {
         synchronized( m_models )
         {
-            Object model = m_models.get( name );
+            Model model = (Model) m_models.get( name );
             if( null == name )
             {
                 final String error = 
@@ -369,6 +428,30 @@ public class DefaultContainmentModel extends DefaultModel
             else
             {
                 m_models.remove( name );
+                CompositionEvent event = new CompositionEvent( this, model );
+                fireModelRemovedEvent( event );
+            }
+        }
+    }
+
+    private void fireModelRemovedEvent( CompositionEvent event )
+    {
+        Iterator iterator = m_compositionListeners.iterator();
+        while( iterator.hasNext() )
+        {
+            final CompositionEventListener listener = 
+              (CompositionEventListener) iterator.next();
+            try
+            {
+                listener.modelRemoved( event );
+            }
+            catch( Throwable e )
+            {
+                final String message = 
+                  "A composition listener raised an exception";
+                final String error = 
+                  ExceptionHelper.packException( message, e, true );
+                getLogger().warn( error );
             }
         }
     }

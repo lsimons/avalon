@@ -56,6 +56,7 @@ import org.apache.avalon.composition.data.Profile;
 import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.composition.data.TargetDirective;
+import org.apache.avalon.composition.event.CompositionEventListener;
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 
@@ -65,7 +66,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2003/12/28 22:30:18 $
+ * @version $Revision: 1.9 $ $Date: 2003/12/29 14:31:21 $
  */
 public interface ContainmentModel extends Model
 {
@@ -191,4 +192,15 @@ public interface ContainmentModel extends Model
     */
     void applyTargets( TargetDirective[]targets );
 
+   /**
+    * Add a composition listener to the model.
+    * @param listener the composition listener
+    */
+    void addCompositionListener( CompositionEventListener listener );
+
+   /**
+    * Remove a composition listener from the model.
+    * @param listener the composition listener
+    */
+    void removeCompositionListener( CompositionEventListener listener );
 }

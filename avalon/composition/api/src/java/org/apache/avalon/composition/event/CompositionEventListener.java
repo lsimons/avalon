@@ -48,53 +48,36 @@
 
 */
 
-package org.apache.avalon.activation.appliance;
+package org.apache.avalon.composition.event;
 
-import java.net.URL;
+import java.util.EventListener;
 
-import org.apache.avalon.composition.model.Model;
-import org.apache.avalon.composition.model.ContainmentModel;
 
 /**
- * A block is an appliance that manages a set of subsidiary 
- * appliance instances.
+ * A listener for model composition changes.
  *
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/12/29 14:31:21 $
+ * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version $Revision: 1.1 $ $Date: 2003/12/29 14:31:21 $
  */
-public interface Block extends Appliance, Engine
+public interface CompositionEventListener extends EventListener
 {
-   /**
-    * Return the containment metamodel associated with the block.
-    * @return the containment model
-    */
-    ContainmentModel getContainmentModel();
+    /**
+     * Notify the listener that a model has been added to 
+     * a source containment model.
+     *
+     * @param event the containment event raised by the 
+     *    source containment model
+     */
+    void modelAdded( CompositionEvent event );
 
-   /**
-    * Add a model as a child to this block.
-    * WARNING: this method may/will be removed
-    * @param model the model to add as a child of the block
-    * @return the appliance established to handle the model
-    * @exception ApplianceException if a error occurs
-    */
-    //Appliance addModel( Model model ) throws ApplianceException;
+    /**
+     * Notify the listener that a model has been removed from 
+     * a source containment model.
+     *
+     * @param event the containment event raised by the 
+     *    source containment model
+     */
+    void modelRemoved( CompositionEvent event );
 
-   /**
-    * Add a model as a child to this block.
-    * WARNING: this method may/will be removed
-    * @param url the model url
-    * @return the appliance established to handle the model
-    * @exception ApplianceException if a error occurs
-    */
-    //Appliance addModel( URL url ) throws ApplianceException;
-
-   /**
-    * Add a model as a child to this block.
-    * WARNING: this method may/will be removed
-    * @param url the model url
-    * @return the appliance established to handle the model
-    * @exception ApplianceException if a error occurs
-    */
-    //void removeAppliance( String name ) throws ApplianceException;
 
 }

@@ -48,53 +48,47 @@
 
 */
 
-package org.apache.avalon.activation.appliance;
+package org.apache.avalon.composition.event;
 
-import java.net.URL;
+import java.util.EventObject;
 
 import org.apache.avalon.composition.model.Model;
-import org.apache.avalon.composition.model.ContainmentModel;
+
 
 /**
- * A block is an appliance that manages a set of subsidiary 
- * appliance instances.
+ * A event object that descirbes a model related event.
  *
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/12/29 14:31:21 $
+ * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version $Revision: 1.1 $ $Date: 2003/12/29 14:31:21 $
  */
-public interface Block extends Appliance, Engine
+public abstract class ModelEvent extends EventObject
 {
-   /**
-    * Return the containment metamodel associated with the block.
-    * @return the containment model
-    */
-    ContainmentModel getContainmentModel();
+    /**
+     * The source model.
+     */
+    private final Model m_model;
 
-   /**
-    * Add a model as a child to this block.
-    * WARNING: this method may/will be removed
-    * @param model the model to add as a child of the block
-    * @return the appliance established to handle the model
-    * @exception ApplianceException if a error occurs
-    */
-    //Appliance addModel( Model model ) throws ApplianceException;
+    /**
+     * Create a CategoriesDirective instance.
+     *
+     * @param name the base category name
+     */
+    public ModelEvent( final Model model )
+    {
+        super( model );
+        if( null == model ) 
+          throw new NullPointerException( "model" ); 
+        m_model = model;
+    }
 
-   /**
-    * Add a model as a child to this block.
-    * WARNING: this method may/will be removed
-    * @param url the model url
-    * @return the appliance established to handle the model
-    * @exception ApplianceException if a error occurs
-    */
-    //Appliance addModel( URL url ) throws ApplianceException;
-
-   /**
-    * Add a model as a child to this block.
-    * WARNING: this method may/will be removed
-    * @param url the model url
-    * @return the appliance established to handle the model
-    * @exception ApplianceException if a error occurs
-    */
-    //void removeAppliance( String name ) throws ApplianceException;
+    /**
+     * Return the the model that generated the event.
+     *
+     * @return the source model
+     */
+    public Model getModel()
+    {
+        return m_model;
+    }
 
 }
