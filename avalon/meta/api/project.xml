@@ -1,7 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
+
   <extend>${basedir}/../project.xml</extend>
+
+  <groupId>&avalon-meta-id;</groupId>
+  <id>&avalon-meta-api-id;</id>
+  <currentVersion>&avalon-meta-api-version;</currentVersion>
+
   <id>avalon-meta-api</id>
   <name>Avalon Meta Model API</name>
   <package>org.apache.avalon.meta</package>
@@ -19,18 +28,19 @@ Component meta model classes used by the assembly package.  The meta model inclu
     <!-- normal dependencies -->
 
     <dependency>
-      <groupId>avalon-framework</groupId>
-      <artifactId>avalon-framework-api</artifactId>
-      <version>4.1.5</version>
+      <groupId>&avalon-framework-id;</groupId>
+      <artifactId>&avalon-framework-api-id;</artifactId>
+      <version>&avalon-framework-api-version;</version>
     </dependency>
 
     <!-- test dependencies -->
 
     <dependency>
-      <groupId>avalon-framework</groupId> <!-- testing -->
-      <artifactId>avalon-framework-impl</artifactId>
-      <version>4.1.5</version>
+      <groupId>&avalon-framework-id;</groupId>
+      <artifactId>&avalon-framework-impl-id;</artifactId>
+      <version>&avalon-framework-impl-version;</version>
     </dependency>
+
     <dependency>
       <id>xml-apis</id>
       <version>2.0.2</version>

@@ -1,0 +1,2 @@
+<!ENTITY % meta-entities SYSTEM "file:../../versioning/avalon-meta.ent"> %meta-entities;
+<!ENTITY % framework-entities SYSTEM "file:../../versioning/avalon-framework.ent"> %framework-entities;
