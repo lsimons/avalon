@@ -57,7 +57,7 @@
         </ant:copy>
     </postGoal>
 
-    <postGoal name="java:jar">
+    <postGoal name="jar:jar">
         <!-- build big jar -->
         <ant:mkdir dir="${maven.build.dir}/libs"/>
         <deploy:copy-deps
@@ -67,14 +67,14 @@
         <ant:jar destfile="${maven.build.dir}/${pom.artifactId}-complete-${pom.currentVersion}.jar" duplicate="preserve">
             <ant:manifest>
                 <ant:attribute name="Extension-Name" value="${pom.aritfactId}-complete"/>
-                <ant:attribute name="Specification-Vendor" value="Apache Software Foundation"/>
+                <ant:attribute name="Specification-Vendor" value="The Apache Software Foundation"/>
                 <ant:attribute name="Specification-Version" value="${pom.currentVersion}"/>
-                <ant:attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+                <ant:attribute name="Implementation-Vendor" value="The Apache Software Foundation"/>
                 <ant:attribute name="Implementation-Version" value="${pom.currentVersion}"/>
             </ant:manifest>
 
             <ant:zipfileset src="${maven.build.dir}/${maven.final.name}.jar"/>
-            <ant:zipgroupfileset dir="${maven.build.dir}/libs" includes="*.zip"/>
+            <ant:zipgroupfileset dir="${maven.build.dir}/libs" includes="*.jar"/>
         </ant:jar>
     </postGoal>
 
