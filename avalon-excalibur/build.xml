@@ -226,8 +226,18 @@
     <!-- ************************************************************ -->
     <!-- This target depends on all of the projects above.  Relies on -->
     <!--  Ant to decide on the correct build order. -->
-    <target name="build-all-subprojects" depends="prj-altrmi, prj-assembly, prj-baxter, prj-bzip2, prj-cache, prj-cli, prj-collections, prj-component, prj-concurrent, prj-configuration, prj-container, prj-containerkit, prj-converter, prj-datasource, prj-event, prj-extension, prj-fortress, prj-i18n, prj-instrument, prj-instrument-client, prj-instrument-manager, prj-io, prj-jprocess, prj-logger, prj-meta, prj-monitor, prj-naming, prj-pool, prj-sourceresolve, prj-store, prj-tar, prj-testcase, prj-thread, prj-threadcontext, prj-tweety, prj-util, prj-xmlutil, prj-zip">
-    </target>
+    <target name="build-all-subprojects"
+        depends="prj-zip, prj-cli, prj-bzip2, prj-baxter, prj-io,
+                prj-naming, prj-jprocess, prj-tar, prj-threadcontext,
+                prj-collections, prj-converter, prj-i18n, prj-extension,
+                prj-concurrent, prj-containerkit, prj-altrmi,
+                prj-container, prj-cache, prj-configuration, prj-event,
+                prj-thread, prj-monitor, prj-fortress, prj-datasource,
+                prj-instrument, prj-store, prj-logger, prj-meta,
+                prj-pool, prj-tweety, prj-util, prj-xmlutil,
+                prj-sourceresolve, prj-instrument-client,
+                prj-instrument-manager, prj-component, prj-assembly,
+                prj-testcase "/>
 
     <!-- ************************************************************ -->
     <!-- Actual Build Targets                                         -->
@@ -446,6 +456,9 @@
     <!-- Clean -->
     <target name="clean" description="Cleans each of the subprojects">
         <delete dir="${build.dir}" />
+        <delete>
+            <fileset dir="." includes="**/*~" defaultexcludes="no"/>
+        </delete>
 
         <ant target="build-all-subprojects">
             <property name="subproject-target" value="real-clean"/>
