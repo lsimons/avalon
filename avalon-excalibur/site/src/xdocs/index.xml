@@ -12,8 +12,26 @@
   <body>
     <s1 title="Introduction">
       <p>
-        Excalibur is blah blah
+        Avalon Excalibur was created in order to ease development of
+        new projects.  To that end, Excalibur contains a number of
+        ready to use components and utilities that handle everything
+        from command line parsing to thread concurrency management.
       </p>
+      <p>
+        The components in the Excalibur package have been well tested
+        and do work reliably.  There is an associated project called
+        "Scratchpad" that is a staging area for new Components.  When
+        they have been sufficiently tested, we will include them in
+        Excalibur.
+      </p>
+      <warn>
+        The scratchpad code is provided for your benefit so that we
+        can get feedback on whether the package is needed or wanted,
+        and we can get error reports on it.  The components in
+        Scratchpad are of varying quality or stability, depending on
+        where they are in the development cycle.  They are <strong>NOT</strong>
+        meant for production use.  You have been warned.
+      </warn>
     </s1>
     <s1 title="Excalibur Sub-Projects">
       <s2 title="AltRMI - Alternative to RMI">
@@ -26,7 +44,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/04/03 14:44:36 $
+      $Revision: 1.2 $ $Date: 2002/04/05 08:03:46 $
     </legal>
   </footer>
 </document>
