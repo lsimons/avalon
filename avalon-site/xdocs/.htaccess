@@ -5,4 +5,16 @@ RedirectMatch ^/sandbox/api(.*) http://avalon.apache.org/merlin/api
 RedirectMatch ^/cornerstone(.*) http://avalon.apache.org/components
 RedirectMatch ^/merlin/starting/installation/3.0(.*) http://avalon.apache.org/merlin/starting/installation
 RedirectMatch ^/merlin/starting/installation/3.2(.*) http://avalon.apache.org/merlin/starting/installation
-RedirectMatch ^/merlin/starting/installation/3.2(.*) http://avalon.apache.org/merlin/starting/installation
+RedirectMatch ^/bindownload.cgi http://avalon.apache.org/download.cgi
+RedirectMatch ^/code-standards.html http://avalon.apache.org/community/process/code-standards.html
+RedirectMatch ^/framework/inversion-of-control.html http://avalon.apache.org/framework/cop
+RedirectMatch ^/framework/separation-of-interface-and-implementation.html http://avalon.apache.org/framework/cop/guide-patterns-ioc.html
+RedirectMatch ^/framework/inversion-of-control.html http://avalon.apache.org/framework/cop
+RedirectMatch ^/api/org/apache/avalon/excalibur/packagemanager/impl http://avalon.apache.org/util/api/org/apache/avalon/extension/manager
+RedirectMatch ^/assemblers(.*) http://avalon.apache.org/phoenix/assemblers
+RedirectMatch ^/avalon(.*) http://avalon.apache.org/
+RedirectMatch ^/avalon/logging(.*) http://avalon.apache.org/logging
+RedirectMatch ^/avalon/merlin(.*) http://avalon.apache.org/merlin
+RedirectMatch ^/avalon/util(.*) http://avalon.apache.org/util
+RedirectMatch ^/fortress(.*) http://avalon.apache.org/excalibur/fortress
+
