@@ -59,6 +59,9 @@ import org.apache.log.Priority;
  *       </tr><tr>
  *         <td><b>priority</b></td>
  *         <td>Priority value of the logging event.</td>
+ *       </tr><tr>
+ *         <td><b>thread</b></td>
+ *         <td>Name of the thread which logged the event.</td>
  *       </tr>
  *     </table>
  *   </p></li>
@@ -96,7 +99,8 @@ import org.apache.log.Priority;
  * </p>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.27 $ $Date: 2002/03/27 22:07:56 $
+ * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
+ * @version CVS $Revision: 1.28 $ $Date: 2002/04/07 05:09:45 $
  */
 public class PatternFormatter
     implements Formatter, org.apache.log.Formatter
@@ -109,6 +113,7 @@ public class PatternFormatter
     private final static int TYPE_RELATIVE_TIME = 6;
     private final static int TYPE_THROWABLE = 7;
     private final static int TYPE_PRIORITY = 8;
+    private final static int TYPE_THREAD = 9;
 
     /**
      * The maximum value used for TYPEs. Subclasses can define their own TYPEs
@@ -123,6 +128,7 @@ public class PatternFormatter
     private final static String TYPE_RELATIVE_TIME_STR = "rtime";
     private final static String TYPE_THROWABLE_STR = "throwable";
     private final static String TYPE_PRIORITY_STR = "priority";
+    private final static String TYPE_THREAD_STR = "thread";
 
     private final static String SPACE_16 = "                ";
     private final static String SPACE_8 = "        ";
@@ -465,6 +471,9 @@ public class PatternFormatter
                 {
                     return getContextMap( event.getContextMap(), run.m_format );
                 }
+                
+            case TYPE_THREAD:
+                return getThread( run.m_format );
 
             default:
                 throw new IllegalStateException( "Unknown Pattern specification." + run.m_type );
@@ -489,6 +498,14 @@ public class PatternFormatter
     protected String getPriority( final Priority priority, final String format )
     {
         return priority.getName();
+    }
+
+    /**
+     * Get formatted thread string.
+     */
+    protected String getThread( final String format )
+    {
+        return Thread.currentThread().getName();
     }
 
     /**
@@ -616,6 +633,8 @@ public class PatternFormatter
             return TYPE_TIME;
         else if( type.equalsIgnoreCase( TYPE_RELATIVE_TIME_STR ) )
             return TYPE_RELATIVE_TIME;
+        else if( type.equalsIgnoreCase( TYPE_THREAD_STR ) )
+            return TYPE_THREAD;
         else if( type.equalsIgnoreCase( TYPE_THROWABLE_STR ) )
         {
             return TYPE_THROWABLE;
