@@ -9,12 +9,12 @@
     <person name="Stuart Roebuck" email="stuart.roebuck@adolos.co.uk" id="SR"/>
   </devs>
 <release version="1.0b4" date="Unreleased">
-<!--
-
--->
   <action dev="PD" type="add">
     Also added auxilliary method to allow retrieval of current ContextStack without 
     creating it if it does not exist.
+  </action>
+  <action dev="PD" type="add">
+    Added basic unit tests for the logkit formatters.
   </action>
   <action dev="PD" type="add">
     Added method to allow arbitrary ContextStacks to be bound to current thread via
