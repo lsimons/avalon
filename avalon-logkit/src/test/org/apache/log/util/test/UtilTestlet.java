@@ -25,7 +25,8 @@ public final class UtilTestlet
 
     private final static String MSG = "No soup for you!";
     private final static String RMSG = MSG;
-
+    private final static String METHOD_RESULT = UtilTestlet.class.getName() + ".";
+    
     private String getResult( final ByteArrayOutputStream output )
     {
         final String result = output.toString();
@@ -33,7 +34,27 @@ public final class UtilTestlet
         return result;
     }
 
+    public void testStackIntrospector()
+        throws Exception
+    {
+        /*
+        final ByteArrayOutputStream output = new ByteArrayOutputStream();
+        final StreamTarget target = new StreamTarget( output, METHOD_FORMATTER );
+        final Hierarchy hierarchy = new Hierarchy();
+        hierarchy.setDefaultLogTarget( target );
+
+        final Logger logger = hierarchy.getLoggerFor( "myLogger" );
+
+        logger.debug( MSG );
+        final String result = getResult( output );
+        final String expected = METHOD_RESULT + "testStackIntrospector()";
+        assert( "StackIntrospector", result.startsWith( expected ) );     
+        //result of StackIntrospector.getCallerMethod( Logger.class );
+        */
+    }
+
     public void testOutputStreamLogger()
+        throws Exception
     {
         final ByteArrayOutputStream output = new ByteArrayOutputStream();
         final StreamTarget target = new StreamTarget( output, FORMATTER );
