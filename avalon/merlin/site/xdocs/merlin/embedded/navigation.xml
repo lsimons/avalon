@@ -36,8 +36,8 @@
       <item name="Getting Started" href="/starting/index.html"/>
       <item name="Merlin System" href="/merlin/index.html">
         <item name="Object Model" href="/merlin/uml.html"/>
-        <item name="Subsystems"/>
-        <item name="Embedding">
+        <item name="Subsystems" href="/merlin/systems/index.html"/>
+        <item name="Embedding" href="/merlin/embedded/index.html">
           <item name="CLI" href="/merlin/embedded/cli.html"/>
           <item name="Application" href="/merlin/embedded/main.html"/>
           <item name="Servlet" href="/merlin/embedded/servlet.html"/>
