@@ -197,6 +197,19 @@
             </batchtest>
         </junit>
 
+        <!-- Test XFC Ant task -->
+        <taskdef name="xfc"
+             classname="org.apache.excalibur.xfc.ant.XFCTask">
+          <classpath refid="test.class.path"/>
+        </taskdef>
+
+        <xfc>
+            <input module="ecm"
+                  context="build/testclasses/org/apache/excalibur/xfc/test/ecm.roles:ecm.xconf"/>
+            <output module="fortress"
+                  context="build/tests/fortress-ant-generated.roles:fortress-generated.xconf"/>
+        </xfc>
+
     </target>
 
     <target name="test-reports" depends="test" description="Generate Reports for the unit tests">
