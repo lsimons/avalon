@@ -10,7 +10,6 @@ package org.apache.avalon.cornerstone.services.connection;
 import java.io.IOException;
 import java.net.ProtocolException;
 import java.net.Socket;
-import org.apache.avalon.framework.component.Component;
 
 /**
  * This interface is the way in which handlers are created.
@@ -18,7 +17,6 @@ import org.apache.avalon.framework.component.Component;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface ConnectionHandler
-    extends Component
 {
     /**
      * Handle a connection.
@@ -31,4 +29,3 @@ public interface ConnectionHandler
     void handleConnection( Socket connection )
         throws IOException, ProtocolException;
 }
-
