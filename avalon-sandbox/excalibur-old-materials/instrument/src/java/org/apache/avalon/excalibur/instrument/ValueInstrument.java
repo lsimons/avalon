@@ -13,7 +13,7 @@ package org.apache.avalon.excalibur.instrument;
  *  profiling things like system memory, or the size of a pool or cache.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/04/03 13:48:49 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/05/13 12:28:36 $
  * @since 4.1
  */
 public class ValueInstrument
@@ -32,7 +32,7 @@ public class ValueInstrument
     {
         super( name );
     }
-    
+
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
@@ -46,7 +46,7 @@ public class ValueInstrument
     public void setValue( int value )
     {
         InstrumentProxy proxy = getInstrumentProxy();
-        if ( proxy != null )
+        if( proxy != null )
         {
             proxy.setValue( value );
         }

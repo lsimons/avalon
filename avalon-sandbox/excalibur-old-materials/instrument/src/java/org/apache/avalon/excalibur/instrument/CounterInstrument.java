@@ -14,7 +14,7 @@ package org.apache.avalon.excalibur.instrument;
  *  times that a method is accessed.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/04/22 09:52:42 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/05/13 12:28:36 $
  * @since 4.1
  */
 public class CounterInstrument
@@ -33,7 +33,7 @@ public class CounterInstrument
     {
         super( name );
     }
-    
+
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
@@ -45,12 +45,12 @@ public class CounterInstrument
     public void increment()
     {
         InstrumentProxy proxy = getInstrumentProxy();
-        if ( proxy != null )
+        if( proxy != null )
         {
             proxy.increment( 1 );
         }
     }
-    
+
     /**
      * Increments the Instrument by a specified count.  This method is
      *  optimized to be extremely light weight when an InstrumentManager is not
@@ -61,7 +61,7 @@ public class CounterInstrument
     public void increment( int count )
     {
         InstrumentProxy proxy = getInstrumentProxy();
-        if ( proxy != null )
+        if( proxy != null )
         {
             proxy.increment( count );
         }

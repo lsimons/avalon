@@ -17,7 +17,7 @@ package org.apache.avalon.excalibur.instrument;
  *  so as not to reduce performance when they are not being used.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/04/03 13:48:49 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/05/13 12:28:36 $
  * @since 4.1
  */
 public interface Instrumentable
@@ -25,14 +25,14 @@ public interface Instrumentable
     /**
      * Empty Instrument array for use in hierarchical Instrumentable systems.
      */
-    Instrument[] EMPTY_INSTRUMENT_ARRAY = new Instrument[] {};
-    
+    Instrument[] EMPTY_INSTRUMENT_ARRAY = new Instrument[]{};
+
     /**
      * Empty Instrumentable array for use in hierarchical Instrumentable
      *  systems.
      */
-    Instrumentable[] EMPTY_INSTRUMENTABLE_ARRAY = new Instrumentable[] {};
-    
+    Instrumentable[] EMPTY_INSTRUMENTABLE_ARRAY = new Instrumentable[]{};
+
     /**
      * Sets the name for the Instrumentable.  The Instrumentable Name is used
      *  to uniquely identify the Instrumentable during the configuration of
@@ -47,7 +47,7 @@ public interface Instrumentable
      * @param name The name used to identify a Instrumentable.
      */
     void setInstrumentableName( String name );
-    
+
     /**
      * Gets the name of the Instrumentable.
      *
