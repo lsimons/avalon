@@ -1,0 +1,13 @@
+
+bsh.help.getblock = "usage: getblock( appName, blockName ), gets a named blocks for an app";
+
+/*
+	By Paul Hammant : Specifically for Phoenix
+*/
+Object getblock( String appName, String blockName ) {
+
+    kernel = this.interpreter.get("phoenix-kernel");
+    return kernel.getApplication(appName).getBlock(blockName);
+    
+}
+

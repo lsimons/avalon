@@ -13,7 +13,7 @@
             logger="logs"/>
 
         <component role="org.apache.avalon.phoenix.interfaces.Kernel"
-            class="org.apache.avalon.phoenix.components.kernel.DefaultKernel"
+            class="@KERNEL-CLASS@"
             logger="kernel"/>
 
         <component role="org.apache.avalon.phoenix.interfaces.SystemManager"

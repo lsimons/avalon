@@ -118,6 +118,9 @@ Legal:
         <available property="wrapper.present" classname="com.silveregg.wrapper.WrapperManager">
             <classpath refid="project.class.path"/>
         </available>
+        <available property="beanshell.present" classname="bsh.util.JConsole">
+            <classpath refid="project.class.path"/>
+        </available>
     </target>
 
     <target name="pretty">
@@ -189,6 +192,8 @@ Legal:
                 unless="jmx.present"/>
             <exclude name="org/apache/avalon/phoenix/launcher/DaemonLauncher.java"
                 unless="wrapper.present"/>
+            <exclude name="org/apache/avalon/phoenix/components/kernel/beanshell/*.java"
+                unless="beanshell.present"/>                
         </javac>
 
         <copy todir="${build.classes}">
@@ -245,6 +250,12 @@ Legal:
             <include name="org/apache/avalon/phoenix/interfaces/**"/>
             <exclude name="org/apache/avalon/phoenix/launcher/**"/>
         </jar>
+        
+        <jar jarfile="${build.lib}/phoenix-bsh-commands.jar">
+            <zipfileset dir="src/bsh" prefix="bsh/commands/">
+                <include name="**"/>
+            </zipfileset>
+        </jar>        
 
     </target>
 
@@ -308,6 +319,16 @@ Legal:
         <copy file="${jmxtools.jar}" todir="${bin.dist.lib}"/>
     </target>
 
+    <!-- Copy BeanShell jars -->
+    <target name="dist-beanshell" description="Copies Beanshell jars" if="beanshell.jars">    
+        <copy file="${build.lib}/phoenix-bsh-commands.jar" todir="${bin.dist.lib}"/>
+        <copy todir="${bin.dist.lib}/">
+            <fileset dir="${lib.dir}">
+                <include name="bsh-*"/>
+            </fileset>
+        </copy>
+    </target>
+    
     <!-- Create the lite build -->
     <target name="dist-lite" depends="dist-lite-jmx"
         description="generates the Phoenix distribution without the javadocs">
@@ -320,7 +341,7 @@ Legal:
 
         <mkdir dir="${bin.dist.bin}"/>
         <mkdir dir="${bin.dist.apps}"/>
-        <mkdir dir="${bin.dist.ext}"/>
+        <mkdir dir="${bin.dist.ext}"/>     
         <mkdir dir="${bin.dist.lib}"/>
         <mkdir dir="${bin.dist.conf}"/>
 
@@ -333,7 +354,7 @@ Legal:
         </copy>
         <copy file="${build.lib}/phoenix-loader.jar" todir="${bin.dist.bin}/"/>
         <copy file="${build.lib}/phoenix-engine.jar" todir="${bin.dist.bin}"/>
-
+        
         <copy file="${logkit.jar}" todir="${bin.dist.lib}"/>
         <copy file="${framework.jar}" todir="${bin.dist.lib}"/>
         <copy todir="${bin.dist.lib}">
@@ -341,8 +362,17 @@ Legal:
             <include name="excalibur*.jar"/>
           </fileset>
         </copy>
+        
         <copy file="${xerces.jar}" todir="${bin.dist.lib}"/>
-        <copy file="${conf.dir}/kernel.xml" todir="${bin.dist.conf}"/>
+        <filter token="KERNEL-CLASS" value="${kernel.impl.class}"/>        
+        <copy todir="${bin.dist.conf}" filtering="on">
+            <fileset dir="${conf.dir}">
+                <include name="kernel.xml"/>
+            </fileset>
+        </copy>
+        
+        <antcall target="dist-beanshell"/>
+        
         <!--
         This was not copying for relatively local ..\jakarta-avalon\tools\lib\xerces.jar - PH
         <copy todir="${bin.dist.lib}">
