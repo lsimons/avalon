@@ -60,9 +60,10 @@ import java.io.StringWriter;
 /**
  * A set of utilities to inspect current stack frame.
  *
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @author <a href="mailto:stuart.roebuck@adolos.com">Stuart Roebuck</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/02/04 13:50:33 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/02/05 06:16:31 $
  */
 public final class StackIntrospector
 {
@@ -164,6 +165,7 @@ public final class StackIntrospector
      * created, this includes the path name and the source filename and line
      * number if the source was compiled with debugging on.
      *
+     * @param clazz the Class to search for on stack to find caller of
      * @return The method path name in the form "the.package.path.Method"
      */
     public static final String getCallerMethod( final Class clazz )
@@ -193,12 +195,18 @@ public final class StackIntrospector
             {
                 case 0:
                     //Strip the first line from input
-                    if( '\n' == ch ) state = 1;
+                    if( '\n' == ch ) 
+                    {
+                        state = 1;
+                    }
                     break;
 
                 case 1:
                     //strip 't' from 'at'
-                    if( 't' == ch ) state = 2;
+                    if( 't' == ch )
+                    {
+                        state = 2;
+                    }
                     break;
 
                 case 2:
@@ -210,7 +218,9 @@ public final class StackIntrospector
                 case 3:
                     //accumulate all characters to end of line
                     if( '\n' != ch )
+                    {
                         line.append( ch );
+                    }
                     else
                     {
                         //At this stage you have the line that looks like
@@ -281,12 +291,18 @@ public final class StackIntrospector
             {
                 case 0:
                     //Strip the first line from input
-                    if( '\n' == ch ) state = 1;
+                    if( '\n' == ch ) 
+                    {
+                        state = 1;
+                    }
                     break;
 
                 case 1:
                     //strip 't' from 'at'
-                    if( 't' == ch ) state = 2;
+                    if( 't' == ch )
+                    {
+                        state = 2;
+                    }
                     break;
 
                 case 2:
@@ -298,7 +314,9 @@ public final class StackIntrospector
                 case 3:
                     //accumulate all characters to end of line
                     if( '\n' != ch )
+                    {
                         line.append( ch );
+                    }
                     else
                     {
                         //At this stage you have the line that looks like

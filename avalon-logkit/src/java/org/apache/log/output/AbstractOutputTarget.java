@@ -82,6 +82,11 @@ public abstract class AbstractOutputTarget
     {
     }
 
+
+    /**
+     * Creation of a new abstract output target instance.
+     * @param formatter the formatter to apply
+     */
     public AbstractOutputTarget( final Formatter formatter )
     {
         m_formatter = formatter;
@@ -133,6 +138,10 @@ public abstract class AbstractOutputTarget
     {
     }
 
+   /**
+    * Process a log event.
+    * @param event the event to process
+    */
     protected void doProcessEvent( LogEvent event )
     {
         final String data = format( event );
