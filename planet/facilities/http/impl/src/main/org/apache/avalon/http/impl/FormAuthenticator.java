@@ -27,7 +27,7 @@ import org.apache.avalon.framework.parameters.Parameters;
  * @avalon.service type="org.mortbay.http.Authenticator"
  */
 public class FormAuthenticator extends org.mortbay.jetty.servlet.FormAuthenticator
-    implements Serviceable, LogEnabled, Parameterizable
+    implements Parameterizable
 {
     public void parameterize( Parameters params )
         throws ParameterException
