@@ -78,7 +78,7 @@ Legal:
         <pathelement path="${java.class.path}" />
 
         <fileset dir="${lib.dir}">
-            <include name="*.jar" />
+            <include name="**/*.jar" />
         </fileset>
         <pathelement path="${build.classes}" />
     </path>
@@ -477,9 +477,7 @@ Legal:
         <copy todir="${src.dist.lib}">
           <fileset dir="${lib.dir}">
             <include name="excalibur*.jar"/>
-            <include name="xdoclet*.jar"/>
-            <include name="xjavadoc*.jar"/>
-            <include name="LICENSE.xdoclet.txt"/>
+            <include name="xdoclet/*.*"/>
             <include name="README.txt"/>
           </fileset>
         </copy>
@@ -584,8 +582,7 @@ Legal:
             </fileset>
             <fileset dir=".">
                 <include name="lib/**"/>
-                <exclude name="lib/xdoclet*.jar"/>
-                <exclude name="lib/xjavadoc*.jar"/>
+                <exclude name="lib/xdoclet/*.*"/>
                 <exclude name="lib/xerces.jar"/>
             </fileset>
             <fileset dir="build">
