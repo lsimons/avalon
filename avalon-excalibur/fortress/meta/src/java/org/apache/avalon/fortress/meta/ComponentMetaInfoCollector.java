@@ -202,7 +202,7 @@ public class ComponentMetaInfoCollector extends AbstractQdoxTask
         while( it.hasNext() )
         {
             final JavaClass javaClass = (JavaClass)it.next();
-            DocletTag tag = javaClass.getTagByName( "avalon.role" );
+            DocletTag tag = javaClass.getTagByName( "x-avalon.role" );
             if( null != tag )
             {
                 m_services.add(javaClass.getFullyQualifiedName());
