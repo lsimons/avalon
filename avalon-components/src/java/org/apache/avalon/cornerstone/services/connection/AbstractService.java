@@ -7,27 +7,28 @@
  */
 package org.apache.avalon.cornerstone.services.connection;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
-import java.io.IOException;
 import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
 import org.apache.avalon.cornerstone.services.sockets.SocketManager;
 import org.apache.avalon.cornerstone.services.threads.ThreadManager;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.phoenix.BlockContext;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.component.ComponentException;
 
 /**
  * Helper class to create protocol services.
@@ -36,7 +37,7 @@ import org.apache.avalon.phoenix.BlockContext;
  */
 public abstract class AbstractService
     extends AbstractLogEnabled
-    implements Contextualizable, Composable, Configurable, Initializable, Disposable
+    implements Contextualizable, Serviceable, Configurable, Initializable, Disposable
 {
     protected ConnectionManager m_connectionManager;
     protected SocketManager m_socketManager;
@@ -65,52 +66,47 @@ public abstract class AbstractService
     public void enableLogging( final Logger logger )
     {
         super.enableLogging( logger );
-        setupLogger( m_factory );
+        ContainerUtil.enableLogging( m_factory, logger );
     }
 
     public void contextualize( final Context context )
         throws ContextException
     {
-        if( m_factory instanceof Contextualizable )
-        {
-            ( (Contextualizable)m_factory ).contextualize( context );
-        }
+        ContainerUtil.contextualize( m_factory, context );
     }
 
-    public void compose( final ComponentManager componentManager )
-        throws ComponentException
+    public void service( final ServiceManager serviceManager )
+        throws ServiceException
     {
-        m_connectionManager = (ConnectionManager)componentManager.lookup( ConnectionManager.ROLE );
-        m_socketManager = (SocketManager)componentManager.lookup( SocketManager.ROLE );
-        if ( null != getThreadPoolName() )
+        m_connectionManager = (ConnectionManager)serviceManager.lookup( ConnectionManager.ROLE );
+        m_socketManager = (SocketManager)serviceManager.lookup( SocketManager.ROLE );
+        if( null != getThreadPoolName() )
         {
             m_threadManager =
-                (ThreadManager)componentManager.lookup( ThreadManager.ROLE );
+                (ThreadManager)serviceManager.lookup( ThreadManager.ROLE );
             m_threadPool = m_threadManager.getThreadPool( getThreadPoolName() );
         }
-
-        if( m_factory instanceof Composable )
+        ContainerUtil.service( m_factory, serviceManager );
+        try
         {
-            ( (Composable)m_factory ).compose( componentManager );
+            ContainerUtil.compose( m_factory, new AdaptingComponentManager( serviceManager ) );
+        }
+        catch( final ComponentException ce )
+        {
+            throw new ServiceException( ce.getMessage(), ce );
         }
     }
 
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
-        if( m_factory instanceof Configurable )
-        {
-            ( (Configurable)m_factory ).configure( configuration );
-        }
+        ContainerUtil.configure( m_factory, configuration );
     }
 
     public void initialize()
         throws Exception
     {
-        if( m_factory instanceof Initializable )
-        {
-            ( (Initializable)m_factory ).initialize();
-        }
+        ContainerUtil.initialize( m_factory );
 
         if( null == m_connectionName )
         {
@@ -160,7 +156,8 @@ public abstract class AbstractService
         }
         catch( final Exception e )
         {
-            getLogger().warn( "Error disconnecting", e );
+            final String message = "Error disconnecting";
+            getLogger().warn( message, e );
         }
 
         try
@@ -169,7 +166,8 @@ public abstract class AbstractService
         }
         catch( final IOException ioe )
         {
-            getLogger().warn( "Error closing server socket", ioe );
+            final String message = "Error closing server socket";
+            getLogger().warn( message, ioe );
         }
     }
 }
