@@ -50,7 +50,8 @@ Legal:
   <property name="build.classes" value="${build.dir}/classes"/>
   <property name="build.javadocs" value="${build.dir}/javadocs"/>
   <property name="build.docs" value="${build.dir}/docs"/>
-  <property name="build.xdocs" value="${build.dir}/xdocs"/>
+  <property name="build.context" value="${build.dir}/documentation"/>
+  <property name="build.xdocs" value="${build.context}/xdocs/logkit"/>
 
   <!-- Set the properties for source directories -->
   <property name="src.dir" value="src"/>
@@ -62,6 +63,7 @@ Legal:
   <property name="www.dir" value="www"/>
   <property name="avalon.skin" value="${tools.dir}/lib/jakarta-style.jar"/>
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>
+  <property name="context.dir" value="../jakarta-avalon/src/documentation"/>
   <property name="javadocs.dir" value="${docs.dir}/api"/>
 
   <property name="dist.name" value="${Name}-${version}"/>
@@ -79,6 +81,7 @@ Legal:
   </path>
 
   <path id="tools.class.path">
+    <pathelement location="${java.home}/../lib/tools.jar"/>
     <fileset dir="${tools.dir}/lib">
       <exclude name="ant.jar" />
     </fileset>
@@ -217,58 +220,64 @@ Legal:
 
   </target>
 
-  <!-- Prepares the documentation directory -->
-  <target name="xdocs">
 
+  <!-- Prepares the documentation directory -->
+  <target name="xdocs" depends="jar">
+
+    <mkdir dir="${build.context}"/>
     <mkdir dir="${build.xdocs}"/>
     <mkdir dir="${build.docs}"/>
+    <mkdir dir="${build.dir}/work"/>
+
+    <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
+    <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
+    <property name="framework.base" value="http://jakarta.apache.org/avalon/framework"/>
+    <property name="phoenix.base" value="http://jakarta.apache.org/avalon/phoenix"/>
+    <property name="cornerstone.base" value="http://jakarta.apache.org/avalon/cornerstone"/>
+    <property name="logkit.base" value="http://jakarta.apache.org/avalon/logkit"/>
+    <property name="testlet.base" value="http://jakarta.apache.org/avalon/testlet"/>
 
     <filter token="year" value="${year}"/>
-    <filter token="AVALON_BASE" value="http://jakarta.apache.org/avalon"/>
-    <filter token="FRAMEWORK_BASE" value="http://jakarta.apache.org/avalon/framework"/>
+    <filter token="AVALON_BASE" value="${avalon.base}"/>
+    <filter token="FRAMEWORK_BASE" value="${framework.base}"/>
+    <filter token="PHOENIX_BASE" value="${phoenix.base}"/>
+    <filter token="CORNERSTONE_BASE" value="${cornerstone.base}"/>
+    <filter token="LOGKIT_BASE" value="${logkit.base}"/>
+    <filter token="TESTLET_BASE" value="${testlet.base}"/>
 
-    <copy todir="${build.xdocs}" filtering="on">
-      <fileset dir="${xdocs.dir}">
-        <exclude name="**/images/**"/>
+    <copy todir="${build.context}" filtering="on">
+      <fileset dir="${context.dir}">
+        <exclude name="resources/**"/>
+	<exclude name="xdocs"/>
       </fileset>
     </copy>
 
-    <copy todir="${build.docs}" filtering="off">
+    <copy todir="${build.context}/xdocs/logkit" filtering="on">
+      <fileset dir="${xdocs.dir}"/>
+    </copy>
+
+    <copy todir="${build.context}/resources" filtering="off">
+      <fileset dir="${context.dir}/resources"/>
       <fileset dir="${xdocs.dir}">
         <include name="**/images/**"/>
       </fileset>
     </copy>
 
-    <taskdef name="stylebook" 
-             classname="org.apache.tools.ant.taskdefs.optional.StyleBook">
-      <classpath refid="tools.class.path"/>
-    </taskdef>
-
-    <stylebook targetdirectory="${build.docs}"
-               book="${build.xdocs}/book.xml"
-               skindirectory="${avalon.skin}">
-      <classpath refid="tools.class.path" />
-    </stylebook>
-
+    <java classname="org.apache.cocoon.Main" fork="true">
+      <arg value="-c${build.context}/"/>
+      <arg value="-d${build.docs}"/>
+      <arg value="-w${build.dir}/work"/>
+      <arg value="-l${build.dir}/work/cocoon.log"/>
+      <arg value="-uINFO"/>
+      <arg value="-f${xdocs.dir}/logkit.uris"/>
+      <classpath>
+        <path refid="tools.class.path"/>
+	<fileset dir="${build.lib}"/>
+      </classpath>
+    </java>
   </target>
 
-  <!-- Create the Local site documentation -->
-  <target name="local-xdocs" depends="xdocs">
-
-    <delete>
-      <fileset dir="${docs.dir}">
-        <exclude name="api/**"/>
-      </fileset>
-    </delete>
-    <mkdir dir="${docs.dir}"/>
-
-    <copy todir="${docs.dir}">
-      <fileset dir="${build.docs}" />
-    </copy>
-
-  </target>
-
-  <target name="local-docs" depends="local-javadocs,local-xdocs"/>
+  <target name="local-docs" depends="local-javadocs,xdocs"/>
 
   <!-- Update the www directory -->
   <target name="site-docs" depends="local-docs">
@@ -380,6 +389,8 @@ Legal:
   <!-- Completely build all dists -->
   <target name="distributions">
     <mkdir dir="${dist.base}"/>
+
+    <copy file="${build.lib}/logkit.jar" tofile="${tools.dir}/lib/logkit.jar"/>
 
     <antcall target="dist">
       <param name="dist.dir" value="${dist.name}" />
