@@ -37,7 +37,7 @@ public class TestE extends AbstractLogEnabled
     }
 
    /**
-    * @avalon.dependency key= "a" type="org.apache.avalon.test.testa.A"
+    * @avalon.dependency key="a" type="org.apache.avalon.test.testa.A"
     */
     public void service( ServiceManager manager ) throws ServiceException
     {

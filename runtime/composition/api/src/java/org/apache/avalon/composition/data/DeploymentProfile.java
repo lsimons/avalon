@@ -18,6 +18,7 @@
 package org.apache.avalon.composition.data;
 
 import java.io.Serializable;
+import java.lang.Comparable;
 
 import org.apache.avalon.logging.data.CategoriesDirective;
 
@@ -27,14 +28,25 @@ import org.apache.avalon.logging.data.CategoriesDirective;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Id$
  */
-public abstract class DeploymentProfile implements Serializable
+public abstract class DeploymentProfile implements Serializable, Comparable
 {
     //--------------------------------------------------------------------------
     // static
     //--------------------------------------------------------------------------
 
+   /**
+    * System default activation policy.
+    */
     public static final int DEFAULT = -1;
+
+   /**
+    * Activation on startup enabled.
+    */
     public static final int ENABLED = 1;
+
+   /**
+    * Activation on startup disabled.
+    */
     public static final int DISABLED = 0;
 
     private static final CategoriesDirective EMPTY_CATEGORIES = 
@@ -145,5 +157,12 @@ public abstract class DeploymentProfile implements Serializable
     public String toString()
     {
         return "[" + getName() + "]";
+    }
+
+    public int compareTo( Object object )
+    {
+        String name = this.toString();
+        String other = object.toString();
+        return name.compareTo( other );
     }
 }

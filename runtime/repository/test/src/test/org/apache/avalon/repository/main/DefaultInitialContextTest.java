@@ -41,7 +41,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  */
 public class DefaultInitialContextTest extends TestCase
 {
-    private static final String KEY = "test";
+    private static final String KEY = "merlin";
 
     private static final File BASEDIR = getWorkDir();
 
@@ -54,9 +54,7 @@ public class DefaultInitialContextTest extends TestCase
         }
         else
         {
-            path = System.getProperty( "basedir" );
-            File root = new File( path );
-            return new File( root, "target/test-classes" );
+            throw new IllegalStateException( "Missing 'project.dir' property." );
         }
     }
 
@@ -73,7 +71,7 @@ public class DefaultInitialContextTest extends TestCase
     {
         DefaultInitialContextFactory factory = 
           new DefaultInitialContextFactory( KEY, BASEDIR );
-        factory.setCacheDirectory( getMavenRepositoryDirectory() );
+        factory.setCacheDirectory( getRepositoryDirectory() );
         factory.setHosts( getDefaultHosts() );
 
         InitialContext context = factory.createInitialContext();
@@ -81,7 +79,7 @@ public class DefaultInitialContextTest extends TestCase
         assertEquals( 
           "cache", 
           context.getInitialCacheDirectory(), 
-          getMavenRepositoryDirectory() );
+          getRepositoryDirectory() );
 
         String[] defaults = getDefaultHosts();
         String[] hosts = context.getInitialHosts();
@@ -100,50 +98,18 @@ public class DefaultInitialContextTest extends TestCase
         Repository repository = (Repository) context.getRepository() ;
         assertNotNull( repository ) ;
    
-        Artifact artifact = Artifact.createArtifact( 
-          "avalon-framework", "avalon-framework-api", "4.1.5" );
+        Artifact artifact = Artifact.createArtifact( "@REPO_API_SPEC@" );
         URL url = repository.getResource( artifact );
         assertNotNull( "url", url );
     }
 
-    private static File getMavenRepositoryDirectory()
+    private static File getRepositoryDirectory()
     {
-        return new File( getMavenHomeDirectory(), "repository" );
-    }
-
-    private static File getMavenHomeDirectory()
-    {
-        return new File( getMavenHome() );
-    }
-
-    private static String getMavenHome()
-    {
-        try
-        {
-            String local = 
-              System.getProperty( 
-                "maven.home.local", 
-                Env.getEnvVariable( "MAVEN_HOME_LOCAL" ) );
-            if( null != local ) return local;
-
-            return System.getProperty( "user.home" ) + File.separator + ".maven";
-
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Internal error while attempting to access environment.";
-            final String message = 
-              ExceptionHelper.packException( error, e, true );
-            throw new RuntimeException( message );
-        }
+        return new File( System.getProperty( "project.repository.cache.path" ) );
     }
 
     private static String[] getDefaultHosts()
     {
-        return new String[]{ 
-          "http://www.dpml.net/",
-          "http://www.ibiblio.org/maven/"
-        };
+        return new String[0];
     }
 }
