@@ -80,8 +80,7 @@ import javax.management.ObjectName;
  * </ul>
  *
  * @jmx.mbean
- * @avalon.meta.version 1.0
- * @avalon.meta.name jmx-hello
+ * @avalon.type version="1.0" name="jmx-hello"
  */
 public class HelloSample extends AbstractLogEnabled implements HelloSampleMBean, Serviceable, Configurable, Initializable, Executable, Disposable {
     private MBeanServer jmxServer_;
@@ -93,7 +92,7 @@ public class HelloSample extends AbstractLogEnabled implements HelloSampleMBean,
      * can be resolved using the supplied service manager.
      *
      * @param manager the service manager
-     * @avalon.meta.dependency key="jmx-server" type="javax.management.MBeanServer"
+     * @avalon.dependency key="jmx-server" type="javax.management.MBeanServer"
      */
     public void service(ServiceManager manager) throws ServiceException {
         jmxServer_ = (MBeanServer) manager.lookup("jmx-server");

@@ -19,9 +19,7 @@ import javax.management.ObjectName;
 /**
  * Wrapper of the mx4j HttpAdaptor to use it in the Avalon Framework.
  *
- * @avalon.meta.version 1.0
- * @avalon.meta.name jmx-http
- * @avalon.meta.lifestyle singleton
+ * @avalon.type version="1.0" name="jmx-http" lifestyle="singleton"
  */
 public class HTTPAdaptorWrapper extends AbstractLogEnabled implements Serviceable, Configurable, Startable {
     private HttpAdaptor wrapped_;
@@ -38,7 +36,7 @@ public class HTTPAdaptorWrapper extends AbstractLogEnabled implements Serviceabl
      * can be resolved using the supplied service manager.
      *
      * @param manager the service manager
-     * @avalon.meta.dependency key="jmx-server" type="javax.management.MBeanServer"
+     * @avalon.dependency key="jmx-server" type="javax.management.MBeanServer"
      */
     public void service(ServiceManager manager) throws ServiceException {
         jmxServer_ = (MBeanServer) manager.lookup("jmx-server");

@@ -65,9 +65,8 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * This component include stage "my.avalon.jmx.MBeanable" and implements MBeanable interface.
  *
  * @jmx.mbean
- * @avalon.meta.version 1.0
- * @avalon.meta.name jmx-hello2
- * @avalon.meta.stage type="my.avalon.jmx.MBeanable"
+ * @avalon.type version="1.0" name="jmx-hello2" 
+ * @avalon.stage type="my.avalon.jmx.MBeanable"
  */
 public class HelloSample2 extends AbstractLogEnabled implements HelloSample2MBean, MBeanable, Executable {
     public String getName() {

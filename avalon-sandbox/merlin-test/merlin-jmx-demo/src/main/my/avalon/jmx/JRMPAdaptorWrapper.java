@@ -22,11 +22,10 @@ import javax.naming.Context;
 /**
  * Wrapper of the mx4j RMIAdaptor to use it in the Avalon Framework.
  *
- * @avalon.meta.version 1.0
- * @avalon.meta.name jmx-rmi
- * @avalon.meta.lifestyle singleton
+ * @avalon.type version="1.0" name="jmx-rmi" lifestyle="singleton"
  */
-public class JRMPAdaptorWrapper extends AbstractLogEnabled implements Serviceable, Configurable, Startable {
+public class JRMPAdaptorWrapper extends AbstractLogEnabled implements Serviceable, Configurable, Startable 
+{
     private MBeanServer   jmxServer_;
     private JRMPAdaptor   wrapped_;
     private ObjectName    jmxName_;
@@ -40,7 +39,7 @@ public class JRMPAdaptorWrapper extends AbstractLogEnabled implements Serviceabl
      * can be resolved using the supplied service manager.
      *
      * @param manager the service manager
-     * @avalon.meta.dependency key="jmx-server" type="javax.management.MBeanServer"
+     * @avalon.dependency key="jmx-server" type="javax.management.MBeanServer"
      */
     public void service(ServiceManager manager) throws ServiceException {
         jmxServer_ = (MBeanServer) manager.lookup("jmx-server");

@@ -67,9 +67,8 @@ import java.util.Properties;
  * Useness for monitoring.
  *
  * @jmx.mbean
- * @avalon.meta.version 1.0
- * @avalon.meta.name system-info
- * @avalon.meta.stage type="my.avalon.jmx.MBeanable"
+ * @avalon.type version="1.0" name="system-info"
+ * @avalon.stage type="my.avalon.jmx.MBeanable"
  */
 public class SystemInfo extends AbstractLogEnabled implements Initializable, SystemInfoMBean, MBeanable {
     private ThreadGroup rootThreadGroup_;

@@ -66,9 +66,8 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * "a meta.verifier.VerifyException" is throw, but Component is accessible.
  *
  * @jmx.mbean
- * @avalon.meta.version 1.0
- * @avalon.meta.name jmx-hello3
- * @avalon.meta.stage type="my.avalon.jmx.MBeanable"
+ * @avalon.type version="1.0" name="jmx-hello3"
+ * @avalon.stage type="my.avalon.jmx.MBeanable"
  */
 public class HelloSample3 extends AbstractLogEnabled implements HelloSample3MBean, Executable {
     /**
