@@ -32,7 +32,7 @@ import java.lang.reflect.Constructor;
  * creation of domain specific criteria.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class Criteria extends HashMap
 {
@@ -146,6 +146,15 @@ public class Criteria extends HashMap
     }
 
    /**
+    * Return the parameter keys associated with the criteria.
+    * @return the keys
+    */
+    protected String[] getKeys()
+    {
+        return Parameter.getKeys( getParameters() );
+    }
+
+   /**
     * Return the parameter associated to the criteria.
     * @return the parameters
     */
@@ -179,4 +188,6 @@ public class Criteria extends HashMap
             return getParameter( key.toString() );
         }
     }
+
+
 }

@@ -30,7 +30,7 @@ import java.util.Enumeration ;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class Defaults extends Properties
 {
@@ -343,6 +343,28 @@ public class Defaults extends Properties
                 }
             }
         }
+    }
+
+   /**
+    * Read in a static properties resource relative to a supplied class.
+    * The implementation will attempt to locate a property file colocated
+    * with the class with the name [class].properties.
+    *
+    * @param ref a class used to establish a classloader and anchors 
+    *    relative path references
+    * @return the static properties
+    */
+    public static Properties getStaticProperties( Class ref ) throws IOException
+    {
+        final Properties properties = new Properties();
+        final String address = ref.toString().replace( '.','/' );
+        final String path = address + ".properties";
+        InputStream input = ref.getResourceAsStream( path );
+        if( null != input )
+        {
+            properties.load( input );
+        }
+        return properties;
     }
 
    /**
