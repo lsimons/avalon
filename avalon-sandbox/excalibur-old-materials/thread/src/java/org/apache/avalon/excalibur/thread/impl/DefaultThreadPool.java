@@ -135,7 +135,6 @@ public class DefaultThreadPool
      * Retrieve a worker thread from pool.
      *
      * @return the worker thread retrieved from pool
-     * @throws Exception if an error occurs
      */
     protected WorkerThread getWorker()
     {
