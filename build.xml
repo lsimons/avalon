@@ -29,8 +29,8 @@
 
   <target name="setup" depends="check-magic-home,declare-magic-home">
     <ant dir="." antfile="${magic.dir}/setup.xml"/>
-    <taskdef name="unbar" classpath="magic.path"
-      classname="org.apache.avalon.tools.tasks.UnbarTask">
+    <taskdef name="unbar"
+             classname="org.apache.avalon.tools.tasks.UnbarTask">
       <classpath >
         <pathelement location="${user.home}/.ant/lib/avalon-tools-magic.jar"/>
       </classpath>
