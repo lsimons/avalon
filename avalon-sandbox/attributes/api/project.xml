@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+    <extend>${basedir}/../project.xml</extend>
+    <id>avalon-attributes-api</id>
+    <name>Avalon Attribute Compiler API</name>
+    <package>org.apache.avalon.attributes</package>
+    
+    <currentVersion>0.1</currentVersion>
+    <inceptionYear>2003</inceptionYear>
+    <shortDescription>Proof-of-concept client API for Attributes in Java.</shortDescription>
+    
+    <description>
+        A precompiler for java that enables the use of attributes as seen in C#.
+    </description>
+    
+    <dependencies>
+    </dependencies>
+    
+    <packageGroups>
+        <packageGroup>
+            <title>Application Program Interface (API)</title>
+            <packages>org.apache.avalon.attributes</packages>
+        </packageGroup>
+    </packageGroups>
+    
+</project>
