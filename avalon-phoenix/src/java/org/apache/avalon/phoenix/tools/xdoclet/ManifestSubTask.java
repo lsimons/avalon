@@ -18,7 +18,7 @@ import xdoclet.XDocletException;
  *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2002/05/12 07:07:32 $
+ * @version $Revision: 1.5 $ $Date: 2002/06/27 00:53:40 $
  */
 public class ManifestSubTask
     extends TemplateSubTask
@@ -31,7 +31,6 @@ public class ManifestSubTask
 
     private static String c_classPattern;
 
-    private String m_templatePath;
     private String m_manifestFile;
 
     public ManifestSubTask()
@@ -48,7 +47,6 @@ public class ManifestSubTask
 
     public void setTemplatePath( final String templatePath )
     {
-        m_templatePath = templatePath;
         setTemplateFile( new File( templatePath ) );
     }
 
