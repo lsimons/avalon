@@ -39,39 +39,123 @@ import java.util.TimeZone;
  */
 public class Context extends Task
 {
+   /**
+    * The reference name of the context object withing the current 
+    * ant project.
+    */
     public static final String KEY = "project.context";
+
+   /**
+    * The property name of the project key.
+    */
     public static final String PROJECT_KEY = "project.key";
 
+
+   /**
+    * The value of the immutable target directory name.
+    */
     public static final String TARGET = "target";
+
+   /**
+    * The value of the immutable target build directory name.
+    */
     public static final String BUILD = "build";
+
+   /**
+    * The value of the immutable target classes directory name.
+    */
     public static final String CLASSES = "classes";
+
+   /**
+    * The value of the immutable target deliverables directory name.
+    */
     public static final String DELIVERABLES = "deliverables";
+
+   /**
+    * The value of the immutable target test classes directory name.
+    */
     public static final String TEST_CLASSES = "test-classes";
+
+   /**
+    * The value of the immutable target test reports directory name.
+    */
     public static final String TEST_REPORTS = "test-reports";
+
+   /**
+    * The value of the immutable target temp directory name.
+    */
     public static final String TEMP = "temp";
+
+   /**
+    * The value of the immutable target test directory name.
+    */
     public static final String TEST = "test";
+
+   /**
+    * The value of the immutable target docs directory name.
+    */
     public static final String DOCS = "docs";
 
+   /**
+    * The value of the immutable user.properties filename.
+    */
     private static final String USER_PROPERTIES = "user.properties";
+
+   /**
+    * The value of the immutable build.properties filename.
+    */
     private static final String BUILD_PROPERTIES = "build.properties";
 
+   /**
+    * The value of the immutable project.src property key.
+    */
     public static final String SRC_KEY = "project.src";
+
+   /**
+    * The value of the default project.src property value.
+    */
     public static final String SRC_VALUE = "src";
 
+   /**
+    * The value of the default project.src.main property value.
+    */
     public static final String SRC_MAIN = "main";
+
+   /**
+    * The value of the immutable project.src.main key.
+    */
     public static final String SRC_MAIN_KEY = "project.src.main";
 
+   /**
+    * The value of the immutable project.src.config key.
+    */
     public static final String SRC_CONFIG_KEY = "project.src.conf";
+
+   /**
+    * The value of the default project.src.cofig property value.
+    */
     public static final String SRC_CONFIG = "conf";
 
     public static final String SRC_TEST_KEY = "project.src.test";
+
+   /**
+    * The value of the default project.src.test property value.
+    */
     public static final String SRC_TEST = "test";
 
+   /**
+    * The value of the immutable project.etc key.
+    */
     public static final String ETC_KEY = "project.etc";
+
+   /**
+    * The value of the default project.etc default value.
+    */
     public static final String ETC_VALUE = "etc";
 
    /**
-    * If the project does not have a refernce assigned to 
+    * Reuturn the context object for the project.  
+    * If the project does not have a reference assigned to 
     * the name 'project.context' then a new context is created and 
     * assigned.
     *
@@ -115,6 +199,10 @@ public class Context extends Task
     private File m_docs;
     private File m_test;
     
+   /**
+    * Set the unique key for this project.
+    * @param key the unique key
+    */
     public void setKey( final String key )
     {
         m_key = key;
