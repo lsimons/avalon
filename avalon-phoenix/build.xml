@@ -36,7 +36,7 @@ Legal:
 
   <property name="build.debug" value="on"/>
   <property name="build.optimize" value="off"/>
-  <property name="build.deprecation" value="on"/>
+  <property name="build.deprecation" value="off"/>
 
   <!-- Set the properties for intermediate directory -->
   <property name="build.dir" value="build"/>
