@@ -64,6 +64,10 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.excalibur.instrument.CounterInstrument;
+import org.apache.excalibur.instrument.Instrument;
+import org.apache.excalibur.instrument.Instrumentable;
+import org.apache.excalibur.instrument.ValueInstrument;
 import org.apache.excalibur.store.Store;
 import org.apache.excalibur.store.StoreJanitor;
 
@@ -80,12 +84,13 @@ import org.apache.excalibur.store.StoreJanitor;
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: MRUMemoryStore.java,v 1.1 2003/11/09 12:47:17 leosimons Exp $
+ * @version CVS $Id: MRUMemoryStore.java,v 1.2 2003/12/11 14:19:19 sylvain Exp $
  */
-public final class MRUMemoryStore
+public class MRUMemoryStore
     extends AbstractLogEnabled
-    implements Store, Parameterizable, Serviceable, Disposable, ThreadSafe
+    implements Store, Parameterizable, Serviceable, Disposable, ThreadSafe, Instrumentable
 {
+    private String m_instrumentableName;
     private int m_maxobjects;
     private boolean m_persistent;
     private Hashtable m_cache;
@@ -93,6 +98,10 @@ public final class MRUMemoryStore
     private Store m_persistentStore;
     private StoreJanitor m_storeJanitor;
     private ServiceManager m_manager;
+    
+    private ValueInstrument m_sizeInstrument = new ValueInstrument("size");
+    private CounterInstrument m_hitsInstrument = new CounterInstrument("hits");
+    private CounterInstrument m_missesInstrument = new CounterInstrument("misses");
 
     /**
      * Get components of the ComponentLocator
@@ -242,6 +251,7 @@ public final class MRUMemoryStore
         m_cache.put( key, value );
         m_mrulist.remove( key );
         m_mrulist.addFirst( key );
+        m_sizeInstrument.setValue( m_mrulist.size() );
     }
 
     /**
@@ -262,6 +272,7 @@ public final class MRUMemoryStore
             {
                 getLogger().debug( "Found key: " + key.toString() );
             }
+            m_hitsInstrument.increment();
             return value;
         }
 
@@ -282,16 +293,16 @@ public final class MRUMemoryStore
                     {
                         hold( key, value );
                     }
+                    m_hitsInstrument.increment();
                     return value;
                 }
                 catch( Exception e )
                 {
                     getLogger().error( "Error in get()!", e );
-                    return null;
                 }
             }
         }
-
+        m_missesInstrument.increment();
         return null;
     }
 
@@ -309,6 +320,8 @@ public final class MRUMemoryStore
         }
         m_cache.remove( key );
         m_mrulist.remove( key );
+        m_sizeInstrument.setValue( m_mrulist.size() );
+        
         if( m_persistent && key != null )
         {
             m_persistentStore.remove( key );
@@ -330,6 +343,7 @@ public final class MRUMemoryStore
             }
             remove( key );
         }
+        m_sizeInstrument.setValue( 0 );
     }
 
     /**
@@ -409,6 +423,8 @@ public final class MRUMemoryStore
                         }
                     }
                 }
+                
+                m_sizeInstrument.setValue( m_mrulist.size() );
             }
         }
         catch( NoSuchElementException e )
@@ -433,6 +449,25 @@ public final class MRUMemoryStore
         if( object == null ) return false;
 
         return ( object instanceof java.io.Serializable );
+    }
+
+    public void setInstrumentableName(String name)
+    {
+        m_instrumentableName = name;    
+    }
+
+    public String getInstrumentableName()
+    {
+        return m_instrumentableName;
+    }
+
+    public Instrument[] getInstruments()
+    {
+        return new Instrument[] { m_sizeInstrument, m_hitsInstrument, m_missesInstrument };
+    }
+
+    public Instrumentable[] getChildInstrumentables() {
+        return Instrumentable.EMPTY_INSTRUMENTABLE_ARRAY;
     }
 }
 

@@ -59,6 +59,10 @@ import EDU.oswego.cs.dl.util.concurrent.Sync;
 
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.excalibur.instrument.CounterInstrument;
+import org.apache.excalibur.instrument.Instrument;
+import org.apache.excalibur.instrument.Instrumentable;
+import org.apache.excalibur.instrument.ValueInstrument;
 import org.apache.excalibur.store.Store;
 
 /**
@@ -66,11 +70,17 @@ import org.apache.excalibur.store.Store;
  * using a read/write lock.
  * 
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Id: AbstractReadWriteStore.java,v 1.1 2003/11/09 12:47:17 leosimons Exp $
+ * @version CVS $Id: AbstractReadWriteStore.java,v 1.2 2003/12/11 14:19:19 sylvain Exp $
  */
 public abstract class AbstractReadWriteStore
 extends AbstractLogEnabled
 implements Store, ThreadSafe {
+
+    private ValueInstrument m_sizeInstrument = new ValueInstrument("size");
+    private CounterInstrument m_hitsInstrument = new CounterInstrument("hits");
+    private CounterInstrument m_missesInstrument = new CounterInstrument("misses");
+
+    private String m_instrumentableName;
 
     /** The lock */
     protected ReadWriteLock lock = new FIFOReadWriteLock();
@@ -90,7 +100,7 @@ implements Store, ThreadSafe {
             sync.acquire();
             try 
             {
-                this.doGet(key);
+                value = this.doGet(key);
             }
             finally 
             {
@@ -100,6 +110,15 @@ implements Store, ThreadSafe {
         catch (InterruptedException ignore)
         {
         } 
+        
+        if ( null == value )
+        {
+            m_missesInstrument.increment();
+        }
+        else
+        {
+            m_hitsInstrument.increment();
+        }
         
         return value;
     }
@@ -122,6 +141,7 @@ implements Store, ThreadSafe {
             try 
             {
                 this.doStore(key, value);
+                m_sizeInstrument.setValue( doGetSize() );
             } 
             finally 
             {
@@ -130,7 +150,8 @@ implements Store, ThreadSafe {
         }
         catch (InterruptedException ignore)
         {
-        } 
+        }
+        
     }
 
     /**
@@ -146,6 +167,7 @@ implements Store, ThreadSafe {
             try 
             {
                 this.doFree();
+                m_sizeInstrument.setValue( doGetSize() );
             } 
             finally 
             {
@@ -175,6 +197,7 @@ implements Store, ThreadSafe {
             try 
             {
                 this.doClear();
+                m_sizeInstrument.setValue( 0 );
             }
             finally 
             {
@@ -183,7 +206,7 @@ implements Store, ThreadSafe {
         }
         catch (InterruptedException ignore)
         {
-        } 
+        }
     }
 
     /**
@@ -200,6 +223,7 @@ implements Store, ThreadSafe {
             try 
             {
                 this.doRemove(key);
+                m_sizeInstrument.setValue( doGetSize() );
             }
             finally 
             {
@@ -208,7 +232,7 @@ implements Store, ThreadSafe {
         }
         catch (InterruptedException ignore)
         {
-        } 
+        }
     }
 
     /**
@@ -283,6 +307,25 @@ implements Store, ThreadSafe {
         {
             return 0;
         } 
+    }
+
+    public void setInstrumentableName(String name)
+    {
+        m_instrumentableName = name;    
+    }
+
+    public String getInstrumentableName()
+    {
+        return m_instrumentableName;
+    }
+
+    public Instrument[] getInstruments()
+    {
+        return new Instrument[] { m_sizeInstrument, m_hitsInstrument, m_missesInstrument };
+    }
+
+    public Instrumentable[] getChildInstrumentables() {
+        return Instrumentable.EMPTY_INSTRUMENTABLE_ARRAY;
     }
 
     /**
