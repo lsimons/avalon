@@ -55,7 +55,8 @@ import java.util.Arrays;
  * Basic class describing an instance of option.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/03/22 12:46:22 $
+ * @author <a href="mailto:leo.sutic at inspireinfrastructure.com">Leo Sutic</a>
+ * @version $Revision: 1.5 $ $Date: 2003/03/24 09:03:32 $
  * @since 4.0
  */
 public final class CLOption
@@ -65,8 +66,14 @@ public final class CLOption
      */
     public static final int TEXT_ARGUMENT = 0;
 
+    /**
+     * Default descriptor. Required, since code assumes that getDescriptor will never return null.
+     */
+    private static final CLOptionDescriptor TEXT_ARGUMENT_DESCRIPTOR = 
+        new CLOptionDescriptor( null, CLOptionDescriptor.ARGUMENT_OPTIONAL, TEXT_ARGUMENT, null );
+    
     private String[] m_arguments;
-    private CLOptionDescriptor m_descriptor;
+    private CLOptionDescriptor m_descriptor = TEXT_ARGUMENT_DESCRIPTOR;
 
     /**
      * Retrieve argument to option if it takes arguments.
@@ -118,11 +125,14 @@ public final class CLOption
     /**
      * Constructor taking an descriptor
      *
-     * @param descriptor the descriptor
+     * @param descriptor the descriptor iff null, will default to a "text argument" descriptor.
      */
     public CLOption( final CLOptionDescriptor descriptor )
     {
-        m_descriptor = descriptor;
+        if( descriptor != null )
+        {
+            m_descriptor = descriptor;
+        }
     }
 
     /**
