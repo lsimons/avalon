@@ -57,7 +57,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * </ul>
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.14 $ $Date: 2002/05/18 09:05:36 $
+ * @version $Revision: 1.15 $ $Date: 2002/05/19 05:24:58 $
  */
 public class SarVerifier
     extends AbstractLogEnabled
@@ -364,6 +364,12 @@ public class SarVerifier
             getServiceClasses( block.getName(),
                                block.getBlockInfo().getServices(),
                                classLoader );
+
+        ///TODO: Remove next lines
+        final Verifier verifier = new Verifier();
+        setupLogger( verifier );
+        verifier.
+            verifyComponent( block.getName(), clazz, interfaces );
 
         for( int i = 0; i < interfaces.length; i++ )
         {
