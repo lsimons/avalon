@@ -57,7 +57,7 @@ public class Hierarchy
     public Hierarchy()
     {
         m_errorHandler = new DefaultErrorHandler();
-        m_rootLogger = new Logger( m_errorHandler, "", null, null );
+        m_rootLogger = new Logger( this, "", null, null );
 
         //Setup default output target to print to console
         final PatternFormatter formatter = new PatternFormatter( FORMAT );
