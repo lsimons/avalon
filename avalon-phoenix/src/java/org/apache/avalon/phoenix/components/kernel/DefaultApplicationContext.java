@@ -74,7 +74,8 @@ class DefaultApplicationContext
             lookup( ConfigurationRepository.ROLE );
         m_systemManager = (SystemManager)serviceManager.
             lookup( SystemManager.ROLE );
-        m_validator = (ConfigurationValidator) serviceManager.lookup( ConfigurationValidator.ROLE );
+        m_validator = (ConfigurationValidator) serviceManager.
+            lookup( ConfigurationValidator.ROLE );
     }
 
     public SarMetaData getMetaData()
