@@ -20,6 +20,8 @@ package org.apache.avalon.merlin.impl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Properties;
@@ -760,9 +762,19 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
                 }
                 else
                 {
-                    final String error = 
-                      "Unable to resolve the block path [" + value + "].";
-                    throw new KernelRuntimeException( error, e );
+                    if( e instanceof MalformedURLException )
+                    {
+                        FileNotFoundException fnfe = new FileNotFoundException( value );
+                        final String error = 
+                          "Unable to resolve the block path [" + value + "].";
+                        throw new KernelRuntimeException( error, fnfe );
+                    }
+                    else
+                    {
+                        final String error = 
+                          "Unable to resolve the block path [" + value + "].";
+                        throw new KernelRuntimeException( error, e );
+                    }
                 }
             }
         }
