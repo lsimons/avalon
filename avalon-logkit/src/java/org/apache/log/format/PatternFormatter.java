@@ -25,7 +25,7 @@ import org.apache.log.*;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.10 $ $Date: 2001/07/26 15:54:41 $
+ * @version CVS $Revision: 1.11 $ $Date: 2001/07/26 17:34:21 $
  */
 public class PatternFormatter
     implements Formatter
@@ -38,6 +38,13 @@ public class PatternFormatter
     protected final static int         TYPE_RELATIVE_TIME   = 6;
     protected final static int         TYPE_THROWABLE       = 7;
     protected final static int         TYPE_PRIORITY        = 8;
+
+    /**
+     * The maximum value used for TYPEs. Subclasses can define their own TYPEs
+     * starting at <code>MAX_TYPE + 1</code>.
+     */
+    protected final static int         MAX_TYPE             = TYPE_PRIORITY;
+
 
     protected final static String      TYPE_CATEGORY_STR      = "category";
     protected final static String      TYPE_CONTEXT_STR       = "context";
@@ -58,12 +65,12 @@ public class PatternFormatter
 
     protected static class PatternRun
     {
-        String             m_data;
-        boolean            m_rightJustify;
-        int                m_minSize;
-        int                m_maxSize;
-        int                m_type;
-        String             m_format;
+        public String     m_data;
+        public boolean    m_rightJustify;
+        public int        m_minSize;
+        public int        m_maxSize;
+        public int        m_type;
+        public String     m_format;
     }
 
     protected PatternRun                      m_formatSpecification[];
@@ -387,19 +394,6 @@ public class PatternFormatter
         }
 
         return str;
-    }
-
-
-    /**
-     * Utility method for extended options.
-     *
-     * @param event the log event
-     * @param format ancilliary format parameter - allowed to be null
-     * @return the formatted string
-     */
-    protected String getExtension( final LogEvent event, final String format )
-    {
-        return null;
     }
 
     /**
