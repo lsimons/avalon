@@ -17,8 +17,8 @@ public interface FilterTarget
 {
     /**
      * Add a target to output chain.
-   *
-   * @param target the log target
-   */
+     *
+     * @param target the log target
+     */
     void addTarget( LogTarget target );
 }
