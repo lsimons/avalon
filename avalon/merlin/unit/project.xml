@@ -169,11 +169,12 @@
   
   <build>
 
-    <sourceDirectory>src/java</sourceDirectory>
-    <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+    <sourceDirectory>${basedir}/src/java/</sourceDirectory>
+    <unitTestSourceDirectory>${basedir}/src/test/</unitTestSourceDirectory>
 
     <unitTest>
       <includes>
+        <include>**/*Test.*</include>
         <include>**/*TestCase.*</include>
       </includes>
       <excludes>
@@ -181,8 +182,8 @@
       </excludes>
       <resources>
         <resource>
-          <directory>${basedir}/src/test</directory>
-          <includes> 
+          <directory>${basedir}/src/java</directory>
+          <includes>
             <include>**/*.dtd</include>
             <include>**/*.properties</include>
             <include>**/*.x*</include>
@@ -198,18 +199,9 @@
       </resources>
     </unitTest>
 
-    <testResources></testResources>
     <integrationUnitTestPatterns></integrationUnitTestPatterns>
 
     <resources>
-      <resource>
-        <directory>${basedir}/src/java</directory>
-        <includes>
-          <include>**/*.dtd</include>
-          <include>**/*.properties</include>
-          <include>**/*.x*</include>
-        </includes>
-      </resource>
       <resource>
         <directory>${basedir}</directory>
         <includes> 
