@@ -10,10 +10,12 @@ package org.apache.avalon.phoenix.components.logger;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
+import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
@@ -59,23 +61,22 @@ public class DefaultLogManager
                 REZ.getString( "logger-create", metaData.getName(), version );
             getLogger().debug( message );
         }
+        final LoggerManager loggerManager = createLoggerManager( version );
+        ContainerUtil.enableLogging( loggerManager, getLogger() );
+        ContainerUtil.contextualize( loggerManager, context );
+        ContainerUtil.configure( loggerManager, logs );
+        return loggerManager.getDefaultLogger();
+    }
 
+    private LoggerManager createLoggerManager( final String version )
+    {
         if( version.equals( "1.0" ) )
         {
-            final SimpleLogKitManager manager = new SimpleLogKitManager();
-            setupLogger( manager );
-            manager.contextualize( context );
-            manager.configure( logs );
-            return manager.getDefaultLogger();
+            return new SimpleLogKitManager();
         }
         else if( version.equals( "1.1" ) )
         {
-            final LogKitLoggerManager manager =
-                new LogKitLoggerManager();
-            setupLogger( manager );
-            manager.contextualize( context );
-            manager.configure( logs );
-            return manager.getDefaultLogger();
+            return new LogKitLoggerManager();
         }
         else
         {
