@@ -1,4 +1,4 @@
-<fortress-roles>
+<fortress-roles logger="system.roles">
 
   <role name="org.apache.avalon.fortress.examples.components.Translator">
     <component shorthand="translator"
