@@ -227,14 +227,11 @@ public class CronTimeTrigger
     }
 
     /**
-     * Get a clone of the original TimeTrigger.
-     *
-     * @return a new copy of this TimeTrigger
+     * Reset the cron-trigger.
      */
-    public TimeTrigger getClone()
-        throws CloneNotSupportedException
+    public void reset()
     {
-        return (TimeTrigger) this.clone();
+        // nothing to reset for CronTimeTrigger
     }
 
     public String toString()
