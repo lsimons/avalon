@@ -10,20 +10,20 @@ package org.apache.phoenix.metainfo;
 import org.apache.avalon.util.Version;
 
 /**
- * This is implementation of DependencyInfo.
+ * This is implementation of DependencyDescriptor.
  * 
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class DefaultDependencyInfo 
-    implements DependencyInfo
+public class DefaultDependencyDescriptor 
+    implements DependencyDescriptor
 {
-    protected final String                      m_role;
-    protected final ServiceInfo                 m_service;
+    protected final String              m_role;
+    protected final ServiceDescriptor   m_service;
 
     /**
      * Constructor that has all parts as parameters.
      */
-    public DefaultDependencyInfo( final String role, final ServiceInfo service )
+    public DefaultDependencyDescriptor( final String role, final ServiceDescriptor service )
     {
         m_role = role;
         m_service = service;
@@ -47,7 +47,7 @@ public class DefaultDependencyInfo
      *
      * @return the service dependency provides
      */
-    public ServiceInfo getService()
+    public ServiceDescriptor getService()
     {
         return m_service;
     }

@@ -16,15 +16,15 @@ public class DefaultBlockInfo
     implements BlockInfo
 {
     protected final BlockDescriptor          m_descriptor;
-    protected final ServiceInfo[]            m_services;
-    protected final DependencyInfo[]         m_dependencies;
+    protected final ServiceDescriptor[]      m_services;
+    protected final DependencyDescriptor[]   m_dependencies;
 
     /**
      * Basic constructor that takes as parameters all parts.
      */
     public DefaultBlockInfo( final BlockDescriptor descriptor, 
-                             final ServiceInfo[] services, 
-                             final DependencyInfo[] dependencies )
+                             final ServiceDescriptor[] services, 
+                             final DependencyDescriptor[] dependencies )
     {
         m_descriptor = descriptor;
         m_services = services;
@@ -47,7 +47,7 @@ public class DefaultBlockInfo
      *
      * @return an array of Services (can be null)
      */
-    public ServiceInfo[] getServices()
+    public ServiceDescriptor[] getServices()
     {
         return m_services;
     }
@@ -57,7 +57,7 @@ public class DefaultBlockInfo
      *
      * @return an array of Service dependencies (may be null) 
      */
-    public DependencyInfo[] getDependencies()
+    public DependencyDescriptor[] getDependencies()
     {
         return m_dependencies;
     }
@@ -68,7 +68,7 @@ public class DefaultBlockInfo
      * @param role the role
      * @return the dependency or null if it does not exist
      */
-    public DependencyInfo getDependency( final String role )
+    public DependencyDescriptor getDependency( final String role )
     {
         for( int i = 0; i < m_dependencies.length; i++ )
         {

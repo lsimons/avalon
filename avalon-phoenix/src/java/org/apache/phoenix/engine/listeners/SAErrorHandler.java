@@ -7,7 +7,7 @@
  */
 package org.apache.phoenix.engine.listeners;
 
-import org.apache.phoenix.metainfo.ServiceInfo;
+import org.apache.phoenix.metainfo.ServiceDescriptor;
 
 /**
  * This interface abstracts handling of container errors.
@@ -20,7 +20,7 @@ public interface SAErrorHandler
     void missingDependency( String block, String missingDependency );
     void unknownDependency( String block, String unknownDependency );
 
-    void unimplementedService( String block, ServiceInfo service );
+    void unimplementedService( String block, ServiceDescriptor service );
 
     void startPhase( String phase );
     void endPhase( String phase );
@@ -40,6 +40,6 @@ public interface SAErrorHandler
     void beginBlocksPhase( String block );
     void blockNotPreparedForPhase();
     void blockUsingClassLoader( ClassLoader classLoader );
-    void serviceNotOffered( String dependency, ServiceInfo service );
+    void serviceNotOffered( String dependency, ServiceDescriptor service );
     void endBlocksPhase();
 }

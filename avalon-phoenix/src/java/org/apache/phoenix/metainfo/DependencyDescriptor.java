@@ -14,7 +14,7 @@ import org.apache.avalon.camelot.Descriptor;
  * 
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public interface DependencyInfo
+public interface DependencyDescriptor
     extends Descriptor
 {
     /**
@@ -31,5 +31,5 @@ public interface DependencyInfo
      *
      * @return the service dependency provides
      */
-    ServiceInfo getService();
+    ServiceDescriptor getService();
 }
