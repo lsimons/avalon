@@ -8,7 +8,6 @@
 package org.apache.phoenix.engine.phases;
 
 import org.apache.avalon.Component;
-import org.apache.avalon.util.Enum;
 import org.apache.phoenix.engine.blocks.BlockVisitor;
 
 /**
@@ -20,15 +19,6 @@ import org.apache.phoenix.engine.blocks.BlockVisitor;
 public interface Phase
     extends BlockVisitor, Component
 {  
-    public class Traversal
-        extends Enum
-    {
-        Traversal( final String name )
-        {
-            super( name );
-        }
-    }
-
     Traversal   FORWARD      = new Traversal( "FORWARD" );
     Traversal   REVERSE      = new Traversal( "REVERSE" );
     Traversal   LINEAR       = new Traversal( "LINEAR" );
