@@ -322,8 +322,8 @@ public class DefaultSarDeployer
             }
 
             final RoleEntry[] roles = (RoleEntry[]) roleList.toArray( new RoleEntry[ 0 ] );
-            final BlockEntry entry = new BlockEntry( locator, roles );
-
+            final BlockEntry entry = new BlockEntry( roles );
+            entry.setLocator( locator );
             entry.setBlockInfo( info );
             entry.setConfiguration( block.getChild( "configuration" ) );
 

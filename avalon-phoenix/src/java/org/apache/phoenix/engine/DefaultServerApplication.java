@@ -28,7 +28,6 @@ import org.apache.avalon.camelot.Factory;
 import org.apache.phoenix.engine.facilities.ComponentBuilder;
 import org.apache.phoenix.engine.facilities.ComponentManagerBuilder;
 import org.apache.phoenix.engine.facilities.ConfigurationRepository;
-import org.apache.phoenix.engine.facilities.ContextBuilder;
 import org.apache.phoenix.engine.facilities.LoggerBuilder;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
@@ -40,7 +39,6 @@ import org.apache.phoenix.engine.blocks.RoleEntry;
 import org.apache.phoenix.engine.facilities.DefaultComponentBuilder;
 import org.apache.phoenix.engine.facilities.DefaultComponentManagerBuilder;
 import org.apache.phoenix.engine.facilities.DefaultConfigurationRepository;
-import org.apache.phoenix.engine.facilities.DefaultContextBuilder;
 import org.apache.phoenix.engine.facilities.DefaultLogManager;
 import org.apache.phoenix.engine.facilities.DefaultLoggerBuilder;
 import org.apache.phoenix.engine.facilities.security.DefaultPolicy;
@@ -48,8 +46,9 @@ import org.apache.phoenix.engine.facilities.DefaultThreadManager;
 import org.apache.phoenix.engine.facilities.classmanager.SarClassLoader;
 import org.apache.phoenix.engine.phases.ShutdownPhase;
 import org.apache.phoenix.engine.phases.StartupPhase;
-import org.apache.phoenix.engine.phases.Phase;
+import org.apache.phoenix.engine.blocks.BlockVisitor;
 import org.apache.phoenix.metainfo.DependencyDescriptor;
+import org.apache.avalon.util.Enum;
 
 /**
  * This is the basic container of blocks. A server application
@@ -63,6 +62,26 @@ public class DefaultServerApplication
     extends AbstractContainer
     implements Application, Configurable, Contextualizable
 {
+
+    protected final static Traversal  FORWARD     = new Traversal( "FORWARD" );
+    protected final static Traversal  REVERSE     = new Traversal( "REVERSE" );
+    protected final static Traversal  LINEAR      = new Traversal( "LINEAR" );
+
+    protected final static class Traversal
+        extends Enum
+    {
+        protected Traversal( final String name )
+        {
+            super( name );
+        }
+    }
+    
+    protected final static class PhaseEntry
+    {
+        protected Traversal     m_traversal;
+        protected BlockVisitor  m_visitor;
+    }
+
     protected HashMap                  m_phases           = new HashMap();
     protected BlockDAG                 m_dag              = new BlockDAG();
 
@@ -79,7 +98,6 @@ public class DefaultServerApplication
     //these are the facilities (internal components) of ServerApplication
     protected ComponentBuilder         m_componentBuilder;
     protected LoggerBuilder            m_loggerBuilder;
-    protected ContextBuilder           m_contextBuilder;
     protected ComponentManagerBuilder  m_componentManagerBuilder;
     protected ConfigurationRepository  m_configurationRepository;
 
@@ -120,8 +138,15 @@ public class DefaultServerApplication
     protected void initPhases()
         throws ApplicationException
     {
-        m_phases.put( "startup", new StartupPhase() );
-        m_phases.put( "shutdown", new ShutdownPhase() );
+        PhaseEntry entry = new PhaseEntry();
+        entry.m_visitor = new StartupPhase();
+        entry.m_traversal = FORWARD;
+        m_phases.put( "startup", entry );
+        
+        entry = new PhaseEntry();
+        entry.m_visitor = new ShutdownPhase();
+        entry.m_traversal = REVERSE;
+        m_phases.put( "shutdown", entry );
     }
 
     protected void setupPhases()
@@ -130,8 +155,8 @@ public class DefaultServerApplication
         final Iterator phases = m_phases.values().iterator();
         while( phases.hasNext() )
         {
-            final Phase phase = (Phase)phases.next();
-            setupComponent( phase );
+            final PhaseEntry entry = (PhaseEntry)phases.next();
+            setupComponent( entry.m_visitor );
         }
     }
 
@@ -142,8 +167,8 @@ public class DefaultServerApplication
         try
         {
             getLogger().info( "Number of blocks to load: " + m_entries.size() );
-            final Phase phase = (Phase)m_phases.get( "startup" );
-            runPhase( phase );
+            final PhaseEntry entry = (PhaseEntry)m_phases.get( "startup" );
+            runPhase( entry.m_visitor, entry.m_traversal );
         }
         catch( final ApplicationException ae )
         {
@@ -162,8 +187,8 @@ public class DefaultServerApplication
     {
         getLogger().info( "Number of blocks to unload: " + m_entries.size() );
 
-        final Phase phase = (Phase)m_phases.get( "shutdown" );
-        runPhase( phase );
+        final PhaseEntry entry = (PhaseEntry)m_phases.get( "shutdown" );
+        runPhase( entry.m_visitor, entry.m_traversal );
 
         m_entries.clear();
     }
@@ -180,7 +205,6 @@ public class DefaultServerApplication
         // possibly including setting up rolling etc
         m_logManager = new DefaultLogManager();
 
-        m_contextBuilder = new DefaultContextBuilder();
         m_componentManagerBuilder = new DefaultComponentManagerBuilder();
         m_configurationRepository = new DefaultConfigurationRepository();
         m_loggerBuilder = new DefaultLoggerBuilder();
@@ -214,7 +238,6 @@ public class DefaultServerApplication
 
         setupComponent( m_componentBuilder );
         setupComponent( m_loggerBuilder );
-        setupComponent( m_contextBuilder );
         setupComponent( m_componentManagerBuilder );
         setupComponent( m_configurationRepository );
 
@@ -255,27 +278,26 @@ public class DefaultServerApplication
         }
     }
 
-    protected void runPhase( final Phase phase )
+    protected void runPhase( final BlockVisitor visitor, final Traversal traversal )
         throws Exception
     {
-
-        if( Phase.FORWARD == phase.getTraversal() )
+        if( FORWARD == traversal )
         {
             final Iterator entries = list();
             while( entries.hasNext() )
             {
                 final String name = (String)entries.next();
-                m_dag.walkGraph( name, phase );
+                m_dag.walkGraph( name, visitor );
             }
         }
-        else if( Phase.REVERSE == phase.getTraversal() )
+        else if( REVERSE == traversal )
         {
             //TODO:
             final Iterator entries = list();
             while( entries.hasNext() )
             {
                 final String name = (String)entries.next();
-                //m_dag.reverseWalkGraph( name, phase );
+                //m_dag.reverseWalkGraph( name, visitor );
             }
         }
         else
@@ -286,7 +308,7 @@ public class DefaultServerApplication
             {
                 final String name = (String)entries.next();
                 final BlockEntry entry = (BlockEntry)getEntry( name );
-                phase.visitBlock( name, entry );
+                visitor.visitBlock( name, entry );
             }
         }
     }
@@ -366,7 +388,6 @@ public class DefaultServerApplication
         componentManager.put( "java.lang.ClassLoader", m_classLoader );
         componentManager.put( "NOT_DONE_YET", m_logManager );
         componentManager.put( "org.apache.avalon.util.thread.ThreadManager", m_threadManager );
-        componentManager.put( "org.apache.phoenix.engine.facilities.ContextBuilder", m_contextBuilder );
         componentManager.put( "org.apache.phoenix.engine.facilities.LoggerBuilder", m_loggerBuilder );
         componentManager.put( "org.apache.phoenix.engine.facilities.ComponentBuilder",
                               m_componentBuilder );

@@ -8,6 +8,7 @@
 package org.apache.phoenix.engine.blocks;
 
 import org.apache.avalon.atlantis.ApplicationException;
+import org.apache.avalon.Component;
 
 /**
  * Visitor interface that objects implement to walk the DAG.
@@ -15,6 +16,7 @@ import org.apache.avalon.atlantis.ApplicationException;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public interface BlockVisitor
+    extends Component
 {
     /**
      * This is called when a block is reached whilst walking the tree.

@@ -21,21 +21,14 @@ import org.apache.phoenix.metainfo.BlockInfo;
 public class BlockEntry
     extends Entry
 {
-    protected final Locator               m_locator;  
     protected final RoleEntry[]           m_roleEntrys;
 
     //UGLY HACK should be stored in another server Facility (ie ConfigurationRepository)
     protected Configuration               m_configuration;
 
-    public BlockEntry( final Locator locator, final RoleEntry[] roleEntrys ) 
+    public BlockEntry( final RoleEntry[] roleEntrys ) 
     {
-        m_locator = locator;
         m_roleEntrys = roleEntrys;
-    }
-
-    public Locator getLocator()
-    {
-        return m_locator;
     }
 
     public BlockInfo getBlockInfo()
@@ -81,7 +74,7 @@ public class BlockEntry
     {
         m_configuration = configuration;
     }
-
+/*
     public Block getBlock()
     {
         return (Block)getInstance();
@@ -91,4 +84,5 @@ public class BlockEntry
     {
         setInstance( block );
     }
+*/
 }
