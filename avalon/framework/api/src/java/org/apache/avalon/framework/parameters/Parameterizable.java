@@ -32,7 +32,7 @@ public interface Parameterizable
      * Provide component with parameters.
      *
      * @param parameters the parameters
-     * @exception ParameterException if parameters are invalid
+     * @throws ParameterException if parameters are invalid
      */
     void parameterize( Parameters parameters )
         throws ParameterException;

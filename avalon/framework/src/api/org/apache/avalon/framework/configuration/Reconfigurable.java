@@ -23,9 +23,9 @@ public interface Reconfigurable
      * Describe <code>reconfigure</code> method here.
      *
      * @param configuration a <code>Configuration</code> value
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      */
-    void reconfigure( Configuration configuration ) 
+    void reconfigure( Configuration configuration )
         throws ConfigurationException;
 }
 

@@ -9,9 +9,9 @@ package org.apache.avalon.framework.activity;
 
 /**
  * The Startable interface is used when components need to
- * be "running" to be active. It provides a method through 
- * which components can be "started" and "stopped" without 
- * requiring a thread. 
+ * be "running" to be active. It provides a method through
+ * which components can be "started" and "stopped" without
+ * requiring a thread.
  * Note that these methods should start the component but return
  * imediately.
  *
@@ -23,7 +23,7 @@ public interface Startable
     /**
      * Starts the component.
      *
-     * @exception Exception if Component can not be started
+     * @throws Exception if Component can not be started
      */
     void start()
         throws Exception;
@@ -31,7 +31,7 @@ public interface Startable
     /**
      * Stops the component.
      *
-     * @exception Exception if the Component can not be Stopped.
+     * @throws Exception if the Component can not be Stopped.
      */
     void stop()
         throws Exception;

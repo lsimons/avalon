@@ -72,7 +72,7 @@ public class DefaultContext
      *
      * @param key the key of item
      * @return the item stored in context
-     * @exception ContextException if item not present
+     * @throws ContextException if item not present
      */
     public Object get( final Object key )
         throws ContextException
@@ -104,7 +104,7 @@ public class DefaultContext
      *
      * @param key the items key
      * @param value the item
-     * @exception IllegalStateException if context is read only
+     * @throws IllegalStateException if context is read only
      */
     public void put( final Object key, final Object value )
         throws IllegalStateException
@@ -146,7 +146,7 @@ public class DefaultContext
     /**
      * Utility method to check if context is writeable and if not throw exception.
      *
-     * @exception IllegalStateException if context is read only
+     * @throws IllegalStateException if context is read only
      */
     protected final void checkWriteable()
         throws IllegalStateException

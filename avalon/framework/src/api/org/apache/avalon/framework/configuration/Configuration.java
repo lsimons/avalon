@@ -171,7 +171,7 @@ public interface Configuration
      * <code>bar</code> will be "http://blah.com".</p>
      *
      * @return a String identifying the namespace of this Configuration.
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      * @since 4.1
      */
     String getNamespace() throws ConfigurationException;
@@ -254,7 +254,7 @@ public interface Configuration
      *
      * @param paramName The name of the parameter you ask the value of.
      * @return String value of attribute.
-     * @exception ConfigurationException If no attribute with that name exists.
+     * @throws ConfigurationException If no attribute with that name exists.
      * @pre paramName != null
      * @post getAttribute != null
      *
@@ -267,7 +267,7 @@ public interface Configuration
      *
      * @param paramName The name of the parameter you ask the value of.
      * @return int value of attribute
-     * @exception ConfigurationException If no parameter with that name exists.
+     * @throws ConfigurationException If no parameter with that name exists.
      *                                   or if conversion to <code>int</code> fails.
      * @pre paramName != null
      * @post getAttributeAsInteger() != null
@@ -281,7 +281,7 @@ public interface Configuration
      *
      * @param name The name of the parameter you ask the value of.
      * @return long value of attribute
-     * @exception ConfigurationException If no parameter with that name exists.
+     * @throws ConfigurationException If no parameter with that name exists.
      *                                   or if conversion to <code>long</code> fails.
      * @pre paramName != null
      * @post getAttributeAsLong() != null
@@ -295,7 +295,7 @@ public interface Configuration
      *
      * @param paramName The name of the parameter you ask the value of.
      * @return float value of attribute
-     * @exception ConfigurationException If no parameter with that name exists.
+     * @throws ConfigurationException If no parameter with that name exists.
      *                                   or if conversion to <code>float</code> fails.
      * @pre paramName != null
      * @post getAttributeAsFloat() != null
@@ -309,7 +309,7 @@ public interface Configuration
      *
      * @param paramName The name of the parameter you ask the value of.
      * @return boolean value of attribute
-     * @exception ConfigurationException If no parameter with that name exists.
+     * @throws ConfigurationException If no parameter with that name exists.
      *                                   or if conversion to <code>boolean</code> fails.
      * @pre paramName != null
      * @post getAttributeAsBoolean() != null
@@ -321,7 +321,7 @@ public interface Configuration
      * Return the <code>String</code> value of the node.
      *
      * @return the value of the node.
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      * @post getValue() != null
      *
      */
@@ -332,7 +332,7 @@ public interface Configuration
      *
      * @return the value of the node.
      *
-     * @exception ConfigurationException If conversion to <code>int</code> fails.
+     * @throws ConfigurationException If conversion to <code>int</code> fails.
      * @post getValueAsInteger() != null
      *
      */
@@ -342,7 +342,7 @@ public interface Configuration
      * Return the <code>float</code> value of the node.
      *
      * @return the value of the node.
-     * @exception ConfigurationException If conversion to <code>float</code> fails.
+     * @throws ConfigurationException If conversion to <code>float</code> fails.
      * @post getValueAsFloat() != null
      *
      */
@@ -352,7 +352,7 @@ public interface Configuration
      * Return the <code>boolean</code> value of the node.
      *
      * @return the value of the node.
-     * @exception ConfigurationException If conversion to <code>boolean</code> fails.
+     * @throws ConfigurationException If conversion to <code>boolean</code> fails.
      * @post getValueAsBoolean() != null
      *
      */
@@ -362,7 +362,7 @@ public interface Configuration
      * Return the <code>long</code> value of the node.
      *
      * @return the value of the node.
-     * @exception ConfigurationException If conversion to <code>long</code> fails.
+     * @throws ConfigurationException If conversion to <code>long</code> fails.
      * @post getValueAsLong() != null
      *
      */

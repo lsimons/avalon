@@ -19,12 +19,12 @@ package org.apache.avalon.framework.context;
 public interface Contextualizable
 {
     /**
-     * Pass the Context to the component. 
-     * This method is called after the Loggable.setLogger() (if present) 
+     * Pass the Context to the component.
+     * This method is called after the Loggable.setLogger() (if present)
      * method and before any other method.
      *
      * @param context the context
-     * @exception ContextException if context is invalid
+     * @throws ContextException if context is invalid
      */
     void contextualize( Context context )
         throws ContextException;

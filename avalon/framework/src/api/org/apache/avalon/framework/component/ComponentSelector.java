@@ -58,9 +58,9 @@ public interface ComponentSelector
      *
      * @param hint A hint to retrieve the correct <code>Component</code>.
      * @return the desired component
-     * @exception ComponentException If the given role is not associated
-     *                               with a <code>Component</code>, or a 
-     *                               <code>Component</code> instance cannot 
+     * @throws ComponentException If the given role is not associated
+     *                               with a <code>Component</code>, or a
+     *                               <code>Component</code> instance cannot
      *                               be created.
      */
     Component select( Object hint )

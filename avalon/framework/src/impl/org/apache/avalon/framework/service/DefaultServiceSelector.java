@@ -28,7 +28,7 @@ public class DefaultServiceSelector
      *
      * @param hint the hint to retrieve Object
      * @return the Object
-     * @exception ServiceException if an error occurs
+     * @throws ServiceException if an error occurs
      */
     public Object select( Object hint )
         throws ServiceException
@@ -51,7 +51,7 @@ public class DefaultServiceSelector
      * @param hint the hint to retrieve Object
      * @return <code>true</code> if the Object exists
      */
-    public boolean isSelectable( final Object hint ) 
+    public boolean isSelectable( final Object hint )
     {
         boolean objectExists = false;
 
@@ -112,7 +112,7 @@ public class DefaultServiceSelector
     /**
      * Checks if this service selector is writeable.
      *
-     * @exception IllegalStateException if this service selector is read-only
+     * @throws IllegalStateException if this service selector is read-only
      */
     protected final void checkWriteable()
         throws IllegalStateException

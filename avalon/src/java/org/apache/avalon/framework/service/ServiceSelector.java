@@ -42,7 +42,7 @@ public interface ServiceSelector
      * @param policy A criteria against which a <code>Object</code> is selected.
      *
      * @return an <code>Object</code> value
-     * @exception ServiceException If the requested <code>Object</code> cannot be supplied
+     * @throws ServiceException If the requested <code>Object</code> cannot be supplied
      */
     Object select( Object policy )
         throws ServiceException;
@@ -58,7 +58,7 @@ public interface ServiceSelector
     /**
      * Return the <code>Object</code> when you are finished with it.  This
      * allows the <code>ServiceSelector</code> to handle the End-Of-Life Lifecycle
-     * events associated with the <code>Object</code>.  Please note, that no 
+     * events associated with the <code>Object</code>.  Please note, that no
      * Exception should be thrown at this point.  This is to allow easy use of the
      * ServiceSelector system without having to trap Exceptions on a release.
      *

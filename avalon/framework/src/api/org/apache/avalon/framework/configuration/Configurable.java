@@ -17,7 +17,7 @@ package org.apache.avalon.framework.configuration;
  * method before it is valid.  The <code>configure</code> method
  * must be called after the constructor, and before any other method.
  * <br/>
- * 
+ *
  * Note that this interface is incompatible with Parameterizable.
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
@@ -35,7 +35,7 @@ public interface Configurable
      * and before any other method.
      *
      * @param configuration the class configurations.
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      */
     void configure( Configuration configuration )
         throws ConfigurationException;

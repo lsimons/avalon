@@ -8,7 +8,7 @@
 package org.apache.avalon.framework.activity;
 
 /**
- * The Initializable interface is used by components that need to 
+ * The Initializable interface is used by components that need to
  * allocate resources prior to them becoming active.
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
@@ -19,11 +19,11 @@ package org.apache.avalon.framework.activity;
 public interface Initializable
 {
     /**
-     * Initialialize the component. Initialization includes 
-     * allocating any resources required throughout the 
+     * Initialialize the component. Initialization includes
+     * allocating any resources required throughout the
      * components lifecycle.
      *
-     * @exception Exception if an error occurs
+     * @throws Exception if an error occurs
      */
     void initialize()
         throws Exception;

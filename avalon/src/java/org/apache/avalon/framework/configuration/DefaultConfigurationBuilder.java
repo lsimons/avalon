@@ -149,9 +149,9 @@ public class DefaultConfigurationBuilder
      * Build a configuration object from a file using a filename.
      * @param filename name of the file
      * @return a <code>Configuration</code> object
-     * @exception SAXException if a parsing error occurs
-     * @exception IOException if an I/O error occurs
-     * @exception ConfigurationException if an error occurs
+     * @throws SAXException if a parsing error occurs
+     * @throws IOException if an I/O error occurs
+     * @throws ConfigurationException if an error occurs
      */
     public Configuration buildFromFile( final String filename )
         throws SAXException, IOException, ConfigurationException
@@ -163,9 +163,9 @@ public class DefaultConfigurationBuilder
      * Build a configuration object from a file using a File object.
      * @param file a <code>File</code> object
      * @return a <code>Configuration</code> object
-     * @exception SAXException if a parsing error occurs
-     * @exception IOException if an I/O error occurs
-     * @exception ConfigurationException if an error occurs
+     * @throws SAXException if a parsing error occurs
+     * @throws IOException if an I/O error occurs
+     * @throws ConfigurationException if an error occurs
      */
     public Configuration buildFromFile( final File file )
         throws SAXException, IOException, ConfigurationException
@@ -182,9 +182,9 @@ public class DefaultConfigurationBuilder
      * Build a configuration object using an InputStream.
      * @param inputStream an <code>InputStream</code> value
      * @return a <code>Configuration</code> object
-     * @exception SAXException if a parsing error occurs
-     * @exception IOException if an I/O error occurs
-     * @exception ConfigurationException if an error occurs
+     * @throws SAXException if a parsing error occurs
+     * @throws IOException if an I/O error occurs
+     * @throws ConfigurationException if an error occurs
      */
     public Configuration build( final InputStream inputStream )
         throws SAXException, IOException, ConfigurationException
@@ -196,9 +196,9 @@ public class DefaultConfigurationBuilder
      * Build a configuration object using an URI
      * @param uri a <code>String</code> value
      * @return a <code>Configuration</code> object
-     * @exception SAXException if a parsing error occurs
-     * @exception IOException if an I/O error occurs
-     * @exception ConfigurationException if an error occurs
+     * @throws SAXException if a parsing error occurs
+     * @throws IOException if an I/O error occurs
+     * @throws ConfigurationException if an error occurs
      */
     public Configuration build( final String uri )
         throws SAXException, IOException, ConfigurationException
@@ -210,9 +210,9 @@ public class DefaultConfigurationBuilder
      * Build a configuration object using an XML InputSource object
      * @param input an <code>InputSource</code> value
      * @return a <code>Configuration</code> object
-     * @exception SAXException if a parsing error occurs
-     * @exception IOException if an I/O error occurs
-     * @exception ConfigurationException if an error occurs
+     * @throws SAXException if a parsing error occurs
+     * @throws IOException if an I/O error occurs
+     * @throws ConfigurationException if an error occurs
      */
     public Configuration build( final InputSource input )
         throws SAXException, IOException, ConfigurationException

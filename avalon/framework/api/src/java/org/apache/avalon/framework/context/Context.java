@@ -23,32 +23,32 @@ package org.apache.avalon.framework.context;
  * can then be defined there. (examples include MailetContext,
  * BlockContext etc.)</p>
  *
- * <p>There are traditionally four differet types of Context that may be 
+ * <p>There are traditionally four differet types of Context that may be
  * used in a system. These ideas are partially derived from linguistic theory
  * and partially from tradition computer science;</p>
  *
  * <ol>
- *   <li>World Context / Per-Application context: This describes application 
- *   wide settings/context. An example may be the working directory of the 
+ *   <li>World Context / Per-Application context: This describes application
+ *   wide settings/context. An example may be the working directory of the
  *   application.</li>
  *
- *   <li>Person Context / Per-Component context: This contains context 
- *   information specific to the component. An example may be the name of 
+ *   <li>Person Context / Per-Component context: This contains context
+ *   information specific to the component. An example may be the name of
  *   the component.</li>
  *
- *   <li>Conversation Context / Per-Session context: This contains context 
- *   information specific to the component. An example may be the IP address 
+ *   <li>Conversation Context / Per-Session context: This contains context
+ *   information specific to the component. An example may be the IP address
  *   of the entity who you are talking to.</li>
  *
- *   <li>Speach Act Context / Per-Request context: This contains information 
- *   about a specific request in component. Example may include the parameter 
+ *   <li>Speach Act Context / Per-Request context: This contains information
+ *   about a specific request in component. Example may include the parameter
  *   submitted to a particular web form or whatever.</li>
  *
  * </ol>
  *
- * <p>When we implement this (1) and (2) are generally merged into one interface. 
- * For instance in the Pheonix Application Server there is a BlockContext. Part 
- * of the BlockContext consists of two methods. One is getHomeDirectory() and that 
+ * <p>When we implement this (1) and (2) are generally merged into one interface.
+ * For instance in the Pheonix Application Server there is a BlockContext. Part
+ * of the BlockContext consists of two methods. One is getHomeDirectory() and that
  * belongs to (1) while the other is getName() which belongs to (2).</p>
  *
  * <p>(4) is usually passed into a service() style method as parameters. Often it will
@@ -58,8 +58,8 @@ package org.apache.avalon.framework.context;
  * void doMagic( int param1, int param2, Context otherParamsInHere );
  * </pre>
  *
- * <p>When (3) is needed in the system it is usually also passed into the a serice method 
- * method, along with the request context (4). Alternatively it is made available via the 
+ * <p>When (3) is needed in the system it is usually also passed into the a serice method
+ * method, along with the request context (4). Alternatively it is made available via the
  * context representing (4).</p>
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
@@ -74,7 +74,7 @@ public interface Context
      *
      * @param key the key into context
      * @return the object
-     * @exception ContextException if object not found. Note that this
+     * @throws ContextException if object not found. Note that this
      *            means that either Component is asking for invalid entry
      *            or the Container is not living up to contract.
      */
