@@ -150,6 +150,10 @@ Legal:
                classname="javax.servlet.ServletContext"
                classpathref="project.class.path" />
 
+    <available property="avalon-framework.present"
+               classname="org.apache.avalon.framework.CascadingThrowable"
+               classpathref="project.class.path" />
+
     <javac srcdir="${java.dir}"
            destdir="${build.classes}"
            debug="${debug}"
@@ -159,6 +163,8 @@ Legal:
       <src path="${test.dir}"/>
       <exclude name="org/apache/log/output/ServletOutputLogTarget.java"
                unless="servlet.present"/>
+      <exclude name="org/apache/log/format/AvalonFormatter.java"
+               unless="avalon-framework.present"/>
     </javac>
 
     <copy todir="${build.classes}">

@@ -7,7 +7,6 @@
  */
 package org.apache.log.format;
 
-import org.apache.avalon.framework.CascadingThrowable;
 import java.io.StringWriter;
 import java.util.Stack;
 import org.apache.log.*;
@@ -333,7 +332,7 @@ public class PatternFormatter
 
             default:
                 //TODO: Convert next line to use error handler
-                LogKit.log( "Unknown Pattern specification." + run.m_type );
+                Hierarchy.getDefaultHierarchy().log( "Unknown Pattern specification." + run.m_type );
                 continue;
             }
 
@@ -430,13 +429,7 @@ public class PatternFormatter
         if( null == throwable ) return "";
         final StringWriter sw = new StringWriter();
         throwable.printStackTrace( new java.io.PrintWriter( sw ) );
-        StringBuffer buf = new StringBuffer(sw.toString());
-
-        if (throwable instanceof CascadingThrowable) {
-            buf.append(getStackTrace(((CascadingThrowable) throwable).getCause(), format));
-        }
-
-        return buf.toString();
+        return sw.toString();
     }
 
     /**
