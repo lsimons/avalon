@@ -30,7 +30,7 @@ import org.apache.avalon.merlin.cli.Main;
  * Test case for the Merlin CLI handler.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class MerlinCLITestCase extends TestCase
 {
@@ -61,7 +61,6 @@ public class MerlinCLITestCase extends TestCase
             String[] args = 
               new String[]
               {
-                "-info", 
                 "-execute",
                 "conf/hello.block",
                 "-system",
