@@ -40,7 +40,8 @@ public final class RevolvingFileStrategyTestCase
     {
         super( name );
 
-        m_baseFile = ( new File( "build/testdata/log" ) ).getCanonicalFile();
+        File basedir = new File( System.getProperty( "basedir" ) );
+        m_baseFile = ( new File( basedir, "build/testdata/log" ) ).getCanonicalFile();
         m_baseFile.getParentFile().mkdirs();
     }
 

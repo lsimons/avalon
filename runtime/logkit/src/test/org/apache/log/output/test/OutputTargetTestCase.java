@@ -65,7 +65,8 @@ public final class OutputTargetTestCase
     {
         super( name );
 
-        m_logFile = ( new File( "test/log/logfile.txt" ) ).getCanonicalFile();
+        File basedir = new File( System.getProperty( "basedir" ) );
+        m_logFile = ( new File( basedir, "test/log/logfile.txt" ) ).getCanonicalFile();
     }
 
     private String getResult( final ByteArrayOutputStream output )
