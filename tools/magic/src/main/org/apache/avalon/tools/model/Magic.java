@@ -204,9 +204,7 @@ public class Magic extends DataType
         }
         else
         {
-            final String error = 
-              "Cannot continue due to missing index attribute.";
-            throw new BuildException( error );
+            return resolve( basedir );
         }
     }
 
