@@ -34,14 +34,18 @@ To build a project independnet of dependent project groups is possible using any
       </echo>
   </goal>
 
+  <!-- phase 1 targets -->
   <goal name="plugins" prereqs="xplugins"/>
 
-  <goal name="util" prereqs="xutil"/>
+  <!-- phase 2 targets -->
   <goal name="framework" prereqs="xframework"/>
   <goal name="meta" prereqs="framework,xmeta"/>
+
+  <!-- phase 3 targets -->
+  <goal name="util" prereqs="xutil"/>
   <goal name="repository" prereqs="util,xrepository"/>
   <goal name="logging" prereqs="repository,xlogging"/>
-  <goal name="composition" prereqs="repository,meta,logging,xcomposition"/>
+  <goal name="composition" prereqs="repository,logging,xcomposition"/>
   <goal name="activation" prereqs="composition,xactivation"/>
   <goal name="merlin" prereqs="activation,xmerlin"/>
 

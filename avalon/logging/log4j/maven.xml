@@ -4,12 +4,4 @@
     <attainGoal name="artifact:install"/>
   </postGoal>
 
-  <postGoal name="jar:install">
-    <ant:copy verbose="yes"
-       toDir="${maven.repo.local}/${pom.groupId}/jars" 
-       file="${maven.build.dir}/${pom.artifactId}-${pom.currentVersion}.jar.meta" />
-  </postGoal>
-
-
-
 </project>
