@@ -100,7 +100,7 @@ import org.apache.log.Priority;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.30 $ $Date: 2002/09/17 12:30:23 $
+ * @version CVS $Revision: 1.31 $ $Date: 2002/09/17 12:31:08 $
  */
 public class PatternFormatter
     implements Formatter, org.apache.log.Formatter
@@ -167,7 +167,7 @@ public class PatternFormatter
     }
 
     /**
-     * Extract and buildFromResource a pattern from input string.
+     * Extract and build a pattern from input string.
      *
      * @param stack the stack on which to place patterns
      * @param pattern the input string
