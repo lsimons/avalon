@@ -20,7 +20,7 @@
 <source><![CDATA[
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<system>
+<index>
 
   <import index="../central/system/index.xml"/>
 
@@ -53,7 +53,7 @@
     </plugins>
   </project>
 
-</system>
+</index>
 ]]></source>
 
     </section>
