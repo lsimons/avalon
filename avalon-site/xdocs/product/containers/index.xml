@@ -40,8 +40,8 @@
           declares that it implements LogEnabled, the container will provide
           the component with an initialized and ready-to-use Logger instance.
         </p>
+      </subsection>
       
-      </section>
     </section>
     
     <section name="Container Provisions" >
