@@ -34,30 +34,44 @@ public class PluginPlugin extends AbstractPlugin
     
     public void install()
     {
+        validate();
+        notifyPreMethod( "install" );
+        
         getLogger().info( "Installing plugin: " + m_Context.getProjectName() );
 
         String projectName = m_Context.getProjectName();
-                
         File systemDir = m_Context.getSystemDir();
         File localpluginrepo = new File( systemDir, "plugins/" + projectName );
         File srcDir = new File( m_Context.getProjectDir(), "src/dist" );
-
         FileSet src = new FileSet();
         src.setDir( srcDir );
-        
         Copy copy = m_Project.createTask( "copy" );
         copy.setVerbose( true );
         copy.setTodir( localpluginrepo );
         copy.addFileset( src );
         copy.execute();        
-    
-        getLogger().info( "Sucess!" );
+        notifyPostMethod( "install" );
     }
 
+    public void loadAll()
+        throws ServiceException
+    {
+        File systemDir = m_Context.getSystemDir();
+        File localpluginrepo = new File( systemDir, "plugins/"  );
+        String[] plugins = localpluginrepo.list();
+        for( int i=0 ; i < plugins.length ; i++ )
+        {
+            m_ServiceManager.lookup( plugins[i] );
+        }
+    }
+    
     /* Copies the plugin to a Java file and tries to compile it */
     public void validate()
         throws ServiceException
     {
+        notifyPreMethod( "validate" );
+        getLogger().info( "Validating plugin: " + m_Context.getProjectName() );
+        
         File srcDir = new File( m_Context.getProjectDir(), "src/dist/" );
         File srcFile = new File( srcDir, "build.bsh" );
         File destDir = m_Context.getTempDir();
@@ -82,11 +96,14 @@ public class PluginPlugin extends AbstractPlugin
         copy.setFile( srcFile );
         copy.execute();
         
+        File cache = new File( m_Context.getSystemDir(), "cache" );
+        cache.mkdirs();
+        
         String classpath = m_Context.getProperty( "java.class.path" );
-         
+        
         Javac javac = (Javac) m_Project.createTask( "javac" );
         /* Set the destination */
-        javac.setDestdir( destDir );
+        javac.setDestdir( cache );
         javac.setDeprecation( true );
         javac.setDebug( true );
         javac.setVerbose( false );
@@ -94,6 +111,8 @@ public class PluginPlugin extends AbstractPlugin
         /* Add Class path defined in the build.properties  */
         Path cp = javac.createClasspath();
         Path.PathElement pe = cp.createPathElement();
+        pe.setPath( cache.getAbsolutePath() + "/" );
+        pe = cp.createPathElement();
         pe.setPath( classpath );
         /* Later; also add dependency Jars */
         
@@ -101,22 +120,10 @@ public class PluginPlugin extends AbstractPlugin
         Path src = javac.createSrc();
         Path.PathElement srcPE = src.createPathElement();
         srcPE.setLocation( destDir );
-        
         javac.init();
         javac.execute(); 
         
-        getLogger().info( "Compile successful." );
+        notifyPostMethod( "validate" );
     }
     
-    public void loadAll()
-        throws ServiceException
-    {
-        File systemDir = m_Context.getSystemDir();
-        File localpluginrepo = new File( systemDir, "plugins/" + projectName );
-        String[] plugins = localpluginrepo.list();
-        for( int i=0 ; i < plugins.length ; i++ )
-        {
-            m_ServiceManager.lookup( plugins[i] );
-        }
-    }
 }
