@@ -69,6 +69,7 @@
   <property name="dist.name" value="${Name}-${version}"/>
   <property name="dist.base" value="distributions"/>
 
+  <property name="xerces.jar" value="${tools.dir}/lib/xerces.jar"/>
   <property name="logkit.jar" value="${lib.dir}/logkit.jar"/>
   <property name="avalonapi.jar" value="${lib.dir}/avalonapi.jar"/>
   <property name="phoenix-client.jar" value="${lib.dir}/phoenix-client.jar"/>
@@ -77,6 +78,7 @@
     <pathelement path="${java.class.path}" />
     <pathelement location="${avalonapi.jar}"/>
     <pathelement location="${logkit.jar}"/>
+    <pathelement location="${xerces.jar}"/>
     <pathelement location="${phoenix-client.jar}"/>
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
