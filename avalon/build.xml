@@ -6,6 +6,7 @@
     <exec executable="maven" dir="framework" failonerror="true"/>
     <exec executable="maven" dir="meta" failonerror="true"/>
     <exec executable="maven" dir="util" failonerror="true"/>
+    <exec executable="maven" dir="logging" failonerror="true"/>
     <exec executable="maven" dir="repository" failonerror="true"/>
     <exec executable="maven" dir="merlin" failonerror="true"/>
   </target>
@@ -18,6 +19,9 @@
       <arg line="avalon:clean" />
     </exec>
     <exec executable="maven" dir="util" >
+      <arg line="avalon:clean" />
+    </exec>
+    <exec executable="maven" dir="logging" >
       <arg line="avalon:clean" />
     </exec>
     <exec executable="maven" dir="repository" >
