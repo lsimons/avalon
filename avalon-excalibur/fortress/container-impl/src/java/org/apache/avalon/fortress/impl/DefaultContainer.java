@@ -60,7 +60,7 @@ import org.apache.avalon.framework.service.ServiceManager;
  * adding configuration markup semantics to the {@link AbstractContainer}.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.12 $ $Date: 2003/04/18 20:02:29 $
+ * @version CVS $Revision: 1.13 $ $Date: 2003/05/02 04:15:20 $
  */
 public class DefaultContainer
     extends AbstractContainer
@@ -112,9 +112,9 @@ public class DefaultContainer
             else
             {
                 final String classname = getClassname( element );
-                final boolean isLazy = isLazyComponentHandler( element );
+                final int activation = getActivation( element );
                 final ComponentHandlerMetaData metaData =
-                    new ComponentHandlerMetaData( hint, classname, element, isLazy );
+                    new ComponentHandlerMetaData( hint, classname, element, activation );
 
                 try
                 {
@@ -165,40 +165,50 @@ public class DefaultContainer
     }
 
     /**
-     * Helper method to determine whether a given component handler
-     * configuration requests a lazy or startup based initialization policy.
+     * Helper method to determine the activation policy for a given component
+     *  handler configuration. Supported values for the "activation" attribute
+     *  of the component are "background", "inline", or "lazy".  The default
+     *  activation is "background".  For compatibility, "startup" is an alias
+     *  for "background" and "request" is an alias for "lazy".
      *
      * @param component <code>Configuration</code>
      *
-     * @return true if the given handler configuration specifies a lazy init
-     *         policy, false otherwise
+     * @return the activation policy, one of
+     *         ComponentHandlerMetaData.ACTIVATION_BACKGROUND,
+     *         ComponentHandlerMetaData.ACTIVATION_INLINE,
+     *         ComponentHandlerMetaData.ACTIVATION_LAZY.
      *
-     * @throws java.lang.IllegalArgumentException if the handler specifies an unknown init
-     *         policy
+     * @throws ConfigurationException if the handler specifies an unknown
+     *                                activation policy
      */
-    private boolean isLazyComponentHandler( final Configuration component )
+    private int getActivation( final Configuration component )
+        throws ConfigurationException
     {
-        final String policy = component.getAttribute( "activation", "startup" );
-
-        final boolean isLazy = "request".equalsIgnoreCase( policy );
-        final boolean isNonLazy = "startup".equalsIgnoreCase( policy );
-
-        if ( isNonLazy )
+        final String activation = component.getAttribute( "activation", "background" );
+        
+        if ( "background".equalsIgnoreCase( activation )
+            || "startup".equalsIgnoreCase( activation ) )
         {
-            return false;
+            return ComponentHandlerMetaData.ACTIVATION_BACKGROUND;
         }
-        else if ( isLazy )
+        else if ( "inline".equalsIgnoreCase( activation ) )
         {
-            return true;
+            return ComponentHandlerMetaData.ACTIVATION_INLINE;
+        }
+        else if ( "lazy".equalsIgnoreCase( activation )
+            || "request".equalsIgnoreCase( activation ) )
+        {
+            return ComponentHandlerMetaData.ACTIVATION_LAZY;
         }
         else
         {
-            // policy was not null, but didn't match anything above
+            // activation policy was unknown.
             final String classname = component.getAttribute( "class", null );
 
             final String message =
-                "Unknown activation policy for class " + classname + ": " + policy;
-            throw new IllegalArgumentException( message );
+                "Unknown activation policy for class " + classname + ", \"" + activation + "\" "
+                + "at " + component.getLocation();
+            throw new ConfigurationException( message );
         }
     }
 

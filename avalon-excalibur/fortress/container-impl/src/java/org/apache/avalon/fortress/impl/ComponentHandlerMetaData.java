@@ -55,26 +55,42 @@ import org.apache.avalon.framework.configuration.Configuration;
  * A class holding metadata about a component handler.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2003/04/21 19:54:52 $
+ * @version $Revision: 1.10 $ $Date: 2003/05/02 04:15:20 $
  */
 public final class ComponentHandlerMetaData
 {
+    /** Component activation should be performed during container initialization. */
+    public static final int ACTIVATION_INLINE     = 0;
+    
+    /** Component activation should be initiated during container
+     *   initialization, but can be done asynchronously in a background
+     *   thread. */
+    public static final int ACTIVATION_BACKGROUND = 1;
+    
+    /** Component activation will be delayed until the first time the
+     *   component is looked up. */
+    public static final int ACTIVATION_LAZY       = 2;
+    
     private final String m_name;
     private final String m_classname;
     private final Configuration m_configuration;
-    private final boolean m_lazyActivation;
+    private final int m_activation;
 
     /**
      * Creation of a new impl handler meta data instance.
+     *
      * @param name the handler name
      * @param classname the handler classname
      * @param configuration the handler configuration
-     * @param lazyActivation the activation policy
+     * @param activation the activation policy, one of
+     *                   ComponentHandlerMetaData.ACTIVATION_BACKGROUND,
+     *                   ComponentHandlerMetaData.ACTIVATION_INLINE,
+     *                   ComponentHandlerMetaData.ACTIVATION_LAZY.
      */
     public ComponentHandlerMetaData( final String name,
                                      final String classname,
                                      final Configuration configuration,
-                                     final boolean lazyActivation )
+                                     final int activation )
     {
         if ( null == name )
         {
@@ -92,7 +108,28 @@ public final class ComponentHandlerMetaData
         m_name = name;
         m_classname = classname;
         m_configuration = configuration;
-        m_lazyActivation = lazyActivation;
+        m_activation = activation;
+    }
+    
+    /**
+     * Creation of a new impl handler meta data instance.
+     *
+     * @param name the handler name
+     * @param classname the handler classname
+     * @param configuration the handler configuration
+     * @param lazyActivation the activation policy, true implies
+     *                       ACTIVATION_LAZY, and false implies
+     *                       ACTIVATION_BACKGROUND
+     *
+     * @deprecated in favor of construction which takes an integer activation.
+     */
+    public ComponentHandlerMetaData( final String name,
+                                     final String classname,
+                                     final Configuration configuration,
+                                     final boolean lazyActivation )
+    {
+        this( name, classname, configuration,
+            ( lazyActivation ? ACTIVATION_LAZY : ACTIVATION_BACKGROUND ) );
     }
 
     /**
@@ -121,13 +158,25 @@ public final class ComponentHandlerMetaData
     {
         return m_configuration;
     }
+    
+    /**
+     * Returns the handler activation policy
+     *
+     * @return the activation policy
+     */
+    public int getActivation()
+    {
+        return m_activation;
+    }
 
     /**
      * Returns the handler activation policy
      * @return the activation policy
+     *
+     * @deprecated in favor of getActivation()
      */
     public boolean isLazyActivation()
     {
-        return m_lazyActivation;
+        return m_activation == ACTIVATION_LAZY;
     }
 }
