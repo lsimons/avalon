@@ -7,12 +7,12 @@
  */
 package org.apache.avalon.phoenix.tools.xdoclet;
 
-import java.util.List;
 import xdoclet.DocletTask;
+import org.apache.tools.ant.types.Path;
 
 /**
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
- * @version $Revision: 1.7 $ $Date: 2002/07/30 12:17:21 $
+ * @version $Revision: 1.8 $ $Date: 2002/08/25 05:56:40 $
  */
 public class PhoenixXDoclet
     extends DocletTask
@@ -24,28 +24,27 @@ public class PhoenixXDoclet
     public BlockInfoSubTask createBlockinfo()
     {
         m_blockInfoSubTask = new BlockInfoSubTask();
+        addTemplate( m_blockInfoSubTask );
         return m_blockInfoSubTask;
     }
 
     public ManifestSubTask createManifest()
     {
         m_manifestSubTask = new ManifestSubTask();
+        addTemplate( m_manifestSubTask );
         return m_manifestSubTask;
     }
 
     public MxInfoSubTask createMxInfo()
     {
         m_mxinfoSubTask = new MxInfoSubTask();
+        addTemplate( m_mxinfoSubTask );
         return m_mxinfoSubTask;
     }
 
-    protected List getSubTasks()
+    public void addClasspathRef( final Path path )
     {
-        final List subtasks = super.getSubTasks();
-        subtasks.add( m_blockInfoSubTask );
-        subtasks.add( m_manifestSubTask );
-        subtasks.add( m_mxinfoSubTask );
-        return subtasks;
+       System.out.println( "WARNING: classpathRef no longer required due to changes in underlying xdoclet" );
     }
 }
 

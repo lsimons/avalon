@@ -7,112 +7,40 @@
  */
 package org.apache.avalon.phoenix.tools.xdoclet;
 
-import java.io.File;
 import java.net.URL;
 import xdoclet.TemplateSubTask;
 import xdoclet.XDocletException;
-import xjavadoc.XClass;
 
 /**
  * Generates BlockInfo 'xinfo' for Blocks
  *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2002/08/06 11:57:42 $
+ * @version $Revision: 1.11 $ $Date: 2002/08/25 05:56:40 $
  */
 public class BlockInfoSubTask
     extends TemplateSubTask
 {
-    public static final String SUBTASK_NAME = "blockinfo";
-
-    private static final String GENERATED_FILE_NAME = "{0}.xinfo";
-
     private static final String DEFAULT_TEMPLATE_FILE =
-        "/org/apache/avalon/phoenix/tools/xdoclet/blockinfo.j";
-
-    private static String c_classPattern;
-
-    private String m_templatePath;
+        "/org/apache/avalon/phoenix/tools/xdoclet/blockinfo.xdt";
 
     public BlockInfoSubTask()
     {
+        setupParams();
+    }
+
+    private void setupParams()
+    {
+        setSubTaskName( "blockinfo" );
         final URL resource = getClass().getResource( DEFAULT_TEMPLATE_FILE );
         setTemplateURL( resource );
-        setDestinationFile( GENERATED_FILE_NAME );
+        setDestinationFile( "{0}.xinfo" );
+        setAcceptAbstractClasses( false );
         setHavingClassTag( "phoenix:block" );
-
-        final TemplateSubTask.ExtentTypes extent = new TemplateSubTask.ExtentTypes();
-        extent.setValue( "hierarchy" );
-        setExtent( extent );
     }
 
-    public void setTemplatePath( final String templatePath )
+    protected void engineStarted() throws XDocletException
     {
-        m_templatePath = templatePath;
-        setTemplateFile( new File( templatePath ) );
-    }
-
-    public static String getClassPattern()
-    {
-        return c_classPattern;
-    }
-
-    public String getSubTaskName()
-    {
-        return SUBTASK_NAME;
-    }
-
-    public void setPattern( final String classPattern )
-    {
-        c_classPattern = classPattern;
-    }
-
-    /**
-     * Called to validate configuration parameters.
-     */
-    public void validateOptions()
-        throws XDocletException
-    {
-        super.validateOptions();
-
-        if( null == m_templatePath )
-        {
-            throw new XDocletException( "'templatePath' attribute is missing ." );
-        }
-
-        final URL template = getTemplateURL();
-        if( null == template )
-        {
-            throw new XDocletException( "'template' is missing." );
-        }
-
-        if( null == getClassPattern() || getClassPattern().trim().equals( "" ) )
-        {
-            throw new XDocletException( "'pattern' parameter missing or empty." );
-        }
-
-        if( -1 == getClassPattern().indexOf( "{0}" ) )
-        {
-            throw new XDocletException( "'pattern' parameter does not have a "
-                                        + "'{0}' in it. '{0}' is replaced by Block "
-                                        + "name of the class under processing." );
-        }
-    }
-
-    protected boolean matchesGenerationRules( final XClass clazz )
-        throws XDocletException
-    {
-        if( !super.matchesGenerationRules( clazz ) )
-        {
-            return false;
-        }
-        else if( clazz.isAbstract() )
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        System.out.println( "Generating BlockInfo file: " + getGeneratedFileName( getCurrentClass() ) );
     }
 }
