@@ -26,6 +26,7 @@ import org.apache.avalon.framework.service.ServiceException;
 
 /**
  * @avalon.component name="component-d" lifestyle="singleton"
+ * @avalon.service type="org.apache.avalon.test.testd.D"
  */
 public class TestD extends AbstractLogEnabled
   implements Initializable, Serviceable, D

@@ -26,7 +26,7 @@ import org.apache.avalon.framework.service.ServiceException;
 
 /**
  * @avalon.component name="test-c" lifestyle="singleton"
- * @avalon.component type="org.apache.avalon.test.testc.C"
+ * @avalon.service type="org.apache.avalon.test.testc.C"
  */
 public class TestC extends AbstractLogEnabled
   implements Initializable, Serviceable, C
