@@ -70,8 +70,9 @@
         <include name="config/**/*"/>
         <include name="repository/**/*"/>
       </fileset>
-      <fileset dir="${basedir}/merlin-platform/src/etc">
-        <include name="LICENSE.txt"/>
+      <fileset dir="${basedir}">
+        <include name="LICENSE.TXT"/>
+        <include name="README.TXT"/>
       </fileset>
     </copy>
 
