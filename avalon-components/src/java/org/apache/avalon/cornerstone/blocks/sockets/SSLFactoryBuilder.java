@@ -195,7 +195,10 @@ public class SSLFactoryBuilder extends AbstractLogEnabled
                                                 keystorePassword,
                                                 keystoreFormat );
         final KeyManagerFactory kmf = KeyManagerFactory.getInstance( provider );
-        final char [] passChars = keyPassword.toCharArray();
+        // even though undocumented Sun's implementation doesn't allow
+        // null passphrases, but zero sized arrays are OK
+        final char [] passChars = ( keyPassword != null ) ?
+            keyPassword.toCharArray() : new char [0];
         try
         {
             kmf.init( keystore, passChars );
