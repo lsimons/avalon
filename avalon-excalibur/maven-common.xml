@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<!-- maven buildfile customization. -->
+
+<project default="java:jar">
+
+    <!-- ==========================================================
+          Warning
+         ========================================================== -->
+
+    <preGoal name="java:compile">
+        <attainGoal name="excalibur:warn"/>
+    </preGoal>
+    <postGoal name="jar:jar">
+        <attainGoal name="excalibur:warn"/>
+    </postGoal>
+
+    <goal name="excalibur:warn"
+            description="Alerts the user that the maven build is in development">
+        <echo>
+            ----------------------------------------------------------------
+             Avalon Excalibur Build System, the Maven Edition:
+            ----------------------------------------------------------------
+                            !!! WARNING !!!
+
+             excalibur is built using ant; the maven build system
+             is still in development. *DO NOT USE IT* unless you're helping
+             out with setting that up or testing it.
+            ----------------------------------------------------------------
+        </echo>
+    </goal>
+</project>
