@@ -11,6 +11,7 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
+import org.apache.avalon.excalibur.logger.SimpleLogKitManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.DefaultContext;
@@ -30,7 +31,7 @@ public class DefaultLogManager
     implements LogManager
 {
     private static final Resources REZ =
-        ResourceManager.getPackageResources( SimpleLogKitManager.class );
+        ResourceManager.getPackageResources( DefaultLogManager.class );
 
     /**
      * Create a Logger hierarchy for specified application.
@@ -82,7 +83,8 @@ public class DefaultLogManager
         }
         else
         {
-            final String message = "Unknown log version specification";
+            final String message =
+                REZ.getString( "unknown-version", version );
             throw new IllegalArgumentException( message );
         }
     }
