@@ -21,7 +21,7 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.components.application.Application;
-import org.apache.avalon.phoenix.components.application.DefaultServerApplication;
+import org.apache.avalon.phoenix.components.application.DefaultApplication;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.application.ApplicationContext;
 import org.apache.avalon.phoenix.components.manager.SystemManager;
@@ -114,7 +114,7 @@ public class DefaultKernel
         {
             try
             {
-                application = new DefaultServerApplication();
+                application = new DefaultApplication();
                 setupLogger( application, name );
 
                 final ApplicationContext context = createApplicationContext( entry );
