@@ -65,7 +65,7 @@ import java.util.Vector;
  * arguments are only returned by getArguments(). 
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/03/22 12:46:22 $
+ * @version $Revision: 1.5 $ $Date: 2003/03/24 09:03:32 $
  * @since 4.0
  * @see ParserControl
  * @see CLOption
