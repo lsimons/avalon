@@ -9,7 +9,7 @@ package org.apache.avalon.phoenix.components.logger;
 
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.logger.DefaultLogKitManager;
+import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
@@ -70,12 +70,12 @@ public class DefaultLogManager
         }
         else if( version.equals( "1.1" ) )
         {
-            final DefaultLogKitManager manager =
-                new DefaultLogKitManager();
+            final LogKitLoggerManager manager =
+                new LogKitLoggerManager();
             setupLogger( manager );
             manager.contextualize( context );
             manager.configure( logs );
-            return new LogKitHierarchyLogger( manager.getHierarchy() );
+            return manager.getDefaultLogger();
         }
         else
         {
