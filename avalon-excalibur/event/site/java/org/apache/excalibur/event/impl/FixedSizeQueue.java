@@ -49,9 +49,10 @@
 */
 package org.apache.excalibur.event.impl;
 
-import org.apache.excalibur.event.*;
-
 import org.apache.avalon.excalibur.concurrent.Mutex;
+import org.apache.excalibur.event.PreparedEnqueue;
+import org.apache.excalibur.event.SinkException;
+import org.apache.excalibur.event.SinkFullException;
 
 /**
  * An implementation of the <code>Queue</code> that has a fixed size.  Once

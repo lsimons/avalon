@@ -49,20 +49,17 @@
 */
 package org.apache.excalibur.mpool;
 
-import org.apache.avalon.excalibur.concurrent.Mutex;
 import org.apache.avalon.excalibur.collections.Buffer;
 import org.apache.avalon.excalibur.collections.FixedSizeBuffer;
+import org.apache.avalon.excalibur.concurrent.Mutex;
 import org.apache.avalon.framework.activity.Disposable;
-
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 
 /**
  * This is an <code>Pool</code> that caches Poolable objects for reuse.
  * Please note that this pool offers no resource limiting whatsoever.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/09/25 15:50:26 $
+ * @version CVS $Revision: 1.8 $ $Date: 2002/09/28 09:42:48 $
  * @since 4.1
  */
 public final class FixedSizePool

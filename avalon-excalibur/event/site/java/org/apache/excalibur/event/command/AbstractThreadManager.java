@@ -49,18 +49,17 @@
 */
 package org.apache.excalibur.event.command;
 
-import java.util.LinkedList;
 import java.util.HashMap;
 import java.util.Iterator;
-
+import java.util.LinkedList;
 import org.apache.avalon.excalibur.concurrent.Mutex;
-import org.apache.excalibur.thread.ThreadControl;
-import org.apache.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.excalibur.event.EventHandler;
 import org.apache.excalibur.event.Source;
+import org.apache.excalibur.thread.ThreadControl;
+import org.apache.excalibur.thread.ThreadPool;
 
 /**
  * Abstract base class for a ThreadManager that has a single ThreadPool for

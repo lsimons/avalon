@@ -58,8 +58,12 @@ import org.apache.avalon.excalibur.collections.Buffer;
 import org.apache.avalon.excalibur.collections.VariableSizeBuffer;
 import org.apache.avalon.excalibur.concurrent.Mutex;
 import org.apache.avalon.framework.activity.Disposable;
+import org.apache.excalibur.event.EventHandler;
+import org.apache.excalibur.event.Queue;
+import org.apache.excalibur.event.Signal;
+import org.apache.excalibur.event.Sink;
+import org.apache.excalibur.event.Source;
 import org.apache.excalibur.event.impl.DefaultQueue;
-import org.apache.excalibur.event.*;
 
 /**
  * The CommandManager handles asynchronous commands from the rest of the
