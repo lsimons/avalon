@@ -72,36 +72,36 @@ import org.apache.excalibur.mpool.ObjectFactory;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.21 $ $Date: 2003/04/11 07:38:30 $
+ * @version CVS $Revision: 1.22 $ $Date: 2003/04/18 20:02:29 $
  * @since 4.0
  */
-public class ComponentFactory
+public final class ComponentFactory
     extends AbstractLogEnabledInstrumentable
     implements ObjectFactory
 {
-    private CounterInstrument m_newInstance;
-    private CounterInstrument m_dispose;
+    private final CounterInstrument m_newInstance;
+    private final CounterInstrument m_dispose;
 
     /** The class which this <code>ComponentFactory</code>
      * should create.
      */
-    private Class m_componentClass;
+    private final Class m_componentClass;
 
     /** The Context for the component
      */
-    private Context m_context;
+    private final Context m_context;
 
     /** The component manager for this component.
      */
-    private ServiceManager m_serviceManager;
+    private final ServiceManager m_serviceManager;
 
     /** The configuration for this component.
      */
-    private Configuration m_configuration;
+    private final Configuration m_configuration;
 
     /** The LogKitManager for child ComponentSelectors
      */
-    private LoggerManager m_loggerManager;
+    private final LoggerManager m_loggerManager;
 
     /** Lifecycle extensions manager
      */
@@ -109,7 +109,7 @@ public class ComponentFactory
 
     /** The component's logger
      */
-    private Logger m_componentLogger;
+    private final Logger m_componentLogger;
 
     /**
      * Construct a new component factory for the specified component.
@@ -132,9 +132,9 @@ public class ComponentFactory
         m_serviceManager = serviceManager;
         m_context = new DefaultContext( context );
         final String name = configuration.getAttribute( "id", componentClass.getName() );
-        ( (DefaultContext)m_context ).put( "component.name", name );
-        ( (DefaultContext)m_context ).put( "component.logger", configuration.getAttribute( "logger", name ) );
-        ( (DefaultContext)m_context ).makeReadOnly();
+        ( (DefaultContext) m_context ).put( "component.name", name );
+        ( (DefaultContext) m_context ).put( "component.logger", configuration.getAttribute( "logger", name ) );
+        ( (DefaultContext) m_context ).makeReadOnly();
         m_loggerManager = loggerManager;
         m_extManager = extManager;
         enableLogging( m_loggerManager.getLoggerForCategory( "system.factory" ) );
@@ -162,7 +162,7 @@ public class ComponentFactory
     {
         final Object component = m_componentClass.newInstance();
 
-        if( getLogger().isDebugEnabled() )
+        if ( getLogger().isDebugEnabled() )
         {
             final String message =
                 "ComponentFactory creating new instance of " +
@@ -172,15 +172,15 @@ public class ComponentFactory
 
         ContainerUtil.enableLogging( component, m_componentLogger );
 
-        if( component instanceof Loggable )
+        if ( component instanceof Loggable )
         {
             final org.apache.log.Logger logkitLogger =
                 LogKit2AvalonLoggerAdapter.createLogger( m_componentLogger );
-            ( (Loggable)component ).setLogger( logkitLogger );
+            ( (Loggable) component ).setLogger( logkitLogger );
         }
 
         ContainerUtil.contextualize( component, m_context );
-        if( component instanceof Composable )
+        if ( component instanceof Composable )
         {
             ContainerUtil.compose( component, new WrapperComponentManager( m_serviceManager ) );
         }
@@ -194,7 +194,7 @@ public class ComponentFactory
 
         ContainerUtil.start( component );
 
-        if( m_newInstance.isActive() )
+        if ( m_newInstance.isActive() )
         {
             m_newInstance.increment();
         }
@@ -208,17 +208,17 @@ public class ComponentFactory
 
         try
         {
-            final String name = (String)m_context.get( "component.logger" );
-            if( getLogger().isDebugEnabled() )
+            final String name = (String) m_context.get( "component.logger" );
+            if ( getLogger().isDebugEnabled() )
             {
                 final String message = "logger name is " + name;
                 getLogger().debug( message );
             }
             logger = m_loggerManager.getLoggerForCategory( name );
         }
-        catch( ContextException ce )
+        catch ( ContextException ce )
         {
-            if( getLogger().isDebugEnabled() )
+            if ( getLogger().isDebugEnabled() )
             {
                 final String message = "no logger name available, using standard name";
                 getLogger().debug( message );
@@ -245,20 +245,20 @@ public class ComponentFactory
     public final void dispose( final Object component )
         throws Exception
     {
-        if( getLogger().isDebugEnabled() )
+        if ( getLogger().isDebugEnabled() )
         {
             final String message = "ComponentFactory decommissioning instance of " +
                 getCreatedClass().getName() + ".";
             getLogger().debug( message );
         }
 
-        if( getCreatedClass().equals( component.getClass() ) )
+        if ( getCreatedClass().equals( component.getClass() ) )
         {
             ContainerUtil.shutdown( component );
 
             m_extManager.executeDestructionExtensions( component, m_context );
 
-            if( m_dispose.isActive() )
+            if ( m_dispose.isActive() )
             {
                 m_dispose.increment();
             }

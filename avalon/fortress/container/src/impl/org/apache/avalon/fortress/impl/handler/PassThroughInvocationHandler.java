@@ -73,7 +73,7 @@ final class PassThroughInvocationHandler
      */
     public PassThroughInvocationHandler( final Object object )
     {
-        if( null == object )
+        if ( null == object )
         {
             throw new NullPointerException( "object" );
         }
@@ -99,7 +99,7 @@ final class PassThroughInvocationHandler
         {
             return meth.invoke( m_object, args );
         }
-        catch( final InvocationTargetException ite )
+        catch ( final InvocationTargetException ite )
         {
             throw ite.getTargetException();
         }

@@ -73,7 +73,7 @@ import org.apache.avalon.framework.service.Serviceable;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:mike@hihat.net">Michael McKibben</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/04/11 07:37:58 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/04/18 20:02:31 $
  */
 public final class ComponentStateValidator
 {
@@ -119,8 +119,8 @@ public final class ComponentStateValidator
     private static final long DISPOSE = 0x00200000;
 
     // Masks
-    private static final long INIT_MASK = ENABLE_LOGGING | SET_LOGGER |
-        CONTEXTUALIZE | COMPOSE | SERVICE | CONFIGURE | PARAMETERIZE | INITIALIZE |
+    private static final long INIT_MASK = ENABLE_LOGGING|SET_LOGGER|
+        CONTEXTUALIZE|COMPOSE|SERVICE|CONFIGURE|PARAMETERIZE|INITIALIZE|
         START;
 
     private final long m_interfaces;
@@ -140,33 +140,33 @@ public final class ComponentStateValidator
         long methods = 0;
         long interfaces = 0;
 
-        if( object instanceof LogEnabled )
+        if ( object instanceof LogEnabled )
         {
             interfaces |= LOG_ENABLED;
             methods |= ENABLE_LOGGING;
         }
 
-        if( object instanceof Loggable )
+        if ( object instanceof Loggable )
         {
             interfaces |= LOGGABLE;
             methods |= SET_LOGGER;
         }
 
-        if( object instanceof Contextualizable )
+        if ( object instanceof Contextualizable )
         {
             interfaces |= CONTEXTUALIZABLE;
             methods |= CONTEXTUALIZE;
         }
 
-        if( object instanceof Serviceable )
+        if ( object instanceof Serviceable )
         {
             interfaces |= SERVICEABLE;
             methods |= SERVICE;
         }
 
-        if( object instanceof Composable )
+        if ( object instanceof Composable )
         {
-            if( ( interfaces & SERVICEABLE ) > 0 )
+            if ( ( interfaces&SERVICEABLE ) > 0 )
             {
                 throw new IllegalStateException( "Cannot implement Composable and Serviceable together" );
             }
@@ -175,55 +175,55 @@ public final class ComponentStateValidator
             methods |= COMPOSE;
         }
 
-        if( object instanceof Configurable )
+        if ( object instanceof Configurable )
         {
             interfaces |= CONFIGURABLE;
             methods |= CONFIGURE;
         }
 
-        if( object instanceof Parameterizable )
+        if ( object instanceof Parameterizable )
         {
             interfaces |= PARAMETERIZABLE;
             methods |= PARAMETERIZE;
         }
 
-        if( object instanceof Initializable )
+        if ( object instanceof Initializable )
         {
             interfaces |= INITIALIZABLE;
             methods |= INITIALIZE;
         }
 
-        if( object instanceof Startable )
+        if ( object instanceof Startable )
         {
             interfaces |= STARTABLE;
-            methods |= START | STOP;
+            methods |= START|STOP;
         }
 
-        if( object instanceof Suspendable )
+        if ( object instanceof Suspendable )
         {
             interfaces |= SUSPENDABLE;
-            methods |= SUSPEND | RESUME;
+            methods |= SUSPEND|RESUME;
         }
 
-        if( object instanceof Recontextualizable )
+        if ( object instanceof Recontextualizable )
         {
             interfaces |= RECONTEXTUALIZABLE;
             methods |= RECONTEXTUALIZE;
         }
 
-        if( object instanceof Recomposable )
+        if ( object instanceof Recomposable )
         {
             interfaces |= RECOMPOSABLE;
             methods |= RECOMPOSE;
         }
 
-        if( object instanceof Reconfigurable )
+        if ( object instanceof Reconfigurable )
         {
             interfaces |= RECONFIGURABLE;
             methods |= RECONFIGURE;
         }
 
-        if( object instanceof Disposable )
+        if ( object instanceof Disposable )
         {
             interfaces |= DISPOSABLE;
             methods |= DISPOSE;
@@ -237,59 +237,59 @@ public final class ComponentStateValidator
 
     private String getInterfaceName( long interfaceId )
     {
-        if( interfaceId == LOG_ENABLED )
+        if ( interfaceId == LOG_ENABLED )
         {
             return LogEnabled.class.getName();
         }
-        else if( interfaceId == LOGGABLE )
+        else if ( interfaceId == LOGGABLE )
         {
             return Loggable.class.getName();
         }
-        else if( interfaceId == CONTEXTUALIZABLE )
+        else if ( interfaceId == CONTEXTUALIZABLE )
         {
             return Contextualizable.class.getName();
         }
-        else if( interfaceId == SERVICEABLE )
+        else if ( interfaceId == SERVICEABLE )
         {
             return Serviceable.class.getName();
         }
-        else if( interfaceId == COMPOSABLE )
+        else if ( interfaceId == COMPOSABLE )
         {
             return Composable.class.getName();
         }
-        else if( interfaceId == CONFIGURABLE )
+        else if ( interfaceId == CONFIGURABLE )
         {
             return Configurable.class.getName();
         }
-        else if( interfaceId == PARAMETERIZABLE )
+        else if ( interfaceId == PARAMETERIZABLE )
         {
             return Parameterizable.class.getName();
         }
-        else if( interfaceId == INITIALIZABLE )
+        else if ( interfaceId == INITIALIZABLE )
         {
             return Initializable.class.getName();
         }
-        else if( interfaceId == STARTABLE )
+        else if ( interfaceId == STARTABLE )
         {
             return Startable.class.getName();
         }
-        else if( interfaceId == SUSPENDABLE )
+        else if ( interfaceId == SUSPENDABLE )
         {
             return Suspendable.class.getName();
         }
-        else if( interfaceId == RECONTEXTUALIZABLE )
+        else if ( interfaceId == RECONTEXTUALIZABLE )
         {
             return Recontextualizable.class.getName();
         }
-        else if( interfaceId == RECOMPOSABLE )
+        else if ( interfaceId == RECOMPOSABLE )
         {
             return Recomposable.class.getName();
         }
-        else if( interfaceId == RECONFIGURABLE )
+        else if ( interfaceId == RECONFIGURABLE )
         {
             return Reconfigurable.class.getName();
         }
-        else if( interfaceId == DISPOSABLE )
+        else if ( interfaceId == DISPOSABLE )
         {
             return Disposable.class.getName();
         }
@@ -301,67 +301,67 @@ public final class ComponentStateValidator
 
     private String getMethodName( long methodId )
     {
-        if( methodId == ENABLE_LOGGING )
+        if ( methodId == ENABLE_LOGGING )
         {
             return "enableLogging()";
         }
-        else if( methodId == SET_LOGGER )
+        else if ( methodId == SET_LOGGER )
         {
             return "setLogger()";
         }
-        else if( methodId == CONTEXTUALIZE )
+        else if ( methodId == CONTEXTUALIZE )
         {
             return "contextualize()";
         }
-        else if( methodId == SERVICE )
+        else if ( methodId == SERVICE )
         {
             return "service()";
         }
-        else if( methodId == COMPOSE )
+        else if ( methodId == COMPOSE )
         {
             return "compose()";
         }
-        else if( methodId == CONFIGURE )
+        else if ( methodId == CONFIGURE )
         {
             return "configure()";
         }
-        else if( methodId == PARAMETERIZE )
+        else if ( methodId == PARAMETERIZE )
         {
             return "parameterize()";
         }
-        else if( methodId == INITIALIZE )
+        else if ( methodId == INITIALIZE )
         {
             return "initialize()";
         }
-        else if( methodId == START )
+        else if ( methodId == START )
         {
             return "start()";
         }
-        else if( methodId == SUSPEND )
+        else if ( methodId == SUSPEND )
         {
             return "suspend()";
         }
-        else if( methodId == RECONTEXTUALIZE )
+        else if ( methodId == RECONTEXTUALIZE )
         {
             return "recontextualize()";
         }
-        else if( methodId == RECOMPOSE )
+        else if ( methodId == RECOMPOSE )
         {
             return "recompose()";
         }
-        else if( methodId == RECONFIGURE )
+        else if ( methodId == RECONFIGURE )
         {
             return "reconfigure()";
         }
-        else if( methodId == RESUME )
+        else if ( methodId == RESUME )
         {
             return "resume()";
         }
-        else if( methodId == STOP )
+        else if ( methodId == STOP )
         {
             return "stop()";
         }
-        else if( methodId == DISPOSE )
+        else if ( methodId == DISPOSE )
         {
             return "dispose()";
         }
@@ -373,10 +373,10 @@ public final class ComponentStateValidator
 
     private String getLastMethod( long state )
     {
-        for( int i = 31; i >= 0; i-- )
+        for ( int i = 31; i >= 0; i-- )
         {
             long methodId = 0x1 << i;
-            if( ( state & methodId ) != 0 )
+            if ( ( state&methodId ) != 0 )
             {
                 return getMethodName( methodId );
             }
@@ -389,7 +389,7 @@ public final class ComponentStateValidator
      */
     private void generalCheckInitComplete()
     {
-        if( m_state == ( m_methods & INIT_MASK ) )
+        if ( m_state == ( m_methods&INIT_MASK ) )
         {
             // All init methods called
             m_active = true;
@@ -403,23 +403,23 @@ public final class ComponentStateValidator
      */
     private void generalCheckInit( final String message, final long interfaceId, final long methodId )
     {
-        if( ( m_interfaces & interfaceId ) == 0 )
+        if ( ( m_interfaces&interfaceId ) == 0 )
         {
             // Interface not implemented
-            if( message == null )
+            if ( message == null )
             {
                 throw new IllegalStateException( m_object.getClass().getName() +
-                                                 " does not implement " + getInterfaceName( interfaceId ) + "." );
+                    " does not implement " + getInterfaceName( interfaceId ) + "." );
             }
             else
             {
                 throw new IllegalStateException( message );
             }
         }
-        else if( ( m_state & methodId ) > 0 )
+        else if ( ( m_state&methodId ) > 0 )
         {
             // Method already called.
-            if( message == null )
+            if ( message == null )
             {
                 throw new IllegalStateException( getMethodName( methodId ) + " already called." );
             }
@@ -428,28 +428,28 @@ public final class ComponentStateValidator
                 throw new IllegalStateException( message );
             }
         }
-        else if( m_state > methodId )
+        else if ( m_state > methodId )
         {
             // Method called after a descruction method was called.
-            if( message == null )
+            if ( message == null )
             {
                 throw new IllegalStateException( getMethodName( methodId ) +
-                                                 " can not be called after " + getLastMethod( m_state ) + "." );
+                    " can not be called after " + getLastMethod( m_state ) + "." );
             }
             else
             {
                 throw new IllegalStateException( message );
             }
         }
-        else if( ( m_state & ( methodId - 1 ) ) != ( m_methods & ( methodId - 1 ) ) )
+        else if ( ( m_state&( methodId - 1 ) ) != ( m_methods&( methodId - 1 ) ) )
         {
             // One or more of the methods that should have been called before
             //  this method was not.
-            if( message == null )
+            if ( message == null )
             {
                 throw new IllegalStateException( getMethodName( methodId ) +
-                                                 " called out of order. " + getLastMethod( m_methods & ( methodId - 1 ) ) +
-                                                 " must be called first." );
+                    " called out of order. " + getLastMethod( m_methods&( methodId - 1 ) ) +
+                    " must be called first." );
             }
             else
             {
@@ -475,31 +475,31 @@ public final class ComponentStateValidator
      */
     private void generalCheckActive( final String message, final long interfaceId, final long methodId )
     {
-        if( ( m_interfaces & interfaceId ) == 0 )
+        if ( ( m_interfaces&interfaceId ) == 0 )
         {
             // Interface not implemented
-            if( message == null )
+            if ( message == null )
             {
                 throw new IllegalStateException( m_object.getClass().getName() +
-                                                 " does not implement " + getInterfaceName( interfaceId ) + "." );
+                    " does not implement " + getInterfaceName( interfaceId ) + "." );
             }
             else
             {
                 throw new IllegalStateException( message );
             }
         }
-        else if( !m_active )
+        else if ( !m_active )
         {
             // Component not in the active state.
-            if( m_state < INIT_COMPLETE )
+            if ( m_state < INIT_COMPLETE )
             {
                 // Still expecting initialization methods.
-                if( message == null )
+                if ( message == null )
                 {
                     throw new IllegalStateException( getMethodName( methodId ) +
-                                                     " called before component was made active. " +
-                                                     getLastMethod( m_methods & ( INIT_COMPLETE - 1 ) ) +
-                                                     " must be called first." );
+                        " called before component was made active. " +
+                        getLastMethod( m_methods&( INIT_COMPLETE - 1 ) ) +
+                        " must be called first." );
                 }
                 else
                 {
@@ -509,11 +509,11 @@ public final class ComponentStateValidator
             else
             {
                 // One or more destruction methods have been called.
-                if( message == null )
+                if ( message == null )
                 {
                     throw new IllegalStateException( getMethodName( methodId ) +
-                                                     " called after component was made inactive.  Cannot call after " +
-                                                     getLastMethod( m_state ) + "." );
+                        " called after component was made inactive.  Cannot call after " +
+                        getLastMethod( m_state ) + "." );
                 }
                 else
                 {
@@ -530,26 +530,26 @@ public final class ComponentStateValidator
      */
     private void generalCheckDest( final String message, final long interfaceId, final long methodId )
     {
-        if( ( m_interfaces & interfaceId ) == 0 )
+        if ( ( m_interfaces&interfaceId ) == 0 )
         {
             // Interface not implemented
-            if( message == null )
+            if ( message == null )
             {
                 throw new IllegalStateException( m_object.getClass().getName() +
-                                                 " does not implement " + getInterfaceName( interfaceId ) + "." );
+                    " does not implement " + getInterfaceName( interfaceId ) + "." );
             }
             else
             {
                 throw new IllegalStateException( message );
             }
         }
-        else if( m_state > methodId )
+        else if ( m_state > methodId )
         {
             // Method called after a later descruction method was called.
-            if( message == null )
+            if ( message == null )
             {
                 throw new IllegalStateException( getMethodName( methodId ) +
-                                                 " can not be called after " + getLastMethod( m_state ) + "." );
+                    " can not be called after " + getLastMethod( m_state ) + "." );
             }
             else
             {
@@ -907,20 +907,20 @@ public final class ComponentStateValidator
      */
     public void checkActive( final String message )
     {
-        if( isActive() )
+        if ( isActive() )
         {
             return;
         }
 
         // Component not in the active state.
-        if( m_state < INIT_COMPLETE )
+        if ( m_state < INIT_COMPLETE )
         {
             // Still expecting initialization methods.
-            if( message == null )
+            if ( message == null )
             {
                 throw new IllegalStateException( "Component not in the active state. " +
-                                                 getLastMethod( m_methods & ( INIT_COMPLETE - 1 ) ) +
-                                                 " was not called." );
+                    getLastMethod( m_methods&( INIT_COMPLETE - 1 ) ) +
+                    " was not called." );
             }
             else
             {
@@ -930,10 +930,10 @@ public final class ComponentStateValidator
         else
         {
             // One or more destruction methods have been called.
-            if( message == null )
+            if ( message == null )
             {
                 throw new IllegalStateException( "Component not in the active state because " +
-                                                 getLastMethod( m_state ) + " was called." );
+                    getLastMethod( m_state ) + " was called." );
             }
             else
             {
@@ -972,7 +972,7 @@ public final class ComponentStateValidator
      */
     public void checkNotAssigned( final Object object, final String message )
     {
-        if( null != object )
+        if ( null != object )
         {
             throw new IllegalStateException( message );
         }

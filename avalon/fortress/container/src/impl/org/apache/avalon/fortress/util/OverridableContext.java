@@ -57,7 +57,7 @@ import org.apache.avalon.framework.context.DefaultContext;
  * in a parent context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/03/22 12:46:34 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/04/18 20:02:30 $
  */
 public final class OverridableContext
     extends DefaultContext
@@ -66,7 +66,7 @@ public final class OverridableContext
      * Creation of a new overridable context.
      * @param parent the parent context
      */
-    public OverridableContext( Context parent )
+    public OverridableContext( final Context parent )
     {
         super( parent );
     }
@@ -78,7 +78,7 @@ public final class OverridableContext
      */
     public void put( final Object key, final Object value )
     {
-        if( null == value )
+        if ( null == value )
         {
             hide( key );
         }

@@ -54,11 +54,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class handles looking up service providers on the class path.
@@ -76,8 +72,8 @@ import java.util.Set;
  */
 public final class Service
 {
-    private static String SERVICES = "META-INF/services/";
-    private static HashMap providers = new HashMap();
+    private static final String SERVICES = "META-INF/services/";
+    private static final HashMap providers = new HashMap();
 
     /**
      * Private constructor to keep from instantiating this class
@@ -93,19 +89,19 @@ public final class Service
      *
      * @return an <code>Iterator</code> for the providers.
      */
-    public static synchronized Iterator providers( Class klass )
+    public static synchronized Iterator providers( final Class klass )
     {
-        String serviceFile = SERVICES + klass.getName();
+        final String serviceFile = SERVICES + klass.getName();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
-        if( null == loader )
+        if ( null == loader )
         {
             loader = klass.getClassLoader();
         }
 
-        Set providerSet = (Set)providers.get( serviceFile );
+        Set providerSet = (Set) providers.get( serviceFile );
 
-        if( null == providerSet )
+        if ( null == providerSet )
         {
             providerSet = new HashSet();
             Enumeration enum = null;
@@ -117,44 +113,44 @@ public final class Service
             {
                 enum = loader.getResources( serviceFile );
             }
-            catch( IOException ioe )
+            catch ( IOException ioe )
             {
                 errorOccurred = true;
             }
 
-            if( !errorOccurred )
+            if ( !errorOccurred )
             {
-                while( enum.hasMoreElements() )
+                while ( enum.hasMoreElements() )
                 {
                     try
                     {
-                        URL url = (URL)enum.nextElement();
-                        InputStream is = url.openStream();
-                        BufferedReader reader = new BufferedReader(
+                        final URL url = (URL) enum.nextElement();
+                        final InputStream is = url.openStream();
+                        final BufferedReader reader = new BufferedReader(
                             new InputStreamReader( is,
-                                                   "UTF-8" ) );
+                                "UTF-8" ) );
 
                         String line = reader.readLine();
-                        while( null != line )
+                        while ( null != line )
                         {
                             try
                             {
-                                int comment = line.indexOf( '#' );
+                                final int comment = line.indexOf( '#' );
 
-                                if( comment > -1 )
+                                if ( comment > -1 )
                                 {
                                     line = line.substring( 0, comment );
                                 }
 
                                 line.trim();
 
-                                if( line.length() > 0 )
+                                if ( line.length() > 0 )
                                 {
                                     // We just want the types, not the instances
                                     providerSet.add( loader.loadClass( line ) );
                                 }
                             }
-                            catch( Exception e )
+                            catch ( Exception e )
                             {
                                 // try the next line
                             }
@@ -162,7 +158,7 @@ public final class Service
                             line = reader.readLine();
                         }
                     }
-                    catch( Exception e )
+                    catch ( Exception e )
                     {
                         // try the next file
                     }

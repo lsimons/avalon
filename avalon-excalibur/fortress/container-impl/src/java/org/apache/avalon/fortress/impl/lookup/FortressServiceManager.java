@@ -49,7 +49,6 @@
 */
 package org.apache.avalon.fortress.impl.lookup;
 
-import java.util.Map;
 import org.apache.avalon.fortress.Container;
 import org.apache.avalon.fortress.impl.AbstractContainer;
 import org.apache.avalon.fortress.impl.handler.ComponentHandler;
@@ -60,15 +59,17 @@ import org.apache.avalon.framework.service.ServiceSelector;
 import org.apache.avalon.framework.service.WrapperServiceSelector;
 import org.apache.commons.collections.StaticBucketMap;
 
+import java.util.Map;
+
 /**
  * This is the Default ServiceManager for the Container.  It provides
  * a very simple abstraction, and makes it easy for the Container to manage
  * the references.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.13 $ $Date: 2003/04/11 07:38:30 $
+ * @version CVS $Revision: 1.14 $ $Date: 2003/04/18 20:02:30 $
  */
-public class FortressServiceManager
+public final class FortressServiceManager
     implements ServiceManager
 {
     private final Container m_container;
@@ -86,11 +87,11 @@ public class FortressServiceManager
     public FortressServiceManager( final Container container,
                                    final ServiceManager parent ) throws NullPointerException
     {
-        if( null == container )
+        if ( null == container )
         {
             throw new NullPointerException( "impl" );
         }
-        if( null == parent )
+        if ( null == parent )
         {
             throw new NullPointerException( "parent" );
         }
@@ -103,25 +104,25 @@ public class FortressServiceManager
     public Object lookup( final String role )
         throws ServiceException
     {
-        Lookup lookup = parseRole( role );
+        final Lookup lookup = parseRole( role );
 
-        if( !m_container.has( lookup.m_role, lookup.m_hint ) )
+        if ( !m_container.has( lookup.m_role, lookup.m_hint ) )
         {
             return m_parent.lookup( role );
         }
 
         final Object result = m_container.get( lookup.m_role, lookup.m_hint );
-        if( result instanceof ServiceSelector )
+        if ( result instanceof ServiceSelector )
         {
             return result;
         }
 
-        if( result instanceof ComponentSelector )
+        if ( result instanceof ComponentSelector )
         {
-            return new WrapperServiceSelector( lookup.m_role, (ComponentSelector)result );
+            return new WrapperServiceSelector( lookup.m_role, (ComponentSelector) result );
         }
 
-        if( !( result instanceof ComponentHandler ) )
+        if ( !( result instanceof ComponentHandler ) )
         {
             final String message = "Invalid entry in component manager";
             throw new ServiceException( role, message );
@@ -129,17 +130,17 @@ public class FortressServiceManager
 
         try
         {
-            final ComponentHandler handler = (ComponentHandler)result;
+            final ComponentHandler handler = (ComponentHandler) result;
             final Object component = handler.get();
 
             m_used.put( new ComponentKey( component ), handler );
             return component;
         }
-        catch( final ServiceException ce )
+        catch ( final ServiceException ce )
         {
             throw ce; // rethrow
         }
-        catch( final Exception e )
+        catch ( final Exception e )
         {
             final String message =
                 "Could not return a reference to the Component";
@@ -149,9 +150,9 @@ public class FortressServiceManager
 
     public boolean hasService( final String role )
     {
-        Lookup lookup = parseRole( role );
+        final Lookup lookup = parseRole( role );
 
-        if( m_container.has( lookup.m_role, lookup.m_hint ) )
+        if ( m_container.has( lookup.m_role, lookup.m_hint ) )
         {
             return true;
         }
@@ -163,10 +164,10 @@ public class FortressServiceManager
 
     public void release( final Object component )
     {
-        final ComponentHandler handler = (ComponentHandler)m_used.remove( new ComponentKey( component ) );
-        if( null == handler )
+        final ComponentHandler handler = (ComponentHandler) m_used.remove( new ComponentKey( component ) );
+        if ( null == handler )
         {
-            if( null == m_parent )
+            if ( null == m_parent )
             {
                 /* This is a purplexing problem.  SOmetimes the m_used hash
                  * returns null for the component--usually a ThreadSafe
@@ -189,22 +190,22 @@ public class FortressServiceManager
         }
     }
 
-    private Lookup parseRole( String role )
+    private Lookup parseRole( final String role )
     {
-        Lookup lookup = new Lookup();
+        final Lookup lookup = new Lookup();
         lookup.m_role = role;
         lookup.m_hint = AbstractContainer.DEFAULT_ENTRY;
 
-        if( role.endsWith( "Selector" ) )
+        if ( role.endsWith( "Selector" ) )
         {
             lookup.m_role = role.substring( 0, role.length() - "Selector".length() );
             lookup.m_hint = AbstractContainer.SELECTOR_ENTRY;
         }
 
-        int index = role.lastIndexOf( "/" );
+        final int index = role.lastIndexOf( "/" );
 
         // needs to be further than the first character
-        if( index > 0 )
+        if ( index > 0 )
         {
             lookup.m_role = role.substring( 0, index );
             lookup.m_hint = role.substring( index + 1 );

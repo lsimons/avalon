@@ -53,7 +53,7 @@ package org.apache.avalon.fortress.impl.handler;
  * and destroyed correctly.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/03/22 12:46:33 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/04/18 20:02:29 $
  * @since 4.0
  */
 public final class PerThreadComponentHandler
@@ -75,7 +75,7 @@ public final class PerThreadComponentHandler
         throws Exception
     {
         final Object instance = m_instance.get();
-        if( null == instance )
+        if ( null == instance )
         {
             throw new IllegalStateException( "Instance is unavailable" );
         }
@@ -105,7 +105,7 @@ public final class PerThreadComponentHandler
             {
                 return m_handler.newComponent();
             }
-            catch( final Exception e )
+            catch ( final Exception e )
             {
                 return null;
             }

@@ -56,9 +56,9 @@ import org.apache.avalon.fortress.impl.handler.ComponentHandler;
  * ComponentHandler.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2003/04/08 18:28:10 $
+ * @version $Revision: 1.9 $ $Date: 2003/04/18 20:02:29 $
  */
-public class ComponentHandlerEntry
+public final class ComponentHandlerEntry
 {
     private final ComponentHandler m_handler;
     private final ComponentHandlerMetaData m_metaData;
@@ -72,11 +72,11 @@ public class ComponentHandlerEntry
     public ComponentHandlerEntry( final ComponentHandler handler,
                                   final ComponentHandlerMetaData metaData )
     {
-        if( null == handler )
+        if ( null == handler )
         {
             throw new NullPointerException( "handler" );
         }
-        if( null == metaData )
+        if ( null == metaData )
         {
             throw new NullPointerException( "metaData" );
         }

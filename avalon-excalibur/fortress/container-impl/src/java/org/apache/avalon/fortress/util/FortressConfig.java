@@ -49,7 +49,6 @@
 */
 package org.apache.avalon.fortress.util;
 
-import java.io.File;
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.fortress.impl.DefaultContainer;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -61,11 +60,13 @@ import org.apache.excalibur.event.Queue;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.mpool.PoolManager;
 
+import java.io.File;
+
 /**
  * Helper class to create a m_context for the ContextManager.
- * @version CVS $Revision: 1.13 $ $Date: 2003/04/11 20:39:38 $
+ * @version CVS $Revision: 1.14 $ $Date: 2003/04/18 20:02:30 $
  */
-public class FortressConfig
+public final class FortressConfig
 {
     private final DefaultContext m_context;
 
@@ -93,7 +94,7 @@ public class FortressConfig
      *
      * @param parent parent m_context with default values.
      */
-    public FortressConfig( Context parent )
+    public FortressConfig( final Context parent )
     {
         m_context = new OverridableContext( parent );
     }
@@ -109,22 +110,22 @@ public class FortressConfig
     /**
      * Creates a default m_context.
      */
-    public static final Context createDefaultConfig( ClassLoader classLoader )
+    public static final Context createDefaultConfig( final ClassLoader classLoader )
     {
-        DefaultContext defaultContext = new DefaultContext();
+        final DefaultContext defaultContext = new DefaultContext();
 
         try
         {
             defaultContext.put( ContextManagerConstants.CONTAINER_CLASS,
-                                DefaultContainer.class );
+                DefaultContainer.class );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             // ignore
         }
 
-        File contextDir = new File( System.getProperty( "user.dir" ) );
-        File workDir = new File( System.getProperty( "java.io.tmpdir" ) );
+        final File contextDir = new File( System.getProperty( "user.dir" ) );
+        final File workDir = new File( System.getProperty( "java.io.tmpdir" ) );
 
         defaultContext.put( ContextManagerConstants.THREADS_CPU, new Integer( 2 ) );
         defaultContext.put( ContextManagerConstants.THREAD_TIMEOUT, new Long( 1000 ) );
@@ -169,12 +170,12 @@ public class FortressConfig
     public void setContainerClass( final String containerClass )
         throws ClassNotFoundException
     {
-        ClassLoader classLoader = null;
+        ClassLoader classLoader;
         try
         {
-            classLoader = (ClassLoader)m_context.get( ClassLoader.class.getName() );
+            classLoader = (ClassLoader) m_context.get( ClassLoader.class.getName() );
         }
-        catch( ContextException ce )
+        catch ( ContextException ce )
         {
             classLoader = Thread.currentThread().getContextClassLoader();
         }

@@ -49,7 +49,6 @@
 */
 package org.apache.avalon.fortress.util;
 
-import java.io.File;
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Context;
@@ -58,13 +57,15 @@ import org.apache.excalibur.event.Queue;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.mpool.PoolManager;
 
+import java.io.File;
+
 /**
  * Helper class to create a context for the ContextManager.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.10 $ $Date: 2003/03/29 18:53:24 $
+ * @version CVS $Revision: 1.11 $ $Date: 2003/04/18 20:02:30 $
  * @deprecated Replaced with FortressConfig
  */
-public class ContextBuilder
+public final class ContextBuilder
     implements ContextManagerConstants
 {
     private final FortressConfig m_config;
@@ -111,7 +112,7 @@ public class ContextBuilder
      * Creates a default context.
      * @return a context
      */
-    public static final Context createDefaultContext( ClassLoader classLoader )
+    public static final Context createDefaultContext( final ClassLoader classLoader )
     {
         return FortressConfig.createDefaultConfig( classLoader );
     }
@@ -125,158 +126,158 @@ public class ContextBuilder
         return m_config.getContext();
     }
 
-    public ContextBuilder setCommandQueue( Queue commandQueue )
+    public ContextBuilder setCommandQueue( final Queue commandQueue )
     {
         m_config.setCommandQueue( commandQueue );
         return this;
     }
 
-    public ContextBuilder setServiceManager( ServiceManager serviceManager )
+    public ContextBuilder setServiceManager( final ServiceManager serviceManager )
     {
         m_config.setServiceManager( serviceManager );
         return this;
     }
 
-    public ContextBuilder setContainerClass( String containerClass )
+    public ContextBuilder setContainerClass( final String containerClass )
         throws ClassNotFoundException
     {
         m_config.setContainerClass( containerClass );
         return this;
     }
 
-    public ContextBuilder setContainerClass( Class containerClass )
+    public ContextBuilder setContainerClass( final Class containerClass )
     {
         m_config.setContainerClass( containerClass );
         return this;
     }
 
-    public ContextBuilder setContainerConfiguration( Configuration config )
+    public ContextBuilder setContainerConfiguration( final Configuration config )
     {
         m_config.setContainerConfiguration( config );
         return this;
     }
 
-    public ContextBuilder setContainerConfiguration( String location )
+    public ContextBuilder setContainerConfiguration( final String location )
     {
         m_config.setContainerConfiguration( location );
         return this;
     }
 
-    public ContextBuilder setAssemblyConfiguration( Configuration config )
+    public ContextBuilder setAssemblyConfiguration( final Configuration config )
     {
         m_config.setAssemblyConfiguration( config );
         return this;
     }
 
-    public ContextBuilder setAssemblyConfiguration( String location )
+    public ContextBuilder setAssemblyConfiguration( final String location )
     {
         m_config.setAssemblyConfiguration( location );
         return this;
     }
 
-    public ContextBuilder setContextClassLoader( ClassLoader loader )
+    public ContextBuilder setContextClassLoader( final ClassLoader loader )
     {
         m_config.setContextClassLoader( loader );
         return this;
     }
 
-    public ContextBuilder setContextDirectory( File file )
+    public ContextBuilder setContextDirectory( final File file )
     {
         m_config.setContextDirectory( file );
         return this;
     }
 
-    public ContextBuilder setContextDirectory( String directory )
+    public ContextBuilder setContextDirectory( final String directory )
     {
         m_config.setContextDirectory( directory );
         return this;
     }
 
-    public ContextBuilder setLoggerCategory( String category )
+    public ContextBuilder setLoggerCategory( final String category )
     {
         m_config.setLoggerCategory( category );
         return this;
     }
 
-    public ContextBuilder setLoggerManager( LoggerManager logManager )
+    public ContextBuilder setLoggerManager( final LoggerManager logManager )
     {
         m_config.setLoggerManager( logManager );
         return this;
     }
 
-    public ContextBuilder setLoggerManagerConfiguration( Configuration config )
+    public ContextBuilder setLoggerManagerConfiguration( final Configuration config )
     {
         m_config.setLoggerManagerConfiguration( config );
         return this;
     }
 
-    public ContextBuilder setLoggerManagerConfiguration( String location )
+    public ContextBuilder setLoggerManagerConfiguration( final String location )
     {
         m_config.setLoggerManagerConfiguration( location );
         return this;
     }
 
-    public ContextBuilder setInstrumentManager( InstrumentManager profiler )
+    public ContextBuilder setInstrumentManager( final InstrumentManager profiler )
     {
         m_config.setInstrumentManager( profiler );
         return this;
     }
 
-    public ContextBuilder setInstrumentManagerConfiguration( Configuration config )
+    public ContextBuilder setInstrumentManagerConfiguration( final Configuration config )
     {
         m_config.setInstrumentManagerConfiguration( config );
         return this;
     }
 
-    public ContextBuilder setInstrumentManagerConfiguration( String location )
+    public ContextBuilder setInstrumentManagerConfiguration( final String location )
     {
         m_config.setInstrumentManagerConfiguration( location );
         return this;
     }
 
-    public ContextBuilder setNumberOfThreadsPerCPU( int numberOfThreads )
+    public ContextBuilder setNumberOfThreadsPerCPU( final int numberOfThreads )
     {
         m_config.setNumberOfThreadsPerCPU( numberOfThreads );
         return this;
     }
 
-    public ContextBuilder setPoolManager( PoolManager poolManager )
+    public ContextBuilder setPoolManager( final PoolManager poolManager )
     {
         m_config.setPoolManager( poolManager );
         return this;
     }
 
-    public ContextBuilder setRoleManager( org.apache.avalon.fortress.RoleManager roleManager )
+    public ContextBuilder setRoleManager( final org.apache.avalon.fortress.RoleManager roleManager )
     {
         m_config.setRoleManager( roleManager );
         return this;
     }
 
-    public ContextBuilder setRoleManagerConfiguration( Configuration config )
+    public ContextBuilder setRoleManagerConfiguration( final Configuration config )
     {
         m_config.setRoleManagerConfiguration( config );
         return this;
     }
 
-    public ContextBuilder setRoleManagerConfiguration( String location )
+    public ContextBuilder setRoleManagerConfiguration( final String location )
     {
         m_config.setRoleManagerConfiguration( location );
         return this;
     }
 
-    public ContextBuilder setThreadTimeout( long timeout )
+    public ContextBuilder setThreadTimeout( final long timeout )
     {
         m_config.setThreadTimeout( timeout );
         return this;
     }
 
-    public ContextBuilder setWorkDirectory( File file )
+    public ContextBuilder setWorkDirectory( final File file )
     {
         m_config.setWorkDirectory( file );
         return this;
     }
 
-    public ContextBuilder setWorkDirectory( String directory )
+    public ContextBuilder setWorkDirectory( final String directory )
     {
         m_config.setWorkDirectory( directory );
         return this;

@@ -49,12 +49,13 @@
 */
 package org.apache.avalon.fortress.impl.lookup;
 
-import java.util.Map;
 import org.apache.avalon.fortress.Container;
 import org.apache.avalon.fortress.impl.handler.ComponentHandler;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceSelector;
 import org.apache.commons.collections.StaticBucketMap;
+
+import java.util.Map;
 
 /**
  * This is the Default ServiceSelector for the Container.  It provides
@@ -62,9 +63,9 @@ import org.apache.commons.collections.StaticBucketMap;
  * the references.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.10 $ $Date: 2003/04/11 07:38:30 $
+ * @version CVS $Revision: 1.11 $ $Date: 2003/04/18 20:02:30 $
  */
-public class FortressServiceSelector
+public final class FortressServiceSelector
     implements ServiceSelector
 {
     private final String m_key;
@@ -79,11 +80,11 @@ public class FortressServiceSelector
     public FortressServiceSelector( final Container container,
                                     final String key )
     {
-        if( null == container )
+        if ( null == container )
         {
             throw new NullPointerException( "impl" );
         }
-        if( null == key )
+        if ( null == key )
         {
             throw new NullPointerException( "key" );
         }
@@ -103,11 +104,11 @@ public class FortressServiceSelector
             m_used.put( new ComponentKey( component ), handler );
             return component;
         }
-        catch( final ServiceException ce )
+        catch ( final ServiceException ce )
         {
             throw ce; // rethrow
         }
-        catch( final Exception e )
+        catch ( final Exception e )
         {
             final String name = m_key + "/" + hint.toString();
             final String message = "Could not return a reference to the Component";
@@ -120,11 +121,11 @@ public class FortressServiceSelector
         return m_container.has( m_key, hint );
     }
 
-    public void release( Object component )
+    public void release( final Object component )
     {
         final ComponentHandler handler =
-            (ComponentHandler)m_used.remove( new ComponentKey( component ) );
-        if( null != handler )
+            (ComponentHandler) m_used.remove( new ComponentKey( component ) );
+        if ( null != handler )
         {
             handler.put( component );
         }
@@ -133,20 +134,20 @@ public class FortressServiceSelector
     private ComponentHandler getHandler( final Object hint )
         throws ServiceException
     {
-        if( null == hint )
+        if ( null == hint )
         {
             final String message = "hint cannot be null";
             throw new IllegalArgumentException( message );
         }
 
         final ComponentHandler handler =
-            (ComponentHandler)m_container.get( m_key, hint );
-        if( null == handler )
+            (ComponentHandler) m_container.get( m_key, hint );
+        if ( null == handler )
         {
             final String message =
                 "The hint does not exist in the ComponentSelector";
             throw new ServiceException( m_key + "/" + hint.toString(),
-                                        message );
+                message );
         }
         return handler;
     }

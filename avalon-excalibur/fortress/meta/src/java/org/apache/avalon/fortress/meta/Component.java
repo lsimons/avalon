@@ -63,9 +63,13 @@ import java.util.Set;
 
 /**
  * Represents a component, and output the meta information.
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2003/04/18 20:02:31 $
  */
 final class Component
 {
+    /** The repository of components. */
     static final Set m_repository = new HashSet();
 
     private final String m_type;
@@ -78,7 +82,7 @@ final class Component
      */
     public Component( final String type )
     {
-        if( type == null ) throw new NullPointerException( "type" );
+        if ( type == null ) throw new NullPointerException( "type" );
 
         m_type = type;
         m_attributes = new Properties();
@@ -96,7 +100,13 @@ final class Component
         return m_type;
     }
 
-    public void setAttribute( String name, String value )
+    /**
+     * Set the component attribute.
+     *
+     * @param name   The name of the attribute
+     * @param value  The attribute value
+     */
+    public void setAttribute( final String name, final String value )
     {
         m_attributes.setProperty( name, value );
     }
@@ -107,10 +117,10 @@ final class Component
      * @param rootDir
      * @throws IOException
      */
-    public void serialize( File rootDir ) throws IOException
+    public void serialize( final File rootDir ) throws IOException
     {
-        String fileName = getType().replace( '.', '/' ).concat( ".meta" );
-        File output = new File( rootDir, fileName );
+        final String fileName = getType().replace( '.', '/' ).concat( ".meta" );
+        final File output = new File( rootDir, fileName );
         FileOutputStream writer = null;
 
         try
@@ -120,7 +130,7 @@ final class Component
         }
         finally
         {
-            if( null != writer )
+            if ( null != writer )
             {
                 writer.close();
             }

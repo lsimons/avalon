@@ -62,10 +62,10 @@ final class ComponentKey
         m_component = component;
     }
 
-    public boolean equals( Object other )
+    public boolean equals( final Object other )
     {
         return ( other instanceof ComponentKey ) &&
-            ( (ComponentKey)other ).m_component == m_component;
+            ( (ComponentKey) other ).m_component == m_component;
     }
 
     public int hashCode()

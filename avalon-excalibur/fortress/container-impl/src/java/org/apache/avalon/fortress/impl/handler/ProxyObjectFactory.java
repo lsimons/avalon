@@ -58,9 +58,9 @@ import org.apache.excalibur.mpool.ObjectFactory;
  * and proxies results of that factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2003/03/22 12:46:33 $
+ * @version $Revision: 1.8 $ $Date: 2003/04/18 20:02:29 $
  */
-public class ProxyObjectFactory
+public final class ProxyObjectFactory
     implements ObjectFactory, Instrumentable
 {
     /**
@@ -76,7 +76,7 @@ public class ProxyObjectFactory
      */
     public ProxyObjectFactory( final ObjectFactory objectFactory ) throws NullPointerException
     {
-        if( null == objectFactory )
+        if ( null == objectFactory )
         {
             throw new NullPointerException( "objectFactory" );
         }
@@ -124,11 +124,11 @@ public class ProxyObjectFactory
     /* (non-Javadoc)
      * @see org.apache.excalibur.instrument.Instrumentable#setInstrumentableName(java.lang.String)
      */
-    public void setInstrumentableName( String name )
+    public void setInstrumentableName( final String name )
     {
-        if( m_objectFactory instanceof Instrumentable )
+        if ( m_objectFactory instanceof Instrumentable )
         {
-            ( (Instrumentable)m_objectFactory ).setInstrumentableName( name );
+            ( (Instrumentable) m_objectFactory ).setInstrumentableName( name );
         }
     }
 
@@ -137,9 +137,9 @@ public class ProxyObjectFactory
      */
     public String getInstrumentableName()
     {
-        if( m_objectFactory instanceof Instrumentable )
+        if ( m_objectFactory instanceof Instrumentable )
         {
-            return ( (Instrumentable)m_objectFactory ).getInstrumentableName();
+            return ( (Instrumentable) m_objectFactory ).getInstrumentableName();
         }
 
         return "";
@@ -150,9 +150,9 @@ public class ProxyObjectFactory
      */
     public Instrument[] getInstruments()
     {
-        if( m_objectFactory instanceof Instrumentable )
+        if ( m_objectFactory instanceof Instrumentable )
         {
-            return ( (Instrumentable)m_objectFactory ).getInstruments();
+            return ( (Instrumentable) m_objectFactory ).getInstruments();
         }
 
         return new Instrument[]{};
@@ -163,9 +163,9 @@ public class ProxyObjectFactory
      */
     public Instrumentable[] getChildInstrumentables()
     {
-        if( m_objectFactory instanceof Instrumentable )
+        if ( m_objectFactory instanceof Instrumentable )
         {
-            return ( (Instrumentable)m_objectFactory ).getChildInstrumentables();
+            return ( (Instrumentable) m_objectFactory ).getChildInstrumentables();
         }
 
         return new Instrumentable[]{};

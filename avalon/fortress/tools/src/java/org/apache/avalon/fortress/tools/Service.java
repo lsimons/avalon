@@ -65,6 +65,9 @@ import java.util.Set;
 /**
  * Encapsulate the Service information, and encapsulate all the
  * logic to serialize the service.
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
+ * @version CVS $Revision: 1.5 $ $Date: 2003/04/18 20:02:31 $
  */
 final class Service
 {
@@ -77,53 +80,63 @@ final class Service
      *
      * @param type
      */
-    public Service( final String type ) throws ClassNotFoundException
+    public Service( final String type )
     {
-        if( type == null ) throw new NullPointerException( "type" );
+        if ( type == null ) throw new NullPointerException( "type" );
 
         m_type = type;
         m_components = new HashSet();
     }
 
+    /**
+     * Get the service type name.
+     *
+     * @return  the type name
+     */
     public String getType()
     {
         return m_type;
     }
 
+    /**
+     * Add a component to the service.
+     *
+     * @param type  the type name for the component
+     */
     public void addComponent( final Component type )
     {
-        if( type == null ) throw new NullPointerException( "type" );
+        if ( type == null ) throw new NullPointerException( "type" );
 
         m_components.add( type );
     }
 
     /**
-     * Output the service info
+     * Output the service info.
      *
      * @param rootDir
      * @throws IOException
      */
-    public void serialize( final File rootDir ) throws IOException, ClassNotFoundException
+    public void serialize( final File rootDir ) throws IOException
     {
-        if( m_components.isEmpty() ) return;
+        if ( m_components.isEmpty() ) return;
 
-        File serviceFile = new File( rootDir, "META-INF/services/" + getType() );
+        final File serviceFile = new File( rootDir, "META-INF/services/" + getType() );
         PrintWriter writer = null;
 
         try
         {
             writer = new PrintWriter( new FileWriter( serviceFile, true ) );
 
-            Iterator it = m_components.iterator();
-            while( it.hasNext() )
+            final Iterator it = m_components.iterator();
+            while ( it.hasNext() )
             {
-                Component comp = (Component)it.next();
+                final Component comp = (Component) it.next();
                 writer.println( comp.getType() );
             }
         }
         finally
         {
-            if( null != writer )
+            if ( null != writer )
             {
                 writer.close();
             }

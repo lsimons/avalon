@@ -52,6 +52,7 @@ package org.apache.avalon.fortress.impl;
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.fortress.InitializationException;
 import org.apache.avalon.fortress.RoleManager;
+import org.apache.avalon.fortress.MetaInfoManager;
 import org.apache.avalon.fortress.util.ContextManager;
 import org.apache.avalon.fortress.util.ContextManagerConstants;
 import org.apache.avalon.fortress.util.LifecycleExtensionManager;
@@ -76,13 +77,13 @@ import org.apache.excalibur.mpool.PoolManager;
  * See that interface for a description.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.13 $ $Date: 2003/04/11 07:38:30 $
+ * @version CVS $Revision: 1.14 $ $Date: 2003/04/18 20:02:29 $
  */
 public class DefaultContainerManager
     implements Initializable, Disposable, org.apache.avalon.fortress.ContainerManager, org.apache.avalon.fortress.ContainerManagerConstants
 {
     private final ContextManager m_contextManager;
-    private Logger m_logger;
+    private final Logger m_logger;
     private Object m_containerInstance;
 
     public DefaultContainerManager( final ContextManager contextManager )
@@ -118,15 +119,15 @@ public class DefaultContainerManager
                                                                 Logger logger )
     {
         // The context manager will use an internal coonsole logger if logger is null.
-        ContextManager contextManager = new ContextManager( initParameters, logger );
+        final ContextManager contextManager = new ContextManager( initParameters, logger );
         try
         {
             contextManager.initialize();
             return contextManager;
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
-            if( logger == null )
+            if ( logger == null )
             {
                 logger = new ConsoleLogger( ConsoleLogger.LEVEL_INFO );
             }
@@ -139,15 +140,15 @@ public class DefaultContainerManager
         }
     }
 
-    protected Logger createLoggerFromContext( Context initParameters )
+    protected Logger createLoggerFromContext( final Context initParameters )
     {
         try
         {
-            String logCategory = (String)initParameters.get( ContextManagerConstants.LOG_CATEGORY );
-            LoggerManager loggerManager = (LoggerManager)initParameters.get( LoggerManager.ROLE );
-            Logger logger;
+            final String logCategory = (String) initParameters.get( ContextManagerConstants.LOG_CATEGORY );
+            final LoggerManager loggerManager = (LoggerManager) initParameters.get( LoggerManager.ROLE );
+            final Logger logger;
 
-            if( null == logCategory )
+            if ( null == logCategory )
             {
                 logger = loggerManager.getDefaultLogger();
             }
@@ -158,11 +159,11 @@ public class DefaultContainerManager
 
             return logger;
         }
-        catch( ContextException ce )
+        catch ( ContextException ce )
         {
             final Logger consoleLogger = new ConsoleLogger();
             consoleLogger.error( "ContainerManager could not obtain logger manager from context "
-                                 + "(this should not happen). Using console instead." );
+                + "(this should not happen). Using console instead." );
             return consoleLogger;
         }
     }
@@ -177,7 +178,7 @@ public class DefaultContainerManager
 
     protected void initializeContainer() throws InitializationException
     {
-        if( null == m_containerInstance )
+        if ( null == m_containerInstance )
         {
             createContainer();
         }
@@ -188,13 +189,13 @@ public class DefaultContainerManager
     {
         final Context managerContext =
             m_contextManager.getContainerManagerContext();
-        Object instance = null;
+        final Object instance;
         try
         {
-            final Class clazz = (Class)managerContext.get( CONTAINER_CLASS );
+            final Class clazz = (Class) managerContext.get( CONTAINER_CLASS );
             instance = clazz.newInstance();
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             final String message =
                 "Cannot set up impl. Unable to create impl class";
@@ -206,7 +207,7 @@ public class DefaultContainerManager
             ContainerUtil.enableLogging( instance, m_logger );
             ContainerUtil.contextualize( instance, managerContext );
 
-            if( instance instanceof Composable )
+            if ( instance instanceof Composable )
             {
                 throw new InitializationException( "Composable containers are not supported" );
             }
@@ -217,11 +218,11 @@ public class DefaultContainerManager
             ContainerUtil.service( instance, serviceManager );
 
             final Configuration config =
-                (Configuration)getContextEntry( managerContext, CONFIGURATION );
+                (Configuration) getContextEntry( managerContext, CONFIGURATION );
             ContainerUtil.configure( instance, config );
 
             final Parameters parameters =
-                (Parameters)getContextEntry( managerContext, PARAMETERS );
+                (Parameters) getContextEntry( managerContext, PARAMETERS );
             ContainerUtil.parameterize( instance, parameters );
 
             ContainerUtil.initialize( instance );
@@ -229,7 +230,7 @@ public class DefaultContainerManager
 
             m_containerInstance = instance;
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             final String message =
                 "Cannot set up Container. Startup lifecycle failure";
@@ -240,14 +241,15 @@ public class DefaultContainerManager
     private ServiceManager createServiceManager( final Context managerContext )
     {
         final ServiceManager smanager =
-            (ServiceManager)getContextEntry( managerContext, SERVICE_MANAGER );
+            (ServiceManager) getContextEntry( managerContext, SERVICE_MANAGER );
         final DefaultServiceManager serviceManager = new DefaultServiceManager( smanager );
 
         addService( Queue.ROLE, managerContext, serviceManager );
         addService( LoggerManager.ROLE, managerContext, serviceManager );
         addService( PoolManager.ROLE, managerContext, serviceManager );
         addService( InstrumentManager.ROLE, managerContext, serviceManager );
-        addService( RoleManager.ROLE, managerContext, serviceManager );
+        addService( MetaInfoManager.ROLE, managerContext, serviceManager );
+        //addService( RoleManager.ROLE, managerContext, serviceManager );
         addService( LifecycleExtensionManager.ROLE, managerContext, serviceManager );
         serviceManager.makeReadOnly();
 
@@ -263,7 +265,7 @@ public class DefaultContainerManager
             final Object object = context.get( role );
             serviceManager.put( role, object );
         }
-        catch( ContextException e )
+        catch ( ContextException e )
         {
         }
     }
@@ -281,7 +283,7 @@ public class DefaultContainerManager
         {
             return context.get( key );
         }
-        catch( ContextException e )
+        catch ( ContextException e )
         {
             return null;
         }
@@ -289,18 +291,18 @@ public class DefaultContainerManager
 
     protected void disposeContainer()
     {
-        if( null != m_containerInstance )
+        if ( null != m_containerInstance )
         {
             try
             {
                 ContainerUtil.stop( m_containerInstance );
             }
-            catch( Exception e )
+            catch ( Exception e )
             {
-                if( getLogger().isWarnEnabled() )
+                if ( getLogger().isWarnEnabled() )
                 {
                     getLogger().warn( "Caught an exception when stopping the Container, "
-                                      + "continuing with shutdown", e );
+                        + "continuing with shutdown", e );
                 }
             }
 

@@ -55,9 +55,9 @@ import org.apache.avalon.framework.configuration.Configuration;
  * A class holding metadata about a component handler.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2003/03/22 12:46:33 $
+ * @version $Revision: 1.8 $ $Date: 2003/04/18 20:02:29 $
  */
-public class ComponentHandlerMetaData
+public final class ComponentHandlerMetaData
 {
     private final String m_name;
     private final String m_classname;
@@ -76,15 +76,15 @@ public class ComponentHandlerMetaData
                                      final Configuration configuration,
                                      final boolean lazyActivation )
     {
-        if( null == name )
+        if ( null == name )
         {
             throw new NullPointerException( "name" );
         }
-        if( null == classname )
+        if ( null == classname )
         {
             throw new NullPointerException( "classname" );
         }
-        if( null == configuration )
+        if ( null == configuration )
         {
             throw new NullPointerException( "configuration" );
         }

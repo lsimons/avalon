@@ -67,7 +67,7 @@ import org.apache.avalon.framework.service.ServiceManager;
  * A testcase for the different handlers.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2003/04/11 20:39:38 $
+ * @version $Revision: 1.12 $ $Date: 2003/04/18 20:02:31 $
  */
 public class HandlersTestCase extends TestCase
 {
@@ -83,8 +83,8 @@ public class HandlersTestCase extends TestCase
     {
         final ServiceManager serviceManager = getServiceManager();
         final String key = Role1.ROLE;
-        final BaseRole object1 = (BaseRole)serviceManager.lookup( key );
-        final BaseRole object2 = (BaseRole)serviceManager.lookup( key );
+        final BaseRole object1 = (BaseRole) serviceManager.lookup( key );
+        final BaseRole object2 = (BaseRole) serviceManager.lookup( key );
 
         assertSame( "Threadsafe objects (1 vs 2)", object1, object2 );
         assertEquals( "Threadsafe object IDs (1 vs 2)", object1.getID(), object2.getID() );
@@ -95,8 +95,8 @@ public class HandlersTestCase extends TestCase
             {
                 try
                 {
-                    final BaseRole object3 = (BaseRole)serviceManager.lookup( key );
-                    final BaseRole object4 = (BaseRole)serviceManager.lookup( key );
+                    final BaseRole object3 = (BaseRole) serviceManager.lookup( key );
+                    final BaseRole object4 = (BaseRole) serviceManager.lookup( key );
 
                     assertSame( "Threadsafe objects (1 vs 3)", object1, object3 );
                     assertEquals( "Threadsafe object IDs (1 vs 3)", object1.getID(), object3.getID() );
@@ -105,7 +105,7 @@ public class HandlersTestCase extends TestCase
                     assertSame( "Threadsafe objects (3 vs 4)", object3, object4 );
                     assertEquals( "Threadsafe object IDs (3 vs 4)", object3.getID(), object4.getID() );
                 }
-                catch( final Exception e )
+                catch ( final Exception e )
                 {
                     m_exception = e;
                 }
@@ -124,8 +124,8 @@ public class HandlersTestCase extends TestCase
         final String type = "PerThread";
 
         final ServiceManager serviceManager = getServiceManager();
-        final BaseRole object1 = (BaseRole)serviceManager.lookup( key );
-        final BaseRole object2 = (BaseRole)serviceManager.lookup( key );
+        final BaseRole object1 = (BaseRole) serviceManager.lookup( key );
+        final BaseRole object2 = (BaseRole) serviceManager.lookup( key );
 
         assertEquals( type + " object IDs (1 vs 2)", object1.getID(), object2.getID() );
 
@@ -135,14 +135,14 @@ public class HandlersTestCase extends TestCase
             {
                 try
                 {
-                    final BaseRole object3 = (BaseRole)serviceManager.lookup( key );
-                    final BaseRole object4 = (BaseRole)serviceManager.lookup( key );
+                    final BaseRole object3 = (BaseRole) serviceManager.lookup( key );
+                    final BaseRole object4 = (BaseRole) serviceManager.lookup( key );
 
                     assertTrue( type + " object IDs (1 vs 3)", object1.getID() != object3.getID() );
                     assertTrue( type + " object IDs (2 vs 4)", object2.getID() != object4.getID() );
                     assertEquals( type + " object IDs (3 vs 4)", object3.getID(), object4.getID() );
                 }
-                catch( final Exception e )
+                catch ( final Exception e )
                 {
                     m_exception = e;
                 }
@@ -161,8 +161,8 @@ public class HandlersTestCase extends TestCase
         final String type = "Factory";
 
         final ServiceManager serviceManager = getServiceManager();
-        final BaseRole object1 = (BaseRole)serviceManager.lookup( key );
-        final BaseRole object2 = (BaseRole)serviceManager.lookup( key );
+        final BaseRole object1 = (BaseRole) serviceManager.lookup( key );
+        final BaseRole object2 = (BaseRole) serviceManager.lookup( key );
 
         assertTrue( type + " object IDs (1 vs 2)", object1.getID() != object2.getID() );
 
@@ -172,14 +172,14 @@ public class HandlersTestCase extends TestCase
             {
                 try
                 {
-                    final BaseRole object3 = (BaseRole)serviceManager.lookup( key );
-                    final BaseRole object4 = (BaseRole)serviceManager.lookup( key );
+                    final BaseRole object3 = (BaseRole) serviceManager.lookup( key );
+                    final BaseRole object4 = (BaseRole) serviceManager.lookup( key );
 
                     assertTrue( type + " object IDs (1 vs 3)", object1.getID() != object3.getID() );
                     assertTrue( type + " object IDs (2 vs 4)", object2.getID() != object4.getID() );
                     assertTrue( type + " object IDs (3 vs 4)", object3.getID() != object4.getID() );
                 }
-                catch( final Exception e )
+                catch ( final Exception e )
                 {
                     m_exception = e;
                 }
@@ -193,7 +193,7 @@ public class HandlersTestCase extends TestCase
 
     private void checkException() throws Exception
     {
-        if( null != m_exception )
+        if ( null != m_exception )
         {
             final Exception exception = m_exception;
             m_exception = null;
@@ -206,9 +206,9 @@ public class HandlersTestCase extends TestCase
     {
         final ServiceManager serviceManager = getServiceManager();
         final String key = Role2.ROLE;
-        final BaseRole object1 = (BaseRole)serviceManager.lookup( key );
-        final BaseRole object2 = (BaseRole)serviceManager.lookup( key );
-        final BaseRole object3 = (BaseRole)serviceManager.lookup( key );
+        final BaseRole object1 = (BaseRole) serviceManager.lookup( key );
+        final BaseRole object2 = (BaseRole) serviceManager.lookup( key );
+        final BaseRole object3 = (BaseRole) serviceManager.lookup( key );
 
         serviceManager.release( object1 );
         serviceManager.release( object2 );
@@ -227,7 +227,7 @@ public class HandlersTestCase extends TestCase
         final ContainerManager cm = new DefaultContainerManager( config.getContext() );
         ContainerUtil.initialize( cm );
 
-        final DefaultContainer container = (DefaultContainer)cm.getContainer();
+        final DefaultContainer container = (DefaultContainer) cm.getContainer();
         final ServiceManager serviceManager = container.getServiceManager();
         return serviceManager;
     }

@@ -57,15 +57,27 @@ import org.apache.avalon.framework.CascadingException;
  * Container.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/03/22 12:46:32 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/04/18 20:02:29 $
  */
-public class InitializationException extends CascadingException
+public final class InitializationException extends CascadingException
 {
+    /**
+     * Create the InitializationException with the supplied message.
+     *
+     * @param message  The message for the exception
+     */
     public InitializationException( final String message )
     {
         super( message );
     }
 
+    /**
+     * Create the InitializationException with the supplied message and source
+     * exception.
+     *
+     * @param message  The message for the exception
+     * @param source   The source exception
+     */
     public InitializationException( final String message, final Throwable source )
     {
         super( message, source );
