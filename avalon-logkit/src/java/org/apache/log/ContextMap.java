@@ -54,7 +54,6 @@
  */
 package org.apache.log;
 
-import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.util.Hashtable;
 
@@ -272,10 +271,8 @@ public final class ContextMap
      * Helper method that sets context to read-only after de-serialization.
      *
      * @return the corrected object version
-     * @exception ObjectStreamException if an error occurs
      */
     private Object readResolve()
-        throws ObjectStreamException
     {
         makeReadOnly();
         return this;
