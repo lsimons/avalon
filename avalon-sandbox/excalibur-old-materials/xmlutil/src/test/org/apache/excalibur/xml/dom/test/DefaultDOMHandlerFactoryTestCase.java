@@ -7,7 +7,7 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.excalibur.testcase.ExcaliburTestCase;
-import org.apache.excalibur.xml.sax.Parser;
+import org.apache.excalibur.xml.sax.SAXParser;
 import org.apache.excalibur.xml.dom.DOMHandler;
 import org.apache.excalibur.xml.dom.DOMHandlerFactory;
 
@@ -31,7 +31,7 @@ public class DefaultDOMHandlerFactoryTestCase extends ExcaliburTestCase
     {
         try 
         {
-            final Parser parser = (Parser)manager.lookup( Parser.ROLE );
+            final SAXParser parser = (SAXParser)manager.lookup( SAXParser.ROLE );
             final DOMHandlerFactory handlerFactory = (DOMHandlerFactory)manager.lookup( DOMHandlerFactory.ROLE );        
 
             final DOMHandler handler = handlerFactory.createDOMHandler();

@@ -11,7 +11,8 @@ import java.io.IOException;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
-import org.apache.excalibur.xml.sax.Parser;
+// Note: in this class, 'SAXParser' refers to the Xerces class
+//import org.apache.excalibur.xml.sax.SAXParser;
 import org.apache.xerces.dom.DocumentImpl;
 import org.apache.xerces.parsers.DOMParser;
 import org.apache.xerces.parsers.SAXParser;
@@ -26,11 +27,11 @@ import org.xml.sax.ext.LexicalHandler;
 /**
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  *         (Apache Software Foundation, Exoffice Technologies)
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/15 08:35:55 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/01/22 02:31:26 $
  */
 public final class XercesParser
     extends AbstractLogEnabled
-    implements Parser, org.apache.excalibur.xml.dom.DOMParser,
+    implements org.apache.excalibur.xml.sax.SAXParser, org.apache.excalibur.xml.dom.DOMParser,
                 ErrorHandler, ThreadSafe, Initializable
 {
     public void initialize()

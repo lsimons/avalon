@@ -20,11 +20,11 @@ import org.xml.sax.ext.LexicalHandler;
  * the parsed document.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/01/14 08:52:48 $
+ * @version CVS $Revision: 1.1 $ $Date: 2003/01/22 02:31:27 $
  */
-public interface Parser
+public interface SAXParser
 {
-    String ROLE = Parser.class.getName();
+    String ROLE = SAXParser.class.getName();
 
     /**
      * Parse the {@link InputSource} and send

@@ -16,7 +16,7 @@ import javax.xml.parsers.SAXParserFactory;
 import org.apache.avalon.excalibur.pool.Poolable;
 import org.apache.excalibur.xml.EntityResolver;
 import org.apache.excalibur.xml.dom.DOMParser;
-import org.apache.excalibur.xml.sax.Parser;
+import org.apache.excalibur.xml.sax.SAXParser;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.parameters.ParameterException;
@@ -70,12 +70,12 @@ import org.xml.sax.ext.LexicalHandler;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/15 08:35:55 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/01/22 02:31:26 $
  * @avalon.component
  */
 public final class JaxpParser
     extends AbstractLogEnabled
-    implements Parser, DOMParser, 
+    implements SAXParser, DOMParser, 
                 Poolable, Component, Parameterizable, Serviceable, ErrorHandler
 {
     /** the SAX Parser factory */
