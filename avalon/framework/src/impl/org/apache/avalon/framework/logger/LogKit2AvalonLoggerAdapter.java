@@ -17,8 +17,8 @@ import org.apache.log.Priority;
  * Useful when providing backwards compatability support for Loggable
  * components.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/11/22 00:53:25 $
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.4 $ $Date: 2002/11/23 08:58:59 $
  */
 public final class LogKit2AvalonLoggerAdapter
     implements LogTarget

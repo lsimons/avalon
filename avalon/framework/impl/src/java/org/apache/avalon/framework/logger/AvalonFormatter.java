@@ -73,9 +73,7 @@ import org.apache.log.util.StackIntrospector;
  *     <code>AsyncLogTarget</code>.</li>
  * </ul>
  *
- * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  */
 public class AvalonFormatter
     extends ExtendedPatternFormatter

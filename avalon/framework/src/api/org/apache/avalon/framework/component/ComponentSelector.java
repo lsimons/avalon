@@ -80,7 +80,7 @@ package org.apache.avalon.framework.component;
  * @see org.apache.avalon.framework.component.Composable
  * @see org.apache.avalon.framework.component.ComponentManager
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @deprecated Use {@link org.apache.avalon.framework.service.ServiceSelector} instead.
  */
 public interface ComponentSelector

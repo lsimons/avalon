@@ -59,7 +59,7 @@ package org.apache.avalon.framework.context;
  * This allows a component to re-receive it's context if
  * container environment has changed.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  */
 public interface Recontextualizable
     extends Contextualizable

@@ -63,8 +63,7 @@ import java.util.Map;
  * and extension so you can generate a tree of ComponentManager each defining
  * Component scope.
  *
- * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @version 1.0
  * @deprecated Use {@link org.apache.avalon.framework.service.DefaultServiceManager} instead.
  */

@@ -62,8 +62,7 @@ package org.apache.avalon.framework.activity;
  * Note that these methods should start the component but return
  * imediately.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  */
 public interface Startable
 {

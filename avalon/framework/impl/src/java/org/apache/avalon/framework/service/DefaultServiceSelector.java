@@ -60,8 +60,7 @@ import java.util.Map;
 /**
  * This is the default implementation of the ServiceSelector
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @version 1.0
  */
 public class DefaultServiceSelector

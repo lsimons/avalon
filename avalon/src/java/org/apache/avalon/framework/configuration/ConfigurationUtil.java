@@ -21,9 +21,8 @@ import java.util.Iterator;
  * This class has a bunch of utility methods to work
  * with configuration objects.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version $Revision: 1.6 $ $Date: 2002/11/21 23:19:17 $
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.7 $ $Date: 2002/11/23 08:58:58 $
  */
 public class ConfigurationUtil
 {

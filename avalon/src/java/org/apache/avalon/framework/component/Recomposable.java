@@ -57,7 +57,7 @@ package org.apache.avalon.framework.component;
 /**
  * Extends composer to allow recomposing.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @version 1.0
  * @deprecated Use {@link org.apache.avalon.framework.service.Serviceable} instead.
  */
