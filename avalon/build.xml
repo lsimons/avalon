@@ -3,32 +3,70 @@
 <project name="avalon" default="main" basedir=".">
   
   <target name="main" >
-    <exec executable="maven" dir="framework" failonerror="true"/>
-    <exec executable="maven" dir="meta" failonerror="true"/>
-    <exec executable="maven" dir="util" failonerror="true"/>
-    <exec executable="maven" dir="repository" failonerror="true"/>
-    <exec executable="maven" dir="logging" failonerror="true"/>
-    <exec executable="maven" dir="merlin" failonerror="true"/>
+    <echo message="Launching build on a ${os.name} system." />
+    <antcall target="launch-maven">
+       <param name="target" value="framework" />
+       <param name="arg" value="" />
+    </antcall>
+    <antcall target="launch-maven">
+       <param name="target" value="meta" />
+       <param name="arg" value="" />
+    </antcall>
+    <antcall target="launch-maven">
+       <param name="target" value="util" />
+       <param name="arg" value="" />
+    </antcall>
+    <antcall target="launch-maven">
+       <param name="target" value="repository" />
+       <param name="arg" value="" />
+    </antcall>
+    <antcall target="launch-maven">
+       <param name="target" value="logging" />
+       <param name="arg" value="" />
+    </antcall>
+    <antcall target="launch-maven">
+       <param name="target" value="merlin" />
+       <param name="arg" value="" />
+    </antcall>
   </target>
-  
+
+  <target name="launch-maven" >
+    <exec executable="maven" os="Linux,Unix,AIX,Solaris,SunOS,HP-UX" dir="${target}" failonerror="true">
+      <arg line="${arg}" />
+    </exec>
+    <exec executable="cmd" os="Windows XP,Windows NT,Windows 2000" dir="${target}" failonerror="true">
+      <arg line="maven.bat ${arg}" />
+    </exec>
+    <exec executable="command" os="Windows 95, Windows 98, Windows ME" dir="${target}" failonerror="true">
+      <arg line="maven.bat ${arg}" />
+    </exec>
+  </target>
+    
   <target name="clean" >
-    <exec executable="maven" dir="framework" >
-      <arg line="clean" />
-    </exec>
-    <exec executable="maven" dir="meta" >
-      <arg line="avalon:clean" />
-    </exec>
-    <exec executable="maven" dir="util" >
-      <arg line="avalon:clean" />
-    </exec>
-    <exec executable="maven" dir="logging" >
-      <arg line="avalon:clean" />
-    </exec>
-    <exec executable="maven" dir="repository" >
-      <arg line="avalon:clean" />
-    </exec>
-    <exec executable="maven" dir="merlin" >
-      <arg line="merlin:clean" />
-    </exec>
+    <echo message="Launching build on a ${os.name} system." />
+    <antcall target="launch-maven">
+       <param name="target" value="framework" />
+       <param name="arg" value="avalon:clean" />
+    </antcall>
+    <antcall target="launch-maven">
+       <param name="target" value="meta" />
+       <param name="arg" value="avalon:clean" />
+    </antcall>
+    <antcall target="launch-maven">
+       <param name="target" value="util" />
+       <param name="arg" value="avalon:clean" />
+    </antcall>
+    <antcall target="launch-maven">
+       <param name="target" value="repository" />
+       <param name="arg" value="avalon:clean" />
+    </antcall>
+    <antcall target="launch-maven">
+       <param name="target" value="logging" />
+       <param name="arg" value="avalon:clean" />
+    </antcall>
+    <antcall target="launch-maven">
+       <param name="target" value="merlin" />
+       <param name="arg" value="avalon:clean" />
+    </antcall>
   </target>  
 </project>
