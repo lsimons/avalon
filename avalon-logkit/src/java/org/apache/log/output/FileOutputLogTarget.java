@@ -16,7 +16,7 @@ import java.io.IOException;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
- * @deprecated Use FileTarget as this class is not thread safe
+ * @deprecated Use org.apache.log.output.io.FileTarget as this class is not thread safe
  */
 public class FileOutputLogTarget
     extends DefaultOutputLogTarget

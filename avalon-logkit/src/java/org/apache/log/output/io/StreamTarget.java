@@ -9,7 +9,7 @@ package org.apache.log.output.io;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import org.apache.log.Formatter;
+import org.apache.log.format.Formatter;
 import org.apache.log.output.AbstractOutputTarget;
 
 /**

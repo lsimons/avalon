@@ -10,7 +10,7 @@ package org.apache.log.output.io;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import org.apache.log.Formatter;
+import org.apache.log.format.Formatter;
 
 /**
  * A basic target that writes to a File.
@@ -27,7 +27,7 @@ public class FileTarget
     private boolean  m_append;
 
     /**
-     * COnstruct file target to write to a file with a formatter.
+     * Construct file target to write to a file with a formatter.
      *
      * @param file the file to write to
      * @param append true if file is to be appended to, false otherwise

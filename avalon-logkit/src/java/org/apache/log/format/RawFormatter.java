@@ -7,7 +7,6 @@
  */
 package org.apache.log.format;
 
-import org.apache.log.Formatter;
 import org.apache.log.LogEvent;
 
 /**
@@ -17,7 +16,7 @@ import org.apache.log.LogEvent;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class RawFormatter
-    implements Formatter
+    implements Formatter, org.apache.log.Formatter
 {
     /**
      * Format log event into string.

@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import org.apache.log.Formatter;
+import org.apache.log.format.Formatter;
 import org.apache.log.output.AbstractOutputTarget;
 
 /**

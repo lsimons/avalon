@@ -7,7 +7,6 @@
  */
 package org.apache.log.format;
 
-import org.apache.log.Formatter;
 import org.apache.log.LogEvent;
 import java.util.Date;
 
@@ -20,7 +19,7 @@ import java.util.Date;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class XMLFormatter
-    implements Formatter
+    implements Formatter, org.apache.log.Formatter
 {
     private static final String EOL       = System.getProperty( "line.separator", "\n" );
 

@@ -9,7 +9,7 @@ package org.apache.log.output;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import org.apache.log.Formatter;
+import org.apache.log.format.Formatter;
 
 /**
  * A datagram output target.

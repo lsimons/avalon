@@ -14,6 +14,7 @@ package org.apache.log;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public interface Formatter
+    extends org.apache.log.format.Formatter
 {
     /**
      * Serialize log event into string.

@@ -7,14 +7,14 @@
  */
 package org.apache.log.output;
 
-import org.apache.log.Formatter;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogEvent;
 import org.apache.log.LogTarget;
+import org.apache.log.format.Formatter;
 
 /**
  * Abstract output target.
- * Any new output target that is writing to a single connected 
+ * Any new output target that is writing to a single connected
  * resource should extend this class directly or indirectly.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
@@ -103,7 +103,7 @@ public abstract class AbstractOutputTarget
      */
     public void processEvent( final LogEvent event )
     {
-        if( !isOpen() ) 
+        if( !isOpen() )
         {
             error( "Writing event to closed stream.", null );
             return;
