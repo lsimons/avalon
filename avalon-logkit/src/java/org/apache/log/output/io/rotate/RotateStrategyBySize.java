@@ -63,6 +63,7 @@ public class RotateStrategyBySize
         }
         else
         {
+	    m_currentSize += data.length();
             return false;
         }
     }
