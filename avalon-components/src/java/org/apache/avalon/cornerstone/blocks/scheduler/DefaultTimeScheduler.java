@@ -78,7 +78,9 @@ public class DefaultTimeScheduler
 
         final TimeScheduledEntry entry = new TimeScheduledEntry( name, trigger, target );
         m_entries.put( name, entry );
-        rescheduleEntry( entry, false );
+        final boolean added = rescheduleEntry( entry, false );
+
+        if( !added ) return;
 
         try
         {
@@ -130,9 +132,10 @@ public class DefaultTimeScheduler
      *
      * @param timeEntry the entry
      * @param clone true if new entry is to be created
+     * @return true if added to queue, false if not added
      */
-    protected void rescheduleEntry( final TimeScheduledEntry timeEntry,
-                                    final boolean clone )
+    private boolean rescheduleEntry( final TimeScheduledEntry timeEntry,
+                                       final boolean clone )
     {
         TimeScheduledEntry entry = timeEntry;
 
@@ -161,6 +164,12 @@ public class DefaultTimeScheduler
             {
                 synchronized( m_monitor ) { m_monitor.notify(); }
             }
+
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -171,7 +180,7 @@ public class DefaultTimeScheduler
      * @return the entry
      * @exception NoSuchElementException if no entry is found with that name
      */
-    protected TimeScheduledEntry getEntry( final String name )
+    private TimeScheduledEntry getEntry( final String name )
         throws NoSuchElementException
     {
         //use the kill-o-matic against any entry with same name
@@ -186,7 +195,7 @@ public class DefaultTimeScheduler
         }
     }
 
-    protected void runEntry( final TimeScheduledEntry entry )
+    private void runEntry( final TimeScheduledEntry entry )
     {
         final Logger logger = getLogger();
         final Runnable runnable = new Runnable()
