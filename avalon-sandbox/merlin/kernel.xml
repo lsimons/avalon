@@ -1,37 +1,25 @@
 
 <kernel>
 
-   <system host="localhost">
-     <configuration path="configuration.xml"/>
-   </system>
+   <!-- 
+   The kerenel can contain the following declarations:
+   1. a system descriptor
+   2. a logging descriptor
+   3. a logging catagories descriptor that establishes logging priority
+      for the kernel messages
+   4. an engine descriptor
+   -->
+
+   <system host="localhost"/>
 
    <logging target="default" priority="DEBUG">
       <category name="/sys/logger" priority="WARN"/>
-      <!--
-      <target name="default">
-        <file location="kernel.log" />
-      </target>
-      -->
    </logging>
 
    <categories>
       <category name="/sys" priority="INFO"/>
    </categories>
 
-   <!--
-   Definition of the root engine classloader.
-   -->
-   <!--
-   <engine>
-     <library dir=".">
-       <include name="some-additional-extension-dir"/>
-     </library>
-     <classpath>
-       <fileset dir="some-directory">
-         <include name="something.jar"/>
-       </fileset>
-     </classpath>
-   </engine>
-   -->
+   <engine/>
 
 </kernel>

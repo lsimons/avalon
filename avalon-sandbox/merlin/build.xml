@@ -28,6 +28,7 @@ the LICENSE.txt file.
     <pathelement location="${avalon-assembly.jar}"/>
     <pathelement location="${excalibur-logger.jar}"/>
     <pathelement location="${excalibur-configuration.jar}"/>
+    <pathelement location="${excalibur-pool.jar}"/>
     <pathelement location="${excalibur-thread.jar}"/>
     <pathelement location="${excalibur-event.jar}"/>
     <pathelement location="${util.concurrent.jar}"/>
@@ -204,17 +205,20 @@ the LICENSE.txt file.
      <mkdir dir="${common.dir}"/>
      <copy todir="${common.dir}" file="${avalon-framework.jar}"/>
      <copy todir="${common.dir}" file="${excalibur-i18n.jar}"/>
-     <copy todir="${common.dir}" file="${excalibur-configuration.jar}"/>
      <copy todir="${common.dir}" file="${avalon-meta.jar}"/>
      <copy todir="${common.dir}" file="${logkit.jar}"/>
+     <copy todir="${common.dir}" file="${excalibur-configuration.jar}"/>
 
      <mkdir dir="${lib.dir}"/>
      <copy todir="${lib.dir}" file="${build.lib}/${jar.name}"/>
+     <copy todir="${lib.dir}" file="${excalibur-collections.jar}"/>
      <copy todir="${lib.dir}" file="${excalibur-extension.jar}"/>
      <copy todir="${lib.dir}" file="${excalibur-logger.jar}"/>
      <copy todir="${lib.dir}" file="${excalibur-event.jar}"/>
      <copy todir="${lib.dir}" file="${commons-collections.jar}"/>
      <copy todir="${lib.dir}" file="${util.concurrent.jar}"/>
+     <copy todir="${lib.dir}" file="${excalibur-threadcontext.jar}"/>
+     <copy todir="${lib.dir}" file="${excalibur-pool.jar}"/>
      <copy todir="${lib.dir}" file="${excalibur-thread.jar}"/>
      <copy todir="${lib.dir}" file="${avalon-lifecycle.jar}"/>
      <copy todir="${lib.dir}" file="${avalon-assembly.jar}"/>
@@ -414,7 +418,7 @@ the LICENSE.txt file.
        debug="${build.debug}"
        optimize="${build.optimize}"
        deprecation="${build.deprecation}"
-       target="1.2">
+       target="1.3">
        <classpath refid="project.class.path" />
        <include name="**/playground/*.java"/>
     </javac>
