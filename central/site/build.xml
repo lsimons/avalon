@@ -1,5 +1,5 @@
 
-<project name="site" default="" basedir="." 
+<project name="site" default="site" basedir="." 
     xmlns:x="antlib:org.apache.avalon.tools"> 
 
   <x:project index="../system/index.xml"/>
