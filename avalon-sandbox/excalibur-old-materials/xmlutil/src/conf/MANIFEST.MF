@@ -2,5 +2,4 @@ Extension-Name: @name@
 Specification-Vendor: Apache Software Foundation
 Specification-Version: 1.0
 Implementation-Vendor: Apache Software Foundation
-Implementation-Version: @version@
-
+Implementation-Version: @package-version@
