@@ -25,7 +25,9 @@ classloader  the regular classloaders
 <!ELEMENT classloaders (classloader*,join*)>
   <!ATTLIST classloaders id ID #IMPLIED
           xmlns CDATA #FIXED "http://jakarta.apache.org/phoenix/classloaders_1_0.dtd" >
-  <!ATTLIST classloaders default CDATA #REQUIRED >
+  <!ATTLIST classloaders
+        default CDATA #REQUIRED
+        version CDATA #REQUIRED >
 
 <!--
 The classloader element describes a regular classloader It defines:
