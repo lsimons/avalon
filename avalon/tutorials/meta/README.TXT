@@ -2,7 +2,8 @@
 Meta Generation
 ---------------
 
-This tutorial demonstrates the creation of meta-info tags and subsequent deployment of a container using the component types declared with the meta.
+This tutorial demonstrates the creation of meta-info tags and subsequent 
+deployment of a container using the component types declared with the meta.
 
 $ maven clean
 $ maven
@@ -14,4 +15,4 @@ During deployment you should see the following log messages.
 [INFO   ] (secondary): logging established
 [INFO   ] (secondary.system): primary service resolved
 
-Steve.
+
