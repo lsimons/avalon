@@ -119,13 +119,27 @@
 
     <!-- Generate one mega jar-ball -->   
     <target name="mega-jar" description="Generate one large jar for all the products">
-        <ant dir="instrument" target="jar"/>
-        <ant dir="concurrent" target="jar"/>
-        <ant dir="collections" target="jar"/>
+        <!-- Sub projects which do not depend on any other excalibur sub projects. -->
         <ant dir="altrmi" target="jar"/>
-        <ant dir="all" target="all"/>                <!-- depends on instrument -->
-        <ant dir="instrument-manager" target="jar"/> <!-- depends on instrument, all -->
-        <!--ant dir="instrument-client" target="jar"/-->  <!-- depends on instrument-manager -->
+        <ant dir="collections" target="jar"/>
+        <ant dir="concurrent" target="jar"/>
+        <ant dir="instrument" target="jar"/>
+        <ant dir="lang" target="jar"/>
+        <ant dir="logger" target="jar"/>
+        
+        <!-- Sub projects with dependencies. -->
+        <ant dir="pool" target="jar"/>               <!-- collections, concurrent -->
+        <ant dir="thread" target="jar"/>             <!-- lang, pool -->
+        <ant dir="component" target="jar"/>          <!-- collections, logger, pool -->
+        <ant dir="util" target="jar"/>               <!-- component -->
+        <ant dir="testcase" target="jar"/>           <!-- logger, component -->
+        <ant dir="event" target="jar"/>              <!-- collections, concurrent -->
+        <ant dir="command" target="jar"/>            <!-- collections, concurrent, lang, pool, thread, util, event -->
+        <ant dir="instrument-manager" target="jar"/> <!-- altrmi, collections, instrument, logger, pool, component -->
+        <ant dir="instrument-client" target="jar"/>  <!-- instrument-manager -->
+        
+        <ant dir="all" target="all"/>                <!-- collections, command, concurrent, event, instrument -->
+        
         <ant dir="baxter" target="jar"/>
         <ant dir="bzip2" target="jar"/>
         <ant dir="cache" target="jar"/>
@@ -173,13 +187,24 @@
     <target name="clean">
         <delete dir="${build.dir}" />
 
-        <ant dir="instrument" target="real-clean"/>
-        <ant dir="concurrent" target="real-clean"/>
-        <ant dir="collections" target="real-clean"/>
         <ant dir="altrmi" target="real-clean"/>
+        <ant dir="collections" target="real-clean"/>
+        <ant dir="concurrent" target="real-clean"/>
+        <ant dir="instrument" target="real-clean"/>
+        <ant dir="lang" target="real-clean"/>
+        <ant dir="logger" target="real-clean"/>
+        
+        <ant dir="pool" target="real-clean"/>
+        <ant dir="thread" target="real-clean"/>
+        <ant dir="component" target="real-clean"/>
+        <ant dir="util" target="real-clean"/>
+        <ant dir="testcase" target="real-clean"/>
+        <ant dir="event" target="real-clean"/>
+        <ant dir="command" target="real-clean"/>
         <ant dir="all" target="distclean"/>
         <ant dir="instrument-manager" target="real-clean"/>
         <ant dir="instrument-client" target="real-clean"/>
+        
         <ant dir="baxter" target="real-clean"/>
         <ant dir="bzip2" target="real-clean"/>
         <ant dir="cache" target="real-clean"/>

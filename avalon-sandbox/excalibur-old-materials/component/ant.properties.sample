@@ -1,4 +1,4 @@
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Component ant.properties.sample
 #
 # This is an example "ant.properties" file, used to customize the building of
@@ -9,7 +9,7 @@
 # The ant.properties values in this directory apply only to this component, and
 # override the defaults in ../ant.properties.
 #
-# $Id: ant.properties.sample,v 1.4 2002/04/04 05:09:03 leif Exp $
+# $Id: ant.properties.sample,v 1.1 2002/04/04 05:09:02 leif Exp $
 # -----------------------------------------------------------------------------
 
 # --------------------------------------------------
@@ -36,32 +36,6 @@ logkit.jar=${logkit.home}/logkit.jar
 # ----- Avalon Framework -----
 avalon-framework.home=../../jakarta-avalon/build/lib
 avalon-framework.jar=${avalon-framework.home}/avalon-framework.jar
-
-# ----- Altrmi -----
-excalibur-altrmi.home=../altrmi/build/lib
-excalibur-altrmi-common.jar=${excalibur-altrmi.home}/excalibur-altrmi-common.jar
-excalibur-altrmi-server-impl.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-impl.jar
-excalibur-altrmi-server-interfaces.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-interfaces.jar
-
-# ----- Excalibur Collections -----
-excalibur-collections.home=../collections/build/lib
-excalibur-collections.jar=${excalibur-collections.home}/excalibur-collections-1.0.jar
-
-# ----- Excalibur Instrument -----
-excalibur-instrument.home=../instrument/build/lib
-excalibur-instrument.jar=${excalibur-instrument.home}/excalibur-instrument-0.1.jar
-
-# ----- Excalibur Logger -----
-excalibur-logger.home=../logger/build/lib
-excalibur-logger.jar=${excalibur-logger.home}/excalibur-logger-1.0.jar
-
-# ----- Excalibur Pool -----
-excalibur-pool.home=../pool/build/lib
-excalibur-pool.jar=${excalibur-pool.home}/excalibur-pool-1.0.jar
-
-# ----- Excalibur Component -----
-excalibur-component.home=../component/build/lib
-excalibur-component.jar=${excalibur-component.home}/excalibur-component-1.0.jar
 
 # ----- JUnit Unit Test Suite, version 3.7 or later -----
 junit.home=${base.path}/junit3.7

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="Excalibur Instrument Client" default="main" basedir=".">
+<project name="Excalibur Pool" default="main" basedir=".">
 
     <!-- load per-project properties -->
     <property file="project.properties"/>
@@ -21,22 +21,21 @@
     <property name="junit.failonerror" value="false"/>
 
     <!-- location of intermediate products -->
-    <property name="build.dir" value="${basedir}/build"/>
+    <property name="build.dir" value="build"/>
     <property name="build.lib" value="${build.dir}/lib"/>
     <property name="build.conf" value="${build.dir}/conf"/>
     <property name="build.classes" value="${build.dir}/classes"/>
-    <property name="build.genjava" value="${build.dir}/genjava"/>
     <property name="build.tests" value="${build.dir}/tests"/>
     <property name="build.reports" value="${build.dir}/reports"/>
 
     <!-- Set the properties for source directories -->
-    <property name="src.dir" value="${basedir}/src"/>
+    <property name="src.dir" value="src"/>
     <property name="java.dir" value="${src.dir}/java"/>
     <property name="conf.dir" value="${src.dir}/conf"/>
     <property name="test.dir" value="${src.dir}/test"/>
 
     <!-- Set the properties for distribution directories -->
-    <property name="dist.dir" value="${basedir}/dist"/>
+    <property name="dist.dir" value="dist"/>
     <property name="dist.javadocs" value="${dist.dir}/docs/api"/>
 
     <!-- name of .zip/.tar.gz/.bz2 files and their top-level directory -->
@@ -52,15 +51,14 @@
     <path id="project.class.path">
         <pathelement path="${java.class.path}"/>
         <pathelement location="${build.classes}"/>
+        <pathelement location="${logkit.jar}"/>
         <pathelement location="${avalon-framework.jar}"/>
-        <pathelement location="${excalibur-altrmi-client-impl.jar}"/>
-        <pathelement location="${excalibur-altrmi-client-interfaces.jar}"/>
-        <pathelement location="${excalibur-altrmi-common.jar}"/>
-        <pathelement location="${excalibur-instrument-manager-interfaces.jar}"/>
+        <pathelement location="${excalibur-collections.jar}"/>
+        <pathelement location="${excalibur-concurrent.jar}"/>
         <pathelement location="${junit.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
     </path>
-        
+
     <target name="main" depends="jar" description="Build the project"/>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
 
@@ -79,6 +77,9 @@
             <classpath refid="project.class.path" />
             <src path="${test.dir}"/>
             <include name="**/*.java"/>
+                
+            <!-- Exclude the tests until their cyclical dependencies can be worked out. -->
+            <exclude name="**/test/**"/>
         </javac>
 
         <!-- copy resources to same location as .class files -->
@@ -106,17 +107,11 @@
                 <filtersfile file="project.properties"/>
             </filterset>
         </copy>
-    </target>
 
- 
-    
-    <!-- Generates the altrmi proxies used by the client. -->
-    <target name="altrmiproxies" depends="compile">
-        <ant antfile="altrmiproxies.xml" target="altrmiproxies"/> 
     </target>
 
     <!-- Creates all the .jar file -->
-    <target name="jar" depends="compile, prepare-conf, altrmiproxies" description="Generates the jar files">
+    <target name="jar" depends="compile, prepare-conf" description="Generates the jar files">
 
         <mkdir dir="${build.lib}"/>
 
@@ -244,7 +239,9 @@
         <mkdir dir="${build.reports}/checkstyle"/>
         <property name="checkstyle.pathhack" location="."/>
         <style style="../tools/etc/checkstyle-frames.xsl" in="build/checkstyle-results.xml"
-            out="${build.reports}/checkstyle/delete-me.html"/>
+            out="${build.reports}/checkstyle/delete-me.html">
+            <param name="pathhack" expression="${checkstyle.pathhack}"/>
+        </style>
 
     </target>
 
