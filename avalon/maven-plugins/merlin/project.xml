@@ -47,14 +47,5 @@
       </properties>
     </dependency>
     
-    <dependency>
-      <groupId>&merlin-id;</groupId>
-      <artifactId>&merlin-impl-id;</artifactId>
-      <version>&merlin-impl-version;</version>
-      <properties>
-        <classloader>root</classloader>
-      </properties>
-    </dependency>
-
   </dependencies>
 </project>
