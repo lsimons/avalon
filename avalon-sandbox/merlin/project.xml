@@ -100,8 +100,8 @@
   <build>
 
     <nagEmailAddress>dev@avalon.apache.org</nagEmailAddress>
-    <sourceDirectory>src/java</sourceDirectory>
-    <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+    <sourceDirectory>${basedir}/src/java</sourceDirectory>
+    <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
     <integrationUnitTestSourceDirectory/>
     <aspectSourceDirectory/>
 
@@ -115,13 +115,15 @@
         <resource>
           <directory>${basedir}/src/test</directory>
           <includes> 
+            <include>**/*.dtd</include>
             <include>**/*.properties</include>
             <include>**/*.xinfo</include>
-            <include>**/*.xconfig</include>
+            <include>**/*.xtype</include>
             <include>**/*.xprofile</include>
+            <include>**/*.xconfig</include>
             <include>**/*.xml</include>
             <include>**/*.xservice</include>
-            </includes>
+          </includes>
         </resource>
       </resources>
     </unitTest>
@@ -135,6 +137,8 @@
           <include>**/*.dtd</include>
           <include>**/*.properties</include>
           <include>**/*.xinfo</include>
+          <include>**/*.xtype</include>
+          <include>**/*.xprofile</include>
           <include>**/*.xconfig</include>
           <include>**/*.xml</include>
           <include>**/*.xservice</include>

@@ -35,7 +35,7 @@
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
-      excludes="merlin-smp/*"
+      excludes="merlin-smp/*,merlin-plugin/*"
       goals="merlin-propergate"
       banner="Installing:"
       ignoreFailures="false" />
@@ -81,8 +81,8 @@
     <!--
     TODO - build the demonstrations to include the the repository
     directory (which is also linked to completing the documentation 
-    ongetting started and tyhe finalization of the bloc service access
-    and the finalization of repositrory semanitcs).
+    on getting started and the finalization of the block service access
+    and the finalization of repository semantics).
     -->
 
   </goal>
@@ -144,7 +144,7 @@
   variable already defined.  No checking or validation is currently in 
   place.  It is useful if you want to update an existing installation.
   -->
-  <goal name="merlin-install" prereqs="merlin-dist">
+  <goal name="merlin-install" prereqs="merlin-install-plugin,merlin-dist">
     <property environment="env"/>
     <mkdir dir="${env.MERLIN_HOME}"/>
     <echo>Installing Merlin into home directory: ${env.MERLIN_HOME}</echo>
@@ -153,6 +153,18 @@
         <include name="**/*"/>
       </fileset>
     </copy>
+  </goal>
+
+  <!--
+  Install the merlin plugin into the Maven plugin suite.
+  -->
+  <goal name="merlin-install-plugin" prereqs="merlin-dist" description="Install Merlin Maven plugin.">
+    <maven:reactor
+      basedir="${basedir}"
+      includes="merlin-plugin/project.xml"
+      goals="plugin:install"
+      banner="Resolving dependencies:"
+      ignoreFailures="false"/>
   </goal>
 
   <!--
