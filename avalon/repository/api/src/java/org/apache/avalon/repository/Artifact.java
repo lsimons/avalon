@@ -20,10 +20,7 @@ package org.apache.avalon.repository ;
 
 import java.io.Serializable;
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.Properties;
 import java.net.URL;
-import java.net.MalformedURLException;
 
 /**
  * Defintion of a artifact that maintains a relative url
@@ -31,7 +28,7 @@ import java.net.MalformedURLException;
  * properties.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class Artifact implements Serializable
 {

@@ -19,17 +19,12 @@ package org.apache.avalon.merlin.servlet;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
-import java.util.Hashtable;
-import java.net.URL;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.avalon.framework.logger.Logger;
 
 import org.apache.avalon.merlin.Kernel;
 import org.apache.avalon.merlin.KernelCriteria;
@@ -39,7 +34,6 @@ import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.InitialContextFactory;
 import org.apache.avalon.repository.provider.Factory;
-import org.apache.avalon.repository.RepositoryException;
 import org.apache.avalon.repository.main.DefaultInitialContextFactory;
 import org.apache.avalon.repository.main.DefaultBuilder;
 

@@ -25,14 +25,10 @@ import java.util.Properties;
 import org.apache.avalon.framework.logger.Logger;
 
 import org.apache.avalon.logging.provider.LoggingCriteria;
-import org.apache.avalon.logging.provider.LoggingException;
 import org.apache.avalon.logging.provider.LoggingRuntimeException;
 
-import org.apache.avalon.repository.Artifact;
-import org.apache.avalon.repository.ArtifactHandler;
 import org.apache.avalon.repository.provider.InitialContext;
 
-import org.apache.avalon.util.criteria.CriteriaException;
 import org.apache.avalon.util.criteria.Criteria;
 import org.apache.avalon.util.criteria.Parameter;
 
@@ -47,7 +43,7 @@ import org.apache.avalon.util.i18n.Resources;
  * for application to a LoggingManager factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class DefaultLoggingCriteria extends Criteria implements LoggingCriteria
 {

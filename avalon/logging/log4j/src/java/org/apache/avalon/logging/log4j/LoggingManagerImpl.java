@@ -18,11 +18,9 @@
 package org.apache.avalon.logging.log4j;
 
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.logging.data.CategoryDirective;
 import org.apache.avalon.logging.data.CategoriesDirective;
 
 import org.apache.avalon.logging.provider.LoggingManager;
-import org.apache.avalon.logging.provider.LoggingException;
 
 /**
  * A <code>LoggerManager</code> that supports the management of a logging hierarchy.

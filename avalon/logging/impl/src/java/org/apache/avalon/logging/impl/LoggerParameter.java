@@ -17,12 +17,6 @@
 
 package org.apache.avalon.logging.impl;
 
-import java.io.File;
-import java.net.URL;
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-
 import org.apache.avalon.framework.logger.Logger;
 
 import org.apache.avalon.util.criteria.Parameter;
@@ -36,7 +30,7 @@ import org.apache.avalon.util.i18n.Resources;
  * a string to a Logger instance.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class LoggerParameter extends Parameter
 {

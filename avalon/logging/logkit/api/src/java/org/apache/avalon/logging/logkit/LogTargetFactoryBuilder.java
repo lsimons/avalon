@@ -17,20 +17,13 @@
 
 package org.apache.avalon.logging.logkit;
 
-import java.io.File;
-
-import org.apache.avalon.framework.logger.Logger;
-
 import org.apache.avalon.logging.provider.LoggingException;
-
-import org.apache.avalon.repository.provider.InitialContext;
-import org.apache.avalon.repository.provider.Factory;
 
 /**
  * A LogTargetFactoryBuilder provides support for the establishment of 
  * new logging targets.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/24 21:55:39 $
+ * @version $Revision: 1.3 $ $Date: 2004/03/17 10:50:04 $
  */
 public interface LogTargetFactoryBuilder
 {

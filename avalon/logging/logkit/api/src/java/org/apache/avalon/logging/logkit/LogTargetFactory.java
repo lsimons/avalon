@@ -18,7 +18,6 @@
 package org.apache.avalon.logging.logkit;
 
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.log.LogTarget;
 
 /**
@@ -26,7 +25,7 @@ import org.apache.log.LogTarget;
  * are created by the logging manager factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/24 21:55:39 $
+ * @version CVS $Revision: 1.3 $ $Date: 2004/03/17 10:50:04 $
  */
 public interface LogTargetFactory
 {

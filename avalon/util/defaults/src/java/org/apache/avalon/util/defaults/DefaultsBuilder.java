@@ -21,16 +21,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.IOException;
-import java.net.URL;
-import java.util.Enumeration;
-import java.util.Hashtable;
 import java.util.Properties;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-import java.util.Map;
 
 import org.apache.avalon.util.env.Env;
-import org.apache.avalon.util.env.EnvAccessException;
 
 
 /**
@@ -38,7 +31,7 @@ import org.apache.avalon.util.env.EnvAccessException;
  * of a set of installation properties.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class DefaultsBuilder
 {

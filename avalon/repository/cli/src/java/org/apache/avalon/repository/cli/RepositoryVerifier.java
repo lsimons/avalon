@@ -19,51 +19,18 @@ package org.apache.avalon.repository.cli;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Map;
-import java.util.Hashtable;
-import java.util.Properties;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
 
-import javax.naming.directory.Attributes;
-
-import org.apache.avalon.repository.Artifact;
-import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.provider.InitialContext;
-import org.apache.avalon.repository.provider.Factory;
-import org.apache.avalon.repository.RepositoryException;
-import org.apache.avalon.repository.main.DefaultInitialContext;
-import org.apache.avalon.repository.main.DefaultBuilder;
-import org.apache.avalon.repository.meta.ArtifactDescriptor;
-import org.apache.avalon.repository.util.RepositoryUtils;
 
-import org.apache.avalon.util.env.Env;
-import org.apache.avalon.util.exception.ExceptionHelper;
 import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;
-
-import org.apache.commons.cli.BasicParser;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
-import org.apache.commons.cli.Options;
 
 
 /**
  * Merlin command line handler.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class RepositoryVerifier 
 {

@@ -19,8 +19,6 @@ package org.apache.avalon.meta.info;
 
 import java.util.Properties;
 
-import org.apache.avalon.framework.Version;
-
 /**
  * This class is used to provide security information to assembler
  * and administrator about the component type. 
@@ -32,7 +30,7 @@ import org.apache.avalon.framework.Version;
  * name of container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/12 08:01:59 $
+ * @version $Revision: 1.3 $ $Date: 2004/03/17 10:50:03 $
  */
 public final class SecurityDescriptor extends Descriptor
 {

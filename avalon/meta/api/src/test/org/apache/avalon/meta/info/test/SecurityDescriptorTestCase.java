@@ -17,10 +17,6 @@
 
 package org.apache.avalon.meta.info.test;
 
-import java.util.Properties;
-
-import junit.framework.TestCase;
-
 import org.apache.avalon.meta.info.PermissionDescriptor;
 import org.apache.avalon.meta.info.SecurityDescriptor;
 import org.apache.avalon.meta.info.Descriptor;

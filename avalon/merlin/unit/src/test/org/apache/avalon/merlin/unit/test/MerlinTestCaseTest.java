@@ -17,28 +17,6 @@
 
 package org.apache.avalon.merlin.unit.test;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Enumeration;
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
-
-import junit.framework.TestCase;
-
-import org.apache.avalon.repository.Artifact;
-import org.apache.avalon.repository.provider.Builder;
-import org.apache.avalon.repository.provider.InitialContext;
-import org.apache.avalon.repository.provider.Factory;
-import org.apache.avalon.repository.RepositoryException;
-import org.apache.avalon.repository.main.DefaultInitialContext;
-import org.apache.avalon.repository.main.DefaultBuilder;
-
-import org.apache.avalon.util.env.Env;
-import org.apache.avalon.util.exception.ExceptionHelper;
-
 import org.apache.avalon.merlin.unit.AbstractMerlinTestCase;
 
 /**
@@ -46,7 +24,7 @@ import org.apache.avalon.merlin.unit.AbstractMerlinTestCase;
  * Merlin default application factory.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class MerlinTestCaseTest extends AbstractMerlinTestCase
 {

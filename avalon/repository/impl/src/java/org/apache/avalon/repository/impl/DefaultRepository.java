@@ -19,20 +19,11 @@ package org.apache.avalon.repository.impl;
  
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.jar.JarFile;
-import java.util.zip.ZipEntry;
 
-import java.net.JarURLConnection;
 import java.net.URL;
-import java.net.Authenticator;
 import java.net.URLClassLoader;
-import java.net.MalformedURLException;
 
 import javax.naming.directory.Attributes;
 
@@ -50,7 +41,7 @@ import org.apache.avalon.repository.util.RepositoryUtils;
  * an underlying file system.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/03/04 03:26:41 $
+ * @version $Revision: 1.10 $ $Date: 2004/03/17 10:50:03 $
  */
 public class DefaultRepository implements Repository
 {

@@ -18,13 +18,6 @@
 package org.apache.avalon.merlin.cli.test;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Enumeration;
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
 
 import junit.framework.TestCase;
 
@@ -37,7 +30,7 @@ import org.apache.avalon.merlin.cli.Main;
  * Test case for the Merlin CLI handler.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class MerlinCLITestCase extends TestCase
 {

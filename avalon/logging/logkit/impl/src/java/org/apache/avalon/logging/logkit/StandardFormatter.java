@@ -18,7 +18,6 @@
 package org.apache.avalon.logging.logkit;
 
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.ExceptionUtil;
 import org.apache.log.LogEvent;
 import org.apache.log.format.ExtendedPatternFormatter;
 import org.apache.log.format.PatternFormatter;
@@ -39,7 +38,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * </ul>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/21 13:27:03 $
+ * @version CVS $Revision: 1.3 $ $Date: 2004/03/17 10:50:04 $
  */
 public class StandardFormatter
     extends ExtendedPatternFormatter

@@ -27,13 +27,12 @@ import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaMethod;
 import org.apache.avalon.meta.info.ContextDescriptor;
 import org.apache.avalon.meta.info.EntryDescriptor;
-import org.apache.avalon.meta.info.ReferenceDescriptor;
 
 /**
  * A doclet tag handler for the 'extension' tag.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/03/11 13:44:55 $
+ * @version $Revision: 1.4 $ $Date: 2004/03/17 10:50:03 $
  */
 public class ContextTag extends AbstractTag
 {

@@ -19,12 +19,7 @@ package org.apache.avalon.repository.impl;
 
 import java.io.IOException;
 import java.io.File;
-import java.io.InputStream;
 import java.util.Properties;
-import java.util.Hashtable;
-import java.util.Map;
-import java.net.URL;
-import java.net.MalformedURLException;
 
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.RepositoryException;
@@ -35,9 +30,6 @@ import org.apache.avalon.util.criteria.Criteria;
 import org.apache.avalon.util.criteria.Parameter;
 import org.apache.avalon.util.criteria.PackedParameter;
 import org.apache.avalon.util.defaults.Defaults;
-import org.apache.avalon.util.defaults.DefaultsFinder;
-import org.apache.avalon.util.defaults.SimpleDefaultsFinder;
-import org.apache.avalon.util.defaults.SystemDefaultsFinder;
 import org.apache.avalon.util.defaults.DefaultsBuilder;
 
 
@@ -46,7 +38,7 @@ import org.apache.avalon.util.defaults.DefaultsBuilder;
  * for application to a factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class DefaultRepositoryCriteria extends Criteria implements RepositoryCriteria
 {
