@@ -81,6 +81,7 @@ public class JavadocTask extends SystemTask
     public static final String IMPL = "impl";
 
     private String m_root = "";
+    private String m_title;
 
     public void setRoot( String root )
     {
@@ -94,48 +95,44 @@ public class JavadocTask extends SystemTask
         }
     }
 
-    public void execute() throws BuildException 
+    public void setTitle( String title )
+    {
+        m_title = title;
+    }
+
+    public void execute() throws BuildException
     {
         Definition def = getHome().getDefinition( getKey() );
         File root = getJavadocRootDirectory( def );
         Path classpath = def.getPath( getProject(), Policy.RUNTIME );
-
-        ArrayList visited = new ArrayList();
-
-        File api = new File( root, "api" );
         Link j2se = new Link( "http://java.sun.com/j2se/1.4/docs/api/" );
         Link[] links = new Link[]{ j2se };
-        setup( def, classpath, visited, ResourceRef.API, api, links, "API", false );
 
+        File api = new File( root, "api" );
         File spi = new File( root, "spi" );
-        //LocalLink apiLink = new LocalLink( "/../api/", api );
-        //links = new Link[]{ j2se, apiLink };
-        setup( def, classpath, visited, ResourceRef.SPI, spi, links, "SPI", false );
-
         File imp = new File( root, "impl" );
-        //LocalLink spiLink = new LocalLink( "/../spi/", spi );
-        //links = new Link[]{ j2se, apiLink, spiLink };
-        setup( def, classpath, visited, ResourceRef.IMPL, imp, links, "IMP", true );
 
+        setup( def, classpath, ResourceRef.API, api, links, "API", false );
+        setup( def, classpath, ResourceRef.SPI, spi, links, "SPI", false );
+        setup( def, classpath, ResourceRef.IMPL, imp, links, "IMPL", true );
     }
 
     private void setup( 
-      Definition def, Path classpath, List visited, int category, File root, 
+      Definition def, Path classpath, int category, File root, 
       Link[] links, String message, boolean flag )
     {
         ResourceRef[] refs = 
           def.getResourceRefs( Policy.RUNTIME, category, true );
-        //ResourceRef[] refs = def.getQualifiedRefs( visited, category );
         if( refs.length > 0 )
         {
             log( "Javadoc " + message + " generation." );
-            generate( def, classpath, refs, root, links, flag );
+            generate( def, classpath, refs, root, links, message, flag );
         }
     }
 
     private void generate( 
        Definition definition, Path classpath, ResourceRef[] refs, 
-       File root, Link[] links, boolean flag )
+       File root, Link[] links, String group, boolean flag )
     {
         Javadoc javadoc = (Javadoc) getProject().createTask( "javadoc" );
 
@@ -143,7 +140,8 @@ public class JavadocTask extends SystemTask
         javadoc.setDestdir( root );
         Path source = javadoc.createSourcepath();
         javadoc.createClasspath().add( classpath );
-        
+        javadoc.setDoctitle( getTitle( definition, group ) );
+
         for( int i=0; i<refs.length; i++ )
         {
             ResourceRef ref = refs[i];
@@ -191,6 +189,7 @@ public class JavadocTask extends SystemTask
                 source.createPathElement().setLocation( local );
             }
         }
+
         javadoc.execute();
     }
 
@@ -205,6 +204,29 @@ public class JavadocTask extends SystemTask
         else
         {
             return new File( docs, version );
+        }
+    }
+
+    private String getTitle( Definition def, String group )
+    {
+        String extra = getTitleSuppliment( def, group );
+        if( null == m_title )
+        {
+            return def.getInfo().getName() + extra;
+        }
+        return m_title + extra;
+    }
+
+    private String getTitleSuppliment( Definition def, String group )
+    {
+        String version = def.getInfo().getVersion();
+        if( null == version )
+        {
+            return " : " + group;
+        }
+        else
+        {
+            return ", Version " + version + " : " + group;
         }
     }
 }
