@@ -41,6 +41,7 @@
         <pathelement location="${excalibur-pool.jar}"/>
         <pathelement location="${excalibur-instrument.jar}"/>
         <pathelement location="${excalibur-container.jar}"/>
+        <pathelement location="${excalibur-i18n.jar}"/>
         <path refid="project.class.path"/>
     </path>
     <property name="cp" refid="test.class.path"/>
