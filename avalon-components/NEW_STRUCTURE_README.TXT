@@ -1,20 +1,22 @@
 
-A new structure is being proposed within which each component in cornerstone
-is seperated into a distinct project.  Within the component project are two 
-sub-projects, a api project and default implimentation project.
+The cornerstone repository has been restructured to support the seperation
+of different components under independent sub-projects.  Each subproject 
+contains an api and impl subproject based on Maven builds.
 
-To build the a component (using threads component example) you will need to 
-make sure the the excalibur-thread-1.1.1.jar is in your maven repository under 
-the excalibur group (at least until we have an Avalon repository sorted out).
+Components subprojects include:
 
-  $ cd avalon-cornerstone\threads
-  $ maven build
+   connection
+   datasources
+   scheduler
+   sockets
+   store
+   threads
 
-To build the documentation:
+The following example demonstrates the building of a component project
+using the threads package as an example:
 
-  $ cd avalon-cornerstone\site
-  $ maven site
+  $ cd avalon-components\threads
+  $ maven
 
-These instructions are subject to change as the objective is to optimise one 
-component project prior to replication of the patter to other projects.
-
+The default target will build, jar and install the component into 
+your local maven repository.
