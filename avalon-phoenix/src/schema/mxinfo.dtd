@@ -3,7 +3,7 @@
    This is the DTD defining the Phoenix MxInfo 1.0
    descriptor (XML) file format/syntax.
 
-   Author: Huw Roberts <huw@mmlive.com>
+   Author: Huw Roberts <huw*apache.org>
 
    An MxInfo is an XML file used to describe the management info for Blocks
    and other manageable resources.  It is located side-by-side with the 
@@ -23,7 +23,7 @@
 The mxinfo is the document root, it defines one or more management topics.
 
 -->
-<!ELEMENT mxinfo (topic+)>
+<!ELEMENT mxinfo (topic*,proxy*)>
 <!ATTLIST mxinfo id ID #IMPLIED
           xmlns CDATA #FIXED "http://jakarta.apache.org/phoenix/mxinfo_1_0.dtd" >
 
@@ -41,6 +41,20 @@ name	     the human readable name of the type.  Must be a string
 <!ELEMENT topic          (attribute*, operation*)>
   <!ATTLIST topic
        name CDATA #REQUIRED
+  >
+
+<!--
+An element defining a proxy class to be used for management.  The proxy class must have a constructor that takes an
+java.lang.Object as its only parameter that is the object to managed.
+
+It defines:
+
+name         the name of the proxy class.  it will be instantiated and passed an instance of the class to be used for
+             management.
+-->
+<!ELEMENT proxy   EMPTY >
+  <!ATTLIST proxy
+       name         CDATA #REQUIRED
   >
 
 <!--
@@ -104,4 +118,3 @@ type         (optional) the class of the attribute.  this is for information pur
        description  CDATA #IMPLIED
        type         CDATA #IMPLIED
   >
-
