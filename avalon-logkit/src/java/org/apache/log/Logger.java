@@ -441,7 +441,9 @@ public class Logger
         //Get FQN for category
         String category = null;
         if( m_category.equals( "" ) )
+        {
             category = nextCategory;
+        }
         else
         {
             category = m_category + CATEGORY_SEPARATOR + nextCategory;
@@ -456,9 +458,13 @@ public class Logger
                 if( m_children[ i ].getCategory().equals( category ) )
                 {
                     if( null == remainder )
+                    {
                         return m_children[ i ];
+                    }
                     else
+                    {
                         return m_children[ i ].getChildLogger( remainder );
+                    }
                 }
             }
         }
@@ -480,9 +486,13 @@ public class Logger
         }
 
         if( null == remainder )
+        {
             return child;
+        }
         else
+        {
             return child.getChildLogger( remainder );
+        }
     }
 
     /**
