@@ -143,6 +143,10 @@ public class FilterTask extends SystemTask
         {
             return resource.getInfo().getURI();
         }
+        else if( m_feature.equals( "spec" ) )
+        {
+            return resource.getInfo().getSpec();
+        }
         else if( m_feature.equals( "path" ) )
         {
             return convertString( resource.getInfo().getPath() );
