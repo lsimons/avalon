@@ -69,21 +69,6 @@ ExcaliburComponentManager, usually abbreviated to ECM.
             <id>commons-collections</id>
             <version>2.1</version>
         </dependency>
-        <dependency>
-            <!-- optional -->
-            <id>servletapi</id>
-            <version>2.2</version>
-        </dependency>
-        <dependency>
-            <!-- for testing only -->
-            <id>excalibur-i18n</id>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <!-- for testing only -->
-            <id>junit</id>
-            <version>3.8.1</version>
-        </dependency>
     </dependencies>
 
     <properties>

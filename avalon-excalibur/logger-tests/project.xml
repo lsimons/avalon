@@ -19,8 +19,8 @@
 <project>
     <extend>${basedir}/../project.xml</extend>
 
-    <name>excalibur-logger</name>
-    <id>excalibur-logger</id>
+    <name>excalibur-logger-tests</name>
+    <id>excalibur-logger-tests</id>
     <currentVersion>1.2</currentVersion>
     <inceptionYear>1997</inceptionYear>
     <shortDescription>Container utility for implementing LogEnabled/Loggable support.</shortDescription>
@@ -49,7 +49,7 @@
     <dependencies>
         <dependency>
             <id>avalon-framework</id>
-            <version>4.1.5</version>
+            <version>4.1.4</version>
             <groupId>framework</groupId>
         </dependency>
         
@@ -62,7 +62,12 @@
             <id>servletapi</id>
             <version>2.2</version>
         </dependency>
-        
+        <!-- Download from Sun.
+        <dependency>
+            <id>j2ee</id>
+            <version>1.3</version>
+        </dependency>
+        -->
         <dependency>
             <id>log4j</id>
             <version>1.2.7</version>
@@ -84,5 +89,44 @@
             <id>xml-apis</id>
             <version>2.0.2</version>
         </dependency>
+
+        <dependency>
+            <!-- testing only -->
+            <id>commons-collections</id>
+            <version>2.1</version>
+        </dependency>
+        
+        <dependency>
+            <!-- testing only -->
+            <id>excalibur-component</id>
+            <version>1.2</version>
+        </dependency>
+               
+        <dependency>
+            <!-- testing only -->
+            <id>excalibur-testcase</id>
+            <version>1.2</version>
+            <groupId>excalibur-component</groupId>
+        </dependency>
+        
+        <dependency>
+            <!-- testing only -->
+            <id>excalibur-pool</id>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <!-- testing only -->
+            <id>excalibur-instrument</id>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <!-- testing only -->
+            <id>excalibur-i18n</id>
+            <version>1.0</version>
+        </dependency>
+        <!--<dependency>
+            <id>junit</id>
+            <version>3.8.1</version>
+        </dependency>-->
     </dependencies>
 </project>
