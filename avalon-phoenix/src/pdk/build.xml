@@ -61,7 +61,7 @@
 
     <!-- block for Phoenix-Demo -->
     <jar jarfile="build/lib/phoenix-demo-block.jar"
-         manifest="src/manifest/bar.mf">
+         manifest="src/manifest/block-archive.mf">
       <fileset dir="build/classes">
         <include name="**"/>
         <exclude name="phoenixdemo/client/**"/>
@@ -90,7 +90,6 @@
         <exclude name="phoenixdemo/block/**"/>        
       </fileset>
     </jar>
-
 
   </target>
 
