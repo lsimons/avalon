@@ -37,12 +37,15 @@ Legal:
     <property name="build.lib" value="${build.dir}/lib"/>
     <property name="build.src" value="${build.dir}/src"/>
     <property name="build.classes" value="${build.dir}/classes"/>
+    <property name="build.tests" value="${build.dir}/tests"/>
+    <property name="build.testclasses" value="${build.dir}/testclasses"/>
     <property name="build.reports" value="${build.dir}/reports"/>
     <property name="build.xdoclet" value="${build.dir}/xdoclet"/>
 
     <!-- Set the properties for source directories -->
     <property name="src.dir" value="src"/>
     <property name="java.dir" value="${src.dir}/java"/>
+    <property name="test.dir" value="${src.dir}/test"/>
     <property name="compat.dir" value="${src.dir}/compat"/>
     <property name="conf.dir" value="${src.dir}/conf"/>
     <property name="script.dir" value="${src.dir}/script"/>
@@ -80,6 +83,12 @@ Legal:
             <include name="**/*.jar" />
         </fileset>
         <pathelement path="${build.classes}" />
+    </path>
+
+    <path id="test.class.path">
+        <pathelement location="${build.testclasses}"/>
+        <pathelement location="${junit.jar}"/>
+        <path refid="project.class.path"/>
     </path>
 
     <!-- Main target -->
@@ -219,6 +228,47 @@ Legal:
                 <include name="**/*.xdt" />
             </fileset>
         </copy>
+
+    </target>
+
+        <!-- Compiles the source code -->
+    <target name="test" depends="compile" description="compiles and runs unit tests">
+
+        <mkdir dir="${build.testclasses}"/>
+
+        <javac srcdir="${test.dir}"
+            destdir="${build.testclasses}"
+            debug="${build.debug}"
+            optimize="${build.optimize}"
+            deprecation="${build.deprecation}">
+            <classpath refid="test.class.path" />
+            <src path="${test.dir}" />
+        </javac>
+
+        <copy todir="${build.testclasses}">
+            <fileset dir="${test.dir}">
+                <exclude name="**/*.java" />
+            </fileset>
+        </copy>
+
+        <mkdir dir="${build.tests}"/>
+
+        <junit fork="true"
+            haltonfailure="${junit.failonerror}"
+            printsummary="yes"
+            dir="${build.tests}">
+            <classpath refid="test.class.path"/>
+
+            <formatter type="xml"/>    <!-- xml reports for junitreport -->
+            <formatter type="plain" usefile="false"/>  <!-- text reports for humans     -->
+
+            <batchtest todir="${build.tests}">
+                <fileset dir="${build.testclasses}">
+                    <include name="**/test/*TestCase.class"/>
+                    <exclude name="**/Abstract*"/>
+                </fileset>
+            </batchtest>
+        </junit>
 
     </target>
 

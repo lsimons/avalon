@@ -48,8 +48,10 @@ public class DefaultLogManager
                                    final ClassLoader classLoader )
         throws Exception
     {
+        final String sarName = metaData.getName();
+
         final DefaultContext context = new DefaultContext();
-        context.put( BlockContext.APP_NAME, metaData.getName() );
+        context.put( BlockContext.APP_NAME, sarName );
         context.put( BlockContext.APP_HOME_DIR, metaData.getHomeDirectory() );
         context.put( "classloader", classLoader );
 
@@ -58,7 +60,7 @@ public class DefaultLogManager
         if( getLogger().isDebugEnabled() )
         {
             final String message =
-                REZ.getString( "logger-create", metaData.getName(), version );
+                REZ.getString( "logger-create", sarName, version );
             getLogger().debug( message );
         }
         final LoggerManager loggerManager = createLoggerManager( version );
