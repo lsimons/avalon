@@ -1,2 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
-<project default="jar:install" />
+
+<project default="jar:install" xmlns:ant="jelly:ant" >
+
+  <ant:filter token="AVALON-LOGGING-LOGKIT-SPEC" 
+      value="&avalon-logging-logkit-artifact-spec;"/>
+  <ant:filter token="MERLIN_IMPLEMENTATION" 
+      value="artifact:merlin/merlin-impl#&merlin-impl-version;"/>
+  <ant:filter token="LOGGING_IMPLEMENTATION" 
+      value="&avalon-logging-logkit-artifact;"/>
+  <ant:filter token="STANDARD_RUNTIME" 
+      value="&avalon-activation-artifact;"/>
+  <ant:filter token="REPOSITORY_MAIN" 
+      value="&avalon-repository-artifact;"/>
+
+</project>

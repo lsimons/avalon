@@ -3,7 +3,6 @@
   <!ENTITY % index SYSTEM "file:index.ent"> %index;
 ]>
 <project default="test:test" xmlns:ant="jelly:ant">
-  <preGoal name="java:jar-resources">
     <ant:filter token="AVALON-LOGGING-LOG4J-SPEC" 
         value="&avalon-logging-log4j-artifact-spec;"/>
     <ant:filter token="AVALON-LOGGING-LOGKIT-SPEC" 
@@ -22,5 +21,5 @@
         value="&avalon-activation-artifact;"/>
     <ant:filter token="REPOSITORY_MAIN" 
         value="&avalon-repository-artifact;"/>
-  </preGoal>
+
 </project>
