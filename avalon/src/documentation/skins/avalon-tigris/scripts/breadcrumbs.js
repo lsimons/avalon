@@ -194,10 +194,33 @@ function getBreadcrumbs( dirs )
 }
 
 /**
- * Return a string containing an XHTML breadcrumb trail based on the
+ * Return a string containing a simple text breadcrumb trail based on the
  * two-dimensional array passed in.
  */
 function getCrumbTrail( crumbs )
+{
+	var xhtml = DISPLAY_PREPREND;
+
+	for( var i = 0; i < crumbs.length; i++ )
+	{
+		xhtml += '<a href="' + crumbs[i][1] + '" >';
+		xhtml += sentenceCase( crumbs[i][0] ) + '</a>';
+		if( i != (crumbs.length-1) )
+		{
+			xhtml += DISPLAY_SEPARATOR;
+		}
+	}
+
+	xhtml += DISPLAY_POSTPREND;
+
+	return xhtml;
+}
+
+/**
+ * Return a string containing an XHTML breadcrumb trail based on the
+ * two-dimensional array passed in.
+ */
+function getCrumbTrailXHTML( crumbs )
 {
 	var xhtml = '<span class="' + CSS_CLASS_TRAIL  + '">';
 	xhtml += DISPLAY_PREPREND;
