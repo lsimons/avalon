@@ -67,7 +67,7 @@ import org.apache.avalon.meta.info.ServiceDescriptor;
  * Default implementation of the deplendency model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/12/22 21:28:09 $
+ * @version $Revision: 1.4 $ $Date: 2003/12/22 21:46:02 $
  */
 public class DefaultDependencyModel extends AbstractLogEnabled implements DependencyModel
 {
@@ -130,9 +130,7 @@ public class DefaultDependencyModel extends AbstractLogEnabled implements Depend
         {
             if( directive.getSource() != null )
             {
-System.out.println( "## DIRECTIVE SOURCE: " + directive.getSource() );
                 m_source = resolvePath( partition, directive.getSource() );
-System.out.println( "## DIRECTIVE RESOLVED: " + m_source );
                 final String message =
                   REZ.getString( "dependency.path.debug", m_source, directive.getKey() );
                 getLogger().debug( message );
