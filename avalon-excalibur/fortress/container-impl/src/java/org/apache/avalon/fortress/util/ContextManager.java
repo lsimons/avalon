@@ -117,7 +117,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.47 $ $Date: 2003/06/12 18:45:54 $
+ * @version CVS $Revision: 1.48 $ $Date: 2003/06/27 18:30:59 $
  * @since 4.1
  */
 public class ContextManager
@@ -877,7 +877,7 @@ public class ContextManager
             }
 
             final String lmDefaultLoggerName =
-                    (String) get( m_rootContext, ContextManagerConstants.LOG_CATEGORY, "fotress" );
+                    (String) get( m_rootContext, ContextManagerConstants.LOG_CATEGORY, "fortress" );
             final String lmLoggerName = loggerManagerConfig.getAttribute( "logger",
                     log4j ? "system.log4j" : "system.logkit" );
 
