@@ -6,7 +6,7 @@
                 <resource id="avalon-framework:avalon-framework-api" version="4.1.5"/>
                 <resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/>
 
-				<resource id="avalon-sql:avalon-sql-api" version="1.0-SNAPSHOT"/>
+				<resource id="avalon-dbcp:avalon-dbcp-api" version="1.0.dev-0"/>
 				<resource id="commons-pool:commons-pool" version="1.1"/>
 				<resource id="commons-dbcp:commons-dbcp" version="1.1"/>
             </repository>
