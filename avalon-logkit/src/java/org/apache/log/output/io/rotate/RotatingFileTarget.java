@@ -8,7 +8,6 @@
 package org.apache.log.output.io.rotate;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import org.apache.log.format.Formatter;
 import org.apache.log.output.io.FileTarget;
@@ -24,13 +23,13 @@ public class RotatingFileTarget
     extends FileTarget
 {
     ///Flag indicating whether or not file should be appended to
-    private boolean             m_append;
+    private boolean m_append;
 
     ///The rotation strategy to be used.
-    private RotateStrategy      m_rotateStrategy;
+    private RotateStrategy m_rotateStrategy;
 
     ///The file strategy to be used.
-    private FileStrategy        m_fileStrategy;
+    private FileStrategy m_fileStrategy;
 
     /**
      * Construct RotatingFileTarget object.
@@ -88,7 +87,10 @@ public class RotatingFileTarget
         // if rotation is needed, close old File, create new File
         if( m_rotateStrategy.isRotationNeeded( data, getFile() ) )
         {
-            try { rotate(); }
+            try
+            {
+                rotate();
+            }
             catch( final IOException ioe )
             {
                 getErrorHandler().error( "Error rotating file", ioe, null );

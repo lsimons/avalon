@@ -11,7 +11,7 @@ import org.apache.log.ErrorHandler;
 import org.apache.log.LogEvent;
 
 /**
- * Handle unrecoverable errors that occur during logging by 
+ * Handle unrecoverable errors that occur during logging by
  * writing to standard error.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
@@ -26,8 +26,8 @@ public class DefaultErrorHandler
      * @param throwable the exception associated with error (may be null)
      * @param event the LogEvent that caused error, if any (may be null)
      */
-    public void error( final String message, 
-                       final Throwable throwable, 
+    public void error( final String message,
+                       final Throwable throwable,
                        final LogEvent event )
     {
         System.err.println( "Logging Error: " + message );

@@ -28,7 +28,7 @@ public class DatagramOutputTarget
      * @param port the address port
      * @exception IOException if an error occurs
      */
-    public DatagramOutputTarget( final InetAddress address, 
+    public DatagramOutputTarget( final InetAddress address,
                                  final int port,
                                  final Formatter formatter )
         throws IOException

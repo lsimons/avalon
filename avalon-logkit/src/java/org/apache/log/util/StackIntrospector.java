@@ -15,7 +15,7 @@ import java.io.StringWriter;
  *
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @author <a href="mailto:stuart.roebuck@adolos.com">Stuart Roebuck</a>
- * @version CVS $Revision: 1.4 $ $Date: 2001/11/11 02:18:32 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/03/27 22:07:58 $
  */
 public final class StackIntrospector
 {
@@ -41,7 +41,7 @@ public final class StackIntrospector
     }
 
     ///Method to cache CallStack hack as needed
-    private static CallStack    c_callStack;
+    private static CallStack c_callStack;
 
     /**
      * Private constructor to block instantiation.
@@ -55,7 +55,7 @@ public final class StackIntrospector
      * Create Hack SecurityManager to get CallStack.
      *
      * @return the CallStack object
-     * @exception SecurityException if an existing SecurityManager disallows construction 
+     * @exception SecurityException if an existing SecurityManager disallows construction
      *            of another SecurityManager
      */
     private synchronized static CallStack getCallStack()
@@ -76,7 +76,7 @@ public final class StackIntrospector
      *
      * @param clazz the Class to search for on stack to find caller of
      * @return the Class of object that called parrameter class
-     * @exception SecurityException if an existing SecurityManager disallows construction 
+     * @exception SecurityException if an existing SecurityManager disallows construction
      *            of another SecurityManager and thus blocks method results
      */
     public final static Class getCallerClass( final Class clazz )
@@ -105,7 +105,7 @@ public final class StackIntrospector
      *
      * @return The method path name in the form "the.package.path.Method"
      */
-    public final static String getCallerMethod( final Class clazz ) 
+    public final static String getCallerMethod( final Class clazz )
     {
         final String className = clazz.getName();
 
@@ -115,7 +115,7 @@ public final class StackIntrospector
         throwable.printStackTrace( new PrintWriter( sw, true ) );
         final StringBuffer buffer = sw.getBuffer();
 
-        //Cache vars used in loop 
+        //Cache vars used in loop
         final StringBuffer line = new StringBuffer();
         final int length = buffer.length();
 
@@ -128,50 +128,51 @@ public final class StackIntrospector
         {
             final char ch = buffer.charAt( i );
 
-            switch( state ) 
+            switch( state )
             {
-            case 0:
-                //Strip the first line from input
-                if( '\n' == ch ) state = 1;
-                break;
+                case 0:
+                    //Strip the first line from input
+                    if( '\n' == ch ) state = 1;
+                    break;
 
-            case 1:
-                //strip 't' from 'at'
-                if( 't' == ch ) state = 2;
-                break;
+                case 1:
+                    //strip 't' from 'at'
+                    if( 't' == ch ) state = 2;
+                    break;
 
-            case 2:
-                //Strip space after 'at'
-                line.setLength( 0 );
-                state = 3;
-                break;
+                case 2:
+                    //Strip space after 'at'
+                    line.setLength( 0 );
+                    state = 3;
+                    break;
 
-            case 3:
-                //accumulate all characters to end of line
-                if( '\n' != ch ) line.append( ch );
-                else
-                {
-                    //At this stage you have the line that looks like
-                    //com.biz.SomeClass.someMethod(SomeClass.java:22)
-                    final String method = line.toString();
-                    
-                    ///Determine if line is a match for class
-                    final boolean match = method.startsWith( className );
-                    if( !found && match )
+                case 3:
+                    //accumulate all characters to end of line
+                    if( '\n' != ch )
+                        line.append( ch );
+                    else
                     {
-                        //If this is the first time we cound class then 
-                        //set found to true and look for caller into class
-                        found = true;
+                        //At this stage you have the line that looks like
+                        //com.biz.SomeClass.someMethod(SomeClass.java:22)
+                        final String method = line.toString();
+
+                        ///Determine if line is a match for class
+                        final boolean match = method.startsWith( className );
+                        if( !found && match )
+                        {
+                            //If this is the first time we cound class then
+                            //set found to true and look for caller into class
+                            found = true;
+                        }
+                        else if( found && !match )
+                        {
+                            //We have now located caller of Clazz
+                            return method;
+                        }
+
+                        //start parsing from start of line again
+                        state = 1;
                     }
-                    else if( found && !match )
-                    {
-                        //We have now located caller of Clazz
-                        return method;
-                    }
-                    
-                    //start parsing from start of line again
-                    state = 1;
-                }
             }
         }
 
@@ -191,7 +192,7 @@ public final class StackIntrospector
      *
      * @return The method path name in the form "the.package.path.Method"
      */
-    public final static String getRecentStack( final Class clazz, int entries ) 
+    public final static String getRecentStack( final Class clazz, int entries )
     {
         final String className = clazz.getName();
 
@@ -201,7 +202,7 @@ public final class StackIntrospector
         throwable.printStackTrace( new PrintWriter( sw, true ) );
         final StringBuffer buffer = sw.getBuffer();
 
-        //Cache vars used in loop 
+        //Cache vars used in loop
         final StringBuffer line = new StringBuffer();
         final StringBuffer stack = new StringBuffer();
         final int length = buffer.length();
@@ -217,51 +218,52 @@ public final class StackIntrospector
 
             switch( state )
             {
-            case 0:
-                //Strip the first line from input
-                if( '\n' == ch ) state = 1;
-                break;
+                case 0:
+                    //Strip the first line from input
+                    if( '\n' == ch ) state = 1;
+                    break;
 
-            case 1:
-                //strip 't' from 'at'
-                if( 't' == ch ) state = 2;
-                break;
+                case 1:
+                    //strip 't' from 'at'
+                    if( 't' == ch ) state = 2;
+                    break;
 
-            case 2:
-                //Strip space after 'at'
-                line.setLength( 0 );
-                state = 3;
-                break;
+                case 2:
+                    //Strip space after 'at'
+                    line.setLength( 0 );
+                    state = 3;
+                    break;
 
-            case 3:
-                //accumulate all characters to end of line
-                if( '\n' != ch ) line.append( ch );
-                else
-                {
-                    //At this stage you have the line that looks like
-                    //com.biz.SomeClass.someMethod(SomeClass.java:22)
-                    final String method = line.toString();
-
-                    ///Determine if line is a match for class
-                    final boolean match = method.startsWith( className );
-                    if( !found && match )
+                case 3:
+                    //accumulate all characters to end of line
+                    if( '\n' != ch )
+                        line.append( ch );
+                    else
                     {
-                        //If this is the first time we cound class then
-                        //set found to true and look for caller into class
-                        found = true;
-                    }
-                    else if( found && !match )
-                    {
-                        //We are looking at the callers of Clazz
-                        stack.append(method);
-                        entries--;
-                        if (entries == 0) return stack.toString();
-                        stack.append("\n");
-                    }
+                        //At this stage you have the line that looks like
+                        //com.biz.SomeClass.someMethod(SomeClass.java:22)
+                        final String method = line.toString();
 
-                    //start parsing from start of line again
-                    state = 1;
-                }
+                        ///Determine if line is a match for class
+                        final boolean match = method.startsWith( className );
+                        if( !found && match )
+                        {
+                            //If this is the first time we cound class then
+                            //set found to true and look for caller into class
+                            found = true;
+                        }
+                        else if( found && !match )
+                        {
+                            //We are looking at the callers of Clazz
+                            stack.append( method );
+                            entries--;
+                            if( entries == 0 ) return stack.toString();
+                            stack.append( "\n" );
+                        }
+
+                        //start parsing from start of line again
+                        state = 1;
+                    }
             }
         }
 

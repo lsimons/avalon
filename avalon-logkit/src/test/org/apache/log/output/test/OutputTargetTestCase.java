@@ -12,12 +12,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import junit.framework.TestCase;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
 import org.apache.log.Priority;
-import org.apache.log.format.ExtendedPatternFormatter;
-import org.apache.log.format.PatternFormatter;
 import org.apache.log.format.RawFormatter;
 import org.apache.log.output.AbstractOutputTarget;
 import org.apache.log.output.MemoryTarget;
@@ -25,7 +24,6 @@ import org.apache.log.output.io.FileTarget;
 import org.apache.log.output.io.SafeFileTarget;
 import org.apache.log.output.io.StreamTarget;
 import org.apache.log.output.io.WriterTarget;
-import junit.framework.TestCase;
 
 /**
  * Test suite for the formatters.
@@ -51,14 +49,14 @@ public final class OutputTargetTestCase
 
     private static RawFormatter FORMATTER = new RawFormatter();
 
-    private final File     m_logFile;
+    private final File m_logFile;
 
     public OutputTargetTestCase( final String name )
         throws IOException
     {
         super( name );
 
-        m_logFile = (new File( "test/log/logfile.txt" )).getCanonicalFile();
+        m_logFile = ( new File( "test/log/logfile.txt" ) ).getCanonicalFile();
     }
 
     private String getResult( final ByteArrayOutputStream output )
@@ -188,7 +186,7 @@ public final class OutputTargetTestCase
 
         target.push();
         final String resultPP = getResult( output );
-        assertEquals( "Targets HEAD+R1 debug output", HEAD+R1, resultPP );
+        assertEquals( "Targets HEAD+R1 debug output", HEAD + R1, resultPP );
 
         logger.debug( M2 );
         final String result2 = getResult( output );
@@ -202,14 +200,14 @@ public final class OutputTargetTestCase
 
         assertEquals( "Targets R2 debug output", "", result2 );
         assertEquals( "Targets R3 debug output", "", result3 );
-        assertEquals( "Targets R3 debug output", R2+R3+R3, result4 );
+        assertEquals( "Targets R3 debug output", R2 + R3 + R3, result4 );
     }
 
     private Logger getNewLogger( final LogTarget target )
     {
         final Hierarchy hierarchy = new Hierarchy();
         final Logger logger = hierarchy.getLoggerFor( "myCategory" );
-        logger.setLogTargets( new LogTarget[] { target } );
+        logger.setLogTargets( new LogTarget[]{target} );
         return logger;
     }
 

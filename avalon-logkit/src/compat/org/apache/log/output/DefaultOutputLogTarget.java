@@ -7,13 +7,11 @@
  */
 package org.apache.log.output;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import org.apache.log.format.PatternFormatter;
-import org.apache.log.Hierarchy;
 import org.apache.log.format.Formatter;
+import org.apache.log.format.PatternFormatter;
 import org.apache.log.output.io.WriterTarget;
 
 /**
@@ -21,14 +19,14 @@ import org.apache.log.output.io.WriterTarget;
  * The format is specified via a string.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @deprecated Use org.apache.log.output.io.WriterTarget or 
- *             org.apache.log.output.io.StreamTarget as appropriate 
+ * @deprecated Use org.apache.log.output.io.WriterTarget or
+ *             org.apache.log.output.io.StreamTarget as appropriate
  *             as this class encourages unsafe behaviour
  */
 public class DefaultOutputLogTarget
     extends WriterTarget
 {
-    private static final String  FORMAT = 
+    private static final String FORMAT =
         "%7.7{priority} %5.5{time}   [%8.8{category}] (%{context}): %{message}\\n%{throwable}";
 
     /**
@@ -85,13 +83,13 @@ public class DefaultOutputLogTarget
      * Set the format string for this target.
      *
      * @param format the format string
-     * @deprecated This method is unsafe as it assumes formatter is PatternFormatter 
+     * @deprecated This method is unsafe as it assumes formatter is PatternFormatter
      *             and accesses a protected attribute. Instead of calling this method
-     *             It is recomended that a fully configured formatter is passed into 
+     *             It is recomended that a fully configured formatter is passed into
      *             constructor.
      */
     public void setFormat( final String format )
     {
-        ((PatternFormatter)m_formatter).setFormat( format );
+        ( (PatternFormatter)m_formatter ).setFormat( format );
     }
 }

@@ -1,7 +1,6 @@
 package org.apache.log.output;
 
 import javax.servlet.ServletContext;
-import org.apache.log.LogEvent;
 
 /**
  * Generic logging interface. Implementations are based on the strategy

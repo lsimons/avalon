@@ -15,37 +15,37 @@ package org.apache.log;
 public class Logger
 {
     ///Separator character use to separate different categories
-    public final static char    CATEGORY_SEPARATOR   = '.';
+    public final static char CATEGORY_SEPARATOR = '.';
 
     ///The ErrorHandler associated with Logger
-    private final ErrorHandler  m_errorHandler;
+    private final ErrorHandler m_errorHandler;
 
     ///Logger to inherit logtargets and priorities from
-    private final Logger        m_parent;
+    private final Logger m_parent;
 
     ///the fully qualified name of category
-    private final String        m_category;
+    private final String m_category;
 
     ///The list of child loggers associated with this logger
-    private Logger[]            m_children;
+    private Logger[] m_children;
 
     ///The log-targets this logger writes to
-    private LogTarget[]         m_logTargets;
+    private LogTarget[] m_logTargets;
 
     ///Indicate that logTargets were set with setLogTargets() rather than inherited
-    private boolean             m_logTargetsForceSet;
+    private boolean m_logTargetsForceSet;
 
     ///The priority threshold associated with logger
-    private Priority            m_priority;
+    private Priority m_priority;
 
     ///Indicate that priority was set with setPriority() rather than inherited
-    private boolean             m_priorityForceSet;
+    private boolean m_priorityForceSet;
 
     /**
      * True means LogEvents will be sent to parents LogTargets
      * aswell as the ones set for this Logger.
      */
-    private boolean             m_additivity;
+    private boolean m_additivity;
 
     /**
      * Protected constructor for use inside the logging toolkit.
@@ -56,9 +56,9 @@ public class Logger
      * @param logTargets the LogTargets associated with logger
      * @param parent the parent logger (used for inheriting from)
      */
-    Logger( final ErrorHandler errorHandler, 
-            final String category, 
-            final LogTarget[] logTargets, 
+    Logger( final ErrorHandler errorHandler,
+            final String category,
+            final LogTarget[] logTargets,
             final Logger parent )
     {
         m_errorHandler = errorHandler;
@@ -281,7 +281,7 @@ public class Logger
     {
         return getPriority().isLowerOrEqual( priority );
     }
-    
+
     /**
      * Log a event at specific priority with a certain message and throwable.
      *
@@ -340,8 +340,10 @@ public class Logger
      */
     public synchronized void unsetPriority( final boolean recursive )
     {
-        if( null != m_parent ) m_priority = m_parent.getPriority();
-        else m_priority = Priority.DEBUG;
+        if( null != m_parent )
+            m_priority = m_parent.getPriority();
+        else
+            m_priority = Priority.DEBUG;
 
         m_priorityForceSet = false;
         resetChildPriorities( recursive );
@@ -362,7 +364,7 @@ public class Logger
 
     /**
      * Unset the logtargets for this logger.
-     * This logger (and thus all child loggers who don't specify logtargets) will 
+     * This logger (and thus all child loggers who don't specify logtargets) will
      * inherit from the parents LogTargets.
      */
     public synchronized void unsetLogTargets()
@@ -372,13 +374,15 @@ public class Logger
 
     /**
      * Unset the logtargets for this logger and all child loggers if recursive is set.
-     * The loggers unset (and all child loggers who don't specify logtargets) will 
+     * The loggers unset (and all child loggers who don't specify logtargets) will
      * inherit from the parents LogTargets.
      */
     public synchronized void unsetLogTargets( final boolean recursive )
     {
-        if( null != m_parent ) m_logTargets = m_parent.safeGetLogTargets();
-        else m_logTargets = null;
+        if( null != m_parent )
+            m_logTargets = m_parent.safeGetLogTargets();
+        else
+            m_logTargets = null;
 
         m_logTargetsForceSet = false;
         resetChildLogTargets( recursive );
@@ -393,7 +397,7 @@ public class Logger
     {
         if( null == m_children ) return new Logger[ 0 ];
 
-        final Logger[] children = new Logger[ m_children.length ];       
+        final Logger[] children = new Logger[ m_children.length ];
 
         for( int i = 0; i < children.length; i++ )
         {
@@ -418,37 +422,41 @@ public class Logger
 
         String nextCategory = null;
         String remainder = null;
-        
-        if( -1 == end ) nextCategory = subCategory;
+
+        if( -1 == end )
+            nextCategory = subCategory;
         else
         {
             if( end == 0 )
             {
                 throw new IllegalArgumentException( "Logger categories MUST not have empty elements" );
             }
-            
+
             nextCategory = subCategory.substring( 0, end );
             remainder = subCategory.substring( end + 1 );
         }
 
-        //Get FQN for category 
+        //Get FQN for category
         String category = null;
-        if( m_category.equals( "" ) ) category = nextCategory;
+        if( m_category.equals( "" ) )
+            category = nextCategory;
         else
         {
             category = m_category + CATEGORY_SEPARATOR + nextCategory;
         }
 
         //Check existing children to see if they
-        //contain next Logger for step in category 
+        //contain next Logger for step in category
         if( null != m_children )
         {
             for( int i = 0; i < m_children.length; i++ )
             {
                 if( m_children[ i ].getCategory().equals( category ) )
                 {
-                    if( null == remainder ) return m_children[ i ];
-                    else return m_children[ i ].getChildLogger( remainder );
+                    if( null == remainder )
+                        return m_children[ i ];
+                    else
+                        return m_children[ i ].getChildLogger( remainder );
                 }
             }
         }
@@ -457,9 +465,9 @@ public class Logger
         final Logger child = new Logger( m_errorHandler, category, null, this );
 
         //Add new logger to child list
-        if( null == m_children ) 
+        if( null == m_children )
         {
-            m_children = new Logger[] { child };
+            m_children = new Logger[]{child};
         }
         else
         {
@@ -469,16 +477,18 @@ public class Logger
             m_children = children;
         }
 
-        if( null == remainder ) return child;
-        else return child.getChildLogger( remainder );
+        if( null == remainder )
+            return child;
+        else
+            return child.getChildLogger( remainder );
     }
 
     /**
      * Retrieve priority associated with Logger.
      *
      * @return the loggers priority
-     * @deprecated This method violates Inversion of Control principle. 
-     *             It will downgraded to protected access in a future 
+     * @deprecated This method violates Inversion of Control principle.
+     *             It will downgraded to protected access in a future
      *             release. When user needs to check priority it is advised
      *             that they use the is[Priority]Enabled() functions.
      */
@@ -491,8 +501,8 @@ public class Logger
      * Retrieve category associated with logger.
      *
      * @return the Category
-     * @deprecated This method violates Inversion of Control principle. 
-     *             If you are relying on its presence then there may be 
+     * @deprecated This method violates Inversion of Control principle.
+     *             If you are relying on its presence then there may be
      *             something wrong with the design of your system
      */
     public final String getCategory()
@@ -504,8 +514,8 @@ public class Logger
      * Get a copy of log targets for this logger.
      *
      * @return the child loggers
-     * @deprecated This method is deprecated and will be removed in Future version. 
-     *             Previously it allowed unsafe access to logtargets which permitted 
+     * @deprecated This method is deprecated and will be removed in Future version.
+     *             Previously it allowed unsafe access to logtargets which permitted
      *             masqurade attacks. It currently returns a zero sized array.
      */
     public LogTarget[] getLogTargets()
@@ -529,7 +539,7 @@ public class Logger
         event.setContextStack( ContextStack.getCurrentContext( false ) );
         event.setContextMap( ContextMap.getCurrentContext( false ) );
 
-        if( null != message ) 
+        if( null != message )
         {
             event.setMessage( message );
         }
@@ -567,7 +577,7 @@ public class Logger
         else
         {
             //If log targets were not inherited, additivity is true
-            //then fire an event to local targets 
+            //then fire an event to local targets
             if( m_logTargetsForceSet )
             {
                 fireEvent( event, targets );
@@ -585,8 +595,8 @@ public class Logger
     {
         for( int i = 0; i < targets.length; i++ )
         {
-            //No need to clone array as addition of a log-target 
-            //will result in changin whole array                
+            //No need to clone array as addition of a log-target
+            //will result in changin whole array
             targets[ i ].processEvent( event );
         }
     }
@@ -638,8 +648,10 @@ public class Logger
     {
         if( null == m_logTargets )
         {
-            if( null == m_parent ) return new LogTarget[ 0 ];
-            else return m_parent.safeGetLogTargets();
+            if( null == m_parent )
+                return new LogTarget[ 0 ];
+            else
+                return m_parent.safeGetLogTargets();
         }
         else
         {
@@ -679,7 +691,7 @@ public class Logger
             final LogTarget target = m_logTargets[ i ];
             if( target instanceof ErrorAware )
             {
-                ((ErrorAware)target).setErrorHandler( m_errorHandler );
+                ( (ErrorAware)target ).setErrorHandler( m_errorHandler );
             }
         }
     }

@@ -8,14 +8,14 @@
 package org.apache.log.output;
 
 import java.util.LinkedList;
-import org.apache.log.ErrorHandler;
 import org.apache.log.ErrorAware;
+import org.apache.log.ErrorHandler;
 import org.apache.log.LogEvent;
 import org.apache.log.LogTarget;
 
 /**
  * An asynchronous LogTarget that sends entries on in another thread.
- * It is the responsibility of the user of this class to start 
+ * It is the responsibility of the user of this class to start
  * the thread etc.
  *
  * <pre>
@@ -30,13 +30,13 @@ import org.apache.log.LogTarget;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
-public class AsyncLogTarget 
+public class AsyncLogTarget
     extends AbstractTarget
     implements Runnable
 {
-    private final LinkedList  m_list;
-    private final int         m_queueSize;  
-    private final LogTarget   m_logTarget;  
+    private final LinkedList m_list;
+    private final int m_queueSize;
+    private final LogTarget m_logTarget;
 
     public AsyncLogTarget( final LogTarget logTarget )
     {
@@ -62,7 +62,7 @@ public class AsyncLogTarget
 
         if( m_logTarget instanceof ErrorAware )
         {
-            ((ErrorAware)m_logTarget).setErrorHandler( errorHandler );
+            ( (ErrorAware)m_logTarget ).setErrorHandler( errorHandler );
         }
     }
 
@@ -78,11 +78,14 @@ public class AsyncLogTarget
             final int size = m_list.size();
             while( m_queueSize <= size )
             {
-                try { m_list.wait(); }
+                try
+                {
+                    m_list.wait();
+                }
                 catch( final InterruptedException ie )
                 {
                     //This really should not occur ...
-                    //Maybe we should log it though for 
+                    //Maybe we should log it though for
                     //now lets ignore it
                 }
             }
@@ -91,7 +94,7 @@ public class AsyncLogTarget
 
             if( size == 0 )
             {
-                //tell the "server" thread to wake up 
+                //tell the "server" thread to wake up
                 //if it is waiting for a queue to contain some items
                 m_list.notify();
             }
@@ -117,10 +120,10 @@ public class AsyncLogTarget
                     if( size > 0 )
                     {
                         event = (LogEvent)m_list.removeLast();
-                        
+
                         if( size == m_queueSize )
                         {
-                            //tell the "client" thread to wake up 
+                            //tell the "client" thread to wake up
                             //if it is waiting for a queue position to open up
                             m_list.notify();
                         }
@@ -134,10 +137,13 @@ public class AsyncLogTarget
                     }
                     else
                     {
-                        try { m_list.wait(); }
+                        try
+                        {
+                            m_list.wait();
+                        }
                         catch( final InterruptedException ie )
                         {
-                            //Ignore this and let it be dealt in next loop 
+                            //Ignore this and let it be dealt in next loop
                             //Need to set variable as the exception throw cleared status
                             interupted = true;
                         }
@@ -145,9 +151,8 @@ public class AsyncLogTarget
                 }
             }
 
-
-            try 
-            { 
+            try
+            {
                 //actually process an event
                 m_logTarget.processEvent( event );
             }

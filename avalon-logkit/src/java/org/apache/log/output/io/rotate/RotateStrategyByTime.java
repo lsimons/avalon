@@ -18,13 +18,13 @@ public class RotateStrategyByTime
     implements RotateStrategy
 {
     ///time interval when rotation is triggered.
-    private long     m_timeInterval;
+    private long m_timeInterval;
 
     ///time when logging started.
-    private long     m_startingTime;
+    private long m_startingTime;
 
     ///rotation count.
-    private long     m_currentRotation;
+    private long m_currentRotation;
 
     /**
      * Rotate logs by time.
@@ -68,7 +68,7 @@ public class RotateStrategyByTime
     public boolean isRotationNeeded( final String data, final File file )
     {
         final long newRotation =
-            (System.currentTimeMillis() - m_startingTime) / m_timeInterval;
+            ( System.currentTimeMillis() - m_startingTime ) / m_timeInterval;
 
         if( newRotation > m_currentRotation )
         {

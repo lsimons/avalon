@@ -21,22 +21,22 @@ public class RevolvingFileStrategy
     implements FileStrategy
 {
     ///revolving suffix formatting pattern. ie. "'.'000000"
-    private final static String      PATTERN = "'.'000000";
+    private final static String PATTERN = "'.'000000";
 
     ///a revolving suffix formatter
-    private DecimalFormat  m_decimalFormat;
+    private DecimalFormat m_decimalFormat;
 
     ///current revolving suffix
-    private int            m_rotation;
+    private int m_rotation;
 
-    ///max revolving value. 
-    private int            m_maxRotations;
+    ///max revolving value.
+    private int m_maxRotations;
 
     ///the base file name.
-    private File    m_baseFile;
+    private File m_baseFile;
 
-    public RevolvingFileStrategy( final File baseFile, 
-                                  final int initialRotation, 
+    public RevolvingFileStrategy( final File baseFile,
+                                  final int initialRotation,
                                   final int maxRotations )
     {
         m_decimalFormat = new DecimalFormat( PATTERN );
@@ -69,7 +69,7 @@ public class RevolvingFileStrategy
      *
      * @return File the calculated file name
      */
-    public File nextFile() 
+    public File nextFile()
     {
         final StringBuffer sb = new StringBuffer();
         final FieldPosition fp = new FieldPosition( NumberFormat.INTEGER_FIELD );

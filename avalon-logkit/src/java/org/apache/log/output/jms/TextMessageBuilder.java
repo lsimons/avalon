@@ -14,7 +14,6 @@ import javax.jms.Message;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 import org.apache.log.ContextMap;
-import org.apache.log.Hierarchy;
 import org.apache.log.LogEvent;
 import org.apache.log.format.Formatter;
 
@@ -26,22 +25,22 @@ import org.apache.log.format.Formatter;
 public class TextMessageBuilder
     implements MessageBuilder
 {
-    private final PropertyInfo[]  m_properties;
+    private final PropertyInfo[] m_properties;
     private final Formatter m_formatter;
-    
+
     public TextMessageBuilder( final Formatter formatter )
     {
-        m_properties = new PropertyInfo[0];
+        m_properties = new PropertyInfo[ 0 ];
         m_formatter = formatter;
     }
 
-    public TextMessageBuilder( final PropertyInfo[] properties, 
+    public TextMessageBuilder( final PropertyInfo[] properties,
                                final Formatter formatter )
     {
         m_properties = properties;
         m_formatter = formatter;
     }
-    
+
     public Message buildMessage( final Session session, final LogEvent event )
         throws JMSException
     {
@@ -69,52 +68,52 @@ public class TextMessageBuilder
 
         switch( info.getType() )
         {
-        case PropertyType.MESSAGE:
-            message.setStringProperty( name, event.getMessage() );
-            break;
+            case PropertyType.MESSAGE:
+                message.setStringProperty( name, event.getMessage() );
+                break;
 
-        case PropertyType.RELATIVE_TIME:
-            message.setLongProperty( name, event.getRelativeTime() );
-            break;
+            case PropertyType.RELATIVE_TIME:
+                message.setLongProperty( name, event.getRelativeTime() );
+                break;
 
-        case PropertyType.TIME:
-            message.setLongProperty( name, event.getTime() );
-            break;
+            case PropertyType.TIME:
+                message.setLongProperty( name, event.getTime() );
+                break;
 
-        case PropertyType.CATEGORY:
-            message.setStringProperty( name, event.getCategory() );
-            break;
+            case PropertyType.CATEGORY:
+                message.setStringProperty( name, event.getCategory() );
+                break;
 
-        case PropertyType.PRIORITY:
-            message.setStringProperty( name, event.getPriority().getName() );
-            break;
+            case PropertyType.PRIORITY:
+                message.setStringProperty( name, event.getPriority().getName() );
+                break;
 
-        case PropertyType.CONTEXT:
-            message.setStringProperty( name, getContextMap( event.getContextMap(),
-                                                            info.getAux() ) );
-            break;
+            case PropertyType.CONTEXT:
+                message.setStringProperty( name, getContextMap( event.getContextMap(),
+                                                                info.getAux() ) );
+                break;
 
-        case PropertyType.STATIC:
-            message.setStringProperty( name, info.getAux() );
-            break;
+            case PropertyType.STATIC:
+                message.setStringProperty( name, info.getAux() );
+                break;
 
-        case PropertyType.THROWABLE:
-            message.setStringProperty( name, getStackTrace( event.getThrowable() ) );
-            break;
+            case PropertyType.THROWABLE:
+                message.setStringProperty( name, getStackTrace( event.getThrowable() ) );
+                break;
 
-        default:
-            throw new IllegalStateException( "Unknown PropertyType: " + info.getType() );
+            default:
+                throw new IllegalStateException( "Unknown PropertyType: " + info.getType() );
         }
 
     }
 
     private String getText( final LogEvent event )
     {
-        if ( null == m_formatter )
+        if( null == m_formatter )
         {
             return event.getMessage();
         }
-        else 
+        else
         {
             return m_formatter.format( event );
         }
@@ -122,7 +121,7 @@ public class TextMessageBuilder
 
     private String getStackTrace( final Throwable throwable )
     {
-        if ( null == throwable ) return "";
+        if( null == throwable ) return "";
 
         final StringWriter stringWriter = new StringWriter();
         final PrintWriter printWriter = new PrintWriter( stringWriter );

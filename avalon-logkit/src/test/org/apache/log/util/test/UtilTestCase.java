@@ -9,16 +9,13 @@ package org.apache.log.util.test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import junit.framework.TestCase;
 import org.apache.log.Hierarchy;
-import org.apache.log.LogTarget;
 import org.apache.log.Logger;
 import org.apache.log.Priority;
-import org.apache.log.format.PatternFormatter;
 import org.apache.log.format.RawFormatter;
 import org.apache.log.output.io.StreamTarget;
 import org.apache.log.util.LoggerOutputStream;
-import org.apache.log.util.StackIntrospector;
-import junit.framework.TestCase;
 
 /**
  * Test suite for utility features of Logger.

@@ -7,11 +7,8 @@
  */
 package org.apache.log.format;
 
-import java.util.Date;
-import org.apache.avalon.framework.ExceptionUtil;
-
 /**
- * This formatter extends PatternFormatter so that 
+ * This formatter extends PatternFormatter so that
  * CascadingExceptions are formatted with all nested exceptions.
  *
  * @deprecated Use <code>org.apache.avalon.framework.logger.AvalonFormatter</code>
@@ -19,7 +16,7 @@ import org.apache.avalon.framework.ExceptionUtil;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public class AvalonFormatter 
+public class AvalonFormatter
     extends org.apache.avalon.framework.logger.AvalonFormatter
 {
     public AvalonFormatter()

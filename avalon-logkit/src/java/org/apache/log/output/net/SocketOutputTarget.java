@@ -1,14 +1,9 @@
 package org.apache.log.output.net;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.ObjectOutputStream;
-
-import java.net.Socket;
-import java.net.SocketException;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
-
+import java.net.Socket;
 import org.apache.log.LogEvent;
 import org.apache.log.output.AbstractOutputTarget;
 
@@ -37,7 +32,7 @@ public class SocketOutputTarget extends AbstractOutputTarget
      */
     public SocketOutputTarget( final InetAddress address,
                                final int port )
-    throws IOException
+        throws IOException
     {
         m_socket = new Socket( address, port );
         m_outputStream = new ObjectOutputStream( m_socket.getOutputStream() );
@@ -53,7 +48,7 @@ public class SocketOutputTarget extends AbstractOutputTarget
      */
     public SocketOutputTarget( final String host,
                                final int port )
-    throws IOException
+        throws IOException
     {
         m_socket = new Socket( host, port );
         m_outputStream = new ObjectOutputStream( m_socket.getOutputStream() );

@@ -27,7 +27,7 @@ public abstract class AbstractTarget
     private ErrorHandler m_errorHandler = DEFAULT_ERROR_HANDLER;
 
     ///Flag indicating that log session is finished (aka target has been closed)
-    private boolean        m_isOpen;
+    private boolean m_isOpen;
 
     /**
      * Provide component with ErrorHandler.

@@ -73,7 +73,7 @@ public class OrRotateStrategy
                 }
             }
         }
-        
+
         return false;
     }
 }

@@ -7,9 +7,9 @@
  */
 package org.apache.log.output.jms;
 
+import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
-import javax.jms.JMSException;
 import org.apache.log.LogEvent;
 
 /**
@@ -19,6 +19,6 @@ import org.apache.log.LogEvent;
  */
 public interface MessageBuilder
 {
-    Message buildMessage( Session session, LogEvent event )        
+    Message buildMessage( Session session, LogEvent event )
         throws JMSException;
 }

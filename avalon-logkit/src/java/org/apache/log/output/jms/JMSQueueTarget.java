@@ -27,16 +27,16 @@ public class JMSQueueTarget
     private QueueConnectionFactory m_factory;
 
     ///Queue we will send messages to
-    private Queue            m_queue;
+    private Queue m_queue;
 
     ///Session associated with queue
-    private QueueSession     m_session;
+    private QueueSession m_session;
 
     ///Sender for queue
-    private QueueSender   m_sender;
+    private QueueSender m_sender;
 
     ///JMS queue Connection
-    private QueueConnection  m_connection;
+    private QueueConnection m_connection;
 
     public JMSQueueTarget( final MessageBuilder builder,
                            final QueueConnectionFactory factory,
@@ -50,7 +50,7 @@ public class JMSQueueTarget
 
     protected void send( final Message message )
     {
-        try 
+        try
         {
             m_sender.send( message );
         }
@@ -71,10 +71,10 @@ public class JMSQueueTarget
         {
             m_connection = m_factory.createQueueConnection();
             m_connection.start();
-            
-            m_session = 
-                m_connection.createQueueSession( false, Session.AUTO_ACKNOWLEDGE);
-            
+
+            m_session =
+                m_connection.createQueueSession( false, Session.AUTO_ACKNOWLEDGE );
+
             m_sender = m_session.createSender( m_queue );
         }
         catch( final Exception e )

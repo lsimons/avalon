@@ -15,13 +15,13 @@ package org.apache.log.output.db;
 public class ColumnInfo
 {
     ///Name of column
-    private final String   m_name;
+    private final String m_name;
 
     ///Type/Source of column
-    private final int      m_type;
+    private final int m_type;
 
     ///Auxilliary parameters (ie constant or sub-format)
-    private final String   m_aux; //may be null
+    private final String m_aux; //may be null
 
     public ColumnInfo( final String name, final int type, final String aux )
     {

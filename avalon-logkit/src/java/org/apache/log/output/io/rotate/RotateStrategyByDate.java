@@ -8,14 +8,14 @@
 package org.apache.log.output.io.rotate;
 
 import java.io.File;
-import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Rotation stragety based on SimpleDateFormat.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
- * @version $Revision: 1.3 $ $Date: 2002/02/21 13:43:35 $
+ * @version $Revision: 1.4 $ $Date: 2002/03/27 22:07:57 $
  */
 public class RotateStrategyByDate
     implements RotateStrategy
@@ -44,7 +44,7 @@ public class RotateStrategyByDate
     public boolean isRotationNeeded( final String data, final File file )
     {
         m_date.setTime( System.currentTimeMillis() );
-        if ( m_current.equals( m_format.format( m_date ) ) )
+        if( m_current.equals( m_format.format( m_date ) ) )
         {
             return false;
         }

@@ -7,8 +7,6 @@
  */
 package org.apache.log.format;
 
-import java.io.StringWriter;
-import java.util.Stack;
 import org.apache.log.ContextMap;
 import org.apache.log.LogEvent;
 import org.apache.log.Logger;
@@ -26,16 +24,16 @@ import org.apache.log.util.StackIntrospector;
  * information dynamically.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.3 $ $Date: 2001/11/19 12:18:33 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/03/27 22:07:56 $
  */
 public class ExtendedPatternFormatter
     extends PatternFormatter
 {
-    private final static int     TYPE_METHOD      = MAX_TYPE + 1;
-    private final static int     TYPE_THREAD      = MAX_TYPE + 2;
+    private final static int TYPE_METHOD = MAX_TYPE + 1;
+    private final static int TYPE_THREAD = MAX_TYPE + 2;
 
-    private final static String  TYPE_METHOD_STR  = "method";
-    private final static String  TYPE_THREAD_STR  = "thread";
+    private final static String TYPE_METHOD_STR = "method";
+    private final static String TYPE_THREAD_STR = "thread";
 
     public ExtendedPatternFormatter( final String format )
     {
@@ -50,8 +48,10 @@ public class ExtendedPatternFormatter
      */
     protected int getTypeIdFor( final String type )
     {
-        if( type.equalsIgnoreCase( TYPE_METHOD_STR ) ) return TYPE_METHOD;
-        else if( type.equalsIgnoreCase( TYPE_THREAD_STR ) ) return TYPE_THREAD;
+        if( type.equalsIgnoreCase( TYPE_METHOD_STR ) )
+            return TYPE_METHOD;
+        else if( type.equalsIgnoreCase( TYPE_THREAD_STR ) )
+            return TYPE_THREAD;
         else
         {
             return super.getTypeIdFor( type );
@@ -68,16 +68,19 @@ public class ExtendedPatternFormatter
     {
         switch( run.m_type )
         {
-        case TYPE_METHOD: return getMethod( event, run.m_format );
-        case TYPE_THREAD: return getThread( event, run.m_format );
-        default: return super.formatPatternRun( event, run );
+            case TYPE_METHOD:
+                return getMethod( event, run.m_format );
+            case TYPE_THREAD:
+                return getThread( event, run.m_format );
+            default:
+                return super.formatPatternRun( event, run );
         }
     }
 
     /**
      * Utility method to format category.
      *
-     * @param category the category string
+     * @param event the event
      * @param format ancilliary format parameter - allowed to be null
      * @return the formatted string
      */
@@ -104,7 +107,7 @@ public class ExtendedPatternFormatter
     /**
      * Utility thread to format category.
      *
-     * @param category the category string
+     * @param event the even
      * @param format ancilliary format parameter - allowed to be null
      * @return the formatted string
      */

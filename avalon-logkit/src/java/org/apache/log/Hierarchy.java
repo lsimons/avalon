@@ -7,7 +7,6 @@
  */
 package org.apache.log;
 
-import java.util.Hashtable;
 import org.apache.log.format.PatternFormatter;
 import org.apache.log.output.io.StreamTarget;
 import org.apache.log.util.DefaultErrorHandler;
@@ -21,18 +20,18 @@ import org.apache.log.util.DefaultErrorHandler;
 public class Hierarchy
 {
     ///Format of default formatter
-    private static final String  FORMAT =
+    private static final String FORMAT =
         "%7.7{priority} %23.23{time:yyyy-MM-dd' 'HH:mm:ss.SSS} [%8.8{category}] (%{context}): " +
         "%{message}\n%{throwable}";
 
     ///The instance of default hierarchy
-    private static final Hierarchy  c_hierarchy      = new Hierarchy();
+    private static final Hierarchy c_hierarchy = new Hierarchy();
 
     ///Error Handler associated with hierarchy
-    private ErrorHandler            m_errorHandler;
+    private ErrorHandler m_errorHandler;
 
     ///The root logger which contains all Loggers in this hierarchy
-    private Logger                  m_rootLogger;
+    private Logger m_rootLogger;
 
     /**
      * Retrieve the default hierarchy.
@@ -79,7 +78,7 @@ public class Hierarchy
             throw new IllegalArgumentException( "Can not set DefaultLogTarget to null" );
         }
 
-        final LogTarget[] targets = new LogTarget[] { target };
+        final LogTarget[] targets = new LogTarget[]{target};
         getRootLogger().setLogTargets( targets );
     }
 
@@ -91,11 +90,11 @@ public class Hierarchy
      */
     public void setDefaultLogTargets( final LogTarget[] targets )
     {
-        if ( null == targets || 0 == targets.length )
+        if( null == targets || 0 == targets.length )
         {
             throw new IllegalArgumentException( "Can not set DefaultLogTargets to null" );
         }
-        
+
         for( int i = 0; i < targets.length; i++ )
         {
             if( null == targets[ i ] )
@@ -184,8 +183,8 @@ public class Hierarchy
          * @param throwable the exception associated with error (may be null)
          * @param event the LogEvent that caused error, if any (may be null)
          */
-        public void error( final String message, 
-                           final Throwable throwable, 
+        public void error( final String message,
+                           final Throwable throwable,
                            final LogEvent event )
         {
             m_errorHandler.error( message, throwable, event );

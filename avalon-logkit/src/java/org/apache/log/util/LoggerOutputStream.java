@@ -7,19 +7,19 @@
  */
 package org.apache.log.util;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.EOFException;
-import org.apache.log.Priority;
 import org.apache.log.Logger;
+import org.apache.log.Priority;
 
 /**
  * Redirect an output stream to a logger.
- * This class is useful to redirect standard output or 
+ * This class is useful to redirect standard output or
  * standard error to a Logger. An example use is
  *
  * <pre>
- * final LoggerOutputStream outputStream = 
+ * final LoggerOutputStream outputStream =
  *     new LoggerOutputStream( logger, Priority.DEBUG );
  * final PrintStream output = new PrintStream( outputStream, true );
  *
@@ -30,18 +30,18 @@ import org.apache.log.Logger;
  */
 public class LoggerOutputStream
     extends OutputStream
-{    
+{
     ///Logger that we log to
-    private final Logger        m_logger;
+    private final Logger m_logger;
 
     ///Log level we log to
-    private final Priority      m_priority;
+    private final Priority m_priority;
 
     ///The buffered output so far
-    private final StringBuffer  m_output    = new StringBuffer();
+    private final StringBuffer m_output = new StringBuffer();
 
     ///Flag set to true once stream closed
-    private boolean             m_closed;
+    private boolean m_closed;
 
     /**
      * Construct OutputStreamLogger to write to a particular logger at a particular priority.
@@ -49,7 +49,7 @@ public class LoggerOutputStream
      * @param logger the logger to write to
      * @param priority the priority at which to log
      */
-    public LoggerOutputStream( final Logger logger, 
+    public LoggerOutputStream( final Logger logger,
                                final Priority priority )
     {
         m_logger = logger;
@@ -74,11 +74,11 @@ public class LoggerOutputStream
      * @param data the byte of data
      * @exception IOException if an error occurs
      */
-    public void write( final int data ) 
+    public void write( final int data )
         throws IOException
     {
         checkValid();
-        
+
         //Should we properly convert char using locales etc??
         m_output.append( (char)data );
 
@@ -110,7 +110,7 @@ public class LoggerOutputStream
     private void checkValid()
         throws IOException
     {
-        if( true == m_closed ) 
+        if( true == m_closed )
         {
             throw new EOFException( "OutputStreamLogger closed" );
         }

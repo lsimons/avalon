@@ -21,7 +21,7 @@ import java.io.IOException;
 public class FileOutputLogTarget
     extends DefaultOutputLogTarget
 {
-    private boolean         m_append = false;
+    private boolean m_append = false;
 
     public FileOutputLogTarget()
     {
@@ -45,14 +45,14 @@ public class FileOutputLogTarget
         m_append = append;
     }
 
-   /**
-    * Overwrites the m_output value in the super class through
-    * assignment of an OutputStreamWriter based on a supplied
-    * file path.  Side-effects include the creation of a
-    * directory path based relative to the supplied filename.
-    *
-    * @param filename path and filename for log destination
-    */
+    /**
+     * Overwrites the m_output value in the super class through
+     * assignment of an OutputStreamWriter based on a supplied
+     * file path.  Side-effects include the creation of a
+     * directory path based relative to the supplied filename.
+     *
+     * @param filename path and filename for log destination
+     */
     public void setFilename( final String filename )
         throws IOException
     {

@@ -21,7 +21,7 @@ public class StreamTarget
     extends AbstractOutputTarget
 {
     ///OutputStream we are writing to
-    private OutputStream   m_outputStream;
+    private OutputStream m_outputStream;
 
     /**
      * Constructor that writes to a stream and uses a particular formatter.

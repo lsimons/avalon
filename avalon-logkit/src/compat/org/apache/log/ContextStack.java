@@ -13,21 +13,21 @@ import java.util.Stack;
  * The ContextStack records the nested context of an application.
  * The context is an application defined characteristeric. For instance
  * a webserver context may be defined as the session that is currently
- * used to connect to server. A application may have context 
- * defined by current thread. A applet may have it's context defined 
+ * used to connect to server. A application may have context
+ * defined by current thread. A applet may have it's context defined
  * by the name of the applet etc.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @deprecated This class has been deprecated as it encouraged use of bad
  *             design practices. Use org.apache.log.ContextMap instead.
  */
-public class ContextStack 
+public class ContextStack
 {
     ///Thread local for holding instance of stack associated with current thread
-    private static final ThreadLocal c_context   = new ThreadLocal();
+    private static final ThreadLocal c_context = new ThreadLocal();
 
     ///Container to hold stack of elements
-    private Stack                    m_stack     = new Stack();
+    private Stack m_stack = new Stack();
 
     /**
      * Get the Current ContextStack.

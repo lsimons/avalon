@@ -8,13 +8,13 @@
 package org.apache.log.test;
 
 import java.io.ByteArrayOutputStream;
+import junit.framework.TestCase;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
 import org.apache.log.Priority;
 import org.apache.log.format.PatternFormatter;
 import org.apache.log.output.io.StreamTarget;
-import junit.framework.TestCase;
 
 /**
  * Test suite for inheritance features of Logger.
@@ -139,8 +139,8 @@ public final class InheritanceTestCase
         final ByteArrayOutputStream output2 = new ByteArrayOutputStream();
         final StreamTarget target2 = new StreamTarget( output2, FORMATTER2 );
 
-        final LogTarget[] targets1 = new LogTarget[] { target1 };
-        final LogTarget[] targets2 = new LogTarget[] { target2 };
+        final LogTarget[] targets1 = new LogTarget[]{target1};
+        final LogTarget[] targets2 = new LogTarget[]{target2};
 
         final Hierarchy hierarchy = new Hierarchy();
         hierarchy.setDefaultLogTarget( target1 );
@@ -228,12 +228,12 @@ public final class InheritanceTestCase
         final Hierarchy hierarchy = new Hierarchy();
         final ByteArrayOutputStream output = new ByteArrayOutputStream();
         final StreamTarget target = new StreamTarget( output, FORMATTER );
-        final LogTarget[] targets = new LogTarget[] { target };
+        final LogTarget[] targets = new LogTarget[]{target};
 
         final Logger b = hierarchy.getLoggerFor( "b" );
         final Logger bc = hierarchy.getLoggerFor( "b.c" );
         final Logger bcd = hierarchy.getLoggerFor( "b.c.d" );
-        
+
         b.setLogTargets( targets );
         bc.setLogTargets( targets );
         bcd.setLogTargets( targets );
@@ -303,13 +303,13 @@ public final class InheritanceTestCase
         final StreamTarget target1 = new StreamTarget( output1, FORMATTER );
         final StreamTarget target2 = new StreamTarget( output2, FORMATTER );
 
-        final LogTarget[] targets1 = new LogTarget[] { target1 };
-        final LogTarget[] targets2 = new LogTarget[] { target2 };
+        final LogTarget[] targets1 = new LogTarget[]{target1};
+        final LogTarget[] targets2 = new LogTarget[]{target2};
 
         final Logger b = hierarchy.getLoggerFor( "b" );
         final Logger bc = hierarchy.getLoggerFor( "b.c" );
         final Logger bcd = hierarchy.getLoggerFor( "b.c.d" );
-        
+
         b.setLogTargets( targets1 );
         bc.setLogTargets( targets2 );
         bc.setAdditivity( true );
