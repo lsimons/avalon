@@ -8,14 +8,16 @@
     </authors>
   </header>
   <body>
-	<s1 title="Not written yet!">
-		<p>TBD</p>
+	<s1 title="Simple, simple, simple">
+		<p>The one feature that Tweety has as opposed to related avalon projects is that it is
+		simple, simple, simple. Following the getting started document should get you running
+		tweety in about 2 minutes, and developing components in 10.</p>
 	</s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/07/02 16:30:17 $
+      $Revision: 1.2 $ $Date: 2002/07/03 20:21:03 $
     </legal>
   </footer>
 </document>

@@ -4,7 +4,7 @@
 <!ENTITY cocoon-targets     SYSTEM "../cocoon.xtarget">
 ]>
 
-<project name="Avalon Excalibur's Tweety" default="main" basedir=".">
+<project name="Avalon Excalibur's Tweety" default="run" basedir=".">
 
     &cocoon-targets;
 
@@ -56,8 +56,7 @@
   <!-- =================================================================== -->
   <!-- Run Tweety                                           -->
   <!-- =================================================================== -->
-  <target name="run"
-          depends="compile"
+  <target name="run" depends="compile"
           description="Runs the program">
 
     <java classname="org.apache.avalon.excalibur.tweety.Tweety" fork="true" dir="." failonerror="true">
@@ -276,21 +275,58 @@
 
     <!-- Creates the distribution -->
     <target name="dist"
-        depends="dist-jar, test-reports, checkstyle-report, javadocs"
+        depends="dist-jar, test-reports, checkstyle-report, docs"
         description="Generates a distribution (jar + javadocs + unit tests + checkstyle reports)">
 
 
         <copy file="${build.conf}/LICENSE.txt" todir="${dist.dir}"/>
+        <copy file="${conf.dir}/build.xml" todir="${dist.dir}"/>
+        <copy file="tweety.properties" todir="${dist.dir}"/>
         <copy file="../KEYS" todir="${dist.dir}"/>
         <copy file="README.txt" todir="${dist.dir}"/>
+        <copy file="${avalon-framework.jar}" tofile="${dist.dir}/avalon-framework.jar"/>
 
         <mkdir dir="${dist.base}"/>
 
-        <zip zipfile="${dist.base}/${dist.name}-bin.zip" compress="true">
+        <copy todir="${dist.dir}/docs">
+            <fileset dir="${build.docs}">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+        <copy todir="${dist.dir}/src">
+            <fileset dir="${src.dir}">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+	
+	<mkdir dir="${dist.dir}/lib"/>
+	<mkdir dir="${dist.dir}/classes"/>
+
+	<!-- create temporary dir so we can get a proper .tar even with the current, released ant -->
+        <mkdir dir="${dist.base}/${dist.name}"/>
+        <copy todir="${dist.base}/${dist.name}">
+            <fileset dir="${dist.dir}">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+
+	<zip zipfile="${dist.base}/${dist.name}.zip" compress="true">
             <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
         </zip>
 
-        <!--
+        <tar longfile="gnu" tarfile="${dist.base}/${dist.name}.tar">
+		<tarfileset dir="${dist.base}/" username="avalon" group="avalon">
+			<include name="${dist.name}/**"/>
+		</tarfileset>
+        </tar>
+
+	<gzip zipfile="${dist.base}/${dist.name}.tar.gz"
+              src="${dist.base}/${dist.name}.tar"/>
+
+        <delete file="${dist.base}/${dist.name}.tar"/>
+        <delete dir="${dist.base}/${dist.name}" />
+
+	<!--
           Not supported by released ant but when it is we should enable this across
           all of the products
         <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-bin.tar">
@@ -311,7 +347,8 @@
           <fileset dir="${dist.base}" />
         </checksum>
         -->
-        <delete dir="${dist.dir}" />
+        <!--<delete dir="${dist.dir}" />-->
+
 
     </target>
 
@@ -323,7 +360,7 @@
                 <include name="*.jar"/>
             </fileset>
         </copy>
-    </target>   
+    </target>
 
     <!-- Creates a minimal distribution -->
     <target name="dist.lite"
@@ -345,7 +382,7 @@
       <filter token="status" value="${status}"/>
       <filter token="release" value="${release}"/>
       <filter token="short-version" value="${short.version}"/>
-      
+
         <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
         <property name="framework.base" value="http://jakarta.apache.org/avalon/framework"/>
         <property name="phoenix.base" value="http://jakarta.apache.org/avalon/phoenix"/>
@@ -361,7 +398,7 @@
         <filter token="LOGKIT_BASE" value="${logkit.base}"/>
         <filter token="TESTLET_BASE" value="${testlet.base}"/>
     </target>
-        
+
     
     <!-- Prepares the documentation directory -->
     <target name="docs" depends="html-docs, javadocs" description="generates all the Avalon documentation"/>
@@ -370,9 +407,9 @@
         
     <target name="site" depends="javadocs, docs" description=" Places Docs ready for hosting on website">  
   
-      <mkdir dir="../site/dist/docs/${dir-name}"/>     
+      <mkdir dir="../site/dist/docs/${dir-name}"/>
       <copy todir="../site/dist/docs/${dir-name}">
-        <fileset dir="${docs.dir}">
+        <fileset dir="${build.docs}">
           <include name="**"/>
         </fileset>
       </copy>        

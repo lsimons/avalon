@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!-- Provided with distribution to run tweety -->
+<project name="Tweety Runner" default="run" basedir=".">
+
+	<property file="${user.home}/build.properties"/>
+	<property file="${user.home}/.ant.properties"/>
+
+	<property name="avalon-framework.jar" value="avalon-framework.jar"/>
+	<property name="tweety.jar" value="excalibur-tweety-1.0.1-alpha.jar"/>
+	<property name="classes.dir" value="classes"/>
+	<property name="lib.dir" value="lib"/>
+
+	<!-- Classpath for product -->
+	<path id="project.class.path">
+		<pathelement location="${avalon-framework.jar}"/>
+		<pathelement location="${tweety.jar}"/>
+		<pathelement path="${java.class.path}"/>
+		<pathelement path="{classes.dir}"/>
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
+	<target name="main" depends="run" description="Run tweety"/>
+
+	<!-- =================================================================== -->
+	<!-- Run Tweety                                           -->
+	<!-- =================================================================== -->
+	<target name="run"
+			description="Runs the program">
+		<java classname="org.apache.avalon.excalibur.tweety.Tweety"
+				fork="true" dir="." failonerror="true">
+		<classpath refid="project.class.path" />
+	</java>
+	</target>
+</project>

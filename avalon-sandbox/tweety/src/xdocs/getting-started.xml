@@ -8,14 +8,38 @@
     </authors>
   </header>
   <body>
-	<s1 title="Not written yet!">
+	<s1 title="Introduction">
+		<p>Getting started with tweety is quite simple. In a nutshell:</p>
+
+		<ol>
+			<li>Download and install a Java Runtime Environment or Java Development Kit if you
+			haven't already. If you don't know how to this, Avalon is not for you. Get some java
+			experience first.</li>
+			<li>Download and install <link href="http://jakarta.apache.org/ant">ant</link> if you
+			don't have it installed already.</li>
+			<li>Download and unpack the
+			<link href="http://jakarta.apache.org/builds/jakarta-avalon-excalibur/release/tweety">distribution</link></li>
+			<li><strong>optional:</strong> Drop your Tweety-compatible Avalon components into the
+			<code>classes/</code> directory inside
+			the distribution</li>
+			<li><strong>optional:</strong> Drop any libraries your components depend on into the <code>lib/</code> directory</li>
+			<li><strong>optional:</strong> Modify <code>tweety.properties</code> to know about your components</li>
+			<li>at the root of the distribution, type 'ant'</li>
+			<li>Your components should run! We include one component with Tweety called
+			ChirpWorld which will run automatically.</li>
+		</ol>
+	</s1>
+	<s1 title="Detailed installation instructions">
+		<p>Please read the <link href="install.html">Install Document</link>.</p>
+	</s1>
+	<s1 title="Component writing tutorial">
 		<p>TBD</p>
 	</s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/07/02 16:30:17 $
+      $Revision: 1.2 $ $Date: 2002/07/03 20:21:03 $
     </legal>
   </footer>
 </document>
