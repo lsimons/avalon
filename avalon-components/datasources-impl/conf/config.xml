@@ -1,0 +1,10 @@
+
+<targets>
+
+  <target path="/datasources/manager">
+    <configuration>
+      <!-- add datasources configs here -->
+    </configuration>
+  </target>
+
+</targets>
