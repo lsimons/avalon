@@ -132,6 +132,21 @@ Legal:
        </pretty>
     </target>
 
+    <target name="changelog">
+        <!-- specific to ant1.5.1 -->
+        <cvschangelog dir="."
+                    destfile="changelog.xml"
+                    start="13 Nov 2001"/>
+        <style in="changelog.xml"
+               out="changelog.html"
+               style="${ant.home}/etc/changelog.xsl">
+          <param name="title" expression="Phoenix ChangeLog"/>
+          <param name="module" expression="jakarta-avalon-phoenix"/>
+          <param name="cvsweb" expression="http://cvs.apache.org/viewcvs/"/>
+        </style>
+
+    </target>
+
     <!-- Prepares the build directory -->
     <target name="prepare" depends="check-environment">
 
