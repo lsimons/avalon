@@ -48,6 +48,7 @@ import org.apache.avalon.excalibur.pool.DefaultPoolController;
  * <li>The <code>connection-class</code> attribute is used to override the Connection class returned
  *  by the DataSource from calls to getConnection().  Set this to 
  *  "org.apache.avalon.excalibur.datasource.Jdbc3Connection" to gain access to JDBC3 features.
+ *  Jdbc3Connection does not exist if your JVM does not support JDBC3.
  *  (Defaults to "org.apache.avalon.excalibur.datasource.JdbcConnection")</li>
  *
  * <li>The <code>keep-alive</code> element is used to override the query used to monitor the health
@@ -67,7 +68,7 @@ import org.apache.avalon.excalibur.pool.DefaultPoolController;
  * </ul>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.16 $ $Date: 2002/02/07 08:10:56 $
+ * @version CVS $Revision: 1.17 $ $Date: 2002/02/08 12:04:04 $
  * @since 4.0
  */
 public class JdbcDataSource
