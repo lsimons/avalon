@@ -51,7 +51,7 @@ import org.apache.excalibur.source.*;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.5 2002/05/02 06:46:49 cziegeler Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.6 2002/05/10 07:54:09 cziegeler Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
@@ -165,6 +165,7 @@ public class SourceResolverImpl
 
     /**
      * Get a <code>Source</code> object.
+     * @throws SourceNotFoundException if the source cannot be found
      */
     public Source resolveURI( String location )
         throws MalformedURLException, IOException, SourceException
@@ -174,6 +175,7 @@ public class SourceResolverImpl
 
     /**
      * Get a <code>Source</code> object.
+     * @throws SourceNotFoundException if the source cannot be found
      */
     public Source resolveURI( String location,
                               String baseURI,
