@@ -413,6 +413,14 @@ Legal:
     <jar jarfile="${build.lib}/${name}.jar" basedir="${build.classes}" compress="${compress.jars}">
       <include name="org/apache/log/**" />
       <exclude name="**/test/*" />
+      <manifest>
+        <attribute name="Extension-Name" value="avalon-logkit"/>
+        <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
+        <attribute name="Specification-Version" value="1.0"/>
+        <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+        <attribute name="Implementation-Vendor-Id" value="ASF"/>
+        <attribute name="Implementation-Version" value="${version}"/>
+      </manifest>
     </jar>
 
   </target>
@@ -450,6 +458,9 @@ Legal:
                  unless="javax.jms.present"/>
         <exclude name="org/apache/log/output/test/DBTargetTestCase.java"
                  unless="javax.sql.present"/>
+      </fileset>
+      <fileset dir="${compat.dir}">
+        <include name="**/*.java"/>
       </fileset>
     </copy>
 

@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1997-2002 The Apache Software Foundation. All rights
+ * Copyright (c) 1997-2003 The Apache Software Foundation. All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,7 +63,7 @@ import org.apache.log.util.LoggerListener;
  * A logger listener that records the log messages it receives.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003/02/06 21:15:49 $
+ * @version $Revision: 1.3 $ $Date: 2003/02/09 23:33:26 $
  */
 class RecordingLoggerListener
     extends LoggerListener
