@@ -97,11 +97,6 @@ Legal:
     </fileset>
   </path>
 
-  <path id="test.class.path">
-    <path refid="project.class.path"/>
-<!--    <path refid="tools.class.path"/> -->
-  </path>
-
   <!-- Main target -->
   <target name="main" depends="jar" />
 
@@ -179,7 +174,7 @@ Legal:
   <target name="test" depends="compile" > 
     <echo message="Performing Unit Tests" />
     <test showSuccess="true" showBanner="false" showTrace="true" forceShowTrace="true" > 
-       <classpath refid="test.class.path" />
+       <classpath refid="project.class.path" />
        <testlet>org.apache.log.format.test.FormatterTestlet</testlet>
     </test>
   </target>
@@ -295,6 +290,7 @@ Legal:
       <classpath>
         <path refid="tools.class.path"/>
         <fileset dir="${build.lib}"/>
+        <fileset dir="${tools.dir}/ext"/>
       </classpath>
     </java>
   </target>
