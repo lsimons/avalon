@@ -14,6 +14,17 @@
 
   <ant:property name="pom.specificationVersion" value="&avalon-composition-spec;"/>
 
+  <ant:filter token="AVALON-LOGGING-LOGKIT-SPEC" 
+      value="&avalon-logging-logkit-artifact-spec;"/>
+  <ant:filter token="MERLIN_IMPLEMENTATION" 
+      value="artifact:merlin/merlin-impl#&merlin-impl-version;"/>
+  <ant:filter token="LOGGING_IMPLEMENTATION" 
+      value="&avalon-logging-logkit-artifact;"/>
+  <ant:filter token="STANDARD_RUNTIME" 
+      value="&avalon-activation-artifact;"/>
+  <ant:filter token="REPOSITORY_MAIN" 
+      value="&avalon-repository-artifact;"/>
+
   <preGoal name="java:compile">
     <attainGoal name="avalon:meta"/>
   </preGoal>
@@ -71,7 +82,7 @@
       file="${pom.getDependencyPath('avalon-framework:avalon-framework-api')}"/>
     <ant:copy toDir="${basedir}/target/test/ext" 
       file="${pom.getDependencyPath('avalon-framework:avalon-framework-impl')}"/>
-    <ant:copy toDir="${basedir}/target/test/conf">
+    <ant:copy toDir="${basedir}/target/test/conf" filtering="true" >
       <fileset dir="${basedir}/src/test/conf"/>
     </ant:copy> 
 
