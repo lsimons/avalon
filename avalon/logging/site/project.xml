@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+
+<project>
+
+  <extend>${basedir}/../../project-common.xml</extend>
+
+  <groupId>&avalon-logging-id;</groupId>
+  <id>&avalon-logging-site-id;</id>
+  <currentVersion>&avalon-logging-site-version;</currentVersion>
+
+  <name>Avalon Logging Site Documentation</name>
+  <package>org.apache.avalon.logging</package>
+  <inceptionYear>2002</inceptionYear>
+  <shortDescription>Avalon Logging Site Documentation</shortDescription>
+
+  <description>
+The Site Documentation of the Avalon Logging subsystem.
+  </description>
+  
+</project>
