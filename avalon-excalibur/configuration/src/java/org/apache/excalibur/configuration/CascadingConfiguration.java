@@ -303,7 +303,7 @@ public class CascadingConfiguration implements Configuration
 
     /**
      * Return the <code>boolean</code> value of the specified parameter contained
-     * in this node.<br>
+     * in this node.
      *
      * @param paramName The name of the parameter you ask the value of.
      * @return boolean value of attribute
@@ -395,7 +395,7 @@ public class CascadingConfiguration implements Configuration
     }
 
     /**
-     * Return the <code>long</code> value of the node.<br>
+     * Return the <code>long</code> value of the node.
      *
      * @return the value of the node.
      * @exception ConfigurationException If conversion to <code>long</code> fails.
