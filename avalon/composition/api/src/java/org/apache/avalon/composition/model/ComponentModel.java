@@ -53,13 +53,15 @@ package org.apache.avalon.composition.model;
 import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.meta.info.DependencyDescriptor;
+import org.apache.avalon.meta.info.StageDescriptor;
 import org.apache.avalon.meta.info.Type;
 
 /**
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.2.2 $ $Date: 2004/01/04 21:28:59 $
+ * @version $Revision: 1.1.2.3 $ $Date: 2004/01/07 12:45:08 $
  */
 public interface ComponentModel extends DeploymentModel
 {
@@ -223,11 +225,28 @@ public interface ComponentModel extends DeploymentModel
     DependencyModel[] getDependencyModels();
 
    /**
+    * Return a dependency model for a supplied descriptor or null
+    * if no match found.
+    *
+    * @return the dependency model
+    */
+    DependencyModel getDependencyModel( DependencyDescriptor dependency );
+
+   /**
     * Return the stage models for this deployment model.
     *
     * @return the stage models
     */
     StageModel[] getStageModels();
+
+   /**
+    * Return a stage model matching the supplied descriptor or null
+    * if no match found.
+    *
+    * @param stage the stage descriptor
+    * @return the matching stage model
+    */
+    StageModel getStageModel( StageDescriptor stage );
 
    /**
     * Return the set of services produced by the model as a array of classes.
