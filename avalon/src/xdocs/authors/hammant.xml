@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<author id="hammant.html">
+  <honorific>Mr</honorific>
+  <firstname>Paul</firstname>
+  <surname>Hammant</surname>
+  <address format="linespecific">
+    <email>Paul_Hammant@yahoo.com</email>
+  </address>
+  <authorblurb>
+    <para>
+       Paul is most interested in applications that run in/on Phoenix.  As such he constantly trawls the internet look for suitable server applications for Pheonix.  He tries to persuade the authors to rebase to Phoenix.
+    </para>
+    <para>
+       Paul wrote some of the demos for Cornerstone.  He also started AvalonDB and Jesktop.  He also looks other blocks like "Bay" (the wrapper for Catalina for Phoenix) and Soapification (a wrapper for Glue).
+    </para>
+  </authorblurb>
+</author>

@@ -1,0 +1,120 @@
+<?xml version="1.0" standalone="no"?>
+
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1//EN"
+                         "./dtd/docbookx.dtd">
+
+<book xmlns:xi="http://www.w3.org/2001/XInclude"
+      xml:base="context://xdocs/developing">
+  <title>Developing With Apache Avalon</title>
+  <subtitle>Apache Avalon Project</subtitle>
+  <bookinfo>
+    <title>Developing With Apache Avalon</title>
+    <subtitle>Apache Avalon Project</subtitle>
+    <authorgroup>
+      <xi:include href="../authors/bloritsch.xml"/>
+    </authorgroup>
+    <edition>Developer's Guide version 1.0 for Avalon Framework</edition>
+    <pubdate>2001</pubdate>
+    <copyright>
+      <year>2001</year>
+      <holder>Apache Software Foundation</holder>
+    </copyright>
+    <legalnotice>
+      <para>
+        Redistribution and use in source and binary forms, with or
+        without modification, are permitted provided that the following
+        conditions are met:
+      </para>
+      <orderedlist>
+        <listitem>
+          <para>
+            Redistributions of  source code must  retain the above
+            copyright  notice, this list of conditions and the following
+            disclaimer.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Redistributions in binary form must reproduce the above
+            copyright notice, this list of conditions and the following
+            disclaimer in the documentation and/or other materials
+            provided with the distribution.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            The end-user documentation included with the redistribution,
+            if any, must include the following  acknowledgment:
+            "This product includes software developed by the Apache
+            Software Foundation  (http://www.apache.org/)."  Alternately,
+            this  acknowledgment may  appear in the software itself,  if
+            and wherever such third-party acknowledgments normally appear.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            The names "Jakarta", "Apache Avalon", "Avalon Excalibur",
+            "Avalon Framework" and "Apache Software Foundation" must not
+            be used to endorse or promote products derived from this
+            software without prior written permission. For written
+            permission, please contact apache@apache.org.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Products  derived from this software may not be called
+            "Apache", nor may "Apache" appear in their name, without
+            prior written permission of the Apache Software Foundation.
+          </para>
+        </listitem>
+      </orderedlist>
+      <para>
+        THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
+        WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+        OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+        DISCLAIMED.  IN NO EVENT SHALL THE APACHE SOFTWARE  FOUNDATION
+        OR ITS CONTRIBUTORS BE LIABLE FOR  ANY DIRECT, INDIRECT, INCIDENTAL,
+        SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLUDING, BUT NOT
+        LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
+        OF USE, DATA, OR  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+        CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+        LIABILITY, OR TORT (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN
+        ANY WAY OUT OF THE  USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+        POSSIBILITY OF SUCH DAMAGE.
+      </para>
+      <para>
+        This software  consists of voluntary contributions made by many
+        individuals on behalf of the Apache Software Foundation. For more
+        information on the Apache Software Foundation, please see
+        &lt;http://www.apache.org/&gt;.
+      </para>
+    </legalnotice>
+    <legalnotice>
+      <para>
+        <trademark class="trade">Java</trademark> and all Java-based
+        trademarks and logos are trademarks or registered trademarks
+        of Sun Microsystems, Inc., in the United States and other
+        countries.  The Apache Software Foundation is independant of
+        Sun Microsystems.
+      </para>
+    </legalnotice>
+    <xi:include href="changes.xml"/>
+  </bookinfo>
+  <dedication>
+    <para>
+      This developer's guide is dedicated to the three people who's vision
+      started the Avalon project: Federico Barbieri, Stefano Mazzocchi, and
+      Pierpaolo Fumagalli.  Their concept for the Avalon project has stood
+      the test of time.
+    </para>
+  </dedication>
+  <toc/>
+  <xi:include href="introduction.xml"/>
+  <xi:include href="decomposing.xml"/>
+  <xi:include href="framework.xml"/>
+  <xi:include href="implementing.xml"/>
+  <xi:include href="conclusion.xml"/>
+  <xi:include href="changes.xml"/>
+</book>
+
+

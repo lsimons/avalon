@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<author id="bloritsch.html">
+  <honorific>Dott</honorific>
+  <firstname>Stefano</firstname>
+  <surname>Mazzocchi</surname>
+  <address format="linespecific">
+    <email>stefano@apache.org</email>
+  </address>
+  <affiliation>
+    <shortaffil>ASF</shortaffil>
+    <jobtitle>Committer</jobtitle>
+    <orgname>Apache Software Foundation</orgname>
+    <orgdiv>Apache Avalon, Cocoon, etc.</orgdiv>
+  </affiliation>
+  <authorblurb>
+    <para>
+      Stefano is a Doctor of Electronic Engineering addicted to Java
+      programming and open development. He is the author of the Cocoon
+      Publishing Framework and an active contributor of many other
+      projects hosted under the Apache umbrella.
+    </para>
+  </authorblurb>
+</author>
