@@ -21,4 +21,14 @@ import org.apache.avalon.framework.ExceptionUtil;
  */
 public class AvalonFormatter 
     extends org.apache.avalon.framework.logger.AvalonFormatter
-{}
+{
+    public AvalonFormatter()
+    {
+        super();
+    }
+
+    public AvalonFormatter(String pattern)
+    {
+        super(pattern);
+    }
+}
