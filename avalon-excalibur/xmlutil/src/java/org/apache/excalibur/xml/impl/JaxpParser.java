@@ -62,6 +62,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.avalon.excalibur.pool.Poolable;
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.parameters.ParameterException;
@@ -124,13 +125,13 @@ import org.xml.sax.ext.LexicalHandler;
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @author <a href="mailto:bruno@apache.org">Bruno Dumon</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/11/09 12:47:42 $
+ * @version CVS $Revision: 1.2 $ $Date: 2004/02/10 18:39:52 $
  * @avalon.component
  */
 public final class JaxpParser
     extends AbstractLogEnabled
     implements SAXParser, DOMParser, 
-                Poolable, Component, Parameterizable, Serviceable, ErrorHandler
+                Poolable, Component, Parameterizable, Serviceable, Disposable, ErrorHandler
 {
     /** the SAX Parser factory */
     private SAXParserFactory m_factory;
@@ -164,6 +165,9 @@ public final class JaxpParser
     /** Should comments appearing between start/endDTD events be dropped ? */
     private boolean m_dropDtdComments;
 
+    /** The serviec manager */
+    private ServiceManager m_manager;
+    
     /**
      * Get the Entity Resolver from the component m_manager
      *
@@ -172,6 +176,8 @@ public final class JaxpParser
     public void service( final ServiceManager manager )
         throws ServiceException
     {
+        m_manager = manager;
+        
         if( manager.hasService( EntityResolver.ROLE ) )
         {
             m_resolver = (EntityResolver)manager.lookup( EntityResolver.ROLE );
@@ -179,6 +185,19 @@ public final class JaxpParser
             {
                 getLogger().debug( "JaxpParser: Using EntityResolver: " + m_resolver );
             }
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see org.apache.avalon.framework.activity.Disposable#dispose()
+     */
+    public void dispose() 
+    {
+        if ( m_manager != null )
+        {
+            m_manager.release( m_resolver );
+            m_manager = null;
+            m_resolver = null;
         }
     }
 
