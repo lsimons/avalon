@@ -8,23 +8,34 @@
 package org.apache.avalon.framework.camelot;
 
 import java.net.URL;
-import org.apache.avalon.framework.component.Component;
 
 /**
  * This contains information required to locate a component.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public interface Locator
-    extends Info
+public class Locator
+    implements Info
 {
+    private final String     m_name;
+    private final URL        m_location;
+
+    public Locator( final String name, final URL location )
+    {
+        m_name = name;
+        m_location = location;
+    }
+
     /**
      * Retrieve "name" of component type.
      * The "name" usually indicates the classname.
      *
      * @return the name
      */
-    String getName();
+    public String getName()
+    {
+        return m_name;
+    }
 
     /**
      * Retrieve location of component.
@@ -33,5 +44,8 @@ public interface Locator
      *
      * @return the URL of location
      */
-    URL getLocation();
+    public URL getLocation()
+    {
+        return m_location;
+    }
 }

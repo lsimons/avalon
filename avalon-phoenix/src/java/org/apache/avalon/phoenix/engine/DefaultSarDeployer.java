@@ -29,7 +29,7 @@ import org.apache.avalon.framework.camelot.Deployer;
 import org.apache.avalon.framework.camelot.DeployerUtil;
 import org.apache.avalon.framework.camelot.DeploymentException;
 import org.apache.avalon.framework.camelot.Info;
-import org.apache.avalon.framework.camelot.DefaultLocator;
+import org.apache.avalon.framework.camelot.Locator;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
@@ -234,7 +234,7 @@ public class DefaultSarDeployer
             final RoleEntry[] roles = (RoleEntry[]) roleList.toArray( new RoleEntry[ 0 ] );
             final BlockEntry entry = new BlockEntry( name, roles );
 
-            final DefaultLocator locator = new DefaultLocator( className, null );
+            final Locator locator = new Locator( className, null );
             entry.setLocator( locator );
 
             entry.setConfiguration( block.getChild( "configuration" ) );

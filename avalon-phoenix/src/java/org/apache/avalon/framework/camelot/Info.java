@@ -13,7 +13,7 @@ import org.apache.avalon.framework.component.Component;
  * This contains information relating to a component.
  * (ie BlockInfo, BeanInfo, MailetInfo etc).
  *
- * There is currently also two different sub-interfaces - Descriptor and Locator.
+ * There is currently also two different types - Descriptor and Locator.
  * Descriptor describes static meta information about component while Locator
  * locates it in the system.
  *

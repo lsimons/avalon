@@ -2,34 +2,54 @@
  * Copyright (C) The Apache Software Foundation. All rights reserved.
  *
  * This software is published under the terms of the Apache Software License
- * version 1.1, a copy of which has been included  with this distribution in
+ * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
 package org.apache.avalon.phoenix.metainfo;
 
-import org.apache.avalon.framework.camelot.Descriptor;
+import org.apache.avalon.framework.Version;
+import org.apache.avalon.framework.camelot.Info;
 
 /**
- * This interface describes a dependency of Block.
- * 
+ * A descriptor that describes dependency information for Block.
+ *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public interface DependencyDescriptor
-    extends Descriptor
+public final class DependencyDescriptor
+    implements Info
 {
+    private final String              m_role;
+    private final ServiceDescriptor   m_service;
+
     /**
-     * Return name of dependency.
+     * Constructor that has all parts as parameters.
+     */
+    public DependencyDescriptor( final String role, final ServiceDescriptor service )
+    {
+        m_role = role;
+        m_service = service;
+    }
+
+    /**
+     * Return role of dependency.
      *
-     * The name is what is used by block implementor to aquire dependency in ComponentManager.
+     * The role is what is used by block implementor to
+     * aquire dependency in ComponentManager.
      *
      * @return the name of the dependency
      */
-    String getRole();
+    public String getRole()
+    {
+        return m_role;
+    }
 
     /**
      * Return Service dependency provides.
      *
      * @return the service dependency provides
      */
-    ServiceDescriptor getService();
+    public ServiceDescriptor getService()
+    {
+        return m_service;
+    }
 }
