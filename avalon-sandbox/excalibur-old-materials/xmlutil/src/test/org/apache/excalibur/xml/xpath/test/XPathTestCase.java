@@ -66,6 +66,10 @@ import org.w3c.dom.NodeList;
 
 import java.io.StringReader;
 
+/**
+ * XPath test case.
+ * @version CVS $Revision: 1.3 $ $Date: 2003/08/06 21:49:00 $
+ */
 public class XPathTestCase extends ExcaliburTestCase
 {
     /** A small test document. */
