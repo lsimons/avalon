@@ -419,8 +419,23 @@ public final class BCELCodeGenerator
                     meth.isFinal = methList[i].isFinal();
                 }
             }
-
-            currentClass = currentClass.getSuperClass();
+            try
+            {
+                currentClass = currentClass.getSuperClass();
+            } catch( Exception e )
+            {
+                // NH: Actually ClassNotFoundException is declared in the current CVS
+                //     Head, but then we can't compile against BCEL5.5 which is our
+                //     binary dependency, so I am catching Exception to cover both.
+                //
+                //     I think this will happen if the superclass is not available
+                //     in the classloaders, but I have no clue what is the proper action.
+                //     I had to introduce this since BCEL decided to break compatibility
+                //     and now throws the Exception.
+                //     For now, throwing the absurd IllegalStateException as the rest 
+                //     of the codebase seems to be constructed around it.
+                throw new IllegalStateException("Superclass of java class could not be found: " + currentClass + ", " + e.getMessage() );
+            }
         }
 
         if (null == meth.implementingClassName)
