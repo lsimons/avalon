@@ -39,6 +39,26 @@ public class MX4JSystemManager
     private File m_homeDir;
     private String m_stylesheetDir;
 
+    public void contextualize( Context context )
+        throws ContextException
+    {
+        m_homeDir = (File)context.get( "phoenix.home" );
+    }
+
+    public void configure( final Configuration configuration )
+        throws ConfigurationException
+    {
+        m_port = configuration.getChild( "manager-adaptor-port" ).
+            getValueAsInteger( DEFAULT_HTTPADAPTER_PORT );
+        m_rmi = configuration.getChild( "enable-rmi-adaptor" ).getValueAsBoolean( false );
+        final String stylesheets =
+            configuration.getChild( "stylesheets-dir" ).getValue( null );
+        if( null != stylesheets )
+        {
+            m_stylesheetDir = new File( m_homeDir, stylesheets ).getAbsolutePath();
+        }
+    }
+
     public void initialize()
         throws Exception
     {
@@ -103,26 +123,6 @@ public class MX4JSystemManager
         mbean.setJNDIName( jndiName );
         // Register the JRMP adaptor in JNDI and start it
         mbean.start();
-    }
-
-    public void contextualize( Context context )
-        throws ContextException
-    {
-        m_homeDir = (File)context.get( "phoenix.home" );
-    }
-
-    public void configure( final Configuration configuration )
-        throws ConfigurationException
-    {
-        m_port = configuration.getChild( "manager-adaptor-port" ).
-            getValueAsInteger( DEFAULT_HTTPADAPTER_PORT );
-        m_rmi = configuration.getChild( "enable-rmi-adaptor" ).getValueAsBoolean( false );
-        final String stylesheets =
-            configuration.getChild( "stylesheets-dir" ).getValue( null );
-        if( null != stylesheets )
-        {
-            m_stylesheetDir = new File( m_homeDir, stylesheets ).getAbsolutePath();
-        }
     }
 
     protected MBeanServer createMBeanServer()
