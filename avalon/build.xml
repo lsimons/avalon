@@ -516,9 +516,7 @@ Legal:
   -->
   <target name="real-clean" depends="clean">
     <delete dir="${docs.dir}" />
-    <delete file="${dist.name}-bin.tar.gz" />
-    <delete file="${dist.name}-bin.zip" />
-    <delete file="${dist.name}-src.zip" />
+    <delete dir="${dist.base}" />
   </target>
 
 </project>
