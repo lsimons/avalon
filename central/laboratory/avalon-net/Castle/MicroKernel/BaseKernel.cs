@@ -27,6 +27,7 @@ namespace Apache.Avalon.Castle.MicroKernel
 	public class BaseKernel : IKernel, IDisposable
 	{
         private static readonly object ComponentRegisteredEvent = new object();
+        private static readonly object ComponentInterceptionEvent = new object();
         private static readonly object ComponentCreatedEvent = new object();
         private static readonly object ComponentDestroyedEvent = new object();
 
@@ -97,10 +98,44 @@ namespace Apache.Avalon.Castle.MicroKernel
             OnNewHandler( model, key, service, implementation, handler);
         }
 
+        /// <summary>
+        /// Pending
+        /// </summary>
+        /// <value></value>
         public event ComponentDataDelegate ComponentRegistered
         {
             add { m_events.AddHandler(ComponentRegisteredEvent, value); }
             remove { m_events.RemoveHandler(ComponentRegisteredEvent, value); }
+        }
+
+        /// <summary>
+        /// Pending
+        /// </summary>
+        /// <value></value>
+        public event InterceptionDelegate ComponentInterception
+        {
+            add { m_events.AddHandler(ComponentInterceptionEvent, value); }
+            remove { m_events.RemoveHandler(ComponentInterceptionEvent, value); }
+        }
+
+        /// <summary>
+        /// Pending
+        /// </summary>
+        /// <value></value>
+        public event ComponentInstanceDelegate ComponentCreated
+        {
+            add { m_events.AddHandler(ComponentCreatedEvent, value); }
+            remove { m_events.RemoveHandler(ComponentCreatedEvent, value); }
+        }
+
+        /// <summary>
+        /// Pending
+        /// </summary>
+        /// <value></value>
+        public event ComponentInstanceDelegate ComponentDestroyed
+        {
+            add { m_events.AddHandler(ComponentDestroyedEvent, value); }
+            remove { m_events.RemoveHandler(ComponentDestroyedEvent, value); }
         }
 
         /// <summary>

@@ -21,9 +21,9 @@ namespace Apache.Avalon.Castle.MicroKernel
 
     public delegate void ComponentDataDelegate( IComponentModel model, String key, IHandler handler );
 
-	public delegate void InterceptionDelegate( IComponentModel model, String key, IHandler handler, IInterceptedComponent interceptedComponent );
+	public delegate void InterceptionDelegate( IComponentModel model, IHandler handler, IInterceptedComponent interceptedComponent );
 
-	public delegate void ComponentInstanceDelegate( IComponentModel model, String key, IHandler handler, object instance );
+	public delegate void ComponentInstanceDelegate( IComponentModel model, IHandler handler, object instance );
 
     /// <summary>
     /// 
@@ -34,15 +34,20 @@ namespace Apache.Avalon.Castle.MicroKernel
         /// 
         /// </summary>
         event ComponentDataDelegate ComponentRegistered;
-	
-		/// <summary>
-		/// 
-		/// </summary>
-		// event InterceptionDelegate ComponentCreated;
 
-		/// <summary>
+        /// <summary>
+        /// 
+        /// </summary>
+        event InterceptionDelegate ComponentInterception;
+
+        /// <summary>
 		/// 
 		/// </summary>
-		// event ComponentInstanceDelegate ComponentDestroyed;
+        event ComponentInstanceDelegate ComponentCreated;
+
+        /// <summary>
+		/// 
+		/// </summary>
+		event ComponentInstanceDelegate ComponentDestroyed;
 	}
 }
