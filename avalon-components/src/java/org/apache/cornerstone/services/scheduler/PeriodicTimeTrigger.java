@@ -11,12 +11,14 @@ package org.apache.cornerstone.services.scheduler;
  * This is the triggers based on a start time and period.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:ram.chidambaram@telus.com">Ram Chidambaram</a>
  */
 public class PeriodicTimeTrigger
     implements TimeTrigger
 {
     protected final long    m_startTime;
     protected final long    m_period;
+    private   final long    m_triggerTime;
     
     public PeriodicTimeTrigger( final int startTime, final int period )
     {
@@ -24,13 +26,14 @@ public class PeriodicTimeTrigger
 
         if( -1 == startTime )
         {
-            m_startTime = current;
+            m_triggerTime = current;
         }
         else
         {
-            m_startTime = current + startTime;
+            m_triggerTime = current + startTime;
         }
 
+        m_startTime = startTime;
         m_period = period;
     }
 
@@ -41,16 +44,26 @@ public class PeriodicTimeTrigger
      */
     public long getTimeAfter( final long time )
     {
-        if( time <= m_startTime ) return m_startTime;
+        if( time <= m_triggerTime ) return m_triggerTime;
         else
         {
             if( -1 == m_period ) return -1;
 
-            final long over = time - m_startTime;
+            final long over = time - m_triggerTime;
             final long remainder = over % m_period;
 
             return time + ( m_period - remainder );
         }
+    }
+
+    /**
+     * Get a clone of the original TimeTrigger with adjusted time sensitive info.
+     *
+     * @return a new copy of this TimeTrigger
+     */
+    public TimeTrigger getClone()
+    {
+        return new PeriodicTimeTrigger( (int) m_startTime, (int) m_period );
     }
 
     public String toString()

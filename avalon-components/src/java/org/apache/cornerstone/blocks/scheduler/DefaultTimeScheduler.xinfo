@@ -6,6 +6,7 @@
  
     <contributors> 
       <author name="Peter Donald" email="donaldp@apache.org"/> 
+      <patcher name="Ram Chidambaram" email="ram.chidambaram@telus.com"/> 
     </contributors> 
  
   </meta> 
