@@ -26,9 +26,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
 
-import org.apache.avalon.activation.appliance.Block;
-import org.apache.avalon.activation.appliance.impl.AbstractBlock;
-
 import org.apache.avalon.logging.data.CategoriesDirective;
 import org.apache.avalon.logging.provider.LoggingManager;
 import org.apache.avalon.logging.provider.LoggingCriteria;
@@ -38,11 +35,9 @@ import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.data.builder.XMLTargetsCreator;
 import org.apache.avalon.composition.data.builder.XMLComponentProfileCreator;
 import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
-import org.apache.avalon.composition.model.ContainmentContext;
+import org.apache.avalon.composition.provider.ContainmentContext;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.SystemContext;
-import org.apache.avalon.composition.model.ClassLoaderContext;
 import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ModelRepository;
@@ -52,6 +47,8 @@ import org.apache.avalon.composition.model.impl.DefaultContainmentModel;
 import org.apache.avalon.composition.model.impl.DefaultClassLoaderModel;
 import org.apache.avalon.composition.model.impl.DefaultClassLoaderContext;
 import org.apache.avalon.composition.model.impl.DefaultModelRepository;
+import org.apache.avalon.composition.provider.SystemContext;
+import org.apache.avalon.composition.provider.ClassLoaderContext;
 import org.apache.avalon.composition.util.StringHelper;
 
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -405,9 +402,13 @@ public class DefaultFactory implements Factory
         // create the system context
         //
 
+        Artifact runtime = getRuntimeArtifact( criteria );
         File anchor = criteria.getAnchorDirectory();
 
-        DefaultSystemContext system = new DefaultSystemContext( 
+        DefaultSystemContext system = 
+          new DefaultSystemContext( 
+            context, 
+            runtime, 
             logging,
             anchor,
             criteria.getContextDirectory(),
@@ -425,6 +426,18 @@ public class DefaultFactory implements Factory
         return system;
     }
 
+    private Artifact getRuntimeArtifact( KernelCriteria criteria )
+    {
+        if( isCodeSecurityEnabled() )
+        {
+            return criteria.getSecureRuntimeImplementation();
+        }
+        else
+        {
+            return criteria.getRuntimeImplementation();
+        }
+    }
+
     private ContainmentModel createApplicationModel( 
       SystemContext system, Configuration config ) throws Exception
     {
@@ -437,17 +450,6 @@ public class DefaultFactory implements Factory
           createContainmentContext( system, logger, api, profile );
         return new DefaultContainmentModel( context );
     }
-
-    //private ContainmentModel createFacilitiesModel(
-    //  SystemContext system, Logger logger, Configuration config )
-    //  throws Exception
-    //{   
-    //    ClassLoader spi = Block.class.getClassLoader();
-    //    ContainmentProfile profile = getContainmentProfile( config );
-    //    return new DefaultContainmentModel(
-    //        createContainmentContext( 
-    //          system, logger, spi, profile ) );
-    //}
 
    /**
     * Creation of a new root containment context.
@@ -638,14 +640,17 @@ public class DefaultFactory implements Factory
         Artifact artifact = criteria.getLoggingImplementation();
         Builder builder = m_context.newBuilder( m_classloader, artifact );
         Factory factory = builder.getFactory();
+
         LoggingCriteria params = getLoggingCriteria( factory );
         if( conf.getAttribute( "debug", "false" ).equals( "true" ) )
         {
             params.setBootstrapLogger( 
               new ConsoleLogger( ConsoleLogger.LEVEL_DEBUG ) );
         }
+        params.setDebugEnabled( criteria.isDebugEnabled() );
         params.setBaseDirectory( dir );
         params.setConfiguration( conf );
+
         return (LoggingManager) factory.create( params );
     }
 

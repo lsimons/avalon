@@ -18,8 +18,8 @@
 package org.apache.avalon.merlin;
 
 import org.apache.avalon.merlin.event.KernelEventListener;
-import org.apache.avalon.activation.appliance.Appliance;
-import org.apache.avalon.activation.appliance.Block;
+import org.apache.avalon.composition.model.ContainmentModel;
+import org.apache.avalon.composition.model.DeploymentModel;
 
 /**
  * A Kernel is the root of a containment solution. This interfaces 
@@ -27,7 +27,7 @@ import org.apache.avalon.activation.appliance.Block;
  * management aspects and service resolution aspects.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/24 23:25:31 $
+ * @version $Revision: 1.5 $ $Date: 2004/02/10 16:31:16 $
  */
 public interface Kernel extends KernelController
 {
@@ -55,16 +55,16 @@ public interface Kernel extends KernelController
     void removeKernelEventListener( KernelEventListener listener );
 
    /**
-    * Return the root block.
-    * @return the root application containment block
+    * Return the root containment model.
+    * @return the root model
     */
-    Block getBlock();
+    ContainmentModel getModel();
 
    /**
-    * Return the applicance matching the supplied path.
-    * @return the appliance
+    * Return a model matching the supplied path.
+    * @return the model
     */
-    Appliance locate( String path ) throws KernelException;
+    DeploymentModel locate( String path );
 
    /**
     * Return the current state of the kernel.

@@ -29,28 +29,25 @@ import org.apache.avalon.merlin.KernelRuntimeException;
 import org.apache.avalon.merlin.event.KernelEventListener;
 import org.apache.avalon.merlin.event.KernelStateEvent;
 
-import org.apache.avalon.activation.appliance.Appliance;
-import org.apache.avalon.activation.appliance.Block;
-import org.apache.avalon.activation.appliance.impl.DefaultBlock;
-
 import org.apache.avalon.composition.data.TargetDirective;
-import org.apache.avalon.composition.model.ContainmentContext;
+import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ComponentModel;
-import org.apache.avalon.composition.model.SystemContext;
+import org.apache.avalon.composition.provider.SystemContext;
 import org.apache.avalon.composition.util.StringHelper;
 
 import org.apache.avalon.logging.provider.LoggingManager;
-import org.apache.avalon.util.exception.ExceptionHelper;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.Logger;
+
+import org.apache.avalon.util.exception.ExceptionHelper;
 
 /**
  * Implementation of the default Merlin Kernel.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2004/02/10 10:13:55 $
+ * @version $Revision: 1.11 $ $Date: 2004/02/10 16:31:16 $
  */
 public class DefaultKernel implements Kernel, Disposable
 {
@@ -73,11 +70,13 @@ public class DefaultKernel implements Kernel, Disposable
     // immutable state
     //--------------------------------------------------------------
 
+    private final ContainmentModel m_model;
+
     private final LinkedList m_listeners = new LinkedList();
 
     private final KernelContext m_context;
 
-    private final Block m_application;
+    //private final Block m_application;
 
     private final State m_state;
 
@@ -102,8 +101,9 @@ public class DefaultKernel implements Kernel, Disposable
 
         try
         {
-            m_application = 
-              new DefaultBlock( context.getApplicationModel() );
+            m_model = context.getApplicationModel();
+            //m_application = 
+            //  new DefaultBlock( context.getApplicationModel() );
         }
         catch( Throwable e )
         {
@@ -151,33 +151,21 @@ public class DefaultKernel implements Kernel, Disposable
     }
 
    /**
-    * Return the appliance matching the supplied path.
-    * @param path an appliance path
-    * @return the corresponding appliance
-    * @exception KernelException if the path is unknown
+    * Return a model matching the supplied path.
+    * @return the model
     */
-    public Appliance locate( String path ) throws KernelException
+    public DeploymentModel locate( String path )
     {
-        try
-        {
-            return m_application.locate( path );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Unable to resolve appliance relative to the path: [" 
-              + path + "].";
-            throw new KernelException( error, e );
-        }
+        return m_model.getModel( path );
     }
 
    /**
     * Return the root application block.
     * @return the application containment block
     */
-    public Block getBlock()
+    public ContainmentModel getModel()
     {
-        return m_application;
+        return m_model;
     }
 
     //--------------------------------------------------------------
@@ -205,7 +193,7 @@ public class DefaultKernel implements Kernel, Disposable
             try
             {
                 setState( ASSEMBLY );
-                m_application.getModel().assemble();
+                m_model.assemble();
             }
             catch( Throwable e )
             {
@@ -223,7 +211,7 @@ public class DefaultKernel implements Kernel, Disposable
             try
             {
                 setState( DEPLOYMENT );
-                m_application.commission();
+                m_model.commission();
             }
             catch( Throwable e )
             {
@@ -252,7 +240,7 @@ public class DefaultKernel implements Kernel, Disposable
             try
             {
                 setState( DECOMMISSIONING );
-                m_application.decommission();
+                m_model.decommission();
             }
             catch( Throwable e )
             {

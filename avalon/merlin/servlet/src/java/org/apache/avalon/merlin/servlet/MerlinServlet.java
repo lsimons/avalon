@@ -131,7 +131,7 @@ public class MerlinServlet extends HttpServlet
             System.out.println("kernel established");
 
             getServletContext().setAttribute( 
-              "merlin-root-block", m_kernel.getBlock() );
+              "urn:composition:root", m_kernel.getModel() );
         }
         catch( Throwable e )
         {
