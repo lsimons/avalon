@@ -71,7 +71,7 @@ public class DefaultDataSourceSelector
    /**
     * Contextualization of the component by the container.
     * @param context the supplied context object
-    * @avalon.entry key="urn:avalon:name"
+    * @avalon.entry key="urn:avalon:name" alias="block.name"
     */
     public void contextualize( final Context context )
         throws ContextException
