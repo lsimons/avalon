@@ -18,6 +18,17 @@
       ignoreFailures="false" />
   </goal>
 
+  <goal name="do-install-release"
+    description="Install the sub-project jars." >
+    <maven:reactor
+      basedir="${basedir}"
+      includes="*/project.xml"
+      excludes="site/*"
+      goals="jar:install"
+      banner="Installing:"
+      ignoreFailures="false" />
+  </goal>
+
   <goal name="do-site"
     description="Build the project site." >
     <maven:reactor

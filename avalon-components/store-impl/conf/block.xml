@@ -3,11 +3,7 @@
 Thread Block deployment directive.
 -->
 
-<block>
-
-   <info>
-     <name>sockets</name>
-   </info>
+<container name="sockets">
 
    <services>
      <service type="org.apache.avalon.cornerstone.services.store.Store">
@@ -15,24 +11,20 @@ Thread Block deployment directive.
      </service>
    </services>
 
-   <implementation>
+   <classloader>
+     <classpath>
+       <repository>
+         <resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/>
+         <resource id="cornerstone-store:cornerstone-store-api" version="1.0"/>
+         <resource id="cornerstone-store:cornerstone-store-impl" version="1.0"/>
+       </repository>
+     </classpath>
+   </classloader>
 
-     <classloader>
-       <classpath>
-         <repository>
-           <resource id="avalon-framework:avalon-framework-impl" version="SNAPSHOT"/>
-           <resource id="cornerstone-store:cornerstone-store-api" version="SNAPSHOT"/>
-           <resource id="cornerstone-store:cornerstone-store-impl" version="SNAPSHOT"/>
-         </repository>
-       </classpath>
-     </classloader>
-
-     <component name="manager" 
+   <component name="manager" 
         class="org.apache.avalon.cornerstone.blocks.masterstore.RepositoryManager" 
         activation="true">
        <!-- configuration must be supplied -->
-     </component>
+   </component>
 
-   </implementation>
-
-</block>
+</container>

@@ -3,11 +3,7 @@
 Thread Block deployment directive.
 -->
 
-<block>
-
-   <info>
-     <name>scheduler</name>
-   </info>
+<container name="scheduler">
 
    <services>
      <service type="org.apache.avalon.cornerstone.services.scheduler.TimeScheduler">
@@ -15,28 +11,20 @@ Thread Block deployment directive.
      </service>
    </services>
 
-   <dependencies>
-     <dependency type="org.apache.avalon.cornerstone.services.threads.ThreadManager:1.0"/>
-   </dependencies>
+   <classloader>
+     <classpath>
+       <repository>
+         <resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/>
+         <resource id="cornerstone-scheduler:cornerstone-scheduler-api" version="1.0"/>
+         <resource id="cornerstone-threads:cornerstone-threads-api" version="1.0"/>
+         <resource id="excalibur-thread:excalibur-thread" version="1.1.1"/>
+       </repository>
+     </classpath>
+   </classloader>
 
-   <implementation>
-
-     <classloader>
-       <classpath>
-         <repository>
-           <resource id="avalon-framework:avalon-framework-impl" version="SNAPSHOT"/>
-           <resource id="cornerstone-scheduler:cornerstone-scheduler-api" version="SNAPSHOT"/>
-           <resource id="cornerstone-threads:cornerstone-threads-api" version="SNAPSHOT"/>
-           <resource id="excalibur-thread:excalibur-thread" version="1.1.1"/>
-         </repository>
-       </classpath>
-     </classloader>
-
-     <component name="manager" 
+   <component name="manager" 
         class="org.apache.avalon.cornerstone.blocks.scheduler.DefaultTimeScheduler" 
         activation="true">
-     </component>
+   </component>
 
-   </implementation>
-
-</block>
+</container>
