@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 
 <!--
  ============================================================================
@@ -48,53 +48,78 @@
  Apache Software Foundation, please see http://www.apache.org/.
 -->
 
-<project>
+<document>
 
- <title>Merlin</title>
+  <header>
+    <title>Kernel Parameters</title>
+    <authors>
+      <person name="Niclas Hedhman" email="niclas@apache.org"/>
+    </authors>
+  </header>
 
- <body>
+  <body>
+    <section name="Kernel Parameters">
 
-    <links>
-      <item name="Apache" href="http://apache.org/"/>
-      <item name="Avalon" href="http://avalon.apache.org/"/>
-      <item name="Framework" href="http://avalon.apache.org/product/framework/"/>
-      <item name="Containers" href="http://avalon.apache.org/product/containers/"/>
-      <item name="Components" href="http://avalon.apache.org/product/components/"/>
-    </links>
+      <subsection name="Nested Elements">
 
-    <menu name="About Merlin">
-      <item name="Overview" href="/about/index.html"/>
-      <item name="Getting Started" href="/starting/index.html"/>
-      <item name="Merlin System" href="/merlin/index.html"/>
-      <item name="Meta Model" href="/meta/index.html">
-        <item name="kernel.xml" href="/meta/kernel/index.html">
-          <item name="logging" href="/meta/kernel/logging/index.html">
-            <item name="target" href="/meta/kernel/logging/target.html"/>
-            <item name="category" href="/meta/kernel/logging/category.html"/>
-          </item>
-          <item name="repository" href="/meta/kernel/repository/index.html"/>
-          <item name="parameters" href="/meta/kernel/parameters/index.html" />
-        </item>
-        <item name="block.xml" href="/meta/block/index.html"/>
-        <item name="config.xml" href="/meta/config/index.html"/>
-      </item>
-      <item name="Tools" href="/tools/index.html"/>
-    </menu>
+        <table>
+          <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr>
+            <td>parameter</td><td>0..n</td>
+            <td>
+             Each parameter has a <strong>name</strong> and a <strong>value<strong>
+             attribute. The parameters that are available can be found below.
+            </td>
+          </tr>
+        </table>
 
-    <menu name="Resources">
-      <item name="Javadoc" href="/api/index.html"/>
-      <item name="Download" href="/resources/download.html"/>
-      <item name="Roadmap" href="/resources/roadmap/index.html"/>
-      <item name="DPML" href="/dpml/index.html"/>
-    </menu>
+      </subsection>
 
-    <menu name="Related Projects">
-      <item name="Meta" href="http://avalon.apache.org/meta"/>
-      <item name="Utilities" href="http://avalon.apache.org/util"/>
-      <item name="Repository" href="http://avalon.apache.org/repository"/>
-    </menu>
+      <subsection name="Description">
+        <p>
+          Parameters have been introduced to allow for the internals of the
+          kernel to be tuned for different purposes. Initially, the number
+          parameters available is fairly small, but we expect this number to
+          grow steadily.
+        </p>
+        <p>
+          Parameters that are currently available is;
+        </p>
+        <table>
+          <tr><th>Name</th><th>Default</th><th>Description</th></tr>
+          <tr>
+            <td>deployment-timeout</td>
+            <td>5000</td>
+            <td>
+              The time in millisecond within which the deployment of any 
+              component and any container must complete. Once this time
+              limit has been reached, the deployment system will try to
+              interrupt() the thread. If that succeeds, the deployment
+              the container will fail, but other containers may still be
+              deployed. If the interrupt() fails, the whole JVM must be
+              considered unstable, and should terminate.
+            </td>
+          </tr>
+      </subsection>
 
- </body>
+      
+      <subsection name="Sample XML">
 
-</project>
+<source><![CDATA[
+  <kernel>
+   <parameters>
+     <!-- Declaration that deployment should allow for 2500ms for 
+          any component or container to start-up, before interrupting
+          or failing.  -->
+     <parameter name="deployment-timeout" value="500" />
+   </parameters>
+  </kernel>
+]]></source>
+
+     </subsection>
+    </section>
+  </body>
+
+</document>
+
 

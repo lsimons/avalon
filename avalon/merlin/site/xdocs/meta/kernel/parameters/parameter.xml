@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 
 <!--
  ============================================================================
@@ -48,53 +48,61 @@
  Apache Software Foundation, please see http://www.apache.org/.
 -->
 
-<project>
+<document>
 
- <title>Merlin</title>
+  <header>
+    <title>Kernel Parameters</title>
+    <authors>
+      <person name="Niclas Hedhman" email="niclas@apache.org"/>
+    </authors>
+  </header>
 
- <body>
+  <body>
+    <section name="Parameter">
 
-    <links>
-      <item name="Apache" href="http://apache.org/"/>
-      <item name="Avalon" href="http://avalon.apache.org/"/>
-      <item name="Framework" href="http://avalon.apache.org/product/framework/"/>
-      <item name="Containers" href="http://avalon.apache.org/product/containers/"/>
-      <item name="Components" href="http://avalon.apache.org/product/components/"/>
-    </links>
+      <subsection name="Attributes">
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>name</td><td>yes</td>
+            <td>
+              The name of the parameter.
+            </td>
+          </tr>
+          <tr>
+            <td>value</td><td>yes</td>
+            <td>
+              The value of the named parameter.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+            
+      <subsection name="Description">
+        <p>
+          A general-purpose mechanism to pass parameters to the kernel and
+          internal subsystems.
+        </p>
+        <p>
+          See <a href="index.html">parameters</a> for a complete list of the
+          available parameters.
+        </p>
+      </subsection>
 
-    <menu name="About Merlin">
-      <item name="Overview" href="/about/index.html"/>
-      <item name="Getting Started" href="/starting/index.html"/>
-      <item name="Merlin System" href="/merlin/index.html"/>
-      <item name="Meta Model" href="/meta/index.html">
-        <item name="kernel.xml" href="/meta/kernel/index.html">
-          <item name="logging" href="/meta/kernel/logging/index.html">
-            <item name="target" href="/meta/kernel/logging/target.html"/>
-            <item name="category" href="/meta/kernel/logging/category.html"/>
-          </item>
-          <item name="repository" href="/meta/kernel/repository/index.html"/>
-          <item name="parameters" href="/meta/kernel/parameters/index.html" />
-        </item>
-        <item name="block.xml" href="/meta/block/index.html"/>
-        <item name="config.xml" href="/meta/config/index.html"/>
-      </item>
-      <item name="Tools" href="/tools/index.html"/>
-    </menu>
+      <subsection name="Sample XML">
 
-    <menu name="Resources">
-      <item name="Javadoc" href="/api/index.html"/>
-      <item name="Download" href="/resources/download.html"/>
-      <item name="Roadmap" href="/resources/roadmap/index.html"/>
-      <item name="DPML" href="/dpml/index.html"/>
-    </menu>
+<source><![CDATA[
+ <kernel>
+   <parameters>
+     <parameter name="deployment-timeout" value="2500" />
+   </parameters>
+ </kernel>
+]]></source>
 
-    <menu name="Related Projects">
-      <item name="Meta" href="http://avalon.apache.org/meta"/>
-      <item name="Utilities" href="http://avalon.apache.org/util"/>
-      <item name="Repository" href="http://avalon.apache.org/repository"/>
-    </menu>
+     </subsection>
+    </section>
+  </body>
 
- </body>
+</document>
 
-</project>
 
