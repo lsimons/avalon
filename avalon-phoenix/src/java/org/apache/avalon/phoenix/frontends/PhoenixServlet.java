@@ -69,11 +69,10 @@ public class PhoenixServlet
     {
         super.init();
 
-        //TODO: configuring with more parameters.
         final ServletContext context = getServletContext();
         final String phoenixHome = getInitParameter( "phoenix.home", "/WEB-INF" );
-        final String logDestination = getInitParameter( "log-destination", phoenixHome + "/logs/phoenix.log" );
-        final String logPriority = getInitParameter( "log-priority", "INFO" );
+        final String logDestination = getInitParameter( "log-destination" );
+        final String logPriority = getInitParameter( "log-priority" );
         final String appName = getInitParameter( "application-name", "default" );
         final String appLoc = getInitParameter( "application-location", phoenixHome + "/" + appName );
         final String configFile = getInitParameter( "config-file", phoenixHome + "/conf/kernel.xml" );
@@ -88,21 +87,27 @@ public class PhoenixServlet
         try
         {
             final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
-            final Configuration conf = builder.buildFromFile( context.getRealPath( configFile ) ).getChild( "embeddor" );
-            m_embeddor = (SingleAppEmbeddor)Class.forName( conf.getAttribute( "class" ) ).newInstance();
+            final Configuration kernelConf = builder.buildFromFile( context.getRealPath( configFile ) );
+            final Configuration embeddorConf = kernelConf.getChild( "embeddor" );
+            final String embeddorClassname = embeddorConf.getAttribute( "class" );
+
+            m_embeddor = (SingleAppEmbeddor)Class.forName( embeddorClassname ).newInstance();
+
             m_embeddor.enableLogging( createLogger( m_parameters ) );
 
             if ( m_embeddor instanceof Parameterizable )
             {
                 ( (Parameterizable)m_embeddor ).parameterize( m_parameters );
             }
+
             if ( m_embeddor instanceof Configurable )
             {
-                ( (Configurable)m_embeddor ).configure( conf );
+                ( (Configurable)m_embeddor ).configure( embeddorConf );
             }
+
             m_embeddor.initialize();
 
-            final Thread thread = new Thread( this, "Phoenix" );
+            final Thread thread = new Thread( this, "Phoenix-Monitor" );
             thread.start();
         }
         catch ( final Throwable throwable )
