@@ -9,7 +9,7 @@ package org.apache.cornerstone.services.datasource;
 
 import org.apache.avalon.ComponentManagerException;
 import org.apache.avalon.ComponentSelector;
-import org.apache.avalon.util.datasource.DataSourceComponent;
+import org.apache.excalibur.datasource.DataSourceComponent;
 import org.apache.phoenix.Service;
 
 /**
@@ -21,7 +21,7 @@ public interface DataSourceSelector
     extends Service, ComponentSelector
 {
     /**
-     * 
+     *
      * @param the name of data source
      * @return data source
      */

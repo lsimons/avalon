@@ -7,8 +7,8 @@
  */
 package org.apache.cornerstone.blocks.scheduler;
 
-import org.apache.cornerstone.services.scheduler.TimeTrigger;
 import org.apache.cornerstone.services.scheduler.Target;
+import org.apache.cornerstone.services.scheduler.TimeTrigger;
 
 /**
  * Class use internally to package to hold scheduled time entries.

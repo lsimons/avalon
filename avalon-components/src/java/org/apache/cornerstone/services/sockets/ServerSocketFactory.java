@@ -42,7 +42,7 @@ public interface ServerSocketFactory
         throws IOException;
 
     /**
-     * Creates a socket on a particular network interface on specified port 
+     * Creates a socket on a particular network interface on specified port
      * with a specified backLog.
      *
      * @param port the port

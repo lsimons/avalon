@@ -23,7 +23,7 @@ import org.apache.avalon.camelot.DeploymentException;
 import org.apache.avalon.camelot.DefaultLocator;
 import org.apache.avalon.camelot.Registry;
 import org.apache.avalon.camelot.RegistryException;
-import org.apache.avalon.util.io.IOUtil;
+import org.apache.excalibur.io.IOUtil;
 import org.apache.phoenix.metainfo.BlockInfo;
 import org.apache.phoenix.metainfo.BlockInfoBuilder;
 import org.apache.avalon.ComponentManager;

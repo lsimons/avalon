@@ -24,7 +24,7 @@ import java.util.Enumeration;
 import java.util.PropertyPermission;
 import org.apache.avalon.Component;
 import org.apache.avalon.Loggable;
-import org.apache.avalon.util.io.FileUtil;
+import org.apache.excalibur.io.FileUtil;
 import org.apache.log.Logger;
 
 /**

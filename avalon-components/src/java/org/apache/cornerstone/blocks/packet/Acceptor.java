@@ -8,20 +8,20 @@
 package org.apache.cornerstone.blocks.packet;
 
 import java.io.IOException;
-import java.net.DatagramSocket;
 import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.apache.avalon.AbstractLoggable;
 import org.apache.avalon.Component;
-import org.apache.avalon.util.thread.ThreadPool;
+import org.apache.excalibur.thread.ThreadPool;
 import org.apache.cornerstone.services.packet.PacketHandler;
 import org.apache.cornerstone.services.packet.PacketHandlerFactory;
 
 /**
- * Support class for the DefaultPacketManager. 
+ * Support class for the DefaultPacketManager.
  * This manages an individual DatagramSocket.
- * 
+ *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 class Acceptor
@@ -35,7 +35,7 @@ class Acceptor
 
     protected Thread                           m_thread;
 
-    public Acceptor( final DatagramSocket datagramSocket, 
+    public Acceptor( final DatagramSocket datagramSocket,
                      final PacketHandlerFactory handlerFactory,
                      final ThreadPool threadPool )
     {
@@ -74,7 +74,7 @@ class Acceptor
             {
                 //TODO: packets hould really be pooled...
                 DatagramPacket packet = null;
-                
+
                 try
                 {
                     final int size = m_datagramSocket.getReceiveBufferSize();
@@ -83,13 +83,13 @@ class Acceptor
                 }
                 catch( final IOException ioe )
                 {
-                    getLogger().error( "Failed to get receive buffer size for datagram socket", 
+                    getLogger().error( "Failed to get receive buffer size for datagram socket",
                                        ioe );
                 }
 
                 m_datagramSocket.receive( packet );
                 final PacketHandler handler = m_handlerFactory.createPacketHandler();
-                final PacketHandlerRunner runner = 
+                final PacketHandlerRunner runner =
                     new PacketHandlerRunner( packet, m_runners, handler );
                 setupLogger( runner );
                 m_threadPool.execute( runner );
@@ -105,7 +105,7 @@ class Acceptor
         }
     }
 }
- 
+
 class PacketHandlerRunner
     extends AbstractLoggable
     implements Runnable, Component
@@ -115,8 +115,8 @@ class PacketHandlerRunner
     protected ArrayList       m_runners;
     protected PacketHandler   m_handler;
 
-    PacketHandlerRunner( final DatagramPacket packet, 
-                         final ArrayList runners, 
+    PacketHandlerRunner( final DatagramPacket packet,
+                         final ArrayList runners,
                          final PacketHandler handler )
     {
         m_packet = packet;
@@ -134,7 +134,7 @@ class PacketHandlerRunner
             m_thread = null;
         }
     }
-        
+
     public void run()
     {
         try
@@ -147,7 +147,7 @@ class PacketHandlerRunner
                 getLogger().debug( "Starting connection on " + m_packet );
             }
 
-            m_handler.handlePacket( m_packet ); 
+            m_handler.handlePacket( m_packet );
 
             if( getLogger().isDebugEnabled() )
             {

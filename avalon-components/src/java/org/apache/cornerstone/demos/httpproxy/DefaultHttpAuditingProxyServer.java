@@ -14,11 +14,11 @@ import org.apache.log.Logger;
  * @author  Paul Hammant <Paul_Hammant@yahoo.com>
  * @version 1.0
  */
-public class DefaultHttpAuditingProxyServer 
+public class DefaultHttpAuditingProxyServer
     extends AbstractHttpProxyServer
     implements HttpAuditingProxyServer
 {
-    public DefaultHttpAuditingProxyServer() 
+    public DefaultHttpAuditingProxyServer()
     {
         super("Auditing");
     }

@@ -18,7 +18,7 @@ import org.apache.avalon.Context;
 import org.apache.avalon.Contextualizable;
 import org.apache.avalon.Initializable;
 import org.apache.avalon.atlantis.Facility;
-import org.apache.avalon.util.io.ExtensionFileFilter;
+import org.apache.excalibur.io.ExtensionFileFilter;
 import org.apache.phoenix.engine.SarContextResources;
 import org.apache.phoenix.engine.facilities.PolicyManager;
 

@@ -28,7 +28,7 @@ public class DefaultHandlerFactory
      * @return the new ConnectionHandler
      * @exception Exception if an error occurs
      */
-    protected ConnectionHandler newHandler() 
+    protected ConnectionHandler newHandler()
         throws Exception
     {
         return (ConnectionHandler)m_handlerClass.newInstance();

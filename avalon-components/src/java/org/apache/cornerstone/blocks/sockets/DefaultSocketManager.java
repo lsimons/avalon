@@ -64,7 +64,7 @@ public class DefaultSocketManager
 
         for( int i = 0; i < serverSockets.length; i++ )
         {
-            final Configuration element = serverSockets[ i ];                      
+            final Configuration element = serverSockets[ i ];
             final String name = element.getAttribute( "name" );
             final String className = element.getAttribute( "class" );
 

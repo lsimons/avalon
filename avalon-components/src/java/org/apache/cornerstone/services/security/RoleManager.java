@@ -15,10 +15,10 @@ import org.apache.phoenix.Service;
  * TODO: This should be refactored to be per-Realm.
  *
  * Warning: This is experimental and will most likely change in the future.
- * 
+ *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public interface RoleManager 
+public interface RoleManager
     extends Service
 {
     boolean isPrincipalInRole( Principal principal, String role );

@@ -7,20 +7,20 @@
  */
 package org.apache.cornerstone.services.security;
 
-import java.security.Permission;
 import java.security.AccessControlException;
+import java.security.Permission;
 import java.security.Principal;
 import org.apache.phoenix.Service;
 
 /**
- * Service to manage authorization. 
+ * Service to manage authorization.
  * May be succeeded by JAAS in the the future.
  *
  * Warning: This is experimental and will most likely change in the future.
- * 
+ *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public interface AuthorizationManager 
+public interface AuthorizationManager
     extends Service
 {
     //Permissions getPermissions( Principal principal );

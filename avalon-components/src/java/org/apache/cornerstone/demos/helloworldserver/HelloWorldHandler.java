@@ -68,7 +68,7 @@ public class HelloWorldHandler
         }
         catch( final IOException ioe )
         {
-            getLogger().debug( "Exception in HelloWorld handling socket to " + remoteHost , 
+            getLogger().debug( "Exception in HelloWorld handling socket to " + remoteHost ,
                                ioe );
         }
         catch( final Exception e )

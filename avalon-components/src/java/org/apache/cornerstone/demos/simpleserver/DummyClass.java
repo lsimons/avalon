@@ -16,7 +16,7 @@ import java.io.Serializable;
  *
  * @author Charles Benett <charles@benett1.demon.co.uk>
  */
-public class DummyClass 
+public class DummyClass
     implements Serializable
 {
     private String    m_name;
@@ -26,7 +26,7 @@ public class DummyClass
         m_name = name;
     }
 
-    public String getName() 
+    public String getName()
     {
         return m_name;
     }

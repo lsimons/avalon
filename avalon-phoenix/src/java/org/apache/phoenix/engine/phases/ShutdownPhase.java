@@ -14,7 +14,7 @@ import org.apache.avalon.Composer;
 import org.apache.avalon.Disposable;
 import org.apache.avalon.Stoppable;
 import org.apache.avalon.atlantis.ApplicationException;
-import org.apache.avalon.util.thread.ThreadContext;
+import org.apache.excalibur.thread.ThreadContext;
 import org.apache.phoenix.engine.facilities.ThreadManager;
 import org.apache.phoenix.engine.blocks.BlockEntry;
 import org.apache.phoenix.engine.blocks.BlockVisitor;

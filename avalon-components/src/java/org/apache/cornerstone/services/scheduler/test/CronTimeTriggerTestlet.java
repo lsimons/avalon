@@ -1,23 +1,23 @@
-/* 
- * Copyright (C) The Apache Software Foundation. All rights reserved. 
- * 
- * This software is published under the terms of the Apache Software License 
- * version 1.1, a copy of which has been included with this distribution in 
- * the LICENSE file. 
- */ 
+/*
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included with this distribution in
+ * the LICENSE file.
+ */
 package org.apache.cornerstone.services.scheduler.test;
- 
+
 import java.util.Calendar;
 import java.util.Date;
-import org.apache.cornerstone.services.scheduler.CronTimeTrigger; 
-import org.apache.testlet.AbstractTestlet; 
- 
-/** 
- * 
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a> 
- */ 
-public final class CronTimeTriggerTestlet 
-    extends AbstractTestlet 
+import org.apache.cornerstone.services.scheduler.CronTimeTrigger;
+import org.apache.testlet.AbstractTestlet;
+
+/**
+ *
+ * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ */
+public final class CronTimeTriggerTestlet
+    extends AbstractTestlet
 {
     protected final static long MINUTE = 60000;
     protected final static long HOUR = 60 * MINUTE;
@@ -30,7 +30,7 @@ public final class CronTimeTriggerTestlet
 
         final Calendar now = Calendar.getInstance();
         now.set( Calendar.SECOND, 0 );
-        
+
         long time = now.getTime().getTime();
         long next = trigger.getTimeAfter( time );
 
@@ -50,7 +50,7 @@ public final class CronTimeTriggerTestlet
         final Calendar now = Calendar.getInstance();
         now.set( Calendar.SECOND, 0 );
         now.set( Calendar.MINUTE, 2 );
-        
+
         long time = now.getTime().getTime();
         long next = trigger.getTimeAfter( time );
         long delta = next - time;
@@ -73,12 +73,12 @@ public final class CronTimeTriggerTestlet
     public void testDays()
     {
         final CronTimeTrigger trigger = new CronTimeTrigger( 51, 5, -1, -1, -1, true );
- 
+
         final Calendar now = Calendar.getInstance();
         now.set( Calendar.SECOND, 0 );
         now.set( Calendar.MINUTE, 2 );
         now.set( Calendar.HOUR_OF_DAY, 3 );
-        
+
         long time = now.getTime().getTime();
         long next = trigger.getTimeAfter( time );
         long delta = next - time;
@@ -107,7 +107,7 @@ public final class CronTimeTriggerTestlet
         now.set( Calendar.SECOND, 0 );
         now.set( Calendar.MINUTE, 2 );
         now.set( Calendar.HOUR_OF_DAY, 3 );
-        
+
         long time = now.getTime().getTime();
         long next = trigger.getTimeAfter( time );
         long delta = next - time;
@@ -167,7 +167,7 @@ public final class CronTimeTriggerTestlet
         now.set( Calendar.HOUR_OF_DAY, 3 );
         now.set( Calendar.DAY_OF_WEEK, 3 );
         now.set( Calendar.MONTH, 0 );
-        
+
         long time = now.getTime().getTime();
         long next = trigger.getTimeAfter( time );
         long delta = next - time;
@@ -196,7 +196,7 @@ public final class CronTimeTriggerTestlet
         now.set( Calendar.MINUTE, 2 );
         now.set( Calendar.HOUR_OF_DAY, 3 );
         now.set( Calendar.DAY_OF_MONTH, 1 );
-        
+
         long time = now.getTime().getTime();
         long next = trigger.getTimeAfter( time );
         long delta = next - time;
@@ -214,7 +214,7 @@ public final class CronTimeTriggerTestlet
             month = (month + 1) % 12;
 
             now.setTime( new Date( next ) );
-            
+
             assert( "Minute", now.get( Calendar.MINUTE ) == 3 );
             assert( "Hour of Day", now.get( Calendar.HOUR_OF_DAY ) == 5 );
             assert( "Day of month", now.get( Calendar.DAY_OF_MONTH ) == 2 );
@@ -236,13 +236,13 @@ public final class CronTimeTriggerTestlet
         now.set( Calendar.HOUR_OF_DAY, 3 );
         now.set( Calendar.DAY_OF_MONTH, 1 );
         now.set( Calendar.MONTH, 3 );
-        
+
         long time = now.getTime().getTime();
         long next = trigger.getTimeAfter( time );
         long delta = next - time;
 
         now.setTime( new Date( next ) );
-        
+
         assert( "Minute", now.get( Calendar.MINUTE ) == 0 );
         assert( "Hour of Day", now.get( Calendar.HOUR_OF_DAY ) == 0 );
         assert( "Day of month", now.get( Calendar.DAY_OF_MONTH ) == 1 );
@@ -256,9 +256,9 @@ public final class CronTimeTriggerTestlet
             now.setTime( new Date( next ) );
 
             //System.out.println( "day/Month hr:min " + now.get( Calendar.DAY_OF_MONTH ) +
-            //"/" + now.get( Calendar.MONTH ) + " " + 
+            //"/" + now.get( Calendar.MONTH ) + " " +
             //now.get( Calendar.HOUR ) + ":" + now.get( Calendar.MINUTE ) );
-            
+
             assert( "Minute", now.get( Calendar.MINUTE ) == 0 );
             assert( "Hour of Day", now.get( Calendar.HOUR_OF_DAY ) == 0 );
             assert( "Day of month", now.get( Calendar.DAY_OF_MONTH ) == 1 );
@@ -287,7 +287,7 @@ public final class CronTimeTriggerTestlet
         long delta = next - time;
 
         now.setTime( new Date( next ) );
-        
+
         assert( "Minute", now.get( Calendar.MINUTE ) == 0 );
         assert( "Hour of Day", now.get( Calendar.HOUR_OF_DAY ) == 0 );
         assert( "Day of month", now.get( Calendar.DAY_OF_MONTH ) == 1 );

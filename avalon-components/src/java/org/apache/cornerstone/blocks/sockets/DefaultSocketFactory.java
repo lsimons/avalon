@@ -35,7 +35,7 @@ public class DefaultSocketFactory
     }
 
     /**
-     * Create a socket and connect to remote address specified 
+     * Create a socket and connect to remote address specified
      * originating from specified local address.
      *
      * @param address the remote address
@@ -45,9 +45,9 @@ public class DefaultSocketFactory
      * @return the socket
      * @exception IOException if an error occurs
      */
-    public Socket createSocket( final InetAddress address, 
-                                final int port, 
-                                final InetAddress localAddress, 
+    public Socket createSocket( final InetAddress address,
+                                final int port,
+                                final InetAddress localAddress,
                                 final int localPort )
         throws IOException
     {

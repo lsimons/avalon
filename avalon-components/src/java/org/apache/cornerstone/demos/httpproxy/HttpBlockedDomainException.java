@@ -11,7 +11,7 @@ package org.apache.cornerstone.demos.httpproxy;
  * @author  Paul Hammant <Paul_Hammant@yahoo.com>
  * @version 1.0
  */
-public class HttpBlockedDomainException 
+public class HttpBlockedDomainException
     extends HttpRequestValidationException
 {
     /**
@@ -24,4 +24,3 @@ public class HttpBlockedDomainException
         super( "Access to " + domainName + "has been blocked" );
     }
 }
-

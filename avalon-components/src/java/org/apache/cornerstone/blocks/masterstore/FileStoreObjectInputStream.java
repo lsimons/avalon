@@ -11,9 +11,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.StreamCorruptedException;
 import java.io.ObjectStreamClass;
 import java.io.OutputStream;
+import java.io.StreamCorruptedException;
 
 /**
  * A special ObjectInputStream to handle highly transient classes hosted
@@ -21,23 +21,23 @@ import java.io.OutputStream;
  *
  * @author <a href="mailto:paul_hammant@yahoo.com">Paul Hammant</a>
  */
-class FileStoreObjectInputStream 
+class FileStoreObjectInputStream
     extends ObjectInputStream
 {
     private ClassLoader m_classLoader;
 
-    public FileStoreObjectInputStream( final ClassLoader classLoader, 
-                                       final InputStream inputStream ) 
+    public FileStoreObjectInputStream( final ClassLoader classLoader,
+                                       final InputStream inputStream )
         throws IOException, StreamCorruptedException
     {
         super( inputStream );
         m_classLoader = classLoader;
     }
 
-    protected Class resolveClass( final ObjectStreamClass objectStreamClass ) 
+    protected Class resolveClass( final ObjectStreamClass objectStreamClass )
         throws IOException, ClassNotFoundException
     {
-        final Class clazz = 
+        final Class clazz =
             Class.forName( objectStreamClass.getName(), false, m_classLoader );
 
         if( null != clazz )
@@ -47,7 +47,7 @@ class FileStoreObjectInputStream
         else
         {
             // classloader knows not of class, let the super classloader do it
-            return super.resolveClass( objectStreamClass ); 
+            return super.resolveClass( objectStreamClass );
         }
     }
 }

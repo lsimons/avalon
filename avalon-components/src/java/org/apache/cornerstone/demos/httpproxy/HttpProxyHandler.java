@@ -59,31 +59,31 @@ public abstract class HttpProxyHandler
 
             validateRequest();
             forwardRequest();
-        } 
-        catch( final HttpRequestValidationException hrve ) 
+        }
+        catch( final HttpRequestValidationException hrve )
         {
             write403Page();
             getLogger().info( hrve.getMessage() );
-        } 
-        catch( final SocketException se ) 
+        }
+        catch( final SocketException se )
         {
             getLogger().debug( "Socket to " + clientHost + " closed remotely.", se );
-        } 
-        catch( final InterruptedIOException iioe ) 
+        }
+        catch( final InterruptedIOException iioe )
         {
             getLogger().debug( "Socket to " + clientHost + " timeout.", iioe );
-        } 
-        catch( final IOException ioe ) 
+        }
+        catch( final IOException ioe )
         {
             getLogger().debug( "Exception in proxy handling socket to " + clientHost, ioe );
-        } 
+        }
         catch( final Exception e )
         {
             getLogger().debug( "Exception in proxy opening socket", e );
-        } 
+        }
         finally
         {
-            try { clientSocket.close(); } 
+            try { clientSocket.close(); }
             catch( final IOException ioe )
             {
                 getLogger().error( "Exception closing client socket ", ioe );
@@ -91,7 +91,7 @@ public abstract class HttpProxyHandler
 
             if( null != serverSocket )
             {
-                try { serverSocket.close(); } 
+                try { serverSocket.close(); }
                 catch( final IOException ioe )
                 {
                     getLogger().error( "Exception closing server socket ", ioe );
@@ -100,7 +100,7 @@ public abstract class HttpProxyHandler
         }
     }
 
-    protected Socket makeOutgoingSocket() 
+    protected Socket makeOutgoingSocket()
         throws IOException
     {
         if( !forwardToAnotherProxy.equals("") )
@@ -112,7 +112,7 @@ public abstract class HttpProxyHandler
                                                            forwardToAnotherProxy.length() ) );
 
             return new Socket( toName, toPort );
-        } 
+        }
         else
         {
             return new Socket( httpRequestWrapper.getServerInetAddress(),
@@ -125,14 +125,14 @@ public abstract class HttpProxyHandler
         if( anotherProxy )
         {
             return httpRequestWrapper.getNakedHttpRequest().trim() + "\r\n\r\n";
-        } 
+        }
         else
         {
             return httpRequestWrapper.getHttpRequest().trim() + "\r\n\r\n";
         }
     }
 
-    public final void forwardRequest() 
+    public final void forwardRequest()
         throws IOException
     {
         String request = getOutgoingHttpRequest( ( !forwardToAnotherProxy.equals("") ) );
@@ -153,15 +153,15 @@ public abstract class HttpProxyHandler
             {
                 pLength = serverIS.read( page );
 
-                if( -1 != pLength ) 
+                if( -1 != pLength )
                 {
                     bufToClient.write( page, 0, pLength );
                 }
-            } 
+            }
             while( -1 != pLength );
 
             bufToClient.close();
-        } 
+        }
         catch( final Exception e )
         {
             // general catch is deliberate, see writeErrorPage(..)
@@ -169,32 +169,32 @@ public abstract class HttpProxyHandler
         }
     }
 
-    private void writeErrorPage( final Exception e ) 
+    private void writeErrorPage( final Exception e )
         throws IOException
     {
         final PrintWriter output = new PrintWriter( clientSocket.getOutputStream() );
-        
-        output.println( "<html><body>Unable to reach <b>" + httpRequestWrapper.getServerName() + 
+
+        output.println( "<html><body>Unable to reach <b>" + httpRequestWrapper.getServerName() +
                         ":" + httpRequestWrapper.getServerPort() + "</b> at the moment." );
         output.println( "<br />This Message is bought to you by the Avalon demo proxy server." );
-        output.println( "<br />If you had a direct connection to the net, you would not see " + 
+        output.println( "<br />If you had a direct connection to the net, you would not see " +
                         "this message, your browser would instead tell you it could not reach" +
                         " the site.<br />");
 
         if( e instanceof UnknownHostException )
         {
-            output.println( "<br />The probable cause is that the domain name does not exist," + 
+            output.println( "<br />The probable cause is that the domain name does not exist," +
                             " of the route to it is severed." );
-        } 
+        }
         else if( e instanceof ConnectException )
         {
             output.println( "<br />The probable cause is that the machine at domain name is" +
                             " not running a service at the port number in question (HTTP or" +
                             " any other)." );
-        } 
+        }
         else
         {
-            output.println( "<br />The cause is unknown, this may help though: " + 
+            output.println( "<br />The cause is unknown, this may help though: " +
                             e.getMessage() );
         }
 
@@ -205,21 +205,19 @@ public abstract class HttpProxyHandler
 
     // Block the resource, buy using http code 403.
     // "403 Forbidden Resource is not available, regardless of authorization."
-    private void write403Page() 
+    private void write403Page()
     {
         try
         {
             final PrintWriter output = new PrintWriter( clientSocket.getOutputStream() );
 
-            output.println( "<html><head><title>Blocked</title></head>" + 
+            output.println( "<html><head><title>Blocked</title></head>" +
                             "<body>Blocked</body></html>" );
             output.flush();
             output.close();
-        } 
+        }
         catch( final IOException ioe ) {}
     }
-
-    protected abstract void validateRequest() 
+    protected abstract void validateRequest()
         throws HttpRequestValidationException;
 }
-

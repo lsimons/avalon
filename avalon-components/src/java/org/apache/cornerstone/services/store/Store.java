@@ -19,8 +19,8 @@ public interface Store
     extends Service, ComponentSelector
 {
     /**
-     * This method accept a Configuration object as hint and return the 
-     * corresponding Repository. 
+     * This method accept a Configuration object as hint and return the
+     * corresponding Repository.
      * The Configuration must be in the form of:
      * <repository destinationURL="[URL of this repository]"
      *             type="[repository type ex. OBJECT or STREAM or MAIL etc.]"
@@ -28,6 +28,6 @@ public interface Store
      *   [addition configuration]
      * </repository>
      */
-    Component select( Object hint ) 
+    Component select( Object hint )
         throws ComponentManagerException;
 }

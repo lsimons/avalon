@@ -15,7 +15,7 @@ import org.apache.avalon.AbstractLoggable;
 import org.apache.avalon.Context;
 import org.apache.avalon.Contextualizable;
 import org.apache.avalon.Disposable;
-import org.apache.avalon.util.thread.ThreadPool;
+import org.apache.excalibur.thread.ThreadPool;
 import org.apache.cornerstone.services.packet.PacketHandler;
 import org.apache.cornerstone.services.packet.PacketHandlerFactory;
 import org.apache.cornerstone.services.packet.PacketManager;
@@ -38,7 +38,7 @@ public class DefaultPacketManager
     {
         m_context = (BlockContext)context;
     }
-    
+
     public void dispose()
         throws Exception
     {
@@ -52,16 +52,16 @@ public class DefaultPacketManager
 
     /**
      * Start managing a DatagramSocket.
-     * Management involves accepting packets and farming them out to threads 
+     * Management involves accepting packets and farming them out to threads
      * from pool to be handled.
      *
      * @param name the name of acceptor
-     * @param socket the DatagramSocket from which to 
+     * @param socket the DatagramSocket from which to
      * @param handlerFactory the factory from which to aquire handlers
      * @param threadPool the thread pool to use
      * @exception Exception if an error occurs
      */
-    public synchronized void connect( final String name, 
+    public synchronized void connect( final String name,
                                       final DatagramSocket socket,
                                       final PacketHandlerFactory handlerFactory,
                                       final ThreadPool threadPool )
@@ -69,7 +69,7 @@ public class DefaultPacketManager
     {
         if( null != m_acceptors.get( name ) )
         {
-            throw new IllegalArgumentException( "Acceptor already exists with name " + 
+            throw new IllegalArgumentException( "Acceptor already exists with name " +
                                                 name );
         }
 
@@ -78,24 +78,24 @@ public class DefaultPacketManager
         m_acceptors.put( name, acceptor );
         threadPool.execute( acceptor );
     }
-    
+
     /**
-     * Start managing a DatagramSocket. 
+     * Start managing a DatagramSocket.
      * This is similar to other connect method except that it uses default thread pool.
      *
      * @param name the name of DatagramSocket
-     * @param socket the DatagramSocket from which to 
+     * @param socket the DatagramSocket from which to
      * @param handlerFactory the factory from which to aquire handlers
      * @exception Exception if an error occurs
      */
-    public synchronized void connect( final String name, 
-                                      final DatagramSocket socket, 
+    public synchronized void connect( final String name,
+                                      final DatagramSocket socket,
                                       final PacketHandlerFactory handlerFactory )
         throws Exception
     {
         connect( name, socket, handlerFactory, m_context.getDefaultThreadPool() );
     }
-    
+
     /**
      * This shuts down all handlers and socket, waiting for each to gracefully shutdown.
      *
@@ -107,11 +107,11 @@ public class DefaultPacketManager
     {
         disconnect( name, false );
     }
-    
+
     /**
-     * This shuts down all handlers and socket. 
-     * If tearDown is true then it will forcefully shutdown all acceptors and try 
-     * to return as soon as possible. Otherwise it will behave the same as 
+     * This shuts down all handlers and socket.
+     * If tearDown is true then it will forcefully shutdown all acceptors and try
+     * to return as soon as possible. Otherwise it will behave the same as
      * void disconnect( String name );
      *
      * @param name the name of acceptor

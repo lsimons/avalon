@@ -14,8 +14,8 @@ import org.apache.avalon.atlantis.Facility;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
-import org.apache.avalon.util.thread.DefaultThreadPool;
-import org.apache.avalon.util.thread.ThreadPool;
+import org.apache.excalibur.thread.DefaultThreadPool;
+import org.apache.excalibur.thread.ThreadPool;
 import org.apache.phoenix.engine.facilities.ThreadManager;
 
 /**

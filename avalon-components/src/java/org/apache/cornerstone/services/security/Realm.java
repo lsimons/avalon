@@ -12,9 +12,9 @@ import java.util.Iterator;
 import org.apache.phoenix.Service;
 
 /**
- * Interface for a Realm. 
+ * Interface for a Realm.
  * A Realm is a grouping of principals. The names of principals are guarenteed
- * to be unique within a realm. Sample realms may be 
+ * to be unique within a realm. Sample realms may be
  * <ul>
  *   <li>unix domain</li>
  *   <li>NT domain</li>

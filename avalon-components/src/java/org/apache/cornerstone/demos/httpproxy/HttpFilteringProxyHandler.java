@@ -15,7 +15,7 @@ import java.util.StringTokenizer;
  * @author  Paul Hammant <Paul_Hammant@yahoo.com>
  * @version 1.0
  */
-public class HttpFilteringProxyHandler 
+public class HttpFilteringProxyHandler
     extends HttpProxyHandler
 {
     // used for callbacks
@@ -41,7 +41,7 @@ public class HttpFilteringProxyHandler
      * @throws HttpRequestValidationException
      *
      */
-    protected void validateRequest() 
+    protected void validateRequest()
         throws HttpRequestValidationException
     {
         final String domainName = httpRequestWrapper.getServerName();
@@ -70,12 +70,12 @@ public class HttpFilteringProxyHandler
         final String domainName = httpRequestWrapper.getServerName();
         final String httpRequest = super.getOutgoingHttpRequest( anotherProxy );
 
-        if( !proxyServer.cookieAllowed( domainName ) ) 
+        if( !proxyServer.cookieAllowed( domainName ) )
         {
-            final String request = 
+            final String request =
                 getHttpRequestWithoutCookie( httpRequest, httpRequestWrapper.getURL() );
             return request.trim() + "\r\n\r\n";
-        } 
+        }
         else
         {
             return httpRequest;
@@ -94,7 +94,7 @@ public class HttpFilteringProxyHandler
             if( !line.startsWith("Cookie:") )
             {
                 newHttpRequest.append( line ).append( "\r\n" );
-            } 
+            }
             else
             {
                 getLogger().info( "Cookie supressed for url :" + url.toString() );

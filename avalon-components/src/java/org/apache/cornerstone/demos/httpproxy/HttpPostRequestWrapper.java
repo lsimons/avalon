@@ -15,9 +15,10 @@ import org.apache.log.Logger;
  * @author  Paul Hammant <Paul_Hammant@yahoo.com>
  * @version 1.0
  */
-public class HttpPostRequestWrapper extends HttpRequestWrapper {
-
-    protected HttpPostRequestWrapper( final Logger logger, final String rq ) 
+public class HttpPostRequestWrapper 
+    extends HttpRequestWrapper
+{
+    protected HttpPostRequestWrapper( final Logger logger, final String rq )
         throws IOException
     {
         super( logger, rq );
@@ -37,7 +38,7 @@ public class HttpPostRequestWrapper extends HttpRequestWrapper {
         int contLen;
         int lenAfterContent;
 
-        do 
+        do
         {
             wholeBuffer += new String( bytes, 0, bytesRead );
 
@@ -46,18 +47,18 @@ public class HttpPostRequestWrapper extends HttpRequestWrapper {
             contLen = getContentLength( tmpRqst );
             lenAfterContent = getLengthAfterContent( tmpRqst );
 
-            if( -1 == wholeBuffer.indexOf( EOF ) ) 
+            if( -1 == wholeBuffer.indexOf( EOF ) )
             {
                 bytesRead = is.read( bytes );
             }
-        } 
-        while( ( lenAfterContent < contLen ) && 
+        }
+        while( ( lenAfterContent < contLen ) &&
                ( -1 == wholeBuffer.indexOf( EOF ) ) );
 
         super.setRequest( wholeBuffer );
     }
 
-    private int getContentLength( final String rqst ) 
+    private int getContentLength( final String rqst )
     {
         int firstDigit = rqst.indexOf("CONTENT-LENGTH:") + 16;
 
@@ -82,4 +83,3 @@ public class HttpPostRequestWrapper extends HttpRequestWrapper {
         return 0;
     }
 }
-

@@ -16,7 +16,6 @@ import org.apache.phoenix.Service;
 public interface HttpProxyServer
     extends Service
 {
- // nothing here yet, but there could be a way of chaining proxy servers
- // without sockets.....
+    // nothing here yet, but there could be a way of chaining proxy servers
+    // without sockets.....
 }
-

@@ -210,7 +210,7 @@ public class DefaultHttpFilteringProxyServer
         }
     }
 
-    public String[] getBlockedDomains() 
+    public String[] getBlockedDomains()
     {
         return new String[] {"TODO"}; // TODO PH
     }
@@ -218,7 +218,7 @@ public class DefaultHttpFilteringProxyServer
     /**
      * List the domains for which cookies are not sent.
      */
-    public String[] getCookieSuppressedDomains() 
+    public String[] getCookieSuppressedDomains()
     {
         return new String[] {"TODO"}; // TODO PH
     }

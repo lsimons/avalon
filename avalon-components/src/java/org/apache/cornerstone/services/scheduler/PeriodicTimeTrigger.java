@@ -19,7 +19,7 @@ public class PeriodicTimeTrigger
     protected final long    m_offset;
     protected final long    m_period;
     private   long          m_triggerTime;
-    
+
     public PeriodicTimeTrigger( final int offset, final int period )
     {
         m_offset = offset;
@@ -94,7 +94,7 @@ public class PeriodicTimeTrigger
             sb.append( m_period );
             sb.append( " " );
         }
-        
+
         sb.append("]");
 
         return sb.toString();

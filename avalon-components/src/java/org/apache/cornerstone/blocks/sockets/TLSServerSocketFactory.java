@@ -48,15 +48,15 @@ public class TLSServerSocketFactory
 
     protected String                   m_keyStoreFile;
     protected String                   m_keyStorePassword;
-    protected String                   m_keyStoreType; 
-    protected String                   m_keyStoreProtocol; 
-    protected String                   m_keyStoreAlgorithm; 
+    protected String                   m_keyStoreType;
+    protected String                   m_keyStoreProtocol;
+    protected String                   m_keyStoreAlgorithm;
     protected boolean                  m_keyStoreAuthenticateClients;
 
     public void contextualize( final Context context )
     {
         final BlockContext blockContext = (BlockContext)context;
-        m_baseDirectory = blockContext.getBaseDirectory();        
+        m_baseDirectory = blockContext.getBaseDirectory();
     }
 
     /**
@@ -83,39 +83,39 @@ public class TLSServerSocketFactory
         m_keyStoreType = keyStore.getChild( "type" ).getValue( "JKS" );
         m_keyStoreProtocol = keyStore.getChild( "protocol" ).getValue( "TLS" );
         m_keyStoreAlgorithm = keyStore.getChild( "algorithm" ).getValue( "SunX509" );
-        m_keyStoreAuthenticateClients = 
+        m_keyStoreAuthenticateClients =
             keyStore.getChild( "authenticate-client" ).getValueAsBoolean( false );
     }
 
-    public void init() 
-        throws Exception 
+    public void init()
+        throws Exception
     {
         final KeyStore keyStore = initKeyStore();
         initSSLFactory( keyStore );
     }
 
-    protected KeyStore initKeyStore() 
-        throws Exception 
+    protected KeyStore initKeyStore()
+        throws Exception
     {
         try
         {
             final KeyStore keyStore = KeyStore.getInstance( m_keyStoreType );
-            final File keyStoreFile = new File( m_baseDirectory, m_keyStoreFile ); 
+            final File keyStoreFile = new File( m_baseDirectory, m_keyStoreFile );
             final FileInputStream input = new FileInputStream( keyStoreFile );
 
             keyStore.load( input, m_keyStorePassword.toCharArray() );
             getLogger().info( "Keystore loaded from: " + keyStoreFile );
-            
+
             return keyStore;
-        } 
-        catch( final Exception e ) 
+        }
+        catch( final Exception e )
         {
             getLogger().error( "Exception loading keystore from: " + m_keyStoreFile, e );
             throw e;
         }
     }
 
-    protected void initSSLFactory( final KeyStore keyStore ) 
+    protected void initSSLFactory( final KeyStore keyStore )
         throws Exception
     {
         /*
@@ -125,19 +125,19 @@ public class TLSServerSocketFactory
 
         // set up key manager to do server authentication
         final SSLContext sslContext = SSLContext.getInstance( m_keyStoreProtocol );
-        final KeyManagerFactory keyManagerFactory = 
+        final KeyManagerFactory keyManagerFactory =
             KeyManagerFactory.getInstance( m_keyStoreAlgorithm );
 
         keyManagerFactory.init( keyStore, m_keyStorePassword.toCharArray() );
 
-        sslContext.init( keyManagerFactory.getKeyManagers(), 
-                         null, 
+        sslContext.init( keyManagerFactory.getKeyManagers(),
+                         null,
                          new java.security.SecureRandom() );
-                
+
         // Create socket factory
         m_factory = sslContext.getServerSocketFactory();
     }
-    
+
     /**
      * Creates a socket on specified port.
      *
@@ -170,7 +170,7 @@ public class TLSServerSocketFactory
     }
 
     /**
-     * Creates a socket on a particular network interface on specified port 
+     * Creates a socket on a particular network interface on specified port
      * with a specified backLog.
      *
      * @param port the port
@@ -182,16 +182,16 @@ public class TLSServerSocketFactory
     public ServerSocket createServerSocket( int port, int backLog, InetAddress bindAddress )
         throws IOException
     {
-        final ServerSocket serverSocket = 
+        final ServerSocket serverSocket =
             m_factory.createServerSocket( port, backLog, bindAddress );
         initServerSocket( serverSocket );
         return serverSocket;
     }
 
-    protected void initServerSocket( final ServerSocket serverSocket ) 
+    protected void initServerSocket( final ServerSocket serverSocket )
     {
         final SSLServerSocket socket = (SSLServerSocket)serverSocket;
-        
+
         // Enable all available cipher suites when the socket is connected
         final String[] cipherSuites = socket.getSupportedCipherSuites();
         socket.setEnabledCipherSuites( cipherSuites );

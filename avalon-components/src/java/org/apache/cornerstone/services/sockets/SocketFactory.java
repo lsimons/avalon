@@ -32,7 +32,7 @@ public interface SocketFactory
         throws IOException;
 
     /**
-     * Create a socket and connect to remote address specified 
+     * Create a socket and connect to remote address specified
      * originating from specified local address.
      *
      * @param address the remote address
@@ -42,7 +42,7 @@ public interface SocketFactory
      * @return the socket
      * @exception IOException if an error occurs
      */
-    Socket createSocket( InetAddress address, int port, 
+    Socket createSocket( InetAddress address, int port,
                          InetAddress localAddress, int localPort )
         throws IOException;
 }

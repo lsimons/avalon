@@ -14,14 +14,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import org.apache.avalon.AbstractLoggable;
 import org.apache.avalon.Component;
-import org.apache.avalon.util.thread.ThreadPool;
+import org.apache.excalibur.thread.ThreadPool;
 import org.apache.cornerstone.services.connection.ConnectionHandler;
 import org.apache.cornerstone.services.connection.ConnectionHandlerFactory;
 
 /**
- * Support class for the DefaultConnectionManager. 
+ * Support class for the DefaultConnectionManager.
  * This manages an individual ServerSocket.
- * 
+ *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 class Connection
@@ -35,7 +35,7 @@ class Connection
 
     protected Thread                           m_thread;
 
-    public Connection( final ServerSocket serverSocket, 
+    public Connection( final ServerSocket serverSocket,
                        final ConnectionHandlerFactory handlerFactory,
                        final ThreadPool threadPool )
     {
@@ -74,7 +74,7 @@ class Connection
             {
                 final Socket socket = m_serverSocket.accept();
                 final ConnectionHandler handler = m_handlerFactory.createConnectionHandler();
-                final ConnectionRunner runner = 
+                final ConnectionRunner runner =
                     new ConnectionRunner( socket, m_runners, handler );
                 setupLogger( runner );
                 m_threadPool.execute( runner );
@@ -90,7 +90,7 @@ class Connection
         }
     }
 }
- 
+
 class ConnectionRunner
     extends AbstractLoggable
     implements Runnable, Component
@@ -100,8 +100,8 @@ class ConnectionRunner
     protected ArrayList          m_runners;
     protected ConnectionHandler  m_handler;
 
-    ConnectionRunner( final Socket socket, 
-                      final ArrayList runners, 
+    ConnectionRunner( final Socket socket,
+                      final ArrayList runners,
                       final ConnectionHandler handler )
     {
         m_socket = socket;
@@ -119,7 +119,7 @@ class ConnectionRunner
             m_thread = null;
         }
     }
-        
+
     public void run()
     {
         try
@@ -129,7 +129,7 @@ class ConnectionRunner
 
             getLogger().debug( "Starting connection on " + m_socket );
             setupLogger( m_handler );
-            m_handler.handleConnection( m_socket ); 
+            m_handler.handleConnection( m_socket );
             getLogger().debug( "Ending connection on " + m_socket );
         }
         catch( final Exception e )
@@ -139,11 +139,11 @@ class ConnectionRunner
         finally
         {
             try { m_socket.close(); }
-            catch( final IOException ioe ) 
-            { 
+            catch( final IOException ioe )
+            {
                 getLogger().warn( "Error shutting down connection", ioe );
             }
-                
+
             m_runners.remove( this );
         }
     }

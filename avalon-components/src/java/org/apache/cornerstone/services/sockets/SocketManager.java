@@ -12,10 +12,10 @@ import org.apache.phoenix.Service;
 
 /**
  * Service to manager the socket factories.
- * 
+ *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public interface SocketManager 
+public interface SocketManager
     extends Service
 {
     /**

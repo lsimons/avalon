@@ -16,12 +16,12 @@ import org.apache.avalon.AbstractLoggable;
 import org.apache.avalon.Context;
 import org.apache.avalon.Contextualizable;
 import org.apache.avalon.Disposable;
-import org.apache.phoenix.Block;
-import org.apache.phoenix.BlockContext;
+import org.apache.excalibur.thread.ThreadPool;
 import org.apache.cornerstone.services.connection.ConnectionHandler;
 import org.apache.cornerstone.services.connection.ConnectionHandlerFactory;
 import org.apache.cornerstone.services.connection.ConnectionManager;
-import org.apache.avalon.util.thread.ThreadPool;
+import org.apache.phoenix.Block;
+import org.apache.phoenix.BlockContext;
 
 /**
  * This is the service through which ConnectionManagement occurs.
@@ -39,7 +39,7 @@ public class DefaultConnectionManager
     {
         m_context = (BlockContext)context;
     }
-    
+
     public void dispose()
         throws Exception
     {
@@ -53,16 +53,16 @@ public class DefaultConnectionManager
 
     /**
      * Start managing a connection.
-     * Management involves accepting connections and farming them out to threads 
+     * Management involves accepting connections and farming them out to threads
      * from pool to be handled.
      *
      * @param name the name of connection
-     * @param socket the ServerSocket from which to 
+     * @param socket the ServerSocket from which to
      * @param handlerFactory the factory from which to aquire handlers
      * @param threadPool the thread pool to use
      * @exception Exception if an error occurs
      */
-    public void connect( String name, 
+    public void connect( String name,
                          ServerSocket socket,
                          ConnectionHandlerFactory handlerFactory,
                          ThreadPool threadPool )
@@ -70,7 +70,7 @@ public class DefaultConnectionManager
     {
         if( null != m_connections.get( name ) )
         {
-            throw new IllegalArgumentException( "Connection already exists with name " + 
+            throw new IllegalArgumentException( "Connection already exists with name " +
                                                 name );
         }
 
@@ -79,24 +79,24 @@ public class DefaultConnectionManager
         m_connections.put( name, runner );
         threadPool.execute( runner );
     }
-    
+
     /**
-     * Start managing a connection. 
+     * Start managing a connection.
      * This is similar to other connect method except that it uses default thread pool.
      *
      * @param name the name of connection
-     * @param socket the ServerSocket from which to 
+     * @param socket the ServerSocket from which to
      * @param handlerFactory the factory from which to aquire handlers
      * @exception Exception if an error occurs
      */
-    public void connect( String name, 
-                         ServerSocket socket, 
+    public void connect( String name,
+                         ServerSocket socket,
                          ConnectionHandlerFactory handlerFactory )
         throws Exception
     {
         connect( name, socket, handlerFactory, m_context.getDefaultThreadPool() );
     }
-    
+
     /**
      * This shuts down all handlers and socket, waiting for each to gracefully shutdown.
      *
@@ -108,11 +108,11 @@ public class DefaultConnectionManager
     {
         disconnect( name, false );
     }
-    
+
     /**
-     * This shuts down all handlers and socket. 
-     * If tearDown is true then it will forcefully shutdown all connections and try 
-     * to return as soon as possible. Otherwise it will behave the same as 
+     * This shuts down all handlers and socket.
+     * If tearDown is true then it will forcefully shutdown all connections and try
+     * to return as soon as possible. Otherwise it will behave the same as
      * void disconnect( String name );
      *
      * @param name the name of connection
