@@ -76,7 +76,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/27 16:55:41 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/10 15:35:47 $
  * @since 4.0
  */
 public class ComponentFactory
@@ -115,7 +115,7 @@ public class ComponentFactory
 
     /** Lifecycle extensions manager
      */
-    private final org.apache.avalon.fortress.impl.LifecycleExtensionManager m_extManager;
+    private final LifecycleExtensionManager m_extManager;
 
     /** InstrumentManager
      */
@@ -157,11 +157,11 @@ public class ComponentFactory
    /**
     * Returns a new instance of a component and optionally applies a logging channel,
     * instrumentation, context, a component or service manager, configuration, parameters,
-    * lifecycle extensions, initialization, and execution phases based on the interfaces 
+    * lifecycle extensions, initialization, and execution phases based on the interfaces
     * implemented by the component class.
-    * 
-    * @return the new instance 
-    * @exception of 
+    *
+    * @return the new instance
+    * @exception
     */
     public Object newInstance()
         throws Exception
