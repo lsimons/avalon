@@ -117,7 +117,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.48 $ $Date: 2003/06/27 18:30:59 $
+ * @version CVS $Revision: 1.49 $ $Date: 2003/09/16 14:44:43 $
  * @since 4.1
  */
 public class ContextManager
@@ -392,7 +392,35 @@ public class ContextManager
      */
     public void dispose()
     {
+        // Dispose all items owned by ContextManager 
+        disposeOwned();
+
+        // Now dispose the Logger (cannot log to logger after its shutdown)
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "Shutting down: " + m_loggerManager );
+        }
+
+        try 
+        {
+            ContainerUtil.shutdown( m_loggerManager );
+        } 
+        catch (final Exception ex) 
+        {
+            if (  m_primordialLogger.isDebugEnabled() ) 
+            { 
+                m_primordialLogger.debug( "Failed to shutdown loggerManager", ex );
+            }
+        }
+    }
+
+    /**
+     * Disposes all items ContextManager has assumed ownership over 
+     */
+    public void disposeOwned()
+    {
         Collections.sort( ownedComponents, new DestroyOrderComparator() );
+
         // Dispose owned components
         final Iterator ownedComponentsIter = ownedComponents.iterator();
         while ( ownedComponentsIter.hasNext() )
@@ -916,7 +944,6 @@ public class ContextManager
             ContainerUtil.contextualize( m_loggerManager, m_rootContext );
             ContainerUtil.configure( m_loggerManager, loggerManagerConfig );
             ContainerUtil.start( m_loggerManager );
-            assumeOwnership( m_loggerManager );
         }
 
         // Since we now have a LoggerManager, we can update the this.logger field
