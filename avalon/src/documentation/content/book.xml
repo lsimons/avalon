@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE book PUBLIC "-//APACHE//DTD Cocoon Documentation Book V1.0//EN" "book-cocoon-v10.dtd">
+
+      <book software="MyProj"
+        title="MyProj"
+        copyright="@year@ The Apache Software Foundation"
+        xmlns:xlink="http://www.w3.org/1999/xlink">
+
+        <menu label="About">
+          <menu-item label="Introduction" href="index.html"/>
+          <menu-item label="Getting Started" href="getting-started.html"/>
+          <menu-item label="Features" href="getting-started.html"/>
+          <menu-item label="License" href="license.html"/>
+          <menu-item label="Mail" href="mail.html"/>
+          <menu-item label="Code Standards" href="code-standards.html"/>
+          <menu-item label="Case Studies" href="case-studies.html"/>
+        </menu>
+    </book>
