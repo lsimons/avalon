@@ -57,9 +57,18 @@ public class DefaultEmbeddor
 
     private EmbeddorObservable m_observable = new EmbeddorObservable();
     private Parameters m_parameters;
+
+    /**
+     * Context passed to embeddor. See the contextualize() method
+     * for details on what is stored in context.
+     *
+     * @see DefaultEmbeddor#contextualize(Context)
+     */
+    private Context m_context;
+
     private String m_phoenixHome;
 
-    private EmbeddorEntry[] components;
+    private EmbeddorEntry[] m_components;
 
     /**
      * If true, flag indicates that the Embeddor should continue running
@@ -82,9 +91,23 @@ public class DefaultEmbeddor
      */
     private long m_startTime;
 
+    /**
+     * Pass the Context to the embeddor.
+     * It is expected that the following will be entrys in context;
+     * <ul>
+     *   <li><b>common.classloader</b>: ClassLoader shared betweeen
+     *      container and applications</li>
+     *   <li><b>container.classloader</b>: ClassLoader used to load
+     *      container</li>
+     * </ul>
+     *
+     * @param context
+     * @throws ContextException
+     */
     public void contextualize( final Context context )
         throws ContextException
     {
+        m_context = context;
         try
         {
             final Observer observer = (Observer)context.get( Observer.class.getName() );
@@ -143,20 +166,20 @@ public class DefaultEmbeddor
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
-        Configuration[] childs = configuration.getChildren( "component" );
-        components = new EmbeddorEntry[ childs.length ];
-        for( int i = 0; i < childs.length; i++ )
+        final Configuration[] children = configuration.getChildren( "component" );
+        m_components = new EmbeddorEntry[ children.length ];
+        for( int i = 0; i < children.length; i++ )
         {
-            final String role = childs[ i ].getAttribute( "role" );
-            final String classname = childs[ i ].getAttribute( "class" );
-            final String logger = childs[ i ].getAttribute( "logger" );
-            final Configuration childConfiguration = childs[ i ];
+            final String role = children[ i ].getAttribute( "role" );
+            final String classname = children[ i ].getAttribute( "class" );
+            final String logger = children[ i ].getAttribute( "logger" );
+            final Configuration childConfiguration = children[ i ];
 
-            components[ i ] = new EmbeddorEntry();
-            components[ i ].setRole( role );
-            components[ i ].setClassName( classname );
-            components[ i ].setLoggerName( logger );
-            components[ i ].setConfiguration( childConfiguration );
+            m_components[ i ] = new EmbeddorEntry();
+            m_components[ i ].setRole( role );
+            m_components[ i ].setClassName( classname );
+            m_components[ i ].setLoggerName( logger );
+            m_components[ i ].setConfiguration( childConfiguration );
         }
     }
 
@@ -274,9 +297,9 @@ public class DefaultEmbeddor
             final String message = REZ.getString( "embeddor.error.shutdown.failed" );
             getLogger().fatalError( message, e );
         }
-        for( int i = 0; i < components.length; i++ )
+        for( int i = 0; i < m_components.length; i++ )
         {
-            components[ i ].setObject( null );
+            m_components[ i ].setObject( null );
         }
         System.gc(); // make sure resources are released
     }
@@ -392,10 +415,10 @@ public class DefaultEmbeddor
         Object object;
         try
         {
-            for( int i = 0; i < components.length; i++ )
+            for( int i = 0; i < m_components.length; i++ )
             {
-                object = createComponent( components[ i ].getClassName(), Class.forName( components[ i ].getClassName() ) );
-                components[ i ].setObject( object );
+                object = createComponent( m_components[ i ].getClassName(), Class.forName( m_components[ i ].getClassName() ) );
+                m_components[ i ].setObject( object );
             }
         }
         catch( Exception e )
@@ -465,11 +488,11 @@ public class DefaultEmbeddor
     private void setupComponents()
         throws Exception
     {
-        for( int i = 0; i < components.length; i++ )
+        for( int i = 0; i < m_components.length; i++ )
         {
-            final Component component = (Component)( components[ i ].getObject() );
-            final String loggerName = components[ i ].getLoggerName();
-            final Configuration configuration = components[ i ].getConfiguration();
+            final Component component = (Component)( m_components[ i ].getObject() );
+            final String loggerName = m_components[ i ].getLoggerName();
+            final Configuration configuration = m_components[ i ].getConfiguration();
             setupComponent( component, loggerName, configuration );
         }
     }
@@ -485,6 +508,10 @@ public class DefaultEmbeddor
         throws Exception
     {
         setupLogger( component, loggerName );
+        if( component instanceof Contextualizable )
+        {
+            ( (Contextualizable)component ).contextualize( m_context );
+        }
         if( component instanceof Composable )
         {
             final ComponentManager componentManager = getComponentManager();
@@ -511,9 +538,9 @@ public class DefaultEmbeddor
     private void shutdownComponents()
         throws Exception
     {
-        for( int i = 0; i < components.length; i++ )
+        for( int i = 0; i < m_components.length; i++ )
         {
-            shutdownComponent( (Component)components[ i ] );
+            shutdownComponent( (Component)m_components[ i ] );
         }
     }
 
@@ -580,9 +607,9 @@ public class DefaultEmbeddor
     {
         final DefaultComponentManager componentManager = new DefaultComponentManager();
         componentManager.put( Embeddor.ROLE, this );
-        for( int i = 0; i < components.length; i++ )
+        for( int i = 0; i < m_components.length; i++ )
         {
-            componentManager.put( components[ i ].getRole(), (Component)getEmbeddorComponent( components[ i ].getRole() ) );
+            componentManager.put( m_components[ i ].getRole(), (Component)getEmbeddorComponent( m_components[ i ].getRole() ) );
         }
         return componentManager;
     }
@@ -609,12 +636,12 @@ public class DefaultEmbeddor
 
     private Object getEmbeddorComponent( final String role )
     {
-        for( int i = 0; i < components.length; i++ )
+        for( int i = 0; i < m_components.length; i++ )
         {
-            final EmbeddorEntry entry = components[ i ];
+            final EmbeddorEntry entry = m_components[ i ];
             if( entry.getRole().equals( role ) )
             {
-                return components[ i ].getObject();
+                return m_components[ i ].getObject();
             }
         }
         // Should never happen
