@@ -69,10 +69,14 @@ public class Home extends Sequential
     //-------------------------------------------------------------
 
     public static final String KEY = "project.home";
+    public static final String HOME_KEY = "project.home";
 
     //-------------------------------------------------------------
     // mutable state
     //-------------------------------------------------------------
+
+    private boolean m_init = false;
+    private Context m_context;
 
     private String m_id;
     private String m_key;
@@ -116,20 +120,59 @@ public class Home extends Sequential
     }
 
     //-------------------------------------------------------------
-    // internal
+    // Task
     //-------------------------------------------------------------
+
+    public void init() throws BuildException 
+    {
+        if( !m_init )
+        {
+            Project project = getProject();
+            m_context = Context.getContext( project );
+            m_init = true;
+        }
+    }
 
     public void execute()
     {
+        Project project = getProject();
+
         if( null == m_file )
         {
-            final String error = 
-              "Cannot continue due to missing index attribute in task defintion [" 
-              + getTaskName() + "].";
-            throw new BuildException( error );
+            String path = project.getProperty( HOME_KEY );
+            if( null != path )
+            {
+                File index = Context.getFile( project.getBaseDir(), path );
+                if( index.exists() )
+                {
+                    if( index.isDirectory() )
+                    {
+                        m_file = new File( index, "index.xml" );
+                    }
+                    else
+                    {
+                        m_file = index;
+                    }
+                }
+                else
+                {
+                    final String error = 
+                      "Property value 'project.home' in task defintion [" 
+                      + getTaskName() 
+                      + "] references a non-existant file: "
+                      + index;
+                    throw new BuildException( error );
+                }
+            }
+            else
+            {
+                final String error = 
+                  "Cannot continue due to missing index attribute in task defintion [" 
+                  + getTaskName() + "].";
+                throw new BuildException( error );
+            }
         }
 
-        Project project = getProject();
         if( null == m_id )
         {
             project.addReference( KEY, this );
@@ -140,9 +183,10 @@ public class Home extends Sequential
         }
 
         m_system = m_file.getParentFile();
-        Element root = ElementHelper.getRootElement( m_file );
         m_project.log( "home: " + m_system, Project.MSG_DEBUG );
 
+
+        Element root = ElementHelper.getRootElement( m_file );
         final Element repo = ElementHelper.getChild( root, "repository" );
         final Element resources = ElementHelper.getChild( root, "resources" );
         final Element projects = ElementHelper.getChild( root, "projects" );
@@ -371,15 +415,4 @@ public class Home extends Sequential
         }
         return repository;
     }
-
-    /*
-    private static void setHomeReference( Project project )
-    {
-        if( null == HOME ) throw new IllegalStateException( "home" );
-        if( null == project.getReference( "urn:project.home" ) )
-        {
-            project.addReference( "urn:project.home", HOME );
-        }
-    }
-    */
 }

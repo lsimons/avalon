@@ -1,32 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="widget" default="install" basedir="." 
-    xmlns:x="antlib:org.apache.avalon.tools">
+<project name="widget" default="install" basedir=".">
 
-  <x:home index="../../index.xml"/>
-
-  <target name="clean">
-    <x:clean/>
-  </target>
-
-  <target name="prepare" depends="">
-    <x:prepare/>
-  </target>
-
-  <target name="build" depends="prepare">
-    <x:javac/>
-  </target>
-
-  <target name="package" depends="build">
-    <x:jar/>
-  </target>
-
-  <target name="test" depends="package">
-    <x:junit/>
-  </target>
-
-  <target name="install" depends="test">
-    <x:install/>
-  </target>
+  <property file="build.properties"/>
+  <import file="${project.home}/standard.xml"/>
 
 </project>
 
