@@ -59,6 +59,7 @@ import org.apache.avalon.composition.logging.TargetDescriptor;
 import org.apache.avalon.composition.logging.impl.DefaultLoggingManager;
 import org.apache.avalon.composition.model.ModelFactory;
 import org.apache.avalon.composition.model.SystemContext;
+import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.data.CategoryDirective;
 
 import org.apache.avalon.repository.Repository;
@@ -79,7 +80,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/01/19 21:46:10 $
+ * @version $Revision: 1.10 $ $Date: 2004/01/21 03:24:32 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext
@@ -114,15 +115,14 @@ public class DefaultSystemContext extends DefaultContext
         Logger logger = logging.getLoggerForCategory( "" );
         CacheManager cache = createCacheManager( root );
         Repository repository = cache.createRepository();
-        //final File working = new File( System.getProperty( "user.dir" ), "working" );
-        //final File home = new File( working, "home" );
-        //final File temp = new File( working, "temp" );
 
         Parameters parameters = null;
         if( secure )
         {
             parameters = new Parameters();
-            parameters.setParameter( "urn:composition:security.enabled", "true" );
+            parameters.setParameter( 
+              ContainmentModel.SECURE_EXECUTION_KEY, 
+              "true" );
         }
         final File home = new File( base, "home" );
         final File temp = new File( base, "temp" );
@@ -136,7 +136,8 @@ public class DefaultSystemContext extends DefaultContext
     {
         String dpml = "http://dpml.net";
         String ibiblio = "http://www.ibiblio.org/maven";
-        return new DefaultCacheManager( root, null, new String[]{ dpml, ibiblio } );
+        return new DefaultCacheManager( 
+          root, null, new String[]{ dpml, ibiblio } );
     }
 
     private static LoggingManager createLoggingManager( 
@@ -236,7 +237,8 @@ public class DefaultSystemContext extends DefaultContext
     */
     public DefaultSystemContext( 
       LoggingManager logging, File base, File home, File temp, 
-      Repository repository, String category, boolean trace, Parameters params )
+      Repository repository, String category, boolean trace, 
+      Parameters params )
     {
         if( base == null )
         {
