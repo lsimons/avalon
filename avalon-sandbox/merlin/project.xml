@@ -4,7 +4,7 @@
 
   <pomVersion>3</pomVersion>
   <groupId>merlin</groupId>
-  <id>merlin-home</id>
+  <id>merlin</id>
   <name>Merlin Service Management POM</name>
   <currentVersion>1.0</currentVersion>
 
@@ -193,6 +193,12 @@
             <include>**/*.jar</include>
           </includes>
         </resource>
+        <resource>
+          <directory>${maven.conf.dir}</directory>
+          <includes> 
+            <include>**/*.properties</include>
+          </includes>
+        </resource>
       </resources>
     </unitTest>
 
@@ -213,7 +219,7 @@
         </includes>
       </resource>
       <resource>
-        <directory>${basedir}/../merlin-platform/src/etc</directory>
+        <directory>${basedir}/../</directory>
         <includes>
           <include>LICENSE.txt</include>
         </includes>
