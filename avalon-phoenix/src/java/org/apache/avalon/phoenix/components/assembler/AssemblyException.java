@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.phoenix.tools.assembler;
+package org.apache.avalon.phoenix.components.assembler;
 
 import org.apache.avalon.framework.CascadingException;
 
@@ -13,7 +13,7 @@ import org.apache.avalon.framework.CascadingException;
  * Exception to indicate that there was an error Assembling SarMetaData.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2002/08/06 11:57:42 $
+ * @version $Revision: 1.1.2.1 $ $Date: 2002/12/03 08:14:24 $
  */
 public final class AssemblyException
     extends CascadingException

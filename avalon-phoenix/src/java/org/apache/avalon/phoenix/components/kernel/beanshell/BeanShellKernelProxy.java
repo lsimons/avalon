@@ -28,7 +28,7 @@ public class BeanShellKernelProxy
         m_kernel = kernel;
     }
 
-    public void addApplication( final SarMetaData metaData,
+    public void addApplication( final PartitionMetaData metaData,
                                 final File workDirectory,
                                 final ClassLoader classLoader,
                                 final Logger logger,

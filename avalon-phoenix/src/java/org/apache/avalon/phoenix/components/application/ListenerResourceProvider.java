@@ -26,7 +26,7 @@ import org.apache.excalibur.containerkit.lifecycle.ResourceProvider;
  * Block or Listener.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/08/06 11:57:39 $
+ * @version $Revision: 1.3.8.1 $ $Date: 2002/12/03 08:14:22 $
  */
 class ListenerResourceProvider
     extends AbstractLogEnabled
@@ -63,7 +63,7 @@ class ListenerResourceProvider
         final BlockListenerMetaData metaData = getMetaData( entry );
         final ClassLoader classLoader = m_context.getClassLoader();
         final Class clazz =
-            classLoader.loadClass( metaData.getClassname() );
+            classLoader.loadClass( metaData.getImplementationKey() );
         return clazz.newInstance();
     }
 

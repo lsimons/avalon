@@ -16,13 +16,12 @@ import java.util.List;
 import java.util.Map;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.DefaultComponentManager;
 import org.apache.avalon.framework.component.WrapperComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.info.DependencyDescriptor;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
@@ -30,18 +29,16 @@ import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
-import org.apache.avalon.phoenix.metadata.BlockMetaData;
-import org.apache.avalon.phoenix.metadata.DependencyMetaData;
-import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
-import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
 import org.apache.excalibur.containerkit.lifecycle.ResourceProvider;
+import org.apache.excalibur.containerkit.metadata.DependencyMetaData;
+import org.apache.excalibur.containerkit.registry.ComponentProfile;
 
 /**
  * The accessor used to access resources for a particular
  * Block or Listener.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2002/11/07 16:37:16 $
+ * @version $Revision: 1.12.2.1 $ $Date: 2002/12/03 08:14:22 $
  */
 class BlockResourceProvider
     extends AbstractLogEnabled
@@ -88,9 +85,9 @@ class BlockResourceProvider
     public Object createObject( final Object entry )
         throws Exception
     {
-        final BlockMetaData metaData = getMetaDataFor( entry );
+        final ComponentProfile profile = getProfileFor( entry );
         final ClassLoader classLoader = m_context.getClassLoader();
-        String classname = metaData.getBlockInfo().getBlockDescriptor().getImplementationKey();
+        String classname = profile.getInfo().getDescriptor().getImplementationKey();
         final Class clazz = classLoader.loadClass( classname );
         return clazz.newInstance();
     }
@@ -105,8 +102,8 @@ class BlockResourceProvider
     public Logger createLogger( final Object entry )
         throws Exception
     {
-        final BlockMetaData metaData = getMetaDataFor( entry );
-        final String name = metaData.getName();
+        final ComponentProfile profile = getProfileFor( entry );
+        final String name = profile.getMetaData().getName();
         return m_context.getLogger( name );
     }
 
@@ -119,8 +116,8 @@ class BlockResourceProvider
     public Context createContext( final Object entry )
         throws Exception
     {
-        final BlockMetaData metaData = getMetaDataFor( entry );
-        return new DefaultBlockContext( metaData.getName(),
+        final ComponentProfile profile = getProfileFor( entry );
+        return new DefaultBlockContext( profile.getMetaData().getName(),
                                         m_context );
     }
 
@@ -171,24 +168,23 @@ class BlockResourceProvider
     private Map createServiceMap( final Object entry )
         throws Exception
     {
-        final BlockMetaData metaData = getMetaDataFor( entry );
+        final ComponentProfile metaData = getProfileFor( entry );
         final HashMap map = new HashMap();
         final HashMap sets = new HashMap();
 
-        final DependencyMetaData[] roles = metaData.getDependencies();
+        final DependencyMetaData[] roles = metaData.getMetaData().getDependencies();
 
         for( int i = 0; i < roles.length; i++ )
         {
             final DependencyMetaData role = roles[ i ];
-            final Object dependency = m_application.getBlock( role.getName() );
+            final Object dependency = m_application.getBlock( role.getProviderName() );
 
             final DependencyDescriptor candidate =
-                metaData.getBlockInfo().getDependency( role.getRole() );
+                metaData.getInfo().getDependency( role.getKey() );
 
-            final String key = role.getRole();
+            final String key = role.getKey();
 
-            final ServiceDescriptor service = candidate.getService();
-            if( service.isArray() )
+            if( candidate.isArray() )
             {
                 ArrayList list = (ArrayList)sets.get( key );
                 if( null == list )
@@ -199,7 +195,7 @@ class BlockResourceProvider
 
                 list.add( dependency );
             }
-            else if( service.isMap() )
+            else if( candidate.isMap() )
             {
                 HashMap smap = (HashMap)sets.get( key );
                 if( null == smap )
@@ -224,16 +220,15 @@ class BlockResourceProvider
             if( value instanceof List )
             {
                 final List list = (List)value;
-                final ServiceDescriptor service =
-                    metaData.getBlockInfo().getDependency( key ).getService();
+                final DependencyDescriptor dependency = metaData.getInfo().getDependency( key );
 
-                final Object[] result = toArray( list, service.getComponentType() );
+                final Object[] result = toArray( list, dependency.getComponentType() );
                 map.put( key, result );
 
-                if( key.equals( service.getName() ) )
+                if( key.equals( dependency.getType() ) )
                 {
                     final String classname =
-                        "[L" + service.getComponentType() + ";";
+                        "[L" + dependency.getComponentType() + ";";
                     map.put( classname, result );
                 }
             }
@@ -272,8 +267,8 @@ class BlockResourceProvider
     public Configuration createConfiguration( final Object entry )
         throws Exception
     {
-        final BlockMetaData metaData = getMetaDataFor( entry );
-        final String name = metaData.getName();
+        final ComponentProfile metaData = getProfileFor( entry );
+        final String name = metaData.getMetaData().getName();
         try
         {
             return m_context.getConfiguration( name );
@@ -306,8 +301,8 @@ class BlockResourceProvider
      * @param entry the entry
      * @return the MetaData for entry
      */
-    private BlockMetaData getMetaDataFor( final Object entry )
+    private ComponentProfile getProfileFor( final Object entry )
     {
-        return ( (BlockEntry)entry ).getMetaData();
+        return ( (BlockEntry)entry ).getProfile();
     }
 }

@@ -10,6 +10,8 @@ package org.apache.avalon.phoenix.components.deployer;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
@@ -19,14 +21,22 @@ import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.avalon.framework.info.ComponentInfo;
+import org.apache.avalon.framework.info.SchemaDescriptor;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.avalon.framework.tools.infobuilder.LegacyUtil;
+import org.apache.avalon.phoenix.BlockContext;
+import org.apache.avalon.phoenix.components.ContainerConstants;
+import org.apache.avalon.phoenix.components.assembler.Assembler;
+import org.apache.avalon.phoenix.components.assembler.AssemblyException;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
+import org.apache.avalon.phoenix.interfaces.ClassLoaderSet;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
 import org.apache.avalon.phoenix.interfaces.Deployer;
@@ -37,17 +47,15 @@ import org.apache.avalon.phoenix.interfaces.InstallationException;
 import org.apache.avalon.phoenix.interfaces.Installer;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.LogManager;
-import org.apache.avalon.phoenix.interfaces.ClassLoaderSet;
-import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
-import org.apache.avalon.phoenix.metadata.BlockMetaData;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
-import org.apache.avalon.phoenix.metainfo.BlockDescriptor;
-import org.apache.avalon.phoenix.tools.assembler.Assembler;
-import org.apache.avalon.phoenix.tools.assembler.AssemblyException;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
 import org.apache.avalon.phoenix.tools.verifier.VerifyException;
-import org.apache.avalon.phoenix.BlockContext;
+import org.apache.excalibur.containerkit.factory.ComponentBundle;
+import org.apache.excalibur.containerkit.factory.ComponentFactory;
+import org.apache.excalibur.containerkit.metadata.ComponentMetaData;
+import org.apache.excalibur.containerkit.metadata.PartitionMetaData;
+import org.apache.excalibur.containerkit.registry.ComponentProfile;
+import org.apache.excalibur.containerkit.registry.PartitionProfile;
 
 /**
  * Deploy .sar files into a kernel using this class.
@@ -248,7 +256,7 @@ public class DefaultDeployer
             final Configuration environment = getConfigurationFor( installation.getEnvironment() );
             final Configuration assembly = getConfigurationFor( installation.getAssembly() );
 
-            final File directory = installation.getDirectory();
+            final File directory = installation.getHomeDirectory();
 
             final DefaultContext context = new DefaultContext();
             context.put( BlockContext.APP_NAME, name );
@@ -256,19 +264,20 @@ public class DefaultDeployer
 
             final ClassLoaderSet classLoaderSet =
                 m_classLoaderManager.createClassLoaderSet( environment,
-                                                           installation.getDirectory(),
+                                                           installation.getHomeDirectory(),
                                                            installation.getWorkDirectory() );
             final ClassLoader classLoader = classLoaderSet.getDefaultClassLoader();
 
             context.put( "classloader", classLoader );
 
-            //assemble all the blocks for application
-            final SarMetaData metaData =
-                m_assembler.assembleSar( name, assembly, directory, classLoader );
+            final PartitionMetaData metaData = assembleSar( name, assembly );
 
-            storeConfigurationSchemas( metaData, classLoader );
+            final ComponentFactory factory = new PhoenixComponentFactory( classLoader );
+            setupLogger( factory, "factory" );
+            final PartitionProfile profile = assembleSarProfile( metaData, factory );
 
-            verify( metaData, classLoader );
+            storeConfigurationSchemas( profile, classLoader );
+            verify( profile, classLoader );
 
             //Setup configuration for all the applications blocks
             setupConfiguration( metaData, config.getChildren() );
@@ -278,7 +287,8 @@ public class DefaultDeployer
                 m_logManager.createHierarchy( logs, context );
 
             //Finally add application to kernel
-            m_kernel.addApplication( metaData,
+            m_kernel.addApplication( profile,
+                                     installation.getHomeDirectory(),
                                      installation.getWorkDirectory(),
                                      classLoader,
                                      logger,
@@ -321,47 +331,139 @@ public class DefaultDeployer
         }
     }
 
+    private PartitionProfile assembleSarProfile( final PartitionMetaData metaData,
+                                                 final ComponentFactory factory )
+        throws Exception
+    {
+        final PartitionMetaData blockPartition =
+            metaData.getPartition( ContainerConstants.BLOCK_PARTITION );
+        final PartitionMetaData listenerPartition =
+            metaData.getPartition( ContainerConstants.LISTENER_PARTITION );
+
+        final PartitionProfile blockProfile = assembleProfile( blockPartition, factory );
+        final PartitionProfile listenerProfile =
+            assembleListenerProfile( listenerPartition );
+
+        final PartitionProfile[] profiles = new PartitionProfile[]{blockProfile, listenerProfile};
+        return new PartitionProfile( metaData,
+                                     profiles,
+                                     new ComponentProfile[ 0 ] );
+    }
+
+    private PartitionProfile assembleListenerProfile( final PartitionMetaData metaData )
+        throws Exception
+    {
+        final ArrayList componentSet = new ArrayList();
+        final ComponentMetaData[] components = metaData.getComponents();
+        for( int i = 0; i < components.length; i++ )
+        {
+            final ComponentMetaData component = components[ i ];
+            final ComponentInfo info =
+                LegacyUtil.createListenerInfo( component.getImplementationKey() );
+            final ComponentProfile profile = new ComponentProfile( info, component );
+            componentSet.add( profile );
+        }
+
+        final ComponentProfile[] profiles =
+            (ComponentProfile[])componentSet.toArray( new ComponentProfile[ componentSet.size() ] );
+        return new PartitionProfile( metaData, PartitionProfile.EMPTY_SET, profiles );
+    }
+
+    private PartitionProfile assembleProfile( final PartitionMetaData metaData,
+                                              final ComponentFactory factory )
+        throws Exception
+    {
+        final ArrayList partitionSet = new ArrayList();
+        final PartitionMetaData[] partitions = metaData.getPartitions();
+        for( int i = 0; i < partitions.length; i++ )
+        {
+            final PartitionMetaData partition = partitions[ i ];
+            final PartitionProfile profile = assembleProfile( partition, factory );
+            partitionSet.add( profile );
+        }
+
+        final ArrayList componentSet = new ArrayList();
+        final ComponentMetaData[] components = metaData.getComponents();
+        for( int i = 0; i < components.length; i++ )
+        {
+            final ComponentMetaData component = components[ i ];
+            final ComponentBundle bundle =
+                factory.createBundle( component.getImplementationKey() );
+            final ComponentInfo info = bundle.getComponentInfo();
+            final ComponentProfile profile = new ComponentProfile( info, component );
+            componentSet.add( profile );
+        }
+
+        final PartitionProfile[] partitionProfiles =
+            (PartitionProfile[])partitionSet.toArray( new PartitionProfile[ partitionSet.size() ] );
+        final ComponentProfile[] componentProfiles =
+            (ComponentProfile[])componentSet.toArray( new ComponentProfile[ componentSet.size() ] );
+        return new PartitionProfile( metaData, partitionProfiles, componentProfiles );
+    }
+
+    private PartitionMetaData assembleSar( final String name,
+                                           final Configuration assembly )
+        throws Exception
+    {
+        final Map parameters = new HashMap();
+        parameters.put( ContainerConstants.ASSEMBLY_NAME, name );
+        parameters.put( ContainerConstants.ASSEMBLY_CONFIG, assembly );
+        //assemble all the blocks for application
+        return m_assembler.buildAssembly( parameters );
+    }
+
     /**
      * Verify that the application conforms to our requirements.
      *
-     * @param metaData the application metaData
-     * @param classLoader the ClassLoader associated with app
+     * @param profile the application profile
      * @throws VerifyException on error
      */
-    protected void verify( final SarMetaData metaData,
-                           final ClassLoader classLoader )
+    private void verify( final PartitionProfile profile,
+                         final ClassLoader classLoader )
         throws VerifyException
     {
-        m_verifier.verifySar( metaData, classLoader );
+        try
+        {
+            m_verifier.verifySar( profile, classLoader );
+        }
+        catch( org.apache.avalon.framework.tools.verifier.VerifyException e )
+        {
+            throw new VerifyException( e.getMessage(), e.getCause() );
+        }
     }
 
     /**
      * Store the configuration schemas for this application
      *
-     * @param metaData the application metaData
+     * @param profile the application profile
      * @throws DeploymentException upon invalid schema
      */
-    private void storeConfigurationSchemas( final SarMetaData metaData, ClassLoader classLoader )
+    private void storeConfigurationSchemas( final PartitionProfile profile,
+                                            final ClassLoader classLoader )
         throws DeploymentException
     {
-        final BlockMetaData[] blocks = metaData.getBlocks();
+        final String application = profile.getMetaData().getName();
+        final PartitionProfile partition = profile.getPartition( ContainerConstants.BLOCK_PARTITION );
+        final ComponentProfile[] blocks = partition.getComponents();
         int i = 0;
 
+        final ComponentProfile block = blocks[ i ];
+        final String implementationKey =
+            block.getInfo().getDescriptor().getImplementationKey();
+        final String name = block.getMetaData().getName();
         try
         {
             for( i = 0; i < blocks.length; i++ )
             {
-                final String name = blocks[ i ].getName();
-                final BlockDescriptor descriptor = blocks[ i ].getBlockInfo().getBlockDescriptor();
-                final String type = descriptor.getSchemaType();
+                final SchemaDescriptor descriptor = block.getInfo().getConfigurationSchema();
 
-                if( null != type )
+                if( null != descriptor && !descriptor.getType().equals( "" ) )
                 {
-                    m_validator.addSchema( metaData.getName(),
+                    m_validator.addSchema( application,
                                            name,
-                                           type,
+                                           descriptor.getType(),
                                            getConfigurationSchemaURL( name,
-                                                                      descriptor.getImplementationKey(),
+                                                                      implementationKey,
                                                                       classLoader )
                     );
                 }
@@ -370,14 +472,15 @@ public class DefaultDeployer
         catch( ConfigurationException e )
         {
             //uh-oh, bad schema bad bad!
-            final String message = REZ.getString( "deploy.error.config.schema.invalid",
-                                                  blocks[ i ].getName() );
+            final String message =
+                REZ.getString( "deploy.error.config.schema.invalid",
+                               implementationKey );
 
             //back out any schemas that we have already stored for this app
             while( --i >= 0 )
             {
-                m_validator.removeSchema( metaData.getName(),
-                                          blocks[ i ].getName() );
+                m_validator.removeSchema( name,
+                                          implementationKey );
             }
 
             throw new DeploymentException( message, e );
@@ -395,9 +498,11 @@ public class DefaultDeployer
         if( null == resource )
         {
 
-            throw new DeploymentException( REZ.getString( "deploy.error.config.schema.missing",
-                                                          name,
-                                                          resourceName ) );
+            final String message =
+                REZ.getString( "deploy.error.config.schema.missing",
+                               name,
+                               resourceName );
+            throw new DeploymentException( message );
         }
         else
         {
@@ -434,19 +539,24 @@ public class DefaultDeployer
      * @param configurations the block configurations.
      * @throws DeploymentException if an error occurs
      */
-    private void setupConfiguration( final SarMetaData metaData,
+    private void setupConfiguration( final PartitionMetaData metaData,
                                      final Configuration[] configurations )
         throws DeploymentException
     {
         final String application = metaData.getName();
-
+        final PartitionMetaData listenerPartition =
+            metaData.getPartition( ContainerConstants.LISTENER_PARTITION );
+        final PartitionMetaData blockPartition =
+            metaData.getPartition( ContainerConstants.BLOCK_PARTITION );
         for( int i = 0; i < configurations.length; i++ )
         {
             final Configuration configuration = configurations[ i ];
             final String name = configuration.getName();
-            final boolean listener = hasBlockListener( name, metaData.getListeners() );
-
-            if( !hasBlock( name, metaData.getBlocks() ) && !listener )
+            final boolean listener =
+                null != listenerPartition.getComponent( name );
+            final boolean block =
+                null != blockPartition.getComponent( name );
+            if( !block && !listener )
             {
                 final String message =
                     REZ.getString( "deploy.error.extra.config",
@@ -465,8 +575,8 @@ public class DefaultDeployer
                 }
                 else
                 {
-                    final String message = REZ.getString( "deploy.error.config.invalid", name );
-
+                    final String message =
+                        REZ.getString( "deploy.error.config.invalid", name );
                     throw new DeploymentException( message );
                 }
             }
@@ -475,47 +585,5 @@ public class DefaultDeployer
                 throw new DeploymentException( ce.getMessage(), ce );
             }
         }
-    }
-
-    /**
-     * Return true if specified array contains entry with specified name.
-     *
-     * @param name the blocks name
-     * @param blocks the set of BlockMetaData objects to search
-     * @return true if block present, false otherwise
-     */
-    private boolean hasBlock( final String name, final BlockMetaData[] blocks )
-    {
-        for( int i = 0; i < blocks.length; i++ )
-        {
-            final String other = blocks[ i ].getName();
-            if( other.equals( name ) )
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Return true if specified array contains entry with specified name.
-     *
-     * @param name the blocks name
-     * @param listeners the set of BlockListenerMetaData objects to search
-     * @return true if block present, false otherwise
-     */
-    private boolean hasBlockListener( final String name,
-                                      final BlockListenerMetaData[] listeners )
-    {
-        for( int i = 0; i < listeners.length; i++ )
-        {
-            if( listeners[ i ].getName().equals( name ) )
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

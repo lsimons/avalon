@@ -20,4 +20,9 @@ public interface ContainerConstants
     String DATE = "@@DATE@@";
 
     String DISABLE_PROXY_ATTR = "phoenix:disable-proxy";
+    String ASSEMBLY_NAME = "phoenix:assembly-name";
+    String ASSEMBLY_CONFIG = "phoenix:config";
+
+    String BLOCK_PARTITION = "block";
+    String LISTENER_PARTITION = "listener";
 }
