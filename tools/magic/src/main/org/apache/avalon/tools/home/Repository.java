@@ -38,6 +38,7 @@ import org.apache.tools.ant.util.FileUtils;
 import org.apache.tools.ant.taskdefs.Sequential;
 import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.types.FileList;
+import org.apache.tools.ant.taskdefs.optional.net.SetProxy;
 
 import org.apache.avalon.tools.project.Definition;
 import org.apache.avalon.tools.project.ResourceRef;
@@ -51,12 +52,18 @@ import org.apache.avalon.tools.project.Policy;
  */
 public class Repository 
 {
+    public final String PROJECT_PROXY_HOST_KEY = "project.proxy.host";
+    public final String PROJECT_PROXY_PORT_KEY = "project.proxy.port";
+    public final String PROJECT_PROXY_USERNAME_KEY = "project.proxy.username";
+    public final String PROJECT_PROXY_PASSWORD_KEY = "project.proxy.password";
+
     private final Home m_home;
     private final File m_root;
     private final File m_cache;
     private final String[] m_hosts;
 
-    public Repository( File system, String path, String hosts, Home home )
+    public Repository( 
+      Project project, File system, String path, String hosts, Home home )
     {
         if( null == system ) 
         {
@@ -74,6 +81,8 @@ public class Repository
         m_root = system;
         m_cache = getCanonicalFile( Context.getFile( system, path ) );
         m_hosts = getHostsSequence( hosts );
+
+        setupProxy( project );
     }
 
     public File getCacheDirectory()
@@ -114,4 +123,29 @@ public class Repository
         return (String[]) list.toArray( new String[0] );
     }
 
+    private void setupProxy( Project project )
+    {
+        String host = project.getProperty( PROJECT_PROXY_HOST_KEY );
+        if(( null == host ) || "".equals( host ) )
+        {
+            return;
+        }
+        else
+        {
+            int port = Integer.decode( 
+              project.getProperty( PROJECT_PROXY_PORT_KEY ) ).intValue();
+            String username = 
+              project.getProperty( PROJECT_PROXY_USERNAME_KEY );
+            String password = 
+              project.getProperty( PROJECT_PROXY_PASSWORD_KEY );
+            SetProxy proxy = 
+              (SetProxy) project.createTask( "setproxy" );
+            proxy.init();
+            proxy.setProxyHost( host );
+            proxy.setProxyPort( port );
+            proxy.setProxyUser( username );
+            proxy.setProxyPassword( password );
+            proxy.execute();
+        }
+    }
 }
