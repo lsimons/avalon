@@ -18,6 +18,7 @@ import java.util.EventListener;
  * should be specified in the <code>assembly.xml</code> descriptor.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @deprecated This interface has been replaced by ApplicationListener
  */
 public interface BlockListener
     extends EventListener
