@@ -82,7 +82,7 @@ public class FileTarget
         if( isOpen() ) close();
 
         final File parent = getFile().getParentFile();
-        if( !parent.exists() )
+        if( null != parent && !parent.exists() )
         {
             parent.mkdirs();
         }
