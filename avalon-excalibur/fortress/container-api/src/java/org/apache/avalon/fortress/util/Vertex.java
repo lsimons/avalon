@@ -62,7 +62,6 @@ import java.util.List;
  */
 public final class Vertex implements Comparable
 {
-    private boolean m_visited = false;
     private final Object m_node;
     private int m_indegrees;
     private int m_currentIndegrees;
@@ -84,25 +83,6 @@ public final class Vertex implements Comparable
     }
 
     /**
-     * Determine wether this vertex has been visited or not.  It is used in the
-     * </code>DirectedAcyclicGraphVerifier.verify</code> method.
-     *
-     * @return  <code>true</code> if this vertex has been visited.
-     */
-    public boolean hasBeenVisited()
-    {
-        return m_visited;
-    }
-
-    /**
-     * Mark this vertex as visited.
-     */
-    public void visit()
-    {
-        m_visited = true;
-    }
-
-    /**
      * Mark this vertex so that it knows it is referenced.  It is used to
      * determine the number of indegrees this vertex has.
      */
@@ -118,7 +98,6 @@ public final class Vertex implements Comparable
      */
     public void reset()
     {
-        m_visited = false;
         m_currentIndegrees = m_indegrees;
         m_order = 0;
     }
