@@ -15,12 +15,6 @@ import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
 import java.util.Map;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.excalibur.pool.Recyclable;
-import org.apache.avalon.excalibur.pool.Pool;
-import org.apache.avalon.framework.logger.Logger;
 
 /**
  * The Connection object used in conjunction with the JdbcDataSource
@@ -31,77 +25,16 @@ import org.apache.avalon.framework.logger.Logger;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.7 $ $Date: 2001/11/01 14:25:57 $
+ * @version CVS $Revision: 1.1 $ $Date: 2001/11/05 13:45:27 $
  * @since 4.0
  */
 public class JdbcConnection
-    extends AbstractLogEnabled
-    implements Connection, Recyclable, Disposable, Initializable
+    extends AbstractJdbcConnection
 {
-    protected Connection         m_connection;
-    protected Pool               m_pool;
-    protected PreparedStatement  m_test_statement;
-    protected SQLException       m_test_exception;
-    protected int                m_num_uses        = 15;
-
-    /**
-     * @deprecated Use the version with keepAlive specified
-     */
-    public JdbcConnection( final Connection connection, final boolean oradb )
-    {
-        this(connection, (oradb) ? "select 1 from dual" : "select 1");
-    }
 
     public JdbcConnection( final Connection connection, final String keepAlive )
     {
-        m_connection = connection;
-
-        // subclasses can override initialize()
-        this.initialize();
-
-        if (null != keepAlive && "".equals(keepAlive.trim()))
-        {
-            try
-            {
-                m_test_statement = prepareStatement(keepAlive);
-            }
-            catch ( final SQLException se )
-            {
-                m_test_statement = null;
-                m_test_exception = se;
-            }
-        }
-        else
-        {
-            m_test_statement = null;
-            m_test_exception = null;
-        }
-    }
-
-    /**
-     * Extend this for connection initialization--only needed for some drivers.
-     */
-    public void initialize()
-    {
-    }
-
-    protected void setPool(Pool pool)
-    {
-        this.m_pool = pool;
-    }
-
-    public final void enableLogging( final Logger log )
-    {
-        super.enableLogging(log);
-
-        if (m_test_statement == null && m_test_exception != null)
-        {
-            if (getLogger().isWarnEnabled())
-            {
-                getLogger().warn("Could not prepare test statement", m_test_exception);
-            }
-            m_test_exception = null;
-        }
+        super( connection, keepAlive );
     }
 
     public final Statement createStatement()
@@ -150,60 +83,6 @@ public class JdbcConnection
         throws SQLException
     {
         m_connection.rollback();
-    }
-
-    public final void close()
-        throws SQLException
-    {
-        clearWarnings();
-        m_pool.put( this );
-    }
-
-    public final void dispose()
-    {
-        try { m_connection.close(); }
-        catch( final SQLException se )
-        {
-            if (getLogger().isWarnEnabled())
-            {
-                getLogger().warn( "Could not close connection", se );
-            }
-        }
-    }
-
-    public final void recycle() {
-        this.m_num_uses--;
-        this.m_test_exception = null;
-    }
-
-    public final boolean isClosed()
-        throws SQLException
-    {
-        if ( m_connection.isClosed())
-        {
-            return true;
-        }
-
-        if ( this.m_num_uses <= 0 )
-        {
-            this.dispose();
-            return true;
-        }
-
-        if (m_test_statement != null)
-        {
-            try
-            {
-                m_test_statement.executeQuery();
-            }
-            catch (final SQLException se)
-            {
-                this.dispose();
-                return true;
-            }
-        }
-
-        return false;
     }
 
     public final DatabaseMetaData getMetaData()
@@ -294,4 +173,89 @@ public class JdbcConnection
     {
         m_connection.setTypeMap( map );
     }
+
+/*
+    public final void setHoldability(int holdability)
+        throws SQLException
+    {
+        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+    }
+
+    public final int getHoldability()
+        throws SQLException
+    {
+        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+    }
+
+    public final java.sql.Savepoint setSavepoint()
+        throws SQLException
+    {
+        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+    }
+
+    public final java.sql.Savepoint setSavepoint(String savepoint)
+        throws SQLException
+    {
+        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+    }
+
+    public final void rollback(java.sql.Savepoint savepoint)
+        throws SQLException
+    {
+        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+    }
+
+    public final void releaseSavepoint(java.sql.Savepoint savepoint)
+        throws SQLException
+    {
+        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+    }
+
+    public final Statement createStatement(int resulSetType,
+                                           int resultSetConcurrency,
+                                           int resultSetHoldability)
+        throws SQLException
+    {
+        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+    }
+
+    public final PreparedStatement prepareStatement(String sql,
+                                        int resulSetType,
+                                        int resultSetConcurrency,
+                                        int resultSetHoldability)
+        throws SQLException
+    {
+        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+    }
+
+    public final CallableStatement prepareCall(String sql,
+                                        int resulSetType,
+                                        int resultSetConcurrency,
+                                        int resultSetHoldability)
+        throws SQLException
+    {
+        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+    }
+
+    public final PreparedStatement prepareStatement(String sql,
+                                        int autoGeneratedKeys)
+        throws SQLException
+    {
+        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+    }
+
+    public final PreparedStatement prepareStatement(String sql,
+                                        int[] columnIndexes)
+        throws SQLException
+    {
+        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+    }
+
+    public final PreparedStatement prepareStatement(String sql,
+                                        String[] columnNames)
+        throws SQLException
+    {
+        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+    }
+*/
 }
