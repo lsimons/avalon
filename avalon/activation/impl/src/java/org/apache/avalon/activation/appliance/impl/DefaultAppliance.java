@@ -52,6 +52,7 @@ package org.apache.avalon.activation.appliance.impl;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.UndeclaredThrowableException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Hashtable;
@@ -103,7 +104,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2003/10/28 12:53:48 $
+ * @version $Revision: 1.11 $ $Date: 2003/11/02 23:12:50 $
  */
 public class DefaultAppliance extends AbstractAppliance
   implements Composite, DefaultApplianceMBean
@@ -1211,11 +1212,21 @@ public class DefaultAppliance extends AbstractAppliance
             {
                 return method.invoke( m_instance, args );
             }
-            catch( InvocationTargetException e )
+            catch( UndeclaredThrowableException e )
             {
+                Throwable cause = e.getUndeclaredThrowable();
+                if( cause != null ) throw cause;
                 final String error = 
                   "Delegation error raised by component: " + m_model.getQualifiedName();
-                throw new ApplianceException( error, e.getTargetException() );
+                throw new ApplianceException( error, e );
+            }
+            catch( InvocationTargetException e )
+            {
+                Throwable cause = e.getTargetException();
+                if( cause != null ) throw cause;
+                final String error = 
+                  "Delegation error raised by component: " + m_model.getQualifiedName();
+                throw new ApplianceException( error, e );
             }
             catch( Throwable e )
             {
