@@ -53,6 +53,7 @@ import org.apache.avalon.framework.logger.NullLogger;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.excalibur.thread.ThreadControl;
 import org.apache.excalibur.util.SystemUtil;
 
 /**
@@ -132,7 +133,7 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
         }
 
         m_tpool = new EventThreadPool( "TPCThreadManager",
-                                       ( m_processors * m_threadsPerProcessor ) + 1, (int)m_blockTimeout );
+                                       ( m_processors * m_threadsPerProcessor ) + 1, ( int ) m_blockTimeout );
 
         if( null == getLogger() )
         {
@@ -147,6 +148,17 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
     public final void dispose()
     {
         super.dispose();
+
+        // We should dispose all active threads
+        final ThreadControl[] threads = getThreadControls();
+
+        for( int i = 0; i < threads.length; i++ )
+        {
+            if( !threads[i].isFinished() )
+            {
+                m_tpool.dispose( threads[i] );
+            }
+        }
 
         m_tpool.dispose();
     }
