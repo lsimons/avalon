@@ -6,6 +6,7 @@
 
 <project name="instrument-manager-example" default="main" basedir=".">
 
+    <property name="avalon-framework.home" value="${basedir}/../../../jakarta-avalon"/>
     <!--
       Give user a chance to override without editing this file
       (and without typing -D each time he compiles it)
@@ -13,6 +14,7 @@
     <property file="ant.properties"/>
     <property file="../ant.properties"/>
     <property file="${user.home}/.ant.properties"/>
+    <property file="default.properties"/>
 
     <!-- Directories build by ant -->
     <property name="build.dir"             value="${basedir}/build"/>
@@ -48,47 +50,47 @@
     <target name="collect-jars">
         <!-- Xerces -->
         <copy file="${xerces.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
-        
+
         <!-- XML-APIs -->
         <copy file="${xml-apis.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
-        
+
         <!-- Xalan -->
         <copy file="${xalan.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
-        
+
         <!-- Logkit -->
         <copy file="${logkit.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
-        
+
         <!-- Avalon Framework -->
         <copy file="${avalon-framework.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
-        
+
         <!-- Avalon Excalibur Concurrent -->
         <copy file="${excalibur-concurrent.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
-        
+
         <!-- Avalon Excalibur Collections -->
         <copy file="${excalibur-collections.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
-        
+
         <!-- Avalon Excalibur Component -->
         <copy file="${excalibur-component.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
-        
+
         <!-- Avalon Excalibur Logger -->
         <copy file="${excalibur-logger.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
-        
+
         <!-- Avalon Excalibur Pool -->
         <copy file="${excalibur-pool.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
-        
+
         <!-- Avalon Excalibur Instrument -->
         <copy file="${excalibur-instrument.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
-        
+
         <!-- Avalon Excalibur Instrument Manager -->
         <copy file="../build/lib/excalibur-instrument-manager-0.1.jar"
             todir="${lib.dir}" preservelastmodified="yes"/>
-        
+
         <!-- Altrmi Jars -->
         <copy file="${excalibur-altrmi-common.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
