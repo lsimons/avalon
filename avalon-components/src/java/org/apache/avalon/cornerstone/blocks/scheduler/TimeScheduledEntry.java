@@ -13,7 +13,7 @@ import org.apache.avalon.cornerstone.services.scheduler.TimeTrigger;
 /**
  * Class use internally to package to hold scheduled time entries.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 final class TimeScheduledEntry
     implements Comparable

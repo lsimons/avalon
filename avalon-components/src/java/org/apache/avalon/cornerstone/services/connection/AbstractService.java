@@ -33,7 +33,7 @@ import org.apache.avalon.phoenix.BlockContext;
 /**
  * Helper class to create protocol services.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public abstract class AbstractService
     extends AbstractLogEnabled

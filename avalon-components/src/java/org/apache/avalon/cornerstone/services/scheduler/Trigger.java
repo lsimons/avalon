@@ -11,7 +11,7 @@ package org.apache.avalon.cornerstone.services.scheduler;
  * This is the marker interface for Triggers.
  * Triggers can be time-based, event-based or other.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:ram.chidambaram@telus.com">Ram Chidambaram</a>
  */
 public interface Trigger

@@ -13,7 +13,7 @@ import org.apache.avalon.phoenix.Service;
 /**
  * This service provides a way to regularly schedule jobs.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface TimeScheduler
 {

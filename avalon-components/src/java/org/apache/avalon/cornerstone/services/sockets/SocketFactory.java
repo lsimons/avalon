@@ -15,7 +15,7 @@ import org.apache.avalon.framework.component.Component;
 /**
  * The interface used to create client sockets.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface SocketFactory
     extends Component

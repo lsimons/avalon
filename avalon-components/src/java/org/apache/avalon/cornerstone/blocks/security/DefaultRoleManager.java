@@ -19,7 +19,7 @@ import org.apache.avalon.phoenix.Block;
  * which could be wrong. It could be that roles are a primary
  * aspect and
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class DefaultRoleManager
     implements Block, RoleManager

@@ -10,7 +10,7 @@ package org.apache.avalon.cornerstone.services.connection;
 /**
  * This interface is the way in which handlers are created.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface ConnectionHandlerFactory
 {
