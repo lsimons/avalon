@@ -11,6 +11,12 @@
     <available file="${test.src.dir}" property="test-sources-available" />
     <available file="${test.resources.dir}" property="test-resources-available" />
     <available file="${test.environment.dir}" property="test-environment-available" />
+    <available property="framework-api-present" 
+               file="${jar.repository}/avalon/framework/jars/avalon-framework-api-4.2.0.jar" />
+    <available property="framework-impl-present" 
+               file="${jar.repository}/avalon/framework/jars/avalon-framework-impl-4.2.0.jar" />
+    <available property="bsh-present" 
+               file="${jar.repository}/bsh/jars/bsh-2.0b1.jar" />
     
     <copy todir="${build.src.dir}" filtering="on">
       <fileset dir="${src.dir}"  >
@@ -30,7 +36,7 @@
     </copy>
   </target>
 
-  <target name="build" depends="prepare" >
+  <target name="build" depends="prepare,getAll" >
     <javac srcdir="${java.build.src.dir}"
            destdir="${java.build.classes.dir}"
            debug="${java.compile.debug}"
@@ -38,10 +44,10 @@
            fork="${java.compile.fork}"
     >
       <classpath>
-        <path location="${maven.repository}/avalon/framework/jars/avalon-framework-api-4.2.0.jar" />
-        <path location="${maven.repository}/avalon/framework/jars/avalon-framework-impl-4.2.0.jar" />
-        <path location="${maven.repository}/bsh/jars/bsh-2.0b1.jar" />
-        <path location="${maven.repository}/ant/jars/ant-1.6.jar" />
+        <path location="${jar.repository}/avalon/framework/jars/avalon-framework-api-4.2.0.jar" />
+        <path location="${jar.repository}/avalon/framework/jars/avalon-framework-impl-4.2.0.jar" />
+        <path location="${jar.repository}/bsh/jars/bsh-2.0b1.jar" />
+        <path location="${jar.repository}/ant/jars/ant-1.6.jar" />
       </classpath>
     </javac>
   </target>
@@ -67,9 +73,9 @@
       <fileset dir="${build.src.dir}/dist" includes="**" />
     </copy>
     <copy todir="${build.dist.dir}/bin" >
-      <fileset dir="${maven.repository}/avalon/framework/jars/" includes="avalon-framework-api-4.2.0.jar" />
-      <fileset dir="${maven.repository}/avalon/framework/jars/" includes="avalon-framework-impl-4.2.0.jar" />
-      <fileset dir="${maven.repository}/bsh/jars/" includes="bsh-2.0b1.jar" />
+      <fileset dir="${jar.repository}/avalon/framework/jars/" includes="avalon-framework-api-4.2.0.jar" />
+      <fileset dir="${jar.repository}/avalon/framework/jars/" includes="avalon-framework-impl-4.2.0.jar" />
+      <fileset dir="${jar.repository}/bsh/jars/" includes="bsh-2.0b1.jar" />
     </copy>
     
     <copy todir="${build.dist.dir}/bin" file="${jar-built-file}" />
@@ -88,7 +94,7 @@
     >
       <classpath>
         <pathelement path="${jar-built-file}" />
-        <pathelement path="${maven.repository}/avalon/framework/jars/avalon-framework-api-4.2.0.jar" />
+        <pathelement path="${jar.repository}/avalon/framework/jars/avalon-framework-api-4.2.0.jar" />
       </classpath>
     </javac>
   </target>
@@ -132,7 +138,7 @@
         <pathelement path="${jar-built-file}" />
         <pathelement path="${basedir}/${test.build.classes.dir}" />
         <pathelement path="${basedir}/${test.build.resources.dir}" />
-        <pathelement path="${maven.repository}/avalon/framework/jars/avalon-framework-api-4.2.0.jar" />
+        <pathelement path="${jar.repository}/avalon/framework/jars/avalon-framework-api-4.2.0.jar" />
       </classpath>
       <sysproperty key="basedir" value="${basedir}"/>      
       <formatter type="plain"/>
@@ -172,6 +178,26 @@
   <!-- Include the Fancy test report in the distribution  -->
   <target name="test-report-package" if="test.fancy.report.dist" >
   
+  </target>
+
+  <target name="getAll" depends="prepare,getFrameworkAPI, getFrameworkImpl, getBsh" />
+  
+  <target name="getFrameworkAPI" unless="framework-api-present" >
+    <mkdir dir="${jar.repository}/avalon/framework/jars/" />
+    <get src="http://www.ibiblio.org/maven/avalon-framework/jars/avalon-framework-api-4.2.0.jar"
+         dest="${jar.repository}/avalon/framework/jars/avalon-framework-api-4.2.0.jar" />
+  </target>
+  
+  <target name="getBsh" unless="bsh-present" >
+    <mkdir dir="${jar.repository}/bsh/jars/" />
+    <get src="http://www.ibiblio.org/maven/bsh/jars/bsh-2.0b1.jar"
+         dest="${jar.repository}/bsh/jars/bsh-2.0b1.jar" />
+  </target>
+  
+  <target name="getFrameworkImpl" unless="framework-impl-present" >
+    <mkdir dir="${jar.repository}/avalon/framework/jars/" />
+    <get src="http://www.ibiblio.org/maven/avalon-framework/jars/avalon-framework-impl-4.2.0.jar"
+         dest="${jar.repository}/avalon/framework/jars/avalon-framework-impl-4.2.0.jar" />
   </target>
   
   <target name="clean" depends="prepare" >

@@ -261,14 +261,14 @@ public class Artifact
     {
         String localRepo = m_Context.getProperty( "artifact.local.repository.dir" );
         if( localRepo == null || "".equals( localRepo ) )
-            localRepo = m_Context.getProperty( "user.home" ) + "/.maven/repository";
+            localRepo = m_Context.getProperty( "project.system" ) + "/.cache";
 
         String href = localRepo + "/" + 
                       getGroupId() + "/" +
                       getType() + "s/" +
                       getArtifactId() + "-" +
                       getVersion()  + ".jar" ;
-        File localFile = new File( href );
+        File localFile = new File( m_Context.getProjectDir(), href );
         return localFile;
     }
     
@@ -283,7 +283,9 @@ public class Artifact
         File localfile = toLocalFile();
         if( ! localfile.exists() )
         {
-            localfile.getParentFile().mkdirs();
+            File parentDir = localfile.getParentFile();
+            parentDir = parentDir.getAbsoluteFile();
+            parentDir.mkdirs();
             Util.download( this, localfile );
         }
         return localfile;
