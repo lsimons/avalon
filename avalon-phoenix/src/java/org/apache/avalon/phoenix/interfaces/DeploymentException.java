@@ -48,6 +48,34 @@
 
 */
 
+package org.apache.avalon.phoenix.interfaces;
+
+import org.apache.avalon.framework.CascadingException;
+
+/**
+ * Exception to indicate error deploying.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ */
+public final class DeploymentException
+    extends CascadingException
+{
+    /**
+     * Construct a new <code>DeploymentException</code> instance.
+     *
+     * @param message The detail message for this exception.
+     */
+    public DeploymentException( final String message )
+    {
+        this( message, null );
+    }
+
+    /**
+     * Construct a new <code>DeploymentException</code> instance.
+     *
+     * @param message The detail message for this exception.
+     * @param throwable the root cause of the exception
+     */
     public DeploymentException( final String message, final Throwable throwable )
     {
         super( message, throwable );

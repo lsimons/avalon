@@ -48,6 +48,53 @@
 
 */
 
+package org.apache.avalon.phoenix.tools.punit;
+
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleException;
+
+/**
+ * PUnit helper
+ * @author Paul Hammant
+ */
+public interface PUnit
+{
+    /**
+     * Query the log
+     * @param startsWith For an expression that starts with this
+     * @return The logged entry.
+     */
+    String lookupInLog( String startsWith );
+
+    /**
+     * Query the log
+     * @param startsWith For an expression that starts with this
+     * @return true or not
+     */
+    boolean logHasEntry( String startsWith );
+
+    /**
+     * Add a block
+     * @param blockName The block name
+     * @param block The block
+     * @param serviceName The service name (for lookup)
+     * @param configuration The configuration
+     */
+    void addBlock( String blockName,
+                   String serviceName,
+                   Object block,
+                   Configuration configuration );
+
+    /**
+     * Run blocks thru startup.
+     * @throws LifecycleException If a problem
+     */
+    void startup() throws LifecycleException;
+
+    /**
+     * Run blocks thru shutdown
+     * @throws LifecycleException If a problem
+     */
     void shutdown() throws LifecycleException;
 
 }

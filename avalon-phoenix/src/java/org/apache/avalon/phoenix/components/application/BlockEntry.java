@@ -48,6 +48,19 @@
 
 */
 
+package org.apache.avalon.phoenix.components.application;
+
+import org.apache.avalon.phoenix.framework.info.Attribute;
+import org.apache.avalon.phoenix.framework.info.ComponentInfo;
+import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
+import org.apache.avalon.phoenix.components.ContainerConstants;
+import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
+
+/**
+ * This is the structure describing each block before it is loaded.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ */
 class BlockEntry
 {
     private static final Class BLOCK_CLASS = getBlockClass();

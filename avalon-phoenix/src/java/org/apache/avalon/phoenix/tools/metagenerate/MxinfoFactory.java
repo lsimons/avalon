@@ -48,6 +48,45 @@
 
 */
 
+package org.apache.avalon.phoenix.tools.metagenerate;
+
+import com.thoughtworks.qdox.model.DocletTag;
+import com.thoughtworks.qdox.model.JavaClass;
+import com.thoughtworks.qdox.model.JavaMethod;
+import com.thoughtworks.qdox.model.JavaParameter;
+import com.thoughtworks.qdox.model.Type;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+/**
+ * A Mxinfo Factory
+ * @author Paul Hammant
+ */
+public class MxinfoFactory
+{
+
+    private JavaClass m_javaClass;
+    private File m_destDir;
+    private ArrayList m_attributes = new ArrayList();
+    private ArrayList m_operations = new ArrayList();
+    private MxinfoHelper m_mxinfo;
+
+    /**
+     * Construct a factory for a class.
+     * @param destDir
+     * @param javaClass
+     */
+    public MxinfoFactory( final File destDir, final JavaClass javaClass )
+    {
+        m_javaClass = javaClass;
+        m_destDir = destDir;
+    }
+
+    /**
+     * Generate the m_mxinfo file
+     * @throws IOException If a problem writing output
+     */
     public void generate() throws IOException
     {
         final File file = new File( m_destDir,

@@ -48,6 +48,14 @@
 
 */
 
+package org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg;
+
+/**
+ * Some random service
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:17 $
+ */
 public interface Service3
 {
 }

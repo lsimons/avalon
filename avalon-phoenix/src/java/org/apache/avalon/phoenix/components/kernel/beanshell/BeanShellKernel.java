@@ -48,6 +48,17 @@
 
 */
 
+package org.apache.avalon.phoenix.components.kernel.beanshell;
+
+import org.apache.avalon.phoenix.components.kernel.DefaultKernel;
+
+public class BeanShellKernel
+    extends DefaultKernel
+{
+
+    /**
+     * Overides Initialize from DefaultKernel
+     */
     public void initialize()
         throws Exception
     {

@@ -48,6 +48,30 @@
 
 */
 
+package org.apache.avalon.phoenix.framework.tools.infobuilder;
+
+import java.io.InputStream;
+import org.apache.avalon.phoenix.framework.info.ComponentInfo;
+
+/**
+ * Simple interface used to create {@link ComponentInfo}
+ * objects from a stream. This abstraction was primarily created
+ * so that the Info objesct could be built from non-XML sources
+ * and no XML classes need be in the classpath.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:13 $
+ */
+public interface InfoReader
+{
+    /**
+     * Create a {@link ComponentInfo} from stream
+     *
+     * @param implementationKey the name of component type that we are looking up
+     * @param inputStream the stream that the resource is loaded from
+     * @return the newly created {@link ComponentInfo}
+     * @throws Exception if unable to create info
+     */
     ComponentInfo createComponentInfo( String implementationKey,
                                        InputStream inputStream )
         throws Exception;

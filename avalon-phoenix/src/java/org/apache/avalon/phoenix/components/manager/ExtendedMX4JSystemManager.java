@@ -48,6 +48,28 @@
 
 */
 
+package org.apache.avalon.phoenix.components.manager;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import javax.management.MBeanServer;
+import javax.management.MBeanServerFactory;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+
+/**
+ * This component is responsible for managing phoenix instance.
+ * Support Flexible jmx helper mbean configuration.
+ *
+ * @author <a href="mail@leosimons.com">Leo Simons</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author <a href="mailto:Huw@mmlive.com">Huw Roberts</a>
+ * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
+ */
 public class ExtendedMX4JSystemManager
     extends AbstractJMXManager
     implements Configurable

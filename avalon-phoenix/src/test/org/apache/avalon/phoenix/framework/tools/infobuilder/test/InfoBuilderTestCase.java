@@ -48,6 +48,48 @@
 
 */
 
+package org.apache.avalon.phoenix.framework.tools.infobuilder.test;
+
+import com.thoughtworks.qdox.JavaDocBuilder;
+import com.thoughtworks.qdox.model.JavaClass;
+import com.thoughtworks.qdox.model.JavaSource;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.Properties;
+import junit.framework.TestCase;
+import org.apache.avalon.framework.container.ContainerUtil;
+import org.apache.avalon.phoenix.framework.info.Attribute;
+import org.apache.avalon.phoenix.framework.info.ComponentDescriptor;
+import org.apache.avalon.phoenix.framework.info.ComponentInfo;
+import org.apache.avalon.phoenix.framework.info.ContextDescriptor;
+import org.apache.avalon.phoenix.framework.info.DependencyDescriptor;
+import org.apache.avalon.phoenix.framework.info.EntryDescriptor;
+import org.apache.avalon.phoenix.framework.info.LoggerDescriptor;
+import org.apache.avalon.phoenix.framework.info.SchemaDescriptor;
+import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
+import org.apache.avalon.framework.logger.ConsoleLogger;
+import org.apache.avalon.phoenix.framework.tools.infobuilder.InfoBuilder;
+import org.apache.avalon.phoenix.framework.tools.infobuilder.InfoReader;
+import org.apache.avalon.phoenix.framework.tools.infobuilder.InfoWriter;
+import org.apache.avalon.phoenix.framework.tools.infobuilder.SerializedInfoReader;
+import org.apache.avalon.phoenix.framework.tools.infobuilder.SerializedInfoWriter;
+import org.apache.avalon.phoenix.framework.tools.infobuilder.XMLInfoReader;
+import org.apache.avalon.phoenix.framework.tools.infobuilder.XMLInfoWriter;
+import org.apache.avalon.phoenix.framework.tools.infobuilder.LegacyBlockInfoReader;
+import org.apache.avalon.phoenix.framework.tools.infobuilder.LegacyBlockInfoWriter;
+import org.apache.avalon.phoenix.framework.tools.qdox.DefaultInfoBuilder;
+import org.apache.avalon.phoenix.framework.tools.qdox.LegacyInfoBuilder;
+
+/**
+ * Abstract class which TestCases can extend.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:17 $
+ */
 public class InfoBuilderTestCase
     extends TestCase
 {

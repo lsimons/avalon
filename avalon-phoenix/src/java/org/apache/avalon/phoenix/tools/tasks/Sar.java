@@ -48,6 +48,19 @@
 
 */
 
+package org.apache.avalon.phoenix.tools.tasks;
+
+import java.io.File;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.taskdefs.Jar;
+import org.apache.tools.ant.types.ZipFileSet;
+
+/**
+ * Creates a Sar archive.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author <a href="mailto:stefan.bodewig@epost.de">Stefan Bodewig</a>
+ */
 public class Sar
     extends Jar
 {

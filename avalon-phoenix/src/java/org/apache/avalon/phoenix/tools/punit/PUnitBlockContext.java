@@ -48,6 +48,19 @@
 
 */
 
+package org.apache.avalon.phoenix.tools.punit;
+
+import java.io.File;
+import java.io.InputStream;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.phoenix.BlockContext;
+
+/**
+ * PUnitBlockContext
+ * @author Paul Hammant
+ */
 public class PUnitBlockContext
     extends DefaultContext
     implements BlockContext

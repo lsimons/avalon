@@ -48,6 +48,74 @@
 
 */
 
+package org.apache.avalon.phoenix.frontends;
+
+import java.util.List;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.phoenix.interfaces.SystemManager;
+import org.apache.avalon.excalibur.cli.CLArgsParser;
+import org.apache.avalon.excalibur.cli.CLOption;
+import org.apache.avalon.excalibur.cli.CLOptionDescriptor;
+import org.apache.avalon.excalibur.cli.CLUtil;
+
+/**
+ * The class prepare parameters based on input options.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author <a href="mail@leosimons.com">Leo Simons</a>
+ */
+class CLISetup
+{
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( CLISetup.class );
+
+    private static final String MANAGER_IMPL =
+        "org.apache.avalon.phoenix.components.manager.DefaultManager";
+
+    private static final int DEBUG_LOG_OPT = 'd';
+
+    private static final int HELP_OPT = 'h';
+
+    private static final int LOG_FILE_OPT = 'l';
+
+    private static final int APPS_PATH_OPT = 'a';
+
+    private static final int PERSISTENT_OPT = 'p';
+
+    private static final int CONFIGFILE_OPT = 'f';
+
+    private static final int REMOTE_MANAGER_OPT = 1;
+
+    private static final int DISABLE_HOOK_OPT = 2;
+
+    private static final int APPLICATION_OPT = 3;
+
+    ///Parameters created by parsing CLI options
+    private final Parameters m_parameters = new Parameters();
+
+    ///Command used to execute program
+    private final String m_command;
+
+    public CLISetup( final String command )
+    {
+        m_command = command;
+    }
+
+    /**
+     * Display usage report.
+     */
+    private void usage( final CLOptionDescriptor[] options )
+    {
+        System.err.println( m_command );
+        System.err.println( "\t" + REZ.getString( "cli.desc.available.header" ) );
+        System.err.println( CLUtil.describeOptions( options ) );
+    }
+
+    /**
+     * Initialise the options for command line parser.
+     */
     private CLOptionDescriptor[] createCLOptions()
     {
         final CLOptionDescriptor options[] = new CLOptionDescriptor[ 9 ];

@@ -48,6 +48,33 @@
 
 */
 
+package org.apache.avalon.phoenix.containerkit.demo;
+
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.parameters.ParameterException;
+import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.phoenix.containerkit.factory.ComponentFactory;
+import org.apache.avalon.phoenix.containerkit.factory.DefaultComponentFactory;
+import org.apache.avalon.phoenix.containerkit.kernel.AbstractServiceKernel;
+import org.apache.avalon.phoenix.containerkit.lifecycle.ResourceProvider;
+import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
+import org.apache.avalon.phoenix.containerkit.metadata.MetaDataBuilder;
+import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
+
+/**
+ * This is a simple ServiceKernel.
+ *
+ * <p>It loads components from the current ClassLoader.
+ * The Assembly information is passed in via Configuration object
+ * in a format similar to merged assembly.xml/config.xml from Phoenix.</p>
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.4 $ $Date: 2003/03/22 12:07:11 $
+ */
 public class SimpleServiceKernel
     extends AbstractServiceKernel
     implements Parameterizable

@@ -48,6 +48,22 @@
 
 */
 
+package org.apache.avalon.phoenix.components.classloader;
+
+import java.security.CodeSource;
+import java.security.PermissionCollection;
+import java.security.Permissions;
+import java.util.Map;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.excalibur.policy.runtime.DefaultPolicy;
+
+/**
+ * Policy that extracts information from policy files.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ */
 class SarPolicy
     extends DefaultPolicy
     implements LogEnabled, Initializable

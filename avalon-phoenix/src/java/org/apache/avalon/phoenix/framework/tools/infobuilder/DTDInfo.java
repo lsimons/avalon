@@ -48,6 +48,29 @@
 
 */
 
+package org.apache.avalon.phoenix.framework.tools.infobuilder;
+
+/**
+ * Holds information about a given DTD.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:13 $
+ */
+class DTDInfo
+{
+    /**
+     * The public identifier. Null if unknown.
+     */
+    private final String m_publicId;
+
+    /**
+     * The system identifier.  Null if unknown.
+     */
+    private final String m_systemId;
+
+    /**
+     * The resource name, if a copy of the document is available.
+     */
     private final String m_resource;
 
     public DTDInfo( final String publicId,

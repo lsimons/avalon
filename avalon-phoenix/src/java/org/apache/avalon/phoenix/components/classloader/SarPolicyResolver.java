@@ -48,6 +48,31 @@
 
 */
 
+package org.apache.avalon.phoenix.components.classloader;
+
+import java.io.File;
+import java.net.URL;
+import java.security.Policy;
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.CascadingException;
+import org.apache.avalon.framework.container.ContainerUtil;
+import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.phoenix.BlockContext;
+import org.apache.avalon.phoenix.components.util.ResourceUtil;
+import org.apache.avalon.phoenix.components.util.PropertyUtil;
+import org.apache.excalibur.policy.builder.PolicyResolver;
+
+/**
+ * A basic resolver that resolves Phoenix specific features.
+ * (like remapping URLs).
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.8 $ $Date: 2003/03/22 12:07:08 $
+ */
 class SarPolicyResolver
     extends AbstractLogEnabled
     implements PolicyResolver

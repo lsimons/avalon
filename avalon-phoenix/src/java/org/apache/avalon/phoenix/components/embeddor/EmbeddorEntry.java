@@ -48,6 +48,13 @@
 
 */
 
+package org.apache.avalon.phoenix.components.embeddor;
+
+import org.apache.avalon.framework.configuration.Configuration;
+
+/**
+ * @author <a href="bauer@denic.de">Joerg Bauer</a>
+ */
 public class EmbeddorEntry
 {
     private final String m_role;

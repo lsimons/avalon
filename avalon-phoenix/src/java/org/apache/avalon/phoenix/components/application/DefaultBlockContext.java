@@ -48,6 +48,69 @@
 
 */
 
+package org.apache.avalon.phoenix.components.application;
+
+import java.io.File;
+import java.io.InputStream;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.phoenix.BlockContext;
+import org.apache.avalon.phoenix.interfaces.ApplicationContext;
+
+/**
+ * Context via which Blocks communicate with container.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ */
+final class DefaultBlockContext
+    implements BlockContext
+{
+    private final String m_name;
+    private final ApplicationContext m_applicationContext;
+
+    DefaultBlockContext( final String name,
+                         final ApplicationContext frame )
+    {
+        m_name = name;
+        m_applicationContext = frame;
+    }
+
+    public Object get( final Object key )
+        throws ContextException
+    {
+        if( BlockContext.APP_NAME.equals( key ) )
+        {
+            return m_applicationContext.getPartitionProfile().getMetaData().getName();
+        }
+        else if( BlockContext.APP_HOME_DIR.equals( key ) )
+        {
+            return m_applicationContext.getHomeDirectory();
+        }
+        else if( BlockContext.NAME.equals( key ) )
+        {
+            return m_name;
+        }
+        else
+        {
+            throw new ContextException( "Unknown key: " + key );
+        }
+    }
+
+    /**
+     * Base directory of .sar application.
+     *
+     * @return the base directory
+     */
+    public File getBaseDirectory()
+    {
+        return m_applicationContext.getHomeDirectory();
+    }
+
+    /**
+     * Retrieve name of block.
+     *
+     * @return the name of block
+     */
     public String getName()
     {
         return m_name;

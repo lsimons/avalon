@@ -48,6 +48,21 @@
 
 */
 
+package org.apache.avalon.phoenix.components.configuration;
+
+import java.util.HashMap;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
+import org.apache.avalon.phoenix.interfaces.ConfigurationRepositoryMBean;
+
+/**
+ * Repository from which all configuration data is retrieved.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ */
 public class DefaultConfigurationRepository
     implements ConfigurationRepository, ConfigurationRepositoryMBean
 {

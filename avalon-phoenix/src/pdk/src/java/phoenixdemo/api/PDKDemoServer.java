@@ -48,6 +48,14 @@
 
 */
 
+package phoenixdemo.api;
+
+/**
+ * Interface PDKDemoServer
+ *
+ * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
+ * @version * $Revision: 1.7 $
+ */
 public interface PDKDemoServer
 {
     void message(String string);

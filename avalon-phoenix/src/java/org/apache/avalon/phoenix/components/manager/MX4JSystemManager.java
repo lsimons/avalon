@@ -48,6 +48,99 @@
 
 */
 
+package org.apache.avalon.phoenix.components.manager;
+
+import java.io.File;
+import javax.management.Attribute;
+import javax.management.AttributeNotFoundException;
+import javax.management.InstanceNotFoundException;
+import javax.management.InvalidAttributeValueException;
+import javax.management.MBeanException;
+import javax.management.MBeanServer;
+import javax.management.MBeanServerFactory;
+import javax.management.ObjectName;
+import javax.management.ReflectionException;
+import mx4j.adaptor.rmi.jrmp.JRMPAdaptorMBean;
+import mx4j.log.Log;
+import mx4j.util.StandardMBeanProxy;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
+
+/**
+ * This component is responsible for managing phoenix instance.
+ *
+ * @author <a href="mail@leosimons.com">Leo Simons</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author <a href="mailto:Huw@mmlive.com">Huw Roberts</a>
+ */
+public class MX4JSystemManager
+    extends AbstractJMXManager
+    implements Contextualizable, Configurable
+{
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( MX4JSystemManager.class );
+
+    private static final String DEFAULT_NAMING_FACTORY =
+        "com.sun.jndi.rmi.profile.RegistryContextFactory";
+    private static final String DEFAULT_HTTPADAPTER_HOST = "localhost";
+    private static final int DEFAULT_HTTPADAPTER_PORT =
+        Integer.getInteger( "phoenix.adapter.http", 8082 ).intValue();
+
+    private String m_host;
+    private int m_port;
+    private boolean m_rmi;
+    private File m_homeDir;
+    private String m_stylesheetDir;
+    private String m_namingFactory;
+    private String m_password;
+    private String m_username;
+    private boolean m_http;
+
+    public void contextualize( final Context context )
+        throws ContextException
+    {
+        m_homeDir = (File)context.get( "phoenix.home" );
+    }
+
+    public void configure( final Configuration configuration )
+        throws ConfigurationException
+    {
+        m_host = configuration.getChild( "manager-adaptor-host" ).
+            getValue( DEFAULT_HTTPADAPTER_HOST );
+
+        m_port = configuration.getChild( "manager-adaptor-port" ).
+            getValueAsInteger( DEFAULT_HTTPADAPTER_PORT );
+
+        //This is for backwards compatability with old-style
+        //RI JMX implementation
+        m_port = configuration.getChild( "port" ).
+            getValueAsInteger( m_port );
+
+        getLogger().debug( "MX4J HTTP listener port: " + m_port );
+
+        m_rmi = configuration.getChild( "enable-rmi-adaptor" ).getValueAsBoolean( false );
+        m_http = configuration.getChild( "enable-http-adaptor" ).getValueAsBoolean( true );
+
+        m_namingFactory =
+            configuration.getChild( "rmi-naming-factory" ).getValue( DEFAULT_NAMING_FACTORY );
+
+        final String stylesheets =
+            configuration.getChild( "stylesheets-dir" ).getValue( null );
+        if( null != stylesheets )
+        {
+            m_stylesheetDir = new File( m_homeDir, stylesheets ).getAbsolutePath();
+        }
+
+        /*<user>
+          <name>user</name>
+          <password>passwd</password>
+        </user>*/
         final Configuration userConfig = configuration.getChild( "user" );
         m_username = userConfig.getChild( "name" ).getValue( null );
         m_password = userConfig.getChild( "password" ).getValue( null );

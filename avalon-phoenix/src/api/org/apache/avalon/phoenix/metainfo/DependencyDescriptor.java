@@ -48,6 +48,45 @@
 
 */
 
+package org.apache.avalon.phoenix.metainfo;
+
+/**
+ * A descriptor that describes dependency information for Block.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ */
+public final class DependencyDescriptor
+{
+    private final String m_role;
+    private final ServiceDescriptor m_service;
+
+    /**
+     * Constructor that has all parts as parameters.
+     */
+    public DependencyDescriptor( final String role, final ServiceDescriptor service )
+    {
+        m_role = role;
+        m_service = service;
+    }
+
+    /**
+     * Return role of dependency.
+     *
+     * The role is what is used by block implementor to
+     * aquire dependency in ComponentManager.
+     *
+     * @return the name of the dependency
+     */
+    public String getRole()
+    {
+        return m_role;
+    }
+
+    /**
+     * Return Service dependency provides.
+     *
+     * @return the service dependency provides
+     */
     public ServiceDescriptor getService()
     {
         return m_service;

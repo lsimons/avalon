@@ -48,6 +48,16 @@
 
 */
 
+package phoenixdemo.client;
+
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+
+/**
+ * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
+ * @version $Revision: 1.6 $
+ */
 public class Client
 {
     public static void main( final String[] args )

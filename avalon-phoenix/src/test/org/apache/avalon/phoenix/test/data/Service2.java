@@ -48,6 +48,14 @@
 
 */
 
+package org.apache.avalon.phoenix.test.data;
+
+/**
+ * A test service.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.4 $ $Date: 2003/03/22 12:07:17 $
+ */
 public interface Service2
 {
     String ROLE = Service2.class.getName();

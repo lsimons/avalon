@@ -48,6 +48,41 @@
 
 */
 
+package org.apache.avalon.phoenix.metadata;
+
+import org.apache.avalon.phoenix.metainfo.BlockInfo;
+
+/**
+ * This is the structure describing each block.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ */
+public class BlockMetaData
+{
+    private final String m_name;
+    private final DependencyMetaData[] m_dependencies;
+    private final boolean m_disableProxy;
+    private final BlockInfo m_blockInfo;
+
+    public BlockMetaData( final String name,
+                          final DependencyMetaData[] dependencies,
+                          final boolean disableProxy,
+                          final BlockInfo blockInfo )
+    {
+        m_name = name;
+        m_dependencies = dependencies;
+        m_disableProxy = disableProxy;
+        m_blockInfo = blockInfo;
+    }
+
+    public String getName()
+    {
+        return m_name;
+    }
+
+    /**
+     * @deprecated Please use {@link #getImplementationKey} instead.
+     */
     public String getClassname()
     {
         return getImplementationKey();

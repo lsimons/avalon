@@ -48,6 +48,18 @@
 
 */
 
+package phoenixdemo.server;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import phoenixdemo.api.PDKDemoServer;
+
+/**
+ * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
+ * @version $Revision: 1.7 $
+ */
 public class PDKDemoServerImpl
     implements PDKDemoServer
 {

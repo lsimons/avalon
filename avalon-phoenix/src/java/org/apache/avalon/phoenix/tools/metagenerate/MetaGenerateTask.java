@@ -48,6 +48,54 @@
 
 */
 
+package org.apache.avalon.phoenix.tools.metagenerate;
+
+import com.thoughtworks.qdox.model.DocletTag;
+import com.thoughtworks.qdox.model.JavaClass;
+import java.io.File;
+import java.io.IOException;
+import org.apache.avalon.phoenix.framework.tools.ant.FormatEnum;
+import org.apache.tools.ant.BuildException;
+
+/**
+ * MetaInfo Generation Ant Taskdef
+ * @author Paul Hammant
+ */
+public class MetaGenerateTask
+    extends org.apache.avalon.phoenix.framework.tools.ant.MetaGenerateTask
+{
+    //private boolean m_inheritance = true;
+
+    /**
+     * Inheritence : should parent classes of blocks be queried too?
+     * @param inheritance
+     */
+    public void setInheritance( final boolean inheritance )
+    {
+        //TODO: Do inheritance based on markup rather than based on task run
+        //m_inheritance = inheritance;
+    }
+
+    public void setDest( final File destDir )
+    {
+        super.setDestDir( destDir );
+    }
+
+    public void execute()
+        throws BuildException
+    {
+        final FormatEnum format = new FormatEnum();
+        format.setValue( "legacy" );
+        setFormat( format );
+        super.execute();
+        outputClasses();
+    }
+
+    /**
+     * Output the classes
+     *
+     * @throws BuildException If a problem writing output
+     */
     private void outputClasses()
         throws BuildException
     {

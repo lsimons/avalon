@@ -48,6 +48,15 @@
 
 */
 
+package org.apache.avalon.phoenix.components.manager;
+
+import org.apache.avalon.phoenix.interfaces.ManagerException;
+
+/**
+ * Null SystemManager.
+ *
+ * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
+ */
 public class NoopSystemManager
     extends AbstractSystemManager
 {

@@ -48,6 +48,28 @@
 
 */
 
+package org.apache.avalon.phoenix.framework.tools.infobuilder;
+
+import java.io.OutputStream;
+import org.apache.avalon.phoenix.framework.info.ComponentInfo;
+
+/**
+ * Simple interface used to write {@link ComponentInfo}
+ * objects to a stream. Different implementations will write to
+ * different output formats.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:13 $
+ */
+public interface InfoWriter
+{
+    /**
+     * Write a {@link ComponentInfo} to a stream
+     *
+     * @param info the Info to write out
+     * @param outputStream the stream to write info to
+     * @throws Exception if unable to write info
+     */
     void writeComponentInfo( ComponentInfo info,
                              OutputStream outputStream )
         throws Exception;

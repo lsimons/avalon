@@ -48,6 +48,18 @@
 
 */
 
+package org.apache.avalon.phoenix.framework.tools.infobuilder;
+
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import org.apache.avalon.phoenix.framework.info.ComponentInfo;
+
+/**
+ * Write {@link ComponentInfo} objects to a stream as serialized objects.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:13 $
+ */
 public class SerializedInfoWriter
     implements InfoWriter
 {

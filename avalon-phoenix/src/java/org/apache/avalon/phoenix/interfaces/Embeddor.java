@@ -48,5 +48,24 @@
 
 */
 
+package org.apache.avalon.phoenix.interfaces;
+
+import org.apache.avalon.framework.activity.Executable;
+
+/**
+ * This is the object that is interacted with to create, manage and
+ * dispose of the kernel and related resources.
+ *
+ * @author <a href="mail@leosimons.com">Leo Simons</a>
+ * @author <a href="peter at apache.org">Peter Donald</a>
+ */
+public interface Embeddor
+    extends Executable
+{
+    String ROLE = Embeddor.class.getName();
+
+    /**
+     * Request the Embeddor shutsdown.
+     */
     void shutdown();
 }

@@ -48,6 +48,26 @@
 
 */
 
+package org.apache.avalon.phoenix.components.application.test;
+
+import java.io.File;
+import java.io.InputStream;
+import java.util.HashMap;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
+import org.apache.avalon.phoenix.interfaces.ApplicationContext;
+import org.apache.excalibur.threadcontext.ThreadContext;
+import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
+import org.apache.excalibur.instrument.InstrumentManager;
+import org.apache.excalibur.instrument.manager.NoopInstrumentManager;
+
+/**
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.9 $ $Date: 2003/03/22 12:07:17 $
+ */
 class MockApplicationContext
     implements ApplicationContext
 {

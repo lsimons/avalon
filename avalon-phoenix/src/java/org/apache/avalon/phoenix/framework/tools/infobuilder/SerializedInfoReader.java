@@ -48,6 +48,19 @@
 
 */
 
+package org.apache.avalon.phoenix.framework.tools.infobuilder;
+
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import org.apache.avalon.phoenix.framework.info.ComponentInfo;
+
+/**
+ * Create {@link ComponentInfo} objects from stream made up of
+ * serialized object.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:13 $
+ */
 public class SerializedInfoReader
     implements InfoReader
 {

@@ -48,6 +48,19 @@
 
 */
 
+package org.apache.avalon.phoenix.tools.verifier.test;
+
+import org.apache.avalon.framework.logger.ConsoleLogger;
+import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
+import org.apache.avalon.phoenix.test.AbstractContainerTestCase;
+import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
+
+/**
+ *  An basic test case for the LogManager.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.6 $ $Date: 2003/03/22 12:07:18 $
+ */
 public class VerifierTestCase
     extends AbstractContainerTestCase
 {

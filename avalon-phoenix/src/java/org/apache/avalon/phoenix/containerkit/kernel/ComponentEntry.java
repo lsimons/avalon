@@ -48,6 +48,75 @@
 
 */
 
+package org.apache.avalon.phoenix.containerkit.kernel;
+
+import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
+
+/**
+ * This is the structure that components are contained within when
+ * loaded into a container.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.4 $ $Date: 2003/03/22 12:07:11 $
+ */
+public class ComponentEntry
+{
+    /**
+     * The {@link ComponentProfile} that describes
+     * this component.
+     */
+    private final ComponentProfile m_profile;
+    /**
+     * The instance of this component.
+     */
+    private Object m_object;
+
+    /**
+     * Creation of a new <code>ComponentEntry</code> instance.
+     *
+     * @param profile the {@link ComponentProfile} instance defining the component.
+     */
+    public ComponentEntry( final ComponentProfile profile )
+    {
+        if( null == profile )
+        {
+            throw new NullPointerException( "profile" );
+        }
+        m_profile = profile;
+    }
+
+    /**
+     * Returns the {@link ComponentProfile} for this component.
+     *
+     * @return the {@link ComponentProfile} for this component.
+     */
+    public ComponentProfile getProfile()
+    {
+        return m_profile;
+    }
+
+    /**
+     * Returns the the object associated with this entry.
+     * @return the entry object
+     */
+    public Object getObject()
+    {
+        return m_object;
+    }
+
+    /**
+     * Set the object assoaiated to this entry.
+     * @param object the object to associate with the entry
+     */
+    public void setObject( final Object object )
+    {
+        m_object = object;
+    }
+
+    /**
+     * Returns TRUE is the object for this entry has been set.
+     * @return the active status of this entry
+     */
     public boolean isActive()
     {
         return ( null != getObject() );

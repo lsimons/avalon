@@ -48,6 +48,61 @@
 
 */
 
+package org.apache.avalon.phoenix.containerkit.profile;
+
+import org.apache.avalon.phoenix.framework.info.ComponentInfo;
+import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
+
+/**
+ * The ComponentProfile defines a component as a conjunction
+ * of the {@link ComponentInfo} and {@link ComponentMetaData}.
+ * The {@link ComponentInfo} defines the type of the component
+ * and the {@link ComponentMetaData} defines the data required to
+ * construct a specific instance of the component.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:12 $
+ */
+public class ComponentProfile
+{
+    /**
+     * The {@link ComponentInfo} that describes
+     * the type of this component.
+     */
+    private final ComponentInfo m_info;
+
+    /**
+     * The {@link ComponentMetaData} that describes
+     * this component.
+     */
+    private final ComponentMetaData m_metaData;
+
+    /**
+     * Creation of a new <code>ComponentProfile</code> instance.
+     *
+     * @param metaData the {@link ComponentMetaData} instance defining the component.
+     */
+    public ComponentProfile( final ComponentInfo info,
+                             final ComponentMetaData metaData )
+    {
+        m_info = info;
+        m_metaData = metaData;
+    }
+
+    /**
+     * Returns the underlying {@link ComponentInfo} instance.
+     *
+     * @return the component info instance
+     */
+    public ComponentInfo getInfo()
+    {
+        return m_info;
+    }
+
+    /**
+     * Returns the underlying {@link ComponentMetaData} instance.
+     * @return the component meta data instance
+     */
     public ComponentMetaData getMetaData()
     {
         return m_metaData;

@@ -48,6 +48,73 @@
 
 */
 
+package phoenixdemo.block;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import phoenixdemo.server.PDKDemoServerImpl;
+
+/**
+ * Class SocketThread
+ *
+ *
+ * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
+ * @version $Revision: 1.5 $
+ */
+public class SocketThread
+    extends Thread
+{
+    private PDKDemoServerImpl m_pdkDemoServerImpl;
+    private ServerSocket m_serverSocket;
+
+    protected SocketThread( final PDKDemoServerImpl pdkDemoServerImpl,
+                            final int port )
+    {
+
+        m_pdkDemoServerImpl = pdkDemoServerImpl;
+
+        try
+        {
+            m_serverSocket = new ServerSocket( port );
+        }
+        catch( final IOException ioe )
+        {
+            final String message = "Unable to open listening port. " +
+                "It is probably already being listened to.";
+            throw new RuntimeException( message );
+        }
+    }
+
+    /**
+     * Method run
+     *
+     *
+     */
+    public void run()
+    {
+
+        while( true )
+        {
+            try
+            {
+                ConnectionThread ct = new ConnectionThread( m_serverSocket.accept() );
+
+                ct.start();
+            }
+            catch( IOException ioe )
+            {
+                System.out.println( "Some problem with getting a socket for the connetion." );
+            }
+        }
+    }
+
+    /**
+     * Class ConnectionThread
+     *
+     * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
+     * @version $Revision: 1.5 $
+     */
     class ConnectionThread extends Thread
     {
         private Socket m_socket;

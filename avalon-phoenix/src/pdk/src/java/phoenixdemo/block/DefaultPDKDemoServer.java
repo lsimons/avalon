@@ -48,6 +48,21 @@
 
 */
 
+package phoenixdemo.block;
+
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.activity.Startable;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import phoenixdemo.api.PDKDemoServer;
+import phoenixdemo.server.PDKDemoServerImpl;
+
+/**
+ * @author  Paul Hammant <Paul_Hammant@yahoo.com>
+ * @version 1.0
+ */
 public class DefaultPDKDemoServer
     extends AbstractLogEnabled
     implements PDKDemoServer, Configurable, Startable, Initializable

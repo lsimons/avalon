@@ -48,6 +48,25 @@
 
 */
 
+package org.apache.avalon.phoenix.components.assembler;
+
+import org.apache.avalon.framework.CascadingException;
+
+/**
+ * Exception to indicate that there was an error Assembling SarMetaData.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.5 $ $Date: 2003/03/22 12:07:08 $
+ */
+public final class AssemblyException
+    extends CascadingException
+{
+    /**
+     * Construct a new <code>AssemblyException</code> instance.
+     *
+     * @param message The detail message for this exception.
+     * @param throwable the root cause of the exception
+     */
     public AssemblyException( final String message, final Throwable throwable )
     {
         super( message, throwable );

@@ -48,6 +48,33 @@
 
 */
 
+package org.apache.avalon.phoenix.metadata;
+
+/**
+ * This describs a BlockListener.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ */
+public final class BlockListenerMetaData
+{
+    private final String m_name;
+    private final String m_implementationKey;
+
+    public BlockListenerMetaData( final String name,
+                                  final String implementationKey )
+    {
+        m_name = name;
+        m_implementationKey = implementationKey;
+    }
+
+    public String getImplementationKey()
+    {
+        return m_implementationKey;
+    }
+
+    /**
+     * @deprecated Use getImplementationKey() instead.
+     */
     public String getClassname()
     {
         return getImplementationKey();

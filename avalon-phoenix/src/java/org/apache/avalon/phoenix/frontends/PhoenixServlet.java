@@ -48,6 +48,37 @@
 
 */
 
+package org.apache.avalon.phoenix.frontends;
+
+import java.io.File;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.CascadingRuntimeException;
+import org.apache.avalon.framework.ExceptionUtil;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.apache.avalon.framework.container.ContainerUtil;
+import org.apache.avalon.framework.logger.AvalonFormatter;
+import org.apache.avalon.framework.logger.LogKitLogger;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.phoenix.components.embeddor.SingleAppEmbeddor;
+import org.apache.avalon.phoenix.interfaces.Embeddor;
+import org.apache.log.Hierarchy;
+import org.apache.log.LogTarget;
+import org.apache.log.Priority;
+import org.apache.log.output.io.FileTarget;
+
+/**
+ * WARNING: DO NOT USE THIS SERVLET FOR PRODUCTION SERVICE. THIS IS EXPERIMENTAL.
+ * Servlet frontends for SingleAppEmbeddor.
+ *
+ * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
+ * @deprecated
+ */
 public class PhoenixServlet
     extends HttpServlet
     implements Runnable

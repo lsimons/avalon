@@ -48,6 +48,33 @@
 
 */
 
+package org.apache.avalon.phoenix.interfaces;
+
+import java.io.File;
+import org.apache.avalon.framework.configuration.Configuration;
+
+/**
+ * Interface for component that creates and manages the
+ * {@link ClassLoader} for an Application. The specific
+ * mechanism by which the {@link ClassLoader} is created
+ * is dependent on the type of {@link Embeddor} and the
+ * deployment format.
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ */
+public interface ClassLoaderManager
+{
+    String ROLE = ClassLoaderManager.class.getName();
+
+    /**
+     * Create a {@link ClassLoaderSet} for a specific application.
+     *
+     * @param environment the configuration "environment.xml" for the application
+     * @param baseDirectory the base directory of application
+     * @param workDirectory the work directory of application
+     * @return the ClassLoaderSet created
+     * @throws Exception if an error occurs
+     */
     ClassLoaderSet createClassLoaderSet( Configuration environment,
                                          File baseDirectory,
                                          File workDirectory )
