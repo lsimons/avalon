@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="merlin" default="install" basedir=".">
+<project name="merlin" default="default" basedir=".">
 
   <property file="build.properties"/>
   <import file="${project.home}/build/reactor.xml"/>

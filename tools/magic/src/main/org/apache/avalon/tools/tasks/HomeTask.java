@@ -72,9 +72,7 @@ public class HomeTask extends ContextualTask
             final Definition def = home.getDefinition( getKey() );
             final Info info = def.getInfo();
             final String name = info.getName();
-            project.setProperty( "project.name", name );
             final String group = info.getGroup();
-            project.setProperty( "project.group", group );
             final String version = info.getVersion();
             if( null != version )
             {
@@ -84,11 +82,16 @@ public class HomeTask extends ContextualTask
             {
                 project.setProperty( "project.version", "" );
             }
+            project.setProperty( "project.key", def.getKey() );
+            project.setProperty( "project.name", name );
+            project.setProperty( "project.group", group );
+            project.setProperty( "project.basedir", def.getBaseDir().toString() );
             project.setProperty( "project.path", info.getPath() );
             project.setProperty( "project.uri", info.getURI() );
+            project.setProperty( "project.spec", def.getInfo().getSpec() );
             project.setProperty( "project.type", info.getType() );
             project.setProperty( "project.filename", info.getFilename() );
-            project.setProperty( "project.short", info.getShortFilename() );
+            project.setProperty( "project.short-filename", info.getShortFilename() );
         }
     }
 

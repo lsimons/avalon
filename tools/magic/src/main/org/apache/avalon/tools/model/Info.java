@@ -135,7 +135,7 @@ public class Info
         } 
     }
 
-    public String getFilename()
+    public String getShortFilename()
     {
         final StringBuffer buffer = new StringBuffer( getName() );
         if( null != getVersion() )
@@ -143,6 +143,13 @@ public class Info
             buffer.append( "-" );
             buffer.append( getVersion() );
         }
+        return buffer.toString();
+    }
+
+    public String getFilename()
+    {
+        final String shortFilename = getShortFilename();
+        final StringBuffer buffer = new StringBuffer( shortFilename );
         buffer.append( "." );
         buffer.append( getType() );
         return buffer.toString();
@@ -150,18 +157,12 @@ public class Info
 
     public String getPath()
     {
+        final String filename = getFilename();
         final StringBuffer buffer = new StringBuffer( getGroup() );
         buffer.append( "/" );
         buffer.append( getType() );
         buffer.append( "s/" );
-        buffer.append( getName() );
-        if( null != getVersion() )
-        {
-            buffer.append( "-" );
-            buffer.append( getVersion() );
-        }
-        buffer.append( "." );
-        buffer.append( getType() );
+        buffer.append( filename );
         return buffer.toString();
     }
 
