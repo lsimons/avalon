@@ -10,35 +10,27 @@ package org.apache.avalon.excalibur.instrument.component;
 import org.apache.avalon.excalibur.component.DefaultComponentFactory;
 import org.apache.avalon.excalibur.instrument.CounterInstrument;
 import org.apache.avalon.excalibur.instrument.Instrument;
+import org.apache.avalon.excalibur.instrument.Instrumentable;
 import org.apache.avalon.excalibur.instrument.ValueInstrument;
-import org.apache.avalon.excalibur.logger.LogKitManager;
 
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.context.Context;
-import org.apache.log.Logger;
 
 /**
  * The ThreadSafeComponentHandler to make sure components are initialized
  * and destroyed correctly.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/04/03 13:18:29 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/04/10 05:39:37 $
  * @since 4.0
  */
 public class ThreadSafeComponentHandler
-    extends InstrumentComponentHandler
+    extends org.apache.avalon.excalibur.component.ThreadSafeComponentHandler
+    implements Instrumentable
 {
-    private Component m_instance;
-    private final DefaultComponentFactory m_factory;
-    private boolean m_initialized = false;
-    private boolean m_disposed = false;
-
+    /** Instrumentable Name assigned to this Instrumentable */
+    private String m_instrumentableName;
+    
     /** Instrument used to profile the number of outstanding references. */
     private ValueInstrument m_referencesInstrument;
     
@@ -48,6 +40,9 @@ public class ThreadSafeComponentHandler
     /** Instrument used to profile the number of puts. */
     private CounterInstrument m_putsInstrument;
 
+    /*---------------------------------------------------------------
+     * Constructors
+     *-------------------------------------------------------------*/
     /**
      * Create a ThreadSafeComponentHandler which manages a pool of Components
      *  created by the specified factory object.
@@ -55,12 +50,14 @@ public class ThreadSafeComponentHandler
      * @param factory The factory object which is responsible for creating the components
      *                managed by the ComponentHandler.
      * @param config The configuration to use to configure the pool.
+     *
+     * @throws Exception if the handler could not be created.
      */
     public ThreadSafeComponentHandler( final DefaultComponentFactory factory,
                                        final Configuration config )
         throws Exception
     {
-        m_factory = factory;
+        super( factory, config );
         
         // Initialize the Instrumentable elements.
         m_referencesInstrument = new ValueInstrument( "references" );
@@ -68,142 +65,75 @@ public class ThreadSafeComponentHandler
         m_putsInstrument = new CounterInstrument( "puts" );
     }
 
+    /*---------------------------------------------------------------
+     * ComponentHandler Methods
+     *-------------------------------------------------------------*/
     /**
-     * Create a ComponentHandler that takes care of hiding the details of
-     * whether a Component is ThreadSafe, Poolable, or SingleThreaded.
-     * It falls back to SingleThreaded if not specified.
+     * Get a reference of the desired Component.
+     *
+     * @return A component from the handler.
+     *
+     * @throws Exception If there was any problems getting a component.
      */
-    /* Don't need this?
-    protected ThreadSafeComponentHandler( final Component component )
+    protected Component doGet()
         throws Exception
     {
-        m_instance = component;
-        m_factory = null;
-    }
-    */
-
-    public void setLogger( Logger log )
-    {
-        if( this.m_factory != null )
-        {
-            m_factory.setLogger( log );
-        }
-
-        super.setLogger( log );
-    }
-
-    /**
-     * Initialize the ComponentHandler.
-     */
-    public void initialize()
-        throws Exception
-    {
-        if( m_initialized )
-        {
-            return;
-        }
-
-        if( m_instance == null )
-        {
-            m_instance = (Component)this.m_factory.newInstance();
-        }
-
-        if( getLogger().isDebugEnabled() )
-        {
-            if( this.m_factory != null )
-            {
-                getLogger().debug( "ComponentHandler initialized for: " + this.m_factory.getCreatedClass().getName() );
-            }
-            else
-            {
-                getLogger().debug( "ComponentHandler initialized for: " + this.m_instance.getClass().getName() );
-            }
-        }
-
-        m_initialized = true;
-    }
-
-    /**
-     * Get a reference of the desired Component
-     */
-    protected final Component doGet()
-        throws Exception
-    {
-        if( !m_initialized )
-        {
-            throw new IllegalStateException( "You cannot get a component from an uninitialized holder." );
-        }
-
-        if( m_disposed )
-        {
-            throw new IllegalStateException( "You cannot get a component from a disposed holder" );
-        }
+        Component component = super.doGet();
 
         // Notify the instrument manager
         m_getsInstrument.increment();
         // Reference count will be incremented after this returns
         m_referencesInstrument.setValue( getReferences() + 1 );
         
-        return m_instance;
+        return component;
     }
 
     /**
-     * Return a reference of the desired Component
+     * Return a reference of the desired Component.
+     *
+     * @param component Component to put back into the handler.
      */
     protected void doPut( final Component component )
     {
-        if( !m_initialized )
-        {
-            throw new IllegalStateException( "You cannot put a component in an uninitialized holder." );
-        }
-        
         // Notify the instrument manager
         m_putsInstrument.increment();
         // References decremented before this call.
         m_referencesInstrument.setValue( getReferences() );
+        
+        super.doPut( component );
     }
 
-    /**
-     * Dispose of the ComponentHandler and any associated Pools and Factories.
-     */
-    public void dispose()
-    {
-        try
-        {
-            if( null != m_factory )
-            {
-                m_factory.decommission( m_instance );
-            }
-            else
-            {
-                if( m_instance instanceof Startable )
-                {
-                    ( (Startable)m_instance ).stop();
-                }
-
-                if( m_instance instanceof Disposable )
-                {
-                    ( (Disposable)m_instance ).dispose();
-                }
-            }
-
-            m_instance = null;
-        }
-        catch( final Exception e )
-        {
-            if( getLogger().isWarnEnabled() )
-            {
-                getLogger().warn( "Error decommissioning component: " +
-                                  m_factory.getCreatedClass().getName(), e );
-            }
-        }
-
-        m_disposed = true;
-    }
-    
     /*---------------------------------------------------------------
      * Instrumentable Methods
      *-------------------------------------------------------------*/
+    /**
+     * Sets the name for the Instrumentable.  The Instrumentable Name is used
+     *  to uniquely identify the Instrumentable during the configuration of
+     *  the InstrumentManager and to gain access to an InstrumentableDescriptor
+     *  through the InstrumentManager.  The value should be a string which does
+     *  not contain spaces or periods.
+     * <p>
+     * This value may be set by a parent Instrumentable, or by the
+     *  InstrumentManager using the value of the 'instrumentable' attribute in
+     *  the configuration of the component.
+     *
+     * @param name The name used to identify a Instrumentable.
+     */
+    public void setInstrumentableName( String name )
+    {
+        m_instrumentableName = name;
+    }
+    
+    /**
+     * Gets the name of the Instrumentable.
+     *
+     * @return The name used to identify a Instrumentable.
+     */
+    public String getInstrumentableName()
+    {
+        return m_instrumentableName;
+    }
+
     /**
      * Obtain a reference to all the Instruments that the Instrumentable object
      *  wishes to expose.  All sampling is done directly through the
@@ -223,5 +153,20 @@ public class ThreadSafeComponentHandler
             m_getsInstrument,
             m_putsInstrument
         };
+    }
+
+    /**
+     * Any Object which implements Instrumentable can also make use of other
+     *  Instrumentable child objects.  This method is used to tell the
+     *  InstrumentManager about them.
+     *
+     * @return An array of child Instrumentables.  This method should never
+     *         return null.  If there are no child Instrumentables, then
+     *         EMPTY_INSTRUMENTABLE_ARRAY can be returned.
+     */
+    public Instrumentable[] getChildInstrumentables()
+    {
+        // Child Instrumenatables are registered as they are found.
+        return Instrumentable.EMPTY_INSTRUMENTABLE_ARRAY;
     }
 }
