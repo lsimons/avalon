@@ -51,6 +51,8 @@ namespace Apache.Avalon.Castle.MicroKernel
 
         protected Hashtable m_dependencyToSatisfy;
 
+		protected Hashtable m_proxy2ComponentWrapper;
+
         protected IHandlerFactory m_handlerFactory;
 
         protected IComponentModelBuilder m_componentModelBuilder;
@@ -68,6 +70,7 @@ namespace Apache.Avalon.Castle.MicroKernel
             m_key2Handler = new Hashtable(CaseInsensitiveHashCodeProvider.Default, CaseInsensitiveComparer.Default);
             m_service2Key = new Hashtable();
             m_subsystems = new Hashtable();
+			m_proxy2ComponentWrapper = new Hashtable();
             m_handlerFactory = new SimpleHandlerFactory();
             m_dependencyToSatisfy = new Hashtable();
             m_componentModelBuilder = new DefaultComponentModelBuilder(this);
@@ -356,7 +359,17 @@ namespace Apache.Avalon.Castle.MicroKernel
             // AddSubsystem( KernelConstants.EVENTS, new EventManager() );
         }
 
-        #region RaiseEvents 
+        #region RaiseEvents
+
+		protected virtual void RaiseDependencyEvent( Type service, IHandler handler )
+		{
+			DependencyListenerDelegate del = (DependencyListenerDelegate) m_dependencyToSatisfy[ service ];
+			
+			if ( del != null )
+			{
+				del( service, handler );
+			}
+		}
 
         protected virtual void RaiseComponentRegistered(IComponentModel model, String key, IHandler handler)
         {
@@ -422,9 +435,20 @@ namespace Apache.Avalon.Castle.MicroKernel
             {
                 IComponentModel model = handler.ComponentModel;
                 String key = (String) m_service2Key[ model.Service ];
-                IInterceptedComponent wrapper = new InterceptedComponentWrapper( m_interceptedComponentBuilder /*, instance, model.Service*/ );
+                InterceptedComponentWrapper wrapper = 
+					new InterceptedComponentWrapper( m_interceptedComponentBuilder, instance, model.Service );
 
                 eventDelegate(model, key, handler, wrapper);
+
+				if (wrapper.IsProxiedCreated)
+				{
+					object proxy = wrapper.ProxiedInstance;
+					m_proxy2ComponentWrapper[ proxy ] = wrapper;
+
+					// From now on, the outside world will have 
+					// a proxy pointer, not the instance anymore.
+					instance = proxy;
+				}
             }
 
             return instance;
@@ -434,15 +458,23 @@ namespace Apache.Avalon.Castle.MicroKernel
         {
             UnWrapDelegate eventDelegate = (UnWrapDelegate) m_events[ComponentUnWrapEvent];
 
+			// We can have a null wrapper here
+			InterceptedComponentWrapper wrapper = m_proxy2ComponentWrapper[ instance ] as InterceptedComponentWrapper;
+
+			if (wrapper != null)
+			{
+				m_proxy2ComponentWrapper.Remove( instance );
+			}
+
             if (eventDelegate != null)
             {
                 IComponentModel model = handler.ComponentModel;
                 String key = (String) m_service2Key[ model.Service ];
 
-                instance = eventDelegate(model, key, handler, instance);
+                eventDelegate(model, key, handler, wrapper);
             }
 
-            return instance;
+            return wrapper != null ? wrapper.Instance : instance;
         }
 
         /// <summary>
@@ -451,45 +483,90 @@ namespace Apache.Avalon.Castle.MicroKernel
         internal class InterceptedComponentWrapper : IInterceptedComponent
         {
             private IInterceptedComponentBuilder m_interceptedComponentBuilder;
+			private IInterceptedComponent m_delegate;
+			private object m_instance;
+        	private Type m_service;
 
-            public InterceptedComponentWrapper( IInterceptedComponentBuilder interceptedComponentBuilder )
+        	public InterceptedComponentWrapper( IInterceptedComponentBuilder interceptedComponentBuilder, 
+				object instance, Type service )
             {
                 m_interceptedComponentBuilder = interceptedComponentBuilder;
+				m_instance = instance;
+				m_service = service;
             }
+
+			public object Instance
+			{
+				get { return m_instance; }
+			}
 
             public object ProxiedInstance
             {
-                get { throw new NotImplementedException(); }
+                get
+                {
+					EnsureDelegate();
+                	return m_delegate.ProxiedInstance;
+                }
             }
 
             public void Add(IInterceptor interceptor)
             {
-                throw new NotImplementedException();
-            }
+				EnsureDelegate();
+				m_delegate.Add(interceptor);
+			}
 
             public IInterceptor InterceptorChain
             {
-                get { throw new NotImplementedException(); }
-            }
+				get
+				{
+					EnsureDelegate();
+					return m_delegate.InterceptorChain;
+				}
+			}
+
+			public bool IsProxiedCreated
+			{
+				get { return m_delegate != null; }
+			}
+
+			private void EnsureDelegate()
+			{
+				if (m_delegate == null)
+				{
+					m_delegate = m_interceptedComponentBuilder.CreateInterceptedComponent( 
+						m_instance, m_service );
+				}
+			}
         }
 
         #endregion
 
         /// <summary>
         /// Starts the component if the activation policy for 
-        /// the component is 'Start'
+        /// the component is 'Start' and if the component's dependencies are satisfied.
         /// </summary>
         /// <param name="model">Component model</param>
         /// <param name="handler">Handler responsible for the component</param>
-        protected virtual void StartComponent(IComponentModel model, IHandler handler)
+        protected virtual void StartComponentIfPossible(IComponentModel model, IHandler handler)
         {
             if (model.ActivationPolicy == Activation.Start)
             {
-                object instance = handler.Resolve();
-
-                m_componentsInstances.Add(new PairHandlerComponent(handler, instance));
+				if (handler.ActualState == State.Valid)
+				{
+					StartComponent( handler );
+				}
+				else if (handler.ActualState == State.WaitingDependency)
+				{
+					handler.AddChangeStateListener( new ChangeStateListenerDelegate(StartComponent) );
+				}
             }
         }
+
+		protected virtual void StartComponent( IHandler handler )
+		{
+			object instance = handler.Resolve();
+			m_componentsInstances.Add(new PairHandlerComponent(handler, instance));
+		}
 
         private void OnModelConstructed(IComponentModel model, String key)
         {
@@ -500,9 +577,11 @@ namespace Apache.Avalon.Castle.MicroKernel
         {
             m_service2Key[ model.Service ] = key;
 
+			RaiseDependencyEvent( model.Service, handler );
+
             RaiseComponentRegistered(model, key, handler);
 
-            StartComponent( model, handler );
+            StartComponentIfPossible( model, handler );
         }
 
         private void OnComponentUnregistered(IComponentModel model, String key, IHandler handler)

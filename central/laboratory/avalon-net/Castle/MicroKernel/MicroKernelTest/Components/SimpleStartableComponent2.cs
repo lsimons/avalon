@@ -12,21 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel.Interceptor
+namespace Apache.Avalon.Castle.MicroKernel.Test.Components
 {
 	using System;
 
+	using Apache.Avalon.Framework;
+
 	/// <summary>
-	/// Summary description for IInterceptedComponent.
+	/// Summary description for SimpleStartableComponent2.
 	/// </summary>
-	public interface IInterceptedComponent
+	[AvalonComponent("StartableComponent2", Lifestyle.Singleton, Activation.Start)]
+	public class SimpleStartableComponent2 : SimpleStartableComponent
 	{
-		object Instance { get; }
-
-		object ProxiedInstance { get; }
-
-		void Add( IInterceptor interceptor );
-
-		IInterceptor InterceptorChain { get; }
+		public SimpleStartableComponent2( IMailService service )
+		{
+		}
 	}
 }

@@ -24,19 +24,21 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
     /// </summary>
     public abstract class AbstractHandler : IHandler
     {
-        protected IKernel m_kernel;
+		private State m_state = State.Valid;
+		
+		private IList m_instances = new ArrayList();
+
+		private Delegate m_changeStateListener;
+
+		protected IKernel m_kernel;
 
         protected IComponentModel m_componentModel;
-
-        protected State m_state = State.Valid;
 
         protected IList m_dependencies = new ArrayList();
 
         protected Hashtable m_serv2handler = new Hashtable();
 
         protected ILifestyleManager m_lifestyleManager;
-
-        private IList m_instances = new ArrayList();
 
         /// <summary>
         /// 
@@ -60,6 +62,22 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
         {
             get { return m_componentModel; }
         }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="changeStateDelegate"></param>
+		public void AddChangeStateListener( ChangeStateListenerDelegate changeStateDelegate )
+		{
+			if (m_changeStateListener == null)
+			{
+				m_changeStateListener = changeStateDelegate;
+			}
+			else
+			{
+				m_changeStateListener = Delegate.Combine(m_changeStateListener, changeStateDelegate);
+			}
+		}
 
         public virtual object Resolve()
         {
@@ -110,6 +128,22 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
         }
 
         #endregion
+
+		protected virtual void SetNewState( State state )
+		{
+			m_state = state;
+
+			RaiseChangeStateEvent();
+		}
+
+		protected virtual void RaiseChangeStateEvent()
+		{
+			if ( m_changeStateListener != null )
+			{
+				ChangeStateListenerDelegate del = (ChangeStateListenerDelegate) m_changeStateListener;
+				del( this );
+			}
+		}
 
         protected virtual void RegisterInstance(object instance)
         {

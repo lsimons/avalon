@@ -23,7 +23,7 @@ namespace Apache.Avalon.Castle.MicroKernel
 
 	public delegate void WrapDelegate( IComponentModel model, String key, IHandler handler, IInterceptedComponent interceptedComponent );
 
-    public delegate object UnWrapDelegate( IComponentModel model, String key, IHandler handler, object instance );
+    public delegate void UnWrapDelegate( IComponentModel model, String key, IHandler handler, IInterceptedComponent interceptedComponent );
 
 	public delegate void ComponentInstanceDelegate( IComponentModel model, String key, IHandler handler, object instance );
 

@@ -28,9 +28,9 @@ namespace Apache.Avalon.Castle.MicroKernel.Concerns
 
 		private Type m_destructionConcern;
 
-		private ArrayList m_commissionConcerns = new ArrayList();
+		private IList m_commissionConcerns = new ArrayList();
 
-		private ArrayList m_decommissionConcerns = new ArrayList();
+		private IList m_decommissionConcerns = new ArrayList();
 
 		/// <summary>
 		/// 

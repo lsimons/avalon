@@ -14,7 +14,11 @@
 
 namespace Apache.Avalon.Castle.MicroKernel
 {
-    using Apache.Avalon.Castle.MicroKernel.Model;
+	using System;
+	
+	using Apache.Avalon.Castle.MicroKernel.Model;
+
+	public delegate void ChangeStateListenerDelegate( IHandler handler );
 
 	/// <summary>
 	/// Summary description for IHandler.
@@ -43,5 +47,11 @@ namespace Apache.Avalon.Castle.MicroKernel
         /// 
         /// </summary>
 	    IComponentModel ComponentModel { get; }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="changeStateDelegate"></param>
+		void AddChangeStateListener( ChangeStateListenerDelegate changeStateDelegate );
 	}
 }

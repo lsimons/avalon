@@ -12,21 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel.Interceptor
+namespace Apache.Avalon.Castle.MicroKernel.Test.Components
 {
 	using System;
 
 	/// <summary>
-	/// Summary description for IInterceptedComponent.
+	/// Summary description for IStartableService.
 	/// </summary>
-	public interface IInterceptedComponent
+	public interface IStartableService
 	{
-		object Instance { get; }
-
-		object ProxiedInstance { get; }
-
-		void Add( IInterceptor interceptor );
-
-		IInterceptor InterceptorChain { get; }
+		void DoSomeUsefulWork();
 	}
 }

@@ -63,9 +63,9 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 			}
 			else
 			{
-				// This is handler is considered invalid
+				// This handler is considered invalid
 				// until dependencies are satisfied
-				m_state = State.WaitingDependency;
+				SetNewState( State.WaitingDependency );
 				m_dependencies.Add( service );
 						
 				// Register ourself in the kernel
@@ -91,7 +91,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 
 			if (m_dependencies.Count == 0)
 			{
-				m_state = State.Valid;
+				SetNewState(State.Valid);
 			}
 		}
 

@@ -20,7 +20,8 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 
     using Apache.Avalon.Castle.MicroKernel;
     using Apache.Avalon.Castle.MicroKernel.Model;
-    using Apache.Avalon.Castle.MicroKernel.Test.Components;
+	using Apache.Avalon.Castle.MicroKernel.Interceptor;
+	using Apache.Avalon.Castle.MicroKernel.Test.Components;
 
 	/// <summary>
 	/// Summary description for KernelEventsTestCase.
@@ -175,16 +176,14 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
             m_wrap = true;
         }
 
-        private object ComponentUnWrap(IComponentModel model, String key, IHandler handler, object instance)
+        private void ComponentUnWrap(IComponentModel model, String key, IHandler handler, IInterceptedComponent interceptedComponent)
         {
             AssertNotNull( model );
             AssertNotNull( key );
             AssertNotNull( handler );
-            AssertNotNull( instance );
+            AssertNull( interceptedComponent );
 
             m_unwrap = true;
-
-            return instance;
         }
 
         private void ComponentReady(IComponentModel model, String key, IHandler handler, object instance)
