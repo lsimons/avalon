@@ -56,7 +56,7 @@ import org.apache.avalon.framework.activity.Initializable;
  * the information is hard-coded.
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/27 16:55:42 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/05 19:44:59 $
  */
 public class FortressRoleManager
     extends org.apache.avalon.fortress.impl.role.AbstractRoleManager
@@ -120,12 +120,6 @@ public class FortressRoleManager
         addRole( "informix-datasource",
                  "org.apache.avalon.excalibur.datasource.DataSourceComponent",
                  "org.apache.avalon.excalibur.datasource.InformixDataSource",
-                 "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
-
-        /* Set up i18n relations */
-        addRole( "i18n",
-                 "org.apache.excalibur.xmlbundle.BundleSelector",
-                 "org.apache.excalibur.xmlbundle.BundleSelector",
                  "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
 
         /* Set up Monitor relations */
