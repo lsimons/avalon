@@ -54,8 +54,7 @@
  */
 package org.apache.avalon.framework.logger;
 
-import org.apache.log4j.Category;
-import org.apache.log4j.Priority;
+import org.apache.log4j.Level;
 
 /**
  * The default Log4J wrapper class for Logger.
@@ -66,14 +65,14 @@ public final class Log4JLogger
     implements Logger
 {
     //underlying implementation
-    private final Category m_logger;
+    private final org.apache.log4j.Logger m_logger;
 
     /**
      * Create a logger that delegates to specified category.
      *
      * @param logImpl the category to delegate to
      */
-    public Log4JLogger( final Category logImpl )
+    public Log4JLogger( final org.apache.log4j.Logger logImpl )
     {
         m_logger = logImpl;
     }
@@ -168,7 +167,7 @@ public final class Log4JLogger
      */
     public final boolean isWarnEnabled()
     {
-        return m_logger.isEnabledFor( Priority.WARN );
+        return m_logger.isEnabledFor( Level.WARN );
     }
 
     /**
@@ -199,7 +198,7 @@ public final class Log4JLogger
      */
     public final boolean isErrorEnabled()
     {
-        return m_logger.isEnabledFor( Priority.ERROR );
+        return m_logger.isEnabledFor( Level.ERROR );
     }
 
     /**
@@ -230,7 +229,7 @@ public final class Log4JLogger
      */
     public final boolean isFatalErrorEnabled()
     {
-        return m_logger.isEnabledFor( Priority.FATAL );
+        return m_logger.isEnabledFor( Level.FATAL );
     }
 
     /**
@@ -243,6 +242,6 @@ public final class Log4JLogger
      */
     public final Logger getChildLogger( final String name )
     {
-        return new Log4JLogger( Category.getInstance( m_logger.getName() + "." + name ) );
+        return new Log4JLogger( org.apache.log4j.Logger.getLogger( m_logger.getName() + "." + name ) );
     }
 }
