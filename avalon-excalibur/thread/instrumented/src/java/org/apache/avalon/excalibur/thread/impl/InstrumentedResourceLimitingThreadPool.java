@@ -17,16 +17,19 @@
 package org.apache.avalon.excalibur.thread.impl;
 
 import org.apache.avalon.excalibur.pool.ObjectFactory;
-import org.apache.avalon.excalibur.pool.ResourceLimitingPool;
-import org.apache.avalon.excalibur.thread.ThreadPool;
+import org.apache.avalon.excalibur.pool.InstrumentedResourceLimitingPool;
+
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Executable;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
+
 import org.apache.excalibur.instrument.Instrument;
 import org.apache.excalibur.instrument.Instrumentable;
+
 import org.apache.excalibur.thread.ThreadControl;
+import org.apache.excalibur.thread.ThreadPool;
 
 /**
  * A Thread Pool which can be configured to have a hard limit on the maximum number of threads
@@ -35,14 +38,14 @@ import org.apache.excalibur.thread.ThreadControl;
  *  The maximum block time can also be set.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/28 11:47:19 $
+ * @version CVS $Revision: 1.1 $ $Date: 2004/03/29 17:22:49 $
  * @since 4.1
  */
-public class ResourceLimitingThreadPool
+public class InstrumentedResourceLimitingThreadPool
     extends ThreadGroup
     implements ObjectFactory, LogEnabled, Disposable, ThreadPool, Instrumentable
 {
-    private ResourceLimitingPool m_underlyingPool;
+    private InstrumentedResourceLimitingPool m_underlyingPool;
 
     /** Instrumentable Name assigned to this Instrumentable */
     private String m_instrumentableName;
@@ -61,7 +64,7 @@ public class ResourceLimitingThreadPool
      *
      * @param max Maximum number of Poolables which can be stored in the pool, 0 implies no limit.
      */
-    public ResourceLimitingThreadPool( final int max )
+    public InstrumentedResourceLimitingThreadPool( final int max )
     {
         this( "Worker Pool", max );
     }
@@ -75,7 +78,7 @@ public class ResourceLimitingThreadPool
      * @param max Maximum number of WorkerThreads which can be stored in the pool,
      *  0 implies no limit.
      */
-    public ResourceLimitingThreadPool( final String name, final int max )
+    public InstrumentedResourceLimitingThreadPool( final String name, final int max )
     {
         this( name, max, true, true, 0, 10000 );
     }
@@ -97,7 +100,7 @@ public class ResourceLimitingThreadPool
      * @param trimInterval The minimum interval with which old unused WorkerThreads will be
      *  removed from the pool.  A value of 0 will cause the pool to never trim WorkerThreads.
      */
-    public ResourceLimitingThreadPool( final String name,
+    public InstrumentedResourceLimitingThreadPool( final String name,
                                        final int max,
                                        final boolean maxStrict,
                                        final boolean blocking,
@@ -107,7 +110,7 @@ public class ResourceLimitingThreadPool
         super( name );
 
         m_underlyingPool =
-            new ResourceLimitingPool( this, max, maxStrict,
+            new InstrumentedResourceLimitingPool( this, max, maxStrict,
                                       blocking, blockTimeout,
                                       trimInterval );
         try

@@ -17,8 +17,10 @@
 package org.apache.avalon.excalibur.thread.impl;
 
 import org.apache.avalon.excalibur.pool.Poolable;
+
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
+
 import org.apache.excalibur.thread.impl.AbstractThreadPool;
 import org.apache.excalibur.thread.impl.WorkerThread;
 
@@ -26,7 +28,6 @@ import org.apache.excalibur.thread.impl.WorkerThread;
  * This class extends the Thread class to add recyclable functionalities.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @deprecated Only Used by deprecated code and will be removed in future
  */
 class SimpleWorkerThread
     extends WorkerThread

@@ -22,7 +22,6 @@ package org.apache.excalibur.thread;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public interface ThreadControl
-    extends org.apache.avalon.excalibur.thread.ThreadControl
 {
     /**
      * Wait for specified time for thread to complete it's work.

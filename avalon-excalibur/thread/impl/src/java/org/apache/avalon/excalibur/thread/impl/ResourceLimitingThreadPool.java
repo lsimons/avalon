@@ -18,34 +18,32 @@ package org.apache.avalon.excalibur.thread.impl;
 
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.excalibur.pool.ResourceLimitingPool;
-import org.apache.avalon.excalibur.thread.ThreadPool;
+
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Executable;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.excalibur.instrument.Instrument;
-import org.apache.excalibur.instrument.Instrumentable;
-import org.apache.excalibur.thread.ThreadControl;
 
-/**
+import org.apache.excalibur.thread.ThreadControl;
+import org.apache.excalibur.thread.ThreadPool;
+
+/*
+*
  * A Thread Pool which can be configured to have a hard limit on the maximum number of threads
  *  which will be allocated.  This is very important for servers to avoid running out of system
  *  resources.  The pool can be configured to block for a new thread or throw an exception.
  *  The maximum block time can also be set.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/28 11:47:19 $
+ * @version CVS $Revision: 1.6 $ $Date: 2004/03/29 17:22:49 $
  * @since 4.1
  */
 public class ResourceLimitingThreadPool
     extends ThreadGroup
-    implements ObjectFactory, LogEnabled, Disposable, ThreadPool, Instrumentable
+    implements ObjectFactory, LogEnabled, Disposable, ThreadPool
 {
     private ResourceLimitingPool m_underlyingPool;
-
-    /** Instrumentable Name assigned to this Instrumentable */
-    private String m_instrumentableName;
 
     /**
      * The associated thread pool.
@@ -119,67 +117,6 @@ public class ResourceLimitingThreadPool
             final String message = "Unable to create ThreadPool due to " + e;
             throw new IllegalStateException( message );
         }
-    }
-
-    /*---------------------------------------------------------------
-     * Instrumentable Methods
-     *-------------------------------------------------------------*/
-    /**
-     * Sets the name for the Instrumentable.  The Instrumentable Name is used
-     *  to uniquely identify the Instrumentable during the configuration of
-     *  the InstrumentManager and to gain access to an InstrumentableDescriptor
-     *  through the InstrumentManager.  The value should be a string which does
-     *  not contain spaces or periods.
-     * <p>
-     * This value may be set by a parent Instrumentable, or by the
-     *  InstrumentManager using the value of the 'instrumentable' attribute in
-     *  the configuration of the component.
-     *
-     * @param name The name used to identify a Instrumentable.
-     */
-    public void setInstrumentableName( String name )
-    {
-        m_instrumentableName = name;
-    }
-
-    /**
-     * Gets the name of the Instrumentable.
-     *
-     * @return The name used to identify a Instrumentable.
-     */
-    public String getInstrumentableName()
-    {
-        return m_instrumentableName;
-    }
-
-    /**
-     * Obtain a reference to all the Instruments that the Instrumentable object
-     *  wishes to expose.  All sampling is done directly through the
-     *  Instruments as opposed to the Instrumentable interface.
-     *
-     * @return An array of the Instruments available for profiling.  Should
-     *         never be null.  If there are no Instruments, then
-     *         EMPTY_INSTRUMENT_ARRAY can be returned.  This should never be
-     *         the case though unless there are child Instrumentables with
-     *         Instruments.
-     */
-    public Instrument[] getInstruments()
-    {
-        return Instrumentable.EMPTY_INSTRUMENT_ARRAY;
-    }
-
-    /**
-     * Any Object which implements Instrumentable can also make use of other
-     *  Instrumentable child objects.  This method is used to tell the
-     *  InstrumentManager about them.
-     *
-     * @return An array of child Instrumentables.  This method should never
-     *         return null.  If there are no child Instrumentables, then
-     *         EMPTY_INSTRUMENTABLE_ARRAY can be returned.
-     */
-    public Instrumentable[] getChildInstrumentables()
-    {
-        return new Instrumentable[]{m_underlyingPool};
     }
 
     /**

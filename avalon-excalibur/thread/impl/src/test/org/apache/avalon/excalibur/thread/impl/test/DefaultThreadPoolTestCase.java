@@ -1,5 +1,5 @@
 /* 
- * Copyright 2002-2004 The Apache Software Foundation
+ * Copyright 2002-2004 Apache Software Foundation
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at 
@@ -38,7 +38,7 @@ public class DefaultThreadPoolTestCase
     {
         final DefaultThreadPool pool = new DefaultThreadPool( "default", 10 );
         pool.setDaemon( false );
-        pool.enableLogging( new ConsoleLogger() );
+        pool.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_INFO ) );
         pool.execute( new DummyRunnable() );
     }
 
@@ -47,7 +47,7 @@ public class DefaultThreadPoolTestCase
     {
         final DefaultThreadPool pool = new DefaultThreadPool( "default", 10 );
         pool.setDaemon( false );
-        pool.enableLogging( new ConsoleLogger() );
+        pool.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_INFO ) );
         pool.execute( new DummyRunnable() );
     }
 
