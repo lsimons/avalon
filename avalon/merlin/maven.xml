@@ -146,6 +146,7 @@
         <include name="bin/**/*"/>
         <exclude name="bin/**/*.jar"/>
         <exclude name="bin/**/*.exe"/>
+        <exclude name="bin/**/*.dll"/>
       </fileset>
       <fileset dir="${basedir}">
         <include name="README.TXT"/>
@@ -158,12 +159,12 @@
     </ant:copy>
 
     <ant:copy toDir="${merlin.build.inst.dir}">
-      </fileset>
       <fileset dir="${basedir}/platform/src">
         <include name="config/**/*"/>
         <include name="system/**/*"/>
         <include name="bin/**/*.jar"/>
         <include name="bin/**/*.exe"/>
+        <include name="bin/**/*.dll"/>
       </fileset>
       <fileset dir="${basedir}">
         <include name="LICENSE.txt"/>

@@ -48,56 +48,44 @@
 
 */
 
-package org.apache.avalon.activation.appliance.impl;
+package org.apache.avalon.composition.model.impl;
 
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.composition.model.SystemContext;
-import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.activation.appliance.Engine;
-import org.apache.avalon.activation.appliance.BlockContext;
+import org.apache.avalon.composition.model.ServiceModel;
+import org.apache.avalon.composition.data.ServiceDirective;
 
 /**
- * Context object applied to a new block.
+ * Service model exposes an exported service class.
  *
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3.2.4 $ $Date: 2004/01/12 05:41:05 $
+ * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version $Revision: 1.1.2.1 $ $Date: 2004/01/12 05:41:05 $
  */
-public class DefaultBlockContext implements BlockContext
+public class DefaultServiceModel implements ServiceModel
 {
-    private final ContainmentModel m_model;
+    private final ServiceDirective m_directive;
+    private final Class m_clazz;
 
-    private final Engine m_engine;
-
-   /**
-    * Creation of a new block context.
-    * @param model the containment model describing the block
-    * @param engine the engine from which dependent applicance 
-    *      instances may be resolved
-    */
-    public DefaultBlockContext( 
-      ContainmentModel model, Engine engine )
+    public DefaultServiceModel( ServiceDirective directive, Class clazz )
     {
-        if( model == null ) throw new NullPointerException( "model" );
-
-        m_model = model;
-        m_engine = engine;
+        m_directive = directive;
+        m_clazz = clazz;
     }
 
    /**
-    * Returns the containment model assigned to the block.
-    * @return the containment model
+    * Return the service directive for the model.
+    *
+    * @return the directive declaring the service export
     */
-    public ContainmentModel getContainmentModel()
+    public ServiceDirective getServiceDirective()
     {
-        return m_model;
+        return m_directive;
     }
 
    /**
-    * Returns the assigned engine.
-    * @return the engine
+    * Return the service class.  
+    * @return the service class
     */
-    public Engine getEngine()
+    public Class getServiceClass()
     {
-        return m_engine;
+        return m_clazz;
     }
 }

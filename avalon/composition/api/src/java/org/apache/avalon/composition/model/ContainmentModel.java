@@ -66,7 +66,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9.2.8 $ $Date: 2004/01/09 20:29:48 $
+ * @version $Revision: 1.9.2.9 $ $Date: 2004/01/12 05:41:05 $
  */
 public interface ContainmentModel extends DeploymentModel
 {
@@ -157,17 +157,18 @@ public interface ContainmentModel extends DeploymentModel
     */
     void removeModel( String name );
 
-   /**
-    * Return the set of service export directives.
-    * @return t he export directives
-    */
-    ServiceDirective[] getExportDirectives();
 
    /**
-    * Return the set of service export directives for a supplied class.
-    * @return the export directives
+    * Return the set of service export models.
+    * @return t he export directives
     */
-    ServiceDirective getExportDirective( Class clazz );
+    ServiceModel[] getServiceModels();
+
+   /**
+    * Return a service exoport model matching a supplied class.
+    * @return the service model
+    */
+    ServiceModel getServiceModel( Class clazz );
 
    /**
     * Apply a set of override targets resolvable from a supplied url.

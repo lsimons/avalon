@@ -48,56 +48,28 @@
 
 */
 
-package org.apache.avalon.activation.appliance.impl;
+package org.apache.avalon.composition.model;
 
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.composition.model.SystemContext;
-import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.activation.appliance.Engine;
-import org.apache.avalon.activation.appliance.BlockContext;
+import org.apache.avalon.composition.data.ServiceDirective;
 
 /**
- * Context object applied to a new block.
+ * Service model manages service exported by a container.
  *
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3.2.4 $ $Date: 2004/01/12 05:41:05 $
+ * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version $Revision: 1.1.2.1 $ $Date: 2004/01/12 05:41:05 $
  */
-public class DefaultBlockContext implements BlockContext
+public interface ServiceModel
 {
-    private final ContainmentModel m_model;
-
-    private final Engine m_engine;
+   /**
+    * Return the service directive for the model.
+    *
+    * @return the directive declaring the service export
+    */
+    ServiceDirective getServiceDirective();
 
    /**
-    * Creation of a new block context.
-    * @param model the containment model describing the block
-    * @param engine the engine from which dependent applicance 
-    *      instances may be resolved
+    * Return the service class.  
+    * @return the service class
     */
-    public DefaultBlockContext( 
-      ContainmentModel model, Engine engine )
-    {
-        if( model == null ) throw new NullPointerException( "model" );
-
-        m_model = model;
-        m_engine = engine;
-    }
-
-   /**
-    * Returns the containment model assigned to the block.
-    * @return the containment model
-    */
-    public ContainmentModel getContainmentModel()
-    {
-        return m_model;
-    }
-
-   /**
-    * Returns the assigned engine.
-    * @return the engine
-    */
-    public Engine getEngine()
-    {
-        return m_engine;
-    }
+    Class getServiceClass();
 }
