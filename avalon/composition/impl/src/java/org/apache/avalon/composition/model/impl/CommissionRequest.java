@@ -26,7 +26,7 @@ import org.apache.avalon.composition.model.DeploymentModel;
 /**
  * A deployment request handler.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:39:10 $
+ * @version $Revision: 1.3 $ $Date: 2004/04/02 01:06:49 $
  */
 class CommissionRequest
 {
@@ -85,7 +85,7 @@ class CommissionRequest
         synchronized( this )
         {
             long timeout = getDeploymentModel().getDeploymentTimeout();
-            wait( timeout ); // wait for commission/decommission
+            waitForCompletion( timeout );
             processException();
             if( m_completed )
             {
@@ -93,7 +93,7 @@ class CommissionRequest
                 return t2-t1;
             }
             m_thread.interrupt();
-            wait( timeout ); // wait for shutdown
+            waitForCompletion( timeout ); // wait for shutdown
             processException();
             if( m_interrupted || m_completed )
             {
@@ -114,6 +114,21 @@ class CommissionRequest
                   + timeout
                   + "] and failed to respond to an interrupt.";
                 throw new FatalCommissioningException( error );
+            }
+        }
+    }
+
+    private void waitForCompletion( long timeout ) throws InterruptedException
+    {
+        if( timeout > 0 )
+        {
+            wait( timeout );
+        }
+        else
+        {
+            while( !m_completed )
+            {
+                wait( 1000 );
             }
         }
     }
