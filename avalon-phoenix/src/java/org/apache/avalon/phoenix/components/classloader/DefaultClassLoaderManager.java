@@ -33,16 +33,16 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 
 /**
- * Component that creates and manages the <code>ClassLoader</code>
+ * Component that creates and manages the {@link ClassLoader}
  * for an application loaded out of a <code>.sar</code> deployment.
  *
  * <p>Currently it creates a policy based on the policy declaration
  * in the configuration. It then just creates a URLClassLoader and
- * populates it with the specified codebase <code>URL</code>s.</p>
+ * populates it with the specified codebase {@link URL}s.</p>
  *
  * <p>In the future this class will scan the manifests for "Optional
  * Packages" formely called "Extensions" which it will add to the
- * <code>ClassLoader</code></p>
+ * {@link ClassLoader}</p>
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @see ClassLoaderManager
@@ -93,9 +93,9 @@ public class DefaultClassLoaderManager
     }
 
     /**
-     * Create a <code>ClassLoader</code> for a specific application.
+     * Create a {@link ClassLoader} for a specific application.
      * See Class Javadoc for description of technique for creating
-     * <code>ClassLoader</code>.
+     * {@link ClassLoader}.
      *
      * @param environment the configuration "environment.xml" for the application
      * @param source the source of application. (usually the name of the .sar file
