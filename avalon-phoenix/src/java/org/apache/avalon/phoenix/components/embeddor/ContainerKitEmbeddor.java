@@ -1,0 +1,520 @@
+/*
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included with this distribution in
+ * the LICENSE.txt file.
+ */
+package org.apache.avalon.phoenix.components.embeddor;
+
+import java.io.File;
+import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.excalibur.io.ExtensionFileFilter;
+import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.parameters.ParameterException;
+import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.phoenix.Constants;
+import org.apache.avalon.phoenix.interfaces.Deployer;
+import org.apache.avalon.phoenix.interfaces.Embeddor;
+import org.apache.avalon.phoenix.interfaces.EmbeddorMBean;
+import org.apache.avalon.phoenix.interfaces.Kernel;
+import org.apache.avalon.phoenix.interfaces.SystemManager;
+import org.apache.excalibur.containerkit.kernel.SimpleServiceKernel;
+
+/**
+ * This is the object that is interacted with to create, manage and
+ * dispose of the kernel and related resources.
+ *
+ * @author <a href="mail@leosimons.com">Leo Simons</a>
+ * @author <a href="peter@apache.org">Peter Donald</a>
+ * @author <a href="bauer@denic.de">Joerg Bauer</a>
+ */
+public class ContainerKitEmbeddor
+    extends SimpleServiceKernel
+    implements Embeddor, EmbeddorMBean, Contextualizable, Parameterizable, Disposable
+{
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( ContainerKitEmbeddor.class );
+    private static final String DEFAULT_APPS_PATH = "/apps";
+    private EmbeddorObservable2 m_observable = new EmbeddorObservable2();
+    private Parameters m_parameters;
+    /**
+     * Context passed to embeddor. See the contextualize() method
+     * for details on what is stored in context.
+     *
+     * @see ContainerKitEmbeddor#contextualize(Context)
+     */
+    private Context m_context;
+    private String m_phoenixHome;
+    /**
+     * If true, flag indicates that the Embeddor should continue running
+     * even when there are no applications in kernel. Otherwise the
+     * Embeddor will shutdown when it detects there is no longer any
+     * applications running.
+     */
+    private boolean m_persistent;
+    /**
+     * Flag is set to true when the embeddor should  shut itself down.
+     * It is set to true as a result of a call to shutdown() method.
+     *
+     * @see Embeddor#shutdown()
+     */
+    private boolean m_shutdown;
+    /**
+     * Time at which the embeddor was started.
+     */
+    private long m_startTime;
+    /**
+     * The default directory in which applications are deployed from.
+     */
+    private String m_appDir;
+
+    /**
+     * Pass the Context to the embeddor.
+     * It is expected that the following will be entries in context;
+     * <ul>
+     *   <li><b>common.classloader</b>: ClassLoader shared betweeen
+     *      container and applications</li>
+     *   <li><b>container.classloader</b>: ClassLoader used to load
+     *      container</li>
+     * </ul>
+     *
+     * @param context
+     * @throws ContextException
+     */
+    public void contextualize( final Context context )
+        throws ContextException
+    {
+        m_context = context;
+        try
+        {
+            final Observer observer = (Observer)context.get( Observer.class.getName() );
+            m_observable.addObserver( observer );
+        }
+        catch( final ContextException ce )
+        {
+            final String message = REZ.getString( "embeddor.notice.no-restart" );
+            getLogger().warn( message );
+        }
+    }
+
+    /**
+     * Set parameters for this component.
+     * This must be called after contextualize() and before initialize()
+     *
+     * Make sure to provide all the neccessary information through
+     * these parameters. All information it needs consists of strings.
+     * There are two types of strings included in parameters. The first
+     * type include parameters used to setup proeprties of the embeddor.
+     * The second type include the implementation names of the components
+     * that the Embeddor manages. For instance if you want to replace the
+     * <code>ConfigurationRepository</code> with your own repository you
+     * would pass in a parameter such as;</p>
+     * <p>org.apache.avalon.phoenix.interfaces.ConfigurationRepository =
+     * com.biz.MyCustomConfigurationRepository</p>
+     *
+     * <p>Of the other type of parameters, the following are supported by
+     * the DefaultEmbeddor implementation of Embeddor. Note that some of
+     * the embedded components may support other parameters.</p>
+     * <ul>
+     * <li><b>phoenix.home</b>, the home directory of phoenix. Defaults
+     * to "..".</li>
+     * <li><b>log-destination</b>, the file to save log
+     * messages in. If omitted, ${phoenix.home}/logs/phoenix.log is used.</li>
+     * <li><b>log-priority</b>, the priority at which log messages are filteres.
+     * If omitted, then INFO will be default level used.</li>
+     * <li><b>applications-directory</b>, the directory in which
+     * the defaul applications to be loaded by the kernel are stored
+     * (in .sar format). Defaults to ${phoenix.home}/apps</li>
+     * </ul>
+     *
+     * @param parameters the Parameters for embeddor
+     * @throws ParameterException if an error occurs
+     */
+    public synchronized void parameterize( final Parameters parameters )
+        throws ParameterException
+    {
+        m_parameters = parameters;
+        m_phoenixHome = m_parameters.getParameter( "phoenix.home", ".." );
+        m_persistent = m_parameters.getParameterAsBoolean( "persistent", false );
+        m_appDir = m_parameters.getParameter( "phoenix.apps.dir",
+                                              m_phoenixHome + DEFAULT_APPS_PATH );
+    }
+
+    /**
+     * Creates the core handlers - logger, deployer, Manager and
+     * Kernel. Note that these are not set up properly until you have
+     * called the <code>run()</code> method.
+     */
+    public void initialize()
+        throws Exception
+    {
+        m_startTime = System.currentTimeMillis();
+        try
+        {
+            super.initialize();
+            registerComponents();
+        }
+        catch( final Exception e )
+        {
+            // whoops!
+            final String message = REZ.getString( "embeddor.error.start.failed" );
+            getLogger().fatalError( message, e );
+            throw e;
+        }
+    }
+
+    /**
+     * This is the main method of the embeddor. It sets up the core
+     * components, and then deploys the <code>Facilities</code>. These
+     * are registered with the Kernel and the Manager. The same
+     * happens for the <code>Applications</code>.
+     * Now, the Kernel is taken through its lifecycle. When it is
+     * finished, as well as all the applications running in it, it
+     * is shut down, after which the PhoenixEmbeddor is as well.
+     */
+    public void execute()
+        throws Exception
+    {
+        deployDefaultApplications();
+
+        //  If the kernel is empty at this point, it is because the server was
+        //  started without supplying any applications, display a message to
+        //  give the user a clue as to why the server is shutting down
+        //  immediately.
+        if( emptyKernel() )
+        {
+            final String message = REZ.getString( "embeddor.error.start.no-apps" );
+            getLogger().fatalError( message );
+        }
+        else
+        {
+            // loop until <code>Shutdown</code> is created.
+            while( true )
+            {
+                // wait() for shutdown() to take action...
+                if( m_shutdown
+                    || (emptyKernel() && !m_persistent) )
+                {
+                    // The server will shut itself down when all applications are disposed.
+                    if( emptyKernel() )
+                    {
+                        final String message =
+                            REZ.getString( "embeddor.shutdown.all-apps-disposed" );
+                        getLogger().info( message );
+                    }
+                    break;
+                }
+                gotoSleep();
+            }
+        }
+    }
+
+    private boolean emptyKernel()
+    {
+        final Kernel kernel = getKernel();
+        if( null != kernel )
+        {
+            final String[] names = kernel.getApplicationNames();
+            return (0 == names.length);
+        }
+        else
+        {
+            //Consider the kernel empty
+            //if it has been shutdown
+            return true;
+        }
+    }
+
+    private void gotoSleep()
+    {
+        try
+        {
+            synchronized( this )
+            {
+                wait( 1000 );
+            }
+        }
+        catch( final InterruptedException e )
+        {
+            //NOOP
+        }
+    }
+
+    /**
+     * Release all the resources associated with kernel.
+     */
+    public synchronized void dispose()
+    {
+        shutdown();
+        try
+        {
+            unregisterComponents();
+            super.dispose();
+        }
+        catch( final Exception e )
+        {
+            // whoops!
+            final String message = REZ.getString( "embeddor.error.shutdown.failed" );
+            getLogger().fatalError( message, e );
+        }
+
+        System.gc(); // make sure resources are released
+    }
+
+    /**
+     * Request the Embeddor shutsdown.
+     */
+    public void shutdown()
+    {
+        m_shutdown = true;
+        synchronized( this )
+        {
+            notifyAll();
+        }
+    }
+
+    /**
+     * Ask the embeddor to restart itself if this operation is supported.
+     *
+     * @throws UnsupportedOperationException if restart not supported
+     */
+    public void restart()
+        throws UnsupportedOperationException
+    {
+        try
+        {
+            m_observable.change();
+            m_observable.notifyObservers( "restart" );
+        }
+        catch( final Exception e )
+        {
+            throw new UnsupportedOperationException();
+        }
+    }
+
+    /**
+     * Get name by which the server is know.
+     * Usually this defaults to "Phoenix" but the admin
+     * may assign another name. This is useful when you
+     * are managing a cluster of Phoenix servers.
+     *
+     * @return the name of server
+     */
+    public String getName()
+    {
+        return Constants.SOFTWARE;
+    }
+
+    /**
+     * Get location of Phoenix installation
+     *
+     * @return the home directory of phoenix
+     */
+    public String getHomeDirectory()
+    {
+        return m_phoenixHome;
+    }
+
+    /**
+     * Get the date at which this server started.
+     *
+     * @return the date at which this server started
+     */
+    public Date getStartTime()
+    {
+        return new Date( m_startTime );
+    }
+
+    /**
+     * Retrieve the number of millisecond
+     * the server has been up.
+     *
+     * @return the the number of millisecond the server has been up
+     */
+    public long getUpTimeInMillis()
+    {
+        return System.currentTimeMillis() - m_startTime;
+    }
+
+    /**
+     * Retrieve a string identifying version of server.
+     * Usually looks like "v4.0.1a".
+     *
+     * @return version string of server.
+     */
+    public String getVersion()
+    {
+        return Constants.VERSION;
+    }
+
+    /**
+     * Get a string defining the build.
+     * Possibly the date on which it was built, where it was built,
+     * with what features it was built and so forth.
+     *
+     * @return the string describing build
+     */
+    public String getBuild()
+    {
+        return "(" + Constants.DATE + ")";
+    }
+
+    /**
+     * The deployer is used to load the applications from the
+     * default-apps-location specified in Parameters.
+     * TODO: load facilities from .fars as well.
+     *
+     * @throws Exception if an error occurs
+     */
+    protected void deployDefaultApplications()
+        throws Exception
+    {
+        //Name of optional application specified on CLI
+        final String application =
+            m_parameters.getParameter( "application-location", null );
+        if( null != application )
+        {
+            final File file = new File( application );
+            deployFile( file );
+        }
+        if( null != m_appDir )
+        {
+            final File directory = new File( m_appDir );
+            final ExtensionFileFilter filter = new ExtensionFileFilter( ".sar" );
+            final File[] files = directory.listFiles( filter );
+            if( null != files )
+            {
+                deployFiles( files );
+            }
+        }
+    }
+
+    private void deployFiles( final File[] files )
+        throws Exception
+    {
+        for( int i = 0; i < files.length; i++ )
+        {
+            deployFile( files[ i ] );
+        }
+    }
+
+    private void deployFile( final File file )
+        throws Exception
+    {
+        final String filename = file.getName();
+        int index = filename.lastIndexOf( '.' );
+        if( -1 == index )
+        {
+            index = filename.length();
+        }
+        final String name = filename.substring( 0, index );
+        final File canonicalFile = file.getCanonicalFile();
+        deployFile( name, canonicalFile );
+    }
+
+    protected final synchronized void deployFile( final String name, final File file )
+        throws Exception
+    {
+        final Deployer deployer = (Deployer)getComponent( Deployer.ROLE );
+        deployer.deploy( name, file.toURL() );
+    }
+
+    private Parameters createChildParameters()
+    {
+        final Parameters parameters = new Parameters();
+        parameters.merge( m_parameters );
+        parameters.setParameter( "phoenix.apps.dir", m_appDir );
+        return parameters;
+    }
+
+    /**
+     * Register embeddor and it's components to {@link SystemManager}.
+     */
+    private void registerComponents()
+        throws Exception
+    {
+        final SystemManager systemManager =
+            (SystemManager)getComponent( SystemManager.ROLE );
+
+        final SystemManager componentManager =
+            systemManager.getSubContext( null, "component" );
+
+        componentManager.register( ManagementRegistration.EMBEDDOR.getName(),
+                                   this,
+                                   ManagementRegistration.EMBEDDOR.getInterfaces() );
+
+        for( int i = 0; i < m_entries.length; i++ )
+        {
+            final ManagementRegistration registration =
+                ManagementRegistration.getManagementInfoForRole( m_entries[ i ].getRole() );
+            if( null != registration )
+            {
+                componentManager.register( registration.getName(),
+                                           m_entries[ i ].getObject(),
+                                           registration.getInterfaces() );
+            }
+        }
+    }
+
+    /**
+     * Unregister embeddor and it's components from <code>SystemManager</code>.
+     */
+    private void unregisterComponents()
+        throws Exception
+    {
+        final SystemManager systemManager =
+            (SystemManager)getComponent( SystemManager.ROLE );
+
+        final SystemManager componentManager = systemManager.getSubContext( null, "component" );
+
+        componentManager.unregister( ManagementRegistration.EMBEDDOR.getName() );
+
+        for( int i = 0; i < m_entries.length; i++ )
+        {
+            final ManagementRegistration registration =
+                ManagementRegistration.getManagementInfoForRole( m_entries[ i ].getRole() );
+            if( null != registration )
+            {
+                componentManager.unregister( registration.getName() );
+            }
+        }
+    }
+
+    /**
+     * Allow subclasses to get access to kernel.
+     *
+     * @return the Kernel
+     */
+    protected final Kernel getKernel()
+    {
+        return (Kernel)getComponent( Kernel.ROLE );
+    }
+
+    /**
+     * Allow subclasses to get access to parameters.
+     *
+     * @return the Parameters
+     */
+    protected final Parameters getParameters()
+    {
+        return m_parameters;
+    }
+}
+
+class EmbeddorObservable2
+    extends Observable
+{
+    public void change()
+    {
+        super.setChanged();
+    }
+}
