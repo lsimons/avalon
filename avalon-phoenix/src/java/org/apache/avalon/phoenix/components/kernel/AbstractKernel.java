@@ -46,12 +46,11 @@ public abstract class AbstractKernel
     public void initialize()
         throws Exception
     {
-        final Iterator names = list();
-        while( names.hasNext() )
+        final String[] names = list();
+        for( int i = 0; i < names.length; i++ )
         {
-            final String name = (String)names.next();
-            final Entry entry = getEntry( name );
-            initializeEntry( name, entry );
+            final Entry entry = getEntry( names[ i ] );
+            initializeEntry( names[ i ], entry );
         }
     }
 
@@ -59,12 +58,11 @@ public abstract class AbstractKernel
         throws Exception
     {
         m_autoStart = true;
-        final Iterator names = list();
-        while( names.hasNext() )
+        final String[] names = list();
+        for( int i = 0; i < names.length; i++ )
         {
-            final String name = (String)names.next();
-            final Entry entry = getEntry( name );
-            startEntry( name, entry );
+            final Entry entry = getEntry( names[ i ] );
+            startEntry( names[ i ], entry );
         }
     }
 
@@ -72,30 +70,27 @@ public abstract class AbstractKernel
         throws Exception
     {
         m_autoStart = false;
-        final Iterator names = list();
-        while( names.hasNext() )
+        final String[] names = list();
+        for( int i = 0; i < names.length; i++ )
         {
-            final String name = (String)names.next();
-            final Entry entry = getEntry( name );
-            stopEntry( name, entry );
+            final Entry entry = getEntry( names[ i ] );
+            stopEntry( names[ i ], entry );
         }
     }
 
     public void dispose()
     {
-        final Iterator names = list();
-        while( names.hasNext() )
+        final String[] names = list();
+        for( int i = 0; i < names.length; i++ )
         {
-            final String name = (String)names.next();
-
             try
             {
-                final Entry entry = getEntry( name );
-                disposeEntry( name, entry );
+                final Entry entry = getEntry( names[ i ] );
+                disposeEntry( names[ i ], entry );
             }
             catch( final ContainerException ce )
             {
-                final String message = REZ.getString( "kernel.error.entry.dispose", name );
+                final String message = REZ.getString( "kernel.error.entry.dispose", names[ i ] );
                 getLogger().warn( message, ce );
             }
         }
