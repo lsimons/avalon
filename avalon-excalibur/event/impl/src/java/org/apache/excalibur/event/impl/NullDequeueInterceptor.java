@@ -1,5 +1,5 @@
 /* 
- * Copyright 1999-2004 Apache Software Foundation
+ * Copyright 1999-2004 The Apache Software Foundation
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at 
@@ -25,7 +25,7 @@ import org.apache.excalibur.event.Source;
  * queue.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public final class NullDequeueInterceptor implements DequeueInterceptor
 {

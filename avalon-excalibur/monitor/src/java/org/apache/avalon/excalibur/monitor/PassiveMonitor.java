@@ -1,5 +1,5 @@
 /* 
- * Copyright 2002-2004 Apache Software Foundation
+ * Copyright 2002-2004 The Apache Software Foundation
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at 
@@ -45,7 +45,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Id: PassiveMonitor.java,v 1.3 2004/02/25 10:33:17 niclas Exp $
+ * @version $Id: PassiveMonitor.java,v 1.4 2004/02/28 11:47:32 cziegeler Exp $
  */
 public class PassiveMonitor
     extends org.apache.avalon.excalibur.monitor.impl.PassiveMonitor

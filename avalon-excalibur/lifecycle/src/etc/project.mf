@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Created-By: Apache Avalon
 Extension-Name: avalon-lifecycle
-Specification-Vendor: Apache Software Foundation
-Implementation-Vendor: Apache Software Foundation
+Specification-Vendor: The Apache Software Foundation
+Implementation-Vendor: The Apache Software Foundation
 Implementation-Vendor-Id: ASF
 Specification-Version: 1.0
 Implementation-Version: 1.0

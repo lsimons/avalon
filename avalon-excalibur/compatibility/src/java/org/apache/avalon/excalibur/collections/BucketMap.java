@@ -1,5 +1,5 @@
 /* 
- * Copyright 2002-2004 Apache Software Foundation
+ * Copyright 2002-2004 The Apache Software Foundation
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at 
@@ -31,7 +31,7 @@ import java.util.Set;
  *
  * @deprecated use org.apache.commons.collections.StaticBucketMap instead
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:06 $
+ * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:15 $
  * @since 4.0
  */
 public final class BucketMap implements Map

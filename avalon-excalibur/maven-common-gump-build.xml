@@ -365,7 +365,7 @@ DEBUG INFO
         <mkdir dir="${maven.build.dir}/impl-classes"/><!-- to ensure <classpath/> works -->
 
         <property name="copyright"
-          value="Copyright &amp;copy; ${project.copyright.year} Apache Software Foundation. All Rights Reserved." />
+          value="Copyright &amp;copy; ${project.copyright.year} The Apache Software Foundation. All Rights Reserved." />
 
         <property name="title" value="Avalon ${project.name} API"/>
 
