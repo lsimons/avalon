@@ -167,8 +167,6 @@
     <style in="${cocoon.build.xdocs}/fortress/book.xml" out="${cocoon.build.xdocs}/fortress/menu.xml" style="${tools.dir}/book2project.xsl"/>
     <style in="${cocoon.build.xdocs}/i18n/book.xml" out="${cocoon.build.xdocs}/i18n/menu.xml" style="${tools.dir}/book2project.xsl"/>
     <style in="${cocoon.build.xdocs}/instrument/book.xml" out="${cocoon.build.xdocs}/instrument/menu.xml" style="${tools.dir}/book2project.xsl"/>
-    <style in="${cocoon.build.xdocs}/instrument-client/book.xml" out="${cocoon.build.xdocs}/instrument-client/menu.xml" style="${tools.dir}/book2project.xsl"/>
-    <style in="${cocoon.build.xdocs}/instrument-manager/book.xml" out="${cocoon.build.xdocs}/instrument-manager/menu.xml" style="${tools.dir}/book2project.xsl"/>
     <style in="${cocoon.build.xdocs}/io/book.xml" out="${cocoon.build.xdocs}/io/menu.xml" style="${tools.dir}/book2project.xsl"/>
     <style in="${cocoon.build.xdocs}/jprocess/book.xml" out="${cocoon.build.xdocs}/jprocess/menu.xml" style="${tools.dir}/book2project.xsl"/>
     <style in="${cocoon.build.xdocs}/logger/book.xml" out="${cocoon.build.xdocs}/logger/menu.xml" style="${tools.dir}/book2project.xsl"/>
