@@ -8,9 +8,6 @@
 package org.apache.phoenix.engine;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
@@ -21,9 +18,6 @@ import org.apache.avalon.DefaultComponentManager;
 import org.apache.avalon.Loggable;
 import org.apache.avalon.camelot.CamelotUtil;
 import org.apache.avalon.camelot.Deployer;
-import org.apache.avalon.configuration.ConfigurationException;
-import org.apache.avalon.util.StringUtil;
-import org.apache.avalon.util.cli.AbstractMain;
 import org.apache.avalon.util.cli.CLArgsParser;
 import org.apache.avalon.util.cli.CLOption;
 import org.apache.avalon.util.cli.CLOptionDescriptor;
@@ -41,7 +35,6 @@ import org.apache.log.output.FileOutputLogTarget;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class Main
-    extends AbstractMain
 {
     private static final String    PHOENIX_HOME         = 
         System.getProperty( "phoenix.home", ".." );
@@ -50,68 +43,18 @@ public class Main
     private static final String    DEFAULT_APPS_PATH    = PHOENIX_HOME + "/apps";
 
     private static final String    DEFAULT_KERNEL_CLASS =
-        "org.apache.phoenix.engine.DefaultServerKernel";
+        System.getProperty( "phoenix.kernel", "org.apache.phoenix.engine.DefaultServerKernel" );
 
     private static final int       DEBUG_LOG_OPT        = 'd';
     private static final int       HELP_OPT             = 'h';
-    private static final int       KERNEL_CLASS_OPT     = 'k';
     private static final int       LOG_FILE_OPT         = 'l';
     private static final int       APPS_PATH_OPT        = 'a';
 
-    //HACK: force resolution of .jar libraries before security manager is installed.
-    //TODO: Is this still needed ????
-    private static final Class     AWARE_DEPEND         = 
-        org.apache.avalon.Component.class;
-    private static final Class     PARSER_DEPEND        = 
-        org.xml.sax.SAXException.class;
-    private static final Class     CLIENT_DEPEND        = 
-        org.apache.phoenix.Block.class;
-
-    protected String               m_kernelClass        = DEFAULT_KERNEL_CLASS;
     protected String               m_appsPath           = DEFAULT_APPS_PATH;
     protected String               m_logFile            = DEFAULT_LOG_FILE;
     protected Logger               m_logger;
 
-    /**
-     * Initialise the options for command line parser.
-     *
-     */
-    protected CLOptionDescriptor[] createCLOptions()
-    {
-        //TODO: localise
-        final CLOptionDescriptor options[] = new CLOptionDescriptor[ 5 ];
-        options[0] =
-            new CLOptionDescriptor( "help",
-                                    CLOptionDescriptor.ARGUMENT_DISALLOWED,
-                                    HELP_OPT,
-                                    "display this help" );
-
-        options[1] =
-            new CLOptionDescriptor( "kernel-class",
-                                    CLOptionDescriptor.ARGUMENT_REQUIRED,
-                                    KERNEL_CLASS_OPT,
-                                    "the classname of the kernel." );
-
-        options[2] =
-            new CLOptionDescriptor( "log-file",
-                                    CLOptionDescriptor.ARGUMENT_REQUIRED,
-                                    LOG_FILE_OPT,
-                                    "the name of log file." );
-
-        options[3] =
-            new CLOptionDescriptor( "apps-path",
-                                    CLOptionDescriptor.ARGUMENT_REQUIRED,
-                                    APPS_PATH_OPT,
-                                    "the path to apps/ directory that contains .sars" );
-
-        options[4] =
-            new CLOptionDescriptor( "debug-init",
-                                    CLOptionDescriptor.ARGUMENT_DISALLOWED,
-                                    DEBUG_LOG_OPT,
-                                    "use this option to specify enable debug " + 
-                                    "initialisation logs." );
-        return options;
-    }
+    protected CLOptionDescriptor[] m_options;
 
     /**
      * Main entry point.
@@ -127,13 +70,64 @@ public class Main
         {
             if( null != main.m_logger )
             {
-                main.m_logger.error( "Unhandled exception", throwable );
+                main.m_logger.fatalError( "Unhandled exception", throwable );
             }
 
-            System.err.println( "Error: " + 
-                                StringUtil.printStackTrace( throwable, 8, true ) );
+            System.out.println( "There was an uncaught exception:" );
+            System.out.println( "---------------------------------------------------------" );
+            throwable.printStackTrace( System.out );
+            System.out.println( "---------------------------------------------------------" );
+            System.out.println( "The log file may contain further details of error." );
+            System.out.println( "Please check the configuration files and restart phoenix." );
+            System.out.println( "If the problem persists, contact the Avalon project.  See" );
+            System.out.println( "http://jakarta.apache.org/avalon for more information." );
             System.exit( 1 );
         }
+    }
+
+    /**
+     * Display usage report.
+     *
+     */
+    protected void usage()
+    {
+        System.out.println( "java " + getClass().getName() + " [options]" );
+        System.out.println( "\tAvailable options:");
+        System.out.println( CLUtil.describeOptions( m_options ) );
+    }
+
+    /**
+     * Initialise the options for command line parser.
+     *
+     */
+    protected CLOptionDescriptor[] createCLOptions()
+    {
+        //TODO: localise
+        final CLOptionDescriptor options[] = new CLOptionDescriptor[ 4 ];
+        options[0] =
+            new CLOptionDescriptor( "help",
+                                    CLOptionDescriptor.ARGUMENT_DISALLOWED,
+                                    HELP_OPT,
+                                    "display this help" );
+        options[1] =
+            new CLOptionDescriptor( "log-file",
+                                    CLOptionDescriptor.ARGUMENT_REQUIRED,
+                                    LOG_FILE_OPT,
+                                    "the name of log file." );
+
+        options[2] =
+            new CLOptionDescriptor( "apps-path",
+                                    CLOptionDescriptor.ARGUMENT_REQUIRED,
+                                    APPS_PATH_OPT,
+                                    "the path to apps/ directory that contains .sars" );
+
+        options[3] =
+            new CLOptionDescriptor( "debug-init",
+                                    CLOptionDescriptor.ARGUMENT_DISALLOWED,
+                                    DEBUG_LOG_OPT,
+                                    "use this option to specify enable debug " + 
+                                    "initialisation logs." );
+        return options;
     }
 
     /**
@@ -142,9 +136,19 @@ public class Main
      * @param clOptions the command line options
      * @exception Exception if an error occurs
      */
-    protected void execute( final List clOptions )
+    protected void execute( final String[] args )
         throws Exception
     {
+        m_options = createCLOptions();
+        final CLArgsParser parser = new CLArgsParser( args, m_options );
+        
+        if( null != parser.getErrorString() ) 
+        {
+            System.err.println( "Error: " + parser.getErrorString() );
+            return;
+        }
+
+        final List clOptions = parser.getArguments();
         final int size = clOptions.size();
         boolean debugLog = false;
 
@@ -161,7 +165,6 @@ public class Main
                 usage(); 
                 return;
 
-            case KERNEL_CLASS_OPT: m_kernelClass = option.getArgument(); break;
             case DEBUG_LOG_OPT: debugLog = true; break;
             case LOG_FILE_OPT: m_logFile = option.getArgument(); break;
             case APPS_PATH_OPT: m_appsPath = option.getArgument(); break;
@@ -173,13 +176,13 @@ public class Main
         try
         {
             final PrivilegedExceptionAction action = new PrivilegedExceptionAction() 
-            {
-                public Object run() throws Exception
-                {        
-                    execute();
-                    return null;
-                }
-            };
+                {
+                    public Object run() throws Exception
+                    {        
+                        execute();
+                        return null;
+                    }
+                };
 
             AccessController.doPrivileged( action );
         } 
@@ -216,18 +219,19 @@ public class Main
         try
         {
             Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
-            kernel = (ServerKernel)Class.forName( m_kernelClass ).newInstance();
+            kernel = (ServerKernel)Class.forName( DEFAULT_KERNEL_CLASS ).newInstance();
         }
         catch( final Exception e )
         {
-            throw new ConfigurationException( "Failed to create kernel", e );
+            m_logger.fatalError( "Failed to create kernel instance", e );
+            throw e;
         }
 
         kernel.setLogger( m_logger );
         kernel.init();//ialize();
 
         final File directory = new File( m_appsPath );
-        final Deployer deployer = createDeployer();
+        final Deployer deployer = new DefaultSarDeployer();
         setupDeployer( kernel, deployer );
 
         CamelotUtil.deployFromDirectory( deployer, directory, ".sar" );
@@ -262,16 +266,5 @@ public class Main
             componentManager.put( "org.apache.avalon.camelot.Container", kernel );
             ((Composer)deployer).compose( componentManager );
         }
-    }
-
-    /**
-     * Create a deployer for Sar objects.
-     * Overide this in sub-classes if necessary.
-     *
-     * @return the created deployer
-     */
-    protected Deployer createDeployer()
-    {
-        return new DefaultSarDeployer();
     }
 }
