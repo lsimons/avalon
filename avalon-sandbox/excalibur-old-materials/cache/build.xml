@@ -152,7 +152,7 @@
 
         <mkdir dir="${build.reports}/junit"/>
 
-        <junitreport todir="${build.tests}">
+        <junitreport todir="${build.reports}/junit">
             <fileset dir="${build.tests}">
                 <include name="TEST-*.xml"/>
             </fileset>
