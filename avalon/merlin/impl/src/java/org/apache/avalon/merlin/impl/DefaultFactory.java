@@ -60,7 +60,6 @@ import java.util.Iterator;
 import java.util.Locale;
 
 import org.apache.avalon.activation.appliance.Block;
-import org.apache.avalon.activation.appliance.BlockContext;
 import org.apache.avalon.activation.appliance.impl.AbstractBlock;
 
 import org.apache.avalon.composition.data.ContainmentProfile;
@@ -501,7 +500,7 @@ public class DefaultFactory implements Factory
       SystemContext system, Logger logger, Configuration config )
       throws Exception
     {   
-        ClassLoader spi = BlockContext.class.getClassLoader();
+        ClassLoader spi = Block.class.getClassLoader();
         ContainmentProfile profile = getContainmentProfile( config );
         return new DefaultContainmentModel(
             createContainmentContext( 
