@@ -243,10 +243,14 @@ public class ServiceCollector extends Task
                     {
                         m_serviceMap.put(klass, new LinkedList());
                     }
+                    else
+                    {
+                        log(name + " is not an interface", Project.MSG_WARN);
+                    }
                 }
                 catch(Exception e)
                 {
-                    log(name + " is not an interface", Project.MSG_WARN);
+                    log(name + " could not be found", Project.MSG_WARN);
                 }
             }
             
@@ -258,16 +262,19 @@ public class ServiceCollector extends Task
                 
                 if (name.endsWith(".class"))
                 {
+                    String className = name.substring(0,
+                        name.length() - ".class".length()).replace('/', '.');
+
                     try
                     {
-                        String className = name.substring(0, name.length() - ".class".length()).replace('/', '.');
                         Class klass = loader.loadClass(className);
                         
                         checkClass(klass);
                     }
                     catch (Exception e)
                     {
-                        log(e.getMessage(), Project.MSG_VERBOSE);
+                        log(className + "Could not be found: " + e.getMessage(),
+                             Project.MSG_VERBOSE);
                     }
                 }
                 
@@ -275,31 +282,11 @@ public class ServiceCollector extends Task
                 {
                     if ("services.list".equals(name))
                     {
-                        entry = new JarEntry("services.list");
-                        outJar.putNextEntry(entry);
-                        
-                        Iterator services = m_services.iterator();
-                        while (services.hasNext())
-                        {
-                            String service = (String)services.next();
-                            service += "\n";
-                            outJar.write(service.getBytes());
-                        }
+						writeServices(outJar);
                     }
                     else
                     {
-                        outJar.putNextEntry(entry);
-                        
-                        InputStream entryStream = jarFile.getInputStream(entry);
-                        int length = -1;
-                        byte[] buffer = new byte[1024];
-                    
-                        // Read the entry and write it to the temp jar.
-                    
-                        while ((length = entryStream.read(buffer)) != -1)
-                        {
-                             outJar.write(buffer, 0, length);
-                        }
+						copyEntry(jarFile, outJar, entry);
                     }
                 }
             }
@@ -308,25 +295,11 @@ public class ServiceCollector extends Task
             while (it.hasNext())
             {
                 Class iface = (Class)it.next();
-                String name = iface.getName();
-                JarEntry entry = new JarEntry("META-INF/services/" + name);
-                outJar.putNextEntry(entry);
-                
-                List impls = (List)m_serviceMap.get(iface);
-                Iterator imit = impls.iterator();
-                while(imit.hasNext())
-                {
-                    String implementation = ((Class)imit.next()).getName();
-                    implementation += "\n";
-                    outJar.write(implementation.getBytes());
-                }
+				writeImplementations(outJar, iface);
             }
 
             outJar.close();
             jarFile.close();
-            m_inJar.deleteOnExit();
-            
-            log("Deleting the input jar", Project.MSG_INFO);
         }
         catch (Exception e)
         {
@@ -334,6 +307,57 @@ public class ServiceCollector extends Task
             throw new BuildException("Could not process JAR: " + m_inJar.getName());
         }
     }
+
+	public void writeImplementations(JarOutputStream outJar, Class iface)
+		throws IOException {
+		String name = iface.getName();
+		JarEntry entry = new JarEntry("META-INF/services/" + name);
+		outJar.putNextEntry(entry);
+		
+		List impls = (List)m_serviceMap.get(iface);
+		Iterator imit = impls.iterator();
+		while(imit.hasNext())
+		{
+		    String implementation = ((Class)imit.next()).getName();
+		    implementation += "\n";
+		    outJar.write(implementation.getBytes());
+		}
+	}
+
+	protected void writeServices(JarOutputStream outJar) throws IOException {
+		JarEntry entry;
+		entry = new JarEntry("services.list");
+		outJar.putNextEntry(entry);
+		
+		Iterator services = m_services.iterator();
+		while (services.hasNext())
+		{
+		    String service = (String)services.next();
+		    service += "\n";
+		    outJar.write(service.getBytes());
+		}
+	}
+
+	protected void copyEntry(
+		JarFile jarFile,
+		JarOutputStream outJar,
+		JarEntry entry)
+		throws IOException {
+		outJar.putNextEntry(entry);
+		
+		InputStream entryStream = jarFile.getInputStream(entry);
+		int length = -1;
+		byte[] buffer = new byte[1024];
+		
+		// Read the entry and write it to the temp jar.
+		
+		while ((length = entryStream.read(buffer)) != -1)
+		{
+		     outJar.write(buffer, 0, length);
+		}
+        
+        entryStream.close();
+	}
 
     public void readServiceList(BufferedReader reader) throws IOException
     {
