@@ -17,7 +17,7 @@
 
 package org.apache.metro.facilities.reflector.typehandlers;
 
-import java.util.ArrayList;
+import java.util.TreeSet;
 
 import org.apache.avalon.composition.model.ComponentModel;
 
@@ -58,7 +58,7 @@ public class ComponentModelTypeHandler extends AbstractObjectTypeHandler
     {
         if( ! ( container instanceof ComponentModel ) )
             throw new ReflectionException( container + " is not a ComponentModel: " + container.getClass().getName() );
-        ArrayList names = new ArrayList();
+        TreeSet names = new TreeSet();
         names.add( "Implementation" );
         getNames( names, container );
         return packageNames( names );

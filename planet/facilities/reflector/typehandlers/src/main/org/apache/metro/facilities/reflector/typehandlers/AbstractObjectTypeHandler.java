@@ -23,7 +23,8 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.apache.metro.facilities.reflector.ReflectionException;
 
@@ -34,7 +35,7 @@ import org.apache.metro.facilities.reflector.spi.Util;
 public abstract class AbstractObjectTypeHandler
     implements TypeHandler
 {
-    protected void getNames( ArrayList names, Object container )
+    protected void getNames( Set names, Object container )
         throws ReflectionException
     {
         
@@ -44,7 +45,6 @@ public abstract class AbstractObjectTypeHandler
             getNames( names, clazz );
         else
         {
-            ArrayList all = new ArrayList();
             Class[] interfaces = clazz.getInterfaces();
             for( int i=0 ; i < interfaces.length ; i++ )
             {
@@ -53,15 +53,16 @@ public abstract class AbstractObjectTypeHandler
         }
     }
     
-    protected String[] packageNames( ArrayList names )
+    protected String[] packageNames( Set names )
     {
         String[] ret = new String[ names.size() ];
-        for( int i= 0; i < names.size() ; i++ )
-            ret[i] = (String) names.get(i);
+        Iterator set = names.iterator();
+        for( int i=0 ; set.hasNext() ; i++ )
+            ret[i] = (String) set.next();
         return ret;
     }
     
-    protected void getNames( ArrayList names, Class clazz )
+    protected void getNames( Set names, Class clazz )
         throws ReflectionException
     {
         /////  NORMAL OBJECT
