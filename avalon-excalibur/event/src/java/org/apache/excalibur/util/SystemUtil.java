@@ -57,7 +57,7 @@ package org.apache.excalibur.util;
  * Windows support.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/03/22 12:46:29 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/06/12 13:49:23 $
  */
 public final class SystemUtil
 {
