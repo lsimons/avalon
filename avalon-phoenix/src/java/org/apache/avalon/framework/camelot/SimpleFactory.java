@@ -8,9 +8,10 @@
 package org.apache.avalon.framework.camelot;
 
 import java.net.URL;
+import org.apache.avalon.framework.container.Locator;
 
 /**
- * This is the component that creates the components. 
+ * This is the component that creates the components.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
