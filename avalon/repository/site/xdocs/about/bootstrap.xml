@@ -67,6 +67,39 @@
           features dealing with application deployment, including classloader
           chain establishment and application instantiation.
           </p>
+          <p>
+          A bootstrap profile is established relative to the following 
+          environment variables and properties:
+          </p>
+          <table>
+            <tr><th>Location</th></tr>
+            <tr>
+              <td>${user.dir}/avalon.properties</td>
+            </tr>
+            <tr>
+              <td>${user.home}/avalon.properties</td>
+            </tr>
+          </table>
+        </subsection>
+        <subsection name="Bootstrap Properties">
+        <table>
+          <tr><th>Property</th><th>Default Value</th><th>Description</th></tr>
+          <tr>
+            <td>${avalon.repository.cache}</td>
+            <td>${avalon.home}</td>
+            <td>The default cache. In undefined in a property file, the value
+             defaults to an equivalent system property and if underfined, will 
+             attempt to locate an environment variable AVALON_HOME.  If the env 
+             variable is not declared the default repository directory will 
+             revert to ${user.home}/.avalon.</td>
+          </tr>
+          <tr>
+            <td>${avalon.repository.hosts}</td>
+            <td>http://dpml.net,http://ibiblio.org/maven</td>
+            <td>The default remote hosts expressed as a comma seperated 
+            sequence of host urls.  File or http urls may be supplied.</td>
+          </tr>
+        </table>
         </subsection>
       </section>
 

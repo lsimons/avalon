@@ -59,8 +59,53 @@
 
         <section name="Avalon Repository - Tutorials">
 
-           <p>IN PROGRESS.</p>
-           <p>Please check back soon.</p>
+        <subsection name="Application Example">
+         <p>The following example is taken from the the 
+         <a href="http://avalon.apache.org/merlin">Merlin</a> project. 
+         It demonstrates the creation of an embedded merlin kernel using
+         the Repository Facility builder, factory and criteria handling 
+         patterns.</p>
+<source>
+try
+{
+    //
+    // declare the facility to load
+    //
+
+    Artifact artifact = 
+      Artifact.createArtifact( 
+        "merlin", "merlin-impl", "3.2-dev" );
+
+    // 
+    // create an inital context
+    //
+
+    InitialContext context = 
+       new DefaultInitialContext();
+
+    //
+    // create the factory using the default builder
+    //
+
+    Builder builder = new DefaultBuilder( context, artifact );
+    Factory factory = builder.getFactory();
+
+    //
+    // get the default factory parameters and apply these
+    // as the factory argument to construct the new facility
+    //
+
+    Map criteria = factory.createDefaultCriteria();
+    applyLocalProperties( criteria );
+    Object facility = factory.create( criteria );
+}
+catch( Throwable e )
+{
+    final String error = ExceptionHelper.packException( e, true );
+    throw new Exception( error );
+}
+</source>
+        </subsection>
 
         </section>
 
