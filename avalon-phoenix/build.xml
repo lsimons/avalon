@@ -240,7 +240,7 @@ Legal:
     
     <target name="test-generate">
 
-      <taskdef name="generatemeta" classname="org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateQdoxTask">
+      <taskdef name="generatemeta" classname="org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateTask">
           <classpath refid="test.class.path" />
       </taskdef>
 
@@ -307,7 +307,7 @@ Legal:
 
         <mkdir dir="${build.metagenerate}"/>
 
-        <taskdef name="generatemeta" classname="org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateQdoxTask">
+        <taskdef name="generatemeta" classname="org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateTask">
           <classpath refid="project.class.path" />
         </taskdef>
 
