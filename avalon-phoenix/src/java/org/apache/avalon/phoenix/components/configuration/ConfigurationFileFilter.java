@@ -1,0 +1,19 @@
+/*
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included with this distribution in
+ * the LICENSE.txt file.
+ */
+package org.apache.avalon.phoenix.components.configuration;
+
+import java.io.FileFilter;
+import java.io.File;
+
+class ConfigurationFileFilter implements FileFilter
+{
+    public boolean accept( File pathname )
+    {
+        return pathname.isFile() && pathname.getName().endsWith( ".xml" );
+    }
+}

@@ -24,7 +24,7 @@ import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.DefaultConfiguration;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.configuration.DefaultConfigurationSerializer;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.DefaultContext;
@@ -47,6 +47,7 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
     private static final Resources REZ =
         ResourceManager.getPackageResources( FileSystemPersistentConfigurationRepository.class );
 
+    private final HashMap m_persistedConfigurations = new HashMap();
     private final HashMap m_configurations = new HashMap();
 
     private String m_phoenixHome;
@@ -129,57 +130,84 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
     public void start()
         throws Exception
     {
+        loadConfigurations();
     }
 
     public void stop()
         throws Exception
     {
-        writeJoinedConfigurationsToDisk( joinConfigurations() );
+        persistConfigurations();
     }
 
-    private Map joinConfigurations()
+    private void loadConfigurations()
+        throws IOException, SAXException, ConfigurationException
     {
-        final Map joinedConfigurations = new HashMap();
+        final File[] apps = m_storageDirectory.listFiles( new ConfigurationDirectoryFilter() );
 
-        for( Iterator i = this.m_configurations.entrySet().iterator(); i.hasNext(); )
+        for( int i = 0; i < apps.length; i++ )
+        {
+            loadConfigurations( apps[i] );
+        }
+    }
+
+    private void loadConfigurations( File appPath )
+        throws IOException, SAXException, ConfigurationException
+    {
+        final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+        final String app = appPath.getName();
+        final File[] blocks = appPath.listFiles( new ConfigurationFileFilter() );
+
+        for( int i = 0; i < blocks.length; i++ )
+        {
+            final String block =
+                blocks[i].getName().substring( 0, blocks[i].getName().indexOf( ".xml" ) );
+
+            this.m_persistedConfigurations.put( new ConfigurationKey( app, block ),
+                                                builder.buildFromFile( blocks[i] ) );
+
+            if( getLogger().isDebugEnabled() )
+                getLogger().debug( "Loaded persistent configuration [app: " + app
+                                   + ", block: " + block + "]" );
+        }
+    }
+
+    private void persistConfigurations()
+        throws SAXException, IOException, ConfigurationException
+    {
+        for( Iterator i = this.m_persistedConfigurations.entrySet().iterator(); i.hasNext(); )
         {
             final Map.Entry entry = ( Map.Entry ) i.next();
             final ConfigurationKey key = ( ConfigurationKey ) entry.getKey();
 
-            DefaultConfiguration joined =
-                ( DefaultConfiguration ) joinedConfigurations.get( key.getApplication() );
-
-            if( null == joined )
-            {
-                joined = new DefaultConfiguration( key.getApplication(), "-" );
-
-                joinedConfigurations.put( key.getApplication(), joined );
-            }
-
-            joined.addChild( ( Configuration ) entry.getValue() );
+            persistConfiguration( key.getApplication(),
+                                  key.getBlock(),
+                                  ( Configuration ) entry.getValue() );
         }
-
-        return joinedConfigurations;
     }
 
-    private void writeJoinedConfigurationsToDisk( Map joinedConfigurations )
+    private void persistConfiguration( final String application,
+                                       final String block,
+                                       final Configuration configuration )
         throws SAXException, IOException, ConfigurationException
     {
         final DefaultConfigurationSerializer serializer = new DefaultConfigurationSerializer();
+        final File directory = new File( this.m_storageDirectory, application );
+
+        FileUtil.forceMkdir( directory );
+
+        if( getLogger().isDebugEnabled() )
+            getLogger().debug( "Serializing configuration to disk [app: " + application
+                               + ", block: " + block + "]" );
 
         serializer.setIndent( true );
+        serializer.serializeToFile( new File( directory, block + ".xml" ), configuration );
+    }
 
-        for( Iterator i = joinedConfigurations.entrySet().iterator(); i.hasNext(); )
-        {
-            final Map.Entry entry = ( Map.Entry ) i.next();
-            final String application = ( String ) entry.getKey();
+    public void removeConfiguration( String application, String block )
+    {
+        final String name = application + "." + block;
 
-            if( getLogger().isDebugEnabled() )
-                getLogger().debug( "Serializing configuration to disk: " + application );
-
-            serializer.serializeToFile( new File( this.m_storageDirectory, application + ".xml" ),
-                                        ( Configuration ) entry.getValue() );
-        }
+        m_configurations.remove( name );
     }
 
     public synchronized void storeConfiguration( final String application,
@@ -187,15 +215,15 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
                                                  final Configuration configuration )
         throws ConfigurationException
     {
-        final ConfigurationKey key = new ConfigurationKey( application, block );
+        final String name = application + "." + block;
 
         if( null == configuration )
         {
-            //do nothing right now.
+            m_configurations.remove( name );
         }
         else
         {
-            m_configurations.put( key, configuration );
+            m_configurations.put( name, configuration );
         }
     }
 
@@ -203,57 +231,27 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
                                                         final String block )
         throws ConfigurationException
     {
-        final ConfigurationKey key = new ConfigurationKey( application, block );
-        final Configuration configuration = ( Configuration ) m_configurations.get( key );
+        final String name = application + "." + block;
+        final Configuration c = ( Configuration ) m_configurations.get( name );
+        final Configuration p = ( Configuration ) m_persistedConfigurations.get(
+            new ConfigurationKey( application, block ) );
 
-        if( null == configuration )
+        if( null == c && p == null )
         {
             final String message = REZ.getString( "config.error.noconfig", block, application );
             throw new ConfigurationException( message );
         }
-
-        return configuration;
-    }
-
-    private final class ConfigurationKey
-    {
-        private final String m_application;
-        private final String m_block;
-
-        public ConfigurationKey( String application, String block )
+        else if( null == c )
         {
-            this.m_application = application;
-            this.m_block = block;
+            return p;
         }
-
-        public int hashCode()
+        else if( null == p )
         {
-            return this.getApplication().hashCode() + this.getBlock().hashCode();
+            return c;
         }
-
-        public boolean equals( Object obj )
+        else
         {
-            if( obj instanceof ConfigurationKey )
-            {
-                final ConfigurationKey key = ( ConfigurationKey ) obj;
-
-                return this.getApplication().equals( key.getApplication() )
-                    && this.getBlock().equals( key.getBlock() );
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public String getApplication()
-        {
-            return m_application;
-        }
-
-        public String getBlock()
-        {
-            return m_block;
+            return new MergedConfiguration( p, c );
         }
     }
 }
