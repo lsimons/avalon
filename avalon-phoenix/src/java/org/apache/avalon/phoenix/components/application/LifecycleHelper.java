@@ -301,7 +301,6 @@ class LifecycleHelper
     {
         final DefaultBlockContext context = new DefaultBlockContext( name, m_context );
         setupLogger( context );
-        context.makeReadOnly();
         return context;
     }
 
