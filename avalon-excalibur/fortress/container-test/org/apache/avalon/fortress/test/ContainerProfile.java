@@ -51,7 +51,6 @@ package org.apache.avalon.fortress.test;
 
 import junit.framework.TestCase;
 import junit.textui.TestRunner;
-
 import org.apache.avalon.excalibur.component.ExcaliburComponentManager;
 import org.apache.avalon.excalibur.logger.DefaultLogKitManager;
 import org.apache.avalon.excalibur.monitor.Monitor;
@@ -77,7 +76,7 @@ import org.apache.excalibur.xml.dom.DOMParser;
  * Used as a basis for the PoolComparisonProfile Tests
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ContainerProfile.java,v 1.6 2003/03/22 12:46:35 leosimons Exp $
+ * @version $Id: ContainerProfile.java,v 1.7 2003/04/11 07:37:36 donaldp Exp $
  */
 public final class ContainerProfile
     extends TestCase
