@@ -30,6 +30,9 @@
     <ant:available property="mainSourcesPresent"
         file="${maven.src.dir}/main"/>
 
+    <ant:available property="testSourcesPresent"
+        file="${maven.src.dir}/test"/>
+
     <ant:mkdir dir="${maven.build.dest}"/>
     <ant:avalon destDir="${maven.build.dest}" 
         format="${avalon.meta.format}" 
@@ -48,6 +51,18 @@
         </j:if>
 
     </ant:avalon>
+
+    <j:if test="${testSourcesPresent == 'true'}">
+      <ant:avalon destDir="${maven.build.dir}/test-classes" 
+        format="${avalon.meta.format}" 
+        force="${avalon.meta.force}"
+        postfix="${avalon.meta.type.postfix}">
+          <ant:fileset dir="${maven.src.dir}/test">
+            <include name="**/*.java"/>
+          </ant:fileset>
+      </ant:avalon>
+    </j:if>
+
   </goal>
 
 </project>
