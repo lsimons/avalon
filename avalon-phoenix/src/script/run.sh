@@ -1,14 +1,31 @@
 #! /bin/sh
 #
+# -----------------------------------------------------------------------------
 # Phoenix start script.
 #
 # Author: Peter Donald <peter@apache.org>
+
+# Environment Variable Prequisites
 #
-# The user may choose to supply parameters to the JVM (such as memory settings)
-# via setting the environment variable PHOENIX_JVM_OPTS.
+#   PHOENIX_OPTS       (Optional) Java runtime options used when the command is 
+#                      executed.
 #
-# The user may also disable the security manager by setting PHOENIX_SECURE=false
+#   PHOENIX_TMPDIR     (Optional) Directory path location of temporary directory
+#                      the JVM should use (java.io.tmpdir).  Defaults to
+#                      $CATALINA_BASE/temp.
 #
+#   JAVA_HOME          Must point at your Java Development Kit installation.
+#
+#   PHOENIX_JVM_OPTS   (Optional) Java runtime options used when the command is 
+#                       executed.
+#
+# -----------------------------------------------------------------------------
+
+# OS specific support.  $var _must_ be set to either true or false.
+cygwin=false
+case "`uname`" in
+CYGWIN*) cygwin=true;;
+esac
 
 # Checking for JAVA_HOME is required on *nix due
 # to some distributions stupidly including kaffe in /usr/bin
@@ -20,28 +37,46 @@ if [ "$JAVA_HOME" = "" ] ; then
   exit 1
 fi
 
-#
-# Locate where phoenix is in filesystem
-#
-THIS_PROG=`dirname $0`
+# resolve links - $0 may be a softlink
+THIS_PROG="$0"
 
-if [ "$THIS_PROG" = "." ] ; then
-  THIS_PROG=$PWD
-
-  ## convert cygwin path so Java will recognize it
-  if [ $OSTYPE = "cygwin32" ] || [ $OSTYPE = "cygwin" ] ; then
-    THIS_PROG=`cygpath -p -w $THIS_PROG`
+while [ -h "$THIS_PROG" ]; do
+  ls=`ls -ld "$THIS_PROG"`
+  link=`expr "$ls" : '.*-> \(.*\)$'`
+  if expr "$link" : '.*/.*' > /dev/null; then
+    THIS_PROG="$link"
+  else
+    THIS_PROG=`dirname "$THIS_PROG"`/"$link"
   fi
-fi
+done
 
-if [ "$PHOENIX_HOME" = "" ] ; then
-  PHOENIX_HOME=$THIS_PROG/..
-fi
+# Get standard environment variables
+PRGDIR=`dirname "$THIS_PROG"`
+PHOENIX_HOME=`cd "$PRGDIR/.." ; pwd`
 
 unset THIS_PROG
 
-# echo "Home directory: $PHOENIX_HOME"
-# echo "Home ext directory: $PHOENIX_HOME/lib"
+# For Cygwin, ensure paths are in UNIX format before anything is touched
+if $cygwin; then
+  [ -n "$PHOENIX_HOME" ] && PHOENIX_HOME=`cygpath --unix "$PHOENIX_HOME"`
+fi
+
+if [ -z "$PHOENIX_TMPDIR" ] ; then
+  # Define the java.io.tmpdir to use for Phoenix
+  PHOENIX_TMPDIR="$PHOENIX_HOME"/temp
+  mkdir -p "$PHOENIX_TMPDIR"
+fi
+
+# For Cygwin, switch paths to Windows format before running java
+if $cygwin; then
+  PHOENIX_HOME=`cygpath --path --windows "$PHOENIX_HOME"`
+fi
+
+# ----- Execute The Requested Command -----------------------------------------
+
+echo "Using PHOENIX_HOME:   $PHOENIX_HOME"
+echo "Using PHOENIX_TMPDIR: $PHOENIX_TMPDIR"
+echo "Using JAVA_HOME:      $JAVA_HOME"
 
 #
 # Command to overide JVM ext dir
@@ -50,10 +85,7 @@ unset THIS_PROG
 # like placing jaxp/jaas/xml-parser jars in ext dir
 # thus breaking Phoenix
 #
-PROPS="-Djava.ext.dirs=$PHOENIX_HOME/lib -Dphoenix.home=$PHOENIX_HOME"
-LOADER_JAR="$PHOENIX_HOME/bin/phoenix-loader.jar"
-POLICY="-Djava.security.policy=jar:file:$LOADER_JAR!/META-INF/java.policy"
-JVM_OPTS="$PROPS $POLICY $PHOENIX_JVM_OPTS"
+JVM_OPTS="-Djava.ext.dirs=$PHOENIX_HOME/lib"
 
 if [ "$PHOENIX_SECURE" != "false" ] ; then
   # Make phoenix run with security manager enabled
@@ -61,4 +93,10 @@ if [ "$PHOENIX_SECURE" != "false" ] ; then
 fi
 
 # Kicking the tires and lighting the fires!!!
-$JAVA_HOME/bin/java $JVM_OPTS -jar $LOADER_JAR $*
+$JAVA_HOME/bin/java $JVM_OPTS \
+    $JVM_OPTS \
+    -Djava.security.policy=jar:file:$PHOENIX_HOME/bin/phoenix-loader.jar!/META-INF/java.policy \
+    $PHOENIX_JVM_OPTS \
+    -Dphoenix.home="$PHOENIX_HOME" \
+    -Djava.io.tmpdir="$PHOENIX_TMPDIR" \
+    -jar "$PHOENIX_HOME/bin/phoenix-loader.jar" $*

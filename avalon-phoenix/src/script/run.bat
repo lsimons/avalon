@@ -4,11 +4,21 @@ rem Phoenix start script.
 rem
 rem Author: Peter Donald [donaldp@apache.org]
 rem
-rem The user may choose to supply parameters to the JVM (such as memory settings)
-rem via setting the environment variable PHOENIX_JVM_OPTS
+rem Environment Variable Prequisites
 rem
-rem The user may also disable the security manager by setting PHOENIX_SECURE=false
+rem   PHOENIX_OPTS       (Optional) Java runtime options used when the command is 
+rem                      executed.
 rem
+rem   PHOENIX_TMPDIR     (Optional) Directory path location of temporary directory
+rem                      the JVM should use (java.io.tmpdir).  Defaults to
+rem                      $CATALINA_BASE/temp.
+rem
+rem   JAVA_HOME          Must point at your Java Development Kit installation.
+rem
+rem   PHOENIX_JVM_OPTS   (Optional) Java runtime options used when the command is 
+rem                       executed.
+rem
+rem -----------------------------------------------------------------------------
 
 rem
 rem Determine if JAVA_HOME is set and if so then use it
@@ -47,8 +57,21 @@ goto end
 
 :phoenix_home
 
-rem echo "Home directory: %PHOENIX_HOME%"
-rem echo "Home ext directory: %PHOENIX_HOME%\lib"
+if [ -z "$PHOENIX_TMPDIR" ] ; then
+  # Define the java.io.tmpdir to use for Phoenix
+  PHOENIX_TMPDIR="$PHOENIX_HOME"/temp
+  mkdir -p "$PHOENIX_TMPDIR"
+fi
+
+if not "%PHOENIX_TMPDIR%"=="" goto afterTmpDir
+set PHOENIX_TMPDIR=%PHOENIX_HOME%\temp
+if not exist "%PHOENIX_TMPDIR%" mkdir %PHOENIX_TMPDIR%
+
+:afterTmpDir
+
+echo "Using PHOENIX_HOME:   %PHOENIX_HOME%"
+echo "Using PHOENIX_TMPDIR: %PHOENIX_TMPDIR%"
+echo "Using JAVA_HOME:      %JAVA_HOME%"
 
 set PHOENIX_SM=
 
