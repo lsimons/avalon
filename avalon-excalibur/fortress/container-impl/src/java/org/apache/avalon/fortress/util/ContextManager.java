@@ -68,7 +68,6 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.DefaultServiceManager;
@@ -90,8 +89,6 @@ import org.apache.excalibur.source.SourceResolver;
 import org.apache.excalibur.source.impl.ResourceSourceFactory;
 import org.apache.excalibur.source.impl.SourceResolverImpl;
 import org.apache.excalibur.source.impl.URLSourceFactory;
-import org.apache.log.Hierarchy;
-import org.apache.log.Priority;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -120,7 +117,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.45 $ $Date: 2003/06/11 19:14:42 $
+ * @version CVS $Revision: 1.46 $ $Date: 2003/06/12 15:19:21 $
  * @since 4.1
  */
 public class ContextManager
@@ -704,14 +701,11 @@ public class ContextManager
         final DefaultServiceManager manager = new EAServiceManager( parent, getLogger().getChildLogger("compat") );
 
         /**
-         * We assume that if there is a parent ServiceManager provided,
-         * there is a SourceResolver mounted there. And if there
-         * is none, then it is the true caller's intetion.
-         * However it is hard to imagine how that could be usefull
-         * except for testing purposes.
+         * If there is a parent ServiceManager, we need to see if it has a SourceResolver,
+         * and if not, make sure that one is available to fortress
          */
 
-        if ( parent == null )
+        if ( parent == null || !parent.hasService( SourceResolver.ROLE ) )
         {
             manager.put( SourceResolver.ROLE, m_defaultSourceResolver );
         }
