@@ -229,30 +229,13 @@ public class DefaultJDBCTarget
 
     private String getContextMap( final ContextMap map, final String aux )
     {
-        if( null == map ) return "";
-        return map.get( aux, "" ).toString();
+        if( null == map )
+        {
+            return "";
+        }
+        else
+        {
+            return map.get( aux, "" ).toString();
+        }
     }
-    /*
-      protected String getHostName( final LogEvent event, final String aux )
-      {
-      String result = null;
-
-      final ContextMap map = event.getContextMap();
-      if( null != map )
-      {
-      final Object object = map.get( "hostname" );
-      if( null != object )
-      {
-      result = object.toString();
-      }
-      }
-
-      if( null == result )
-      {
-      result = "Unknown hostname";
-      }
-
-      return result;
-      }
-    */
 }

@@ -7,7 +7,6 @@
  */
 package org.apache.log;
 
-import java.io.ObjectStreamException;
 import java.io.Serializable;
 
 /**
@@ -49,7 +48,7 @@ public final class Priority
      * Do not log anything.
      */
     public static final Priority NONE = new Priority( "NONE", Integer.MAX_VALUE );
-    
+
     private final String m_name;
     private final int m_priority;
 
@@ -62,19 +61,33 @@ public final class Priority
     public static Priority getPriorityForName( final String priority )
     {
         if( Priority.DEBUG.getName().equals( priority ) )
+        {
             return Priority.DEBUG;
+        }
         else if( Priority.INFO.getName().equals( priority ) )
+        {
             return Priority.INFO;
+        }
         else if( Priority.WARN.getName().equals( priority ) )
+        {
             return Priority.WARN;
+        }
         else if( Priority.ERROR.getName().equals( priority ) )
+        {
             return Priority.ERROR;
+        }
         else if( Priority.FATAL_ERROR.getName().equals( priority ) )
+        {
             return Priority.FATAL_ERROR;
+        }
         else if( Priority.NONE.getName().equals( priority ) )
+        {
             return Priority.NONE;
+        }
         else
+        {
             return Priority.DEBUG;
+        }
     }
 
     /**
@@ -85,6 +98,11 @@ public final class Priority
      */
     private Priority( final String name, final int priority )
     {
+        if( null == name )
+        {
+            throw new NullPointerException( "name" );
+        }
+
         m_name = name;
         m_priority = priority;
     }
@@ -153,10 +171,8 @@ public final class Priority
      * Helper method that replaces deserialized object with correct singleton.
      *
      * @return the singleton version of object
-     * @exception ObjectStreamException if an error occurs
      */
     private Object readResolve()
-        throws ObjectStreamException
     {
         return getPriorityForName( m_name );
     }
