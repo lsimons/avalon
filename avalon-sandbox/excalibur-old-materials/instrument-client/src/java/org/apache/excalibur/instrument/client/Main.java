@@ -14,7 +14,7 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/08/23 09:47:43 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/11/05 02:59:04 $
  * @since 4.1
  */
 public class Main
@@ -22,6 +22,16 @@ public class Main
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
+    private static void showUsage()
+    {
+        System.out.println( "Usage:");
+        System.out.println( "java -classpath {classpath} org.apache.excalibur.instrument.client.Main [-debug] [state file]" );
+        System.out.println();
+        System.out.println( "    -debug     - Enables debug output." );
+        System.out.println( "    state file - Name of a state file to read at startup.  Defaults to: ../conf/default.desktop" );
+        System.out.println();
+    }
+    
     
     /*---------------------------------------------------------------
      * Main Method
@@ -31,19 +41,48 @@ public class Main
      */
     public static void main( String args[] )
     {
-        String defaultStateFileName;
-        if ( args.length > 0 )
+        // Parse the command line.  Want to replace this with something more powerful later.
+        boolean debug = false;
+        String defaultStateFileName = "../conf/default.desktop";
+        switch( args.length )
         {
+        case 0:
+            break;
+            
+        case 1:
+            if ( args[0].equalsIgnoreCase( "-debug" ) )
+            {
+                debug = true;
+            }
+            else
+            {
+                defaultStateFileName = args[0];
+            }
+            break;
+            
+        case 2:
+            if ( args[0].equalsIgnoreCase( "-debug" ) )
+            {
+                debug = true;
+            }
+            else
+            {
+                showUsage();
+                System.exit( 1 );
+            }
             defaultStateFileName = args[0];
+            break;
+            
+        default:
+            showUsage();
+            System.exit( 1 );
         }
-        else
-        {
-            defaultStateFileName = "../conf/default.desktop";
-        }
+        
         File defaultStateFile = new File( defaultStateFileName );
         
         InstrumentClientFrame client = new InstrumentClientFrame( "Instrument Client" );
-        client.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_INFO ) );
+        int logLevel = ( debug ? ConsoleLogger.LEVEL_DEBUG : ConsoleLogger.LEVEL_INFO );
+        client.enableLogging( new ConsoleLogger( logLevel ) );
         client.setDefaultStateFile( defaultStateFile );
         client.show();
     }

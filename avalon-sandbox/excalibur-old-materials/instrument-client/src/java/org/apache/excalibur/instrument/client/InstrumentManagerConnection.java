@@ -40,6 +40,7 @@ import org.apache.excalibur.altrmi.client.impl.ClientClassAltrmiFactory;
 import org.apache.excalibur.altrmi.client.impl.DefaultConnectionListener;
 import org.apache.excalibur.altrmi.common.AltrmiConnectionException;
 import org.apache.excalibur.altrmi.common.AltrmiInvocationException;
+import org.apache.excalibur.altrmi.common.ConnectionRefusedException;
 
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
@@ -51,7 +52,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleUtils;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.8 $ $Date: 2002/10/26 08:52:25 $
+ * @version CVS $Revision: 1.9 $ $Date: 2002/11/05 02:59:04 $
  * @since 4.1
  */
 class InstrumentManagerConnection
@@ -356,7 +357,10 @@ class InstrumentManagerConnection
     
     void open() throws AltrmiConnectionException, IOException
     {
-        getLogger().debug( "open()" );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "Attempt to open a new connection to " + m_host + ":" + m_port );
+        }
         
         SocketCustomStreamHostContext altrmiHostContext =
             new SocketCustomStreamHostContext( m_host, m_port );
@@ -366,7 +370,11 @@ class InstrumentManagerConnection
         m_altrmiFactory = new ClientClassAltrmiFactory( false );
         m_altrmiFactory.setHostContext( altrmiHostContext );
         
-        getLogger().debug("Listing Published Altrmi Objects At Server...");
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug("Connected.  Listing Published Altrmi Objects At Server...");
+        }
+        
         String[] listOfPublishedObjectsOnServer = m_altrmiFactory.list();
         for ( int i = 0; i < listOfPublishedObjectsOnServer.length; i++ )
         {
@@ -395,11 +403,25 @@ class InstrumentManagerConnection
         {
             open();
         }
+        catch ( ConnectionRefusedException e )
+        {
+            getLogger().debug( "Connection refused.  Server not running?" );
+        }
         catch ( AltrmiConnectionException e )
         {
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug(
+                    "Unable to open connection.  Got an unexpected Altrmi exception.", e );
+            }
         }
         catch ( IOException e )
         {
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug(
+                    "Unable to open connection.  Got an unexpected IO exception.", e );
+            }
         }
     }
     
