@@ -17,14 +17,14 @@
   What is related to it?
   ----------------------
 
-  http://jakarta.apache.org/avalon - the parent project for Phoenix.
+  http://avalon.apache.org - the parent project for Phoenix.
 
-  http://jakarta.apache.org/avalon/framework - a service framework initiative.
+  http://avalon.apache.org/framework - a service framework initiative.
   
-  http://jakarta.apache.org/avalon/cornerstone - a set of reusable components that 
+  http://avalon.apache.org/cornerstone - a set of reusable components that 
   Phoenix server applications may use.
 
-  http://jakarta.apache.org/avalon/apps - a set of complete and in-progress
+  http://avalon.apache.org/apps - a set of complete and in-progress
   applications for Phoenix.
 
   http://jakarta.apache.org/james - a mail server that runs as a Phoenix 

@@ -5,7 +5,7 @@
   <abstract>The Avalon team is proud to announce the @version@ release
 of Phoenix.</abstract>
 
-  <project site="http://jakarta.apache.org/avalon">
+  <project site="http://avalon.apache.org">
     <title>Avalon</title>
     <description>
       The Avalon project is Apache's Java Server Framework. It is
@@ -37,7 +37,7 @@ of Phoenix.</abstract>
       </para>
     </description>
     <changes version="@version@" file="changes.xml"/>
-    <downloads name="Avalon" base="http://jakarta.apache.org/builds/jakarta-avalon/release/phoenix"/>
+    <downloads name="Avalon" base="http://avalon.apache.org/dist/phoenix"/>
   </project>
 
 </announcement>
