@@ -128,18 +128,15 @@ public class DefaultServiceManager
      */
     public boolean hasService( final String key )
     {
-        boolean objectExists = false;
-
         try
         {
-            this.lookup( key );
-            objectExists = true;
+            lookup( key );
+            return true;
         }
-        catch( Throwable t )
+        catch( final Throwable t )
         {
-            // Ignore all throwables--we want a yes or no answer.
+            return false;
         }
-        return objectExists;
     }
 
     /**
