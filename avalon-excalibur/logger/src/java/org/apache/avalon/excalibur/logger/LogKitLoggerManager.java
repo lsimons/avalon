@@ -28,7 +28,7 @@ import org.apache.log.Priority;
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/07/09 11:18:38 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/08/07 04:05:59 $
  * @since 4.0
  */
 public class LogKitLoggerManager
@@ -48,6 +48,9 @@ public class LogKitLoggerManager
 
     /** The default logger used for this system */
     final private Logger m_defaultLogger;
+    
+    /** The logger used to log output from the logger manager. */
+    final private Logger m_logger;
 
     /**
      * Creates a new <code>DefaultLogKitManager</code>. It will use a new <code>Hierarchy</code>.
@@ -88,11 +91,23 @@ public class LogKitLoggerManager
      * Creates a new <code>DefaultLogKitManager</code> with an existing <code>Hierarchy</code> using
      * specified logger name as root logger.
      */
-    public LogKitLoggerManager( final String prefix, final Hierarchy hierarchy, final Logger defaultLogger )
+    public LogKitLoggerManager( final String prefix, final Hierarchy hierarchy,
+        final Logger defaultLogger )
+    {
+        this( prefix, hierarchy, defaultLogger, defaultLogger );
+    }
+
+    /**
+     * Creates a new <code>DefaultLogKitManager</code> with an existing <code>Hierarchy</code> using
+     * specified logger name as root logger.
+     */
+    public LogKitLoggerManager( final String prefix, final Hierarchy hierarchy,
+        final Logger defaultLogger, final Logger logger )
     {
         m_prefix = prefix;
         m_hierarchy = hierarchy;
         m_defaultLogger = defaultLogger;
+        m_logger = logger;
     }
 
     /**
@@ -106,24 +121,26 @@ public class LogKitLoggerManager
      */
     public final Logger getLoggerForCategory( final String categoryName )
     {
-        final Logger logger = (Logger)m_loggers.get( categoryName );
+        final String fullCategoryName = getFullCategoryName( m_prefix, categoryName );
+        
+        final Logger logger = (Logger)m_loggers.get( fullCategoryName );
 
         if( null != logger )
         {
-            if( m_defaultLogger.isDebugEnabled() )
+            if( m_logger.isDebugEnabled() )
             {
-                m_defaultLogger.debug( "Logger for category " + categoryName + " returned" );
+                m_logger.debug( "Logger for category " + fullCategoryName + " returned" );
             }
             return logger;
         }
 
-        if( m_defaultLogger.isDebugEnabled() )
+        if( m_logger.isDebugEnabled() )
         {
-            m_defaultLogger.debug( "Logger for category " + categoryName
-                                   + " not defined in configuration. New Logger created and returned" );
+            m_logger.debug( "Logger for category " + fullCategoryName + " not defined in "
+                                    + "configuration. New Logger created and returned" );
         }
 
-        return new LogKitLogger( m_hierarchy.getLoggerFor( categoryName ) );
+        return new LogKitLogger( m_hierarchy.getLoggerFor( fullCategoryName ) );
     }
 
     public final Logger getDefaultLogger()
@@ -175,7 +192,7 @@ public class LogKitLoggerManager
         final DefaultLogTargetFactoryManager targetFactoryManager = new DefaultLogTargetFactoryManager();
         if( targetFactoryManager instanceof LogEnabled )
         {
-            targetFactoryManager.enableLogging( m_defaultLogger );
+            targetFactoryManager.enableLogging( m_logger );
         }
 
         if( targetFactoryManager instanceof Contextualizable )
@@ -209,7 +226,7 @@ public class LogKitLoggerManager
 
         if( targetManager instanceof LogEnabled )
         {
-            targetManager.enableLogging( m_defaultLogger );
+            targetManager.enableLogging( m_logger );
         }
 
         if( targetManager instanceof LogTargetFactoryManageable )
@@ -223,6 +240,39 @@ public class LogKitLoggerManager
         }
 
         return targetManager;
+    }
+    
+    /**
+     * Generates a full category name given a prefix and category.  Either may be
+     *  null.
+     *
+     * @param prefix Prefix or parent category.
+     * @param category Child category name.
+     */
+    private final String getFullCategoryName( String prefix, String category )
+    {
+        if( ( null == prefix ) || ( prefix.length() == 0 )  )
+        {
+            if ( category == null )
+            {
+                return "";
+            }
+            else
+            {
+                return category;
+            }
+        }
+        else
+        {
+            if( ( null == category ) || ( category.length() == 0 ) )
+            {
+                return prefix;
+            }
+            else
+            {
+                return prefix + org.apache.log.Logger.CATEGORY_SEPARATOR + category;
+            }
+        }
     }
 
     /**
@@ -255,21 +305,13 @@ public class LogKitLoggerManager
                 m_hierarchy.setDefaultLogTargets( logTargets );
             }
 
-            final String fullCategory;
-            if( null == parentCategory )
-            {
-                fullCategory = category;
-            }
-            else
-            {
-                fullCategory = parentCategory + org.apache.log.Logger.CATEGORY_SEPARATOR + category;
-            }
+            final String fullCategory = getFullCategoryName( parentCategory, category );
 
             final org.apache.log.Logger logger = m_hierarchy.getLoggerFor( fullCategory );
             m_loggers.put( fullCategory, new LogKitLogger( logger ) );
-            if( m_defaultLogger.isDebugEnabled() )
+            if( m_logger.isDebugEnabled() )
             {
-                m_defaultLogger.debug( "added logger for category " + fullCategory );
+                m_logger.debug( "added logger for category " + fullCategory );
             }
             logger.setPriority( Priority.getPriorityForName( loglevel ) );
             logger.setLogTargets( logTargets );
