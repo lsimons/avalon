@@ -81,7 +81,17 @@ public class DefaultSarDeployer
         final File file = getFileFor( url );
         final String message = REZ.format( "deploy.notice.deploying", file, location );
         getLogger().info( message );
-        deployFromFile( location, file );
+
+        if( file.isDirectory() )
+        {
+            deployFromDirectory( location, file );
+        }
+        else
+        {
+            final File destination = getDestinationFor( location, file );
+            expand( file, destination );
+            deployFromDirectory( location, destination );
+        }
     }
 
     private File getFileFor( final URL url )
@@ -125,33 +135,6 @@ public class DefaultSarDeployer
         
         final String message = REZ.format( "deploy.notice.expanded", file, destination );
         getLogger().info( message );        
-    }
-
-    private void deployFromFile( final String name, final File file )
-        throws DeploymentException
-    {
-        File destination = null;
-
-        if( file.isDirectory() )
-        {
-            destination = file;
-        }
-        else
-        {
-            destination = getDestinationFor( name, file );
-            expand( file, destination );
-        }
-    
-        try { deployFromDirectory( name, destination ); }
-        catch( final DeploymentException de )
-        {
-            throw de;
-        }
-        catch( final Exception e )
-        {
-            final String message = REZ.format( "deploy.error.deploy.failed", name, destination );
-            throw new DeploymentException( message, e );
-        }
     }
 
     private File getDestinationFor( final String location, final File file )
