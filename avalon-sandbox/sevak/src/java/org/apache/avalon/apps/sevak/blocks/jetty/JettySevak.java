@@ -53,6 +53,7 @@ import java.io.File;
 import java.util.HashMap;
 
 import org.apache.avalon.apps.sevak.Sevak;
+import org.apache.avalon.apps.sevak.SevakContext;
 import org.apache.avalon.apps.sevak.SevakException;
 import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.avalon.framework.activity.Initializable;
@@ -61,12 +62,12 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.phoenix.BlockContext;
 
 import org.mortbay.http.SocketListener;
 import org.mortbay.jetty.Server;
@@ -103,7 +104,8 @@ public class JettySevak extends AbstractLogEnabled
     private int m_maxThreads;
     private boolean m_extractWebArchive;
     private File m_sarRootDir;
-    private ServiceManager m_serviceManager;
+    private SevakContext m_sevakContext;
+    private Context m_context;
 
     /**
      * @param serviceManager
@@ -113,16 +115,17 @@ public class JettySevak extends AbstractLogEnabled
      */
     public void service( ServiceManager serviceManager ) throws ServiceException
     {
-        m_serviceManager = serviceManager;
+        m_sevakContext = new SevakContext( m_context, serviceManager, getLogger() );
     }
 
     /**
      * Contextualize
      * @param context the context
      */
-    public void contextualize( final Context context )
+    public void contextualize( final Context context ) throws ContextException
     {
-        m_sarRootDir = ( ( BlockContext ) context ).getBaseDirectory();
+        m_context = context;
+        m_sarRootDir = ( File ) context.get( "app.home" );
     }
 
     /**
@@ -138,7 +141,7 @@ public class JettySevak extends AbstractLogEnabled
         m_port = configuration.getChild( "port" ).getValueAsInteger( 8080 );
         m_minThreads = configuration.getChild( "minthreads" ).getValueAsInteger( 5 );
         m_maxThreads = configuration.getChild( "maxthreads" ).getValueAsInteger( 250 );
-        m_extractWebArchive = configuration.getChild("extract-war").getValueAsBoolean(true);
+        m_extractWebArchive = configuration.getChild( "extract-war" ).getValueAsBoolean( true );
 
         if( m_maxThreads < m_minThreads )
         {
@@ -163,7 +166,7 @@ public class JettySevak extends AbstractLogEnabled
         Log.instance().add( phoenixLogSink );
 
         RequestLogger logger = ( RequestLogger )
-            m_serviceManager.lookup( RequestLogger.ROLE );
+            m_sevakContext.getServiceManager().lookup( RequestLogger.ROLE );
         m_server.setRequestLog( new JettyRequestLogAdapter( logger ) );
     }
 
@@ -205,17 +208,17 @@ public class JettySevak extends AbstractLogEnabled
      */
     public void deploy( String context, File pathToWebAppFolder ) throws SevakException
     {
-        deploy( context, pathToWebAppFolder, m_serviceManager );
+        deploy( context, pathToWebAppFolder, m_sevakContext );
     }
 
     /**
      * Deploy a webapp
      * @param context the contxct for the webapp
      * @param pathToWebAppFolder the path to it
-     * @param serviceManager The service manager to use for (optional) Serviceable servlets.
+     * @param avalonContext The optional context to apply to servlets (LogEnabled, Serviceable).
      * @throws SevakException if a problem
      */
-    public void deploy( String context, File pathToWebAppFolder, ServiceManager serviceManager )
+    public void deploy( String context, File pathToWebAppFolder, SevakContext sevakContext )
         throws SevakException
     {
         String webAppURL = null;
@@ -226,7 +229,7 @@ public class JettySevak extends AbstractLogEnabled
             // This still does not work.
 
             WebApplicationContext ctx =
-                new SevakWebApplicationContext( serviceManager, m_sarRootDir, webAppURL );
+                new SevakWebApplicationContext( sevakContext, m_sarRootDir, webAppURL );
             ctx.setContextPath( context );
             m_server.addContext( m_hostName, ctx );
 
