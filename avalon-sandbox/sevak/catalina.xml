@@ -40,7 +40,7 @@
     <property name="conf.demo.dir" value="${demo.dir}/conf"/>
 
     <!-- Tomcat Stuff -->
-    <property name="catalina-version" value="4.1.12"/>
+    <property name="catalina-version" value="4.1.24"/>
     <property name="catalina-zip-suffix" value=""/>
     <property name="catalina-dir-suffix" value=""/>
     <property name="catalina.download" value="catalina-download/jakarta-tomcat-${catalina-version}${catalina-zip-suffix}"/>
