@@ -32,16 +32,20 @@ public class ArtifactPlugin extends AbstractPlugin
     {
         File definitionsDir = new File( m_Context.getProjectSystemDir(), "definitions" );
         File file = new File( definitionsDir, artifactId );
-        FileInputStream fis = new FileInputStream( file );
         Properties p = new Properties();
-        try
+        if( file.exists() )
         {
-            p.load( fis );
-        } finally
-        {
-            if( fis != null )
-                fis.close();
+            FileInputStream fis = new FileInputStream( file );
+            try
+            {
+                p.load( fis );
+            } finally
+            {
+                if( fis != null )
+                    fis.close();
+            }
         }
+        
         String repository = p.getProperty( "artifact.repository" );
         if( repository == null )
             repository = m_Context.getProperty( "artifact.repository" );
