@@ -80,7 +80,7 @@ import org.apache.excalibur.xfc.model.RoleRef;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECM.java,v 1.1 2002/10/02 17:32:28 crafterm Exp $
+ * @version CVS $Id: ECM.java,v 1.2 2002/10/04 14:46:35 crafterm Exp $
  */
 public class ECM extends AbstractModule
 {
@@ -93,6 +93,10 @@ public class ECM extends AbstractModule
         "org.apache.avalon.excalibur.mpool.Poolable";
     private static final String RECYCLABLE =
         "org.apache.avalon.excalibur.mpool.Recyclable";
+
+    // ExcaliburComponentSelector name
+    private static final String ECS =
+        "org.apache.avalon.excalibur.component.ExcaliburComponentSelector";
 
     private static Map m_handlers = new HashMap();
 
@@ -107,7 +111,7 @@ public class ECM extends AbstractModule
      * </p>
      *
      * @param context a <code>String</code> context value
-     * @return a <code>Model</code> instance
+     * @return a {@link Model} instance
      * @exception Exception if an error occurs
      */
     public Model generate( final String context )
@@ -124,7 +128,7 @@ public class ECM extends AbstractModule
         // for each role create a type object
         for ( int i = 0; i < roles.length; ++i )
         {
-            model.addDefinition( buildDefinition( roles[i] ) );
+            model.addRoleRef( buildRoleRef( roles[i] ) );
         }
 
         if ( getLogger().isDebugEnabled() )
@@ -175,22 +179,73 @@ public class ECM extends AbstractModule
     }
 
     /**
-     * Method to construct a {@link Definition} object from
+     * Method to construct a {@link RoleRef} object from
      * a Role definition.
      *
      * @param role role information
-     * @return a <code>Definition</code> instance
+     * @return a {@link RoleRef} instance
      * @exception Exception if an error occurs
      */
-    protected Definition buildDefinition( final Configuration role )
+    protected RoleRef buildRoleRef( final Configuration role )
         throws Exception
     {
-        return new Definition(
-            getRole( role ),
-            getDefaultClass( role ),
-            getShorthand( role ),
-            getHandler( role )
-        );
+        if ( role.getChildren( "hint" ).length > 0 )   // component selector definition
+        {
+            return buildMultipleComponentRoleRef( role );
+        }
+
+        // single component definition
+        return buildSingleComponentRoleRef( role );
+    }
+
+    /**
+     * Method for constructing a {@link RoleRef} object from a single
+     * component role definition.
+     *
+     * @param role a <code>Configuration</code> value
+     * @return a {@link RoleRef} value
+     * @exception Exception if an error occurs
+     */
+    protected RoleRef buildSingleComponentRoleRef( final Configuration role )
+        throws Exception
+    {
+        Definition def =
+            new Definition(
+                getRole( role ),
+                getDefaultClass( role ),
+                getShorthand( role ),
+                getHandler( getDefaultClass( role ) )
+            );
+
+        return new RoleRef( getRole( role ), def );
+    }
+
+    /**
+     * Method for constructing a {@link RoleRef} object from a multiple
+     * component role definition (ie. component selector).
+     *
+     * @param role a <code>Configuration</code> value
+     * @return a {@link RoleRef} value
+     * @exception Exception if an error occurs
+     */
+    protected RoleRef buildMultipleComponentRoleRef( final Configuration role )
+        throws Exception
+    {
+        Configuration[] hints = role.getChildren( "hint" );
+        Definition[] definitions = new Definition[ hints.length ];
+
+        for ( int i = 0; i < hints.length; ++i )
+        {
+            definitions[i] =
+                new Definition(
+                    getRole( role ),
+                    getHintClass( hints[i] ),
+                    getShorthand( hints[i] ),
+                    getHandler( getHintClass( hints[i] ) )
+                );
+        }
+
+        return new RoleRef( getRole( role ), definitions );
     }
 
     /**
@@ -208,7 +263,7 @@ public class ECM extends AbstractModule
 
     /**
      * Method to extract a role's implementing class, ECM
-     * style
+     * style.
      *
      * @param role role <code>Configuration</code> information
      * @return the implementing class name
@@ -221,8 +276,22 @@ public class ECM extends AbstractModule
     }
 
     /**
+     * Method to extract a hint's implementing class, ECM
+     * style.
+     *
+     * @param role role <code>Configuration</code> information
+     * @return the implementing class name
+     * @exception Exception if an error occurs
+     */
+    protected String getHintClass( final Configuration role )
+        throws Exception
+    {
+        return role.getAttribute( "class" );
+    }
+
+    /**
      * Method for extracting a role's shorthand name, ECM
-     * style
+     * style.
      *
      * @param role role <code>Configuration</code> information
      * @return the shorthand name
@@ -241,16 +310,16 @@ public class ECM extends AbstractModule
      * try to ascertain which handler has been chosed by the 
      * implementor.
      *
-     * @param role role <code>Configuration</code> information
+     * @param classname class name as a <code>String</code> value
      * @return normalized handler name
      * @exception Exception if an error occurs
      */
-    protected String getHandler( final Configuration role )
+    protected String getHandler( final String classname )
         throws Exception
     {
         try
         {
-            Class clazz = Class.forName( getDefaultClass( role ) );
+            Class clazz = Class.forName( classname );
             Class[] interfaces = clazz.getInterfaces();
 
             for ( int i = 0; i < interfaces.length; ++i )
@@ -276,7 +345,7 @@ public class ECM extends AbstractModule
             if ( getLogger().isWarnEnabled() )
             {
                 getLogger().warn(
-                    "Could not load Class " + role.getAttribute( "default-class" ) +
+                    "Could not load Class " + classname +
                     " for Component Handler analysis, defaulting to 'transient'"
                 );
             }
@@ -296,7 +365,7 @@ public class ECM extends AbstractModule
      * Serializes a {@link Model} definition, ECM style, to an
      * output context.
      *
-     * @param model a <code>Model</code> instance
+     * @param model a {@link Model} instance
      * @param context ECM output Context
      * @exception Exception if an error occurs
      */
@@ -304,7 +373,7 @@ public class ECM extends AbstractModule
         throws Exception
     {
         RoleRef[] rolerefs = model.getDefinitions();
-        DefaultConfiguration roles = new DefaultConfiguration("role-list", "");
+        DefaultConfiguration roles = new DefaultConfiguration( "role-list", "" );
 
         // for each type object generate a roles file entry
         for ( int i = 0; i < rolerefs.length; ++i )
@@ -319,37 +388,79 @@ public class ECM extends AbstractModule
      * Method to build a Role definition from a {@link RoleRef}
      * object.
      *
-     * @param roleref a <code>RoleRef</code> instance
+     * @param roleref a {@link RoleRef} instance
      * @return role definition as a <code>Configuration</code> instance
      * @exception Exception if an error occurs
      */
     protected Configuration buildRole( final RoleRef roleref )
         throws Exception
     {
-        DefaultConfiguration role = new DefaultConfiguration("role", "");
-
         Definition[] defs = roleref.getProviders();
-
-        if ( defs.length > 1 )
-        {
-            // REVISIT: generate component selector
-        }
-        else
-        {
-            role.setAttribute( "name", roleref.getRole() );
-            role.setAttribute( "shorthand", defs[0].getShorthand() );
-            role.setAttribute( "default-class", defs[0].getDefaultClass() );
-        }
 
         if ( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "Building role for model: " + roleref.getRole() );
         }
 
+        if ( roleref.getProviders().length > 1 )
+        {
+            return buildMultipleComponentRole( roleref );
+        }
+
+        return buildSingleComponentRole( roleref );
+    }
+
+    /**
+     * Builds a multiple component Role definition (ie ComponentSelector based)
+     * from a {@link RoleRef} definition.
+     *
+     * @param ref a {@link RoleRef} instance
+     * @return a <code>Configuration</code> instance
+     * @exception Exception if an error occurs
+     */
+    protected Configuration buildMultipleComponentRole( final RoleRef ref )
+        throws Exception
+    {
+        DefaultConfiguration role = new DefaultConfiguration( "role", "" );
+        Definition[] defs = ref.getProviders();
+
+        for ( int i = 0; i < defs.length; ++i )
+        {
+            DefaultConfiguration hint = new DefaultConfiguration( "hint", "" );
+            hint.setAttribute( "shorthand", defs[i].getShorthand() );
+            hint.setAttribute( "class", defs[i].getDefaultClass() );
+        }
+
+        role.setAttribute( "name", ref.getRole() );
+        role.setAttribute( "shorthand", "REVISIT" ); // REVISIT(MC) ?
+        role.setAttribute( "default-class", ECS );
+
         return role;
     }
 
-    // Default mappings for ECM and Type lifestyles
+    /**
+     * Builds a single component Role definition from a {@link RoleRef}
+     * definition.
+     *
+     * @param ref a {@link RoleRef} instance
+     * @return a <code>Configuration</code> instance
+     * @exception Exception if an error occurs
+     */
+    protected Configuration buildSingleComponentRole( final RoleRef ref )
+        throws Exception
+    {
+        DefaultConfiguration role = new DefaultConfiguration( "role", "" );
+        Definition[] defs = ref.getProviders();
+
+        // there is only 1 provider, use index 0 directly
+        role.setAttribute( "name", ref.getRole() );
+        role.setAttribute( "shorthand", defs[0].getShorthand() );
+        role.setAttribute( "default-class", defs[0].getDefaultClass() );
+
+        return role;
+    }
+
+    // Normalized mappings for ECM lifestyles
     static
     {
         // ECM -> Type

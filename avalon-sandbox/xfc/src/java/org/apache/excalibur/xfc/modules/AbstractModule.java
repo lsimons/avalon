@@ -66,7 +66,7 @@ import org.apache.excalibur.xfc.model.Model;
  * to prospective subclasses.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: AbstractModule.java,v 1.1 2002/10/02 17:32:28 crafterm Exp $
+ * @version CVS $Id: AbstractModule.java,v 1.2 2002/10/04 14:46:35 crafterm Exp $
  */
 public abstract class AbstractModule
     extends AbstractLogEnabled
@@ -84,7 +84,7 @@ public abstract class AbstractModule
     protected final DefaultConfigurationBuilder m_builder;
 
     /**
-     * Creates a new <code>AbstractModule</code> instance.
+     * Creates a new {@link AbstractModule} instance.
      */
     public AbstractModule()
     {
@@ -100,7 +100,7 @@ public abstract class AbstractModule
      * input context
      *
      * @param context a <code>String</code> value
-     * @return a <code>Model</code> value
+     * @return a {@link Model} value
      * @exception Exception if an error occurs
      */
     public abstract Model generate( final String context )
@@ -110,7 +110,7 @@ public abstract class AbstractModule
      * Abstract method for serializing a given {@link Model} to
      * an output context.
      *
-     * @param model a <code>Model</code> value
+     * @param model a {@link Model} value
      * @param context a <code>String</code> value
      * @exception Exception if an error occurs
      */
