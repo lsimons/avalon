@@ -62,6 +62,21 @@
 	   of the Env class takes a snapshot of these variables which can be
 	   accessed as properties using superclass methods.
         </p>
+
+	<source>
+Env env = null ;
+
+try
+{
+    env = new Env() ;
+}
+catch ( EnvAccessException e )
+{
+    ...	
+}	
+
+String home = env.getProperty( MERLIN_HOME ) ;
+	</source>
       </subsection>
     </section>
   </body>
