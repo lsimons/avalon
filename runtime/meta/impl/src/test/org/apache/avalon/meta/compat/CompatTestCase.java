@@ -39,7 +39,7 @@ public class CompatTestCase extends TestCase
     {
         TypeBuilder builder = new TypeBuilder();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        Class clazz = loader.loadClass( "org.apache.avalon.meta.compat.Test" );
+        Class clazz = loader.loadClass( "org.apache.avalon.meta.compat.TestClass" );
         m_type = builder.buildType( clazz );
     }
 
@@ -56,6 +56,6 @@ public class CompatTestCase extends TestCase
     public void testClassName() throws Exception
     {
         assertTrue( 
-          m_type.getInfo().getClassname().equals( "org.apache.avalon.meta.compat.Test" ) );
+          m_type.getInfo().getClassname().equals( "org.apache.avalon.meta.compat.TestClass" ) );
     }
 }

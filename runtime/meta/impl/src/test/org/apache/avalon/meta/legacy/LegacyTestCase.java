@@ -39,13 +39,13 @@ public class LegacyTestCase extends TestCase
     {
         TypeBuilder builder = new TypeBuilder();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        Class clazz = loader.loadClass( "org.apache.avalon.meta.legacy.Test" );
+        Class clazz = loader.loadClass( "org.apache.avalon.meta.legacy.TestClass" );
         m_type = builder.buildType( clazz );
     }
 
     public void testName() throws Exception
     {
-        assertTrue( m_type.getInfo().getName().equals( "test" ) );
+        assertTrue( m_type.getInfo().getName().equals( "testclass" ) );
     }
 
     public void testLifestyle() throws Exception
@@ -56,6 +56,6 @@ public class LegacyTestCase extends TestCase
     public void testClassName() throws Exception
     {
         assertTrue( 
-          m_type.getInfo().getClassname().equals( "org.apache.avalon.meta.legacy.Test" ) );
+          m_type.getInfo().getClassname().equals( "org.apache.avalon.meta.legacy.TestClass" ) );
     }
 }

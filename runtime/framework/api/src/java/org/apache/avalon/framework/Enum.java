@@ -119,7 +119,7 @@ public abstract class Enum
      * @param o the other object
      * @return the equality status
      */
-    public final boolean equals( Object o )
+    public boolean equals( Object o )
     {
         if( this == o )
             return true;

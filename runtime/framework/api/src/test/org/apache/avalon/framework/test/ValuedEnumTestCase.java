@@ -37,6 +37,7 @@ public class ValuedEnumTestCase extends TestCase
         public static final Color RED_NEGATIVE = new Color( "Red", -1 );
         public static final Color GREEN = new Color( "Green", 1 );
         public static final Color BLUE = new Color( "Blue", 2 );
+        public static final Color FAKE_BLUE = new Color( "Blue", 3 );
 
         public Color( final String color, final int value )
         {
@@ -95,6 +96,8 @@ public class ValuedEnumTestCase extends TestCase
         assertTrue( Color.GREEN.equals( Color.GREEN ) );
         assertTrue( Color.BLUE.equals( Color.BLUE ) );
 
+        assertTrue( ! Color.BLUE.equals( Color.FAKE_BLUE ) );
+        
         assertTrue( !OtherColor.RED.equals( Color.RED ) );
         assertTrue( !OtherColor.GREEN.equals( Color.GREEN ) );
         assertTrue( !OtherColor.BLUE.equals( Color.BLUE ) );
@@ -112,12 +115,13 @@ public class ValuedEnumTestCase extends TestCase
         assertTrue( new Color(null,0).equals( new Color( null,0 ) ) );
         assertFalse( new Color(null,0).equals( new Color( "hi",0 ) ) );
         assertFalse( new Color("hi",0).equals( new Color( null,0 ) ) );
-
+/*
         // todo: is this _really_ desired?
         assertTrue( Color.RED.equals( Color.RED_NEGATIVE ) );
         assertTrue( Color.RED_NEGATIVE.equals( Color.RED ) );
         assertTrue( OtherColor.RED.equals( OtherColor.RED_NEGATIVE ) );
         assertTrue( OtherColor.RED_NEGATIVE.equals( OtherColor.RED ) );
+*/        
     }
 
     public void testHashCode()
@@ -126,6 +130,8 @@ public class ValuedEnumTestCase extends TestCase
         assertTrue( Color.GREEN.hashCode() ==  Color.GREEN.hashCode() );
         assertTrue( Color.BLUE.hashCode() ==  Color.BLUE.hashCode() );
 
+        assertTrue( Color.BLUE.hashCode() !=  Color.FAKE_BLUE.hashCode() );
+        
         assertTrue( OtherColor.RED.hashCode() !=  Color.RED.hashCode() );
         assertTrue( OtherColor.GREEN.hashCode() !=  Color.GREEN.hashCode() );
         assertTrue( OtherColor.BLUE.hashCode() !=  Color.BLUE.hashCode() );
@@ -139,10 +145,12 @@ public class ValuedEnumTestCase extends TestCase
         assertTrue( Color.BLUE.hashCode() !=  Color.RED.hashCode() );
 
         // todo: is this _really_ desired?
+/*        
         assertTrue( Color.RED.hashCode() ==Color.RED_NEGATIVE.hashCode() );
         assertTrue( Color.RED_NEGATIVE.hashCode() ==Color.RED.hashCode() );
         assertTrue( OtherColor.RED.hashCode() ==OtherColor.RED_NEGATIVE.hashCode() );
         assertTrue( OtherColor.RED_NEGATIVE.hashCode() ==OtherColor.RED.hashCode() );
+*/        
     }
 
     public void testGet()
