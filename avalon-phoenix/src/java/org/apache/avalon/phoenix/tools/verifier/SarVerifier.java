@@ -721,7 +721,7 @@ public class SarVerifier
                 final String message =
                     REZ.getString( "service-interface-deprecated", name, classname );
                 getLogger().warn( message );
-                System.err.println( message );
+                //System.err.println( message );
             }
         }
 
