@@ -96,11 +96,11 @@ import java.util.*;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.31 $ $Date: 2003/05/28 19:03:48 $
+ * @version CVS $Revision: 1.32 $ $Date: 2003/05/29 16:29:06 $
  */
 public abstract class AbstractContainer
-    extends AbstractLogEnabled
-    implements Contextualizable, Serviceable, Initializable, Disposable, Container
+        extends AbstractLogEnabled
+        implements Contextualizable, Serviceable, Initializable, Disposable, Container
 {
     /** The hint map's entry to get the default component type. */
     public static final String DEFAULT_ENTRY = "*";
@@ -126,6 +126,12 @@ public abstract class AbstractContainer
     /** contains the impl's LifecycleExtensionManager, which is extracted from m_serviceManager. */
     protected LifecycleExtensionManager m_extManager;
     /**
+     * contains the context that will be passed to the components we will create.
+     * initialized the first time a component handler is created by a call to
+     * provideComponentContext -- override this method to affect the value of this object.
+     */
+    protected Context m_componentContext;
+    /**
      * Contains entries mapping roles to hint maps, where the hint map contains
      * mappings from hints to ComponentHandlers.
      */
@@ -135,7 +141,7 @@ public abstract class AbstractContainer
 
     protected List m_shutDownOrder;
 
-    private ProxyManager m_proxyManager = new ProxyManager(true);
+    private ProxyManager m_proxyManager = new ProxyManager( true );
 
     /**
      * Pull the manager items from the context so we can use them to set up
@@ -147,7 +153,7 @@ public abstract class AbstractContainer
      * @throws ContextException if a contexaulization error occurs
      */
     public void contextualize( final Context context )
-        throws ContextException
+            throws ContextException
     {
         m_context = context;
         try
@@ -171,12 +177,12 @@ public abstract class AbstractContainer
      * @avalon.dependency type="LoggerManager"
      * @avalon.dependency type="PoolManager"
      * @avalon.dependency type="InstrumentManager"
+     * @avalon.dependency type="MetaInfoManager"
      * @avalon.dependency type="LifecycleExtensionManager" optional="true"
-     * @avalon.dependency type="RoleManager" optional="true"
      * @avalon.dependency type="Sink" optional="true"
      */
     public void service( final ServiceManager serviceManager )
-        throws ServiceException
+            throws ServiceException
     {
         // get non-optional services
 
@@ -195,15 +201,15 @@ public abstract class AbstractContainer
         else
         {
             final String message =
-                "No " + Sink.ROLE + " is given, all " +
-                "management will be performed synchronously";
+                    "No " + Sink.ROLE + " is given, all " +
+                    "management will be performed synchronously";
             getLogger().warn( message );
         }
 
         m_metaManager = (MetaInfoManager) serviceManager.lookup( MetaInfoManager.ROLE );
 
         // set up our ServiceManager
-        m_serviceManager = new FortressServiceManager( this, serviceManager );
+        m_serviceManager = provideServiceManager( serviceManager );
     }
 
     /**
@@ -215,47 +221,53 @@ public abstract class AbstractContainer
     private void setupExtensionManager( final ServiceManager serviceManager ) throws ServiceException
     {
         final Logger extLogger = m_loggerManager.getLoggerForCategory( "system.extensions" );
+
         if ( serviceManager.hasService( LifecycleExtensionManager.ROLE ) )
         {
-            m_extManager =
-                (LifecycleExtensionManager) serviceManager.lookup( LifecycleExtensionManager.ROLE );
+            final LifecycleExtensionManager parent = (LifecycleExtensionManager)
+                    serviceManager.lookup( LifecycleExtensionManager.ROLE );
 
-            extLogger.debug( "Found the LifecycleExtensionManager" );
+            if ( extLogger.isDebugEnabled() )
+            {
+                final String message = "Found the LifecycleExtensionManager, creating a copy.";
+                extLogger.debug( message );
+            }
+
+            m_extManager = parent.writeableCopy();
         }
         else
         {
+            if ( extLogger.isDebugEnabled() )
+            {
+                final String message = "No LifecycleExtensionManager found, creating a new one.";
+                extLogger.debug( message );
+            }
+
             m_extManager = new LifecycleExtensionManager();
-            m_extManager.enableLogging( extLogger );
-            m_extManager.addCreatorExtension( new InstrumentableCreator( m_instrumentManager ) );
-
-            if ( getLogger().isDebugEnabled() )
-            {
-                final String message =
-                    "No Container.LIFECYCLE_EXTENSION_MANAGER is given, " +
-                    "installing default lifecycle extension manager with " +
-                    "1 extensions";
-                getLogger().debug( message );
-            }
         }
 
-        /* Add all the standard extensions if they have not already been
-         * done.
+        /** LifecycleExtensionManager.writeableCopy() does not copy the logger. */
+        m_extManager.enableLogging( extLogger );
+
+        if ( extLogger.isDebugEnabled() )
+        {
+            final String message =
+                    "Adding an InstrumentableCreator to support our InstrumentManager";
+            extLogger.debug( message );
+        }
+
+        /**
+         * We do need a new InstrumentableCreator, as we want strictly our
+         * m_instrumentManager to be engaged. We assume there is no
+         * InstrumentableCreator in the LifecycleExtensionManager passed to us
+         * already. If there is one this is probably a bug. Not testing this currently,
+         * although might test this in the future in order to
+         * throw something like an IllegalArgumentException.
          */
-        boolean isInstrumentEnabled = false;
-        final Iterator it = m_extManager.creatorExtensionsIterator();
-        while ( it.hasNext() )
-        {
-            if ( it.next() instanceof InstrumentableCreator )
-            {
-                isInstrumentEnabled = true;
-            }
-        }
+        m_extManager.addCreatorExtension( new InstrumentableCreator( m_instrumentManager ) );
 
-        if ( !isInstrumentEnabled )
-        {
-            extLogger.debug("No Instrumentable Creator was found.  We are adding a new one.");
-            m_extManager.addCreatorExtension( new InstrumentableCreator( m_instrumentManager ) );
-        }
+        // just to be on the safe side
+        m_extManager.makeReadOnly();
     }
 
     /**
@@ -268,7 +280,7 @@ public abstract class AbstractContainer
      * @throws Exception if unable to create a Handler for the component
      */
     protected void addComponent( final ComponentHandlerMetaData metaData )
-        throws IllegalArgumentException, Exception
+            throws IllegalArgumentException, Exception
     {
         // figure out Role
         final String classname = metaData.getClassname();
@@ -280,7 +292,7 @@ public abstract class AbstractContainer
         }
 
         if ( DEFAULT_ENTRY.equals( metaData.getName() ) ||
-            SELECTOR_ENTRY.equals( metaData.getName() ) )
+                SELECTOR_ENTRY.equals( metaData.getName() ) )
         {
             throw new IllegalArgumentException( "Using a reserved id name" + metaData.getName() );
         }
@@ -288,7 +300,7 @@ public abstract class AbstractContainer
         Iterator it = metaEntry.getRoles();
         // create a handler for the combo of Role+MetaData
         final ComponentHandler handler =
-            getComponentHandler( metaEntry, metaData );
+                getComponentHandler( metaEntry, metaData );
 
         while ( it.hasNext() )
         {
@@ -307,7 +319,7 @@ public abstract class AbstractContainer
                     hintMap = createHintMap();
                     hintMap.put( DEFAULT_ENTRY, handler );
                     hintMap.put( SELECTOR_ENTRY,
-                                 new FortressServiceSelector( this, role ) );
+                            new FortressServiceSelector( this, role ) );
                     m_mapper.put( role, hintMap );
                 }
 
@@ -331,7 +343,7 @@ public abstract class AbstractContainer
      */
     private ComponentHandler getComponentHandler( final MetaInfoEntry metaEntry,
                                                   final ComponentHandlerMetaData metaData )
-        throws Exception
+            throws Exception
     {
         // get info from params
         final ComponentHandler handler;
@@ -341,16 +353,16 @@ public abstract class AbstractContainer
         try
         {
             final ObjectFactory factory =
-                createObjectFactory( classname, configuration );
+                    createObjectFactory( classname, configuration );
 
             // create the appropriate handler instance
             final ComponentHandler targetHandler =
-                (ComponentHandler) metaEntry.getHandlerClass().newInstance();
+                    (ComponentHandler) metaEntry.getHandlerClass().newInstance();
 
             // do the handler lifecycle
             ContainerUtil.contextualize( targetHandler, m_context );
             final DefaultServiceManager serviceManager =
-                new DefaultServiceManager( getServiceManager() );
+                    new DefaultServiceManager( getServiceManager() );
             serviceManager.put( ObjectFactory.ROLE, factory );
             serviceManager.makeReadOnly();
 
@@ -369,7 +381,7 @@ public abstract class AbstractContainer
             // ComponentHandler is not a "true" avalon component
 
             handler =
-                new LEAwareComponentHandler( targetHandler, m_extManager, m_context );
+                    new LEAwareComponentHandler( targetHandler, m_extManager, m_context );
         }
         catch ( final Exception e )
         {
@@ -379,8 +391,8 @@ public abstract class AbstractContainer
             if ( getLogger().isDebugEnabled() )
             {
                 final String message =
-                    "Could not create the handler for the '" +
-                    classname + "' component.";
+                        "Could not create the handler for the '" +
+                        classname + "' component.";
                 getLogger().debug( message, e );
             }
             throw e;
@@ -389,15 +401,15 @@ public abstract class AbstractContainer
         if ( getLogger().isDebugEnabled() )
         {
             final String message =
-                "Component " + classname +
-                " uses handler " + metaEntry.getHandlerClass().getName();
+                    "Component " + classname +
+                    " uses handler " + metaEntry.getHandlerClass().getName();
             getLogger().debug( message );
         }
 
         // we're still here, so everything went smooth. Register the handler
         // and return it
         final ComponentHandlerEntry entry =
-            new ComponentHandlerEntry( handler, metaData );
+                new ComponentHandlerEntry( handler, metaData );
         m_components.add( entry );
 
         return handler;
@@ -413,13 +425,22 @@ public abstract class AbstractContainer
      */
     protected ObjectFactory createObjectFactory( final String classname,
                                                  final Configuration configuration )
-        throws Exception
+            throws Exception
     {
+        if ( m_componentContext == null )
+        {
+            m_componentContext = provideComponentContext( m_context );
+            if ( m_componentContext == null )
+            {
+                throw new IllegalStateException( "provideComponentContext() has returned null" );
+            }
+        }
+
         final Class clazz = m_classLoader.loadClass( classname );
         final ComponentFactory componentFactory =
-            new ComponentFactory( clazz, configuration,
-                m_serviceManager, m_context,
-                m_loggerManager, m_extManager );
+                new ComponentFactory( clazz, configuration,
+                        m_serviceManager, m_componentContext,
+                        m_loggerManager, m_extManager );
         return m_proxyManager.getWrappedObjectFactory( componentFactory );
     }
 
@@ -436,7 +457,7 @@ public abstract class AbstractContainer
      *                 ComponentSelector for the role/hint combo.
      */
     public Object get( final String role, final Object hint )
-        throws ServiceException
+            throws ServiceException
     {
         final Map hintMap = (Map) m_mapper.get( role );
         Object value;
@@ -563,7 +584,7 @@ public abstract class AbstractContainer
      *                   not vital to operation, it should be possible to recover gracefully
      */
     public void initialize()
-        throws CompositeException, Exception
+            throws CompositeException, Exception
     {
         // go over all components
         final Iterator i = m_components.iterator();
@@ -595,29 +616,29 @@ public abstract class AbstractContainer
                 // We now have an activation policy we can handle.
                 switch ( activation )
                 {
-                case ComponentHandlerMetaData.ACTIVATION_BACKGROUND:
-                    // Add a command to initialize the component to the command
-                    //  sink so it will be initialized asynchronously in the
-                    //  background.
-                    final PrepareHandlerCommand element =
-                        new PrepareHandlerCommand( handler, getLogger() );
-                    m_commandSink.enqueue( element );
-                    break;
+                    case ComponentHandlerMetaData.ACTIVATION_BACKGROUND:
+                        // Add a command to initialize the component to the command
+                        //  sink so it will be initialized asynchronously in the
+                        //  background.
+                        final PrepareHandlerCommand element =
+                                new PrepareHandlerCommand( handler, getLogger() );
+                        m_commandSink.enqueue( element );
+                        break;
 
-                case ComponentHandlerMetaData.ACTIVATION_INLINE:
-                    // Initialize the component now.
-                    handler.prepareHandler();
-                    break;
+                    case ComponentHandlerMetaData.ACTIVATION_INLINE:
+                        // Initialize the component now.
+                        handler.prepareHandler();
+                        break;
 
-                default: // ComponentHandlerMetaData.ACTIVATION_LAZY
-                    if ( getLogger().isDebugEnabled() )
-                    {
-                        final String message = "ComponentHandler (" + handler +
-                            ") has specified a lazy activation policy, " +
-                            "initialization deferred until first use";
-                        getLogger().debug( message );
-                    }
-                    break;
+                    default: // ComponentHandlerMetaData.ACTIVATION_LAZY
+                        if ( getLogger().isDebugEnabled() )
+                        {
+                            final String message = "ComponentHandler (" + handler +
+                                    ") has specified a lazy activation policy, " +
+                                    "initialization deferred until first use";
+                            getLogger().debug( message );
+                        }
+                        break;
                 }
             }
             catch ( final Exception e )
@@ -649,7 +670,7 @@ public abstract class AbstractContainer
         if ( buffer.size() > 0 )
         {
             throw new CompositeException( (Exception[]) buffer.toArray( new Exception[0] ),
-                "unable to instantiate one or more components" );
+                    "unable to instantiate one or more components" );
         }
     }
 
@@ -658,39 +679,39 @@ public abstract class AbstractContainer
         Map vertexMap = new HashMap();
         List vertices = new ArrayList( m_components.size() );
         Iterator it = m_components.iterator();
-        
-        while(it.hasNext())
+
+        while ( it.hasNext() )
         {
             ComponentHandlerEntry entry = (ComponentHandlerEntry) it.next();
             ComponentHandlerMetaData metaData = entry.getMetaData();
-            
+
             String name = metaData.getName();
-            Vertex v = (Vertex)vertexMap.get( name );
+            Vertex v = (Vertex) vertexMap.get( name );
             if ( v == null )
             {
                 v = new Vertex( name, entry.getHandler() );
                 vertexMap.put( name, v );
                 vertices.add( v );
             }
-            
-            MetaInfoEntry meta = m_metaManager.getMetaInfoForClassname(metaData.getClassname());
+
+            MetaInfoEntry meta = m_metaManager.getMetaInfoForClassname( metaData.getClassname() );
 
             Iterator dit = meta.getDependencies().iterator();
-            while(dit.hasNext())
+            while ( dit.hasNext() )
             {
-                Map deps = (Map)m_mapper.get(dit.next());
+                Map deps = (Map) m_mapper.get( dit.next() );
                 Iterator mdit = deps.entrySet().iterator();
-                while(mdit.hasNext())
+                while ( mdit.hasNext() )
                 {
-                    Map.Entry depEntry = (Map.Entry)mdit.next();
-                    
+                    Map.Entry depEntry = (Map.Entry) mdit.next();
+
                     // If this key is neither the DEFAULT_ENTRY or the SELECTOR_ENTRY then we
                     //  want to add a dependency vertex.
-                    if ( ! ( depEntry.getKey().equals( DEFAULT_ENTRY ) ||
-                        depEntry.getKey().equals( SELECTOR_ENTRY ) ) )
+                    if ( !( depEntry.getKey().equals( DEFAULT_ENTRY ) ||
+                            depEntry.getKey().equals( SELECTOR_ENTRY ) ) )
                     {
                         String dName = depEntry.getKey().toString();
-                        Vertex dv = (Vertex)vertexMap.get( dName );
+                        Vertex dv = (Vertex) vertexMap.get( dName );
                         if ( dv == null )
                         {
                             dv = new Vertex( dName, depEntry.getValue() );
@@ -702,22 +723,22 @@ public abstract class AbstractContainer
                 }
             }
         }
-        
-        DirectedAcyclicGraphVerifier.topologicalSort(vertices);
-        
+
+        DirectedAcyclicGraphVerifier.topologicalSort( vertices );
+
         if ( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "Component initialization order:" );
             int i = 1;
             for ( Iterator iter = vertices.iterator(); iter.hasNext(); i++ )
             {
-                Vertex v = (Vertex)iter.next();
+                Vertex v = (Vertex) iter.next();
                 getLogger().debug( "  #" + i + " (" + v.getOrder() + ") : " + v.getName() );
             }
         }
-        
-        Collections.reverse(vertices);
-        
+
+        Collections.reverse( vertices );
+
         m_shutDownOrder = vertices;
     }
 
@@ -726,23 +747,23 @@ public abstract class AbstractContainer
      */
     public void dispose()
     {
-        
+
         if ( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "Component shutdown order:" );
             int i = 1;
             for ( Iterator iter = m_shutDownOrder.iterator(); iter.hasNext(); i++ )
             {
-                Vertex v = (Vertex)iter.next();
+                Vertex v = (Vertex) iter.next();
                 getLogger().debug( "  #" + i + " (" + v.getOrder() + ") : " + v.getName() );
             }
         }
-        
+
         final Iterator i = m_shutDownOrder.iterator();
         while ( i.hasNext() )
         {
             final Vertex entry = (Vertex) i.next();
-            final ComponentHandler handler = (ComponentHandler)entry.getNode();
+            final ComponentHandler handler = (ComponentHandler) entry.getNode();
 
             if ( getLogger().isDebugEnabled() ) getLogger().debug( "Shutting down: " + handler );
             ContainerUtil.dispose( handler );
@@ -762,5 +783,44 @@ public abstract class AbstractContainer
     protected ServiceManager getServiceManager()
     {
         return m_serviceManager;
+    }
+
+    /**
+     * Override this method to control creation of the serviceManager
+     * belonging to this container. This serviceManager is passed to
+     * child components as they are being created and is exposed via
+     * the getServiceManager() method.
+     * Invoked from the service() method.
+     *
+     * However even a self-contained container should be carefull about
+     * cutting access to parent serviceManager completely, as important
+     * (and required) system services including Sink, LoggerManager,
+     * InstrumentManager, PoolManager and LifecycleExtensionManager
+     * are passed via ServiceManager also. SourceResolver hangs somewhere
+     * in between system and "user space" services.
+     *
+     * It's more or less okay to cut access to them if our child
+     * components do not need them and are not containers themselves,
+     * but if we have containers as our children they will require these
+     * services.
+     */
+    protected ServiceManager provideServiceManager( final ServiceManager parent )
+            throws ServiceException
+    {
+        return new FortressServiceManager( this, parent );
+    }
+
+    /**
+     * Override this method to control what context will be passed to
+     * the components created by this container. Called the first time
+     * a component being created - withing this implementation it is
+     * a part of the configure() stage.
+     * You may derive your context from m_context or create a new one.
+     */
+    protected Context provideComponentContext( final Context parent )
+            throws Exception
+    {
+        /* the default implementation: just use the same as for container itself */
+        return parent;
     }
 }
