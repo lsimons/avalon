@@ -179,6 +179,7 @@ Legal:
        <classpath refid="project.class.path" />
        <testlet>org.apache.log.format.test.FormatterTestlet</testlet>
        <testlet>org.apache.log.output.test.OutputTargetTestlet</testlet>
+       <testlet>org.apache.log.test.InheritanceTestlet</testlet>
     </test>
   </target>
 

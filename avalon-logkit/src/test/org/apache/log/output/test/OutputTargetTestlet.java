@@ -61,7 +61,6 @@ public final class OutputTargetTestlet
     {
         final String result = output.toString();
         output.reset();
-
         return result;
     }
 
