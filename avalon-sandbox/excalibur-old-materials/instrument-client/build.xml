@@ -24,7 +24,7 @@
 
     <path id="tools.class.path">
         <pathelement location="${junit.jar}"/>
-        <fileset dir="${jakarta-site.dir}/lib"/>
+        <fileset dir="${avalon-site.dir}/lib"/>
     </path>
 
     <path id="test.class.path">
