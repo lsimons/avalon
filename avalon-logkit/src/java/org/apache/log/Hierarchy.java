@@ -22,7 +22,7 @@ public class Hierarchy
 {
     ///Format of default formatter
     private static final String  FORMAT =
-        "%7.7{priority} %19.19{time:yyyy-MM-dd' 'HH:mm:ss.SSS} [%8.8{category}] (%{context}): " +
+        "%7.7{priority} %23.23{time:yyyy-MM-dd' 'HH:mm:ss.SSS} [%8.8{category}] (%{context}): " +
         "%{message}\n%{throwable}";
 
     ///The instance of default hierarchy
