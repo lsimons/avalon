@@ -33,7 +33,7 @@ import bsh.Interpreter;
 public class ScriptFacade extends AbstractLogEnabled    
     implements PluginFacade
 {
-    static public final String SCRIPT_FILE_NAME = "build.bsh";
+    static public final String SCRIPT_FILE_NAME = "magic.bsh";
     
     private PluginContext m_Context;
     private String m_Script;
