@@ -280,9 +280,11 @@
             <depend property="excalibur-instrument.jar" project="excalibur-instrument"/>
             <depend property="excalibur-instrument-manager.jar" project="excalibur-instrument-manager"/>
             <depend property="excalibur-instrument-manager-interfaces.jar" project="excalibur-instrument-manager"/>
-            <depend property="excalibur-altrmi-common.jar" project="excalibur-altrmi"/>
-            <depend property="excalibur-altrmi-server-impl.jar" project="excalibur-altrmi"/>
-            <depend property="excalibur-altrmi-server-interfaces.jar" project="excalibur-altrmi"/>
+            <depend id="common" property="excalibur-altrmi-common.jar" project="excalibur-altrmi"/>
+            <depend id="server-impl" property="excalibur-altrmi-server-impl.jar"
+                 project="excalibur-altrmi"/>
+            <depend id="server-api" property="excalibur-altrmi-server-interfaces.jar"
+                 project="excalibur-altrmi"/>
             <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
