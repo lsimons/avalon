@@ -28,6 +28,9 @@ import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.Serviceable;
 
 /**
  * Factory for Avalon components.
@@ -35,7 +38,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/06/13 17:24:50 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/07/12 10:56:50 $
  * @since 4.0
  */
 public class DefaultComponentFactory
@@ -161,13 +164,24 @@ public class DefaultComponentFactory
             ( (Contextualizable)component ).contextualize( m_context );
         }
 
-        ComponentManager proxy = null;
+        Object proxy = null;
 
         if( component instanceof Composable )
         {
             // wrap the real CM with a proxy, see below for more info
-            proxy = new ComponentManagerProxy( m_componentManager );
-            ( (Composable)component ).compose( proxy );
+            final ComponentManagerProxy manager =
+                new ComponentManagerProxy( m_componentManager );
+            ( (Composable)component ).compose( manager );
+            proxy = manager;
+        }
+
+        if( component instanceof Serviceable )
+        {
+            // wrap the real CM with a proxy, see below for more info
+            final ServiceManagerProxy manager =
+                new ServiceManagerProxy( m_componentManager );
+            ( (Serviceable)component ).service( manager );
+            proxy = manager;
         }
 
         if( component instanceof RoleManageable )
@@ -287,6 +301,11 @@ public class DefaultComponentFactory
             ( (ComponentManagerProxy)m_components.get( component ) ).releaseAll();
         }
 
+        if( component instanceof Serviceable )
+        {
+            ( (ServiceManagerProxy)m_components.get( component ) ).releaseAll();
+        }
+
         m_components.remove( component );
     }
 
@@ -336,6 +355,78 @@ public class DefaultComponentFactory
         }
 
         private synchronized void removeUnreleased( Component component )
+        {
+            m_unreleased.remove( component );
+        }
+
+        /**
+         * Releases all components that have been looked up through this
+         * <code>ComponentLocator</code>, that have not yet been released
+         * via user code.
+         */
+        private void releaseAll()
+        {
+            Component[] unreleased;
+
+            synchronized( this )
+            {
+                unreleased = new Component[ m_unreleased.size() ];
+                m_unreleased.toArray( unreleased );
+            }
+
+            for( int i = 0; i < unreleased.length; i++ )
+            {
+                release( unreleased[ i ] );
+            }
+        }
+    }
+
+    private static class ServiceManagerProxy
+        implements ServiceManager
+    {
+        private final ComponentManager m_realManager;
+        private final Collection m_unreleased = new ArrayList();
+
+        ServiceManagerProxy( final ComponentManager manager )
+        {
+            m_realManager = manager;
+        }
+
+        public Object lookup( final String role )
+            throws ServiceException
+        {
+            try
+            {
+                final Object component = m_realManager.lookup( role );
+                addUnreleased( component );
+                return component;
+            }
+            catch( ComponentException e )
+            {
+                throw new ServiceException( e.getRole(),
+                                            e.getMessage(),
+                                            e );
+            }
+        }
+
+        public boolean hasService( final String role )
+        {
+            return m_realManager.hasComponent( role );
+        }
+
+        public void release( final Object component )
+        {
+            removeUnreleased( component );
+
+            m_realManager.release( (Component)component );
+        }
+
+        private synchronized void addUnreleased( final Object component )
+        {
+            m_unreleased.add( component );
+        }
+
+        private synchronized void removeUnreleased( final Object component )
         {
             m_unreleased.remove( component );
         }
