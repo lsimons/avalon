@@ -27,9 +27,9 @@ Legal:
 
   <property name="name" value="excalibur"/>
   <property name="Name" value="Excalibur"/>
-  <property name="version" value="4.0b5"/>
-  <property name="release" value="5th"/>
-  <property name="status" value="beta"/>
+  <property name="version" value="4.0"/>
+  <property name="release" value="1st"/>
+  <property name="status" value="final"/>
   <property name="short.version" value="4.0"/>
   <property name="year" value="1999-2001"/>
 
