@@ -1353,7 +1353,7 @@ Legal:
             eof="remove"/>
     </target>
     
-    <target name="avalon-phoenix-dependencies"
+    <target name="avalon-get-dependencies-from-gump"
         depends="get-mx4j,get-loggerstore,get-configkit,get-xmlpolicy,get-classman"
         description="Target that retrieves the Spice dependencies. Used by Gump."/>
     
