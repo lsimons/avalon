@@ -27,7 +27,7 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
  *  An basic test case for the LogManager.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2002/09/30 22:57:32 $
+ * @version $Revision: 1.5 $ $Date: 2002/10/28 01:22:59 $
  */
 public class LogManagerTestCase
     extends TestCase
@@ -76,6 +76,12 @@ public class LogManagerTestCase
         throws Exception
     {
         runtTestForConfigFile( 2 );
+    }
+
+    public void testLog4jVersion()
+        throws Exception
+    {
+        runtTestForConfigFile( 3 );
     }
 
     private void runtTestForConfigFile( final int index ) throws Exception
