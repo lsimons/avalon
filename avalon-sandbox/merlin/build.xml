@@ -391,6 +391,7 @@ the LICENSE.txt file.
     <copy toDir="${merlin.home}/lib/system" file="${avalon-meta.jar}"/>
     <copy toDir="${merlin.home}/lib/system" file="${avalon-lifecycle.jar}"/>
     <copy toDir="${merlin.home}/lib/system" file="${avalon-assembly.jar}"/>
+    <copy toDir="${merlin.home}/lib/system" file="${avalon-assembly-spi.jar}"/>
     <copy toDir="${merlin.home}/lib/system" file="${merlin.jar}"/>
     <copy toDir="${merlin.home}/lib/system" file="${merlin-bootstrap.jar}"/>
     <copy toDir="${merlin.home}/lib/system" file="${merlin-spi.jar}"/>
