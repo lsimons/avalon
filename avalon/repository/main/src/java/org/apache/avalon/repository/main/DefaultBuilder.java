@@ -81,7 +81,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class DefaultBuilder extends AbstractBuilder implements Builder
 {
@@ -126,7 +126,10 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
     public DefaultBuilder( InitialContext context, Artifact artifact )
         throws Exception
     {
-        this( context, artifact, new String[0] );
+        this( 
+          context, 
+          Thread.currentThread().getContextClassLoader(),
+          artifact );
     }
 
    /**
@@ -138,10 +141,15 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
     * @exception Exception if a app factory creation error occurs
     */
     public DefaultBuilder( 
-      InitialContext context, Artifact artifact, String[] args )
+      InitialContext context, ClassLoader classloader, Artifact artifact )
       throws Exception
     {
+        if( null == context ) throw new NullPointerException( "context" );
+        if( null == artifact ) throw new NullPointerException( "artifact" );
+
         m_context = context;
+
+        ClassLoader parent = getClassLoader( classloader );
 
         try
         {
@@ -167,13 +175,12 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
             throw new IllegalArgumentException( error );
         }
 
-        ClassLoader parent = Thread.currentThread().getContextClassLoader();
         m_classloader = m_repository.getClassLoader( parent, artifact );
-        Class clazz = super.loadFactoryClass( m_classloader, classname );
+        Class clazz = loadFactoryClass( m_classloader, classname );
 
         try
         {
-            m_delegate = createDelegate( clazz, m_context, args );
+            m_delegate = createDelegate( m_classloader, classname, m_context );
         }
         catch( Throwable e )
         {
@@ -188,6 +195,13 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
             throw new RepositoryException( buffer.toString(), e );
         }
     }
+
+    private ClassLoader getClassLoader( ClassLoader classloader )
+    {
+        if( null != classloader ) return classloader;
+        return DefaultBuilder.class.getClassLoader();
+    }
+
 
    /**
     * Return the factory established by the loader.
@@ -235,7 +249,7 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
         {
             InitialContext context = new DefaultInitialContext( cache, hosts );
             System.out.println( "Building: " + artifact );
-            Builder builder = new DefaultBuilder( context, artifact, args );
+            Builder builder = new DefaultBuilder( context, artifact );
             Object object = builder.getFactory().create();
             System.out.println( "OBJECT: " + object );
         }

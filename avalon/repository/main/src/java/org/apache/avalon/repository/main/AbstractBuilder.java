@@ -73,7 +73,7 @@ import org.apache.avalon.repository.provider.InitialContext;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class AbstractBuilder
 {
@@ -118,23 +118,30 @@ public abstract class AbstractBuilder
     * <li>[FactoryClass]( )</li>
     * </ul>
     * 
-    * @param clazz the factory class
+    * @param classloader the classloader
+    * @param factory the the factory classname
     * @param context the inital repository context
-    * @param args command line arguments
     * @return the instantiated factory
     * @exception RepositoryException if a factory creation error occurs
     */
     protected Factory createDelegate( 
-      Class clazz, InitialContext context, String[] args ) 
+      ClassLoader classloader, String factory, InitialContext context ) 
       throws RepositoryException
     {
+
+        if( null == classloader ) throw new NullPointerException( "classloader" );
+        if( null == factory ) throw new NullPointerException( "factory" );
+        if( null == context ) throw new NullPointerException( "context" );
+
+        Class clazz = loadFactoryClass( classloader, factory );
+
         try
         {
             Constructor constructor = 
               clazz.getConstructor( 
-                new Class[]{ InitialContext.class, String[].class } );
+                new Class[]{ InitialContext.class, ClassLoader.class } );
             return createFactory( 
-              constructor, new Object[]{ context, args } );
+              constructor, new Object[]{ context, classloader } );
         }
         catch( NoSuchMethodException e )
         {
@@ -152,9 +159,9 @@ public abstract class AbstractBuilder
                 {
                     Constructor constructor = 
                       clazz.getConstructor( 
-                        new Class[]{ String[].class } );
+                        new Class[]{ ClassLoader.class } );
                     return createFactory( 
-                      constructor, new Object[]{ args } );
+                      constructor, new Object[]{ classloader } );
                 }
                 catch( NoSuchMethodException eee )
                 {
