@@ -57,6 +57,16 @@ public class DefaultKernel
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultKernel.class );
 
+    /**
+     * The interfaces of application that are exported to Management system.
+     * Declared up here to avoid classloader deadlock issues where ApplicationMBean
+     * is loaded after the application starts. If the application is also loading
+     * classes and happens to recursively enter the bootstrap classloader a deadlock
+     * can be caused. P{lacing class interfaces up here avoids this deadlock.
+     */
+    private static final Class[] APPLICATION_INTERFACES =
+        new Class[]{ApplicationMBean.class};
+
     ///SystemManager provided by Embeddor
     private SystemManager m_systemManager;
 
@@ -206,7 +216,7 @@ public class DefaultKernel
                 {
                     m_applicationManager.register( name,
                                                    application,
-                                                   new Class[]{ApplicationMBean.class} );
+                                                   APPLICATION_INTERFACES );
                 }
                 catch( final Throwable t )
                 {
