@@ -210,7 +210,8 @@ public class JavadocTask extends SystemTask
     {
         final Javadoc javadoc = (Javadoc) getProject().createTask( "javadoc" );
         javadoc.setTaskName( getTaskName() );
-
+        createAvalonTags( javadoc );
+        
         javadoc.init();
         javadoc.setDestdir( root );
         final Path source = javadoc.createSourcepath();
@@ -292,6 +293,19 @@ public class JavadocTask extends SystemTask
         javadoc.execute();
     }
 
+    private void createAvalonTags( Javadoc javadoc )
+    {
+        for( int i=0 ; i < TAG_LIST.length ; i++ )
+        {
+            Javadoc.TagArgument tag = javadoc.createTag();
+            tag.setName( TAG_LIST[i][0] );
+            tag.setDescription( TAG_LIST[i][1] );
+            tag.setScope( TAG_LIST[i][2] );
+            tag.setEnabled( true );
+        }
+    }
+    
+    
     private String getTitle( final Definition def, final int category )
     {
         final String extra = getTitleSuppliment( def, category );
@@ -327,4 +341,19 @@ public class JavadocTask extends SystemTask
             return getHome().getDefinition( getKey() );
         }
     }
+    
+    private String[][] TAG_LIST = 
+    {
+        { "avalon.component", "Avalon Component Type", "types" },
+        { "avalon.service", "Avalon Service", "types" },
+        { "avalon.attribute", "Avalon Attribute", "types" },
+        { "avalon.stage", "Avalon Lifecycle Stage", "types" },
+        { "avalon.extension", "Avalon Extension", "types" },
+    
+        { "avalon.entry", "Avalon Context Entry", "methods,constructors" },
+        { "avalon.dependency", "Avalon Dependency Declaration", "methods,constructors" },
+        { "avalon.logger", "Avalon Logger", "methods,constructors" },
+        { "avalon.configuration", "Avalon Configuration", "methods,constructors" },
+        { "avalon.context", "Avalon Context Interface", "methods,constructors" }
+    };
 }
