@@ -65,7 +65,7 @@ import java.net.URL;
 
 /**
  * Helper class to create a m_context for the ContextManager.
- * @version CVS $Revision: 1.18 $ $Date: 2003/06/04 13:19:41 $
+ * @version CVS $Revision: 1.19 $ $Date: 2003/06/11 19:14:42 $
  */
 public final class FortressConfig
 {
@@ -119,6 +119,8 @@ public final class FortressConfig
         {
             defaultContext.put( ContextManagerConstants.CONTAINER_CLASS,
                 DefaultContainer.class );
+            defaultContext.put( ContextManagerConstants.COMMAND_FAILURE_HANDLER_CLASS,
+                FortressCommandFailureHandler.class );
         }
         catch ( Exception e )
         {
@@ -179,12 +181,48 @@ public final class FortressConfig
             classLoader = Thread.currentThread().getContextClassLoader();
         }
 
-        m_context.put( ContextManagerConstants.CONTAINER_CLASS, classLoader.loadClass( containerClass ) );
+        setContainerClass( classLoader.loadClass( containerClass ) );
     }
 
     public void setContainerClass( final Class containerClass )
     {
         m_context.put( ContextManagerConstants.CONTAINER_CLASS, containerClass );
+    }
+    
+    /**
+     * Sets a class whose instance will be used to override the default
+     *  CommandFailureHandler used by the container.  This makes it possible
+     *  for applications to decide how they wish to handle failures.
+     *
+     * @param commandFailureHandlerClass Name of the CommandFailureHandler class to use.
+     */
+    public void setCommandFailureHandlerClass( final String commandFailureHandlerClass )
+        throws ClassNotFoundException
+    {
+        ClassLoader classLoader;
+        try
+        {
+            classLoader = (ClassLoader) m_context.get( ClassLoader.class.getName() );
+        }
+        catch ( ContextException ce )
+        {
+            classLoader = Thread.currentThread().getContextClassLoader();
+        }
+
+        setCommandFailureHandlerClass( classLoader.loadClass( commandFailureHandlerClass ) );
+    }
+
+    /**
+     * Sets a class whose instance will be used to override the default
+     *  CommandFailureHandler used by the container.  This makes it possible
+     *  for applications to decide how they wish to handle failures.
+     *
+     * @param commandFailureHandlerClass The CommandFailureHandler class to use.
+     */
+    public void setCommandFailureHandlerClass( final Class commandFailureHandlerClass )
+    {
+        m_context.put(
+            ContextManagerConstants.COMMAND_FAILURE_HANDLER_CLASS, commandFailureHandlerClass );
     }
 
     public void setContainerConfiguration( final Configuration config )

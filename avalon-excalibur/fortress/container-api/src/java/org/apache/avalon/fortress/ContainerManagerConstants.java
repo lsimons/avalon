@@ -52,13 +52,15 @@ package org.apache.avalon.fortress;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceManager;
 
+import org.apache.excalibur.event.command.CommandFailureHandler;
+
 /**
  * Provides constants used to access the Context object for impl
  * managers. A impl manager can assume that all these elements are
  * present in the initial context.
  *
  * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/05/28 16:10:56 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/06/11 19:14:42 $
  */
 public interface ContainerManagerConstants extends ContainerConstants
 {
@@ -66,6 +68,11 @@ public interface ContainerManagerConstants extends ContainerConstants
      * Class: The class of the impl.
      */
     String CONTAINER_CLASS = "impl.class";
+
+    /**
+     * Class: The class of the command failure handler impl.
+     */
+    String COMMAND_FAILURE_HANDLER_CLASS = CommandFailureHandler.class.getName();
 
     /**
      * ComponentLocator: The component manager to give to the impl.

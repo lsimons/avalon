@@ -77,6 +77,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.excalibur.event.Sink;
 import org.apache.excalibur.event.Queue;
+import org.apache.excalibur.event.command.CommandFailureHandler;
 import org.apache.excalibur.event.command.CommandManager;
 import org.apache.excalibur.event.command.TPCThreadManager;
 import org.apache.excalibur.event.command.ThreadManager;
@@ -119,7 +120,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.44 $ $Date: 2003/06/11 14:18:06 $
+ * @version CVS $Revision: 1.45 $ $Date: 2003/06/11 19:14:42 $
  * @since 4.1
  */
 public class ContextManager
@@ -460,9 +461,26 @@ public class ContextManager
     {
         final CommandManager cm = new CommandManager();
         final ThreadManager tm = new TPCThreadManager();
-
+        
         assumeOwnership( cm );
         assumeOwnership( tm );
+
+        // Set the CommandFailureHandler
+        Class failureHandlerClass;
+        try
+        {
+            failureHandlerClass = (Class)m_rootContext.get( COMMAND_FAILURE_HANDLER_CLASS );
+        }
+        catch ( ContextException ce )
+        {
+            // Not set.  Use the default.
+            failureHandlerClass = FortressCommandFailureHandler.class;
+        }
+        CommandFailureHandler fh = (CommandFailureHandler)failureHandlerClass.newInstance();
+        final Logger fhLogger = m_loggerManager.getLoggerForCategory( "system.command" );
+        ContainerUtil.enableLogging( fh, fhLogger );
+        ContainerUtil.initialize( fh );
+        cm.setCommandFailureHandler( fh );
 
         // Get the context Logger Manager
         final Logger tmLogger = m_loggerManager.getLoggerForCategory( "system.threadmgr" );
