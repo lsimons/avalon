@@ -31,11 +31,7 @@ public class FortressBeanTestCase extends TestCase {
      * @see junit.framework.TestCase#setUp()
      */
     protected void setUp() throws Exception {
-        //this.bean = new FortressBean();
-    }
-
-    public void test() throws Exception {
-        /*
+        this.bean = new FortressBean();
         this.bean.setRoleManagerConfiguration("resource://org/apache/avalon/fortress/tools/FortressBeanTestCase.roles");
         this.bean.setContainerConfiguration("resource://org/apache/avalon/fortress/tools/FortressBeanTestCase.xconf");
         this.bean.setLoggerManagerConfiguration("resource://org/apache/avalon/fortress/tools/FortressBeanTestCase.xlog");
@@ -44,11 +40,16 @@ public class FortressBeanTestCase extends TestCase {
         this.bean.setSystemExitOnDispose(false);
         this.bean.initialize();
         this.bean.run();
+    }
+
+    protected void tearDown() throws Exception {
+        this.bean.dispose();
+    }
+
+    public void test() throws Exception {
         TestInterface ti = (TestInterface) this.bean.getServiceManager().lookup(TestInterface.ROLE);
         assertNotNull(ti);
         assertTrue(ti.isRunning());
-        this.bean.dispose();
-        */
     }
 
 }
