@@ -54,12 +54,13 @@ import junit.framework.TestCase;
 import org.apache.avalon.framework.Enum;
 
 import java.util.Map;
+import java.util.HashMap;
 
 /**
  * TestCase for {@link Enum}.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.1 $ $Date: 2004/01/11 22:17:19 $
+ * @version CVS $Revision: 1.2 $ $Date: 2004/01/11 22:34:26 $
  */
 public class EnumTestCase
     extends TestCase
@@ -105,7 +106,19 @@ public class EnumTestCase
     
     public void testConstructor()
     {
-        assertNotNull( new Color( "blah", null) );
+        assertNotNull( new Color( "blah", null ) );
+
+        Map entries = new HashMap();
+
+        Color c = new Color( "blah", entries );
+
+        assertTrue( entries.containsKey("blah") );
+        assertTrue( entries.containsValue(c) );
+
+        OtherColor c2 = new OtherColor( "blah", entries );
+        assertTrue( entries.containsKey("blah") );
+        assertFalse( entries.containsValue(c) );
+        assertTrue( entries.containsValue(c2) );
     }
 
     public void testEquals()
