@@ -1,4 +1,8 @@
 <?xml version="1.0"?>
+  <!DOCTYPE project [
+    <!ENTITY check-targets SYSTEM "file:check-targets.ent">
+  ]>
+
 
 <!--
 ==============================================================================
@@ -71,9 +75,7 @@ Legal:
   <property name="src.dist.dir" value="src-dist"/>
 
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
-  <property name="junit.jar" value="${tools.dir}/lib/junit-3.7.jar"/>
   <property name="j2ee.jar" value="${cjan.dir}/j2ee.jar"/>
-  <property name="jdbc.driver.jar" value=""/>
 
   <property name="dist.name" value="${Name}-${version}"/>
   <property name="dist.base" value="distributions"/>
@@ -83,17 +85,23 @@ Legal:
   <property name="announce2readme" value="${tools.dir}/announcement2readme.xsl"/>
   <property name="announce2site" value="${tools.dir}/announcement2site.xsl"/>
 
-  <property name="servlet.jar" value="${lib.dir}/servlet.jar"/>
-  <property name="mail.jar" value="${lib.dir}/mail.jar"/>
+  <property name="servletapi.jar" value=""/>
+  <property name="mail.jar" value=""/>
+  <property name="jms.jar" value=""/>
+  <property name="junit.jar" value=""/>
+  <property name="jdbc.jar" value=""/>
+  <property name="log4j.jar" value=""/>
+
   <property name="avalon-site.dir" value="../avalon-site"/>
 
   <path id="project.class.path">
     <pathelement path="${java.class.path}" />
-    <pathelement location="${junit.jar}"/>
-    <pathelement path="${servlet.jar}" />
+    <pathelement path="${servletapi.jar}" />
     <pathelement path="${mail.jar}"/>
     <pathelement path="${j2ee.jar}" />
-    <pathelement path="${jdbc.driver.jar}" />
+    <pathelement path="${jdbc.jar}" />
+    <pathelement path="${jms.jar}" />
+    <pathelement path="${log4j.jar}" />
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
     </fileset>
@@ -109,6 +117,8 @@ Legal:
     <path refid="project.class.path"/>
   </path>
 
+  &check-targets;
+  
   <!-- Main target -->
   <target name="main" depends="jar" description="Build complete"/>
 
@@ -127,6 +137,8 @@ Legal:
     <echo message="   jar        -> generates the ${Name} jar file"/>
     <echo message="   javadocs   -> generates the API documentation (java 1.2+ only)"/>
     <echo message="   real-clean -> cleans up all genereated files and directories"/>
+    <echo message="   import-all-auto-dependencies -> "/>
+    <echo message="                 downloads all automatically downloadable jars"/>
     <echo message=""/>
     <echo message="-------------------------------------------------------------"/>
     <echo message=""/>
@@ -139,35 +151,7 @@ Legal:
 
   </target>
 
-  <target name="import-servlet-jar" description="Imports the servlet API if required">
-
-    <mkdir dir="tmp-imports"/>
-    
-    <property name="jar-version" value="3.2.3"/>
-
-    <get src="http://jakarta.apache.org/builds/jakarta-tomcat/release/v${jar-version}/bin/jakarta-servletapi-${jar-version}.zip"
-        dest="tmp-imports/jakarta-servletapi-${jar-version}.zip"
-        verbose="true"
-        usetimestamp="true"/>
-
-    <unzip src="tmp-imports/jakarta-servletapi-${jar-version}.zip" dest="tmp-imports" />
-
-    <copy file="tmp-imports/jakarta-servletapi-${jar-version}/lib/servlet.jar" todir="${lib.dir}"/>
-
-    <delete dir="tmp-imports" />
-
-  </target>
-
-  <target name="import-log4j-jar" description="Imports the Log4J API if required">
-
-    <get src="http://www.ibiblio.org/maven/log4j/jars/log4j-1.2.7.jar"
-        dest="${lib.dir}/log4j-1.2.7.jar"
-        verbose="true"
-        usetimestamp="true"/>
-      
-  </target>
-
-  <target name="import-avalon-site" description="Imports the avalon-site" depends="import-log4j-jar">
+  <target name="import-avalon-site" description="Imports the avalon-site" depends="import-log4j">
     <!-- these are really old releases. Need to verify we can get the
          latest of everything and just download that! -->
     <mkdir dir="${avalon-site.dir}"/>
@@ -208,86 +192,12 @@ Legal:
 
   </target>
 
-
-  <target name="optional-tests" description="Tests for classes missing to the environment">
-
-    <available property="servlet.present"
-               classname="javax.servlet.ServletContext"
-               classpathref="project.class.path" />
-
-    <available property="javax.sql.present"
-               classname="javax.sql.DataSource"
-               classpathref="project.class.path" />
-
-    <available property="javax.jms.present"
-               classname="javax.jms.TopicConnection"
-               classpathref="project.class.path" />
-
-    <available property="javax.mail.present"
-               classname="javax.mail.Message"
-               classpathref="project.class.path" />
-
-    <available property="log4j.present"
-               classname="org.apache.log4j.Appender"
-               classpathref="project.class.path" />
-
+  <target name="optional-tests" 
+          depends="check-all-dependencies"
+          description="Tests for classes missing to the environment">
     <available property="avalon-site.present"
                file="${avalon-site.dir}/lib/velocity-1.4-dev.jar"
                type="file" />
-	       
-  </target>
-
-  <target name="op-warning">
-    <echo>******************7****************************</echo>
-    <echo>*</echo>
-    <echo>*  Classes needed for output via ${thing} are not </echo>
-    <echo>*  available.  Logkit should build without them</echo>
-    <echo>*</echo>
-    <echo>*  Recovery:</echo>
-    <echo>*  ${recovery}</echo>
-    <echo>*</echo>
-    <echo>***********************************************</echo>
-    <echo/>
-  </target>
-
-  <target name="servlet-warn" unless="servlet.present">
-    <antcall target="op-warning">
-      <param name="thing" value="Servlet"/>
-      <param name="recovery"
-        value="Run the build target import-servlet-jar and it will download the servlet api jar - you should be online for that."/>
-    </antcall>
-  </target>
-
-  <target name="mail-warn" unless="javax.mail.present">
-    <antcall target="op-warning">
-      <param name="thing" value="SMTP"/>
-      <param name="recovery"
-        value="Get mail.jar from inside javamail-1_2.zip from http://java.sun.com/products/javamail/ and place it in the lib dir"/>
-    </antcall>
-  </target>
-
-  <target name="jms-warn" unless="javax.jms.present">
-    <antcall target="op-warning">
-      <param name="thing" value="JMS"/>
-      <param name="recovery"
-        value="Get jms.jar from inside jms-1_0_2b.zip from http://java.sun.com/products/jms/docs.html and place it in the lib dir"/>
-    </antcall>
-  </target>
-
-  <target name="sql-warn" unless="javax.sql.present">
-    <antcall target="op-warning">
-      <param name="thing" value="SQL databases"/>
-      <param name="recovery"
-        value="Get jdbc2_0-stdext.jar (listed as 'JDBC 2.0 Optional Package Binary') from http://java.sun.com/products/jdbc/download.html and place it in the lib dir"/>
-    </antcall>
-  </target>
-
-  <target name="log4j-warn" unless="log4j.present">
-    <antcall target="op-warning">
-      <param name="thing" value="Log4J"/>
-      <param name="recovery"
-        value="Run the build target import-log4j-jar and it will download the Log4J api jar - you should be online for that."/>
-    </antcall>
   </target>
 
   <target name="avalon-site-warn" unless="avalon-site.present">
@@ -314,14 +224,18 @@ Legal:
     <mkdir dir="${avalon-site.dir}/lib"/>
   </target>
 
-  <target name="optional-warnings" depends="jms-warn,sql-warn,servlet-warn,mail-warn,log4j-warn,avalon-site-warn">
-  </target>
-
-  <!-- Prepares the build directory -->
-  <target name="compile" depends="optional-tests, optional-warnings" description="Compile project">
+   <!-- Prepares the build directory -->
+  <target name="prepare" depends="optional-tests, avalon-site-warn">
+    <tstamp/>
     <mkdir dir="${build.dir}"/>
     <mkdir dir="${build.classes}"/>
-
+  </target>
+  
+  <!-- Prepares the build directory -->
+  <target name="compile" 
+          depends="setup-properties,setup-dependencies,prepare" 
+          description="Compile project">
+          
 
     <javac srcdir="${java.dir}"
            destdir="${build.classes}"
@@ -336,7 +250,7 @@ Legal:
       <src path="${test.dir}"/>
       <src path="${compat.dir}"/>
       <exclude name="org/apache/log/output/ServletOutputLogTarget.java"
-               unless="servlet.present"/>
+               unless="javax.servlet.present"/>
       <exclude name="org/apache/log/output/net/SMTPOutputLogTarget.java"
                unless="javax.mail.present"/>
       <exclude name="org/apache/log/output/db/**"
@@ -347,6 +261,16 @@ Legal:
                unless="javax.sql.present"/>
       <exclude name="org/apache/log/output/lf5/**"
                unless="log4j.present"/>
+               
+      <!-- leave out test cases if junit not installed -->
+      <exclude name="org/apache/log/util/test/**"
+               unless="junit.present"/>
+      <exclude name="org/apache/log/test/**"
+               unless="junit.present"/>
+      <exclude name="org/apache/log/output/test/**"
+               unless="junit.present"/>               
+      <exclude name="org/apache/log/format/test/**"
+               unless="junit.present"/>               
     </javac>
 
     <copy todir="${build.classes}">
