@@ -14,10 +14,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
@@ -38,11 +36,10 @@ public class Installer
     private static final Resources REZ =
         ResourceManager.getPackageResources( Installer.class );
 
-    private static final String    ASSEMBLY_XML  = "conf/assembly.xml";
-    private static final String    CONFIG_XML    = "conf/config.xml";
-    private static final String    SERVER_XML    = "conf/server.xml";
-    private static final String    BLOCKS_DIR    = "blocks/";
-    private static final String    LIB_DIR       = "lib/";
+    private static final String    SAR_INF      = "SAR-INF/";    
+    private static final String    ASSEMBLY_XML = "assembly.xml";
+    private static final String    CONFIG_XML   = "config.xml";
+    private static final String    SERVER_XML   = "server.xml";
     
     /**
      * Install a Sar indicate by url to location.
@@ -57,48 +54,48 @@ public class Installer
         {
             final String message = REZ.getString( "installing-sar", url);
             getLogger().info( message );
-            
-            final ArrayList classPath = new ArrayList();
-            URL installURL = null;
-            
+                        
             // hack: should get the specified baseDirectory from Deployer
             File baseDirectory = new File( System.getProperty("phoenix.home", "..") + 
                                            File.separator + "apps" + 
                                            File.separator + extractName( url ) );
              
+            URL installURL = url;
+            
             if ( !isContext( url ) )
             {
                 installURL = new URL( "sar:" + url.toExternalForm() + "|/" );
             }
-
-            final URL blocksURL = new URL( installURL, BLOCKS_DIR );
-            final String[] blockNames = list( blocksURL );        
             
-            for (int i = 0; i < blockNames.length; i++ ) 
-            {
-                if ( blockNames[i].endsWith( ".bar" ) ) 
-                {
-                    classPath.add( new URL( blocksURL, blockNames[i] ) );
-                }
+            String inf = SAR_INF;
+            final ArrayList codeBase = new ArrayList();
+            
+            if ( isDeprecated( installURL ) )
+            {                
+                final String msg = REZ.getString("deprecated-sar-format", url);
+                getLogger().warn( msg );
+                
+                inf = "conf/";
+                
+                final URL blocksURL = new URL( installURL, "blocks/" );
+                codeBase.addAll( getCodeBase( blocksURL ) );            
+                
+                final URL librariesURL = new URL( installURL, "lib/" );
+                codeBase.addAll( getCodeBase( librariesURL ) );            
             }
-
-            final URL librariesURL = new URL( installURL, LIB_DIR );
-            final String[] libraryNames = list( librariesURL );
-            
-            for (int i = 0; i < libraryNames.length; i++ ) 
-            {
-                if ( libraryNames[i].endsWith( ".zip" ) || libraryNames[i].endsWith( ".jar" ) ) 
-                {
-                    classPath.add( new URL( librariesURL, libraryNames[i] ) );
-                }
+            else 
+            {                
+                final URL librariesURL = new URL( installURL, SAR_INF + "lib/" );
+                codeBase.addAll( getCodeBase( librariesURL ) );            
             }
-
-            final URL config = new URL( installURL, CONFIG_XML );
-            final URL assembly = new URL( installURL, ASSEMBLY_XML );
-            final URL server = new URL( installURL, SERVER_XML );                
             
-            return new Installation( baseDirectory, config, assembly, server, 
-                (URL[]) classPath.toArray( new URL[0] ) );
+            final URL config = new URL( installURL, inf + CONFIG_XML );
+            final URL assembly = new URL( installURL, inf + ASSEMBLY_XML );
+            final URL server = new URL( installURL, inf + SERVER_XML );                            
+            
+            final URL[] classPath = ( URL[] ) codeBase.toArray( new URL[0] );
+            
+            return new Installation( baseDirectory, config, assembly, server, classPath );
         } 
         catch ( MalformedURLException mue )
         {
@@ -119,6 +116,40 @@ public class Installer
         //throw new InstallationException( message );
     }
     
+    private boolean isDeprecated( final URL url ) 
+        throws MalformedURLException, IOException
+    {                
+        final String[] dirs = list( url );
+        for ( int i = 0; i < dirs.length; i++ )
+        {
+            if ( dirs[i].equals( SAR_INF ) ) 
+            {
+                return false;
+            }
+        }
+
+        return true;        
+    }
+    
+    private Collection getCodeBase( final URL url ) 
+        throws MalformedURLException, IOException
+    {
+        final ArrayList urls = new ArrayList();
+        final String[] libraryNames = list( url );
+
+        for (int i = 0; i < libraryNames.length; i++ ) 
+        {
+            if ( libraryNames[i].endsWith( ".zip" ) || 
+                 libraryNames[i].endsWith( ".jar" ) || 
+                 libraryNames[i].endsWith( ".bar" ) ) 
+            {
+                urls.add( new URL( url, libraryNames[i] ) );
+            }
+        }
+        
+        return urls;
+    }
+        
     public String extractName( final URL url )
     {
         final String filename = url.getFile();        
@@ -195,5 +226,5 @@ public class Installer
             IOUtil.shutdownStream( input );
             IOUtil.shutdownStream( output );
         }
-    }        
+    }                   
 }
