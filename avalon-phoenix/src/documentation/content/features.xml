@@ -18,14 +18,14 @@
     <ul>
         <li>Customise behaviour quickly</li>
         <li>Plug in extra functionality effortlessly</li>
-        <li>remove unneeded functionality for a small footprint</li>
+        <li>Remove unneeded functionality for a small footprint</li>
     </ul>
 </section>
 
 <section><title>Flexible environment</title>
     <p>Phoenix has native support for use in the following environments:</p>
     <ul>
-        <li>command-line stand-alone program</li>
+        <li>Command-line stand-alone program</li>
         <li>Unix daemon</li>
         <li>Embedded in other programs (including servlet engines)</li>
     </ul>

@@ -47,10 +47,10 @@
             </section>
             <section><title>Packaging in terms of block jar files</title>
                 <p>
-                  The server application is entirely contained withing one "sar" file.  Sar is "Server ARchive".
+                  The server application is entirely contained within one "sar" file.  Sar is "Server ARchive".
                   Each block is a jar file.  The dependant libraries are regular jars (placed
-                  within a directory "lib" insde the sar file).  The Assembly and configuration instructions
-                  are in xml form and contained within a "conf" directory inside the sar file.
+                  within a directory "SAR-INF/lib" insde the sar file).  The Assembly and configuration instructions
+                  are in xml form and contained within a "SAR-INF" directory inside the sar file.
                 </p>
                 <figure src="images/phoenix-app-blockjars.jpg" alt="Phoenix application in block jar view"/>
             </section>

@@ -8,12 +8,12 @@
   <body>
     <section><title>Introduction</title>
       <p>
-        Phoenix Management seperates the information on what should be managed
+        Phoenix Management separates the information on what should be managed
         from the implementation of the management agent.  In order to maintain
-        this seperation, yet still allow the management interface to be rich
+        this separation, yet still allow the management interface to be rich
         and structured enough to be useful, it is necessary to impose an organizing
         strucuture on the management metadata.  This structure will be common
-        across all management interfaces, althought the specifics of how it is
+        across all management interfaces, although the specifics of how it is
         exposed is up to the implementor.
       </p>
     </section>
@@ -31,7 +31,7 @@
           sub-Contexts.
         </p>
         <p>
-          This nested structure of Contexts is the principle
+          This nested structure of Contexts is the principal
           organizing element for management data, and is the bridge between
           the management code embedded in Phoenix and the implementation of the
           management component.  It is represented by the
@@ -95,7 +95,7 @@ phoenix-mx.describe( ""Phoenix/Applications/Hello World/Logging/LogLevel" );
       </source>
       <p>
         Again, the point behind the 'Organizing Structure' is to keep the management specification
-        seperated from the  management agent, while at the same time providing enough definition
+        separated from the  management agent, while at the same time providing enough definition
         to keep a shared conceptual view between the two areas.
       </p>
     </section>

@@ -55,7 +55,7 @@
     has compiled correctly by running the HelloWorld demo Service Application.
 </p>
 <p>
-    Firstly you will need to get the demo-helloword.sar file and drop it into
+    Firstly you will need to get the demo-helloworld.sar file and drop it into
     the apps directory of Phoenix.  Currently it needs to be built from CVS -
     <link href="http://cvs.apache.org/viewcvs/jakarta-avalon-apps/demo/">
     http://cvs.apache.org/viewcvs/jakarta-avalon-apps/demo/</link>.
