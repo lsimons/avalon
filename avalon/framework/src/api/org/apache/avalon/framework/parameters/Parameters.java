@@ -8,6 +8,7 @@
 package org.apache.avalon.framework.parameters;
 
 import java.io.Serializable;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -148,7 +149,7 @@ public class Parameters
         }
     }
 
-     /**
+    /**
      * Retrieve the <code>int</code> value of the specified parameter.
      * <p />
      * If the specified parameter cannot be found, an exception is thrown.
@@ -190,7 +191,7 @@ public class Parameters
         }
     }
 
-   /**
+    /**
      * Retrieve the <code>int</code> value of the specified parameter.
      * <p />
      * If the specified parameter cannot be found, <code>defaultValue</code>
@@ -490,11 +491,13 @@ public class Parameters
     public static Parameters fromProperties( final Properties properties )
     {
         final Parameters parameters = new Parameters();
-        final Map.Entry[] entries = (Map.Entry[])properties.entrySet().toArray( new Map.Entry[ 0 ] );
+        final Enumeration names = properties.propertyNames();
 
-        for( int i = 0; i < entries.length; i++ )
+        while( names.hasMoreElements() )
         {
-            parameters.setParameter( (String)entries[i].getKey(), (String)entries[i].getValue() );
+            final String key = (String)names.nextElement().toString();
+            final String value = properties.getProperty( key );
+            parameters.setParameter( key, value );
         }
 
         return parameters;
