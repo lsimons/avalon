@@ -1,42 +1,18 @@
-<?xml version="1.0"?>
-
+<?xml version="1.0" encoding="UTF-8"?>
 <document>
-    <header>
-        <title>Excalibur XML Resource Bundles - Overview</title>
-        <authors>
-            <person name="Berin Loritsch" email="bloritsch@apache.org"/>
-            <person name="Leo Simons" email="mail@leosimons.com"/>
-        </authors>
-    </header>
+    <properties>
+        <title>Excalibur XML Utilities - Overview</title>
+        <author email="cziegeler@apache.org">Carsten Ziegeler</author>
+    </properties>
     <body>
-        <s1 title="Introduction">
+        <section name="Introduction">
             <p>
-              Excalibur's Internationalization package is found in
-              <code>org.apache.avalon.excalibur.i18n</code> (in the
-              Scratchpad jar).  The XML ResourceBundle code is functional,
-              but the method to access the bundles will change in the
-              near future.
+              Excalibur's XML Utilities provide simplified wrappers
+              for XML parsers, transformers and XPath evaluators. It
+              also provides interfaces and classes useful for
+              constructing a pipeline of XML components by defining interfaces
+              for consuming and producing XML in either SAX or DOM formats.
             </p>
-            <p>
-              This package is under development, and the API is not
-              guaranteed to be the same when it is ready for release.
-              Do not blame us if the next release of Excalibur breaks
-              your code if you use this package.
-            </p>
-            <p>
-              The Avalon team recognizes the importance of good
-              internationalization packages, and as a result, will do
-              our best to provide this functionality officially as
-              soon as we can.  We also recognize the importance of
-              good design, so we do not want to rush this any more
-              than we have to.
-            </p>
-        </s1>
+        </section>
     </body>
-    <footer>
-        <legal>
-          Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-          $Revision: 1.2 $ $Date: 2002/07/06 04:56:17 $
-        </legal>
-    </footer>
 </document>
