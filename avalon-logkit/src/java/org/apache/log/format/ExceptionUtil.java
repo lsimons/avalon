@@ -65,6 +65,7 @@ import java.util.StringTokenizer;
  * Some exception handling stuff thieved from Turbine...
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @deprecated Use <code>org.apache.avalon.framework.ExceptionUtil</code> instead.
  * @version 1.0
  */
 final class ExceptionUtil
