@@ -1,76 +1,75 @@
 <?xml version="1.0"?>
 
 <config>
+    <thread-manager>
+        <thread-group>
+            <name>default</name>
 
-  <thread-manager>
-      <thread-group>
-        <name>default</name>
+            <!-- normal priority == 5, max-priority = 10 -->
+            <priority>5</priority>
 
-        <!-- normal priority == 5, max-priority = 10 -->
-        <priority>5</priority>
+            <!-- are threads deamon threads ? -->
+            <is-daemon>false</is-daemon>
 
-        <!-- are threads deamon threads ? -->
-        <is-daemon>false</is-daemon>
+            <min-threads>20</min-threads>
+            <max-threads>40</max-threads>
 
-        <max-threads>40</max-threads>
-        <!-- these are ignored at the moment but will be fixed in later revisions -->
-        <min-threads>20</min-threads>
-        <min-spare-threads>20</min-spare-threads>
-      </thread-group>
-  </thread-manager>
+            <min-spare-threads>20</min-spare-threads>
+        </thread-group>
+    </thread-manager>
 
-  <!-- The Storage block -->
-  <objectstorage>
-      <repositories>
-        <repository class="org.apache.avalon.cornerstone.blocks.masterstore.File_Persistent_Object_Repository">
-          <protocols>
-            <protocol>file</protocol>
-          </protocols>
-          <types>
-            <type>OBJECT</type>
-          </types>
-          <models>
-            <model>SYNCHRONOUS</model>
-            <model>ASYNCHRONOUS</model>
-            <model>CACHE</model>
-          </models>
-        </repository>
-        <repository class="org.apache.avalon.cornerstone.blocks.masterstore.File_Persistent_Stream_Repository">
-          <protocols>
-            <protocol>file</protocol>
-          </protocols>
-          <types>
-            <type>STREAM</type>
-          </types>
-          <models>
-            <model>SYNCHRONOUS</model>
-            <model>ASYNCHRONOUS</model>
-            <model>CACHE</model>
-          </models>
-        </repository>
-      </repositories>
-  </objectstorage>
+    <!-- The Storage block -->
+    <objectstorage>
+        <repositories>
+            <repository class="org.apache.avalon.cornerstone.blocks.masterstore.File_Persistent_Object_Repository">
+                <protocols>
+                    <protocol>file</protocol>
+                </protocols>
+                <types>
+                    <type>OBJECT</type>
+                </types>
+                <models>
+                    <model>SYNCHRONOUS</model>
+                    <model>ASYNCHRONOUS</model>
+                    <model>CACHE</model>
+                </models>
+            </repository>
+            <repository class="org.apache.avalon.cornerstone.blocks.masterstore.File_Persistent_Stream_Repository">
+                <protocols>
+                    <protocol>file</protocol>
+                </protocols>
+                <types>
+                    <type>STREAM</type>
+                </types>
+                <models>
+                    <model>SYNCHRONOUS</model>
+                    <model>ASYNCHRONOUS</model>
+                    <model>CACHE</model>
+                </models>
+            </repository>
+        </repositories>
+    </objectstorage>
 
-  <sockets>
-      <server-sockets>
-        <factory name="plain"
-                 class="org.apache.avalon.cornerstone.blocks.sockets.DefaultServerSocketFactory" />
-      </server-sockets>
+    <sockets>
+        <server-sockets>
+            <factory name="plain"
+                class="org.apache.avalon.cornerstone.blocks.sockets.DefaultServerSocketFactory"/>
+        </server-sockets>
 
-      <client-sockets>
-        <factory name="plain"
-                 class="org.apache.avalon.cornerstone.blocks.sockets.DefaultSocketFactory" />
-      </client-sockets>
-  </sockets>
+        <client-sockets>
+            <factory name="plain"
+                class="org.apache.avalon.cornerstone.blocks.sockets.DefaultSocketFactory"/>
+        </client-sockets>
+    </sockets>
 
-  <simple-listener>
-   <!-- dummy configuration to make sure  listener configure is called-->
-  </simple-listener>
+    <simple-listener>
+        <!-- dummy configuration to make sure  listener configure is called-->
+    </simple-listener>
 
-  <simple-server>
-    <!-- Note trailing file searator in destinationURL -->
-      <repository destinationURL="file://var/demo/" type="OBJECT" model="SYNCHRONOUS"/>
-      <port>4556</port>
-  </simple-server>
+    <simple-server>
+        <!-- Note trailing file searator in destinationURL -->
+        <repository destinationURL="file://var/demo/" type="OBJECT" model="SYNCHRONOUS"/>
+        <port>4556</port>
+    </simple-server>
 
 </config>
