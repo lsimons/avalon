@@ -123,6 +123,17 @@ public class Parameters
     }
 
     /**
+     * Test if the specified parameter is locked.
+     *
+     * @param name the parameter name
+     * @return true if parameter is locked
+     */
+    public boolean isLocked( final String name )
+    {
+        return m_readOnly || (Boolean.TRUE.equals( (Boolean) m_locks.get(name) ) );
+    }
+
+    /**
      * Retrieve the <code>String</code> value of the specified parameter.
      * <p />
      * If the specified parameter cannot be found, an exception is thrown.
@@ -416,6 +427,7 @@ public class Parameters
         while( names.hasNext() )
         {
             final String name = (String) names.next();
+            final boolean isLocked = other.isLocked( name );
             String value = null;
             try
             {
@@ -426,7 +438,7 @@ public class Parameters
                 value = null;
             }
 
-            setParameter( name, value );
+            setParameter( name, value, isLocked );
         }
 
         return this;
