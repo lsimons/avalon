@@ -1,7 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-#parse( "templates.vm" )
-
 <!-- Content Stylesheet for Site -->
 
     ## Defined variables
@@ -19,49 +17,3 @@
 <!-- start the processing -->
 #changes()
 <!-- end the processing -->
-
-#macro (change $action)
-  <p>$action.getText() ($action.getAttributeValue("dev"))</p>
-#end
-
-#macro (changeset $release)
-  <table border="0" cellspacing="0" cellpadding="2" width="100%">
-    <tr><td bgcolor="$subbannerbg">
-      <font color="$subbannerfg" face="arial,helvetica,sanserif">
-        <strong>
-          Revision $release.getAttributeValue("version") ($release.getAttributeValue("date"))
-        </strong>
-      </font>
-    </td></tr>
-    <tr><td>
-      <blockquote>
-        <ul>
-        #foreach ($action in $release.getChildren("action"))
-        <li>#change ($action)</li>
-        #end
-        </ul>
-      </blockquote>
-    </td></tr>
-  </table>
-  </a>
-#end
-
-#macro (changes)
-  #header
-  <table border="0" cellspacing="0" cellpadding="2" width="100%">
-    <tr><td bgcolor="$bannerbg">
-      <font color="$bannerfg" face="arial,helvetica,sanserif">
-        <strong>ChangeLog</strong>
-      </font>
-    </td></tr>
-    <tr><td>
-      <blockquote>
-      #set ($releases = $root.getChildren("release"))
-      #foreach ( $release in $releases )
-        #changeset ($release)
-      #end
-      </blockquote>
-    </td></tr>
-  </table>
-  #footer
-#end
