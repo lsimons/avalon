@@ -230,11 +230,6 @@ public class JUnitTestTask extends SystemTask
         final JUnitTask.SummaryAttribute summary = new JUnitTask.SummaryAttribute();
         summary.setValue( "on" );
         junit.setPrintsummary( summary );
-        if( getForkProperty() )
-        {
-            junit.setFork( true );
-            junit.setDir( project.getBaseDir() );
-        }
         junit.setShowOutput( true );
         junit.setTempdir( working );
         junit.setReloading( true );
@@ -293,7 +288,12 @@ public class JUnitTestTask extends SystemTask
         junit.setErrorProperty( ERROR_KEY );
         junit.setFailureProperty( FAILURE_KEY );
         junit.setTaskName( getTaskName() );
-
+	if( getForkProperty() )
+        {
+            junit.setFork( true );
+            junit.setDir( project.getBaseDir() );
+        }
+        
         junit.execute();
     }
     
