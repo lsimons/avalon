@@ -219,9 +219,11 @@
     <dependencies>
       <include key="metro-studio-core"/>
     </dependencies>
+<!--    
     <plugins>
       <include key="metro-studio-magic"/>
     </plugins>
+-->    
   </project>
   
   <project basedir="docs">
