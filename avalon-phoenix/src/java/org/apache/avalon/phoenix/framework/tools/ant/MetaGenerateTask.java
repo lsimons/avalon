@@ -73,7 +73,7 @@ import org.apache.tools.ant.BuildException;
  *
  * @author Paul Hammant
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:13 $
+ * @version $Revision: 1.4 $ $Date: 2003/04/04 11:01:02 $
  */
 public class MetaGenerateTask
     extends AbstractQdoxTask
@@ -231,7 +231,7 @@ public class MetaGenerateTask
         {
             final JavaClass javaClass = (JavaClass)allClasses.get( i );
             ComponentInfo info = null;
-            DocletTag tag = javaClass.getTagByName( "avalon.component" );
+            DocletTag tag = javaClass.getTagByName( "phoenix.component" );
             if( null != tag )
             {
                 final DefaultInfoBuilder infoBuilder = new DefaultInfoBuilder();

@@ -70,7 +70,7 @@ import org.apache.avalon.phoenix.framework.info.Attribute;
  * all of the javadoc tags present in JavaClass object model.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:14 $
+ * @version $Revision: 1.4 $ $Date: 2003/04/04 11:01:03 $
  */
 public class DefaultInfoBuilder
     extends AbstractInfoBuilder
@@ -119,7 +119,7 @@ public class DefaultInfoBuilder
     private ServiceDescriptor[] buildServices( final JavaClass javaClass )
     {
         final ArrayList services = new ArrayList();
-        final DocletTag[] tags = javaClass.getTagsByName( "avalon.service" );
+        final DocletTag[] tags = javaClass.getTagsByName( "phoenix.service" );
         for( int i = 0; i < tags.length; i++ )
         {
             final DocletTag tag = tags[ i ];
@@ -148,7 +148,7 @@ public class DefaultInfoBuilder
         else
         {
             final ArrayList loggers = new ArrayList();
-            final DocletTag[] tags = method.getTagsByName( "avalon.logger" );
+            final DocletTag[] tags = method.getTagsByName( "phoenix.logger" );
             for( int i = 0; i < tags.length; i++ )
             {
                 final String name =
@@ -178,7 +178,7 @@ public class DefaultInfoBuilder
         else
         {
             String type = CONTEXT_CLASS;
-            final DocletTag tag = method.getTagByName( "avalon.context" );
+            final DocletTag tag = method.getTagByName( "phoenix.context" );
             if( null != tag && null != tag.getNamedParameter( "type" ) )
             {
                 final String value = getNamedParameter( tag, "type" );
@@ -186,7 +186,7 @@ public class DefaultInfoBuilder
             }
 
             final ArrayList entrySet = new ArrayList();
-            final DocletTag[] tags = method.getTagsByName( "avalon.entry" );
+            final DocletTag[] tags = method.getTagsByName( "phoenix.entry" );
             for( int i = 0; i < tags.length; i++ )
             {
                 final String key = getNamedParameter( tags[ i ], "key" );
@@ -219,7 +219,7 @@ public class DefaultInfoBuilder
             return null;
         }
 
-        final DocletTag tag = method.getTagByName( "avalon.configuration" );
+        final DocletTag tag = method.getTagByName( "phoenix.configuration" );
         if( null == tag )
         {
             return null;
@@ -248,7 +248,7 @@ public class DefaultInfoBuilder
             return null;
         }
 
-        final DocletTag tag = method.getTagByName( "avalon.parameters" );
+        final DocletTag tag = method.getTagByName( "phoenix.parameters" );
         if( null == tag )
         {
             return null;
@@ -287,7 +287,7 @@ public class DefaultInfoBuilder
         else
         {
             final ArrayList deps = new ArrayList();
-            final DocletTag[] tags = method.getTagsByName( "avalon.dependency" );
+            final DocletTag[] tags = method.getTagsByName( "phoenix.dependency" );
             for( int i = 0; i < tags.length; i++ )
             {
                 final DocletTag tag = tags[ i ];
