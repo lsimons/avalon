@@ -65,7 +65,7 @@ Legal:
 
   <property name="dist.name" value="${name}-${version}"/>
   <property name="dist.base" value="distributions"/>
-  <property name="dist.dir" value="dist"/>
+  <property name="bin.dist.dir" value="dist"/>
   <property name="src.dist.dir" value="${dist.name}"/>
 
   <property name="constants.file" value="org/apache/avalon/phoenix/Constants.java"/>
@@ -104,8 +104,9 @@ Legal:
   </path>
 
   <!-- Main target -->
-  <target name="main" depends="all" description="generates the Phoenix distribution without the javadocs"/>
-  <target name="all" depends="dist-lite" description="generates the Phoenix jar files" />
+  <target name="main" depends="dist-lite" 
+          description="generates the Phoenix distribution without the javadocs"/>
+  <target name="all" depends="dist-lite,docs" description="generates the Phoenix distribution" />
 
   <!-- Help on usage -->
   <target name="usage">
@@ -113,22 +114,6 @@ Legal:
   </target>
 
   <target name="help" depends="usage"/>
-
-  <!-- Set up dist properties -->
-  <target name="setup-properties" >
-
-    <property name="dist.bin" value="${dist.dir}/bin"/>
-    <property name="dist.apps" value="${dist.dir}/apps"/>
-    <property name="dist.lib" value="${dist.dir}/lib"/>
-    <property name="dist.docs" value="${dist.dir}/docs"/>
-    <property name="dist.javadocs" value="${dist.dir}/docs/api"/>
-
-    <property name="src.dist.src" value="${src.dist.dir}/src"/>
-    <property name="src.dist.docs" value="${src.dist.dir}/docs"/>
-    <property name="src.dist.javadocs" value="${src.dist.dir}/docs/api"/>
-    <property name="src.dist.lib" value="${src.dist.dir}/lib"/>
-    <property name="src.dist.tools" value="${src.dist.dir}/tools"/>
-  </target>
 
   <target name="check-environment">
     <available property="servlet.present" classname="javax.servlet.Servlet">
@@ -140,7 +125,7 @@ Legal:
   </target>
 
   <!-- Prepares the build directory -->
-  <target name="prepare" depends="setup-properties,check-environment">
+  <target name="prepare" depends="check-environment">
 
     <mkdir dir="${build.src}"/>
     <copy todir="${build.src}">
@@ -157,7 +142,7 @@ Legal:
   </target>
 
   <!-- Create the announcements and HEADER.html -->
-  <target name="announcement" depends="setup-properties">
+  <target name="announcement">
 
     <filter token="Name" value="Avalon Phoenix"/>
     <filter token="name" value="phoenix"/>
@@ -403,42 +388,36 @@ Legal:
   </target>
 
   <!-- Create the lite build -->
-  <target name="dist-lite" depends="jars" description="generates the Phoenix distribution without the javadocs">
+  <target name="dist-lite" depends="jars" 
+          description="generates the Phoenix distribution without the javadocs">
 
-    <mkdir dir="${dist.dir}"/>
-    <mkdir dir="${dist.bin}"/>
+    <property name="bin.dist.bin" value="${bin.dist.dir}/bin"/>
+    <property name="bin.dist.apps" value="${bin.dist.dir}/apps"/>
+    <property name="bin.dist.lib" value="${bin.dist.dir}/lib"/>
 
-    <mkdir dir="${dist.apps}"/>
-    <mkdir dir="${dist.lib}"/>
+    <mkdir dir="${bin.dist.bin}"/>
+    <mkdir dir="${bin.dist.apps}"/>
+    <mkdir dir="${bin.dist.lib}"/>
 
-    <copy file="${build.lib}/phoenix-loader.jar" todir="${dist.bin}/"/>
-    <copy file="${build.lib}/phoenix-engine.jar" todir="${dist.bin}"/>
+    <copy file="${build.lib}/phoenix-loader.jar" todir="${bin.dist.bin}/"/>
+    <copy file="${build.lib}/phoenix-engine.jar" todir="${bin.dist.bin}"/>
 
-    <copy file="${build.lib}/phoenix-client.jar" todir="${dist.lib}"/>
-    <copy file="${build.lib}/avalon-jmx.jar" todir="${dist.lib}"/>
-    <copy file="${logkit.jar}" todir="${dist.lib}"/>
-    <copy file="${framework.jar}" todir="${dist.lib}"/>
-    <copy file="${excalibur.jar}" todir="${dist.lib}"/>
-    <copy file="${scratchpad.jar}" todir="${dist.lib}"/>
-    <copy file="${xerces.jar}" tofile="${dist.lib}/xerces.jar"/>
-    <copy file="${xalan.jar}" tofile="${dist.lib}/xalan.jar"/>
+    <copy file="${build.lib}/phoenix-client.jar" todir="${bin.dist.lib}"/>
+    <copy file="${build.lib}/avalon-jmx.jar" todir="${bin.dist.lib}"/>
+    <copy file="${logkit.jar}" todir="${bin.dist.lib}"/>
+    <copy file="${framework.jar}" todir="${bin.dist.lib}"/>
+    <copy file="${excalibur.jar}" todir="${bin.dist.lib}"/>
+    <copy file="${scratchpad.jar}" todir="${bin.dist.lib}"/>
+    <copy file="${xerces.jar}" tofile="${bin.dist.lib}/xerces.jar"/>
 
-    <copy todir="${dist.lib}">
-      <fileset dir="${lib.dir}">
-        <include name="*.jar" />
-        <exclude name="avalon-*"/>
-        <exclude name="logkit*.jar"/>
-      </fileset>
-    </copy>
+    <copy file="${script.dir}/run.bat" todir="${bin.dist.bin}"/>
+    <copy file="${script.dir}/run.sh" todir="${bin.dist.bin}"/>
 
-    <copy file="${script.dir}/run.bat" todir="${dist.bin}"/>
-    <copy file="${script.dir}/run.sh" todir="${dist.bin}"/>
-
-    <chmod dir="${dist.dir}" perm="go-rwx" />
-    <chmod file="${dist.bin}/run.sh" perm="u+x"/>
-    <chmod file="${dist.bin}/run.bat" perm="u-x"/>
-    <fixcrlf srcdir="${dist.dir}" includes="**/*.bat" eol="crlf" />
-    <fixcrlf srcdir="${dist.dir}" includes="**/*.sh" eol="lf" />
+    <chmod dir="${bin.dist.dir}" perm="go-rwx" />
+    <chmod file="${bin.dist.bin}/run.sh" perm="u+x"/>
+    <chmod file="${bin.dist.bin}/run.bat" perm="u-x"/>
+    <fixcrlf srcdir="${bin.dist.dir}" includes="**/*.bat" eol="crlf" />
+    <fixcrlf srcdir="${bin.dist.dir}" includes="**/*.sh" eol="lf" />
 
   </target>
 
@@ -450,7 +429,7 @@ Legal:
     <mkdir dir="${phoenix.home}" />
 
     <copy todir="${phoenix.home}">
-      <fileset dir="${dist.dir}"/>
+      <fileset dir="${bin.dist.dir}"/>
     </copy>
 
     <chmod file="${phoenix.home}/bin/run.sh" perm="u+x"/>
@@ -468,30 +447,41 @@ Legal:
 
   <!-- Create the distribution -->
   <target name="bin-dist" depends="all">
-    <mkdir dir="${dist.docs}"/>
-    <mkdir dir="${dist.javadocs}"/>
 
-    <copy todir="${dist.docs}">
+    <property name="bin.dist.docs" value="${bin.dist.dir}/docs"/>
+    <property name="bin.dist.javadocs" value="${bin.dist.dir}/docs/api"/>
+
+    <mkdir dir="${bin.dist.docs}"/>
+    <mkdir dir="${bin.dist.javadocs}"/>
+
+    <copy todir="${bin.dist.docs}">
       <fileset dir="${build.docs}"/>
     </copy>
 
-    <copy todir="${dist.javadocs}">
+    <copy todir="${bin.dist.javadocs}">
       <fileset dir="${build.javadocs}"/>
     </copy>
 
-    <copy todir="${dist.dir}">
+    <copy todir="${bin.dist.dir}">
       <fileset dir=".">
         <include name="README"/>
         <include name="WARNING"/>
+        <include name="LICENSE"/>
       </fileset>
     </copy>
 
-    <chmod dir="${dist.dir}" perm="go-rwx" />
+    <chmod dir="${bin.dist.dir}" perm="go-rwx" />
 
   </target>
 
   <!-- Create the source distribution -->
-  <target name="src-dist" depends="setup-properties">
+  <target name="src-dist">
+
+    <property name="src.dist.src" value="${src.dist.dir}/src"/>
+    <property name="src.dist.docs" value="${src.dist.dir}/docs"/>
+    <property name="src.dist.javadocs" value="${src.dist.dir}/docs/api"/>
+    <property name="src.dist.lib" value="${src.dist.dir}/lib"/>
+    <property name="src.dist.tools" value="${src.dist.dir}/tools"/>
 
     <mkdir dir="${src.dist.dir}" />
     <mkdir dir="${src.dist.docs}"/>
@@ -554,7 +544,7 @@ Legal:
     <mkdir dir="${dist.base}"/>
 
     <antcall target="bin-dist">
-      <param name="dist.dir" value="${dist.name}" />
+      <param name="bin.dist.dir" value="${dist.name}" />
     </antcall>
 
     <zip file="${dist.base}/${dist.name}-bin.zip" 
@@ -622,9 +612,9 @@ Legal:
   </target>
 
   <!-- Cleans up build and distribution directories -->
-  <target name="clean" depends="setup-properties" description="cleans up the created directories">
+  <target name="clean" description="cleans up the created directories">
     <delete dir="${build.dir}" />
-    <delete dir="${dist.dir}" />
+    <delete dir="${bin.dist.dir}" />
     <delete>
       <fileset dir="." includes="**/*~" defaultexcludes="no"/>
     </delete>
