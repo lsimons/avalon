@@ -115,7 +115,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13.2.5 $ $Date: 2004/01/03 23:18:55 $
+ * @version $Revision: 1.13.2.6 $ $Date: 2004/01/04 01:19:28 $
  */
 public class DefaultContainmentModel extends DefaultModel 
   implements ContainmentModel
@@ -182,7 +182,7 @@ public class DefaultContainmentModel extends DefaultModel
       throws ModelException
     {
         super( context.getLogger(), getPath( context ), context.getName(), 
-          context.getContainmentProfile().getMode() );
+          context.getContainmentProfile().getMode(), context.getDependencyGraph() );
 
         m_context = context;
         if( context.getPartitionName() == null )

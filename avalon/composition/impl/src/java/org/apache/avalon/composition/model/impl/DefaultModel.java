@@ -51,6 +51,7 @@
 package org.apache.avalon.composition.model.impl;
 
 import org.apache.avalon.composition.model.Model;
+import org.apache.avalon.composition.model.DependencyGraph;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
@@ -61,7 +62,7 @@ import org.apache.avalon.composition.data.Mode;
  * Abstract model base class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:32:10 $
+ * @version $Revision: 1.1.1.1.2.1 $ $Date: 2004/01/04 01:19:28 $
  */
 public abstract class DefaultModel
   implements Model
@@ -85,6 +86,8 @@ public abstract class DefaultModel
 
     private final Mode m_mode;
 
+    private final DependencyGraph m_graph;
+
     //==============================================================
     // constructor
     //==============================================================
@@ -97,12 +100,13 @@ public abstract class DefaultModel
     * @param name the profile name
     */
     public DefaultModel( 
-      final Logger logger, String path, final String name, Mode mode )
+      final Logger logger, String path, final String name, Mode mode, DependencyGraph graph )
     {
         m_logger = logger;
         m_name = name;
         m_path = path;
         m_mode = mode;
+        m_graph = graph;
     }
 
     //==============================================================
@@ -144,6 +148,25 @@ public abstract class DefaultModel
     {
         return m_mode;
     }
+
+   /**
+    * Return the set of models consuming this model.
+    * @return the consumers
+    */
+    public Model[] getConsumerGraph()
+    {
+        return m_graph.getConsumerGraph( this );
+    }
+
+   /**
+    * Return the set of models supplying this model.
+    * @return the providers
+    */
+    public Model[] getProviderGraph()
+    {
+        return m_graph.getProviderGraph( this );
+    }
+
 
     //==============================================================
     // implementation
