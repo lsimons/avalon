@@ -157,7 +157,7 @@ limitations under the License.
     <target name="jbs:compile"
             depends="jbs:java-compile"/>
     <target name="jbs:test"
-            depends="jbs:java-test-compile, jbs:java-test, jbs:java-test-reports"/>
+            depends="jbs:java-test-compile, jbs:java-test"/>
 
     <target name="jbs:jar" unless="no.source.dir"
             depends="jbs:java-compile, jbs:java-test, jbs:bin-jar">
@@ -259,7 +259,7 @@ limitations under the License.
         </javac>
     </target>
 
-    <target name="jbs:java-test-compile" if="test.src.present"
+    <target name="jbs:java-test-compile" if="test.src.present" unless="do.not.test"
             depends="jbs:init, jbs:java-compile">
         <echo>=======================================================================
    Compiling Tests for ${project.name}
@@ -283,7 +283,7 @@ limitations under the License.
         </javac>
     </target>
 
-    <target name="jbs:java-test" if="test.src.present"
+    <target name="jbs:java-test" if="test.src.present" unless="do.not.test"
             depends="jbs:init, jbs:java-test-compile">
         <echo>=======================================================================
    Running tests for ${project.name}
@@ -319,7 +319,7 @@ limitations under the License.
         </junit>
     </target>
 
-    <target name="jbs:java-test-reports" if="test.src.present"
+    <target name="jbs:java-test-reports" if="test.src.present" unless="do.not.test"
             depends="jbs:init, jbs:java-test">
         <echo>=======================================================================
    Generating test reports for ${project.name}
@@ -335,7 +335,7 @@ limitations under the License.
         </junitreport>
     </target>
 
-    <target name="jbs:bin-jar" if="java.src.present"
+    <target name="jbs:bin-jar" if="java.src.present" unless="do.not.test"
             depends="jbs:init, jbs:compile, jbs:test">
         <echo>=======================================================================
  Generating jar for ${project.name}
@@ -376,7 +376,7 @@ limitations under the License.
         </javadoc>
     </target>
 
-    <target name="jbs:clover" if="test.src.present"
+    <target name="jbs:clover" if="test.src.present" unless="do.not.test"
             depends="jbs:init">
         <echo>=======================================================================
    Generating clover report for ${project.name}
@@ -524,12 +524,17 @@ $artifact [$version [$group [$repository]]]
         <![CDATA[
         if( project.getProperty("dependencies.file.available") != null )
         {
-            msg =  "=======================================================================\n";
-            msg += "   Downloading dependencies for " + project.getProperty("project.name") + "\n";
-            msg += "=======================================================================\n";
-            echo = project.createTask("echo");
-            echo.setMessage( msg );
-            echo.execute();
+            skipAllDownloads = project.getProperty("do.not.download");
+            
+            if(skipAllDownloads == null)
+            {
+              msg =  "=======================================================================\n";
+              msg += "   Downloading dependencies for " + project.getProperty("project.name") + "\n";
+              msg += "=======================================================================\n";
+              echo = project.createTask("echo");
+              echo.setMessage( msg );
+              echo.execute();
+            }
 
             importClass(java.lang.System);
             importClass(java.lang.Character);
@@ -601,6 +606,8 @@ $artifact [$version [$group [$repository]]]
                 if( !file.exists() )
                   doDownload = true;
               }
+              
+              if(skipAllDownloads != null) doDownload = false;
 
               if(doDownload)
               {
