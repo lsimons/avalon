@@ -38,6 +38,7 @@ import org.apache.avalon.tools.project.Info;
 import org.apache.avalon.tools.project.Policy;
 import org.apache.avalon.tools.project.Plugin;
 import org.apache.avalon.tools.project.Plugin.TaskDef;
+import org.apache.avalon.tools.project.Plugin.ListenerDef;
 
 /**
  * Load a plugin.
@@ -131,6 +132,7 @@ public class DeclareTask extends SystemTask
         {
             Plugin plugin = (Plugin) def;
             writeTaskDefs( writer, plugin );
+            writeListenerDefs( writer, plugin );
         }
         writeClasspath( writer, def );
         writer.write( "\n</plugin>\n" );
@@ -153,6 +155,23 @@ public class DeclareTask extends SystemTask
               + "\"/>" );
         }
         writer.write( "\n  </tasks>" );
+    }
+
+    private void writeListenerDefs( final Writer writer, final Plugin plugin )
+        throws IOException
+    {
+        writer.write( "\n  " );
+        writer.write( "<listeners>" );
+        ListenerDef[] defs = plugin.getListenerDefs();
+        for( int i=0; i<defs.length; i++ )
+        {
+            ListenerDef def = defs[i];
+            writer.write( 
+              "\n    <listener class=\""
+              + def.getClassname() 
+              + "\"/>" );
+        }
+        writer.write( "\n  </listeners>" );
     }
 
     private void writeInfo( final Writer writer, final Info info )

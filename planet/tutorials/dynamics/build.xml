@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <project name="avalon-tutorial-dynamics" default="dist" basedir="." 
-    xmlns:x="antlib:org.apache.avalon.tools"
-    xmlns:m="plugin:avalon/meta/avalon-meta-tools" >
+    xmlns:x="antlib:org.apache.avalon.tools">
 
   <property file="build.properties"/>
   <import file="${project.home}/build/standard.xml"/>
@@ -12,14 +11,6 @@
        token="DYNAMICS-SPEC"/>
     <x:filter key="avalon-framework-impl" feature="uri" 
        token="FRAMEWORK-IMPL-SPEC"/>
-  </target>
-
-  <target name="build" depends="standard.build">
-    <m:meta destDir="${basedir}/target/classes">
-      <fileset dir="${basedir}/target/build/main">
-        <include name="**/*.java"/>
-      </fileset>
-    </m:meta>
   </target>
 
 </project>

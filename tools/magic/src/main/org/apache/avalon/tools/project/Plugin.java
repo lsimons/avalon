@@ -30,19 +30,26 @@ import org.apache.avalon.tools.home.Home;
 public class Plugin extends Definition
 {
     private final TaskDef[] m_tasks;
+    private final ListenerDef[] m_listeners;
 
     public Plugin(
       Home home, String key, File basedir, Info info, 
       ResourceRef[] resources, ResourceRef[] plugins, 
-      TaskDef[] tasks )
+      TaskDef[] tasks, ListenerDef[] listeners )
     {
         super( home, key, basedir, info, resources, plugins );
         m_tasks = tasks;
+        m_listeners = listeners;
     }
 
     public TaskDef[] getTaskDefs()
     {
         return m_tasks;
+    }
+
+    public ListenerDef[] getListenerDefs()
+    {
+        return m_listeners;
     }
 
     public boolean equals( Object other )
@@ -54,20 +61,13 @@ public class Plugin extends Definition
         return false;
     }
 
-    public static class TaskDef
+    public static class AbstractDef
     {
-        private String m_name;
         private String m_classname;
         
-        public TaskDef( String name, String classname )
+        public AbstractDef( String classname )
         {
-            m_name = name;
             m_classname = classname;
-        }
-
-        public String getName()
-        {
-            return m_name;
         }
 
         public String getClassname()
@@ -75,4 +75,30 @@ public class Plugin extends Definition
             return m_classname;
         }
     }
+
+
+    public static class TaskDef extends AbstractDef
+    {
+        private String m_name;
+        
+        public TaskDef( String name, String classname )
+        {
+            super( classname );
+            m_name = name;
+        }
+
+        public String getName()
+        {
+            return m_name;
+        }
+    }
+
+    public static class ListenerDef extends AbstractDef
+    {
+        public ListenerDef( String classname )
+        {
+            super( classname );
+        }
+    }
+
 }

@@ -16,5 +16,9 @@
        id="avalon-merlin-impl"/>
   </target>
 
+  <target name="xdoc" depends="standard.init">
+    <x:xdoc theme="modern"/>
+  </target>
+
 </project>
 

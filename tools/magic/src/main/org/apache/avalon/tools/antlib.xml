@@ -6,6 +6,7 @@
 
   <taskdef name="clean" classname="org.apache.avalon.tools.tasks.CleanTask"/> 
   <taskdef name="prepare" classname="org.apache.avalon.tools.tasks.PrepareTask"/> 
+  <taskdef name="init" classname="org.apache.avalon.tools.tasks.InitializeTask"/> 
   <taskdef name="javac" classname="org.apache.avalon.tools.tasks.JavacTask"/>
   <taskdef name="jar" classname="org.apache.avalon.tools.tasks.JarTask"/>
   <taskdef name="junit" classname="org.apache.avalon.tools.tasks.JUnitTestTask"/>
