@@ -85,7 +85,7 @@
           <li>configure</li>
           <li>finalize</li>
         </ol>
-        <p>The lifecycle of a <code>Component</code> implementing only Composer will be:</p>
+        <p>The lifecycle of a <code>Component</code> implementing only Composable will be:</p>
         <ol>
           <li>constructor</li>
           <li>compose</li>
@@ -215,7 +215,7 @@ System.gc(); // finalize() is called on myComponent, which allows it to perform 
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2002/01/31 15:43:52 $
+      $Revision: 1.5 $ $Date: 2002/02/15 23:05:08 $
     </legal>
   </footer>
 </document>

@@ -26,7 +26,7 @@
           <p>
             All Components are an integral part of Avalon, so there is really
             nothing to be done beyond specifying its interface (role).  It is
-            important to identify and document it's social contract with the
+            important to identify and document its social contract with the
             rest of the system.  What I mean by social contract is the order
             of dependencies, what it needs to function, and what it supplies
             to the rest of the system.
@@ -46,7 +46,7 @@
             as generic as possible and still accurately represent its role.
           </p>
           <p>
-            Because the contexts that may not be an integral part of Avalon,
+            Because the contexts may not be an integral part of Avalon,
             you must take care to use the Component in the same manner as
             Avalon would.  That means that you follow the order of concerns
             that Avalon has specified for those concerns.
@@ -83,7 +83,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2002/01/31 15:43:52 $
+      $Revision: 1.5 $ $Date: 2002/02/15 23:05:08 $
     </legal>
   </footer>
 </document>
