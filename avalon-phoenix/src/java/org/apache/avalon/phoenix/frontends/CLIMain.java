@@ -22,7 +22,7 @@ import org.apache.avalon.framework.logger.AvalonFormatter;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.phoenix.Constants;
+import org.apache.avalon.phoenix.components.ContainerConstants;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
@@ -82,7 +82,7 @@ public final class CLIMain
             }
 
             System.out.println();
-            System.out.println( Constants.SOFTWARE + " " + Constants.VERSION );
+            System.out.println( ContainerConstants.SOFTWARE + " " + ContainerConstants.VERSION );
             System.out.println();
 
             final Parameters parameters = setup.getParameters();

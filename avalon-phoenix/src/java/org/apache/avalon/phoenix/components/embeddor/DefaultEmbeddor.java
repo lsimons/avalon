@@ -31,7 +31,7 @@ import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.phoenix.Constants;
+import org.apache.avalon.phoenix.components.ContainerConstants;
 import org.apache.avalon.phoenix.interfaces.Deployer;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.avalon.phoenix.interfaces.EmbeddorMBean;
@@ -239,7 +239,7 @@ public class DefaultEmbeddor
             {
                 // wait() for shutdown() to take action...
                 if( m_shutdown
-                    || (emptyKernel() && !m_persistent) )
+                    || ( emptyKernel() && !m_persistent ) )
                 {
                     // The server will shut itself down when all applications are disposed.
                     if( emptyKernel() )
@@ -261,7 +261,7 @@ public class DefaultEmbeddor
         if( null != kernel )
         {
             final String[] names = kernel.getApplicationNames();
-            return (0 == names.length);
+            return ( 0 == names.length );
         }
         else
         {
@@ -351,7 +351,7 @@ public class DefaultEmbeddor
      */
     public String getName()
     {
-        return Constants.SOFTWARE;
+        return ContainerConstants.SOFTWARE;
     }
 
     /**
@@ -393,7 +393,7 @@ public class DefaultEmbeddor
      */
     public String getVersion()
     {
-        return Constants.VERSION;
+        return ContainerConstants.VERSION;
     }
 
     /**
@@ -405,7 +405,7 @@ public class DefaultEmbeddor
      */
     public String getBuild()
     {
-        return "(" + Constants.DATE + ")";
+        return "(" + ContainerConstants.DATE + ")";
     }
 
     //////////////////////
