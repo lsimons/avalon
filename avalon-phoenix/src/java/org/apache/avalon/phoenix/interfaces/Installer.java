@@ -47,10 +47,10 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-
 package org.apache.avalon.phoenix.interfaces;
 
 import java.net.URL;
+import java.util.Map;
 
 /**
  * A basic service to Install an application.
@@ -67,7 +67,7 @@ public interface Installer
      * @param url the url of instalation
      * @throws InstallationException if an error occurs
      */
-    Installation install( String name, URL url )
+    Map install( String name, URL url )
         throws InstallationException;
 
     /**
@@ -76,6 +76,6 @@ public interface Installer
      * @param installation the installation
      * @throws InstallationException if an error occurs
      */
-    void uninstall( Installation installation )
+    void uninstall( Map installation )
         throws InstallationException;
 }

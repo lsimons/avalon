@@ -70,7 +70,6 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.BlockContext;
-import org.apache.avalon.phoenix.interfaces.ContainerConstants;
 import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
 import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
 import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
@@ -81,10 +80,10 @@ import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderSet;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
+import org.apache.avalon.phoenix.interfaces.ContainerConstants;
 import org.apache.avalon.phoenix.interfaces.Deployer;
 import org.apache.avalon.phoenix.interfaces.DeployerMBean;
 import org.apache.avalon.phoenix.interfaces.DeploymentException;
-import org.apache.avalon.phoenix.interfaces.Installation;
 import org.apache.avalon.phoenix.interfaces.InstallationException;
 import org.apache.avalon.phoenix.interfaces.Installer;
 import org.apache.avalon.phoenix.interfaces.Kernel;
@@ -178,8 +177,8 @@ public class DefaultDeployer
     public void redeploy( final String name )
         throws DeploymentException
     {
-        final Installation installation =
-            (Installation)m_installations.get( name );
+        final Map installation =
+            (Map)m_installations.get( name );
         if( null == installation )
         {
             final String message =
@@ -188,7 +187,8 @@ public class DefaultDeployer
         }
         try
         {
-            final URL location = installation.getSource().toURL();
+            final File source = (File)installation.get( ContainerConstants.INSTALL_SOURCE );
+            final URL location = source.toURL();
             undeploy( name );
             deploy( name, location );
         }
@@ -207,8 +207,8 @@ public class DefaultDeployer
     public void undeploy( final String name )
         throws DeploymentException
     {
-        final Installation installation =
-            (Installation)m_installations.remove( name );
+        final Map installation =
+            (Map)m_installations.remove( name );
         if( null == installation )
         {
             final String message =
@@ -282,22 +282,25 @@ public class DefaultDeployer
          */
         ResourceManager.clearResourceCache();
 
-        Installation installation = null;
+        Map installation = null;
         boolean success = false;
         try
         {
             //m_baseWorkDirectory
             installation = m_installer.install( name, location );
 
-            final Configuration config = getConfigurationFor( installation.getConfig() );
-            final Configuration environment = getConfigurationFor( installation.getEnvironment() );
-            final Configuration assembly = getConfigurationFor( installation.getAssembly() );
+            final Configuration config = getConfigurationFor( installation, ContainerConstants.INSTALL_CONFIG );
+            final Configuration environment = getConfigurationFor( installation, ContainerConstants.INSTALL_ENVIRONMENT );
+            final Configuration assembly = getConfigurationFor( installation, ContainerConstants.INSTALL_ASSEMBLY );
 
-            final File directory = installation.getHomeDirectory();
+            final File homeDirectory =
+                (File)installation.get( ContainerConstants.INSTALL_HOME );
+            final File workDirectory =
+                (File)installation.get( ContainerConstants.INSTALL_WORK );
 
             final DefaultContext context = new DefaultContext();
             context.put( BlockContext.APP_NAME, name );
-            context.put( BlockContext.APP_HOME_DIR, directory );
+            context.put( BlockContext.APP_HOME_DIR, homeDirectory );
 
             final Configuration logs = environment.getChild( "logs" );
             //Load hierarchy before classloader placed in context as
@@ -309,8 +312,8 @@ public class DefaultDeployer
 
             final ClassLoaderSet classLoaderSet =
                 m_classLoaderManager.createClassLoaderSet( environment,
-                                                           installation.getHomeDirectory(),
-                                                           installation.getWorkDirectory() );
+                                                           homeDirectory,
+                                                           workDirectory );
             final ClassLoader classLoader = classLoaderSet.getDefaultClassLoader();
 
             context.put( "classloader", classLoader );
@@ -331,8 +334,8 @@ public class DefaultDeployer
 
             //Finally add application to kernel
             m_kernel.addApplication( profile,
-                                     installation.getHomeDirectory(),
-                                     installation.getWorkDirectory(),
+                                     homeDirectory,
+                                     workDirectory,
                                      classLoader,
                                      logger,
                                      classLoaderSet.getClassLoaders() );
@@ -473,13 +476,15 @@ public class DefaultDeployer
     /**
      * Helper method to load configuration data.
      *
-     * @param location the location of configuration data as a url
+     * @param install the install data
+     * @param key the key under which config data is stored in install data
      * @return the Configuration
      * @throws DeploymentException if an error occurs
      */
-    private Configuration getConfigurationFor( final String location )
+    private Configuration getConfigurationFor( final Map install, final String key )
         throws DeploymentException
     {
+        final String location = (String)install.get(key );
         try
         {
             return ConfigurationBuilder.build( location );
