@@ -101,10 +101,9 @@ public class PhoenixManager
 
         try 
         {
-            System.out.println("\n\tCREATE, REGISTER and START a new HTML adaptor:");
             final HtmlAdaptorServer html = new HtmlAdaptorServer();
             final ObjectName name = new ObjectName( "Adaptor:name=html,port=8082" );
-            System.out.println( "\tOBJECT NAME           = " + name );
+            System.out.println( "Created HTML Adaptor " + name );
             m_mBeanServer.registerMBean( html, name );
             html.start();
         }
@@ -115,11 +114,10 @@ public class PhoenixManager
             throw e;
         }
 
-        //TODO: Register everything here
         //TODO: SystemManager itself aswell???
-        register( "Kernel", m_kernel );
-        register( "Embeddor", m_embeddor );
-        register( "Deployer", m_deployer );
+        register( "Kernel", m_kernel, new Class[] { Kernel.class } );
+        register( "Embeddor", m_embeddor, new Class[] { Embeddor.class } );
+        register( "Deployer", m_deployer, new Class[] { Deployer.class } );
         register( "LogManager", m_logManager );
         register( "ConfigurationRepository", m_repository );
         register( "ClassLoaderManager", m_classLoaderManager );
@@ -177,7 +175,7 @@ public class PhoenixManager
         try
         {
             //TODO: actually take some heed of interfaces parameter
-            final DynamicMBean mBean = new JavaBeanMBean( object );
+            final DynamicMBean mBean = new JavaBeanMBean( object, interfaces );
             final ObjectName objectName = 
                 new ObjectName( m_domain + ":type=" + name );
             m_mBeanServer.registerMBean( mBean, objectName );
