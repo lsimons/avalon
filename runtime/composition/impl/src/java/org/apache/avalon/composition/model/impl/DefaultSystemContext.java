@@ -89,6 +89,8 @@ public class DefaultSystemContext extends DefaultContext
 
     private final boolean m_secure;
 
+    private final boolean m_proxies;
+
     //--------------------------------------------------------------
     // mutable state
     //--------------------------------------------------------------
@@ -116,6 +118,7 @@ public class DefaultSystemContext extends DefaultContext
     *   resource directives
     * @param category the kernel logging category name
     * @param trace flag indicating if internal logging is enabled
+    * @param proxies flag indicating if proxy creation is enabled
     * @param timeout a system wide default deployment timeout
     * @param security the security profiles
     */
@@ -133,6 +136,7 @@ public class DefaultSystemContext extends DefaultContext
       Repository repository, 
       String category, 
       boolean trace, 
+      boolean proxies, 
       long timeout, 
       boolean secure, 
       SecurityProfile[] security,
@@ -161,6 +165,7 @@ public class DefaultSystemContext extends DefaultContext
         m_temp = temp;
         m_anchor = anchor;
         m_trace = trace;
+        m_proxies = proxies;
         m_repository = repository;
         m_logging = logging;
         m_timeout = timeout;
@@ -306,6 +311,16 @@ public class DefaultSystemContext extends DefaultContext
     public boolean isTraceEnabled()
     {
         return m_trace;
+    }
+
+   /**
+    * Return the system proxy enablement flag.
+    *
+    * @return the proxy flag
+    */
+    public boolean isProxyEnabled()
+    {
+        return m_proxies;
     }
 
    /**

@@ -46,6 +46,7 @@ import org.apache.avalon.composition.model.AssemblyException;
 import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.DependencyGraph;
+import org.apache.avalon.composition.model.DuplicateNameException;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ModelException;
@@ -831,7 +832,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     //--------------------------------------------------------------
 
     private DeploymentModel addModel( 
-      String name, DeploymentModel model )
+      String name, DeploymentModel model ) throws DuplicateNameException
     {
         if( model.equals( this ) ) 
             return model;

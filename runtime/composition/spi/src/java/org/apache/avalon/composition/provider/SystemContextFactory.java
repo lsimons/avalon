@@ -94,6 +94,16 @@ public interface SystemContextFactory
     void setDefaultDeploymentTimeout( long timeout );
 
    /**
+    * Set the system wide default for proxy creation.  The default value
+    * is TRUE enabling automation of component finalization and improved
+    * memory management.
+    *
+    * @param flag if TRUE (the default) proxy generation is enabled on
+    *   all components otherwise proxy creation is disabled.
+    */
+    void setDefaultProxyPolicy( boolean flag );
+
+   /**
     * Set the system trace flag.
     * @param trace the trace flag
     */

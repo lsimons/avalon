@@ -91,6 +91,13 @@ public interface SystemContext extends Context
     boolean isTraceEnabled();
 
    /**
+    * Return the system proxy enablement flag.
+    *
+    * @return the proxy flag
+    */
+    boolean isProxyEnabled();
+
+   /**
     * Return the SPI classloader.
     *
     * @return the SPI classloader
