@@ -11,6 +11,8 @@ package org.apache.avalon.phoenix.interfaces;
  * This is the interface via which you can manager
  * the root container of Applications.
  *
+ * @phoenix:mx-topic name="Application"
+ *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:leosimons@apache.org">Leo Simons</a>
  */
@@ -21,12 +23,16 @@ public interface ApplicationMBean
     /**
      * Get the name of the application.
      *
+     * @phoenix:mx-attribute
+     *
      * @return the name of the application
      */
     String getName();
 
     /**
      * Get the name to display in Management UI.
+     *
+     * @phoenix:mx-attribute
      *
      * @return the name of the application to display in UI
      */
@@ -35,6 +41,8 @@ public interface ApplicationMBean
     /**
      * Get the string used to describe the application in the UI.
      *
+     * @phoenix:mx-attribute
+     *
      * @return a short description of the application
      */
     String getDescription();
@@ -42,12 +50,16 @@ public interface ApplicationMBean
     /**
      * Get location of Application installation
      *
+     * @phoenix:mx-attribute
+     *
      * @return the home directory of application
      */
     String getHomeDirectory();
 
     /**
      * Get the names of the blocks that compose this Application
+     *
+     * @phoenix:mx-attribute
      *
      * @return list of block names
      */
@@ -57,6 +69,8 @@ public interface ApplicationMBean
      * Return true if the application is
      * running or false otherwise.
      *
+     * @phoenix:mx-attribute
+     *
      * @return true if application is running, false otherwise
      */
     boolean isRunning();
@@ -65,6 +79,8 @@ public interface ApplicationMBean
      * Start the application running.
      * This is only valid when isRunning() returns false,
      * otherwise it will generate an IllegalStateException.
+     *
+     * @phoenix:mx-operation
      *
      * @throws IllegalStateException if application is already running
      * @throws ApplicationException if the application failed to start.
@@ -81,6 +97,8 @@ public interface ApplicationMBean
      * This is equivelent to  calling stop() and then start()
      * in succession.
      *
+     * @phoenix:mx-operation
+     *
      * @throws IllegalStateException if application is not already running
      * @throws ApplicationException if the application failed to stop or start.
      *            the message part of exception will contain more information
@@ -93,6 +111,8 @@ public interface ApplicationMBean
      * Stop the application running.
      * This is only valid when isRunning() returns true,
      * otherwise it will generate an IllegalStateException.
+     *
+     * @phoenix:mx-operation
      *
      * @throws IllegalStateException if application is not already running
      * @throws ApplicationException if the application failed to shutdown.
