@@ -66,7 +66,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.20 $ $Date: 2004/02/07 06:06:30 $
+ * @version $Revision: 1.21 $ $Date: 2004/02/07 23:32:04 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
   implements Block, CompositionListener, Commissionable
@@ -100,8 +100,10 @@ public abstract class AbstractBlock extends AbstractAppliance
     private final DefaultState m_self = new DefaultState();
 
     private final Engine m_engine;
-    private final AccessControlContext  m_accessControlContext;
-    private final boolean               m_secured;
+
+    private final AccessControlContext m_accessControlContext;
+
+    private final boolean m_secured;
 
     //-------------------------------------------------------------------
     // constructor

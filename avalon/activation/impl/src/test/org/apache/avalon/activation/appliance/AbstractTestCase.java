@@ -119,7 +119,7 @@ public abstract class AbstractTestCase extends TestCase
 
         m_system = 
           SystemContextBuilder.createSystemContext( 
-            context, base, local, ConsoleLogger.LEVEL_INFO, m_secured, timeout );
+            context, base, local, ConsoleLogger.LEVEL_DEBUG, m_secured, timeout );
         m_logger = m_system.getLogger();
 
         //
@@ -178,7 +178,7 @@ public abstract class AbstractTestCase extends TestCase
         //    and the root containment model
         //
 
-        getLogger().debug( "creating root block" );
+        getLogger().debug( "creating root block using model: " + m_model );
         Block block = AbstractBlock.createRootBlock( m_model );
         getLogger().debug( "block: " + block );
 

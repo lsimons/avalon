@@ -47,7 +47,6 @@ import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ModelRepository;
 import org.apache.avalon.composition.model.impl.DefaultSystemContext;
-import org.apache.avalon.composition.model.impl.DelegatingSystemContext;
 import org.apache.avalon.composition.model.impl.DefaultContainmentContext;
 import org.apache.avalon.composition.model.impl.DefaultContainmentModel;
 import org.apache.avalon.composition.model.impl.DefaultClassLoaderModel;
