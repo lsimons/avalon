@@ -242,9 +242,9 @@ public class FileSystemPersistentConfigurationRepository
         m_mergedConfigurations.remove( genKey( application, block ) );
     }
 
-    public synchronized void storeConfiguration( final String application,
-                                                 final String block,
-                                                 final Configuration configuration )
+    private void storeConfiguration( final String application,
+                                     final String block,
+                                     final Configuration configuration )
         throws ConfigurationException
     {
 
@@ -287,8 +287,8 @@ public class FileSystemPersistentConfigurationRepository
         }
     }
 
-    public synchronized Configuration getConfiguration( final String application,
-                                                        final String block )
+    private Configuration getConfiguration( final String application,
+                                            final String block )
         throws ConfigurationException
     {
         final String key = genKey( application, block );
@@ -338,13 +338,5 @@ public class FileSystemPersistentConfigurationRepository
                                             final Map repository )
     {
         return (Configuration)repository.get( genKey( application, block ) );
-    }
-
-    public boolean hasConfiguration( final String application, final String block )
-    {
-        final String key = genKey( application, block );
-        return m_mergedConfigurations.containsKey( key ) ||
-            m_transientConfigurations.containsKey( key ) ||
-            m_persistedConfigurations.containsKey( key );
     }
 }
