@@ -18,6 +18,7 @@ class DirectoryTestCaseListener
     extends AbstractLogEnabled
     implements PropertyChangeListener
 {
+    private int m_changeCount;
     private Set m_added = Collections.EMPTY_SET;
     private Set m_removed = Collections.EMPTY_SET;
     private Set m_modified = Collections.EMPTY_SET;
@@ -44,8 +45,14 @@ class DirectoryTestCaseListener
         return m_modified;
     }
 
+    public int getChangeCount()
+    {
+        return m_changeCount;
+    }
+
     public void propertyChange( final PropertyChangeEvent event )
     {
+        m_changeCount++;
         final String name = event.getPropertyName();
         final Set newValue = (Set)event.getNewValue();
         if( name.equals( DirectoryResource.ADDED ) )

@@ -23,7 +23,7 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
  * Junit TestCase for the directory resource.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Id: DirectoryTestCase.java,v 1.1 2002/09/08 02:30:48 donaldp Exp $
+ * @version $Id: DirectoryTestCase.java,v 1.2 2002/09/13 10:11:41 donaldp Exp $
  */
 public class DirectoryTestCase
     extends TestCase
@@ -120,10 +120,16 @@ public class DirectoryTestCase
         longDelay();
 
         resource.testModifiedAfter( System.currentTimeMillis() );
+        final int changeCount = listener.getChangeCount();
+        resource.testModifiedAfter( System.currentTimeMillis() + 1 );
         testExpected( "Add", added, listener.getAdded() );
         testExpected( "Remove", removed, listener.getRemoved() );
         testExpected( "Modify", modified, listener.getModified() );
 
+        assertEquals( "Changes detected. (Should be " + changeCount +
+                      " as no changes occured between two tests)",
+                      changeCount,
+                      listener.getChangeCount() );
         listener.reset();
     }
 
