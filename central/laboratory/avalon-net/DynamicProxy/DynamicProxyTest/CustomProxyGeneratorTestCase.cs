@@ -28,6 +28,7 @@ namespace Apache.Avalon.DynamicProxy.Test
 	[TestFixture]
 	public class CustomProxyGeneratorTestCase : Assertion
 	{
+		private ProxyGenerator m_generator;
 		private bool m_enhanceInvoked;
 		private bool m_screenInvoked;
 		private bool m_constructorInvoked;
@@ -35,6 +36,7 @@ namespace Apache.Avalon.DynamicProxy.Test
 		[SetUp]
 		public void Init()
 		{
+			m_generator = new ProxyGenerator();
 			m_enhanceInvoked = false;
 			m_screenInvoked = false;
 			m_constructorInvoked = false;
@@ -43,7 +45,7 @@ namespace Apache.Avalon.DynamicProxy.Test
 		[Test]
 		public void CreateCustomProxy()
 		{
-			object proxy = ProxyGenerator.CreateCustomProxy(
+			object proxy = m_generator.CreateCustomProxy(
 				typeof (IMyInterface), 
 				new StandardInvocationHandler(new MyInterfaceImpl()),
 				new EnhanceTypeDelegate(EnhanceType), 
@@ -58,7 +60,7 @@ namespace Apache.Avalon.DynamicProxy.Test
 		[Test]
 		public void CreateCustomClassProxy()
 		{
-			object proxy = ProxyGenerator.CreateCustomClassProxy(
+			object proxy = m_generator.CreateCustomClassProxy(
 				typeof (ServiceClass), 
 				new StandardInvocationHandler(new ServiceClass()),
 				new EnhanceTypeDelegate(EnhanceType), 

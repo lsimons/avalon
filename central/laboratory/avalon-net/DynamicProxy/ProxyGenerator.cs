@@ -42,21 +42,31 @@ namespace Apache.Avalon.DynamicProxy
 	/// <example>
 	/// <code>
 	/// MyInvocationHandler handler = ...
+	/// ProxyGenerator generator = new ProxyGenerator();
 	/// IInterfaceExposed proxy = 
-	///		ProxyGenerator.CreateProxy( new Type[] { typeof(IInterfaceExposed) }, handler );
+	///		generator.CreateProxy( new Type[] { typeof(IInterfaceExposed) }, handler );
 	/// </code>
 	/// </example>
-	public abstract class ProxyGenerator
+	public class ProxyGenerator
 	{
-		private static IProxyBuilder m_builder = new ProxyBuilderImpl();
+		private IProxyBuilder m_builder;
 
-		public static IProxyBuilder ProxyBuilder
+		public ProxyGenerator(IProxyBuilder builder)
+		{
+			m_builder = builder;
+		}
+
+		public ProxyGenerator() : this( new ProxyBuilderImpl() )
+		{
+		}
+
+		public IProxyBuilder ProxyBuilder
 		{
 			get { return m_builder; }
 			set { m_builder = value; }
 		}
 
-		public static object CreateClassProxy(Type baseClass, IInvocationHandler handler)
+		public virtual object CreateClassProxy(Type baseClass, IInvocationHandler handler)
 		{
 			AssertCreateClassProxyArguments(baseClass, handler);
 
@@ -64,7 +74,7 @@ namespace Apache.Avalon.DynamicProxy
 			return CreateProxyInstance( newType, handler );
 		}
 
-		public static object CreateCustomClassProxy(Type baseClass, IInvocationHandler handler, 
+		public virtual object CreateCustomClassProxy(Type baseClass, IInvocationHandler handler, 
 			EnhanceTypeDelegate enhance, 
 			ScreenInterfacesDelegate screenInterfaces, 
 			ConstructorArgumentsDelegate constructorArguments)
@@ -82,7 +92,7 @@ namespace Apache.Avalon.DynamicProxy
 		/// <param name="theInterface">Interface to be implemented</param>
 		/// <param name="handler">instance of <see cref="IInvocationHandler"/></param>
 		/// <returns>Proxy instance</returns>
-		public static object CreateProxy(Type theInterface, IInvocationHandler handler)
+		public virtual object CreateProxy(Type theInterface, IInvocationHandler handler)
 		{
 			return CreateProxy(new Type[] {theInterface}, handler);
 		}
@@ -94,7 +104,7 @@ namespace Apache.Avalon.DynamicProxy
 		/// <param name="interfaces">Array of interfaces to be implemented</param>
 		/// <param name="handler">instance of <see cref="IInvocationHandler"/></param>
 		/// <returns>Proxy instance</returns>
-		public static object CreateProxy(Type[] interfaces, IInvocationHandler handler)
+		public virtual object CreateProxy(Type[] interfaces, IInvocationHandler handler)
 		{
 			AssertCreateProxyArguments(interfaces, handler);
 
@@ -111,7 +121,7 @@ namespace Apache.Avalon.DynamicProxy
 		/// <param name="screenInterfaces"></param>
 		/// <param name="constructorArguments"></param>
 		/// <returns></returns>
-		public static object CreateCustomProxy(Type theInterface, 
+		public virtual object CreateCustomProxy(Type theInterface, 
 			IInvocationHandler handler, EnhanceTypeDelegate enhance, 
 			ScreenInterfacesDelegate screenInterfaces, 
 			ConstructorArgumentsDelegate constructorArguments )
@@ -129,7 +139,7 @@ namespace Apache.Avalon.DynamicProxy
 		/// <param name="screenInterfaces"></param>
 		/// <param name="constructorArguments"></param>
 		/// <returns></returns>
-		public static object CreateCustomProxy(Type[] interfaces, 
+		public virtual object CreateCustomProxy(Type[] interfaces, 
 			IInvocationHandler handler, EnhanceTypeDelegate enhance, 
 			ScreenInterfacesDelegate screenInterfaces, 
 			ConstructorArgumentsDelegate constructorArguments )
@@ -139,12 +149,12 @@ namespace Apache.Avalon.DynamicProxy
 			return CreateCustomProxyInstance( newType, handler, constructorArguments );
 		}
 
-		private static object CreateProxyInstance(Type type, IInvocationHandler handler)
+		protected virtual object CreateProxyInstance(Type type, IInvocationHandler handler)
 		{
 			return Activator.CreateInstance(type, new object[] {handler});
 		}
 
-		private static object CreateCustomProxyInstance(Type type, IInvocationHandler handler, ConstructorArgumentsDelegate constructorArguments)
+		protected virtual object CreateCustomProxyInstance(Type type, IInvocationHandler handler, ConstructorArgumentsDelegate constructorArguments)
 		{
 			if (constructorArguments != null)
 			{
@@ -157,7 +167,7 @@ namespace Apache.Avalon.DynamicProxy
 			}
 		}
 
-		private static void AssertCreateProxyArguments(Type[] interfaces, IInvocationHandler handler)
+		protected static void AssertCreateProxyArguments(Type[] interfaces, IInvocationHandler handler)
 		{
 			if (interfaces == null)
 			{
@@ -173,7 +183,7 @@ namespace Apache.Avalon.DynamicProxy
 			}
 		}
 
-		private static void AssertCreateClassProxyArguments(Type baseClass, IInvocationHandler handler)
+		protected static void AssertCreateClassProxyArguments(Type baseClass, IInvocationHandler handler)
 		{
 			if (baseClass == null)
 			{

@@ -18,9 +18,9 @@ namespace Apache.Avalon.DynamicProxy.Builder
 	using System;
 
 	/// <summary>
-	/// Summary description for ProxyBuilderImpl.
+	/// Summary description for DefaultProxyBuilder.
 	/// </summary>
-	public class ProxyBuilderImpl : IProxyBuilder
+	public class DefaultProxyBuilder : IProxyBuilder
 	{
 		#region IProxyBuilder Members
 

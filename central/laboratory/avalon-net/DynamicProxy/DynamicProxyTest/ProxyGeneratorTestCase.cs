@@ -29,10 +29,18 @@ namespace Apache.Avalon.DynamicProxy.Test
 	[TestFixture]
 	public class ProxyGeneratorTestCase : Assertion
 	{
+		private ProxyGenerator m_generator;
+
+		[SetUp]
+		public void Init()
+		{
+			m_generator = new ProxyGenerator();
+		}
+
 		[Test]
 		public void ProxyForClass()
 		{
-			object proxy = ProxyGenerator.CreateClassProxy( 
+			object proxy = m_generator.CreateClassProxy( 
 				typeof(ServiceClass), new ResultModifiedInvocationHandler( new ServiceClass() ) );
 			
 			AssertNotNull( proxy );
@@ -47,7 +55,7 @@ namespace Apache.Avalon.DynamicProxy.Test
 		[Test]
 		public void ProxyForClassWithSuperClass()
 		{
-			object proxy = ProxyGenerator.CreateClassProxy( 
+			object proxy = m_generator.CreateClassProxy( 
 				typeof(SpecializedServiceClass), new ResultModifiedInvocationHandler( new SpecializedServiceClass() ) );
 			
 			AssertNotNull( proxy );
@@ -64,7 +72,7 @@ namespace Apache.Avalon.DynamicProxy.Test
 		[Test]
 		public void ProxyForClassWhichImplementsInterfaces()
 		{
-			object proxy = ProxyGenerator.CreateClassProxy( 
+			object proxy = m_generator.CreateClassProxy( 
 				typeof(MyInterfaceImpl), new ResultModifiedInvocationHandler( new MyInterfaceImpl() ) );
 			
 			AssertNotNull( proxy );
@@ -79,7 +87,7 @@ namespace Apache.Avalon.DynamicProxy.Test
 		[Test]
 		public void ProxyingClassWithoutVirtualMethods()
 		{
-			object proxy = ProxyGenerator.CreateClassProxy( 
+			object proxy = m_generator.CreateClassProxy( 
 				typeof(NoVirtualMethodClass), new ResultModifiedInvocationHandler( new SpecializedServiceClass() ) );
 			
 			AssertNotNull( proxy );
@@ -93,7 +101,7 @@ namespace Apache.Avalon.DynamicProxy.Test
 		[Test]
 		public void ProxyingClassWithSealedMethods()
 		{
-			object proxy = ProxyGenerator.CreateClassProxy( 
+			object proxy = m_generator.CreateClassProxy( 
 				typeof(SealedMethodsClass), new ResultModifiedInvocationHandler( new SpecializedServiceClass() ) );
 			
 			AssertNotNull( proxy );
@@ -109,7 +117,7 @@ namespace Apache.Avalon.DynamicProxy.Test
 		{
 			try
 			{
-				ProxyGenerator.CreateClassProxy( 
+				m_generator.CreateClassProxy( 
 					typeof(ICloneable), new StandardInvocationHandler( new SpecializedServiceClass() ) );
 			}
 			catch(ArgumentException)
@@ -119,7 +127,7 @@ namespace Apache.Avalon.DynamicProxy.Test
 
 			try
 			{
-				ProxyGenerator.CreateClassProxy( 
+				m_generator.CreateClassProxy( 
 					null, new StandardInvocationHandler( new SpecializedServiceClass() ) );
 			}
 			catch(ArgumentNullException)
@@ -129,7 +137,7 @@ namespace Apache.Avalon.DynamicProxy.Test
 
 			try
 			{
-				ProxyGenerator.CreateClassProxy( 
+				m_generator.CreateClassProxy( 
 					typeof(SpecializedServiceClass), null );
 			}
 			catch(ArgumentNullException)
@@ -141,7 +149,7 @@ namespace Apache.Avalon.DynamicProxy.Test
 		[Test]
 		public void TestGenerationSimpleInterface()
 		{
-			object proxy = ProxyGenerator.CreateProxy( 
+			object proxy = m_generator.CreateProxy( 
 				typeof(IMyInterface), new StandardInvocationHandler( new MyInterfaceImpl() ) );
 			
 			AssertNotNull( proxy );
@@ -161,7 +169,7 @@ namespace Apache.Avalon.DynamicProxy.Test
 		[Test]
 		public void TestGenerationWithInterfaceHeritage()
 		{
-			object proxy = ProxyGenerator.CreateProxy( 
+			object proxy = m_generator.CreateProxy( 
 				typeof(IMySecondInterface), new StandardInvocationHandler( new MySecondInterfaceImpl() ) );
 
 			AssertNotNull( proxy );
@@ -185,7 +193,7 @@ namespace Apache.Avalon.DynamicProxy.Test
 		{
 			ServiceStatusImpl service = new ServiceStatusImpl();
 
-			object proxy = ProxyGenerator.CreateProxy( 
+			object proxy = m_generator.CreateProxy( 
 				typeof(IServiceStatus), new StandardInvocationHandler( service ) );
 			
 			AssertNotNull( proxy );
