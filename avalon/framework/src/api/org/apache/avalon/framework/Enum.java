@@ -156,9 +156,16 @@ public abstract class Enum
      */
     public final boolean equals( final Object other )
     {
-        return other == this ||
-            ( other.getClass().getName().equals( this.getClass().getName() ) &&
-            m_name.equals( ((Enum) other).m_name ) );
+        if( null == other )
+        {
+            return false;
+        }
+        else
+        {
+            return other == this ||
+              ( other.getClass().getName().equals( this.getClass().getName() ) &&
+              m_name.equals( ( ( Enum ) other ).m_name ) );
+        }
     }
     
     
