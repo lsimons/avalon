@@ -1,2 +1,3 @@
 excalibur-*
 .ant.properties
+*.ipr
