@@ -29,6 +29,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -74,6 +75,31 @@ public class ElementHelper
                 throw new BuildException( sxe.getException() );
             }
             throw new BuildException( sxe );
+        }
+        catch( ParserConfigurationException pce ) 
+        {
+            // Parser with specified options can't be built
+            throw new BuildException( pce );
+        }
+        catch( IOException ioe ) 
+        {
+            // I/O error
+            throw new BuildException(ioe);
+        }
+    }
+
+    public static Element getRootElement( final InputStream input )
+      throws Exception
+    {
+        try
+        {
+            final DocumentBuilderFactory factory =
+              DocumentBuilderFactory.newInstance();
+            factory.setValidating( false );
+            factory.setNamespaceAware( false );
+            final Document document =
+              factory.newDocumentBuilder().parse( input );
+            return document.getDocumentElement();
         }
         catch( ParserConfigurationException pce ) 
         {

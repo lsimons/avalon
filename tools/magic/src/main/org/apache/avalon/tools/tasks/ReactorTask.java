@@ -129,7 +129,7 @@ public class ReactorTask extends SystemTask
     public void execute( final Definition definition, final String target )
     {
         final Ant ant = (Ant) getProject().createTask( "ant" );
-        ant.setDir( definition.getBasedir() );
+        ant.setDir( definition.getBaseDir() );
         ant.setInheritRefs( false );
         ant.setInheritAll( false );
         if( null != target )
@@ -233,7 +233,7 @@ public class ReactorTask extends SystemTask
             for( int i=0; i<defs.length; i++ )
             {
                 final Definition def = defs[i];
-                final String base = def.getBasedir().getCanonicalPath();
+                final String base = def.getBaseDir().getCanonicalPath();
                 if( base.startsWith( path ) )
                 {
                     list.add( def );
@@ -276,7 +276,7 @@ public class ReactorTask extends SystemTask
             {
                 log( "Skipping dir: " 
                   + dir 
-                  + "due to missing build.properties file" );
+                  + " as it does not exist." );
             }
         }
         return list;
