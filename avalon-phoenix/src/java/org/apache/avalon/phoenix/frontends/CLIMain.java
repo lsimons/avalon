@@ -175,6 +175,9 @@ public final class CLIMain
     {
         System.out.println( REZ.getString( "main.exception.header" ) );
         System.out.println( "---------------------------------------------------------" );
+        System.out.println( "--- Message ---" );
+        System.out.println( throwable.getMessage() );                
+        System.out.println( "--- Stack Trace ---" );
         throwable.printStackTrace( System.out );
         System.out.println( "---------------------------------------------------------" );
         System.out.println( REZ.getString( "main.exception.footer" ) );
