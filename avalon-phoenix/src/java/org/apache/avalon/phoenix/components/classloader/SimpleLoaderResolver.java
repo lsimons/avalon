@@ -81,7 +81,7 @@ import org.realityforge.classman.runtime.JoinClassLoader;
  * </ul>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003/04/30 10:16:48 $
+ * @version $Revision: 1.3 $ $Date: 2003/06/12 15:43:23 $
  * @deprecated Convert to ClassMan SimpleLoaderResolver when it updates
  *             dependecy to latest Excalibur-Extension
  */

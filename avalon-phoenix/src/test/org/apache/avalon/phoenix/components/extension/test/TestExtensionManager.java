@@ -57,7 +57,7 @@ import org.apache.avalon.phoenix.components.extensions.pkgmgr.OptionalPackage;
  * a class to help test sorting of ExtensionManager.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/04/30 10:40:41 $
+ * @version $Revision: 1.2 $ $Date: 2003/06/12 15:43:25 $
  */
 class TestExtensionManager
     implements ExtensionManager

@@ -1338,6 +1338,18 @@ Legal:
 
     </target>
 
+    <!-- =================================================================== -->
+    <!-- Fix Whitespace problems in source code                              -->
+    <!-- =================================================================== -->
+    <target name="fixCRLF">
+        <fixcrlf srcdir="."
+            includes="**/*.java,**/*.xml,*.xml,*.properties,**/*.properties"
+            eol="lf"
+            tab="remove"
+            tablength="4"
+            eof="remove"/>
+    </target>
+    
     <target name="get-all-dependencies"
         depends="get-mx4j,get-log4j,get-loggerstore,get-configkit,get-xmlpolicy,get-classman,get-wrapper"
         description="Meta-task to get all optional libaries"/>

@@ -80,9 +80,9 @@ public class DaemonLauncher
      *-------------------------------------------------------------*/
     /**
      * The start method is called when the WrapperManager is signaled by the
-     *	native wrapper code that it can start its application.  This
-     *	method call is expected to return, so a new thread should be launched
-     *	if necessary.
+     *  native wrapper code that it can start its application.  This
+     *  method call is expected to return, so a new thread should be launched
+     *  if necessary.
      *
      * @param args List of arguments used to initialize the application.
      *

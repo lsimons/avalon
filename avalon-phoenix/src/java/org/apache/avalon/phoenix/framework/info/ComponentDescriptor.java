@@ -87,7 +87,7 @@ package org.apache.avalon.phoenix.framework.info;
  * </pre>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:13 $
+ * @version $Revision: 1.4 $ $Date: 2003/06/12 15:43:24 $
  */
 public final class ComponentDescriptor
     extends FeatureDescriptor

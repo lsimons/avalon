@@ -71,7 +71,7 @@ import org.apache.avalon.phoenix.framework.info.ComponentInfo;
  * </ul>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003/04/06 03:17:59 $
+ * @version $Revision: 1.6 $ $Date: 2003/06/12 15:43:24 $
  */
 public interface ComponentBundle
 {
