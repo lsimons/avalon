@@ -95,7 +95,7 @@ public class PrepareTask extends SystemTask
             task.setProject( project );
             task.setArtifact( path );
             task.init();
-            task.execute();            
+            task.execute();
         }
 
         //
@@ -111,6 +111,7 @@ public class PrepareTask extends SystemTask
         File src = getContext().getSrcDirectory();
         File etc = getContext().getEtcDirectory();
         File build = getContext().getBuildDirectory();
+        File buildEtcDir = new File( build, "etc" );
         if( src.exists() )
         {
             String filters = project.getProperty( SRC_FILTERED_INCLUDES_KEY );
@@ -119,11 +120,22 @@ public class PrepareTask extends SystemTask
         }
         if( etc.exists() )
         {
-            File buildEtcDir = new File( build, "etc" );
             String includes = project.getProperty( ETC_FILTERED_INCLUDES_KEY );
             String excludes = project.getProperty( ETC_FILTERED_EXCLUDES_KEY );
             copy( etc, buildEtcDir, true, includes, excludes );
             copy( etc, buildEtcDir, false, excludes, "" );
+        }
+
+        //
+        // if there is a etc/deliverable directory, then copy the 
+        // content to the target/deliverables directory
+        //
+
+        File extra = new File( buildEtcDir, "deliverables" );
+        if( extra.exists() )
+        {
+            File deliverables = getContext().getDeliverablesDirectory();
+            copy( extra, deliverables, false, "**/*", "" );
         }
     }
 

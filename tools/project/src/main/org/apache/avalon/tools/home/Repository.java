@@ -58,6 +58,18 @@ public class Repository
 
     public Repository( File system, String path, String hosts, Home home )
     {
+        if( null == system ) 
+        {
+            throw new NullPointerException( "system" );
+        }
+        if( null == path ) 
+        {
+            throw new NullPointerException( "path" );
+        }
+        if( null == home ) 
+        {
+            throw new NullPointerException( "home" );
+        }
         m_home = home;
         m_root = system;
         m_cache = getCanonicalFile( Context.getFile( system, path ) );

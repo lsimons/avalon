@@ -101,7 +101,7 @@ public class Home extends DataType
         try
         {
             m_system = m_index.getParentFile();
-            String path = project.getProperty( "avalon.cache" );
+            String path = getCachePath( project );
             String hostsPath = project.getProperty( "avalon.hosts" );
             m_repository = new Repository( m_system, path, hostsPath, this );
 
@@ -130,6 +130,13 @@ public class Home extends DataType
         {
             log( "  host: " + hosts[i], Project.MSG_VERBOSE ); 
         }
+    }
+
+    private String getCachePath( Project project )
+    {
+        String path = project.getProperty( "avalon.cache" );
+        if( null != path ) return path;
+        return ".cache";
     }
 
     //-------------------------------------------------------------

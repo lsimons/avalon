@@ -116,6 +116,25 @@ public class Resource
         throw new BuildException( new FileNotFoundException( path ) );
     }
 
+    public String getFilename()
+    {
+        return getFilename( getInfo().getType() );
+    }
+
+    public String getFilename( String type )
+    {
+        String name = getInfo().getName();
+        if( null != getInfo().getVersion() )
+        {
+            return name + "-" + getInfo().getVersion() + "." + type;
+        }
+        else
+        {
+            return name + "." + type;
+        }
+    }
+
+
     public String toString()
     {
         return "[" + getInfo().toString() + "]";

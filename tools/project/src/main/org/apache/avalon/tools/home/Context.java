@@ -318,6 +318,10 @@ public class Context extends Task
 
     public static File getFile( File root, String path )
     {
+        if( null == path )
+        {
+            throw new NullPointerException( "path" );
+        }
         File file = new File( path );
         if( file.isAbsolute() ) return file;
         if( null == root )
