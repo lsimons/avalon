@@ -228,7 +228,9 @@ public class Resource
 
     private File get( final Project project, final File target, final String path )
     {
-        target.getParentFile().mkdirs();
+        final File targetDir = target.getParentFile();
+        targetDir.mkdirs();
+        
         final String[] hosts = getHome().getRepository().getHosts();
         for( int i=0; i<hosts.length; i++ )
         {
@@ -237,15 +239,26 @@ public class Resource
             {
                 final URL url = new URL( host );
                 final URL source = new URL( url, path );
-
+                final File tempFile = File.createTempFile( "magic_", ".temp", targetDir);
+                boolean useTimeStamps = false;
+                if( target.exists() )
+                {
+                    useTimeStamps = true;
+                    tempFile.delete();
+                    target.renameTo( tempFile );
+                }
+                tempFile.deleteOnExit();
+                
                 final Get get = (Get) project.createTask( "get" );
                 get.setSrc( source );
-                get.setDest( target );
+                get.setDest( tempFile );
                 get.setIgnoreErrors( false );
-                get.setUseTimestamp( true );
+                get.setUseTimestamp( useTimeStamps );
                 get.setVerbose( false );
                 get.execute();
 
+                tempFile.renameTo( target );
+                
                 return target;
             }
             catch( Throwable e )
