@@ -62,7 +62,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * and destroyed correctly.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/07 16:08:12 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/03/19 12:53:56 $
  * @since 4.0
  */
 public final class PoolableComponentHandler
@@ -96,7 +96,7 @@ public final class PoolableComponentHandler
     * Configuration of the handler under which the minimum pool size
     * is established.
     * @param configuration the configuration fragment
-    * @exception configuration exception if the supplied configuration attribute 
+    * @exception ConfigurationException if the supplied configuration attribute 
     *    for 'pool-min' cannot be resolved to an integer value
     */
     public void configure( final Configuration configuration )
