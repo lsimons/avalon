@@ -56,13 +56,10 @@
         <copy file="${xalan.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
         
         <!-- Logkit -->
-        <copy file="${avalon-logkit.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
+        <copy file="${logkit.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
         
         <!-- Avalon Framework -->
         <copy file="${avalon-framework.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
-        
-        <!-- Avalon Excalibur -->
-        <copy file="${avalon-excalibur.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
         
         <!-- Avalon Excalibur Concurrent -->
         <copy file="${excalibur-concurrent.jar}"
