@@ -16,7 +16,7 @@ import org.apache.log.Priority;
 import org.apache.log.format.PatternFormatter;
 import org.apache.log.format.RawFormatter;
 import org.apache.log.output.io.StreamTarget;
-import org.apache.log.util.OutputStreamLogger;
+import org.apache.log.util.LoggerOutputStream;
 import org.apache.log.util.StackIntrospector;
 import org.apache.testlet.AbstractTestlet;
 
@@ -61,7 +61,7 @@ public final class UtilTestlet
         */
     }
 
-    public void testOutputStreamLogger()
+    public void testLoggerOutputStream()
         throws Exception
     {
         final ByteArrayOutputStream output = new ByteArrayOutputStream();
@@ -71,16 +71,16 @@ public final class UtilTestlet
         hierarchy.setDefaultLogTarget( target );
 
         final Logger logger = hierarchy.getLoggerFor( "myLogger" );
-        final OutputStreamLogger outputStream = new OutputStreamLogger( logger, Priority.DEBUG );
+        final LoggerOutputStream outputStream = new LoggerOutputStream( logger, Priority.DEBUG );
         final PrintStream printer = new PrintStream( outputStream, true );
 
         printer.println( MSG );
-        assertEquality( "OutputStreamLogger", RMSG + EOL, getResult( output ) );
+        assertEquality( "LoggerOutputStream", RMSG + EOL, getResult( output ) );
 
         //unbuffered output
         printer.print( MSG );
         printer.flush();
-        assertEquality( "OutputStreamLogger", RMSG, getResult( output ) );
+        assertEquality( "LoggerOutputStream", RMSG, getResult( output ) );
 
         printer.close();
     }
