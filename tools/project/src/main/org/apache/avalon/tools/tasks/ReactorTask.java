@@ -92,9 +92,11 @@ public class ReactorTask extends SystemTask
     public void execute() throws BuildException 
     {
         final Project project = getProject();
+        log( "Finding project defintions." );
         m_defs = getDefinitions();
+        log( "Build sequence for projects." );
         final Definition[] defs = walkGraph();
-        log( "Build sequence for project group:" );
+        log( "Sequence established:" );
         project.log( BANNER );
         for( int i=0; i<defs.length; i++ )
         {
