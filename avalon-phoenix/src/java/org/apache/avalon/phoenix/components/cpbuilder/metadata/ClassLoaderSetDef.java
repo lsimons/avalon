@@ -12,9 +12,9 @@ package org.apache.avalon.phoenix.components.cpbuilder.metadata;
  * the default ClassLoader to use.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/09/01 00:55:03 $
+ * @version $Revision: 1.1 $ $Date: 2002/09/01 01:31:21 $
  */
-public class ClassloaderSetDef
+public class ClassLoaderSetDef
 {
     /**
      * The name of the current classloader.
@@ -39,7 +39,7 @@ public class ClassloaderSetDef
      * @param aDefault the name of default ClassLoader
      * @param classLoaders the ClassLoaders in set
      */
-    public ClassloaderSetDef( final String aDefault,
+    public ClassLoaderSetDef( final String aDefault,
                               final ClassLoaderDef[] classLoaders,
                               final JoinDef[] joins )
     {
