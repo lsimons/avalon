@@ -248,13 +248,14 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
 
                     while( i.hasNext() )
                     {
+                        PipelineRunner nextRunner = ( PipelineRunner ) i.next();
                         ThreadControl control = null;
 
                         while (control == null )
                         {
                             try
                             {
-                                control = m_threadPool.execute( ( PipelineRunner ) i.next() );
+                                control = m_threadPool.execute( nextRunner );
                             }
                             catch( IllegalStateException e )
                             {
