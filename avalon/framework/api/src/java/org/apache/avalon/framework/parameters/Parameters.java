@@ -28,6 +28,8 @@ public class Parameters
     ///Underlying store of parameters
     private HashMap            m_parameters = new HashMap();
 
+    private boolean            m_readOnly;
+
     /**
      * Set the <code>String</code> value of a specified parameter.
      * <p />
@@ -37,6 +39,8 @@ public class Parameters
      */
     public String setParameter( final String name, final String value )
     {
+        checkWriteable();
+
         if( null == name )
         {
             return null;
@@ -368,6 +372,8 @@ public class Parameters
      */
     public Parameters merge( final Parameters other )
     {
+        checkWriteable();
+
         final Iterator names = other.getParameterNames();
 
         while( names.hasNext() )
@@ -387,6 +393,21 @@ public class Parameters
         }
 
         return this;
+    }
+
+
+    public void makeReadOnly()
+    {
+        m_readOnly = true;
+    }
+
+    protected final void checkWriteable()
+        throws IllegalStateException
+    {
+        if( m_readOnly )
+        {
+            throw new IllegalStateException( "Context is read only and can not be modified" );
+        }
     }
 
     /**
