@@ -25,8 +25,6 @@ namespace Apache.Avalon.Castle
 	/// </summary>
 	public class Castle
 	{
-		public static readonly String CASTLE_DOMAIN = "apache.avalon.castle";
-
 		protected CastleOptions m_options;
 
 		protected ILogger m_logger = Logger.LoggerFactory.GetLogger("Castle");

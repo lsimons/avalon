@@ -25,9 +25,11 @@ namespace Apache.Avalon.DynamicProxy.Test
 	/// Summary description for ProxyGeneratorTestCase.
 	/// </summary>
 	[TestFixture]
-	public class ProxyGeneratorTestCase : Assertion, IInvocationHandler, IMyInterface
+	public class ProxyGeneratorTestCase : Assertion, IInvocationHandler, IMyInterface, IMySecondInterface, IServiceStatus
 	{
-		protected String nameProperty;
+		protected String m_nameProperty;
+		protected String m_addressProperty;
+		protected State m_state = State.Invalid;
 
 		[Test]
 		public void TestSimpleCase()
@@ -41,7 +43,38 @@ namespace Apache.Avalon.DynamicProxy.Test
 			inter.Nome = "opa";
 			AssertEquals( "opa", inter.Nome );
 			AssertEquals( 45, inter.Calc( 20, 25 ) );
+		}
 
+		[Test]
+		public void TestMoreComplexCase()
+		{
+			object proxy = ProxyGenerator.CreateProxy( new Type[] { typeof(IMySecondInterface) }, this );
+			AssertNotNull( proxy );
+			Assert( typeof(IMyInterface).IsAssignableFrom( proxy.GetType() ) );
+			Assert( typeof(IMySecondInterface).IsAssignableFrom( proxy.GetType() ) );
+
+			IMySecondInterface inter = (IMySecondInterface) proxy;
+			inter.Calc(1, "ola");
+			inter.Nome = "opa";
+			AssertEquals( "opa", inter.Nome );
+			inter.Address = "pereira leite, 44";
+			AssertEquals( "pereira leite, 44", inter.Address );
+			AssertEquals( 45, inter.Calc( 20, 25 ) );
+		}
+
+		[Test]
+		public void TestEnumCase()
+		{
+			m_state = State.Invalid;
+
+			object proxy = ProxyGenerator.CreateProxy( new Type[] { typeof(IServiceStatus) }, this );
+			AssertNotNull( proxy );
+			Assert( typeof(IServiceStatus).IsAssignableFrom( proxy.GetType() ) );
+
+			IServiceStatus inter = (IServiceStatus) proxy;
+			AssertEquals( State.Invalid, inter.ActualState );
+			inter.ChangeState( State.Valid );
+			AssertEquals( State.Valid, inter.ActualState );
 		}
 
 		#region IInvocationHandler Members
@@ -70,11 +103,11 @@ namespace Apache.Avalon.DynamicProxy.Test
 		{
 			get
 			{
-				return nameProperty;
+				return m_nameProperty;
 			}
 			set
 			{
-				nameProperty = value;
+				m_nameProperty = value;
 			}
 		}
 
@@ -97,6 +130,56 @@ namespace Apache.Avalon.DynamicProxy.Test
 		}
 
 		#endregion
+
+		#region IMySecondInterface Members
+
+		public String Address
+		{
+			get
+			{
+				return m_addressProperty;
+			}
+			set
+			{
+				m_addressProperty = value;
+			}
+		}
+
+		#endregion
+
+		#region IServiceStatus Members
+
+		public int Requests
+		{
+			get
+			{
+				return 32;
+			}
+		}
+
+		public Apache.Avalon.DynamicProxy.Test.State ActualState
+		{
+			get
+			{
+				return m_state ;
+			}
+		}
+
+		public void ChangeState(Apache.Avalon.DynamicProxy.Test.State state)
+		{
+			m_state = state;
+		}
+
+		#endregion
+	}
+	
+	/// <summary>
+	/// 
+	/// </summary>
+	public enum State
+	{
+		Valid, 
+		Invalid
 	}
 
 	/// <summary>
@@ -119,6 +202,69 @@ namespace Apache.Avalon.DynamicProxy.Test
 		int Calc(int x, int y, int z, Single h);
 	}
 
+	/// <summary>
+	/// 
+	/// </summary>
+	public interface IMySecondInterface : IMyInterface
+	{
+		String Address
+		{
+			get;
+			set;
+		}
+	}
+
+	public interface IServiceStatus
+	{
+		int Requests
+		{
+			get;
+		}
+
+		State ActualState
+		{
+			get;
+		}
+
+		void ChangeState(State state);
+	}
+
+	public class MyTest : IServiceStatus
+	{
+		IInvocationHandler handler = null;
+
+		#region IServiceStatus Members
+
+		public int Requests
+		{
+			get
+			{
+				MethodBase method = MethodBase.GetCurrentMethod();
+				return (int) handler.Invoke( this, method );
+			}
+		}
+
+		public Apache.Avalon.DynamicProxy.Test.State ActualState
+		{
+			get
+			{
+				MethodBase method = MethodBase.GetCurrentMethod();
+				return (State) handler.Invoke( this, method );
+			}
+		}
+
+		public void ChangeState(Apache.Avalon.DynamicProxy.Test.State state)
+		{
+			MethodBase method = MethodBase.GetCurrentMethod();
+			handler.Invoke( this, method, state );
+		}
+
+		#endregion
+
+	}
+
+
+	/*
 	public class MyTest : IMyInterface
 	{
 		IInvocationHandler handler = null;
@@ -164,7 +310,7 @@ namespace Apache.Avalon.DynamicProxy.Test
 
 		#endregion
 
-	}
+	}*/
 
 }
 

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.Default.Deployment
+namespace Apache.Avalon.Castle.Core.Default.Deployment
 {
 	using System;
 

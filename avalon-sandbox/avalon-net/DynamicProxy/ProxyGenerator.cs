@@ -63,7 +63,7 @@ namespace Apache.Avalon.DynamicProxy
 			}
 			if (interfaces.Length == 0)
 			{
-				throw new ArgumentException("Can't deal with a empty interface array");
+				throw new ArgumentException("Can't handle an empty interface array");
 			}
 
 			AssemblyName assemblyName = new AssemblyName();
@@ -80,14 +80,28 @@ namespace Apache.Avalon.DynamicProxy
 			TypeBuilder typeBuilder = moduleBuilder.DefineType( 
 				"ProxyType", TypeAttributes.Public|TypeAttributes.Class, null, interfaces);
 
-			foreach(Type inter in interfaces)
-			{
-				GenerateInterfaceImplementation( typeBuilder, inter );
-			}
+			FieldBuilder handlerField = GenerateField( typeBuilder );
+			ConstructorBuilder constr = GenerateConstructor( typeBuilder, handlerField );
+
+			GenerateInterfaceImplementation( typeBuilder, interfaces, handlerField );
 
 			Type generatedType = typeBuilder.CreateType();
 
 			return Activator.CreateInstance( generatedType, new object[] { handler } );
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="typeBuilder"></param>
+		/// <param name="interfaces"></param>
+		private static void GenerateInterfaceImplementation( TypeBuilder typeBuilder, 
+			Type[] interfaces, FieldBuilder handlerField )
+		{
+			foreach(Type inter in interfaces)
+			{
+				GenerateInterfaceImplementation( typeBuilder, inter, handlerField );
+			}
 		}
 
 		/// <summary>
@@ -96,16 +110,17 @@ namespace Apache.Avalon.DynamicProxy
 		/// </summary>
 		/// <param name="typeBuilder"><see cref="TypeBuilder"/> being constructed.</param>
 		/// <param name="inter">Interface type</param>
-		private static void GenerateInterfaceImplementation( 
-			TypeBuilder typeBuilder, Type inter )
+		private static void GenerateInterfaceImplementation( TypeBuilder typeBuilder, 
+			Type inter, FieldBuilder handlerField )
 		{
 			if (!inter.IsInterface)
 			{
 				throw new ArgumentException("Type array expects interfaces only.");
 			}
 
-			FieldBuilder handlerField = GenerateField( typeBuilder );
-			ConstructorBuilder constr = GenerateConstructor( typeBuilder, handlerField );
+			Type[] baseInterfaces = inter.FindInterfaces( new TypeFilter( NoFilterImpl ), inter );
+
+			GenerateInterfaceImplementation( typeBuilder, baseInterfaces, handlerField );
 
 			PropertyInfo[] properties = inter.GetProperties();
 			PropertyBuilder[] propertiesBuilder = new PropertyBuilder[properties.Length];
@@ -336,6 +351,30 @@ namespace Apache.Avalon.DynamicProxy
 		/// <returns></returns>
 		private static OpCode ConvertTypeToOpCode( Type type )
 		{
+			if (type.IsEnum)
+			{
+				System.Enum baseType = (System.Enum) Activator.CreateInstance( type );
+				TypeCode code = baseType.GetTypeCode();
+				
+				switch(code)
+				{
+					case TypeCode.Byte:
+						type = typeof(Byte);
+						break;
+					case TypeCode.Int16:
+						type = typeof(Int16);
+						break;
+					case TypeCode.Int32:
+						type = typeof(Int32);
+						break;
+					case TypeCode.Int64:
+						type = typeof(Int64);
+						break;
+				}
+
+				return ConvertTypeToOpCode( type );
+			}
+
 			if ( type.Equals( typeof(Int32) ) )
 			{
 				return OpCodes.Ldind_I4;
@@ -368,6 +407,11 @@ namespace Apache.Avalon.DynamicProxy
 			{
 				throw new ArgumentException("Type " + type + " could not be converted to a OpCode");
 			}
+		}
+
+		public static bool NoFilterImpl( Type type, object criteria )
+		{
+			return true;
 		}
 	}
 }

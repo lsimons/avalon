@@ -29,7 +29,7 @@ namespace Apache.Avalon.Activation.Default
 		// immutable state
 		//-------------------------------------------------------------------
 
-		private ISystemContext m_system;
+		protected ISystemContext m_system;
 
 		/// <summary>
 		/// Creation of a new default lifestyle factory.
@@ -42,7 +42,7 @@ namespace Apache.Avalon.Activation.Default
 
 		#region ILifestyleFactory Members
 
-		public ILifestyleManager CreateLifestyleManager(IComponentModel model)
+		public virtual ILifestyleManager CreateLifestyleManager(IComponentModel model)
 		{
 			IComponentFactory factory = new DefaultComponentFactory( m_system, model );
 			return CreateLifestyleManager( model, factory );
@@ -88,6 +88,7 @@ namespace Apache.Avalon.Activation.Default
 			}
 		}
 
+		/*
 		private IComponentFactory CreateComponentFactory( IComponentModel model )
 		{
 			//
@@ -97,6 +98,6 @@ namespace Apache.Avalon.Activation.Default
 			//
 
 			return new DefaultComponentFactory( m_system, model );
-		}
+		}*/
 	}
 }

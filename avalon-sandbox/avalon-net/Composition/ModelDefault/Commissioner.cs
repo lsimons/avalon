@@ -30,7 +30,7 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/29 18:07:17 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/03/07 22:06:40 $
 	/// </version>
 	/// <seealso cref="CommissionRequest">
 	/// </seealso>
@@ -83,8 +83,8 @@ namespace Apache.Avalon.Composition.Model.Default
 			{
 				m_message = "decommissioning";
 			}
-			m_thread = new Thread( new System.Threading.ThreadStart(Run) );
-			m_thread.Start();
+			// m_thread = new Thread( new System.Threading.ThreadStart(Run) );
+			// m_thread.Start();
 		}
 		
 		//------------------------------------------------------------
@@ -109,14 +109,14 @@ namespace Apache.Avalon.Composition.Model.Default
 		/// Throwable subclass that is NOT of type Exception or Error.
 		/// 
 		/// </param>
-		internal virtual void  commission(IDeploymentModel model)
+		public void Commission(IDeploymentModel model)
 		{
 			if (null == model)
 			{
 				throw new System.ArgumentNullException("model");
 			}
 			
-			if (null != m_thread)
+			//if (null != m_thread)
 			{
 				if (m_logger.IsDebugEnabled)
 				{
@@ -131,18 +131,19 @@ namespace Apache.Avalon.Composition.Model.Default
 				}
 				
 				CommissionRequest request = new CommissionRequest(model, m_thread);
-				m_queue.put(request);
-				long t = request.waitForCompletion();
+				m_queue.Put(request);
+				/*long t = request.waitForCompletion();
 				if (m_logger.IsDebugEnabled)
 				{
 					m_logger.Debug(m_message + " of [" + model.Name + "] completed in " + t + " milliseconds");
-				}
+				}*/
 			}
+			/*
 			else
 			{
 				System.String warning = "Ignoring " + m_message + " request on a disposed commissioner.";
 				m_logger.Warn(warning);
-			}
+			}*/
 		}
 		
 		/// <summary> Disposal of the Commissioner.
@@ -150,7 +151,7 @@ namespace Apache.Avalon.Composition.Model.Default
 		/// disposed of before releasing the Commissioner reference.
 		/// 
 		/// </summary>
-		internal virtual void  dispose()
+		public void Dispose()
 		{
 			if (m_logger.IsDebugEnabled)
 			{
@@ -162,7 +163,7 @@ namespace Apache.Avalon.Composition.Model.Default
 			}
 		}
 		
-		public virtual void Run()
+		public void Run()
 		{
 			if (m_logger.IsDebugEnabled)
 			{
@@ -172,7 +173,13 @@ namespace Apache.Avalon.Composition.Model.Default
 			{
 				while (true)
 				{
-					CommissionRequest request = (CommissionRequest) m_queue.get_Renamed();
+					CommissionRequest request = (CommissionRequest) m_queue.Get();
+
+					if (request == null)
+					{
+						break;
+					}
+
 					IDeploymentModel model = request.DeploymentModel;
 					try
 					{
@@ -194,6 +201,7 @@ namespace Apache.Avalon.Composition.Model.Default
 					{
 						request.exception(e);
 					}
+
 				}
 			}
 			catch (System.Threading.ThreadInterruptedException)

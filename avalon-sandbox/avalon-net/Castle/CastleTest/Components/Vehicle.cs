@@ -49,10 +49,10 @@ namespace Apache.Avalon.Container.Test.Components
 	}
 
 	[AvalonService( typeof(IVehicle) )]
-	[AvalonComponent( "Vehicle", Lifestyle.Transient )]
+	[AvalonComponent( "Vehicle", Lifestyle.Singleton )]
 	[AvalonDependency( typeof(IEngine), "Engine", Optional.False)]
 	[AvalonDependency( typeof(IRadio), "Radio", Optional.False)]
-	public class Vehicle : IVehicle, ILookupEnabled, IStartable
+	public class Vehicle : AbstractLogEnabled, IVehicle, IInitializable, ILookupEnabled, IStartable
 	{
 		private IEngine m_engine;
 		private IRadio  m_radio;
@@ -96,12 +96,21 @@ namespace Apache.Avalon.Container.Test.Components
 
 		public void Start()
 		{
-			
+			Logger.Info( "Vehicle -> Start" );
 		}
 
 		public void Stop()
 		{
-			
+			Logger.Info( "Vehicle -> Stop" );
+		}
+
+		#endregion
+	
+		#region IInitializable Members
+
+		public void Initialize()
+		{
+			Logger.Info( "Vehicle -> Initialize" );
 		}
 
 		#endregion

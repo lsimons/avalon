@@ -12,26 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.Default.Deployment
+namespace Apache.Avalon.Castle.Test.ManagedComponents
 {
 	using System;
 
+	using Apache.Avalon.Castle;
+	using Apache.Avalon.Castle.ManagementExtensions;
+
 	/// <summary>
-	/// Summary description for DeploymentException.
+	/// Summary description for ChildComponent.
 	/// </summary>
-	[Serializable]
-	public class DeploymentException : CastleContainerException
+	[ManagedComponent]
+	public class ChildComponent : ManagedService
 	{
-		public DeploymentException(String message) : base(message)
-		{
-		}
-
-		public DeploymentException(String message, Exception inner) : base(message, inner)
-		{
-		}
-
-		public DeploymentException(System.Runtime.Serialization.SerializationInfo info, 
-			System.Runtime.Serialization.StreamingContext context) : base(info, context)
+		public ChildComponent()
 		{
 		}
 	}

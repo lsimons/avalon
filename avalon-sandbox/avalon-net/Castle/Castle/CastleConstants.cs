@@ -26,11 +26,26 @@ namespace Apache.Avalon.Castle
 		/// <summary>
 		/// Pending.
 		/// </summary>
-		public static readonly ManagedObjectName REPOSITORY_NAME = new ManagedObjectName("apache.avalon.castle:name=Repository");
+		public static readonly String CASTLE_DOMAIN = "apache.avalon.castle";
 
 		/// <summary>
 		/// Pending.
 		/// </summary>
-		public static readonly ManagedObjectName ORCHESTRATOR_NAME = new ManagedObjectName("apache.avalon.castle:name=Orchestrator");
+		public static readonly String CASTLE_PHASE_DOMAIN = "apache.avalon.castle.lifecyclephase";
+
+		/// <summary>
+		/// Pending.
+		/// </summary>
+		public static readonly ManagedObjectName REPOSITORY_NAME = new ManagedObjectName(CastleConstants.CASTLE_DOMAIN + ":name=Repository");
+
+		/// <summary>
+		/// Pending.
+		/// </summary>
+		public static readonly ManagedObjectName ORCHESTRATOR_NAME = new ManagedObjectName(CastleConstants.CASTLE_DOMAIN + ":name=Orchestrator");
+
+		/// <summary>
+		/// Pending.
+		/// </summary>
+		public static readonly ManagedObjectName CONTROLLER_NAME = new ManagedObjectName(CastleConstants.CASTLE_DOMAIN + ":name=Controller");
 	}
 }

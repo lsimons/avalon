@@ -56,10 +56,17 @@ namespace Apache.Avalon.Activation.Default.Lifestyles
 		/// </summary>
 		public override void Decommission()
 		{
-			if( m_reference != null )
+			try
 			{
-				Finalize( m_reference.Target );
-				m_reference = null;
+				if( m_reference != null && m_reference.IsAlive )
+				{
+					Finalize( m_reference.Target );
+					m_reference = null;
+				}
+			}
+			catch(Exception)
+			{
+				// Ignores WeakReference exceptions
 			}
 		}
 

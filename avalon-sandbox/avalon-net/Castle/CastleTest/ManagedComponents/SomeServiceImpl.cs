@@ -1,4 +1,4 @@
-// Copyright 2003-2004 The Apache Software Foundation
+// Copyright 2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,34 +12,40 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.Default.Repository
+namespace Apache.Avalon.Castle.Test.ManagedComponents
 {
 	using System;
-	using System.IO;
 
+	using Apache.Avalon.Castle;
 	using Apache.Avalon.Castle.ManagementExtensions;
-	using Apache.Avalon.Repository;
 
 	/// <summary>
-	/// Summary description for DefaultRepository.
+	/// Summary description for SomeServiceImpl.
 	/// </summary>
 	[ManagedComponent]
-	public class DefaultRepository : ManagedService, IRepository
+	public class SomeServiceImpl : ManagedService, ISomeService
 	{
-		String basePath;
+		public static readonly String VERSION = "1.1.2.1233";
 
-		public DefaultRepository()
+		public SomeServiceImpl()
 		{
-			basePath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
 		}
-	
-		#region IRepository Members
+
+		#region ISomeService Members
 
 		[ManagedOperation]
-		public Uri GetResource(Artifact artifact)
+		public int DoSomething(int x, int y)
 		{
-			// TODO:  Add DefaultRepository.GetResource implementation
-			return null;
+			return x*y;
+		}
+
+		[ManagedAttribute]
+		public String Version
+		{
+			get
+			{
+				return VERSION;
+			}
 		}
 
 		#endregion

@@ -24,6 +24,10 @@ namespace Apache.Avalon.Castle
 		/// <summary>
 		/// Pending
 		/// </summary>
+		Activator,
+		/// <summary>
+		/// Pending
+		/// </summary>
 		EnableLogging,
 		/// <summary>
 		/// Pending

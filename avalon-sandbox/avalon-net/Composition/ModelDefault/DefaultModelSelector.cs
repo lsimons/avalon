@@ -31,7 +31,7 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// </summary>
 	/// <author>  <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/28 22:15:42 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/03/07 22:06:40 $
 	/// </version>
 	class DefaultModelSelector : IModelSelector
 	{
@@ -76,14 +76,12 @@ namespace Apache.Avalon.Composition.Model.Default
 		
 		private IDeploymentModel[] FilterCandidateProviders(IDeploymentModel[] models, DependencyDescriptor dependency)
 		{
-			//UPGRADE_ISSUE: Class hierarchy differences between 'java.util.ArrayList' and 'System.Collections.ArrayList' may cause compilation errors. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1186"'
 			System.Collections.ArrayList list = new System.Collections.ArrayList();
 			for (int i = 0; i < models.Length; i++)
 			{
 				IDeploymentModel model = models[i];
 				if (model.IsaCandidate(dependency))
 				{
-					//UPGRADE_TODO: The equivalent in .NET for method 'java.util.ArrayList.add' may return a different value. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1043"'
 					list.Add(model);
 				}
 			}
@@ -92,14 +90,12 @@ namespace Apache.Avalon.Composition.Model.Default
 		
 		private IDeploymentModel[] FilterCandidateProviders(IDeploymentModel[] models, StageDescriptor stage)
 		{
-			//UPGRADE_ISSUE: Class hierarchy differences between 'java.util.ArrayList' and 'System.Collections.ArrayList' may cause compilation errors. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1186"'
 			System.Collections.ArrayList list = new System.Collections.ArrayList();
 			for (int i = 0; i < models.Length; i++)
 			{
 				IDeploymentModel model = models[i];
 				if (model.IsaCandidate(stage))
 				{
-					//UPGRADE_TODO: The equivalent in .NET for method 'java.util.ArrayList.add' may return a different value. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1043"'
 					list.Add(model);
 				}
 			}
@@ -109,7 +105,6 @@ namespace Apache.Avalon.Composition.Model.Default
 		/// <summary> Select a model from a set of models based on a priority ordering
 		/// of EXPLICIT, PACKAGE and lastly IMPLICIT.  If multiple candidates
 		/// exist for a particulr mode, return the first candidate.
-		/// 
 		/// </summary>
 		/// <param name="profiles">the set of candidate profiles
 		/// </param>

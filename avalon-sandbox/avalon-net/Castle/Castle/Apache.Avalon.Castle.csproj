@@ -135,14 +135,14 @@
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "Apache.Avalon.Activation.Default"
-                    Project = "{E311F863-2E58-4466-94A2-31A68B341C87}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
                     Name = "Apache.Avalon.DynamicProxy"
                     AssemblyName = "Apache.Avalon.DynamicProxy"
                     HintPath = "..\bin\Apache.Avalon.DynamicProxy.dll"
+                />
+                <Reference
+                    Name = "Apache.Avalon.Castle.Util"
+                    Project = "{9F05CEFB-1E80-42C0-A2D2-A5A045B71083}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
         </Build>
@@ -254,6 +254,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Core\ListenersCollection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Core\ListenersHolder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Core\Orchestrator.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -269,62 +279,37 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Core\Proxies\ManagedObjectProxyGenerator.cs"
+                    RelPath = "Core\Default\Deployment\BlockDeployment.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Default\Configuration\ConfigurationManager.cs"
+                    RelPath = "Core\Default\Deployment\DeployerBase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Default\Deployment\BlockDeployment.cs"
+                    RelPath = "Core\Default\Deployment\DeployerStats.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Default\Deployment\DeployerBase.cs"
+                    RelPath = "Core\Default\Deployment\DeployManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Default\Deployment\DeployerStats.cs"
+                    RelPath = "Core\Default\Deployment\DeploymentException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Default\Deployment\DeployManager.cs"
+                    RelPath = "Core\Default\Logger\DefaultLoggerManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Default\Deployment\DeploymentException.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Default\Logger\DefaultLoggerManager.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Default\Lookup\DefaultLookupManager.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Default\Repository\DefaultRepository.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Default\Runtime\CastleRuntime.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Default\Runtime\DefaultRuntime.cs"
+                    RelPath = "Core\Default\Repository\DefaultRepository.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -340,16 +325,6 @@
                 />
                 <File
                     RelPath = "Logger\Config\LoggerConfigSectionHandler.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Util\IOUtil.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Util\MXUtil.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -28,7 +28,7 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.2 $ $Date: 2004/02/29 18:07:17 $
+	/// <version>  $Revision: 1.3 $ $Date: 2004/03/07 22:06:40 $
 	/// </version>
 	public class DefaultDependencyModel : DefaultDependent, IDependencyModel
 	{
@@ -40,19 +40,14 @@ namespace Apache.Avalon.Composition.Model.Default
 		// immutable state
 		//--------------------------------------------------------------
 		
-		//UPGRADE_NOTE: Final was removed from the declaration of 'm_descriptor '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
 		private DependencyDescriptor m_descriptor;
 		
-		//UPGRADE_NOTE: Final was removed from the declaration of 'm_directive '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
 		private DependencyDirective m_directive;
 		
-		//UPGRADE_NOTE: Final was removed from the declaration of 'm_partition '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
 		private String m_partition;
 		
-		//UPGRADE_NOTE: Final was removed from the declaration of 'm_name '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
 		private String m_name;
 		
-		//UPGRADE_NOTE: Final was removed from the declaration of 'm_source '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
 		private String m_source;
 		
 		//--------------------------------------------------------------
@@ -131,7 +126,6 @@ namespace Apache.Avalon.Composition.Model.Default
 		/// and the directive contains a source declaration, the value 
 		/// returned is the result of parsing the source value relative 
 		/// to the absolute address of the implementing component.
-		/// 
 		/// </summary>
 		/// <returns> the explicit path
 		/// </returns>
@@ -179,7 +173,6 @@ namespace Apache.Avalon.Composition.Model.Default
 		private ServiceDescriptor[] Filter(DependencyDirective directive, ServiceDescriptor[] services)
 		{
 			SelectionDirective[] filters = GetFilters(directive);
-			//UPGRADE_ISSUE: Class hierarchy differences between 'java.util.ArrayList' and 'System.Collections.ArrayList' may cause compilation errors. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1186"'
 			System.Collections.ArrayList list = new System.Collections.ArrayList();
 			
 			for (int i = 0; i < services.Length; i++)
@@ -215,11 +208,8 @@ namespace Apache.Avalon.Composition.Model.Default
 		
 		private bool IsaCandidate(ServiceDescriptor service, SelectionDirective filter)
 		{
-			//UPGRADE_NOTE: Final was removed from the declaration of 'feature '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
 			String feature = filter.Feature;
-			//UPGRADE_NOTE: Final was removed from the declaration of 'value '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
 			String value_Renamed = filter.Value;
-			//UPGRADE_NOTE: Final was removed from the declaration of 'criteria '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
 			String criteria = filter.Criteria;
 			
 			if (criteria.Equals(SelectionDirective.EQUALS))
@@ -232,7 +222,6 @@ namespace Apache.Avalon.Composition.Model.Default
 			}
 			else if (criteria.Equals(SelectionDirective.INCLUDES))
 			{
-				//UPGRADE_NOTE: Final was removed from the declaration of 'v '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
 				String v = service.GetAttribute(feature);
 				if ((System.Object) v != null)
 				{
@@ -258,7 +247,6 @@ namespace Apache.Avalon.Composition.Model.Default
 			}
 			else if (path.StartsWith("../"))
 			{
-				//UPGRADE_NOTE: Final was removed from the declaration of 'parent '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
 				String parent = GetParenPath(partition);
 				return resolvePath(parent, path.Substring(3));
 			}
@@ -289,7 +277,6 @@ namespace Apache.Avalon.Composition.Model.Default
 			}
 			else
 			{
-				//UPGRADE_NOTE: Final was removed from the declaration of 'error '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
 				String error = "Illegal attempt to reference a containment context above the root context.";
 				throw new System.ArgumentException(error);
 			}
@@ -302,7 +289,6 @@ namespace Apache.Avalon.Composition.Model.Default
 		/// </returns>
 		private SelectionDirective[] GetFilters(DependencyDirective directive)
 		{
-			//UPGRADE_ISSUE: Class hierarchy differences between 'java.util.ArrayList' and 'System.Collections.ArrayList' may cause compilation errors. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1186"'
 			System.Collections.ArrayList list = new System.Collections.ArrayList();
 			SelectionDirective[] selections = directive.SelectionDirectives;
 			for (int i = 0; i < selections.Length; i++)
@@ -310,7 +296,6 @@ namespace Apache.Avalon.Composition.Model.Default
 				SelectionDirective selection = selections[i];
 				if (selection.Required)
 				{
-					//UPGRADE_TODO: The equivalent in .NET for method 'java.util.ArrayList.add' may return a different value. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1043"'
 					list.Add(selection);
 				}
 			}
