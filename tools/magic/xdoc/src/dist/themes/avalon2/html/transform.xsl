@@ -8,27 +8,21 @@
   <xsl:template match="document">
     <html>
     <head>
+      <title>
+        <xsl:value-of select="properties/title" />
+      </title>
       <link rel="stylesheet" href="print.css" type="text/css" media="print"></link>
-      <link rel="stylesheet" href="/avalon/resources/style.css" type="text/css"></link>
-      <xsl:apply-templates select="properties" />
+      <link rel="stylesheet" type="text/css">
+        <xsl:attribute name="href"><xsl:value-of select="document('navigation.xml', / )/project/body/menu//level" />resources/style.css</xsl:attribute>
+      </link>
     </head>
       <xsl:apply-templates select="body" />
     </html>    
   </xsl:template>
   
-  <xsl:template match="properties">
-      <xsl:apply-templates />
-  </xsl:template>
-  
   <xsl:template match="author">
-    <meta name="author"><xsl:attribute name="content"><xsl:value-of select="."/></xsl:attribute></meta>
-    <meta name="email"><xsl:attribute name="content"><xsl:value-of select="@email"/></xsl:attribute></meta>
-  </xsl:template>
-  
-  <xsl:template match="title">
-    <title>
-      <xsl:value-of select="." />
-    </title>
+    <meta name="author"><xsl:attribute name="content"><xsl:value-of select="." /></xsl:attribute></meta>
+    <meta name="email"><xsl:attribute name="content"><xsl:value-of select="@email" /></xsl:attribute></meta>
   </xsl:template>
   
   <xsl:template match="body">
@@ -36,7 +30,9 @@
       <table class="logobar" >
         <tr>
           <td class="feather" width="167px"  >
-            <img src="/avalon/resources/feather.jpg" />
+            <img>
+              <xsl:attribute name="src"><xsl:value-of select="document('navigation.xml', / )/project/body/menu//level" />resources/feather.jpg</xsl:attribute>
+            </img>
           </td>
           <td class="panel">
             <div class="project">Apache Avalon</div>
@@ -46,12 +42,19 @@
       </table>
       
       <div class="icons">
-        <img class="pdf" src="/images/pdf.png" />
-        <img class="printer" src="/images/printer.png" />
+        <img class="pdf" >
+          <xsl:attribute name="src"><xsl:value-of select="document('navigation.xml', / )/project/body/menu//level" />resource/pdf.png</xsl:attribute>
+        </img>
+        <img class="printer" >
+          <xsl:attribute name="src"><xsl:value-of select="document('navigation.xml', / )/project/body/menu//level" />resource/printer.png</xsl:attribute>
+        </img>
       </div>
       
       <div class="categorybar">
-        <a href="/" class="homecategory">Home</a>
+        <a class="homecategory">
+          <xsl:attribute name="href"><xsl:value-of select="document('navigation.xml', / )/project/body/menu//level" />index.html</xsl:attribute>
+          Home
+        </a>
         
         <xsl:apply-templates select="document('navigation.xml', / )/project/body//category/item" >
           <xsl:with-param name="dir" select="''" />
@@ -139,7 +142,7 @@
     <a>
       <xsl:attribute name="class"><xsl:value-of select="$class" /></xsl:attribute>
       <xsl:attribute name="href">
-        <xsl:value-of select="concat( $dir, @href )"/>
+        <xsl:value-of select="concat( $dir, @href )" />
       </xsl:attribute>
       <xsl:value-of select="@name" />
     </a>
