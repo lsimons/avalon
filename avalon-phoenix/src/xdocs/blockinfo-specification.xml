@@ -17,11 +17,11 @@
   <body>
     <s1 title="Block Metadata">
       <p>
-        The meta-data about each block is stored in a BlockInfo file. The meta-data
+        The meta-data about each block is stored in a BlockInfo file. The info
         includes details on what version the block is, what <code>Service</code>s
         it depends upon and which <code>Service</code>s it can offer to other Blocks.
-        The meta-data also has links to the location of documentation, license details,
-        authors and icons. 
+        In the future the info will also store such data as the schema for configuring
+        the block.
       </p>
 
       <p>
@@ -98,7 +98,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2001/09/20 14:29:31 $
+      $Revision: 1.5 $ $Date: 2001/11/05 23:41:03 $
     </legal>
   </footer>
 </document>

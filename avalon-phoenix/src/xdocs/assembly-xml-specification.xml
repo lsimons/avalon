@@ -36,9 +36,9 @@
 
 <assembly>
 
-    <block name="myListener" 
+    <block-listener name="myListener" 
            class="com.biz.cornerstone.listeners.MyListener">
-    </block>
+    </block-listener>
 
     <block name="myAuthorizer" 
            class="com.biz.cornerstone.blocks.MyAuthorizer">
@@ -58,7 +58,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2001/09/22 04:33:50 $
+      $Revision: 1.5 $ $Date: 2001/11/05 23:41:03 $
     </legal>
   </footer>
 </document>
