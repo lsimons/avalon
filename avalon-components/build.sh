@@ -4,9 +4,11 @@ echo
 echo "Cornerstone Build System"
 echo "------------------------"
 
-unset ANT_HOME
+if [ "$AVALON_TOOLS" = "" ] ; then
+    AVALON_TOOLS=../jakarta-avalon/tools
+fi
 
-chmod u+x ./tools/bin/antRun
-chmod u+x ./tools/bin/ant
+chmod u+x $AVALON_TOOLS/bin/antRun
+chmod u+x $AVALON_TOOLS/bin/ant
 
-./tools/bin/ant -logger org.apache.tools.ant.NoBannerLogger -emacs $@ 
+$AVALON_TOOLS/bin/ant -logger org.apache.tools.ant.NoBannerLogger -emacs -Dtools.dir=$AVALON_TOOLS $@ 
