@@ -68,7 +68,7 @@ public class DefaultClassLoaderManager
      * @param server the configuration "server.xml" for the application
      * @param source the source of application. (usually the name of the .sar file
      *               or else the same as baseDirectory)
-     * @param baseDirectory the base directory of application
+     * @param homeDirectory the base directory of application
      * @param classPath the list of URLs in applications deployment
      * @return the ClassLoader created
      * @exception Exception if an error occurs
