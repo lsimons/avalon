@@ -99,7 +99,7 @@ public class DefaultServer
    /** 
     * Mapping table for URL space to Servlet
     */
-    private HashMap m_ServletMap;
+    private HashMap m_ComponentMap;
      
 
    //---------------------------------------------------------
@@ -168,6 +168,8 @@ public class DefaultServer
 
         m_server.setTrace( true );
 
+        // Niclas: This needs to be changed ASAP as Jetty has 
+        //         moved into Commons-Logging in the next generation.
         //
         // map the jetty logging channel to the avalon logger
         //
@@ -238,7 +240,7 @@ public class DefaultServer
             String component = servletConf.getChild( "component" ).getValue( "" );
             String url = servletConf.getChild( "url" ).getValue( "" );
             if( ! "".equals( component ) && ! "".equals( url ) )
-                m_ServletMap.put( component.trim(), url.trim() );
+                m_ComponentMap.put( component.trim(), url.trim() );
         }
     }
         
@@ -273,15 +275,14 @@ public class DefaultServer
     public void register( ComponentModel model )
     {
         final String path = model.getPath();
-        final String url = (String) m_ServletMap.get( path );
+        final String url = (String) m_ComponentMap.get( path );
         
         getLogger().info( 
           "registering servlet: " 
           + path + " to url: " + url );
         
-        HttpContext context = m_server.getContext( path + "*" );
-        ContainmentModelHandler handler = 
-          getContainmentHandler( context, path );
+        HttpContext context = m_server.getContext( path );
+        ContainmentModelHandler handler = getContainmentHandler( context, path );
         handler.addComponentModel( model );
         m_server.addContext( context );
         if( m_server.isStarted() )
@@ -297,6 +298,23 @@ public class DefaultServer
         }
     }
 
+   /**
+    * Unregister a servlet under a context.
+    * @param model the component model
+    */
+    public void unregister( ComponentModel model )
+    {
+        final String path = model.getPath();
+        final String url = (String) m_ComponentMap.get( path );
+        
+        getLogger().info( 
+          "unregistering servlet: " 
+          + path + " from url: " + url );
+        
+        HttpContext context = m_server.getContext( path );
+        m_server.removeContext( context );
+    }
+    
     private ContainmentModelHandler getContainmentHandler( 
       HttpContext context, String partition )
     {

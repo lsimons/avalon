@@ -76,12 +76,12 @@ class ComponentModelHolder extends ServletHolder
                IOException
     {        
 
-        boolean servlet_error=true;
+        boolean servlet_error = true;
 
         try
         {
             m_adapter.service( request, response );
-            servlet_error=false;
+            servlet_error = false;
         }
         catch(UnavailableException e)
         {
