@@ -175,8 +175,21 @@ public class XinfoFactory
         {
             String dependencyName = (String) it.next();
             DocletTag dependency = (DocletTag) m_dependencies.get( dependencyName );
+            String role = dependency.getNamedParameter( "role" );
+            if (role != null)
+            {
+                if (role.startsWith("\""))
+                {
+                    role = role.substring(1,role.length());
+                }
+                if (role.endsWith("\""))
+                {
+                    role = role.substring(0,role.length()-1);
+                }
+            }
             xinfo.writeDependencyLines( dependencyName,
-                            dependency.getNamedParameter( "version" ) );
+                    dependency.getNamedParameter( "version" ),
+                    role);
         }
     }
 

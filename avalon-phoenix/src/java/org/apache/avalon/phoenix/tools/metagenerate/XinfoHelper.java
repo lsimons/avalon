@@ -61,6 +61,7 @@ public class XinfoHelper extends AbstractHelper
     private static final String[] DEPENDENCY_SECTION = new String[]{
 
         "    <dependency>",
+        "      <role>@ROLE-NAME@</role>",
         "      <service name=\"@SERVICE-CLASS@\"@VERSION@/>",
         "    </dependency>"};
 
@@ -161,9 +162,12 @@ public class XinfoHelper extends AbstractHelper
     /**
      * Write Dependency Lines
      * @param dependency The Dependency
+     * @param version The version
+     * @param role The role name
      * @throws IOException If a problem writing output
      */
-    public void writeDependencyLines(String dependency, String version) throws IOException
+    public void writeDependencyLines(String dependency, String version, String role)
+            throws IOException
     {
         version = version == null ? "" : " version=" + version;
         for (int i = 0; i < DEPENDENCY_SECTION.length; i++)
@@ -171,7 +175,11 @@ public class XinfoHelper extends AbstractHelper
             String line = DEPENDENCY_SECTION[i];
             line = replaceString(line, "\"@SERVICE-CLASS@\"", dependency);
             line = replaceString(line, "@VERSION@", version);
-            m_output.write(line + "\n");
+            line = replaceString(line, "@ROLE-NAME@", role);
+            if (line.indexOf("<role>") == -1 | role != null)
+            {
+                m_output.write(line + "\n");
+            }
         }
     }
 
