@@ -89,12 +89,15 @@ public class MX4JSystemManager
     private static final String DEFAULT_NAMING_FACTORY =
         "com.sun.jndi.rmi.profile.RegistryContextFactory";
     private static final String DEFAULT_HTTPADAPTER_HOST = "localhost";
-    private static final int DEFAULT_HTTPADAPTER_PORT =
-        Integer.getInteger( "phoenix.adapter.http", 8082 ).intValue();
+	private static final int DEFAULT_HTTPADAPTER_PORT =
+		Integer.getInteger( "phoenix.adapter.http", 8082 ).intValue();
+	private static final int DEFAULT_RMIREGISTRY_PORT =
+		Integer.getInteger( "phoenix.rmiregistry.port", 1099 ).intValue();
 
     private String m_host;
     private int m_port;
     private boolean m_rmi;
+    private int m_rmi_registry_port;
     private File m_homeDir;
     private String m_stylesheetDir;
     private String m_namingFactory;
@@ -125,6 +128,7 @@ public class MX4JSystemManager
         getLogger().debug( "MX4J HTTP listener port: " + m_port );
 
         m_rmi = configuration.getChild( "enable-rmi-adaptor" ).getValueAsBoolean( false );
+        m_rmi_registry_port = configuration.getChild("rmi-registry-port").getValueAsInteger(DEFAULT_RMIREGISTRY_PORT);
         m_http = configuration.getChild( "enable-http-adaptor" ).getValueAsBoolean( false );
 
         m_namingFactory =
@@ -241,7 +245,12 @@ public class MX4JSystemManager
     {
         // Create and start the naming service
         final ObjectName naming = new ObjectName( "Naming:type=rmiregistry" );
-        server.createMBean( "mx4j.tools.naming.NamingService", naming, null );
+        server.createMBean(	"mx4j.tools.naming.NamingService", 
+        					naming,
+        					null, 
+        					new Object[] {new Integer(m_rmi_registry_port)}, 
+        					new String[] {"int"}
+        					);
         server.invoke( naming, "start", null, null );
 
         // Create the JRMP adaptor
@@ -256,6 +265,8 @@ public class MX4JSystemManager
 
         mbean.putJNDIProperty( javax.naming.Context.INITIAL_CONTEXT_FACTORY,
                                m_namingFactory );
+		mbean.putJNDIProperty(javax.naming.Context.PROVIDER_URL, "rmi://localhost:" + m_rmi_registry_port);
+
         // Register the JRMP adaptor in JNDI and start it
         mbean.start();
     }
