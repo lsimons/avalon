@@ -63,7 +63,7 @@ import org.apache.avalon.composition.data.Mode;
  * Abstract model base class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9.2.6 $ $Date: 2004/01/06 23:16:49 $
+ * @version $Revision: 1.9.2.7 $ $Date: 2004/01/07 12:49:42 $
  */
 public abstract class DefaultDeploymentModel
   implements DeploymentModel
@@ -80,6 +80,12 @@ public abstract class DefaultDeploymentModel
     //--------------------------------------------------------------
 
     private final DeploymentContext m_context;
+
+    //--------------------------------------------------------------
+    // muttable state
+    //--------------------------------------------------------------
+
+    private Object m_handler = null;
 
     //--------------------------------------------------------------
     // constructor
@@ -160,6 +166,24 @@ public abstract class DefaultDeploymentModel
     public DeploymentModel[] getProviderGraph()
     {
         return m_context.getDependencyGraph().getProviderGraph( this );
+    }
+
+   /**
+    * Set the runtime handler for the model.
+    * @param handler the runtime handler
+    */
+    public void setHandler( Object handler )
+    {
+        m_handler = handler;
+    }
+
+   /**
+    * Get the assigned runtime handler for the model.
+    * @return the runtime handler
+    */
+    public Object getHandler()
+    {
+        return m_handler;
     }
 
     //--------------------------------------------------------------
