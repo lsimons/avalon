@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.jmx.adaptor;
+package org.apache.avalon.phoenix.components.manager.rmiadaptor;
 
 import java.io.ObjectInputStream;
 import java.rmi.RemoteException;
@@ -31,6 +31,7 @@ import javax.management.ObjectName;
 import javax.management.OperationsException;
 import javax.management.QueryExp;
 import javax.management.ReflectionException;
+import org.apache.avalon.phoenix.components.manager.rmiadaptor.RMIAdaptor;
 
 /**
  * This is the RMI connection representing an MBeanServer. It is

@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.jmx.adaptor;
+package org.apache.avalon.phoenix.components.manager.rmiadaptor;
 
 import java.io.ObjectInputStream;
 import java.rmi.Remote;
@@ -37,7 +37,7 @@ import javax.management.ReflectionException;
  * to remote operations.
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/03/16 00:11:56 $
+ * @version CVS $Revision: 1.1 $ $Date: 2002/03/25 08:28:09 $
  */
 public interface RMIAdaptor
     extends Remote
@@ -51,13 +51,13 @@ public interface RMIAdaptor
      *
      * @param className The class name of the object to be instantiated.
      * @return The newly instantiated object.
-     * @exception ReflectionException Wraps a <CODE>
+     * @exception javax.management.ReflectionException Wraps a <CODE>
      *      java.lang.ClassNotFoundException</CODE> or the <CODE>
      *      java.lang.Exception</CODE> that occurred when trying to invoke the
      *      object's constructor.
-     * @exception MBeanException The constructor of the object has thrown an
+     * @exception javax.management.MBeanException The constructor of the object has thrown an
      *      exception
-     * @exception RemoteException RMI Exception
+     * @exception java.rmi.RemoteException RMI Exception
      */
     Object instantiate( String className )
         throws ReflectionException, MBeanException, RemoteException;
@@ -72,15 +72,15 @@ public interface RMIAdaptor
      * @param className The class name of the MBean to be instantiated.
      * @param loaderName The object name of the class loader to be used.
      * @return The newly instantiated object.
-     * @exception ReflectionException Wraps a <CODE>
+     * @exception javax.management.ReflectionException Wraps a <CODE>
      *      java.lang.ClassNotFoundException</CODE> or the <CODE>
      *      java.lang.Exception</CODE> that occurred when trying to invoke the
      *      object's constructor.
-     * @exception MBeanException The constructor of the object has thrown an
+     * @exception javax.management.MBeanException The constructor of the object has thrown an
      *      exception.
-     * @exception InstanceNotFoundException The specified class loader is not
+     * @exception javax.management.InstanceNotFoundException The specified class loader is not
      *      registered in the MBaenServer.
-     * @exception RemoteException RMI Exception
+     * @exception java.rmi.RemoteException RMI Exception
      */
     Object instantiate( String className, ObjectName loaderName )
         throws ReflectionException, MBeanException, InstanceNotFoundException, RemoteException;
@@ -98,13 +98,13 @@ public interface RMIAdaptor
      * @param signature An array containing the signature of the constructor to
      *      be invoked.
      * @return The newly instantiated object.
-     * @exception ReflectionException Wraps a <CODE>
+     * @exception javax.management.ReflectionException Wraps a <CODE>
      *      java.lang.ClassNotFoundException</CODE> or the <CODE>
      *      java.lang.Exception</CODE> that occurred when trying to invoke the
      *      object's constructor.
-     * @exception MBeanException The constructor of the object has thrown an
+     * @exception javax.management.MBeanException The constructor of the object has thrown an
      *      exception
-     * @exception RemoteException RMI Exception
+     * @exception java.rmi.RemoteException RMI Exception
      */
     Object instantiate( String className, Object params[], String signature[] )
         throws ReflectionException, MBeanException, RemoteException;
@@ -123,15 +123,15 @@ public interface RMIAdaptor
      *      be invoked.
      * @param loaderName The object name of the class loader to be used.
      * @return The newly instantiated object.
-     * @exception ReflectionException Wraps a <CODE>
+     * @exception javax.management.ReflectionException Wraps a <CODE>
      *      java.lang.ClassNotFoundException</CODE> or the <CODE>
      *      java.lang.Exception</CODE> that occurred when trying to invoke the
      *      object's constructor.
-     * @exception MBeanException The constructor of the object has thrown an
+     * @exception javax.management.MBeanException The constructor of the object has thrown an
      *      exception
-     * @exception InstanceNotFoundException The specified class loader is not
+     * @exception javax.management.InstanceNotFoundException The specified class loader is not
      *      registered in the MBean server.
-     * @exception RemoteException RMI Exception
+     * @exception java.rmi.RemoteException RMI Exception
      */
     Object instantiate( String className, ObjectName loaderName, Object params[], String signature[] )
         throws ReflectionException, MBeanException, InstanceNotFoundException, RemoteException;
@@ -150,20 +150,20 @@ public interface RMIAdaptor
      * @param name The object name of the MBean. May be null.
      * @return An <CODE>ObjectInstance</CODE> , containing the <CODE>ObjectName
      *      </CODE>and the Java class name of the newly instantiated MBean.
-     * @exception ReflectionException Wraps a <CODE>
+     * @exception javax.management.ReflectionException Wraps a <CODE>
      *      java.lang.ClassNotFoundException</CODE> or a <CODE><CODE>
      *      java.lang.Exception</CODE></CODE> that occurred when trying to
      *      invoke the MBean's constructor.
-     * @exception InstanceAlreadyExistsException The MBean is already under the
+     * @exception javax.management.InstanceAlreadyExistsException The MBean is already under the
      *      control of the MBean server.
-     * @exception MBeanRegistrationException The <CODE>preRegister</CODE> (
+     * @exception javax.management.MBeanRegistrationException The <CODE>preRegister</CODE> (
      *      <CODE>MBeanRegistration</CODE> interface) method of the MBean has
      *      thrown an exception. The MBean will not be registered.
-     * @exception MBeanException The constructor of the MBean has thrown an
+     * @exception javax.management.MBeanException The constructor of the MBean has thrown an
      *      exception
-     * @exception NotCompliantMBeanException This class is not a JMX compliant
+     * @exception javax.management.NotCompliantMBeanException This class is not a JMX compliant
      *      MBean
-     * @exception RemoteException RMI Exception
+     * @exception java.rmi.RemoteException RMI Exception
      */
     ObjectInstance createMBean( String className, ObjectName name )
         throws ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException,
@@ -184,22 +184,22 @@ public interface RMIAdaptor
      * @param loaderName The object name of the class loader to be used.
      * @return An <CODE>ObjectInstance</CODE> , containing the <CODE>ObjectName
      *      </CODE>and the Java class name of the newly instantiated MBean.
-     * @exception ReflectionException Wraps a <CODE>
+     * @exception javax.management.ReflectionException Wraps a <CODE>
      *      java.lang.ClassNotFoundException</CODE> or a <CODE>
      *      java.lang.Exception</CODE> that occurred when trying to invoke the
      *      MBean's constructor.
-     * @exception InstanceAlreadyExistsException The MBean is already under the
+     * @exception javax.management.InstanceAlreadyExistsException The MBean is already under the
      *      control of the MBean server.
-     * @exception MBeanRegistrationException The <CODE>preRegister</CODE> (
+     * @exception javax.management.MBeanRegistrationException The <CODE>preRegister</CODE> (
      *      <CODE>MBeanRegistration</CODE> interface) method of the MBean has
      *      thrown an exception. The MBean will not be registered.
-     * @exception MBeanException The constructor of the MBean has thrown an
+     * @exception javax.management.MBeanException The constructor of the MBean has thrown an
      *      exception
-     * @exception NotCompliantMBeanException This class is not a JMX compliant
+     * @exception javax.management.NotCompliantMBeanException This class is not a JMX compliant
      *      MBean
-     * @exception InstanceNotFoundException The specified class loader is not
+     * @exception javax.management.InstanceNotFoundException The specified class loader is not
      *      registered in the MBean server.
-     * @exception RemoteException RMI Exception
+     * @exception java.rmi.RemoteException RMI Exception
      */
     ObjectInstance createMBean( String className, ObjectName name, ObjectName loaderName )
         throws ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException,
@@ -223,19 +223,19 @@ public interface RMIAdaptor
      *      be invoked.
      * @return An <CODE>ObjectInstance</CODE> , containing the <CODE>ObjectName
      *      </CODE>and the Java class name of the newly instantiated MBean.
-     * @exception ReflectionException Wraps a <CODE>
+     * @exception javax.management.ReflectionException Wraps a <CODE>
      *      java.lang.ClassNotFoundException</CODE> or a <CODE>
      *      java.lang.Exception</CODE> that occurred when trying to invoke the
      *      MBean's constructor.
-     * @exception InstanceAlreadyExistsException The MBean is already under the
+     * @exception javax.management.InstanceAlreadyExistsException The MBean is already under the
      *      control of the MBean server.
-     * @exception MBeanRegistrationException The <CODE>preRegister</CODE> (
+     * @exception javax.management.MBeanRegistrationException The <CODE>preRegister</CODE> (
      *      <CODE>MBeanRegistration</CODE> interface) method of the MBean has
      *      thrown an exception. The MBean will not be registered.
-     * @exception MBeanException The constructor of the MBean has thrown an
+     * @exception javax.management.MBeanException The constructor of the MBean has thrown an
      *      exception
-     * @exception NotCompliantMBeanException If the mBean is invalid form
-     * @exception RemoteException RMI Exception
+     * @exception javax.management.NotCompliantMBeanException If the mBean is invalid form
+     * @exception java.rmi.RemoteException RMI Exception
      */
     ObjectInstance createMBean( String className, ObjectName name, Object params[], String signature[] )
         throws ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException,
@@ -260,22 +260,22 @@ public interface RMIAdaptor
      * @param loaderName The object name of the class loader to be used.
      * @return An <CODE>ObjectInstance</CODE> , containing the <CODE>ObjectName
      *      </CODE>and the Java class name of the newly instantiated MBean.
-     * @exception ReflectionException Wraps a <CODE>
+     * @exception javax.management.ReflectionException Wraps a <CODE>
      *      java.lang.ClassNotFoundException</CODE> or a <CODE>
      *      java.lang.Exception</CODE> that occurred when trying to invoke the
      *      MBean's constructor.
-     * @exception InstanceAlreadyExistsException The MBean is already under the
+     * @exception javax.management.InstanceAlreadyExistsException The MBean is already under the
      *      control of the MBean server.
-     * @exception MBeanRegistrationException The <CODE>preRegister</CODE> (
+     * @exception javax.management.MBeanRegistrationException The <CODE>preRegister</CODE> (
      *      <CODE>MBeanRegistration</CODE> interface) method of the MBean has
      *      thrown an exception. The MBean will not be registered.
-     * @exception MBeanException The constructor of the MBean has thrown an
+     * @exception javax.management.MBeanException The constructor of the MBean has thrown an
      *      exception
-     * @exception InstanceNotFoundException The specified class loader is not
+     * @exception javax.management.InstanceNotFoundException The specified class loader is not
      *      registered in the MBean server.
-     * @exception NotCompliantMBeanException DOC: Insert Description of
+     * @exception javax.management.NotCompliantMBeanException DOC: Insert Description of
      *      Exception
-     * @exception RemoteException RMI Exception
+     * @exception java.rmi.RemoteException RMI Exception
      */
     ObjectInstance createMBean( String className,
                                 ObjectName name,
@@ -296,14 +296,14 @@ public interface RMIAdaptor
      * @param name The object name of the MBean. May be null.
      * @return The <CODE>ObjectInstance</CODE> for the MBean that has been
      *      registered.
-     * @exception InstanceAlreadyExistsException The MBean is already under the
+     * @exception javax.management.InstanceAlreadyExistsException The MBean is already under the
      *      control of the MBean server.
-     * @exception MBeanRegistrationException The <CODE>preRegister</CODE> (
+     * @exception javax.management.MBeanRegistrationException The <CODE>preRegister</CODE> (
      *      <CODE>MBeanRegistration</CODE> interface) method of the MBean has
      *      thrown an exception. The MBean will not be registered.
-     * @exception NotCompliantMBeanException This object is not a JMX compliant
+     * @exception javax.management.NotCompliantMBeanException This object is not a JMX compliant
      *      MBean
-     * @exception RemoteException DOC: Insert Description of Exception
+     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
      */
     ObjectInstance registerMBean( Object object, ObjectName name )
         throws InstanceAlreadyExistsException, MBeanRegistrationException,
@@ -315,12 +315,12 @@ public interface RMIAdaptor
      * longer be accessed by its object name.
      *
      * @param name The object name of the MBean to be de-registered.
-     * @exception InstanceNotFoundException The MBean specified is not
+     * @exception javax.management.InstanceNotFoundException The MBean specified is not
      *      registered in the MBean server.
-     * @exception MBeanRegistrationException The preDeregister (( <CODE>
+     * @exception javax.management.MBeanRegistrationException The preDeregister (( <CODE>
      *      MBeanRegistration</CODE> interface) method of the MBean has thrown
      *      an exception.
-     * @exception RemoteException DOC: Insert Description of Exception
+     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
      */
     void unregisterMBean( ObjectName name )
         throws InstanceNotFoundException, MBeanRegistrationException, RemoteException;
@@ -332,9 +332,9 @@ public interface RMIAdaptor
      * @param name The object name of the MBean.
      * @return The <CODE>ObjectInstance</CODE> associated to the MBean specified
      *      by <VAR>name</VAR> .
-     * @exception InstanceNotFoundException The MBean specified is not
+     * @exception javax.management.InstanceNotFoundException The MBean specified is not
      *      registered in the MBean server.
-     * @exception RemoteException DOC: Insert Description of Exception
+     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
      */
     ObjectInstance getObjectInstance( ObjectName name )
         throws InstanceNotFoundException, RemoteException;
@@ -357,7 +357,7 @@ public interface RMIAdaptor
      * @return A set containing the <CODE>ObjectInstance</CODE> objects for the
      *      selected MBeans. If no MBean satisfies the query an empty list is
      *      returned.
-     * @exception RemoteException DOC: Insert Description of Exception
+     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
      */
     Set queryMBeans( ObjectName name, QueryExp query )
         throws RemoteException;
@@ -379,7 +379,7 @@ public interface RMIAdaptor
      *      null no query expression will be applied for selecting MBeans.
      * @return A set containing the ObjectNames for the MBeans selected. If no
      *      MBean satisfies the query, an empty list is returned.
-     * @exception RemoteException DOC: Insert Description of Exception
+     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
      */
     Set queryNames( ObjectName name, QueryExp query )
         throws RemoteException;
@@ -391,7 +391,7 @@ public interface RMIAdaptor
      * @param name The object name of the MBean to be checked.
      * @return True if the MBean is already registered in the MBean server,
      *      false otherwise.
-     * @exception RemoteException DOC: Insert Description of Exception
+     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
      */
     boolean isRegistered( ObjectName name )
         throws RemoteException;
@@ -400,7 +400,7 @@ public interface RMIAdaptor
      * Returns the number of MBeans registered in the MBean server.
      *
      * @return The MBeanCount value
-     * @exception RemoteException DOC: Insert Description of Exception
+     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
      */
     Integer getMBeanCount()
         throws RemoteException;
@@ -414,15 +414,15 @@ public interface RMIAdaptor
      * @param attribute A String specifying the name of the attribute to be
      *      retrieved.
      * @return The value of the retrieved attribute.
-     * @exception AttributeNotFoundException The attribute specified is not
+     * @exception javax.management.AttributeNotFoundException The attribute specified is not
      *      accessible in the MBean.
-     * @exception MBeanException Wraps an exception thrown by the MBean's
+     * @exception javax.management.MBeanException Wraps an exception thrown by the MBean's
      *      getter.
-     * @exception InstanceNotFoundException The MBean specified is not
+     * @exception javax.management.InstanceNotFoundException The MBean specified is not
      *      registered in the MBean server.
-     * @exception ReflectionException Wraps a <CODE>java.lang.Exception</CODE>
+     * @exception javax.management.ReflectionException Wraps a <CODE>java.lang.Exception</CODE>
      *      thrown when trying to invoke the setter.
-     * @exception RemoteException DOC: Insert Description of Exception
+     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
      */
     Object getAttribute( ObjectName name, String attribute )
         throws MBeanException, AttributeNotFoundException, InstanceNotFoundException,
@@ -436,11 +436,11 @@ public interface RMIAdaptor
      *      retrieved.
      * @param attributes A list of the attributes to be retrieved.
      * @return The list of the retrieved attributes.
-     * @exception InstanceNotFoundException The MBean specified is not
+     * @exception javax.management.InstanceNotFoundException The MBean specified is not
      *      registered in the MBean server.
-     * @exception ReflectionException An exception occurred when trying to
+     * @exception javax.management.ReflectionException An exception occurred when trying to
      *      invoke the getAttributes method of a Dynamic MBean.
-     * @exception RemoteException RMI Exception
+     * @exception java.rmi.RemoteException RMI Exception
      */
     AttributeList getAttributes( ObjectName name, String[] attributes )
         throws InstanceNotFoundException, ReflectionException, RemoteException;
@@ -453,17 +453,17 @@ public interface RMIAdaptor
      *      set.
      * @param attribute The identification of the attribute to be set and the
      *      value it is to be set to.
-     * @exception InstanceNotFoundException The MBean specified is not
+     * @exception javax.management.InstanceNotFoundException The MBean specified is not
      *      registered in the MBean server.
-     * @exception AttributeNotFoundException The attribute specified is not
+     * @exception javax.management.AttributeNotFoundException The attribute specified is not
      *      accessible in the MBean.
-     * @exception InvalidAttributeValueException The value specified for the
+     * @exception javax.management.InvalidAttributeValueException The value specified for the
      *      attribute is not valid.
-     * @exception MBeanException Wraps an exception thrown by the MBean's
+     * @exception javax.management.MBeanException Wraps an exception thrown by the MBean's
      *      setter.
-     * @exception ReflectionException Wraps a <CODE>java.lang.Exception</CODE>
+     * @exception javax.management.ReflectionException Wraps a <CODE>java.lang.Exception</CODE>
      *      thrown when trying to invoke the setter.
-     * @exception RemoteException DOC: Insert Description of Exception
+     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
      */
     void setAttribute( ObjectName name, Attribute attribute )
         throws InstanceNotFoundException, AttributeNotFoundException, InvalidAttributeValueException,
@@ -478,11 +478,11 @@ public interface RMIAdaptor
      * @param attributes A list of attributes: The identification of the
      *      attributes to be set and the values they are to be set to.
      * @return The list of attributes that were set, with their new values.
-     * @exception InstanceNotFoundException The MBean specified is not
+     * @exception javax.management.InstanceNotFoundException The MBean specified is not
      *      registered in the MBean server.
-     * @exception ReflectionException An exception occurred when trying to
+     * @exception javax.management.ReflectionException An exception occurred when trying to
      *      invoke the getAttributes method of a Dynamic MBean.
-     * @exception RemoteException DOC: Insert Description of Exception
+     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
      */
     AttributeList setAttributes( ObjectName name, AttributeList attributes )
         throws InstanceNotFoundException, ReflectionException, RemoteException;
@@ -500,13 +500,13 @@ public interface RMIAdaptor
      *      used for loading the MBean on which the operation was invoked.
      * @return The object returned by the operation, which represents the result
      *      ofinvoking the operation on the MBean specified.
-     * @exception InstanceNotFoundException The MBean specified is not
+     * @exception javax.management.InstanceNotFoundException The MBean specified is not
      *      registered in the MBean server.
-     * @exception MBeanException Wraps an exception thrown by the MBean's
+     * @exception javax.management.MBeanException Wraps an exception thrown by the MBean's
      *      invoked method.
-     * @exception ReflectionException Wraps a <CODE>java.lang.Exception</CODE>
+     * @exception javax.management.ReflectionException Wraps a <CODE>java.lang.Exception</CODE>
      *      thrown while trying to invoke the method.
-     * @exception RemoteException DOC: Insert Description of Exception
+     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
      */
     Object invoke( ObjectName name, String operationName, Object params[], String signature[] )
         throws InstanceNotFoundException, MBeanException, ReflectionException, RemoteException;
@@ -517,7 +517,7 @@ public interface RMIAdaptor
      * is specified by the user.
      *
      * @return The DefaultDomain value
-     * @exception RemoteException DOC: Insert Description of Exception
+     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
      */
     String getDefaultDomain()
         throws RemoteException;
@@ -532,9 +532,9 @@ public interface RMIAdaptor
      *      performed before handling notifications.
      * @param handback The context to be sent to the listener when a
      *      notification is emitted.
-     * @exception InstanceNotFoundException The MBean name provided does not
+     * @exception javax.management.InstanceNotFoundException The MBean name provided does not
      *      match any of the registered MBeans.
-     * @exception RemoteException DOC: Insert Description of Exception
+     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
      */
     void addNotificationListener( ObjectName name,
                                   NotificationListener listener,
@@ -552,10 +552,10 @@ public interface RMIAdaptor
      *      performed before handling notifications.
      * @param handback The context to be sent to the listener when a
      *      notification is emitted.
-     * @exception InstanceNotFoundException The MBean name of the notification
+     * @exception javax.management.InstanceNotFoundException The MBean name of the notification
      *      listener or of the notification broadcaster does not match any of
      *      the registered MBeans.
-     * @exception RemoteException DOC: Insert Description of Exception
+     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
      */
     void addNotificationListener( ObjectName name,
                                   ObjectName listener,
@@ -571,11 +571,11 @@ public interface RMIAdaptor
      * @param listener The listener object which will handle the notifications
      *      emitted by the registered MBean. This method will remove all the
      *      information related to this listener.
-     * @exception InstanceNotFoundException The MBean name provided does not
+     * @exception javax.management.InstanceNotFoundException The MBean name provided does not
      *      match any of the registered MBeans.
-     * @exception ListenerNotFoundException The listener is not registered in
+     * @exception javax.management.ListenerNotFoundException The listener is not registered in
      *      the MBean.
-     * @exception RemoteException DOC: Insert Description of Exception
+     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
      */
     void removeNotificationListener( ObjectName name, NotificationListener listener )
         throws InstanceNotFoundException, ListenerNotFoundException, RemoteException;
@@ -588,11 +588,11 @@ public interface RMIAdaptor
      * @param listener The object name of the listener which will handle the
      *      notifications emitted by the registered MBean. This method will
      *      remove all the information related to this listener.
-     * @exception InstanceNotFoundException The MBean name provided does not
+     * @exception javax.management.InstanceNotFoundException The MBean name provided does not
      *      match any of the registered MBeans.
-     * @exception ListenerNotFoundException The listener is not registered in
+     * @exception javax.management.ListenerNotFoundException The listener is not registered in
      *      the MBean.
-     * @exception RemoteException DOC: Insert Description of Exception
+     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
      */
     void removeNotificationListener( ObjectName name, ObjectName listener )
         throws InstanceNotFoundException, ListenerNotFoundException, RemoteException;
@@ -604,12 +604,12 @@ public interface RMIAdaptor
      * @param name The name of the MBean to analyze
      * @return An instance of <CODE>MBeanInfo</CODE> allowing the retrieval of
      *      all attributes and operations of this MBean.
-     * @exception IntrospectionException An exception occurs during
+     * @exception javax.management.IntrospectionException An exception occurs during
      *      introspection.
-     * @exception InstanceNotFoundException The MBean specified is not found.
-     * @exception ReflectionException An exception occurred when trying to
+     * @exception javax.management.InstanceNotFoundException The MBean specified is not found.
+     * @exception javax.management.ReflectionException An exception occurred when trying to
      *      invoke the getMBeanInfo of a Dynamic MBean.
-     * @exception RemoteException DOC: Insert Description of Exception
+     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
      */
     MBeanInfo getMBeanInfo( ObjectName name )
         throws InstanceNotFoundException, IntrospectionException, ReflectionException, RemoteException;
@@ -622,9 +622,9 @@ public interface RMIAdaptor
      * @param className The name of the class.
      * @return true if the MBean specified is an instance of the specified
      *      class, false otherwise.
-     * @exception InstanceNotFoundException The MBean specified is not
+     * @exception javax.management.InstanceNotFoundException The MBean specified is not
      *      registered in the MBean server.
-     * @exception RemoteException DOC: Insert Description of Exception
+     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
      */
     boolean isInstanceOf( ObjectName name, String className )
         throws InstanceNotFoundException, RemoteException;
@@ -637,10 +637,10 @@ public interface RMIAdaptor
      *      the de-serialization.
      * @param data The byte array to be de-sererialized.
      * @return The de-serialized object stream.
-     * @exception InstanceNotFoundException The MBean specified is not found.
-     * @exception OperationsException Any of the usual Input/Output related
+     * @exception javax.management.InstanceNotFoundException The MBean specified is not found.
+     * @exception javax.management.OperationsException Any of the usual Input/Output related
      *      exceptions.
-     * @exception RemoteException DOC: Insert Description of Exception
+     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
      */
     ObjectInputStream deserialize( ObjectName name, byte[] data )
         throws InstanceNotFoundException, OperationsException, RemoteException;
@@ -652,11 +652,11 @@ public interface RMIAdaptor
      * @param data The byte array to be de-sererialized.
      * @param className DOC: Insert Description of Parameter
      * @return The de-serialized object stream.
-     * @exception OperationsException Any of the usual Input/Output related
+     * @exception javax.management.OperationsException Any of the usual Input/Output related
      *      exceptions.
-     * @exception ReflectionException The specified class could not be loaded by
+     * @exception javax.management.ReflectionException The specified class could not be loaded by
      *      the default loader repository
-     * @exception RemoteException DOC: Insert Description of Exception
+     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
      */
     ObjectInputStream deserialize( String className, byte[] data )
         throws OperationsException, ReflectionException, RemoteException;
@@ -673,13 +673,13 @@ public interface RMIAdaptor
      *      used.
      * @param className DOC: Insert Description of Parameter
      * @return The de-serialized object stream.
-     * @exception InstanceNotFoundException The specified class loader MBean is
+     * @exception javax.management.InstanceNotFoundException The specified class loader MBean is
      *      not found.
-     * @exception OperationsException Any of the usual Input/Output related
+     * @exception javax.management.OperationsException Any of the usual Input/Output related
      *      exceptions.
-     * @exception ReflectionException The specified class could not be loaded by
+     * @exception javax.management.ReflectionException The specified class could not be loaded by
      *      the specified class loader.
-     * @exception RemoteException DOC: Insert Description of Exception
+     * @exception java.rmi.RemoteException DOC: Insert Description of Exception
      */
     ObjectInputStream deserialize( String className, ObjectName loaderName, byte[] data )
         throws InstanceNotFoundException, OperationsException, ReflectionException, RemoteException;
