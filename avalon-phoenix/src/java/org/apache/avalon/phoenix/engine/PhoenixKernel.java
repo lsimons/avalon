@@ -19,7 +19,7 @@ import org.apache.avalon.framework.component.DefaultComponentManager;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.log.LogKit;
+import org.apache.log.Hierarchy;
 
 /**
  * The ServerKernel is the core of the Phoenix system.
@@ -40,6 +40,8 @@ public class PhoenixKernel
     ///SystemManager provided by Embeddor
     private SystemManager          m_systemManager;
 
+    private Hierarchy              m_logHierarchy;
+
     public PhoenixKernel()
     {
         m_entryClass = ServerApplicationEntry.class;
@@ -50,6 +52,13 @@ public class PhoenixKernel
     {
         m_systemManager = (SystemManager)componentManager.
             lookup( "org.apache.avalon.framework.atlantis.SystemManager" );
+    }
+
+    public void initialize()
+        throws Exception
+    {
+        m_logHierarchy = Hierarchy.getDefaultHierarchy();
+        super.initialize();
     }
 
     /**
@@ -84,7 +93,7 @@ public class PhoenixKernel
         final Application application = (Application)entry.getInstance();
         final ServerApplicationEntry saEntry = (ServerApplicationEntry)entry;
 
-        setupLogger( application, LogKit.getLoggerFor( name ) );
+        setupLogger( application, m_logHierarchy.getLoggerFor( name ) );
 
         try
         {
