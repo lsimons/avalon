@@ -67,7 +67,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  * and destroyed correctly.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/02/12 16:33:51 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/02/14 20:51:08 $
  * @since 4.0
  */
 public abstract class AbstractComponentHandler
@@ -140,6 +140,17 @@ public abstract class AbstractComponentHandler
         addInstrument( m_release );
 
         setInstrumentableName( name );
+    }
+
+    /**
+     * Return the component's class that this handler is trying to create.
+     * Used for deubug information.
+     *
+     * @return the <code>Class</code> object for the component
+     */
+    public Class getComponentClass()
+    {
+        return m_factory.getCreatedClass();
     }
 
     /**

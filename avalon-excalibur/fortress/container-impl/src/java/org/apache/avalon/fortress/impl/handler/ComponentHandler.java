@@ -55,11 +55,19 @@ package org.apache.avalon.fortress.impl.handler;
  * Component.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/07 16:08:12 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/14 20:51:08 $
  * @since 4.0
  */
 public interface ComponentHandler
 {
+    /**
+     * Return the component's class that this handler is trying to create.
+     * Used for deubug information.
+     *
+     * @return the <code>Class</code> object for the component
+     */
+    Class getComponentClass();
+
     /**
      * Actually prepare the handler and make it ready to
      * handle component access.

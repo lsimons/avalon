@@ -59,7 +59,7 @@ import org.apache.avalon.fortress.impl.LifecycleExtensionManager;
  * calls relevent Lifecycle Extension handlers at the right time.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/10 15:47:00 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/14 20:51:08 $
  */
 public class LEAwareComponentHandler
     implements ComponentHandler, Disposable
@@ -94,6 +94,17 @@ public class LEAwareComponentHandler
         m_componentHandler = componentHandler;
         m_extManager = extManager;
         m_context = context;
+    }
+
+    /**
+     * Return the component's class that this handler is trying to create.
+     * Used for deubug information.
+     *
+     * @return the <code>Class</code> object for the component
+     */
+    public Class getComponentClass()
+    {
+        return m_componentHandler.getComponentClass();
     }
 
    /**
