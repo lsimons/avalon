@@ -2,7 +2,7 @@
 
 <project>
 
-  <extend>${basedir}/../../../project.xml</extend>
+  <extend>${basedir}/../project.xml</extend>
 
   <groupId>avalon-finder</groupId>
   <id>avalon-finder-impl</id>
@@ -28,7 +28,7 @@
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-api</artifactId>
-      <version>${pom.currentVersion}</version>
+      <version>3.3.0</version>
     </dependency>
     <dependency>
       <groupId>avalon-meta</groupId>
