@@ -14,7 +14,7 @@
     </action>
     <action dev="PD" type="fix">
       Made DefaultComponentManager/Selector, DefaultContext, and
-      DefaultConfiguration readonly to avoid bad programming
+      DefaultConfiguration read-only to avoid bad programming
       practices by clients.
     </action>
   </release>
@@ -28,7 +28,7 @@
   </action>
   <action dev="BL" type="update">
     Removed the "throws Exception" from Disposable interface.  That was
-    inadverdantly left in the previous release.
+    inadvertently left in the previous release.
   </action>
   <action dev="BL" type="add">
     Added extra methods to Parameters to throw exceptions if the value

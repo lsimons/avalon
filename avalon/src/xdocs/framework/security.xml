@@ -163,7 +163,7 @@
         computers.  His rationalization was that he was positive KGB agents had the
         technology that they could read the EMI interference on the power lines and
         read the bits on the computers.  In hind sight this is absurd, no one can
-        identify the bits traveling on a computer from EMI due to the level of noise
+        identify the bits travelling on a computer from EMI due to the level of noise
         (clocks, addressing lines, <em>encrypted data</em>, and other computers on the
         network).
       </p>
@@ -176,7 +176,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2001/03/02 01:53:52 $
+      $Revision: 1.3 $ $Date: 2001/06/10 03:55:54 $
     </legal>
   </footer>
 </document>
