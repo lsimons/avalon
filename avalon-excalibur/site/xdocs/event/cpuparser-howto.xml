@@ -52,7 +52,7 @@ import org.apache.excalibur.util.CPUParser;
  * Parses the Windows XP environment
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.8 $ $Date: 2004/03/29 18:22:22 $
+ * @version CVS $Revision: 1.1 $ $Date: 2004/04/04 16:26:18 $
  */
 public final class WindowsXP implements CPUParser
 {

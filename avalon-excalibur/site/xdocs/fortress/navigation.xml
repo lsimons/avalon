@@ -21,7 +21,17 @@
       <item name="Store" href="store-index.html"/>
       <item name="ECM" href="component.html"/>
       <item name="Event" href="event/index.html"/>
-      <item name="Fortress" href="fortress/index.html"/>
+      <item name="Fortress" href="fortress/index.html">
+        <item name="Overview" href="fortress/index.html"/>
+        <item name="Features Oriented" href="fortress/features.html"/>
+        <item name="Getting Started" href="fortress/getting-started.html"/>
+        <item name="Using Meta Info" href="fortress/using-meta-info.html"/>
+        <item name="CLI" href="fortress/cli.html"/>
+        <item name="Swing" href="fortress/swing.html"/>
+        <item name="Servlet" href="fortress/servlet.html"/>
+        <item name="Lifecycle Extensions" href="fortress/lifecycle-extensions.html"/>
+        <item name="Design Notes" href="fortress/design-notes.html"/>
+      </item>
       <item name="I18N" href="i18n.html"/>
     </menu>
 
