@@ -58,7 +58,7 @@ public class DefaultKernel
     ///Configuration Repository
     private ConfigurationRepository m_repository;
 
-    private HashMap m_entrys = new HashMap();
+    private HashMap m_entries = new HashMap();
 
     public void service( final ServiceManager serviceManager )
         throws ServiceException
@@ -80,7 +80,7 @@ public class DefaultKernel
         {
             try
             {
-                final SarEntry entry = (SarEntry)m_entrys.get( names[ i ] );
+                final SarEntry entry = (SarEntry)m_entries.get( names[ i ] );
                 shutdown( entry );
             }
             catch( final Exception e )
@@ -93,12 +93,12 @@ public class DefaultKernel
 
     public String[] getApplicationNames()
     {
-        return (String[])m_entrys.keySet().toArray( new String[ 0 ] );
+        return (String[])m_entries.keySet().toArray( new String[ 0 ] );
     }
 
     public Application getApplication( final String name )
     {
-        final SarEntry entry = (SarEntry)m_entrys.get( name );
+        final SarEntry entry = (SarEntry)m_entries.get( name );
         if( null == entry )
         {
             return null;
@@ -193,7 +193,7 @@ public class DefaultKernel
         final String name = metaData.getName();
         final SarEntry entry =
             new SarEntry( metaData, classLoader, hierarchy, server );
-        m_entrys.put( name, entry );
+        m_entries.put( name, entry );
 
         try
         {
@@ -249,7 +249,7 @@ public class DefaultKernel
     public void removeApplication( String name )
         throws Exception
     {
-        final SarEntry entry = (SarEntry)m_entrys.remove( name );
+        final SarEntry entry = (SarEntry)m_entries.remove( name );
         if( null == entry )
         {
             final String message =

@@ -51,7 +51,7 @@ public final class DefaultApplication
     private boolean m_running = false;
 
     private ApplicationContext m_context;
-    private HashMap m_entrys = new HashMap();
+    private HashMap m_entries = new HashMap();
 
     /**
      * ResourceProvider for blocks.
@@ -118,7 +118,7 @@ public final class DefaultApplication
                 {
                     final String blockName = blocks[ i ].getName();
                     final BlockEntry blockEntry = new BlockEntry( blocks[ i ] );
-                    m_entrys.put( blockName, blockEntry );
+                    m_entries.put( blockName, blockEntry );
                 }
 
                 // load block listeners
@@ -193,7 +193,7 @@ public final class DefaultApplication
 
     public void dispose()
     {
-        m_entrys.clear();
+        m_entries.clear();
     }
 
     ////////////////////////////
@@ -210,7 +210,7 @@ public final class DefaultApplication
 
     public String[] getBlockNames()
     {
-        return (String[])m_entrys.keySet().toArray( new String[ 0 ] );
+        return (String[])m_entries.keySet().toArray( new String[ 0 ] );
     }
 
     /**
@@ -221,7 +221,7 @@ public final class DefaultApplication
      */
     public Object getBlock( final String name )
     {
-        final BlockEntry entry = (BlockEntry)m_entrys.get( name );
+        final BlockEntry entry = (BlockEntry)m_entries.get( name );
         if( null == entry )
         {
             return null;
@@ -412,7 +412,7 @@ public final class DefaultApplication
 
             try
             {
-                final BlockEntry entry = (BlockEntry)m_entrys.get( block );
+                final BlockEntry entry = (BlockEntry)m_entries.get( block );
                 if( PHASE_STARTUP == name )
                 {
                     startup( entry );
