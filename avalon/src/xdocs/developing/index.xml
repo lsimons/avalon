@@ -1,16 +1,17 @@
 <?xml version="1.0" standalone="no"?>
 
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1//EN"
-                         "http://www.oasis-open.org/docbook/xml/4.0/docbookx.dtd">
+                         "./dtd/docbookx.dtd">
 
-<book>
+<book xmlns:xi="http://www.w3.org/2001/XInclude"
+      xml:base="context://developing/">
   <title>Developing With Apache Avalon</title>
   <subtitle>Apache Avalon Project</subtitle>
   <bookinfo>
     <title>Developing With Apache Avalon</title>
     <subtitle>Apache Avalon Project</subtitle>
     <authorgroup>
-      <xinclude:include href="bloritsch.xml"/>
+      <xi:include href="bloritsch.xml"/>
     </authorgroup>
     <edition>Developer's Guide version 1.0 for Avalon Framework</edition>
     <pubdate>2001</pubdate>
@@ -97,7 +98,7 @@
 	Sun Microsystems.
       </para>
     </legalnotice>
-    <xinclude:include href="changes.xml"/>
+    <xi:include href="changes.xml"/>
   </bookinfo>
   <dedication>
     <para>
@@ -108,12 +109,12 @@
     </para>
   </dedication>
   <toc/>
-  <xinclude:include href="introduction.xml"/>
-  <xinclude:include href="decomposing.xml"/>
-  <xinclude:include href="framework.xml"/>
-  <xinclude:include href="implementing.xml"/>
-  <xinclude:include href="conclusion.xml"/>
-  <xinclude:include href="changes.xml"/>
+  <xi:include href="introduction.xml"/>
+  <xi:include href="decomposing.xml"/>
+  <xi:include href="framework.xml"/>
+  <xi:include href="implementing.xml"/>
+  <xi:include href="conclusion.xml"/>
+  <xi:include href="changes.xml"/>
 </book>
 
 

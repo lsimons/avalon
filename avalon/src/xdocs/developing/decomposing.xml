@@ -1,9 +1,9 @@
 <?xml version="1.0" standalone="no"?>
 
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1//EN"
-                         "http://www.oasis-open.org/docbook/xml/4.0/docbookx.dtd">
+                         "./dtd/docbookx.dtd">
 
-<chapter>
+<chapter id="decomposing.html">
   <title>Decomposing a System</title>
   <subtitle>
     Just how do you decide what makes up a Component?  The key
@@ -247,7 +247,7 @@
       </para>
       <figure>
         <title>UML Diagram for the Business Server</title>
-	<graphic srccredit="Berin Loritsch, 2001" fileref="figures/deployment.gif" format="GIF"/>
+	<graphic srccredit="Berin Loritsch, 2001" fileref="images/deployment.gif" format="GIF"/>
       </figure>
     </section>
   </section>

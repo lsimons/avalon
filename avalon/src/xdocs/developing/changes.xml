@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 
 <!DOCTYPE revhistory PUBLIC "-//OASIS//DTD DocBook XML V4.1//EN"
-                         "http://www.oasis-open.org/docbook/xml/4.0/docbookx.dtd">
+                         "./dtd/docbookx.dtd">
 
 <revhistory>
   <revision revisionflag="added">
