@@ -50,7 +50,6 @@
 package org.apache.excalibur.xfc.modules.ecm;
 
 import java.io.File;
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationSerializer;
@@ -75,7 +74,7 @@ import org.apache.excalibur.xfc.modules.Constants;
  * of the <code>serialize</code> method defined in {@link ECM}.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECMSerializer.java,v 1.8 2003/03/22 12:46:57 leosimons Exp $
+ * @version CVS $Id: ECMSerializer.java,v 1.9 2003/05/03 04:11:13 donaldp Exp $
  */
 public class ECMSerializer extends AbstractLogEnabled
     implements RoleRefVisitor, InstanceVisitor, Constants

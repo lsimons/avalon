@@ -51,12 +51,11 @@ package org.apache.excalibur.xfc.test;
 
 import junit.framework.TestCase;
 import junit.textui.TestRunner;
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.apache.avalon.framework.configuration.ConfigurationUtil;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.excalibur.configuration.ConfigurationUtil;
 import org.apache.excalibur.xfc.Module;
 import org.apache.excalibur.xfc.model.Model;
 import org.apache.excalibur.xfc.model.role.RoleRef;
@@ -68,7 +67,7 @@ import org.apache.excalibur.xfc.test.util.FortressTestRig;
  * XFC TestCase.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: xfcTestCase.java,v 1.14 2003/03/29 18:53:26 bloritsch Exp $
+ * @version CVS $Id: xfcTestCase.java,v 1.15 2003/05/03 04:11:07 donaldp Exp $
  */
 public final class xfcTestCase extends TestCase
 {
@@ -116,7 +115,7 @@ public final class xfcTestCase extends TestCase
 
             fail( "Context validation failed" );
         }
-        catch ( IllegalArgumentException e )
+        catch( IllegalArgumentException e )
         {
             // should end up in here if all is ok.
         }
@@ -155,17 +154,17 @@ public final class xfcTestCase extends TestCase
         );
 
         // check each role has the right values, compared against the master copy
-        for ( int i = 0; i < rolesMODEL.length; ++i )
+        for( int i = 0; i < rolesMODEL.length; ++i )
         {
-            String modelRoleName = rolesMODEL[i].getRole();
+            String modelRoleName = rolesMODEL[ i ].getRole();
             Configuration masterRoleConfig = null;
 
             // get the real role configuration object
-            for ( int j = 0; j < rolesREAL.length; ++j )
+            for( int j = 0; j < rolesREAL.length; ++j )
             {
-                if ( modelRoleName.equals( rolesREAL[j].getAttribute( "name" ) ) )
+                if( modelRoleName.equals( rolesREAL[ j ].getAttribute( "name" ) ) )
                 {
-                    masterRoleConfig = rolesREAL[j];
+                    masterRoleConfig = rolesREAL[ j ];
                     break;
                 }
             }
@@ -177,12 +176,12 @@ public final class xfcTestCase extends TestCase
             );
 
             // convert our RoleRef object into a Configuration and compare with the master
-            Configuration modelRoleConfig = ecm.buildRole( rolesMODEL[i] );
+            Configuration modelRoleConfig = ecm.buildRole( rolesMODEL[ i ] );
 
             assertTrue(
                 "Role configuration trees differ\n" +
-                "(master)" + ConfigurationUtil.list( masterRoleConfig ) +
-                "(model)" + ConfigurationUtil.list( modelRoleConfig ),
+                "(master)" + list( masterRoleConfig ) +
+                "(model)" + list( modelRoleConfig ),
                 ConfigurationUtil.equals( masterRoleConfig, modelRoleConfig )
             );
         }
@@ -263,17 +262,17 @@ public final class xfcTestCase extends TestCase
         );
 
         // check each role has the right values, compared against the master copy
-        for ( int i = 0; i < rolesMODEL.length; ++i )
+        for( int i = 0; i < rolesMODEL.length; ++i )
         {
-            String modelRoleName = rolesMODEL[i].getRole();
+            String modelRoleName = rolesMODEL[ i ].getRole();
             Configuration masterRoleConfig = null;
 
             // get the real role configuration object
-            for ( int j = 0; j < rolesREAL.length; ++j )
+            for( int j = 0; j < rolesREAL.length; ++j )
             {
-                if ( modelRoleName.equals( rolesREAL[j].getAttribute( "name" ) ) )
+                if( modelRoleName.equals( rolesREAL[ j ].getAttribute( "name" ) ) )
                 {
-                    masterRoleConfig = rolesREAL[j];
+                    masterRoleConfig = rolesREAL[ j ];
                     break;
                 }
             }
@@ -285,12 +284,12 @@ public final class xfcTestCase extends TestCase
             );
 
             // convert our RoleRef object into a Configuration and compare with the master
-            Configuration modelRoleConfig = ecm.buildRole( rolesMODEL[i] );
+            Configuration modelRoleConfig = ecm.buildRole( rolesMODEL[ i ] );
 
             assertTrue(
                 "Role configuration trees differ\n" +
-                "(master)" + ConfigurationUtil.list( masterRoleConfig ) +
-                "(model)" + ConfigurationUtil.list( modelRoleConfig ),
+                "(master)" + list( masterRoleConfig ) +
+                "(model)" + list( modelRoleConfig ),
                 ConfigurationUtil.equals( masterRoleConfig, modelRoleConfig )
             );
         }
@@ -367,13 +366,13 @@ public final class xfcTestCase extends TestCase
                 "singleton", // org.apache.excalibur.fortress.handler.ThreadSafeComponentHandler
             };
 
-        for ( int i = 0; i < classes.length; ++i )
+        for( int i = 0; i < classes.length; ++i )
         {
-            String result = ecm.getHandler( classes[i] );
+            String result = ecm.getHandler( classes[ i ] );
             assertTrue(
-                "Class handler analysis failed for :" + classes[i] +
-                ", expected was '" + handlers[i] + "', received was '" + result + "'",
-                handlers[i].equals( result )
+                "Class handler analysis failed for :" + classes[ i ] +
+                ", expected was '" + handlers[ i ] + "', received was '" + result + "'",
+                handlers[ i ].equals( result )
             );
         }
     }
@@ -410,17 +409,17 @@ public final class xfcTestCase extends TestCase
         );
 
         // check each role has the right values, compared against the master copy
-        for ( int i = 0; i < rolesMODEL.length; ++i )
+        for( int i = 0; i < rolesMODEL.length; ++i )
         {
-            String modelRoleName = rolesMODEL[i].getRole();
+            String modelRoleName = rolesMODEL[ i ].getRole();
             Configuration masterRoleConfig = null;
 
             // get the real role configuration object
-            for ( int j = 0; j < rolesREAL.length; ++j )
+            for( int j = 0; j < rolesREAL.length; ++j )
             {
-                if ( modelRoleName.equals( rolesREAL[j].getAttribute( "name" ) ) )
+                if( modelRoleName.equals( rolesREAL[ j ].getAttribute( "name" ) ) )
                 {
-                    masterRoleConfig = rolesREAL[j];
+                    masterRoleConfig = rolesREAL[ j ];
                     break;
                 }
             }
@@ -432,12 +431,12 @@ public final class xfcTestCase extends TestCase
             );
 
             // convert our RoleRef object into a Configuration and compare with the master
-            Configuration modelRoleConfig = fortress.buildRole( rolesMODEL[i] );
+            Configuration modelRoleConfig = fortress.buildRole( rolesMODEL[ i ] );
 
             assertTrue(
                 "Role configuration trees differ\n" +
-                "(master)" + ConfigurationUtil.list( masterRoleConfig ) +
-                "(model)" + ConfigurationUtil.list( modelRoleConfig ),
+                "(master)" + list( masterRoleConfig ) +
+                "(model)" + list( modelRoleConfig ),
                 ConfigurationUtil.equals( masterRoleConfig, modelRoleConfig )
             );
         }
@@ -448,5 +447,56 @@ public final class xfcTestCase extends TestCase
     public static final void main( String[] args )
     {
         TestRunner.run( xfcTestCase.class );
+    }
+
+    /**
+     * Returns a simple string representation of the the supplied configuration.
+     * @param config a configuration
+     * @return a simplified text representation of a configuration suitable
+     *     for debugging
+     */
+    public static String list( Configuration config )
+    {
+        final StringBuffer buffer = new StringBuffer();
+        list( buffer, "  ", config );
+        buffer.append( "\n" );
+        return buffer.toString();
+    }
+
+    private static void list( StringBuffer buffer, String lead, Configuration config )
+    {
+
+        buffer.append( "\n" + lead + "<" + config.getName() );
+        String[] names = config.getAttributeNames();
+        if( names.length > 0 )
+        {
+            for( int i = 0; i < names.length; i++ )
+            {
+                buffer.append( " "
+                               + names[ i ] + "=\""
+                               + config.getAttribute( names[ i ], "???" ) + "\"" );
+            }
+        }
+        Configuration[] children = config.getChildren();
+        if( children.length > 0 )
+        {
+            buffer.append( ">" );
+            for( int j = 0; j < children.length; j++ )
+            {
+                list( buffer, lead + "  ", children[ j ] );
+            }
+            buffer.append( "\n" + lead + "</" + config.getName() + ">" );
+        }
+        else
+        {
+            if( config.getValue( null ) != null )
+            {
+                buffer.append( ">" + config.getValue( "" ) + "</" + config.getName() + ">" );
+            }
+            else
+            {
+                buffer.append( "/>" );
+            }
+        }
     }
 }

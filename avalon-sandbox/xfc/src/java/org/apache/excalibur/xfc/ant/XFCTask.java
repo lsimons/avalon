@@ -68,7 +68,7 @@ import org.apache.tools.ant.Task;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: XFCTask.java,v 1.9 2003/03/22 12:46:56 leosimons Exp $
+ * @version CVS $Id: XFCTask.java,v 1.10 2003/05/03 04:11:11 donaldp Exp $
  */
 public final class XFCTask
     extends Task
@@ -188,11 +188,6 @@ public final class XFCTask
         if( "fortress".equalsIgnoreCase( clazz ) )
         {
             return Class.forName( "org.apache.excalibur.xfc.modules.fortress.Fortress" );
-        }
-
-        if( "merlin".equalsIgnoreCase( clazz ) )
-        {
-            return Class.forName( "org.apache.excalibur.xfc.modules.merlin.Merlin" );
         }
 
         // assume custom module

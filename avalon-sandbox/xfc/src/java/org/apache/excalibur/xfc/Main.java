@@ -50,7 +50,6 @@
 package org.apache.excalibur.xfc;
 
 import java.util.List;
-
 import org.apache.avalon.excalibur.cli.CLArgsParser;
 import org.apache.avalon.excalibur.cli.CLOption;
 import org.apache.avalon.excalibur.cli.CLOptionDescriptor;
@@ -64,7 +63,7 @@ import org.apache.avalon.framework.logger.NullLogger;
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
  * (parts also taken from the Excalibur CLI example)
- * @version CVS $Id: Main.java,v 1.9 2003/03/22 12:46:56 leosimons Exp $
+ * @version CVS $Id: Main.java,v 1.10 2003/05/03 04:11:10 donaldp Exp $
  */
 public final class Main
 {
@@ -279,11 +278,6 @@ public final class Main
         if( "fortress".equalsIgnoreCase( clazz ) )
         {
             return Class.forName( "org.apache.excalibur.xfc.modules.fortress.Fortress" );
-        }
-
-        if( "merlin".equalsIgnoreCase( clazz ) )
-        {
-            return Class.forName( "org.apache.excalibur.xfc.modules.merlin.Merlin" );
         }
 
         // assume custom module
