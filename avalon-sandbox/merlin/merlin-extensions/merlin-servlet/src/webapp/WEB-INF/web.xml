@@ -4,10 +4,10 @@
 
 <web-app>
 
-  <display-name>Merlin Servlet</display-name>
+  <display-name>Merlin</display-name>
 
   <description>
-    Merlin Servlet Test Page.
+    Merlin Naviation.
   </description>
 
   <servlet>
@@ -20,16 +20,21 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
 
+  <servlet>
+    <servlet-name>navigator</servlet-name>
+    <display-name>Navigator</display-name>
+    <description>Navigation page.</description>
+    <jsp-file>/index.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>navigator</servlet-name>
+    <url-pattern>/navigator/*</url-pattern>
+  </servlet-mapping>
+
   <taglib>
     <taglib-uri>/WEB-INF/merlin.tld</taglib-uri>
     <taglib-location>/WEB-INF/merlin.tld</taglib-location>
   </taglib>
-
-  <!--
-  <servlet-mapping>
-    <servlet-name>merlin</servlet-name>
-    <url-pattern>/merlin/*</url-pattern>
-  </servlet-mapping>
-  -->
 
 </web-app>

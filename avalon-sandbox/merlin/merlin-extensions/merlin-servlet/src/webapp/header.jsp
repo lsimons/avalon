@@ -18,7 +18,7 @@
     if( m_banner == null ) m_banner = "";
 
     m_home = (String) request.getAttribute("urn:merlin:page.home");
-    if( m_home == null ) m_home = "/index.jsp";
+    if( m_home == null ) m_home = request.getContextPath() + "/index.jsp";
 %>
 
 <html>
