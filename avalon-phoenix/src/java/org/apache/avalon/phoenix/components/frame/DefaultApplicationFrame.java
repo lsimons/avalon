@@ -33,6 +33,7 @@ import org.apache.avalon.excalibur.lang.ThreadContext;
 import org.apache.avalon.excalibur.lang.ThreadContextPolicy;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.log.Logger;
+import org.apache.avalon.excalibur.lang.DefaultThreadContextPolicy;
 
 /**
  * Manage the "frame" in which Applications operate.
@@ -126,7 +127,7 @@ public class DefaultApplicationFrame
         context.put( BlockContext.APP_HOME_DIR, m_baseDirectory );
         m_context = context;
 
-        final PhoenixThreadContextPolicy policy = new PhoenixThreadContextPolicy();
+        final DefaultThreadContextPolicy policy = new DefaultThreadContextPolicy();
         final HashMap map = new HashMap( 1 );
         map.put( ThreadContextPolicy.CLASSLOADER, m_classLoader );
         m_threadContext = new ThreadContext( policy, map );
