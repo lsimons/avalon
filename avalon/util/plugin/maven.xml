@@ -1,12 +1,19 @@
-<project default="plugin:install">
+<project default="plugin:install" xmlns:ant="jelly:ant">
 
-  <goal name="resolve-entities" >
+  <preGoal name="jar:jar">
+    <attainGoal name="avalon:generate"/>
+  </preGoal>
+  
+  <goal name="avalon:generate">
+    <echo message="starting"/>
+    <mkdir dir="${maven.build.dir}/project.xml"/>
     <ant:xslt in="${basedir}/project.xml" out="${maven.build.dir}/project.xml"
       style="copy-all.xsl">
       <outputproperty name="method" value="xml" />
       <outputproperty name="standalone" value="yes"/>
       <outputproperty name="indent" value="yes"/>
     </ant:xslt>
+    <echo message="done"/>
   </goal>
-  
+
 </project>
