@@ -66,6 +66,6 @@ AVALON 5
 --------
 There was talk about and a proposal about a new non-backwards-
 compatible version of avalon framework under the name "avalon 5";
-there's a proposal on this in the jakarta-avalon cvs attic.
+there's a proposal on this in the avalon cvs attic.
 Mostly this would involve small changes only. Hence it isn't
 really neccessary and has been put on hold indefinately.

@@ -21,10 +21,10 @@
 	alpha or planning stage.
 	Individual packages inside Excalibur that have been released
 	can be downloaded from
-	<a href="http://jakarta.apache.org/builds/jakarta-avalon-excalibur/release/">here</a>,
+	<a href="http://jakarta.apache.org/builds/avalon-excalibur/release/">here</a>,
 	whereas the last complete release of all of excalibur is
 	available 
-	<a href="http://jakarta.apache.org/builds/jakarta-avalon/release/excalibur/latest/">here</a>.
+	<a href="http://jakarta.apache.org/builds/avalon/release/excalibur/latest/">here</a>.
       </p>
       <warn>
         Packages that have not been officially released are of varying
@@ -36,7 +36,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.6 $ $Date: 2002/11/27 11:22:57 $
+      $Revision: 1.7 $ $Date: 2003/02/06 13:38:34 $
     </legal>
   </footer>
 </document>

@@ -11,8 +11,8 @@
 
 
                          Jeff Turner <jefft@apache.org>
-                               $Revision: 1.2 $
-                          $Date: 2002/07/21 09:15:51 $
+                               $Revision: 1.3 $
+                          $Date: 2003/02/06 13:38:27 $
                     =======================================
 
 
@@ -81,7 +81,7 @@ To copy this in CVS, you would:
  - Go to the Apache CVS repository:
         'cd /home/cvs'
  - Go to the destination directory:
-        'cd jakarta-avalon-excalibur/joust/src'
+        'cd avalon-excalibur/joust/src'
  - Create any intermediate directories:
         'mkdir -p java/org/apache/excalibur/joust'
  - Check that the new directories are group-writable and look like their peers
@@ -131,7 +131,7 @@ be copied from other projects' default.properties files:
  # --------------------------------------------------
  
 +# ----- Avalon Framework, version 4.1 or later -----
-+avalon-framework.home=${basedir}/../../jakarta-avalon
++avalon-framework.home=${basedir}/../../avalon
 +avalon-framework.lib=${avalon-framework.home}/build/lib
 +avalon-framework.jar=${avalon-framework.lib}/avalon-framework.jar
 +

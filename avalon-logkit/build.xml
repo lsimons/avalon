@@ -61,11 +61,11 @@ Legal:
   <property name="java.dir" value="${src.dir}/java"/>
   <property name="compat.dir" value="${src.dir}/compat"/>
   <property name="test.dir" value="${src.dir}/test"/>
-  <property name="tools.dir" value="../jakarta-avalon/tools"/>
+  <property name="tools.dir" value="../avalon/tools"/>
   <property name="docs.dir" value="${build.dir}/docs"/>
   <property name="www.dir" value="../avalon-site/docs/${name}"/>
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>
-  <property name="context.dir" value="../jakarta-avalon/src/documentation"/>
+  <property name="context.dir" value="../avalon/src/documentation"/>
   <property name="javadocs.dir" value="${docs.dir}/api"/>
   <property name="dist.dir" value="dist"/>
   <property name="src.dist.dir" value="src-dist"/>

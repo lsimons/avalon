@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.44 $
+                   Version $Revision: 1.45 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -230,7 +230,7 @@ To use it, type 'ant -f depchecker.xml'
             <property name="proj.jar.name" value="avalon-framework.jar"/>
             <property name="path" value="${avalon-framework.jar}"/>
             <property name="remedy" value="1) Download and unpack Avalon Framework from ${nl}
-           | http://jakarta.apache.org/builds/jakarta-avalon/release/framework ${nl}
+           | http://jakarta.apache.org/builds/avalon/release/framework ${nl}
            |   2) Copy the project's ant.properties.sample to ant.properties ${nl}
            |   3) In ant.properties, redefine the avalon-framework.jar property ${nl}
            |      to point to the path of avalon-framework.jar in your ${nl}

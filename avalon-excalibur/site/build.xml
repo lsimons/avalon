@@ -35,14 +35,14 @@
   <property name="manifest.dir" value="${src.dir}/manifest"/>
   <property name="conf.dir" value="${src.dir}/conf"/>
   <property name="docs.dir" value="dist/docs"/>
-  <property name="www.dir" value="../../jakarta-avalon-site/docs"/>  
+  <property name="www.dir" value="../../avalon-site/docs"/>
   
   <property name="build.xdocs" value="${build.dir}/xdocs"/>
   <property name="build.context" value="${build.dir}/documentation"/>
   <property name="build.docs" value="${build.dir}/docs"/>
-  <property name="tools.dir" value="../../jakarta-avalon/tools"/> 
+  <property name="tools.dir" value="../../avalon/tools"/>
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>  
-  <property name="context.dir" value="../../jakarta-avalon/src/documentation"/>
+  <property name="context.dir" value="../../avalon/src/documentation"/>
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
   <property name="dist.base" value="distributions"/>

@@ -8,13 +8,13 @@
 
 
                          Jeff Turner <jefft@apache.org>
-                                $Revision: 1.2 $
-                          $Date: 2002/05/07 03:46:07 $
+                                $Revision: 1.3 $
+                          $Date: 2003/02/06 13:38:27 $
                     =======================================
 
 
 This file contains a quick guide on how to only branch some files in a CVS
-repository, with jakarta-avalon-logkit as an example. These instructions are
+repository, with avalon-logkit as an example. These instructions are
 Unix-specific. Commands marked (**) are described in the appendix.
 
 
@@ -68,7 +68,7 @@ Now any users who want to try the Centipede doc system can run
   (this is necessary info for the next step)
 
 The CVS/Entries file contains the status of all files in the current directory.
-So jakarta-avalon-logkit/CVS/Entries will originally contain:
+So avalon-logkit/CVS/Entries will originally contain:
 
 /KEYS/1.1.1.1/Mon May  6 23:17:39 2002//
 /LICENSE/1.1.1.1/Mon May  6 23:17:39 2002//
@@ -117,12 +117,12 @@ Now we must add the new directory structure:
 
 You'll see something like this:
 
-Directory /home/cvs/jakarta-avalon-logkit/tools added to the repository
-Directory /home/cvs/jakarta-avalon-logkit/tools/antipede added to the repository
-Directory /home/cvs/jakarta-avalon-logkit/tools/antipede/bin added to the repository
-Directory /home/cvs/jakarta-avalon-logkit/tools/antipede/lib added to the repository
-Directory /home/cvs/jakarta-avalon-logkit/tools/antipede/resources added to the repository
-Directory /home/cvs/jakarta-avalon-logkit/tools/antipede/resources/stylesheets added to the repository
+Directory /home/cvs/avalon-logkit/tools added to the repository
+Directory /home/cvs/avalon-logkit/tools/antipede added to the repository
+Directory /home/cvs/avalon-logkit/tools/antipede/bin added to the repository
+Directory /home/cvs/avalon-logkit/tools/antipede/lib added to the repository
+Directory /home/cvs/avalon-logkit/tools/antipede/resources added to the repository
+Directory /home/cvs/avalon-logkit/tools/antipede/resources/stylesheets added to the repository
 
 Now add the new files:
 
@@ -186,7 +186,7 @@ cvs update: warning: tools/antipede/tasks.properties is not (any longer) pertine
 
 Now run the centipede.(sh|bat) file. The tools/ files should reappear:
 
-[jeff@kermit jakarta-avalon-logkit]$ ./centipede.sh 
+[jeff@kermit avalon-logkit]$ ./centipede.sh
 U build.xml
 U tools/antipede/build.dtd
 U tools/antipede/build.xtarget

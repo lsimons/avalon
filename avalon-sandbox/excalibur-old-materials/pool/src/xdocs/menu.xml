@@ -4,7 +4,7 @@
   <menu name="About">
     <item href="index.html" name="Overview"/>
     <item href="http://jakarta.apache.org/avalon/excalibur/index.html" name="Excalibur Home"/>
-    <item href="http://jakarta.apache.org/builds/jakarta-avalon-excalibur/release" name="Download"/>
+    <item href="http://jakarta.apache.org/builds/avalon-excalibur/release" name="Download"/>
     <item name="API Docs" href="http://avalon.apache.org/api/"/>
 
   </menu>

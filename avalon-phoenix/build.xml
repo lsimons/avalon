@@ -57,7 +57,7 @@ Legal:
     <property name="conf.dir" value="${src.dir}/conf"/>
     <property name="script.dir" value="${src.dir}/script"/>
     <property name="lib.dir" value="lib"/>
-    <property name="tools.dir" value="../jakarta-avalon/tools"/>
+    <property name="tools.dir" value="../avalon/tools"/>
     <property name="phoenix.tools.dir" value="tools"/>
 
     <property name="dist.name" value="${name}-${version}"/>
@@ -71,8 +71,8 @@ Legal:
     <property name="xml-api.jar" value="${lib.dir}/xml-apis.jar"/>
     <property name="xerces.jar" value="${lib.dir}/xercesImpl-2.0.2.jar"/>
     <property name="xalan.jar" value="${lib.dir}/xalan-2.3.1.jar"/>
-    <property name="framework.jar" value="${lib.dir}/avalon-framework.jar"/>
-    <property name="logkit.jar" value="${lib.dir}/logkit-1.1.1.jar"/>
+    <property name="framework.jar" value="${lib.dir}/avalon-framework-4.1.4.jar"/>
+    <property name="logkit.jar" value="${lib.dir}/logkit-1.2.jar"/>
     <property name="sandbox-info.jar" value="${lib.dir}/sandbox-info-1.0a.jar"/>
     <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
@@ -191,7 +191,7 @@ Legal:
             out="changelog.html"
             style="${ant.home}/etc/changelog.xsl">
             <param name="title" expression="Phoenix ChangeLog"/>
-            <param name="module" expression="jakarta-avalon-phoenix"/>
+            <param name="module" expression="avalon-phoenix"/>
             <param name="cvsweb" expression="http://cvs.apache.org/viewcvs/"/>
         </style>
 
@@ -616,11 +616,11 @@ These are tools useful for build-time only.
 You can delete the tools/ dir for a runtime install of Phoenix.
 
 phoenix-metagenerate.jar needs to be used with qdox-1.0.jar
-  See http://cvs.apache.org/viewcvs/jakarta-avalon-apps/demo/build.xml for usage
+  See http://cvs.apache.org/viewcvs/avalon-apps/demo/build.xml for usage
   See http://jakarta.apache.org/avalon/phoenix/mx/index.html for documentation
 
 phoenix-punit.jar needs to be used with phoenix-containerkit-1.0.jar
-  See http://cvs.apache.org/viewcvs/jakarta-avalon-phoenix/src/test/org/apache/avalon/phoenix/tools/punit/test/
+  See http://cvs.apache.org/viewcvs/avalon-phoenix/src/test/org/apache/avalon/phoenix/tools/punit/test/
   for usage.
   See http://jakarta.apache.org/avalon/phoenix/punit/index.html for documentation
         </echo>
@@ -891,7 +891,7 @@ phoenix-punit.jar needs to be used with phoenix-containerkit-1.0.jar
         <fileset dir="${build.javadocs}"/>
        </copy>
        
-       <copy todir="../jakarta-avalon-site/docs/phoenix" filtering="off">
+       <copy todir="../avalon-site/docs/phoenix" filtering="off">
         <fileset dir="${build.docs}"/>
        </copy>       
 

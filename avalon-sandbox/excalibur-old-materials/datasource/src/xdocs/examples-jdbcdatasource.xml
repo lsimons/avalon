@@ -26,14 +26,14 @@
             <para>
                 To run the application, follow these steps.
                 <list>
-                    <li>Download and build the <code>jakarta-avalon project</code>.</li>
-                    <li>Download the <code>jakarta-avalon-excalibur</code> project into the same 
-                        parent directory as <code>jakarta-avalon</code> and run <code>build</code>
+                    <li>Download and build the <code>avalon project</code>.</li>
+                    <li>Download the <code>avalon-excalibur</code> project into the same
+                        parent directory as <code>avalon</code> and run <code>build</code>
                     </li>
-                    <li>cd into the <code>jakarta-avalon-excalibur/examples/jdbcdatasource</code>
+                    <li>cd into the <code>avalon-excalibur/examples/jdbcdatasource</code>
                         directory and run build.  This will build the example application.
                     </li>
-                    <li>cd into the <code>jakarta-avalon-excalibur/examples/jdbcdatasource/bin</code>
+                    <li>cd into the <code>avalon-excalibur/examples/jdbcdatasource/bin</code>
                         directory and execute the <code>run</code> script.</li>
                 </list>
             </para>
@@ -209,7 +209,7 @@ Exiting...]]></programlisting>
     <footer>
         <legal>
             Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-            $Revision: 1.2 $ $Date: 2002/07/26 16:03:16 $
+            $Revision: 1.3 $ $Date: 2003/02/06 13:38:30 $
         </legal>
     </footer>
 </document>

@@ -9,9 +9,9 @@ Assuming:
  - You have a JDK installed, $JAVA_HOME set and 'java -version' works
  - Your directory structure follows standard CVS layout:
 
-jakarta-avalon/                   # jakarta-avalon CVS module, containing Ant
-jakarta-avalon-excalibur/              # contains build.sh, build.bat
-jakarta-avalon-excalibur/configuration   # you are here
+avalon/                   # avalon CVS module, containing Ant
+avalon-excalibur/              # contains build.sh, build.bat
+avalon-excalibur/configuration   # you are here
 
 Then to build, you need only customize ant.properties (see step 6 below) and
 type './build.sh' (Unix) or 'build' (DOS). The '-projecthelp' option will
