@@ -64,7 +64,7 @@
     <menu name="About Merlin">
       <item name="Overview" href="/about/index.html"/>
       <item name="Getting Started" href="/starting/index.html">
-        <item name="Installation" href="/starting/installation.html"/>
+        <item name="Installation" href="/starting/installation/index.html"/>
         <item name="Using Merlin" href="/starting/tutorial/index.html">
           <item name="Hello Block" href="/starting/tutorial/creation.html"/>
           <item name="Running Hello" href="/starting/tutorial/execution.html"/>
