@@ -101,7 +101,7 @@ public class XDocPlugin extends AbstractPlugin
     private void transformNavigation( File themeDir )
         throws BuildException
     {
-        getLogger.debug( "Converting Navigation." );
+        getLogger().debug( "Converting Navigation." );
         File xslFile = new File( themeDir,  "nav-aggregate.xsl" );
         String srcDir = m_Context.getProperty( "xdoc.src.dir" );
         File fromDir = new File( srcDir );
@@ -161,7 +161,7 @@ public class XDocPlugin extends AbstractPlugin
            processed document
         */
 
-        getLogger.debug( "Converting XML documents." );
+        getLogger().debug( "Converting XML documents." );
         try
         {
             TransformerFactory factory = TransformerFactory.newInstance();

@@ -72,7 +72,7 @@ public class Main
     static String[] sequence( File projDir )
         throws Exception
     {
-        File sequenceFile = new File( projDir, "build.sequence" );
+        File sequenceFile = new File( projDir, "magic.sequence" );
         if( ! sequenceFile.exists() )
             return new String[0];
         FileReader reader = null;
