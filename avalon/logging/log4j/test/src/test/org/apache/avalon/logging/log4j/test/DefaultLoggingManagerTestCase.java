@@ -42,7 +42,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class DefaultLoggingManagerTestCase extends TestCase
 {
@@ -102,10 +102,10 @@ public class DefaultLoggingManagerTestCase extends TestCase
         logger.error( 
           "this is an error message from test", 
           new LoggingException( 
-            "woops", 
+            "Intentional Exception for TestCase.", 
             new LoggingException( 
-              "my fault", 
-              new LoggingException( "bad attitude" ) ) ) );
+              "nested level 1", 
+              new LoggingException( "nested level 2" ) ) ) );
         logger.fatalError( "this is a fatal message from test" );
     }
 
@@ -119,10 +119,10 @@ public class DefaultLoggingManagerTestCase extends TestCase
         logger.error( 
           "this is an error message from roger ramjet", 
           new LoggingException( 
-            "woops", 
+            "Intentional Exception for TestCase.", 
             new LoggingException( 
-              "my fault", 
-              new LoggingException( "bad attitude" ) ) ) );
+              "nested level 1", 
+              new LoggingException( "nested level 2" ) ) ) );
         logger.fatalError( "this is a fatal message from roger ramjet" );
     }
 

@@ -18,6 +18,11 @@
 
 package org.apache.avalon.logging.log4j;
 
+import java.io.File;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,7 +43,7 @@ import org.apache.log4j.xml.DOMConfigurator;
  * A Log4J factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class Log4JLoggingFactory
     implements Factory
@@ -48,7 +53,7 @@ public class Log4JLoggingFactory
     
     private final ClassLoader    m_Classloader;
     private final InitialContext m_Context;
-    private       boolean        m_Log4JInitialized;
+    private       File           m_BaseDirectory;
    
    /**
     * Creation of a new default factory.
@@ -59,7 +64,6 @@ public class Log4JLoggingFactory
     {
         m_Context = context;
         m_Classloader = classloader;
-        m_Log4JInitialized = false;
     }
    
    /**
@@ -88,28 +92,28 @@ public class Log4JLoggingFactory
     public Object create( Map criteriaMap ) 
         throws Exception
     {
-        if( ! m_Log4JInitialized )
+        if( null == criteriaMap )
         {
-            if( null == criteriaMap )
-            {
-                throw new NullPointerException( "criteriaMap" );
-            }
+            throw new NullPointerException( "criteriaMap" );
+        }
 
-            final LoggingCriteria criteria = getLoggingCriteria( criteriaMap );
-            
-            final Configuration config = criteria.getConfiguration();
-            Configuration srcConf = config.getChild( "src" );
-            Configuration updateConf = config.getChild( "update" );
-            String src = srcConf.getValue();
-            long updateInterval = updateConf.getValueAsLong( 0 );
-            if( updateInterval > 0 )
-            {
-                configureWithWatch( src, updateInterval );
-            }
-            else
-            {
-                configureWithOutWatch( src );
-            }
+        final LoggingCriteria criteria = getLoggingCriteria( criteriaMap );
+        m_BaseDirectory = criteria.getBaseDirectory();
+
+        final Configuration config = criteria.getConfiguration();
+        Configuration srcConf = config.getChild( "src" );
+        Configuration updateConf = config.getChild( "update" );
+        String src = srcConf.getValue();
+        src = resolveSource( src );
+        System.out.println( src );
+        long updateInterval = updateConf.getValueAsLong( 0 );
+        if( updateInterval > 0 )
+        {
+            configureWithWatch( src, updateInterval );
+        }
+        else
+        {
+            configureWithOutWatch( src );
         }
         return new LoggingManagerImpl();
     }
@@ -138,6 +142,28 @@ public class Log4JLoggingFactory
         }
     }
 
+    private String resolveSource( String src )
+    {
+        try
+        {
+            URL url = new URL( src );
+            if( url.getProtocol().equals( "file" ) )
+                return resolveToBaseDir( src );
+            return src;
+        } catch( MalformedURLException e )
+        {
+            return resolveToBaseDir( src );
+        }
+    }
+    
+    private String resolveToBaseDir( String src )
+    {
+        if( src.startsWith( "/" ) )
+            return src;
+        File f = new File( m_BaseDirectory, src );
+        return f.getAbsolutePath();
+    }
+    
     private LoggingCriteria getLoggingCriteria( Map map )
     {
         if( map instanceof LoggingCriteria )
