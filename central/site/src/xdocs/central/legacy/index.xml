@@ -2,11 +2,11 @@
 <document>
   <properties>
     <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
-    <title>Legacy Products</title>
+    <title>Avalon Central</title>
   </properties> 
 
   <body>
-    <section name="Legacy Products">
+    <section name="Legacy Content">
       <p>
        Several Apache Avalon products have been either retired or
        spun off into their own Apache projects.  For a more detailed
