@@ -65,7 +65,7 @@ import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentSample
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/09/08 09:00:44 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/09/08 10:01:48 $
  * @since 4.1
  */
 public class HTMLSampleHandler
@@ -219,13 +219,17 @@ public class HTMLSampleHandler
             out.println( "  clearInterval(intervalId);" );
             out.println( "  intervalId = setInterval(\"refreshChart()\", refresh);" );
             out.println( "}" );
+            out.println( "function chartError() {" );
+            out.println( "  clearInterval(intervalId);" );
+            out.println( "  document.location=\"instrument.html?name=" + urlEncode( desc.getInstrumentDescriptor().getName() ) + "\";" );
+            out.println( "}" );
             // No auto refresh by default.
             //out.println( "setRefresh(5000);" );
             out.println( "</SCRIPT>" );
             
             out.println( "<form>" );
             startTable( out );
-            tableCell( out, "<img name='chart' src='sample-chart.jpg?name=" + urlEncode( desc.getName() ) + "' onError='javascript:document.location=\"instrument.html?name=" + urlEncode( desc.getInstrumentDescriptor().getName() ) + "\"'>" );
+            tableCell( out, "<img name='chart' src='sample-chart.jpg?name=" + urlEncode( desc.getName() ) + "' onError='javascript:chartError()'>" );
             endTable( out );
             out.println( "Refresh rate:" );
             out.println( "<input type='button' value='No Refresh' onClick='javascript:clearInterval(intervalId)'>" );
