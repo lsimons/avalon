@@ -26,12 +26,25 @@ public class ResourceManager
      */
     public final static Resources getBaseResources( final String baseName )
     {
+        return getBaseResources( baseName, null );
+    }
+
+    /**
+     * Retrieve resource with specified basename.
+     *
+     * @param baseName the basename
+     * @param classLoader the classLoader to load resources from
+     * @return the Resources
+     */
+    public final static Resources getBaseResources( final String baseName,
+                                                    final ClassLoader classLoader )
+    {
         //TODO: Make these weak references????
         Resources packet = (Resources)c_resources.get( baseName );
-        
+
         if( null == packet )
         {
-            packet = new Resources( baseName );
+            packet = new Resources( baseName, classLoader );
             c_resources.put( baseName, packet );
         }
 
@@ -52,7 +65,7 @@ public class ResourceManager
 
     /**
      * Retrieve resource for specified Classes package.
-     * The basename is determined by name of classes package 
+     * The basename is determined by name of classes package
      * postfixed with ".Resources".
      *
      * @param clazz the Class
@@ -60,12 +73,12 @@ public class ResourceManager
      */
     public final static Resources getPackageResources( final Class clazz )
     {
-        return getBaseResources( getPackageResourcesBaseName( clazz ) );
+        return getBaseResources( getPackageResourcesBaseName( clazz ), clazz.getClassLoader() );
     }
 
     /**
      * Retrieve resource for specified Class.
-     * The basename is determined by name of Class 
+     * The basename is determined by name of Class
      * postfixed with "Resources".
      *
      * @param clazz the Class
@@ -73,12 +86,12 @@ public class ResourceManager
      */
     public final static Resources getClassResources( final Class clazz )
     {
-        return getBaseResources( getClassResourcesBaseName( clazz ) );
+        return getBaseResources( getClassResourcesBaseName( clazz ), clazz.getClassLoader() );
     }
 
     /**
      * Retrieve resource basename for specified Classes package.
-     * The basename is determined by name of classes package 
+     * The basename is determined by name of classes package
      * postfixed with ".Resources".
      *
      * @param clazz the Class
@@ -111,7 +124,7 @@ public class ResourceManager
 
     /**
      * Retrieve resource basename for specified Class.
-     * The basename is determined by name of Class 
+     * The basename is determined by name of Class
      * postfixed with "Resources".
      *
      * @param clazz the Class
