@@ -16,9 +16,9 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 
 /**
  * The Parameters represents a set of key-value pairs.
- * Each value stored in Parameters has a key. 
+ * Each value stored in Parameters has a key.
  * This class is similar to java.util.Properties with convenience methods
- * to access property values by type. 
+ * to access property values by type.
  *
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
@@ -74,19 +74,27 @@ public class Parameters
     /**
      * Retrieve the <code>String</code> value of the specified parameter.
      * <p />
-     * If the specified parameter cannot be found, <b>null</b> is returned.
+     * If the specified parameter cannot be found, an exception is thrown.
      *
      * @param name the name of parameter
      * @return the value of parameter
+     * @throws ParameterException
      */
-    private String getParameter( final String name )
+    public String getParameter( final String name ) throws ParameterException
     {
         if( null == name )
         {
-            return null;
+            throw new ParameterException("You cannot lookup a null parameter");
         }
 
-        return (String)m_parameters.get( name );
+        String test = (String)m_parameters.get( name );
+
+        if (null == test)
+        {
+            throw new ParameterException("The parameter '" + name + "' does not contain a value");
+        }
+
+        return test;
     }
 
     /**
@@ -101,42 +109,35 @@ public class Parameters
      */
     public String getParameter( final String name, final String defaultValue )
     {
-        final String value = getParameter( name );
-
-        if( null == value )
+        try
+        {
+            return getParameter( name );
+        }
+        catch (ParameterException pe)
         {
             return defaultValue;
         }
-        else
-        {
-            return value;
-        }
     }
 
-    /**
+     /**
      * Retrieve the <code>int</code> value of the specified parameter.
      * <p />
-     * If the specified parameter cannot be found, <code>defaultValue</code>
-     * is returned.
+     * If the specified parameter cannot be found, an exception is thrown.
      *
      * Hexadecimal numbers begin with 0x, Octal numbers begin with 0o and binary
      * numbers begin with 0b, all other values are assumed to be decimal.
      *
      * @param name the name of parameter
-     * @param defaultValue value returned if parameter does not exist or is of wrong type
      * @return the integer parameter type
+     * @throws ParameterException
      */
-    public int getParameterAsInteger( final String name, final int defaultValue )
+    public int getParameterAsInteger( final String name )
+    throws ParameterException
     {
-        final String value = getParameter( name );
-
-        if( null == value )
-        {
-            return defaultValue;
-        }
-
         try
         {
+            final String value = getParameter( name );
+
             if( value.startsWith("0x") )
             {
                 return Integer.parseInt( value.substring(2), 16 );
@@ -154,9 +155,75 @@ public class Parameters
                 return Integer.parseInt( value );
             }
         }
-        catch( final NumberFormatException nfe )
+        catch (Exception e)
+        {
+            throw new ParameterException("Could not return an integer value", e);
+        }
+    }
+   /**
+     * Retrieve the <code>int</code> value of the specified parameter.
+     * <p />
+     * If the specified parameter cannot be found, <code>defaultValue</code>
+     * is returned.
+     *
+     * Hexadecimal numbers begin with 0x, Octal numbers begin with 0o and binary
+     * numbers begin with 0b, all other values are assumed to be decimal.
+     *
+     * @param name the name of parameter
+     * @param defaultValue value returned if parameter does not exist or is of wrong type
+     * @return the integer parameter type
+     */
+    public int getParameterAsInteger( final String name, final int defaultValue )
+    {
+        try
+        {
+            return this.getParameterAsInteger(name);
+        }
+        catch (Exception e)
         {
             return defaultValue;
+        }
+    }
+
+    /**
+     * Retrieve the <code>long</code> value of the specified parameter.
+     * <p />
+     * If the specified parameter cannot be found, an exception is thrown.
+     *
+     * Hexadecimal numbers begin with 0x, Octal numbers begin with 0o and binary
+     * numbers begin with 0b, all other values are assumed to be decimal.
+     *
+     * @param name the name of parameter
+     * @return the long parameter type
+     * @throws ParameterException
+     */
+    public long getParameterAsLong( final String name )
+    throws ParameterException
+    {
+        try
+        {
+            final String value = getParameter( name );
+
+            if( value.startsWith("0x") )
+            {
+                return Long.parseLong( value.substring(2), 16 );
+            }
+            else if( value.startsWith("0o") )
+            {
+                return Long.parseLong( value.substring(2), 8 );
+            }
+            else if( value.startsWith("0b") )
+            {
+                return Long.parseLong( value.substring(2), 2 );
+            }
+            else
+            {
+                return Long.parseLong( value );
+            }
+        }
+        catch (Exception e)
+        {
+            throw new ParameterException("Could not return a long value", e);
         }
     }
 
@@ -175,35 +242,35 @@ public class Parameters
      */
     public long getParameterAsLong( final String name, final long defaultValue )
     {
-        final String value = getParameter( name );
-
-        if( null == value )
-        {
-            return defaultValue;
-        }
-
         try
         {
-            if( value.startsWith("0x") )
-            {
-                return Long.parseLong( value.substring(2), 16 );
-            }
-            else if( value.startsWith("0o") )
-            {
-                return Long.parseLong( value.substring(2), 8 );
-            }
-            else if( value.startsWith("0b") )
-            {
-                return Long.parseLong( value.substring(2), 2 );
-            }
-            else
-            {
-                return Long.parseLong(value);
-            }
+            return this.getParameterAsLong(name);
         }
-        catch( final NumberFormatException nfe )
+        catch (Exception e)
         {
             return defaultValue;
+        }
+    }
+
+    /**
+     * Retrieve the <code>float</code> value of the specified parameter.
+     * <p />
+     * If the specified parameter cannot be found,  an exception is thrown.
+     *
+     * @param name the parameter name
+     * @return the value
+     * @throws ParameterException
+     */
+    public float getParameterAsFloat( final String name )
+    throws ParameterException
+    {
+        try
+        {
+            return Float.parseFloat( getParameter( name ) );
+        }
+        catch (Exception e)
+        {
+            throw new ParameterException("Could not return a float value", e);
         }
     }
 
@@ -219,20 +286,47 @@ public class Parameters
      */
     public float getParameterAsFloat( final String name, final float defaultValue )
     {
-        final String value = getParameter( name );
-
-        if( null == value )
-        {
-            return defaultValue;
-        }
-
         try
         {
-            return Float.parseFloat(value);
+            return this.getParameterAsFloat(name);
         }
-        catch( final NumberFormatException nfe )
+        catch (Exception e)
         {
             return defaultValue;
+        }
+    }
+
+    /**
+     * Retrieve the <code>boolean</code> value of the specified parameter.
+     * <p />
+     * If the specified parameter cannot be found, an exception is thrown.
+     *
+     * @param name the parameter name
+     * @return the value
+     * @throws ParemterException
+     */
+    public boolean getParameterAsBoolean( final String name )
+    throws ParameterException
+    {
+        try
+        {
+            final String value = getParameter( name );
+
+            if( value.equalsIgnoreCase( "true" ) )
+            {
+                return true;
+            }
+
+            if( value.equalsIgnoreCase( "false" ) )
+            {
+                return false;
+            }
+
+            throw new ParameterException("Could not return a boolean value");
+        }
+        catch (Exception e)
+        {
+            throw new ParameterException("Could not return a boolean value", e);
         }
     }
 
@@ -248,24 +342,14 @@ public class Parameters
      */
     public boolean getParameterAsBoolean( final String name, final boolean defaultValue )
     {
-        final String value = getParameter( name );
-
-        if( null == value )
+        try
+        {
+            return this.getParameterAsBoolean(name);
+        }
+        catch (Exception e)
         {
             return defaultValue;
         }
-
-        if( value.equalsIgnoreCase( "true" ) )
-        {
-            return true;
-        }
-
-        if( value.equalsIgnoreCase( "false" ) )
-        {
-            return false;
-        }
-
-        return defaultValue;
     }
 
     /**
@@ -282,7 +366,15 @@ public class Parameters
         while( names.hasNext() )
         {
             final String name = (String) names.next();
-            final String value = other.getParameter( name );
+            String value = null;
+            try
+            {
+                value = other.getParameter( name );
+            }
+            catch (ParameterException pe)
+            {
+                value = null;
+            }
 
             setParameter( name, value );
         }
