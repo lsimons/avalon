@@ -24,7 +24,7 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * Description of a source which is described by an URL.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/04/23 15:35:27 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/04/24 08:25:42 $
  */
 
 public class URLSource
@@ -69,11 +69,16 @@ public class URLSource
     protected boolean isPost = false;
 
     /**
-     * Construct a new object from a <code>URL</code>.
+     * Constructor
+     */
+    public URLSource() {}
+
+    /**
+     * Initialize a new object from a <code>URL</code>.
      * @param parameters This is optional
      */
-    public URLSource( URL url,
-                      Map parameters )
+    public void init(URL url,
+                     Map parameters )
         throws IOException
     {
         this.systemId = url.toExternalForm();
