@@ -9,6 +9,7 @@ package org.apache.avalon.phoenix.components.classloader;
 
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URLStreamHandlerFactory;
 import java.security.CodeSource;
 import java.security.PermissionCollection;
 import java.security.Permissions;
@@ -36,9 +37,10 @@ class PolicyClassLoader
      */
     PolicyClassLoader( final URL[] urls,
                        final ClassLoader classLoader,
+                       final URLStreamHandlerFactory factory,
                        final Policy policy )
     {
-        super( urls, classLoader );
+        super( urls, classLoader, factory );
 
         if( null == policy )
         {
