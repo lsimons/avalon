@@ -25,10 +25,11 @@
         <pathelement location="${checkstyle.jar}"/>
         <pathelement location="${xalan.jar}"/>
         <pathelement location="${xerces.jar}"/>
+        <pathelement location="${saxpath.jar}"/>
         <pathelement location="${xml-apis.jar}"/>
-        <fileset dir="${lib.dir}">
-            <include name="*.jar" />
-        </fileset>
+        <pathelement location="${jaxen.jar}"/>
+        <pathelement location="${resolver.jar}"/>
+        <pathelement location="${jtidy.jar}"/>
         <pathelement path="${java.class.path}"/>
     </path>
 
@@ -52,15 +53,6 @@
 
     <!-- Checks the environment for existing resources -->
     <target name="check-environment">
-        <available property="xpath.present" classname="org.apache.xpath.XPathAPI">
-            <classpath refid="project.class.path"/>
-        </available>
-        <available property="jaxen.present" classname="org.jaxen.dom.DOMXPath">
-            <classpath refid="project.class.path"/>
-        </available>
-        <available property="jtidy.present" classname="org.w3c.tidy.Tidy">
-            <classpath refid="project.class.path"/>
-        </available>
     </target>
 
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
@@ -112,12 +104,6 @@
             target="1.2">
             <classpath refid="project.class.path" />
             <exclude name="**/test/**"/>
-            <exclude name="org/apache/excalibur/xml/xpath/XPathProcessorImpl.java"
-                unless="xpath.present"/>
-            <exclude name="org/apache/excalibur/xml/xpath/JaxenProcessorImpl.java"
-                unless="jaxen.present"/>
-            <exclude name="org/apache/excalibur/xmlizer/impl/HTMLXMLizer.java"
-                unless="jtidy.present"/>
         </javac>
 
         <!-- copy resources to same location as .class files -->
