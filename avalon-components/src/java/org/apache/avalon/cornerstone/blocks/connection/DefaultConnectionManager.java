@@ -18,7 +18,6 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.framework.component.Component; // backward compatibility
 
 /**
  * This is the service through which ConnectionManagement occurs.
@@ -30,7 +29,7 @@ import org.apache.avalon.framework.component.Component; // backward compatibilit
  */
 public class DefaultConnectionManager
     extends AbstractLogEnabled
-    implements ConnectionManager, Serviceable, Disposable, Component
+    implements ConnectionManager, Serviceable, Disposable
 {
     private final HashMap m_connections = new HashMap();
     private ThreadManager m_threadManager;

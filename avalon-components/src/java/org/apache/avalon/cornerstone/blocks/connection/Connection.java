@@ -17,7 +17,6 @@ import java.util.Vector;
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandler;
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandlerFactory;
 import org.apache.avalon.excalibur.thread.ThreadPool;
-import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
@@ -28,7 +27,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  */
 class Connection
     extends AbstractLogEnabled
-    implements Component, Runnable
+    implements Runnable
 {
     private final ServerSocket m_serverSocket;
     private final ConnectionHandlerFactory m_handlerFactory;
@@ -121,7 +120,7 @@ class Connection
 
 class ConnectionRunner
     extends AbstractLogEnabled
-    implements Runnable, Component
+    implements Runnable
 {
     private Socket m_socket;
     private Thread m_thread;
