@@ -18,7 +18,7 @@ import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.phoenix.components.lifecycle.ResourceAccessor;
+import org.apache.avalon.phoenix.components.container.lifecycle.ResourceAccessor;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 
@@ -27,7 +27,7 @@ import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
  * Block or Listener.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2002/05/20 10:15:34 $
+ * @version $Revision: 1.7 $ $Date: 2002/06/04 04:36:13 $
  */
 class ListenerAccessor
     extends AbstractLogEnabled

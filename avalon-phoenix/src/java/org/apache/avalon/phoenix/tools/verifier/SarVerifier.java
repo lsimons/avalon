@@ -23,6 +23,8 @@ import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockListener;
+import org.apache.avalon.phoenix.components.container.verifier.Verifier;
+import org.apache.avalon.phoenix.components.container.verifier.VerifyException;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
@@ -57,7 +59,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * </ul>
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.17 $ $Date: 2002/05/20 11:39:02 $
+ * @version $Revision: 1.18 $ $Date: 2002/06/04 04:36:13 $
  */
 public class SarVerifier
     extends AbstractLogEnabled
@@ -231,9 +233,15 @@ public class SarVerifier
         return sb.toString();
     }
 
+    /**
+     * Get array of dependencies for specified Block from specified Block array.
+     *
+     * @param block the block to get dependencies of
+     * @param blocks the total set of blocks in application
+     * @return the dependencies of block
+     */
     private BlockMetaData[] getDependencies( final BlockMetaData block,
                                              final BlockMetaData[] blocks )
-        throws VerifyException
     {
         final ArrayList dependencies = new ArrayList();
         final DependencyMetaData[] deps = block.getDependencies();
