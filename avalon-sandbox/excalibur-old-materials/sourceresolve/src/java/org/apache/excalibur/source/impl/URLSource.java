@@ -17,10 +17,12 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Iterator;
 import java.util.Map;
+/*
 import org.apache.avalon.excalibur.monitor.FileResource;
 import org.apache.avalon.excalibur.monitor.Monitorable;
 import org.apache.avalon.excalibur.monitor.Resource;
 import org.apache.avalon.excalibur.monitor.SourceResource;
+*/
 import org.apache.excalibur.source.*;
 import org.apache.excalibur.source.impl.validity.TimeStampValidity;
 
@@ -28,11 +30,11 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * Description of a source which is described by an URL.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/19 09:05:37 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/04/22 09:15:00 $
  */
 
 public final class URLSource
-    implements Source, Monitorable
+    implements Source, // Monitorable
 {
 
     /** With this parameter you can specify the method to use for a http request.
@@ -180,7 +182,6 @@ public final class URLSource
 
     /**
      *  Get the corresponding Resource object for monitoring.
-     */
     public Resource getResource()
         throws Exception
     {
@@ -194,6 +195,7 @@ public final class URLSource
             return new SourceResource( this );
         }
     }
+     */
 
     /**
      * Return an <code>InputStream</code> object to read from the source.
