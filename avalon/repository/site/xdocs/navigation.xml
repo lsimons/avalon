@@ -63,7 +63,12 @@
     </links>
 
     <menu name="About Repository">
-      <item name="Overview" href="/about/index.html"/>
+      <item name="Overview" href="/about/index.html">
+        <item name="Programmer API" href="/about/api/index.html"/>
+        <item name="Provider SPI" href="/about/spi.html"/>
+        <item name="Implementation" href="/about/reference.html"/>
+        <item name="Bootstrap System" href="/about/bootstrap.html"/>
+      </item>
       <item name="Getting Started" href="/start/index.html"/>
       <item name="Tools" href="/tools/index.html"/>
     </menu>

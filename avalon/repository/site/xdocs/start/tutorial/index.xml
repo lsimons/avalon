@@ -1,51 +1,20 @@
 <?xml version="1.0"?>
 
-<!--
- ============================================================================
-                   The Apache Software License, Version 1.1
- ============================================================================
-
- Copyright (C) 1999-2002 The Apache Software Foundation. All rights reserved.
-
- Redistribution and use in source and binary forms, with or without modifica-
- tion, are permitted provided that the following conditions are met:
-
- 1. Redistributions of  source code must  retain the above copyright  notice,
-    this list of conditions and the following disclaimer.
-
- 2. Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
-
- 3. The end-user documentation included with the redistribution, if any, must
-    include  the following  acknowledgment:  "This product includes  software
-    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
-    Alternately, this  acknowledgment may  appear in the software itself,  if
-    and wherever such third-party acknowledgments normally appear.
-
- 4. The names "Jakarta", "Apache Avalon", "Avalon Framework" and
-    "Apache Software Foundation"  must not be used to endorse or promote
-    products derived  from this  software without  prior written
-    permission. For written permission, please contact apache@apache.org.
-
- 5. Products  derived from this software may not  be called "Apache", nor may
-    "Apache" appear  in their name,  without prior written permission  of the
-    Apache Software Foundation.
-
- THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
- INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
- APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
- INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
- DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
- OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
- ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
- (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
- THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
- This software  consists of voluntary contributions made  by many individuals
- on  behalf of the Apache Software  Foundation. For more  information on the
- Apache Software Foundation, please see http://www.apache.org/.
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
 -->
 
 <document>
@@ -57,57 +26,236 @@
 
     <body>
 
-        <section name="Avalon Repository - Tutorials">
+      <section name="Avalon Repository - Tutorials">
 
-        <subsection name="Application Example">
          <p>The following example is taken from the the 
          <a href="http://avalon.apache.org/merlin">Merlin</a> project. 
-         It demonstrates the creation of an embedded merlin kernel using
+         It demonstrates the creation of an embedded logging service using
          the Repository Facility builder, factory and criteria handling 
          patterns.</p>
-<source>
-try
-{
-    //
-    // declare the facility to load
-    //
 
-    Artifact artifact = 
-      Artifact.createArtifact( 
-        "merlin", "merlin-impl", "3.2-dev" );
-
-    // 
-    // create an inital context
-    //
-
-    InitialContext context = 
-       new DefaultInitialContext();
-
-    //
-    // create the factory using the default builder
-    //
-
-    Builder builder = new DefaultBuilder( context, artifact );
-    Factory factory = builder.getFactory();
-
-    //
-    // get the default factory parameters and apply these
-    // as the factory argument to construct the new facility
-    //
-
-    Map criteria = factory.createDefaultCriteria();
-    applyLocalProperties( criteria );
-    Object facility = factory.create( criteria );
-}
-catch( Throwable e )
-{
-    final String error = ExceptionHelper.packException( e, true );
-    throw new Exception( error );
-}
-</source>
+        <subsection name="Creating an InitialContext ">
+          <p>
+   The following code fragment defines a cache directory for the 
+   repository system to use when loading resources needed in your 
+   embedded application - and provides the directory as an argument 
+   when creating a new InitialContext object.  The InitialContext is
+   your hook into the repository system and the embedding machinery.
+          </p>
+          <source>
+File cache = new File( "my-cache" );
+InitialContext context = new DefaultInitialContext( cache );
+          </source>
         </subsection>
 
-        </section>
+        <subsection name="Declare what you want to embed">
+          <source>
+String spec =
+  "artifact:avalon-logging/avalon-logkit?version=1.0-SNAPSHOT"
+Artifact artifact =
+  Artifact.createArtifact( spec );
+          </source>
+          <p>
+   An artifact is a logical reference to a jar file (or other type
+   of resource) that the repository can access. The avalon-repository
+   system uses artifact references as the key to locating meta data
+   about embedded classloaders.  The classloader meta data is
+   maintained as a properties file with the .meta extension.  For
+   example the above artifact meta address translates to: 
+          </p>
+          <source>
+[host]/avalon-logging/jars/avalon-logkit-impl-1.0-SNAPSHOT.jar.meta 
+          </source>
+          <p>
+   The content of the meta file is automatically generated using the
+   avalon-plugin avalon:artifact goal. Two examples of factory meta 
+   are provides, one concerning the <a href="logkit.meta">logkit</a>
+   factory and a second describing the <a href="merlin.meta">merlin</a>
+   factory.
+          </p>
+          <p>
+   The contents of the meta file includes:
+          </p>
+          <ul>
+            <li>an ordered list of jar files that are required to
+       construct a classloader for the embedded application</li>
+
+            <li>the name of a factory class to be used as the embedded
+       instance creator</li>
+          </ul>
+        </subsection>
+
+        <subsection name="Create the factory">
+          <p>
+   Using the initial context and the artifact you now have everything
+   you need to create you embedded instance.
+          </p>
+          <source>
+Builder builder = m_context.newBuilder( artifact );
+Factory factory = builder.getFactory();
+          </source>
+          <p>
+   Behind the scenes the avalon-repository system has gone off, pulled
+   down the meta data, downloaded and cached all of the classloader
+   entries, constructed a new classloader, and instantiated the
+   factory.
+          </p>
+        </subsection>
+
+        <subsection name="Parameterizing the factory ">
+          <p>
+   The factory object is the central entry point of the embedded
+   application - it is responsible for instantiation of the
+   embedded instance based on a supplied criteria.  The initial
+   criteria (the defaults) are established by the factory in
+   response to the following operation:
+          </p>
+          <source>
+Map criteria = factory.createDefaultCriteria();
+          </source>
+          <p>
+   Based on the documentation about the facility you are embedding
+   you can update the criteria using application specific keys. All
+   of the Merlin related criteria instances use the avalon-util
+   Criteria as the abstract base class for the map implementations.  
+   This provides support for key and type validation under the put 
+   operations and type coercion on get operations.
+          </p>
+          <p>
+   For example:
+          </p>
+          <source>
+String key = "avalon.logging.configuration";
+File file = new File( "logging.xml" );
+criteria.put( key, file );
+          </source>
+          <p>
+   Parameterization of the criteria is typically different for
+   each embedding scenario.  A CLI handler will for example adapt
+   to the command line operations and set criteria values accordingly.
+   A web application may set the criteria based on parameters declared
+   in a web.xml file.  Typically the embedding class acts as the
+   adapter between the embedded context and the factory.
+          </p>
+        </subsection>
+
+        <subsection name="Embedded instance creation">
+          <p>
+   Creation of the embedded instance is now a simple one line
+   operation:
+          </p>
+          <source>
+Object object = factory.create( criteria );
+          </source>
+          <p>
+   The object that is created is the embedded application.  In this
+   example its a logging manager that uses the logkit implementation.
+   However, it could have been the Merlin kernel.  The only difference
+   between the Merlin scenario and the logging manager scenario is
+   the initial artifact and the actions taken to parameterize the
+   criteria. 
+          </p>
+        </subsection>
+
+        <subsection name="Putting it all together">
+          <source>
+//
+// create the initial referecne
+//
+
+File cache = new File( "my-cache" );
+InitialContext context = new DefaultInitialContext( cache );
+
+// 
+// define the artifact 
+//
+
+String spec =
+  "artifact:avalon-logging/avalon-logkit?version=1.0-SNAPSHOT"
+Artifact artifact =
+  Artifact.createArtifact( spec );
+
+//
+// create the builder, get the factory and the initial criteria
+//
+
+Builder builder = m_context.newBuilder( artifact );
+Factory factory = builder.getFactory();
+Map criteria = factory.createDefaultCriteria();
+
+//
+// customize the crieria
+//
+
+String key = "avalon.logging.configuration";
+File file = new File( "logging.xml" );
+criteria.put( key, file );
+
+//
+// create the embedded instance
+//
+
+LoggingManager manager = 
+  (LoggingManager) factory.create( criteria );
+
+          </source>
+        </subsection>
+
+        <subsection name="Special Notes">
+<p>
+The avalon-repository API provides special support for initial context propergation to the factory that is being created.  The allows the factory to embed additional applications within itself using the classloader it is constructed under, together with the original initial context.
+</p>
+<p>
+The following code snipet demonstrates a factory that caches references to the classloader and initial context so that it can use these is subsequent embedding of services during its own create method implementation.
+</p>
+          <source>
+public class WidgetFactory implements Factory
+{
+    private final InitialContext m_context;
+    private final ClassLoader m_classloader;
+
+    public WidgetFactory( 
+      InitialContext context, ClassLoader classloader )
+    {
+        m_context = context;
+        m_classloader = classloader;
+    }
+
+    public Map getDefaultCriteria()
+    {
+        return new WidgetContext();
+    }
+
+    public Object create()
+    {
+        return create( getDefaultCriteria() );
+    }
+
+    public Object create( Map criteria )
+    {
+        //
+        // embed something into this factory using 
+        // the classloader that established this factory 
+        // as the parent classloader of the thing we are
+        // embedding
+        //
+
+        Artifact artifact = 
+          (Artifact) criteria.get( "gizmo.artifact" );
+        Builder builder = m_context.newBuilder( m_classloader, gizmo );
+        Gizmo gizmo = builder.getFactory().create();
+
+        //
+        // do other stuff
+        //
+
+        return new DefaultWidget( gizmo );
+    }
+}
+          </source>
+        </subsection>
+
+      </section>
 
     </body>
 
