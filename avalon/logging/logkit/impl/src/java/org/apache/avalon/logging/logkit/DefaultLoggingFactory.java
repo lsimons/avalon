@@ -185,11 +185,17 @@ public class DefaultLoggingFactory implements Factory
           config.getChild( "logger" ).getAttribute( "name", "logger" );
 
         //
+        // get the debug policy
+        //
+
+        boolean debug = criteria.isDebugEnabled();
+
+        //
         // create a logkit logging mananager
         //
 
         LoggingManager manager = 
-          new DefaultLoggingManager( m_logger, m_targets, categories, internal, false );
+          new DefaultLoggingManager( m_logger, m_targets, categories, internal, debug );
 
         //
         // setup the default log target

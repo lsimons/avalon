@@ -428,7 +428,7 @@ public class DefaultFactory implements Factory
 
     private Artifact getRuntimeArtifact( KernelCriteria criteria )
     {
-        if( isCodeSecurityEnabled() )
+        if( criteria.isCodeSecurityEnabled() )
         {
             return criteria.getSecureRuntimeImplementation();
         }
