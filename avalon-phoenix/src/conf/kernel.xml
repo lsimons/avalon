@@ -33,6 +33,9 @@
         <component role="org.apache.avalon.phoenix.interfaces.SystemManager"
             class="org.apache.avalon.phoenix.components.manager.MX4JSystemManager"
             logger="manager" >
+          <!--
+          <manager-adaptor-host>localhost</manager-adaptor-host>
+          -->
           <manager-adaptor-port>8082</manager-adaptor-port>
           <!--
           <enable-rmi-adaptor>true</enable-rmi-adaptor>
