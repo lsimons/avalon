@@ -19,29 +19,31 @@
         <element name="data-source">
             <attribute name="name"/>
             <attribute name="class"><value>org.apache.avalon.excalibur.datasource.JdbcDataSource</value></attribute>
-            <element name="pool-controller">
-                <attribute name="min">
-                    <data type="integer">
-                        <param name="minInclusive">1</param>
-                    </data>
-                </attribute>
-                <attribute name="max">
-                    <data type="integer">
-                        <param name="minInclusive">1</param>
-                    </data>
-                </attribute>
+            <interleave>
+                <element name="pool-controller">
+                    <attribute name="min">
+                        <data type="integer">
+                            <param name="minInclusive">1</param>
+                        </data>
+                    </attribute>
+                    <attribute name="max">
+                        <data type="integer">
+                            <param name="minInclusive">1</param>
+                        </data>
+                    </attribute>
+                    <optional>
+                        <attribute name="connection-class"/>
+                        <element name="keep-alive"><text/></element>
+                    </optional>
+                </element>
+                <element name="auto-commit"><data type="boolean"/></element>
+                <element name="driver"><text/></element>
+                <element name="dburl"><text/></element>
                 <optional>
-                    <attribute name="connection-class"/>
-                    <element name="keep-alive"><text/></element>
+                    <element name="user"><text/></element>
+                    <element name="password"><text/></element>
                 </optional>
-            </element>
-            <element name="auto-commit"><data type="boolean"/></element>
-            <element name="driver"><text/></element>
-            <element name="dburl"><text/></element>
-            <optional>
-                <element name="user"><text/></element>
-                <element name="password"><text/></element>
-            </optional>
+            </interleave>
         </element>
     </define>
 </grammar>
