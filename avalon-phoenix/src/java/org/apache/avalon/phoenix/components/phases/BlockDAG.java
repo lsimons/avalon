@@ -22,6 +22,8 @@ import org.apache.avalon.phoenix.components.kapi.BlockEntry;
 import org.apache.avalon.phoenix.components.kapi.RoleEntry;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * This is the dependency graph for blocks.
@@ -32,6 +34,9 @@ public class BlockDAG
     extends AbstractLoggable
     implements Component, Composable
 {
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( BlockDAG.class );
+
     public final static Traversal  FORWARD     = new Traversal( "FORWARD" );
     public final static Traversal  REVERSE     = new Traversal( "REVERSE" );
     public final static Traversal  LINEAR      = new Traversal( "LINEAR" );
@@ -87,7 +92,11 @@ public class BlockDAG
                                     final ArrayList completed )
         throws Exception
     {
-        getLogger().debug( "Traversing dependencies for " + name );
+        if( getLogger().isDebugEnabled() )
+        {
+            final String message = REZ.format( "dag.notice.traverse.name", name );
+            getLogger().debug( message );
+        }
 
         final DependencyDescriptor[] descriptors = entry.getBlockInfo().getDependencies();
         for( int i = 0; i < descriptors.length; i++ )
@@ -95,8 +104,12 @@ public class BlockDAG
             final ServiceDescriptor serviceDescriptor = descriptors[ i ].getService();
             final String role = descriptors[ i ].getRole();
 
-            getLogger().debug( "Traversing dependency of " + name + " with role " + role +
-                               " to provide service " + serviceDescriptor.getName() );
+            if( getLogger().isDebugEnabled() )
+            {
+                final String message = 
+                    REZ.format( "dag.notice.traverse.depend", name, role, serviceDescriptor.getName() );
+                getLogger().debug( message );
+            }
 
             //roleEntry should NEVER be null as it is checked when
             //entry is added to container
@@ -119,7 +132,11 @@ public class BlockDAG
                                            final ArrayList completed )
         throws Exception
     {
-        getLogger().debug( "Traversing reverse dependencies for " + name );
+        if( getLogger().isDebugEnabled() )
+        {
+            final String message = REZ.format( "dag.notice.reverse.name", name );
+            getLogger().debug( message );
+        }
 
         final Iterator entries = m_container.list();
         while( entries.hasNext() )
@@ -134,8 +151,15 @@ public class BlockDAG
 
                 if( depends.equals( name ) )
                 {
-                    getLogger().debug( "Attempting to unload block " + blockName +
-                                       " as it depends on " + depends );
+                    if( getLogger().isDebugEnabled() )
+                    {
+                        final String message = 
+                            REZ.format( "dag.notice.reverse.depend", 
+                                        name,
+                                        depends,
+                                        blockName );
+                        getLogger().debug( message );
+                    }
 
                     //finally try to traverse block
                     visitBlock( blockName, entry, visitor, REVERSE, completed );

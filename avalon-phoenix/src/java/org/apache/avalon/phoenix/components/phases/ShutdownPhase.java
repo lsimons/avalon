@@ -17,6 +17,8 @@ import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 import org.apache.avalon.phoenix.components.kapi.BlockEntry;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  *
@@ -26,6 +28,9 @@ public class ShutdownPhase
     extends AbstractLoggable
     implements BlockVisitor, Composable
 {
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( ShutdownPhase.class );
+
     private ApplicationFrame  m_frame;
     private Container         m_container;
 
@@ -48,8 +53,19 @@ public class ShutdownPhase
     {
         if( entry.getState() != BlockEntry.STARTEDUP ) return;
 
-        getLogger().info( "Processing Block: " + name );
-        getLogger().debug( "Processing with classloader " + m_frame.getClassLoader() );
+        if( getLogger().isInfoEnabled() )
+        {
+            final String message = REZ.format( "shutdown.notice.processing.name", name );
+            getLogger().info( message );
+        }
+        
+        //TODO: remove this and place in deployer/application
+        if( getLogger().isDebugEnabled() )
+        {
+            final String message = 
+                REZ.format( "shutdown.notice.processing.classloader", m_frame.getClassLoader() );
+            getLogger().debug( message );
+        }
 
         //HACK: Hack-o-mania here - Fix when each Application is
         //run in a separate thread group
@@ -61,51 +77,55 @@ public class ShutdownPhase
         //Stoppable stage
         if( object instanceof Startable )
         {
-            getLogger().debug( "Pre-Stoppable Stage" );
+            getLogger().debug( REZ.getString( "shutdown.notice.stop.pre" ) );
 
             try
             {
                 ((Startable)object).stop();
-                getLogger().debug( "Stoppable successful." );
+                getLogger().debug( REZ.getString( "shutdown.notice.stop.success" ) );
             }
             catch( final Exception e )
             {
-                getLogger().warn( "Unable to stop block " + name, e );
+                final String message = REZ.format( "shutdown.error.stop.fail", name );
+                getLogger().warn( message, e );
             }
         }
 
         //Disposable stage
         if( object instanceof Disposable )
         {
-            getLogger().debug( "Pre-Disposable Stage" );
+            getLogger().debug( REZ.getString( "shutdown.notice.dispose.pre" ) );
 
             try
             {
                 ((Disposable)object).dispose();
-                getLogger().debug( "Disposable successful." );
+                getLogger().debug( REZ.getString( "shutdown.notice.dispose.success" ) );
             }
             catch( final Throwable t )
             {
-                getLogger().warn( "Unable to dispose block " + name, t );
+                final String message = REZ.format( "shutdown.error.dispose.fail", name );
+                getLogger().warn( message, t );
             }
         }
 
         //Destruction stage
-        getLogger().debug( "Pre-Destruction Stage" );
+        getLogger().debug( REZ.getString( "shutdown.notice.destroy.pre" ) );
         entry.setInstance( null );
         entry.setState( BlockEntry.SHUTDOWN );
-        getLogger().debug( "Destruction successful." );
+        getLogger().debug( REZ.getString( "shutdown.notice.destroy.success" ) );
 
         try
         {
             m_container.remove( name );
-            getLogger().debug( "Removed entry from container." );
+            getLogger().debug( REZ.getString( "shutdown.notice.container.remove" ) );
         }
         catch( final Throwable t )
         {
-            getLogger().warn( "Unable to remove entry from container " + name, t );
+            final String message = REZ.format( "shutdown.error.container.failremove", name );
+            getLogger().warn( message, t );
         }
 
-        getLogger().info( "Ran Shutdown Phase for " + name );
+        final String message = REZ.format( "shutdown.error.phase.completed", name );
+        getLogger().info( message );
     }
 }
