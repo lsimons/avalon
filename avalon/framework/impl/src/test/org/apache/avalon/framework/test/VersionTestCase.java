@@ -103,10 +103,14 @@ public class VersionTestCase
 
     public void testComplies()
     {
+        final Version v0 = new Version( -1, 0 , 0 );
         final Version v1 = new Version( 1, 3 , 6 );
         final Version v2 = new Version( 1, 3 , 7 );
         final Version v3 = new Version( 1, 4 , 0 );
         final Version v4 = new Version( 2, 0 , 1 );
+
+        assertTrue(   v0.complies( v1 ) );
+        assertTrue(   v0.complies( v4 ) );
         
         assertTrue(   v1.complies( v1 ) );
         assertTrue( ! v1.complies( v2 ) );
