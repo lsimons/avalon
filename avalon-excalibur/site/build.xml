@@ -104,8 +104,6 @@
     <copy todir="${cocoon.build.xdocs}/fortress"><fileset dir="${basedir}/../fortress/src/xdocs"/></copy>
     <copy todir="${cocoon.build.xdocs}/i18n"><fileset dir="${basedir}/../i18n/src/xdocs"/></copy>
     <copy todir="${cocoon.build.xdocs}/instrument"><fileset dir="${basedir}/../instrument/src/xdocs"/></copy>
-    <copy todir="${cocoon.build.xdocs}/instrument-client"><fileset dir="${basedir}/../instrument-client/src/xdocs"/></copy>
-    <copy todir="${cocoon.build.xdocs}/instrument-manager"><fileset dir="${basedir}/../instrument-manager/src/xdocs"/></copy>
     <copy todir="${cocoon.build.xdocs}/io"><fileset dir="${basedir}/../io/src/xdocs"/></copy>
     <copy todir="${cocoon.build.xdocs}/jprocess"><fileset dir="${basedir}/../jprocess/src/xdocs"/></copy>
     <copy todir="${cocoon.build.xdocs}/logger"><fileset dir="${basedir}/../logger/src/xdocs"/></copy>
