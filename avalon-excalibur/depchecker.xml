@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version 2.3
+                   Version $Revision: 1.15 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -157,8 +157,36 @@ To use it, type 'ant -f depchecker.xml'
             <property name="remedy" value="1) Download and unpack JUnitPerf from ${nl}
            | http://www.clarkware.com/software/JUnitPerf.html ${nl}
            |   2) Copy the project's ant.properties.sample to ant.properties ${nl}
-           |   3) In ant.properties, redefine the ${name} property ${nl}
-           |      to point to the path of ${name} in your ${nl}
+           |   3) In ant.properties, redefine the junitperf.jar property ${nl}
+           |      to point to the path of junitperf.jar in your ${nl}
+           |      downloaded distribution."/>
+
+        </ant>
+    </target>
+    <target name="checkCheckstyle">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
+            <property name="name" value="checkstyle-all-2.1.jar"/>
+            <property name="class" value="com.puppycrawl.tools.checkstyle.CheckStyleTask"/>
+
+            <property name="classpath" value="${cp}"/>
+            <property name="remedy" value="1) Download and unpack Checkstyle from ${nl}
+           | http://checkstyle.sourceforge.net/ ${nl}
+           |   2) Copy the project's ant.properties.sample to ant.properties ${nl}
+           |   3) In ant.properties, redefine the checkstyle-all-2.1.jar property ${nl}
+           |      to point to the path of checkstyle-all-2.1.jar in your ${nl}
+           |      downloaded distribution."/>
+
+        </ant>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
+            <property name="name" value="checkstyle-all-2.1.jar or jakarta-regexp-1.2.jar"/>
+            <property name="class" value="org.apache.regexp.RE"/>
+
+            <property name="classpath" value="${cp}"/>
+            <property name="remedy" value="1) Download and unpack Checkstyle from ${nl}
+           | http://checkstyle.sourceforge.net/ ${nl}
+           |   2) Copy the project's ant.properties.sample to ant.properties ${nl}
+           |   3) In ant.properties, redefine the checkstyle-all-2.1.jar property ${nl}
+           |      to point to the path of checkstyle-all-2.1.jar in your ${nl}
            |      downloaded distribution."/>
 
         </ant>
@@ -170,8 +198,8 @@ To use it, type 'ant -f depchecker.xml'
             <property name="remedy" value="1) Download and unpack Avalon Framework from ${nl}
            | http://jakarta.apache.org/builds/jakarta-avalon/release/framework ${nl}
            |   2) Copy the project's ant.properties.sample to ant.properties ${nl}
-           |   3) In ant.properties, redefine the ${name} property ${nl}
-           |      to point to the path of ${name} in your ${nl}
+           |   3) In ant.properties, redefine the avalon-framework.jar property ${nl}
+           |      to point to the path of avalon-framework.jar in your ${nl}
            |      downloaded Avalon."/>
 
         </ant>
