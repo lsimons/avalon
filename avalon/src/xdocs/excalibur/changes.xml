@@ -7,6 +7,8 @@
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
     <person name="Leo Simons" email="mail@leosimons.com" id="LS"/>
   </devs>
+  <release version="4.0-dev" date="unreleased">
+  </release>
   <release version="4.0b3" date="June 6, 2001">
     <action dev="BL" type="update">
       Release 4.0b3
