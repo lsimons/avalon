@@ -57,6 +57,7 @@ import java.util.Map;
 import org.apache.avalon.excalibur.collections.Buffer;
 import org.apache.avalon.excalibur.collections.VariableSizeBuffer;
 import org.apache.avalon.excalibur.concurrent.Mutex;
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.excalibur.event.impl.DefaultQueue;
 import org.apache.excalibur.event.EventHandler;
 import org.apache.excalibur.event.Queue;
@@ -95,7 +96,7 @@ import org.apache.excalibur.event.Source;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public class CommandManager implements EventPipeline
+public class CommandManager implements EventPipeline, Disposable
 {
     private final Queue m_queue = new DefaultQueue();
     private final HashMap m_signalHandlers = new HashMap();
@@ -171,6 +172,15 @@ public class CommandManager implements EventPipeline
             m_mutex.release();
         }
     }
+    
+    public void dispose () 
+    {
+        QueueElement[] remainingElements = getCommandQueue().dequeueAll();
+        for( int i = 0; i < remainingElements.length; i++ )
+        {
+            getEventHandler.handleEvent( remainingElements[i] );
+        }
+    }    
 
     public final Source[] getSources()
     {
