@@ -25,6 +25,8 @@
 	</s1>
 
 	<s1 title="Table of Contents">
+		<p>TBD; incorrect</p>
+
 		<ol>
 			<li>Introduction</li>
 			<li>Table of Contents</li>
@@ -35,18 +37,16 @@
 					<li>Determining the components we need</li>
 					<li>Your average CartoonCreator application
 						<ol>
-							<li>Cartoon</li>
-							<li>CartoonBuilder</li>
-							<li>CartoonItem</li>
+							<li>CartoonGenerator</li>
 							<li>CartoonBird</li>
 							<li>CartoonCat</li>
 							<li>CartoonCage</li>
 						</ol>
 					</li>
-					<li>Refactoring: "use the lifecycle, Luke!"
+					<li>Avalonizing the CartoonCreator
 						<ol>
 							<li>Cartoon</li>
-							<li>CartoonBuilder</li>
+							<li>CartoonGenerator</li>
 							<li>CartoonItem</li>
 							<li>CartoonBird</li>
 							<li>CartoonCat</li>
@@ -61,50 +61,51 @@
 	<s1 title="Your first component">
 		<p>We're gonna start reaally simple. Consider this class:</p>
 
-		<s3 title="BirdSong1.java">
+		<s4 title="BirdSong1.java">
 		<source>
-			package avalon.tutorial;
+package avalon.tutorial;
 
-			public class BirdSong1
-			{
-				private int m_numberOfChilps;
-				private String m_chilpMessage;
-				private String m_chilpSeparator;
+public class BirdSong1
+{
+	private int m_numberOfChilps;
+	private String m_chilpMessage;
+	private String m_chilpSeparator;
 
-				public void BirdSong1( int numberOfChilps, chilpMessage, chilpSeparator )
-				{
-					m_numberOfChilps = numberOfChilps;
-					m_chilpMessage = chilpMessage;
-					m_chilpSeparator = chilpSeparator;
-				}
+	public void BirdSong1( int numberOfChilps, chilpMessage, chilpSeparator )
+	{
+		m_numberOfChilps = numberOfChilps;
+		m_chilpMessage = chilpMessage;
+		m_chilpSeparator = chilpSeparator;
+	}
 
-				public sing()
-				{
-					for( int i = 0; i != m_numberOfChilps; i++ )
-					{
-						if( i != 0 &amp;&amp; i != (m_numberOfChilps-1) )
-							System.out.print( m_chilpSeparator );
+	public sing()
+	{
+		for( int i = 0; i != m_numberOfChilps; i++ )
+		{
+			if( i != 0 &amp;&amp; i != (m_numberOfChilps-1) )
+				System.out.print( m_chilpSeparator );
 
-						System.out.print( m_chilpMessage );
-					}
-				}
+			System.out.print( m_chilpMessage );
+		}
+	}
 
-				public static void main(String args[])
-				{
-					BirdSong1 birdSong = new BirdSong1( new Integer( args[0] ).intValue(),
-							args[1], args[2] );
+	public static void main(String args[])
+	{
+		BirdSong1 birdSong = new BirdSong1( new Integer( args[0] ).intValue(),
+				args[1], args[2] );
 
-					BirdSong.sing();
-				}
-			}
+		BirdSong.sing();
+	}
+}
 		</source>
-		</s3>
+		</s4>
 
 		<p>I'm sure you've figured out what that clas does. The command
 		<code>java avalon.tutorial.BirdSong1 20 chilp *</code> will print out something like</p>
 
 		<source>
-		chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp
+chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*
+chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp*chilp
 		</source>
 
 		<p>The steps to making this class into a component are as follows:</p>
@@ -117,133 +118,133 @@
 
 		<p>This results in something like this:</p>
 
-		<s3 title="BirdSong.java">
+		<s4 title="BirdSong.java">
 		<source>
-		package avalon.tutorial;
+package avalon.tutorial;
 
-		import org.apache.avalon.framework.parameters.Parameterizable;
-		import org.apache.avalon.framework.parameters.Parameters;
-		import org.apache.avalon.framework.activity.Startable;
-		import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.activity.Startable;
+import org.apache.avalon.framework.logger.LogEnabled;
 
-		public interface BirdSong extends Parameterizable, Startable, LogEnabled;
-		{
-			public static final String PARAM_NUMBER_OF_CHILPS = "numberOfChilps";
-			public static final String PARAM_CHILP_MESSAGE = "chilpMessage";
-			public static final String PARAM_CHILP_SEPARATOR = "chilpSeparator";
+public interface BirdSong extends Parameterizable, Startable, LogEnabled;
+{
+	public static final String PARAM_NUMBER_OF_CHILPS = "numberOfChilps";
+	public static final String PARAM_CHILP_MESSAGE = "chilpMessage";
+	public static final String PARAM_CHILP_SEPARATOR = "chilpSeparator";
 
-			/**
-			 * Provide us with the parameters it needs to work. Required are:
-			 * &gt;ul&lt;
-			 * &gt;li&lt;numberOfChilps&gt;/li&lt;
-			 * &gt;li&lt;chilpMessage&gt;/li&lt;
-			 * &gt;li&lt;chilpSeparator&gt;/li&lt;
-			 * &gt;/ul&lt;
-			 * &gt;/pre&lt;
-			 *
-			 */
-			public void parameterize( Parameters parameters );
-		}
+	/**
+	* Provide us with the parameters it needs to work. Required are:
+	* &gt;ul&lt;
+	* &gt;li&lt;numberOfChilps&gt;/li&lt;
+	* &gt;li&lt;chilpMessage&gt;/li&lt;
+	* &gt;li&lt;chilpSeparator&gt;/li&lt;
+	* &gt;/ul&lt;
+	* &gt;/pre&lt;
+	*
+	*/
+	public void parameterize( Parameters parameters );
+}
 		</source>
-		</s3>
+		</s4>
 
-		<s3 title="BirdSongImpl.java">
+		<s4 title="BirdSongImpl.java">
 		<source>
-		package avalon.tutorial;
+package avalon.tutorial;
 
-		import org.apache.avalon.framework.parameters.Parameters;
-		import org.apache.avalon.framework.parameters.ParameterException;
-		import org.apache.avalon.logger.AbstractLoggable;
+import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.parameters.ParameterException;
+import org.apache.avalon.logger.AbstractLoggable;
 
-		import avalon.tutorial.BirdSong;
-		import avalon.tutorial.BirdSongRunner;
+import avalon.tutorial.BirdSong;
+import avalon.tutorial.BirdSongRunner;
 
-		public class BirdSongImpl extends AbstractLoggable implements BirdSong
-		{
-			private int m_numberOfChilps;
-			private String m_chilpMessage;
-			private String m_chilpSeparator;
+public class BirdSongImpl extends AbstractLoggable implements BirdSong
+{
+	private int m_numberOfChilps;
+	private String m_chilpMessage;
+	private String m_chilpSeparator;
 
-			private Thread m_runnerThread;
+	private Thread m_runnerThread;
 
 
-			public void BirdSongImpl()
-			{
-			}
+	public void BirdSongImpl()
+	{
+	}
 
-			public void parameterize( Parameters parameters ) throws ParameterException
-			{
-				getLogger().debug( "got parameters" );
+	public void parameterize( Parameters parameters ) throws ParameterException
+	{
+		getLogger().debug( "got parameters" );
 
-				m_numberOfChilps = m_parameters.getParameterAsInteger( PARAM_NUMBER_OF_CHILPS );
-				m_chilpMessage = m_parameters.getParameter( PARAM_CHILP_MESSAGE );
-				m_chilpSeparator = m_parameters.getParameter( PARAM_CHILP_SEPARATOR );
-			}
-			public void start()
-			{
-				getLogger().debug( "starting" );
+		m_numberOfChilps = m_parameters.getParameterAsInteger( PARAM_NUMBER_OF_CHILPS );
+		m_chilpMessage = m_parameters.getParameter( PARAM_CHILP_MESSAGE );
+		m_chilpSeparator = m_parameters.getParameter( PARAM_CHILP_SEPARATOR );
+	}
+	public void start()
+	{
+		getLogger().debug( "starting" );
 
-				Runnable runnable = new BirdSongImplRunner( this );
+		Runnable runnable = new BirdSongImplRunner( this );
 
-				m_runnerThread = new Thread( runnable );
-				m_runnerThread.setDaemon( true );
-				m_runnerThread.run();
-			}
-			public void stop()
-			{
-				getLogger().debug( "stopping" );
+		m_runnerThread = new Thread( runnable );
+		m_runnerThread.setDaemon( true );
+		m_runnerThread.run();
+	}
+	public void stop()
+	{
+		getLogger().debug( "stopping" );
 
-				m_runnerThread.notify();
-			}
+		m_runnerThread.notify();
+	}
 
-			int getNumberOfChilps()
-			{
-				return m_numberOfChilps;
-			}
-			String getChilpMessage()
-			{
-				return m_chilpMessage;
-			}
-			String getChilpSeperator()
-			{
-				return m_chilpSeparator;
-			}
-		}
+	int getNumberOfChilps()
+	{
+		return m_numberOfChilps;
+	}
+	String getChilpMessage()
+	{
+		return m_chilpMessage;
+	}
+	String getChilpSeperator()
+	{
+		return m_chilpSeparator;
+	}
+}
 		</source>
-		</s3>
+		</s4>
 
-		<s3>
+		<s4>
 		<source>
-		package avalon.tutorial;
+package avalon.tutorial;
 
-		import avalon.tutorial.BirdSongImpl;
+import avalon.tutorial.BirdSongImpl;
 
-		public class BirdSongRunner implements Runnable
+public class BirdSongRunner implements Runnable
+{
+	BirdSongImpl m_bs;
+
+	public void BirdSongRunner( BirdSongImpl bs )
+	{
+		m_bs = bs;
+	}
+
+	public void run()
+	{
+		int max = bs.getNumberOfChilps();
+		String msg = bs.getChilpMessage();
+		String separator = bs.getSeparator();
+
+		for( int i = 0; i != max; i++ )
 		{
-			BirdSongImpl m_bs;
+			if( i != 0 &amp;&amp; i != (max-1) )
+				System.out.print( separator );
 
-			public void BirdSongRunner( BirdSongImpl bs )
-			{
-				m_bs = bs;
-			}
-
-			public void run()
-			{
-				int max = bs.getNumberOfChilps();
-				String msg = bs.getChilpMessage();
-				String separator = bs.getSeparator();
-
-				for( int i = 0; i != max; i++ )
-				{
-					if( i != 0 &amp;&amp; i != (max-1) )
-						System.out.print( separator );
-
-					System.out.print(msg );
-				}
-			}
+			System.out.print(msg );
 		}
+	}
+}
 		</source>
-		</s3>
+		</s4>
 
 		<p>There's quite a few things different about this component compared to the BirdSong1 class.
 		The constructor doesn't take any arguments; those are passed in at a later point instead through
@@ -255,11 +256,255 @@
 		just serves to illustrate typical evolution from an 'average' java class into a typical avalon
 		component.</p>
 	</s1>
+	<s1 title="The CartoonCreator Application">
+		<p>We're going to introduce you to different avalon concepts by taking you throug the creation
+		of simple (and pretty silly) example application. As you've probably had your share of "Hello
+		World", and probably of many pet stores as well, we're going to build an application that will
+		automatically create scripts for cartoons.</p>
+
+		<s2 title="Determining application goals and features">
+			<p>Step one when building any application, but especially an avalon one, is figuring out
+			what your application should do. You can call this "requirments analysis" or
+			"use case determiniation", we'll call it the "what are we creating?" phase.</p>
+
+			<p>In our case, we're writing a proof-of-concept application to show off the features
+			of a hot framework. It should be easy to follow, written according to best practices,
+			and it doesn't hurt if it is a little original. It doesn't actually have to do
+			anything, as long as it compiles and runs.</p>
+
+			<p>Based on the name of the container (a vital piece in all avalon software)
+			we'll be using (it's called "Tweety"), the idea to do something with cartoons
+			immediately sprang to mind. At first we thought it'd be cool to have a
+			CartoonDistributionService or something cool and serverside (which is where
+			avalon is probably used most), we're going to keep it even more simple and
+			do a commandline input-output thing.</p>
+
+			<p>Our application will be configurable with a <strong>bird</strong>, a
+			<strong>cat</strong>, and a <strong>cage</strong>. In addition to these, we're
+			going to throw in a required end to the story (either the cat or the bird 'wins')
+			that can optionally be specified.</p>
+
+			<p>Based on these things we put into it, we want the application to spit out the
+			cartoon script.</p>
+		</s2>
+		<s2 title="Your average CartoonCreator application">
+			<p>We're going to start by writing the application without making use of avalon.
+			This is not normally something you will do once you fall in love with our framework
+			(you'll start thinking of avalon concepts whenever you write an app), but it will
+			serve to provide some contrast with the <em>avalonized</em> version.</p>
+
+			<p>Seldom will you find a non-avalon application so neatly organized into cleancut
+			components (most are a lot more messy), but I'm a veteran avalon programmer so I've
+			lost the ability to do it otherwise. Sorry!</p>
+
+			<s3 title="Cartoon">
+				<p>TBD: actually write app</p>
+
+				<s4 title="Cartoon.java">
+				<source>
+				</source>
+				</s4>
+			</s3>
+			<s3 title="CartoonBird">
+				<p></p>
+
+				<s4 title="CartoonBird.java">
+				<source>
+				</source>
+				</s4>
+			</s3>
+			<s3 title="CartoonCat">
+				<p></p>
+
+				<s4 title="CartoonCat.java">
+				<source>
+				</source>
+				</s4>
+			</s3>
+			<s3 title="CartoonCage">
+				<p></p>
+
+				<s4 title="CartoonCage.java">
+				<source>
+				</source>
+				</s4>
+			</s3>
+		</s2>
+		<s2 title="Avalonizing your app">
+			<p>Now that you've seen a typical well-designed non-avalon application,
+			we're going to show you how much better designed the application will be
+			when it is <em>avalonized</em>. Once again, the resulting application will
+			be somewhat redicously complex, but should you ever have to re-use a
+			CartoonGenerator, you'll be happy you wrote your application the avalon
+			way.</p>
+
+			<p>Another important lesson: if you are never going to re-use the
+			stuff you write, and you are confident you can finish it quicker without
+			using avalon, we suggest you don't use avalon. Avalon promotes well-designed
+			software consisting of many reusable components. It promotes software
+			following estabilished optimized program flow patterns, proper separation
+			of the pieces, and lots of cool yada yada yada.</p>
+
+			<p>When you don't want or need that and you need something done yesterday,
+			and there are no avalonized components that would be neat to reuse for
+			your application, go and build a "big ball of mud" piece of software. On
+			the other hand, you might be better of using a language more suited to RAD,
+			like python.</p>
+
+			<s3 title="Invert the control">
+				<p>The non-avalon application delegates some responsibility to
+				the smallest pieces of the application. For example, the
+				<code>CartoonCat</code> reads some configuration information from a
+				file when it is first created. It would be much better to have the
+				main piece of the application, the <code>Cartoon</code>, provide
+				the cage with that configuration.</p>
+
+				<p>Basically, what we do is define which pieces of the application
+				tell the others what to do. In this example, it makes a lot more
+				sense to have the Cartoon boss the Cage around than vice versa.</p>
+
+				<p>Besides making sense, there's some big, very real advantages as
+				well. Not only can you localize the code that reads configurations from
+				files in one place and thus simplify CartoonCat, you will also make
+				your application more secure because a smaller part needs permission
+				to read from the filesystem. This is not really relevant in this
+				application, but if your writing a complex server application where each
+				you have several parts, each contained in a separate jar file, it
+				would be smart to only provide filesystem access permissions to the code
+				inside a single jar file.</p>
+			</s3>
+
+			<s3 title="Identify, then separate concerns">
+				<p>The non-avalon application has many different tasks scattered
+				across the code. We're going to change the code so each piece handles
+				a specific task.</p>
+
+				<p>For example, all classes have their own printMessage() method which
+				writes to System.out. We should encapsulate that code into some kind of
+				object shared by all the components. This makes the various classes a
+				little simpler, and results in cleaner code.</p>
+
+				<p>Here's a list of <em>concerns</em>:</p>
+
+				<ul>
+					<li>Script generation: the CartoonCreator's 'core business'
+					is the creation of a cartoon based on its configuration</li>
+
+					<li>Script writing: the CartoonCreator has to write the
+					created cartoon script somewhere where the user can read it.</li>
+
+					<li>Cartoon item creation: in order to create the cartoon
+					we need several cartoon items and characters (a bird, a cage
+					and a cat in this case).</li>
+
+					<li>Cartoon item management: the CartoonCreator needs access
+					to the created cartoon items.</li>
+
+					<li>setup/configuration: before we can start generation, we
+					need to provide the script generator with all the information
+					it needs to create the script.</li>
+
+					<li>debugging/error handling: we need to output messages to
+					somewhere where the application developers and administrators
+					can monitor the program progress.</li>
+				</ul>
+
+				<p>Looking at this list, it seems the various intelligent parts of our
+				application are:</p>
+
+				<ul>
+					<li>ScriptGenerator</li>
+					<li>ScriptWriter</li>
+					<li>CartoonItemCreator</li>
+					<li>CartoonItemManager</li>
+					<li>ScriptGeneratorManager</li>
+					<li>CartoonCreatorDebugger</li>
+				</ul>
+			</s3>
+
+			<s3 title="Separate out interface from implementation">
+				<p>Re-use drops dead as soon as you make the separate parts of your
+				application depend on specific implementation details. In the
+				non-avalon version of the CartoonCreator, it would be all but
+				impossible to reuse any part in the creation of a cartoon about,
+				say, a coyote and a meeping, running bird.</p>
+
+				<p>In the avalon version of the application, we'll make the various
+				parts we identified in the previous step depend on a new interface,
+				<em>CartoonItem</em>. We'll have CartoonBird, CartoonCat and
+				CartoonCage implement this interface.</p>
+
+				<p>That way, we will be able to reuse the bulk of the application
+				in our coyote-and-bird cartoon.</p>
+			</s3>
+
+			<s3 title="Find reusable components">
+				<p>Once we've clearly identified the various concerns, and figured
+				out which interfaces to use, it will soon become obvious that we
+				won't have to write all of the code for our application. A lot of it
+				has already been written by others in a reusable way.</p>
+
+				<p>The creation, configuration and management of the various parts of
+				the application is something any of the various <em>avalon containers</em>
+				can handle for us. We're going to use <strong>Tweety</strong>, as it is
+				by far the simplest of the bunch to understand and use.</p>
+
+				<p>The debugging and error handling stuff is something most developers
+				figured out long ago: you want these messages logged somewhere so you
+				can read them. What you use for this is a logging toolkit. We're going
+				to use an abstraction of a logging toolkit that comes with avalon
+				framework. It allows us to use JDK 1.4 API logging, avalon logkit, log4j,
+				or any other toolkit that has an implementation of the abstraction's
+				interfaces.</p>
+			</s3>
+
+			<s3 title="Use the lifecycle">
+				<p>There are only so many ways for an application or part of an
+				application to work, once you've followed the various steps abouve.
+				After several years of thinking, discussion, research and many
+				alpha versions, the avalon team figured this out.</p>
+
+				<p>Every component, every part of your application follows a similar
+				execution path. We've captured this in the form of some simple interfaces:
+				the avalon lifecycle.</p>
+
+<!--				<p>Making use of these interfaces makes your program flow more
+				predictable. Once you get use to the lifecycle, just looking at
+				the method list in the javadocs or your IDE will tell you roughly
+				how the program (or program component) works.</p>-->
+
+				<p>All the application parts we just identified will implement one or
+				more of the lifecycle interfaces. This will instantly invert the control,
+				separate concerns (to a degree), and make the components reusable. Perhaps
+				the most important part is that we will be able to use pre-built avalon
+				components for large parts of the application.</p>
+
+			</s3>
+
+			<s3 title="So what are we doing, exactly?">
+				<p>First, we figured out inverting the control over the program would
+				make it a lot cleaner. Then we looked at the various functional parts
+				our application should consist of. When we did that, it became obvious
+				large parts of our application could just be built with existing
+				components. In particular, we found creation and management of our
+				components is something we can use an avalon container for.</p>
+
+				<p>To do all this, what we should do is refactor the application so its
+				now clearly identified parts rely on interfaces rather than concrete
+				classes, and then make those parts use the avalon lifecycle interfaces.</p>
+			</s3>
+		</s2>
+
+		<s2 title="The avalonized application">
+			<p>TBD</p>
+		</s2>
+
+	</s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.3 $ $Date: 2002/07/08 17:42:16 $
+      $Revision: 1.4 $ $Date: 2002/07/14 10:41:29 $
     </legal>
   </footer>
 </document>
