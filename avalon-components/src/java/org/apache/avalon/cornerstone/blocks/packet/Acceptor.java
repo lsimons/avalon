@@ -79,6 +79,7 @@ class Acceptor
     {
         m_thread = Thread.currentThread();
 
+        next:
         while( null != m_thread && !Thread.interrupted() )
         {
             try
@@ -96,6 +97,7 @@ class Acceptor
                 {
                     getLogger().error( "Failed to get receive buffer size for datagram socket",
                                        ioe );
+                    continue next;
                 }
 
                 m_datagramSocket.receive( packet );
