@@ -38,8 +38,7 @@ class AppLifecycleHelper
     /**
      * Object to support notification of ApplicationListeners.
      */
-    private ListenerSupport m_listenerSupport =
-        new ListenerSupport();
+    private final ListenerSupport m_listenerSupport;
 
     private final LifecycleHelper m_lifecycleHelper = new LifecycleHelper();
     private final ExportHelper m_exportHelper = new ExportHelper();
@@ -62,9 +61,11 @@ class AppLifecycleHelper
      * @param context the ApplicationContext in which this helper operates
      */
     protected AppLifecycleHelper( final Application application,
-                                  final ApplicationContext context )
+                                  final ApplicationContext context,
+                                  final ListenerSupport listenerSupport )
     {
         m_context = context;
+        m_listenerSupport = listenerSupport;
         m_blockAccessor = new BlockAccessor( context, application );
         m_listenerAccessor = new ListenerAccessor( context );
     }
@@ -112,11 +113,6 @@ class AppLifecycleHelper
             getLogger().error( message );
             System.err.println( message );
         }
-    }
-
-    ListenerSupport getListenerSupport()
-    {
-        return m_listenerSupport;
     }
 
     /**

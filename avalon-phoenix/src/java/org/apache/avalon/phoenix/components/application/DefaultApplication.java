@@ -50,7 +50,12 @@ public final class DefaultApplication
     private HashMap m_entrys = new HashMap();
     private SarMetaData m_sarMetaData;
 
-    public DefaultApplication( SarMetaData sarMetaData )
+    /**
+     * Object to support notification of ApplicationListeners.
+     */
+    private ListenerSupport m_listenerSupport = new ListenerSupport();
+
+    public DefaultApplication( final SarMetaData sarMetaData )
     {
         m_sarMetaData = sarMetaData;
     }
@@ -174,7 +179,7 @@ public final class DefaultApplication
     public void setApplicationContext( final ApplicationContext context )
     {
         m_context = context;
-        m_lifecycle = new AppLifecycleHelper( this, m_context );
+        m_lifecycle = new AppLifecycleHelper( this, m_context, m_listenerSupport );
         setupLogger( m_lifecycle, "lifecycle" );
     }
 
@@ -342,13 +347,12 @@ public final class DefaultApplication
         if( PHASE_STARTUP == name )
         {
             //... for startup, so indicate to applicable listeners
-            m_lifecycle.getListenerSupport().
-                fireApplicationStartingEvent( m_sarMetaData );
+            m_listenerSupport.fireApplicationStartingEvent( m_sarMetaData );
         }
         else
         {
             //... for shutdown, so indicate to applicable listeners
-            m_lifecycle.getListenerSupport().applicationStopping();
+            m_listenerSupport.applicationStopping();
         }
 
         //Process blocks, one by one.
@@ -381,7 +385,7 @@ public final class DefaultApplication
                 final String message =
                     REZ.getString( "app.error.run-phase", name, block, e.getMessage() );
                 getLogger().error( message, e );
-                m_lifecycle.getListenerSupport().applicationFailure( e );
+                m_listenerSupport.applicationFailure( e );
                 throw e;
             }
 
@@ -397,12 +401,12 @@ public final class DefaultApplication
         if( PHASE_STARTUP == name )
         {
             //... for startup, so indicate to applicable listeners
-            m_lifecycle.getListenerSupport().applicationStarted();
+            m_listenerSupport.applicationStarted();
         }
         else
         {
             //... for shutdown, so indicate to applicable listeners
-            m_lifecycle.getListenerSupport().applicationStopped();
+            m_listenerSupport.applicationStopped();
         }
     }
 }
