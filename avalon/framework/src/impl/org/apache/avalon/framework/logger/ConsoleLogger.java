@@ -16,7 +16,7 @@ package org.apache.avalon.framework.logger;
  * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public final class PrimordialLogger implements Logger
+public final class ConsoleLogger implements Logger
 {
     public final static int LEVEL_DEBUG = 0;
     public final static int LEVEL_INFO = 1;
@@ -30,7 +30,7 @@ public final class PrimordialLogger implements Logger
     /**
      * Creates a new ConsoleLogger with the priority set to DEBUG.
      */
-    public PrimordialLogger()
+    public ConsoleLogger()
     {
         this( LEVEL_DEBUG );
     }
@@ -38,7 +38,7 @@ public final class PrimordialLogger implements Logger
     /**
      * Creates a new ConsoleLogger.
      */
-    public PrimordialLogger( final int logLevel )
+    public ConsoleLogger( final int logLevel )
     {
         m_logLevel = logLevel;
     }
