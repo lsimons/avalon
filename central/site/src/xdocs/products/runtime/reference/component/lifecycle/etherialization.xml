@@ -39,7 +39,7 @@ The etherialization stage is the component equivalent of an object finalization.
             <td><p>execution</p></td>
             <td>
 <p>
-A component implementing the the <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/activity/Startable.html">Startable</a> lifecycle interface will be shutdown by the container. 
+A component implementing the the <a href="/api/org/apache/avalon/framework/activity/Startable.html">Startable</a> lifecycle interface will be shutdown by the container. 
 </p>
 <p><i>Startable Example:</i></p>
 
@@ -59,7 +59,7 @@ A component implementing the the <a href="http://avalon.apache.org/framework/api
             <td>
 <p>
 A component may participate in end-of-life processing by implementing the 
-<a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/activity/Disposable.html">Disposable</a> lifecycle interface. An implementation will typically released references during this stage.
+<a href="/api/org/apache/avalon/framework/activity/Disposable.html">Disposable</a> lifecycle interface. An implementation will typically released references during this stage.
 </p>
 <p><i>Example:</i></p>
 

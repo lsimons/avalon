@@ -23,7 +23,7 @@
 
  <body>
     <menu>
-      <item name="Embedding" href="embedded/index.html"/>
+      <item name="Execution" href="execmodes/index.html"/>
       <item name="Specification" 
         href="reference/index.html"/>
       <item name="Systems" href="system/index.html"/>

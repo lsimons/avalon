@@ -125,7 +125,7 @@
        programming, then in addition to the <a
        href="doc/index.html">Articles</a> section, look at the
        Framework documentation.  The <a
-       href="http://avalon.apache.org/framework/index.html">Framework</a> 
+       href="../products/runtime/framework/index.html">Framework</a> 
        project contains
        sections of COP practices and is itself a good COP reference
        implementation.
@@ -134,8 +134,8 @@
       <subsection name="General Resources">
        <p>
        Don't forget to wade through the wealth of material on our <a
-       href="http://nagoya.apache.org/wiki/apachewiki.cgi?AvalonProjectPages">
-       Wiki</a> site.  The <a href="mailing-lists.html">mailing
+       href="http://wiki.apache.org/avalon">
+       Wiki</a> site.  The <a href="about/resources/mailing-lists.html">mailing
        lists</a> are also an excellent resource for support and more
        information.
        </p>

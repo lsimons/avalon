@@ -30,9 +30,19 @@
 
       <subsection name="Overview">
         <p>
-A <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/service/ServiceManager.html"> ServiceManager </a> is used as a mechanisms to provide dependent services to a component.  A component implementation declares dependencies using the <a href="http://avalon.apache.org/meta/tools/tags/dependency.html">@avalon.dependency</a> tag.  Dependencies may be declared relative to the component constructor or through the optional <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/service/Serviceable.html">Serviceable</a> delivery interface.
+A <a href="/api/org/apache/avalon/framework/service/ServiceManager.html">ServiceManager</a> 
+is used as a mechanisms to provide dependent services to a component.  A 
+component implementation declares dependencies using the 
+<a href="../../../system/meta/tags/dependency.html">@avalon.dependency</a> tag.
+Dependencies may be declared relative to the component constructor or through 
+the optional 
+<a href="/api/org/apache/avalon/framework/service/Serviceable.html">Serviceable</a> 
+delivery interface.
         </p>
-        <p><i>Example of a constructor based declaration of service dependencies.</i></p>
+        <p>
+          <i>Example of a constructor based declaration of service 
+          dependencies.</i>
+        </p>
 <source>
    /**
     * Creation of a new instance.  The component receives

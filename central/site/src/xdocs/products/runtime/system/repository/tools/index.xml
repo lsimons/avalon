@@ -36,7 +36,7 @@
           that are used by the repository package
           to construct classloaders on demand.  
           </p>
-          <p><a href="http://avalon.apache.org/util/plugin/index.html">
+          <p><a href="../../util/plugin/index.html">
            Avalon Util Plugin</a></p>
 
         </section>

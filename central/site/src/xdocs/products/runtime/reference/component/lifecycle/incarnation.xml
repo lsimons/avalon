@@ -40,11 +40,11 @@ Just as objects are instantiated, the equivalent process from a component is "in
             <td>
 <p>
 A component may declare either a null constructor, or, a single constructor with any lifecycle artifact as a parameter argument where arguments may be in any combination or order. Recognized lifecycle artificats include 
-<a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/logger/Logger.html">Logger</a>,                
-<a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/context/Context.html">Context</a>,                
-<a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/parameters/Parameters.html">Parameters</a>,                
-<a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/service/ServiceManager.html">ServiceManager</a>, and/or            
-<a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/configuration/Configuration.html">Configuration</a>. In addition, the Context object may be substituted with a custom context interface and implementation.
+<a href="/api/org/apache/avalon/framework/logger/Logger.html">Logger</a>,                
+<a href="/api/org/apache/avalon/framework/context/Context.html">Context</a>,                
+<a href="/api/org/apache/avalon/framework/parameters/Parameters.html">Parameters</a>,                
+<a href="/api/org/apache/avalon/framework/service/ServiceManager.html">ServiceManager</a>, and/or            
+<a href="/api/org/apache/avalon/framework/configuration/Configuration.html">Configuration</a>. In addition, the Context object may be substituted with a custom context interface and implementation.
 </p>
 <p>
 NOTE: A component implementation may not duplicate constructor injection of lifecycle artifacts with the equivalent lifecycle stage.
@@ -76,7 +76,7 @@ NOTE: A component implementation may not duplicate constructor injection of life
           <tr>
             <td><a name="logging"/><p>logging</p></td>
             <td>
-<p>Optional Logger delivery strategy.  A component implementation may implement the <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/logger/LogEnabled.html">LogEnabled</a> interface.  The container will supply the component root logger via the enableLogging operation.</p>
+<p>Optional Logger delivery strategy.  A component implementation may implement the <a href="/api/org/apache/avalon/framework/logger/LogEnabled.html">LogEnabled</a> interface.  The container will supply the component root logger via the enableLogging operation.</p>
 <p><i>Example:</i></p>
 <source>
     /**
@@ -95,7 +95,7 @@ NOTE: A component implementation may not duplicate constructor injection of life
           <tr>
             <td><a name="contextualization"/><p>contextualization</p></td>
             <td>
-<p>Optional context delivery strategy.  A component implementation may implement the <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/context/Contextualizable.html">Contextualizable</a> interface.  The container will supply a component context via the contextualize operation.  The context instance will be pre-populated by the container will all requested entries.</p>
+<p>Optional context delivery strategy.  A component implementation may implement the <a href="/api/org/apache/avalon/framework/context/Contextualizable.html">Contextualizable</a> interface.  The container will supply a component context via the contextualize operation.  The context instance will be pre-populated by the container will all requested entries.</p>
 <p><i>Example:</i></p>
 <source>
     /**
@@ -117,7 +117,7 @@ NOTE: A component implementation may not duplicate constructor injection of life
           <tr>
             <td><a name="service"/><p>service</p></td>
             <td>
-<p>Optional service manager delivery strategy.  A component implementation may implement the <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/service/Serviceable.html">Serviceable</a> interface.  The container will supply a service manager supporting all declared service dependencies.</p>
+<p>Optional service manager delivery strategy.  A component implementation may implement the <a href="/api/org/apache/avalon/framework/service/Serviceable.html">Serviceable</a> interface.  The container will supply a service manager supporting all declared service dependencies.</p>
 <p><i>Example:</i></p>
 <source>
     /**
@@ -143,7 +143,7 @@ NOTE: A component implementation may not duplicate constructor injection of life
           <tr>
             <td><a name="configuration"/><p>configuration</p></td>
             <td>
-<p>Optional configuration delivery strategy.  A component implementation may implement the <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/configuration/Configurable.html">Configurable</a> interface.  The container will supply a component configuration via the configure operation.</p>
+<p>Optional configuration delivery strategy.  A component implementation may implement the <a href="/api/org/apache/avalon/framework/configuration/Configurable.html">Configurable</a> interface.  The container will supply a component configuration via the configure operation.</p>
 <p><i>Example:</i></p>
 <source>
     /**
@@ -165,7 +165,7 @@ NOTE: A component implementation may not duplicate constructor injection of life
           <tr>
             <td><a name="parameterization"/><p>parameterization</p></td>
             <td>
-<p>Optional parameters delivery strategy.  A component may implement the <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/parameters/Parameterizable.html">Parameterizable</a> interface.  The container will supply a parameters instance via the parameterize operation.</p>
+<p>Optional parameters delivery strategy.  A component may implement the <a href="/api/org/apache/avalon/framework/parameters/Parameterizable.html">Parameterizable</a> interface.  The container will supply a parameters instance via the parameterize operation.</p>
 <p><i>Example:</i></p>
 <source>
     /**
@@ -216,7 +216,7 @@ public class HelloComponent extends AbstractLogEnabled
           <tr>
             <td><a name="initialization"/><p>initialization</p></td>
             <td>
-<p>Optional initialization stage.  A component may implement the <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/activity/Initializable.html">Initializable</a> interface.  The container will invoke initialization following completion of the delivery of lifecycle artifacts and any custom lifecycle stages.</p>
+<p>Optional initialization stage.  A component may implement the <a href="/api/org/apache/avalon/framework/activity/Initializable.html">Initializable</a> interface.  The container will invoke initialization following completion of the delivery of lifecycle artifacts and any custom lifecycle stages.</p>
 <p><i>Example:</i></p>
 <source>
     /**
@@ -235,7 +235,7 @@ public class HelloComponent extends AbstractLogEnabled
           <tr>
             <td><a name="execution"/><p>execution</p></td>
             <td>
-<p>Optional execution stage.  A component may implement either the <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/activity/Startable.html">Startable</a> or <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/activity/Executable.html">Executable</a> interfaces.  If the component implements Executable the execute method will be invoked before the component instance is exposed to any other component.  If the component implements the Startable interface the container will invoke the start operation.  An implementation is responsible for establishing a working thread and returned from the start operation promptly.</p>
+<p>Optional execution stage.  A component may implement either the <a href="/api/org/apache/avalon/framework/activity/Startable.html">Startable</a> or <a href="/api/org/apache/avalon/framework/activity/Executable.html">Executable</a> interfaces.  If the component implements Executable the execute method will be invoked before the component instance is exposed to any other component.  If the component implements the Startable interface the container will invoke the start operation.  An implementation is responsible for establishing a working thread and returned from the start operation promptly.</p>
 <p><i>Executable Example:</i></p>
 <source>
     /**

@@ -7,7 +7,10 @@
 
   <body>
     <section name="Avalon Wiki">
-    <p>The <a href="http://nagoya.apache.org/wiki/apachewiki.cgi?AvalonProjectPages">Avalon Wiki</a> contains a growing collection of information about Avalon, random thoughts on component models and container solutions, roadmaps, development discussions, general ideas and other inspirational material.</p>
+    <p>The <a href="http://wiki.apache.org/avalon">Avalon Wiki</a> contains a 
+    growing collection of information about Avalon, random thoughts on 
+    component models and container solutions, roadmaps, development 
+    discussions, general ideas and other inspirational material.</p>
     </section>
   </body>
 </document>

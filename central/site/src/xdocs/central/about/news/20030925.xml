@@ -10,8 +10,8 @@
   <p>25-SEP-2003</p>
    <p>
    The Avalon Team is proud to announce the general availability of <a
-href="http://avalon.apache.org/framework">Avalon Framework 4.1.5</a>
-and <a href=" http://avalon.apache.org/products/runtime/system/meta">Avalon Meta</a>
+href="http://avalon.apache.org/download.html">Avalon Framework 4.1.5</a>
+and <a href="../../../products/runtime/system/meta">Avalon Meta</a>
 1.1 packages. The new framework release includes enhancements linked to
 the new Avalon Meta model.  Collectively the two packages represent an
 important step forward in the evolution of the Avalon component model.

@@ -18,8 +18,8 @@
         Phoenix model dealt with a strict singleton model supporting 
         project such as <a href="http://james.apache.org">James</a>.  
         Further developments resulted in the release of 
-        <a href="http://avalon.apache.org/excalibur/fortress/">Fortress</a> 
-        and <a href="http://avalon.apache.org/merlin/">Merlin</a>.  
+        <a href="http://excalibur.apache.org/fortress/">Fortress</a> 
+        and <a href="../../../../products/runtime/index.html">Merlin</a>.  
         Fortress replaced the ECM solution
         and was positioned as a migration vehicle for components to move
         towards Avalon's latest container - Merlin.  The Merlin container
@@ -38,7 +38,7 @@
       <p>
         Below is the list of legacy containers.
         Avalon recommend that new users only invest time in 
-        <a href="http://avalon.apache.org/merlin">Merlin</a>, the only 
+        <a href="../../../../products/runtime/index.html">Merlin</a>, the only 
         sustainable solution. ECM and Fortress will be
         partially supported during a transition period, but eventually
         taken out of Avalon completely. Users who are interested in Phoenix
@@ -53,7 +53,7 @@
           <td>
             <p>
               <a name="fortress"/>
-              <a href="http://avalon.apache.org/excalibur/fortress/">Avalon 
+              <a href="http://excalibur.apache.org/fortress/">Avalon 
               Fortress</a>
             </p>
           </td>
@@ -70,7 +70,7 @@
           <td>
             <p>
               <a name="ecm"/>
-              <a href="http://avalon.apache.org/excalibur/component.html">ECM</a>
+              <a href="http://excalibur.apache.org">ECM</a>
             </p>
           </td>
           <td>
@@ -84,7 +84,7 @@
           <td>
             <p>
               <a name="phoenix"/>
-              <a href="http://avalon.apache.org/phoenix/index.html">Phoenix</a>
+              Phoenix, see <a href="http://loom.codehaus.org">Loom project</a>
             </p>
           </td>
           <td>
