@@ -1,5 +1,5 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2003/04/21 09:56:38 $]
+Last modified at [$Date: 2003/06/21 12:25:58 $]
 
 Background:
 
@@ -83,6 +83,9 @@ Resolved Issues:
       tool. If something doesn't go into the status file, it 
       still exists and is perfectly valid.
 
+    o Avalon PMC Voting Procedures updated 2003-06-21
+      Proposal: [http://marc.theaimsgroup.com/?l=avalon-dev&m=105559070910800&w=2]
+      Result:   [http://marc.theaimsgroup.com/?l=avalon-dev&m=105619731625094&w=2]
       
 Pending issues:
 
