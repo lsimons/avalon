@@ -24,15 +24,19 @@ public class BlockMetaData
 
     private final BlockInfo m_blockInfo;
 
+    private final InterceptorMetaData[] m_invocationInterceptors;
+
     public BlockMetaData( final String name,
                           final DependencyMetaData[] dependencies,
                           final boolean disableProxy, 
-                          final BlockInfo blockInfo )
+                          final BlockInfo blockInfo,
+                      final InterceptorMetaData[] invocationHandles )
     {
         m_name = name;
         m_dependencies = dependencies;
         m_disableProxy = disableProxy;
         m_blockInfo = blockInfo;
+        m_invocationInterceptors = invocationHandles;
     }
 
     public String getName()
@@ -79,5 +83,15 @@ public class BlockMetaData
     public boolean isDisableProxy()
     {
         return m_disableProxy;
+    }
+
+    /**
+     * Returns an array of invocation interceptors configured for that Block.
+     *
+     * @return an array of InterceptorMetaData
+     */
+    public InterceptorMetaData[] getInvocationInterceptors()
+    {
+        return m_invocationInterceptors;
     }
 }
