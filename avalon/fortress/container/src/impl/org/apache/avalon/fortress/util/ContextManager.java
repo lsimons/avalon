@@ -119,7 +119,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.40 $ $Date: 2003/06/04 13:15:13 $
+ * @version CVS $Revision: 1.41 $ $Date: 2003/06/04 13:19:41 $
  * @since 4.1
  */
 public class ContextManager

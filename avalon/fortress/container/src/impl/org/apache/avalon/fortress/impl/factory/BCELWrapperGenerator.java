@@ -291,9 +291,9 @@ final class BCELWrapperGenerator
         {
             JavaClass jClazz = m_repository.findClass( className );
             if ( jClazz == null )
-	        return m_repository.loadClass( className );
+            return m_repository.loadClass( className );
             else
-	        return jClazz;
+            return jClazz;
         } catch ( ClassNotFoundException e ) { return null; }
     }
 

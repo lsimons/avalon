@@ -96,7 +96,7 @@ import java.util.*;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.35 $ $Date: 2003/06/04 13:15:12 $
+ * @version CVS $Revision: 1.36 $ $Date: 2003/06/04 13:19:39 $
  */
 public abstract class AbstractContainer
         extends AbstractLogEnabled
