@@ -33,6 +33,7 @@ import org.apache.avalon.phoenix.interfaces.ManagerException;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
 import org.apache.jmx.adaptor.RMIAdaptorImpl;
 import org.apache.jmx.introspector.DynamicMBeanFactory;
+import com.sun.jdmk.comm.HtmlAdaptorServer;
 
 /**
  * This component is responsible for managing phoenix instance.
@@ -43,7 +44,7 @@ import org.apache.jmx.introspector.DynamicMBeanFactory;
  */
 public class PhoenixManager
     extends AbstractSystemManager
-    implements Parameterizable
+    implements Parameterizable, Composable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( PhoenixManager.class );
@@ -58,6 +59,9 @@ public class PhoenixManager
 
     ///Name Adaptor registered with
     private String          m_name;
+
+    ///Name Adaptor registered with
+    private String          m_domain = "Phoenix";
 
     private Embeddor                 m_embeddor;
     private Deployer                 m_deployer;
@@ -95,10 +99,30 @@ public class PhoenixManager
         m_mBeanServer = createMBeanServer();
         m_rmiAdaptor = new RMIAdaptorImpl( m_mBeanServer );
 
+        try 
+        {
+            System.out.println("\n\tCREATE, REGISTER and START a new HTML adaptor:");
+            final HtmlAdaptorServer html = new HtmlAdaptorServer();
+            final ObjectName name = new ObjectName( "Adaptor:name=html,port=8082" );
+            System.out.println( "\tOBJECT NAME           = " + name );
+            m_mBeanServer.registerMBean( html, name );
+            html.start();
+        }
+        catch( final Exception e ) 
+        {
+            System.out.println("\t!!! Could not create the HTML adaptor !!!");
+            e.printStackTrace();
+            throw e;
+        }
+
         //TODO: Register everything here
         //TODO: SystemManager itself aswell???
-        //register( "Phoenix.Kernel", m_kernel );
-        //register( "Phoenix.Embeddor", m_embeddor );
+        register( "Kernel", m_kernel );
+        register( "Embeddor", m_embeddor );
+        register( "Deployer", m_deployer );
+        register( "LogManager", m_logManager );
+        register( "ConfigurationRepository", m_repository );
+        register( "ClassLoaderManager", m_classLoaderManager );
     }
 
     public void start()
@@ -154,7 +178,9 @@ public class PhoenixManager
         {
             //TODO: actually take some heed of interfaces parameter
             final DynamicMBean mBean = DynamicMBeanFactory.create( object );
-            m_mBeanServer.registerMBean( mBean, new ObjectName( name ) );
+            final ObjectName objectName = 
+                new ObjectName( m_domain + ":type=" + name );
+            m_mBeanServer.registerMBean( mBean, objectName );
             return mBean;
         }
         catch( final Exception e )
