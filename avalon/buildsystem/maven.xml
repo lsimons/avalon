@@ -261,9 +261,9 @@ Now starting the incredible......
 
         <attainGoal name="avalon:header"/>
         <maven:reactor
-          basedir="${basedir}"
+          basedir="${basedir}/.."
           includes="*/project.xml"
-          goals="java:jar"
+          goals="jar:jar"
           banner="Excalibur is building jar:"
           ignoreFailures="false"/>
     </goal>
