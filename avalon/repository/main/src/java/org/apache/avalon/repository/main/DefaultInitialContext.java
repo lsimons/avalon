@@ -68,7 +68,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.18 $
+ * @version $Revision: 1.19 $
  */
 public class DefaultInitialContext extends AbstractBuilder implements InitialContext
 {
@@ -170,6 +170,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     /**
      * Creates an initial repository context.
      * 
+     * @deprecated use {@link DefaultInitialContextFactory}
      * @throws RepositoryException if an error occurs during establishment
      */
     public DefaultInitialContext( ) 
@@ -181,6 +182,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     /**
      * Creates an initial repository context.
      * 
+     * @deprecated use {@link DefaultInitialContextFactory}
      * @param cache the cache directory
      * @throws RepositoryException if an error occurs during establishment
      */
@@ -193,6 +195,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     /**
      * Creates an initial repository context.
      * 
+     * @deprecated use {@link DefaultInitialContextFactory}
      * @param hosts a set of initial remote repository addresses 
      * @throws RepositoryException if an error occurs during establishment
      */
@@ -205,6 +208,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     /**
      * Creates an initial repository context.
      * 
+     * @deprecated use {@link DefaultInitialContextFactory}
      * @param hosts a set of initial remote repository addresses 
      * @param cache the cache directory
      * @throws RepositoryException if an error occurs during establishment
@@ -218,6 +222,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     /**
      * Creates an initial repository context.
      *
+     * @deprecated use {@link DefaultInitialContextFactory}
      * @param artifact an artifact referencing the default implementation
      * @param cache the cache directory
      * @param hosts a set of initial remote repository addresses 
@@ -234,6 +239,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     /**
      * Creates an initial repository context.
      *
+     * @deprecated use {@link DefaultInitialContextFactory}
      * @param base the base working directory
      * @param loader the parent classloader
      * @param artifact an artifact referencing the default implementation
@@ -326,7 +332,9 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     /**
      * Creates an initial repository context.
      *
+     * @param parent the parent classloader
      * @param artifact an artifact referencing the default implementation
+     * @param base the base working directory
      * @param cache the cache directory
      * @param hosts a set of initial remote repository addresses 
      * @throws RepositoryException if an error occurs during establishment
