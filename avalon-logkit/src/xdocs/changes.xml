@@ -8,7 +8,61 @@
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
     <person name="Stuart Roebuck" email="stuart.roebuck@adolos.co.uk" id="SR"/>
   </devs>
-<release version="1.0b4" date="Unreleased">
+  <release version="1.0b5" date="September 11, 2001">
+    <action dev="PD" type="add">
+      Deprecate OutputStreamLogger and replace with LoggerOutputStream.
+    </action>
+    <action dev="PD" type="add">
+      Added JMS support for JMS Log messages.
+    </action>
+    <action dev="PD" type="add">
+      Added file rotation strategies, including patches from
+      Bernhard Huber and Carsten Ziegeler
+    </action>
+    <action dev="PD" type="add">
+      Implemented a database log target.
+    </action>
+    <action dev="PD" type="fix">
+      Used synchronization to make targets more threads safe.
+    </action>
+    <action dev="PD" type="fix">
+      Fix masquerading attack security hole.
+    </action>
+    <action dev="PD" type="update">
+      Incorporate additivity feature similar to Log4j.  This is needed as
+      getLogTargets() is deprecated for security reasons (allowed masq)
+      and yet this functionality is still needed.  Added unit tests to
+      verify it behaves as expected.
+    </action>
+    <action dev="PD" type="update">
+      Made LogEvent serializable. The format may change slightly before
+      release.
+    </action>
+    <action dev="PD" type="update">
+      Passed Hierarchy object as ErrorHandler. Hierarchy delegates to another
+      ErrorHandler which allows ErrorHandler to be pluggable without resetting
+      all ErrorHandlers each time an ErrorHandler is changed.
+    </action>
+    <action dev="PD" type="update">
+      Incorporated delegation of Error Handling to ErrorHandler.
+      Logging components receive an ErrorHandler by implementing ErrorAware.
+      Added AbstractTarget that provided basic functionality of open/close
+      and error handling almost always needed by LogTargets.
+      Refactored all existing targets to work with this method.
+    </action>
+    <action dev="PD" type="update">
+      Made ContextMap serializable. After deserializing it defaults to readonly.
+      This assumes that Context only contains serializable elements.
+    </action>
+    <action dev="BL" type="update">
+      Update build process to the proposed standard.
+    </action>
+    <action dev="PD" type="update">
+      Update build process to notify the user of missing jars, and perform
+      many other checks
+    </action>
+  </release>
+<release version="1.0b4" date="August 6, 2001">
   <action dev="PD" type="update">
     Added ContextMap, updated whitepaper to describe the feature. Deprecated ContextStack 
     in the process as it encouraged bad practices and has been supersceded by ContextMap.
