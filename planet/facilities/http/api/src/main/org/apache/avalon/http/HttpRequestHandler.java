@@ -32,7 +32,7 @@ import javax.servlet.ServletResponse;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.1 $ $Date: 2004/04/04 15:00:56 $
  */
-public interface Handler
+public interface HttpRequestHandler
 {
     /**
      * Called by the container to allow the handler to respond to 
@@ -52,5 +52,5 @@ public interface Handler
      *
      */
     public void service( ServletRequest request, ServletResponse response )
-        throws HandlerException, IOException;
+        throws HttpRequestHandlerException, IOException;
 }

@@ -23,8 +23,7 @@ package org.apache.avalon.http;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.1 $ $Date: 2004/04/04 15:00:56 $
  */
-public class HandlerException
-        extends Exception
+public class HttpRequestHandlerException extends Exception
 {
 
      private final Throwable m_cause;
@@ -34,7 +33,7 @@ public class HandlerException
      *
      * @param message The detail message for this exception.
      */
-    public HandlerException( final String message )
+    public HttpRequestHandlerException( final String message )
     {
         this( message, null );
     }
@@ -45,7 +44,7 @@ public class HandlerException
      * @param message The detail message for this exception.
      * @param cause the root cause of the exception
      */
-    public HandlerException( final String message, final Throwable cause )
+    public HttpRequestHandlerException( final String message, final Throwable cause )
     {
         super( message );
         m_cause = cause;

@@ -28,7 +28,8 @@ import org.mortbay.util.LogSink;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version 1.0
  */
-public class AvalonLogSink extends AbstractLogEnabled implements LogSink
+public class AvalonLogSink extends AbstractLogEnabled 
+    implements LogSink
 {
     /**
      * Stop the logging channel.  This implementation does nothing 

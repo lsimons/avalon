@@ -26,7 +26,7 @@ import javax.servlet.ServletException;
 import javax.servlet.UnavailableException;
 
 import org.apache.avalon.composition.model.ComponentModel;
-import org.apache.avalon.http.Handler;
+import org.apache.avalon.http.HttpRequestHandler;
 
 import org.mortbay.jetty.servlet.ServletHolder;
 import org.mortbay.jetty.servlet.ServletHandler;
@@ -125,11 +125,11 @@ class ComponentModelHolder extends ServletHolder
             }
         }
 
-        private Handler getHandler() throws ServletException
+        private HttpRequestHandler getHandler() throws ServletException
         {
             try
             {
-                return (Handler) m_model.resolve();
+                return (HttpRequestHandler) m_model.resolve();
             }
             catch( Throwable e )
             {
