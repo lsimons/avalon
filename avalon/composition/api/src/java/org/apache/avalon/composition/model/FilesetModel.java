@@ -18,6 +18,7 @@
 package org.apache.avalon.composition.model;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import org.apache.avalon.composition.data.ExcludeDirective;
 import org.apache.avalon.composition.data.IncludeDirective;
@@ -29,7 +30,7 @@ import org.apache.avalon.composition.data.IncludeDirective;
  * a classpath.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/04/17 17:37:28 $
+ * @version $Revision: 1.2 $ $Date: 2004/04/17 19:02:05 $
  */
 public interface FilesetModel {
 
@@ -76,13 +77,14 @@ public interface FilesetModel {
      * results of the fileset resolution.  This array will contain
      * fully qualified filenames based on the base directory anchor.
      * 
-     * @return an array of files to include in the classpath
+     * @return an array list of <code>File</code> objects
+     * to include in the classpath
      */
-    File[] getIncludes();
+    ArrayList getIncludes();
     /**
      * Resolves the specified include and exclude directives from
      * the base directory anchor and produces an array of files
      * to include in the classpath.
      */
-    void resolveFileset();
+    void resolveFileset() throws IllegalStateException;
 }
