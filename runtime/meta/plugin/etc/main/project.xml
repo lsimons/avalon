@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+
+  <groupId>avalon/meta</groupId>
+  <id>avalon-meta-plugin</id>
+  <currentVersion>1.5</currentVersion>
+
+  <name>Avalon Meta Model Plugin</name>
+  <description>Avalon Plugin for Maven</description>
+  <shortDescription>Avalon Plugin for Maven</shortDescription>
+  <package>org.apache.avalon</package>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-api</artifactId>
+      <version>4.2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-impl</artifactId>
+      <version>4.2.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>avalon/meta</groupId>
+      <artifactId>avalon-meta-api</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon/meta</groupId>
+      <artifactId>avalon-meta-spi</artifactId>
+      <version>1.4.0</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon/meta</groupId>
+      <artifactId>avalon-meta-impl</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon/meta</groupId>
+      <artifactId>avalon-meta-tools</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>avalon/util</groupId>
+      <artifactId>avalon-util-i18n</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>avalon/util</groupId>
+      <artifactId>avalon-util-configuration</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>ant</groupId>
+      <artifactId>ant</artifactId>
+      <version>1.6.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>qdox</groupId>
+      <artifactId>qdox</artifactId>
+      <version>1.4</version>
+    </dependency>
+
+  </dependencies>
+  
+</project>

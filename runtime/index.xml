@@ -855,4 +855,16 @@
     </dependencies>
   </project>
 
+  <project basedir="meta/plugin">
+    <info>
+      <group>avalon/meta</group>
+      <name>avalon-meta-plugin</name>
+      <version>1.5.0</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-meta-tools"/>
+    </dependencies>
+  </project>
+  
 </index>
