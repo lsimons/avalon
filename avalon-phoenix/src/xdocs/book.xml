@@ -39,6 +39,7 @@
     <menu-item label="Overview" href="block-developers-guide.html" />
     <menu-item label="What is a Block?" href="what-is-a-block.html" />
     <menu-item label="What is a Block Listener?" href="what-is-a-block-listener.html" />
+    <menu-item label="What is an Application Listener?" href="what-is-an-application-listener.html" />    
     <menu-item label="BlockInfo Specification" href="blockinfo-specification.html" />
     <menu-item label="Creating a Block" href="creating-a-block.html" />
   </menu>
