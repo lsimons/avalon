@@ -5,7 +5,7 @@
 
     <name>Excalibur Store</name>
     <id>excalibur-store</id>
-    <currentVersion>0.6-dev</currentVersion>
+    <currentVersion>1.0-dev</currentVersion>
     <inceptionYear>1997</inceptionYear>
     <shortDescription>a way to store named objects without caring where or how they are stored.</shortDescription>
     <description>
