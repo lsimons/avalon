@@ -57,7 +57,8 @@ package org.apache.avalon.fortress.util.dag;
  */
 public class CyclicDependencyException extends Exception
 {
-    public CyclicDependencyException()
+    public CyclicDependencyException( String message )
     {
+        super( message );
     }
 }

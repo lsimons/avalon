@@ -49,10 +49,12 @@
 */
 package org.apache.avalon.fortress.util.dag.test;
 
-import junit.framework.TestCase;
-import org.apache.avalon.fortress.util.dag.Vertex;
-
 import java.util.List;
+
+import junit.framework.TestCase;
+
+import org.apache.avalon.fortress.util.dag.CyclicDependencyException;
+import org.apache.avalon.fortress.util.dag.Vertex;
 
 /**
  * VertexTest does XYZ
@@ -60,9 +62,9 @@ import java.util.List;
  * @author <a href="bloritsch.at.d-haven.org">Berin Loritsch</a>
  * @version CVS $ Revision: 1.1 $
  */
-public class VertexTest extends TestCase
+public class VertexTestCase extends TestCase
 {
-    public VertexTest( String name )
+    public VertexTestCase( String name )
     {
         super( name );
     }
@@ -81,12 +83,9 @@ public class VertexTest extends TestCase
         List deps = v.getDependencies();
         assertNotNull( deps );
         assertEquals( 0, deps.size() );
-        assertEquals( 0, v.getIndegrees() );
         assertEquals( "Root", v.getNode() );
+        assertEquals( "Root", v.getName() );
         assertEquals( 0, v.getOrder() );
-
-        v.setOrder( 4 );
-        assertEquals( 4, v.getOrder() );
 
         Vertex w = new Vertex( "Child" );
         v.addDependency( w );
@@ -96,11 +95,18 @@ public class VertexTest extends TestCase
 
         v.reset();
         w.reset();
-
-        assertEquals( 1, w.getIndegrees() );
-        w.accountForIndegree();
-        assertEquals( 0, w.getIndegrees() );
-        w.reset();
-        assertEquals( 1, w.getIndegrees() );
+        
+        try
+        {
+            v.resolveOrder();
+            w.resolveOrder();
+        }
+        catch ( CyclicDependencyException e )
+        {
+            fail( "Unexpected cyclic exception: " + e );
+        }
+        
+        assertEquals( 1, v.getOrder() );
+        assertEquals( 0, w.getOrder() );
     }
 }

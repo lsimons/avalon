@@ -63,7 +63,7 @@ import java.util.Map;
  * the references.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.13 $ $Date: 2003/05/14 15:54:46 $
+ * @version CVS $Revision: 1.14 $ $Date: 2003/05/28 17:50:20 $
  */
 public class FortressServiceSelector
     implements ServiceSelector
@@ -150,5 +150,10 @@ public class FortressServiceSelector
                 message );
         }
         return handler;
+    }
+    
+    public String getKey()
+    {
+        return m_key;
     }
 }
