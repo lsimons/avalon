@@ -69,7 +69,7 @@ import java.util.Enumeration ;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class Env extends Properties
 {
@@ -80,6 +80,8 @@ public class Env extends Properties
 
     /** the user's platform specific shell executable */
     private static String s_shell = null ;
+    /** the last Env instance created */
+    private static Env s_lastEnv = null ;
     
 
     /**
@@ -97,8 +99,31 @@ public class Env extends Properties
             String l_key = ( String ) l_list.nextElement() ;
             setProperty( l_key, l_props.getProperty( l_key ) ) ;
         }
+
+	s_lastEnv = this ;
     }
 
+
+    /**
+     * Gets a copy of the last Env instance without parsing the user's shell 
+     * environment.  Use this method if you do not want to reparse the 
+     * environment every time an environment variable is accessed.  If an 
+     * environment has not been created yet one is created then cloned 
+     * and a copy is returned instead of returning null.
+     * 
+     * @return a copy of the last Env object created
+     */
+    Env getLastEnv() throws EnvAccessException
+    {
+        if ( s_lastEnv == null )
+        {
+            s_lastEnv = new Env() ;
+        }
+
+        // return cloned copy so there is no cross interference
+	return ( Env ) s_lastEnv.clone() ;
+    }
+    
 
     /**
      * Gets the value of a shell environment variable.
