@@ -93,5 +93,4 @@ public class ValidateAction implements IObjectActionDelegate
     public void selectionChanged(IAction action, ISelection selection)
     {
     }
-
 }
