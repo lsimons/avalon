@@ -26,6 +26,7 @@ import java.net.URLConnection;
 import java.util.LinkedList;
 import java.util.Iterator;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -97,7 +98,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.31 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Revision: 1.32 $ $Date: 2004/02/12 05:59:41 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -397,6 +398,17 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
      */
     public void assemble() throws AssemblyException
     {
+        List list = new ArrayList();
+        assemble( list );
+    }
+
+   /**
+    * Assemble the model.
+    * @param subjects the list of deployment targets making up the assembly chain
+    * @exception Exception if an error occurs during model assembly
+    */
+    public void assemble( List subjects ) throws AssemblyException
+    {
         synchronized( m_assembly )
         {
             if( isAssembled() )
@@ -413,7 +425,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
             for( int i=0; i<models.length; i++ )
             {
                 DeploymentModel model = models[i];
-                helper.assembleModel( model );
+                helper.assembleModel( model, subjects );
             }
 
             m_assembly.setEnabled( true );
@@ -591,6 +603,20 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
 
    /**
     * Addition of a new subsidiary model within
+    * the containment context.
+    *
+    * @param profile a containment or deployment profile 
+    * @return the model based on the supplied profile
+    * @exception ModelException if an error occurs during model establishment
+    */
+    public DeploymentModel addModel( DeploymentModel model )
+    {
+        final String name = model.getName();
+        return addModel( name, model );
+    }
+
+   /**
+    * Addition of a new subsidiary model within
     * the containment context using a supplied profile.
     *
     * @param profile a containment or deployment profile 
@@ -599,11 +625,40 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     */
     public DeploymentModel addModel( DeploymentProfile profile ) throws ModelException
     {
+        final String name = profile.getName();
+        DeploymentModel model = createDeploymentModel( name, profile );
+        addModel( name, model );
+        return model;
+    }
+
+   /**
+    * Addition of a new subsidiary model within
+    * the containment context using a supplied profile.
+    *
+    * @param profile a containment or deployment profile 
+    * @return the model based on the supplied profile
+    * @exception ModelException if an error occurs during model establishment
+    */
+    DeploymentModel createDeploymentModel( DeploymentProfile profile ) throws ModelException
+    {
+        final String name = profile.getName();
+        return createDeploymentModel( name, profile );
+    }
+
+   /**
+    * Addition of a new subsidiary model within
+    * the containment context using a supplied profile.
+    *
+    * @param profile a containment or deployment profile 
+    * @return the model based on the supplied profile
+    * @exception ModelException if an error occurs during model establishment
+    */
+    DeploymentModel createDeploymentModel( String name, DeploymentProfile profile ) throws ModelException
+    {
         if( null == profile )
           throw new NullPointerException( "profile" );
 
         DeploymentModel model = null;
-        final String name = profile.getName();
         if( profile instanceof ContainmentProfile )
         {
             ContainmentProfile containment = (ContainmentProfile) profile;
@@ -644,7 +699,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
                 profile.getClass().getName() );
             throw new ModelException( error );
         }
-        return addModel( name, model );
+        return model;
     }
 
    /**
@@ -777,8 +832,9 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     //--------------------------------------------------------------
 
     private DeploymentModel addModel( 
-      String name, DeploymentModel model ) throws ModelException
+      String name, DeploymentModel model )
     {
+        if( model.equals( this ) ) return model;
         ModelRepository repository = m_context.getModelRepository();
         synchronized( repository )
         {

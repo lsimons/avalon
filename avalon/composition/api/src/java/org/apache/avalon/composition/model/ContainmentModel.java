@@ -33,7 +33,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.17 $ $Date: 2004/02/07 20:23:32 $
+ * @version $Revision: 1.18 $ $Date: 2004/02/12 05:59:41 $
  */
 public interface ContainmentModel extends DeploymentModel
 {
@@ -98,6 +98,12 @@ public interface ContainmentModel extends DeploymentModel
     */
    long getDeploymentTimeout();
 
+    /**
+     * Assemble the containment model.
+     * @exception Exception if an error occurs during model assembly
+     */
+    void assemble() throws AssemblyException;
+
    /**
     * Return the set of models nested within this model.
     * @return the classloader model
@@ -144,6 +150,15 @@ public interface ContainmentModel extends DeploymentModel
     * @exception ModelException if an error occurs during model establishment
     */
     DeploymentModel addModel( DeploymentProfile profile ) throws ModelException;
+
+   /**
+    * Addition of a new subsidiary model within
+    * the containment context.
+    *
+    * @param model the model to add 
+    * @return the model 
+    */
+    DeploymentModel addModel( DeploymentModel model );
 
    /**
     * Remove a named model from this model.

@@ -21,10 +21,14 @@ import java.util.Map;
 import java.util.Hashtable;
 import java.lang.reflect.Proxy;
 
+import org.apache.avalon.activation.TransientApplianceException;
+
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.DependencyModel;
 import org.apache.avalon.composition.model.Resolver;
+import org.apache.avalon.composition.model.TransientServiceException;
+import org.apache.avalon.composition.model.FatalServiceException;
 
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
@@ -125,6 +129,18 @@ class DefaultServiceManager implements ServiceManager
      */
     public Object lookup( String key ) throws ServiceException
     {
+        return lookup( key, -1 );
+    }
+
+    /**
+     * Retrieve Object by key.
+     * @param key the role
+     * @return the Object
+     * @throws ServiceException if an error occurs
+     * @throws NullPointerException if the supplied key is null
+     */
+    public Object lookup( String key, long timeout ) throws ServiceException
+    {
         if( key == null )
         {
             throw new NullPointerException( "key" );
@@ -172,7 +188,7 @@ class DefaultServiceManager implements ServiceManager
             // object with the source provider
             //
 
-            String id = "" + System.identityHashCode( instance  );
+            String id = "" + System.identityHashCode( instance );
             m_table.put( id, key );
             if( getLogger().isDebugEnabled() )
             {
@@ -187,6 +203,30 @@ class DefaultServiceManager implements ServiceManager
 
             return instance;
         }
+        /*
+        catch( TransientApplianceException e )
+        {
+            long delay = e.getDelay();
+            if(( timeout == -1 ) || (( delay < timeout ) && ( delay > 0 )) )
+            {
+                try
+                {
+                    Thread.currentThread().sleep( delay );
+                }
+                catch( Throwable interrupted )
+                {
+                    // ignore
+                }
+                return lookup( key, delay );
+            }
+            else
+            {
+                final String error = 
+                  "Requested service is not responding.";
+                throw new TransientServiceException( key, error, delay );
+            }
+        }
+        */
         catch( Throwable e )
         {
             //
@@ -200,7 +240,7 @@ class DefaultServiceManager implements ServiceManager
             final String error = 
               "Unexpected runtime error while attempting to resolve service for key: " 
               + key;
-            throw new ServiceException( key, error, e );
+            throw new FatalServiceException( key, error, e );
         }
     }
 

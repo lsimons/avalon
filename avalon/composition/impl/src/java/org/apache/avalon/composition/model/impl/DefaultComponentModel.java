@@ -17,6 +17,7 @@
 
 package org.apache.avalon.composition.model.impl;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Properties;
@@ -62,7 +63,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Revision: 1.7 $ $Date: 2004/02/12 05:59:41 $
  */
 public class DefaultComponentModel extends DefaultDeploymentModel 
   implements ComponentModel
@@ -236,7 +237,6 @@ public class DefaultComponentModel extends DefaultDeploymentModel
      */
     public boolean isAssembled()
     {
-        //return m_assembly.isEnabled();
         return ( isContextAssembled() 
           && isStageAssembled()
           && isServiceAssembled() );
@@ -276,9 +276,9 @@ public class DefaultComponentModel extends DefaultDeploymentModel
      * Assemble the model.
      * @exception Exception if an error occurs during model assembly
      */
-    public void assemble() throws AssemblyException
+    public void assemble( List subjects ) throws AssemblyException
     {
-        // nothing to do
+        getLogger().warn( "## component assembly request in : " + this + " with " + subjects );
     }
 
     /**
