@@ -14,17 +14,35 @@ import org.apache.catalina.LifecycleException;
 import org.apache.catalina.Server;
 import org.apache.catalina.Service;
 import org.apache.catalina.Deployer;
+import org.apache.catalina.deploy.*;
 import org.apache.catalina.startup.ContextRuleSet;
 import org.apache.catalina.startup.EngineRuleSet;
 import org.apache.catalina.startup.HostRuleSet;
 import org.apache.catalina.startup.NamingRuleSet;
 import org.apache.commons.digester.Digester;
-import org.apache.commons.digester.Rule;
-import org.xml.sax.Attributes;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.activity.Startable;
+import org.apache.avalon.apps.sevak.MultihostSevak;
+import org.apache.avalon.apps.sevak.SevakException;
 import org.xml.sax.InputSource;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingEnumeration;
+import javax.naming.NameClassPair;
+import javax.naming.NamingException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 
 /**
  * Tomcat Wrapper.  This is the true CatalinaSevak service.  It must be dynamically loaded through a bootstrap
@@ -37,29 +55,54 @@ import java.io.FileInputStream;
  * @author  Daniel Krieg<dkrieg@kc.rr.com>
  * @version 1.0
  */
-public class CatalinaSevak {
+public class CatalinaSevak extends AbstractLogEnabled
+        implements Contextualizable, Configurable, Serviceable, Initializable, Startable, MultihostSevak
+ {
     private ClassLoader m_parentLoader = ClassLoader.getSystemClassLoader();
     private Server m_server = null;
     private String m_configFile;
     private boolean m_useNaming = true;
+    private Configuration m_configuration;
+    private ServiceManager m_serviceManager;
+    private Context m_context;
+
+    public void contextualize(Context context) throws ContextException {
+        getLogger().debug("CatalinaSevak.contextualize()");
+        m_context = context;
+    }
+
+    public void configure(Configuration configuration) throws ConfigurationException {
+        getLogger().debug("CatalinaSevak.configure()");
+        m_configuration = configuration;
+    }
+
+    public void service(ServiceManager serviceManager) throws ServiceException {
+        getLogger().debug("CatalinaSevak.service()");
+        m_serviceManager = serviceManager;
+    }
 
     public void setParentClassLoader( ClassLoader parentLoader ) {
+        getLogger().debug("CatalinaSevak.setParentClassLoader()");
         m_parentLoader = parentLoader;
     }
 
     public void setConfigFile( String configFile ) {
+        getLogger().debug("CatalinaSevak.setConfigFile()");
         m_configFile = configFile;
     }
 
     public void setUseNaming( boolean useNaming ) {
+        getLogger().debug("CatalinaSevak.setUseNaming()");
         m_useNaming = useNaming;
     }
 
     public void setServer( Server server ) {
+        getLogger().debug("CatalinaSevak.setServer()");
         this.m_server = server;
     }
 
     public void initialize() throws Exception {
+        getLogger().debug("CatalinaSevak.initialize()");
         Digester digester = createStartDigester();
         File file = configFile();
         try {
@@ -117,33 +160,20 @@ public class CatalinaSevak {
         if( m_server instanceof Lifecycle ) {
             m_server.initialize();
         }
-//        Service[] services = m_server.findServices();
-//        for( int i = 0; i < services.length; i++ ) {
-//            Service service = services[ i ];
-//            System.out.println( service.getName() + ": " + service.getInfo() );
-//
-//            Container container = service.getContainer();
-//            System.out.println( container.getName() + ": " + container.getInfo() );
-//            Container[] children = container.findChildren();
-//            for( int j = 0; j < children.length; j++ ) {
-//                Container child = children[ j ];
-//                System.out.println( "    Child: " + child.getName() + ": " + child.getInfo() );
-//            }
-//            System.out.println();
-//        }
-        System.out.println( "CatalinaSevak Server initialized" );
+        getLogger().info( "CatalinaSevak Server initialized" );
     }
 
     public void start() throws Exception {
+        getLogger().debug("CatalinaSevak.start()");
         if( m_server instanceof Lifecycle ) {
             try {
                 ( (Lifecycle) m_server ).start();
                 m_server.await();
             } catch( LifecycleException e ) {
-                System.out.println( "Catalina.start: " + e );
+                getLogger().debug( "Catalina.start: " + e );
                 e.printStackTrace( System.out );
                 if( e.getThrowable() != null ) {
-                    System.out.println( "----- Root Cause -----" );
+                    getLogger().debug( "----- Root Cause -----" );
                     e.getThrowable().printStackTrace( System.out );
                 }
             } catch( Throwable throwable ) {
@@ -155,14 +185,15 @@ public class CatalinaSevak {
     }
 
     public void stop() throws Exception {
+        getLogger().debug("CatalinaSevak.stop()");
         if( m_server instanceof Lifecycle ) {
             try {
                 ( (Lifecycle) m_server ).stop();
             } catch( LifecycleException e ) {
-                System.out.println( "Catalina.stop: " + e );
+                getLogger().debug( "Catalina.stop: " + e );
                 e.printStackTrace( System.out );
                 if( e.getThrowable() != null ) {
-                    System.out.println( "----- Root Cause -----" );
+                    getLogger().debug( "----- Root Cause -----" );
                     e.getThrowable().printStackTrace( System.out );
                 }
             }
@@ -171,7 +202,8 @@ public class CatalinaSevak {
         }
     }
 
-    public void deploy( String host, String context, File pathToWebAppFolder ) throws Exception {
+    public void deploy( String host, String context, File pathToWebAppFolder ) throws SevakException {
+        getLogger().debug("CatalinaSevak.deploy()");
         Service[] services = m_server.findServices();
         Container child = null;
         found_host: {
@@ -190,18 +222,23 @@ public class CatalinaSevak {
             throw new IllegalArgumentException( host + ": no such host." );
         }
         if( !( child instanceof Deployer ) ) {
-            throw new Exception( host + ": not able to deploy " + context );
+            throw new SevakException( host + ": not able to deploy " + context );
         }
 
         final Deployer deployer = (Deployer) child;
         if( deployer.findDeployedApp( context ) != null ) {
-            throw new Exception( context + " already deployed to host " + host );
+            throw new SevakException( context + " already deployed to host " + host );
         }
-        deployer.install( context, pathToWebAppFolder.toURL() );
-//        deployer.start( context );
+
+        try {
+            deployer.install( context, pathToWebAppFolder.toURL() );
+        } catch (IOException e) {
+            throw new SevakException( context + " failed to deploy", e );
+        }
     }
 
-    public void undeploy( String host, String context ) throws Exception {
+    public void undeploy( String host, String context ) throws SevakException {
+        getLogger().debug("CatalinaSevak.undeploy()");
         Service[] services = m_server.findServices();
         Container child = null;
         found_host: {
@@ -220,17 +257,22 @@ public class CatalinaSevak {
             throw new IllegalArgumentException( host + ": no such host." );
         }
         if( !( child instanceof Deployer ) ) {
-            throw new Exception( host + ": not able to undeploy " + context );
+            throw new SevakException( host + ": not able to undeploy " + context );
         }
         final Deployer deployer = (Deployer) child;
         if( deployer.findDeployedApp( context ) == null ) {
-            throw new Exception( context + " does not exist in host " + host );
+            throw new SevakException( context + " does not exist in host " + host );
         }
-//        deployer.start( context );
-        deployer.remove( context );
+
+        try {
+            deployer.remove( context );
+        } catch (IOException e) {
+            throw new SevakException( context + " failed to undeploy", e );
+        }
     }
 
     protected Digester createStartDigester() {
+        getLogger().debug("CatalinaSevak.createStartDigester()");
         Digester digester = new Digester();
         digester.setValidating( false );
 
@@ -313,12 +355,11 @@ public class CatalinaSevak {
     }
 
     protected File configFile() {
-
+        getLogger().debug("CatalinaSevak.configFile()");
         File file = new File( m_configFile );
         if( !file.isAbsolute() )
             file = new File( System.getProperty( "catalina.base" ), m_configFile );
         return ( file );
-
     }
 }
 

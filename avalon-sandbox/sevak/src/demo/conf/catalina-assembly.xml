@@ -3,7 +3,7 @@
                   "http://jakarta.apache.org/phoenix/assembly_1_0.dtd">
 
 <assembly>
-    <block class="org.apache.avalon.apps.sevak.blocks.catalina.CatalinaSevakBootstrap" name="sevak"/>
+    <block class="org.apache.avalon.apps.sevak.blocks.catalina.startup.Bootstrap" name="sevak"/>
     <block class="org.apache.avalon.apps.sevak.demo.MultihostSevakTest" name="multihost-sevak-test">
         <provide name="sevak" role="org.apache.avalon.apps.sevak.MultihostSevak"/>
     </block>

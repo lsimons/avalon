@@ -24,16 +24,16 @@
   <property name="build.dir" value="build"/>
   <property name="build.lib" value="${build.dir}/lib"/>
   <property name="build.xdoclet" value="${build.dir}/xdoclet"/>
-  <property name="build.src" value="${build.dir}/src"/>  
+  <property name="build.src" value="${build.dir}/src"/>
   <property name="build.classes" value="${build.dir}/classes"/>
-  <property name="build.javadocs" value="${build.dir}/javadocs"/>  
+  <property name="build.javadocs" value="${build.dir}/javadocs"/>
   <property name="build.docs" value="${build.dir}/docs"/>
-  <property name="build.context" value="${build.dir}/documentation"/>  
+  <property name="build.context" value="${build.dir}/documentation"/>
   <property name="build.xdocs" value="${build.context}/content/xdocs"/>
-  
+
   <!-- Sevak specific properties for building -->
   <property name="build.reports" value="${build.dir}/reports"/>
-  <property name="build.demoClasses" value="${build.dir}/demoClasses"/> 
+  <property name="build.demoClasses" value="${build.dir}/demoClasses"/>
   <property name="build.demoXdoclet" value="${build.dir}/demoXdoclet"/>
 
 
@@ -42,14 +42,13 @@
   <property name="java.dir" value="${src.dir}/java"/>
   <property name="manifest.dir" value="${src.dir}/manifest"/>
   <property name="conf.dir" value="${src.dir}/conf"/>
-  <property name="context.dir" value="../../jakarta-avalon/src/documentation"/>  
-  <property name="xdocs.dir" value="${src.dir}/xdocs"/>  
+  <property name="context.dir" value="../../jakarta-avalon/src/documentation"/>
+  <property name="xdocs.dir" value="${src.dir}/xdocs"/>
   <property name="tools.dir" location="../../jakarta-avalon/tools"/>
-  <!--<property name="demo.dir" location="${java.dir}/demo"/>-->
   <property name="demo.conf.dir" location="${demo.dir}/conf"/>
 
   <property name="junit.jar" value="${tools.dir}/lib/junit-3.7.jar"/>
-  <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>  
+  <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
   <property name="dist.base" value="dist"/>
   <property name="do.checkstyle" value="true"/>
 
@@ -64,8 +63,6 @@
   <property name="catalina-zip-suffix" value=""/>
   <property name="catalina-dir-suffix" value=""/>
   <property name="catalina.download" value="catalina-download/jakarta-tomcat-${catalina-version}${catalina-zip-suffix}"/>
-  <property name="common.lib.dir" value="${catalina.download}/common/lib"/>
-  <property name="catalina.conf.dir" value="${catalina.download}/conf"/>
   <property name="tomcat.jars.dir" value="${lib.dir}/tomcat-jars"/>
 
   <path id="project.class.path">
@@ -76,7 +73,7 @@
     </fileset>
     <fileset dir="${tomcat.jars.dir}">
       <include name="*.jar" />
-    </fileset>       
+    </fileset>
   </path>
 
   <path id="tools.class.path">
@@ -92,7 +89,7 @@
     </fileset>
     <pathelement path="${build.lib}/sevak-api.jar"/>
   </path>
-  
+
   <taskdef name="sar" classname="org.apache.avalon.phoenix.tools.tasks.Sar">
     <classpath refid="project.class.path" />
   </taskdef>
@@ -112,23 +109,23 @@
     <echo>****  to retrieve Tomcat4.0 ******</echo>
     <echo>****  jars or place the jars *****</echo>
     <echo>****  in ${tomcat.jars.dir} dir  *****</echo>
-    <echo>**********************************</echo>   
-    
+    <echo>**********************************</echo>
+
     <fail message="Catalina needed. See above."/>
 
   </target>
-  
+
   <!-- Get catalina jars from apache repository -->
   <target name="get-catalina">
     <mkdir  dir="catalina-download"/>
     <mkdir dir="${lib.dir}"/>
     <mkdir dir="${tomcat.jars.dir}"/>
 
-    <get src="http://jakarta.apache.org/builds/jakarta-tomcat-4.0/release/v${catalina-version}${catalina-dir-suffix}/bin/jakarta-tomcat-${catalina-version}${catalina-zip-suffix}.zip" 
-    dest="catalina-download/catalina-${catalina-version}${catalina-zip-suffix}.zip" 
+    <get src="http://jakarta.apache.org/builds/jakarta-tomcat-4.0/release/v${catalina-version}${catalina-dir-suffix}/bin/jakarta-tomcat-${catalina-version}${catalina-zip-suffix}.zip"
+    dest="catalina-download/catalina-${catalina-version}${catalina-zip-suffix}.zip"
     verbose="true"
     usetimestamp="true"/>
-    
+
     <!-- Get the Jakarta-COMMONS jar files which do NOT come along with the tomcat distribution -->
 
     <get src="http://jakarta.apache.org/builds/jakarta-tomcat-connectors/coyote/release/v1.0-rc2/commons-logging.jar"
@@ -157,31 +154,29 @@
 
 
     <unzip src="catalina-download/catalina-${catalina-version}${catalina-zip-suffix}.zip" dest="catalina-download" />
-    
+
     <delete file="${tomcat.jars.dir}/*.jar"/>
-    
+
     <copy todir="${tomcat.jars.dir}" flatten="true">
       <fileset dir="catalina-download/jakarta-tomcat-${catalina-version}${catalina-zip-suffix}">
         <include  name="**/bin/*.jar"/>
         <include  name="**/lib/*.jar"/>
       </fileset>
-    </copy>   
-    
+    </copy>
+
   </target>
- 
+
   <!-- prepare -->
-  <target name="prepare" depends="checkNeccesaryJars" >
+  <target name="prepare" depends="checkNeccesaryJars" >   
   </target>
 
 
- 
+
  <!--- Build Test SAR Archive -->
  <target name="sar" depends="prepare" description="Builds a Demo block which uses Sevak Service">
-    <copy file="${tools.jar}" todir="${common.lib.dir}"/>
-    <copy file="${conf.demo.dir}/tomcat-users.xml" tofile="${catalina.conf.dir}/tomcat-users.xml"/>
     <ant antfile="build.xml" target="jars"/>
     <ant antfile="build.xml" target="demo-jar"/>
- 
+
     <sar sarfile="${build.lib}/sevak-catalina-demo.sar"
          config="${conf.demo.dir}/catalina-config.xml"
          environment="${conf.demo.dir}/catalina-environment.xml"
@@ -193,7 +188,22 @@
         <include name="sevak-api.jar"/>
         <include name="sevak-demo.war"/>
       </lib>
-      <zipfileset dir="catalina-download/jakarta-tomcat-${catalina-version}${catalina-zip-suffix}"  />
+      <zipfileset dir="${catalina.download}">
+          <exclude name="**/bin/**"/>
+      </zipfileset>
+      <zipfileset dir="${catalina.download}/bin" prefix="common/lib">
+          <include name="*.jar"/>
+      </zipfileset>
+      <zipfileset dir="${build.lib}" prefix="server/lib">
+          <include name="sevak-catalina-impl.jar"/>
+      </zipfileset>
+      <zipfileset dir="${conf.demo.dir}" prefix="conf">
+          <include name="tomcat-users.xml"/>
+      </zipfileset>
+      <zipfileset dir="${java.home}/../lib/" prefix="common/lib">
+          <include name="tools.jar"/>
+      </zipfileset>                
+      
     </sar>
 
     <!-- Copy build/lib contents to dist/ folder -->
@@ -202,11 +212,11 @@
       <fileset dir="${build.lib}">
         <include name="**"/>
       </fileset>
-    </copy>    
+    </copy>
 
  </target>
 
- <target name="install" depends="sar" description="Installs Demo SAR into Phoenix" > 
+ <target name="install" depends="sar" description="Installs Demo SAR into Phoenix" >
      <echo message="Installing to ${install.dir}" />
     <delete dir="${install.dir}/sevak-catalina-demo" />
     <copy file="${build.lib}/sevak-catalina-demo.sar" todir="${install.dir}" />
