@@ -40,15 +40,15 @@
         <p>
           <xsl:for-each select="//authorgroup/author">
             <xsl:choose>
-              <xsl:when test="position()=1">by</xsl:when>
+              <xsl:when test="position()=1">by&nbsp;</xsl:when>
               <xsl:otherwise>, </xsl:otherwise>
             </xsl:choose>
-          </xsl:for-each>
-          <a href="mailto:{address/email}">
-            <xsl:if test="honorific"><xsl:value-of select="honorific"/>. </xsl:if>
-            <xsl:if test="firstname"><xsl:value-of select="firstname"/> </xsl:if>
-            <xsl:value-of select="surname"/>
-          </a>
+            <a href="mailto:{address/email}">
+              <xsl:if test="honorific"><xsl:value-of select="honorific"/>. </xsl:if>
+              <xsl:if test="firstname"><xsl:value-of select="firstname"/> </xsl:if>
+              <xsl:value-of select="surname"/>
+            </a>
+          </xsl:for-each>          
         </p>
       </font>
 
