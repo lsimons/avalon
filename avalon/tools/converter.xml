@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<project name="Cocoon2Anakia Converter" default="convert" basedir=".">
+
+    <property name="src.dir" location="${xdocs.dir}"/>
+    <property name="dest.dir" value="temp"/>
+    <property name="converter.xsl" location="cocoon2anakia.xsl"/>
+
+    <target name="prepare" unless="xdocs.dir">
+        <echo message="Need to specify absolute path in xdocs.dir"/>
+        <echo message="property similar to"/>
+        <echo message="ant -f converter.xml /opt/projects/jakarta-avalon-excalibur/bzip/src/xdocs"/>
+        <fail/>
+    </target>
+
+    <target name="convert" depends="prepare">
+
+        <mkdir dir="${dest.dir}" />
+
+        <style style="${converter.xsl}"
+	       basedir="${src.dir}"
+	       outputtype="xml"
+	       extension=".xml"
+               destdir="${dest.dir}">
+          <exclude name="**/book.xml"/>
+          <include name="**/*.xml"/>
+        </style>
+
+      </target>
+
+    <target name="update" depends="convert">
+        <copy todir="${src.dir}">
+          <fileset dir="${dest.dir}"/>
+        </copy>
+        <delete dir="${dest.dir}"/>
+    </target>
+
+</project>
