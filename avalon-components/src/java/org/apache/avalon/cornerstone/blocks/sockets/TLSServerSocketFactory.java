@@ -39,6 +39,7 @@ import org.apache.avalon.phoenix.BlockContext;
  * @author <a href="mailto:">Harish Prabandham</a>
  * @author <a href="mailto:">Costin Manolache</a>
  * @author <a href="mailto:">Craig McClanahan</a>
+ * @author <a href="mailto:myfam@surfeu.fi">Andrei Ivanov</a> 
  */
 public class TLSServerSocketFactory
     extends AbstractLogEnabled
@@ -49,6 +50,7 @@ public class TLSServerSocketFactory
 
     protected String m_keyStoreFile;
     protected String m_keyStorePassword;
+    protected String m_keyPassword;      
     protected String m_keyStoreType;
     protected String m_keyStoreProtocol;
     protected String m_keyStoreAlgorithm;
@@ -66,6 +68,7 @@ public class TLSServerSocketFactory
      * <keystore>
      *  <file>conf/keystore</file> <!-- location of keystore relative to .sar base directory -->
      *  <password></password> <!-- Password for the Key Store file -->
+     *  <key-password></key-password> <!-- Optional private Key Password -->
      *  <type>JKS</type> <!-- Type of the Key Store file -->
      *  <protocol>TLS</protocol> <!-- SSL protocol to use -->
      *  <algorithm>SunX509</algorithm> <!-- Certificate encoding algorithm -->
@@ -81,6 +84,7 @@ public class TLSServerSocketFactory
         final Configuration keyStore = configuration.getChild( "keystore" );
         m_keyStoreFile = keyStore.getChild( "file" ).getValue( "conf/keystore" );
         m_keyStorePassword = keyStore.getChild( "password" ).getValue();
+        m_keyPassword = keyStore.getChild( "key-password" ).getValue(null);            
         m_keyStoreType = keyStore.getChild( "type" ).getValue( "JKS" );
         m_keyStoreProtocol = keyStore.getChild( "protocol" ).getValue( "TLS" );
         m_keyStoreAlgorithm = keyStore.getChild( "algorithm" ).getValue( "SunX509" );
@@ -128,7 +132,14 @@ public class TLSServerSocketFactory
         final KeyManagerFactory keyManagerFactory =
             KeyManagerFactory.getInstance( m_keyStoreAlgorithm );
 
-        keyManagerFactory.init( keyStore, m_keyStorePassword.toCharArray() );
+        if ( null == m_keyPassword ) 
+        {
+          keyManagerFactory.init( keyStore, m_keyStorePassword.toCharArray() );
+        } else 
+        {
+          keyManagerFactory.init( keyStore, m_keyPassword.toCharArray() );
+        }
+        
 
         final TrustManagerFactory tmf = TrustManagerFactory.getInstance( m_keyStoreAlgorithm );
         tmf.init( keyStore );

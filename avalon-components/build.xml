@@ -124,6 +124,8 @@
       <src path="${test.dir}"/>
       <exclude name="org/apache/avalon/cornerstone/blocks/sockets/TLSServerSocketFactory.java"
                unless="jsse.present" />
+      <exclude name="org/apache/avalon/cornerstone/blocks/sockets/TLSSocketFactory.java"
+               unless="jsse.present" />               
       <exclude name="org/apache/avalon/cornerstone/blocks/soapification/glue/**.java"
                unless="glue.present" />
       <exclude name="org/apache/avalon/cornerstone/blocks/dom/**.java"
