@@ -10,8 +10,51 @@ package org.apache.avalon.framework;
 import java.util.Map;
 
 /**
- * Basic enum class for type-safe enums with values. 
- * Should be used as an abstract base.
+ * Basic enum class for type-safe enums with values. Valued enum items can be compared and ordered
+ * with the provided methods. Should be used as an abstract base. For example:
+ *
+ * <pre>
+ * import org.apache.avalon.framework.ValuedEnum;
+ * 
+ * public final class JavaVersion
+ *   extends ValuedEnum
+ * {
+ *   //standard enums for version of JVM
+ *   public final static JavaVersion  JAVA1_0  = new JavaVersion( "Java 1.0", 100 );
+ *   public final static JavaVersion  JAVA1_1  = new JavaVersion( "Java 1.1", 110 );
+ *   public final static JavaVersion  JAVA1_2  = new JavaVersion( "Java 1.2", 120 );
+ *   public final static JavaVersion  JAVA1_3  = new JavaVersion( "Java 1.3", 130 );
+ * 
+ *   private JavaVersion( final String name, final int value )
+ *   {
+ *     super( name, value );
+ *   }
+ * }
+ * </pre>
+ *
+ * The above class could then be used as follows:
+ * <pre>
+ * import org.apache.avalon.framework.context.Context;
+ * import org.apache.avalon.framework.context.Contextualizable;
+ * import org.apache.avalon.framework.context.ContextException;
+ * 
+ * public class MyComponent implements Contextualizable {
+ *   JavaVersion requiredVer = JavaVersion.JAVA1_2;
+ * 
+ *   public void contextualize(Context context)
+ *       throws ContextException
+ *   {
+ *     JavaVersion ver = (JavaVersion)context.get("java.version");
+ *     if ( ver.isLessThan( requiredVer ) )
+ *     {
+ *       throw new RuntimeException( requiredVer.getName()+" or higher required" );
+ *     }
+ *   }
+ * }
+ * </pre>
+ * 
+ * As with <code>Enum</code>, the {@link #ValuedEnum(String, int, Map)} constructor can be used to
+ * populate a <code>Map</code>, from which further functionality can be derived.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
@@ -21,12 +64,23 @@ public abstract class ValuedEnum
     private final int        m_value;
 
     /**
-     * Constructor for enum so that it gets added to map at creation.
+     * Constructor for enum item.
+     *
+     * @param name the name of enum item.
+     * @param value the value of enum item.
+     */
+    public ValuedEnum( final String name, final int value )
+    {
+        this( name, value, null );
+    }
+
+    /**
+     * Constructor for enum item so that it gets added to Map at creation.
      * Adding to a map is useful for implementing find...() style methods.
      *
-     * @param name the name of enum
-     * @param value the value of enum
-     * @param map the map to add enum to 
+     * @param name the name of enum item.
+     * @param value the value of enum item.
+     * @param map the <code>Map</code> to add enum item to. 
      */
     public ValuedEnum( final String name, final int value, final Map map )
     {
@@ -35,20 +89,9 @@ public abstract class ValuedEnum
     }
 
     /**
-     * Constructor for enum.
+     * Get value of enum item.
      *
-     * @param name the name of enum
-     * @param value the value of enum
-     */
-    public ValuedEnum( final String name, final int value )
-    {
-        this( name, value, null );
-    }
-
-    /**
-     * Get value of enum.
-     *
-     * @return the enums value
+     * @return the enum item's value.
      */
     public final int getValue()
     {
@@ -56,7 +99,7 @@ public abstract class ValuedEnum
     }
 
     /**
-     * Test if enum is equal in value to other enum.
+     * Test if enum item is equal in value to other enum.
      *
      * @param other the other enum
      * @return true if equal
@@ -67,7 +110,7 @@ public abstract class ValuedEnum
     }
 
     /**
-     * Test if enum is greater than in value to other enum.
+     * Test if enum item is greater than in value to other enum.
      *
      * @param other the other enum
      * @return true if greater than
@@ -78,7 +121,7 @@ public abstract class ValuedEnum
     }
 
     /**
-     * Test if enum is greater than or equal in value to other enum.
+     * Test if enum item is greater than or equal in value to other enum.
      *
      * @param other the other enum
      * @return true if greater than or equal
@@ -89,7 +132,7 @@ public abstract class ValuedEnum
     }
 
     /**
-     * Test if enum is less than in value to other enum.
+     * Test if enum item is less than in value to other enum.
      *
      * @param other the other enum
      * @return true if less than
@@ -100,7 +143,7 @@ public abstract class ValuedEnum
     }
 
     /**
-     * Test if enum is less than or equal in value to other enum.
+     * Test if enum item is less than or equal in value to other enum.
      *
      * @param other the other enum
      * @return true if less than or equal
@@ -111,9 +154,10 @@ public abstract class ValuedEnum
     }
 
     /**
-     * Overide toString method to produce human readable description.
+     * Override toString method to produce human readable description.
      *
-     * @return human readable description of enum
+     * @return String in the form <code>type[name=value]</code>, eg.:
+     * <code>JavaVersion[Java 1.0=100]</code>.
      */
     public String toString()
     {

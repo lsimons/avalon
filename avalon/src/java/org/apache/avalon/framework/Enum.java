@@ -10,7 +10,45 @@ package org.apache.avalon.framework;
 import java.util.Map;
 
 /**
- * Basic enum class for type-safe enums. Should be used as an abstract base.
+ * Basic enum class for type-safe enums. Should be used as an abstract base. For example:
+ *
+ * <pre>
+ * import org.apache.avalon.framework.Enum;
+ *
+ * public final class Color extends Enum {
+ *   public final static Color RED = new Color( "Red" );
+ *   public final static Color GREEN = new Color( "Green" );
+ *   public final static Color BLUE = new Color( "Blue" );
+ * 
+ *   private Color( final String color )
+ *   {
+ *     super( color );
+ *   }
+ * }
+ * </pre>
+ *
+ * If further operations, such as iterating over all items, are required, the
+ * {@link #Enum(String, Map)} constructor can be used to populate a <code>Map</code>, from which
+ * further functionality can be derived:
+ * <pre>
+ * public final class Color extends Enum {
+ *   static final Map map = new HashMap();
+ * 
+ *   public final static Color RED = new Color( "Red", map );
+ *   public final static Color GREEN = new Color( "Green", map );
+ *   public final static Color BLUE = new Color( "Blue", map );
+
+ *   private Color( final String color, final Map map )
+ *   {
+ *     super( color, map );
+ *   }
+ *
+ *   public static Iterator iterator()
+ *   {
+ *     return map.values().iterator();
+ *   }
+ * }
+ * </pre>
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
@@ -18,11 +56,21 @@ public abstract class Enum
 {
     private final String        m_name;
 
+    /**
+     * Constructor to add a new named item.
+     * @param name Name of the item.
+     */
     public Enum( final String name )
     {
         this( name, null );
     }
 
+    /**
+     * Constructor to add a new named item.
+     * @param name Name of the item.
+     * @param map A <code>Map</code>, to which will be added a pointer to the newly constructed
+     * object.
+     */
     public Enum( final String name, final Map map )
     {
         m_name = name;
@@ -32,11 +80,19 @@ public abstract class Enum
         }
     }
 
+    /**
+     * Retrieve the name of this Enum item, set in the constructor.
+     */
     public final String getName()
     {
         return m_name;
     }
 
+    /**
+     * Human readable description of this Enum item. For use when debugging.
+     * @return String in the form <code>type[name]</code>, eg.:
+     * <code>Color[Red]</code>.
+     */
     public String toString()
     {
         return getClass().getName() + "[" + m_name + "]";
