@@ -12,17 +12,26 @@
         description="Build the Avalon Attributes distribution." >
         <maven:reactor
             basedir="${basedir}"
+            includes="api/project.xml"
+            goals="jar:install-snapshot"
+            banner="Building:"
+            ignoreFailures="false" />
+        
+        <maven:reactor
+            basedir="${basedir}"
             includes="compiler/project.xml"
             goals="jar:install-snapshot"
             banner="Building:"
             ignoreFailures="false" />
-
+        
         <maven:reactor
             basedir="${basedir}"
-            includes="api/project.xml"
+            includes="unittest/project.xml"
             goals="wrapper"
             banner="Building:"
             ignoreFailures="false" />
+        
+        
     </goal>
     
     <goal name="do-clean" prereqs="clean">
