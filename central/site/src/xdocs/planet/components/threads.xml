@@ -9,6 +9,7 @@
 
   <body>
     <section name="Cornerstone Components - Threads">
+
       <subsection name="Description">
         <p>The threads component provides support for the establishment
         a set of named thread pools.  The component implementation can be configured
@@ -17,23 +18,26 @@
         can access threads from named or default pool using the ThreadManager 
         service interface.</p>
       </subsection>
+
       <subsection name="Deployment Facts">
         <table>
           <tr><td>Containment</td><td>Avalon Framework 4.2.0</td>
           </tr>
           <tr><td>Lifestyle</td><td>singleton</td></tr>
-          <tr><td>Lifecycle</td>
-            <td>
-              <table>
-                <tr><th>Stage</th><th>Description</th></tr>
-                <tr><td>LogEnabled</td><td>Logs information concerning created pools during 
+        </table>
+      </subsection>
+
+      <subsection name="Lifecycle">
+        <table>
+          <tr><th>Stage</th><th>Description</th></tr>
+          <tr><td>LogEnabled</td><td>Logs information concerning created pools during 
                   configuration at the DEBUG level.</td></tr>
-                <tr>
-                  <td>Configurable</td>
-                  <td>
-                  Declaration of the thread pools and associated 
-                  pool establishment criteria.  An example configuration is 
-                  presented below.
+          <tr>
+              <td>Configurable</td>
+              <td>
+              Declaration of the thread pools and associated 
+              pool establishment criteria.  An example configuration is 
+              presented below.
 <source><![CDATA[
 <configuration>
   <thread-group>
@@ -44,9 +48,6 @@
   </thread-group>
 </configuration>
 ]]></source>
-                  </td>
-                </tr>
-              </table>
             </td>
           </tr>
         </table>

@@ -10,44 +10,43 @@
   <body>
     <section name="Cornerstone Components - Datasource">
       <subsection name="Description">
-            <p>
-            The ConnectionManager service provides a facility to listen 
-            for incoming socket connections.
-            The DefaultConnectionManager compoent gives a thread pooled 
-            implementation of this service. If there are multiple server 
-            components depending on this component, they would all share
-            the same thread pool.
-            </p>
+        <p>
+        The ConnectionManager service provides a facility to listen 
+        for incoming socket connections.
+        The DefaultConnectionManager compoent gives a thread pooled 
+        implementation of this service. If there are multiple server 
+        components depending on this component, they would all share
+        the same thread pool.
+        </p>
       </subsection>
       <subsection name="Deployment Facts">
         <table>
           <tr><td>Containment</td><td>Avalon Framework 4.2.0</td>
           </tr>
           <tr><td>Lifestyle</td><td>singleton</td></tr>
-          <tr><td>Lifecycle</td>
+        </table>
+      </subsection>
+      <subsection name="Lifecycle">
+        <table>
+          <tr><th>Stage</th><th>Description</th></tr>
+          <tr><td>LogEnabled</td><td>Logs lifescycle stages and handles assignment
+           of logging channels to managed connection handlers.</td></tr>
+          <tr>
+            <td>Contextualizable</td>
             <td>
-              <table>
-                <tr><th>Stage</th><th>Description</th></tr>
-                <tr><td>LogEnabled</td><td>Logs lifescycle stages and handles assignment
-                 of logging channels to managed connection handlers.</td></tr>
+              <table class="classic">
+                <tr><th>Key</th><th>Type</th><th>Required</th></tr>
                 <tr>
-                  <td>Contextualizable</td>
-                  <td>
-                  <table>
-                    <tr>
-                      <th>Key</th><th>Type</th><th>Required</th>
-                    </tr>
-                    <tr>
-                      <td>block.name</td><td>java.lang.String</td><td>false</td>
-                    </tr>
-                  </table>
-                  </td>
+                 <td>block.name</td><td>java.lang.String</td><td>false</td>
                 </tr>
-                <tr>
-                  <td>Configurable</td>
-                  <td>
-                  <p>Example configuration:</p>
-                  <source>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td>Configurable</td>
+            <td>
+              <p>Example configuration:</p>
+<source>
  &lt;configuration&gt;
    &lt;data-source name="<i>default</i>"
      class="<i>org.apache.avalon.excalibur.datasource.JdbcDataSource</i>"&gt;
@@ -62,23 +61,16 @@
      &lt;password&gt;<i>password</i>&lt;/password&gt;
    &lt;/data-source&gt;
  &lt;/configuration&gt;
-                  </source>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Initializable</td>
-                  <td>
-                  Component initialization.
-                  </td>
-                </tr>
-                <tr>
-                  <td>Disposable</td>
-                  <td>
-                  Component disposal.
-                  </td>
-                </tr>
-              </table>
+</source>
             </td>
+          </tr>
+          <tr>
+            <td>Initializable</td>
+            <td>Component initialization.</td>
+          </tr>
+          <tr>
+            <td>Disposable</td>
+            <td>Component disposal.</td>
           </tr>
         </table>
       </subsection>

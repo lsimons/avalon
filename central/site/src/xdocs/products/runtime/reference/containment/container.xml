@@ -28,7 +28,6 @@
 
     <section name="container">
       <subsection name="Nested Elements">
-
         <table>
           <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
           <tr>

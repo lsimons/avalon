@@ -103,7 +103,7 @@ my.current.strategy = ${my.strategy.${my.variant}}
           will override the earlier ones. I.e. the further to the bottom in the
           table below the higher the priority.
         </p>
-        <table>
+        <table class="classic">
           <tr>
             <th>Definition</th>
             <th>Property File</th>
@@ -216,7 +216,7 @@ my.current.strategy = ${my.strategy.${my.variant}}
         <p>
           The complete current list of <em>Prime Properties</em>;
         </p>
-        <table>
+        <table class="classic">
           <tr>
             <th>Property</th>
             <th>Description</th>

@@ -24,7 +24,6 @@
  <title>Avalon Magic Plugins</title>
  <body>
     <menu>
-      <item name="About Clean Plugin" href="index.html"/>
       <item name="Properties" href="properties.html"/>
       <item name="Methods" href="methods.html"/>
     </menu>
