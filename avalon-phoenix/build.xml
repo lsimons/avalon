@@ -102,9 +102,6 @@ Legal:
     <!-- Invoke 'ant get-beanshell' to get this -->
     <property name="beanshell.jar" value="${repo.dir}/beanshell/bsh-1.2b7.jar"/>
 
-    <!-- Invoke 'ant get-cli' to get these -->
-    <property name="cli.jar" value="${repo.dir}/cli/cli-1.0/cli-1.0.jar"/>
-
     <!-- Invoke ant get-configkit' to get these -->
     <property name="configkit.jar" value="${repo.dir}/spice-configkit/spice-configkit-1.1.2/spice-configkit-1.1.2.jar"/>
     <fileset id="configkit.fileset" dir="${lib.dir}" includes="repo/spice-configkit/spice-configkit-1.1.2/lib/*.jar"/>
@@ -123,7 +120,6 @@ Legal:
         <pathelement location="${logkit.jar}"/>
         <pathelement location="${wrapper.jar}"/>
         <pathelement path="${log4j.jar}"/>
-        <pathelement path="${cli.jar}"/>
         <pathelement path="${configkit.jar}"/>
         <pathelement path="${loggerstore.jar}"/>
         <pathelement path="${classman.jar}"/>
@@ -414,38 +410,6 @@ Legal:
     </target>
 
     <!-- =================================================================== -->
-    <!-- CLI Tasks.                                                          -->
-    <!-- =================================================================== -->
-    <target name="check-cli-init" depends="init">
-        <available property="cli.present" classname="org.realityforge.cli.CLOption">
-            <classpath refid="project.class.path"/>
-        </available>
-    </target>
-
-    <target name="check-cli" depends="check-cli-init" unless="cli.present">
-        <echo>**************************</echo>
-        <echo>* Please execute target  *</echo>
-        <echo>* 'get-cli' in the main  *</echo>
-        <echo>* build.xml build file   *</echo>
-        <echo>* to download one and    *</echo>
-        <echo>* a half Mb of Spice CLI *</echo>
-        <echo>**************************</echo>
-        <fail message="Spice CLI needed. See above."/>
-    </target>
-
-    <!-- Get the jars from the cli project. -->
-    <!-- For licensing reasons, we are unable to put these Jars in our CVS or source distributions. -->
-    <target name="get-cli" description="Get the Spice CLI distribution from SourceForge.">
-        <mkdir dir="${repo.dir}/cli"/>
-        <get src="http://osdn.dl.sourceforge.net/sourceforge/spice/cli-1.0.tar.gz"
-            dest="${repo.dir}/cli/cli.tar.gz"
-            verbose="true"
-            usetimestamp="true"/>
-        <gunzip src="${repo.dir}/cli/cli.tar.gz" dest="${repo.dir}/cli"/>
-        <untar src="${repo.dir}/cli/cli.tar" dest="${repo.dir}/cli"/>
-    </target>
-
-    <!-- =================================================================== -->
     <!-- ConfigKit Tasks.                                                    -->
     <!-- =================================================================== -->
     <target name="check-configkit-init" depends="init">
@@ -559,7 +523,7 @@ Legal:
 
     <!-- Check requirements of environment -->
     <target name="check-environment"
-        depends="check-mx4j, check-log4j, check-cli, check-loggerstore,
+        depends="check-mx4j, check-log4j, check-loggerstore,
                  check-configkit, check-classman, check-wrapper">
         <available property="xerces.present" type="file" file="${xerces.jar}"/>
         <available property="servlet.present" classname="javax.servlet.Servlet">
@@ -941,7 +905,6 @@ Legal:
 
         <zip destfile="${target.lib}/mx4j-tools.jar" basedir="${target.mx}"/>
 
-        <copy file="${cli.jar}" todir="${bin.dist.bin}/lib"/>
         <copy file="${mx4j.jar}" todir="${bin.dist.bin}/lib"/>
         <copy file="${target.lib}/mx4j-tools.jar" todir="${bin.dist.bin}/lib"/>
 
@@ -1334,7 +1297,7 @@ Legal:
     </target>
 
     <target name="get-all-dependencies"
-        depends="get-mx4j,get-log4j,get-cli,get-loggerstore,get-configkit,get-classman,get-wrapper"
+        depends="get-mx4j,get-log4j,get-loggerstore,get-configkit,get-classman,get-wrapper"
         description="Meta-task to get all optional libaries"/>
 
     &forrest-targets;
