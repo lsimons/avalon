@@ -58,7 +58,7 @@ import org.apache.avalon.util.factory.FactoryException;
  * of an allowable parameter within a crieria instance.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class Parameter
 {
@@ -175,7 +175,7 @@ public class Parameter
 
    /**
     * Resolve a supplied argument to a value.
-    * @param arg the supplied argument
+    * @param value the supplied argument
     * @return the resolved object
     * @exception Exception if an error occurs
     */
