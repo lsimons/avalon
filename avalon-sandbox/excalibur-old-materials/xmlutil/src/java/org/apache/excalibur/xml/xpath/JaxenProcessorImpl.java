@@ -10,7 +10,7 @@ package org.apache.avalon.excalibur.xml.xpath;
 import java.util.List;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.framework.thread.ThreadSafe;
-import org.jaxen.dom.XPath;
+import org.jaxen.dom.DOMXPath;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -27,7 +27,7 @@ import org.w3c.dom.NodeList;
  * </pre>
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/22 10:06:05 $ $Author: cziegeler $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/06/27 19:07:00 $ $Author: proyal $
  */
 public class JaxenProcessorImpl
     extends AbstractLoggable
@@ -46,7 +46,7 @@ public class JaxenProcessorImpl
     {
         try
         {
-            XPath path = new XPath( str );
+            DOMXPath path = new DOMXPath( str );
             return (Node)path.selectSingleNode( (Object)contextNode );
         }
         catch( Exception e )
@@ -68,7 +68,7 @@ public class JaxenProcessorImpl
     {
         try
         {
-            XPath path = new XPath( str );
+            DOMXPath path = new DOMXPath( str );
             List list = path.selectNodes( (Object)contextNode );
             return new NodeListEx( list );
         }
