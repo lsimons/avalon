@@ -17,8 +17,14 @@
 
 package org.apache.avalon.composition.model.test;
 
+import org.apache.avalon.composition.data.ComponentProfile;
 import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.model.ClassLoaderModel;
+import org.apache.avalon.composition.model.TypeRepository;
+import org.apache.avalon.composition.model.ComponentModel;
+import org.apache.avalon.composition.model.DependencyModel;
 
+import org.apache.avalon.meta.info.Type;
 import org.apache.avalon.meta.info.ReferenceDescriptor;
 
 import org.apache.avalon.util.exception.ExceptionHelper;
@@ -56,8 +62,8 @@ public class DynamicsTestCase extends AbstractTestCase
             m_model.assemble();
             String spec = Widget.class.getName();
             ReferenceDescriptor ref = new ReferenceDescriptor( spec );
-            DeploymentModel widget = 
-            m_model.getModel( ref );
+            ComponentModel widget = (ComponentModel) m_model.getModel( ref );
+            validate( widget );
         }
         catch( Throwable e )
         {
@@ -78,12 +84,45 @@ public class DynamicsTestCase extends AbstractTestCase
             m_model.assemble();
             String spec = Gizmo.class.getName();
             ReferenceDescriptor ref = new ReferenceDescriptor( spec );
-            DeploymentModel widget = 
-            m_model.getModel( ref );
+            ComponentModel gizmo = (ComponentModel) m_model.getModel( ref );
+            validate( gizmo );
         }
         catch( Throwable e )
         {
             final String message = "Assembly test failure";
+            final String error = ExceptionHelper.packException( message, e, true );
+            System.err.println( error );
+            fail( error );
+        }
+    }
+
+   /**
+    * Validate a model.
+    */
+    private void validate( ComponentModel model ) throws Exception
+    {
+        try
+        {
+            if( !model.isAssembled() )
+            {
+                fail( "Non-assembled model: " + model );
+            }
+
+            DependencyModel[] dependencies = model.getDependencyModels();
+            for( int i=0; i<dependencies.length; i++ )
+            {
+                DependencyModel dependency = dependencies[i];
+                if( null == dependency.getProvider() )
+                {
+                    fail( 
+                      "Null provider located in an assembled model: " 
+                      + model );
+                }
+            }
+        }
+        catch( Throwable e )
+        {
+            final String message = "Dynamic assembly validation failure";
             final String error = ExceptionHelper.packException( message, e, true );
             System.err.println( error );
             fail( error );
