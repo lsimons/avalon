@@ -31,7 +31,7 @@ import javax.management.ReflectionException;
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/03/16 00:11:57 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/03/21 08:16:42 $
  */
 public abstract class AbstractMBean
     extends NotificationBroadcasterSupport
@@ -122,7 +122,7 @@ public abstract class AbstractMBean
 
         if( null == method )
         {
-            new AttributeNotFoundException( attribute );
+            throw new AttributeNotFoundException( attribute );
         }
 
         try
@@ -220,7 +220,7 @@ public abstract class AbstractMBean
 
         if( null == method )
         {
-            new AttributeNotFoundException( attribute.getName() );
+            throw new AttributeNotFoundException( attribute.getName() );
         }
 
         try
