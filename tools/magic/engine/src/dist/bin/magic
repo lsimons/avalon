@@ -1,6 +1,8 @@
 #!/bin/sh
 #
 
+START=`date +%s%N`
+
 BIN_DIR=`dirname $0`
 SYSTEM_DIR=`dirname $BIN_DIR`
 
@@ -11,3 +13,10 @@ done
 CP=$CP:$ANT_HOME/lib/ant.jar:$ANT_HOME/lib/ant-trax.jar
 
 java $JVM_OPTS -Dmagic.system.dir=$SYSTEM_DIR -cp $CP org.apache.avalon.magic.Main $@
+
+END=`date +%s%N`
+
+NS=`expr $END - $START`
+MS=`expr $NS / 1000000`
+
+echo "Total True! Build time: $MS ms" 

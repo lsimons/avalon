@@ -21,6 +21,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+
+import java.net.URL;
+
 import java.util.StringTokenizer;
 
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
@@ -28,7 +31,6 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import bsh.BshClassManager;
 import bsh.EvalError;
 import bsh.Interpreter;
-
 
 public class ScriptFacade extends AbstractLogEnabled    
     implements PluginFacade
@@ -67,7 +69,7 @@ public class ScriptFacade extends AbstractLogEnabled
     /** Returns the Plugin instance of that this PluginDelegate refers to.
      */
     public Plugin resolve()
-        throws EvalError, IOException
+        throws EvalError, IOException, ArtifactException
     {
         if( m_Plugin != null )
             return m_Plugin;
@@ -80,7 +82,20 @@ public class ScriptFacade extends AbstractLogEnabled
         bsh.setErr( System.err );
         
         BshClassManager classman = bsh.getClassManager();
+        String pluginname = m_Context.getPluginName();
+        Artifact thisArtifact = Artifact.resolve( m_Context, pluginname );
+        System.out.println( thisArtifact );
+        Artifact[] deps = thisArtifact.getDependencies();
+        System.out.println( "Deps: " + deps.length  );
         
+        URL[] urls = Util.getURLs( deps );
+        for( int i = 0 ; i < urls.length ; i++ )
+        {
+            if( getLogger().isDebugEnabled() )
+                getLogger().debug( "Adding to BeanShell classpath:" + urls[i] );
+            classman.addClassPath( urls[i] );
+        }
+                    
         if( ! classman.classExists( m_Classname ) )
         {
             bsh.eval( m_Script );

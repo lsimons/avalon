@@ -17,6 +17,8 @@ limitations under the License.
 
 package org.apache.avalon.magic;
 
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Stack;
 import java.util.StringTokenizer;
@@ -29,7 +31,15 @@ public class PluginProperties extends Properties
     
     public PluginProperties( Properties content )
     {
-        super( content );
+        super();
+        Iterator list = content.entrySet().iterator();
+        while( list.hasNext() )
+        {
+            Map.Entry entry = (Map.Entry) list.next();
+            Object key = entry.getKey();
+            Object value = entry.getValue();
+            put( key, value );
+        }
     }
     
     public String getProperty( String name )
