@@ -8,7 +8,6 @@
 package org.apache.log.output.test;
 
 import java.io.File;
-import junit.framework.TestCase;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
@@ -26,19 +25,8 @@ import org.apache.log.output.io.rotate.RotateStrategyBySize;
  * @author <a href="mailto:bh22351@i-one.at">Bernhard Huber</a>
  */
 public class TestRotatingFileOutputLogTarget 
-    extends TestCase
 {
     private RawFormatter m_formatter = new RawFormatter();
-
-    public TestRotatingFileOutputLogTarget() 
-    {
-        super( "TestRotatingFileOutputLogTarget" );
-    }
-
-    public TestRotatingFileOutputLogTarget( final String name ) 
-    {
-        super( name );
-    }
 
     /** test file rotation by size, using unique filenames
      */
