@@ -24,6 +24,7 @@
  <body>
     <menu>
       <item name="Downloads" href="download.cgi"/>
+      <item name="Tutorials" href="tutorials/index.html"/>
       <item name="Resources" href="resources/index.html"/>
       <item name="News" href="news/index.html"/>
     </menu>
