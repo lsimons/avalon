@@ -81,6 +81,7 @@ public final class ProxyManager
         try
         {
             Thread.currentThread().getContextClassLoader().loadClass( BCEL_CLASS );
+            Thread.currentThread().getContextClassLoader().loadClass( BCEL_WRAPPER );
             bcelPresent = true;
         }
         catch ( ClassNotFoundException cfne )
