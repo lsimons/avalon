@@ -100,7 +100,7 @@ import org.apache.log.Priority;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.32 $ $Date: 2002/09/17 12:32:37 $
+ * @version CVS $Revision: 1.33 $ $Date: 2002/11/08 01:49:52 $
  */
 public class PatternFormatter
     implements Formatter, org.apache.log.Formatter
@@ -511,7 +511,7 @@ public class PatternFormatter
     /**
      * Utility method to format context.
      *
-     * @param context the context string
+     * @param stack the context stack
      * @param format ancilliary format parameter - allowed to be null
      * @return the formatted string
      * @deprecated Use getContextStack rather than this method
@@ -524,7 +524,7 @@ public class PatternFormatter
     /**
      * Utility method to format context.
      *
-     * @param context the context string
+     * @param stack the context stack
      * @param format ancilliary format parameter - allowed to be null
      * @return the formatted string
      */
@@ -622,19 +622,33 @@ public class PatternFormatter
     protected int getTypeIdFor( final String type )
     {
         if( type.equalsIgnoreCase( TYPE_CATEGORY_STR ) )
+        {
             return TYPE_CATEGORY;
+        }
         else if( type.equalsIgnoreCase( TYPE_CONTEXT_STR ) )
+        {
             return TYPE_CONTEXT;
+        }
         else if( type.equalsIgnoreCase( TYPE_MESSAGE_STR ) )
+        {
             return TYPE_MESSAGE;
+        }
         else if( type.equalsIgnoreCase( TYPE_PRIORITY_STR ) )
+        {
             return TYPE_PRIORITY;
+        }
         else if( type.equalsIgnoreCase( TYPE_TIME_STR ) )
+        {
             return TYPE_TIME;
+        }
         else if( type.equalsIgnoreCase( TYPE_RELATIVE_TIME_STR ) )
+        {
             return TYPE_RELATIVE_TIME;
+        }
         else if( type.equalsIgnoreCase( TYPE_THREAD_STR ) )
+        {
             return TYPE_THREAD;
+        }
         else if( type.equalsIgnoreCase( TYPE_THROWABLE_STR ) )
         {
             return TYPE_THROWABLE;
