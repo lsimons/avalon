@@ -25,7 +25,6 @@ import org.apache.tools.ant.taskdefs.ManifestException;
 import org.apache.tools.ant.types.FileSet;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * Load a goal. 

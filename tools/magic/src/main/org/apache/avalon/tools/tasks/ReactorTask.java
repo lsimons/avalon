@@ -26,18 +26,11 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Ant;
 import org.apache.tools.ant.taskdefs.Sequential;
-import org.apache.tools.ant.types.DirSet;
-import org.apache.tools.ant.types.FileList;
-import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.types.Path;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 
 /**
@@ -271,11 +264,6 @@ public class ReactorTask extends Sequential
         {
             throw new BuildException( ioe );
         }
-    }
-
-    private Context getContext()
-    {
-        return m_context;
     }
 
     private Home getHome()

@@ -36,6 +36,25 @@ import java.util.List;
  */
 public class Resource 
 {
+    /**
+     * Return the gump key for the resource taking into consideration any alias declared under
+     * the resource definition.
+     * @param resource the resource from which to return the key
+     * @return the resource key
+     */
+    public static String getKeyForResource( Resource resource )
+    {
+        final String alias = resource.getGump().getAlias();
+        if( null != alias )
+        {
+            return alias;
+        }
+        else
+        {
+            return resource.getKey();
+        }
+    }
+
     private static final ResourceRef[] EMPTY_REFS = new ResourceRef[0];
 
     private final String m_key;
@@ -91,10 +110,6 @@ public class Resource
         getResourceRefs( project, list, mode, tag, flag );
         return (ResourceRef[]) list.toArray( new ResourceRef[0] );
     }
-
-    // TODO - multiple refs for the same key can be returned here because 
-    // different projects are making different dependency assumptions - some 
-    // optimization is need to eliminate duplicates
 
     protected void getResourceRefs( 
       final Project project, final List list, final int mode, final int tag, final boolean flag )
@@ -158,7 +173,7 @@ public class Resource
         {
             final String error = 
               "Resource defintion " + this + " contains a unknown resource reference ["
-                 + ure.getKey() + "].";
+                 + ure.getKey() + "] (referenced by project '" + project.getName() + "'.";
             throw new BuildException( error );
         }
     }
@@ -210,18 +225,6 @@ public class Resource
         }
     }
 
-    private String getKeyForResource( Resource resource )
-    {
-        final String alias = resource.getGump().getAlias();
-        if( null != alias ) 
-        {
-            return alias;
-        }
-        else
-        {
-            return resource.getKey();
-        }
-    }
 
     private File get( final Project project, final File target, final String path )
     {

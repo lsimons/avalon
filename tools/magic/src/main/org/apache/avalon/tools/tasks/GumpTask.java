@@ -465,7 +465,7 @@ public class GumpTask extends SystemTask
                       "\n      <!-- external references -->" );
                 }
                 String key = resource.getKey();
-                String alias = getKeyForResource( resource );
+                String alias = Resource.getKeyForResource( resource );
                 writer.write( 
                    "\n      <depend property=\"gump.resource." + key 
                    + "\" project=\"" + alias + "\"" );

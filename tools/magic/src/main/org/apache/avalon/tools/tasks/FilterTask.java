@@ -20,7 +20,6 @@ package org.apache.avalon.tools.tasks;
 import java.io.File;
 
 import org.apache.avalon.tools.model.Definition;
-import org.apache.avalon.tools.model.Policy;
 import org.apache.avalon.tools.model.Resource;
 import org.apache.avalon.tools.model.ResourceRef;
 import org.apache.avalon.tools.model.MagicPath;
@@ -182,6 +181,7 @@ public class FilterTask extends SystemTask
         String root = cache.toString();
         MagicPath path = new MagicPath( getProject() );
         path.setMode( "RUNTIME" );
+        path.setKey( def.getKey() );
         String sequence = path.toString();
         String[] translation = Path.translatePath( getProject(), sequence );
 

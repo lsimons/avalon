@@ -232,7 +232,9 @@ public class Context extends Task
     }
 
    /**
-    * Return the concatonal variant of a file and create it if it does not exist.
+    * Return the concatonal variant of a file and ensure that the parent directory
+    * path is created.
+    *
     * @param file the file argument
     * @return the concatonal variant
     */
@@ -301,7 +303,6 @@ public class Context extends Task
     private final Map m_map = new Hashtable();
 
     private String m_key;
-    private File m_file;
 
     private File m_src;
     private File m_etc;
@@ -521,11 +522,6 @@ public class Context extends Task
     // internal
     //--------------------------------------------------------------------
 
-    private File getTargetDirectory( final String path )
-    {
-        return new File( m_target, path );
-    }
-
     private String resolveKey()
     {
         if( null != m_key )
@@ -584,15 +580,8 @@ public class Context extends Task
 
     private void setupBuildProperties( final Project project, final File basedir )
     {
-        if( null == m_file )
-        {  
-            final File build = Context.getFile( basedir, BUILD_PROPERTIES );
-            readProperties( project, build );
-        }
-        else
-        {
-            readProperties( project, m_file );
-        }
+        final File build = Context.getFile( basedir, BUILD_PROPERTIES );
+        readProperties( project, build );
     }
 
     private void readProperties( final Project project, final File file ) throws BuildException

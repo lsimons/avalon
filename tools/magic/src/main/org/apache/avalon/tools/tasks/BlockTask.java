@@ -20,19 +20,9 @@ package org.apache.avalon.tools.tasks;
 import org.apache.tools.ant.BuildException;
 
 import org.apache.avalon.tools.model.Definition;
-import org.apache.avalon.tools.model.ResourceRef;
-import org.apache.avalon.tools.model.Info;
-import org.apache.avalon.tools.model.Resource;
-import org.apache.avalon.tools.model.Plugin.ListenerDef;
-import org.apache.avalon.tools.model.Plugin.TaskDef;
-import org.apache.avalon.tools.model.Plugin;
-import org.apache.avalon.tools.model.Policy;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.FileOutputStream;
 import java.io.File;
-import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.List;
 import java.util.ArrayList;
@@ -428,7 +418,7 @@ public class BlockTask extends DeclareTask
 
     private File getEmbeddedRoot( String target )
     {
-        if( MAIN.equals( m_target ) )
+        if( MAIN.equals( target ) )
         {
             return getContext().getClassesDirectory();
         }
@@ -495,8 +485,6 @@ public class BlockTask extends DeclareTask
     protected void writeContainer( final String pad, final Writer writer, final Definition def )
         throws IOException
     {
-        final Info info = def.getInfo();
-
         writer.write( "\n\n" + pad + "<container name=\"" + getName( def ) + "\">" );
 
         if( null != m_service )

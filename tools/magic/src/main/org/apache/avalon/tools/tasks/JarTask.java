@@ -24,7 +24,6 @@ import org.apache.tools.ant.taskdefs.Manifest;
 import org.apache.tools.ant.taskdefs.ManifestException;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * Load a goal. 
@@ -108,11 +107,13 @@ public class JarTask extends AbstractDeliverableTask
             if( null != def.getInfo().getVersion() )
             {
 
-                // TODO: validate that the version is a dewy version
+                // TODO: add the declaration of the spec version
+                // to the Info object and validate that it is a
+                // a dewey decimal
 
-                addAttribute( 
+                addAttribute(
                   main, "Specification-Version", 
-                  def.getInfo().getVersion() );
+                  "0.0.0" );
             }
             else
             {
@@ -125,10 +126,9 @@ public class JarTask extends AbstractDeliverableTask
               main, "Implementation-Vendor-Id", 
               "org.apache.avalon" );
 
-            // TODO: get a real implementation version id
-            
             addAttribute( 
-              main, "Implementation-Version", "UNKNOWN" ); 
+              main, "Implementation-Version",
+              def.getInfo().getVersion() );
 
             final String classpath = getProject().getProperty( JAR_CLASSPATH_KEY );
             if( null != classpath )

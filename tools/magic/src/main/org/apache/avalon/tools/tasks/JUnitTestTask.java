@@ -67,9 +67,7 @@ public class JUnitTestTask extends SystemTask
     private static final String ERROR_KEY = "project.test.error";
     private static final String FAILURE_KEY = "project.test.failure";
 
-    private File m_test;
-
-    public void init() throws BuildException 
+    public void init() throws BuildException
     {
         if( !isInitialized() )
         {
@@ -81,8 +79,6 @@ public class JUnitTestTask extends SystemTask
             project.setNewProperty( TEST_ENV_KEY, "" + TEST_ENV_VALUE );
             project.setNewProperty( HALT_ON_ERROR_KEY, "" + HALT_ON_ERROR_VALUE );
             project.setNewProperty( HALT_ON_FAILURE_KEY, "" + HALT_ON_FAILURE_VALUE );
-
-            m_test = getContext().getTestDirectory();
         }
     }
 
