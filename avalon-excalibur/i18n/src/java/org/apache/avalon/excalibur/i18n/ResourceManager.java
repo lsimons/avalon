@@ -40,7 +40,7 @@ public class ResourceManager
 
     /**
      * Retrieve resource for specified name.
-     * The baseName is determined by name postfixed with ".Resources".
+     * The basename is determined by name postfixed with ".Resources".
      *
      * @param clazz the Class
      * @return the Resources
@@ -52,7 +52,7 @@ public class ResourceManager
 
     /**
      * Retrieve resource for specified Classes package.
-     * The baseName is determined by name of classes package 
+     * The basename is determined by name of classes package 
      * postfixed with ".Resources".
      *
      * @param clazz the Class
@@ -60,41 +60,66 @@ public class ResourceManager
      */
     public final static Resources getPackageResources( final Class clazz )
     {
-        final Package pkg = clazz.getPackage();
-
-        String resource;
-        if ( null == pkg )
-        {
-            final String name = clazz.getName();
-            if ( -1 == name.lastIndexOf( "." ) )
-            {
-                resource = "Resources";
-            }
-            else
-            {
-                resource = name.substring( 0, name.lastIndexOf( "." ) ) + ".Resources";
-            }
-        }
-        else
-        {
-            resource = pkg.getName() + ".Resources";
-        }
-
-        return getBaseResources( resource );
+        return getBaseResources( getPackageResourcesBaseName( clazz ) );
     }
 
     /**
      * Retrieve resource for specified Class.
-     * The baseName is determined by name of Class 
-     * postfixed with ".Resources".
+     * The basename is determined by name of Class 
+     * postfixed with "Resources".
      *
      * @param clazz the Class
      * @return the Resources
      */
     public final static Resources getClassResources( final Class clazz )
     {
-        final String resource = clazz.getName() + "Resources";
-        return getBaseResources( resource );
+        return getBaseResources( getClassResourcesBaseName( clazz ) );
+    }
+
+    /**
+     * Retrieve resource basename for specified Classes package.
+     * The basename is determined by name of classes package 
+     * postfixed with ".Resources".
+     *
+     * @param clazz the Class
+     * @return the resource basename
+     */
+    public final static String getPackageResourcesBaseName( final Class clazz )
+    {
+        final Package pkg = clazz.getPackage();
+
+        String baseName;
+        if ( null == pkg )
+        {
+            final String name = clazz.getName();
+            if ( -1 == name.lastIndexOf( "." ) )
+            {
+                baseName = "Resources";
+            }
+            else
+            {
+                baseName = name.substring( 0, name.lastIndexOf( "." ) ) + ".Resources";
+            }
+        }
+        else
+        {
+            baseName = pkg.getName() + ".Resources";
+        }
+
+        return baseName;
+    }
+
+    /**
+     * Retrieve resource basename for specified Class.
+     * The basename is determined by name of Class 
+     * postfixed with "Resources".
+     *
+     * @param clazz the Class
+     * @return the resource basename
+     */
+    public final static String getClassResourcesBaseName( final Class clazz )
+    {
+        return clazz.getName() + "Resources";
     }
 
     /**
