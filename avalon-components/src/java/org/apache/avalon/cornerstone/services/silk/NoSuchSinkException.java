@@ -12,10 +12,11 @@ package org.apache.avalon.cornerstone.services.silk;
  * supposed to be associated with a name is not found.
  *
  * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/02/04 18:04:30 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/03/16 00:18:35 $
  */
 
-public class NoSuchSinkException extends Exception {
+public class NoSuchSinkException extends Exception
+{
 
     public NoSuchSinkException()
     {

@@ -30,5 +30,6 @@ public interface Realm
     String ROLE = Realm.class.getName();
 
     Principal getPrincipal( String name );
+
     Iterator getPrincipalNames();
 }

@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) The Apache Software Foundation. All rights reserved.
  *
@@ -8,32 +7,28 @@
  */
 package org.apache.avalon.cornerstone.blocks.transport.publishing;
 
-
-
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.UnknownHostException;
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandlerFactory;
 import org.apache.avalon.cornerstone.services.connection.ConnectionManager;
-import org.apache.avalon.cornerstone.services.sockets.SocketManager;
 import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
+import org.apache.avalon.cornerstone.services.sockets.SocketManager;
+import org.apache.avalon.framework.component.ComponentException;
+import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.ComponentException;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.net.ServerSocket;
-import java.io.IOException;
-
 
 /**
  * Class AbstractStreamPublisher
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class AbstractStreamPublisher extends AbstractPublisher
-        implements ConnectionHandlerFactory
+    implements ConnectionHandlerFactory
 {
 
     protected SocketManager m_socketManager;
@@ -48,22 +43,22 @@ public abstract class AbstractStreamPublisher extends AbstractPublisher
      *
      * @param configuration the class configurations.
      */
-    public final void configure(Configuration configuration) throws ConfigurationException
+    public final void configure( Configuration configuration ) throws ConfigurationException
     {
 
-        super.configure(configuration);
+        super.configure( configuration );
 
-        m_port = configuration.getChild("port").getValueAsInteger();
+        m_port = configuration.getChild( "port" ).getValueAsInteger();
 
         try
         {
-            final String bindAddress = configuration.getChild("bind").getValue();
+            final String bindAddress = configuration.getChild( "bind" ).getValue();
 
-            m_bindTo = InetAddress.getByName(bindAddress);
+            m_bindTo = InetAddress.getByName( bindAddress );
         }
-        catch (final UnknownHostException unhe)
+        catch( final UnknownHostException unhe )
         {
-            throw new ConfigurationException("Malformed bind parameter", unhe);
+            throw new ConfigurationException( "Malformed bind parameter", unhe );
         }
     }
 
@@ -76,20 +71,20 @@ public abstract class AbstractStreamPublisher extends AbstractPublisher
      * @throws ComponentException
      *
      */
-    public final void compose(ComponentManager manager) throws ComponentException
+    public final void compose( ComponentManager manager ) throws ComponentException
     {
 
-        super.compose(manager);
+        super.compose( manager );
 
-        m_socketManager = (SocketManager) manager.lookup(SocketManager.ROLE);
-        m_connectionManager = (ConnectionManager) manager.lookup(ConnectionManager.ROLE);
+        m_socketManager = (SocketManager)manager.lookup( SocketManager.ROLE );
+        m_connectionManager = (ConnectionManager)manager.lookup( ConnectionManager.ROLE );
     }
 
     protected ServerSocket makeServerSocket() throws ComponentException, IOException
     {
 
-        final ServerSocketFactory factory = m_socketManager.getServerSocketFactory("plain");
+        final ServerSocketFactory factory = m_socketManager.getServerSocketFactory( "plain" );
 
-        return factory.createServerSocket(m_port, 5, m_bindTo);
+        return factory.createServerSocket( m_port, 5, m_bindTo );
     }
 }

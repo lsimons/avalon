@@ -8,7 +8,6 @@
 package org.apache.avalon.cornerstone.services.scheduler;
 
 import java.util.NoSuchElementException;
-import org.apache.avalon.phoenix.Service;
 
 /**
  * This service provides a way to regularly schedule jobs.

@@ -7,11 +7,9 @@
  */
 package org.apache.avalon.cornerstone.blocks.packet;
 
-import java.io.IOException;
 import java.net.DatagramSocket;
 import java.util.HashMap;
 import java.util.Iterator;
-import org.apache.avalon.cornerstone.services.packet.PacketHandler;
 import org.apache.avalon.cornerstone.services.packet.PacketHandlerFactory;
 import org.apache.avalon.cornerstone.services.packet.PacketManager;
 import org.apache.avalon.cornerstone.services.threads.ThreadManager;
@@ -32,8 +30,8 @@ public class DefaultPacketManager
     extends AbstractLogEnabled
     implements Block, PacketManager, Composable, Disposable
 {
-    private HashMap             m_acceptors        = new HashMap();
-    private ThreadManager       m_threadManager;
+    private HashMap m_acceptors = new HashMap();
+    private ThreadManager m_threadManager;
 
     public void compose( final ComponentManager componentManager )
         throws ComponentException
@@ -43,11 +41,14 @@ public class DefaultPacketManager
 
     public void dispose()
     {
-        final Iterator names = ((HashMap)m_acceptors.clone()).keySet().iterator();
+        final Iterator names = ( (HashMap)m_acceptors.clone() ).keySet().iterator();
         while( names.hasNext() )
         {
             final String name = (String)names.next();
-            try { disconnect( name ); }
+            try
+            {
+                disconnect( name );
+            }
             catch( final Exception e )
             {
                 getLogger().warn( "Error disconnecting " + name, e );

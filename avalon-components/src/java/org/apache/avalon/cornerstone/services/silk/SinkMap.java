@@ -15,10 +15,11 @@ import org.apache.avalon.excalibur.event.Sink;
  * of Control, while allowing a system to be reassigned at any time.
  *
  * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/02/04 18:04:30 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/03/16 00:18:35 $
  */
 
-public interface SinkMap {
+public interface SinkMap
+{
 
     /**
      * This gets the main Sink for the SinkMap.  A SinkMap must have at

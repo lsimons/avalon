@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) The Apache Software Foundation. All rights reserved.
  *
@@ -8,23 +7,19 @@
  */
 package org.apache.avalon.cornerstone.blocks.transport.autopublishing;
 
-
-
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.Configuration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
 import org.apache.avalon.framework.CascadingRuntimeException;
-import org.apache.avalon.phoenix.ApplicationListener;
-import org.apache.avalon.phoenix.BlockEvent;
-import org.apache.avalon.phoenix.Block;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.phoenix.ApplicationEvent;
+import org.apache.avalon.phoenix.ApplicationListener;
+import org.apache.avalon.phoenix.Block;
+import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.commons.altrmi.server.AltrmiPublisher;
 import org.apache.commons.altrmi.server.PublicationException;
-
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Vector;
-
 
 /**
  * Class AutoPublisher
@@ -33,7 +28,7 @@ import java.util.Vector;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class AutoPublisher implements Configurable, ApplicationListener
 {
@@ -52,22 +47,22 @@ public class AutoPublisher implements Configurable, ApplicationListener
      * @throws ConfigurationException
      *
      */
-    public void configure(final Configuration configuration) throws ConfigurationException
+    public void configure( final Configuration configuration ) throws ConfigurationException
     {
 
-        m_publisherName = configuration.getChild("publisher").getValue("altrmification");
+        m_publisherName = configuration.getChild( "publisher" ).getValue( "altrmification" );
         m_publications = new HashMap();
 
-        final Configuration[] confs = configuration.getChildren("publish");
+        final Configuration[] confs = configuration.getChildren( "publish" );
 
-        for (int i = 0; i < confs.length; i++)
+        for( int i = 0; i < confs.length; i++ )
         {
-            final Configuration conf = confs[i];
-            final String blockName = conf.getAttribute("block");
-            final String publishAsName = conf.getAttribute("publishAsName");
-            final String interfaceToPublish = conf.getAttribute("interfaceToPublish");
+            final Configuration conf = confs[ i ];
+            final String blockName = conf.getAttribute( "block" );
+            final String publishAsName = conf.getAttribute( "publishAsName" );
+            final String interfaceToPublish = conf.getAttribute( "interfaceToPublish" );
 
-            m_publications.put(blockName, new PublicationInfo(publishAsName, interfaceToPublish));
+            m_publications.put( blockName, new PublicationInfo( publishAsName, interfaceToPublish ) );
         }
     }
 
@@ -78,17 +73,17 @@ public class AutoPublisher implements Configurable, ApplicationListener
      * @param event
      *
      */
-    public void blockAdded(final BlockEvent event)
+    public void blockAdded( final BlockEvent event )
     {
 
-        if (m_publisherName.equals(event.getName()))
+        if( m_publisherName.equals( event.getName() ) )
         {
-            m_altrmiPublisher = (AltrmiPublisher) event.getBlock();
+            m_altrmiPublisher = (AltrmiPublisher)event.getBlock();
         }
 
-        if (m_publications.containsKey(event.getName()))
+        if( m_publications.containsKey( event.getName() ) )
         {
-            m_events.add(event);
+            m_events.add( event );
         }
     }
 
@@ -99,7 +94,7 @@ public class AutoPublisher implements Configurable, ApplicationListener
      * @param event
      *
      */
-    public void blockRemoved(final BlockEvent event)
+    public void blockRemoved( final BlockEvent event )
     {
     }
 
@@ -112,7 +107,7 @@ public class AutoPublisher implements Configurable, ApplicationListener
      * @throws Exception
      *
      */
-    public void applicationStarting(ApplicationEvent event) throws Exception
+    public void applicationStarting( ApplicationEvent event ) throws Exception
     {
     }
 
@@ -124,27 +119,27 @@ public class AutoPublisher implements Configurable, ApplicationListener
     public void applicationStarted()
     {
 
-        for (int i = 0; i < m_events.size(); i++)
+        for( int i = 0; i < m_events.size(); i++ )
         {
-            final BlockEvent event = (BlockEvent) m_events.elementAt(i);
+            final BlockEvent event = (BlockEvent)m_events.elementAt( i );
             final Block block = event.getBlock();
             final String blockName = event.getName();
-            PublicationInfo pi = (PublicationInfo) m_publications.get(event.getName());
+            PublicationInfo pi = (PublicationInfo)m_publications.get( event.getName() );
 
             try
             {
-                m_altrmiPublisher.publish(block, pi.getPublishAsName(),
-                                          Class.forName(pi.getInterfaceToPublish()));
+                m_altrmiPublisher.publish( block, pi.getPublishAsName(),
+                                           Class.forName( pi.getInterfaceToPublish() ) );
             }
-            catch (PublicationException e)
+            catch( PublicationException e )
             {
-                throw new CascadingRuntimeException("Some problem auto-publishing", e);
+                throw new CascadingRuntimeException( "Some problem auto-publishing", e );
             }
-            catch (ClassNotFoundException e)
+            catch( ClassNotFoundException e )
             {
                 throw new CascadingRuntimeException(
                     "Interface specified in config.xml ('interfaceToPublish' attribte) not found",
-                    e);
+                    e );
             }
         }
     }
@@ -157,23 +152,23 @@ public class AutoPublisher implements Configurable, ApplicationListener
     public void applicationStopping()
     {
 
-        for (int i = 0; i < m_events.size(); i++)
+        for( int i = 0; i < m_events.size(); i++ )
         {
-            BlockEvent event = (BlockEvent) m_events.elementAt(i);
+            BlockEvent event = (BlockEvent)m_events.elementAt( i );
 
-            if (m_publications.containsKey(event.getName()))
+            if( m_publications.containsKey( event.getName() ) )
             {
                 final Block block = event.getBlock();
                 final String blockName = event.getName();
-                PublicationInfo pi = (PublicationInfo) m_publications.get(event.getName());
+                PublicationInfo pi = (PublicationInfo)m_publications.get( event.getName() );
 
                 try
                 {
-                    m_altrmiPublisher.unPublish(block, pi.getPublishAsName());
+                    m_altrmiPublisher.unPublish( block, pi.getPublishAsName() );
                 }
-                catch (PublicationException e)
+                catch( PublicationException e )
                 {
-                    throw new CascadingRuntimeException("Some problem un-auto-publishing", e);
+                    throw new CascadingRuntimeException( "Some problem un-auto-publishing", e );
                 }
             }
         }
@@ -195,7 +190,7 @@ public class AutoPublisher implements Configurable, ApplicationListener
      * @param e
      *
      */
-    public void applicationFailure(Exception e)
+    public void applicationFailure( Exception e )
     {
     }
 }

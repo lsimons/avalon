@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.cornerstone.blocks.masterstore;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -20,7 +19,6 @@ import java.util.Iterator;
 import org.apache.avalon.cornerstone.services.store.Repository;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
@@ -43,24 +41,24 @@ public abstract class AbstractFileRepository
     extends AbstractLogEnabled
     implements Block, Repository, Contextualizable, Composable, Configurable, Initializable
 {
-    protected static final boolean      DEBUG          = false;
+    protected static final boolean DEBUG = false;
 
-    protected static final String       HANDLED_URL    = "file://";
-    protected static final int          BYTE_MASK      = 0x0f;
-    protected static final char[]       HEX_DIGITS     =
-    {
-        '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'
-    };
+    protected static final String HANDLED_URL = "file://";
+    protected static final int BYTE_MASK = 0x0f;
+    protected static final char[] HEX_DIGITS =
+        {
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+        };
 
-    protected String                    m_path;
-    protected String                    m_destination;
-    protected String                    m_extension;
-    protected String                    m_name;
-    protected FilenameFilter            m_filter;
-    protected File                      m_baseDirectory;
+    protected String m_path;
+    protected String m_destination;
+    protected String m_extension;
+    protected String m_name;
+    protected FilenameFilter m_filter;
+    protected File m_baseDirectory;
 
-    protected ComponentManager          m_componentManager;
-    protected BlockContext              m_context;
+    protected ComponentManager m_componentManager;
+    protected BlockContext m_context;
 
     protected abstract String getExtensionDecorator();
 
@@ -113,7 +111,10 @@ public abstract class AbstractFileRepository
 
         File directory = new File( m_baseDirectory, m_path );
 
-        try { directory = directory.getCanonicalFile(); }
+        try
+        {
+            directory = directory.getCanonicalFile();
+        }
         catch( final IOException ioe )
         {
             throw new ConfigurationException( "Unable to form canonical representation of " +
@@ -135,14 +136,20 @@ public abstract class AbstractFileRepository
     {
         AbstractFileRepository child = null;
 
-        try { child = createChildRepository(); }
+        try
+        {
+            child = createChildRepository();
+        }
         catch( final Exception e )
         {
             throw new RuntimeException( "Cannot create child repository " +
                                         childName + " : " + e );
         }
 
-        try { child.compose( m_componentManager ); }
+        try
+        {
+            child.compose( m_componentManager );
+        }
         catch( final ComponentException cme )
         {
             throw new RuntimeException( "Cannot compose child " +
@@ -162,7 +169,10 @@ public abstract class AbstractFileRepository
                                         " : " + ce );
         }
 
-        try { child.initialize(); }
+        try
+        {
+            child.initialize();
+        }
         catch( final Exception e )
         {
             throw new RuntimeException( "Cannot initialize child " +
@@ -245,7 +255,7 @@ public abstract class AbstractFileRepository
 
         for( int i = 0; i < names.length; i++ )
         {
-            list.add( decode( names[i] ) );
+            list.add( decode( names[ i ] ) );
         }
 
         return list.iterator();
@@ -294,7 +304,7 @@ public abstract class AbstractFileRepository
         for( int i = 0, j = 0; i < size; j++ )
         {
             bytes[ j ] = Byte.parseByte( filename.substring( i, i + 2 ), 16 );
-            i +=2;
+            i += 2;
         }
 
         return new String( bytes );

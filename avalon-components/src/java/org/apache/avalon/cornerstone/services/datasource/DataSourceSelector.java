@@ -7,9 +7,7 @@
  */
 package org.apache.avalon.cornerstone.services.datasource;
 
-import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentSelector;
-import org.apache.avalon.excalibur.datasource.DataSourceComponent;
 
 /**
  * DataSourceSelector

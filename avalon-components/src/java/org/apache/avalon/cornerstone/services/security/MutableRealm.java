@@ -22,5 +22,6 @@ public interface MutableRealm
     String ROLE = MutableRealm.class.getName();
 
     void addPrincipal( Principal principal );
+
     void removePrincipal( Principal principal );
 }

@@ -8,7 +8,9 @@
 package org.apache.avalon.cornerstone.blocks.sockets;
 
 import java.util.HashMap;
-import java.util.Iterator;
+import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
+import org.apache.avalon.cornerstone.services.sockets.SocketFactory;
+import org.apache.avalon.cornerstone.services.sockets.SocketManager;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
@@ -18,9 +20,6 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
-import org.apache.avalon.cornerstone.services.sockets.SocketFactory;
-import org.apache.avalon.cornerstone.services.sockets.SocketManager;
 import org.apache.avalon.phoenix.Block;
 
 /**
@@ -33,11 +32,11 @@ public class DefaultSocketManager
     extends AbstractLogEnabled
     implements SocketManager, Block, Contextualizable, Configurable, Initializable
 {
-    protected final HashMap              m_serverSockets   = new HashMap();
-    protected final HashMap              m_sockets         = new HashMap();
+    protected final HashMap m_serverSockets = new HashMap();
+    protected final HashMap m_sockets = new HashMap();
 
-    protected Context                    m_context;
-    protected Configuration              m_configuration;
+    protected Context m_context;
+    protected Configuration m_configuration;
 
     public void contextualize( final Context context )
     {
@@ -91,7 +90,7 @@ public class DefaultSocketManager
     {
         final Object object = createFactory( name, className, configuration );
 
-        if( !(object instanceof ServerSocketFactory) )
+        if( !( object instanceof ServerSocketFactory ) )
         {
             throw new ComponentException( "Error creating factory " + name +
                                           " with class " + className + " as " +
@@ -102,7 +101,6 @@ public class DefaultSocketManager
         m_serverSockets.put( name, object );
     }
 
-
     protected void setupClientSocketFactory( final String name,
                                              final String className,
                                              final Configuration configuration )
@@ -110,7 +108,7 @@ public class DefaultSocketManager
     {
         final Object object = createFactory( name, className, configuration );
 
-        if( !(object instanceof SocketFactory) )
+        if( !( object instanceof SocketFactory ) )
         {
             throw new ComponentException( "Error creating factory " + name +
                                           " with class " + className + " as " +
@@ -144,17 +142,17 @@ public class DefaultSocketManager
 
         if( factory instanceof Contextualizable )
         {
-            ((Contextualizable)factory).contextualize( m_context );
+            ( (Contextualizable)factory ).contextualize( m_context );
         }
 
         if( factory instanceof Configurable )
         {
-            ((Configurable)factory).configure( configuration );
+            ( (Configurable)factory ).configure( configuration );
         }
 
         if( factory instanceof Initializable )
         {
-            ((Initializable)factory).initialize();
+            ( (Initializable)factory ).initialize();
         }
 
         return factory;

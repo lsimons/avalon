@@ -15,7 +15,7 @@ package org.apache.avalon.cornerstone.services.connection;
 public class DefaultHandlerFactory
     extends AbstractHandlerFactory
 {
-    protected Class             m_handlerClass;
+    protected Class m_handlerClass;
 
     public DefaultHandlerFactory( final Class handlerClass )
     {
@@ -38,7 +38,7 @@ public class DefaultHandlerFactory
      * Release a previously created ConnectionHandler.
      * e.g. for spooling.
      */
-    public void releaseConnectionHandler(ConnectionHandler connectionHandler)
+    public void releaseConnectionHandler( ConnectionHandler connectionHandler )
     {
     }
 }

@@ -7,16 +7,14 @@
  */
 package org.apache.avalon.cornerstone.blocks.dom;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.ParserConfigurationException;
 import org.apache.avalon.cornerstone.services.dom.DocumentBuilderFactory;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.Block;
-
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * Block implementation of the DocumentBuilderFactory service.  That service being
@@ -24,7 +22,7 @@ import javax.xml.parsers.ParserConfigurationException;
  *
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</a>
  */
-public class DOMBuilderFactory 
+public class DOMBuilderFactory
     extends AbstractLogEnabled
     implements Block, Configurable, DocumentBuilderFactory
 {
@@ -44,65 +42,66 @@ public class DOMBuilderFactory
         // org.apache.xerces.jaxp.DocumentBuilderFactoryImpl is also valid
 
         final String domClass =
-            configuration.getChild("domClass").getValue();
-        try 
+            configuration.getChild( "domClass" ).getValue();
+        try
         {
             m_documentBuilderFactory =
-                (javax.xml.parsers.DocumentBuilderFactory)Class.forName(domClass).newInstance();
-        } 
+                (javax.xml.parsers.DocumentBuilderFactory)Class.forName( domClass ).newInstance();
+        }
         catch( final ClassNotFoundException cnfe )
         {
-            throw new ConfigurationException( "ClassNotFoundException for DOM " + 
+            throw new ConfigurationException( "ClassNotFoundException for DOM " +
                                               "builder factory",
                                               cnfe );
-        } 
+        }
         catch( final InstantiationException ie )
         {
-            throw new ConfigurationException( "InstantiationException for DOM " + 
+            throw new ConfigurationException( "InstantiationException for DOM " +
                                               "builder factory",
                                               ie );
-        } 
+        }
         catch( final IllegalAccessException ie )
         {
-            throw new ConfigurationException( "IllegalAccessException for DOM " + 
+            throw new ConfigurationException( "IllegalAccessException for DOM " +
                                               "builder factory",
                                               ie );
         }
     }
 
     public DocumentBuilder newDocumentBuilder()
-        throws ParserConfigurationException {
+        throws ParserConfigurationException
+    {
         return m_documentBuilderFactory.newDocumentBuilder();
     }
 
-    public void setNamespaceAware(boolean awareness)
+    public void setNamespaceAware( boolean awareness )
     {
-        m_documentBuilderFactory.setNamespaceAware(awareness);
+        m_documentBuilderFactory.setNamespaceAware( awareness );
     }
 
-    public void setValidating(boolean validating)
+    public void setValidating( boolean validating )
     {
-        m_documentBuilderFactory.setValidating(validating);
+        m_documentBuilderFactory.setValidating( validating );
     }
 
-    public void setIgnoringElementContentWhitespace(boolean whitespace)
+    public void setIgnoringElementContentWhitespace( boolean whitespace )
     {
-        m_documentBuilderFactory.setIgnoringElementContentWhitespace(whitespace);
+        m_documentBuilderFactory.setIgnoringElementContentWhitespace( whitespace );
     }
 
-    public void setExpandEntityReferences(boolean expandEntityRef)
+    public void setExpandEntityReferences( boolean expandEntityRef )
     {
-        m_documentBuilderFactory.setExpandEntityReferences(expandEntityRef);
+        m_documentBuilderFactory.setExpandEntityReferences( expandEntityRef );
     }
 
-    public void setIgnoringComments(boolean ignoreComments)
+    public void setIgnoringComments( boolean ignoreComments )
     {
-        m_documentBuilderFactory.setIgnoringComments(ignoreComments);
+        m_documentBuilderFactory.setIgnoringComments( ignoreComments );
     }
 
-    public void setCoalescing(boolean coalescing)
+    public void setCoalescing( boolean coalescing )
     {
-        m_documentBuilderFactory.setCoalescing(coalescing);
+        m_documentBuilderFactory.setCoalescing( coalescing );
     }
 
     public boolean isNamespaceAware()
@@ -135,16 +134,16 @@ public class DOMBuilderFactory
         return m_documentBuilderFactory.isCoalescing();
     }
 
-    public void setAttribute(String name, Object value)
+    public void setAttribute( String name, Object value )
         throws IllegalArgumentException
     {
-        m_documentBuilderFactory.setAttribute(name,value);
+        m_documentBuilderFactory.setAttribute( name, value );
     }
 
-    public Object getAttribute(String name)
+    public Object getAttribute( String name )
         throws IllegalArgumentException
     {
-        return m_documentBuilderFactory.getAttribute(name);
+        return m_documentBuilderFactory.getAttribute( name );
     }
 }
 

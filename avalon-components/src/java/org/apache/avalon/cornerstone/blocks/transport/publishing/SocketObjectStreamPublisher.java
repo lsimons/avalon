@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) The Apache Software Foundation. All rights reserved.
  *
@@ -8,18 +7,15 @@
  */
 package org.apache.avalon.cornerstone.blocks.transport.publishing;
 
-
-
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandler;
 import org.apache.commons.altrmi.server.impl.socket.PartialSocketObjectStreamServer;
-
 
 /**
  * Class SocketObjectStreamPublisher
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class SocketObjectStreamPublisher extends AbstractStreamPublisher
 {
@@ -35,9 +31,9 @@ public class SocketObjectStreamPublisher extends AbstractStreamPublisher
 
         final SocketObjectStreamConnectionHandler handler =
             new SocketObjectStreamConnectionHandler(
-                (PartialSocketObjectStreamServer) m_AbstractServer);
+                (PartialSocketObjectStreamServer)m_AbstractServer );
 
-        setupLogger(handler);
+        setupLogger( handler );
 
         return handler;
     }
@@ -46,7 +42,7 @@ public class SocketObjectStreamPublisher extends AbstractStreamPublisher
      * Release a previously created ConnectionHandler.
      * e.g. for spooling.
      */
-    public void releaseConnectionHandler(ConnectionHandler connectionHandler)
+    public void releaseConnectionHandler( ConnectionHandler connectionHandler )
     {
     }
 
@@ -62,8 +58,8 @@ public class SocketObjectStreamPublisher extends AbstractStreamPublisher
 
         m_AbstractServer = new PartialSocketObjectStreamServer();
 
-        setupLogger(m_AbstractServer);
+        setupLogger( m_AbstractServer );
         super.initialize();
-        m_connectionManager.connect("SocketObjectStreamListener", makeServerSocket(), this);
+        m_connectionManager.connect( "SocketObjectStreamListener", makeServerSocket(), this );
     }
 }

@@ -24,7 +24,7 @@ import org.apache.avalon.phoenix.Block;
 public class DefaultRoleManager
     implements Block, RoleManager
 {
-    protected Hashtable          m_principals   = new Hashtable();
+    protected Hashtable m_principals = new Hashtable();
 
     public void removeRoleMapping( final Principal principal )
     {

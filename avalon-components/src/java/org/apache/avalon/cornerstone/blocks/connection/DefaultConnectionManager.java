@@ -7,12 +7,8 @@
  */
 package org.apache.avalon.cornerstone.blocks.connection;
 
-import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.HashMap;
-import java.util.Iterator;
-import org.apache.avalon.cornerstone.services.connection.ConnectionHandler;
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandlerFactory;
 import org.apache.avalon.cornerstone.services.connection.ConnectionManager;
 import org.apache.avalon.cornerstone.services.threads.ThreadManager;
@@ -36,8 +32,8 @@ public class DefaultConnectionManager
     extends AbstractLogEnabled
     implements Block, ConnectionManager, Composable, Disposable
 {
-    private HashMap             m_connections        = new HashMap();
-    private ThreadManager       m_threadManager;
+    private HashMap m_connections = new HashMap();
+    private ThreadManager m_threadManager;
 
     /**
      * @phoenix:dependency name="org.apache.avalon.cornerstone.services.threads.ThreadManager"
@@ -53,7 +49,10 @@ public class DefaultConnectionManager
         final String[] names = (String[])m_connections.keySet().toArray( new String[ 0 ] );
         for( int i = 0; i < names.length; i++ )
         {
-            try { disconnect( names[ i ] ); }
+            try
+            {
+                disconnect( names[ i ] );
+            }
             catch( final Exception e )
             {
                 getLogger().warn( "Error disconnecting " + names[ i ], e );

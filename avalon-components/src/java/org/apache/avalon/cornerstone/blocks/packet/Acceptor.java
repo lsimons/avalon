@@ -13,11 +13,11 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.ArrayList;
 import java.util.Iterator;
-import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.cornerstone.services.packet.PacketHandler;
 import org.apache.avalon.cornerstone.services.packet.PacketHandlerFactory;
 import org.apache.avalon.excalibur.thread.ThreadPool;
+import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
  * Support class for the DefaultPacketManager.
@@ -29,12 +29,12 @@ class Acceptor
     extends AbstractLogEnabled
     implements Component, Runnable
 {
-    private final DatagramSocket          m_datagramSocket;
-    private final PacketHandlerFactory    m_handlerFactory;
-    private final ThreadPool              m_threadPool;
-    private final ArrayList               m_runners          = new ArrayList();
+    private final DatagramSocket m_datagramSocket;
+    private final PacketHandlerFactory m_handlerFactory;
+    private final ThreadPool m_threadPool;
+    private final ArrayList m_runners = new ArrayList();
 
-    private Thread                        m_thread;
+    private Thread m_thread;
 
     public Acceptor( final DatagramSocket datagramSocket,
                      final PacketHandlerFactory handlerFactory,
@@ -57,10 +57,10 @@ class Acceptor
                 m_thread = null;
                 thread.interrupt();
 
-                //Can not join as threads are part of pool 
+                //Can not join as threads are part of pool
                 //and will never finish
                 //m_thread.join();
-                
+
                 wait( /*1000*/ );
             }
         }
@@ -133,10 +133,10 @@ class PacketHandlerRunner
     extends AbstractLogEnabled
     implements Runnable, Component
 {
-    private DatagramPacket  m_packet;
-    private Thread          m_thread;
-    private ArrayList       m_runners;
-    private PacketHandler   m_handler;
+    private DatagramPacket m_packet;
+    private Thread m_thread;
+    private ArrayList m_runners;
+    private PacketHandler m_handler;
 
     PacketHandlerRunner( final DatagramPacket packet,
                          final ArrayList runners,

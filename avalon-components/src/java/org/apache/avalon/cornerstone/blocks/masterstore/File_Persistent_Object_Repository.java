@@ -7,12 +7,9 @@
  */
 package org.apache.avalon.cornerstone.blocks.masterstore;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.StreamCorruptedException;
-import java.io.ObjectStreamClass;
 import java.io.OutputStream;
 import org.apache.avalon.cornerstone.services.store.ObjectRepository;
 import org.apache.avalon.excalibur.io.ClassLoaderObjectInputStream;
@@ -64,7 +61,7 @@ public class File_Persistent_Object_Repository
         }
     }
 
-    public synchronized Object get( final String key , final ClassLoader classLoader )
+    public synchronized Object get( final String key, final ClassLoader classLoader )
     {
         try
         {

@@ -19,7 +19,7 @@ public interface ObjectRepository
 {
     Object get( String key );
 
-    Object get( String key , ClassLoader classLoader );
+    Object get( String key, ClassLoader classLoader );
 
     void put( String key, Object value );
 

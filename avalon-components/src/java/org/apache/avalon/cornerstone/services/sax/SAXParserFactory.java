@@ -77,7 +77,7 @@ public interface SAXParserFactory
      */
     void setFeature( String name, boolean value )
         throws ParserConfigurationException, SAXNotRecognizedException,
-               SAXNotSupportedException;
+        SAXNotSupportedException;
 
     /**
      *
@@ -98,5 +98,5 @@ public interface SAXParserFactory
      */
     boolean getFeature( String name )
         throws ParserConfigurationException, SAXNotRecognizedException,
-               SAXNotSupportedException;
+        SAXNotSupportedException;
 }

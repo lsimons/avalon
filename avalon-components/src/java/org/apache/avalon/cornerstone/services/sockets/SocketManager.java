@@ -8,7 +8,6 @@
 package org.apache.avalon.cornerstone.services.sockets;
 
 import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.phoenix.Service;
 
 /**
  * Service to manager the socket factories.
