@@ -1,0 +1,5 @@
+RedirectMatch ^/apps(.*) http://avalon.apache.org/phoenix/applications.html
+RedirectMatch ^/sandbox/meta(.*) http://avalon.apache.org/meta
+RedirectMatch ^/sandbox/merlin(.*) http://avalon.apache.org/merlin
+RedirectMatch ^/sandbox/api(.*) http://avalon.apache.org/merlin/api
+RedirectMatch ^/cornerstone(.*) http://avalon.apache.org/components
