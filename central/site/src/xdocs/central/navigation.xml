@@ -25,8 +25,8 @@
     <menu>
       <item name="Welcome" href="about/index.html"/>
       <item name="Community" href="community/index.html"/>
-      <item name="Tutorials" href="tutorials/index.html"/>
       <item name="Laboratory" href="laboratory/index.html"/>
+      <item name="Tutorials" href="tutorials/index.html"/>
       <item name="Legacy" href="legacy/index.html"/>
       <item name="DPML" href="dpml/index.html"/>
     </menu>
