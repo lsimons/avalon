@@ -69,7 +69,8 @@
                 </p>
 <source><![CDATA[
 $ cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic login
-$ cvs -z3 -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co avalon-sandbox/merlin/
+$ cvs -z3 -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co avalon/meta/
+$ cvs -z3 -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co avalon/merlin/
 ]]></source>
 
                 <p>
@@ -78,8 +79,10 @@ $ cvs -z3 -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co avalon-sandbox/m
                 </p>
 
 <source><![CDATA[
-$ cd avalon-sandbox/merlin
-$ maven merlin-dist
+$ cd avalon/meta
+$ maven avalon:dist
+$ cd ../merlin
+$ maven merlin:install
 ]]></source>
 
                 <p>
@@ -88,7 +91,7 @@ $ maven merlin-dist
                 </p>
 
 <source><![CDATA[
-+-- avalon-sandbox
++-- avalon
   +-- merlin
     +-- target
       +-- merlin
