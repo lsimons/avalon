@@ -38,7 +38,7 @@ import java.util.HashMap;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ActiveMonitor.java,v 1.1 2001/09/04 20:33:47 bloritsch Exp $
+ * @version $Id: ActiveMonitor.java,v 1.2 2001/11/19 12:08:47 donaldp Exp $
  */
 public final class ActiveMonitor extends AbstractLoggable
     implements Monitor, Component, Startable, ThreadSafe, Configurable, Runnable
