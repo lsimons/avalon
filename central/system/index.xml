@@ -11,6 +11,24 @@
 
     <resource>
       <info>
+        <group>avalon/tools</group>
+        <name>mailapi</name>
+        <version>1.3.1</version>
+        <type>jar</type>
+      </info>
+    </resource>
+
+    <resource>
+      <info>
+        <group>avalon/tools</group>
+        <name>jms</name>
+        <version>1.1</version>
+        <type>jar</type>
+      </info>
+    </resource>
+
+    <resource>
+      <info>
         <group>log4j</group>
         <name>log4j</name>
         <version>1.2.8</version>
@@ -23,24 +41,6 @@
         <group>servletapi</group>
         <name>servletapi</name>
         <version>2.3</version>
-        <type>jar</type>
-      </info>
-    </resource>
-
-    <resource>
-      <info>
-        <group>javamail</group>
-        <name>mailapi</name>
-        <version>1.3.1</version>
-        <type>jar</type>
-      </info>
-    </resource>
-
-    <resource>
-      <info>
-        <group>jms</group>
-        <name>jms</name>
-        <version>1.1</version>
         <type>jar</type>
       </info>
     </resource>
