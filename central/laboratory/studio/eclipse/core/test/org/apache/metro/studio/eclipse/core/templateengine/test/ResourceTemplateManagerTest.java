@@ -102,7 +102,7 @@ public class ResourceTemplateManagerTest extends TestCase
         testpath = "/src/BLOCK-INF/block.xml";
         assertEquals("block.xml not created", true, (new File(project.getLocation().toString()+testpath).exists()));
 
-        ProjectManager.delete(project);
+        // ProjectManager.delete(project);
     }
 
     public final void testCreateCompositionApplicationProject()
@@ -121,7 +121,7 @@ public class ResourceTemplateManagerTest extends TestCase
         testpath = "/impl/BLOCK-INF/debug.xml";
         assertEquals("debug.xml not created", true, (new File(project.getLocation().toString()+testpath).exists()));
 
-        ProjectManager.delete(project);
+        // ProjectManager.delete(project);
     }
 
     /**
