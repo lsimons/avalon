@@ -32,5 +32,5 @@
     <classpathentry exported="true" kind="src" path="/org.apache.avalon.ide.repository"/>
     <classpathentry kind="src" path="src/java"/>
     <classpathentry exported="true" kind="src" path="/org.apache.avalon.ide.eclipse.repository"/>
-    <classpathentry kind="output" path="build"/>
+    <classpathentry exported="true" kind="output" path="build"/>
 </classpath>

@@ -47,29 +47,55 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.ide.repository;
+package org.apache.avalon.ide.eclipse.repository;
 
-import java.util.EventObject;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
-/** Event sent from RepositoryAgentFactory.
- * 
+/**
  * @author Niclas Hedhman, niclas@hedhman.org
  */
-public class RepositoryAgentFactoryEvent extends EventObject
+public class ResourceManager
 {
-    private RepositoryAgent m_Agent;
-    
-    /**
-     * @param source The RepositoryAgentFactory sending the event.
-     */
-    public RepositoryAgentFactoryEvent(Object source, RepositoryAgent agent )
+    private ResourceBundle m_Bundle;
+     
+    public ResourceManager()
     {
-        super(source);
-        m_Agent = agent;
+        try
+        {
+            m_Bundle = ResourceBundle.getBundle( "org.apache.avalon.ide.eclipse.PluginResources"); //$NON-NLS-1$
+        } catch (MissingResourceException x)
+        {
+            m_Bundle = null;
+        }
+        
     }
 
-    public RepositoryAgent getRepositoryAgent()
+    /**
+     * Returns the string from the plugin's resource bundle,
+     * or 'key' if not found.
+     */
+    public String getStringResource( String key )
     {
-        return m_Agent;
+        if( m_Bundle == null )
+            return "No Resources found!";
+
+        String value = null;
+        try
+        {        
+            value = m_Bundle.getString( key );
+        } catch( MissingResourceException e )
+        {
+            value = key;
+        }
+        return value;
+    }
+
+    /**
+     * Returns the plugin's resource bundle,
+     */
+    public ResourceBundle getResourceBundle()
+    {
+        return m_Bundle;
     }
 }
