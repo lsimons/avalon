@@ -10,8 +10,8 @@
       <person id="PF" name="Pierpaolo Fumagalli" email="pier@apache.org"/>
     </authors>
     <notice>
-      Avalon documentation is under construction.  Everything you
-      can find outside this page is to be considered obsolete.
+      This documentation is provided for historical purposes to document the
+      beginnings of Avalon.
     </notice>
     <abstract>
       In this document I try to explain how a server could be developed
@@ -122,7 +122,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/02/23 10:47:49 $
+      $Revision: 1.2 $ $Date: 2001/07/05 15:27:16 $
     </legal>
   </footer>
 </document>

@@ -9,6 +9,10 @@
     <authors>
       <person id="SM" name="Stefano Mazzocchi" email="stefano@apache.org"/>
     </authors>
+    <notice>
+      This documentation is provided for historical purposes to document the
+      beginnings of Avalon.
+    </notice>
     <abstract>
       In this document, I introduce my vision for the Java Apache
       Server Framework project. I explain why I believe that
@@ -124,7 +128,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/02/23 10:47:49 $
+      $Revision: 1.2 $ $Date: 2001/07/05 15:27:16 $
     </legal>
   </footer>
 </document>
