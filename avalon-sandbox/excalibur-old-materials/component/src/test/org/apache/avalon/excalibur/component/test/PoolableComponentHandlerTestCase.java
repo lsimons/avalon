@@ -3,34 +3,34 @@
  ============================================================================
                    The Apache Software License, Version 1.1
  ============================================================================
- 
+
  Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
- 
+
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
- 
+
  1. Redistributions of  source code must  retain the above copyright  notice,
     this list of conditions and the following disclaimer.
- 
+
  2. Redistributions in binary form must reproduce the above copyright notice,
     this list of conditions and the following disclaimer in the documentation
     and/or other materials provided with the distribution.
- 
+
  3. The end-user documentation included with the redistribution, if any, must
     include  the following  acknowledgment:  "This product includes  software
     developed  by the  Apache Software Foundation  (http://www.apache.org/)."
     Alternately, this  acknowledgment may  appear in the software itself,  if
     and wherever such third-party acknowledgments normally appear.
- 
- 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"  
-    must not be used to endorse or promote products derived from this  software 
-    without  prior written permission. For written permission, please contact 
+
+ 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"
+    must not be used to endorse or promote products derived from this  software
+    without  prior written permission. For written permission, please contact
     apache@apache.org.
- 
+
  5. Products  derived from this software may not  be called "Apache", nor may
     "Apache" appear  in their name,  without prior written permission  of the
     Apache Software Foundation.
- 
+
  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -41,11 +41,11 @@
  ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
  (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
  This software  consists of voluntary contributions made  by many individuals
- on  behalf of the Apache Software  Foundation. For more  information on the 
+ on  behalf of the Apache Software  Foundation. For more  information on the
  Apache Software Foundation, please see <http://www.apache.org/>.
- 
+
 */
 package org.apache.avalon.excalibur.component.test;
 
@@ -57,6 +57,8 @@ import org.apache.avalon.excalibur.testcase.ExcaliburTestCase;
 
 /**
  * Test the PoolableComponentHandler.
+ *
+ * @deprecated ECM is no longer supported
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
  */
@@ -179,7 +181,7 @@ public class PoolableComponentHandlerTestCase
             "DEBUG - PoolableTestObject #11 recycled.\n" +
             "DEBUG - PoolableTestObject #12 recycled.\n";
 
-        try 
+        try
         {
             assertEquals( "Log did not contain the expected output.", resultLog, expectedLog );
         }
@@ -258,7 +260,7 @@ public class PoolableComponentHandlerTestCase
             "DEBUG - PoolableTestObject #2 recycled.\n" +
             "DEBUG - PoolableTestObject #6 recycled.\n";
 
-        try 
+        try
         {
             assertEquals( "Log did not contain the expected output.", resultLog, expectedLog );
         }
@@ -324,7 +326,7 @@ public class PoolableComponentHandlerTestCase
             "DEBUG - PoolableTestObject #3 recycled.\n" +
             "DEBUG - PoolableTestObject #4 recycled.\n";
 
-        try 
+        try
         {
             assertEquals( "Log did not contain the expected output.", resultLog, expectedLog );
         }
@@ -336,17 +338,17 @@ public class PoolableComponentHandlerTestCase
         }
     }
 
-    private static class TestMax4StrictBlockingThread extends Thread 
+    private static class TestMax4StrictBlockingThread extends Thread
     {
         private final ComponentManager manager;
         private final BufferedLogger logger;
-        
+
         public TestMax4StrictBlockingThread( ComponentManager manager, BufferedLogger logger )
         {
             this.manager = manager;
             this.logger = logger;
         }
-        
+
         public void run()
         {
             final String name = "testMax4StrictBlocking";
@@ -354,7 +356,7 @@ public class PoolableComponentHandlerTestCase
             {
                 logger.debug( "Lookup in second thread." );
                 PoolableTestObjectInterface poolable = (PoolableTestObjectInterface) manager.lookup( PoolableTestObjectInterface.ROLE + "/" + name );
-                
+
                 // Give the main thread a chance to block
                 try
                 {
@@ -363,7 +365,7 @@ public class PoolableComponentHandlerTestCase
                 catch( InterruptedException e )
                 {
                 }
-                
+
                 logger.debug( "Release in second thread." );
                 manager.release( (Component)poolable );
             }
@@ -373,7 +375,7 @@ public class PoolableComponentHandlerTestCase
             }
         }
     }
-    
+
     /**
      * Test a non-default max value with a strict max and blocking with no timeout
      */
@@ -381,29 +383,29 @@ public class PoolableComponentHandlerTestCase
     {
         final String name = "testMax4StrictBlocking";
         getLogger().info( "Test: " + name );
-        
+
         int size = 3;
-        
+
         // Initialize the exception field.
         m_exception = null;
-        
+
         final BufferedLogger logger = new BufferedLogger();
         PoolableTestObject.setStaticLoggger( logger );
         PoolableTestObject.resetInstanceCounter();
-        
+
         PoolableTestObjectInterface[] poolables = new PoolableTestObjectInterface[ size ];
-        
+
         // Lookup the components.
         for( int i = 0; i < size; i++ )
         {
             poolables[ i ] =
                 (PoolableTestObjectInterface)lookup( PoolableTestObjectInterface.ROLE + "/" + name );
         }
-        
+
         // In another thread, get and release another poolable to cause this one to wait.
         TestMax4StrictBlockingThread secondThread = new TestMax4StrictBlockingThread( manager, logger );
         secondThread.start();
-        
+
         // Give the second thread a chance to get the 4th poolable
         try
         {
@@ -412,27 +414,27 @@ public class PoolableComponentHandlerTestCase
         catch( InterruptedException e )
         {
         }
-        
+
         // Try to get one more.  Should block until the other thread has put it back.
         logger.debug( "Lookup in main thread." );
         PoolableTestObjectInterface poolable =
             (PoolableTestObjectInterface)lookup( PoolableTestObjectInterface.ROLE + "/" + name );
-        
+
         logger.debug( "Release in main thread." );
         release( (Component)poolable );
-        
+
         secondThread.join();
-        
+
         // Release the components.
         for( int i = 0; i < size; i++ )
         {
             release( (Component)poolables[ i ] );
             poolables[ i ] = null;
         }
-        
+
         // Make sure that the second thread did not throw an exception
         assertTrue( "Unexpected exception in second thread.", m_exception == null );
-        
+
         // The disposal of the objects will not show up in the log until the component manager is
         //  actually disposed.
         String resultLog = logger.toString();
@@ -450,8 +452,8 @@ public class PoolableComponentHandlerTestCase
             "DEBUG - PoolableTestObject #1 recycled.\n" +
             "DEBUG - PoolableTestObject #2 recycled.\n" +
             "DEBUG - PoolableTestObject #3 recycled.\n";
-        
-        try 
+
+        try
         {
             assertEquals( "Log did not contain the expected output.", resultLog, expectedLog );
         }
@@ -461,9 +463,9 @@ public class PoolableComponentHandlerTestCase
             System.out.println( "Expected:\n" + expectedLog + "Was:\n" + resultLog);
             throw cf;
         }
-        
+
     }
-    
+
     /**
      * Test a non-default max value with a strict max and blocking with a timeout
      */
@@ -522,7 +524,7 @@ public class PoolableComponentHandlerTestCase
             "DEBUG - PoolableTestObject #3 recycled.\n" +
             "DEBUG - PoolableTestObject #4 recycled.\n";
 
-        try 
+        try
         {
             assertEquals( "Log did not contain the expected output.", resultLog, expectedLog );
         }
@@ -642,7 +644,7 @@ public class PoolableComponentHandlerTestCase
             "DEBUG - PoolableTestObject #5 recycled.\n" +
             "DEBUG - PoolableTestObject #6 recycled.\n";
 
-        try 
+        try
         {
             assertEquals( "Log did not contain the expected output.", resultLog, expectedLog );
         }

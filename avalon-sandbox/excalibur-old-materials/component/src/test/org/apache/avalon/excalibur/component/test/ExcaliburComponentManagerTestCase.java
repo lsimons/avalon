@@ -79,8 +79,10 @@ import org.apache.log.output.io.StreamTarget;
  * This class is for testing the ExcaliburComponentManager to verify that
  * it is correctly handling component lifestyle management.
  *
+ * @deprecated ECM is no longer supported
+ *
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class ExcaliburComponentManagerTestCase extends TestCase
 {

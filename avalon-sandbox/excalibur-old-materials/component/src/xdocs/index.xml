@@ -9,6 +9,16 @@
         </authors>
     </header>
     <body>
+        <section><title>ECM is Deprecated</title>
+            <p>
+              Due to a number of issues in ECM, not the least of which is a
+              simplistic and convoluted design, it has been deprecated in
+              favor of Fortress or Phoenix.  Fortress has been designed with
+              ECM users in mind, so it provides a number of goodies to make
+              it easier to migrate forward.  This project will be maintained
+              for bug fixes only.
+            </p>
+        </section>
         <section><title>Introduction</title>
             <p>
             This project contains utilities for managing components. ECM
@@ -47,7 +57,7 @@
     <footer>
         <legal>
           Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-          $Revision: 1.8 $ $Date: 2003/02/27 18:40:25 $
+          $Revision: 1.9 $ $Date: 2003/07/07 16:31:13 $
         </legal>
     </footer>
 </document>

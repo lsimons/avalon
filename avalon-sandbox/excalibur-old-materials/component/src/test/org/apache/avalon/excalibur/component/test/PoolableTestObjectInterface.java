@@ -22,9 +22,9 @@ developed  by the  Apache Software Foundation  (http://www.apache.org/)."
 Alternately, this  acknowledgment may  appear in the software itself,  if
 and wherever such third-party acknowledgments normally appear.
 
-4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"  
-must not be used to endorse or promote products derived from this  software 
-without  prior written permission. For written permission, please contact 
+4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"
+must not be used to endorse or promote products derived from this  software
+without  prior written permission. For written permission, please contact
 apache@apache.org.
 
 5. Products  derived from this software may not  be called "Apache", nor may
@@ -43,12 +43,15 @@ ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 This software  consists of voluntary contributions made  by many individuals
-on  behalf of the Apache Software  Foundation. For more  information on the 
+on  behalf of the Apache Software  Foundation. For more  information on the
 Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
 package org.apache.avalon.excalibur.component.test;
 
+/**
+ * @deprecated ECM is no longer supported
+ */
 public interface PoolableTestObjectInterface {
     public static final String ROLE = PoolableTestObjectInterface.class.getName();
 }

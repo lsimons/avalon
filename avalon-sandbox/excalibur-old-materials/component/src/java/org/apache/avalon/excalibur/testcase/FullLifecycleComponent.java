@@ -72,8 +72,10 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 /**
  * This test class is used to test the AbstractComponent facilities for you.
  *
+ * @deprecated ECM is no longer supported
+ *
  * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/03/30 19:35:40 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/07/07 16:27:55 $
  */
 public final class FullLifecycleComponent
     implements LogEnabled, Contextualizable, Parameterizable, Configurable,

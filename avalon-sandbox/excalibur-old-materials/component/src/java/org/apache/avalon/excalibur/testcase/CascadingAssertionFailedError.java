@@ -57,8 +57,10 @@ import org.apache.avalon.framework.CascadingThrowable;
  * This is an extention to the testing framework so that we can get detailed
  * messages from JUnit (The AssertionFailedError hides the underlying cause)
  *
+ * @deprecated ECM is no longer supported
+ *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version $Id: CascadingAssertionFailedError.java,v 1.5 2003/03/30 19:35:40 leosimons Exp $
+ * @version $Id: CascadingAssertionFailedError.java,v 1.6 2003/07/07 16:27:55 bloritsch Exp $
  */
 public class CascadingAssertionFailedError
     extends AssertionFailedError
