@@ -21,7 +21,6 @@ import org.apache.excalibur.store.Store;
 import org.apache.excalibur.store.StoreJanitor;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.LinkedList;
@@ -35,7 +34,7 @@ import java.util.NoSuchElementException;
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: MRUMemoryStore.java,v 1.4 2002/06/13 17:24:52 bloritsch Exp $
+ * @version CVS $Id: MRUMemoryStore.java,v 1.5 2002/07/10 09:40:17 donaldp Exp $
  */
 public final class MRUMemoryStore
 extends AbstractLogEnabled
