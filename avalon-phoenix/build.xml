@@ -661,6 +661,8 @@ Legal:
   <target name="distclean" depends="clean" description="cleans up all generated files and directories">
     <delete dir="${docs.dir}" />
     <delete dir="${dist.base}" />
+    <delete file="jakarta-news.xml" />
+    <delete file="Announcement.txt" />
   </target>
 
 </project>
