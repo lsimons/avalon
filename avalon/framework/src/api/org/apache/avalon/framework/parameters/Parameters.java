@@ -655,7 +655,7 @@ public class Parameters
 
         while( names.hasMoreElements() )
         {
-            final String key = (String)names.nextElement().toString();
+            final String key = names.nextElement().toString();
             final String value = properties.getProperty( key );
             parameters.setParameter( key, value );
         }
