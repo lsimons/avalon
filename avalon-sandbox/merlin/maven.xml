@@ -18,6 +18,24 @@
     <attainGoal name="merlin-package"/>
   </goal>
 
+  <goal name="merlin:demo" 
+    description="Execute the demo targets." >
+
+    <!--
+    Install the sub-project jars (meta, assembly, merlin, etc.)
+    into the user's local repository and put a copy in the 
+    build target install directory.
+    -->
+
+    <maven:reactor
+      basedir="${basedir}"
+      includes="merlin-platform/tutorials/**/project.xml"
+      excludes="**/target/**"
+      goals="demo"
+      banner="Demo:"
+      ignoreFailures="false" />
+  </goal>
+
   <goal name="merlin-dist" 
     description="Build the Merlin distribution." >
 
