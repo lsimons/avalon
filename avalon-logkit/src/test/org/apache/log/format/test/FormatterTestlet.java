@@ -155,18 +155,16 @@ public final class FormatterTestlet
         assertEquality( "SYSLOG with banner formatting of E3", E3_SYSLOG_WB, result3 );
     }
 
-    public void testPatternFormatter()
+    public void testPattern1Formatter()
     {
-        /*
-          final Formatter formatter = new PatternFormatter( PATTERN1 );
-          
-          final String result1 = formatter.format( E1 );
-          final String result2 = formatter.format( E2 );
-          final String result3 = formatter.format( E3 );
+        final Formatter formatter = new PatternFormatter( PATTERN1 );
         
-          assertEquality( "Pattern formatting of E1", E1_PATTERN1, result1 );
-          assertEquality( "Pattern formatting of E2", E2_PATTERN1, result2 );
-          assertEquality( "Pattern formatting of E3", E3_PATTERN1, result3 );
-        */
+        final String result1 = formatter.format( E1 );
+        final String result2 = formatter.format( E2 );
+        final String result3 = formatter.format( E3 );
+        
+        assertEquality( "Pattern1 formatting of E1", E1_PATTERN1, result1 );
+        assertEquality( "Pattern1 formatting of E2", E2_PATTERN1, result2 );
+        assertEquality( "Pattern1 formatting of E3", E3_PATTERN1, result3 );
     }
 }
