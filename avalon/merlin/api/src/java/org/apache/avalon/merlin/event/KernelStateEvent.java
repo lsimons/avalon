@@ -48,55 +48,63 @@
 
 */
 
-package org.apache.avalon.merlin;
+package org.apache.avalon.merlin.event;
 
-import org.apache.avalon.merlin.event.KernelEventListener;
-import org.apache.avalon.activation.appliance.Appliance;
-import org.apache.avalon.activation.appliance.Block;
+import java.util.EventObject;
+
+import org.apache.avalon.merlin.Kernel;
 
 /**
- * A Kernel is the root of a containment solution. This interfaces 
- * defines the contract for any kernel implementation covering 
- * management aspects and service resolution aspects.
+ * A event raised by a kernel signaling a state change.
  *
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/13 18:39:38 $
+ * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version $Revision: 1.1 $ $Date: 2004/01/13 18:39:38 $
  */
-public interface Kernel extends KernelController
+public class KernelStateEvent extends KernelEvent
 {
-    static final int INITIALIZING = 0;
-    static final int INITIALIZED = 1;
-    static final int STARTING = 2;
-    static final int ASSEMBLY = 3;
-    static final int DEPLOYMENT = 4;
-    static final int STARTED = 5;
-    static final int STOPPING = 6;
-    static final int DECOMMISSIONING = 7;
-    static final int DISSASSEMBLY = 8;
-    static final int STOPPED = 9;
+    private final int m_from;
+    private final int m_to;
 
-   /**
-    * Add a kernel listener.
-    * @param listener the kernel listener to be added
-    */
-    void addKernelEventListener( KernelEventListener listener );
+    /**
+     * Create a CompositionEvent event.
+     *
+     * @param kernel the kernel instance raising the event
+     * @param from the old state value
+     * @param to the new state value
+     */
+    public KernelStateEvent( final Kernel kernel, int from, int to )
+    {
+        super( kernel );
+        m_from = from;
+        m_to = to;
+    }
 
-   /**
-    * Remove a kernel listener.
-    * @param listener the kernel listener to be removed
-    */
-    void removeKernelEventListener( KernelEventListener listener );
+    /**
+     * Return the initial state before the transition.
+     *
+     * @return the source kernel
+     */
+    public int getInitialState()
+    {
+        return m_from;
+    }
 
-   /**
-    * Return the root block.
-    * @return the root application containment block
-    */
-    Block getBlock();
+    /**
+     * Return the state by the transition.
+     *
+     * @return the source kernel
+     */
+    public int getCurrentState()
+    {
+        return m_to;
+    }
 
-   /**
-    * Return the applicance matching the supplied path.
-    * @return the appliance
-    */
-    Appliance locate( String path ) throws KernelException;
-
+    public String toString()
+    {
+        return "kernel-event: [" 
+          + getKernel() 
+          + " (" + getInitialState() 
+          + "/" + getCurrentState() 
+          + ")]";
+    } 
 }

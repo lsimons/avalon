@@ -50,53 +50,37 @@
 
 package org.apache.avalon.merlin;
 
-import org.apache.avalon.merlin.event.KernelEventListener;
-import org.apache.avalon.activation.appliance.Appliance;
-import org.apache.avalon.activation.appliance.Block;
+import org.apache.avalon.framework.CascadingError;
 
 /**
- * A Kernel is the root of a containment solution. This interfaces 
- * defines the contract for any kernel implementation covering 
- * management aspects and service resolution aspects.
+ * Exception to indicate that there was a kernel error.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/13 18:39:38 $
+ * @version $Revision: 1.1 $ $Date: 2004/01/13 18:39:38 $
  */
-public interface Kernel extends KernelController
+public class KernelError
+    extends CascadingError
 {
-    static final int INITIALIZING = 0;
-    static final int INITIALIZED = 1;
-    static final int STARTING = 2;
-    static final int ASSEMBLY = 3;
-    static final int DEPLOYMENT = 4;
-    static final int STARTED = 5;
-    static final int STOPPING = 6;
-    static final int DECOMMISSIONING = 7;
-    static final int DISSASSEMBLY = 8;
-    static final int STOPPED = 9;
 
-   /**
-    * Add a kernel listener.
-    * @param listener the kernel listener to be added
-    */
-    void addKernelEventListener( KernelEventListener listener );
+    /**
+     * Construct a new <code>KernelError</code> instance.
+     *
+     * @param message The detail message for this exception.
+     */
+    public KernelError( final String message )
+    {
+        this( message, null );
+    }
 
-   /**
-    * Remove a kernel listener.
-    * @param listener the kernel listener to be removed
-    */
-    void removeKernelEventListener( KernelEventListener listener );
-
-   /**
-    * Return the root block.
-    * @return the root application containment block
-    */
-    Block getBlock();
-
-   /**
-    * Return the applicance matching the supplied path.
-    * @return the appliance
-    */
-    Appliance locate( String path ) throws KernelException;
-
+    /**
+     * Construct a new <code>KernelError</code> instance.
+     *
+     * @param message The detail message for this exception.
+     * @param throwable the root cause of the exception
+     */
+    public KernelError( final String message, final Throwable throwable )
+    {
+        super( message, throwable );
+    }
 }
+
