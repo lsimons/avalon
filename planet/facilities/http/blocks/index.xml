@@ -161,6 +161,7 @@
     </info>
     <dependencies>
       <include key="servletapi" />
+      <include key="avalon-http-server" />
       <include key="avalon-http-servlet" />
     </dependencies>
   </project>

@@ -32,7 +32,7 @@
     <info>
       <group>jetty</group>
       <name>org.mortbay.jetty</name>
-      <version>SNAPSHOT</version>
+      <version>5.0.RC2</version>
       <type>jar</type>
     </info>
     <gump>
@@ -44,9 +44,12 @@
     <info>
       <group>jetty</group>
       <name>org.mortbay.jaas</name>
-      <version>5.0.RC0</version>
+      <version>5.0.RC2</version>
       <type>jar</type>
     </info>
+    <gump>
+      <alias>packaged-jetty-jaas</alias>
+    </gump>
   </resource>
 
   <resource>
