@@ -87,6 +87,7 @@ import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 import org.apache.excalibur.source.impl.ResourceSourceFactory;
 import org.apache.excalibur.source.impl.SourceResolverImpl;
+import org.apache.excalibur.source.impl.URLSourceFactory;
 import org.apache.log.Hierarchy;
 import org.apache.log.Priority;
 
@@ -115,7 +116,7 @@ import org.apache.log.Priority;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.15 $ $Date: 2003/04/03 13:43:52 $
+ * @version CVS $Revision: 1.16 $ $Date: 2003/04/04 16:05:51 $
  * @since 4.1
  */
 public class ContextManager
@@ -558,6 +559,9 @@ public class ContextManager
         final ServiceManager parent = (ServiceManager)get(m_rootContext, SERVICE_MANAGER, null);
         final DefaultServiceManager manager = new DefaultServiceManager(parent);
         final DefaultServiceSelector selector = new DefaultServiceSelector();
+        final URLSourceFactory file = new URLSourceFactory();
+        file.enableLogging( getLogger() );
+        selector.put( "*", file );
         final ResourceSourceFactory resource = new ResourceSourceFactory();
         resource.enableLogging( getLogger() );
         selector.put( "resource", resource );
