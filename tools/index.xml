@@ -64,6 +64,17 @@
     </dependencies>
   </project>
 
+  <project basedir="magic-installer">
+    <info>
+      <group>avalon/tools</group>
+      <name>magic-installer</name>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="avalon-tools-magic"/>
+    </dependencies>
+  </project>
+
   <resource>
     <info>
       <group>junit</group>
