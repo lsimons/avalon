@@ -18,7 +18,6 @@ import org.apache.avalon.excalibur.thread.impl.ResourceLimitingThreadPool;
 import org.apache.avalon.excalibur.util.SystemUtil;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.NullLogger;
-import org.apache.avalon.framework.parameters.Parameters;
 
 /**
  * This is a ThreadManager that uses a certain number of threads per processor.

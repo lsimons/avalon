@@ -7,8 +7,6 @@
  */
 package org.apache.avalon.excalibur.event;
 
-import org.apache.avalon.framework.CascadingException;
-
 /**
  * A SinkException is thrown when an enqueue operation occurs on a queue that is
  * already full.
