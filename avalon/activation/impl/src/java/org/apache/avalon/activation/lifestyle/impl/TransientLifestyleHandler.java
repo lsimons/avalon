@@ -50,16 +50,21 @@
 
 package org.apache.avalon.activation.lifestyle.impl;
 
+import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.lang.ref.Reference;
 import java.util.ArrayList;
 
 import org.apache.avalon.activation.lifecycle.Factory;
+
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.Logger;
 
+import org.apache.avalon.meta.info.InfoDescriptor;
+
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2003/10/19 06:12:58 $
+ * @version $Revision: 1.6 $ $Date: 2003/12/14 14:09:59 $
  */
 public class TransientLifestyleHandler extends AbstractLifestyleHandler implements Disposable
 {
@@ -112,5 +117,22 @@ public class TransientLifestyleHandler extends AbstractLifestyleHandler implemen
             disposeInstance( refs[i].get() );
         }
         m_list.clear();
+    }
+
+   /**
+    * Overriding getReference to ensure that we never return a hard 
+    * reference for a transient.
+    */
+    Reference getReference( Object instance )
+    {
+        final int policy = getFactory().getDeploymentModel().getCollectionPolicy();
+        if( policy == InfoDescriptor.DEMOCRAT )
+        {
+             return new SoftReference( instance );
+        }
+        else
+        {
+             return new WeakReference( instance, getLiberalQueue() );
+        }
     }
 }

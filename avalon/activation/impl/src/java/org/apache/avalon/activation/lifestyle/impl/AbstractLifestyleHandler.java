@@ -65,7 +65,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Abstract implentation class for a lifestyle handler.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2003/10/19 10:31:00 $
+ * @version $Revision: 1.6 $ $Date: 2003/12/14 14:09:59 $
  */
 public abstract class AbstractLifestyleHandler extends AbstractLogEnabled
   implements LifestyleHandler
@@ -73,8 +73,6 @@ public abstract class AbstractLifestyleHandler extends AbstractLogEnabled
     private final Factory m_factory;
 
     private final ReferenceQueue m_liberals = new ReferenceQueue();
-
-    private final ReferenceQueue m_democrats = new ReferenceQueue();
 
    /**
     * Creation of a new instance.
@@ -84,6 +82,14 @@ public abstract class AbstractLifestyleHandler extends AbstractLogEnabled
     {
         enableLogging( logger );
         m_factory = factory;
+    }
+
+   /**
+    * Return the liberal queue.
+    */
+    ReferenceQueue getLiberalQueue()
+    {
+        return m_liberals;
     }
 
     /**
@@ -124,6 +130,16 @@ public abstract class AbstractLifestyleHandler extends AbstractLogEnabled
         }
     }
 
+    Object newInstance() throws Exception
+    {
+        return m_factory.newInstance();
+    }
+    
+    Factory getFactory()
+    { 
+        return m_factory;
+    }
+
     class StrongReference extends WeakReference
     {
         private final Object m_instance;
@@ -138,15 +154,5 @@ public abstract class AbstractLifestyleHandler extends AbstractLogEnabled
         {
             return m_instance;
         }
-    }
-
-    Object newInstance() throws Exception
-    {
-        return m_factory.newInstance();
-    }
-    
-    Factory getFactory()
-    { 
-        return m_factory;
     }
 }

@@ -59,7 +59,7 @@ import org.apache.avalon.meta.info.Type;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2003/11/03 18:54:18 $
+ * @version $Revision: 1.7 $ $Date: 2003/12/14 14:09:59 $
  */
 public interface DeploymentModel extends Model
 {
@@ -83,9 +83,9 @@ public interface DeploymentModel extends Model
     * declared by the type will be used.
     *
     * @return the collection policy
-    * @see org.apache.avalon.meta.info.InfoDescriptor#LIBERAL
-    * @see org.apache.avalon.meta.info.InfoDescriptor#DEMOCRAT
-    * @see org.apache.avalon.meta.info.InfoDescriptor#CONSERVATIVE
+    * @see org.apache.avalon.meta.info.InfoDescriptor#WEAK
+    * @see org.apache.avalon.meta.info.InfoDescriptor#SOFT
+    * @see org.apache.avalon.meta.info.InfoDescriptor#HARD
     */
     int getCollectionPolicy();
 
@@ -93,9 +93,9 @@ public interface DeploymentModel extends Model
     * Set the collection policy to a supplied value.
     *
     * @param policy the collection policy
-    * @see org.apache.avalon.meta.info.InfoDescriptor#LIBERAL
-    * @see org.apache.avalon.meta.info.InfoDescriptor#DEMOCRAT
-    * @see org.apache.avalon.meta.info.InfoDescriptor#CONSERVATIVE
+    * @see org.apache.avalon.meta.info.InfoDescriptor#WEAK
+    * @see org.apache.avalon.meta.info.InfoDescriptor#SOFT
+    * @see org.apache.avalon.meta.info.InfoDescriptor#HARD
     * @see org.apache.avalon.meta.info.InfoDescriptor#UNDEFINED
     */
     void setCollectionPolicy( int policy );

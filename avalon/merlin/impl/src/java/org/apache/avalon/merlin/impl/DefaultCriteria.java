@@ -85,7 +85,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -93,7 +93,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
     // static
     //--------------------------------------------------------------
 
-    private static final String AVALON = "avalon.properties";
+    private static final String AVALON_PROPERTIES = "avalon.properties";
     private static final String MERLIN = "merlin.properties";
 
     private static final File USER_DIR = 
@@ -147,7 +147,6 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
             throw new RuntimeException( message );
         }
     }
-
 
    /**
     * The factory parameters template.
@@ -225,7 +224,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
         // static defaults are the most primative
         //
 
-        Properties avalonStatic = getStaticProperties( AVALON );
+        Properties avalonStatic = getStaticProperties( AVALON_PROPERTIES );
         Properties merlinStatic = getStaticProperties( MERLIN );
 
         //
@@ -244,7 +243,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
         // ${user.home} overrides environment
         //
 
-        Properties avalonHome = getLocalProperties( USER_HOME, AVALON );
+        Properties avalonHome = getLocalProperties( USER_HOME, AVALON_PROPERTIES );
         Properties merlinHome = getLocalProperties( USER_HOME, MERLIN );
 
         //
@@ -253,7 +252,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
 
         File work = getWorkingDirectory();
         Properties avalonWork = 
-          getLocalProperties( work, AVALON );
+          getLocalProperties( work, AVALON_PROPERTIES );
         Properties merlinWork = 
           getLocalProperties( work, MERLIN );
 

@@ -127,7 +127,7 @@ import org.apache.avalon.meta.info.InfoDescriptor;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2003/10/28 12:53:48 $
+ * @version $Revision: 1.6 $ $Date: 2003/12/14 14:09:59 $
  */
 public class DeploymentProfile extends Profile
 {
@@ -276,7 +276,7 @@ public class DeploymentProfile extends Profile
      * Return the component collection policy.  If null, the component
      * type collection policy will apply.
      *
-     * @return a LIBERAL, DEMOCRAT, CONSERVATIVE or UNDEFINED
+     * @return a HARD, WEAK, SOFT or UNDEFINED
      */
     public int getCollectionPolicy()
     {
