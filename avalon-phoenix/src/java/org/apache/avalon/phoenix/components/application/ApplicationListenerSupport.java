@@ -63,6 +63,7 @@ final class ApplicationListenerSupport
     }
 
     void fireApplicationStartingEvent( final SarMetaData metaData )
+        throws Exception
     {
         final ApplicationEvent event =
             new ApplicationEvent( metaData.getName(), metaData );
@@ -74,7 +75,8 @@ final class ApplicationListenerSupport
      *
      * @param event the ApplicationEvent
      */
-    public synchronized void applicationStarting( final ApplicationEvent event ) throws Exception
+    public synchronized void applicationStarting( final ApplicationEvent event )
+        throws Exception
     {
         for( int i = 0; i < m_listeners.length; i++ )
         {
