@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.phoenix;
+package org.apache.avalon.phoenix;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -18,7 +18,7 @@ import java.security.PrivilegedExceptionAction;
 
 import javax.management.ObjectName;
 
-import org.apache.avalon.atlantis.core.Embeddor;
+import org.apache.avalon.framework.atlantis.core.Embeddor;
 
 import org.apache.jmx.adaptor.RMIAdaptor;
 

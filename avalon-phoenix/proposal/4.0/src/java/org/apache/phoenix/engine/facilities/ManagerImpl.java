@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.phoenix.engine.facilities;
+package org.apache.avalon.phoenix.engine.facilities;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -14,16 +14,16 @@ import java.rmi.Naming;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
-import org.apache.avalon.atlantis.facilities.Manager;
-import org.apache.avalon.atlantis.core.Kernel;
-import org.apache.avalon.atlantis.core.Embeddor;
+import org.apache.avalon.framework.atlantis.facilities.Manager;
+import org.apache.avalon.framework.atlantis.core.Kernel;
+import org.apache.avalon.framework.atlantis.core.Embeddor;
 import org.apache.framework.context.Context;
 import org.apache.framework.context.ContextException;
 import org.apache.framework.configuration.Configuration;
 import org.apache.framework.lifecycle.StartException;
 import org.apache.framework.lifecycle.StopException;
 
-import org.apache.avalon.camelot.Deployer;
+import org.apache.avalon.framework.camelot.Deployer;
 
 import org.apache.log.Logger;
 import org.apache.framework.logger.AbstractLoggable;
@@ -71,7 +71,7 @@ public class ManagerImpl extends AbstractLoggable implements Manager
         catch( Exception e ) {
             getLogger().error( "Invalid context - no Kernel supplied", e );
             throw new ContextException( "Invalid context - no Kernel supplied", e ); }
-        try { this.deployer = (Deployer)context.get( "org.apache.avalon.camelot.Deployer" ); }
+        try { this.deployer = (Deployer)context.get( "org.apache.avalon.framework.camelot.Deployer" ); }
         catch( Exception e ) {
             getLogger().error( "Invalid context - no Deployer supplied", e );
             throw new ContextException( "Invalid context - no Deployer supplied", e ); }

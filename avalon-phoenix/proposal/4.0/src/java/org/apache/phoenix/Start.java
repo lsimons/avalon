@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.phoenix;
+package org.apache.avalon.phoenix;
 
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
@@ -25,14 +25,14 @@ import org.apache.framework.configuration.DefaultConfiguration;
 import org.apache.framework.configuration.ConfigurationException;
 import org.apache.framework.component.DefaultComponentManager;
 
-import org.apache.avalon.camelot.Entry;
-import org.apache.avalon.cli.CLOptionDescriptor;
-import org.apache.avalon.cli.CLArgsParser;
-import org.apache.avalon.cli.CLOption;
-import org.apache.avalon.cli.CLUtil;
+import org.apache.avalon.framework.camelot.Entry;
+import org.apache.avalon.framework.cli.CLOptionDescriptor;
+import org.apache.avalon.framework.cli.CLArgsParser;
+import org.apache.avalon.framework.cli.CLOption;
+import org.apache.avalon.framework.cli.CLUtil;
 
-import org.apache.avalon.atlantis.core.Embeddor;
-import org.apache.phoenix.engine.PhoenixEmbeddor;
+import org.apache.avalon.framework.atlantis.core.Embeddor;
+import org.apache.avalon.phoenix.engine.PhoenixEmbeddor;
 
 import org.apache.log.LogKit;
 import org.apache.log.Priority;
@@ -54,16 +54,16 @@ public class Start implements Disposable
         // embeddor configuration settings
         private static String embeddorClass;
         private static final String DEFAULT_EMBEDDOR_CLASS =
-                                                    "org.apache.phoenix.engine.PhoenixEmbeddor";
+                                                    "org.apache.avalon.phoenix.engine.PhoenixEmbeddor";
         private static String deployerClass;
         private static final String DEFAULT_DEPLOYER_CLASS =
-                                                    "org.apache.phoenix.engine.deployer.DefaultSarDeployer";
+                                                    "org.apache.avalon.phoenix.engine.deployer.DefaultSarDeployer";
         private static String mBeanServerClass;
         private static final String DEFAULT_MBEANSERVER_CLASS =
                                                     "org.apache.jmx.MBeanServerImpl";
         private static String kernelClass;
         private static final String DEFAULT_KERNEL_CLASS =
-                                                    "org.apache.phoenix.engine.PhoenixKernel";
+                                                    "org.apache.avalon.phoenix.engine.PhoenixKernel";
         private static String configurationSource;
         private static final String DEFAULT_CONFIGURATION_SOURCE =
                                                     "../conf/server.xml";

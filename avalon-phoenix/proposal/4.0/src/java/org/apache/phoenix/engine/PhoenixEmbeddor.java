@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.phoenix.engine;
+package org.apache.avalon.phoenix.engine;
 
 import javax.management.MBeanServer;
 import java.io.File;
@@ -36,18 +36,18 @@ import org.apache.framework.lifecycle.Disposable;
 import org.apache.framework.CascadingException;
 import org.apache.framework.CascadingThrowable;
 
-import org.apache.avalon.camelot.Container;
-import org.apache.avalon.camelot.CamelotUtil;
-import org.apache.avalon.camelot.Entry;
-import org.apache.avalon.camelot.Deployer;
+import org.apache.avalon.framework.camelot.Container;
+import org.apache.avalon.framework.camelot.CamelotUtil;
+import org.apache.avalon.framework.camelot.Entry;
+import org.apache.avalon.framework.camelot.Deployer;
 
-import org.apache.avalon.atlantis.facilities.Manager;
-import org.apache.avalon.atlantis.core.Kernel;
-import org.apache.avalon.atlantis.core.Embeddor;
-import org.apache.phoenix.engine.facilities.ManagerImpl;
-import org.apache.phoenix.engine.facilities.ThreadManagerImpl;
+import org.apache.avalon.framework.atlantis.facilities.Manager;
+import org.apache.avalon.framework.atlantis.core.Kernel;
+import org.apache.avalon.framework.atlantis.core.Embeddor;
+import org.apache.avalon.phoenix.engine.facilities.ManagerImpl;
+import org.apache.avalon.phoenix.engine.facilities.ThreadManagerImpl;
 
-import org.apache.avalon.aut.log.AvalonLogFormatter;
+import org.apache.avalon.framework.aut.log.AvalonLogFormatter;
 import org.apache.log.output.FileOutputLogTarget;
 import org.apache.log.Logger;
 import org.apache.log.LogKit;
@@ -96,9 +96,9 @@ public class PhoenixEmbeddor
      * the parameters. Neccessary are:
      * <ul>
      * <li><b>kernel-class</b>, the classname of the
-     * org.apache.phoenix.core.Kernel to be used.</li>
+     * org.apache.avalon.phoenix.core.Kernel to be used.</li>
      * <li><b>deployer-class</b>, the classname of the
-     * org.apache.avalon.camelot.Deployer to be used.</li>
+     * org.apache.avalon.framework.camelot.Deployer to be used.</li>
      * <li><b>mBeanServer-class</b>, the classname of the
      * javax.management.MBeanServer to be used.</li>
      * <li><b>kernel-configuration-source</b>, the location
@@ -304,8 +304,8 @@ public class PhoenixEmbeddor
         if( this.deployer instanceof Composer )
         {
             final DefaultComponentManager componentManager = new DefaultComponentManager();
-            componentManager.addComponentInstance( "org.apache.avalon.camelot.Container", (Container)this.kernel  );
-//            componentManager.put( "org.apache.avalon.camelot.Container", (Container)this.kernel );
+            componentManager.addComponentInstance( "org.apache.avalon.framework.camelot.Container", (Container)this.kernel  );
+//            componentManager.put( "org.apache.avalon.framework.camelot.Container", (Container)this.kernel );
             ((Composer)this.deployer).compose( componentManager );
         }
     }
@@ -370,7 +370,7 @@ public class PhoenixEmbeddor
         this.managerContext.put("javax.management.MBeanServer", this.mBeanServer );
         this.managerContext.put("org.apache.framework.atlantis.core.Embeddor", this );
         this.managerContext.put("org.apache.framework.atlantis.core.Kernel", this.kernel );
-        this.managerContext.put("org.apache.avalon.camelot.Deployer", this.deployer );
+        this.managerContext.put("org.apache.avalon.framework.camelot.Deployer", this.deployer );
         this.managerContext.put( "java.rmi.registry.port",
             this.parameters.getParameter( "registry-port", null ) );
         this.managerContext.put( "java.rmi.registry.name",
