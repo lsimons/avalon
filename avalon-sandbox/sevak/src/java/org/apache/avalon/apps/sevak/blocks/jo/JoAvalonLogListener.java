@@ -1,27 +1,12 @@
 /*
-License $Id: JoAvalonLogListener.java,v 1.1 2002/09/22 09:35:01 hammant Exp $
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included with this distribution in
+ * the LICENSE file.
+ */
 
-Copyright (c) 2001-2002 tagtraum industries.
-
-LGPL
-====
-
-jo! is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public
-License as published by the Free Software Foundation; either
-version 2.1 of the License, or (at your option) any later version.
-
-jo! is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-For LGPL see <http://www.fsf.org/copyleft/lesser.txt>
-
+/*
 
 Sun license
 ===========
@@ -87,13 +72,7 @@ e. Software, including technical data, is subject to U.S.
    Commerce Department's Table of Denial Orders.
 
 
-Feedback
-========
-
-We encourage your feedback and suggestions and want to use your feedback to
-improve the Software. Send all such feedback to:
-<feedback@tagtraum.com>
-/*
+ *
  * Copyright (C) The Apache Software Foundation. All rights reserved.
  *
  * This software is published under the terms of the Apache Software License
@@ -112,57 +91,126 @@ import org.apache.avalon.framework.logger.Logger;
  * A connector between the tagtraum log packages and avalon logging.
  *
  * @author <a href="mailto:hs@tagtraum.com">Hendrik Schreiber</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
-public class JoAvalonLogListener implements I_LogEventListener {
+public class JoAvalonLogListener implements I_LogEventListener
+{
 
-    private String name;
-    private Logger logger;
+    private String m_name;
+    private Logger m_logger;
 
-    public JoAvalonLogListener(String name, Logger logger) {
-        this.name = name;        // source
-        this.logger = logger;
+    /**
+     * Construct a log listener
+     * @param name the name of the log
+     * @param logger the logger
+     */
+    public JoAvalonLogListener(String name, Logger logger)
+    {
+        this.m_name = name;        // source
+        this.m_logger = logger;
         Log.getLog(name).addI_LogEventListener(this);
     }
 
-    public void handleLogEvent(LogEvent le) {
-        switch (le.getLevel()) {
+    /**
+     * Handle a log event
+     * @param le the log event
+     */
+    public void handleLogEvent(LogEvent le)
+    {
+        switch (le.getLevel())
+        {
             case C_Log.NOLOG:
                 break;
             case C_Log.ERROR:
-                if (le.getMessage() != null && le.getThrowable() != null) logger.error(le.getMessage(), le.getThrowable());
-                else if (le.getMessage() != null) logger.error(le.getMessage());
-                else if (le.getThrowable() != null) logger.error(le.getThrowable().toString(), le.getThrowable());
+                if (le.getMessage() != null && le.getThrowable() != null)
+                {
+                    m_logger.error(le.getMessage(), le.getThrowable());
+                }
+                else if (le.getMessage() != null)
+                {
+                    m_logger.error(le.getMessage());
+                }
+                else if (le.getThrowable() != null)
+                {
+                    m_logger.error(le.getThrowable().toString(), le.getThrowable());
+                }
                 break;
             case C_Log.MODULE:
-                if (le.getMessage() != null && le.getThrowable() != null) logger.info(le.getMessage(), le.getThrowable());
-                else if (le.getMessage() != null) logger.info(le.getMessage());
-                else if (le.getThrowable() != null) logger.info(le.getThrowable().toString(), le.getThrowable());
+                if (le.getMessage() != null && le.getThrowable() != null)
+                {
+                    m_logger.info(le.getMessage(), le.getThrowable());
+                }
+                else if (le.getMessage() != null)
+                {
+                    m_logger.info(le.getMessage());
+                }
+                else if (le.getThrowable() != null)
+                {
+                    m_logger.info(le.getThrowable().toString(), le.getThrowable());
+                }
                 break;
             default:
-                if (le.getMessage() != null && le.getThrowable() != null) logger.debug(le.getMessage(), le.getThrowable());
-                else if (le.getMessage() != null) logger.debug(le.getMessage());
-                else if (le.getThrowable() != null) logger.debug(le.getThrowable().toString(), le.getThrowable());
+                if (le.getMessage() != null && le.getThrowable() != null)
+                {
+                    m_logger.debug(le.getMessage(), le.getThrowable());
+                }
+                else if (le.getMessage() != null)
+                {
+                    m_logger.debug(le.getMessage());
+                }
+                else if (le.getThrowable() != null)
+                {
+                    m_logger.debug(le.getThrowable().toString(), le.getThrowable());
+                }
         }
     }
 
-    public String getName() {
-        return name;
+    /**
+     * Get the log name
+     * @return the log name
+     */
+    public String getName()
+    {
+        return m_name;
     }
 
-    public Logger getLogger() {
-        return logger;
+    /**
+     * Get the logger
+     * @return the logger
+     */
+    public Logger getLogger()
+    {
+        return m_logger;
     }
 
-    public int hashCode() {
-        return name.hashCode() ^ logger.hashCode();
+    /**
+     * Makea hash code
+     * @return the hash
+     */
+    public int hashCode()
+    {
+        return m_name.hashCode() ^ m_logger.hashCode();
     }
 
-    public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (obj == this) return true;
-        if (obj.getClass() == getClass()) {
-            return logger.equals(((JoAvalonLogListener)obj).getLogger()) && name.equals(((JoAvalonLogListener)obj).getName());
+    /**
+     * Implement and equality test
+     * @param obj to test against
+     * @return equals or not.
+     */
+    public boolean equals(Object obj)
+    {
+        if (obj == null)
+        {
+            return false;
+        }
+        if (obj == this)
+        {
+            return true;
+        }
+        if (obj.getClass() == getClass())
+        {
+            return m_logger.equals(((JoAvalonLogListener) obj).getLogger())
+                    && m_name.equals(((JoAvalonLogListener) obj).getName());
         }
         return false;
     }

@@ -45,7 +45,7 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
 
     private Server m_server;
     private String m_hostName;
-    private HashMap webapps = new HashMap();
+    private HashMap m_webapps = new HashMap();
 
 
     public JettySevak()
@@ -87,19 +87,13 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
         }
     }
 
-    //----------------------------------------------------------------------------
-    // 'deploy' interface
-    //----------------------------------------------------------------------------
-    /**
-     * @param context context path
-     * @param pathToWebAppFolder
-     */
     public void deploy(String context, File pathToWebAppFolder) throws SevakException
     {
         try
         {
-            WebApplicationContext ctx = m_server.addWebApplication(m_hostName, context, pathToWebAppFolder.getAbsolutePath());
-            webapps.put(context,ctx);
+            WebApplicationContext ctx = m_server.addWebApplication(m_hostName, context,
+                    pathToWebAppFolder.getAbsolutePath());
+            m_webapps.put(context,ctx);
         }
         catch (IOException ioe)
         {
@@ -110,9 +104,9 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
 
     public void undeploy(String context) throws SevakException
     {
-        WebApplicationContext ctx = (WebApplicationContext) webapps.get(context);
+        WebApplicationContext ctx = (WebApplicationContext) m_webapps.get(context);
         ctx.destroy();
-        webapps.remove(context);
+        m_webapps.remove(context);
     }
 
 
