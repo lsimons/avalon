@@ -49,10 +49,8 @@
 */
 package org.apache.avalon.excalibur.logger;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -69,6 +67,8 @@ import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Priority;
 import org.apache.log.util.Closeable;
+import org.apache.log.ErrorHandler;
+import org.apache.log.LogEvent;
 
 /**
  * LogKitLoggerManager implementation.  It populates the LoggerManager
@@ -77,15 +77,13 @@ import org.apache.log.util.Closeable;
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Revision: 1.16 $ $Date: 2003/05/27 07:40:10 $
+ * @author <a href="mailto:tagunov at apache.org">Anton Tagunov</a>
+ * @version CVS $Revision: 1.17 $ $Date: 2003/06/10 08:29:37 $
  * @since 4.0
  */
-public class LogKitLoggerManager
-    implements LoggerManager, LogEnabled, Contextualizable, Configurable, Disposable
+public class LogKitLoggerManager extends AbstractLoggerManager
+    implements LoggerManager, Contextualizable, Configurable, Disposable
 {
-    /** Map for name to logger mapping */
-    final private Map m_loggers = new HashMap();
-
     /** Set of log targets */
     final private Set m_targets = new HashSet();
 
@@ -93,121 +91,316 @@ public class LogKitLoggerManager
     private Context m_context;
 
     /** The hierarchy private to LogKitManager */
-    private Hierarchy m_hierarchy;
+    private final Hierarchy m_hierarchy;
 
-    /** The root logger to configure */
-    private String m_prefix;
-
-    /** The default logger used for this system */
-    final private Logger m_defaultLogger;
-
-    /** The logger used to log output from the logger manager. */
-    private Logger m_logger;
+    /** The error handler we will supply to m_hierarchy if we create it locally.*/
+    private OurErrorHandler m_errorHandler;
 
     /**
-     * Creates a new <code>DefaultLogKitManager</code>. It will use a new <code>Hierarchy</code>.
+     * Creates a new <code>LogKitLoggerManager</code>;
+     * one of the preferred constructors.
+     * Please also invoke <code>enableLogging()</code>
+     * to supply a fallback logger.
      */
     public LogKitLoggerManager()
     {
-        this( new Hierarchy() );
+        this( (String)null, (Hierarchy)null, (String)null, (Logger)null, (Logger)null );
     }
 
     /**
-     * Creates a new <code>DefaultLogKitManager</code> with an existing <code>Hierarchy</code>.
-     */
-    public LogKitLoggerManager( final Hierarchy hierarchy )
-    {
-        this( null, hierarchy );
-    }
-
-    /**
-     * Creates a new <code>DefaultLogKitManager</code> using
-     * specified logger name as root logger.
+     * Creates a new <code>LogKitLoggerManager</code>;
+     * one of the preferred constructors.
+     * Please also invoke <code>enableLogging()</code>
+     * to supply a fallback logger.
+     *
+     * @param prefix to prepended to category name on each 
+     *         invocation of <code>getLoggerForCategory()</code>.
      */
     public LogKitLoggerManager( final String prefix )
     {
-        this( prefix, new Hierarchy() );
+        this( prefix, (Hierarchy)null, (String)null, (Logger)null, (Logger)null );
     }
 
     /**
-     * Creates a new <code>DefaultLogKitManager</code> with an existing <code>Hierarchy</code> using
-     * specified logger name as root logger.
+     * Creates a new <code>LogKitLoggerManager</code>;
+     * one of the preferred constructors,
+     * intended for the widest usage.
+     *
+     * Please also invoke <code>enableLogging()</code>
+     * to supply a fallback logger.
+     * <p>
+     * Example:
+     * <pre>
+     * LogKitLoggerManager l = new LogKitLoggerManager( "fortress", "system.logkit" );
+     * l.enableLogging( bootstrapLogger );
+     * l.configure( loggerManagerConfiguration );
+     * </pre>
+     *
+     * @param prefix to prepended to category name on each 
+     *         invocation of <code>getLoggerForCategory()</code>.
+     * @param switchToCategory if this parameter is not null
+     *         after <code>start()</code>
+     *         <code>LogKitLoggerManager</code> will start
+     *         to log its own debug and error messages to
+     *         a logger obtained via
+     *         <code>this.getLoggerForCategory( switchToCategory )</code>.
+     *         Note that prefix will be prepended to
+     *         the value of <code>switchToCategory</code> also.
+     */
+    public LogKitLoggerManager( final String prefix, final String switchToCategory )
+    {
+        this( prefix, (Hierarchy)null, switchToCategory, (Logger)null, (Logger)null );
+    }
+
+    /**
+     * Creates a new <code>LogKitLoggerManager</code> 
+     * with an existing <code>Hierarchy</code>;
+     * use with caution.
+     *
+     * Please also invoke <code>enableLogging()</code>
+     * to supply a fallback logger.
+     * See <a href="#h-warning">comments on the root constructor</a> 
+     * for details on why constructors supplying an existing hierarchy 
+     * should be used with caution.
+     *
+     * @param prefix to prepended to category name on each 
+     *         invocation of <code>getLoggerForCategory()</code>.
+     * @param switchToCategory if this parameter is not null
+     *         after <code>start()</code>
+     *         <code>LogKitLoggerManager</code> will start
+     *         to log its own debug and error messages to
+     *         a logger obtained via
+     *         <code>this.getLoggerForCategory( switchToCategory )</code>.
+     *         Note that prefix will be prepended to
+     *         the value of <code>switchToCategory</code> also.
+     */
+    public LogKitLoggerManager( final String prefix, final Hierarchy hierarchy,
+            final String switchToCategory )
+    {
+        this( prefix, hierarchy, switchToCategory, (Logger)null, (Logger)null );
+    }
+
+    /**
+     * Creates a new <code>LogKitLoggerManager</code> 
+     * with an existing <code>Hierarchy</code>;
+     * use with caution.
+     *
+     * Please also invoke <code>enableLogging()</code>
+     * to supply a fallback logger.
+     * See <a href="#h-warning">comments on the root constructor</a> 
+     * for details on why constructors supplying an existing hierarchy 
+     * should be used with caution.
+     */
+    public LogKitLoggerManager( final Hierarchy hierarchy )
+    {
+        this( (String)null, hierarchy, (String)null, (Logger)null, (Logger)null );
+    }
+
+    /**
+     * Creates a new <code>LogKitLoggerManager</code> 
+     * with an existing <code>Hierarchy</code>;
+     * use with caution.
+     *
+     * Please also invoke <code>enableLogging()</code>
+     * to supply a fallback logger.
+     * See <a href="#h-warning">comments on the root constructor</a> 
+     * for details on why constructors supplying an existing hierarchy 
+     * should be used with caution.
+     *
+     * @param prefix to prepended to category name on each 
+     *         invocation of <code>getLoggerForCategory()</code>.
      */
     public LogKitLoggerManager( final String prefix, final Hierarchy hierarchy )
     {
-        this( prefix, hierarchy,
-              new LogKitLogger( hierarchy.getRootLogger() ) );
+        this( prefix, hierarchy, (String)null, (Logger)null, (Logger)null );
     }
 
     /**
-     * Creates a new <code>DefaultLogKitManager</code> with an existing <code>Hierarchy</code> using
-     * specified logger name as root logger.
+     * Creates a new <code>LogKitLoggerManager</code>
+     * with an existing <code>Hierarchy</code> using
+     * specified logger name as a fallback logger and to
+     * <strong>forcibly override</strong> the root logger;
+     * compatibility constructor.
+     *
+     * The configuration for the <code>""</code>
+     * category in the configuration will supply the defaults for
+     * all other categories, but <code>getDefaultLogger()</code>
+     * and <code>getLoggerForCategory()</code> will still
+     * use logger supplied by this constructor.
+     *
+     * <p>
+     * See <a href="#h-warning">comments on the root constructor</a> 
+     * for details on why constructors supplying an existing hierarchy 
+     * should be used with caution.
+     *
+     * <p>
+     * As this constructor provides a logger to be used as a fallback
+     * a subsequent <code>enableLogging()</code> stage is unnecessary.
+     * Moreover, it will fail.
+     *
+     * @param prefix to prepended to category name on each 
+     *         invocation of <code>getLoggerForCategory()</code>.
+     * @param defaultOverrideAndFallback the logger used to 
+     *         a) <strong>forcibly</strong>
+     *         override the root logger that will further be obtained from
+     *         the configuration and b) as the fallback logger. Note that
+     *         specifying a logger as this parameter crucially differs from
+     *         supplying it via <code>enableLogging()</code>. The logger
+     *         supplied via <code>enableLogging</code> will only be used
+     *         as the fallback logger and to log messages during initialization
+     *         while this constructor argument also has the described
+     *         <strong>override</strong> semantics.
      */
     public LogKitLoggerManager( final String prefix, final Hierarchy hierarchy,
-                                final Logger defaultLogger )
+                                final Logger defaultOverrideAndFallback )
     {
-        this( prefix, hierarchy, defaultLogger, defaultLogger );
+        this( prefix, hierarchy, (String)null, 
+                defaultOverrideAndFallback, defaultOverrideAndFallback );
     }
 
     /**
-     * Creates a new <code>DefaultLogKitManager</code> with an existing <code>Hierarchy</code> using
-     * specified logger name as root logger.
+     * Creates a new <code>LogKitLoggerManager</code>
+     * with an existing <code>Hierarchy</code> using
+     * specified loggers to <strong>forcibly override</strong>
+     * the default logger and to provide a fallback logger;
+     * compatibility constructor.
+     *
+     * See <a href="#h-warning">comments on the root constructor</a> 
+     * for details on why constructors supplying an existing hierarchy 
+     * should be used with caution.
+     * <p>
+     * As this constructor provides a logger to be used as a fallback
+     * a subsequent <code>enableLogging()</code> stage is unnecessary.
+     * Moreover, it will fail.
+     *
+     * @param prefix to prepended to category name on each 
+     *         invocation of <code>getLoggerForCategory()</code>.
+     * @param defaultLoggerOverride the logger to be used to <strong>forcibly</strong>
+     *         override the root logger that will further be obtained from
+     *         the configuration
+     * @param fallbackLogger the logger to as a fallback logger
+     *         (passing non-null as this argument eliminates the need
+     *         to invoke <code>enableLogging()</code>)
      */
     public LogKitLoggerManager( final String prefix, final Hierarchy hierarchy,
-                                final Logger defaultLogger, final Logger logger )
+                                final Logger defaultLoggerOverride, 
+                                final Logger fallbackLogger )
     {
+        this( prefix, hierarchy, (String)null, defaultLoggerOverride, fallbackLogger );
+    }
+
+    /**
+     * <a name="h-warning" id="h-warning"/>
+     *
+     * Creates a new <code>LogKitLoggerManager</code>;
+     * "root" constructor invoked by all other constructors.
+     * <p>
+     *
+     * If the <code>hierarchy</code> parameter is not <code>null</code>
+     * this instructs this constructor to use an existing hierarchy
+     * instead of creating a new one. This also disables removing
+     * the default log target configured by the <code>Hierarchy()</code>
+     * constructor (this target logs to <code>System.out</code>) and
+     * installing our own <code>ErrorHandler</code> for our
+     * <code>Hierarchy</code> (the default <code>ErrorHandler</code>
+     * writes to <code>System.err</code>).
+     * <p>
+     * The configuration of the resulting <code>Hierarchy</code>
+     * is a combination of the original configuraiton that
+     * existed when this <code>Hierarchy</code> was handled to us
+     * and the configuration supplied to use via <code>configure()</code>.
+     * <code>LogTarget</code>s for those categories for which a
+     * configuration node has been supplied in the configuration
+     * supplied via <code>configure()</code> are replaced during
+     * the <code>configure()</code> process. <code>LogTargets</code>
+     * for those categories for which configuration nodes have
+     * not been supplied are left as they were. A special case
+     * is when a node in configuration for a category exists but
+     * it does not enlist log targets. In this case the original
+     * targets if any are left as they were.
+     *
+     * <p>
+     * Generally it is preferrable to
+     * <ul>
+     * <li>have the <code>Hierarchy</code> be configured
+     * from top to bottom via the configuration</li>
+     * <li>have our custom <code>ErrorHandler</code> reporting
+     * errors via the fallback logger (supplied either as
+     * the <code>fallbackLogger</code> to this constructor or
+     * via the <code>enableLogging()</code> method) installed</li>
+     * </ul>
+     * That's why it is preferrable to pass <code>null</code>
+     * for the <code>hierarchy</code> parameter of this constructor
+     * or, which is easier to read but has the same effect, to
+     * invoke a constructor which does not accept a <code>Hierarchy</code>
+     * argument.
+     * </p>
+     *
+     * <p>The <code>defaultLoggerOverride</code> and <code>fallbackLogger</code>
+     * are a special case too. <code>defaultLoggerOverride</code> 
+     * <strong>forcibly overrides</strong>
+     * the root logger configured via <code>configure()</code>.
+     * As there is little reason to take away users's freedom to configure
+     * whatever he likes as the default logger, it is preferrable to pass
+     * <code>null</code> for this parameter or better still to invoke
+     * a constructor without <code>Logger</code> parameters at all.</p>
+     *
+     * <p>There is nothing wrong with passing <code>fallbackLogger</code>
+     * via this constructor, but as this constructor is not convinient to
+     * be invoked (too many arguments, some of them likely to be null) and the 
+     * {@link #LogKitLogger(java.lang.String,org.apache.log.Hierarchy,org.apache.framework.logger.Logger}
+     * constructor is broken
+     * in using its <code>Logger</code> argument both as 
+     * <code>fallbackLogger</code> (which is okay) and as 
+     * a <code>defaultLoggerOverride</code> (which is probably not 
+     * desired for the reasons given above) it is preferrable not to 
+     * specify a logger
+     * as a constructor argument but rather supply it via
+     * <code>enableLogging()</code> call, like this happens with all
+     * other normal Avalon components after all.
+     *
+     * @param prefix to prepended to category name on each 
+     *         invocation of <code>getLoggerForCategory()</code>.
+     * @param switchToCategory if this parameter is not null
+     *         after <code>start()</code>
+     *         <code>LogKitLoggerManager</code> will start
+     *         to log its own debug and error messages to
+     *         a logger obtained via
+     *         <code>this.getLoggerForCategory( switchToCategory )</code>.
+     *         Note that prefix will be prepended to
+     *         the value of <code>switchToCategory</code> also.
+     * @param defaultLoggerOverride the logger to be used to 
+     *         <strong>forcibly override</strong>
+     *         the root logger that would further be obtained from
+     *         the configuration
+     * @param fallbackLogger the logger to as a fallback logger
+     *         (passing non-null as this argument eliminates the need
+     *         to invoke <code>enableLogging()</code>)
+     */
+    public LogKitLoggerManager( final String prefix, final Hierarchy hierarchy,
+                                final String switchToCategory,
+                                final Logger defaultLoggerOverride, 
+                                final Logger fallbackLogger )
+    {
+        super( prefix, switchToCategory, defaultLoggerOverride );
         m_prefix = prefix;
-        m_hierarchy = hierarchy;
-        m_defaultLogger = defaultLogger;
-        m_logger = logger;
-    }
 
-    /**
-     * Provide a logger.
-     *
-     * @param logger the logger
-     **/
-    public void enableLogging( final Logger logger )
-    {
-        m_logger = logger;
-    }
-
-    /**
-     * Retrieves a Logger from a category name. Usually
-     * the category name refers to a configuration attribute name.  If
-     * this LogKitManager does not have the match the default Logger will
-     * be returned and a warning is issued.
-     *
-     * @param categoryName  The category name of a configured Logger.
-     * @return the Logger.
-     */
-    public final Logger getLoggerForCategory( final String categoryName )
-    {
-        final String fullCategoryName = getFullCategoryName( m_prefix, categoryName );
-
-        final Logger logger = (Logger)m_loggers.get( fullCategoryName );
-
-        if( null != logger )
+        if ( hierarchy == null )
         {
-            if( m_logger.isDebugEnabled() )
-            {
-                m_logger.debug( "Logger for category " + fullCategoryName + " returned" );
-            }
-            return logger;
+            m_hierarchy = new Hierarchy();
+            m_hierarchy.getRootLogger().unsetLogTargets( true );
+            m_errorHandler = new OurErrorHandler( getLogger() );
+            m_hierarchy.setErrorHandler( m_errorHandler );
+        }
+        else
+        {
+            m_hierarchy = hierarchy;
         }
 
-        if( m_logger.isDebugEnabled() )
+        if ( fallbackLogger != null )
         {
-            m_logger.debug( "Logger for category " + fullCategoryName + " not defined in "
-                            + "configuration. New Logger created and returned" );
+            this.enableLogging( fallbackLogger );
         }
-
-        return new LogKitLogger( m_hierarchy.getLoggerFor( fullCategoryName ) );
-    }
-
-    public final Logger getDefaultLogger()
-    {
-        return m_defaultLogger;
     }
 
     /**
@@ -220,6 +413,16 @@ public class LogKitLoggerManager
         throws ContextException
     {
         m_context = context;
+    }
+
+    /**
+     * Actually create a logger for the given category.
+     * The result will be cached by 
+     * <code>AbstractLoggerManager.getLoggerForCategory()</code>.
+     */
+    protected Logger doGetLoggerForCategory( final String fullCategoryName )
+    {
+        return new LogKitLogger( m_hierarchy.getLoggerFor( fullCategoryName ) );
     }
 
     /**
@@ -242,7 +445,13 @@ public class LogKitLoggerManager
         setupLoggers( targetManager,
                       m_prefix,
                       category,
+                      true,
                       categories.getAttributeAsBoolean( "additive", false ) );
+
+        /**
+         * This is the last configuration stage, if we to initialize() or start()
+         * we would call it from that method.
+         */
     }
 
     /**
@@ -256,7 +465,7 @@ public class LogKitLoggerManager
     {
         final DefaultLogTargetFactoryManager targetFactoryManager = new DefaultLogTargetFactoryManager();
 
-        ContainerUtil.enableLogging( targetFactoryManager, m_logger );
+        ContainerUtil.enableLogging( targetFactoryManager, getLogger() );
 
         try
         {
@@ -284,7 +493,7 @@ public class LogKitLoggerManager
     {
         final DefaultLogTargetManager targetManager = new DefaultLogTargetManager();
 
-        ContainerUtil.enableLogging( targetManager, m_logger );
+        ContainerUtil.enableLogging( targetManager, getLogger() );
 
         if( targetManager instanceof LogTargetFactoryManageable )
         {
@@ -297,50 +506,21 @@ public class LogKitLoggerManager
     }
 
     /**
-     * Generates a full category name given a prefix and category.  Either may be
-     *  null.
-     *
-     * @param prefix Prefix or parent category.
-     * @param category Child category name.
-     */
-    private final String getFullCategoryName( String prefix, String category )
-    {
-        if( ( null == prefix ) || ( prefix.length() == 0 ) )
-        {
-            if( category == null )
-            {
-                return "";
-            }
-            else
-            {
-                return category;
-            }
-        }
-        else
-        {
-            if( ( null == category ) || ( category.length() == 0 ) )
-            {
-                return prefix;
-            }
-            else
-            {
-                return prefix + org.apache.log.Logger.CATEGORY_SEPARATOR + category;
-            }
-        }
-    }
-
-    /**
      * Setup Loggers
      *
      * @param categories []  The array object of configurations for categories.
+     * @param root shows if we're processing the root of the configuration
      * @throws ConfigurationException if the configuration is malformed
      */
     private final void setupLoggers( final LogTargetManager targetManager,
                                      final String parentCategory,
                                      final Configuration[] categories,
+                                     boolean root,
                                      final boolean defaultAdditive )
         throws ConfigurationException
     {
+        boolean rootLoggerAlive = false;
+
         for( int i = 0; i < categories.length; i++ )
         {
             final String category = categories[ i ].getAttribute( "name" );
@@ -360,19 +540,20 @@ public class LogKitLoggerManager
                 }
             }
 
-            if( "".equals( category ) && logTargets.length > 0 )
+            if( root && "".equals( category ) && logTargets.length > 0 )
             {
                 m_hierarchy.setDefaultPriority( Priority.getPriorityForName( loglevel ) );
                 m_hierarchy.setDefaultLogTargets( logTargets );
+                rootLoggerAlive = true;
             }
 
             final String fullCategory = getFullCategoryName( parentCategory, category );
 
             final org.apache.log.Logger logger = m_hierarchy.getLoggerFor( fullCategory );
             m_loggers.put( fullCategory, new LogKitLogger( logger ) );
-            if( m_logger.isDebugEnabled() )
+            if( getLogger().isDebugEnabled() )
             {
-                m_logger.debug( "added logger for category " + fullCategory );
+                getLogger().debug( "added logger for category " + fullCategory );
             }
             logger.setPriority( Priority.getPriorityForName( loglevel ) );
             logger.setLogTargets( logTargets );
@@ -381,8 +562,15 @@ public class LogKitLoggerManager
             final Configuration[] subCategories = categories[ i ].getChildren( "category" );
             if( null != subCategories )
             {
-                setupLoggers( targetManager, fullCategory, subCategories, defaultAdditive );
+                setupLoggers( targetManager, fullCategory, subCategories, false, defaultAdditive );
             }
+        }
+
+        if ( root && !rootLoggerAlive )
+        {
+            final String message = "No log targets configured for the root logger.";
+
+            throw new ConfigurationException( message );
         }
     }
 
@@ -397,6 +585,70 @@ public class LogKitLoggerManager
                 ( (Closeable)target ).close();
             }
 
+        }
+    }
+
+    private static class OurErrorHandler implements ErrorHandler
+    {
+        /** 
+         * This will be initialized to an instance of LoggerSwitch.SwitchingLogger;
+         * that is really reliable.
+         */
+        private Logger m_reliableLogger;
+        private boolean m_wasError = false;
+        /**
+         * Access to this variable is not synchronized. Justification: it is only
+         * intended to be accessed from postConfigure when only one thread
+         * is assumed to be using the whole LogKitLoggerManager.
+         */
+        public boolean getWasError() { return m_wasError; }
+
+        OurErrorHandler( final Logger reliableLogger )
+        {
+           if ( reliableLogger == null )
+           {
+               throw new NullPointerException( "reliableLogger" );
+           }
+           m_reliableLogger = reliableLogger;
+        }
+
+        public void error( final String message, final Throwable throwable, final LogEvent event )
+        {
+            // let them know if they are interested
+            m_wasError = true;
+            // let them know we're not OK
+            m_reliableLogger.fatalError( message, throwable );
+
+            // transmit the original error
+            final Priority p = event.getPriority();
+            final String nestedMessage = "nested log event: " + event.getMessage();
+
+            if ( p == Priority.DEBUG )
+            {
+                m_reliableLogger.debug( nestedMessage, event.getThrowable() );
+            }
+            else if ( p == Priority.INFO )
+            {
+                m_reliableLogger.info( nestedMessage, event.getThrowable() );
+            }
+            else if ( p == Priority.WARN )
+            {
+                m_reliableLogger.warn( nestedMessage, event.getThrowable() );
+            }
+            else if ( p == Priority.ERROR )
+            {
+                m_reliableLogger.error( nestedMessage, event.getThrowable() );
+            }
+            else if ( p == Priority.FATAL_ERROR)
+            {
+                m_reliableLogger.fatalError( nestedMessage, event.getThrowable() );
+            }
+            else
+            {
+                /** This just plainly can't happen :-)*/
+                m_reliableLogger.error( "unrecognized priority " + nestedMessage, 
+                    event.getThrowable() );
+            }
         }
     }
 }

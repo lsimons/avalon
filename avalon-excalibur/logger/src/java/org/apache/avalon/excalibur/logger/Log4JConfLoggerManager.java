@@ -64,12 +64,34 @@ import org.w3c.dom.NodeList;
  * using specified configuration.
  *
  * @author <a href="mailto:Ole.Bulbuk at ebp.de">Ole Bulbuk</a>
- * @version $Revision: 1.4 $ $Date: 2003/05/27 07:30:27 $
+ * @version $Revision: 1.5 $ $Date: 2003/06/10 08:29:37 $
  */
 public class Log4JConfLoggerManager
     extends Log4JLoggerManager
     implements Configurable
 {
+    /**
+     * Work around a weird compilation problem. Can not call
+     * the constructor from fortress/ContextManager, get a
+     * file org\apache\log4j\spi\LoggerRepository.class not found
+     *         new Log4JConfLoggerManager( lmDefaultLoggerName, lmLoggerName );
+     */
+
+    public static Log4JConfLoggerManager newInstance( final String prefix,
+            final String switchToCategory )
+    {
+        return new Log4JConfLoggerManager( prefix, switchToCategory );
+    }
+
+    public Log4JConfLoggerManager( final String prefix, final String switchToCategory )
+    {
+        super( prefix, switchToCategory );
+    }
+
+    public Log4JConfLoggerManager()
+    {
+    }
+
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
