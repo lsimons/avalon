@@ -80,37 +80,10 @@
     <map:serialize/>
    </map:match>
 
-   <map:match pattern="framework/*.html">
+   <map:match pattern="**/*.html">
     <map:aggregate element="site">
-     <map:part src="cocoon:/framework/book.xml"/>
-     <map:part src="cocoon:/body-framework/{1}.xml"/>
-    </map:aggregate>
-    <map:transform src="stylesheets/site2xhtml.xsl"/>
-    <map:serialize/>
-   </map:match>
-
-   <map:match pattern="excalibur/*.html">
-    <map:aggregate element="site">
-     <map:part src="cocoon:/excalibur/book.xml"/>
-     <map:part src="cocoon:/body-excalibur/{1}.xml"/>
-    </map:aggregate>
-    <map:transform src="stylesheets/site2xhtml.xsl"/>
-    <map:serialize/>
-   </map:match>
-
-   <map:match pattern="history/*.html">
-    <map:aggregate element="site">
-     <map:part src="cocoon:/history/book.xml"/>
-     <map:part src="cocoon:/body-history/{1}.xml"/>
-    </map:aggregate>
-    <map:transform src="stylesheets/site2xhtml.xsl"/>
-    <map:serialize/>
-   </map:match>
-
-   <map:match pattern="authors/*.html">
-    <map:aggregate element="site">
-     <map:part src="cocoon:/authors/book.xml"/>
-     <map:part src="cocoon:/body-authors/{1}.xml"/>
+     <map:part src="cocoon:/{1}/book.xml"/>
+     <map:part src="cocoon:/body-{1}/{2}.xml"/>
     </map:aggregate>
     <map:transform src="stylesheets/site2xhtml.xsl"/>
     <map:serialize/>
@@ -118,12 +91,12 @@
 
    <!-- ================  Static  =========================== -->
 
-   <map:match pattern="**.jpg">
-    <map:read src="resources/{1}.jpg" mime-type="image/jpeg"/>
+   <map:match pattern="**images/*.jpg">
+    <map:read src="resources/images/{2}.jpg" mime-type="image/jpeg"/>
    </map:match>
 
-   <map:match pattern="**.gif">
-    <map:read src="resources/{1}.gif" mime-type="image/gif"/>
+   <map:match pattern="**images/*.gif">
+    <map:read src="resources/images/{2}.gif" mime-type="image/gif"/>
    </map:match>
 
    <map:handle-errors>
