@@ -55,14 +55,15 @@ package org.apache.avalon.merlin.env;
  * environment parameters.
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author $Author: mcconnell $
- * @version $Revision: 1.1 $
+ * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version $Revision: 1.2 $
  */
 public class EnvAccessException extends Exception
 {
     /** the environment variable name if available */
     public final String m_variable ;
     
+    public final Throwable m_cause;
     
     /**
      * Creates an exception denoting a failure while attempting to access an 
@@ -75,9 +76,10 @@ public class EnvAccessException extends Exception
      */
     EnvAccessException( final String a_variable, final Throwable a_cause )
     {
-        super( a_cause ) ;
+        super() ;
         
         m_variable = a_variable ;
+        m_cause = a_cause;
     }
 
 
@@ -88,13 +90,13 @@ public class EnvAccessException extends Exception
      * 
      * @param a_variable the variable whose value was to be accessed
      * @param a_message the reason for the access failure 
-     * @param a_cause the underlying exception that caused the failure
      */
     EnvAccessException( final String a_variable, final String a_message )
     {
         super( a_message ) ;
         
         m_variable = a_variable ;
+        m_cause = null;
     }
 
 
@@ -108,6 +110,15 @@ public class EnvAccessException extends Exception
         return m_variable ;
     }
 
+    /**
+     * Return the causal exception.
+     * 
+     * @return the exception that caused this exception (possibly null)
+     */
+    public Throwable getCause()
+    {
+        return m_cause;
+    }
 
     /**
      * Prepends variable name to the base message.
