@@ -7,17 +7,18 @@
  */
 package org.apache.avalon.excalibur.datasource;
 
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.sql.DataSource;
+import javax.sql.ConnectionPoolDataSource;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.LogKitLogger;
-import org.apache.avalon.framework.logger.Loggable;
 
 /**
  * The Informix implementation for DataSources in Excalibur.  This uses the
@@ -73,14 +74,14 @@ import org.apache.avalon.framework.logger.Loggable;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.12 $ $Date: 2003/02/25 16:28:37 $
+ * @version CVS $Revision: 1.13 $ $Date: 2003/02/27 15:04:12 $
  * @since 4.0
  */
 public class InformixDataSource
     extends AbstractLogEnabled
-    implements DataSourceComponent, Loggable
+    implements DataSourceComponent
 {
-    private IfxDataSource m_dataSource;
+    private DataSource m_dataSource;
     private boolean m_autocommit;
     private static boolean INIT_FACTORY = false;
 
@@ -96,11 +97,6 @@ public class InformixDataSource
             System.setProperty( Context.INITIAL_CONTEXT_FACTORY,
                                 "org.apache.avalon.excalibur.naming.memory.MemoryInitialContextFactory" );
         }
-    }
-
-    public void setLogger( final org.apache.log.Logger logger )
-    {
-        enableLogging( new LogKitLogger( logger ) );
     }
 
     /**
@@ -125,19 +121,19 @@ public class InformixDataSource
     {
         Configuration poolController = conf.getChild( "pool-controller" );
         String dbname = conf.getChild( "dbname" ).getValue( "ifx" );
-        IfxConnectionPoolDataSource pooledDataSource = new IfxConnectionPoolDataSource();
+        ConnectionPoolDataSource pooledDataSource = (ConnectionPoolDataSource) getInstance( "com.informix.jdbcx.IfxConnectionPoolDataSource" );
         m_autocommit = conf.getChild( "autocommit" ).getValueAsBoolean( true );
 
-        pooledDataSource.setIfxCPMInitPoolSize( poolController.getAttributeAsInteger( "init", 5 ) );
-        pooledDataSource.setIfxCPMMinPoolSize( poolController.getAttributeAsInteger( "min", 5 ) );
-        pooledDataSource.setIfxCPMMaxPoolSize( poolController.getAttributeAsInteger( "max", 10 ) );
-        pooledDataSource.setIfxCPMServiceInterval( 100 );
-        pooledDataSource.setServerName( conf.getChild( "servername" ).getValue() );
-        pooledDataSource.setDatabaseName( conf.getChild( "dbname" ).getValue() );
-        pooledDataSource.setIfxIFXHOST( conf.getChild( "host" ).getValue() );
-        pooledDataSource.setPortNumber( conf.getChild( "host" ).getAttributeAsInteger( "port" ) );
-        pooledDataSource.setUser( conf.getChild( "user" ).getValue() );
-        pooledDataSource.setPassword( conf.getChild( "password" ).getValue() );
+        setProperty(pooledDataSource, "IfxCPMInitPoolSize", new Integer(poolController.getAttributeAsInteger( "init", 5 ) ) );
+        setProperty(pooledDataSource, "IfxCPMMinPoolSize", new Integer(poolController.getAttributeAsInteger( "min", 5 ) ) );
+        setProperty(pooledDataSource, "IfxCPMMaxPoolSize", new Integer(poolController.getAttributeAsInteger( "max", 10 ) ) );
+        setProperty(pooledDataSource, "IfxCPMServiceInterval", new Integer( 100 ) );
+        setProperty(pooledDataSource, "ServerName",  conf.getChild( "servername" ).getValue() );
+        setProperty(pooledDataSource, "DatabaseName", conf.getChild( "dbname" ).getValue() );
+        setProperty(pooledDataSource, "IfxIFXHOST", conf.getChild( "host" ).getValue() );
+        setProperty(pooledDataSource, "PortNumber", new Integer( conf.getChild( "host" ).getAttributeAsInteger( "port" ) ) );
+        setProperty(pooledDataSource, "User", conf.getChild( "user" ).getValue() );
+        setProperty(pooledDataSource, "Password", conf.getChild( "password" ).getValue() );
 
         try
         {
@@ -145,14 +141,14 @@ public class InformixDataSource
 
             context.bind( dbname + "pool", pooledDataSource );
 
-            m_dataSource = new IfxDataSource();
-            m_dataSource.setDataSourceName( dbname + "pool" );
-            m_dataSource.setServerName( conf.getChild( "servername" ).getValue() );
-            m_dataSource.setDatabaseName( conf.getChild( "dbname" ).getValue() );
-            m_dataSource.setIfxIFXHOST( conf.getChild( "host" ).getValue() );
-            m_dataSource.setPortNumber( conf.getChild( "host" ).getAttributeAsInteger( "port" ) );
-            m_dataSource.setUser( conf.getChild( "user" ).getValue() );
-            m_dataSource.setPassword( conf.getChild( "password" ).getValue() );
+            m_dataSource = (DataSource) getInstance( "com.informix.jdbcx.IfxDataSource" );
+            setProperty(m_dataSource, "DataSourceName", dbname + "pool" );
+            setProperty(m_dataSource, "ServerName", conf.getChild( "servername" ).getValue() );
+            setProperty(m_dataSource, "DatabaseName", conf.getChild( "dbname" ).getValue() );
+            setProperty(m_dataSource, "IfxIFXHOST", conf.getChild( "host" ).getValue() );
+            setProperty(m_dataSource, "PortNumber", new Integer( conf.getChild( "host" ).getAttributeAsInteger( "port" ) ) );
+            setProperty(m_dataSource, "User", conf.getChild( "user" ).getValue() );
+            setProperty(m_dataSource, "Password", conf.getChild( "password" ).getValue() );
             configureTracing( conf.getChild( "tracing", false ) );
 
             context.bind( dbname, m_dataSource );
@@ -183,8 +179,8 @@ public class InformixDataSource
             if (child != null)
             {
                 // enables tracing on the jdbc driver itself
-                m_dataSource.setIfxTRACE( child.getAttributeAsInteger( "level" ) );
-                m_dataSource.setIfxTRACEFILE( child.getAttribute( "file" ) );
+                setProperty(m_dataSource, "IfxTRACE", new Integer( child.getAttributeAsInteger( "level" ) ) );
+                setProperty(m_dataSource, "IfxTRACEFILE", child.getAttribute( "file" ) );
             }
 
             child = config.getChild( "sqli", false );
@@ -192,9 +188,47 @@ public class InformixDataSource
             if (child != null)
             {
                 // enables sqli message tracing
-                m_dataSource.setIfxPROTOCOLTRACE( child.getAttributeAsInteger( "level" ) );
-                m_dataSource.setIfxPROTOCOLTRACEFILE( child.getAttribute( "file" ) );
+                setProperty(m_dataSource, "IfxPROTOCOLTRACE", new Integer( child.getAttributeAsInteger( "level" ) ) );
+                setProperty(m_dataSource, "IfxPROTOCOLTRACEFILE", child.getAttribute( "file" ) );
             }
+        }
+    }
+    
+    private Object getInstance(String className)
+        throws ConfigurationException
+    {
+        Object instance = null;
+        
+        try
+        {
+            instance = Thread.currentThread().getContextClassLoader().loadClass(className).newInstance();
+        }
+        catch (Exception e)
+        {
+            throw new ConfigurationException("Could not load class", e);
+        }
+        
+        return instance;
+    }
+    
+    private void setProperty(Object obj, String propertyName, Object value)
+        throws ConfigurationException
+    {
+        Class valueClass = value.getClass();
+        
+        if ( value instanceof Integer )
+        {
+            valueClass = Integer.TYPE;
+        }
+        
+        try
+        {
+            Method meth = obj.getClass().getMethod("set" + propertyName, new Class[]{valueClass});
+            meth.invoke(obj, new Object[]{value});
+        }
+        catch (Exception e)
+        {
+            throw new ConfigurationException("Could not set property", e);
         }
     }
 }
