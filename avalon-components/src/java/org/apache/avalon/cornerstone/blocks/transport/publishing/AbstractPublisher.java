@@ -14,9 +14,6 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -42,29 +39,21 @@ import org.apache.excalibur.altrmi.server.impl.classretrievers.NoClassRetriever;
  * @phoenix:service name="org.apache.excalibur.altrmi.server.AltrmiPublisher"
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.18 $
+ * @version $Revision: 1.19 $
  */
 public abstract class AbstractPublisher
     extends AbstractLogEnabled
     implements AltrmiPublisher, Startable, Serviceable, Contextualizable, Configurable,
     Initializable
 {
-
-    protected AbstractServer m_abstractServer;
+    private AbstractServer m_abstractServer;
     private ClassRetriever m_classRetriever;
-    protected AltrmiAuthenticator m_altrmiAuthenticator;
+    private AltrmiAuthenticator m_altrmiAuthenticator;
     protected File m_baseDirectory;
 
-    /**
-     * Pass the <code>Configuration</code> to the <code>Configurable</code>
-     * class. This method must always be called after the constructor
-     * and before any other method.
-     *
-     * @param configuration the class configurations.
-     */
-    public void configure( Configuration configuration ) throws ConfigurationException
+    public void configure( Configuration configuration )
+        throws ConfigurationException
     {
-
         String classRetrieverType = configuration.getChild( "classRetrieverType" ).getValue();
 
         if( classRetrieverType.equals( "jarFile" ) )
@@ -131,31 +120,12 @@ public abstract class AbstractPublisher
             (AltrmiAuthenticator)manager.lookup( AltrmiAuthenticator.class.getName() );
     }
 
-    /**
-     * Initialialize the component. Initialization includes
-     * allocating any resources required throughout the
-     * components lifecycle.
-     *
-     * @exception Exception if an error occurs
-     */
     public void initialize() throws Exception
     {
         m_abstractServer.setClassRetriever( m_classRetriever );
         m_abstractServer.setAuthenticator( m_altrmiAuthenticator );
     }
 
-    /**
-     * Method publish
-     *
-     *
-     * @param implementation
-     * @param asName
-     * @param interfaceToExpose
-     *
-     *
-     * @throws PublicationException
-     *
-     */
     public void publish( Object implementation, String asName, Class interfaceToExpose )
         throws PublicationException
     {
@@ -166,18 +136,6 @@ public abstract class AbstractPublisher
         m_abstractServer.publish( implementation, asName, interfaceToExpose );
     }
 
-    /**
-     * Method publish
-     *
-     *
-     * @param implementation
-     * @param asName
-     * @param publicationDescription
-     *
-     *
-     * @throws PublicationException
-     *
-     */
     public void publish(
         Object implementation, String asName, PublicationDescription publicationDescription )
         throws PublicationException
@@ -188,17 +146,6 @@ public abstract class AbstractPublisher
         m_abstractServer.publish( implementation, asName, publicationDescription );
     }
 
-    /**
-     * Method unPublish
-     *
-     *
-     * @param o
-     * @param s
-     *
-     *
-     * @throws PublicationException
-     *
-     */
     public void unPublish( Object o, String s ) throws PublicationException
     {
         if( getLogger().isDebugEnabled() )
@@ -207,18 +154,6 @@ public abstract class AbstractPublisher
         m_abstractServer.unPublish( o, s );
     }
 
-    /**
-     * Method replacePublished
-     *
-     *
-     * @param o
-     * @param s
-     * @param o1
-     *
-     *
-     * @throws PublicationException
-     *
-     */
     public void replacePublished( Object o, String s, Object o1 ) throws PublicationException
     {
         if( getLogger().isDebugEnabled() )
@@ -227,36 +162,16 @@ public abstract class AbstractPublisher
         m_abstractServer.replacePublished( o, s, o1 );
     }
 
-    /**
-     * Starts the component.
-     *
-     * @exception Exception if Component can not be started
-     */
     public void start() throws Exception
     {
         m_abstractServer.start();
     }
 
-    /**
-     * Stops the component.
-     *
-     * @exception Exception if the Component can not be Stopped.
-     */
     public void stop() throws Exception
     {
         m_abstractServer.stop();
     }
 
-    /**
-     * Method getMethodInvocationHandler
-     *
-     *
-     * @param request
-     * @param s
-     *
-     * @return
-     *
-     */
     public MethodInvocationHandler getMethodInvocationHandler( MethodRequest request, String publishedName )
     {
         return m_abstractServer.getMethodInvocationHandler( request, publishedName );
@@ -265,5 +180,15 @@ public abstract class AbstractPublisher
     public MethodInvocationHandler getMethodInvocationHandler(String publishedName)
     {
         return m_abstractServer.getMethodInvocationHandler( publishedName );
+    }
+
+    protected AbstractServer getAbstractServer()
+    {
+        return m_abstractServer;
+    }
+
+    protected void setAbstractServer( AbstractServer abstractServer )
+    {
+        m_abstractServer = abstractServer;
     }
 }
