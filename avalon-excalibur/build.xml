@@ -24,6 +24,7 @@
         <ant dir="logger" target="dist"/>
         <ant dir="threadcontext" target="dist"/>
         <ant dir="sourceresolve" target="dist"/>
+        <ant dir="monitor" target="dist"/>
         <ant dir="xmlbundle" target="dist"/>
         
         <!-- Sub projects with dependencies. -->
@@ -84,6 +85,8 @@
             <pathelement location="i18n/src/test"/>
             <pathelement location="io/src/java"/>
             <pathelement location="io/src/test"/>
+            <pathelement location="monitor/src/java"/>
+            <pathelement location="monitor/src/test"/>
             <pathelement location="naming/src/java"/>
             <pathelement location="naming/src/test"/>
             <pathelement location="sourceresolve/src/java"/>
@@ -141,6 +144,7 @@
     <target name="jar" description="Generates avalon-excalibur.jar">
         <ant dir="datasource" target="jar"/>
         <ant dir="sourceresolve" target="jar"/>
+        <ant dir="monitor" target="jar"/>
         <ant dir="xmlbundle" target="jar"/>
         <ant dir="all" target="all"/>
         <ant dir="cli" target="jar"/>
@@ -174,6 +178,7 @@
                     <include name="instrument/build/lib/*.jar"/>
                     <include name="sourceresolve/build/lib/*.jar"/>
                     <include name="xmlbundle/build/lib/*.jar"/>
+                    <include name="monitor/build/lib/*.jar"/>
                 </fileset>
             </mergefiles>
         </jlink>
@@ -194,6 +199,7 @@
         <ant dir="logger" target="jar"/>
         <ant dir="threadcontext" target="jar"/>
         <ant dir="sourceresolve" target="jar"/>
+        <ant dir="monitor" target="jar"/>
         <ant dir="xmlbundle" target="jar"/>
         
         <!-- Sub projects with dependencies. -->
