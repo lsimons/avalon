@@ -21,6 +21,7 @@ import javax.xml.parsers.SAXParserFactory;
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
 public class DefaultConfigurationBuilder
 {
@@ -28,15 +29,32 @@ public class DefaultConfigurationBuilder
     private XMLReader                             m_parser;
 
     /**
-     * Create a Configuration Builder with a default XMLReader.
+     * Create a Configuration Builder with a default XMLReader that ignores
+     * namespaces.  In order to enable namespaces, use either the constructor
+     * that has a boolean or that allows you to pass in your own XMLReader.
      */
     public DefaultConfigurationBuilder()
+    {
+        this( false );
+    }
+
+    /**
+     * Create a Configuration Builder with a default XMLReader that implements
+     * namespaces if passed <code>true</code> or defaults to the original
+     * functionality if passed <code>false</code>
+     */
+    public DefaultConfigurationBuilder( final boolean enableNamespaces )
     {
         //yaya the bugs with some compilers and final variables ..
         try
         {
             final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-            saxParserFactory.setNamespaceAware(true);
+
+            if ( enableNamespaces )
+            {
+                saxParserFactory.setNamespaceAware(true);
+            }
+
             final SAXParser saxParser = saxParserFactory.newSAXParser();
             this.setParser(saxParser.getXMLReader());
         }
@@ -72,6 +90,18 @@ public class DefaultConfigurationBuilder
      */
     protected SAXConfigurationHandler getHandler()
     {
+        try
+        {
+            if ( m_parser.getFeature( "http://xml.org/sax/features/namespaces" ) )
+            {
+                return new NamespacedSAXConfigurationHandler();
+            }
+        }
+        catch ( Exception e )
+        {
+            // ignore error and fall through to the non-namespaced version
+        }
+
         return new SAXConfigurationHandler();
     }
 
