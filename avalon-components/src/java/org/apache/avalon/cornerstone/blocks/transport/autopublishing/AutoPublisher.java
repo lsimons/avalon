@@ -26,7 +26,7 @@ import org.apache.excalibur.altrmi.server.PublicationException;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public class AutoPublisher extends AbstractLogEnabled
     implements Configurable, ApplicationListener
@@ -94,7 +94,7 @@ public class AutoPublisher extends AbstractLogEnabled
             try
             {
                 m_altrmiPublisher.publish( block, pi.getPublishAsName(),
-                                           Class.forName( pi.getInterfaceToPublish() ) );
+                    this.getClass().getClassLoader().loadClass( pi.getInterfaceToPublish() ) );
             }
             catch( PublicationException e )
             {
