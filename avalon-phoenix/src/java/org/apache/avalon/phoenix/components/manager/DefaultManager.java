@@ -25,6 +25,7 @@ import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.components.kernel.DefaultKernel;
 import org.apache.avalon.phoenix.components.kernel.DefaultKernelMBean;
+import org.apache.avalon.phoenix.interfaces.EmbeddorMBean;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.Deployer;
@@ -116,7 +117,7 @@ public class DefaultManager
 
         //TODO: SystemManager itself aswell???
         register( "Kernel", m_kernel );
-        register( "Embeddor", m_embeddor, new Class[]{ Embeddor.class } );
+        register( "Embeddor", m_embeddor, new Class[]{ EmbeddorMBean.class } );
         register( "Deployer", m_deployer, new Class[]{ Deployer.class } );
         register( "LogManager", m_logManager );
         register( "ConfigurationRepository", m_repository );
@@ -213,8 +214,10 @@ public class DefaultManager
         {
             return new DefaultKernelMBean( (DefaultKernel)object );
         }
-
-        return new JavaBeanMBean( object );
+        else
+        {
+            return new JavaBeanMBean( object );
+        }
     }
 
     /**
