@@ -27,6 +27,11 @@ THIS_PROG=`dirname $0`
 
 if [ "$THIS_PROG" = "." ] ; then
   THIS_PROG=$PWD
+
+  ## convert cygwin path so Java will recognize it
+  if [ $OSTYPE = "cygwin32" ] || [ $OSTYPE = "cygwin" ] ; then
+    THIS_PROG=`cygpath -p -w $THIS_PROG`
+  fi
 fi
 
 if [ "$PHOENIX_HOME" = "" ] ; then
