@@ -32,9 +32,22 @@
   <property name="build.compiler.depend" value="true"/>
   <property name="build.compiler.fulldepend" value="true"/>
 
-  <property name="debug" value="off"/>
-  <property name="optimize" value="off"/>
-  <property name="deprecation" value="off"/>
+  <property name="build.debug" value="on"/>
+  <property name="build.optimize" value="off"/>
+  <property name="build.deprecation" value="off"/>
+
+  <!--
+       ===================================================================
+       Set the installation variables for Cornerstone/Phoenix
+       ===================================================================
+  -->
+  <property name="phoenix.home" value="../jakarta-phoenix/dist"/>
+  <property name="phoenix.apps" value="${phoenix.home}/apps"/>
+  <property name="install.dir" value="${phoenix.home}"/>
+  <property name="install.bin.dir" value="${install.dir}/bin"/>
+  <property name="install.lib.dir" value="${install.dir}/lib"/>
+  <property name="install.data.dir" value="${install.dir}/conf"/>
+  <property name="install.doc.dir" value="${install.dir}/docs"/>
 
   <!--
        ===================================================================
@@ -110,7 +123,8 @@
                                   Main target
        ===================================================================
   -->
-  <target name="main" depends="xars" />
+  <target name="main" depends="all,check" />
+  <target name="all" depends="xars,ftpserver,jesktop,soapdemo-sar" />
 
   <!--
        ===================================================================
@@ -124,16 +138,16 @@
     <echo message=""/>
     <echo message=" available targets are:"/>
     <echo message=""/>
-    <echo message="   jars       -> generates the ${Name} jar files"/>
-    <echo message="   javadocs   -> generates the API documentation (java 1.2+ only)"/>
-    <echo message="   install    -> installs Cornerstone into Phoenix"/>
-<!--
-    <echo message="   docs       -> generates the ${Name} Documentation"/>
-    <echo message="   dist-lite  -> generates the ${Name} distribution without the javadocs (default)"/>
-    <echo message="   dist       -> generates the ${Name} distribution"/>
- -->
-    <echo message="   clean      -> cleans up the created directories"/>
-    <echo message="   real-clean -> cleans up all genereated files and directories"/>
+    <echo message="   all         -> generates all the ${Name} jar/bar/sar files"/>
+    <echo message="   install     -> installs Cornerstone into Phoenix"/>
+    <echo message="   uninstall   -> uninstalls Cornerstone from Phoenix"/>
+    <echo message="   check       -> perform any built in tests"/>
+    <echo message="   docs        -> generates the ${Name} Documentation"/>
+    <echp message="   printerdocs -> generates printer-friendly ${Name} Documentation"/>
+    <echo message="   javadocs    -> generates the API documentation (java 1.2+ only)"/>
+    <echo message="   dist        -> generates the ${Name} distribution"/>
+    <echo message="   clean       -> cleans up the created directories"/>
+    <echo message="   distclean   -> cleans up all genereated files and directories"/>
     <echo message=""/>
     <echo message="-------------------------------------------------------------"/>
     <echo message=""/>
@@ -277,7 +291,7 @@
                            Creates all the .sar files
        ===================================================================
   -->  
-  <target name="sars" depends="demo-sar, soapdemo-sar"/>
+  <target name="sars" depends="demo-sar, soapdemo-sar, jesktop, ftpserver"/>
 
   <target name="demo-sar" depends="bars">
 
@@ -367,7 +381,9 @@
        Performs unit tests
        ===================================================================
   -->
-  <target name="test" depends="jars">
+  <target name="test" depends="check"/>
+
+  <target name="check" depends="jars">
 
     <test showSuccess="true" showBanner="false" showTrace="true" forceShowTrace="true" >
       <classpath>
@@ -538,19 +554,21 @@
 
   </target>
 
-  <target name="install" depends="demo-sar,install-check-cjan,install-check-phoenix">
-    <mkdir dir="${cjan.lib}" />
-    <!--<copy file="${build.lib}/cornerstone.bar" todir="${cjan.lib}"/>-->
-
-    <property name="phoenix.apps" value="${phoenix.home}/apps"/>
+  <target name="install" depends="all,jesktop-deploy,ftpserver-deploy,install-no-cjan,install-yes-cjan,install-check-phoenix">
     <mkdir dir="${phoenix.apps}" />
 
     <delete dir="${phoenix.apps}/avalon-demo"/>
     <copy file="${build.lib}/avalon-demo.sar" todir="${phoenix.apps}"/>
   </target>
 
-  <target name="install-check-cjan" unless="cjan.lib">
-    <fail message="cjan.lib not specified." />
+  <target name="install-yes-cjan" if="cjan.lib">
+    <mkdir dir="${cjan.lib}" />
+    <copy file="${build.lib}/cornerstone.bar" todir="${cjan.lib}"/>
+    <echo message="Installed in cjan.lib." />
+  </target>
+
+  <target name="install-no-cjan" unless="cjan.lib">
+    <echo message="WARNING: cjan.lib not specified." />
   </target>
 
   <target name="install-check-phoenix" unless="phoenix.home">
@@ -752,7 +770,7 @@
                       Cleans absolutely everything up
        ===================================================================
   -->
-  <target name="real-clean" depends="clean">
+  <target name="distclean" depends="clean">
     <delete dir="${docs.dir}" />
     <delete dir="${dist.dir}" />
   </target>
