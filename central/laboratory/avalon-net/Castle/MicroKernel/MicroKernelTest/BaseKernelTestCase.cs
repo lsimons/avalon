@@ -14,8 +14,11 @@
 
 namespace Apache.Avalon.Castle.MicroKernel.Test
 {
+	using System;
+
 	using NUnit.Framework;
 
+	using Apache.Avalon.Framework;
 	using Apache.Avalon.Castle.MicroKernel;
 	using Apache.Avalon.Castle.MicroKernel.Test.Components;
 
@@ -25,6 +28,20 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 	[TestFixture]
 	public class BaseKernelTestCase : Assertion
 	{
+		IKernel m_container;
+
+		[SetUp]
+		public void Init()
+		{
+			m_container = new BaseKernel();
+		}
+
+		[TearDown]
+		public void Terminate()
+		{
+			ContainerUtil.Dispose( m_container );
+		}
+
 		/// <summary>
 		/// Just a simple Service resolution.
 		/// No concerns or aspects involved.
@@ -32,10 +49,9 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 		[Test]
 		public void SimpleUsage()
 		{
-			BaseKernel container = new BaseKernel();
-			container.AddComponent( "a", typeof(IMailService), typeof(SimpleMailService) );
+			m_container.AddComponent( "a", typeof(IMailService), typeof(SimpleMailService) );
 
-			IHandler handler = container[ "a" ];
+			IHandler handler = m_container[ "a" ];
 
 			IMailService service = handler.Resolve() as IMailService;
 
@@ -46,31 +62,67 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 			handler.Release( service );
 		}
 
+		[Test]
+		public void InvalidComponent()
+		{
+			try
+			{
+				m_container.AddComponent( "a", typeof(IMailService), typeof(String) );
+				Fail("Should not allow a type which not implements the specified service.");
+			}
+			catch(ArgumentException)
+			{
+				// Expected
+			}
+		}
+
         [Test]
         public void AddAndRemove()
         {
-            BaseKernel container = new BaseKernel();
-            container.AddComponent( "a", typeof(IMailService), typeof(SimpleMailService) );
+            m_container.AddComponent( "a", typeof(IMailService), typeof(SimpleMailService) );
 
-            AssertNotNull( container.GetHandlerForService( typeof(IMailService) ) );
-            AssertNotNull( container[ "a" ] );
+            AssertNotNull( m_container.GetHandlerForService( typeof(IMailService) ) );
+            AssertNotNull( m_container[ "a" ] );
 
-            AssertNull( container.GetHandlerForService( typeof(IMailMarketingService) ) );
-            AssertNull( container[ "b" ] );
+            AssertNull( m_container.GetHandlerForService( typeof(IMailMarketingService) ) );
+            AssertNull( m_container[ "b" ] );
 
-            container.RemoveComponent( "a" );
+            m_container.RemoveComponent( "a" );
 
-            AssertNull( container.GetHandlerForService( typeof(IMailService) ) );
-            AssertNull( container[ "a" ] );
+            AssertNull( m_container.GetHandlerForService( typeof(IMailService) ) );
+            AssertNull( m_container[ "a" ] );
         }
+
+		[Test]
+		public void StartableComponent()
+		{
+			SimpleStartableComponent.Constructed = false;
+
+			m_container.AddComponent( "a", typeof(IStartableService), typeof(SimpleStartableComponent) );
+
+			Assert( SimpleStartableComponent.Constructed );
+		}
+
+		[Test]
+		public void StartableComponentWithDependencies()
+		{
+			SimpleStartableComponent.Constructed = false;
+
+			m_container.AddComponent( "a", typeof(IStartableService), typeof(SimpleStartableComponent2) );
+
+			Assert( !SimpleStartableComponent.Constructed );
+
+			m_container.AddComponent( "b", typeof(IMailService), typeof(SimpleMailService) );
+
+			Assert( SimpleStartableComponent.Constructed );
+		}
 
 		[Test]
 		public void ComponentDependingOnLogger()
 		{
-			BaseKernel container = new BaseKernel();
-			container.AddComponent( "a", typeof(IMailService), typeof(SimpleMailServiceWithLogger) );
+			m_container.AddComponent( "a", typeof(IMailService), typeof(SimpleMailServiceWithLogger) );
 
-			IHandler handler = container[ "a" ];
+			IHandler handler = m_container[ "a" ];
 
 			IMailService service = handler.Resolve() as IMailService;
 
@@ -84,20 +136,19 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 
 		/*
 		[Test]
-		public void FacilityEvents()
+		public void FacilityLifecycle()
 		{
-			BaseKernel container = new BaseKernel();
 			MockFacility facility = new MockFacility();
 
-			container.RegisterFacility( facility );
+			m_container.RegisterFacility( facility );
 
 			Assert( facility.OnInitCalled );
 
-			container.AddComponent( "a", typeof(IMailService), typeof(SimpleMailServiceWithLogger) );
+			m_container.AddComponent( "a", typeof(IMailService), typeof(SimpleMailServiceWithLogger) );
 
 			Assert( facility.ComponentAddedCalled );
 
-			IHandler handler = container[ "a" ];
+			IHandler handler = m_container[ "a" ];
 
 			IMailService service = handler.Resolve() as IMailService;
 
@@ -115,7 +166,6 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 
 		public class MockFacility : IContainerFacility
 		{
-			
 		}
 		*/
 	}

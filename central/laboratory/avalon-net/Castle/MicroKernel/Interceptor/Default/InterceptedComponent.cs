@@ -47,6 +47,8 @@ namespace Apache.Avalon.Castle.MicroKernel.Interceptor.Default
 			m_proxy = proxy;
 		}
 
+		#region IInterceptedComponent Members
+
 		/// <summary>
 		/// Returns the component instance, non-proxied.
 		/// </summary>
@@ -54,8 +56,6 @@ namespace Apache.Avalon.Castle.MicroKernel.Interceptor.Default
 		{
 			get { return m_instance; }
 		}
-
-		#region IInterceptedComponent Members
 
 		/// <summary>
 		/// Add the interceptor in the argument as the first interceptor

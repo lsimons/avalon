@@ -17,10 +17,8 @@ namespace Apache.Avalon.Castle.MicroKernel
 	using System;
 
 	using Apache.Avalon.Castle.MicroKernel.Concerns;
-	using Apache.Avalon.Castle.MicroKernel.Model;
 	using Apache.Avalon.Castle.MicroKernel.Subsystems.Configuration.Default;
 	using Apache.Avalon.Castle.MicroKernel.Subsystems.Logger.Default;
-	using Apache.Avalon.Castle.MicroKernel.Subsystems.Context.Default;
 
 	/// <summary>
 	/// Specialization of BaseKernel to adhere to Avalon 

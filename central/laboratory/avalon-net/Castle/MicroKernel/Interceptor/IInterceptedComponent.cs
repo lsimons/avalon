@@ -21,6 +21,8 @@ namespace Apache.Avalon.Castle.MicroKernel.Interceptor
 	/// </summary>
 	public interface IInterceptedComponent
 	{
+		object Instance { get; }
+
 		object ProxiedInstance { get; }
 
 		void Add( IInterceptor interceptor );

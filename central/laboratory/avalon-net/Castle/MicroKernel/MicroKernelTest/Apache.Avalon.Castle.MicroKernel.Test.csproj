@@ -119,6 +119,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ComponentWrapperTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ConcernManagerTestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -239,6 +244,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Components\IStartableService.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Components\SimpleCustomerManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -260,6 +270,16 @@
                 />
                 <File
                     RelPath = "Components\SimpleSpamService.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\SimpleStartableComponent.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\SimpleStartableComponent2.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -43,6 +43,38 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 		}
 
 		[Test]
+		public void InvalidConcern()
+		{
+			ConcernManager manager = new ConcernManager();
+			
+			try
+			{
+				manager.Add( typeof(String) );
+				Fail("Could not allow a type which is not a concern");
+			}
+			catch(ArgumentException)
+			{
+				// Expected
+			}
+		}
+
+		[Test]
+		public void GetDefaultCommissionConcerns()
+		{
+			ConcernManager manager = new ConcernManager();
+			AssertNotNull( manager.CommissionConcerns );
+			AssertEquals( 6, manager.CommissionConcerns.Count );
+		}
+
+		[Test]
+		public void GetDefaultDecommissionConcerns()
+		{
+			ConcernManager manager = new ConcernManager();
+			AssertNotNull( manager.DecommissionConcerns );
+			AssertEquals( 1, manager.DecommissionConcerns.Count );
+		}
+
+		[Test]
 		public void GetDefaultCommissionChain()
 		{
 			ConcernManager manager = new ConcernManager();
