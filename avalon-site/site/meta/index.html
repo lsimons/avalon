@@ -1,0 +1,424 @@
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  
+      
+  
+
+      
+      
+      
+      
+      
+      
+        
+         
+      
+      
+
+      
+      
+      
+      
+
+      
+      
+      
+
+      
+
+
+  
+  
+
+   
+   
+
+
+
+    <!DOCTYPE html PUBLIC "-//CollabNet//DTD XHTML 1.0 Transitional//EN" "http://www.collabnet.com/dtds/collabnet_transitional_10.dtd">
+
+    <html>
+      <head>
+        
+        
+          <title>
+            Avalon Meta - 
+          Avalon Meta Model
+        
+          </title>
+        
+        
+        
+        
+        
+        <style type="text/css">
+          @import url("./style/tigris.css");
+          @import url("./style/maven.css");
+          @import url("./style/osm.css");
+        </style>
+        
+        <link rel="stylesheet" href="./style/print.css" type="text/css" media="print"></link>
+        
+          <meta name="author" value="Stephen McConnell"></meta>
+          <meta name="email" value="mcconnell@apache.org"></meta>
+        
+      </head>
+
+      <body marginwidth="0" class="composite" marginheight="0">
+        <div id="banner">
+          <table height="103" border="0" width="100%" cellpadding="8" cellspacing="0">
+            <tr>
+              
+              <td>
+                
+                
+                  
+                  
+                  
+                    
+                  
+                  
+                  
+                  
+                  
+                  <a href="http://jakarta.apache.org/">
+                    <img border="0" alt="Apache Software Foundation" src="http://avalon.apache.org/images/apache-avalon-logo.png" align="left"></img>
+                  </a>
+                
+              </td>
+
+              <td>
+                <div id="login" align="right">
+                  <a href="http://apachecon.com/2003/US/index.html">
+                    <img border="0" src="http://www.apache.org/~ceki/ac2003/ac2003-150.gif"></img>
+                  </a>
+                </div>
+              </td>
+
+
+              
+              
+            </tr>
+          </table>
+        </div>
+
+        <div id="breadcrumbs">
+          <table border="0" width="100%" cellpadding="4" cellspacing="0">
+            <tr>
+              
+              <td>
+                <div align="right">
+                  
+                  
+                  
+                    
+    
+    
+      
+      
+      
+      <a href="
+        http://apache.org/
+      ">
+        Apache
+      </a>
+      
+    
+      |
+      
+      
+      <a href="
+        http://avalon.apache.org/
+      ">
+        Avalon
+      </a>
+      
+    
+      |
+      
+      
+      <a href="
+        http://avalon.apache.org/product/framework/
+      ">
+        Framework
+      </a>
+      
+    
+      |
+      
+      
+      <a href="
+        http://avalon.apache.org/product/containers/
+      ">
+        Containers
+      </a>
+      
+    
+      |
+      
+      
+      <a href="
+        http://avalon.apache.org/product/components/
+      ">
+        Components
+      </a>
+      
+    
+  
+                  
+                  
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        
+        <table border="0" width="100%" cellpadding="8" cellspacing="0"> 
+          <tr valign="top">
+            <td width="200" id="leftcol">
+              <div id="navcolumn">
+                
+
+                
+                  
+    <div>
+      <strong>About Avalon Meta</strong>
+      
+    <div>
+      
+      
+      <small><a href="index.html">Overview</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="tutorial/index.html">Getting Started</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="meta/index.html">Meta Model</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="tools/index.html">Tools</a></small>
+      
+    </div>
+  
+    <div>
+      
+      
+      <small><a href="api/index.html">Javadoc</a></small>
+      
+    </div>
+  
+    </div>
+  
+                
+
+                
+                
+
+                
+                
+                <div>
+                  <strong>Project Documentation</strong>
+                  
+                  <div>
+                    <small>
+                      <a href="./project-info.html">Project Info</a>
+                    </small>
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                  </div>
+                  <div>
+                    <small>
+                      <a href="./maven-reports.html">Project Reports</a>
+                    </small>
+                    
+                      
+                        
+                         
+                         
+                           
+                           
+                        
+                           
+                           
+                        
+                           
+                           
+                        
+                        
+                        
+                      
+                      
+                    
+                  </div>
+                  
+                  
+                  <div>
+                    <small>
+                      <a href="./license.html">License</a>
+                    </small>
+                  </div>
+                </div>
+              
+                
+              </div>
+            </td>
+            <td>
+              <div id="bodycol">
+                
+                <div class="app">
+                  
+                  
+    <div class="h3">
+      
+      
+        <h3>
+          <a name="Avalon Meta Model">Avalon Meta Model</a>
+        </h3>
+      
+      
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Meta Model Overview">Meta Model Overview</a>
+        </h4>
+      
+      
+    <p>
+      
+                    The Avalon Meta Model defines the functional structure
+                    of component types and services. A Type definition contains 
+                    information about deployment and runtime dependencies together 
+                    with information about the services that a
+                    component type can provide.
+                
+    </p>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Meta Info Generation">Meta Info Generation</a>
+        </h4>
+      
+      
+    <p>
+      
+                    Avalon provides a set of tools that automate the process 
+                    of generating meta-info descriptors.  These tools provide
+                    support for the generation of serializable and XML based
+                    descriptors that are collocated with class files. Tool 
+                    support is available for Ant and Maven.
+                
+    </p>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Meta Model API/SPI">Meta Model API/SPI</a>
+        </h4>
+      
+      
+    <p>
+      
+                    Type and service meta models are established as 
+                    immutable objects that complement the classic information
+                    available about a class.  Using the Type and Service 
+                    descriptor classes, developers can be assured of greater
+                    portability and interoperability of container-side applications.
+                
+    </p>
+   
+    </div>
+  
+    </div>
+  
+                  
+                  
+                  
+                  
+                  
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <div id="footer">
+          <table border="0" cellpadding="4" cellspacing="0">
+            <tr>
+              <td>
+                
+                  
+                    
+                    
+                       2000-2003, Apache Software Foundation
+                    
+                  
+                  
+                
+
+                
+              </td>
+              
+            </tr>
+          </table>
+        </div>
+      </body>
+    </html>
+  
