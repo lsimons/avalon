@@ -1,5 +1,5 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2003/01/22 05:53:52 $]
+Last modified at [$Date: 2003/01/22 07:36:45 $]
 
 Background:
 
@@ -61,21 +61,14 @@ Resolved Issues:
       [http://marc.theaimsgroup.com/?l=avalon-dev&m=103903695931512&w=2]
       [http://marc.theaimsgroup.com/?t=103904717500001&r=1&w=2]
       [http://marc.theaimsgroup.com/?t=103908800800002&r=1&w=2]
+      
+    o All @author tags and all reference to authors of source code files
+      will be also kept in the files themselves.
 
 
 Pending issues:
 
 
-    o Do you want that all @author tags and all reference to authors of 
-      source code files be removed from the files themselves? 
-      The information about the authors will still be present in commit 
-      messages and in the site credits.
-      [20020119]
-      +1: mcconnell, leosutic
-      +0: nicolaken
-      -0: 
-      -1: hammant, proyal, jefft, leif, lmccay, leosimons, bloritsch
-      
     o The STATUS file is a great mean of synching the community agenda. 
       To be effective, it must be uptodate, and I can't do it all myself. 
       Proposals should be entered as such, votes should have listed all 
