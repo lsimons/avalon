@@ -1,0 +1,56 @@
+<project name="home" default="install" basedir="."> 
+
+  <property environment="env"/>
+  <property name="ant.home" value="${env.ANT_HOME}"/>
+
+  <property name="src" value="src"/>
+  <property name="src.main" value="main"/>
+  <property name="src.main.dir" value="${src}/${src.main}"/>
+  <property name="src.test" value="test"/>
+  <property name="src.test.dir" value="${src}/${src.test}"/>
+
+  <property name="target" value="target"/>
+  <property name="target.classes" value="classes"/>
+  <property name="target.classes.dir" value="${target}/${target.classes}"/>
+  <property name="target.test.dir" value="${target}/test"/>
+
+  <property name="toolkit.jar" value="avalon-toolkit.jar"/>
+
+  <target name="prepare">
+    <tstamp/>
+    <mkdir dir="${target.classes.dir}"/>
+    <copy toDir="${target.classes.dir}">
+      <fileset dir="${src.main.dir}">
+        <include name="**/*.xml"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="compile" depends="prepare">
+    <javac srcdir="${src.main.dir}" destdir="${target.classes.dir}"/> 
+  </target>
+
+  <target name="jar" depends="compile">
+    <jar destfile="${target}/${toolkit.jar}" 
+       basedir="${target.classes.dir}" 
+       includes="**/*.class,**/*.xml"/>
+  </target>
+
+  <target name="install" depends="jar">
+    <copy toDir="${ant.home}/lib" 
+       file="${target}/${toolkit.jar}"/>
+  </target>
+
+  <target name="test">
+    <mkdir dir="${target.test.dir}"/>
+    <copy toDir="${target.test.dir}">
+      <fileset dir="${src.test.dir}"/>
+    </copy>
+    <ant dir="${target.test.dir}/projects/demo" />
+  </target>
+
+  <target name="clean">
+    <delete dir="${target}"/> 
+  </target>
+
+</project>

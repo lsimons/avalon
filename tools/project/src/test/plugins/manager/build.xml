@@ -1,0 +1,7 @@
+
+<project name="manager" default="" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools"> 
+
+  <x:project index="../../index.xml"/>
+
+</project>

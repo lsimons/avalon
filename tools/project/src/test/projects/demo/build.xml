@@ -1,0 +1,7 @@
+
+<project name="my-demo" default="" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools"> 
+
+  <x:project index="../../index.xml" key="demo"/>
+
+</project>
