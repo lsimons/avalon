@@ -1,0 +1,4 @@
+<project default="jar:jar" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util">
+  <property file="${basedir}/project.properties"/>
+  <property file="${basedir}/../project.properties"/>
+</project>
