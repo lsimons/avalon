@@ -11,6 +11,13 @@
   <ant:property name="pom.organization.identifier" value="ASF"/>
   <ant:property name="pom.specificationVersion" value="1.0"/>
 
+  <goal name="package">
+    <attainGoal name="merlin-clean"/>
+    <attainGoal name="merlin-dist"/>
+    <attainGoal name="merlin-site"/>
+    <attainGoal name="merlin-package"/>
+  </goal>
+
   <goal name="merlin-dist" 
     description="Build the Merlin distribution." >
 
@@ -95,13 +102,12 @@
 
     <ant:chmod file="${merlin.build.inst.dir}/bin/merlin.sh" perm="ugo+rx"/>
 
-  </goal>
+    <ant:copy toDir="${maven.build.dir}">
+      <fileset dir="${basedir}">
+        <include name="INSTALLATION.TXT"/>
+      </fileset>
+    </ant:copy>
 
-  <goal name="package">
-    <attainGoal name="merlin-clean"/>
-    <attainGoal name="merlin-dist"/>
-    <attainGoal name="merlin-site"/>
-    <attainGoal name="merlin-package"/>
   </goal>
 
   <goal name="merlin-package">
