@@ -2,7 +2,7 @@
 <document>
   <properties>
     <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
-    <title>Apache Avalon: Community History</title>
+    <title>Avalon Central</title>
   </properties>
 
 <body>
@@ -30,12 +30,8 @@
     services. This, combined with a move from the Java Apache project
     to the Jakarta project prompted the revision.  At this time the
     kernel code was repackaged under the name Phoenix, core services
-    under the name Cornerstone and the general components were
-    packaged under the name Excalibur.
-</p>
-<p>
-  You may check the historical changes from before splitting Avalon
-  into separate projects <a href="changes.txt">here</a>.
+    under the name Cornerstone and the general utilities were spun-off
+    under the Excalibur project.
 </p>
 
 </section>
