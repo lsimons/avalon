@@ -28,7 +28,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
  * @author Paul Hammant
- * @version $Revision: 1.12 $ $Date: 2002/10/02 19:39:07 $
+ * @version $Revision: 1.13 $ $Date: 2002/10/22 05:58:17 $
  * @deprecated
  */
 public class PhoenixXDoclet extends Task
@@ -37,7 +37,7 @@ public class PhoenixXDoclet extends Task
     private String m_mxinfoSubTask;
     private ManifestSubTask m_manifestSubTask;
     private Class m_metaGenerateQDoxClass;
-    private Object m_metaGenerateQDoxTask;
+    private Object m_MetaGenerateTask;
     private File m_destDir;
 
     private static boolean WARNING_SENT;
@@ -53,8 +53,8 @@ public class PhoenixXDoclet extends Task
         try
         {
             m_metaGenerateQDoxClass =
-                Class.forName("org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateQdoxTask");
-            m_metaGenerateQDoxTask = m_metaGenerateQDoxClass.newInstance();
+                Class.forName("org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateTask");
+            m_MetaGenerateTask = m_metaGenerateQDoxClass.newInstance();
         }
         catch (Exception e)
         {
@@ -84,7 +84,7 @@ public class PhoenixXDoclet extends Task
         "* Defining the task like so...                                                       *",
         "*                                                                                    *",
         "*   <taskdef name=\"generatemeta\"                                                     *",
-        "*     classname=\"org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateQdoxTask\"> *",
+        "*     classname=\"org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateTask\"> *",
         "*     <classpath refid=\"test.class.path\" />                                          *",
         "*   </taskdef>                                                                       *",
         "*                                                                                    *",
@@ -113,7 +113,7 @@ public class PhoenixXDoclet extends Task
         {
             Method addFileSet =
                     m_metaGenerateQDoxClass.getMethod("addFileset", new Class[] {FileSet.class});
-            addFileSet.invoke(m_metaGenerateQDoxTask, new Object[] {set});
+            addFileSet.invoke(m_MetaGenerateTask, new Object[] {set});
 
         }
         catch (InvocationTargetException ite)
@@ -146,7 +146,7 @@ public class PhoenixXDoclet extends Task
         try
         {
             Method setDir = m_metaGenerateQDoxClass.getMethod("setDest", new Class[] {File.class});
-            setDir.invoke(m_metaGenerateQDoxTask, new Object[] {dir});
+            setDir.invoke(m_MetaGenerateTask, new Object[] {dir});
 
         }
         catch (InvocationTargetException ite)
@@ -240,7 +240,7 @@ public class PhoenixXDoclet extends Task
         {
 
             Method execute = m_metaGenerateQDoxClass.getMethod("execute", new Class[] {});
-            execute.invoke(m_metaGenerateQDoxTask, new Object[] {});
+            execute.invoke(m_MetaGenerateTask, new Object[] {});
 
         }
         catch (InvocationTargetException ite)
@@ -273,7 +273,7 @@ public class PhoenixXDoclet extends Task
         {
             Method setTaskName = m_metaGenerateQDoxClass.getMethod("setTaskName",
                     new Class[] {String.class});
-            setTaskName.invoke(m_metaGenerateQDoxTask, new Object[] {s});
+            setTaskName.invoke(m_MetaGenerateTask, new Object[] {s});
         }
         catch (InvocationTargetException ite)
         {
@@ -303,7 +303,7 @@ public class PhoenixXDoclet extends Task
         try
         {
             Method init = m_metaGenerateQDoxClass.getMethod("init", new Class[] {});
-            init.invoke(m_metaGenerateQDoxTask, new Object[] {});
+            init.invoke(m_MetaGenerateTask, new Object[] {});
 
         }
         catch (InvocationTargetException ite)
@@ -337,7 +337,7 @@ public class PhoenixXDoclet extends Task
         {
             Method setProject = m_metaGenerateQDoxClass.getMethod("setProject",
                     new Class[] {Project.class});
-            setProject.invoke(m_metaGenerateQDoxTask, new Object[] {project});
+            setProject.invoke(m_MetaGenerateTask, new Object[] {project});
 
         }
         catch (InvocationTargetException ite)
