@@ -119,13 +119,13 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.38 $ $Date: 2003/06/02 14:44:46 $
+ * @version CVS $Revision: 1.39 $ $Date: 2003/06/03 14:48:13 $
  * @since 4.1
  */
-public final class ContextManager
+public class ContextManager
         implements ContextManagerConstants, Initializable, Disposable
 {
-    private static final Configuration EMPTY_CONFIG;
+    protected static final Configuration EMPTY_CONFIG;
 
     static
     {
@@ -719,6 +719,7 @@ public final class ContextManager
         manager.makeReadOnly();
 
         m_containerManagerContext.put( SERVICE_MANAGER, manager );
+        m_childContext.put( SERVICE_MANAGER, manager );
     }
 
     /**
