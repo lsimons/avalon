@@ -153,7 +153,7 @@ public class Hierarchy
      * Default Error Handler is stderr.
      *
      * @param message a message to log
-     * @param t a Throwable to log
+     * @param throwable a Throwable to log
      * @deprecated Logging components should use ErrorHandler rather than Hierarchy.log()
      */
     public void log( final String message, final Throwable throwable )
