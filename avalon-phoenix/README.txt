@@ -12,7 +12,23 @@
   Where is it?
   ------------
 
-  http://jakarta.apache.org/avalon
+  http://jakarta.apache.org/avalon/phoenix
+
+  What is related to it?
+  ----------------------
+
+  http://jakarta.apache.org/avalon - the parent project for Phoenix.
+
+  http://jakarta.apache.org/avalon/framework - a service framework initiative.
+  
+  http://jakarta.apache.org/avalon/cornerstone - a set of reusable components that 
+  Phoenix server applications may use.
+
+  http://jakarta.apache.org/avalon/apps - a set of complete and in-progress
+  applications for Phoenix.
+
+  http://jakarta.apache.org/james - a mail server that runs as a Phoenix 
+  server application.
 
   Requirements
   ------------
@@ -21,6 +37,10 @@
   -To build form CVS you must set JAVA_HOME to the jdk dir (eg:/usr/bin/jdk1.3 or 
    c:\jdk1.3)
    
+  Note for JDK1.4 users, please remove xerces.jar from Phoenix's lib dir.  This is 
+  because JDK 1.4 comes with xerces, and Phoenix may object to two versions in the 
+  classpath.   
+   
   Distribution
   ------------
   Distribution contains the following:
@@ -28,7 +48,7 @@
   -phoenix-loader.jar       Phoenix loader
 
   Distributions built above JDK1.3 will include the following:
-  -xerces.jar               Any SAX2 parser will work. By default xerces is used.
+  -xerces.jar               Any SAX2 parser will work. By default Xerces is used.
 
   Installation Instructions and Documentation
   -------------------------------------------
