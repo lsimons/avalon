@@ -128,6 +128,26 @@ public class DefaultConfiguration
         return m_location;
     }
 
+
+    /**
+     * Returns the value of the configuration element as a <code>String</code>.
+     *
+     * @param defaultValue the default value to return if value malformed or empty
+     * @return a <code>String</code> value
+     * @exception ConfigurationException If the value is not present.
+     */
+    public String getValue( final String defaultValue ) 
+    {
+        if( null != m_value )
+        {
+            return m_value;
+        }
+        else
+        {
+            return defaultValue;
+        }
+    }
+
     /**
      * Returns the value of the configuration element as a <code>String</code>.
      *
