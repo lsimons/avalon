@@ -82,8 +82,8 @@
       <util:file var="jarFile" name="${maven.build.dir}/jars/${path}.jar"/>
       <j:if test="${jarFile.exists()}">
         <checksum file="${jarFile}"/>
-        <j:if test="${maven.gpg.exec != null}">
-          <ant:exec executable="${maven.gpg.exec}">
+        <j:if test="${maven.gpg.exe != ''}">
+          <ant:exec executable="${maven.gpg.exe}">
             <ant:arg value="--armour"/>
             <ant:arg value="--yes"/>
             <ant:arg value="-b"/>
@@ -94,8 +94,8 @@
       <util:file var="metaFile" name="${maven.build.dir}/jars/${path}.jar.meta"/>
       <j:if test="${metaFile.exists()}">
         <checksum file="${metaFile}"/>
-        <j:if test="${maven.gpg.exec != null}">
-          <ant:exec executable="${maven.gpg.exec}">
+        <j:if test="${maven.gpg.exe != ''}">
+          <ant:exec executable="${maven.gpg.exe}">
             <ant:arg value="--armour"/>
             <ant:arg value="--yes"/>
             <ant:arg value="-b"/>
@@ -194,22 +194,26 @@
     />
     <ant:delete file="${maven.dist.dir}/${binary.name}.tar"/>
     <checksum file="${maven.dist.dir}/${binary.name}.tar.gz"/>
-    <ant:exec executable="${maven.gpg.exec}">
-      <ant:arg value="--armour"/>
-      <ant:arg value="-b"/>
-      <ant:arg value="${maven.dist.dir}/${binary.name}.tar.gz"/>
-    </ant:exec>
+    <j:if test="${maven.gpg.exe != ''}">
+      <ant:exec executable="${maven.gpg.exe}">
+        <ant:arg value="--armour"/>
+        <ant:arg value="-b"/>
+        <ant:arg value="${maven.dist.dir}/${binary.name}.tar.gz"/>
+      </ant:exec>
+    </j:if>
 
     <!-- Create a zip file -->
     <ant:zip zipfile="${maven.dist.dir}/${binary.name}.zip">
       <ant:zipfileset dir="${maven.dist.bin.archive.dir}"/>
     </ant:zip>
     <checksum file="${maven.dist.dir}/${binary.name}.zip"/>
-    <ant:exec executable="${maven.gpg.exec}">
-      <ant:arg value="--armour"/>
-      <ant:arg value="-b"/>
-      <ant:arg value="${maven.dist.dir}/${binary.name}.zip"/>
-    </ant:exec>
+    <j:if test="${maven.gpg.exe != ''}">
+      <ant:exec executable="${maven.gpg.exe}">
+        <ant:arg value="--armour"/>
+        <ant:arg value="-b"/>
+        <ant:arg value="${maven.dist.dir}/${binary.name}.zip"/>
+      </ant:exec>
+    </j:if>
   </goal>
 
   <goal
@@ -227,22 +231,26 @@
     />
     <ant:delete file="${maven.dist.dir}/${source.name}.tar"/>
     <checksum file="${maven.dist.dir}/${source.name}.tar.gz"/>
-    <ant:exec executable="${maven.gpg.exec}">
-      <ant:arg value="--armour"/>
-      <ant:arg value="-b"/>
-      <ant:arg value="${maven.dist.dir}/${source.name}.tar.gz"/>
-    </ant:exec>
+    <j:if test="${maven.gpg.exe != ''}">
+      <ant:exec executable="${maven.gpg.exe}">
+        <ant:arg value="--armour"/>
+        <ant:arg value="-b"/>
+        <ant:arg value="${maven.dist.dir}/${source.name}.tar.gz"/>
+      </ant:exec>
+    </j:if>
 
     <!-- Create a zip file -->
     <ant:zip zipfile="${maven.dist.dir}/${source.name}.zip">
       <ant:zipfileset dir="${maven.dist.src.archive.dir}"/>
     </ant:zip>
     <checksum file="${maven.dist.dir}/${source.name}.zip"/>
-    <ant:exec executable="${maven.gpg.exec}">
-      <ant:arg value="--armour"/>
-      <ant:arg value="-b"/>
-      <ant:arg value="${maven.dist.dir}/${source.name}.zip"/>
-    </ant:exec>
+    <j:if test="${maven.gpg.exe != ''}">
+      <ant:exec executable="${maven.gpg.exe}">
+        <ant:arg value="--armour"/>
+        <ant:arg value="-b"/>
+        <ant:arg value="${maven.dist.dir}/${source.name}.zip"/>
+      </ant:exec>
+    </j:if>
   </goal>
 
   <goal
