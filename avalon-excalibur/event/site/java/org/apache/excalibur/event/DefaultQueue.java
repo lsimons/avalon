@@ -7,7 +7,7 @@
  */
 package org.apache.avalon.excalibur.event;
 
-import org.apache.avalon.excalibur.collections.CircularBuffer;
+import org.apache.avalon.excalibur.collections.AvalonBuffer;
 import org.apache.avalon.excalibur.concurrent.Mutex;
 
 /**
@@ -18,7 +18,7 @@ import org.apache.avalon.excalibur.concurrent.Mutex;
  */
 public final class DefaultQueue extends AbstractQueue
 {
-    private final CircularBuffer m_elements;
+    private final AvalonBuffer m_elements;
     private final Mutex     m_mutex;
     private       int       m_reserve;
     private final int       m_maxSize;
@@ -29,12 +29,12 @@ public final class DefaultQueue extends AbstractQueue
 
         if ( size > 0 )
         {
-            m_elements = new CircularBuffer( size );
+            m_elements = new AvalonBuffer( size );
             maxSize = size;
         }
         else
         {
-            m_elements = new CircularBuffer();
+            m_elements = new AvalonBuffer();
             maxSize = -1;
         }
 
@@ -50,7 +50,7 @@ public final class DefaultQueue extends AbstractQueue
 
     public int size()
     {
-        return m_elements.getContentSize();
+        return m_elements.size();
     }
 
     public int maxSize()
@@ -98,7 +98,7 @@ public final class DefaultQueue extends AbstractQueue
                 return false;
             }
 
-            m_elements.append( element );
+            m_elements.add( element );
             success = true;
         }
         catch ( InterruptedException ie )
@@ -127,7 +127,7 @@ public final class DefaultQueue extends AbstractQueue
 
             for ( int i = 0; i < len; i++ )
             {
-                m_elements.append( elements[i] );
+                m_elements.add( elements[i] );
             }
         }
         catch ( InterruptedException ie )
@@ -150,7 +150,7 @@ public final class DefaultQueue extends AbstractQueue
                 throw new SourceFullException("Not enough room to enqueue these elements.");
             }
 
-            m_elements.append( element );
+            m_elements.add( element );
         }
         catch ( InterruptedException ie )
         {
@@ -185,7 +185,7 @@ public final class DefaultQueue extends AbstractQueue
 
             for ( int i = 0; i < arraySize; i++ )
             {
-                elements[i] = (QueueElement) m_elements.get();
+                elements[i] = (QueueElement) m_elements.remove();
             }
         }
         catch ( InterruptedException ie )
@@ -211,7 +211,7 @@ public final class DefaultQueue extends AbstractQueue
 
             for ( int i = 0; i < elements.length; i++ )
             {
-                elements[i] = (QueueElement) m_elements.get();
+                elements[i] = (QueueElement) m_elements.remove();
             }
         }
         catch ( InterruptedException ie )
@@ -235,7 +235,7 @@ public final class DefaultQueue extends AbstractQueue
 
             if ( size() > 0 )
             {
-                element = (QueueElement) m_elements.get();
+                element = (QueueElement) m_elements.remove();
             }
         }
         catch ( InterruptedException ie )
