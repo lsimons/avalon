@@ -393,8 +393,8 @@
 
     <!-- Creates the distribution -->
     <target name="dist"
-        depends="dist-jar, test-reports, checkstyle-report, javadocs"
-        description="Generates a distribution (jar + javadocs + unit tests + checkstyle reports)">
+        depends="dist-jar, test-reports, checkstyle-report, site"
+        description="Generates a distribution (jar + docs + javadocs + unit tests + checkstyle reports)">
 
 
         <copy file="${build.conf}/LICENSE.txt" todir="${dist.dir}"/>
@@ -404,6 +404,7 @@
 
         <zip zipfile="${dist.base}/${dist.name}-bin.zip" compress="true">
             <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
+            <zipfileset dir="${docs.dir}" prefix="${dist.name}/docs"/>
         </zip>
 
         <!--
