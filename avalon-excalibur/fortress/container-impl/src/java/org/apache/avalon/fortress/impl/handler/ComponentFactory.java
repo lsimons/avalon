@@ -72,7 +72,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.19 $ $Date: 2003/03/22 12:46:33 $
+ * @version CVS $Revision: 1.20 $ $Date: 2003/04/03 13:43:51 $
  * @since 4.0
  */
 public class ComponentFactory
@@ -131,7 +131,9 @@ public class ComponentFactory
         m_configuration = configuration;
         m_serviceManager = serviceManager;
         m_context = new DefaultContext( context );
-        ( (DefaultContext)m_context ).put( "component.name", configuration.getAttribute( "id", componentClass.getName() ) );
+        final String name = configuration.getAttribute( "id", componentClass.getName() );
+        ( (DefaultContext)m_context ).put( "component.name", name );
+        ( (DefaultContext)m_context ).put( "component.logger", configuration.getAttribute( "logger", name ) );
         ( (DefaultContext)m_context ).makeReadOnly();
         m_loggerManager = loggerManager;
         m_extManager = extManager;
@@ -206,7 +208,7 @@ public class ComponentFactory
         
         try
         {
-            final String name = (String)m_context.get("component.name");
+            final String name = (String)m_context.get("component.logger");
             if( getLogger().isDebugEnabled() )
             {
                 final String message = "logger name is " + name;

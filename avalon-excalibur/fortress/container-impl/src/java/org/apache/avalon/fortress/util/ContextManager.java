@@ -115,7 +115,7 @@ import org.apache.log.Priority;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.14 $ $Date: 2003/03/29 18:53:24 $
+ * @version CVS $Revision: 1.15 $ $Date: 2003/04/03 13:43:52 $
  * @since 4.1
  */
 public class ContextManager
@@ -720,8 +720,8 @@ public class ContextManager
             }
 
             // Resolve a name for the logger, taking the logPrefix into account
-            String lmDefaultLoggerName = "";
-            String lmLoggerName = loggerManagerConfig.getAttribute( "logger", "system.logkit" );
+            String lmDefaultLoggerName = (String)m_rootContext.get( ContextManagerConstants.LOG_CATEGORY );
+            String lmLoggerName = loggerManagerConfig.getAttribute( "logger", lmDefaultLoggerName + ".system.logkit" );
 
             // Create the default logger for the Logger Manager.
             org.apache.log.Logger lmDefaultLogger =
