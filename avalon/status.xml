@@ -10,7 +10,9 @@
     <person name="Leif Mortenson" email="leif@apache.org" id="LM"/>
     <person name="Carston Ziegeler" email="cziegeler@apache.org" id="CZ"/>
   </devs>
-    <release version="4.1.4" date="current">
+    <release version="4.1.5" date="current">
+    </release>
+    <release version="4.1.4" date="March 6, 2003">
       <action dev="BL" type="remove">
         Remove the hard deprecation on the o.a.a.f.component package.  It
         has been replaced by a softer form of deprecation (i.e. just notes
