@@ -168,7 +168,10 @@ Legal:
            debug="${debug}"
            optimize="${optimize}"
            deprecation="${deprecation}">
-      <classpath refid="project.class.path" />
+      <classpath>
+        <path refid="project.class.path" />
+        <path refid="tools.class.path"/>
+      </classpath>
       <src path="${test.dir}"/>
       <src path="${compat.dir}"/>
       <exclude name="org/apache/log/output/ServletOutputLogTarget.java"
