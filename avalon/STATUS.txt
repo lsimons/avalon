@@ -1,5 +1,5 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2003/02/01 09:59:48 $]
+Last modified at [$Date: 2003/02/01 10:01:43 $]
 
 Background:
 
@@ -180,39 +180,31 @@ could arise also from the answers to the following and other questions:
        
       - Should we have a minimum set of requirements before components
         are released?
-        +0: nicolaken
 
       - If yes to above then which things should be part of minimum
         requirements?
 
         documentation: require basic overview and user docs
-        +0: nicolaken
 
         uptodate website: require website be updated to latest release
                           but may still host previous release docs.
-        +0: nicolaken
 
         unit tests: (okay so this will never get consensus but ...)
-        +0: nicolaken
 
         versioning standard: derived from
             http://apr.apache.org/versioning.html
             http://jakarta.apache.org/commons/versioning.html
-        +0: nicolaken
 
         release process: derived from
           http://jakarta.apache.org/commons/releases.html
           http://jakarta.apache.org/turbine/maven/development/release-process.html
           http://cvs.apache.org/viewcvs.cgi/jakarta-ant/ReleaseInstructions?rev=1.9.2.1&content-type=text/vnd.viewcvs-markup
-        +0 nicolaken
 
         deprecation process: (java specific?)
           http://jakarta.apache.org/turbine/maven/development/deprecation.html
-        +0: nicolaken
 
         CVS/Subversion branching:
           http://jakarta.apache.org/turbine/maven/development/branches.html
-        +0: nicolaken
 
 
 Assets:
