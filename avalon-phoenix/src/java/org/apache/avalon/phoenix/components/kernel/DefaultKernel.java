@@ -9,6 +9,7 @@ package org.apache.avalon.phoenix.components.kernel;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Map;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.CascadingException;
@@ -240,12 +241,14 @@ public class DefaultKernel
     public void addApplication( final SarMetaData metaData,
                                 final File workDirectory,
                                 final ClassLoader classLoader,
-                                final Logger logger )
+                                final Logger logger,
+                                final Map classloaders )
         throws Exception
     {
         final String name = metaData.getName();
         final SarEntry entry =
-            new SarEntry( metaData, workDirectory, classLoader, logger );
+            new SarEntry( metaData, workDirectory, classLoader,
+                          logger, classloaders );
         m_entries.put( name, entry );
 
         try
@@ -270,7 +273,8 @@ public class DefaultKernel
             new DefaultApplicationContext( metaData,
                                            entry.getWorkDirectory(),
                                            entry.getClassLoader(),
-                                           entry.getLogger() );
+                                           entry.getLogger(),
+                                           entry.getClassLoaders() );
 
         ContainerUtil.enableLogging( context, createContextLogger( name ) );
         ContainerUtil.service( context, createServiceManager() );

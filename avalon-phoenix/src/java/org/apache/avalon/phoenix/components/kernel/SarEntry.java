@@ -8,6 +8,7 @@
 package org.apache.avalon.phoenix.components.kernel;
 
 import java.io.File;
+import java.util.Map;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
@@ -19,16 +20,18 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
  */
 final class SarEntry
 {
-    private SarMetaData m_metaData;
-    private ClassLoader m_classLoader;
+    private final SarMetaData m_metaData;
+    private final ClassLoader m_classLoader;
+    private final Logger m_logger;
+    private final File m_workDirectory;
+    private final Map m_classLoaders;
     private Application m_application;
-    private Logger m_logger;
-    private File m_workDirectory;
 
     protected SarEntry( final SarMetaData metaData,
                         final File workDirectory,
                         final ClassLoader classLoader,
-                        final Logger logger )
+                        final Logger logger,
+                        final Map classLoaders )
     {
         if( null == metaData )
         {
@@ -46,11 +49,16 @@ final class SarEntry
         {
             throw new NullPointerException( "workDirectory" );
         }
+        if( null == classLoaders )
+        {
+            throw new NullPointerException( "classLoaders" );
+        }
 
         m_metaData = metaData;
         m_classLoader = classLoader;
         m_logger = logger;
         m_workDirectory = workDirectory;
+        m_classLoaders = classLoaders;
     }
 
     public File getWorkDirectory()
@@ -81,5 +89,10 @@ final class SarEntry
     public ClassLoader getClassLoader()
     {
         return m_classLoader;
+    }
+
+    public Map getClassLoaders()
+    {
+        return m_classLoaders;
     }
 }

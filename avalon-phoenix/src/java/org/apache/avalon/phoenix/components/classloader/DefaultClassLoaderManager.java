@@ -28,6 +28,7 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
+import org.apache.avalon.phoenix.interfaces.ClassLoaderSet;
 import org.apache.excalibur.loader.builder.LoaderBuilder;
 import org.apache.excalibur.loader.builder.LoaderResolver;
 import org.apache.excalibur.loader.metadata.ClassLoaderMetaData;
@@ -35,6 +36,7 @@ import org.apache.excalibur.loader.metadata.ClassLoaderSetMetaData;
 import org.apache.excalibur.loader.metadata.FileSetMetaData;
 import org.apache.excalibur.loader.metadata.JoinMetaData;
 import org.apache.excalibur.loader.verifier.ClassLoaderVerifier;
+import org.apache.excalibur.loader.reader.ClassLoaderSetReader;
 import org.apache.excalibur.policy.builder.PolicyBuilder;
 import org.apache.excalibur.policy.metadata.PolicyMetaData;
 import org.apache.excalibur.policy.reader.PolicyReader;
@@ -81,6 +83,12 @@ public class DefaultClassLoaderManager
      * Utility class to build map of {@link ClassLoader} objects.
      */
     private final LoaderBuilder m_builder = new LoaderBuilder();
+
+    /**
+     * Utility class to read {@link ClassLoaderSetMetaData} objects
+     * from XML trees.
+     */
+    private final ClassLoaderSetReader m_reader = new ClassLoaderSetReader();
 
     /**
      * The map of predefined ClassLoaders. In the current incarnation this only
@@ -135,17 +143,14 @@ public class DefaultClassLoaderManager
      * {@link ClassLoader}.
      *
      * @param environment the configuration "environment.xml" for the application
-     * @param source the source of application. (usually the name of the .sar file
-     *               or else the same as baseDirectory)
      * @param homeDirectory the base directory of application
      * @param workDirectory the work directory of application
      * @return the ClassLoader created
      * @throws Exception if an error occurs
      */
-    public ClassLoader createClassLoader( final Configuration environment,
-                                          final File source,
-                                          final File homeDirectory,
-                                          final File workDirectory )
+    public ClassLoaderSet createClassLoaderSet( final Configuration environment,
+                                                final File homeDirectory,
+                                                final File workDirectory )
         throws Exception
     {
         //Configure policy
@@ -164,7 +169,9 @@ public class DefaultClassLoaderManager
         setupLogger( resolver );
         final Map map =
             m_builder.buildClassLoaders( metaData, resolver, m_predefinedLoaders );
-        return (ClassLoader)map.get( metaData.getDefault() );
+        final ClassLoader defaultClassLoader =
+            (ClassLoader)map.get( metaData.getDefault() );
+        return new ClassLoaderSet( defaultClassLoader, map );
     }
 
     /**
@@ -176,6 +183,7 @@ public class DefaultClassLoaderManager
      * @return the {@link ClassLoaderMetaData} object
      */
     private ClassLoaderSetMetaData getLoaderMetaData( final Configuration environment )
+        throws Exception
     {
         final boolean loaderDefined = isClassLoaderDefined( environment );
         if( !loaderDefined )
@@ -184,7 +192,9 @@ public class DefaultClassLoaderManager
         }
         else
         {
-            throw new IllegalStateException( "Not implemented yet");
+            final Configuration loaderConfig = environment.getChild( "classloader" );
+            final Element element = ConfigurationUtil.toElement( loaderConfig );
+            return m_reader.build( element );
         }
     }
 

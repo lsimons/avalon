@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Map;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Initializable;
@@ -71,6 +72,11 @@ class DefaultApplicationContext
     private final File m_workDirectory;
 
     /**
+     * The map containing all the named loaders.
+     */
+    private final Map m_loaders;
+
+    /**
      * The kernel associate with context
      */
     private Kernel m_kernel;
@@ -78,7 +84,8 @@ class DefaultApplicationContext
     protected DefaultApplicationContext( final SarMetaData metaData,
                                          final File workDirectory,
                                          final ClassLoader classLoader,
-                                         final Logger hierarchy )
+                                         final Logger hierarchy,
+                                         final Map loaders )
     {
         if( null == metaData )
         {
@@ -101,6 +108,7 @@ class DefaultApplicationContext
         m_classLoader = classLoader;
         m_hierarchy = hierarchy;
         m_workDirectory = workDirectory;
+        m_loaders = loaders;
 
         final DefaultThreadContextPolicy policy = new DefaultThreadContextPolicy();
         final HashMap map = new HashMap( 1 );
@@ -274,6 +282,20 @@ class DefaultApplicationContext
                                component );
             throw new ConfigurationException( message );
         }
+    }
+
+    public ClassLoader getClassLoader( final String name )
+        throws Exception
+    {
+        final ClassLoader classLoader = (ClassLoader)m_loaders.get(name);
+        if( null == classLoader )
+        {
+            final String message =
+                REZ.getString( "applicationcontext.error.noloader",
+                               name );
+            throw new Exception( message );
+        }
+        return classLoader;
     }
 
     /**

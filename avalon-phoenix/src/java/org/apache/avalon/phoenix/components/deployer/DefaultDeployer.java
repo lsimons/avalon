@@ -36,6 +36,7 @@ import org.apache.avalon.phoenix.interfaces.InstallationException;
 import org.apache.avalon.phoenix.interfaces.Installer;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.LogManager;
+import org.apache.avalon.phoenix.interfaces.ClassLoaderSet;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
@@ -77,14 +78,14 @@ public class DefaultDeployer
     public void service( final ServiceManager serviceManager )
         throws ServiceException
     {
-        m_kernel = (Kernel) serviceManager.lookup( Kernel.ROLE );
-        m_repository = (ConfigurationRepository) serviceManager.
+        m_kernel = (Kernel)serviceManager.lookup( Kernel.ROLE );
+        m_repository = (ConfigurationRepository)serviceManager.
             lookup( ConfigurationRepository.ROLE );
-        m_classLoaderManager = (ClassLoaderManager) serviceManager.
+        m_classLoaderManager = (ClassLoaderManager)serviceManager.
             lookup( ClassLoaderManager.ROLE );
-        m_logManager = (LogManager) serviceManager.lookup( LogManager.ROLE );
-        m_validator = (ConfigurationValidator) serviceManager.lookup( ConfigurationValidator.ROLE );
-        m_installer = (Installer) serviceManager.lookup( Installer.ROLE );
+        m_logManager = (LogManager)serviceManager.lookup( LogManager.ROLE );
+        m_validator = (ConfigurationValidator)serviceManager.lookup( ConfigurationValidator.ROLE );
+        m_installer = (Installer)serviceManager.lookup( Installer.ROLE );
     }
 
     public void initialize()
@@ -102,7 +103,7 @@ public class DefaultDeployer
     {
         final Set set = m_installations.keySet();
         final String[] applications =
-            (String[]) set.toArray( new String[ set.size() ] );
+            (String[])set.toArray( new String[ set.size() ] );
         for( int i = 0; i < applications.length; i++ )
         {
             final String name = applications[ i ];
@@ -131,7 +132,7 @@ public class DefaultDeployer
         throws DeploymentException
     {
         final Installation installation =
-            (Installation) m_installations.get( name );
+            (Installation)m_installations.get( name );
         if( null == installation )
         {
             final String message =
@@ -160,7 +161,7 @@ public class DefaultDeployer
         throws DeploymentException
     {
         final Installation installation =
-            (Installation) m_installations.remove( name );
+            (Installation)m_installations.remove( name );
         if( null == installation )
         {
             final String message =
@@ -247,11 +248,11 @@ public class DefaultDeployer
 
             final File directory = installation.getDirectory();
 
-            final ClassLoader classLoader =
-                m_classLoaderManager.createClassLoader( environment,
-                                                        installation.getSource(),
-                                                        installation.getDirectory(),
-                                                        installation.getWorkDirectory() );
+            final ClassLoaderSet classLoaderSet =
+                m_classLoaderManager.createClassLoaderSet( environment,
+                                                           installation.getDirectory(),
+                                                           installation.getWorkDirectory() );
+            final ClassLoader classLoader = classLoaderSet.getDefaultClassLoader();
             //assemble all the blocks for application
             final SarMetaData metaData =
                 m_assembler.assembleSar( name, assembly, directory, classLoader );
@@ -271,7 +272,8 @@ public class DefaultDeployer
             m_kernel.addApplication( metaData,
                                      installation.getWorkDirectory(),
                                      classLoader,
-                                     logger );
+                                     logger,
+                                     classLoaderSet.getClassLoaders() );
 
             m_installations.put( metaData.getName(), installation );
 

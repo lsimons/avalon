@@ -20,7 +20,7 @@ import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
 /**
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/10/02 11:25:56 $
+ * @version $Revision: 1.3 $ $Date: 2002/11/01 08:23:31 $
  */
 class MockApplicationContext
     implements ApplicationContext
@@ -77,6 +77,12 @@ class MockApplicationContext
         throws ConfigurationException
     {
         throw new ConfigurationException( "I can't do that dave!" );
+    }
+
+    public ClassLoader getClassLoader( String name )
+        throws Exception
+    {
+        throw new Exception( "I can't do that dave!" );
     }
 
     public Logger getLogger( String name )
