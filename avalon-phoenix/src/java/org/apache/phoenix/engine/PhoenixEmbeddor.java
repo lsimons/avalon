@@ -27,6 +27,7 @@ import org.apache.avalon.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.context.Contextualizable;
 import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.avalon.parameters.ParameterException;
+import org.apache.avalon.parameters.Parameterizable;
 import org.apache.avalon.parameters.Parameters;
 import org.apache.log.LogKit;
 import org.apache.log.LogTarget;
@@ -393,12 +394,14 @@ public class PhoenixEmbeddor
     {
         setupLogger( m_systemManager );
 
-        if( m_systemManager instanceof Configurable )
+        if( m_systemManager instanceof Parameterizable )
         {
-            final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
-            final String kernelConfigLocation =
-                m_parameters.getParameter( "manager-configuration-source", null );
-            final Configuration configuration = builder.build( kernelConfigLocation );
+            ((Parameterizable)m_systemManager).parameterize( m_parameters );
+        }
+        else if( m_systemManager instanceof Configurable )
+        {
+            final String location = m_parameters.getParameter( "manager-configuration-source", null );
+            final Configuration configuration = getConfigurationFor( location );
 
             ((Configurable)m_systemManager).configure( configuration );
         }
@@ -409,7 +412,7 @@ public class PhoenixEmbeddor
         }
         catch( final Exception e )
         {
-            getLogger().fatalError( "There was a fatal error; " + 
+            getLogger().fatalError( "There was a fatal error; " +
                                     "phoenix's SystemManager could not be started", e );
             throw e;
         }
@@ -452,17 +455,25 @@ public class PhoenixEmbeddor
         if( m_kernel instanceof Composable )
         {
             final DefaultComponentManager componentManager = new DefaultComponentManager();
-            componentManager.put( "org.apache.avalon.atlantis.SystemManager", 
-                                  (SystemManager)m_systemManager );
+            componentManager.put( "org.apache.avalon.atlantis.SystemManager", m_systemManager );
             ((Composable)m_kernel).compose( componentManager );
         }
 
+        /*
+          if( m_kernel instanceof Parameterizable )
+          {
+          final String location = m_parameters.getParameter( "kernel-parameters-source", null );
+          final Parameters parameters = getParametersFor( location );
+
+          ((Parameterizable)m_kernel).parameterize( parameters );
+          }
+          else
+        */
+
         if( m_kernel instanceof Configurable )
         {
-            final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
-            final String kernelConfigLocation =
-                m_parameters.getParameter( "kernel-configuration-source", null );
-            final Configuration configuration = builder.build( kernelConfigLocation );
+            final String location = m_parameters.getParameter( "kernel-configuration-source", null );
+            final Configuration configuration = getConfigurationFor( location );
 
             ((Configurable)m_kernel).configure( configuration );
         }
@@ -476,5 +487,19 @@ public class PhoenixEmbeddor
             getLogger().fatalError( "There was a fatal error; phoenix could not be started", e );
             throw e;
         }
+    }
+
+    /**
+     * Helper method to retrieve configuration from a location on filesystem.
+     *
+     * @param location the location of configuration
+     * @return the configuration
+     * @exception Exception if an error occurs
+     */
+    private Configuration getConfigurationFor( final String location )
+        throws Exception
+    {
+        final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+        return builder.build( location );
     }
 }
