@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
 
@@ -7,7 +10,7 @@
   <name>Merlin JMX RMI Test Case</name>
   <package>my.avalon.jmx</package>
 
-  <currentVersion>1.0</currentVersion>
+  <currentVersion>&merlin-jmx-demo-version;</currentVersion>
   <inceptionYear>2003</inceptionYear>
   <shortDescription>Test for the Merlin RMI JMX Connection.</shortDescription>
 
