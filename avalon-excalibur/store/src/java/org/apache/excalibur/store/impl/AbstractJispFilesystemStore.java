@@ -73,7 +73,7 @@ import org.apache.excalibur.store.Store;
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.1 2003/11/09 12:47:17 leosimons Exp $
+ * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.2 2003/12/11 16:48:45 leosutic Exp $
  */
 public abstract class AbstractJispFilesystemStore
 extends AbstractReadWriteStore
@@ -233,7 +233,7 @@ implements Store, ThreadSafe {
                         getLogger().debug("clear(): Removing key: " + tmp.toString());
                     }
                     iter.moveNext();
-                    this.remove( tmp );
+                    this.doRemove( tmp );
                 }
             } 
             while (tmp != null);
