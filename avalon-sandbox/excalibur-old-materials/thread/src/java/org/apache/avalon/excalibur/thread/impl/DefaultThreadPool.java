@@ -97,6 +97,17 @@ public class DefaultThreadPool
         m_pool = new BasicThreadPool( this, name, m_underlyingPool, context );
     }
 
+    public DefaultThreadPool( final String name,
+                              final int min,
+			      final int max,
+                              final ThreadContext context )
+        throws Exception
+    {
+        super( name );
+        m_underlyingPool = new SoftResourceLimitingPool( this, min, max );
+        m_pool = new BasicThreadPool( this, name, m_underlyingPool, context );
+    }
+
     public void setLogger( final org.apache.log.Logger logger )
     {
         enableLogging( new LogKitLogger( logger ) );
