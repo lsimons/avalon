@@ -535,6 +535,56 @@ public class Parameters
         m_readOnly = true;
     }
 
+   /**
+    * Compare this parameters instance with the supplied object for equality.
+    *
+    * The equality is mainly driven by the underlying HashMap which forms the
+    * basis of the class. I.e. if the underlying HashMaps are equal and the
+    * Readonly attributes are equal in the Parameters instances being compared,
+    * then this method returns equality.
+    *
+    * @param other the object to compare this parameters instance with
+    *
+    * @since 4.3
+    *
+    * @return true if this parameters instance is equal to the supplied object
+    */
+    public boolean equals( Object other )
+    {
+        if( null == other ) 
+            return false;
+          
+        if( !( other instanceof Parameters ) )
+            return false;
+            
+        Parameters p = (Parameters) other;
+        if( m_readOnly != p.m_readOnly )
+            return false;
+        return m_parameters.equals( p.m_parameters );
+    }
+
+   /**
+    * Returns a hashed value of the Parameters instance. 
+    * 
+    * This method returns a semi-unique value for all instances, yet an
+    * identical value for instances where equals() returns true.
+    *
+    * @since 4.3
+    *
+    * @return a hashed value of the instance
+    */
+    public int hashCode()
+    {
+        int hash = m_parameters.hashCode();
+        hash >>>= ( m_readOnly ) ? 7 : 13;
+        return hash;
+    }
+    
+    public String toString()
+    {
+        return "Parameters[" + ( m_readOnly ? "r/o]" : "r/w]:" ) + m_parameters;
+    }
+
     /**
      * Checks is this <code>Parameters</code> object is writeable.
      *
