@@ -18,7 +18,7 @@
 <project>
     <extend>${basedir}/../project.xml</extend>
 
-    <name>excalibur-thread</name>
+    <name>Excalibur Thread</name>
     <id>excalibur-thread</id>
     <currentVersion>1.1.2</currentVersion>
     <inceptionYear>1997</inceptionYear>

@@ -18,7 +18,7 @@
 <project>
     <extend>${basedir}/../project.xml</extend>
 
-    <name>excalibur-pool</name>
+    <name>Excalibur Pool</name>
     <id>excalibur-pool</id>
     <currentVersion>1.1</currentVersion>
     <inceptionYear>1997</inceptionYear>

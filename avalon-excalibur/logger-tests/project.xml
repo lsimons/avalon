@@ -19,7 +19,7 @@
 <project>
     <extend>${basedir}/../project.xml</extend>
 
-    <name>excalibur-logger-tests</name>
+    <name>Excalibur Logger Tests</name>
     <id>excalibur-logger-tests</id>
     <currentVersion>1.2</currentVersion>
     <inceptionYear>1997</inceptionYear>

@@ -18,7 +18,7 @@
 <project>
     <extend>${basedir}/../project.xml</extend>
 
-    <name>excalibur-compatibility</name>
+    <name>Excalibur Compatibility</name>
     <id>excalibur-compatibility</id>
     <currentVersion>1.2-dev</currentVersion>
     <inceptionYear>1997</inceptionYear>

@@ -18,7 +18,7 @@
 <project>
     <extend>${basedir}/../project.xml</extend>
 
-    <name>excalibur-monitor</name>
+    <name>Excalibur Monitor</name>
     <id>excalibur-monitor</id>
     <currentVersion>1.0.3-dev</currentVersion>
     <inceptionYear>1997</inceptionYear>

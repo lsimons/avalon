@@ -18,7 +18,7 @@
 <project>
     <extend>${basedir}/../../../project-common.xml</extend>
 
-    <name>Excalibur-Component-Manager-Examples</name>
+    <name>ECManager Instrumentation Example</name>
     <id>excalibur-component-examples</id>
     <currentVersion>1.0-dev</currentVersion>
     <inceptionYear>2003</inceptionYear>
