@@ -27,19 +27,27 @@ public interface Deployer
     /**
      * Deploy a resource indicate by url to location.
      *
-     * @param location the location to deploy to
+     * @param name the name of deployment
      * @param url the url of deployment
      * @exception DeploymentException if an error occurs
      */
-    void deploy( String location, URL url )
+    void deploy( String name, URL url )
         throws DeploymentException;
 
     /**
      * undeploy a resource from a location.
      *
-     * @param location the location
+     * @param name the name of deployment
      * @exception DeploymentException if an error occurs
      */
-    void undeploy( String location )
+    void undeploy( String name )
         throws DeploymentException;
+
+    /**
+     * Determine if a deployment has matching name.
+     *
+     * @param name the name of deployment
+     * @return true if deployed by this deployer, false otherwise
+     */
+    //boolean isDeployed( String name );
 }
