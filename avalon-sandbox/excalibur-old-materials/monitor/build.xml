@@ -343,58 +343,17 @@
 
 
     <!-- Prepares the documentation directory -->
-    <target name="docs" depends="setup-filters"> <!-- depends="javadocs" description="Generates the Docs" -->
-      <mkdir dir="${docs.dir}"/>
-
-      <mkdir dir="${build.context}"/>
-      <mkdir dir="${build.xdocs}"/>
-      <mkdir dir="${build.docs}"/>
-      <mkdir dir="${build.dir}/work"/>
-
-      <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
-      <copy todir="${build.context}" filtering="on">
-        <fileset dir="${context.dir}">
-          <exclude name="diagrams/**"/>
-          <exclude name="resources/**"/>
-          <exclude name="xdocs"/>
-        </fileset>
-      </copy>
-
-      <copy todir="${build.context}/xdocs" filtering="on" overwrite="yes">
-        <fileset dir="${xdocs.dir}"/>
-      </copy>
-
-      <copy todir="${build.context}/resources" filtering="off" overwrite="yes">
-        <fileset dir="${context.dir}/resources"/>
-        <fileset dir="${xdocs.dir}">
-          <include name="**/images/**"/>
-        </fileset>
-      </copy>
-
-      <java classname="org.apache.cocoon.Main" fork="true">
-        <arg value="-c${build.context}/"/>
-        <arg value="-d${build.docs}"/>
-        <arg value="-w${build.dir}/work"/>
-        <arg value="-l${build.dir}/work/cocoon.log"/>
-        <arg value="-uINFO"/>
-        <arg value="-f${xdocs.dir}/${dir-name}.uris"/>
-        <classpath>
-          <path refid="tools.class.path"/>
-          <fileset dir="${tools.dir}/ext"/>
-        </classpath>
-      </java>
+    <target name="docs" depends="setup-filters, javadocs" description="Generates the Docs">
+	<ant antfile="${basedir}/../cocoonbuild.xml"/>
 
       <copy todir="${docs.dir}">
         <fileset dir="${build.docs}">
           <include name="**"/>
         </fileset>
-      </copy>
-
-      <!-- hack for stupid transport on api link -->
-      <replace file="${docs.dir}/index.html" token="index.html.xml" value="index.html"/>
+      </copy>    
 
     </target>
-
+    
     <target name="site" depends="javadocs, docs" description=" Places Docs ready for hosting on website">
 
       <mkdir dir="../site/dist/docs/${dir-name}"/>
