@@ -176,6 +176,13 @@ Now starting the incredible......
         maven -Doverride.version=1.3 \
             -Dsend.announce=true avalon:deploy
 
+    For a little more info about building distributions, try
+
+        maven avalon:dist-sign
+
+    which will output the commands you need to use. Unfortunately,
+    you'll still really have to do that manually.
+
     Adding a new component
     ======================
 
