@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.event;
+package org.apache.excalibur.event;
 
 /**
  * A SinkClosedException is thrown when an enqueue operation occurs on a queue

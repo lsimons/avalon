@@ -5,12 +5,12 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.event.test;
+package org.apache.excalibur.event.test;
 
 import junit.framework.TestCase;
-import org.apache.avalon.excalibur.event.PreparedEnqueue;
-import org.apache.avalon.excalibur.event.Queue;
-import org.apache.avalon.excalibur.event.QueueElement;
+import org.apache.excalibur.event.PreparedEnqueue;
+import org.apache.excalibur.event.Queue;
+import org.apache.excalibur.event.QueueElement;
 
 /**
  * The default queue implementation is a variabl size queue.

@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.event;
+package org.apache.excalibur.event;
 
 /**
  * An EventHandler takes care of processing specific events in an Event Based

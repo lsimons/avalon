@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.event;
+package org.apache.excalibur.event;
 
 import org.apache.avalon.excalibur.concurrent.Mutex;
 
@@ -15,7 +15,7 @@ import org.apache.avalon.excalibur.concurrent.Mutex;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public final class FixedSizeQueue 
+public final class FixedSizeQueue
     extends AbstractQueue
 {
     private final QueueElement[] m_elements;

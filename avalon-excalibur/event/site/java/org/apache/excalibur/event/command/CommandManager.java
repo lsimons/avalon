@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.event.command;
+package org.apache.excalibur.event.command;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,12 +15,12 @@ import java.util.Map;
 import org.apache.avalon.excalibur.collections.Buffer;
 import org.apache.avalon.excalibur.collections.VariableSizeBuffer;
 import org.apache.avalon.excalibur.concurrent.Mutex;
-import org.apache.avalon.excalibur.event.DefaultQueue;
-import org.apache.avalon.excalibur.event.EventHandler;
-import org.apache.avalon.excalibur.event.Queue;
-import org.apache.avalon.excalibur.event.QueueElement;
-import org.apache.avalon.excalibur.event.Signal;
-import org.apache.avalon.excalibur.event.Source;
+import org.apache.excalibur.event.DefaultQueue;
+import org.apache.excalibur.event.EventHandler;
+import org.apache.excalibur.event.Queue;
+import org.apache.excalibur.event.QueueElement;
+import org.apache.excalibur.event.Signal;
+import org.apache.excalibur.event.Source;
 
 /**
  * The CommandManager handles asynchronous commands from the rest of the system.

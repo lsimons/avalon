@@ -1,21 +1,21 @@
-package org.apache.avalon.excalibur.event.test;
+package org.apache.excalibur.event.test;
 
 import junit.framework.TestCase;
-import org.apache.avalon.excalibur.event.DefaultQueue;
-import org.apache.avalon.excalibur.event.Queue;
-import org.apache.avalon.excalibur.event.QueueElement;
-import org.apache.avalon.excalibur.event.Sink;
-import org.apache.avalon.excalibur.event.SinkException;
-import org.apache.avalon.excalibur.event.Source;
+import org.apache.excalibur.event.DefaultQueue;
+import org.apache.excalibur.event.Queue;
+import org.apache.excalibur.event.QueueElement;
+import org.apache.excalibur.event.Sink;
+import org.apache.excalibur.event.SinkException;
+import org.apache.excalibur.event.Source;
 
 /**
  * Simple test to expose the thread queue bug
  *
  * @author <a href="mailto:proyal@managingpartners.com">Peter Royal</a>
  * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version VSS $Revision: 1.3 $ $Date: 2002/03/30 21:31:59 $
+ * @version VSS $Revision: 1.4 $ $Date: 2002/05/02 16:26:50 $
  */
-public class ThreadedQueueTestCase 
+public class ThreadedQueueTestCase
     extends TestCase
 {
     private QueueStart start;
