@@ -18,6 +18,7 @@ import java.util.Map;
 import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.excalibur.pool.Recyclable;
 import org.apache.excalibur.pool.Pool;
+import org.apache.log.Logger;
 
 /**
  * The Connection object used in conjunction with the JdbcDataSource
@@ -28,7 +29,7 @@ import org.apache.excalibur.pool.Pool;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/04/18 13:15:48 $
+ * @version CVS $Revision: 1.3 $ $Date: 2001/04/24 15:39:32 $
  */
 public class JdbcConnection
     extends AbstractLoggable
@@ -36,11 +37,34 @@ public class JdbcConnection
 {
     private Connection         m_connection;
     private Pool               m_pool;
+    private PreparedStatement  m_test_statement;
+    private SQLException       m_test_exception;
 
     public JdbcConnection( final Connection connection, final Pool pool )
     {
         m_connection = connection;
         m_pool = pool;
+
+        try
+        {
+            m_test_statement = prepareStatement("select 1");
+        }
+        catch ( final SQLException se )
+        {
+            m_test_statement = null;
+            m_test_exception = se;
+        }
+    }
+
+    public void setLogger(Logger log)
+    {
+        super.setLogger(log);
+
+        if (m_test_statement == null)
+        {
+            getLogger().warn("Could not prepare test statement", m_test_exception);
+            m_test_exception = null;
+        }
     }
 
     public Statement createStatement()
@@ -110,7 +134,24 @@ public class JdbcConnection
     public boolean isClosed()
         throws SQLException
     {
-        return m_connection.isClosed();
+        if ( m_connection.isClosed() )
+        {
+            return true;
+        }
+
+        if (m_test_statement != null)
+        {
+            try
+            {
+                m_test_statement.executeQuery();
+            }
+            catch (final SQLException se)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public DatabaseMetaData getMetaData()
