@@ -71,7 +71,7 @@ public final class FixedSizeQueue
     private final ReentrantLock m_mutex;
     private int m_start = 0;
     private int m_end = 0;
-    private int m_reserve = 0;
+    protected int m_reserve = 0;
 
     /**
      * Create a <code>FixedSizedQueue</code> with the specified maximum size.
