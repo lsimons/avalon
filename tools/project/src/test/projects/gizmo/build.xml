@@ -6,6 +6,7 @@
 
   <x:prepare/>
   <x:javac/>
+  <x:jar/>
 
 
 </project>
