@@ -20,7 +20,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * protocol handler.
  *
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
- * @version CVS $Revision: 1.5 $ $Date: 2001/10/27 17:02:17 $
+ * @version CVS $Revision: 1.6 $ $Date: 2001/10/27 22:47:10 $
  */
 class SarURLStreamHandlerFactory
     extends URLStreamHandler
@@ -28,6 +28,8 @@ class SarURLStreamHandlerFactory
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( SarURLStreamHandlerFactory.class );
+
+    private static final String PROTOCOL = "sar";
 
     /**
      * Creates a new <code>URLStreamHandler</code> instance with the specified
@@ -38,9 +40,9 @@ class SarURLStreamHandlerFactory
      * @return  a <code>URLStreamHandler</code> for the specific protocol.
      * @see java.net.URLStreamHandler
      */
-    public URLStreamHandler createURLStreamHandler( String protocol )
+    public URLStreamHandler createURLStreamHandler( final String protocol )
     {
-        if ( "sar".equals( protocol ) )
+        if( PROTOCOL.equals( protocol ) )
         {
             return this;
         }
@@ -57,7 +59,7 @@ class SarURLStreamHandlerFactory
     public URLConnection openConnection( final URL url )
         throws IOException
     {
-        if ( "sar".equals( url.getProtocol() ) )
+        if( PROTOCOL.equals( url.getProtocol() ) )
         {
             return new SarURLConnection( url );
         }
