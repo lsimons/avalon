@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+    <extend>${basedir}/../project.xml</extend>
+
+    <name>excalibur-pool</name>
+    <id>excalibur-pool</id>
+    <currentVersion>1.1-dev</currentVersion>
+    <inceptionYear>1997</inceptionYear>
+    <shortDescription>Generic pool components</shortDescription>
+    <description>
+        A package containing generic resource management
+        pools.
+    </description>
+
+    <dependencies>
+        <dependency>
+            <id>avalon-framework</id>
+            <version>4.1.4</version>
+            <groupId>framework</groupId>
+        </dependency>
+        <dependency>
+            <!-- testing only -->
+            <id>logkit</id>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <id>concurrent</id>
+            <version>1.3.1</version>
+        </dependency>
+        <dependency>
+            <id>commons-collections</id>
+            <version>2.1</version>
+        </dependency>
+        <dependency>
+            <!-- testing only -->
+            <id>excalibur-testcase</id>
+            <version>1.1</version>
+            <groupId>excalibur-component</groupId>
+        </dependency>
+        <dependency>
+            <id>excalibur-instrument</id>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <!-- testing only -->
+            <id>junitperf</id>
+            <version>1.8</version>
+        </dependency>
+
+
+        <dependency>
+            <!-- for metadata generation only -->
+            <id>excalibur-fortress-tools</id>
+            <version>1.0</version>
+            <groupId>excalibur-fortress</groupId>
+        </dependency>
+        <dependency>
+            <!-- for metadata generation only -->
+            <id>qdox</id>
+            <version>1.1</version>
+        </dependency>
+    </dependencies>
+</project>
