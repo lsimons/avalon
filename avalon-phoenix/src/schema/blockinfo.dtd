@@ -49,8 +49,10 @@ version	     the version of the block in (in the format #.#.#, #.# or # where
              # is a integer
 -->
 <!ELEMENT service   EMPTY >
-  <!ATTLIST service   name      CDATA  #REQUIRED >
-  <!ATTLIST service   version   CDATA >
+  <!ATTLIST service 
+       name CDATA #REQUIRED
+       version CDATA #IMPLIED
+  > 
 
 <!--
 The service dependency describes a service that the block
