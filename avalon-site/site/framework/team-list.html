@@ -104,32 +104,28 @@
         
         
         
-    <script language="javascript">
+    <script type="text/javascript">
       
   	  function offsetDate(id, offset) {
-	    var date = new Date();
-	    var dateOffset = new Date(
-		  Date.UTC(
-		  	date.getFullYear(),
-		    date.getMonth(),
-			date.getDate(),
-			date.getHours(),
-			date.getMinutes(),
-			date.getSeconds()
-		  ) + (offset - 20) *60*60*1000);
 
-	    document.getElementById(id).innerHTML = dateOffset;
-      }
+            var now = new Date() ;
+            var nowTime = now.getTime() ;
+            var localOffset = now.getTimezoneOffset() ;
+            var developerTime = nowTime + (offset * 60 * 60 * 1000) + (localOffset * 60 * 1000) ;
+            var developerDate = new Date(developerTime) ;
+
+            document.getElementById(id).innerHTML = developerDate;
+          }
   	
   	  function init() {
-	    	       	         	               	       	         	               	       	         	               	       	         	               	       	         	               	       	         	               	       	         	               	       	         	                     }
+	    	       	         	               	       	         	               	       	         	               	       	         	               	       	         	               	       	         	               	       	         	               	       	         	               	       	         	               	       	         	               	       	         	                     }
     
     </script>
    
         
       </head>
 
-      <body class="composite" OnLoad="init();">
+      <body class="composite" onload="init();">
 
         <div id="banner">
           <table height="103" border="0" width="100%" cellpadding="8" cellspacing="0">
@@ -148,22 +144,14 @@
                   
                   
                   <a href="http://avalon.apache.org/">
-                    <img border="0" alt="Apache Software Foundation" src="http://avalon.apache.org/images/apache-avalon-logo.png" align="left"></img>
+                    <img border="0" alt="The Apache Software Foundation" src="http://avalon.apache.org/images/apache-avalon-logo.png" align="left"></img>
                   </a>
                 
               </td>
 
+              <td></td>
               
 
-              <td>
-                <div id="login" align="right">
-                  <a href="http://apachecon.com/2003/US/index.html">
-                    <img border="0" src="http://www.apache.org/~ceki/ac2003/ac2003-150.gif"></img>
-                  </a>
-                </div>
-              </td>
-
-              
             </tr>
           </table>
         </div>
@@ -200,13 +188,13 @@
       |
       
       
-      <a href="http://avalon.apache.org/product/containers/">Containers</a>
+      <a href="http://avalon.apache.org/product/containers/">Merlin</a>
       
     
       |
       
       
-      <a href="http://avalon.apache.org/product/components/">Components</a>
+      <a href="http://avalon.apache.org/product/components/">Planet</a>
       
     
   
@@ -299,6 +287,62 @@
   
     </div>
   
+    <div>
+      <strong>Related Projects</strong>
+      
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="http://avalon.apache.org/meta">Avalon Meta</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="http://avalon.apache.org/merlin">Avalon Merlin</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="http://avalon.apache.org/components">Avalon Planet</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    </div>
+  
                 
                 
                 
@@ -308,11 +352,7 @@
                 
                 <div>
                   <strong>Project Documentation</strong>
-                  <div>
-                    <small>
-                      <a href="./index.html">About Avalon Framework</a>
-                    </small>
-                  </div>
+                  
                   <div>
                     <small>
                       <a href="./project-info.html">Project Info</a>
@@ -376,24 +416,13 @@
                       
                       
                     
-                      
-                      
-                    
                     
                     
                     
                   </div>
                   
+                    
                   
-                  
-                  
-                  
-                    <div>
-                      <small>
-                        
-                        <a href="http://maven.apache.org/development-process.html">Development Process</a>
-                      </small>
-                    </div>
                   
                 </div>
               
@@ -445,14 +474,12 @@
       
     </p>
    
-    </div>
-  
-    <div class="h3">
+    <div class="h4">
       
       
-        <h3>
+        <h4>
           <a name="Members">Members</a>
-        </h3>
+        </h4>
       
       
     <p>
@@ -465,6 +492,9 @@
     
     <table border="1" width="100%" cellspacing="2" cellpadding="3">
       
+    <thead>
+      
+        
     
       
       
@@ -503,6 +533,123 @@
     </th>
    </tr>
   
+        
+    </thead>
+   
+    <tbody>
+      
+                
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <td>
+      Stephen McConnell
+    </td>
+   
+    <td>
+      
+    <a name="mcconnell">mcconnell</a>
+  
+    </td>
+   
+    <td>
+      
+    <a href="mailto:mcconnell@apache.org">mcconnell@apache.org</a>
+  
+    </td>
+   
+    <td>
+      
+    </td>
+   
+    <td>
+      
+                    Conception, architecture and initial implementation.
+    <br>
+      
+    </br>
+   
+                    Release Manager.
+    <br>
+      
+    </br>
+   
+                    
+    </td>
+   
+    <td>
+      
+    </td>
+   
+    <td>
+      
+    <span id="developer-mcconnell">
+      Unknown
+    </span>
+   
+    </td>
+   </tr>
+  
+                
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
+    <td>
+      Leo Simons
+    </td>
+   
+    <td>
+      
+    <a name="leosimons">leosimons</a>
+  
+    </td>
+   
+    <td>
+      
+    <a href="mailto:leosimons@apache.org">leosimons@apache.org</a>
+  
+    </td>
+   
+    <td>
+      
+    </td>
+   
+    <td>
+      
+                    System review, code cleanup.
+    <br>
+      
+    </br>
+   
+                    
+    </td>
+   
+    <td>
+      
+    </td>
+   
+    <td>
+      
+    <span id="developer-leosimons">
+      Unknown
+    </span>
+   
+    </td>
+   </tr>
+  
+                
     
       
         
@@ -534,6 +681,11 @@
    
     <td>
       
+                    Code enhancements and lots of test cases.
+    <br>
+      
+    </br>
+   
                     
     </td>
    
@@ -550,6 +702,7 @@
     </td>
    </tr>
   
+                
     
       
       
@@ -560,18 +713,18 @@
     
     <tr class="a">
     <td>
-      Stephen McConnell
+      Vinay Chandran
     </td>
    
     <td>
       
-    <a name="mcconnell">mcconnell</a>
+    <a name="vinayc">vinayc</a>
   
     </td>
    
     <td>
       
-    <a href="mailto:mcconell@apache.org">mcconell@apache.org</a>
+    <a href="mailto:vinayc@apache.org">vinayc@apache.org</a>
   
     </td>
    
@@ -581,6 +734,11 @@
    
     <td>
       
+                    Testing and bug reporting, migration of tutorials from ant to maven.
+    <br>
+      
+    </br>
+   
                     
     </td>
    
@@ -590,107 +748,14 @@
    
     <td>
       
-    <span id="developer-mcconnell">
+    <span id="developer-vinayc">
       Unknown
     </span>
    
     </td>
    </tr>
   
-    
-      
-        
-      
-      
-    
-
-    
-    <tr class="b">
-    <td>
-      Leo Simons
-    </td>
-   
-    <td>
-      
-    <a name="leosimons">leosimons</a>
-  
-    </td>
-   
-    <td>
-      
-    <a href="mailto:leosimons@apache.org">leosimons@apache.org</a>
-  
-    </td>
-   
-    <td>
-      
-    </td>
-   
-    <td>
-      
-                    
-    </td>
-   
-    <td>
-      
-    </td>
-   
-    <td>
-      
-    <span id="developer-leosimons">
-      Unknown
-    </span>
-   
-    </td>
-   </tr>
-  
-    
-      
-      
-        
-      
-    
-
-    
-    <tr class="a">
-    <td>
-      Leif Mortenson
-    </td>
-   
-    <td>
-      
-    <a name="6">6</a>
-  
-    </td>
-   
-    <td>
-      
-    <a href="mailto:leif@tanukisoftware.com">leif@tanukisoftware.com</a>
-  
-    </td>
-   
-    <td>
-      
-    </td>
-   
-    <td>
-      
-                    
-    </td>
-   
-    <td>
-      
-    </td>
-   
-    <td>
-      
-    <span id="developer-6">
-      Unknown
-    </span>
-   
-    </td>
-   </tr>
-  
+                
     
       
         
@@ -722,6 +787,11 @@
    
     <td>
       
+                    Architecture review and Fortress/ECM/Cocoon liason.
+    <br>
+      
+    </br>
+   
                     
     </td>
    
@@ -738,6 +808,7 @@
     </td>
    </tr>
   
+                
     
       
       
@@ -747,53 +818,6 @@
 
     
     <tr class="a">
-    <td>
-      Leo Sutic
-    </td>
-   
-    <td>
-      
-    <a name="leosutic">leosutic</a>
-  
-    </td>
-   
-    <td>
-      
-    <a href="mailto:leo.sutic@inspireinfrastructure.com">leo.sutic@inspireinfrastructure.com</a>
-  
-    </td>
-   
-    <td>
-      
-    </td>
-   
-    <td>
-      
-                    
-    </td>
-   
-    <td>
-      
-    </td>
-   
-    <td>
-      
-    <span id="developer-leosutic">
-      Unknown
-    </span>
-   
-    </td>
-   </tr>
-  
-    
-      
-        
-      
-      
-    
-
-    
-    <tr class="b">
     <td>
       Peter Royal
     </td>
@@ -816,6 +840,11 @@
    
     <td>
       
+                    Test and evaluation.
+    <br>
+      
+    </br>
+   
                     
     </td>
    
@@ -832,6 +861,60 @@
     </td>
    </tr>
   
+                
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <td>
+      Leif Mortenson
+    </td>
+   
+    <td>
+      
+    <a name="leif">leif</a>
+  
+    </td>
+   
+    <td>
+      
+    <a href="mailto:leif@apache.org">leif@apache.org</a>
+  
+    </td>
+   
+    <td>
+      
+    </td>
+   
+    <td>
+      
+                    Support on setup of NT service scripts and resources.
+    <br>
+      
+    </br>
+   
+                    
+    </td>
+   
+    <td>
+      
+    </td>
+   
+    <td>
+      
+    <span id="developer-leif">
+      Unknown
+    </span>
+   
+    </td>
+   </tr>
+  
+                
     
       
       
@@ -842,27 +925,42 @@
     
     <tr class="a">
     <td>
-      Jeff Turner
+      Aaron Far
     </td>
    
     <td>
       
-    <a name="jefft">jefft</a>
+    <a name="farra">farra</a>
   
     </td>
    
     <td>
       
-    <a href="mailto:jefft@apache.org">jefft@apache.org</a>
+    <a href="mailto:farra@apache.org">farra@apache.org</a>
   
     </td>
    
     <td>
-      
+      Sony Electronics
     </td>
    
     <td>
       
+                    AltRMI extensions.
+    <br>
+      
+    </br>
+   
+                    JMS extensions.
+    <br>
+      
+    </br>
+   
+                    Testing, bug reporting, and early access trial participation.
+    <br>
+      
+    </br>
+   
                     
     </td>
    
@@ -872,32 +970,483 @@
    
     <td>
       
-    <span id="developer-jefft">
+    <span id="developer-farra">
       Unknown
     </span>
    
     </td>
    </tr>
   
+                
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <td>
+      Neeme Praks
+    </td>
+   
+    <td>
+      
+    <a name="neeme">neeme</a>
+  
+    </td>
+   
+    <td>
+      
+    <a href="mailto:neeme@apache.org">neeme@apache.org</a>
+  
+    </td>
+   
+    <td>
+      
+    </td>
+   
+    <td>
+      
+                    Documentation improvements and corrections.
+    <br>
+      
+    </br>
+   
+                    
+    </td>
+   
+    <td>
+      
+    </td>
+   
+    <td>
+      
+    <span id="developer-neeme">
+      Unknown
+    </span>
+   
+    </td>
+   </tr>
+  
+                
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
+    <td>
+      Alex Karasulu
+    </td>
+   
+    <td>
+      
+    <a name="akarasulu">akarasulu</a>
+  
+    </td>
+   
+    <td>
+      
+    <a href="mailto:aok123@bellsouth.net">aok123@bellsouth.net</a>
+  
+    </td>
+   
+    <td>
+      
+    </td>
+   
+    <td>
+      
+                    Kernel loading strategy, refactoring and optimization of embedded aspects.
+    <br>
+      
+    </br>
+   
+                    
+    </td>
+   
+    <td>
+      
+    </td>
+   
+    <td>
+      
+    <span id="developer-akarasulu">
+      Unknown
+    </span>
+   
+    </td>
+   </tr>
+  
+                
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <td>
+      Niclas Hedhman
+    </td>
+   
+    <td>
+      
+    <a name="niclas">niclas</a>
+  
+    </td>
+   
+    <td>
+      
+    <a href="mailto:niclas@apache.org">niclas@apache.org</a>
+  
+    </td>
+   
+    <td>
+      
+    </td>
+   
+    <td>
+      
+                    Most stuff.
+    <br>
+      
+    </br>
+   
+                    
+    </td>
+   
+    <td>
+      
+    </td>
+   
+    <td>
+      
+    <span id="developer-niclas">
+      Unknown
+    </span>
+   
+    </td>
+   </tr>
+  
+                
+    </tbody>
+   
     </table>
   
     </div>
   
-    <div class="h3">
+    <div class="h4">
       
       
-        <h3>
+        <h4>
           <a name="Contributors">Contributors</a>
-        </h3>
+        </h4>
       
       
     <p>
       
-	    There are no contributors listed for this project. Please check
- 	    back again later.
- 	  
+        The following additional people have contributed to this project
+        through the way of suggestions, patches or documentation.
+      
     </p>
    
+    
+    <table border="1" width="100%" cellspacing="2" cellpadding="3">
+      
+    <thead>
+      
+        
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
+    <th>
+      Name
+    </th>
+   
+    <th>
+      Email
+    </th>
+   
+    <th>
+      Organization
+    </th>
+   
+    <th>
+      Roles
+    </th>
+   </tr>
+  
+        
+    </thead>
+   
+    <tbody>
+      
+                
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <td>
+      Gary Shea
+    </td>
+   
+    <td>
+      
+    <a href="mailto:shea@gtsdesign.com">shea@gtsdesign.com</a>
+  
+    </td>
+   
+    <td>
+      GTS Design
+    </td>
+   
+    <td>
+      
+                    Test and evaluation in a desktop environment.
+    <br>
+      
+    </br>
+   
+                    
+    </td>
+   </tr>
+  
+                
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
+    <td>
+      Richard Wallace
+    </td>
+   
+    <td>
+      
+    <a href="mailto:rwallace@a--i--m.com">rwallace@a--i--m.com</a>
+  
+    </td>
+   
+    <td>
+      A-I-M
+    </td>
+   
+    <td>
+      
+                    Web services related trials and feedback.
+    <br>
+      
+    </br>
+   
+                    
+    </td>
+   </tr>
+  
+                
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <td>
+      Jrg Schaible
+    </td>
+   
+    <td>
+      
+    <a href="mailto:Joerg.Schaible@gmx.de">Joerg.Schaible@gmx.de</a>
+  
+    </td>
+   
+    <td>
+      Elsag-Solutions AG
+    </td>
+   
+    <td>
+      
+                    Test, evaluation and contribution of German language i18n resources.
+    <br>
+      
+    </br>
+   
+                    
+    </td>
+   </tr>
+  
+                
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
+    <td>
+      David Bernard
+    </td>
+   
+    <td>
+      
+    <a href="mailto:dwayne@java-fan.com">dwayne@java-fan.com</a>
+  
+    </td>
+   
+    <td>
+      BNP
+    </td>
+   
+    <td>
+      
+                    Documentation and tutorial review, testing and patches. Updates to lifecycle handlers. Contribution to JMX related development.
+    <br>
+      
+    </br>
+   
+                    
+    </td>
+   </tr>
+  
+                
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <td>
+      Kristian Meier
+    </td>
+   
+    <td>
+      
+    <a href="mailto:kristian.meier@jentro.com">kristian.meier@jentro.com</a>
+  
+    </td>
+   
+    <td>
+      Jentro AG
+    </td>
+   
+    <td>
+      
+                    Patches enhancing the meta-info generation sources and documentation, and patches related to the pooled lifestyle handler.
+    <br>
+      
+    </br>
+   
+                    
+    </td>
+   </tr>
+  
+                
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
+    <td>
+      Laurent Rieu
+    </td>
+   
+    <td>
+      
+    <a href="mailto:Laurent.Rieu@fr.ibm.com">Laurent.Rieu@fr.ibm.com</a>
+  
+    </td>
+   
+    <td>
+      IBM Global Services
+    </td>
+   
+    <td>
+      
+                    Testing, bug reporting, and early access trial participation.
+    <br>
+      
+    </br>
+   
+                    
+    </td>
+   </tr>
+  
+                
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <td>
+      Alexis Agahi
+    </td>
+   
+    <td>
+      
+    <a href="mailto:alag@users.sf.net">alag@users.sf.net</a>
+  
+    </td>
+   
+    <td>
+      
+    </td>
+   
+    <td>
+      
+                    Debugging, script enhancements and release testing.
+    <br>
+      
+    </br>
+   
+                    
+    </td>
+   </tr>
+  
+                
+    </tbody>
+   
+    </table>
+  
+    </div>
+  
     </div>
   
                   
@@ -919,7 +1468,7 @@
                   
                     
                     
-                      © 2000-2003, Apache Software Foundation
+                      © 1997-2004, The Apache Software Foundation
                     
                   
                   
