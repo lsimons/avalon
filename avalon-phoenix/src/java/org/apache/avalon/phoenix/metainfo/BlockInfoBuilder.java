@@ -41,7 +41,7 @@ public final class BlockInfoBuilder
         configuration = info.getChild( "meta" );
         final BlockDescriptor descriptor = buildBlockDescriptor( configuration );
 
-        return new DefaultBlockInfo( descriptor, services, dependencies );
+        return new BlockInfo( descriptor, services, dependencies );
     }
 
     private DependencyDescriptor[] buildDependencies( final Configuration configuration )
@@ -67,7 +67,7 @@ public final class BlockInfoBuilder
         final String role = dependency.getChild( "role" ).getValue();
         final ServiceDescriptor serviceDescriptor = buildService( dependency.getChild( "service" ) );
 
-        return new DefaultDependencyDescriptor( role, serviceDescriptor );
+        return new DependencyDescriptor( role, serviceDescriptor );
     }
 
     private ServiceDescriptor[] buildServices( final Configuration servicesSet )
@@ -92,7 +92,7 @@ public final class BlockInfoBuilder
     {
         final String name = service.getAttribute( "name" );
         final Version version =  buildVersion( service.getAttribute( "version" ) );
-        return new DefaultServiceDescriptor( name, version );
+        return new ServiceDescriptor( name, version );
     }
 
     private Version buildVersion( final String version )

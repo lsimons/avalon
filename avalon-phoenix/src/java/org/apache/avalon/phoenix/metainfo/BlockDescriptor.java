@@ -2,15 +2,15 @@
  * Copyright (C) The Apache Software Foundation. All rights reserved.
  *
  * This software is published under the terms of the Apache Software License
- * version 1.1, a copy of which has been included  with this distribution in
+ * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
 package org.apache.avalon.phoenix.metainfo;
 
-import java.net.URL;
 import javax.swing.Icon;
+import java.net.URL;
+import java.util.Locale;
 import org.apache.avalon.framework.Version;
-import org.apache.avalon.framework.camelot.Descriptor;
 
 /**
  * This descrbes information about the block that is used by administration 
@@ -18,56 +18,62 @@ import org.apache.avalon.framework.camelot.Descriptor;
  * 
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public interface BlockDescriptor
-    extends Descriptor
+public class BlockDescriptor
 {
+    private final Version         m_version;
+    private final Contributor[]   m_contributors;
+    private final Icon            m_icon;
+    private final Icon            m_largeIcon;
+
+    public BlockDescriptor( final Version version, 
+                            final Contributor[] contributors,
+                            final Icon icon,
+                            final Icon largeIcon )
+    {
+        m_version = version;
+        m_contributors = contributors;
+        m_icon = icon;
+        m_largeIcon = largeIcon;
+    }
+
     /**
      * Get a list of contributors who helped create block.
      *
      * @return an array of Contributors
      */
-    Contributor[] getContributors();
+    public Contributor[] getContributors()
+    {
+        return m_contributors;
+    }
 
     /**
      * Get a 16x16 Color Icon for block.
      *
      * @return a 16x16 Color Icon for block
      */
-    Icon getIcon();
+    public Icon getIcon()
+    {
+        return m_icon;
+    }
 
     /**
      * Get a 32x32 Color Icon for block.
      *
      * @return a 32x32 Color Icon for block
      */
-    Icon getLargeIcon();
-
-    /**
-     * Get URL of documentation.
-     *
-     * @return URL to documentation (if any)
-     */
-    URL getDocumentationLocation();
-
-    /**
-     * Get URL of License.
-     *
-     * @return URL to License (if any)
-     */
-    URL getLicenseLocation();
-
-    /**
-     * Get URL of Update. Allows a block to be automatically updated from a URL.
-     *
-     * @return URL to Update (if any)
-     */
-    URL getUpdateLocation();
-
+    public Icon getLargeIcon()
+    {
+        return m_largeIcon;
+    }
 
     /**
      * Retrieve Version of current Block.
      *
      * @return the version of block
      */
-    Version getVersion();
+    public Version getVersion()
+    {
+        return m_version;
+    }
 }
+
