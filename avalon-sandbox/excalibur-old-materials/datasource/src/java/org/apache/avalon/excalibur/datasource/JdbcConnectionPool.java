@@ -63,7 +63,7 @@ import org.apache.avalon.framework.activity.Initializable;
  * thread to manage the number of SQL Connections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.24 $ $Date: 2003/03/31 18:32:55 $
+ * @version CVS $Revision: 1.25 $ $Date: 2003/04/08 18:25:17 $
  * @since 4.0
  */
 public class JdbcConnectionPool
@@ -199,7 +199,7 @@ public class JdbcConnectionPool
                     m_active.remove( obj );
                 }
 
-                this.removePoolable( (Recyclable)obj );
+                this.removePoolable( obj );
 
                 obj = (PoolSettable)this.newPoolable();
 
@@ -224,7 +224,7 @@ public class JdbcConnectionPool
             ((Connection)obj).setAutoCommit( m_autoCommit );
         }
 
-        return (Poolable)obj;
+        return obj;
     }
 
     public void put( Poolable obj )
