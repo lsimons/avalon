@@ -5,105 +5,34 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.xml;
+package org.apache.excalibur.xml.sax;
 
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.xml.sax.Attributes;
-import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
-import org.xml.sax.ext.LexicalHandler;
 
 /**
- * This class is an utility class &quot;wrapping&quot; around a SAX version 2.0
- * {@link ContentHandler} and forwarding it those events received throug
- * its {@link XMLConsumer}s interface.
- * <br>
+ * This abstract class provides default implementation of the methods specified
+ * by the <code>XMLConsumer</code> interface.
  *
- * @deprecated Moved to org.apache.excalibur.xml.sax package. Modified to be 
- * thread safe.
- * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- *         (Apache Software Foundation, Computer Associates)
- * @version CVS $Revision: 1.5 $ $Date: 2002/10/15 23:19:45 $
+ * @deprecated Can be constructed using no operation handlers.
+ * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
+ *         (Apache Software Foundation, Exoffice Technologies)
+ * @version CVS $Revision: 1.1 $ $Date: 2003/01/14 09:39:37 $
  */
-public class ContentHandlerWrapper
-    extends AbstractXMLConsumer
+public abstract class AbstractXMLConsumer
+    extends AbstractLogEnabled
+    implements XMLConsumer
 {
-    /** The current {@link ContentHandler}. */
-    private ContentHandler m_contentHandler;
-
-    /** The optional {@link LexicalHandler} */
-    private LexicalHandler m_lexicalHandler;
-
-    /**
-     * Create a new <code>ContentHandlerWrapper</code> instance.
-     */
-    public ContentHandlerWrapper()
-    {
-    }
-
-    /**
-     * Create a new <code>ContentHandlerWrapper</code> instance.
-     */
-    public ContentHandlerWrapper( final ContentHandler contentHandler )
-    {
-        setContentHandler( contentHandler );
-    }
-
-    /**
-     * Create a new <code>ContentHandlerWrapper</code> instance.
-     */
-    public ContentHandlerWrapper( final ContentHandler contentHandler,
-                                  final LexicalHandler lexicalHandler )
-    {
-        setContentHandler( contentHandler );
-        setLexicalHandler( lexicalHandler );
-    }
-
-    /**
-     * Set the {@link ContentHandler} that will receive XML data.
-     *
-     * @exception IllegalStateException If the {@link ContentHandler}
-     *                                  was already set.
-     */
-    public void setContentHandler( final ContentHandler contentHandler )
-        throws IllegalStateException
-    {
-        if( null != m_contentHandler )
-        {
-            throw new IllegalStateException();
-        }
-        m_contentHandler = contentHandler;
-    }
-
-    /**
-     * Set the {@link LexicalHandler} that will receive XML data.
-     *
-     * @exception IllegalStateException If the {@link LexicalHandler}
-     *                                  was already set.
-     */
-    public void setLexicalHandler( final LexicalHandler lexicalHandler )
-        throws IllegalStateException
-    {
-        if( null != m_lexicalHandler )
-        {
-            throw new IllegalStateException();
-        }
-        m_lexicalHandler = lexicalHandler;
-    }
-
     /**
      * Receive an object for locating the origin of SAX document events.
+     *
+     * @param locator An object that can return the location of any SAX
+     *                document event.
      */
     public void setDocumentLocator( final Locator locator )
     {
-        if( null == m_contentHandler )
-        {
-            return;
-        }
-        else
-        {
-            m_contentHandler.setDocumentLocator( locator );
-        }
     }
 
     /**
@@ -112,12 +41,6 @@ public class ContentHandlerWrapper
     public void startDocument()
         throws SAXException
     {
-        if( null == m_contentHandler )
-        {
-            final String message = "ContentHandler not set";
-            throw new SAXException( message );
-        }
-        m_contentHandler.startDocument();
     }
 
     /**
@@ -126,35 +49,42 @@ public class ContentHandlerWrapper
     public void endDocument()
         throws SAXException
     {
-        m_contentHandler.endDocument();
     }
 
     /**
      * Begin the scope of a prefix-URI Namespace mapping.
+     *
+     * @param prefix The Namespace prefix being declared.
+     * @param uri The Namespace URI the prefix is mapped to.
      */
     public void startPrefixMapping( final String prefix,
                                     final String uri )
         throws SAXException
     {
-        if( null == m_contentHandler )
-        {
-            final String message = "ContentHandler not set";
-            throw new SAXException( message );
-        }
-        m_contentHandler.startPrefixMapping( prefix, uri );
     }
 
     /**
      * End the scope of a prefix-URI mapping.
+     *
+     * @param prefix The prefix that was being mapping.
      */
     public void endPrefixMapping( final String prefix )
         throws SAXException
     {
-        m_contentHandler.endPrefixMapping( prefix );
     }
 
     /**
      * Receive notification of the beginning of an element.
+     *
+     * @param uri The Namespace URI, or the empty string if the element has no
+     *            Namespace URI or if Namespace
+     *            processing is not being performed.
+     * @param loc The local name (without prefix), or the empty string if
+     *            Namespace processing is not being performed.
+     * @param raw The raw XML 1.0 name (with prefix), or the empty string if
+     *            raw names are not available.
+     * @param a The attributes attached to the element. If there are no
+     *          attributes, it shall be an empty Attributes object.
      */
     public void startElement( final String uri,
                               final String loc,
@@ -162,50 +92,65 @@ public class ContentHandlerWrapper
                               final Attributes a )
         throws SAXException
     {
-        m_contentHandler.startElement( uri, loc, raw, a );
     }
 
     /**
      * Receive notification of the end of an element.
+     *
+     * @param uri The Namespace URI, or the empty string if the element has no
+     *            Namespace URI or if Namespace
+     *            processing is not being performed.
+     * @param loc The local name (without prefix), or the empty string if
+     *            Namespace processing is not being performed.
+     * @param raw The raw XML 1.0 name (with prefix), or the empty string if
+     *            raw names are not available.
      */
     public void endElement( final String uri,
                             final String loc,
                             final String raw )
         throws SAXException
     {
-        m_contentHandler.endElement( uri, loc, raw );
     }
 
     /**
      * Receive notification of character data.
+     *
+     * @param ch The characters from the XML document.
+     * @param start The start position in the array.
+     * @param len The number of characters to read from the array.
      */
     public void characters( final char[] ch,
                             final int start,
                             final int len )
         throws SAXException
     {
-        m_contentHandler.characters( ch, start, len );
     }
 
     /**
      * Receive notification of ignorable whitespace in element content.
+     *
+     * @param ch The characters from the XML document.
+     * @param start The start position in the array.
+     * @param len The number of characters to read from the array.
      */
     public void ignorableWhitespace( final char[] ch,
                                      final int start,
                                      final int len )
         throws SAXException
     {
-        m_contentHandler.ignorableWhitespace( ch, start, len );
     }
 
     /**
      * Receive notification of a processing instruction.
+     *
+     * @param target The processing instruction target.
+     * @param data The processing instruction data, or null if none was
+     *             supplied.
      */
     public void processingInstruction( final String target,
                                        final String data )
         throws SAXException
     {
-        m_contentHandler.processingInstruction( target, data );
     }
 
     /**
@@ -217,7 +162,6 @@ public class ContentHandlerWrapper
     public void skippedEntity( final String name )
         throws SAXException
     {
-        m_contentHandler.skippedEntity( name );
     }
 
     /**
@@ -234,10 +178,6 @@ public class ContentHandlerWrapper
                           final String systemId )
         throws SAXException
     {
-        if( null != m_lexicalHandler )
-        {
-            m_lexicalHandler.startDTD( name, publicId, systemId );
-        }
     }
 
     /**
@@ -246,10 +186,6 @@ public class ContentHandlerWrapper
     public void endDTD()
         throws SAXException
     {
-        if( null != m_lexicalHandler )
-        {
-            m_lexicalHandler.endDTD();
-        }
     }
 
     /**
@@ -261,10 +197,6 @@ public class ContentHandlerWrapper
     public void startEntity( final String name )
         throws SAXException
     {
-        if( null != m_lexicalHandler )
-        {
-            m_lexicalHandler.startEntity( name );
-        }
     }
 
     /**
@@ -275,10 +207,6 @@ public class ContentHandlerWrapper
     public void endEntity( final String name )
         throws SAXException
     {
-        if( null != m_lexicalHandler )
-        {
-            m_lexicalHandler.endEntity( name );
-        }
     }
 
     /**
@@ -287,10 +215,6 @@ public class ContentHandlerWrapper
     public void startCDATA()
         throws SAXException
     {
-        if( null != m_lexicalHandler )
-        {
-            m_lexicalHandler.startCDATA();
-        }
     }
 
     /**
@@ -299,10 +223,6 @@ public class ContentHandlerWrapper
     public void endCDATA()
         throws SAXException
     {
-        if( null != m_lexicalHandler )
-        {
-            m_lexicalHandler.endCDATA();
-        }
     }
 
     /**
@@ -317,9 +237,5 @@ public class ContentHandlerWrapper
                          final int len )
         throws SAXException
     {
-        if( null != m_lexicalHandler )
-        {
-            m_lexicalHandler.comment( ch, start, len );
-        }
     }
 }
