@@ -16,7 +16,7 @@ import java.io.File;
  * jars in Classpath, config files and installation directory.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/08/06 11:57:40 $
+ * @version $Revision: 1.3 $ $Date: 2002/09/15 02:38:25 $
  */
 public final class Installation
 {
@@ -41,9 +41,6 @@ public final class Installation
     ///ClassPath for application
     private final String[] m_classPath;
 
-    ///Info for expanded files
-    private final FileDigest[] m_digests;
-
     ///Installation timestamp
     private final long m_timestamp;
 
@@ -54,7 +51,6 @@ public final class Installation
                          final String assembly,
                          final String environment,
                          final String[] classPath,
-                         final FileDigest[] digests,
                          final long timestamp )
     {
         m_source = source;
@@ -64,7 +60,6 @@ public final class Installation
         m_assembly = assembly;
         m_environment = environment;
         m_classPath = classPath;
-        m_digests = digests;
         m_timestamp = timestamp;
     }
 
@@ -138,15 +133,6 @@ public final class Installation
     public String[] getClassPath()
     {
         return m_classPath;
-    }
-
-    /** Retrieve file digests.
-     *
-     * @return the file digest list.
-     */
-    public FileDigest[] getFileDigests()
-    {
-        return m_digests;
     }
 
     /** Retrieve the timestamp.
