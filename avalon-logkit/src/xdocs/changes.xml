@@ -8,6 +8,13 @@
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
   </devs>
 <release version="1.0b4" date="Unreleased">
+    <action dev="BL" type="add">
+      Added stylesheet to convert Stylebook markup to DocBook markup.
+    </action>
+    <action dev="BL" type="change">
+      Changed the documentation build process to use Cocoon to build
+      the site.
+    </action>
   <action dev="PD" type="update">
     Deprecated FilterTarget it was rarely (never?) used and offers only minor 
     advantages over directly using sub-classes.

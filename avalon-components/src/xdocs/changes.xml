@@ -10,6 +10,13 @@
   </devs>
 
 <release version="3.1a2" date="Unreleased">
+    <action dev="BL" type="add">
+      Added stylesheet to convert Stylebook markup to DocBook markup.
+    </action>
+    <action dev="BL" type="change">
+      Changed the documentation build process to use Cocoon to build
+      the site.
+    </action>
   <action dev="BL" type="update">
     Make "driver" attribute optional now that Excalibur JdbcDataSource
     allows you to specify it.  This means you can specify your driver
