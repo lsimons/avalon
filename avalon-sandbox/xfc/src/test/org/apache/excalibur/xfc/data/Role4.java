@@ -49,11 +49,14 @@
 */
 package org.apache.excalibur.xfc.data;
 
+import org.apache.avalon.framework.component.ComponentSelector;
+
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/05/03 04:42:04 $
+ * @version $Revision: 1.2 $ $Date: 2003/05/03 05:07:20 $
  */
 public interface Role4
+    extends ComponentSelector
 {
 }
