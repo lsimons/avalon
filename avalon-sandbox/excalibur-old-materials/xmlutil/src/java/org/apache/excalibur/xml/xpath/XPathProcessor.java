@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.excalibur.xml.xpath;
 
-import org.apache.avalon.framework.component.Component;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -15,15 +14,41 @@ import org.w3c.dom.NodeList;
  * This is the interface of the XPath processor.
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/07/07 06:17:24 $ $Author: donaldp $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/08/01 21:34:16 $ $Author: mirceatoma $
  */
 public interface XPathProcessor
-    extends Component
 {
     /**
      * The role implemented by an <code>XSLTProcessor</code>.
      */
     String ROLE = XPathProcessor.class.getName();
+
+    /**
+     * Evaluate XPath expression within a context. 
+     *
+     * @param contextNode The context node.
+     * @param str A valid XPath string.
+     * @return expression result as boolean.
+     */
+    boolean evaluateAsBoolean( Node contextNode, String str );
+        
+    /**
+     * Evaluate XPath expression within a context. 
+     *
+     * @param contextNode The context node.
+     * @param str A valid XPath string.
+     * @return expression result as number.
+     */
+    Number evaluateAsNumber( Node contextNode, String str );
+    
+    /**
+     * Evaluate XPath expression within a context. 
+     *
+     * @param contextNode The context node.
+     * @param str A valid XPath string.
+     * @return expression result as string.
+     */
+    String evaluateAsString( Node contextNode, String str );
 
     /**
      * Use an XPath string to select a single node. XPath namespace
