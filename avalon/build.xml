@@ -89,6 +89,8 @@ Legal:
     <pathelement location="${xerces.jar}"/>
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
+      <exclude name="logkit.jar"/>
+      <exclude name="xerces.jar"/>
     </fileset>
     <pathelement path="${build.classes}" />
   </path>
@@ -98,7 +100,7 @@ Legal:
                                   Main target
        ===================================================================
   -->
-  <target name="main" depends="jars" />
+  <target name="main" depends="jar" />
 
   <!--
        ===================================================================
@@ -112,16 +114,16 @@ Legal:
     <echo message=""/>
     <echo message=" available targets are:"/>
     <echo message=""/>
-    <echo message="   jar          --> generates the ${Name} jar files"/>
-    <echo message="   test         --> perform unit tests"/>
-    <echo message="   compile      --> compiles the source code"/>
-    <echo message="   javadocs     --> generates the API documentation (java 1.2+ only)"/>
-    <echo message="   docs         --> generates the ${Name} Documentation"/>
-    <echo message="   main or jars --> generates the ${Name} distribution without the javadocs (default)"/>
-    <echo message="   dist         --> generates the ${Name} distribution"/>
-    <echo message="   clean        --> cleans up the created directories"/>
-    <echo message="   real-clean   --> cleans up all genereated files and directories"/>
-    <echo message="   proposal     --> generates the ${Name} proposal distribution without the javadocs"/>
+    <echo message="   jar          -> generates the ${Name} jar files"/>
+    <echo message="   test         -> perform unit tests"/>
+    <echo message="   compile      -> compiles the source code"/>
+    <echo message="   javadocs     -> generates the API documentation (java 1.2+ only)"/>
+    <echo message="   docs         -> generates the ${Name} Documentation"/>
+    <echo message="   main         -> generates the ${Name} distribution without the javadocs (default)"/>
+    <echo message="   dist         -> generates the ${Name} distribution"/>
+    <echo message="   clean        -> cleans up the created directories"/>
+    <echo message="   real-clean   -> cleans up all genereated files and directories"/>
+    <echo message="   proposal     -> generates the ${Name} proposal distribution without the javadocs"/>
     <echo message=""/>
     <echo message="-------------------------------------------------------------"/>
     <echo message=""/>
@@ -367,7 +369,7 @@ Legal:
                            Creates all the .jar files
        ===================================================================
   -->
-  <target name="jars" depends="compile">
+  <target name="jar" depends="compile">
 
     <mkdir dir="${build.lib}"/>
     <jar jarfile="${build.lib}/avalonapi.jar" basedir="${build.classes}">
@@ -378,12 +380,23 @@ Legal:
     </jar>
   </target>
 
+  <target name="install" depends="jar,install-check-cjan">
+
+    <mkdir dir="${cjan.lib}" />
+    <copy file="${build.lib}/avalonapi.jar" todir="${cjan.lib}"/>
+
+  </target>
+
+  <target name="install-check-cjan" unless="cjan.lib">
+    <fail message="cjan.lib not specified." />
+  </target>
+
   <!--
        ===================================================================
                             Create the distribution
        ===================================================================
   -->
-  <target name="dist" depends="jars,javadocs,xdocs">
+  <target name="dist" depends="jar,javadocs,xdocs">
 
     <mkdir dir="${dist.dir}"/>
     <copy file="${build.lib}/avalonapi.jar" tofile="${dist.dir}/avalonapi-${version}.jar"/>
