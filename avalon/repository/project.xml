@@ -26,8 +26,8 @@
   <distributionDirectory></distributionDirectory>
 
   <repository>
-    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:avalon/merlin/repository</connection>
-    <url>http://cvs.apache.org/viewcvs/avalon/merlin/</url>
+    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:avalon/repository</connection>
+    <url>http://cvs.apache.org/viewcvs/avalon/repository/</url>
   </repository>
   
   <mailingLists>
@@ -65,7 +65,7 @@
       <email>aok123@bellsouth.net</email>
       <id>akarasulu</id>
       <roles>
-        <role>Repository bootstrapping.</role>
+        <role>Repository refactoring, introduction of bootstrapping mechanisms and mixed implementation handling, addition of defaults management and environment management untilities.</role>
       </roles>
     </developer>
   </developers>
