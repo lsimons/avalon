@@ -12,15 +12,17 @@ import java.util.NoSuchElementException;
 import org.apache.avalon.AbstractLoggable;
 import org.apache.avalon.Disposable;
 import org.apache.avalon.Initializable;
-import org.apache.phoenix.Block;
-import org.apache.cornerstone.services.scheduler.TimeScheduler;
-import org.apache.cornerstone.services.scheduler.TimeTrigger;
-import org.apache.cornerstone.services.scheduler.Target;
+import org.apache.avalon.Startable;
+import org.apache.avalon.Stoppable;
 import org.apache.avalon.util.BinaryHeap;
 import org.apache.avalon.util.PriorityQueue;
 import org.apache.avalon.util.SynchronizedPriorityQueue;
 import org.apache.avalon.util.thread.ThreadContext;
+import org.apache.cornerstone.services.scheduler.Target;
+import org.apache.cornerstone.services.scheduler.TimeScheduler;
+import org.apache.cornerstone.services.scheduler.TimeTrigger;
 import org.apache.log.Logger;
+import org.apache.phoenix.Block;
 
 /**
  * Default implementation of TimeScheduler service.
@@ -30,14 +32,14 @@ import org.apache.log.Logger;
  */
 public class DefaultTimeScheduler
     extends AbstractLoggable
-    implements Block, TimeScheduler, Initializable, Disposable, Runnable
+    implements Block, TimeScheduler, Initializable, Startable, Stoppable, Disposable, Runnable
 {
     protected final Object               m_monitor         = new Object();
 
     protected boolean                    m_running;
     protected Hashtable                  m_entries;
     protected PriorityQueue              m_priorityQueue;
-    
+
     public void init()
     {
         m_entries = new Hashtable();
@@ -46,8 +48,6 @@ public class DefaultTimeScheduler
 
     public void dispose()
     {
-        m_running = false;
-        synchronized( m_monitor ) { m_monitor.notify(); }
         m_entries = null;
         m_priorityQueue = null;
     }
@@ -60,8 +60,8 @@ public class DefaultTimeScheduler
      * @param trigger the trigger
      * @param target the target
      */
-    public void addTrigger( final String name, 
-                            final TimeTrigger trigger, 
+    public void addTrigger( final String name,
+                            final TimeTrigger trigger,
                             final Target target )
     {
         try { removeTrigger( name ); }
@@ -87,9 +87,9 @@ public class DefaultTimeScheduler
         throws NoSuchElementException
     {
         //use the kill-o-matic against any entry with same name
-         final TimeScheduledEntry entry = getEntry( name );
-         entry.invalidate();
-         m_entries.remove( name );
+        final TimeScheduledEntry entry = getEntry( name );
+        entry.invalidate();
+        m_entries.remove( name );
     }
 
     /**
@@ -104,11 +104,11 @@ public class DefaultTimeScheduler
         final TimeScheduledEntry entry = getEntry( name );
         entry.getTimeTrigger().reset();
         rescheduleEntry( entry, true );
-    }    
+    }
 
     /**
      * Reschedule an entry.
-     * if clone is true then invalidate old version and create a new entry to 
+     * if clone is true then invalidate old version and create a new entry to
      * insert into queue.
      *
      * @param timeEntry the entry
@@ -122,7 +122,7 @@ public class DefaultTimeScheduler
         if( clone )
         {
             entry = new TimeScheduledEntry( timeEntry.getName(),
-                                            timeEntry.getTimeTrigger(),  
+                                            timeEntry.getTimeTrigger(),
                                             timeEntry.getTarget() );
             timeEntry.invalidate();
 
@@ -158,8 +158,8 @@ public class DefaultTimeScheduler
         throws NoSuchElementException
     {
         //use the kill-o-matic against any entry with same name
-         final TimeScheduledEntry entry = (TimeScheduledEntry)m_entries.get( name );
-        if( null != entry ) 
+        final TimeScheduledEntry entry = (TimeScheduledEntry)m_entries.get( name );
+        if( null != entry )
         {
             return entry;
         }
@@ -173,23 +173,36 @@ public class DefaultTimeScheduler
     {
         final Logger logger = getLogger();
         final Runnable runnable = new Runnable()
-        {
-            public void run()
             {
-                try { entry.getTarget().targetTriggered( entry.getName() ); }
-                catch( final Throwable t )
+                public void run()
                 {
-                    logger.warn( "Error occured executin trigger " + entry.getName(), t );
+                    try { entry.getTarget().targetTriggered( entry.getName() ); }
+                    catch( final Throwable t )
+                    {
+                        logger.warn( "Error occured executin trigger " + entry.getName(), t );
+                    }
                 }
-            }
-        };
-       
+            };
+
         //this should suck threads from a named pool
         try { ThreadContext.getCurrentThreadPool().execute( runnable ); }
         catch( final Exception e )
         {
             getLogger().warn( "Error executing trigger " + entry.getName(), e );
         }
+    }
+
+    public void start()
+        throws Exception
+    {
+        //this should suck threads from a named pool
+        ThreadContext.getCurrentThreadPool().execute( this );
+    }
+
+    public void stop()
+    {
+        m_running = false;
+        synchronized( m_monitor ) { m_monitor.notify(); }
     }
 
     public void run()
@@ -202,16 +215,16 @@ public class DefaultTimeScheduler
 
             if( !m_priorityQueue.isEmpty() )
             {
-                TimeScheduledEntry entry = 
+                TimeScheduledEntry entry =
                     (TimeScheduledEntry)m_priorityQueue.peek();
 
                 //if job has been invalidated then remove it and continue
-                while( !entry.isValid() ) 
+                while( !entry.isValid() )
                 {
                     m_priorityQueue.pop();
 
                     if ( m_priorityQueue.isEmpty() ) break;
-                
+
                     entry = (TimeScheduledEntry)m_priorityQueue.peek();
                 }
 
@@ -224,7 +237,7 @@ public class DefaultTimeScheduler
                 {
                     //give a short duration that will sleep
                     // so that next loop will definetly be below 0.
-                    //Can not act on zero else multiple runs could go through 
+                    //Can not act on zero else multiple runs could go through
                     //at once
                     duration = 1;
                 }
@@ -241,12 +254,11 @@ public class DefaultTimeScheduler
                 }
             }
 
-            //wait/sleep until m_monitor is signalled which occurs when 
-            //next jobs is likely to occur or when a new job gets added to 
+            //wait/sleep until m_monitor is signalled which occurs when
+            //next jobs is likely to occur or when a new job gets added to
             //top of heap
             try { synchronized( m_monitor ) { m_monitor.wait( duration ); } }
             catch( final InterruptedException ie ) { }
-
         }
     }
 }
