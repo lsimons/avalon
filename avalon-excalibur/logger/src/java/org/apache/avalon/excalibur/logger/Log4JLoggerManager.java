@@ -63,7 +63,7 @@ import org.apache.log4j.spi.LoggerRepository;
  * leaves that as an excercise for Log4J's construction.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.8 $ $Date: 2002/10/28 00:36:03 $
+ * @version CVS $Revision: 1.9 $ $Date: 2002/11/04 09:00:21 $
  * @since 4.1
  */
 public class Log4JLoggerManager
@@ -173,15 +173,18 @@ public class Log4JLoggerManager
         {
             if( m_logger.isDebugEnabled() )
             {
-                m_logger.debug( "Logger for category " + categoryName + " returned" );
+                final String message =
+                    "Logger for category " + categoryName + " returned";
+                m_logger.debug( message );
             }
             return logger;
         }
 
         if( m_logger.isDebugEnabled() )
         {
-            m_logger.debug( "Logger for category " + categoryName
-                            + " not defined in configuration. New Logger created and returned" );
+            final String message = "Logger for category " + categoryName +
+                " not defined in configuration. New Logger created and returned";
+            m_logger.debug( message );
         }
 
         logger = new Log4JLogger( m_hierarchy.getLogger( categoryName ) );
