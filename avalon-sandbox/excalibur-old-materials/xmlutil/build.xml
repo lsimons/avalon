@@ -25,6 +25,8 @@
         <pathelement location="${checkstyle.jar}"/>
         <pathelement location="${xalan.jar}"/>
         <pathelement location="${xerces.jar}"/>
+        <pathelement location="${excalibur-fortress-tools.jar}"/>
+        <pathelement location="${qdox.jar}"/>
         <pathelement location="${saxpath.jar}"/>
         <pathelement location="${xml-apis.jar}"/>
         <pathelement location="${jaxen.jar}"/>
@@ -66,6 +68,7 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkPool"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkSourceResolve"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkStore"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFortressTools"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
             <property name="proj.jar.name" value="xerces.jar"/>
             <property name="path" value="${xerces.jar}"/>
@@ -105,6 +108,16 @@
             <classpath refid="project.class.path" />
             <exclude name="**/test/**"/>
         </javac>
+
+        <!-- generate fortress meta descriptors -->
+        <taskdef name="fortress-collect-meta"
+                 classname="org.apache.avalon.fortress.tools.ComponentMetaInfoCollector">
+            <classpath refid="project.class.path"/>
+        </taskdef>
+
+        <fortress-collect-meta destdir="${build.classes}">
+            <fileset dir="${java.dir}"/>
+        </fortress-collect-meta>
 
         <!-- copy resources to same location as .class files -->
         <copy todir="${build.classes}">
