@@ -10,7 +10,7 @@
 # It is overridden by ../ant.properties and ~/build.properties
 # It overrides all default.properties files and ~/.ant.properties
 #
-# $Id: ant.properties.sample,v 1.5 2002/07/30 22:26:01 hammant Exp $
+# $Id: ant.properties.sample,v 1.6 2002/08/04 01:07:39 leif Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Control Flags -----
@@ -40,7 +40,7 @@ excalibur-threadcontext.jar=${excalibur-threadcontext.home}/excalibur-threadcont
 
 # ----- Excalibur Instrument -----
 excalibur-instrument.home=../instrument/build/lib
-excalibur-instrument.jar=${excalibur-instrument.home}/excalibur-instrument-0.2.jar
+excalibur-instrument.jar=${excalibur-instrument.home}/excalibur-instrument-0.3.jar
 
 # ----- Excalibur Pool -----
 excalibur-pool.home=../pool/build/lib
