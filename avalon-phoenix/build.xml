@@ -91,19 +91,15 @@ Legal:
     <pathelement path="${java.class.path}" />
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
-      <exclude name="avalon-*"/>
-      <exclude name="logkit*.jar"/>
     </fileset>
     <pathelement path="${build.classes}" />
   </path>
 
   <path id="tools.class.path">
     <pathelement location="${xerces.jar}"/>
-    <pathelement location="${testlet.jar}"/>
     <pathelement location="${tools.jar}"/>
     <fileset dir="${tools.dir}/lib">
       <exclude name="ant.jar" />
-      <exclude name="testlet.jar"/>
     </fileset>
   </path>
 
@@ -136,6 +132,9 @@ Legal:
 
   <target name="check-environment">
     <available property="servlet.present" classname="javax.servlet.Servlet">
+      <classpath refid="project.class.path"/>
+    </available>
+    <available property="jmx.present" classname="javax.management.MBeanException">
       <classpath refid="project.class.path"/>
     </available>
   </target>
@@ -207,6 +206,10 @@ Legal:
       <src path="${build.src}" />
       <exclude name="${constants.file}" />
       <exclude name="org/apache/avalon/phoenix/frontends/PhoenixServlet.java" unless="servlet.present"/>
+      <exclude name="org/apache/jmx/**" unless="jmx.present"/>
+      <exclude name="**/*MBean.java" unless="jmx.present"/>
+      <exclude name="org/apache/avalon/phoenix/components/manager/DefaultManager.java" 
+               unless="jmx.present"/>
     </javac>
 
     <copy todir="${build.classes}">
@@ -214,6 +217,11 @@ Legal:
         <include name="**/*.properties" />
       </fileset>
     </copy>
+
+  </target>
+
+  <target name="rmic" depends="compile" if="jmx.present"
+          description="runs rmic on JMX Adaptor">
 
     <rmic base="${build.classes}" 
           classname="org.apache.jmx.adaptor.RMIAdaptorImpl" 
@@ -356,7 +364,7 @@ Legal:
   </target>
 
   <!-- Creates all the .jar files -->
-  <target name="jars" depends="compile">
+  <target name="jars" depends="rmic">
 
     <mkdir dir="${build.lib}"/>
 
@@ -493,21 +501,11 @@ Legal:
       <fileset dir="${tools.dir}"/>
     </copy>
 
-    <copy todir="${src.dist.lib}">
-      <fileset dir="${lib.dir}">
-        <include name="README" />
-<!--
-        <include name="avalonapi.jar" />
-        <include name="xerces.jar" />
--->
-      </fileset>
-    </copy>
-
     <copy file="${xerces.jar}" todir="${src.dist.lib}/"/>
-    <copy file="${framework.jar}" tofile="${src.dist.lib}/framework.jar"/>
-    <copy file="${excalibur.jar}" tofile="${src.dist.lib}/excalibur.jar"/>
-    <copy file="${scratchpad.jar}" tofile="${src.dist.lib}/scratchpad.jar"/>
-    <copy file="${logkit.jar}" tofile="${src.dist.lib}/logkit.jar"/>
+    <copy file="${framework.jar}" todir="${src.dist.lib}"/>
+    <copy file="${excalibur.jar}" todir="${src.dist.lib}"/>
+    <copy file="${scratchpad.jar}" todir="${src.dist.lib}"/>
+    <copy file="${logkit.jar}" todir="${src.dist.lib}"/>
 
     <copy todir="${src.dist.src}">
       <fileset dir="${src.dir}"/>
@@ -606,7 +604,7 @@ Legal:
   </target>
 
   <!-- Makes the Phoneix Development Kit -->
-  <target name="make-pdk" depends="compile" description="Generates a dual mode example Phoenix application">
+  <target name="make-pdk" depends="rmic" description="Generates a dual mode example Phoenix application">
 
     <mkdir dir="${dist.base}"/>
     <zip file="${dist.base}/phoenix-devkit.zip">
