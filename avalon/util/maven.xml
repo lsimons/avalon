@@ -22,4 +22,39 @@
       ignoreFailures="false"/>
   </goal>
 
+  <goal name="avalon:site">
+    <maven:reactor basedir="${basedir}"
+      includes="project.xml"
+      goals="xjavadoc,site"
+      banner="Building site:"
+      ignoreFailures="false"/>
+  </goal>
+
+  <goal name="xjavadoc">
+    <ant:mkdir dir="${maven.build.dir}/docs/api" />
+    <ant:property name="copyright"
+      value="Copyright &amp;copy; ${year} ${pom.organization.name}. All Rights Reserved." />
+    <ant:property name="title" value="${pom.name} ${pom.currentVersion}"/>
+    <ant:javadoc destdir="${maven.build.dir}/docs/api" 
+	doctitle="&lt;h1&gt;${title}&lt;/h1&gt;" 
+      noindex="false" author="true" use="true"
+	windowtitle="${title}" 
+      bottom="${copyright}"
+      additionalparam="-breakiterator -J-Xmx128m "
+      packagenames="*,org.*">
+        <j:forEach var="packageGroup" items="${pom.packageGroups}">
+          <group title="${packageGroup.title}" packages="${packageGroup.packages}"/>
+        </j:forEach>
+        <sourcepath path="${basedir}/defaults/src/java"/>
+        <sourcepath path="${basedir}/env/src/java"/>
+        <sourcepath path="${basedir}/exception/src/java"/>
+        <sourcepath path="${basedir}/factory/api/src/java"/>
+        <sourcepath path="${basedir}/factory/impl/src/java"/>
+        <classpath>
+          <path refid="maven.dependency.classpath"/>
+	  </classpath>
+	  <link href="http://java.sun.com/j2se/1.4.2/docs/api/" />
+    </ant:javadoc>
+  </goal>
+
 </project>

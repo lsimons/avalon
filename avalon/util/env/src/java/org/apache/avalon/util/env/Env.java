@@ -66,12 +66,12 @@ import java.util.Enumeration ;
  * Encapsulates operating system and shell specific access to environment 
  * variables.
  * 
- * @todo cleanup exception handling which is now in an odd state (constructors)
+ * TODO cleanup exception handling which is now in an odd state (constructors)
  * need to be added and or changed.
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author $Author: mcconnell $
- * @version $Revision: 1.1 $
+ * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version $Revision: 1.2 $
  */
 public class Env extends Properties
 {

@@ -77,7 +77,6 @@ public class ExceptionHelper
 
     /**
      * Returns the exception and causal exceptions as a formatted string.
-     * @param message the header message
      * @param e the exception
      * @return String the formatting string
      */
@@ -129,7 +128,7 @@ public class ExceptionHelper
     /**
      * Returns the exception and causal exceptions as a formatted string.
      * @param message the header message
-     * @param e the exception
+     * @param e the exceptions
      * @param stack TRUE to generate a stack trace
      * @return String the formatting string
      */
