@@ -22,9 +22,8 @@ import java.util.Map;
 public class DefaultComponentManager
     implements ComponentManager
 {
-    //TODO: Make these private before next release
-    protected final HashMap               m_components = new HashMap();
-    protected final ComponentManager      m_parent;
+    private final HashMap               m_components = new HashMap();
+    private final ComponentManager      m_parent;
 
     /**
      * Construct ComponentManager with no parent.

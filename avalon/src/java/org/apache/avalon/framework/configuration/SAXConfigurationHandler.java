@@ -25,9 +25,9 @@ public class SAXConfigurationHandler
     extends DefaultHandler
     implements ErrorHandler
 {
-    protected final ArrayList              m_elements        = new ArrayList();
-    protected Configuration                m_configuration;
-    protected Locator                      m_locator;
+    private final ArrayList              m_elements        = new ArrayList();
+    private Configuration                m_configuration;
+    private Locator                      m_locator;
 
     public Configuration getConfiguration()
     {

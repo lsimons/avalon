@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public abstract class Enum
 {
-    protected final String        m_name;
+    private final String        m_name;
 
     public Enum( final String name )
     {

@@ -22,9 +22,8 @@ import java.util.Map;
 public class DefaultContext
     implements Context
 {
-    //TODO: Make the following private before next release
-    protected final Map                       m_contextData;
-    protected final Context                   m_parent;
+    private final Map                       m_contextData;
+    private final Context                   m_parent;
 
     /**
      * Create a Context with specified data and parent.

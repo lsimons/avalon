@@ -23,11 +23,11 @@ public class DefaultConfiguration
 {
     protected static final Configuration[]   EMPTY_ARRAY = new Configuration[ 0 ];
 
-    protected final String                   m_name;
-    protected final String                   m_location;
-    protected HashMap                        m_attributes;
-    protected ArrayList                      m_children;
-    protected String                         m_value;
+    private final String                     m_name;
+    private final String                     m_location;
+    private HashMap                          m_attributes;
+    private ArrayList                        m_children;
+    private String                           m_value;
 
     /**
      * Create a new <code>DefaultConfiguration</code> instance.
