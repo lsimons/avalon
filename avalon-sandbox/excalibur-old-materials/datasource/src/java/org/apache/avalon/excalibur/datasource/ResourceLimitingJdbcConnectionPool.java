@@ -49,6 +49,7 @@
 */
 package org.apache.avalon.excalibur.datasource;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import org.apache.avalon.excalibur.pool.ObjectFactory;
@@ -64,7 +65,7 @@ import org.apache.avalon.excalibur.pool.ValidatedResourceLimitingPool;
  *  connections.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/02/27 15:20:55 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/03/05 18:59:02 $
  * @since 4.1
  */
 public class ResourceLimitingJdbcConnectionPool
@@ -119,13 +120,13 @@ public class ResourceLimitingJdbcConnectionPool
      */
     protected Poolable newPoolable() throws Exception
     {
-        AbstractJdbcConnection conn = (AbstractJdbcConnection)super.newPoolable();
+        PoolSettable conn = (PoolSettable)super.newPoolable();
 
         // Store a reference to this pool in the connection
         conn.setPool( this );
 
         // Set the auto commit flag for new connections.
-        conn.setAutoCommit( m_autoCommit );
+        ((Connection)conn).setAutoCommit( m_autoCommit );
 
         return conn;
     }
@@ -141,7 +142,7 @@ public class ResourceLimitingJdbcConnectionPool
      */
     protected boolean validatePoolable( Poolable poolable )
     {
-        AbstractJdbcConnection conn = (AbstractJdbcConnection)poolable;
+        PoolSettable conn = (PoolSettable)poolable;
         try
         {
             // Calling isClosed() may take time if the connection has not been

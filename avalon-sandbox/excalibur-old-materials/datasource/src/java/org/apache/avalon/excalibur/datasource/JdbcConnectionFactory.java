@@ -50,17 +50,22 @@
 package org.apache.avalon.excalibur.datasource;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
 import org.apache.avalon.excalibur.pool.ObjectFactory;
+import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.LogEnabled;
 
 /**
  * The Factory implementation for JdbcConnections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.17 $ $Date: 2003/02/27 15:20:55 $
+ * @version CVS $Revision: 1.18 $ $Date: 2003/03/05 18:59:01 $
  * @since 4.0
  */
 public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectFactory
@@ -157,23 +162,17 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
         String className = m_connectionClass;
         if( null == className )
         {
-            try
-            {
-                java.lang.reflect.Method meth = connection.getClass().getMethod( "getHoldability", new Class[]{} );
-                className = "org.apache.avalon.excalibur.datasource.Jdbc3Connection";
-            }
-            catch( Exception e )
-            {
-                className = "org.apache.avalon.excalibur.datasource.JdbcConnection";
-            }
+            m_class = AbstractJdbcConnection.class;
         }
-
-        this.m_class = Thread.currentThread().getContextClassLoader().loadClass( className );
+        else
+        {
+            m_class = Thread.currentThread().getContextClassLoader().loadClass( className );
+        }
     }
 
     public Object newInstance() throws Exception
     {
-        AbstractJdbcConnection jdbcConnection = null;
+        Connection jdbcConnection = null;
         Connection connection = m_firstConnection;
 
         if( null == connection )
@@ -210,37 +209,19 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
 
         try
         {
-            Class[] paramTypes = new Class[]{Connection.class, String.class};
-            Object[] params = new Object[]{connection, this.m_keepAlive};
-
-            Constructor constructor = m_class.getConstructor( paramTypes );
-            jdbcConnection = (AbstractJdbcConnection)constructor.newInstance( params );
+            jdbcConnection = getProxy(connection, this.m_keepAlive);
         }
         catch( Exception e )
         {
-            try
+            if( getLogger().isDebugEnabled() )
             {
-                // Support the deprecated connection constructor as well.
-                boolean oracleKeepAlive = ( m_keepAlive != null ) && m_keepAlive.equalsIgnoreCase( JdbcConnectionFactory.ORACLE_KEEPALIVE );
-
-                Class[] paramTypes = new Class[]{Connection.class, boolean.class};
-                Object[] params = new Object[]{connection, new Boolean( oracleKeepAlive )};
-
-                Constructor constructor = m_class.getConstructor( paramTypes );
-                jdbcConnection = (AbstractJdbcConnection)constructor.newInstance( params );
+                getLogger().debug( "Exception in JdbcConnectionFactory.newInstance:", e );
             }
-            catch( Exception ie )
-            {
-                if( getLogger().isDebugEnabled() )
-                {
-                    getLogger().debug( "Exception in JdbcConnectionFactory.newInstance:", ie );
-                }
 
-                throw new NoValidConnectionException( ie.getMessage() );
-            }
+            throw new NoValidConnectionException( e.getMessage() );
         }
 
-        jdbcConnection.enableLogging( getLogger() );
+        ContainerUtil.enableLogging(jdbcConnection, getLogger());
 
         // Not all drivers are friendly to explicitly setting autocommit
         if( jdbcConnection.getAutoCommit() != m_autoCommit )
@@ -267,5 +248,29 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
         {
             ( (AbstractJdbcConnection)object ).dispose();
         }
+    }
+    
+    private Connection getProxy(Connection conn, String keepAlive)
+    {
+        InvocationHandler handler = null;
+        
+        try
+        {
+            Constructor builder = m_class.getConstructor(new Class[]{Connection.class, String.class});
+            handler = (InvocationHandler)builder.newInstance(new Object[]{conn, keepAlive});
+        }
+        catch (Exception e)
+        {
+            getLogger().error("Could not create the proper invocation handler, defaulting to AbstractJdbcConnection", e);
+            handler = new AbstractJdbcConnection(conn, keepAlive);
+        }
+        
+        return (Connection) Proxy.newProxyInstance(
+                m_class.getClassLoader(),
+                new Class[]{Connection.class,
+                            LogEnabled.class,
+                            PoolSettable.class,
+                            Disposable.class},
+                handler);
     }
 }

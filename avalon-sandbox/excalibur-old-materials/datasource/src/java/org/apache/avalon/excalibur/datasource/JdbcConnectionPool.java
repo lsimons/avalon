@@ -49,12 +49,14 @@
 */
 package org.apache.avalon.excalibur.datasource;
 
+import java.sql.Connection;
 import java.util.HashSet;
 import java.util.Iterator;
 
 import org.apache.avalon.excalibur.pool.DefaultPoolController;
 import org.apache.avalon.excalibur.pool.HardResourceLimitingPool;
 import org.apache.avalon.excalibur.pool.Poolable;
+import org.apache.avalon.excalibur.pool.Recyclable;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 
@@ -63,7 +65,7 @@ import org.apache.avalon.framework.activity.Initializable;
  * thread to manage the number of SQL Connections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.19 $ $Date: 2003/02/27 15:20:55 $
+ * @version CVS $Revision: 1.20 $ $Date: 2003/03/05 18:59:02 $
  * @since 4.0
  */
 public class JdbcConnectionPool
@@ -113,11 +115,11 @@ public class JdbcConnectionPool
 
     protected final Poolable newPoolable() throws Exception
     {
-        AbstractJdbcConnection conn = null;
+        PoolSettable conn = null;
 
         if( m_wait < 1 )
         {
-            conn = (AbstractJdbcConnection)super.newPoolable();
+            conn = (PoolSettable)super.newPoolable();
         }
         else
         {
@@ -142,7 +144,7 @@ public class JdbcConnectionPool
 
                 try
                 {
-                    conn = (AbstractJdbcConnection)super.newPoolable();
+                    conn = (PoolSettable)super.newPoolable();
                 }
                 finally
                 {
@@ -179,7 +181,7 @@ public class JdbcConnectionPool
             }
         }
 
-        AbstractJdbcConnection obj = (AbstractJdbcConnection)super.get();
+        PoolSettable obj = (PoolSettable)super.get();
 
         if( obj.isClosed() )
         {
@@ -196,9 +198,9 @@ public class JdbcConnectionPool
                     m_active.remove( obj );
                 }
 
-                this.removePoolable( obj );
+                this.removePoolable( (Recyclable)obj );
 
-                obj = (AbstractJdbcConnection)this.newPoolable();
+                obj = (PoolSettable)this.newPoolable();
 
                 m_active.add( obj );
             }
@@ -216,12 +218,12 @@ public class JdbcConnectionPool
             }
         }
 
-        if( obj.getAutoCommit() != m_autoCommit )
+        if( ((Connection)obj).getAutoCommit() != m_autoCommit )
         {
-            obj.setAutoCommit( m_autoCommit );
+            ((Connection)obj).setAutoCommit( m_autoCommit );
         }
 
-        return obj;
+        return (Poolable)obj;
     }
 
     public void put( Poolable obj )

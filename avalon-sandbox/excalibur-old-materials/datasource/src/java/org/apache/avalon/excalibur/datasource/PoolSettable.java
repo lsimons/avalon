@@ -49,30 +49,23 @@
 */
 package org.apache.avalon.excalibur.datasource;
 
-import java.sql.Connection;
+import java.sql.SQLException;
+
+import org.apache.avalon.excalibur.pool.Pool;
+import org.apache.avalon.excalibur.pool.Recyclable;
 
 /**
- * The Connection object used in conjunction with the JdbcDataSource
- * object.
- *
- * @deprecated No longer necessary due to the dynamic proxies 
- *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/03/05 18:59:01 $
- * @since 4.0
+ * Hack class to work around the dynamic proxy issues of not allowing
+ * abstract base classes as an "interface".
  */
-public class JdbcConnection
-    extends AbstractJdbcConnection
+public interface PoolSettable extends Recyclable
 {
     /**
-     * @param connection a driver specific JDBC connection to be wrapped.
-     * @param keepAlive a query which will be used to check the statis of the connection after it
-     *                  has been idle.  A null value will cause the keep alive feature to
-     *                  be disabled.
+     * Set the pool that will be used to recycle.
+     * 
+     * @param pool
      */
-    public JdbcConnection( final Connection connection, final String keepAlive )
-    {
-        super( connection, keepAlive );
-    }
+    void setPool( Pool pool );
+    
+    boolean isClosed() throws SQLException;
 }
-
