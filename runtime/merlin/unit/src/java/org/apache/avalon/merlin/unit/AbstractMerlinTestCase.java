@@ -55,6 +55,27 @@ public abstract class AbstractMerlinTestCase extends TestCase
     private static final String DEPLOYMENT_MODEL_CLASSNAME = 
       "org.apache.avalon.composition.model.DeploymentModel";
 
+    private static File getWorkDir()
+    {
+        String path = System.getProperty( "project.dir" );
+        if( null != path )
+        {
+            return new File( path );
+        }
+        else
+        {
+            path = System.getProperty( "basedir" );
+            if( null != path )
+            {
+                return new File( path );
+            }
+            else
+            {
+                return new File( System.getProperty( "user.dir" ) );
+            }
+        }
+    }
+
     //----------------------------------------------------------
     // immutable state
     //----------------------------------------------------------
@@ -76,6 +97,14 @@ public abstract class AbstractMerlinTestCase extends TestCase
 
     /**
      * Constructor for MerlinEmbeddedTest.
+     */
+    public AbstractMerlinTestCase()
+    {
+        super();
+    }
+
+    /**
+     * Constructor for MerlinEmbeddedTest.
      * @param name the name of the testcase
      */
     public AbstractMerlinTestCase( String name )
@@ -89,20 +118,17 @@ public abstract class AbstractMerlinTestCase extends TestCase
 
         try
         {
-            File repository = new File( getMavenHome(), "repository" );
             File basedir = getBaseDirectory();
+            File home = getHomeDirectory();
 
-            Artifact artifact = 
-              DefaultBuilder.createImplementationArtifact( 
-                classloader, 
-                getMerlinHome(),
-                basedir, 
-                MERLIN_PROPERTIES, 
-                IMPLEMENTATION_KEY );
+            Artifact artifact = DefaultBuilder.createImplementationArtifact( 
+              classloader, home, basedir, 
+              MERLIN_PROPERTIES, IMPLEMENTATION_KEY );
 
             InitialContextFactory icFactory = 
               new DefaultInitialContextFactory( "merlin", basedir );
-            icFactory.setCacheDirectory( repository );
+            icFactory.setCacheDirectory( getCacheDirectory() );
+
             InitialContext context = icFactory.createInitialContext();
 
             Builder builder = new DefaultBuilder( context, artifact );
@@ -114,7 +140,6 @@ public abstract class AbstractMerlinTestCase extends TestCase
             // set the defaults
             //
 
-            criteria.put( "merlin.repository", repository );
             criteria.put( "merlin.context", "target" );
             criteria.put( "merlin.server", "true" );
             criteria.put( "merlin.code.security.enabled", "false" );
@@ -241,8 +266,8 @@ public abstract class AbstractMerlinTestCase extends TestCase
     private String buildDefaultOverridePath()
     {
         File base = getBaseDirectory();
-        File config = new File( base, "conf/config.xml" );
-        if( config.exists() ) return "conf/config.xml";
+        File config = new File( base, "config.xml" );
+        if( config.exists() ) return "config.xml";
         return null;
     }
 
@@ -250,22 +275,38 @@ public abstract class AbstractMerlinTestCase extends TestCase
     {
         File base = getBaseDirectory();
         File classes = new File( base, "target/classes/BLOCK-INF/block.xml" );
-        File tests = new File( base, "target/test-classes/BLOCK-INF/block.xml" );
-        if( classes.exists() && tests.exists() )
-        {
-            return "target/classes,target/test-classes";
-        }
-        else if( classes.exists() )
+        if( classes.exists() )
         {
             return "target/classes";
-        }
-        else if( tests.exists() )
-        {
-            return "target/test-classes";
         }
         return null;
     }
 
+    private File getBaseDirectory()
+    {
+        return getWorkDir();
+    }
+
+    private File getHomeDirectory()
+    {
+        return getCacheDirectory().getParentFile();
+    }
+
+    private File getCacheDirectory()
+    {
+        String cache = System.getProperty( "project.repository.cache.path" );
+        if( null != cache )
+        {
+            return new File( cache );
+        }
+        else
+        {
+            throw new IllegalStateException( "don't know what to do yet" );
+        }
+    }
+
+
+    /*
     private static File getMavenHome()
     {
         try
@@ -292,30 +333,24 @@ public abstract class AbstractMerlinTestCase extends TestCase
             throw new RuntimeException( message );
         }
     }
-
-    private File getBaseDirectory()
-    {
-        final String base = System.getProperty( "basedir" );
-        if( null != base )
-        {
-            return new File( base );
-        }
-        return new File( System.getProperty( "user.dir" ) );
-    }
+    */
 
    /**
     * Return the merlin home directory.
     * @return the merlin install directory
     */
+    /*
     private static File getMerlinHome()
     {
         return new File( getMerlinHomePath() );
     }
+    */
 
    /**
     * Return the merlin home directory path.
     * @return the merlin install directory path
     */
+    /*
     private static String getMerlinHomePath()
     {
         try
@@ -337,5 +372,5 @@ public abstract class AbstractMerlinTestCase extends TestCase
             throw new RuntimeException( message );
         }
     }
-
+    */
 }
