@@ -23,7 +23,7 @@
   <property name="java.dir" value="${src.dir}/java"/>
   <property name="manifest.dir" value="${src.dir}/manifest"/>
   <property name="conf.dir" value="${src.dir}/conf"/>
-  <property name="docs.dir" value="docs"/>
+  <property name="docs.dir" value="dist/docs"/>
   <property name="www.dir" value="../../jakarta-avalon-site/docs"/>  
   
   <property name="build.xdocs" value="${build.dir}/xdocs"/>

@@ -41,7 +41,7 @@
     <property name="context.dir" value="../../jakarta-avalon/src/documentation"/>
     <property name="tools.dir" value="../../jakarta-avalon/tools"/>
     <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
-    <property name="docs.dir" value="docs"/>
+    <property name="docs.dir" value="dist/docs"/>
     <property name="xdocs.dir" value="${src.dir}/xdocs"/>      
 
     <!-- Set the properties for distribution directories -->
@@ -379,11 +379,14 @@
         </classpath>
       </java>
 
-      <copy todir="docs">
+      <copy todir="${docs.dir}">
         <fileset dir="${build.docs}">
           <include name="**"/>
         </fileset>
       </copy>    
+
+      <!-- hack for stupid transport on api link -->
+      <replace file="${docs.dir}/index.html" token="index.html.xml" value="index.html"/>
      
     </target>
     
@@ -391,7 +394,7 @@
   
       <mkdir dir="../site/docs/${dir-name}"/>     
       <copy todir="../site/docs/${dir-name}">
-        <fileset dir="docs">
+        <fileset dir="${docs.dir}">
           <include name="**"/>
         </fileset>
       </copy>        
