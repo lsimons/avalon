@@ -1,5 +1,10 @@
                   Avalons Excalibur Tweety
                   -----------------------------
+Notice
+------
+We've pretty much decided to stop developing tweety as a 'real' software
+project; it's instead going to be more closely integrated with existing
+documentation and software.
 
 License
 -------
