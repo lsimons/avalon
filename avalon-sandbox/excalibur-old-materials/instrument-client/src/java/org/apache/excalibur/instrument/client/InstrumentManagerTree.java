@@ -24,7 +24,7 @@ import javax.swing.tree.TreeSelectionModel;
 
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
 
-import org.apache.excalibur.altrmi.common.AltrmiInvocationException;
+import org.apache.excalibur.altrmi.common.InvocationException;
 
 class InstrumentManagerTree
     extends JComponent

@@ -27,7 +27,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
 
-import org.apache.excalibur.altrmi.common.AltrmiInvocationException;
+import org.apache.excalibur.altrmi.common.InvocationException;
 
 class InstrumentManagerTreeModel
     extends AbstractLogEnabled
@@ -485,7 +485,7 @@ class InstrumentManagerTreeModel
             {
                 updateInstrumentModelClient( client, m_root, m_lastClientStateVersion );
             }
-            catch ( AltrmiInvocationException e )
+            catch ( InvocationException e )
             {
                 System.out.println( "Error updating the Instrumentables on " +
                     m_connection.getHost() + ":" + m_connection.getPort() + ": " +
