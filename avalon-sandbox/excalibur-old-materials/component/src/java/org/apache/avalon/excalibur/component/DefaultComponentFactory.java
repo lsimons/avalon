@@ -40,7 +40,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.17 $ $Date: 2003/02/05 02:28:35 $
+ * @version CVS $Revision: 1.18 $ $Date: 2003/02/08 14:49:16 $
  * @since 4.0
  */
 public class DefaultComponentFactory
@@ -295,6 +295,9 @@ public class DefaultComponentFactory
         //  This makes it possible to use components which are not real Components
         //  with the ECM.  We need to remember to unwrap this when the component is
         //  decommissioned.
+	//
+	// note that ComponentHandler depends on this specific
+	// component instanceof Component check to be made
         Component returnableComponent;
         if( !( component instanceof Component ) )
         {
