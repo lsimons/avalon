@@ -32,7 +32,7 @@ import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.interfaces.ManagerException;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
 import org.apache.jmx.adaptor.RMIAdaptorImpl;
-import org.apache.jmx.introspector.DynamicMBeanFactory;
+import org.apache.jmx.introspector.JavaBeanMBean;
 import com.sun.jdmk.comm.HtmlAdaptorServer;
 
 /**
@@ -177,7 +177,7 @@ public class PhoenixManager
         try
         {
             //TODO: actually take some heed of interfaces parameter
-            final DynamicMBean mBean = DynamicMBeanFactory.create( object );
+            final DynamicMBean mBean = new JavaBeanMBean( object );
             final ObjectName objectName = 
                 new ObjectName( m_domain + ":type=" + name );
             m_mBeanServer.registerMBean( mBean, objectName );
