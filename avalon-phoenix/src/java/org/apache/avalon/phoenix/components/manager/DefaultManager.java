@@ -20,6 +20,9 @@ import javax.management.ObjectName;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.extension.PackageRepository;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
@@ -50,7 +53,7 @@ import org.apache.excalibur.baxter.JavaBeanMBean;
  */
 public class DefaultManager
     extends AbstractSystemManager
-    implements Parameterizable, Serviceable
+    implements Parameterizable, Configurable, Serviceable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultManager.class );
@@ -80,11 +83,18 @@ public class DefaultManager
     private Kernel m_kernel;
     private ConfigurationRepository m_repository;
     private PackageRepository m_extensionManager;
+    private Configuration m_configuration;
 
     public void parameterize( final Parameters parameters )
         throws ParameterException
     {
         m_parameters = parameters;
+    }
+
+    public void configure( final Configuration configuration )
+        throws ConfigurationException
+    {
+        m_configuration = configuration;
     }
 
     /**
@@ -105,7 +115,7 @@ public class DefaultManager
         m_extensionManager = (PackageRepository)serviceManager.
             lookup( PackageRepository.ROLE );
     }
-
+    
     public void initialize()
         throws Exception
     {
@@ -114,16 +124,20 @@ public class DefaultManager
 
         try
         {
+            final int port = m_configuration.getChild( "manager-adaptor-port" ).getValueAsInteger( DEFAULT_HTTPADAPTER_PORT );
             final HtmlAdaptorServer html =
-                new HtmlAdaptorServer( DEFAULT_HTTPADAPTER_PORT );
-            if( null != DEFAULT_ADMIN_PASSWD )
+                new HtmlAdaptorServer( port );
+
+            final String adminname = m_configuration.getChild( "manager-admin-name" ).getValue( DEFAULT_ADMIN_USER );
+            final String adminpasswd = m_configuration.getChild( "manager-admin-password" ).getValue( DEFAULT_ADMIN_PASSWD );
+            if( null != adminpasswd )
             {
-                final AuthInfo auth = new AuthInfo( DEFAULT_ADMIN_USER, DEFAULT_ADMIN_PASSWD );
+                final AuthInfo auth = new AuthInfo( adminname, adminpasswd );
                 html.addUserAuthenticationInfo( auth );
             }
 
             final String stringName =
-                "Adaptor:name=html,port=" + DEFAULT_HTTPADAPTER_PORT;
+                "Adaptor:name=html,port=" + port;
             final ObjectName name = new ObjectName( stringName );
             System.out.println( "Created HTML Adaptor " + name );
             m_mBeanServer.registerMBean( html, name );
@@ -151,8 +165,10 @@ public class DefaultManager
     public void start()
         throws Exception
     {
-        final int port =
+        final int portp =
             m_parameters.getParameterAsInteger( "manager-registry-port", DEFAULT_REGISTRY_PORT );
+        final int port =
+            m_configuration.getChild( "manager-registry-port" ).getValueAsInteger( portp );
         m_name = m_parameters.getParameter( "manager-name", "Phoenix.JMXAdaptor" );
 
         m_rmiRegistry = LocateRegistry.createRegistry( port );
