@@ -8,7 +8,7 @@
 package org.apache.phoenix.engine.facilities.classloader;
 
 import java.security.Policy;
-import org.apache.avalon.Initializable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.component.ComponentManager;
 import org.apache.avalon.component.Composable;
@@ -40,10 +40,10 @@ public class DefaultClassLoaderManager
         m_classLoader.compose( componentManager );
     }
 
-    public void init()
+    public void initialize()
         throws Exception
     {
-        m_classLoader.init();
+        m_classLoader.initialize();
     }
 
     /**

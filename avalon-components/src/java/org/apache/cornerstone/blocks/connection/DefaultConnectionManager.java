@@ -12,7 +12,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Iterator;
-import org.apache.avalon.Disposable;
+import org.apache.avalon.activity.Disposable;
 import org.apache.avalon.context.Context;
 import org.apache.avalon.context.Contextualizable;
 import org.apache.avalon.logger.AbstractLoggable;

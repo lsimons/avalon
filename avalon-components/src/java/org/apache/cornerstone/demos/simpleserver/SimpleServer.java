@@ -14,7 +14,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.Iterator;
 import java.util.StringTokenizer;
-import org.apache.avalon.Initializable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.component.Component;
 import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.component.ComponentManager;
@@ -86,7 +86,7 @@ public class SimpleServer
         m_configuration = configuration;
     }
 
-    public void init()
+    public void initialize()
         throws Exception
     {
         getLogger().info( "init Demo ..." );

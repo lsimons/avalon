@@ -9,8 +9,8 @@ package org.apache.cornerstone.services.connection;
 
 import java.net.InetAddress;
 import java.net.ServerSocket;
-import org.apache.avalon.Disposable;
-import org.apache.avalon.Initializable;
+import org.apache.avalon.activity.Disposable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.component.Component;
 import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.component.ComponentManager;
@@ -112,12 +112,12 @@ public abstract class AbstractService
         }
     }
 
-    public void init()
+    public void initialize()
         throws Exception
     {
         if( m_factory instanceof Initializable )
         {
-            ((Initializable)m_factory).init();
+            ((Initializable)m_factory).initialize();
         }
 
         if( null == m_connectionName )

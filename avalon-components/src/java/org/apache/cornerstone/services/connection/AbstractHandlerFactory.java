@@ -7,7 +7,7 @@
  */
 package org.apache.cornerstone.services.connection;
 
-import org.apache.avalon.Initializable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.component.Component;
 import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.component.ComponentManager;
@@ -79,7 +79,7 @@ public abstract class AbstractHandlerFactory
 
         if( handler instanceof Initializable )
         {
-            ((Initializable)handler).init();
+            ((Initializable)handler).initialize();
         }
 
         return handler;

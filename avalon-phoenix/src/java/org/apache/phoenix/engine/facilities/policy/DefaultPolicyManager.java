@@ -8,7 +8,7 @@
 package org.apache.phoenix.engine.facilities.policy;
 
 import java.security.Policy;
-import org.apache.avalon.Initializable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
@@ -45,10 +45,10 @@ public class DefaultPolicyManager
         m_policy.configure( configuration );
     }
 
-    public void init()
+    public void initialize()
         throws Exception
     {
-        m_policy.init();
+        m_policy.initialize();
     }
 
     /**

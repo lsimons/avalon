@@ -14,7 +14,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import org.apache.avalon.Initializable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.component.Component;
 import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.component.ComponentManager;
@@ -71,7 +71,7 @@ public class XCommanderServer
         m_configuration = configuration;
     }
 
-    public void init()
+    public void initialize()
         throws Exception
     {
         m_clients = new ArrayList();
@@ -116,7 +116,7 @@ public class XCommanderServer
     {
         final XCommanderHandler handler = new XCommanderHandler( this );
         setupLogger( handler );
-        handler.init();
+        handler.initialize();
         return handler;
     }
 

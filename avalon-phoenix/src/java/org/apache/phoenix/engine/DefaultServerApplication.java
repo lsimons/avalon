@@ -9,7 +9,7 @@ package org.apache.phoenix.engine;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import org.apache.avalon.Initializable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.atlantis.Application;
 import org.apache.avalon.atlantis.ApplicationException;
 import org.apache.avalon.atlantis.SystemManager;
@@ -113,7 +113,7 @@ public final class DefaultServerApplication
         m_configuration = configuration;
     }
 
-    public void init()
+    public void initialize()
         throws Exception
     {
         createComponents();
@@ -256,7 +256,7 @@ public final class DefaultServerApplication
 
         if( object instanceof Initializable )
         {
-            ((Initializable)object).init();
+            ((Initializable)object).initialize();
         }
     }
 

@@ -16,7 +16,7 @@ import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.net.Socket;
 import java.net.SocketException;
-import org.apache.avalon.Initializable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.component.Component;
 import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.cornerstone.services.connection.ConnectionHandler;
@@ -48,7 +48,7 @@ public class XCommanderHandler
         m_parent = parentServer;
     }
 
-    public void init() throws Exception
+    public void initialize() throws Exception
     {
         // create a SAX2 Parser from the org.xml.sax.parser system property,
         // or else from the DEFUALT_PARSER.
