@@ -2,7 +2,7 @@
 
 <document>
   <header>
-    <title>Excalibur - Logger</title>
+    <title>Excalibur Logger - Overview</title>
       <authors>
       <person name="Giacomo Pati" email="giacomo@apache.org"/>
       </authors>
@@ -251,7 +251,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.3 $ $Date: 2002/04/05 05:33:24 $
+      $Revision: 1.4 $ $Date: 2002/04/05 08:21:05 $
     </legal>
   </footer>
 </document>
