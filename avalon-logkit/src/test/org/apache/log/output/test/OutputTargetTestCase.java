@@ -25,7 +25,7 @@ import org.apache.log.output.io.FileTarget;
 import org.apache.log.output.io.SafeFileTarget;
 import org.apache.log.output.io.StreamTarget;
 import org.apache.log.output.io.WriterTarget;
-import org.apache.testlet.AbstractTestlet;
+import junit.framework.TestCase;
 
 /**
  * Test suite for the formatters.
@@ -33,8 +33,8 @@ import org.apache.testlet.AbstractTestlet;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public final class OutputTargetTestlet
-    extends AbstractTestlet
+public final class OutputTargetTestCase
+    extends TestCase
 {
     private static String M1 = "meep meep!";
     private static String M2 = "marina";
@@ -53,9 +53,11 @@ public final class OutputTargetTestlet
 
     private final File     m_logFile;
 
-    public OutputTargetTestlet()
+    public OutputTargetTestCase( final String name )
         throws IOException
     {
+        super( name );
+
         m_logFile = (new File( "test/log/logfile.txt" )).getCanonicalFile();
     }
 
@@ -102,11 +104,11 @@ public final class OutputTargetTestlet
         target.close();
 
         final String data = getFileContents( m_logFile );
-        assertEquality( "Targets file output", OUTPUT, data );
-        assert( "Deleting logfile", m_logFile.delete() );
+        assertEquals( "Targets file output", OUTPUT, data );
+        assertTrue( "Deleting logfile", m_logFile.delete() );
 
         logger.debug( M1 );
-        assert( "Write after close()", !m_logFile.exists() );
+        assertTrue( "Write after close()", !m_logFile.exists() );
     }
 
     public void testSafeFileTarget()
@@ -118,19 +120,19 @@ public final class OutputTargetTestlet
         logger.debug( M1 );
 
         final String data1 = getFileContents( m_logFile );
-        assertEquality( "Targets file output", HEAD + R1, data1 );
-        assert( "Deleting logfile", m_logFile.delete() );
+        assertEquals( "Targets file output", HEAD + R1, data1 );
+        assertTrue( "Deleting logfile", m_logFile.delete() );
 
         logger.debug( M2 );
         logger.debug( M3 );
         target.close();
 
         final String data2 = getFileContents( m_logFile );
-        assertEquality( "Targets file output", R2 + R3 + TAIL, data2 );
-        assert( "Deleting logfile", m_logFile.delete() );
+        assertEquals( "Targets file output", R2 + R3 + TAIL, data2 );
+        assertTrue( "Deleting logfile", m_logFile.delete() );
 
         logger.debug( M1 );
-        assert( "Write after close()", !m_logFile.exists() );
+        assertTrue( "Write after close()", !m_logFile.exists() );
     }
 
     /**
@@ -177,16 +179,16 @@ public final class OutputTargetTestlet
 
         //Head output should not be pushed yet
         final String head = getResult( output );
-        assertEquality( "Targets Head output", "", head );
+        assertEquals( "Targets Head output", "", head );
 
         //Not pushed yet
         logger.debug( M1 );
         final String result1 = getResult( output );
-        assertEquality( "Targets R1 debug output", "", result1 );
+        assertEquals( "Targets R1 debug output", "", result1 );
 
         target.push();
         final String resultPP = getResult( output );
-        assertEquality( "Targets HEAD+R1 debug output", HEAD+R1, resultPP );
+        assertEquals( "Targets HEAD+R1 debug output", HEAD+R1, resultPP );
 
         logger.debug( M2 );
         final String result2 = getResult( output );
@@ -198,9 +200,9 @@ public final class OutputTargetTestlet
         logger.fatalError( M3 );
         final String result4 = getResult( output );
 
-        assertEquality( "Targets R2 debug output", "", result2 );
-        assertEquality( "Targets R3 debug output", "", result3 );
-        assertEquality( "Targets R3 debug output", R2+R3+R3, result4 );
+        assertEquals( "Targets R2 debug output", "", result2 );
+        assertEquals( "Targets R3 debug output", "", result3 );
+        assertEquals( "Targets R3 debug output", R2+R3+R3, result4 );
     }
 
     private Logger getNewLogger( final LogTarget target )
@@ -245,10 +247,10 @@ public final class OutputTargetTestlet
         logger.debug( M3 );
         final String result3 = getResult( output );
 
-        assertEquality( "Targets Head output", HEAD, head );
-        assertEquality( "Targets R1 debug output", R1, result1 );
-        assertEquality( "Targets R2 debug output", R2, result2 );
-        assertEquality( "Targets R3 debug output", R3, result3 );
+        assertEquals( "Targets Head output", HEAD, head );
+        assertEquals( "Targets R1 debug output", R1, result1 );
+        assertEquals( "Targets R2 debug output", R2, result2 );
+        assertEquals( "Targets R3 debug output", R3, result3 );
 
         return logger;
     }
@@ -260,13 +262,13 @@ public final class OutputTargetTestlet
 
         target.close();
         final String tail = getResult( output );
-        assertEquality( "Targets Tail output", TAIL, tail );
+        assertEquals( "Targets Tail output", TAIL, tail );
 
         logger.debug( M1 );
         final String noresult = getResult( output );
         //final String errorResult = getErrorResult( errorOutput );
 
-        assertEquality( "Write after close()", "", noresult );
-        //assertEquality( "Epecting error", "", errorResult );
+        assertEquals( "Write after close()", "", noresult );
+        //assertEquals( "Epecting error", "", errorResult );
     }
 }

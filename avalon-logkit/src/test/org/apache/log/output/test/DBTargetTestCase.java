@@ -25,20 +25,22 @@ import org.apache.log.output.io.FileTarget;
 import org.apache.log.output.io.SafeFileTarget;
 import org.apache.log.output.io.StreamTarget;
 import org.apache.log.output.io.WriterTarget;
-import org.apache.testlet.AbstractTestlet;
 import org.apache.log.output.db.*;
+import junit.framework.TestCase;
 
 /**
  * Test suite for the DB output target.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public final class DBTargetTestlet
-    extends AbstractTestlet
+public final class DBTargetTestCase
+    extends TestCase
 {
-    public DBTargetTestlet()
+    public DBTargetTestCase( final String name )
         throws Exception
     {
+        super( name );
+
         Class.forName( "org.postgresql.Driver" );
     }
 
