@@ -9,13 +9,15 @@
  */
 package org.apache.excalibur.configuration;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 
 import org.apache.avalon.framework.CascadingRuntimeException;
+import org.apache.avalon.framework.configuration.AbstractConfiguration;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
-import org.apache.avalon.framework.configuration.AbstractConfiguration;
 
 /**
  * General utility supporting static operations for generating string
@@ -25,8 +27,6 @@ import org.apache.avalon.framework.configuration.AbstractConfiguration;
  */
 public class ConfigurationUtil
 {
-    private static final Configuration[] EMPTY_CONFS = new Configuration[0];
-
     /**
      * Returns a simple string representation of the the supplied configuration.
      * @param config a configuration
@@ -82,11 +82,12 @@ public class ConfigurationUtil
      * Return all occurance of a configuration child containing the supplied attribute name.
      * @param config the configuration
      * @param element the name of child elements to select from the configuration
-     * @param attribute the attribute name to filter
-     * @param value the attribute value to match (null will match any attribute value)
+     * @param attribute the attribute name to filter (null will match any attribute name)
      * @return an array of configuration instances matching the query
      */
-    public static Configuration[] match( Configuration config, String element, String attribute )
+    public static Configuration[] match( final Configuration config,
+                                         final String element,
+                                         final String attribute )
     {
         return match( config, element, attribute, null );
     }
@@ -95,34 +96,45 @@ public class ConfigurationUtil
      * Return occurance of a configuration child containing the supplied attribute name and value.
      * @param config the configuration
      * @param element the name of child elements to select from the configuration
-     * @param attribute the attribute name to filter
+     * @param attribute the attribute name to filter (null will match any attribute name )
      * @param value the attribute value to match (null will match any attribute value)
      * @return an array of configuration instances matching the query
      */
-    public static Configuration[] match(
-      final Configuration config, final String element, final String attribute, final String value )
+    public static Configuration[] match( final Configuration config,
+                                         final String element,
+                                         final String attribute,
+                                         final String value )
     {
-        Vector vector = new Vector();
+        final ArrayList list = new ArrayList();
+        final Configuration[] children = config.getChildren( element );
 
-        Configuration[] children = config.getChildren( element );
         for( int i = 0; i < children.length; i++ )
         {
-            String v = children[i].getAttribute( attribute, null );
-            if( v != null )
+            if( null == attribute )
             {
-                if( ( value == null ) || v.equals( value ) )
+                list.add( children[i] );
+            }
+            else
+            {
+                String v = children[i].getAttribute( attribute, null );
+
+                if( v != null )
                 {
-                    // it's a match
-                    vector.add( children[i] );
+                    if( ( value == null ) || v.equals( value ) )
+                    {
+                        // it's a match
+                        list.add( children[i] );
+                    }
                 }
             }
         }
-        return ( Configuration[] ) vector.toArray( EMPTY_CONFS );
+
+        return ( Configuration[] ) list.toArray( new Configuration[list.size()] );
     }
 
     /**
-     * Return the first occurance of a configuration child containing the supplied attribute name and value
-     * or create a new empty configuration if no match found.
+     * Return the first occurance of a configuration child containing the supplied attribute name
+     * and value or create a new empty configuration if no match found.
      * @param config the configuration
      * @param element the name of child elements to select from the configuration
      * @param attribute the attribute name to filter
@@ -130,17 +142,9 @@ public class ConfigurationUtil
      * @return a configuration instances matching the query or empty configuration
      */
     public static Configuration matchFirstOccurance(
-      Configuration config, String element, String attribute, String value )
+        Configuration config, String element, String attribute, String value )
     {
-        try
-        {
-            return matchFirstOccurance( config, element, attribute, value, true );
-        }
-        catch( ConfigurationException e )
-        {
-            // will not happen
-            throw new CascadingRuntimeException( "Unexpected exception condition.", e );
-        }
+        return matchFirstOccurance( config, element, attribute, value, true );
     }
 
     /**
@@ -155,8 +159,7 @@ public class ConfigurationUtil
      * @return a configuration instances matching the query
      */
     public static Configuration matchFirstOccurance(
-      Configuration config, String element, String attribute, String value, boolean create )
-      throws ConfigurationException
+        Configuration config, String element, String attribute, String value, boolean create )
     {
         Configuration[] children = config.getChildren( element );
         for( int i = 0; i < children.length; i++ )
@@ -172,9 +175,7 @@ public class ConfigurationUtil
             }
         }
 
-        if( create )
-            return new DefaultConfiguration( element, null );
-        return null;
+        return create ? new DefaultConfiguration( element, null ) : null;
     }
 
     /**
@@ -202,7 +203,8 @@ public class ConfigurationUtil
             }
             catch( ConfigurationException e )
             {
-                throw new CascadingRuntimeException( "Configuration is missing advertised attribute", e );
+                throw new CascadingRuntimeException( "Configuration is missing advertised "
+                                                     + "attribute", e );
             }
         }
 
@@ -234,6 +236,97 @@ public class ConfigurationUtil
         }
 
         return new DefaultConfiguration( name, config.getLocation() );
+    }
+
+    /**
+     * Test to see if two Configuration's can be considered the same. Name, value, attributes
+     * and children are test. The <b>order</b> of children is not taken into consideration
+     * for equality.
+     *
+     * @param c1 Configuration to test
+     * @param c2 Configuration to test
+     * @return true if the configurations can be considered equals
+     */
+    public static boolean equals( final Configuration c1, final Configuration c2 )
+    {
+        return c1.getName().equals( c2.getName() )
+            && isValueEquals( c1, c2 )
+            && isAttributesEqual( c1, c2 )
+            && isChildrenEqual( c1, c2 );
+    }
+
+    private static boolean isChildrenEqual( final Configuration c1, final Configuration c2 )
+    {
+        final Configuration[] kids1 = c1.getChildren();
+        final ArrayList kids2 = new ArrayList( Arrays.asList( c2.getChildren() ) );
+
+        if( kids1.length != kids2.size() )
+        {
+            return false;
+        }
+
+        for( int i = 0; i < kids1.length; i++ )
+        {
+            if( !isMatchingChild( kids1[i], kids2 ) )
+            {
+                return false;
+            }
+        }
+
+        return kids2.isEmpty() ? true : false;
+    }
+
+    private static boolean isMatchingChild( final Configuration c, final ArrayList matchAgainst )
+    {
+        final Iterator i = matchAgainst.iterator();
+
+        while( i.hasNext() )
+        {
+            if( equals( c, ( Configuration ) i.next() ) )
+            {
+                i.remove();
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static boolean isAttributesEqual( final Configuration c1, final Configuration c2 )
+    {
+        final String[] attr = c1.getAttributeNames();
+
+        if( attr.length != c2.getAttributeNames().length )
+        {
+            return false;
+        }
+
+        for( int i = 0; i < attr.length; i++ )
+        {
+            try
+            {
+                if( !c1.getAttribute( attr[i] ).equals( c2.getAttribute( attr[i], null ) ) )
+                {
+                    return false;
+                }
+            }
+            catch( ConfigurationException e )
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static boolean isValueEquals( final Configuration c1, final Configuration c2 )
+    {
+        final String value1 = c1.getValue( null );
+        final String value2 = c2.getValue( null );
+
+        return ( value1 == null && value2 == null )
+            || ( value1 != null && value1.equals( value2 ) );
     }
 }
 
