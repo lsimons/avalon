@@ -41,8 +41,7 @@ public class DefaultComponentSelector
         }
         else
         {
-            throw new ComponentException( "Unable to provide implementation for " +
-                                          hint.toString() );
+            throw new ComponentException( hint.toString(), "Unable to provide implementation." );
         }
     }
 

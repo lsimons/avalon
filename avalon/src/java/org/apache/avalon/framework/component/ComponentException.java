@@ -21,24 +21,55 @@ import org.apache.avalon.framework.CascadingException;
 public class ComponentException
     extends CascadingException
 {
+    private final String m_role;
+    
     /**
      * Construct a new <code>ComponentException</code> instance.
      *
      * @param message the exception message
      * @param throwable the throwable
      */
-    public ComponentException( final String message, final Throwable throwable )
+    public ComponentException( final String role, final String message, final Throwable throwable )
     {
         super( message, throwable );
+        m_role = role;
     }
 
     /**
      * Construct a new <code>ComponentException</code> instance.
      *
+     * @deprecated use the String, String, Throwable version to record the role
+     * @param message the exception message
+     * @param throwable the throwable
+     */
+    public ComponentException( final String message, final Throwable throwable )
+    {
+        this( null, message, throwable );
+    }
+
+    /**
+     * Construct a new <code>ComponentException</code> instance.
+     *
+     * @deprecated use the String, String version to record the role
      * @param message the exception message
      */
     public ComponentException( final String message )
     {
-        super( message, null );
+        this( null, message, null );
+    }
+    
+    /**
+     * Construct a new <code>ComponentException</code> instance.
+     *
+     * @param message the exception message
+     */
+    public ComponentException( final String role, final String message )
+    {
+        this( role, message, null );
+    }
+    
+    public final String getRole()
+    {
+        return m_role;
     }
 }
