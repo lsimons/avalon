@@ -7,7 +7,7 @@
  */
 package org.apache.avalon.phoenix.tools.xdoclet;
 
-import com.sun.javadoc.ClassDoc;
+import xjavadoc.XClass;
 import java.io.File;
 import xdoclet.TemplateSubTask;
 import xdoclet.XDocletException;
@@ -17,7 +17,7 @@ import xdoclet.XDocletException;
  *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/03/16 00:11:56 $
+ * @version $Revision: 1.3 $ $Date: 2002/04/18 10:26:04 $
  */
 public class ManifestSubTask
     extends TemplateSubTask
@@ -102,7 +102,7 @@ public class ManifestSubTask
         }
     }
 
-    protected boolean matchesGenerationRules( final ClassDoc clazz )
+    protected boolean matchesGenerationRules( final XClass clazz )
         throws XDocletException
     {
         if( !super.matchesGenerationRules( clazz ) )
