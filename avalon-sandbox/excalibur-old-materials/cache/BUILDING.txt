@@ -1,6 +1,6 @@
 
-               Building The Comonent
-               =====================
+               Building The Component
+               ======================
 
 In order to build a binary distribution version of the component from a 
 source  distribution,  you must have  a Java Development Kit (JDK)  for 
