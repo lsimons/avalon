@@ -73,8 +73,8 @@ public final class SAXConfigurationHandlerTestCase extends TestCase
         childAttributes.addAttribute("", "child", "xmlns:child", "CDATA", childURI);
 
         m_handler.startDocument();
-        m_handler.startElement( rootURI, rootlocal, rootraw, attributes );
         m_handler.startPrefixMapping( "child", childURI );
+        m_handler.startElement( rootURI, rootlocal, rootraw, attributes );
         m_handler.startElement( childURI,
                                 childlocal,
                                 childraw,
@@ -82,8 +82,8 @@ public final class SAXConfigurationHandlerTestCase extends TestCase
 
         m_handler.characters( childvalue.toCharArray(), 0, childvalue.length() );
         m_handler.endElement( childURI, childlocal, childraw );
-        m_handler.endPrefixMapping( "child" );
         m_handler.endElement( null, null, rootraw);
+        m_handler.endPrefixMapping( "child" );
         m_handler.endDocument();
 
         final Configuration configuration = m_handler.getConfiguration();
