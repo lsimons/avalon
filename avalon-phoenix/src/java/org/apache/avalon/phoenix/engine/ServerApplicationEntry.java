@@ -8,10 +8,13 @@
 package org.apache.avalon.phoenix.engine;
 
 import java.io.File;
+import java.net.URL;
 import org.apache.avalon.framework.camelot.Entry;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Context;
 import org.apache.log.Logger;
+import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
+
 
 /**
  * This is the structure describing each server application before it is loaded.
@@ -21,9 +24,31 @@ import org.apache.log.Logger;
 public class ServerApplicationEntry
     extends Entry
 {
-    private Logger            m_logger;
-    private File              m_homeDirectory;
-    private Configuration     m_configuration;
+    private Logger          m_logger;
+    private File            m_homeDirectory;
+    private Configuration   m_configuration;
+    private URL[]           m_classPath;
+    private BlockEntry[]    m_blockEntrys;
+
+    public BlockEntry[] getBlockEntrys()
+    {
+        return m_blockEntrys;
+    }
+
+    public void setBlockEntrys( final BlockEntry[] blockEntrys )
+    {
+        m_blockEntrys = blockEntrys;
+    }
+
+    public void setClassPath( final URL[] classPath )
+    {
+        m_classPath = classPath;
+    }
+
+    public URL[] getClassPath()
+    {
+        return m_classPath;
+    }
 
     public File getHomeDirectory()
     {

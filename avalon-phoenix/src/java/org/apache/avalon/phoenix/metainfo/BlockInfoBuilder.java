@@ -23,12 +23,12 @@ import org.apache.avalon.framework.Version;
  */
 public final class BlockInfoBuilder
 {
-    protected DefaultConfigurationBuilder     m_builder = new DefaultConfigurationBuilder();
+    private DefaultConfigurationBuilder     m_builder = new DefaultConfigurationBuilder();
 
-    public BlockInfo build( final InputStream inputStream )
+    public BlockInfo build( final String resource )
         throws Exception
     {
-        final Configuration info = m_builder.build( inputStream );
+        final Configuration info = m_builder.build( resource );
 
         Configuration configuration  = null;
 
@@ -44,7 +44,7 @@ public final class BlockInfoBuilder
         return new DefaultBlockInfo( descriptor, services, dependencies );
     }
 
-    protected DependencyDescriptor[] buildDependencies( final Configuration configuration )
+    private DependencyDescriptor[] buildDependencies( final Configuration configuration )
         throws ConfigurationException
     {
         if( null == configuration ) return new DependencyDescriptor[0];
@@ -61,7 +61,7 @@ public final class BlockInfoBuilder
         return (DependencyDescriptor[]) descriptors.toArray( new DependencyDescriptor[0] );
     }
 
-    protected DependencyDescriptor buildDependency( final Configuration dependency )
+    private DependencyDescriptor buildDependency( final Configuration dependency )
         throws ConfigurationException
     {
         final String role = dependency.getChild( "role" ).getValue();
@@ -70,7 +70,7 @@ public final class BlockInfoBuilder
         return new DefaultDependencyDescriptor( role, serviceDescriptor );
     }
 
-    protected ServiceDescriptor[] buildServices( final Configuration servicesSet )
+    private ServiceDescriptor[] buildServices( final Configuration servicesSet )
         throws ConfigurationException
     {
         if( null == servicesSet ) return new ServiceDescriptor[0];
@@ -87,7 +87,7 @@ public final class BlockInfoBuilder
         return (ServiceDescriptor[])descriptors.toArray( new ServiceDescriptor[0] );
     }
 
-    protected ServiceDescriptor buildService( final Configuration service )
+    private ServiceDescriptor buildService( final Configuration service )
         throws ConfigurationException
     {
         final String name = service.getAttribute( "name" );
@@ -95,7 +95,7 @@ public final class BlockInfoBuilder
         return new DefaultServiceDescriptor( name, version );
     }
 
-    protected Version buildVersion( final String version )
+    private Version buildVersion( final String version )
     {
         final int length = version.length();
         int start = 0;
@@ -127,7 +127,7 @@ public final class BlockInfoBuilder
         return new Version( major, minor, revision );
     }
 
-    protected BlockDescriptor buildBlockDescriptor( final Configuration meta )
+    private BlockDescriptor buildBlockDescriptor( final Configuration meta )
     {
         if( null == meta ) return null;
 
