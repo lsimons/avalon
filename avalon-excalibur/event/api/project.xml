@@ -16,10 +16,11 @@
  limitations under the License.
 -->
 <project>
-  <extend>${basedir}/../project-common.xml</extend>
+  <extend>${basedir}/../../buildsystem/project-common.xml</extend>
 
   <name>Excalibur Event API</name>
   <id>excalibur-event-api</id>
+  <groupId>excalibur-event</groupId>
   <currentVersion>2.0</currentVersion>
   <shortDescription>Excalibur Event API</shortDescription>
   <description>Excalibur Event API</description>

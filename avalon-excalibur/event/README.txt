@@ -25,6 +25,9 @@ execution.
 
 To build the project:
 
-$ cd event
-$ maven event:build
+$ cd event/api
+$ maven jar:install
+
+$ cd ../impl
+$ maven jar:install
 
