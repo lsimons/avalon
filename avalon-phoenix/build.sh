@@ -4,11 +4,13 @@ echo
 echo "Phoenix Build System"
 echo "--------------------"
 
+LOCAL_AVALON_TOOLS=$AVALON_TOOLS
+
 if [ "$AVALON_TOOLS" = "" ] ; then
-    if [ -d ../jakarta-avalon/tools ] ; then 
-        AVALON_TOOLS=../jakarta-avalon/tools
-    elif [ -d tools ] ; then 
-        AVALON_TOOLS=tools
+    if [ -d ../jakarta-avalon/tools ] ; then
+        LOCAL_AVALON_TOOLS=../jakarta-avalon/tools
+    elif [ -d tools ] ; then
+        LOCAL_AVALON_TOOLS=tools
     else
         echo "Unable to locate tools directory at "
         echo "../jakarta-avalon/tools/ or tools/. "
@@ -17,7 +19,7 @@ if [ "$AVALON_TOOLS" = "" ] ; then
     fi
 fi
 
-chmod u+x $AVALON_TOOLS/bin/antRun
-chmod u+x $AVALON_TOOLS/bin/ant
+chmod u+x $LOCAL_AVALON_TOOLS/bin/antRun
+chmod u+x $LOCAL_AVALON_TOOLS/bin/ant
 
-$AVALON_TOOLS/bin/ant -logger org.apache.tools.ant.NoBannerLogger -emacs -Dtools.dir=$AVALON_TOOLS $@ 
+$LOCAL_AVALON_TOOLS/bin/ant -logger org.apache.tools.ant.NoBannerLogger -emacs -Dtools.dir=$LOCAL_AVALON_TOOLS $@
