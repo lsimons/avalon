@@ -23,9 +23,11 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
 /**
- * Default implementation of ThreadManager.
+ * Implementation of ResourceLimitingThreadManager.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @avalon.component name="limiting-thread-manager" lifestyle="singleton"
+ * @avalon.service type="org.apache.avalon.cornerstone.services.threads.ThreadManager"
  */
 public class ResourceLimitingThreadManager
     extends AbstractThreadManager
