@@ -134,7 +134,7 @@ public class BlockDAG
         throws Exception
     {
         final BlockEntry entry = getBlockEntry( name );
-
+/*
         //make sure that the block offers service it supposed to be providing
         final ServiceInfo[] services = entry.getBlockInfo().getServices();
         if( !BlockUtil.hasMatchingService( services, serviceInfo ) )
@@ -142,7 +142,7 @@ public class BlockDAG
             throw new Exception( "Dependency " + name + " does not offer " +
                                  "service required: " + serviceInfo );
         }
-        
+*/        
         //finally try to traverse block
         visitBlock( name, entry, visitor, true );
     }
