@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.50 $
+                   Version $Revision: 1.51 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -263,6 +263,27 @@ To use it, type 'ant -f depchecker.xml'
             <property name="proj.jar.name" value="excalibur-scratchpad.jar"/>
             <property name="path" value="${excalibur-scratchpad.jar}"/>
         </ant>
+    </target>
+
+    <!-- Fortress Tools -->
+    <target name="checkFortressTools">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="proj.jar.name" value="excalibur-fortress-tools-1.0.jar"/>
+            <property name="path" value="${excalibur-fortress-tools.jar}"/>
+            <property name="proj.home" value="${basedir}/../fortress"/>
+        </ant>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
+            <property name="proj.jar.name" value="qdox.jar"/>
+            <property name="class" value="com.thoughtworks.qdox.ant.AbstractQdoxTask"/>
+            <property name="classpath" value="${cp}"/>
+            <property name="remedy" value="1) Download and unpack qdox from ${nl}
+           | http://qdox.codehaus.org/ ${nl}
+           |   2) Copy the project's ant.properties.sample to ant.properties ${nl}
+           |   3) In ant.properties, redefine the qdox.jar property ${nl}
+           |      to point to the path of qdox.jar in your ${nl}
+           |      downloaded distribution."/>
+        </ant>
+
     </target>
 
     <!-- Altrmi -->
