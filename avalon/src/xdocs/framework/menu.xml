@@ -8,7 +8,6 @@
 
   <menu name="Essentials">
     <item name="Overview" href="index.html"/>
-    <item name="Features" href="features.html"/>
     <item name="Getting started" href="getting-started.html"/>
     <item name="Download" href="http://jakarta.apache.org/builds/jakarta-avalon/release/framework"/>
   </menu>
