@@ -36,10 +36,13 @@ public class HelloComponent
     * @param config the component configuration
     * @exception ConfigurationException if a configuration error occurs
     */
-    public HelloComponent( Logger logger, Configuration config ) throws ConfigurationException
+    public HelloComponent( 
+      final Logger logger, final Configuration config ) 
+      throws ConfigurationException
     {
         logger.info( "instantiation" );
-        final String source = config.getChild( "source" ).getValue( "unknown" );
+        final String source = 
+          config.getChild( "source" ).getValue( "unknown" );
         final String message = "source: " + source;
         logger.info( message );
     }

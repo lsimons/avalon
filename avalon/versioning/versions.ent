@@ -11,6 +11,7 @@
 <!ENTITY % avalon-framework-entities SYSTEM "avalon-framework.ent"> 
 <!ENTITY % avalon-logkit-entities SYSTEM "avalon-logkit.ent"> 
 <!ENTITY % avalon-meta-entities SYSTEM "avalon-meta.ent"> 
+<!ENTITY % avalon-versioning-entities SYSTEM "avalon-versioning-plugin.ent"> 
 
 %avalon-excalibur-entities;
 %avalon-fortress-entities;
@@ -24,3 +25,4 @@
 %avalon-util-entities;
 %avalon-facilities-entities;
 %avalon-cornerstone-entities;
+%avalon-versioning-entities;

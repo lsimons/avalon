@@ -111,7 +111,7 @@
   <goal name="avalon:build-main" description="Build Merlin.">
 
     <maven:reactor basedir="${basedir}"
-      includes="api/project.xml,impl/project.xml"
+      includes="api/project.xml,impl/project.xml,../composition/**/project.xml,../activation/**/project.xml"
       banner="Installing:"
       goals="jar:install"
       ignoreFailures="false" 
