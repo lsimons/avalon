@@ -43,27 +43,48 @@ public class InstallTask extends SystemTask
 {
     public void execute() throws BuildException 
     {
+        installDeliverables();
+        installDocs();
+    }
+
+    private void installDeliverables()
+    {
         File deliverables = getContext().getDeliverablesDirectory();
         if( deliverables.exists() )
         {
-            install( deliverables );
+            File cache = getHome().getRepository().getCacheDirectory();
+            FileSet fileset = new FileSet();
+            fileset.setDir( deliverables );
+            fileset.createInclude().setName( "**/*" );
+            String group = getHome().getDefinition( getKey() ).getInfo().getGroup();
+            File target = new File( cache, group );
+            copy( target, fileset );
         }
     }
 
-    private void install( File deliverables )
+    private void installDocs()
     {
-        FileSet fileset = new FileSet();
-        fileset.setDir( deliverables );
-        fileset.createInclude().setName( "**/*" );
+        File cache = getHome().getDocsRepository().getCacheDirectory();
+        File source = getContext().getDocsDirectory();
+        if( source.exists() )
+        {
+            FileSet fileset = new FileSet();
+            fileset.setDir( source );
+            fileset.createInclude().setName( "**/*" );
+            String group = getHome().getDefinition( getKey() ).getInfo().getGroup();
+            String name = getHome().getDefinition( getKey() ).getInfo().getName();
+            File parent = new File( cache, group );
+            File target = new File( parent, name );
+            copy( target, fileset );
+        }
+    }
 
-        File cache = getHome().getRepository().getCacheDirectory();
-        String group = getHome().getDefinition( getKey() ).getInfo().getGroup();
-        File target = new File( cache, group );
-        mkDir( target );
-
+    private void copy( File destination, FileSet fileset )
+    {
+        mkDir( destination );
         Copy copy = (Copy) getProject().createTask( "copy" );
         copy.setPreserveLastModified( true );
-        copy.setTodir( target );
+        copy.setTodir( destination );
         copy.addFileset( fileset );
         copy.init();
         copy.execute();
