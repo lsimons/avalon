@@ -56,6 +56,7 @@ import org.apache.avalon.framework.activity.Initializable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.*;
@@ -108,7 +109,7 @@ import java.util.*;
  * </pre>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.8 $
+ * @version CVS $Revision: 1.9 $
  */
 public final class ServiceMetaManager extends AbstractMetaInfoManager implements Initializable
 {
@@ -226,7 +227,21 @@ public final class ServiceMetaManager extends AbstractMetaInfoManager implements
 
         try
         {
-            meta.load( getLoader().getResourceAsStream( getMetaFile( implementation ) ) );
+            final InputStream stream =
+                getLoader().getResourceAsStream( getMetaFile( implementation ) );
+
+            if ( stream != null )
+            {
+                meta.load( stream );
+            }
+            else
+            {
+                getLogger().error(
+                    "Meta information for " + implementation + 
+                    " unavailable, skipping this class."
+                );
+                return;
+            }
         }
         catch ( IOException ioe )
         {
