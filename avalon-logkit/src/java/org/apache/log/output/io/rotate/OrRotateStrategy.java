@@ -89,10 +89,9 @@ public class OrRotateStrategy
      */
     public void reset()
     {
-        if( -1 != m_usedRotation )
+        for (int i = 0; i < m_strategies.length; i++)
         {
-            m_strategies[ m_usedRotation ].reset();
-            m_usedRotation = -1;
+            m_strategies[ i ].reset();
         }
     }
 
