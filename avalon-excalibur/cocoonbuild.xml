@@ -58,7 +58,7 @@
         <mkdir dir="${cocoon.build.xdocs}"/>
         <mkdir dir="${cocoon.work}"/>
         
-
+        <!-- We need to be careful about binary files when using filtering! -->
         <copy todir="${cocoon.build.context}" overwrite="true" filtering="on">
             <fileset dir="${cocoon.main.context.dir}">
                 <exclude name="**/*.ico"/>
@@ -76,8 +76,22 @@
                 <include name="**/*.png"/>
             </fileset>
         </copy>
+        
         <copy todir="${cocoon.build.xdocs}" filtering="on" overwrite="true">
-            <fileset dir="${cocoon.xdocs.dir}"/>
+            <fileset dir="${cocoon.xdocs.dir}">
+                <exclude name="**/*.ico"/>
+                <exclude name="**/*.gif"/>
+                <exclude name="**/*.jpg"/>
+                <exclude name="**/*.png"/>
+            </fileset>
+        </copy>
+        <copy todir="${cocoon.build.xdocs}" filtering="off">
+            <fileset dir="${cocoon.xdocs.dir}">
+                <include name="**/*.ico"/>
+                <include name="**/*.gif"/>
+                <include name="**/*.jpg"/>
+                <include name="**/*.png"/>
+            </fileset>
         </copy>
 
         <copy file="${cocoon.main.context.dir}/resources/schema/CatalogManager.properties" 
