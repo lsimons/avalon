@@ -25,7 +25,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * is specified in the BlockInfo specification.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.15 $ $Date: 2002/05/15 11:32:02 $
+ * @version $Revision: 1.16 $ $Date: 2002/05/15 12:11:13 $
  */
 public final class BlockInfoBuilder
     extends AbstractLogEnabled
@@ -121,7 +121,9 @@ public final class BlockInfoBuilder
 
         //default to name of service if role unspecified
         if( null == role )
+        {
             role = service.getName();
+        }
         else
         {
             //If role is specified and it is the same as
