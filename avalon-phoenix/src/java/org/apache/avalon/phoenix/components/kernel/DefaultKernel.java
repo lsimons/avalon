@@ -22,7 +22,6 @@ import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.interfaces.ApplicationMBean;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
-import org.apache.avalon.phoenix.interfaces.ManagerException;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.KernelMBean;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
@@ -95,8 +94,10 @@ public class DefaultKernel
     public Application getApplication( final String name )
     {
         final SarEntry entry = (SarEntry)m_entrys.get( name );
-        if( null == entry ) return null;
-        else return entry.getApplication();
+        if( null == entry )
+            return null;
+        else
+            return entry.getApplication();
     }
 
     /**
@@ -116,7 +117,7 @@ public class DefaultKernel
         {
             try
             {
-                application = new DefaultApplication(entry.getMetaData());
+                application = new DefaultApplication( entry.getMetaData() );
                 setupLogger( application, name );
 
                 final ApplicationContext context = createApplicationContext( entry );
@@ -137,12 +138,12 @@ public class DefaultKernel
                     REZ.getString( "kernel.error.entry.initialize", entry.getMetaData().getName() );
                 throw new CascadingException( message, t );
             }
-                
+
             // manage application
             try
             {
-              	m_systemManager.register( name+" (Application)", application, new Class[]{ ApplicationMBean.class } );
-          	}
+                m_systemManager.register( name + " (Application)", application, new Class[]{ApplicationMBean.class} );
+            }
             catch( final Throwable t )
             {
                 final String message =
@@ -222,11 +223,11 @@ public class DefaultKernel
         return componentManager;
     }
 
-    public void removeApplication( String name ) 
+    public void removeApplication( String name )
         throws Exception
     {
         final SarEntry entry = (SarEntry)m_entrys.remove( name );
-        if( null == entry ) 
+        if( null == entry )
         {
             final String message =
                 REZ.getString( "kernel.error.entry.initialize", name );
@@ -237,8 +238,8 @@ public class DefaultKernel
             // un-manage application
             try
             {
-              	m_systemManager.unregister( name+" (Application)" );
-          	}
+                m_systemManager.unregister( name + " (Application)" );
+            }
             catch( final Throwable t )
             {
                 final String message =

@@ -17,7 +17,7 @@ import xdoclet.XDocletException;
  *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/02/26 11:15:48 $
+ * @version $Revision: 1.2 $ $Date: 2002/03/16 00:11:56 $
  */
 public class ManifestSubTask
     extends TemplateSubTask
@@ -35,11 +35,11 @@ public class ManifestSubTask
 
     public ManifestSubTask()
     {
-        setTemplateFile( new File( DEFAULT_TEMPLATE_FILE) );
+        setTemplateFile( new File( DEFAULT_TEMPLATE_FILE ) );
         setDestinationFile( GENERATED_FILE_NAME );
         setOfType( "org.apache.avalon.phoenix.Block" );
 
-        final TemplateSubTask.ExtentTypes extent  = new TemplateSubTask.ExtentTypes();
+        final TemplateSubTask.ExtentTypes extent = new TemplateSubTask.ExtentTypes();
         extent.setValue( "hierarchy" );
         setExtent( extent );
     }
@@ -47,7 +47,7 @@ public class ManifestSubTask
     public void setTemplatePath( final String templatePath )
     {
         m_templatePath = templatePath;
-        setTemplateFile(  new File( templatePath ) );
+        setTemplateFile( new File( templatePath ) );
     }
 
     public void setManifestFile( final String manifestFile )
@@ -89,7 +89,6 @@ public class ManifestSubTask
         {
             throw new XDocletException( "Error with the 'manifestFile' attribute." );
         }
-
 
         if( null == getClassPattern() ||
             getClassPattern().trim().equals( "" ) )

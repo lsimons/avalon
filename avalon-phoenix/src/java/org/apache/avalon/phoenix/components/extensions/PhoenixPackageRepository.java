@@ -18,19 +18,19 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.phoenix.interfaces.PackageRepository;
 import org.apache.avalon.phoenix.interfaces.ExtensionManagerMBean;
+import org.apache.avalon.phoenix.interfaces.PackageRepository;
 
 /**
  * PhoenixPackageRepository
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2001/12/11 10:13:34 $
+ * @version $Revision: 1.5 $ $Date: 2002/03/16 00:11:55 $
  */
 public class PhoenixPackageRepository
     extends DefaultPackageRepository
-    implements LogEnabled, Parameterizable, Initializable, Disposable, 
-               PackageRepository, ExtensionManagerMBean
+    implements LogEnabled, Parameterizable, Initializable, Disposable,
+    PackageRepository, ExtensionManagerMBean
 {
     private Logger m_logger;
 
@@ -55,7 +55,7 @@ public class PhoenixPackageRepository
     {
         final String phoenixHome = parameters.getParameter( "phoenix.home" );
         final String defaultExtPath = phoenixHome + File.separator + "ext";
-        final String rawPath = 
+        final String rawPath =
             parameters.getParameter( "phoenix.ext.path", defaultExtPath );
         m_path = StringUtil.split( rawPath, "|" );
 
@@ -64,11 +64,11 @@ public class PhoenixPackageRepository
         {
             try
             {
-                dirs[ i ] = (new File( m_path[ i ] )).getCanonicalFile();
+                dirs[ i ] = ( new File( m_path[ i ] ) ).getCanonicalFile();
             }
             catch( final IOException ioe )
             {
-                throw new ParameterException( "Malformed entry in path '" + m_path[ i ] + 
+                throw new ParameterException( "Malformed entry in path '" + m_path[ i ] +
                                               ". Unable to determine file for entry", ioe );
             }
         }
@@ -76,7 +76,7 @@ public class PhoenixPackageRepository
         for( int i = 0; i < dirs.length; i++ )
         {
             m_path[ i ] = dirs[ i ].toString();
-        }       
+        }
     }
 
     public void initialize()
@@ -96,7 +96,7 @@ public class PhoenixPackageRepository
     /**
      * Retrieve an array of paths where each
      * element in array represents a directory
-     * in which the ExtensionManager will look 
+     * in which the ExtensionManager will look
      * for Extensions.
      *
      * @return the list of paths to search in

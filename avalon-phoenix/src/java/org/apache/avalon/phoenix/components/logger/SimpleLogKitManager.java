@@ -167,7 +167,7 @@ public class SimpleLogKitManager
             else
             {
                 logger.setPriority( priority );
-                logger.setLogTargets( new LogTarget[]{ logTarget } );
+                logger.setLogTargets( new LogTarget[]{logTarget} );
             }
         }
     }

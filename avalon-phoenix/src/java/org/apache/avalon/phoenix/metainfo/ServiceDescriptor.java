@@ -11,7 +11,7 @@ import org.apache.avalon.framework.Version;
 
 /**
  * This class describes the meta info of a service offered by a Block.
- * Each service is defined by an interface name and the version of that 
+ * Each service is defined by an interface name and the version of that
  * interface.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>

@@ -1,7 +1,6 @@
 package org.apache.avalon.phoenix.components.classloader;
 
 import java.io.File;
-import java.net.URL;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;

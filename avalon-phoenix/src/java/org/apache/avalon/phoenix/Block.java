@@ -14,7 +14,7 @@ import org.apache.avalon.framework.component.Component;
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  */
-public interface Block 
+public interface Block
     extends Component
 {
 }

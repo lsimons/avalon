@@ -46,7 +46,7 @@ public final class Main
     }
 
     /**
-     * Method to call to startup Phoenix from an 
+     * Method to call to startup Phoenix from an
      * external (calling) application. Protected to allow
      * access from DaemonLauncher.
      *
@@ -58,8 +58,8 @@ public final class Main
      *
      * @exception Exception if an error occurs
      */
-    protected final static int startup( final String[] args, 
-                                        final Hashtable data, 
+    protected final static int startup( final String[] args,
+                                        final Hashtable data,
                                         final boolean blocking )
         throws Exception
     {
@@ -72,21 +72,21 @@ public final class Main
             //Create engine ClassLoader
             final File mainJar = findEngineJar();
             final URL archive = mainJar.toURL();
-            final URLClassLoader classLoader = new URLClassLoader( new URL[]{ archive } );
+            final URLClassLoader classLoader = new URLClassLoader( new URL[]{archive} );
 
             //Setup context classloader
             Thread.currentThread().setContextClassLoader( classLoader );
 
             //Create main launcher
             final Class clazz = classLoader.loadClass( MAIN_CLASS );
-            final Class[] paramTypes = 
-                new Class[] { args.getClass(), Hashtable.class, Boolean.TYPE };
+            final Class[] paramTypes =
+                new Class[]{args.getClass(), Hashtable.class, Boolean.TYPE};
             final Method method = clazz.getMethod( "main", paramTypes );
             c_frontend = clazz.newInstance();
-            
+
             //kick the tires and light the fires....
             final Integer integer = (Integer)method.invoke(
-                c_frontend, new Object[] { args, data, new Boolean( blocking ) } );
+                c_frontend, new Object[]{args, data, new Boolean( blocking )} );
             exitCode = integer.intValue();
         }
         catch( final Exception e )
@@ -98,7 +98,7 @@ public final class Main
     }
 
     /**
-     * Method to call to shutdown Phoenix from an 
+     * Method to call to shutdown Phoenix from an
      * external (calling) application. Protected to allow
      * access from DaemonLauncher.
      */
@@ -140,12 +140,12 @@ public final class Main
             phoenixHome = loaderDir.getAbsoluteFile().getParentFile() + File.separator;
         }
 
-        phoenixHome = (new File( phoenixHome )).getCanonicalFile().toString();
+        phoenixHome = ( new File( phoenixHome ) ).getCanonicalFile().toString();
         System.setProperty( "phoenix.home", phoenixHome );
 
         final String filename =
             phoenixHome + File.separator + "bin" + File.separator + MAIN_JAR;
-        return (new File( filename )).getCanonicalFile();
+        return ( new File( filename ) ).getCanonicalFile();
     }
 
     /**

@@ -7,8 +7,8 @@
  */
 package org.apache.avalon.phoenix.components.application;
 
-import org.apache.avalon.phoenix.ApplicationListener;
 import org.apache.avalon.phoenix.ApplicationEvent;
+import org.apache.avalon.phoenix.ApplicationListener;
 
 /**
  * Manage a set of <code>ApplicationListener</code> objects and propogate
@@ -114,11 +114,11 @@ final class ApplicationListenerSupport
      * Notification that the application has failed
      *
      */
-    public synchronized void applicationFailure(Exception causeOfFailure)
+    public synchronized void applicationFailure( Exception causeOfFailure )
     {
         for( int i = 0; i < m_listeners.length; i++ )
         {
-            m_listeners[ i ].applicationFailure(causeOfFailure);
+            m_listeners[ i ].applicationFailure( causeOfFailure );
         }
     }
 

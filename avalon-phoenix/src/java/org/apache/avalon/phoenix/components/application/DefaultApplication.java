@@ -14,8 +14,8 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.lang.ThreadContext;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.ApplicationEvent;
+import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.interfaces.ApplicationException;
@@ -42,18 +42,18 @@ public final class DefaultApplication
     private static final String PHASE_STARTUP = "startup";
     private static final String PHASE_SHUTDOWN = "shutdown";
 
-	private boolean m_running = false;
+    private boolean m_running = false;
 
     private ApplicationContext m_context;
     private LifecycleHelper m_lifecycle;
     private HashMap m_entrys = new HashMap();
     private SarMetaData m_sarMetaData;
 
-    public DefaultApplication(SarMetaData sarMetaData)
+    public DefaultApplication( SarMetaData sarMetaData )
     {
         m_sarMetaData = sarMetaData;
     }
-    
+
     ///////////////////////
     // LifeCycle Methods //
     ///////////////////////
@@ -62,7 +62,7 @@ public final class DefaultApplication
         throws Exception
     {
     }
-    
+
     /**
      * Start the application running.
      * This is only valid when isRunning() returns false,
@@ -76,33 +76,35 @@ public final class DefaultApplication
     public void start()
         throws IllegalStateException, ApplicationException
     {
-        if( isRunning() ) 
-        	throw new IllegalStateException();
-        else {
-        	try {
-		       	final BlockMetaData[] blocks = m_context.getMetaData().getBlocks();
-		        for( int i = 0; i < blocks.length; i++ )
-		        {
-		            final String blockName = blocks[ i ].getName();
-		            final BlockEntry blockEntry = new BlockEntry( blocks[ i ] );
-		            m_entrys.put( blockName, blockEntry );
-		        }
-		
-		        // load block listeners
-		        loadBlockListeners();
-		
-		        // load blocks
-		        runPhase( PHASE_STARTUP );
-			}
-			catch( Throwable t )
-			{
-  		        getLogger().info( "exception while starting:"+t.getMessage()+"\n" );
-  		        t.printStackTrace();
-				throw new ApplicationException( t.getMessage(), t );
-			}
-			
-			m_running = true;
-    	}
+        if( isRunning() )
+            throw new IllegalStateException();
+        else
+        {
+            try
+            {
+                final BlockMetaData[] blocks = m_context.getMetaData().getBlocks();
+                for( int i = 0; i < blocks.length; i++ )
+                {
+                    final String blockName = blocks[ i ].getName();
+                    final BlockEntry blockEntry = new BlockEntry( blocks[ i ] );
+                    m_entrys.put( blockName, blockEntry );
+                }
+
+                // load block listeners
+                loadBlockListeners();
+
+                // load blocks
+                runPhase( PHASE_STARTUP );
+            }
+            catch( Throwable t )
+            {
+                getLogger().info( "exception while starting:" + t.getMessage() + "\n" );
+                t.printStackTrace();
+                throw new ApplicationException( t.getMessage(), t );
+            }
+
+            m_running = true;
+        }
     }
 
     /**
@@ -120,9 +122,10 @@ public final class DefaultApplication
     public void restart()
         throws IllegalStateException, ApplicationException
     {
-    	stop();
-    	start();
+        stop();
+        start();
     }
+
     /**
      * Stop the application running.
      * This is only valid when isRunning() returns true,
@@ -137,21 +140,21 @@ public final class DefaultApplication
         throws IllegalStateException, ApplicationException
     {
         if( !isRunning() )
-        	throw new IllegalStateException();
+            throw new IllegalStateException();
         else
         {
-        	try
-        	{
-        		runPhase( PHASE_SHUTDOWN );
-        	}
-        	catch( Throwable t )
-        	{
-  		        getLogger().info( "exception while stopping:"+t.getMessage()+"\n" );
-  		        t.printStackTrace();
-				throw new ApplicationException( t.getMessage(), t );
-          	}
-        	
-        	m_running = false;
+            try
+            {
+                runPhase( PHASE_SHUTDOWN );
+            }
+            catch( Throwable t )
+            {
+                getLogger().info( "exception while stopping:" + t.getMessage() + "\n" );
+                t.printStackTrace();
+                throw new ApplicationException( t.getMessage(), t );
+            }
+
+            m_running = false;
         }
     }
 
@@ -159,7 +162,7 @@ public final class DefaultApplication
     {
         m_entrys.clear();
     }
-    
+
     ////////////////////////////
     // Public Utility Methods //
     ////////////////////////////
@@ -189,7 +192,7 @@ public final class DefaultApplication
      */
     public String getName()
     {
-    	return m_sarMetaData.getName();
+        return m_sarMetaData.getName();
     }
 
     /**
@@ -199,7 +202,7 @@ public final class DefaultApplication
      */
     public String getDisplayName()
     {
-    	return m_sarMetaData.getName();
+        return m_sarMetaData.getName();
     }
 
     /**
@@ -209,7 +212,7 @@ public final class DefaultApplication
      */
     public String getDescription()
     {
-    	return "The "+m_sarMetaData.getName()+" application.";
+        return "The " + m_sarMetaData.getName() + " application.";
     }
 
     /**
@@ -219,7 +222,7 @@ public final class DefaultApplication
      */
     public String getHomeDirectory()
     {
-    	return m_sarMetaData.getHomeDirectory().getPath();
+        return m_sarMetaData.getHomeDirectory().getPath();
     }
 
     /**
@@ -230,9 +233,9 @@ public final class DefaultApplication
      */
     public boolean isRunning()
     {
-    	return m_running;
+        return m_running;
     }
-    
+
     /////////////////////////////
     // Private Utility Methods //
     /////////////////////////////
@@ -295,7 +298,7 @@ public final class DefaultApplication
         if( PHASE_STARTUP == name )
         {
             //... for startup, so indicate to applicable listeners
-            m_lifecycle.applicationStarting(new ApplicationEvent(m_sarMetaData.getName(), m_sarMetaData));
+            m_lifecycle.applicationStarting( new ApplicationEvent( m_sarMetaData.getName(), m_sarMetaData ) );
         }
         else
         {
@@ -319,15 +322,17 @@ public final class DefaultApplication
             try
             {
                 final BlockEntry entry = (BlockEntry)m_entrys.get( block );
-                if( PHASE_STARTUP == name ) m_lifecycle.startup( entry );
-                else m_lifecycle.shutdown( entry );
+                if( PHASE_STARTUP == name )
+                    m_lifecycle.startup( entry );
+                else
+                    m_lifecycle.shutdown( entry );
             }
             catch( final Exception e )
             {
                 final String message =
                     REZ.getString( "app.error.run-phase", name, block, e.getMessage() );
                 getLogger().error( message, e );
-                m_lifecycle.applicationFailure(e);
+                m_lifecycle.applicationFailure( e );
                 throw e;
             }
 

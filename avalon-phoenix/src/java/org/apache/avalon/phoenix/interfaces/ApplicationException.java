@@ -10,7 +10,7 @@ package org.apache.avalon.phoenix.interfaces;
 import org.apache.avalon.framework.CascadingException;
 
 /**
- * Exception to indicate that an Application failed to 
+ * Exception to indicate that an Application failed to
  * startup or shutdown cleanly.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>

@@ -50,9 +50,12 @@ final class DefaultBlockContext
         throws ContextException
     {
         final SarMetaData metaData = m_frame.getMetaData();
-        if( BlockContext.APP_NAME.equals( key ) ) return metaData.getName();
-        else if( BlockContext.APP_HOME_DIR.equals( key ) ) return metaData.getHomeDirectory();
-        else if( BlockContext.NAME.equals( key ) ) return m_name;
+        if( BlockContext.APP_NAME.equals( key ) )
+            return metaData.getName();
+        else if( BlockContext.APP_HOME_DIR.equals( key ) )
+            return metaData.getHomeDirectory();
+        else if( BlockContext.NAME.equals( key ) )
+            return m_name;
         else
         {
             throw new ContextException( "Unknown key: " + key );

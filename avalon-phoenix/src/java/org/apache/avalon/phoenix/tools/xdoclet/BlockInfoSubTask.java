@@ -18,24 +18,24 @@ import xdoclet.XDocletException;
  *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/03/01 07:55:03 $
+ * @version $Revision: 1.3 $ $Date: 2002/03/16 00:11:56 $
  */
-public class BlockInfoSubTask 
+public class BlockInfoSubTask
     extends TemplateSubTask
 {
     public final static String SUBTASK_NAME = "blockinfo";
 
     private static final String GENERATED_FILE_NAME = "{0}.xinfo";
-    private static final String DEFAULT_TEMPLATE_FILE = 
+    private static final String DEFAULT_TEMPLATE_FILE =
         "/org/apache/avalon/phoenix/tools/xdoclet/blockinfo.j";
 
     private static String c_classPattern;
 
     private String m_templatePath;
 
-    public BlockInfoSubTask ()
+    public BlockInfoSubTask()
     {
-        setTemplateFile( new File( DEFAULT_TEMPLATE_FILE) );
+        setTemplateFile( new File( DEFAULT_TEMPLATE_FILE ) );
         setDestinationFile( GENERATED_FILE_NAME );
         setOfType( "org.apache.avalon.phoenix.Block" );
 
@@ -68,7 +68,7 @@ public class BlockInfoSubTask
     /**
      * Called to validate configuration parameters.
      */
-    public void validateOptions() 
+    public void validateOptions()
         throws XDocletException
     {
         super.validateOptions();
@@ -84,7 +84,6 @@ public class BlockInfoSubTask
             throw new XDocletException( "'template' is missing." );
         }
 
-
         if( null == getClassPattern() || getClassPattern().trim().equals( "" ) )
         {
             throw new XDocletException( "'pattern' parameter missing or empty." );
@@ -92,8 +91,8 @@ public class BlockInfoSubTask
 
         if( -1 == getClassPattern().indexOf( "{0}" ) )
         {
-            throw new XDocletException( "'pattern' parameter does not have a " + 
-                                        "'{0}' in it. '{0}' is replaced by Block " + 
+            throw new XDocletException( "'pattern' parameter does not have a " +
+                                        "'{0}' in it. '{0}' is replaced by Block " +
                                         "name of the class under processing." );
         }
     }

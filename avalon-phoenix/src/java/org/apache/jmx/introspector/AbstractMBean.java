@@ -26,16 +26,16 @@ import javax.management.ReflectionException;
 /**
  * This is an abstract class that can be used to support creation
  * of <code>DynamicMBean</code> objects. The developer is expected to
- * overide the create...() methods to provide useful elements for their 
+ * overide the create...() methods to provide useful elements for their
  * particular purpose.
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/02/22 08:45:46 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/03/16 00:11:57 $
  */
 public abstract class AbstractMBean
     extends NotificationBroadcasterSupport
-     implements DynamicMBean
+    implements DynamicMBean
 {
     private final static Object[] EMPTY_OBJ_ARRAY = new Object[ 0 ];
 
@@ -81,9 +81,9 @@ public abstract class AbstractMBean
 
     /**
      * Retrieve NotificationInfo objects that this
-     * MBean exports. 
+     * MBean exports.
      *
-     * <p>Note to change the notifications supported the user 
+     * <p>Note to change the notifications supported the user
      * should overide the createNotificationInfos() method.
      *
      * @return the MBeanNotificationInfo objects
@@ -150,7 +150,7 @@ public abstract class AbstractMBean
         final AttributeList atributes = new AttributeList();
         for( int i = 0; i < names.length; i++ )
         {
-            final String name = names[i];
+            final String name = names[ i ];
             try
             {
                 final Object value = getAttribute( name );
@@ -225,7 +225,7 @@ public abstract class AbstractMBean
 
         try
         {
-            method.invoke( getObject(), new Object[]{ attribute.getValue() } );
+            method.invoke( getObject(), new Object[]{attribute.getValue()} );
         }
         catch( final IllegalArgumentException iae )
         {
@@ -279,7 +279,7 @@ public abstract class AbstractMBean
 
     /**
      * Method that developer calls in subclass when they need to prepare the
-     * object for use. This creates all the operation, attribute and 
+     * object for use. This creates all the operation, attribute and
      * notification arrays and MBeanInfo by calling the respective create
      * methods.
      */
@@ -294,7 +294,7 @@ public abstract class AbstractMBean
 
     /**
      * Utility method called by initialize to create description.
-     * A developer should overide this method in subclasses to provide their own 
+     * A developer should overide this method in subclasses to provide their own
      * description.
      *
      * @return the Description
@@ -306,38 +306,38 @@ public abstract class AbstractMBean
 
     /**
      * Utility method called by initialize to create OperationEntry objects.
-     * A developer should overide this method in subclasses to provide their own 
+     * A developer should overide this method in subclasses to provide their own
      * operations.
      *
      * @return the OperationEntry objests
      */
     protected synchronized OperationEntry[] createOperations()
     {
-        return new OperationEntry[0];
+        return new OperationEntry[ 0 ];
     }
 
     /**
      * Utility method called by initialize to create AttributeEntry objects.
-     * A developer should overide this method in subclasses to provide their own 
+     * A developer should overide this method in subclasses to provide their own
      * attributes.
      *
      * @return the AttributeEntry objests
      */
     protected synchronized AttributeEntry[] createAttributes()
     {
-        return new AttributeEntry[0];
+        return new AttributeEntry[ 0 ];
     }
 
     /**
      * Utility method called by initialize to create MBeanNotificationInfo objects.
-     * A developer should overide this method in subclasses to provide their own 
+     * A developer should overide this method in subclasses to provide their own
      * NotificationInfos.
      *
      * @return the MBeanNotificationInfo objests
      */
     protected synchronized MBeanNotificationInfo[] createNotificationInfos()
     {
-        return new MBeanNotificationInfo[0];
+        return new MBeanNotificationInfo[ 0 ];
     }
 
     /**
@@ -352,10 +352,10 @@ public abstract class AbstractMBean
     {
         for( int i = 0; i < m_attributes.length; i++ )
         {
-            final String other = m_attributes[i].getInfo().getName();
+            final String other = m_attributes[ i ].getInfo().getName();
             if( other.equals( name ) )
             {
-                return m_attributes[i];
+                return m_attributes[ i ];
             }
         }
 
@@ -363,7 +363,7 @@ public abstract class AbstractMBean
     }
 
     /**
-     * Helper method for invoke() that finds the correct OperationEntry. 
+     * Helper method for invoke() that finds the correct OperationEntry.
      *
      * @param action the name of operation
      * @param params the parameters of operation
@@ -379,8 +379,8 @@ public abstract class AbstractMBean
             final MBeanOperationInfo info = m_operations[ i ].getInfo();
             final MBeanParameterInfo[] paramInfos = info.getSignature();
 
-            //If operation doesn't have same name and 
-            //same number of parameters then it is 
+            //If operation doesn't have same name and
+            //same number of parameters then it is
             //not the droids we are looking for
             if( !info.getName().equals( action ) ||
                 paramInfos.length != params.length )
@@ -392,19 +392,19 @@ public abstract class AbstractMBean
             for( int j = 0; j < paramInfos.length; j++ )
             {
                 final String param = paramInfos[ j ].getType();
-                if( !params[j].equals( param ) )
+                if( !params[ j ].equals( param ) )
                 {
                     found = false;
                     break;
                 }
             }
 
-            //If all the parameters have same 
-            //type then we have found a match 
+            //If all the parameters have same
+            //type then we have found a match
             //so return it
             if( found )
             {
-                return m_operations[i];
+                return m_operations[ i ];
             }
         }
 
@@ -422,14 +422,14 @@ public abstract class AbstractMBean
             new MBeanAttributeInfo[ m_attributes.length ];
         for( int i = 0; i < attributes.length; i++ )
         {
-            attributes[i] = m_attributes[i].getInfo();
+            attributes[ i ] = m_attributes[ i ].getInfo();
         }
 
         final MBeanOperationInfo[] operations =
             new MBeanOperationInfo[ m_operations.length ];
         for( int i = 0; i < operations.length; i++ )
         {
-            operations[i] = m_operations[i].getInfo();
+            operations[ i ] = m_operations[ i ].getInfo();
         }
 
         return new MBeanInfo( getObject().getClass().getName(),

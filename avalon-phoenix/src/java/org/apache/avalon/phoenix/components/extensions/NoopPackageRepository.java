@@ -12,21 +12,21 @@ import org.apache.avalon.excalibur.extension.OptionalPackage;
 import org.apache.avalon.phoenix.interfaces.PackageRepository;
 
 /**
- * A Noop PackageRepository that can't provide any extensions. 
+ * A Noop PackageRepository that can't provide any extensions.
  * This is for use in certain environments (ala Servlets) that
  * require apps to be be self-contained.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2001/12/11 10:13:34 $
+ * @version $Revision: 1.4 $ $Date: 2002/03/16 00:11:55 $
  */
 public class NoopPackageRepository
     implements PackageRepository
 {
     /**
      * Return all the <code>OptionalPackage</code>s that satisfy specified
-     * <code>Extension</code>. 
+     * <code>Extension</code>.
      *
-     * @param extension Description of the extension that needs to be provided by 
+     * @param extension Description of the extension that needs to be provided by
      *                  optional packages
      * @see #getOptionalPackage()
      * @see OptionalPackage

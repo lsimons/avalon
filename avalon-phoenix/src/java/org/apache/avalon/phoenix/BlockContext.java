@@ -8,8 +8,8 @@
 package org.apache.avalon.phoenix;
 
 import java.io.File;
-import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.excalibur.thread.ThreadPool;
+import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.logger.Logger;
 
 /**
@@ -20,9 +20,9 @@ import org.apache.avalon.framework.logger.Logger;
 public interface BlockContext
     extends Context
 {
-    String    APP_NAME          = "app.name";
-    String    APP_HOME_DIR      = "app.home";
-    String    NAME              = "block.name";
+    String APP_NAME = "app.name";
+    String APP_HOME_DIR = "app.home";
+    String NAME = "block.name";
 
     /**
      * Base directory of .sar application.
@@ -49,7 +49,7 @@ public interface BlockContext
      *
      * @param category the category
      * @return the ThreadManager
-     * @deprecated Use ThreadManager service rather than 
+     * @deprecated Use ThreadManager service rather than
      *             accessing ThreadPool via this method.
      */
     ThreadPool getThreadPool( String category );
@@ -59,7 +59,7 @@ public interface BlockContext
      * Equivelent to getThreadPool( "default" );
      *
      * @return the default ThreadPool
-     * @deprecated Use ThreadManager service rather than 
+     * @deprecated Use ThreadManager service rather than
      *             accessing ThreadPool via this method.
      */
     ThreadPool getDefaultThreadPool();
@@ -83,16 +83,16 @@ public interface BlockContext
 
     /**
      * Retrieve the proxy for this object.
-     * Each Block is referenced by other Blocks via their Proxy. When Phoenix 
-     * shuts down the Block, it can automatically invalidate the proxy. Thus 
+     * Each Block is referenced by other Blocks via their Proxy. When Phoenix
+     * shuts down the Block, it can automatically invalidate the proxy. Thus
      * any attempt to call a method on a "dead"/shutdown object will result in
-     * an <code>IllegalStateException</code>. This is desirable as it will 
+     * an <code>IllegalStateException</code>. This is desirable as it will
      * stop objects from using the Block when it is in an invalid state.
      *
      * <p>The proxy also allows Phoenix to associate "Context" information with
-     * the object. For instance, a <code>Block</code> may expect to run with a 
+     * the object. For instance, a <code>Block</code> may expect to run with a
      * specific ContextClassLoader set. However if this Block were to be passed
-     * to another component that processed the Block in a thread that did not 
+     * to another component that processed the Block in a thread that did not
      * have the correct context information setup, then the Block could fail
      * to perform as expected. By passing the proxy instead, the correct context
      * information is maintained by Phoenix.</p>
@@ -104,7 +104,7 @@ public interface BlockContext
 
     /**
      * This method is similar to <code>getProxy()</code> except that it operates
-     * on arbitrary objects. It will in effect proxy all interfaces that the 
+     * on arbitrary objects. It will in effect proxy all interfaces that the
      * component supports.
      *
      * <p>Proxying arbitrary objects is useful for the same reason it is useful
@@ -114,15 +114,15 @@ public interface BlockContext
     //Object getProxy( Object other );
 
     /**
-     * This method generates a Proxy of the specified object using the 
-     * specified interfaces. In other respects it is identical to 
+     * This method generates a Proxy of the specified object using the
+     * specified interfaces. In other respects it is identical to
      * getProxy( Object other )
      */
     //Object getProxy( Object other, Class[] interfaces );
 
     /**
      * Retrieve a resource from the SAR file. The specified
-     * name is relative the root of the archive. So you could 
+     * name is relative the root of the archive. So you could
      * use it to retrieve a html page from within sar by loading
      * the resource named "data/main.html" or similar.
      */

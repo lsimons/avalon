@@ -12,11 +12,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.jar.JarInputStream;
-import java.util.jar.Manifest;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 
@@ -25,7 +22,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * read-only connection.
  *
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
- * @version CVS $Revision: 1.6 $ $Date: 2001/12/11 10:13:33 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/03/16 00:11:54 $
  */
 class SarURLConnection
     extends URLConnection
@@ -53,7 +50,7 @@ class SarURLConnection
      */
     public void connect() throws IOException
     {
-        if (connected) return;
+        if( connected ) return;
 
         final String name = url.getPath().substring( 1 );
         m_entry = m_jar.getJarEntry( name );
@@ -72,7 +69,7 @@ class SarURLConnection
      *
      * @return the InputStream.
      */
-    public InputStream getInputStream() 
+    public InputStream getInputStream()
         throws IOException
     {
         connect();

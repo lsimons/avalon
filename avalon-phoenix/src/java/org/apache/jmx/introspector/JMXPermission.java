@@ -11,7 +11,7 @@ import java.security.BasicPermission;
 
 /**
  * Permission used to check creation of <code>ConstructiveMBean</code> objects.
- * 
+ *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class JMXPermission

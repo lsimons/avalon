@@ -20,8 +20,8 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
 public final class ApplicationEvent
     extends EventObject
 {
-    private final String     m_name;
-    private final SarMetaData  m_sarMetaData;
+    private final String m_name;
+    private final SarMetaData m_sarMetaData;
 
     /**
      * Construct the <code>ApplicationEvent</code>.
@@ -30,7 +30,7 @@ public final class ApplicationEvent
      * @param sarMetaData the SarMetaData object for app
      */
     public ApplicationEvent( final String name,
-            final SarMetaData sarMetaData )
+                             final SarMetaData sarMetaData )
     {
         super( name );
 

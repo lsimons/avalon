@@ -8,8 +8,8 @@
 package org.apache.avalon.phoenix.tools.tasks;
 
 import java.io.File;
-import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.types.ZipFileSet;
 
 /**
@@ -99,7 +99,7 @@ public class Sar
         super.addFileset( zipFileSet );
     }
 
-    public void execute() 
+    public void execute()
         throws BuildException
     {
         if( null == m_config )

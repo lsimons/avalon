@@ -8,8 +8,8 @@
 package org.apache.avalon.phoenix.launcher;
 
 import java.util.Hashtable;
-import java.util.Observer;
 import java.util.Observable;
+import java.util.Observer;
 import org.apache.commons.daemon.Daemon;
 import org.apache.commons.daemon.DaemonContext;
 import org.apache.commons.daemon.DaemonController;
@@ -19,7 +19,7 @@ import org.apache.commons.daemon.DaemonController;
  * using the Jakarta commons-daemon.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
- * @version $Revision: 1.2 $ $Date: 2002/02/28 17:11:16 $
+ * @version $Revision: 1.3 $ $Date: 2002/03/16 00:11:55 $
  */
 public class CommonsDaemon
     implements Daemon, Observer
@@ -35,9 +35,9 @@ public class CommonsDaemon
         m_context = daemonContext;
         m_controller = m_context.getController();
         m_args = m_context.getArguments();
-        for ( int i = 0; i < m_args.length; i++ )
+        for( int i = 0; i < m_args.length; i++ )
         {
-            if ( "-d".equals( m_args[ i ] ) || "--debug-init".equals( m_args[ i ] ) )
+            if( "-d".equals( m_args[ i ] ) || "--debug-init".equals( m_args[ i ] ) )
             {
                 m_debugEnabled = true;
             }
@@ -68,28 +68,28 @@ public class CommonsDaemon
         final String command = ( null != arg ) ? arg.toString() : "";
         if( command.equals( "restart" ) )
         {
-            if ( m_debugEnabled )
+            if( m_debugEnabled )
             {
                 log( "restart requested." );
             }
 
             m_controller.reload();
 
-            if ( m_debugEnabled )
+            if( m_debugEnabled )
             {
                 log( "restart completed." );
             }
         }
-        else if ( command.equals( "shutdown" ) )
+        else if( command.equals( "shutdown" ) )
         {
-            if ( m_debugEnabled )
+            if( m_debugEnabled )
             {
                 log( "shutdown requested." );
             }
 
             m_controller.shutdown();
 
-            if ( m_debugEnabled )
+            if( m_debugEnabled )
             {
                 log( "shutdown completed." );
             }

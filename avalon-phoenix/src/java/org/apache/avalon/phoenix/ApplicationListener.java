@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) The Apache Software Foundation. All rights reserved.
  *
@@ -27,7 +26,7 @@ public interface ApplicationListener extends BlockListener
      * @param event the ApplicationEvent
      *
      */
-    void applicationStarting(ApplicationEvent applicationEvent) throws Exception;
+    void applicationStarting( ApplicationEvent applicationEvent ) throws Exception;
 
     /**
      * Notification that an application has now started.
@@ -60,5 +59,5 @@ public interface ApplicationListener extends BlockListener
      * @param causeOfFailure
      *
      */
-    void applicationFailure(Exception causeOfFailure);
+    void applicationFailure( Exception causeOfFailure );
 }

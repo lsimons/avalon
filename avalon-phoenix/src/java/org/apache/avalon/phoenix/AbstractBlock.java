@@ -7,8 +7,6 @@
  */
 package org.apache.avalon.phoenix;
 
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
@@ -25,15 +23,15 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.6 $ $Date: 2001/12/11 10:13:32 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/03/16 00:11:54 $
  */
 public abstract class AbstractBlock
     extends AbstractLogEnabled
     implements Block, Contextualizable, Composable, Configurable
 {
-    private BlockContext           m_context;
-    private Configuration          m_configuration;
-    private ComponentManager       m_componentManager;
+    private BlockContext m_context;
+    private Configuration m_configuration;
+    private ComponentManager m_componentManager;
 
     public void contextualize( final Context context )
     {
