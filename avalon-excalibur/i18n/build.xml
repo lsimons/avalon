@@ -123,9 +123,10 @@
             <manifest>
               <attribute name="Extension-Name" value="${name}"/>
               <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
-              <attribute name="Specification-Version" value="1.0"/>
+              <attribute name="Specification-Version" value="${version}"/>
               <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
               <attribute name="Implementation-Version" value="${package-version}"/>
+              <attribute name="Implementation-Vendor-Id" value="ASF"/>
             </manifest>
             <exclude name="**/test/**"/>
             <zipfileset dir="${build.conf}" prefix="META-INF/">
