@@ -21,6 +21,7 @@
     <menu-item label="Reuse Standards" href="reuse-standards.html"/>
     <menu-item label="Inversion of Control" href="inversion-of-control.html"/>
     <menu-item label="Separation of Concerns" href="separation-of-concerns.html"/>
+    <menu-item label="Separation of Concerns" href="separation-of-interface-and-implementation.html"/>    
     <menu-item label="Security" href="security.html"/>
   </menu>
 
