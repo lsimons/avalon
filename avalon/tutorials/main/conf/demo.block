@@ -9,6 +9,6 @@
      </classpath>
    </classloader>
 
-   <component name="hello" class="tutorial.HelloComponent"/>
+   <component name="hello" class="tutorial.HelloComponent" activation="startup"/>
 
 </container>

@@ -41,7 +41,7 @@ import org.apache.avalon.framework.logger.Logger;
  * by one, some or all of it's interfaces.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/03/04 03:42:30 $
+ * @version $Revision: 1.7 $ $Date: 2004/03/13 23:26:56 $
  */
 public final class ApplianceInvocationHandler implements InvocationHandler
 {
@@ -73,6 +73,9 @@ public final class ApplianceInvocationHandler implements InvocationHandler
     */
     protected ApplianceInvocationHandler( DefaultAppliance appliance, Logger logger, boolean secure )
     {
+        assertNotNull( appliance, "appliance" ); 
+        assertNotNull( logger, "logger" ); 
+        
         m_appliance = appliance;
         m_logger = logger;
         m_secure = secure;
@@ -217,5 +220,13 @@ public final class ApplianceInvocationHandler implements InvocationHandler
             }
         }
         return e;
+    }
+
+    private void assertNotNull( Object object, String key )
+    {
+        if( null == object )
+        {
+            throw new NullPointerException( key );
+        }
     }
 }

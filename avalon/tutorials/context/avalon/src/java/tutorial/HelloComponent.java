@@ -26,7 +26,7 @@ import org.apache.avalon.framework.context.ContextException;
 
 /**
  * Component demonstrating access to standard context entries.
- * @avalon.component name="demo"
+ * @avalon.component name="demo" lifestyle="singleton"
  */
 public class HelloComponent extends AbstractLogEnabled 
   implements Contextualizable

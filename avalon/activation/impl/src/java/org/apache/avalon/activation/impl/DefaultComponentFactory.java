@@ -32,6 +32,11 @@ import org.apache.avalon.activation.ComponentFactory;
 import org.apache.avalon.activation.RuntimeFactory;
 import org.apache.avalon.activation.LifecycleException;
 
+import org.apache.avalon.composition.info.DeliveryDescriptor;
+import org.apache.avalon.composition.info.NativeDeliveryDescriptor;
+import org.apache.avalon.composition.info.StagedDeliveryDescriptor;
+import org.apache.avalon.composition.info.InjectorDeliveryDescriptor;
+import org.apache.avalon.composition.info.NullDeliveryDescriptor;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.ModelRuntimeException;
 import org.apache.avalon.composition.model.DeploymentModel;
@@ -74,7 +79,7 @@ import org.apache.avalon.util.i18n.Resources;
  * A factory enabling the establishment of component instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2004/03/12 18:12:35 $
+ * @version $Revision: 1.9 $ $Date: 2004/03/13 23:26:56 $
  */
 public class DefaultComponentFactory implements ComponentFactory
 {
@@ -253,7 +258,6 @@ public class DefaultComponentFactory implements ComponentFactory
         final Parameters params = m_model.getParameters();
         final ServiceManager manager = new DefaultServiceManager( m_model );
         final Object context = getTargetContext();
-
         final Class contextClass = getContextCastingClass();
 
         final Object instance = 
@@ -284,7 +288,18 @@ public class DefaultComponentFactory implements ComponentFactory
                 }
             }
 
-            applyContext( instance, context );
+            if( m_model.getContextModel().isEnabled() )
+            {
+                DeliveryDescriptor delivery = 
+                  m_model.getContextModel().getDeliveryDescriptor();
+                if( !( delivery instanceof NullDeliveryDescriptor ) )
+                {
+                    if( !( delivery instanceof InjectorDeliveryDescriptor ) )
+                    {
+                        applyContext( instance, delivery, context );
+                    }
+                }
+            }
 
             if( instance instanceof Serviceable )
             {
@@ -441,14 +456,7 @@ public class DefaultComponentFactory implements ComponentFactory
 
     private Class getContextCastingClass()
     {
-        if( null == m_model.getContextModel() ) 
-        {
-            return null;
-        }
-        else
-        {
-            return m_model.getContextModel().getCastingClass();
-        }
+        return m_model.getContextModel().getCastingClass();
     }
 
     private Object getTargetContext()
@@ -814,16 +822,15 @@ public class DefaultComponentFactory implements ComponentFactory
         }
     }
 
-    private void applyContext( final Object instance, final Object context ) 
+    private void applyContext( 
+      final Object instance, DeliveryDescriptor delivery, final Object context ) 
       throws LifecycleException
     {
         if( null == context ) return;
 
         final ContextModel model = m_model.getContextModel();
-        if( model == null ) return;
 
-        final DeploymentModel provider = model.getProvider();
-        if(( null == provider ) && (instance instanceof Contextualizable ))
+        if( delivery instanceof NativeDeliveryDescriptor )
         {
             getLogger().debug( "applying context" );
 
@@ -872,9 +879,10 @@ public class DefaultComponentFactory implements ComponentFactory
                 throw new LifecycleException( error );
             }
         }
-        else if( null != provider )
+        else if( delivery instanceof StagedDeliveryDescriptor )
         {
             getLogger().debug( "applying custom context" );
+            final DeploymentModel provider = model.getProvider();
             try
             {
                 ContextualizationHandler handler =
@@ -890,6 +898,14 @@ public class DefaultComponentFactory implements ComponentFactory
                     provider.toString() );
                 throw new LifecycleException( error, e );
             }
+        }
+        else
+        {
+            final String error = 
+              "Unrecognized delivery strategy: ["
+              + delivery.getClass().getName() 
+              + "].";
+            throw new IllegalStateException( error );
         }
     }
 }

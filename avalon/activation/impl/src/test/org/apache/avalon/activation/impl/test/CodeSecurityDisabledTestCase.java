@@ -91,6 +91,8 @@ public class CodeSecurityDisabledTestCase extends AbstractTestCase
     {
         TestService test = getTestService();
 
+        assertNotNull( "test", test );
+
         try
         {
             test.createDirectory(); 

@@ -28,7 +28,7 @@ import org.apache.avalon.meta.info.Type;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/03/10 10:52:17 $
+ * @version $Revision: 1.8 $ $Date: 2004/03/13 23:26:56 $
  */
 public interface ComponentModel extends DeploymentModel
 {
@@ -150,19 +150,10 @@ public interface ComponentModel extends DeploymentModel
     Parameters getParameters();
 
    /**
-    * Rest if the component type backing the model requires the 
-    * establishment of a runtime context.
-    *
-    * @return TRUE if the component type requires a runtime
-    *   context otherwise FALSE
-    */
-    boolean isContextDependent();
-
-   /**
     * Return the context model for this deployment model.
     * 
-    * @return the context model if this model is context dependent, else
-    *   the return value is null
+    * @return the context model
+    * @see ContextModel#isEnabled
     */
     ContextModel getContextModel();
 
