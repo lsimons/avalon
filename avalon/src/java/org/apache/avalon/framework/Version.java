@@ -87,7 +87,7 @@ import java.util.StringTokenizer;
  * </ul>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.27 $ $Date: 2003/05/20 19:41:55 $
+ * @version CVS $Revision: 1.28 $ $Date: 2003/05/20 19:46:31 $
  */
 public final class Version
     implements Comparable, Serializable
@@ -200,17 +200,17 @@ public final class Version
      */
     public boolean equals( final Version other )
     {
-    	boolean isEqual = ( getMajor() == other.getMajor() );
-    	
-		if ( isEqual )
-		{
-			isEqual = ( getMinor() == other.getMinor() );
-		}
-    	
-		if ( isEqual )
-		{
-			isEqual = ( getMicro() == other.getMicro() );
-		}
+        boolean isEqual = ( getMajor() == other.getMajor() );
+        
+        if ( isEqual )
+        {
+            isEqual = ( getMinor() == other.getMinor() );
+        }
+        
+        if ( isEqual )
+        {
+            isEqual = ( getMicro() == other.getMicro() );
+        }
 
         return isEqual;
     }
@@ -225,8 +225,8 @@ public final class Version
      */
     public boolean equals( final Object other )
     {
-    	boolean isEqual = false;
-    	
+        boolean isEqual = false;
+        
         if( other instanceof Version )
         {
             isEqual = equals( (Version)other );
@@ -245,13 +245,13 @@ public final class Version
      */
     public int hashCode()
     {
-    	int hash = getMajor();
-    	hash >>>= 17;
-    	hash += getMinor();
-    	hash >>>= 17;
-    	hash += getMicro();
-    	
-    	return hash;
+        int hash = getMajor();
+        hash >>>= 17;
+        hash += getMinor();
+        hash >>>= 17;
+        hash += getMicro();
+        
+        return hash;
     }
 
     /**
@@ -323,19 +323,19 @@ public final class Version
      * 
      * @return number indicating relative value (-1, 0, 1)
      */
-	public int compareTo(Object o) {
-		Version other = (Version)o;
-		int val = 0;
+    public int compareTo(Object o) {
+        Version other = (Version)o;
+        int val = 0;
 
-		if ( getMajor() < other.getMajor() ) val = -1;
-		if ( 0 == val && getMajor() > other.getMajor() ) val = 1;
+        if ( getMajor() < other.getMajor() ) val = -1;
+        if ( 0 == val && getMajor() > other.getMajor() ) val = 1;
 
-		if ( 0 == val && getMinor() < other.getMinor() ) val = -1;
-		if ( 0 == val && getMinor() > other.getMinor() ) val = 1;
+        if ( 0 == val && getMinor() < other.getMinor() ) val = -1;
+        if ( 0 == val && getMinor() > other.getMinor() ) val = 1;
 
-		if ( 0 == val && getMicro() < other.getMicro() ) val = -1;
-		if ( 0 == val && getMicro() > other.getMicro() ) val = 1;
+        if ( 0 == val && getMicro() < other.getMicro() ) val = -1;
+        if ( 0 == val && getMicro() > other.getMicro() ) val = 1;
 
-		return val;
-	}
+        return val;
+    }
 }

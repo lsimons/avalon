@@ -120,47 +120,47 @@ public class VersionTestCase
     
     public void testHashCode()
     {
-    	final Version v1 = new Version( 5, 1, 0 );
-    	final Version v2 = new Version( 1, 0, 3 );
-    	final Version v3 = new Version( 1, 0, 3 );
-    	
-		assertEquals( calculateHash(v1), v1.hashCode() );
-		assertEquals( calculateHash(v2), v2.hashCode() );
-		
-		assertTrue( v1.hashCode() != v2.hashCode() );
-		assertTrue( ! v1.equals(v2) );
-		
-		assertEquals( v2.hashCode(), v3.hashCode() );
-		assertEquals( v2, v3 );
+        final Version v1 = new Version( 5, 1, 0 );
+        final Version v2 = new Version( 1, 0, 3 );
+        final Version v3 = new Version( 1, 0, 3 );
+        
+        assertEquals( calculateHash(v1), v1.hashCode() );
+        assertEquals( calculateHash(v2), v2.hashCode() );
+        
+        assertTrue( v1.hashCode() != v2.hashCode() );
+        assertTrue( ! v1.equals(v2) );
+        
+        assertEquals( v2.hashCode(), v3.hashCode() );
+        assertEquals( v2, v3 );
     }
     
     public void testComparable()
     {
-    	final Version v1 = new Version( 1, 0, 0 );
-    	final Version v2 = new Version( 2, 0, 0 );
-    	final Version v3 = new Version( 2, 1, 0 );
-    	final Version v4 = new Version( 2, 1, 1 );
-    	final Version v5 = new Version( 1, 0, 0 );
-    	
-    	assertEquals( 0, v1.compareTo(v5) );
-    	assertEquals( 0, v5.compareTo(v1) );
-    	
-		assertEquals( -1, v1.compareTo(v2) );
-		assertEquals( 1, v2.compareTo(v1) );
-    	
-		assertEquals( -1, v2.compareTo(v3) );
-		assertEquals( 1, v3.compareTo(v2) );
-    	
-		assertEquals( -1, v3.compareTo(v4) );
-		assertEquals( 1, v4.compareTo(v3) );
+        final Version v1 = new Version( 1, 0, 0 );
+        final Version v2 = new Version( 2, 0, 0 );
+        final Version v3 = new Version( 2, 1, 0 );
+        final Version v4 = new Version( 2, 1, 1 );
+        final Version v5 = new Version( 1, 0, 0 );
+        
+        assertEquals( 0, v1.compareTo(v5) );
+        assertEquals( 0, v5.compareTo(v1) );
+        
+        assertEquals( -1, v1.compareTo(v2) );
+        assertEquals( 1, v2.compareTo(v1) );
+        
+        assertEquals( -1, v2.compareTo(v3) );
+        assertEquals( 1, v3.compareTo(v2) );
+        
+        assertEquals( -1, v3.compareTo(v4) );
+        assertEquals( 1, v4.compareTo(v3) );
     }
 
-	private int calculateHash(final Version v) {
-		int hash = v.getMajor();
-		hash >>>= 17;
-		hash += v.getMinor();
-		hash >>>= 17;
-		hash += v.getMicro();
-		return hash;
-	}
+    private int calculateHash(final Version v) {
+        int hash = v.getMajor();
+        hash >>>= 17;
+        hash += v.getMinor();
+        hash >>>= 17;
+        hash += v.getMicro();
+        return hash;
+    }
 }
