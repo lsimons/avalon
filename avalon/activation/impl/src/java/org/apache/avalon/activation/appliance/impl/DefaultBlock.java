@@ -71,7 +71,6 @@ import org.apache.avalon.activation.appliance.DeploymentException;
 import org.apache.avalon.activation.appliance.Engine;
 import org.apache.avalon.activation.appliance.NoProviderDefinitionException;
 import org.apache.avalon.activation.appliance.ServiceContext;
-import org.apache.avalon.composition.data.ContextDirective;
 import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.model.ContainmentModel;
@@ -92,7 +91,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2003/10/18 00:34:19 $
+ * @version $Revision: 1.5 $ $Date: 2003/10/22 01:45:37 $
  */
 public class DefaultBlock extends AbstractAppliance 
   implements Block, Composite
@@ -597,7 +596,7 @@ public class DefaultBlock extends AbstractAppliance
                     {
                         try
                         {
-                            Thread.currentThread().sleep( 300 );
+                            Thread.sleep( 300 );
                         }
                         catch( Throwable e )
                         {
