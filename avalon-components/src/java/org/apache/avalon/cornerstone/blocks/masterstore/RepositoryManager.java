@@ -100,6 +100,12 @@ public class RepositoryManager
     {
     }
 
+    public boolean hasComponent( final Object hint )
+    {
+        if( hint instanceof Configuration ) return true;
+        else return false;
+    }
+
     public Component select( final Object hint )
         throws ComponentException
     {
