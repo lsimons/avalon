@@ -20,6 +20,7 @@
       <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.junit"/>
       <import plugin="org.apache.avalon.MerlinDeveloperCore"/>
+      <import plugin="org.apache.avalon.MerlinDeveloperLaunch"/>
    </requires>
 
 
