@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <extend>${basedir}/../../project.xml</extend>
+  <groupId>merlin</groupId>
+  <id>merlin-jndi</id>
+  <name>Merlin JNDI Gateway</name>
+  <package>org.apache.avalon.merlin.jndi</package>
+
+  <currentVersion>1.0</currentVersion>
+  <inceptionYear>2001</inceptionYear>
+  <shortDescription>Merlin JNDI</shortDescription>
+  
+  <description>
+The gateway package contains a JNDI object factory through which a Merlin Kernel can be established.
+  </description>
+  
+  <developers>
+    <developer>
+      <name>Stephen McConnell</name>
+      <id>mcconnell</id>
+      <email>mcconnell@apache.org</email>
+      <organization>OSM SARL</organization>
+    </developer>
+  </developers>
+
+</project>
