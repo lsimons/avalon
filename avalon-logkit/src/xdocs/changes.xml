@@ -2,12 +2,12 @@
 <changes title="LogKit History of Changes">
   <devs>
     <author email="peter at apache.org">Peter Donald</author>
-    <author email="bloritsch@apache.org">Berin Loritsch</author>
-    <author email="stuart.roebuck@adolos.co.uk">Stuart Roebuck</author>
-    <author email="colus@apache.org">Eung-ju Park</author>
-    <author email="leif@apache.org">Leif Mortenson</author>
-    <author email="giacomo@apache.org">Giacomo Pati</author>
-    <author email="crafterm@apache.org">Marcus Crafter</author>
+    <author email="bloritsch at apache.org">Berin Loritsch</author>
+    <author email="stuart.roebuck at adolos.co.uk">Stuart Roebuck</author>
+    <author email="colus at apache.org">Eung-ju Park</author>
+    <author email="leif at apache.org">Leif Mortenson</author>
+    <author email="giacomo at apache.org">Giacomo Pati</author>
+    <author email="crafterm at apache.org">Marcus Crafter</author>
   </devs>
   <release version="1.1" date="Unreleased">
     <action dev="MC" type="add">
