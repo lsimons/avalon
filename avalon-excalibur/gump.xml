@@ -644,7 +644,7 @@
         </ant>
 
         <depend project="jakarta-ant"/>
-       <depend project="xml-xerces"/>
+        <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="thread/build/classes"/>
 
@@ -754,6 +754,80 @@
 
         <home nested="zip"/>
         <jar name="build/lib/excalibur-zip-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="excalibur-configuration">
+        <package>org.apache.excalibur.configuration</package>
+
+        <ant basedir="configuration">
+            <depend property="avalon-framework.jar" project="jakarta-avalon" runtime="true"/>
+            <depend property="checkstyle.jar" project="checkstyle"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="configuration/build/classes"/>
+
+        <home nested="configuration"/>
+        <jar name="build/lib/excalibur-configuration-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="excalibur-context">
+        <package>org.apache.excalibur.context</package>
+
+        <ant basedir="context">
+            <depend property="avalon-framework.jar" project="jakarta-avalon" runtime="true"/>
+            <depend property="checkstyle.jar" project="checkstyle"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="context/build/classes"/>
+
+        <home nested="context"/>
+        <jar name="build/lib/excalibur-context-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="excalibur-merlin">
+        <package>org.apache.excalibur.merlin</package>
+
+        <ant basedir="merlin">
+            <depend property="avalon-framework.jar" project="jakarta-avalon" runtime="true"/>
+            <depend property="excalibur-configuration.jar" project="excalibur-configuration" runtime="true"/>
+            <depend property="excalibur-context.jar" project="excalibur-context" runtime="true"/>
+            <depend property="checkstyle.jar" project="checkstyle"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="merlin/build/classes"/>
+
+        <home nested="merlin"/>
+        <jar name="build/lib/excalibur-merlin-@@DATE@@.jar"/>
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
