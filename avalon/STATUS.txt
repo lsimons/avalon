@@ -1,5 +1,5 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2002/12/05 12:56:25 $]
+Last modified at [$Date: 2002/12/05 15:49:37 $]
 
 Background:
 
@@ -93,7 +93,7 @@ Pending issues:
       [http://marc.theaimsgroup.com/?t=103899603700005&r=1&w=2]
       +1: nicolaken, mcconnell
       +0: cziegeler   
-      -0: proyal
+      -0: proyal, crafterm
       -1: leosimons, leif
 
     o Proposed by Peter Donald:
@@ -252,8 +252,8 @@ PMC Members, pending Board approval:
 
 Active Committers:
 
-      bloritsch,colus,cziegeler,hammant,jefft,leif,leosimons,leosutic,
-      mirceatoma,mcconnell,nicolaken,proyal,vinayc,crafterm
+      bloritsch,colus,crafterm,cziegeler,hammant,jefft,leif,leosimons,leosutic,
+      mirceatoma,mcconnell,nicolaken,proyal,vinayc
       
 
 Inactive Committers (three months without commits):      
