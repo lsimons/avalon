@@ -138,7 +138,6 @@ public class StartupPhase
                 }
                 catch( final ConfigurationException ce )
                 {
-                    // missing configuration (probably).
                     final String message = REZ.getString( "startup.error.block.noconfiguration", name );
                     throw new ConfigurationException( message, ce );
                 }
