@@ -142,7 +142,7 @@
       <name>Kristian Meier</name>
       <email>kristian.meier@jentro.com</email>
       <roles>
-        <role>Patches enhancing the meta-info generation sources and documentation.</role>
+        <role>Patches enhancing the meta-info generation sources and documentation, and patches related to the pooled lifestyle handler.</role>
       </roles>
     </contributor>
     <contributor>
@@ -160,14 +160,6 @@
         <role>Testing, bug reporting, and early access trial participation.</role>
       </roles>
       <organization>IBM Global Services</organization>
-    </contributor>
-    <contributor>
-      <name>Kristian Meier</name>
-      <email>kristian.meier@jentro.com</email>
-      <roles>
-        <role>Pooled lifestyle handler patches.</role>
-      </roles>
-      <organization>Jentro</organization>
     </contributor>
   </contributors>
 
@@ -197,6 +189,8 @@
             <include>**/*.xconfig</include>
             <include>**/*.xml</include>
             <include>**/*.xservice</include>
+            <include>**/*.mf</include>
+            <include>**/*.jar</include>
           </includes>
         </resource>
       </resources>
