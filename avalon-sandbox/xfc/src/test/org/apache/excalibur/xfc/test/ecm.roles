@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!DOCTYPE role-list [
-<!ELEMENT role-list (role+)> 
+<!ELEMENT role-list (role+)>
 <!ELEMENT role (hint*)>
 <!ELEMENT hint EMPTY>
 <!ATTLIST role name CDATA #REQUIRED
@@ -16,24 +16,24 @@
 <role-list>
 
   <!-- single component definitions -->
-  <role name="org.apache.excalibur.xml.dom.DOMParser"
-        shorthand="xml-parser"
-        default-class="org.apache.excalibur.xml.impl.JaxpParser"/>
+  <role name="org.apache.excalibur.xfc.data.Role1"
+        shorthand="role1"
+        default-class="org.apache.excalibur.xfc.data.Component1"/>
 
-  <role name="org.apache.excalibur.xml.xslt.XSLTProcessor"
-        shorthand="xslt-processor"
-        default-class="org.apache.excalibur.xml.xslt.XSLTProcessorImpl"/>
+  <role name="org.apache.excalibur.xfc.data.Role2"
+        shorthand="role2"
+        default-class="org.apache.excalibur.xfc.data.Component2"/>
 
-  <role name="org.apache.excalibur.xml.xpath.XPathProcessor"
-        shorthand="xpath-processor"
-        default-class="org.apache.excalibur.xml.xpath.XPathProcessorImpl"/>
+  <role name="org.apache.excalibur.xfc.data.Role3"
+        shorthand="role3"
+        default-class="org.apache.excalibur.xfc.data.Component3"/>
 
   <!-- component selector definition -->
-  <role name="org.apache.avalon.excalibur.datasource.DataSourceComponentSelector"
-        shorthand="datasources"
+  <role name="org.apache.excalibur.xfc.data.Role4"
+        shorthand="role4s"
         default-class="org.apache.avalon.excalibur.component.ExcaliburComponentSelector">
-    <hint shorthand="jdbc" class="org.apache.avalon.excalibur.datasource.ResourceLimitingJdbcDataSource"/>
-    <hint shorthand="j2ee" class="org.apache.avalon.excalibur.datasource.J2eeDataSource"/>
+    <hint shorthand="a" class="org.apache.excalibur.xfc.data.Component4a"/>
+    <hint shorthand="b" class="org.apache.excalibur.xfc.data.Component4b"/>
   </role>
 
 </role-list>
