@@ -21,7 +21,6 @@ import javax.management.NotificationBroadcaster;
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
  */
-
 public class DynamicMBeanFactory
 {
     /**
