@@ -12,8 +12,6 @@
   <property name="magic.dir" value="${basedir}/tools/magic"/>
   <property file="${basedir}/user.properties"/>
   <property file="${basedir}/build.properties"/>
-  <property name="reactor.xml" 
-    value="${magic.templates}/reactor.xml"/>
 
   <condition property="magic.env.declared" value="false">
     <isset property="ENV.MAGIC_HOME"/>
@@ -42,16 +40,25 @@
   </target>
 
   <target name="clean" depends="verify">
+    <x:home />
+    <property name="reactor.xml" 
+      value="${magic.templates}/reactor.xml"/>
     <ant dir="." antfile="${reactor.xml}" target="clean"/>
   </target>
 
   <target name="info" depends="verify">
+    <x:home />
+    <property name="reactor.xml" 
+      value="${magic.templates}/reactor.xml"/>
     <ant dir="." antfile="${reactor.xml}" target="info"/>
   </target>
 
   <target name="install" depends="default, gump"/>
 
   <target name="default" depends="verify">
+    <x:home />
+    <property name="reactor.xml" 
+      value="${magic.templates}/reactor.xml"/>
     <ant dir="." antfile="${reactor.xml}" target="default"/>
   </target>
 
@@ -72,6 +79,8 @@
 
   <target name="gump">
     <x:home/>
+    <property name="reactor.xml" 
+      value="${magic.templates}/reactor.xml"/>
     <x:gump description="Avalon SVN" 
          public="true" filename="central/system/gump/avalon-trunk.xml">
       <x:url href="http://avalon.apache.org/"/>
