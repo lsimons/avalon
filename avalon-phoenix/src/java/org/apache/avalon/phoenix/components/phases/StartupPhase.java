@@ -9,20 +9,22 @@ package org.apache.avalon.phoenix.components.phases;
 
 import java.io.File;
 import java.net.URL;
-import org.apache.avalon.framework.CascadingException;
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.excalibur.container.State;
 import org.apache.avalon.excalibur.container.Container;
 import org.apache.avalon.excalibur.container.ContainerException;
 import org.apache.avalon.excalibur.container.Entry;
-import org.apache.avalon.framework.component.ComponentException;
+import org.apache.avalon.excalibur.container.State;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.excalibur.lang.ThreadContext;
+import org.apache.avalon.framework.CascadingException;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.component.DefaultComponentManager;
-import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
@@ -32,19 +34,17 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockContext;
+import org.apache.avalon.phoenix.BlockEvent;
+import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 import org.apache.avalon.phoenix.components.kapi.BlockEntry;
 import org.apache.avalon.phoenix.components.kapi.BlockInvocationHandler;
+import org.apache.avalon.phoenix.components.listeners.BlockListenerManager;
+import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.lang.ThreadContext;
-import org.apache.avalon.phoenix.components.listeners.BlockListenerManager;
-import org.apache.avalon.phoenix.BlockListener;
-import org.apache.avalon.phoenix.BlockEvent;
 
 /**
  *
@@ -122,7 +122,7 @@ public class StartupPhase
         {
             //Creation stage
             getLogger().debug( REZ.getString( "startup.notice.create.pre" ) );
-            final Object object = createBlock( name, entry );
+            final Object object = createBlock( name, entry.getMetaData() );
             entry.setInstance( object );
             getLogger().debug( REZ.getString( "startup.notice.create.success" ) );
 
@@ -209,11 +209,12 @@ public class StartupPhase
         }
     }
 
-    private Block createBlock( final String name, final BlockEntry entry )
+    private Block createBlock( final String name, final BlockMetaData metaData )
         throws Exception
     {
-        final ClassLoader classLoader = m_frame.getClassLoader();
-        final Class clazz = classLoader.loadClass( entry.getMetaData().getClassname() );
+        final ClassLoader classLoader = m_frame.getClassLoader(); 
+        //Thread.currentThread().getContextClassLoader();
+        final Class clazz = classLoader.loadClass( metaData.getClassname() );
         final Block block = (Block)clazz.newInstance(); 
         getLogger().debug( REZ.getString( "startup.notice.block.created" ) );
 
@@ -238,7 +239,7 @@ public class StartupPhase
             final DependencyMetaData role = roles[ i ];
             final BlockEntry dependency = (BlockEntry)m_container.getEntry( role.getName() );
 
-            componentManager.put( role.getRole(), 
+            componentManager.put( role.getRole(),
                                   (Block)dependency.getBlockInvocationHandler().getProxy() );
         }
 
