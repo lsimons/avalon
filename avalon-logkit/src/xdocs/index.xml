@@ -16,14 +16,14 @@
         LogKit is a logging toolkit designed for secure performance oriented logging
         in applications. To get started using LogKit, it is recomended that you read the 
         <link href="whitepaper.html">whitepaper</link> and browse the 
-        <link href="api/index.html">API docs</link>.
+        <link href="http://jakarta.apache.org/avalon/logkit/api/index.html">API docs</link>.
       </p>
     </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2001/11/18 07:51:02 $
+      $Revision: 1.5 $ $Date: 2002/01/31 16:07:37 $
     </legal>
   </footer>
 </document>
