@@ -404,7 +404,7 @@
       </j:otherwise>
     </j:choose>
 
-    <ant:echo>Building distribution: ${package.name}</ant:echo>
+    <ant:echo>Building zip distribution: ${package.name}</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${package.name}.zip">
       <zipfileset dir="${merlin.build.inst.dir}" prefix="merlin"/>
       <fileset dir="${basedir}">
@@ -423,6 +423,7 @@
       </ant:exec>
     </j:if>
 
+    <ant:echo>Building tar distribution: ${package.name}</ant:echo>
     <ant:tar longfile="gnu" tarfile="${maven.build.dir}/${package.name}.tar">
       <tarfileset dir="${merlin.build.inst.dir}" prefix="merlin"/>
       <fileset dir="${basedir}">

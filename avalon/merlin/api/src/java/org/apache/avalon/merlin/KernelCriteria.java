@@ -26,7 +26,7 @@ import org.apache.avalon.repository.Artifact;
 /**
  * A service that provides access to versioned resources.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2004/02/24 22:18:22 $
+ * @version $Revision: 1.9 $ $Date: 2004/03/01 13:40:20 $
  */
 public interface KernelCriteria extends Map
 {
@@ -228,7 +228,7 @@ public interface KernelCriteria extends Map
     * Return a external logging system configuration file
     * @return the logging configuration file (possibly null)
     */
-    File getLoggingConfiguration();
+    URL getLoggingConfiguration();
 
    /**
     * Return the logging system implementation artifact.

@@ -622,16 +622,16 @@ public class DefaultFactory implements Factory
       throws Exception
     {
         File dir = criteria.getWorkingDirectory();
+        URL logging = criteria.getLoggingConfiguration();
         Artifact artifact = criteria.getLoggingImplementation();
+
         Builder builder = m_context.newBuilder( m_classloader, artifact );
         Factory factory = builder.getFactory();
         
         LoggingCriteria params = getLoggingCriteria( factory );
-        URL conf = params.getLoggingConfiguration();
-
         params.setDebugEnabled( criteria.isDebugEnabled() );
         params.setBaseDirectory( dir );
-        params.setLoggingConfiguration( conf );
+        params.setLoggingConfiguration( logging );
 
         return (LoggingManager) factory.create( params );
     }
@@ -802,12 +802,12 @@ public class DefaultFactory implements Factory
           + criteria.getKernelURL() );
 
         buffer.append( 
-          "\n  ${merlin.logging.config} == " 
-          + criteria.getLoggingConfiguration() );
-
-        buffer.append( 
           "\n  ${merlin.logging.implementation} == " 
           + criteria.getLoggingImplementation() );
+
+        buffer.append( 
+          "\n  ${merlin.logging.config} == " 
+          + criteria.getLoggingConfiguration() );
 
         buffer.append( 
           "\n  ${merlin.runtime} == " 
