@@ -40,7 +40,13 @@
 
       <depend runtime="true" project="qdox"></depend>
 
+    <work nested="fortress/container/target/classes"></work>
+    <work nested="fortress/container/target/api-classes"></work>
+    <work nested="fortress/container/target/impl-classes"></work>
+    <work nested="fortress/container/target/test-classes"></work>
+
     <home nested="fortress/container"></home>
+
     <jar name="target/avalon-fortress-container-@@DATE@@.jar" id="combined"></jar>
     <jar name="target/avalon-fortress-container-@@DATE@@-api.jar" id="api"></jar>
     <jar name="target/avalon-fortress-container-@@DATE@@-impl.jar" id="impl"></jar>
