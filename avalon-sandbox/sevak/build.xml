@@ -214,19 +214,12 @@
 
     <jar jarfile="${build.lib}/sevak-catalina.jar">
       <fileset dir="${build.classes}">
-        <include name="org/apache/avalon/apps/sevak/blocks/catalina/startup/*"/>
+        <include name="org/apache/avalon/apps/sevak/blocks/catalina/**"/>
       </fileset>
       <fileset dir="${build.metagenerate}/catalina">
-        <include name="org/apache/avalon/apps/sevak/blocks/catalina/startup/**/*.xinfo"/>
+        <include name="org/apache/avalon/apps/sevak/blocks/catalina/**/*.xinfo"/>
       </fileset>
     </jar>
-
-      <jar jarfile="${build.lib}/sevak-catalina-impl.jar">
-          <fileset dir="${build.classes}">
-              <include name="org/apache/avalon/apps/sevak/blocks/catalina/**"/>
-              <exclude name="org/apache/avalon/apps/sevak/blocks/catalina/startup/**"/>
-          </fileset>
-      </jar>
 
     <jar jarfile="${build.lib}/sevak-jo.jar">
       <fileset dir="${build.classes}">
