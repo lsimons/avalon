@@ -93,10 +93,6 @@
         classname="org.apache.excalibur.event.EventHandler"
         classpathref="project.class.path"/>
 
-    <available classname="electric.registry.Registry"
-        classpathref="project.class.path"
-        property="glue.present"/>
-
     <available classname="javax.xml.parsers.DocumentBuilderFactory"
         classpathref="project.class.path"
         property="DocumentBuilderFactory.present"/>
@@ -132,8 +128,6 @@
                unless="jsse.present" />
       <exclude name="org/apache/avalon/cornerstone/services/silk/**.java"
                unless="event.present" />
-      <exclude name="org/apache/avalon/cornerstone/blocks/soapification/glue/**.java"
-               unless="glue.present" />
       <exclude name="org/apache/avalon/cornerstone/blocks/dom/**.java"
                unless="DocumentBuilderFactory.present" />
       <exclude name="org/apache/avalon/cornerstone/services/dom/**.java"
