@@ -80,9 +80,9 @@
     <!-- avalon dependecies -->
 
     <dependency>
-      <groupId>avalon-repository</groupId>
-      <artifactId>avalon-repository-main</artifactId>
-      <version>2.0-SNAPSHOT</version>
+      <groupId>&avalon-repository-id;</groupId>
+      <artifactId>&avalon-repository-main-id;</artifactId>
+      <version>&avalon-repository-main-version;</version>
     </dependency>
 
     <dependency>

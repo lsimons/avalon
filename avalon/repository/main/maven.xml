@@ -1,3 +1,8 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+
 <project default="jar:install" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
   <!--
@@ -18,7 +23,7 @@
 # Default repository implementation artifact identifier.            #
 #===================================================================#
 
-avalon.repository.implementation = ${avalon.repository.implementation}
+avalon.repository.implementation = &avalon-repository-artifact;
 avalon.repository.hosts = ${avalon.repository.hosts}
 
 </ant:echo>

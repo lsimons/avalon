@@ -2,3 +2,4 @@
 <!ENTITY % framework-entities SYSTEM "file:../../../versioning/avalon-framework.ent"> %framework-entities;
 <!ENTITY % meta-entities SYSTEM "file:../../../versioning/avalon-meta.ent"> %meta-entities;
 <!ENTITY % util-entities SYSTEM "file:../../../versioning/avalon-util.ent"> %util-entities;
+<!ENTITY % repo-entities SYSTEM "file:../../../versioning/avalon-repository.ent"> %repo-entities;
