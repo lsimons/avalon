@@ -73,7 +73,8 @@ public class MetaGenerateQdoxTask extends AbstractQdoxTask
             DocletTag block = javaClass.getTagByName("phoenix:block");
             if (block != null)
             {
-                XinfoFactory factory = new XinfoFactory(m_destDir, javaClass, m_inheritance);
+                XinfoFactory factory = new XinfoFactory(m_destDir, javaClass,
+                        allClasses, m_inheritance);
                 factory.generate();
             }
             DocletTag topic = javaClass.getTagByName("phoenix:mx-topic");
