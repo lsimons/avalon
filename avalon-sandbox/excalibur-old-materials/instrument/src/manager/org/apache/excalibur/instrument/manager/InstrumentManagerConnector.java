@@ -7,19 +7,19 @@
  */
 package org.apache.excalibur.instrument.manager;
 
-import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.configuration.Configurable;
-
 /**
  * Interface for classes which can be registered as Connectors for
  *  InstrumentManagers.
  *
+ * The InstrumentManager is smart about handling connectors which implement
+ *  the LogEnabled, Configurable, Initializable, Startable and Disposable
+ *  interfaces.
+ *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/04 10:33:33 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/06 12:58:26 $
  * @since 4.1
  */
 public interface InstrumentManagerConnector
-    extends Configurable, Startable
 {
     /**
      * Set the InstrumentManager to which the Connecter will provide
