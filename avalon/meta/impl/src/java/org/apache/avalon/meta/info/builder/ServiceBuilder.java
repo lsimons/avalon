@@ -18,9 +18,11 @@
 package org.apache.avalon.meta.info.builder;
 
 import java.io.InputStream;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
+
 import org.apache.avalon.meta.info.Service;
+
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
 
 /**
  * A ServiceBuilder is responsible for building {@link Service}
@@ -30,7 +32,7 @@ import org.apache.avalon.meta.info.Service;
  * <p><image src="doc-files/ServiceBuilder.gif" border="0"/></p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:20:46 $
+ * @version $Revision: 1.3 $ $Date: 2004/03/08 11:24:52 $
  */
 public final class ServiceBuilder
 {

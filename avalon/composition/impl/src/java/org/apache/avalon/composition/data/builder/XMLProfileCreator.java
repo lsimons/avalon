@@ -19,19 +19,21 @@ package org.apache.avalon.composition.data.builder;
 
 import java.util.ArrayList;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+
 import org.apache.avalon.logging.data.CategoriesDirective;
 import org.apache.avalon.logging.data.CategoryDirective;
-import org.apache.excalibur.configuration.ConfigurationUtil;
 
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
+
+import org.apache.excalibur.configuration.ConfigurationUtil;
 
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Revision: 1.4 $ $Date: 2004/03/08 11:28:36 $
  */
 public abstract class XMLProfileCreator
 {

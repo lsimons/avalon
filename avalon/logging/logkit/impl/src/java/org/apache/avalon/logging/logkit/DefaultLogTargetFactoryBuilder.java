@@ -41,8 +41,8 @@ import org.apache.avalon.logging.logkit.factory.PluginTargetFactory;
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.Factory;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
 
 import org.apache.log.LogTarget;
 import org.apache.log.output.io.StreamTarget;

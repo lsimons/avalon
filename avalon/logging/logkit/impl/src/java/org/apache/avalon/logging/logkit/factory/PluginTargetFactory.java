@@ -25,9 +25,6 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.Logger;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-
 import org.apache.avalon.logging.logkit.LogTargetException;
 import org.apache.avalon.logging.logkit.LogTargetFactory;
 import org.apache.avalon.logging.logkit.LogTargetManager;
@@ -37,6 +34,9 @@ import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.provider.Factory;
+
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
 
 import org.apache.excalibur.configuration.ConfigurationUtil;
 
@@ -53,7 +53,7 @@ import org.apache.log.output.net.DatagramOutputTarget;
  * artifact reference.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/24 21:55:39 $
+ * @version $Revision: 1.3 $ $Date: 2004/03/08 11:32:01 $
  */
 public class PluginTargetFactory implements LogTargetFactory
 {

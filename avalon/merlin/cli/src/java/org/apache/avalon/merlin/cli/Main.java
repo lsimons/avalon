@@ -31,8 +31,8 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.naming.directory.Attributes;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
 
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.provider.Builder;
@@ -60,7 +60,7 @@ import org.apache.commons.cli.Options;
  * Merlin command line handler.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.20 $
+ * @version $Revision: 1.21 $
  */
 public class Main 
 {

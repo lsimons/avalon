@@ -36,12 +36,15 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 
 import org.apache.avalon.logging.impl.ConsoleLogger;
 import org.apache.avalon.logging.impl.DefaultLoggingCriteria;
+
 import org.apache.avalon.logging.data.CategoriesDirective;
 import org.apache.avalon.logging.data.CategoryDirective;
+
 import org.apache.avalon.logging.provider.LoggingCriteria;
 import org.apache.avalon.logging.provider.LoggingFactory;
 import org.apache.avalon.logging.provider.LoggingException;
 import org.apache.avalon.logging.provider.LoggingManager;
+
 import org.apache.avalon.logging.logkit.factory.FileTargetFactory;
 import org.apache.avalon.logging.logkit.factory.StreamTargetFactory;
 import org.apache.avalon.logging.logkit.factory.MulticastTargetFactory;
@@ -50,8 +53,9 @@ import org.apache.avalon.logging.logkit.factory.PluginTargetFactory;
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.Factory;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
+
 import org.apache.excalibur.configuration.ConfigurationUtil;
 
 import org.apache.log.LogTarget;

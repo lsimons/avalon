@@ -42,9 +42,6 @@ import org.apache.avalon.composition.provider.SecurityModel;
 
 import org.apache.avalon.logging.data.CategoriesDirective;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -60,13 +57,16 @@ import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 import org.apache.avalon.meta.info.Type;
 
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
+
 import org.apache.excalibur.configuration.CascadingConfiguration;
 
 /**
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2004/03/07 03:02:42 $
+ * @version $Revision: 1.11 $ $Date: 2004/03/08 11:28:36 $
  */
 public class DefaultComponentModel extends DefaultDeploymentModel 
   implements ComponentModel

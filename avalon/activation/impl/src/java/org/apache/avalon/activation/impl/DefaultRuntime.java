@@ -37,14 +37,14 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.parameters.Parameters;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
 
 /**
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/19 08:58:04 $
+ * @version $Revision: 1.3 $ $Date: 2004/03/08 11:28:35 $
  */
 public class DefaultRuntime implements Runtime
 {

@@ -22,17 +22,18 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.HashMap;
 
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.configuration.Configuration;
+
+import org.apache.avalon.logging.data.CategoryDirective;
+import org.apache.avalon.logging.data.CategoriesDirective;
+
+import org.apache.avalon.logging.provider.LoggingRuntimeException;
 import org.apache.avalon.logging.provider.LoggingManager;
 import org.apache.avalon.logging.provider.LoggingException;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.logging.data.CategoryDirective;
-import org.apache.avalon.logging.data.CategoriesDirective;
-import org.apache.avalon.logging.provider.LoggingRuntimeException;
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
 
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;

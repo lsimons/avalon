@@ -27,16 +27,16 @@ import org.apache.avalon.composition.model.TransientRuntimeException;
 import org.apache.avalon.composition.provider.LifestyleManager;
 import org.apache.avalon.composition.util.DefaultState;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.Logger;
+
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
 
 /**
  * Abstract appliance.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/03/04 03:42:30 $
+ * @version $Revision: 1.5 $ $Date: 2004/03/08 11:28:35 $
  */
 public class DefaultAppliance extends AbstractAppliance
 {

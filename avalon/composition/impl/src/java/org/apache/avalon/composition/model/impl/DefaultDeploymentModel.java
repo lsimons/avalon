@@ -32,8 +32,8 @@ import org.apache.avalon.composition.provider.SecurityModel;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
 
 import org.apache.avalon.logging.data.CategoriesDirective;
 
@@ -42,7 +42,7 @@ import org.apache.avalon.logging.data.CategoriesDirective;
  * Abstract model base class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.18 $ $Date: 2004/02/29 22:25:26 $
+ * @version $Revision: 1.19 $ $Date: 2004/03/08 11:28:36 $
  */
 public abstract class DefaultDeploymentModel
   implements DeploymentModel

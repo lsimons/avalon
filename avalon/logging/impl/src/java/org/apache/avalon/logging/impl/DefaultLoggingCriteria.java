@@ -35,18 +35,19 @@ import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.util.criteria.CriteriaException;
 import org.apache.avalon.util.criteria.Criteria;
 import org.apache.avalon.util.criteria.Parameter;
+
 import org.apache.avalon.util.defaults.Defaults;
 import org.apache.avalon.util.defaults.DefaultsBuilder;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
 
 /**
  * DefaultLoggingCriteria is a class holding the values supplied by a user 
  * for application to a LoggingManager factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DefaultLoggingCriteria extends Criteria implements LoggingCriteria
 {

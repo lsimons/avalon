@@ -19,8 +19,7 @@ package org.apache.avalon.meta.info.verifier;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
+
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
@@ -36,12 +35,15 @@ import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Reparameterizable;
 import org.apache.avalon.framework.service.Serviceable;
 
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
+
 /**
  * Utility class to help verify that component respects the
  * rules of an Avalon component.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/10 16:30:16 $
+ * @version $Revision: 1.4 $ $Date: 2004/03/08 11:24:53 $
  */
 public class TypeVerifier
 {

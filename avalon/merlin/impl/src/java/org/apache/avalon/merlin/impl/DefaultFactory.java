@@ -29,10 +29,6 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.security.cert.CertificateException;
 
-import org.apache.avalon.logging.data.CategoriesDirective;
-import org.apache.avalon.logging.provider.LoggingManager;
-import org.apache.avalon.logging.provider.LoggingCriteria;
-
 import org.apache.avalon.composition.data.CertsDirective;
 import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.data.GrantDirective;
@@ -65,9 +61,6 @@ import org.apache.avalon.composition.provider.SystemContextFactory;
 import org.apache.avalon.composition.provider.ClassLoaderContext;
 import org.apache.avalon.composition.util.StringHelper;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -78,6 +71,10 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.activity.Disposable;
+
+import org.apache.avalon.logging.data.CategoriesDirective;
+import org.apache.avalon.logging.provider.LoggingManager;
+import org.apache.avalon.logging.provider.LoggingCriteria;
 
 import org.apache.avalon.merlin.Kernel;
 import org.apache.avalon.merlin.KernelException;
@@ -91,6 +88,9 @@ import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.provider.RepositoryCriteria;
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.Factory;
+
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
 
 import org.apache.excalibur.configuration.ConfigurationUtil;
 
