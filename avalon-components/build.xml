@@ -189,7 +189,7 @@
 
   <target name="metagenerate" description="Generates the XML descriptors">
 
-    <taskdef name="generatemeta" classname="org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateQdoxTask">
+    <taskdef name="generatemeta" classname="org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateTask">
       <classpath refid="project.class.path" />
     </taskdef>
 
