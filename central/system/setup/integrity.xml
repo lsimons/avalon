@@ -2,7 +2,7 @@
 
 <project name="integrity" default="check-for-project" basedir="." xmlns:x="antlib:org.apache.avalon.tools">
 
-  <available property="project.available" classname="org.apache.avalon.tools.home.Home"/>
+  <available property="project.available" classname="org.apache.avalon.tools.model.Home"/>
 
   <target name="check-for-project" unless="project.available">
 
