@@ -55,8 +55,8 @@ import org.apache.avalon.excalibur.concurrent.Mutex;
 
 /**
  * The default queue implementation is a variable size queue.  This queue is
- * ThreadSafe, however the overhead in synchronization costs a few extra
- * millis.
+ * thread safe, however the overhead in synchronization costs a few extra
+ * milliseconds.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
@@ -67,6 +67,15 @@ public final class DefaultQueue extends AbstractQueue
     private int m_reserve;
     private final int m_maxSize;
 
+    /**
+     * Construct a new DefaultQueue with the specified number of elements.
+     * if the number of elements is greater than zero, then the
+     * <code>Queue</code> is bounded by that number.  Otherwise, the
+     * <code>Queue</code> is not bounded at all.
+     *
+     * @param  size  The maximum number of elements in the <code>Queue</code>.
+     *               Any number less than 1 means there is no limit.
+     */
     public DefaultQueue( int size )
     {
         int maxSize;
@@ -87,16 +96,31 @@ public final class DefaultQueue extends AbstractQueue
         m_maxSize = maxSize;
     }
 
+    /**
+     * Create an unbounded DefaultQueue.
+     */
     public DefaultQueue()
     {
         this( -1 );
     }
 
+    /**
+     * Return the number of elements currently in the <code>Queue</code>.
+     *
+     * @return <code>int</code> representing the number of elements.
+     */
     public int size()
     {
         return m_elements.size();
     }
 
+    /**
+     * Return the maximum number of elements that will fit in the
+     * <code>Queue</code>.  A number below 1 indecates an unbounded
+     * <code>Queue</code>, which means there is no limit.
+     *
+     * @return <code>int</code> representing the maximum number of elements
+     */
     public int maxSize()
     {
         return m_maxSize;

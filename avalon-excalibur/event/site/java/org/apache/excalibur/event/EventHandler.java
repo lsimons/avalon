@@ -50,8 +50,8 @@
 package org.apache.excalibur.event;
 
 /**
- * An EventHandler takes care of processing specific events in an Event Based
- * architecture.
+ * An <code>EventHandler</code> takes care of processing specific events in
+ * an event-based architecture.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
