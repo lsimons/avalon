@@ -4,59 +4,27 @@
       title="Avalon Documentation" 
       copyright="@year@ The Apache Software Foundation">
 
-  <section label="About">
-    <page label="Overview" source="index.xml"/>
-    <page label="History" source="history/index.xml"/>
-    <page label="Features" source="features.xml"/>
-    <page label="Getting Started" source="getting-started.xml"/>
-    <page label="Installation" source="install.xml"/>
-    <page label="License" source="license.xml"/>
-    
-    <separator/>
+  <menu label="About">
+    <menu-item label="Overview" source="index.xml"/>
+    <menu-item label="History" source="history/index.xml"/>
+      <!-- history pages -->
+      <menu-item type="hidden" source="history/call-to-vote.xml" />
+      <menu-item type="hidden" source="history/what-is-a-server.xml" />
+      <menu-item type="hidden" source="history/need-for-avalon.xml" />
 
-    <page label="Mail Archive" source="mail.xml"/>
-    <page label="Contributors" source="contributors.xml"/>
-    <changes label="Changes" source="changes.xml"/>
-  </section>
+    <menu-item label="License" source="license.xml"/>
+    <menu-item label="Mail Archive" source="mail.xml"/>
+    <menu-item label="Contributors" source="contributors.xml"/>
+    <menu-item label="Coding Standards" source="code-standards.xml"/>
+<!--    
+    <menu-item type="changes" label="Changes" source="changes.xml"/> 
+-->
+  </menu>
 
-  <section label="Framework">
-    <page label="Patterns and Design" source="framework/index.xml"/>
-    <page label="Coding Standards" source="framework/code-standards.xml"/>
-    <page label="Todo" source="todo.xml"/>
-    <external id="api-docs" label="API Docs" href="api/index.html"/>
-  </section>
-
-  <section label="Phoenix">
-    <page label="What is Phoenix?" source="phoenix/index.xml"/>
-    <page label="Administrators Guide" source="phoenix/administrator-guide.xml"/>
-    <page label="Deployers Guide" source="phoenix/deployers-guide.xml"/>
-    <page label="Assemblers Guide" source="phoenix/assemblers-guide.xml"/>
-    <page label="Block Developers Guide" source="phoenix/block-developers-guide.xml" />
-  </section>
-
-  <!-- history pages -->
-  <hidden source="history/call-to-vote.xml" />
-  <hidden source="history/what-is-a-server.xml" />
-  <hidden source="history/need-for-avalon.xml" />
-
-  <!-- design pages -->
-  <hidden source="framework/patterns.xml" />
-  <hidden source="framework/components.xml" />
-  <hidden source="framework/composer.xml" />
-  <hidden source="framework/life-cycle.xml" />
-  <hidden source="framework/inversion-of-control.xml" />
-  <hidden source="framework/reuse-standards.xml" />
-  <hidden source="framework/security.xml" />
-  <hidden source="framework/separation-of-concerns.xml" />
-
-  <!-- phoenix pages -->  
-  <hidden source="phoenix/what-is-a-block.xml" />
-  <hidden source="phoenix/blockinfo-specification.xml" />
-  <hidden source="phoenix/creating-a-block.xml" />
-  <hidden source="phoenix/what-is-a-server-application.xml" />
-  <hidden source="phoenix/assembly-xml-specification.xml" />
-  <hidden source="phoenix/server-xml-specification.xml" />
-  <hidden source="phoenix/creating-a-server-application.xml" />
+  <menu label="Sub-Projects">
+    <menu-item type="external" label="Framework" href="framework/index.html"/>
+    <menu-item type="external" label="Phoenix" href="@PHOENIX_BASE@/index.html"/>
+  </menu>
 
 </book>
 
