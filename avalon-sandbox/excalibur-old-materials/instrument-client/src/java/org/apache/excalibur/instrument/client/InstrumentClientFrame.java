@@ -50,7 +50,7 @@ import org.apache.avalon.framework.logger.Logger;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/10/17 15:56:17 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/10/25 16:02:00 $
  * @since 4.1
  */
 class InstrumentClientFrame
@@ -710,22 +710,30 @@ class InstrumentClientFrame
         ArrayList openframes = getOpenFrames();
         
         int count = openframes.size();
-        if( count == 0) return;
-        
-        // Determine the number of rows and columns
-        int rows = (int) Math.sqrt( count );
-        int cols = rows;
-        
-        // Be sure to have enough grid positions
-        if ( rows*cols < count )
+        if ( count == 0)
         {
-            rows++;
-            if ( rows*cols < count )
-            {
-                cols++;
-            }
+            return;
         }
-
+        
+        // Tile the inner frames so that the individual frames will be shaped
+        //  in a way which is optimized to show the charts that they contain.
+        //  They should be wider than they are high.
+        // Try to show all frames in a single column.  Add columns if the
+        //  individual frame heights are less that 1/3 of their width.
+        
+        Dimension size = getDesktopPane().getSize();
+        int rows = count;
+        int cols = 1;
+        int frameWidth = size.width / cols;
+        int frameHeight = size.height / rows;
+        while ( frameHeight < frameWidth / 3 )
+        {
+            cols++;
+            rows = (int)Math.ceil( (float)count / cols );
+            frameWidth = size.width / cols;
+            frameHeight = size.height / rows;
+        }
+        
         reorganizeFrames( rows, cols, openframes );
     }
     
@@ -740,7 +748,10 @@ class InstrumentClientFrame
         int count = frames.length;
         
         // No frames
-        if (count == 0) return new ArrayList();
+        if (count == 0) 
+        {
+            return new ArrayList();
+        }
     
         // add only open frames to the list
         ArrayList openframes = new ArrayList();
@@ -748,7 +759,9 @@ class InstrumentClientFrame
         {
             JInternalFrame f = frames[i];
             if( ( f.isClosed() == false ) && ( f.isIcon() == false ) )
+            {
                 openframes.add( f );
+            }
         }
         return openframes;
     }
@@ -773,7 +786,7 @@ class InstrumentClientFrame
 
         for ( int i = 0; i < rows; ++i)
         {
-            for ( int j = 0; j < cols && ( (i * cols ) + j < count ); ++j) 
+            for ( int j = 0; j < cols && ( ( i * cols ) + j < count ); ++j ) 
             {
                 JInternalFrame f = (JInternalFrame) frames.get( ( i * cols ) + j );
                 m_desktopPane.getDesktopManager().resizeFrame( f, x, y, w, h );
@@ -792,8 +805,11 @@ class InstrumentClientFrame
         ArrayList openframes=getOpenFrames();
         
         int count = openframes.size();
-        if( count == 0) return; 
-        reorganizeFrames( count,1,openframes );
+        if ( count == 0 )
+        {
+            return;
+        }
+        reorganizeFrames( count, 1, openframes );
     }
     
     /**
@@ -804,7 +820,10 @@ class InstrumentClientFrame
         ArrayList openframes = getOpenFrames();
         
         int count=openframes.size();
-        if( count == 0) return;
+        if ( count == 0)
+        {
+            return;
+        }
         reorganizeFrames( 1, count, openframes );
     }
     
