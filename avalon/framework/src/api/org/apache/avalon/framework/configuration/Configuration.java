@@ -137,8 +137,6 @@ public interface Configuration
      * Return the name of the node.
      *
      * @return name of the <code>Configuration</code> node.
-     * @post getName() != null
-     *
      */
     String getName();
 
@@ -192,9 +190,6 @@ public interface Configuration
      *
      * @param child The name of the child node.
      * @return Configuration
-     * @pre child != null
-     * @post getConfiguration() != null
-     *
      */
     Configuration getChild( String child );
 
@@ -208,9 +203,6 @@ public interface Configuration
      * <code>false</code>, <code>null</code> will be returned when the specified
      * child doesn't exist.
      * @return Configuration
-     * @pre child != null
-     * @post getConfiguration() != null
-     *
      */
     Configuration getChild( String child, boolean createNew );
 
@@ -230,9 +222,6 @@ public interface Configuration
      *
      * @param name The name of the children to get.
      * @return The child nodes with name <code>name</code>
-     * @pre name != null
-     * @post getConfigurations() != null
-     *
      */
     Configuration[] getChildren( String name );
 
@@ -255,9 +244,6 @@ public interface Configuration
      * @param paramName The name of the parameter you ask the value of.
      * @return String value of attribute.
      * @throws ConfigurationException If no attribute with that name exists.
-     * @pre paramName != null
-     * @post getAttribute != null
-     *
      */
     String getAttribute( String paramName ) throws ConfigurationException;
 
@@ -269,8 +255,6 @@ public interface Configuration
      * @return int value of attribute
      * @throws ConfigurationException If no parameter with that name exists.
      *                                   or if conversion to <code>int</code> fails.
-     * @pre paramName != null
-     * @post getAttributeAsInteger() != null
      *
      */
     int getAttributeAsInteger( String paramName ) throws ConfigurationException;
@@ -283,9 +267,6 @@ public interface Configuration
      * @return long value of attribute
      * @throws ConfigurationException If no parameter with that name exists.
      *                                   or if conversion to <code>long</code> fails.
-     * @pre paramName != null
-     * @post getAttributeAsLong() != null
-     *
      */
     long getAttributeAsLong( String name ) throws ConfigurationException;
 
@@ -297,9 +278,6 @@ public interface Configuration
      * @return float value of attribute
      * @throws ConfigurationException If no parameter with that name exists.
      *                                   or if conversion to <code>float</code> fails.
-     * @pre paramName != null
-     * @post getAttributeAsFloat() != null
-     *
      */
     float getAttributeAsFloat( String paramName ) throws ConfigurationException;
 
@@ -311,9 +289,6 @@ public interface Configuration
      * @return boolean value of attribute
      * @throws ConfigurationException If no parameter with that name exists.
      *                                   or if conversion to <code>boolean</code> fails.
-     * @pre paramName != null
-     * @post getAttributeAsBoolean() != null
-     *
      */
     boolean getAttributeAsBoolean( String paramName ) throws ConfigurationException;
 
@@ -322,8 +297,6 @@ public interface Configuration
      *
      * @return the value of the node.
      * @throws ConfigurationException if an error occurs
-     * @post getValue() != null
-     *
      */
     String getValue() throws ConfigurationException;
 
@@ -333,8 +306,6 @@ public interface Configuration
      * @return the value of the node.
      *
      * @throws ConfigurationException If conversion to <code>int</code> fails.
-     * @post getValueAsInteger() != null
-     *
      */
     int getValueAsInteger() throws ConfigurationException;
 
@@ -343,8 +314,6 @@ public interface Configuration
      *
      * @return the value of the node.
      * @throws ConfigurationException If conversion to <code>float</code> fails.
-     * @post getValueAsFloat() != null
-     *
      */
     float getValueAsFloat() throws ConfigurationException;
 
@@ -353,8 +322,6 @@ public interface Configuration
      *
      * @return the value of the node.
      * @throws ConfigurationException If conversion to <code>boolean</code> fails.
-     * @post getValueAsBoolean() != null
-     *
      */
     boolean getValueAsBoolean() throws ConfigurationException;
 
@@ -363,8 +330,6 @@ public interface Configuration
      *
      * @return the value of the node.
      * @throws ConfigurationException If conversion to <code>long</code> fails.
-     * @post getValueAsLong() != null
-     *
      */
     long getValueAsLong() throws ConfigurationException;
 
@@ -376,9 +341,6 @@ public interface Configuration
      * @param defaultValue The default value desired.
      * @return String value of the <code>Configuration</code>, or default
      *          if none specified.
-     * @pre defaultValue != null
-     * @post getValue(defaultValue) != null
-     *
      */
     String getValue( String defaultValue );
 
@@ -390,9 +352,6 @@ public interface Configuration
      * @param defaultValue The default value desired.
      * @return int value of the <code>Configuration</code>, or default
      *          if none specified.
-     * @pre defaultValue != null
-     * @post getValueAsInteger(defaultValue) != null
-     *
      */
     int getValueAsInteger( int defaultValue );
 
@@ -404,9 +363,6 @@ public interface Configuration
      * @param defaultValue The default value desired.
      * @return long value of the <code>Configuration</code>, or default
      *          if none specified.
-     * @pre defaultValue != null
-     * @post getValueAsLong(defaultValue) != null
-     *
      */
     long getValueAsLong( long defaultValue );
 
@@ -418,9 +374,6 @@ public interface Configuration
      * @param defaultValue The default value desired.
      * @return float value of the <code>Configuration</code>, or default
      *          if none specified.
-     * @pre defaultValue != null
-     * @post getValueAsFloat(defaultValue) != null
-     *
      */
     float getValueAsFloat( float defaultValue );
 
@@ -432,9 +385,6 @@ public interface Configuration
      * @param defaultValue The default value desired.
      * @return boolean value of the <code>Configuration</code>, or default
      *          if none specified.
-     * @pre defaultValue != null
-     * @post getValueAsBoolean(defaultValue) != null
-     *
      */
     boolean getValueAsBoolean( boolean defaultValue );
 
@@ -448,12 +398,6 @@ public interface Configuration
      * @return String value of attribute. It will return the default
      *         value if the named attribute does not exist, or if
      *         the value is not set.
-     * @pre name != null
-     * @pre defaultValue != null
-     * @pre name != null
-     * @pre defaultValue != null
-     * @post getAttribute(name, defaultValue) != null
-     *
      */
     String getAttribute( String name, String defaultValue );
 
@@ -467,12 +411,6 @@ public interface Configuration
      * @return int value of attribute. It will return the default
      *         value if the named attribute does not exist, or if
      *         the value is not set.
-     * @pre name != null
-     * @pre defaultValue != null
-     * @pre name != null
-     * @pre defaultValue != null
-     * @post getAttributeAsInteger(name, defaultValue) != null
-     *
      */
     int getAttributeAsInteger( String name, int defaultValue );
 
@@ -486,12 +424,6 @@ public interface Configuration
      * @return long value of attribute. It will return the default
      *          value if the named attribute does not exist, or if
      *          the value is not set.
-     * @pre name != null
-     * @pre defaultValue != null
-     * @pre name != null
-     * @pre defaultValue != null
-     * @post getAttributeAsLong(name, defaultValue) != null
-     *
      */
     long getAttributeAsLong( String name, long defaultValue );
 
@@ -505,12 +437,6 @@ public interface Configuration
      * @return float value of attribute. It will return the default
      *          value if the named attribute does not exist, or if
      *          the value is not set.
-     * @pre name != null
-     * @pre defaultValue != null
-     * @pre name != null
-     * @pre defaultValue != null
-     * @post getAttributeAsFloat(name, defaultValue) != null
-     *
      */
     float getAttributeAsFloat( String name, float defaultValue );
 
@@ -524,12 +450,6 @@ public interface Configuration
      * @return boolean value of attribute. It will return the default
      *         value if the named attribute does not exist, or if
      *         the value is not set.
-     * @pre name != null
-     * @pre defaultValue != null
-     * @pre name != null
-     * @pre defaultValue != null
-     * @post getAttributeAsBoolean(name, defaultValue) != null
-     *
      */
     boolean getAttributeAsBoolean( String name, boolean defaultValue );
 }
