@@ -8,20 +8,20 @@
 package org.apache.avalon.excalibur.datasource;
 
 import java.util.List;
+import org.apache.avalon.excalibur.concurrent.Lock;
+import org.apache.avalon.excalibur.pool.DefaultPoolController;
+import org.apache.avalon.excalibur.pool.HardResourceLimitingPool;
+import org.apache.avalon.excalibur.pool.Poolable;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.AbstractLoggable;
-import org.apache.avalon.excalibur.concurrent.Lock;
-import org.apache.avalon.excalibur.pool.HardResourceLimitingPool;
-import org.apache.avalon.excalibur.pool.DefaultPoolController;
-import org.apache.avalon.excalibur.pool.Poolable;
 
 /**
  * The Pool implementation for JdbcConnections.  It uses a background
  * thread to manage the number of SQL Connections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/08/07 10:57:07 $
+ * @version CVS $Revision: 1.3 $ $Date: 2001/08/09 08:20:09 $
  * @since 4.0
  */
 public class JdbcConnectionPool
