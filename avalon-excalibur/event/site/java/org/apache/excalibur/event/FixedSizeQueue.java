@@ -16,35 +16,83 @@ import org.apache.avalon.excalibur.concurrent.Mutex;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public final class DefaultQueue extends AbstractQueue
+public final class FixedSizeQueue extends AbstractQueue
 {
-    private final ArrayList m_elements;
+    private final QueueElement[] m_elements;
     private final Mutex     m_mutex;
+    private       int       m_start = 0;
+    private       int       m_end = 0;
+    private       int       m_reserve = 0;
 
-    public DefaultQueue()
+    public FixedSizeQueue( int size )
     {
-        m_elements = new ArrayList();
+        m_elements = new QueueElement[ size ];
         m_mutex = new Mutex();
     }
 
     public int size()
     {
-        return m_elements.size();
+        int size = 0;
+
+        if ( m_end < m_start )
+        {
+            size = maxSize() - m_start + m_end;
+        }
+        else
+        {
+            size = m_end - m_start;
+        }
+
+        return size;
+    }
+
+    public int maxSize()
+    {
+        return m_elements.length;
     }
 
     public PreparedEnqueue prepareEnqueue( final QueueElement[] elements )
         throws SourceException
     {
-        return new DefaultPreparedEnqueue( this, elements );
+        PreparedEnqueue enqueue = null;
+
+        try
+        {
+            m_mutex.acquire();
+
+            if ( elements.length + m_reserve + size() > maxSize() )
+            {
+                throw new SourceFullException("Not enough room to enqueue these elements.");
+            }
+
+            enqueue = new FixedSizePreparedEnqueue( this, elements );
+        }
+        catch ( InterruptedException ie )
+        {
+        }
+        finally
+        {
+            m_mutex.release();
+        }
+
+        return enqueue;
     }
 
     public boolean tryEnqueue( final QueueElement element )
     {
         boolean success = false;
+
         try
         {
             m_mutex.acquire();
-            success = m_elements.add( element );
+
+            if ( 1 + m_reserve + size() > maxSize() )
+            {
+                return false;
+            }
+
+            addElement( element );
+            success = true;
         }
         catch ( InterruptedException ie )
         {
@@ -65,10 +113,14 @@ public final class DefaultQueue extends AbstractQueue
         try
         {
             m_mutex.acquire();
+            if ( elements.length + m_reserve + size() > maxSize() )
+            {
+                throw new SourceFullException("Not enough room to enqueue these elements.");
+            }
 
             for ( int i = 0; i < len; i++ )
             {
-                m_elements.add( elements[i] );
+                addElement( elements[i] );
             }
         }
         catch ( InterruptedException ie )
@@ -86,7 +138,12 @@ public final class DefaultQueue extends AbstractQueue
         try
         {
             m_mutex.acquire();
-            m_elements.add( element );
+            if ( 1 + m_reserve + size() > maxSize() )
+            {
+                throw new SourceFullException("Not enough room to enqueue these elements.");
+            }
+
+            addElement( element );
         }
         catch ( InterruptedException ie )
         {
@@ -112,11 +169,16 @@ public final class DefaultQueue extends AbstractQueue
         {
             m_mutex.attempt( m_timeout );
 
+            if ( size() < numElements )
+            {
+                arraySize = size();
+            }
+
             elements = new QueueElement[ arraySize ];
 
             for ( int i = 0; i < arraySize; i++ )
             {
-                elements[i] = (QueueElement) m_elements.remove( 0 );
+                elements[i] = removeElement();
             }
         }
         catch ( InterruptedException ie )
@@ -130,6 +192,35 @@ public final class DefaultQueue extends AbstractQueue
         return elements;
     }
 
+    private final void addElement( QueueElement element )
+    {
+        m_elements[ m_end ] = element;
+
+        m_end++;
+        if ( m_end >= maxSize() )
+        {
+            m_end = 0;
+        }
+    }
+
+    private final QueueElement removeElement()
+    {
+        QueueElement element = m_elements[ m_start ];
+
+        if ( null != element )
+        {
+            m_elements[ m_start ] = null;
+
+            m_start++;
+            if ( m_start >= maxSize() )
+            {
+                m_start = 0;
+            }
+        }
+
+        return element;
+    }
+
     public QueueElement[] dequeueAll()
     {
         QueueElement[] elements = null;
@@ -138,8 +229,12 @@ public final class DefaultQueue extends AbstractQueue
         {
             m_mutex.attempt( m_timeout );
 
-            elements = (QueueElement[]) m_elements.toArray( new QueueElement [] {} );
-            m_elements.clear();
+            elements = new QueueElement[ size() ];
+
+            for ( int i = 0; i < elements.length; i++ )
+            {
+                elements[i] = removeElement();
+            }
         }
         catch ( InterruptedException ie )
         {
@@ -162,7 +257,7 @@ public final class DefaultQueue extends AbstractQueue
 
             if ( size() > 0 )
             {
-                element = (QueueElement) m_elements.remove( 0 );
+                element = removeElement();
             }
         }
         catch ( InterruptedException ie )
@@ -176,12 +271,12 @@ public final class DefaultQueue extends AbstractQueue
         return element;
     }
 
-    private final static class DefaultPreparedEnqueue implements PreparedEnqueue
+    private final static class FixedSizePreparedEnqueue implements PreparedEnqueue
     {
-        private final DefaultQueue m_parent;
+        private final FixedSizeQueue m_parent;
         private       QueueElement[] m_elements;
 
-        private DefaultPreparedEnqueue( DefaultQueue parent, QueueElement[] elements )
+        private FixedSizePreparedEnqueue( FixedSizeQueue parent, QueueElement[] elements )
         {
             m_parent = parent;
             m_elements = elements;
@@ -197,6 +292,7 @@ public final class DefaultQueue extends AbstractQueue
             try
             {
                 m_parent.enqueue( m_elements );
+                m_parent.m_reserve -= m_elements.length;
                 m_elements = null;
             }
             catch (Exception e)
@@ -213,6 +309,7 @@ public final class DefaultQueue extends AbstractQueue
                 throw new IllegalStateException("This PreparedEnqueue has already been processed!");
             }
 
+            m_parent.m_reserve -= m_elements.length;
             m_elements = null;
         }
     }

@@ -179,7 +179,7 @@ public final class DefaultQueue extends AbstractQueue
     private final static class DefaultPreparedEnqueue implements PreparedEnqueue
     {
         private final DefaultQueue m_parent;
-        private final QueueElement[] m_elements;
+        private       QueueElement[] m_elements;
 
         private DefaultPreparedEnqueue( DefaultQueue parent, QueueElement[] elements )
         {
@@ -189,9 +189,15 @@ public final class DefaultQueue extends AbstractQueue
 
         public void commit()
         {
+            if ( null == m_elements )
+            {
+                throw new IllegalStateException("This PreparedEnqueue has already been processed!");
+            }
+
             try
             {
                 m_parent.enqueue( m_elements );
+                m_elements = null;
             }
             catch (Exception e)
             {
@@ -202,7 +208,12 @@ public final class DefaultQueue extends AbstractQueue
 
         public void abort()
         {
-            // do nothing.  DefaultQueue is unbounded, so there is nothing to manage.
+            if ( null == m_elements )
+            {
+                throw new IllegalStateException("This PreparedEnqueue has already been processed!");
+            }
+
+            m_elements = null;
         }
     }
 }
