@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Avalon Meta Subsystem</title>
+  </properties>
+  <body>
+    <section name="Avalon Meta Subsystem">
+      <p>
+      The <a href="http://avalon.apache.org/meta">Avalon Meta</a> system 
+      provides Merlin's foundation for the management of component 
+      type defintions.  It is used extensively within the 
+      <a href="composition.html">Avalon Composition Framework</a> as the
+      underlying meta-info layer of the containment meta-model.
+      </p>
+
+      <subsection name="Aspects">
+      <table>
+        <tr>
+          <th>Feature</th><th>Description</th>
+        </tr>
+        <tr>
+          <td>Type Model</td>
+          <td>
+          The Avalon Meta Model defines the functional structure
+          of component types and services. A Type definition contains 
+          information about deployment and runtime dependencies together 
+          with information about the services that a component type can 
+          provide.
+          </td>
+        </tr>
+        <tr>
+          <td>Developer Tools</td>
+          <td>
+          Avalon Meta provides a set of tools that automate the process 
+          of generating meta-info descriptors.  These tools provide
+          support for the generation of serializable and XML based
+          descriptors that are collocated with class files. Tool 
+          support is available for Ant and Maven.
+          </td>
+        </tr>
+        <tr>
+          <td>Type Management APIs</td>
+          <td>
+          Type and service meta models are established as 
+          immutable objects that complement the classic information
+          available about a class.  Using the Type and Service 
+          descriptor classes, developers can be assured of greater
+          portability and interoperability of container-side applications.
+          </td>
+        </tr>
+      </table>
+      </subsection>
+    </section>
+  </body>
+</document>
+
+
