@@ -19,14 +19,12 @@
 
 <project>
 
- <title>Apache Avalon Central</title>
+  <title>Merlin</title>
 
- <body>
+  <body>
     <menu>
-      <item name="Magic" href="magic/index.html"/>
-      <item name="Magic Plugins" href="magic/index.html"/>
-      <item name="Maven Plugins" href="maven/index.html"/>
+      <item name="Meta Generation" href="meta/index.html"/>
     </menu>
- </body>
+  </body>
 
 </project>
