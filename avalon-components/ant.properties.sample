@@ -1,0 +1,19 @@
+# This file is a sample .ant.properties file used for building Cornerstone. It
+# allows variables defined in build.xml to be overridden according to users'
+# specific needs. As build.xml has sensible defaults, this file's use is only
+# required for those with unusual systems.
+#
+# Modify it for your own needs and copy it to .ant.properties 
+#
+# <-- starts a comment
+
+# If you want to use the better than average jikes compiler, uncomment the next
+# line
+#build.compiler=jikes
+
+# The path to tools.jar, required for building the docs. Most people won't need
+# to set this, unless $JRE_HOME is not equal to $JAVA_HOME/jre. For example, on
+# Debian, IBM's j2sdk1.3 .deb puts the JRE in /usr/lib/j2sdk1.3, # and the JDK
+# in /usr/lib/j2re1.3, requiring the variable to be set. Note: ${java.home} is
+# the JRE home, not $JAVA_HOME.
+#tools.jar=${java.home}/../j2sdk1.3/lib/tools.jar
