@@ -88,11 +88,11 @@ easy embedding into various environments like servlet engines.
         </dependency>
 
         <!-- circular! -->
-        <dependency>
+        <!--<dependency>
             <id>avalon-fortress-tools</id>
             <version>1.1-dev</version>
             <groupId>avalon-fortress</groupId>
-        </dependency>
+        </dependency>-->
 
         <!-- dependencies for tools -->
         <dependency>
