@@ -10,7 +10,7 @@ package org.apache.avalon.phoenix.components.embeddor;
 import java.io.File;
 import java.util.Iterator;
 import org.apache.avalon.phoenix.components.application.Application;
-import org.apache.avalon.framework.container.ContainerException;
+import org.apache.avalon.excalibur.container.ContainerException;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;

@@ -7,9 +7,9 @@
  */
 package org.apache.avalon.phoenix.components.kapi;
 
-import org.apache.avalon.framework.container.Entry;
-import org.apache.avalon.framework.container.Locator;
-import org.apache.avalon.framework.container.State;
+import org.apache.avalon.excalibur.container.Entry;
+import org.apache.avalon.excalibur.container.Locator;
+import org.apache.avalon.excalibur.container.State;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 

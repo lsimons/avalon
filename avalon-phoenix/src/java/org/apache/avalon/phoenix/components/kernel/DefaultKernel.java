@@ -9,8 +9,8 @@ package org.apache.avalon.phoenix.components.kernel;
 
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.container.ContainerException;
-import org.apache.avalon.framework.container.Entry;
+import org.apache.avalon.excalibur.container.ContainerException;
+import org.apache.avalon.excalibur.container.Entry;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;

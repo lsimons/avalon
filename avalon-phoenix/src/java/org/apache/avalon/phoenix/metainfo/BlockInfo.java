@@ -7,7 +7,7 @@
  */
 package org.apache.avalon.phoenix.metainfo;
 
-import org.apache.avalon.framework.container.Info;
+import org.apache.avalon.excalibur.container.Info;
 
 /**
  * This descrbes information about the block that is used by administration tools and kernel.

@@ -9,8 +9,8 @@ package org.apache.avalon.phoenix.components.phases;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import org.apache.avalon.framework.container.Container;
-import org.apache.avalon.framework.container.ContainerException;
+import org.apache.avalon.excalibur.container.Container;
+import org.apache.avalon.excalibur.container.ContainerException;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
