@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-
-<config>
-
-  <phoenixdemo-server>
-      <port>1234</port> 
-  </phoenixdemo-server>
-  
-</config>
