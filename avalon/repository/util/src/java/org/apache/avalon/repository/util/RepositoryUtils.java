@@ -77,7 +77,7 @@ import org.apache.avalon.repository.RepositoryException;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class RepositoryUtils
 {
@@ -161,7 +161,7 @@ public class RepositoryUtils
     /**
      * Gets the Properties in the local cache.
      * 
-     * @param repositories the reprositories to search against
+     * @param cache the local cache
      * @param artifact the artifact to load meta data from
      * @return the loaded properties 
      * @throws RepositoryException if there is any problem loading the 
