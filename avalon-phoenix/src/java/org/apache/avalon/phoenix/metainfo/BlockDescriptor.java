@@ -21,20 +21,17 @@ public class BlockDescriptor
      * assembly tools or generators.
      */
     private final String m_name;
-
-    private final String m_classname;
-
+    private final String m_implementationKey;
     private final Version m_version;
-
     private final String m_schemaType;
 
     public BlockDescriptor( final String name,
-                            final String classname,
+                            final String implementationKey,
                             final String schemaType,
                             final Version version )
     {
         m_name = name;
-        m_classname = classname;
+        m_implementationKey = implementationKey;
         m_version = version;
         m_schemaType = schemaType;
     }
@@ -53,10 +50,23 @@ public class BlockDescriptor
      * Retrieve the Class Name of Block.
      *
      * @return the Class Name of block
+     * @see #getImplementationKey
+     * @deprecated Deprecated and replaced by {@link #getImplementationKey}
      */
     public String getClassname()
     {
-        return m_classname;
+        return getImplementationKey();
+    }
+
+    /**
+     * Retrieve the implementation key for the Block.
+     * Usually the keys is a classname.
+     *
+     * @return the implementation key for the Block
+     */
+    public String getImplementationKey()
+    {
+        return m_implementationKey;
     }
 
     /**

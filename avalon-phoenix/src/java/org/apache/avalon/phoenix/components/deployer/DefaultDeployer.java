@@ -389,7 +389,7 @@ public class DefaultDeployer
                                            name,
                                            type,
                                            getConfigurationSchemaURL( name,
-                                                                      descriptor.getClassname(),
+                                                                      descriptor.getImplementationKey(),
                                                                       classLoader )
                     );
                 }
