@@ -23,6 +23,7 @@ import org.apache.log.Priority;
  * The class to load the kernel and start it running.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mail@leosimons.com">Leo Simons</a>
  */
 public class Main
 {
@@ -45,8 +46,6 @@ public class Main
 
     protected String               m_appsPath           = DEFAULT_APPS_PATH;
     protected String               m_logFile            = DEFAULT_LOG_FILE;
-
-    protected CLOptionDescriptor[] m_options;
 
     /**
      * Main entry point.
@@ -78,11 +77,11 @@ public class Main
      * Display usage report.
      *
      */
-    protected void usage()
+    protected void usage( final CLOptionDescriptor[] options )
     {
         System.out.println( "java " + getClass().getName() + " [options]" );
         System.out.println( "\tAvailable options:");
-        System.out.println( CLUtil.describeOptions( m_options ) );
+        System.out.println( CLUtil.describeOptions( options ) );
     }
 
     /**
@@ -119,22 +118,15 @@ public class Main
         return options;
     }
 
-    /**
-     * Setup properties, classloader, policy, logger etc.
-     *
-     * @param clOptions the command line options
-     * @exception Exception if an error occurs
-     */
-    protected void execute( final String[] args )
-        throws Exception
+    private boolean parseCommandLineOptions( final String[] args )
     {
-        m_options = createCLOptions();
-        final CLArgsParser parser = new CLArgsParser( args, m_options );
+        final CLOptionDescriptor[] options = createCLOptions();
+        final CLArgsParser parser = new CLArgsParser( args, options );
 
         if( null != parser.getErrorString() )
         {
             System.err.println( "Error: " + parser.getErrorString() );
-            return;
+            return false;
         }
 
         final List clOptions = parser.getArguments();
@@ -151,8 +143,8 @@ public class Main
                 System.err.println( "Error: Unknown argument" + option.getArgument() );
                 //fall threw
             case HELP_OPT:
-                usage();
-                return;
+                usage( options );
+                return false;
 
             case DEBUG_LOG_OPT: debugLog = true; break;
             case LOG_FILE_OPT: m_logFile = option.getArgument(); break;
@@ -161,6 +153,23 @@ public class Main
         }
 
         if( !debugLog ) LogKit.setGlobalPriority( Priority.DEBUG );
+
+        return true;
+    } 
+
+    /**
+     * Setup properties, classloader, policy, logger etc.
+     *
+     * @param clOptions the command line options
+     * @exception Exception if an error occurs
+     */
+    protected void execute( final String[] args )
+        throws Exception
+    {
+        if( false == parseCommandLineOptions( args ) )
+        {
+            return;
+        }
 
         try
         {
@@ -209,6 +218,7 @@ public class Main
         System.out.println();
 
         embeddor.init();
+        embeddor.start();
 
         try
         {
@@ -216,8 +226,8 @@ public class Main
         }
         finally
         {
-            //TODO: Should we really try to force shutdown here???
-            //embeddor.dispose();
+            embeddor.stop();
+            embeddor.dispose();
         }
     }
 }
