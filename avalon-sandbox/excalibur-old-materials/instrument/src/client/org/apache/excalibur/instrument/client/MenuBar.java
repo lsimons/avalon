@@ -30,14 +30,13 @@ import org.apache.excalibur.altrmi.common.AltrmiInvocationException;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/05 02:15:44 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/08/05 02:52:18 $
  * @since 4.1
  */
 public class MenuBar
     extends JMenuBar
 {
     private InstrumentClientFrame m_frame;
-    //private ProfilerManager m_profilerManager;
 
     private JMenu m_menuFile;
 
@@ -48,15 +47,12 @@ public class MenuBar
 
     private JMenu m_menuWindow;
 
-    private boolean m_showUnconfigured = true;
-
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
-    MenuBar( InstrumentClientFrame frame/*, ProfilerManager profilerManager*/ )
+    MenuBar( InstrumentClientFrame frame )
     {
         m_frame = frame;
-        //m_profilerManager = profilerManager;
 
         add( buildFileMenu() );
         add( buildInstrumentManagerMenu() );
@@ -556,68 +552,14 @@ public class MenuBar
         }
     }
 
-    /*
-    private void rebuildProfilePointMenu( JMenu profilePointMenu,
-                                          ProfilableDescriptor profilableDescriptor,
-                                          ProfilePointDescriptor profilePointDescriptor )
-    {
-        profilePointMenu.removeAll();
-
-        ProfileSampleDescriptor[] profileSampleDescriptors = profilePointDescriptor.getProfileSampleDescriptors();
-
-        Comparator comp = new Comparator()
-        {
-            public int compare( Object o1, Object o2 )
-            {
-                return ( (ProfileSampleDescriptor)o1 ).getDescription().
-                    compareTo( ( (ProfileSampleDescriptor)o2 ).getDescription() );
-            }
-
-            public boolean equals( Object obj )
-            {
-                return false;
-            }
-        };
-        Arrays.sort( profileSampleDescriptors, comp );
-
-        for( int i = 0; i < profileSampleDescriptors.length; i++ )
-        {
-            ProfileSampleDescriptor profileSampleDescriptor = profileSampleDescriptors[ i ];
-
-            String profileSampleName = profileSampleDescriptor.getDescription();
-
-            Action action = new AbstractAction( profileSampleName )
-            {
-                public void actionPerformed( ActionEvent event )
-                {
-                    JMenuItem menu = (JMenuItem)event.getSource();
-                    Action action = menu.getAction();
-
-                    m_frame.openProfileSampleFrame(
-                        (ProfilableDescriptor)action.getValue( "profilableDescriptor" ),
-                        (ProfilePointDescriptor)action.getValue( "profilePointDescriptor" ),
-                        (ProfileSampleDescriptor)action.getValue( "profileSampleDescriptor" ) );
-                }
-            };
-            action.putValue( "profilableDescriptor", profilableDescriptor );
-            action.putValue( "profilePointDescriptor", profilePointDescriptor );
-            action.putValue( "profileSampleDescriptor", profileSampleDescriptor );
-
-            JMenuItem item = new JMenuItem( action );
-
-            profilePointMenu.add( item );
-        }
-    }
-    */
-
     private JMenu buildOptionsMenu()
     {
         m_menuOptions = new LargeMenu( "Options" );
         m_menuOptions.setMnemonic( 'O' );
 
-        // Show Unconfigured Profilables option
+        // Show Unconfigured Instruments option
         m_menuItemShowUnconfigured =
-            new JCheckBoxMenuItem( "Show Unconfigured Profilables", false );
+            new JCheckBoxMenuItem( "Show Unconfigured Instruments", true );
         m_menuOptions.add( m_menuItemShowUnconfigured );
 
         return m_menuOptions;
