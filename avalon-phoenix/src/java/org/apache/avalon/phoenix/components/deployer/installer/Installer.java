@@ -8,7 +8,6 @@
 package org.apache.avalon.phoenix.components.deployer.installer;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,9 +16,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.zip.CRC32;
-import java.util.zip.CheckedInputStream;
-import java.util.zip.Checksum;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -33,7 +29,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.13 $ $Date: 2002/08/06 11:57:40 $
+ * @version $Revision: 1.14 $ $Date: 2002/09/15 02:38:25 $
  */
 public class Installer
     extends AbstractLogEnabled
@@ -98,43 +94,6 @@ public class Installer
     public void uninstall( final Installation installation )
         throws InstallationException
     {
-        final FileDigest[] infos = installation.getFileDigests();
-        final Checksum checksum = new CRC32();
-
-        if( infos != null )
-        {
-            for( int i = 0; i < infos.length; i++ )
-            {
-                final File file = infos[ i ].getFile();
-                final File parent = file.getParentFile();
-
-                final String message = REZ.getString( "skip-removal", file );
-
-                if( file.exists() )
-                {
-                    if( file.lastModified() <= installation.getTimestamp() )
-                    {
-                        getLogger().debug( message );
-                        continue;
-                    }
-
-                    checksum( file, checksum );
-
-                    if( checksum.getValue() != infos[ i ].getChecksum() )
-                    {
-                        getLogger().debug( message );
-                        continue;
-                    }
-
-                    file.delete();
-                    if( 0 == parent.list().length )
-                    {
-                        parent.delete();
-                    }
-                }
-            }
-        }
-
         deleteWorkDir( installation.getWorkDirectory() );
     }
 
@@ -208,32 +167,6 @@ public class Installer
     }
 
     /**
-     * Utility method to compute the checksum for a given file.
-     * @param file the computed file.
-     * @param checksum the checksum algorithm.
-     */
-    private void checksum( final File file, final Checksum checksum )
-    {
-        checksum.reset();
-
-        InputStream input = null;
-        try
-        {
-            input = new CheckedInputStream( new FileInputStream( file ), checksum );
-            IOUtil.toByteArray( input );
-        }
-        catch( final IOException ioe )
-        {
-            final String message = REZ.getString( "checksum-failure", file );
-            getLogger().warn( message );
-        }
-        finally
-        {
-            IOUtil.shutdownStream( input );
-        }
-    }
-
-    /**
      * Utility method to lock repository to disallow other installers to access it.
      * Currently a no-op.
      */
@@ -270,7 +203,6 @@ public class Installer
         //this directory is created?
         directory.mkdirs();
 
-        final ArrayList digests = new ArrayList();
         final ArrayList jars = new ArrayList();
 
         final File workDir =
@@ -278,7 +210,7 @@ public class Installer
         boolean success = false;
         try
         {
-            expandZipFile( zipFile, directory, workDir, jars, digests, url );
+            expandZipFile( zipFile, directory, workDir, jars, url );
 
             //Retrieve name of environment file
             //need to check existence to support backwards compatability
@@ -291,13 +223,12 @@ public class Installer
             final String assembly = getURLAsString( new File( directory, FS_ASSEMBLY_XML ) );
             final String config = getURLAsString( new File( directory, FS_CONFIG_XML ) );
             final String environment = getURLAsString( envFile );
-            final FileDigest[] fileDigests = (FileDigest[])digests.toArray( new FileDigest[ 0 ] );
             final long timestamp = System.currentTimeMillis();
 
             success = true;
             return new Installation( file, directory, workDir,
                                      config, assembly, environment,
-                                     classPath, fileDigests, timestamp );
+                                     classPath, timestamp );
         }
         finally
         {
@@ -316,7 +247,6 @@ public class Installer
      *        non-classes files
      * @param workDir the directory to extract classes/jar files
      * @param classpath the list to add classpath entries to
-     * @param digests the list to add file digests to
      * @param url the url of deployment (for error reporting purposes)
      * @throws InstallationException if an error occurs extracting files
      */
@@ -324,7 +254,6 @@ public class Installer
                                 final File directory,
                                 final File workDir,
                                 final ArrayList classpath,
-                                final ArrayList digests,
                                 final URL url )
         throws InstallationException
     {
@@ -361,7 +290,7 @@ public class Installer
             //Expand the file if necesasry and issue a warning
             //if there is a file in the way
             final File destination = new File( directory, name );
-            handleFile( zipFile, entry, destination, digests, url );
+            handleFile( zipFile, entry, destination, url );
         }
     }
 
@@ -372,14 +301,12 @@ public class Installer
     private void handleFile( final ZipFile zipFile,
                              final ZipEntry entry,
                              final File destination,
-                             final ArrayList digests,
                              final URL url )
         throws InstallationException
     {
         if( !destination.exists() )
         {
             expandFile( zipFile, entry, destination );
-            calculateDigest( entry, destination, digests );
         }
         else
         {
@@ -552,22 +479,6 @@ public class Installer
         }
 
         return file;
-    }
-
-    /**
-     * Calculate digest for specific entry.
-     *
-     * @param entry the entry
-     * @param file the extracted file
-     * @param digests the list of digests already
-     *        calculated
-     */
-    private void calculateDigest( final ZipEntry entry,
-                                  final File file,
-                                  final ArrayList digests )
-    {
-        final long checksum = entry.getCrc();
-        digests.add( new FileDigest( file, checksum ) );
     }
 
     /**
