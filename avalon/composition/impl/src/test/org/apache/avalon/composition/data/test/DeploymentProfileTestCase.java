@@ -81,7 +81,7 @@ public class DeploymentProfileTestCase extends TestCase
     private StageDirective[] m_stages;
     private String m_name;
     private String m_classname;
-    private String m_collection;
+    private int m_collection;
 
     public DeploymentProfileTestCase( String name )
     {
@@ -101,7 +101,7 @@ public class DeploymentProfileTestCase extends TestCase
         m_activation = true;
         m_mode = Mode.IMPLICIT;
         m_categories = new CategoriesDirective( new CategoryDirective[0] );
-        m_collection = InfoDescriptor.CONSERVATIVE;
+        m_collection = InfoDescriptor.DEMOCRAT;
     }
 
     public void testProfile() throws ContextException

@@ -107,7 +107,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2003/10/19 06:12:58 $
+ * @version $Revision: 1.6 $ $Date: 2003/10/19 10:31:00 $
  */
 public class DefaultAppliance extends AbstractAppliance
   implements Composite, DefaultApplianceMBean
@@ -636,7 +636,6 @@ public class DefaultAppliance extends AbstractAppliance
         {
             getLogger().warn( "ignoring release stage error", e );
         }
-        getLogger().debug( "destroyed instance: " + id );
     }
 
     //-------------------------------------------------------------------
@@ -1229,7 +1228,13 @@ public class DefaultAppliance extends AbstractAppliance
             if( !m_disposed )
             {
                 final String message = 
-                  "Releasing finalized component in [" + m_model.getQualifiedName() + "].";
+                  "Releasing component [" 
+                  + System.identityHashCode( m_instance ) + "] (" 
+                  + m_model.getType().getInfo().getLifestyle()
+                  + "/" 
+                  + InfoDescriptor.getCollectionPolicyKey( 
+                      m_model.getCollectionPolicy() ) 
+                  + ").";
                 getLogger().debug( message );
                 release( m_instance, true );
             }

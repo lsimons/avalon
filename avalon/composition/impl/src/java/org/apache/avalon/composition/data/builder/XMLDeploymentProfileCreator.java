@@ -59,12 +59,13 @@ import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.data.DependencyDirective;
 import org.apache.avalon.composition.data.SelectionDirective;
 import org.apache.avalon.composition.data.*;
+import org.apache.avalon.meta.info.InfoDescriptor;
 import org.apache.excalibur.configuration.ConfigurationUtil;
 
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/10/19 06:12:58 $
+ * @version $Revision: 1.4 $ $Date: 2003/10/19 10:31:01 $
  */
 public class XMLDeploymentProfileCreator extends XMLProfileCreator
 {
@@ -108,7 +109,7 @@ public class XMLDeploymentProfileCreator extends XMLProfileCreator
       throws Exception
     {
         final boolean activation = getActivationPolicy( config, true );
-        final String collection = getCollectionPolicy( config );
+        final int collection = getCollectionPolicy( config );
 
         final CategoriesDirective categories = 
           getCategoriesDirective( config.getChild( "categories", false ), name );
@@ -134,11 +135,11 @@ public class XMLDeploymentProfileCreator extends XMLProfileCreator
     * policy shall default to the component type collection policy. 
     *
     * @param config a configuration fragment holding a collection attribute
-    * @return collection policy or null if not declared
+    * @return collection policy 
     */
-    protected String getCollectionPolicy( Configuration config )
+    protected int getCollectionPolicy( Configuration config )
     {
-        return config.getAttribute( "collection", null );
+        return InfoDescriptor.getCollectionPolicy( config.getAttribute( "collection", null ) );
     }
 
     protected DependencyDirective[] getDependencyDirectives( Configuration config )

@@ -136,7 +136,7 @@ import org.apache.avalon.meta.info.InfoDescriptor;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/10/19 06:12:58 $
+ * @version $Revision: 1.4 $ $Date: 2003/10/19 10:31:01 $
  */
 public class DeploymentProfile extends Profile
 {
@@ -148,7 +148,7 @@ public class DeploymentProfile extends Profile
     /**
      * The collection policy override.
      */
-    private String m_collection;
+    private int m_collection;
 
     /**
      * The component classname.
@@ -201,7 +201,7 @@ public class DeploymentProfile extends Profile
            final String classname )
     {
         this( 
-          name, false, InfoDescriptor.LIBERAL, classname, null, null, null, null, 
+          name, false, InfoDescriptor.UNDEFINED, classname, null, null, null, null, 
           null, null, Mode.IMPLICIT );
     }
 
@@ -229,7 +229,7 @@ public class DeploymentProfile extends Profile
     public DeploymentProfile( 
            final String name, 
            final boolean activation, 
-           final String collection, 
+           final int collection, 
            final String classname, 
            final CategoriesDirective categories, 
            final ContextDirective context, 
@@ -285,9 +285,9 @@ public class DeploymentProfile extends Profile
      * Return the component collection policy.  If null, the component
      * type collection policy will apply.
      *
-     * @return a LIBERAL, DEMOCRAT, CONSERVATIVE or null
+     * @return a LIBERAL, DEMOCRAT, CONSERVATIVE or UNDEFINED
      */
-    public String getCollectionPolicy()
+    public int getCollectionPolicy()
     {
         return m_collection;
     }
