@@ -304,7 +304,8 @@ To use it, type 'ant -f depchecker.xml'
         <!-- Set target if it wasn't previously set -->
         <property name="proj.target" value="${default.target}"/>
         <ant dir="${proj.home}" target="${proj.target}" inheritAll="false">
-            <property name="skip.tests" value="${skip.tests}"/>
+            <property name="skip.tests" value="true"/>
+            <property name="skip.javadocs" value="true"/>
         </ant>
     </target>
 
