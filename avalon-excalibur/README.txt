@@ -54,7 +54,8 @@
   information.
 
   In general, it is safe to type 'ant', and if an external dependency is
-  missing, you will be prompted on what to add to ant.properties
+  missing, you will be prompted on what to add to ant.properties. If instead
+  you get compiler errors, please let us know: it is a bug in the build system.
 
 
   General Building Requirements
