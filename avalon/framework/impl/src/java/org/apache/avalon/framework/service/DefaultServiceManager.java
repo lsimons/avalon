@@ -1,5 +1,5 @@
 /*
- * Copyright 1997-2004 Apache Software Foundation
+ * Copyright 1997-2004 The Apache Software Foundation
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import java.util.Map;
  * Object scope.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.19 $ $Date: 2004/01/26 19:50:35 $
+ * @version CVS $Revision: 1.20 $ $Date: 2004/02/11 14:34:26 $
  */
 public class DefaultServiceManager
     implements ServiceManager

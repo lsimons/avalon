@@ -1,5 +1,5 @@
 /*
- * Copyright 1997-2004 Apache Software Foundation
+ * Copyright 1997-2004 The Apache Software Foundation
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,7 +67,7 @@ import java.util.Map;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.27 $ $Date: 2004/01/26 19:52:34 $
+ * @version CVS $Revision: 1.28 $ $Date: 2004/02/11 14:34:24 $
  */
 public abstract class Enum
 {

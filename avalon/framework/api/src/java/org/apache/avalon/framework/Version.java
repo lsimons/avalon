@@ -1,5 +1,5 @@
 /*
- * Copyright 1997-2004 Apache Software Foundation
+ * Copyright 1997-2004 The Apache Software Foundation
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ import java.util.StringTokenizer;
  * </ul>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.32 $ $Date: 2004/01/26 19:51:49 $
+ * @version CVS $Revision: 1.33 $ $Date: 2004/02/11 14:34:24 $
  */
 public final class Version
     implements Comparable, Serializable
