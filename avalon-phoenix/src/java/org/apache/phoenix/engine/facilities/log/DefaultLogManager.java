@@ -9,13 +9,13 @@ package org.apache.phoenix.engine.facilities.log;
 
 import java.io.File;
 import java.io.IOException;
-import org.apache.avalon.AbstractLoggable;
-import org.apache.avalon.Context;
-import org.apache.avalon.Contextualizable;
 import org.apache.avalon.atlantis.Facility;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
+import org.apache.avalon.context.Context;
+import org.apache.avalon.context.Contextualizable;
+import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.log.Category;
 import org.apache.log.LogKit;
 import org.apache.log.LogTarget;

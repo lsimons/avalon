@@ -7,28 +7,28 @@
  */
 package org.apache.phoenix.engine.blocks;
 
-import java.io.IOException;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 import java.util.zip.ZipFile;
 import org.apache.avalon.camelot.AbstractDeployer;
+import org.apache.avalon.camelot.DefaultLocator;
 import org.apache.avalon.camelot.DeployerUtil;
 import org.apache.avalon.camelot.DeploymentException;
-import org.apache.avalon.camelot.DefaultLocator;
 import org.apache.avalon.camelot.Registry;
 import org.apache.avalon.camelot.RegistryException;
+import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.component.ComponentManager;
+import org.apache.avalon.component.Composable;
 import org.apache.excalibur.io.IOUtil;
 import org.apache.phoenix.metainfo.BlockInfo;
 import org.apache.phoenix.metainfo.BlockInfoBuilder;
-import org.apache.avalon.ComponentManager;
-import org.apache.avalon.ComponentManagerException;
-import org.apache.avalon.Composer;
 
 /**
  * This class deploys a .bar file into a registry.
@@ -37,11 +37,11 @@ import org.apache.avalon.Composer;
  */
 public final class DefaultBlockDeployer
     extends AbstractDeployer
-    implements Composer
+    implements Composable
 {
     private Registry            m_registry;
     private BlockInfoBuilder    m_builder;
-    
+
 
     /**
      * Default constructor.
@@ -57,10 +57,10 @@ public final class DefaultBlockDeployer
      * Retrieve relevent services needed to deploy.
      *
      * @param componentManager the ComponentManager
-     * @exception ComponentManagerException if an error occurs
+     * @exception ComponentException if an error occurs
      */
     public void compose( final ComponentManager componentManager )
-        throws ComponentManagerException
+        throws ComponentException
     {
         m_registry = (Registry)componentManager.
             lookup( "org.apache.avalon.camelot.Registry" );
@@ -70,7 +70,7 @@ public final class DefaultBlockDeployer
      * Deploy a file.
      * Eventually this should be cached for performance reasons.
      *
-     * @param location the location 
+     * @param location the location
      * @param file the file
      * @exception DeploymentException if an error occurs
      */
@@ -96,7 +96,7 @@ public final class DefaultBlockDeployer
             try { zipFile.close(); }
             catch( final IOException ioe ) {}
         }
-    }    
+    }
 
     /**
      * Create and register Infos for all blocks stored in deployment.
@@ -104,7 +104,7 @@ public final class DefaultBlockDeployer
      * @param properties the properties
      * @param url the url of deployment
      * @exception DeploymentException if an error occurs
-     */     
+     */
     protected void handleBlocks( final ZipFile zipFile, final Manifest manifest, final URL url )
         throws DeploymentException
     {
@@ -119,7 +119,7 @@ public final class DefaultBlockDeployer
             final Attributes attributes = manifest.getAttributes( section );
             final String blockValue = attributes.getValue( "Avalon-Block" );
             final boolean isBlock = Boolean.valueOf( blockValue ).booleanValue();
-            
+
             if( isBlock )
             {
                 handleBlock( zipFile, section, url );
@@ -154,8 +154,8 @@ public final class DefaultBlockDeployer
      * @return the created block info
      * @exception DeploymentException if an error occurs
      */
-    protected BlockInfo loadBlockInfo( final ZipFile zipFile, 
-                                       final String classname, 
+    protected BlockInfo loadBlockInfo( final ZipFile zipFile,
+                                       final String classname,
                                        final URL url )
         throws DeploymentException
     {

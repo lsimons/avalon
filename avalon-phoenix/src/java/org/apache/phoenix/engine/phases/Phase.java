@@ -7,8 +7,8 @@
  */
 package org.apache.phoenix.engine.phases;
 
-import org.apache.avalon.Component;
 import org.apache.avalon.camelot.State;
+import org.apache.avalon.component.Component;
 import org.apache.phoenix.engine.blocks.BlockVisitor;
 
 /**

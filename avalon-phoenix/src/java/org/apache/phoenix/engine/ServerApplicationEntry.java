@@ -7,10 +7,10 @@
  */
 package org.apache.phoenix.engine;
 
-import org.apache.avalon.ComponentManager;
-import org.apache.avalon.Context;
 import org.apache.avalon.camelot.Entry;
+import org.apache.avalon.component.ComponentManager;
 import org.apache.avalon.configuration.Configuration;
+import org.apache.avalon.context.Context;
 import org.apache.log.Logger;
 
 /**
@@ -50,12 +50,12 @@ public class ServerApplicationEntry
     {
         return m_componentManager;
     }
-    
+
     public void setComponentManager( final ComponentManager componentManager )
     {
         m_componentManager = componentManager;
     }
-    
+
     public Configuration getConfiguration()
     {
         return m_configuration;

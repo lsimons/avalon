@@ -23,10 +23,10 @@ public interface ThreadManager
      *
      * @param name the name of thread pool
      * @return the threadpool
-     * @exception IllegalArgumentException if the name of thread pool is 
+     * @exception IllegalArgumentException if the name of thread pool is
      *            invalid or named pool does not exist
      */
-    ThreadPool getThreadPool( String name ) 
+    ThreadPool getThreadPool( String name )
         throws IllegalArgumentException;
 
     /**

@@ -9,23 +9,23 @@ package org.apache.phoenix.engine;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import org.apache.avalon.Component;
-import org.apache.avalon.ComponentManager;
-import org.apache.avalon.ComponentManagerException;
-import org.apache.avalon.Composer;
-import org.apache.avalon.Context;
-import org.apache.avalon.Contextualizable;
-import org.apache.avalon.DefaultComponentManager;
-import org.apache.avalon.DefaultContext;
 import org.apache.avalon.Initializable;
 import org.apache.avalon.atlantis.Application;
 import org.apache.avalon.atlantis.ApplicationException;
 import org.apache.avalon.camelot.AbstractContainer;
 import org.apache.avalon.camelot.ContainerException;
 import org.apache.avalon.camelot.Entry;
+import org.apache.avalon.component.Component;
+import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.component.ComponentManager;
+import org.apache.avalon.component.Composable;
+import org.apache.avalon.component.DefaultComponentManager;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
+import org.apache.avalon.context.Context;
+import org.apache.avalon.context.Contextualizable;
+import org.apache.avalon.context.DefaultContext;
 import org.apache.phoenix.engine.blocks.BlockDAG;
 import org.apache.phoenix.engine.blocks.BlockEntry;
 import org.apache.phoenix.engine.blocks.BlockVisitor;
@@ -233,9 +233,9 @@ public final class DefaultServerApplication
             ((Contextualizable)object).contextualize( m_context );
         }
 
-        if( object instanceof Composer )
+        if( object instanceof Composable )
         {
-            ((Composer)object).compose( m_componentManager );
+            ((Composable)object).compose( m_componentManager );
         }
 
         if( object instanceof Configurable )
@@ -334,7 +334,7 @@ public final class DefaultServerApplication
                               m_threadManager );
         componentManager.put( "org.apache.phoenix.engine.facilities.ConfigurationRepository",
                               m_configurationRepository );
-        componentManager.put( "org.apache.phoenix.engine.facilities.LogManager", 
+        componentManager.put( "org.apache.phoenix.engine.facilities.LogManager",
                               m_logManager );
 
         return componentManager;

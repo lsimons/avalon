@@ -7,14 +7,14 @@
  */
 package org.apache.phoenix.engine;
 
-import org.apache.avalon.Composer;
-import org.apache.avalon.Contextualizable;
 import org.apache.avalon.atlantis.AbstractKernel;
 import org.apache.avalon.atlantis.Application;
 import org.apache.avalon.atlantis.Kernel;
 import org.apache.avalon.camelot.ContainerException;
 import org.apache.avalon.camelot.Entry;
+import org.apache.avalon.component.Composable;
 import org.apache.avalon.configuration.Configurable;
+import org.apache.avalon.context.Contextualizable;
 import org.apache.log.LogKit;
 
 /**
@@ -89,10 +89,10 @@ public class PhoenixKernel
             {
                 ((Contextualizable)application).contextualize( saEntry.getContext() );
             }
-            
-            if( application instanceof Composer )
+
+            if( application instanceof Composable )
             {
-                ((Composer)application).compose( saEntry.getComponentManager() );
+                ((Composable)application).compose( saEntry.getComponentManager() );
             }
 
             if( application instanceof Configurable )

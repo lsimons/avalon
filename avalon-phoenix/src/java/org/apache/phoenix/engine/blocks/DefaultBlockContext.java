@@ -8,8 +8,8 @@
 package org.apache.phoenix.engine.blocks;
 
 import java.io.File;
-import org.apache.avalon.Context;
-import org.apache.avalon.DefaultContext;
+import org.apache.avalon.context.Context;
+import org.apache.avalon.context.DefaultContext;
 import org.apache.excalibur.thread.ThreadPool;
 import org.apache.log.Logger;
 import org.apache.phoenix.BlockContext;

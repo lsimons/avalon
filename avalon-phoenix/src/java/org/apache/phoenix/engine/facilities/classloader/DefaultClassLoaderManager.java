@@ -8,13 +8,13 @@
 package org.apache.phoenix.engine.facilities.classloader;
 
 import java.security.Policy;
-import org.apache.avalon.ComponentManager;
-import org.apache.avalon.ComponentManagerException;
-import org.apache.avalon.Composer;
-import org.apache.avalon.Context;
-import org.apache.avalon.Contextualizable;
-import org.apache.avalon.DefaultContext;
 import org.apache.avalon.Initializable;
+import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.component.ComponentManager;
+import org.apache.avalon.component.Composable;
+import org.apache.avalon.context.Context;
+import org.apache.avalon.context.Contextualizable;
+import org.apache.avalon.context.DefaultContext;
 import org.apache.phoenix.engine.facilities.ClassLoaderManager;
 
 /**
@@ -23,7 +23,7 @@ import org.apache.phoenix.engine.facilities.ClassLoaderManager;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DefaultClassLoaderManager
-    implements ClassLoaderManager, Contextualizable, Composer, Initializable
+    implements ClassLoaderManager, Contextualizable, Composable, Initializable
 {
     private SarClassLoader   m_classLoader = new SarClassLoader();
 
@@ -33,7 +33,7 @@ public class DefaultClassLoaderManager
     }
 
     public void compose( final ComponentManager componentManager )
-        throws ComponentManagerException
+        throws ComponentException
     {
         m_classLoader.compose( componentManager );
     }

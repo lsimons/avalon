@@ -7,17 +7,17 @@
  */
 package org.apache.phoenix;
 
-import org.apache.avalon.AbstractLoggable;
-import org.apache.avalon.ComponentManager;
-import org.apache.avalon.ComponentManagerException;
-import org.apache.avalon.Composer;
+import org.apache.avalon.Disposable;
+import org.apache.avalon.Initializable;
+import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.component.ComponentManager;
+import org.apache.avalon.component.Composable;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
-import org.apache.avalon.Context;
-import org.apache.avalon.Contextualizable;
-import org.apache.avalon.Disposable;
-import org.apache.avalon.Initializable;
+import org.apache.avalon.context.Context;
+import org.apache.avalon.context.Contextualizable;
+import org.apache.avalon.logger.AbstractLoggable;
 
 /**
  * This is an <code>AbstractBlock</code> that makes deployment a bit
@@ -25,11 +25,11 @@ import org.apache.avalon.Initializable;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/02/24 04:30:59 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/04/19 02:16:00 $
  */
 public abstract class AbstractBlock
     extends AbstractLoggable
-    implements Block, Contextualizable, Composer, Configurable
+    implements Block, Contextualizable, Composable, Configurable
 {
     protected BlockContext           m_context;
     protected Configuration          m_configuration;
@@ -47,7 +47,7 @@ public abstract class AbstractBlock
     }
 
     public void compose( final ComponentManager componentManager )
-        throws ComponentManagerException
+        throws ComponentException
     {
         m_componentManager = componentManager;
     }

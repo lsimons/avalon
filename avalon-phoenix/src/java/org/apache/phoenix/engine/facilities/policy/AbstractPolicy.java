@@ -22,8 +22,8 @@ import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.PropertyPermission;
-import org.apache.avalon.Component;
-import org.apache.avalon.Loggable;
+import org.apache.avalon.component.Component;
+import org.apache.avalon.logger.Loggable;
 import org.apache.excalibur.io.FileUtil;
 import org.apache.log.Logger;
 

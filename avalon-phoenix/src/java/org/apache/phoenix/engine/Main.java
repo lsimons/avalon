@@ -11,22 +11,22 @@ import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.util.List;
-import org.apache.avalon.configuration.Parameters;
-import org.apache.avalon.util.cli.CLArgsParser;
-import org.apache.avalon.util.cli.CLOption;
-import org.apache.avalon.util.cli.CLOptionDescriptor;
-import org.apache.avalon.util.cli.CLUtil;
+import org.apache.avalon.parameters.Parameters;
+import org.apache.excalibur.cli.CLArgsParser;
+import org.apache.excalibur.cli.CLOption;
+import org.apache.excalibur.cli.CLOptionDescriptor;
+import org.apache.excalibur.cli.CLUtil;
 import org.apache.log.LogKit;
 import org.apache.log.Priority;
 
 /**
  * The class to load the kernel and start it running.
- * 
+ *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class Main
 {
-    private static final String    PHOENIX_HOME         = 
+    private static final String    PHOENIX_HOME         =
         System.getProperty( "phoenix.home", ".." );
 
     private static final String    DEFAULT_LOG_FILE     = PHOENIX_HOME + "/logs/phoenix.log";
@@ -51,7 +51,7 @@ public class Main
      * @param args[] the command line arguments
      */
     public void main( final String args[] )
-    { 
+    {
         final Main main = new Main();
 
         try { main.execute( args ); }
@@ -111,7 +111,7 @@ public class Main
             new CLOptionDescriptor( "debug-init",
                                     CLOptionDescriptor.ARGUMENT_DISALLOWED,
                                     DEBUG_LOG_OPT,
-                                    "use this option to specify enable debug " + 
+                                    "use this option to specify enable debug " +
                                     "initialisation logs." );
         return options;
     }
@@ -127,8 +127,8 @@ public class Main
     {
         m_options = createCLOptions();
         final CLArgsParser parser = new CLArgsParser( args, m_options );
-        
-        if( null != parser.getErrorString() ) 
+
+        if( null != parser.getErrorString() )
         {
             System.err.println( "Error: " + parser.getErrorString() );
             return;
@@ -138,17 +138,17 @@ public class Main
         final int size = clOptions.size();
         boolean debugLog = false;
 
-        for( int i = 0; i < size; i++ ) 
+        for( int i = 0; i < size; i++ )
         {
             final CLOption option = (CLOption)clOptions.get( i );
-            
+
             switch( option.getId() )
             {
-            case 0: 
+            case 0:
                 System.err.println( "Error: Unknown argument" + option.getArgument() );
                 //fall threw
-            case HELP_OPT: 
-                usage(); 
+            case HELP_OPT:
+                usage();
                 return;
 
             case DEBUG_LOG_OPT: debugLog = true; break;
@@ -156,29 +156,29 @@ public class Main
             case APPS_PATH_OPT: m_appsPath = option.getArgument(); break;
             }
         }
-        
+
         if( !debugLog ) LogKit.setGlobalPriority( Priority.DEBUG );
 
         try
         {
-            final PrivilegedExceptionAction action = new PrivilegedExceptionAction() 
+            final PrivilegedExceptionAction action = new PrivilegedExceptionAction()
                 {
                     public Object run() throws Exception
-                    {        
+                    {
                         execute();
                         return null;
                     }
                 };
 
             AccessController.doPrivileged( action );
-        } 
+        }
         catch( final PrivilegedActionException pae )
         {
             // only "checked" exceptions will be "wrapped" in a PrivilegedActionException.
             throw pae.getException();
         }
     }
-    
+
     /**
      * Actually create and execute the main component of kernel.
      *
@@ -193,14 +193,14 @@ public class Main
         parameters.setParameter( "kernel-configuration-source", null );
         parameters.setParameter( "log-destination", m_logFile );
         parameters.setParameter( "applications-directory", m_appsPath );
-        
+
         final PhoenixEmbeddor embeddor = new PhoenixEmbeddor();
         embeddor.setParameters( parameters );
         embeddor.init();
 
-        try 
-        { 
-            embeddor.execute(); 
+        try
+        {
+            embeddor.execute();
         }
         finally
         {

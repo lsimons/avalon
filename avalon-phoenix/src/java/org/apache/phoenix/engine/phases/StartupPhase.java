@@ -8,16 +8,7 @@
 package org.apache.phoenix.engine.phases;
 
 import java.io.File;
-import org.apache.avalon.AbstractLoggable;
-import org.apache.avalon.ComponentManager;
-import org.apache.avalon.ComponentManagerException;
-import org.apache.avalon.Composer;
-import org.apache.avalon.Context;
-import org.apache.avalon.Contextualizable;
-import org.apache.avalon.DefaultComponentManager;
-import org.apache.avalon.DefaultContext;
 import org.apache.avalon.Initializable;
-import org.apache.avalon.Loggable;
 import org.apache.avalon.Startable;
 import org.apache.avalon.atlantis.ApplicationException;
 import org.apache.avalon.camelot.Container;
@@ -26,8 +17,17 @@ import org.apache.avalon.camelot.Entry;
 import org.apache.avalon.camelot.Factory;
 import org.apache.avalon.camelot.SimpleFactory;
 import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.component.ComponentManager;
+import org.apache.avalon.component.Composable;
+import org.apache.avalon.component.DefaultComponentManager;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
+import org.apache.avalon.context.Context;
+import org.apache.avalon.context.Contextualizable;
+import org.apache.avalon.context.DefaultContext;
+import org.apache.avalon.logger.AbstractLoggable;
+import org.apache.avalon.logger.Loggable;
 import org.apache.excalibur.thread.ThreadContext;
 import org.apache.phoenix.Block;
 import org.apache.phoenix.BlockContext;
@@ -50,7 +50,7 @@ import org.apache.phoenix.metainfo.ServiceDescriptor;
  */
 public class StartupPhase
     extends AbstractLoggable
-    implements BlockVisitor, Contextualizable, Composer
+    implements BlockVisitor, Contextualizable, Composable
 {
     private ClassLoader                 m_classLoader;
     private ConfigurationRepository     m_repository;
@@ -83,7 +83,7 @@ public class StartupPhase
     }
 
     public void compose( final ComponentManager componentManager )
-        throws ComponentManagerException
+        throws ComponentException
     {
         final ClassLoaderManager classLoaderManager = (ClassLoaderManager)componentManager.
             lookup( "org.apache.phoenix.engine.facilities.ClassLoaderManager" );
@@ -151,12 +151,12 @@ public class StartupPhase
             }
 
             //Composition stage
-            if( object instanceof Composer )
+            if( object instanceof Composable )
             {
                 getLogger().debug( "Pre-Composition Stage" );
                 final ComponentManager componentManager =
                     createComponentManager( name, entry );
-                ((Composer)object).compose( componentManager );
+                ((Composable)object).compose( componentManager );
                 getLogger().debug( "Composition successful." );
             }
 

@@ -7,7 +7,7 @@
  */
 package org.apache.phoenix;
 
-import org.apache.avalon.Component;
+import org.apache.avalon.component.Component;
 
 /**
  * The main interface to implement for building servers using Avalon patterns.

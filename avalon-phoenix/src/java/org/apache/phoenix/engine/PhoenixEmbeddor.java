@@ -9,35 +9,34 @@ package org.apache.phoenix.engine;
 
 import java.io.File;
 import java.lang.UnsupportedOperationException;
-import org.apache.avalon.AbstractLoggable;
 import org.apache.avalon.CascadingException;
-import org.apache.avalon.Composer;
-import org.apache.avalon.Contextualizable;
-import org.apache.avalon.DefaultComponentManager;
 import org.apache.avalon.Disposable;
 import org.apache.avalon.Initializable;
-import org.apache.avalon.atlantis.Kernel;
 import org.apache.avalon.atlantis.Embeddor;
+import org.apache.avalon.atlantis.Kernel;
 import org.apache.avalon.camelot.CamelotUtil;
 import org.apache.avalon.camelot.Container;
 import org.apache.avalon.camelot.Deployer;
+import org.apache.avalon.component.Composable;
+import org.apache.avalon.component.DefaultComponentManager;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
 import org.apache.avalon.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.configuration.Parameters;
-import org.apache.phoenix.engine.facilities.log.AvalonLogFormatter;
+import org.apache.avalon.context.Contextualizable;
+import org.apache.avalon.logger.AbstractLoggable;
+import org.apache.avalon.parameters.ParameterException;
+import org.apache.avalon.parameters.Parameters;
 import org.apache.log.LogKit;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
 import org.apache.log.Priority;
 import org.apache.log.output.FileOutputLogTarget;
+import org.apache.phoenix.engine.facilities.log.AvalonLogFormatter;
 
 /**
  * This is the object that is interacted with to create, manage and
  * dispose of the kernel and related resources.
- *
- * Note that this will eventually be moved to atlantis package.
  *
  * @author <a href="mail@leosimons.com">Leo Simons</a>
  * @author <a href="donaldp@apache.org">Peter Donald</a>
@@ -82,8 +81,8 @@ public class PhoenixEmbeddor
      * @param parameters the Parameters for embeddor
      * @exception ConfigurationException if an error occurs
      */
-    public void setParameters( final Parameters parameters )
-        throws ConfigurationException
+    public void parametize( final Parameters parameters )
+        throws ParameterException
     {
         m_parameters = parameters;
     }
@@ -288,7 +287,7 @@ public class PhoenixEmbeddor
     /**
      * Sets up the Deployer. If it is Loggable, it gets a reference
      * to the Embeddor's logger. If it is Contextualizable it is
-     * passed a Context. If it is a Composer it is given a
+     * passed a Context. If it is a Composable it is given a
      * ComponentManager which references the Kernel, cast to a
      * Container.
      * The deployer is now used to load the applications from the
@@ -300,11 +299,11 @@ public class PhoenixEmbeddor
     {
         setupLogger( m_deployer );
 
-        if( m_deployer instanceof Composer )
+        if( m_deployer instanceof Composable )
         {
             final DefaultComponentManager componentManager = new DefaultComponentManager();
             componentManager.put( "org.apache.avalon.camelot.Container", (Container)m_kernel );
-            ((Composer)m_deployer).compose( componentManager );
+            ((Composable)m_deployer).compose( componentManager );
         }
     }
 
