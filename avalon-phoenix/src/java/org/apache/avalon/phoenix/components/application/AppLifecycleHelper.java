@@ -14,7 +14,6 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.ApplicationListener;
 import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.components.lifecycle.LifecycleHelper;
-import org.apache.avalon.phoenix.components.lifecycle.State;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
