@@ -85,7 +85,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2003/11/22 12:52:55 $
+ * @version $Revision: 1.5 $ $Date: 2003/11/28 11:58:46 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
   implements Block, Composite
@@ -232,9 +232,13 @@ public abstract class AbstractBlock extends AbstractAppliance
         // if possible - otherwise throw an exception
         //
 
-        if( m_context.getEngine() != null )
+        if( null != m_context.getEngine() )
         {
             return m_context.getEngine().locate( dependency );
+        }
+        else if( dependency.isOptional() )
+        {
+            return null;
         }
         else
         {
