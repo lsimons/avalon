@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.tools.model.model.test;
+package org.apache.avalon.tools.model.test;
 
 import java.io.File;
 
