@@ -56,7 +56,7 @@
 package org.apache.avalon.composition.data.builder;
 
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.composition.data.CategoriesDirective;
+import org.apache.avalon.logging.data.CategoriesDirective;
 import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.data.Targets;
 
@@ -65,7 +65,7 @@ import org.apache.avalon.composition.data.Targets;
  * instance from a Configuration object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/13 11:41:25 $
+ * @version $Revision: 1.4 $ $Date: 2004/01/24 23:25:27 $
  */
 public class XMLTargetsCreator extends XMLComponentProfileCreator 
 {

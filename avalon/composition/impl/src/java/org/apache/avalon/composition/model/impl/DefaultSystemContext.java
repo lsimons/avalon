@@ -1,71 +1,38 @@
-/*
-
- ============================================================================
-                   The Apache Software License, Version 1.1
- ============================================================================
-
- Copyright (C) 1999-2002 The Apache Software Foundation. All rights reserved.
-
- Redistribution and use in source and binary forms, with or without modifica-
- tion, are permitted provided that the following conditions are met:
-
- 1. Redistributions of  source code must  retain the above copyright  notice,
-    this list of conditions and the following disclaimer.
-
- 2. Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
-
- 3. The end-user documentation included with the redistribution, if any, must
-    include  the following  acknowledgment:  "This product includes  software
-    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
-    Alternately, this  acknowledgment may  appear in the software itself,  if
-    and wherever such third-party acknowledgments normally appear.
-
- 4. The names "Jakarta", "Apache Avalon", "Avalon Framework" and
-    "Apache Software Foundation"  must not be used to endorse or promote
-    products derived  from this  software without  prior written
-    permission. For written permission, please contact apache@apache.org.
-
- 5. Products  derived from this software may not  be called "Apache", nor may
-    "Apache" appear  in their name,  without prior written permission  of the
-    Apache Software Foundation.
-
- THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
- INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
- APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
- INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
- DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
- OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
- ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
- (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
- THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
- This software  consists of voluntary contributions made  by many individuals
- on  behalf of the Apache Software  Foundation. For more  information on the
- Apache Software Foundation, please see <http://www.apache.org/>.
-
-*/
+/* 
+ * Copyright 2004 Apache Software Foundation
+ * Licensed  under the  Apache License,  Version 2.0  (the "License");
+ * you may not use  this file  except in  compliance with the License.
+ * You may obtain a copy of the License at 
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed  under the  License is distributed on an "AS IS" BASIS,
+ * WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ * implied.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package org.apache.avalon.composition.model.impl;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Map;
 
-import org.apache.avalon.composition.logging.LoggingManager;
-import org.apache.avalon.composition.logging.LoggingDescriptor;
-import org.apache.avalon.composition.logging.TargetDescriptor;
-import org.apache.avalon.composition.logging.impl.DefaultLoggingManager;
+import org.apache.avalon.logging.provider.LoggingManager;
+import org.apache.avalon.logging.data.CategoryDirective;
+
 import org.apache.avalon.composition.model.ModelFactory;
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.data.CategoryDirective;
 
+import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.Repository;
 import org.apache.avalon.repository.provider.CacheManager;
-import org.apache.avalon.repository.impl.DefaultCacheManager;
-import org.apache.avalon.repository.impl.DefaultRepository;
+import org.apache.avalon.repository.provider.InitialContext;
+import org.apache.avalon.repository.provider.Factory;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.ConsoleLogger;
@@ -75,12 +42,11 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 
-
 /**
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2004/01/21 03:24:32 $
+ * @version $Revision: 1.11 $ $Date: 2004/01/24 23:25:27 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext
@@ -92,12 +58,6 @@ public class DefaultSystemContext extends DefaultContext
     private static final Resources REZ =
             ResourceManager.getPackageResources( DefaultSystemContext.class );
 
-    public static SystemContext createSystemContext( 
-      File base, File root, int priority ) throws Exception
-    {
-        return createSystemContext( base, root, priority, false );
-    }
-    
    /**
     * Convinience function to create a new system context. This function
     * is intended for test purposes only.
@@ -109,50 +69,57 @@ public class DefaultSystemContext extends DefaultContext
     * @return a system context
     */
     public static SystemContext createSystemContext( 
-      File base, File root, int priority, boolean secure ) throws Exception
+      InitialContext context, File base, File root,
+      int priority, boolean secure ) 
+      throws Exception
     {
-        LoggingManager logging = createLoggingManager( base, priority );
+        //
+        // ### FIX ME ##
+        //
+ 
+        Artifact artifact = Artifact.createArtifact( 
+          "avalon-logging", "avalon-logkit-impl", "1.0-SNAPSHOT" );
+
+        LoggingManager logging = 
+          createLoggingManager( context, artifact, base, priority );
+
         Logger logger = logging.getLoggerForCategory( "" );
-        CacheManager cache = createCacheManager( root );
+        CacheManager cache = createCacheManager( context, root );
         Repository repository = cache.createRepository();
 
-        Parameters parameters = null;
-        if( secure )
-        {
-            parameters = new Parameters();
-            parameters.setParameter( 
-              ContainmentModel.SECURE_EXECUTION_KEY, 
-              "true" );
-        }
         final File home = new File( base, "home" );
         final File temp = new File( base, "temp" );
 
         return new DefaultSystemContext( 
-          logging, base, home, temp, repository, "system", false, parameters );
+          logging, base, home, temp, repository, "system", false, 1000, secure );
     }
 
-    private static CacheManager createCacheManager( File root ) 
+    private static CacheManager createCacheManager( InitialContext context, File root ) 
       throws Exception
     {
         String dpml = "http://dpml.net";
         String ibiblio = "http://www.ibiblio.org/maven";
-        return new DefaultCacheManager( 
-          root, null, new String[]{ dpml, ibiblio } );
+        String[] hosts = new String[]{ dpml, ibiblio };
+
+        Factory factory = context.getInitialFactory();
+        Map criteria = factory.createDefaultCriteria();
+        criteria.put( "avalon.repository.cache", root );
+        criteria.put( "avalon.repository.hosts", hosts );
+
+        return (CacheManager) factory.create( criteria );
     }
 
     private static LoggingManager createLoggingManager( 
-      File base, int priority ) throws Exception
+      InitialContext context, Artifact artifact, File base, int priority ) 
+      throws Exception
     {
         final String level = getStringPriority( priority );
-        LoggingDescriptor logging =
-                new LoggingDescriptor(
-                        "", level, null,
-                        new CategoryDirective[0],
-                        new TargetDescriptor[0] );
-
-        DefaultLoggingManager manager = 
-          new DefaultLoggingManager( base, logging );
-        return manager;
+        Factory factory = context.createFactory( artifact );
+        Map criteria = factory.createDefaultCriteria();
+        File file = new File( base, "conf/logging.xml" );
+        criteria.put( "avalon.logging.configuration", file );
+        criteria.put( "avalon.logging.basedir", base );
+        return (LoggingManager) factory.create( criteria );
     }
 
     private static String getStringPriority( int priority )
@@ -209,9 +176,11 @@ public class DefaultSystemContext extends DefaultContext
 
     private final Logger m_logger;
 
-    private final Parameters m_parameters;
-
     private ModelFactory m_factory;
+
+    private final long m_timeout;
+
+    private boolean m_secure;
 
     //==============================================================
     // mutable state
@@ -238,7 +207,7 @@ public class DefaultSystemContext extends DefaultContext
     public DefaultSystemContext( 
       LoggingManager logging, File base, File home, File temp, 
       Repository repository, String category, boolean trace, 
-      Parameters params )
+      long timeout, boolean secure )
     {
         if( base == null )
         {
@@ -265,16 +234,8 @@ public class DefaultSystemContext extends DefaultContext
         m_trace = trace;
         m_repository = repository;
         m_logging = logging;
-
-        if( params == null )
-        {
-            m_parameters = new Parameters();
-            m_parameters.makeReadOnly();
-        }
-        else
-        {
-            m_parameters = params;
-        }
+        m_timeout = timeout;
+        m_secure = secure;
 
         m_logger = m_logging.getLoggerForCategory( category );
         m_system = SystemContext.class.getClassLoader();
@@ -402,15 +363,21 @@ public class DefaultSystemContext extends DefaultContext
         return m_logger;
     }
 
-   /** 
-    * Returns the configurable kernel parameters.
-    *
-    * @return a Parameters object populated with the system
-    * parameters.
+   /**
+    * Return the default deployment phase timeout value.
+    * @return the timeout value
     */
-    public Parameters getSystemParameters()
+    public long getDefaultDeploymentTimeout()
     {
-        return m_parameters;
+        return m_timeout;
     }
 
+   /**
+    * Return the enabled status of the code security policy.
+    * @return the code security enabled status
+    */
+    public boolean isCodeSecurityEnabled()
+    {
+        return m_secure;
+    }
 }

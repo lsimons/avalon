@@ -8,7 +8,7 @@
 
   <!--
   Create the default merlin.properties containing the 
-  implemebntation identifier.  This is subsequently copied 
+  implementation identifier.  This is subsequently copied 
   into the maven repository under the path 
   ${maven.repo.local}/${pom.groupId}/properties/merlin.properties
   and is used by the embedding applications such as cli, plugin,
@@ -22,6 +22,11 @@
 #
 
 merlin.implementation = ${pom.groupId}:${pom.artifactId};${pom.currentVersion}
+
+#
+# logging system implementation
+merlin.logging.implementation = ${merlin.logging.implementation}
+
 </ant:echo>
     <ant:mkdir dir="${maven.repo.local}/${pom.groupId}/properties"/>
     <ant:copy toDir="${maven.repo.local}/${pom.groupId}/properties" 

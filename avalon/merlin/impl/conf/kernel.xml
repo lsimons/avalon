@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <kernel>
-   <logging name="kernel" target="default" priority="INFO">
-      <category name="" priority="INFO"/>
+
+   <logging>
+     <categories priority="info" name="kernel">
+       <category name="logger" priority="debug"/>
+     </categories>
    </logging>
+
    <repository>
      <hosts>
        <host path="http://dpml.net/"/>
        <host path="http://www.ibiblio.org/maven/"/>
      </hosts>
    </repository>
+
 </kernel>

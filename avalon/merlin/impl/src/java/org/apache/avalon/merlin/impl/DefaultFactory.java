@@ -1,52 +1,19 @@
-/*
-
- ============================================================================
-                   The Apache Software License, Version 1.1
- ============================================================================
-
- Copyright (C) 1999-2002 The Apache Software Foundation. All rights reserved.
-
- Redistribution and use in source and binary forms, with or without modifica-
- tion, are permitted provided that the following conditions are met:
-
- 1. Redistributions of  source code must  retain the above copyright  notice,
-    this list of conditions and the following disclaimer.
-
- 2. Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
-
- 3. The end-user documentation included with the redistribution, if any, must
-    include  the following  acknowledgment:  "This product includes  software
-    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
-    Alternately, this  acknowledgment may  appear in the software itself,  if
-    and wherever such third-party acknowledgments normally appear.
-
- 4. The names "Jakarta", "Apache Avalon", "Avalon Framework" and
-    "Apache Software Foundation"  must not be used to endorse or promote
-    products derived  from this  software without  prior written
-    permission. For written permission, please contact apache@apache.org.
-
- 5. Products  derived from this software may not  be called "Apache", nor may
-    "Apache" appear  in their name,  without prior written permission  of the
-    Apache Software Foundation.
-
- THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
- INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
- APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
- INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
- DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
- OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
- ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
- (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
- THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
- This software  consists of voluntary contributions made  by many individuals
- on  behalf of the Apache Software  Foundation. For more  information on the
- Apache Software Foundation, please see <http://www.apache.org/>.
-
-*/
+/* 
+ * Copyright 2004 Apache Software Foundation
+ * Licensed  under the  Apache License,  Version 2.0  (the "License");
+ * you may not use  this file  except in  compliance with the License.
+ * You may obtain a copy of the License at 
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed  under the  License is distributed on an "AS IS" BASIS,
+ * WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ * implied.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 
 package org.apache.avalon.merlin.impl;
@@ -62,19 +29,15 @@ import java.util.Locale;
 import org.apache.avalon.activation.appliance.Block;
 import org.apache.avalon.activation.appliance.impl.AbstractBlock;
 
-import org.apache.avalon.composition.data.ContainmentProfile;
-import org.apache.avalon.composition.data.CategoriesDirective;
+import org.apache.avalon.logging.data.CategoriesDirective;
+import org.apache.avalon.logging.provider.LoggingManager;
+import org.apache.avalon.logging.provider.LoggingCriteria;
+
 import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.data.builder.XMLTargetsCreator;
 import org.apache.avalon.composition.data.builder.XMLComponentProfileCreator;
 import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
-import org.apache.avalon.composition.logging.LoggingManager;
-import org.apache.avalon.composition.logging.LoggingDescriptor;
-import org.apache.avalon.composition.logging.TargetDescriptor;
-import org.apache.avalon.composition.logging.TargetProvider;
-import org.apache.avalon.composition.logging.impl.DefaultLoggingManager;
-import org.apache.avalon.composition.logging.impl.FileTargetProvider;
 import org.apache.avalon.composition.model.ContainmentContext;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
@@ -109,6 +72,7 @@ import org.apache.avalon.merlin.KernelRuntimeException;
 import org.apache.avalon.merlin.KernelCriteria;
 import org.apache.avalon.merlin.KernelContext;
 
+import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.Repository;
 import org.apache.avalon.repository.provider.CacheManager;
 import org.apache.avalon.repository.provider.InitialContext;
@@ -154,8 +118,6 @@ public class DefaultFactory implements Factory
     private InitialContext m_context;
 
     private ClassLoader m_classloader;
-
-    private Block m_system;
 
     //--------------------------------------------------------------------------
     // constructor
@@ -228,36 +190,30 @@ public class DefaultFactory implements Factory
         //
 
         URL kernelURL = (URL) criteria.getKernelURL();
-        Configuration kernelConfig = getKernelConfiguration( kernelURL );
+        Configuration config = getKernelConfiguration( kernelURL );
 
         //
         // create the logging subsystem
         //
 
-        Configuration loggingConfig = 
-          kernelConfig.getChild( "logging" );
-        LoggingDescriptor loggingDescriptor = 
-          createLoggingDescriptor( loggingConfig );
-        final String name = loggingDescriptor.getName();
         LoggingManager logging = 
-          createLoggingManager( criteria, loggingDescriptor );
+          createLoggingManager( criteria, config );
 
         m_logger = 
-          logging.getLoggerForCategory( name );
+          logging.getLoggerForCategory( "kernel" );
         getLogger().debug( "logging system established" );
-
-
-        String[] hosts = 
-          getHosts( 
-            kernelConfig.getChild( "repository" ).getChild( "hosts" ) );
 
         //
         // Create the system context.
         //
 
+        String[] hosts = 
+          getHosts( 
+            config.getChild( "repository" ).getChild( "hosts" ) );
+
         SystemContext systemContext = 
           createSystemContext( 
-            m_context, criteria, hosts, logging, kernelConfig, name );
+            m_context, criteria, hosts, logging, config, "kernel" );
 
         //
         // with the logging system established, check if the 
@@ -286,7 +242,7 @@ public class DefaultFactory implements Factory
         //
 
         Configuration appConfig = 
-          kernelConfig.getChild( "container" );
+          config.getChild( "container" );
         ContainmentModel application = 
           createApplicationModel( systemContext, appConfig );
 
@@ -303,7 +259,7 @@ public class DefaultFactory implements Factory
 
         getLogger().info( "facilities deployment" );
         Configuration facilitiesConfig = 
-          kernelConfig.getChild( "facilities" );
+          config.getChild( "facilities" );
         Logger facilitiesLogger = getLogger();
 
         DelegatingSystemContext system = 
@@ -479,16 +435,6 @@ public class DefaultFactory implements Factory
           "repository established: " + repository );
 
         //
-        // create the kernel <parameters>
-        //
-
-        Configuration paramsConfig = 
-          config.getChild( "parameters" );
-        Parameters params = 
-          Parameters.fromConfiguration( 
-            paramsConfig, "parameter" );
-
-        //
         // create the system context
         //
 
@@ -502,7 +448,8 @@ public class DefaultFactory implements Factory
             repository,
             name,
             criteria.isDebugEnabled(),
-            params );
+            criteria.getDeploymentTimeout(),
+            criteria.isCodeSecurityEnabled() );
     }
 
     private ContainmentModel createApplicationModel( 
@@ -635,7 +582,7 @@ public class DefaultFactory implements Factory
                     if( username == null )
                     {
                         final String error =
-                          "Credentials configuration does not contain the required 'username' element."
+    "Credentials configuration does not contain the required 'username' element."
                           + ConfigurationUtil.list( credentials );
                         throw new KernelException( error );                
                     }
@@ -649,7 +596,7 @@ public class DefaultFactory implements Factory
                     if( password == null )
                     {
                         final String error =
-                          "Credentials configuration does not contain the required 'password' element."
+     "Credentials configuration does not contain the required 'password' element."
                           + ConfigurationUtil.list( credentials );
                         throw new KernelException( error );                
                     }
@@ -703,80 +650,72 @@ public class DefaultFactory implements Factory
 
    /**
     * Utility method to create the LoggingManager.
-    * @param criteria the kernel criteria
-    * @param descriptor the logging descriptor
+    * @param criteria the kernel creation criteria
+    * @param config the kernel configuration 
     * @return the logging manager
     */
-    private LoggingManager createLoggingManager(
-      KernelCriteria criteria, LoggingDescriptor descriptor ) throws Exception
+    private LoggingManager createLoggingManager( KernelCriteria criteria, Configuration config )
+      throws Exception
     {
         File dir = criteria.getWorkingDirectory();
-        boolean debug = criteria.isDebugEnabled();
-        return new DefaultLoggingManager( dir, descriptor, debug );
+        Configuration conf = getLoggingConfiguration( criteria, config );
+        Artifact artifact = criteria.getLoggingImplementation();
+        Factory factory = m_context.createFactory( m_classloader, artifact );
+        LoggingCriteria params = getLoggingCriteria( factory );
+        params.setBaseDirectory( dir );
+        params.setConfiguration( conf );
+        return (LoggingManager) factory.create( params );
     }
 
-    /**
-     * Utility method to create a new logging descriptor from a
-     * configuration instance.
-     * @param config a configuration defining the logging descriptor
-     * @return the logging descriptor
-     * @exception ConfigurationException if the configuration is
-     *   incomplete
-     */
-    private LoggingDescriptor createLoggingDescriptor(
-        Configuration config )
-        throws KernelException
+    private LoggingCriteria getLoggingCriteria( Factory factory )
     {
-        final String name = config.getAttribute( "name", "kernel" );
-        CategoriesDirective categories = null;
-        try
+        Map map = factory.createDefaultCriteria();
+        if( map instanceof LoggingCriteria )
         {
-            categories = CREATOR.getCategoriesDirective( config, name );
+            return (LoggingCriteria) map;
         }
-        catch( Throwable e )
+        else
         {
             final String error =
-              "Invalid logging directive.";
-            throw new KernelException( error, e );
+              "Logging factory criteria class not recognized: ["
+              + map.getClass().getName() 
+              + "].";
+            throw new IllegalArgumentException( error );
         }
-
-        //
-        // create any custom targets declared in the kernel directive
-        //
-
-        ArrayList list = new ArrayList();
-        Configuration[] configs = config.getChildren( "target" );
-        for( int i = 0; i < configs.length; i++ )
-        {
-            Configuration c = configs[ i ];
-            try
-            {
-                list.add( createTargetDescriptor( c ) );
-            }
-            catch( Throwable e )
-            {
-                final String error = 
-                  "Invalid target descriptor.";
-                throw new KernelException( error, e );
-            }
-        }
-
-        TargetDescriptor[] targets =
-            (TargetDescriptor[])list.toArray(
-                new TargetDescriptor[ 0 ] );
-
-        //
-        // return the logging descriptor
-        //
-
-        return new LoggingDescriptor(
-          categories.getName(), 
-          categories.getPriority(), 
-          categories.getTarget(), 
-          categories.getCategories(), 
-          targets );
     }
 
+    private Configuration getLoggingConfiguration( KernelCriteria criteria, Configuration config )
+      throws Exception
+    {
+        if( null != config.getChild( "logging", false ) )
+        {
+            return config.getChild( "logging" );
+        }
+        else
+        {
+            File file = criteria.getLoggingConfiguration();
+            if( null != file )
+            {
+                try
+                {
+                    DefaultConfigurationBuilder builder = 
+                      new DefaultConfigurationBuilder();
+                    return builder.buildFromFile( file );  
+                }
+                catch( Throwable e )
+                {
+                    final String error = 
+                      "Internal error while attempting to build logging configuration from: "
+                      + file;
+                    throw new KernelException( error, e );
+                }
+            }
+            else
+            {
+                return config.getChild( "logging" );
+            }
+        }
+    }
 
    /**
     * Create the kernel configuration using a supplied url.  If the supplied
@@ -881,54 +820,6 @@ public class DefaultFactory implements Factory
         return m_logger;
     }
 
-    /**
-     * Utility method to create a new target descriptor from a
-     * configuration instance.
-     * @param config a configuration defining the target descriptor
-     * @return the logging target descriptor
-     * @exception ConfigurationException if the configuration is
-     *   incomplete
-     */
-    private TargetDescriptor createTargetDescriptor( Configuration config )
-        throws ConfigurationException
-    {
-        final String name = config.getAttribute( "name" );
-        if( config.getChildren().length == 0 )
-        {
-            throw new ConfigurationException(
-                "missing target provider element in '"
-                + config.getName() + "'." );
-        }
-
-        final Configuration c = config.getChildren()[ 0 ];
-        TargetProvider provider = null;
-        if( c.getName().equals( "file" ) )
-        {
-            provider = createFileTargetProvider( c );
-        }
-        else
-        {
-            throw new ConfigurationException(
-                "Unrecognized provider: " + c.getName() + " in " + config.getName() );
-        }
-        return new TargetDescriptor( name, provider );
-    }
-
-    /**
-     * Utility method to create a new file target descriptor from a
-     * configuration instance.
-     * @param config a configuration defining the file target descriptor
-     * @return the file target descriptor
-     * @exception ConfigurationException if the configuration is
-     *   incomplete
-     */
-    private FileTargetProvider createFileTargetProvider( Configuration config )
-        throws ConfigurationException
-    {
-        String file = config.getAttribute( "location" );
-        return new FileTargetProvider( file );
-    }
-
     private void createInfoListing( 
       StringBuffer buffer, String[] hosts, InitialContext context, KernelCriteria criteria )
     {
@@ -972,6 +863,14 @@ public class DefaultFactory implements Factory
         buffer.append( 
           "\n  ${merlin.kernel} == " 
           + criteria.getKernelURL() );
+
+        buffer.append( 
+          "\n  ${merlin.logging.config} == " 
+          + criteria.getLoggingConfiguration() );
+
+        buffer.append( 
+          "\n  ${merlin.logging.implementation} == " 
+          + criteria.getLoggingImplementation() );
 
         buffer.append( 
           "\n  ${merlin.override} == " 

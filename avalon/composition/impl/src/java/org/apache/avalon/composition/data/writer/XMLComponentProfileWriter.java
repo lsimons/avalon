@@ -59,8 +59,8 @@ import org.apache.avalon.composition.data.ComponentProfile;
 import org.apache.avalon.composition.data.ContextDirective;
 import org.apache.avalon.composition.data.DependencyDirective;
 import org.apache.avalon.composition.data.SelectionDirective;
-import org.apache.avalon.composition.data.CategoriesDirective;
-import org.apache.avalon.composition.data.CategoryDirective;
+import org.apache.avalon.logging.data.CategoriesDirective;
+import org.apache.avalon.logging.data.CategoryDirective;
 import org.apache.avalon.composition.data.ImportDirective;
 import org.apache.avalon.composition.data.EntryDirective;
 import org.apache.avalon.composition.data.ConstructorDirective;
@@ -73,7 +73,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * Write a {@link ComponentProfile} to a stream as xml documents.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/13 11:41:25 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:27 $
  */
 public class XMLComponentProfileWriter
 {

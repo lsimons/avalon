@@ -57,10 +57,12 @@ package org.apache.avalon.composition.data.builder;
 
 import java.util.ArrayList;
 
+import org.apache.avalon.logging.data.CategoriesDirective;
+import org.apache.avalon.logging.data.CategoryDirective;
+
 import org.apache.avalon.composition.data.BlockCompositionDirective;
 import org.apache.avalon.composition.data.BlockIncludeDirective;
 import org.apache.avalon.composition.data.ClassLoaderDirective;
-import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.composition.data.ClasspathDirective;
 import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.data.DeploymentProfile;
@@ -87,7 +89,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * from a Configuration object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/01/21 00:10:27 $
+ * @version $Revision: 1.7 $ $Date: 2004/01/24 23:25:27 $
  */
 public class XMLContainmentProfileCreator extends XMLProfileCreator
 {
