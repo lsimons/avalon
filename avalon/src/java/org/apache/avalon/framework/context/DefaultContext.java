@@ -139,7 +139,8 @@ public class DefaultContext
             if( data instanceof Hidden )
             {
                 // Always fail.
-                throw new ContextException( "Unable to locate " + key );
+                final String message = "Unable to locate " + key;
+                throw new ContextException( message );
             }
 
             if( data instanceof Resolvable )
@@ -154,7 +155,9 @@ public class DefaultContext
         if( null == m_parent )
         {
             // There was no parent, and no data
-            throw new ContextException( "Unable to resolve context key: " + key );
+            final String message =
+                "Unable to resolve context key: " + key;
+            throw new ContextException( message );
         }
 
         return m_parent.get( key );
@@ -237,7 +240,9 @@ public class DefaultContext
     {
         if( m_readOnly )
         {
-            throw new IllegalStateException( "Context is read only and can not be modified" );
+            final String message =
+                "Context is read only and can not be modified";
+            throw new IllegalStateException( message );
         }
     }
 }
