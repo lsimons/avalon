@@ -118,8 +118,8 @@ public class DefaultKernel
                 application = new DefaultServerApplication();
                 setupLogger( application, name );
 
-                final ApplicationContext frame = createApplicationContext( entry );
-                application.setup( frame );
+                final ApplicationContext context = createApplicationContext( entry );
+                application.setApplicationContext( frame );
 
                 application.initialize();
                 application.start();
@@ -191,6 +191,7 @@ public class DefaultKernel
             ((Composable)context).compose( componentManager );
         }
 
+        //TODO: Remove me once we can remove the ThreadPool stuff
         context.configure( entry.getConfiguration() );
         return context;
     }
