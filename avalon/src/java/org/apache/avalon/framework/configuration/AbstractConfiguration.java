@@ -59,7 +59,7 @@ package org.apache.avalon.framework.configuration;
  * with methods that can be abstracted away from underlying implementations.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.26 $ $Date: 2003/02/11 06:47:30 $
+ * @version CVS $Revision: 1.27 $ $Date: 2003/02/11 07:15:42 $
  */
 public abstract class AbstractConfiguration
     implements Configuration
@@ -521,18 +521,18 @@ public abstract class AbstractConfiguration
 
     private boolean isTrue( final String value )
     {
-        return value.equalsIgnoreCase( "true" ) ||
-            value.equalsIgnoreCase( "yes" ) ||
-            value.equalsIgnoreCase( "on" ) ||
-            value.equalsIgnoreCase( "1" );
+        return value.equalsIgnoreCase( "true" ) 
+            || value.equalsIgnoreCase( "yes" ) 
+            || value.equalsIgnoreCase( "on" ) 
+            || value.equalsIgnoreCase( "1" );
     }
 
     private boolean isFalse( final String value )
     {
-        return value.equalsIgnoreCase( "false" ) ||
-            value.equalsIgnoreCase( "no" ) ||
-            value.equalsIgnoreCase( "off" ) ||
-            value.equalsIgnoreCase( "0" );
+        return value.equalsIgnoreCase( "false" ) 
+            || value.equalsIgnoreCase( "no" ) 
+            || value.equalsIgnoreCase( "off" ) 
+            || value.equalsIgnoreCase( "0" );
     }
 
     /**

@@ -200,8 +200,8 @@ public class Parameters
 
         if( null == test )
         {
-            throw new ParameterException( "The parameter '" + name +
-                                          "' does not contain a value" );
+            throw new ParameterException( "The parameter '" + name
+                                          + "' does not contain a value" );
         }
         else
         {
@@ -615,8 +615,8 @@ public class Parameters
     {
         if( null == configuration )
         {
-            throw new ConfigurationException( "You cannot convert to parameters with " +
-                                              "a null Configuration" );
+            throw new ConfigurationException( 
+               "You cannot convert to parameters with a null Configuration" );
         }
 
         final Configuration[] parameters = configuration.getChildren( elementName );
