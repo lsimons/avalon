@@ -15,73 +15,70 @@ import org.apache.avalon.framework.logger.*;
 import org.apache.avalon.framework.parameters.*;
 import org.apache.avalon.framework.service.*;
 import org.apache.avalon.framework.container.*;
-   
+
 /**
  * Just... chirps :-)
  *
  *@author     <a href="mailto:nicolaken@krysalis.org">Nicola Ken Barozzi</a>
+ *@author     <a href="mailto:leosimons@apache.org">Leo Simons</a>
  *@created    June 20, 2002
- *@version    1.0
+ *@version    1.0.1
  */
-                
+
 public class ChirpWorld implements LogEnabled, Contextualizable, Composable, Serviceable, Initializable, Startable, Disposable
 {
    private Logger  logger;
    private Context context;
    private ComponentManager cm;
-   private ServiceManager   sm;   
-   
+   private ServiceManager   sm;
+
   //empty constructor
-  ChirpWorld(){}
+  public ChirpWorld(){}
 
   public void enableLogging( Logger logger )
   {
     this.logger = logger;
-    logger.debug("enableLogging called, Logger gotten");
+    logger.debug("enableLogging() called, Logger gotten");
   }
 
   public void contextualize( Context context )
   {
     this.context = context;
-    logger.debug("contextualize called, Context gotten");
+    logger.debug("contextualize() called, Context gotten");
   }
-  
+
   public void compose( ComponentManager cm )
   {
     this.cm = cm;
-    logger.debug("compose called, ComponentManager gotten");
-  }   
+    logger.debug("compose() called, ComponentManager gotten");
+  }
 
   public void service( ServiceManager cm )
   {
     this.sm = sm;
-    logger.debug("service called, ServiceManager gotten");
-  }  
-  
+    logger.debug("service() called, ServiceManager gotten");
+  }
+
   public void initialize()
   {
-    logger.debug("initialize called");
+    logger.debug("initialize() called");
   }
-  
+
   public void start()
   {
-    logger.debug("start called");
+    logger.debug("start() called");
+
+	logger.info( "I thawgt I saw a pussycat!" );
   }
 
   public void stop()
   {
-    logger.debug("stop called");
+    logger.debug("stop() called");
   }
 
   public void dispose()
   {
     logger.debug("dispose called");
   }
-  
+
 }
-
-
-
-
-
-
