@@ -25,21 +25,26 @@
   </properties>
 
   <body>
-
     <section name="Merlin Servlet">
+      <p>
+        The Merlin Servlet package contains an abstract Servlet implementation 
+        that contains an embedded Merlin Kernel.
+      </p>
 
-<p>
-The Merlin Servlet package contains an abstract Servlet implementation that contains an embedded Merlin Kernel.
-</p>
-
-    <subsection name="Development Notes">
-<p>
-This is a minimal implementation of a Servlet that contains an embedded kernel.  The behaviour is a function of the block.xml resource resolved via the initialisation parameters.  No support is included for configuration of the kernel and as such the kernel is established relative to defaults.  This will be enhanced in a later revision.
-</p>
-
-    </subsection>
-    <subsection name="Example web.xml">
-      <p><i>web.xml</i></p>
+      <subsection name="Development Notes">
+        <p>
+          This is a minimal implementation of a Servlet that contains an 
+          embedded kernel.  The behaviour is a function of the block.xml 
+          resource resolved via the initialisation parameters.  No support 
+          is included for configuration of the kernel and as such the kernel
+          is established relative to defaults.  This will be enhanced in a 
+          later revision.
+        </p>
+      </subsection>
+      <subsection name="Example web.xml">
+        <p>
+          <i>web.xml</i>
+        </p>
 <source><![CDATA[
 <!DOCTYPE web-app 
     PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" 
@@ -65,9 +70,11 @@ This is a minimal implementation of a Servlet that contains an embedded kernel. 
 </web-app>
 ]]></source>
 
-    </subsection>
-    <subsection name="Servlet Implementation">
-      <p><i>MerlinServlet.java</i></p>
+      </subsection>
+      <subsection name="Servlet Implementation">
+        <p>
+          <i>MerlinServlet.java</i>
+        </p>
 <source>
 package org.apache.avalon.merlin.servlet;
 
@@ -89,7 +96,7 @@ import org.apache.avalon.merlin.kernel.impl.DefaultKernel;
  * and registration of the kernel base URL under the servlet 
  * context using the key {@link Kernel.BASE_URL_KEY}.
  *
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class MerlinServlet extends HttpServlet
 {
@@ -170,10 +177,9 @@ public class MerlinServlet extends HttpServlet
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2004/01/25 13:28:47 $
+      $Revision: 1.3 $ $Date: 2004/03/02 00:00:15 $
     </legal>
   </footer>
-
 </document>
 
 

@@ -41,6 +41,7 @@
         <item name="Meta Plugin for Maven" 
           href="http://avalon.apache.org/meta/tools/index.html"/>
       </item>
+      <item name="Extensions" href="/extensions/index.html" />
     </menu>
 
     <menu name="Resources">

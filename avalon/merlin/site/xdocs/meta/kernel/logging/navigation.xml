@@ -48,6 +48,7 @@
         <item name="config.xml" href="/meta/config/index.html"/>
       </item>
       <item name="Tools" href="/tools/index.html"/>
+      <item name="Extensions" href="/extensions/index.html" />
     </menu>
 
     <menu name="Resources">
