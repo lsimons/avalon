@@ -476,34 +476,6 @@
 
   <!--
   ==============================================================================
-  replicate the tutorial sources to the distribution directory
-  ==============================================================================
-  -->
-
-  <goal name="avalon:tutorials">
-    <ant:mkdir dir="${basedir}/target/tutorials"/>
-    <ant:copy todir="${basedir}/target/tutorials">
-      <fileset dir="${basedir}/platform/tutorials">
-        <include name="README.TXT"/>
-        <include name="project.xml"/>
-        <include name="maven.xml"/>
-        <include name="hello/**"/>
-        <include name="configuration/**"/>
-        <include name="context/**"/>
-        <include name="composition/**"/>
-        <include name="dependencies/**"/>
-        <include name="lifecycle/**"/>
-        <include name="meta/**"/>
-        <include name="profiles/**"/>
-        <include name="selection/**"/>
-        <exclude name="**/target/**"/>
-        <exclude name="**/*.log"/>
-      </fileset>
-    </ant:copy>
-  </goal>
-
-  <!--
-  ==============================================================================
   build the consolidated javadoc
   ==============================================================================
   -->
@@ -583,19 +555,61 @@
 
   <!--
   ==============================================================================
-  veriify the the tutorials are buildable
+  veriify the the tutorials are buildable and generate a clean build defintion
+  (note: the xgen target is defined in the platform/tutorials/maven.xml file)
   ==============================================================================
   -->
 
+  <goal name="avalon:tutorials" prereqs="avalon:validate">
+    <ant:copy todir="${basedir}/target/tutorials">
+      <fileset dir="${basedir}/platform/tutorials">
+        <include name="**/README.TXT"/>
+        <include name="project.xml"/>
+        <include name="maven.xml"/>
+      </fileset>
+    </ant:copy>
+  </goal>
+
   <goal name="avalon:validate" 
-       description="Validate that the tutorial targets are buildable." >
+       description="Generate a clean tutorial package." >
+    <j:set var="xyz" value="abc"/>
+    <maven:reactor
+      basedir="${basedir}"
+      includes="platform/tutorials/**/project.xml"
+      excludes="platform/tutorials/project.xml,**/target/**,platform/tutorials/mixed/**,platform/tutorials/jmx/**,platform/tutorials/security/**"
+      goals="xgen" 
+      banner="Generation:"
+      ignoreFailures="false" 
+      postProcessing="true" />
+
+    <!-- 
+    copy the generated target/package directory to the 
+    local target/tutorials directory 
+    -->
+
+    <j:set var="tutorialsDir" value="${basedir}/platform/tutorials"/>
+    <j:set var="tutorialsLen" value="${tutorialsDir.length()}"/>
+    <j:forEach var="child" items="${reactorProjects}">
+      <j:set var="pkgPath" value="${child.file.parentFile.path}"/>
+      <j:set var="pkgLen" value="${pkgPath.length()}"/>
+      <j:set var="packageName" value="${pkgPath.substring( tutorialsLen )}"/>
+      <ant:copy toDir="${basedir}/target/tutorials${packageName}">
+        <fileset dir="${child.file.parentFile}/target/package"/>
+      </ant:copy>
+    </j:forEach>
+
+  </goal>
+
+  <goal name="avalon:generate" 
+       description="Generate a clean tutorial package." >
+    <j:set var="xyz" value="abc"/>
     <maven:reactor
       basedir="${basedir}"
       includes="platform/tutorials/**/project.xml"
       excludes="platform/tutorials/project.xml,**/target/**"
-      goals="jar:install"
-      banner="Validate:"
-      ignoreFailures="false" />
+      banner="Transfer:"
+      postProcessing="true" />
+  
   </goal>
 
   <!--

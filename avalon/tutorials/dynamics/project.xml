@@ -32,9 +32,9 @@
       <version>&avalon-composition-api-version;</version>
     </dependency>
     <dependency>
-      <groupId>avalon-meta</groupId>
-      <artifactId>avalon-meta-api</artifactId>
-      <version>1.4-SNAPSHOT</version>
+      <groupId>&avalon-meta-id;</groupId>
+      <artifactId>&avalon-meta-api-id;</artifactId>
+      <version>&avalon-meta-api-version;</version>
     </dependency>
   </dependencies>
   
