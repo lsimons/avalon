@@ -3,13 +3,15 @@
 
   <x:home/>
 
-  <target name="init">
+  <target name="info">
     <x:info/>
+  </target>
+
+  <target name="init" depends="info">
     <x:init/>
   </target>
 
-  <target name="clean">
-    <x:info/>
+  <target name="clean" depends="info">
     <x:clean/>
   </target>
 
@@ -29,7 +31,7 @@
     <x:junit/>
   </target>
 
-  <target name="site" depends="prepare">
+  <target name="site" depends="build">
     <x:xdoc theme="modern"/>
   </target>
 
@@ -37,7 +39,7 @@
     <x:install/>
   </target>
 
-  <target name="dist" depends="install,site"/>
+  <target name="dist" depends="package,site,install"/>
 
   <target name="javadoc" depends="prepare">
     <x:javadoc/>
