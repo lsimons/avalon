@@ -11,7 +11,7 @@
       <hostname>localhost</hostname>
   </sevak>
   <sevakTest>  
-      <Context docBase="ROOT" path="webapps/root"/>
+      <Context docBase="/" path="webapps/root"/>
   </sevakTest>
 
 </config>
