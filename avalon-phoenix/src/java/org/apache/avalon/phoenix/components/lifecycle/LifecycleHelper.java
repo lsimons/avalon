@@ -220,6 +220,33 @@ public class LifecycleHelper
     }
 
     /**
+     * Method to run a <code>Block</code> through it's shutdown phase.
+     * Errors that occur during shutdown will be logged appropraitely.
+     *
+     * @param entry the entry containing Block
+     */
+    public void shutdown( final ComponentEntry entry )
+    {
+        final Object block = entry.getObject();
+
+        //Invalidate entry. This will invalidate
+        //and null out Proxy object aswell as nulling out
+        //block property
+        entry.invalidate();
+
+        //Stoppable stage
+        try
+        {
+            ContainerUtil.shutdown( block );
+        }
+        finally
+        {
+            entry.setObject( null );
+            entry.setState( State.DESTROYED );
+        }
+    }
+
+    /**
      * Utility method to report that a lifecycle stage is about to be processed.
      *
      * @param name the name of block that caused failure
