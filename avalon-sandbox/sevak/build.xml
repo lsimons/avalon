@@ -25,36 +25,39 @@
   <!-- Set the properties for intermediate directory -->
   <property name="build.dir" value="build"/>
   <property name="build.lib" value="${build.dir}/lib"/>
-  <property name="build.src" value="${build.dir}/src"/>
-  <property name="build.classes" value="${build.dir}/classes"/>
-  <property name="build.demoClasses" value="${build.dir}/demoClasses"/>
   <property name="build.xdoclet" value="${build.dir}/xdoclet"/>
-  <property name="build.demoXdoclet" value="${build.dir}/demoXdoclet"/>
+  <property name="build.src" value="${build.dir}/src"/>  
+  <property name="build.classes" value="${build.dir}/classes"/>
+  <property name="build.javadocs" value="${build.dir}/javadocs"/>  
   <property name="build.docs" value="${build.dir}/docs"/>
   <property name="build.context" value="${build.dir}/documentation"/>  
   <property name="build.xdocs" value="${build.context}/content/xdocs"/>
+  
+  <!-- Sevak specific properties for building -->
   <property name="build.reports" value="${build.dir}/reports"/>
+  <property name="build.demoClasses" value="${build.dir}/demoClasses"/> 
+  <property name="build.demoXdoclet" value="${build.dir}/demoXdoclet"/>
+
 
   <!-- Set the properties for source directories -->
   <property name="src.dir" value="src"/>
-  <property name="lib.dir" value="lib"/>
   <property name="java.dir" value="${src.dir}/java"/>
-  <property name="test.dir" value="${src.dir}/test"/>
-  <property name="demo.dir" value="${src.dir}/demo"/>
-  <property name="java.demo.dir" value="${demo.dir}/java"/>
   <property name="manifest.dir" value="${src.dir}/manifest"/>
   <property name="conf.dir" value="${src.dir}/conf"/>
-  <property name="conf.demo.dir" value="${demo.dir}/conf"/>
-  <property name="tools.dir" location="../../jakarta-avalon/tools"/>
-  <property name="docs.dir" value="docs"/>
-  <property name="xdocs.dir" value="${src.dir}/xdocs"/>  
   <property name="context.dir" value="../../jakarta-avalon/src/documentation"/>  
+  <property name="xdocs.dir" value="${src.dir}/xdocs"/>  
+  <property name="tools.dir" location="../../jakarta-avalon/tools"/>
+   
   <property name="junit.jar" value="${tools.dir}/lib/junit-3.7.jar"/>
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>  
   <property name="dist.base" value="dist"/>
   <property name="do.checkstyle" value="true"/>
 
-
+  <property name="lib.dir" value="lib"/>
+  <property name="test.dir" value="${src.dir}/test"/>
+  <property name="demo.dir" value="${src.dir}/demo"/>
+  <property name="java.demo.dir" value="${demo.dir}/java"/>
+  <property name="conf.demo.dir" value="${demo.dir}/conf"/>  
   
   <!-- Tomcat Jars -->
   <property name="tomcat.jars.dir" value="${lib.dir}/tomcat-jars"/>
@@ -62,17 +65,13 @@
 
   <path id="project.class.path">
     <pathelement path="${java.class.path}" />
-    <pathelement location="xerces.jar2"/>  
     <pathelement path="${build.classes}" />
-
+    <fileset dir="../common/lib">
+      <include name="*.jar" />
+    </fileset>
     <fileset dir="${tomcat.jars.dir}">
       <include name="*.jar" />
     </fileset>    
-
-	 <fileset dir="../common/lib">
-      <include name="*.jar" />
-    </fileset>
-
   </path>
 
   <path id="tools.class.path">
@@ -83,14 +82,12 @@
   </path>
 
   <path id="test.class.path">
-	<fileset dir="../common/lib">
+    <fileset dir="../common/lib">
       <include name="*.jar" />
     </fileset>
-	<pathelement path="${build.lib}/sevak.jar"/>
+    <pathelement path="${build.lib}/sevak.jar"/>
   </path>
   
-
-
   <taskdef name="sar" classname="org.apache.avalon.phoenix.tools.tasks.Sar">
     <classpath refid="project.class.path" />
   </taskdef>
@@ -103,8 +100,8 @@
 
   <!-- Setup the filters -->
   <target name="setup-filters">
-    <filter token="Name" value="Avalon Apps - Sevak"/>
-    <filter token="name" value="catlon"/>
+    <filter token="Name" value="Avalon Apps - ${Name}"/>
+    <filter token="name" value="${name}"/>
     <filter token="version" value="${version}"/>
     <filter token="year" value="${year}"/>
     <filter token="status" value="${status}"/>
@@ -127,100 +124,97 @@
     <filter token="TESTLET_BASE" value="${testlet.base}"/>
   </target>
 
-
   <!-- Check Presense Of Tomcat 4.0 jars -->
- <target name="checkCatalinaJars">
-	<condition property="catalina.present">
-		<available file="${tomcat.jars.dir}/catalina.jar"/>
-		<!-- checking for avalon-framework.jar too here -->
-	</condition>
+  <target name="checkCatalinaJars">
+    <condition property="catalina.present">
+      <available file="${tomcat.jars.dir}/catalina.jar"/>
+    </condition>
 
- </target>
+  </target>
 
- <target name="checkFrameworkClass">
-	<available classname="org.apache.avalon.framework.logger.Logger" classpathref="project.class.path" property="framework.present"/>	
- </target>
+  <!-- checking for avalon-framework.jar too here -->
+  <target name="checkFrameworkClass">
+    <available classname="org.apache.avalon.framework.logger.Logger" classpathref="project.class.path" property="framework.present"/>    
+  </target>
 
- <target name="checkFramework" depends="checkFrameworkClass" unless="framework.present">
-	<echo>**********************************</echo>
+  <target name="checkFramework" depends="checkFrameworkClass" unless="framework.present">
+    <echo>**********************************</echo>
     <echo>***** Please set the        ******</echo>
     <echo>****${avalon-framework.jar} ******</echo>
     <echo>**********************************</echo>   
-    
     <fail message="Framework  needed. See above."/>
 
- </target>
+  </target>
 
- <target name="checkNeccesaryJars" depends="checkFramework,checkCatalinaJars" unless="catalina.present">
-	<echo>**********************************</echo>
+  <target name="checkNeccesaryJars" depends="checkFramework,checkCatalinaJars" unless="catalina.present">
+    <echo>**********************************</echo>
     <echo>***** Please execute target ******</echo>
     <echo>****     'get-catalina '    ******</echo>
-	<echo>****  to retrieve Tomcat4.0 ******</echo>
-	<echo>****  jars or place the jars *****</echo>
-	<echo>****  in ${tomcat.jars.dir} dir  *****</echo>
+    <echo>****  to retrieve Tomcat4.0 ******</echo>
+    <echo>****  jars or place the jars *****</echo>
+    <echo>****  in ${tomcat.jars.dir} dir  *****</echo>
     <echo>**********************************</echo>   
     
     <fail message="Catalina needed. See above."/>
 
- </target>
+  </target>
 
- <!-- Get catalina jars from apache repository -->
-
- <target name="get-catalina">
+  <!-- Get catalina jars from apache repository -->
+  <target name="get-catalina">
  
     <mkdir  dir="tmp-dir-to-delete"/>
-	<mkdir dir="${lib.dir}"/>
-	<mkdir dir="${tomcat.jars.dir}"/>
+    <mkdir dir="${lib.dir}"/>
+    <mkdir dir="${tomcat.jars.dir}"/>
 
-	<get src="http://jakarta.apache.org/builds/jakarta-tomcat-4.0/release/v4.0.3/bin/jakarta-tomcat-4.0.3.zip" 
-	dest="tmp-dir-to-delete/jakarta-tomcat.zip" 
-	verbose="true"
-	usetimestamp="true"/>
-	
-	<!-- Get the Jakarta-COMMONS jar files which do NOT come along with the tomcat distribution -->
+    <get src="http://jakarta.apache.org/builds/jakarta-tomcat-4.0/release/v4.0.3/bin/jakarta-tomcat-4.0.3.zip" 
+    dest="tmp-dir-to-delete/jakarta-tomcat.zip" 
+    verbose="true"
+    usetimestamp="true"/>
+    
+    <!-- Get the Jakarta-COMMONS jar files which do NOT come along with the tomcat distribution -->
 
-	<get src="http://jakarta.apache.org/builds/jakarta-tomcat-connectors/coyote/release/v1.0-rc2/commons-logging.jar"
-		dest="${tomcat.jars.dir}/commons-logging.jar"
-		verbose="true"
-		usetimestamp="true"
-	/>
+    <get src="http://jakarta.apache.org/builds/jakarta-tomcat-connectors/coyote/release/v1.0-rc2/commons-logging.jar"
+        dest="${tomcat.jars.dir}/commons-logging.jar"
+        verbose="true"
+        usetimestamp="true"
+    />
 
-	<get src="http://jakarta.apache.org/builds/jakarta-tomcat-connectors/coyote/release/v1.0-rc2/tomcat-coyote.jar"
-		dest="${tomcat.jars.dir}/tomcat-coyote.jar"
-		verbose="true"
-		usetimestamp="true"
-	/>
+    <get src="http://jakarta.apache.org/builds/jakarta-tomcat-connectors/coyote/release/v1.0-rc2/tomcat-coyote.jar"
+        dest="${tomcat.jars.dir}/tomcat-coyote.jar"
+        verbose="true"
+        usetimestamp="true"
+    />
 
-	<get src="http://jakarta.apache.org/builds/jakarta-tomcat-connectors/coyote/release/v1.0-rc2/tomcat-http11.jar"
-		dest="${tomcat.jars.dir}/tomcat-http11.jar"
-		verbose="true"
-		usetimestamp="true"
-	/>
+    <get src="http://jakarta.apache.org/builds/jakarta-tomcat-connectors/coyote/release/v1.0-rc2/tomcat-http11.jar"
+        dest="${tomcat.jars.dir}/tomcat-http11.jar"
+        verbose="true"
+        usetimestamp="true"
+    />
 
-	<get src="http://jakarta.apache.org/builds/jakarta-tomcat-connectors/coyote/release/v1.0-rc2/tomcat-util.jar"
-		dest="${tomcat.jars.dir}/tomcat-util.jar"
-		verbose="true"
-		usetimestamp="true"
-	/>
+    <get src="http://jakarta.apache.org/builds/jakarta-tomcat-connectors/coyote/release/v1.0-rc2/tomcat-util.jar"
+        dest="${tomcat.jars.dir}/tomcat-util.jar"
+        verbose="true"
+        usetimestamp="true"
+    />
 
 
-	<unzip src="tmp-dir-to-delete/jakarta-tomcat.zip" dest="tmp-dir-to-delete" />
-	
-
+    <unzip src="tmp-dir-to-delete/jakarta-tomcat.zip" dest="tmp-dir-to-delete" />
+    
     <copy todir="${tomcat.jars.dir}" flatten="true">
       <fileset dir="tmp-dir-to-delete">
         <include  name="**/bin/*.jar"/>
-		<include  name="**/lib/*.jar"/>
+        <include  name="**/lib/*.jar"/>
       </fileset>
-	</copy>
-	
-	<delete dir="tmp-dir-to-delete"/>
-	
- </target>
- <!-- prepare -->
- <target name="prepare" depends="checkNeccesaryJars" >
-	<mkdir dir="${lib.dir}"/>
- </target>
+    </copy>
+    
+    <delete dir="tmp-dir-to-delete"/>
+    
+  </target>
+ 
+  <!-- prepare -->
+  <target name="prepare" depends="checkNeccesaryJars" >
+    <mkdir dir="${lib.dir}"/>
+  </target>
 
   <!-- Compiles project -->
   <target name="compile" depends="prepare" >
@@ -233,7 +227,6 @@
            optimize="${build.optimize}"
            deprecation="${build.deprecation}">
       <classpath refid="project.class.path" />
-      <include name="**"/>
     </javac>
 
     <copy todir="${build.classes}">
@@ -245,8 +238,12 @@
 
   </target>
 
+  <target name="test-xdoclet">  
+    <available classname="xdoclet.XDocletMain" classpathref="project.class.path" property="xdoclet.present"/>    
+  </target>
+
   <!-- Make .xinfo and manifest automatically for blocks -->
-  <target name="phoenix-xdoclet" depends="compile" >
+  <target name="phoenix-xdoclet" depends="compile" if="xdoclet.present">
   
     <mkdir dir="${build.xdoclet}"/>
   
@@ -266,51 +263,63 @@
 
   </target>
 
+  <!-- Make .xinfo and manifest automatically for blocks -->
+  <target name="no-phoenix-xdoclet" depends="compile" unless="xdoclet.present">
+  
+    <mkdir dir="${build.xdoclet}"/>
+  
+    <unzip src="${src.dir}/generated-by-xdoclet.zip" dest="${build.xdoclet}" />
+
+  </target>
+
+
   <!-- Jars up project -->
-  <target name="jars" depends="phoenix-xdoclet" >
+  <target name="jars" depends="test-xdoclet, phoenix-xdoclet, no-phoenix-xdoclet">
 
     <mkdir dir="${build.lib}"/>
 
-    <jar jarfile="${build.lib}/sevak.jar"
+    <jar jarfile="${build.lib}/${name}.jar"
          manifest="${build.xdoclet}/manifest.mf">
       <fileset dir="${build.classes}">
         <include name="org/apache/avalon/apps/sevak/**"/>
       </fileset>
-     <fileset dir="${build.xdoclet}">
-        <include name="org/apache/avalon/apps/sevak/**/*.xinfo"/>
+      <fileset dir="${build.xdoclet}">
+        <include name="**/*.xinfo"/>
       </fileset>
     </jar>
 
   </target>
 
+  <target name="main" depends="sars" description="Default target to generate build products minus docs"/> 
+  <target name="all" depends="main,docs" description="Generate build products including docs" /> 
  
-  <target name="sars" depends="jars" >
+  <target name="sars" depends="jars">
 
-    <sar sarfile="${build.lib}/avalon-sevak.sar"
-         config="${conf.dir}/sevak-config.xml"
-         environment="${conf.dir}/sevak-environment.xml"
-         assembly="${conf.dir}/sevak-assembly.xml" >
+    <sar sarfile="${build.lib}/avalon-${name}.sar"
+         config="${conf.dir}/${name}-config.xml"
+         environment="${conf.dir}/${name}-environment.xml"
+         assembly="${conf.dir}/${name}-assembly.xml" >
 
       <lib dir="${build.lib}/">
         <include name="*.jar"/>
       </lib>
 
-      <lib dir="../../jakarta-avalon-apps/common/lib">
+      <lib dir="../common/lib">
         <include name="cornerstone.jar"/>
       </lib>
-	
-	  <lib dir="${tomcat.jars.dir}">
+    
+      <lib dir="${tomcat.jars.dir}">
         <include name="*.jar"/>
       </lib>
 
-	  <lib dir="${java.home}/../lib/">
-		<include name="tools.jar"/>
-	  </lib>
+      <lib dir="${java.home}/../lib/">
+        <include name="tools.jar"/>
+      </lib>
     </sar>
     
-    <mkdir dir="${dist.base}"/>
+    <mkdir dir="dist"/>
 
-    <copy todir="${dist.base}">
+    <copy todir="dist">
       <fileset dir="${build.lib}">
         <include name="**"/>
       </fileset>
@@ -318,15 +327,13 @@
 
   </target>
 
-  <target name="main" depends="sars" description="Default target to generate build products minus docs"/> 
-  <target name="all" depends="main,docs" description="Generate build products including docs" /> 
-	
+    
   <!-- CheckStyle tasks-->
   <target name="checkstyle" if="do.checkstyle" description="Checkstyle">
 
         <!-- this invocation of checkstyle requires that checkstyle be downloaded and setup -->
         <!-- thats why you are required to define do.checkstyle property to generate the report -->
-		<mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.dir}"/>
         <taskdef name="checkstyle"
             classname="com.puppycrawl.tools.checkstyle.CheckStyleTask">
             <classpath refid="project.class.path"/>
@@ -400,9 +407,13 @@
     </javadoc>
   </target>
 
-  <!-- Prepares the documentation directory -->
-  <target name="docs" depends="setup-filters, javadocs" description="Generates the Docs">
-	  <property name="use.skin"              value="avalon-site"/>
+    <!-- Prepares the documentation directory -->
+    <target name="docs" depends="html-docs, javadocs" description="generates all the Avalon documentation"/>
+
+  
+    <target name="html-docs" depends="setup-filters" description="generates the xdocs-based documentation">
+
+      <property name="use.skin"              value="avalon-site"/>
 
       <!-- Skin filters -->
       <filter token="skin"              value="${use.skin}"/>
@@ -458,35 +469,31 @@
                 <fileset dir="${tools.dir}/ext"/>
             </classpath>
         </java>
-        
+
         <!-- hack for stupid transport on api link -->
         <replace dir="${build.docs}" token="http://hack.hack" value="api/index.html">
           <include name="*.html"/>
-        </replace>        
-
-
+        </replace> 
+        
        <echo message="  ...docs generated succesfully in ./build/docs dir."/>
        <echo message="-------------------------------------------------------------"/>    
 
-    
-  </target>
-<!--
-  <target name="site" depends="docs" description=" Places Docs ready for hosting on website">  
-  
-    <mkdir dir="../site/docs/apps/sevak"/>     
-    <copy todir="../site/docs/apps/sevak">
-      <fileset dir="docs">
+    </target>
+
+  <target name="site" depends="docs" description=" Places Docs ready for hosting on website">
+
+    <mkdir dir="../site/docs/apps/${name}"/>
+    <copy todir="../site/docs/apps/${name}">
+      <fileset dir="${build.docs}">
         <include name="**"/>
       </fileset>
-    </copy>        
-  
-  </target>  
--->
+    </copy>
 
+  </target>
 
 
   <!-- Completely build all dists -->
-  <target name="dist" description="Generates the distribution">
+  <target name="dist" depends="sars" description="Generates the distribution">
 
     <property name="dist.name" value="${Name}-${version}"/>
 
@@ -518,7 +525,14 @@
 
     <zip zipfile="${dist.base}/${dist.name}-src.zip"
          basedir="${dist.name}/.."
-         includes="${dist.name}/**"/>
+         includes="${dist.name}/**">
+      <fileset dir="..">
+        <include name="common/lib/avalon-*"/>
+        <include name="common/lib/cornerstone.jar"/>
+        <include name="common/lib/phoenix-*"/>
+        <include name="common/lib/excalibur-i18n*"/>
+      </fileset>
+    </zip>
 
     <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-src.tar" >
       <tarfileset dir="${dist.name}/.." mode="755" username="avalon" group="avalon">
@@ -528,11 +542,18 @@
         <include name="${dist.name}/**"/>
         <exclude name="${dist.name}/build.sh"/>
       </tarfileset>
+      <tarfileset dir=".." username="avalon" group="avalon">
+        <include name="common/lib/avalon-*"/>
+        <include name="common/lib/cornerstone.jar"/>
+        <include name="common/lib/phoenix-*"/>
+        <include name="common/lib/excalibur-i18n*"/>
+      </tarfileset>      
     </tar>
 
     <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz"
           src="${dist.base}/${dist.name}-src.tar"/>
     <delete file="${dist.base}/${dist.name}-src.tar"/>
+    
     <delete dir="${dist.name}" />
 
   </target>
@@ -547,10 +568,10 @@
 
     <mkdir dir="${bin.dist.docs}"/>
     <copy todir="${bin.dist.docs}">
-      <fileset dir="${docs.dir}"/>
+      <fileset dir="${build.docs}"/>
     </copy>
 
-    <copy file="${build.lib}/avalon-sevak.sar" tofile="${bin.dist.dir}/avalon-sevaks-${version}.sar"/>
+    <copy file="${build.lib}/avalon-${name}.sar" tofile="${bin.dist.dir}/avalon-${name}-${version}.sar"/>
 
     <chmod dir="${bin.dist.dir}" perm="go-rwx" />
   </target>
@@ -564,12 +585,29 @@
     <mkdir dir="${src.dist.docs}"/>
 
     <copy todir="${src.dist.docs}">
-      <fileset dir="${docs.dir}"/>
+      <fileset dir="${build.docs}"/>
     </copy>
 
     <copy todir="${src.dist.src}">
       <fileset dir="${src.dir}"/>
     </copy>
+    
+    <zip zipfile="${src.dist.src}/generated-by-xdoclet.zip"
+         basedir="${build.xdoclet}"/> 
+         
+    <copy todir="${src.dist.dir}">
+      <fileset dir=".">
+        <include name="build.xml"/>
+      </fileset>
+    </copy>
+    
+    <mkdir dir="${src.dist.dir}/lib"/>
+    <copy todir="${src.dist.dir}/lib">
+      <fileset dir="lib">
+        <include name="**"/>
+      </fileset>
+    </copy>
+    
     <fixcrlf srcdir="${src.dist.src}/java" includes="**/*.java" eol="lf"/>
 
     <chmod dir="${src.dist.dir}" perm="go-rwx" />
@@ -578,15 +616,15 @@
   <target name="install" depends="main" description="Installs into Phoenix" > 
     <!-- <fail message="install.dir not specified." unless="install.dir"/> -->
     <echo message="Installing to ${install.dir}" />
-    <delete dir="${install.dir}/avalon-sevak" />
-    <copy file="${build.lib}/avalon-sevak.sar" todir="${install.dir}" />
+    <delete dir="${install.dir}/${name}" />
+    <copy file="${build.lib}/avalon-${name}.sar" todir="${install.dir}" />
   </target>
 
   <target name="uninstall" description="Uninstalls from Phoenix">
 
     <!-- <fail message="install.dir not specified." unless="install.dir"/> -->
-    <delete dir="${install.dir}/avalon-sevak/" />
-    <delete file="avalon-sevak.sar" dir="${install.dir}"/>
+    <delete dir="${install.dir}/avalon-${name}/" />
+    <delete file="avalon-${name}.sar" dir="${install.dir}"/>
   </target>
 
   <target name="clean" description="Cleans up artifacts from build process">
@@ -600,19 +638,19 @@
     <delete dir="${docs.dir}" />
     <delete dir="${bin.dist.dir}" />
     <delete dir="${dist.base}" />
-	<delete>
-		<fileset dir="${tomcat.jars.dir}" includes="*.*" defaultexcludes="no" />
-	</delete>
+    <delete>
+        <fileset dir="${tomcat.jars.dir}" includes="*.*" defaultexcludes="no" />
+    </delete>
   </target>
 
  <!-- Compile Demo Classes -->
 
  <target name="compileDemo" description="Compiles the Demo Block">
- 	<delete dir="${build.demoClasses}"/>
-	<delete dir="${build.demoXdoclet}"/>
+    <delete dir="${build.demoClasses}"/>
+    <delete dir="${build.demoXdoclet}"/>
 
-	<mkdir dir="${build.demoClasses}"/>
-	<javac srcdir="${java.demo.dir}"
+    <mkdir dir="${build.demoClasses}"/>
+    <javac srcdir="${java.demo.dir}"
            destdir="${build.demoClasses}"
            debug="${build.debug}"
            optimize="${build.optimize}"
@@ -622,7 +660,7 @@
     </javac>
  </target>
 
-  <target name="phoenix-demo-xdoclet" depends="compileDemo" ><!-- if="hsql.present"> -->
+  <target name="phoenix-demo-xdoclet" depends="compileDemo" >
   
     <mkdir dir="${build.demoXdoclet}"/>
   
@@ -645,7 +683,7 @@
  
 
  <target name="jarDemo" depends="phoenix-demo-xdoclet" description="Makes a jar file out of the Demo classes">
-	<mkdir dir="${build.lib}"/>
+    <mkdir dir="${build.lib}"/>
 
     <jar jarfile="${build.lib}/sevakDemo.jar"
          manifest="${build.demoXdoclet}/manifest.mf">
@@ -659,7 +697,7 @@
  </target>
  <!--- Build Test SAR Archive -->
  <target name="demoSAR" depends="jars,jarDemo" description="Builds a Demo block which uses Sevak Service">
-	<sar sarfile="${build.lib}/avalon-sevak-demo.sar"
+    <sar sarfile="${build.lib}/avalon-sevak-demo.sar"
          config="${conf.demo.dir}/sevak-demo-config.xml"
          environment="${conf.demo.dir}/sevak-demo-environment.xml"
          assembly="${conf.demo.dir}/sevak-demo-assembly.xml" >
@@ -671,23 +709,23 @@
       <lib dir="../../jakarta-avalon-apps/common/lib">
         <include name="cornerstone.jar"/>
       </lib>
-	
-	  <lib dir="${tomcat.jars.dir}">
+    
+      <lib dir="${tomcat.jars.dir}">
         <include name="*.jar"/>
       </lib>
 
-	  
-	  <lib dir="${java.home}/../lib/">
-		<include name="tools.jar"/>
-	  </lib>
-	
-	  <zipfileset dir="${demo.dir}/webapps/" prefix="webapps"/>
+      
+      <lib dir="${java.home}/../lib/">
+        <include name="tools.jar"/>
+      </lib>
+    
+      <zipfileset dir="${demo.dir}/webapps/" prefix="webapps"/>
 
     </sar>
 
-	<!-- Copy build/lib contents to dist/ folder -->
+    <!-- Copy build/lib contents to dist/ folder -->
 
-	<copy todir="${dist.base}">
+    <copy todir="${dist.base}">
       <fileset dir="${build.lib}">
         <include name="**"/>
       </fileset>
