@@ -73,9 +73,9 @@ import EDU.oswego.cs.dl.util.concurrent.CyclicBarrier;
 public class DataSourceJdbcTestCase
     extends ExcaliburTestCase
 {
-    protected boolean isSuccessful;
-    protected CyclicBarrier barrier;
-    protected int connectionCount;
+    protected boolean m_isSuccessful;
+    protected CyclicBarrier m_barrier;
+    protected int m_connectionCount;
 
     public DataSourceJdbcTestCase( String name )
     {
@@ -85,7 +85,7 @@ public class DataSourceJdbcTestCase
     public void testOverAllocation()
     {
         DataSourceComponent ds = null;
-        this.isSuccessful = false;
+        m_isSuccessful = false;
         LinkedList connectionList = new LinkedList();
 
         try
@@ -101,7 +101,7 @@ public class DataSourceJdbcTestCase
         }
         catch( SQLException se )
         {
-            this.isSuccessful = true;
+            this.m_isSuccessful = true;
             getLogger().info( "The test was successful" );
         }
         catch( ComponentException ce )
@@ -136,20 +136,20 @@ public class DataSourceJdbcTestCase
             manager.release( (Component)ds );
         }
 
-        assertTrue( "Exception was not thrown when too many datasource components were retrieved.", this.isSuccessful );
+        assertTrue( "Exception was not thrown when too many datasource components were retrieved.", this.m_isSuccessful );
     }
 
     public void testNormalUse()
     {
         DataSourceComponent ds = null;
-        this.isSuccessful = true;
+        m_isSuccessful = true;
 
         try
         {
             ds = (DataSourceComponent)manager.lookup( DataSourceComponent.ROLE );
 
-            this.connectionCount = 0;
-            this.barrier = new CyclicBarrier( 11 );
+            m_connectionCount = 0;
+            m_barrier = new CyclicBarrier( 11 );
 
             for( int i = 0; i < 10; i++ )
             {
@@ -158,14 +158,14 @@ public class DataSourceJdbcTestCase
 
             try
             {
-                this.barrier.barrier();
+                m_barrier.barrier();
             }
             catch( Exception ie )
             {
                 // Ignore
             }
 
-            getLogger().info( "The normal use test passed with " + this.connectionCount + " requests and 10 concurrent threads running" );
+            getLogger().info( "The normal use test passed with " + this.m_connectionCount + " requests and 10 concurrent threads running" );
         }
         catch( ComponentException ce )
         {
@@ -183,20 +183,20 @@ public class DataSourceJdbcTestCase
             manager.release( (Component)ds );
         }
 
-        assertTrue( "Normal use test failed", this.isSuccessful );
+        assertTrue( "Normal use test failed", this.m_isSuccessful );
     }
 
     static class ConnectionThread
         implements Runnable
     {
-        protected DataSourceComponent datasource;
-        protected DataSourceJdbcTestCase testcase;
+        protected DataSourceComponent m_datasource;
+        protected DataSourceJdbcTestCase m_testcase;
 
         ConnectionThread( DataSourceJdbcTestCase testcase,
                           final DataSourceComponent datasource )
         {
-            this.datasource = datasource;
-            this.testcase = testcase;
+            m_datasource = datasource;
+            m_testcase = testcase;
         }
 
         public void run()
@@ -204,19 +204,19 @@ public class DataSourceJdbcTestCase
             long end = System.currentTimeMillis() + 5000; // run for 5 seconds
             Random rnd = new Random();
 
-            while( System.currentTimeMillis() < end && this.testcase.isSuccessful )
+            while( System.currentTimeMillis() < end && m_testcase.m_isSuccessful )
             {
                 try
                 {
-                    Connection con = this.datasource.getConnection();
+                    Connection con = this.m_datasource.getConnection();
                     Thread.sleep( (long)rnd.nextInt( 100 ) ); // sleep for up to 100ms
                     con.close();
-                    this.testcase.connectionCount++;
+                    this.m_testcase.m_connectionCount++;
                 }
                 catch( final SQLException se )
                 {
-                    this.testcase.isSuccessful = false;
-                    this.testcase.getLogger().info( "Failed to get Connection, test failed", se );
+                    m_testcase.m_isSuccessful = false;
+                    m_testcase.getLogger().info( "Failed to get Connection, test failed", se );
                 }
                 catch( final InterruptedException ie )
                 {
@@ -226,7 +226,7 @@ public class DataSourceJdbcTestCase
 
             try
             {
-                this.testcase.barrier.barrier();
+                m_testcase.m_barrier.barrier();
             }
             catch( final InterruptedException ie )
             {

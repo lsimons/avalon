@@ -65,7 +65,7 @@ import org.apache.avalon.excalibur.pool.ValidatedResourceLimitingPool;
  *  connections.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/03/05 18:59:02 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/04/07 18:45:56 $
  * @since 4.1
  */
 public class ResourceLimitingJdbcConnectionPool
@@ -120,7 +120,14 @@ public class ResourceLimitingJdbcConnectionPool
      */
     protected Poolable newPoolable() throws Exception
     {
-        PoolSettable conn = (PoolSettable)super.newPoolable();
+        Object pooledObject = super.newPoolable();
+        
+        if ( null == pooledObject )
+        {
+            throw new SQLException("Could not create a connection.");
+        }
+        
+        PoolSettable conn = (PoolSettable)pooledObject;
 
         // Store a reference to this pool in the connection
         conn.setPool( this );
