@@ -63,26 +63,15 @@ import org.apache.log4j.spi.LoggerRepository;
  * leaves that as an excercise for Log4J's construction.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.15 $ $Date: 2003/05/27 07:30:27 $
+ * @author <a href="mailto:tagunov at apache.org">Anton Tagunov</a>
+ * @version CVS $Revision: 1.16 $ $Date: 2003/06/10 08:29:37 $
  * @since 4.1
  */
-public class Log4JLoggerManager
+public class Log4JLoggerManager extends AbstractLoggerManager
     implements LoggerManager, LogEnabled
 {
-    /** Map for name to logger mapping */
-    private final Map m_loggers = new HashMap();
-
-    /** The root logger to configure */
-    //private String m_prefix;
-
     /** The hierarchy private to Log4JManager */
-    private LoggerRepository m_hierarchy;
-
-    /** The default logger used for this system */
-    private final Logger m_defaultLogger;
-
-    /** The logger used to log output from the logger manager. */
-    private Logger m_logger;
+    private final LoggerRepository m_hierarchy;
 
     /**
      * Creates a new <code>DefaultLog4JManager</code>. It will use a new <code>Hierarchy</code>.
@@ -97,7 +86,7 @@ public class Log4JLoggerManager
      */
     public Log4JLoggerManager( final LoggerRepository hierarchy )
     {
-        this( null, hierarchy );
+        this( (String) null, hierarchy, (String) null, (Logger) null, (Logger) null );
     }
 
     /**
@@ -106,7 +95,7 @@ public class Log4JLoggerManager
      */
     public Log4JLoggerManager( final String prefix )
     {
-        this( prefix, LogManager.getLoggerRepository() );
+        this( prefix, (LoggerRepository) null, (String) null, (Logger) null, (Logger) null );
     }
 
     /**
@@ -116,8 +105,27 @@ public class Log4JLoggerManager
     public Log4JLoggerManager( final String prefix,
                                final LoggerRepository hierarchy )
     {
-        this( prefix, hierarchy,
-              new Log4JLogger( hierarchy.getRootLogger() ) );
+        this( prefix, hierarchy, (String) null, (Logger) null, (Logger) null );
+    }
+
+    /**
+     * Creates a new <code>DefaultLog4JManager</code> using
+     * specified logger name as root logger.
+     */
+    public Log4JLoggerManager( final String prefix, final String switchToCategory )
+    {
+        this( prefix, (LoggerRepository) null, switchToCategory, (Logger) null, (Logger) null );
+    }
+
+    /**
+     * Creates a new <code>DefaultLog4JManager</code> with an existing <code>Hierarchy</code> using
+     * specified logger name as root logger.
+     */
+    public Log4JLoggerManager( final String prefix,
+                               final LoggerRepository hierarchy,
+                               final String switchToCategory )
+    {
+        this( prefix, hierarchy, switchToCategory, (Logger) null, (Logger) null );
     }
 
     /**
@@ -128,7 +136,7 @@ public class Log4JLoggerManager
                                final LoggerRepository hierarchy,
                                final Logger defaultLogger )
     {
-        this( prefix, hierarchy, defaultLogger, defaultLogger );
+        this( prefix, hierarchy, (String) null, defaultLogger, defaultLogger );
     }
 
     /**
@@ -140,60 +148,61 @@ public class Log4JLoggerManager
                                final Logger defaultLogger,
                                final Logger logger )
     {
-        //m_prefix = prefix;
-        m_hierarchy = hierarchy;
-        m_defaultLogger = defaultLogger;
-        m_logger = logger;
+        this( prefix, hierarchy, (String) null, defaultLogger, logger );
     }
 
     /**
-     * Provide a logger.
-     *
-     * @param logger the logger
-     **/
-    public void enableLogging( final Logger logger )
-    {
-        m_logger = logger;
-    }
-
-    /**
-     * Retrieves a Logger from a category name. Usually
-     * the category name refers to a configuration attribute name.  If
-     * this Log4JManager does not have the match the default Logger will
-     * be returned and a warning is issued.
-     *
-     * @param categoryName  The category name of a configured Logger.
-     * @return the Logger.
+     * Creates a new <code>DefaultLog4JManager</code>.
+     * @param prefix to prepend to every category name on 
+     *         <code>getLoggerForCategory()</code>
+     * @param hierarchy a Log4J LoggerRepository to run with
+     * @param switchToCategory if this parameter is not null
+     *         after <code>start()</code>
+     *         <code>LogKitLoggerManager</code> will start
+     *         to log its own debug and error messages to
+     *         a logger obtained via
+     *         <code>this.getLoggerForCategory( switchToCategory )</code>.
+     *         Note that prefix will be prepended to
+     *         the value of <code>switchToCategory</code> also.
+     * @param defaultLogger the logger to override the default
+     *         logger configured by Log4J; probably should be
+     *         null to allow users set up whatever logger they
+     *         like as the root logger via Log4J configuration
+     * @param logger the logger to log our own initialization
+     *         messages (currently we have none) and to log
+     *         errors (currently this functionality is not used
+     *         either)
      */
-    public final Logger getLoggerForCategory( final String categoryName )
+    public Log4JLoggerManager( final String prefix,
+                               final LoggerRepository hierarchy,
+                               final String switchToCategory,
+                               final Logger defaultLogger,
+                               final Logger logger )
     {
-        Logger logger = (Logger)m_loggers.get( categoryName );
+        super( prefix, switchToCategory, defaultLogger );
 
-        if( null != logger )
+        if ( hierarchy == null )
         {
-            if( m_logger.isDebugEnabled() )
-            {
-                final String message =
-                    "Logger for category " + categoryName + " returned";
-                m_logger.debug( message );
-            }
-            return logger;
+            // is this an analog of new Hierarchy() or an
+            // analog of Hierarchy.getDefaultHierarchy()?
+            // we should have an analog of new Hierarchy() here
+            // I guess - Anton Tagunov
+            m_hierarchy = LogManager.getLoggerRepository();
+        }
+        else
+        {
+            m_hierarchy = hierarchy;
         }
 
-        if( m_logger.isDebugEnabled() )
+        if ( logger != null )
         {
-            final String message = "Logger for category " + categoryName +
-                " not defined in configuration. New Logger created and returned";
-            m_logger.debug( message );
+            this.enableLogging( logger );
         }
-
-        logger = new Log4JLogger( m_hierarchy.getLogger( categoryName ) );
-        m_loggers.put( categoryName, logger );
-        return logger;
     }
 
-    public final Logger getDefaultLogger()
+    /* Actaully create the Logger */
+    protected Logger doGetLoggerForCategory( final String fullCategoryName )
     {
-        return m_defaultLogger;
+        return new Log4JLogger( m_hierarchy.getLogger( fullCategoryName ) );
     }
 }
