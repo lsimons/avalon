@@ -12,6 +12,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.StringTokenizer;
 
+/**
+ * An index providing a list of classes with given attributes. This
+ * requires that the attribute is <code>Indexed</code> and that the
+ * attribute indexer tool has been run on the jar file containing the
+ * classes.
+ */
 public class AttributeIndex {
     
     private final HashMap index = new HashMap ();
@@ -24,6 +30,9 @@ public class AttributeIndex {
         }
     }
     
+    /**
+     * Add a class to the index.
+     */
     private void addClass (String attributeClass, String clazz) {
         Collection coll = (Collection) index.get (attributeClass);
         if (coll == null) {
@@ -33,6 +42,9 @@ public class AttributeIndex {
         coll.add (clazz);
     }
     
+    /**
+     * Load the attrs.index from a given URL.
+     */
     private void loadFromURL (URL url) throws Exception {
         URLConnection connection = url.openConnection ();
             BufferedReader br = new BufferedReader (new InputStreamReader (connection.getInputStream ()));
@@ -64,6 +76,10 @@ public class AttributeIndex {
         }
     }
     
+    /**
+     * Gets a Collection of the classes that have an attribute of the specified class.
+     * The Collection contains the class names (String).
+     */
     public Collection getClassesWithAttribute (Class attributeClass) {
         return getClassesWithAttribute (attributeClass.getName ());
     }
