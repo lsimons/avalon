@@ -548,6 +548,7 @@
         <depend property="excalibur-instrument-manager.jar" project="excalibur-instrument-manager"/>
         <depend property="excalibur-instrument-manager-interfaces.jar" project="excalibur-instrument-manager"/>
         <depend project="excalibur-collections" runtime="true"/>
+        <depend project="excalibur-container" runtime="true"/>
         <depend project="excalibur-concurrent" runtime="true"/>
         <depend project="excalibur-event" runtime="true"/>
         <depend project="excalibur-logger" runtime="true"/>
