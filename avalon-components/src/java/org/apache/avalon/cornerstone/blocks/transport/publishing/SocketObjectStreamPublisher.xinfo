@@ -12,4 +12,14 @@
     <service name="org.apache.commons.altrmi.server.AltrmiPublisher" version="1.0" />
   </services>
 
+  <dependencies>
+    <dependency>
+      <service name="org.apache.avalon.cornerstone.services.sockets.SocketManager" version="1.0"/>
+    </dependency>
+    <dependency>
+      <service name="org.apache.avalon.cornerstone.services.connection.ConnectionManager" 
+               version="1.0"/>
+    </dependency>
+  </dependencies>    
+
 </blockinfo>
