@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 import java.util.Iterator;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.logger.AbstractLoggable;
@@ -28,12 +30,13 @@ class Connection
     extends AbstractLoggable
     implements Component, Runnable
 {
-    protected final ServerSocket               m_serverSocket;
-    protected final ConnectionHandlerFactory   m_handlerFactory;
-    protected final ThreadPool                 m_threadPool;
-    protected final ArrayList                  m_runners          = new ArrayList();
+    private final ServerSocket               m_serverSocket;
+    private final ConnectionHandlerFactory   m_handlerFactory;
+    private final ThreadPool                 m_threadPool;
+    private final Vector                     m_runners          = new Vector();
 
-    protected Thread                           m_thread;
+    //Need to synchronize access to thread object
+    private Thread                           m_thread;
 
     public Connection( final ServerSocket serverSocket,
                        final ConnectionHandlerFactory handlerFactory,
@@ -47,11 +50,20 @@ class Connection
     public void dispose()
         throws Exception
     {
-        if( null != m_thread )
+        synchronized( this )
         {
-            m_thread.interrupt();
-            m_thread.join( /* 1000 ??? */ );
-            m_thread = null;
+            if( null != m_thread )
+            {
+                final Thread thread = m_thread;
+                m_thread = null;
+                thread.interrupt();
+
+                //Can not join as threads are part of pool 
+                //and will never finish
+                //m_thread.join();
+                
+                synchronized( this ) { wait( /*1000*/ ); }
+            }
         }
 
         final Iterator runners = m_runners.iterator();
@@ -68,7 +80,7 @@ class Connection
     {
         m_thread = Thread.currentThread();
 
-        while( !Thread.interrupted() )
+        while( null != m_thread && !Thread.interrupted() )
         {
             try
             {
@@ -88,6 +100,12 @@ class Connection
                 getLogger().error( "Exception executing runner", e );
             }
         }
+        
+        synchronized( this )
+        {
+            notifyAll();
+            m_thread = null;
+        }
     }
 }
 
@@ -95,13 +113,13 @@ class ConnectionRunner
     extends AbstractLoggable
     implements Runnable, Component
 {
-    protected Socket             m_socket;
-    protected Thread             m_thread;
-    protected ArrayList          m_runners;
-    protected ConnectionHandler  m_handler;
+    private Socket             m_socket;
+    private Thread             m_thread;
+    private List               m_runners;
+    private ConnectionHandler  m_handler;
 
     ConnectionRunner( final Socket socket,
-                      final ArrayList runners,
+                      final List runners,
                       final ConnectionHandler handler )
     {
         m_socket = socket;
@@ -115,8 +133,12 @@ class ConnectionRunner
         if( null != m_thread )
         {
             m_thread.interrupt();
-            m_thread.join( /* 1000 ??? */ );
             m_thread = null;
+            //Can not join as threads are part of pool 
+            //and will never finish
+            //m_thread.join();
+
+            synchronized( this ) { wait( /*1000*/ ); }
         }
     }
 
@@ -142,8 +164,11 @@ class ConnectionRunner
             {
                 getLogger().warn( "Error shutting down connection", ioe );
             }
-
+            
+            m_thread = null;
             m_runners.remove( this );
+
+            synchronized( this ) { notifyAll(); }
         }
     }
 }

@@ -32,8 +32,8 @@ public class DefaultConnectionManager
     extends AbstractLoggable
     implements Block, ConnectionManager, Contextualizable, Disposable
 {
-    protected BlockContext        m_context;
-    protected HashMap             m_connections        = new HashMap();
+    private BlockContext        m_context;
+    private HashMap             m_connections        = new HashMap();
 
     public void contextualize( final Context context )
     {
@@ -42,14 +42,13 @@ public class DefaultConnectionManager
 
     public void dispose()
     {
-        final Iterator names = ((HashMap)m_connections.clone()).keySet().iterator();
-        while( names.hasNext() )
+        final String[] names = (String[])m_connections.keySet().toArray( new String[ 0 ] );
+        for( int i = 0; i < names.length; i++ )
         {
-            final String name = (String)names.next();
-            try { disconnect( name ); }
+            try { disconnect( names[ i ] ); }
             catch( final Exception e )
             {
-                getLogger().warn( "Error disconnecting " + name, e );
+                getLogger().warn( "Error disconnecting " + names[ i ], e );
             }
         }
     }
