@@ -390,35 +390,73 @@ public class AbstractMerlinTestCase extends TestCase
     private File getMavenRepositoryDirectory()
     {
         //
-        // get the ${maven.home.local} system property - this may 
-        // be null in which case to fallback to ${maven.home}
+        // get ${maven.home.local} system property - this may 
+        // be null in which case to fallback to ${user.home}/.maven
         //
 
-        final String system = System.getProperty( "maven.home.local" );
-        if( system != null )
+        final String local = System.getProperty( "maven.home.local" );
+        if( local != null )
         {
-            return new File( new File( system ), "repository" );
+            try
+            {
+                File sys = getDirectory( new File( local ) );
+                return getDirectory( new File( sys, "repository" ) );
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Unable to resolve repository from ${maven.home.local}.";
+                throw new UnitRuntimeException( error, e );
+            }
         }
         else
         {
             //
             // try to establish the repository relative to 
-            // ${maven.home}/repository
+            // ${user.home}/.maven/repository
             //
 
-            final String home = System.getProperty( "maven.home" );
-            if( home != null )
+            final String userHome = System.getProperty( "user.home" );
+            if( userHome != null )
             {
-                return new File( new File( home ), "repository" );
+                try
+                {
+                    File home = getDirectory( new File( userHome ) );
+                    File maven = getDirectory( new File( home, ".maven" ) );
+                    return getDirectory( new File( maven, "repository" ) );
+                }
+                catch( Throwable e )
+                {
+                    final String error = 
+                      "Unable to resolve the maven repository relative to ${user.home}.";
+                    throw new UnitRuntimeException( error, e );
+                }
             }
             else
             {
-                // probaly unrealistic - but if we get here then there is a lot
-                // of stuff missing - return the total fallback maven repository
+                //
+                // should never happen
+                //
 
-                File user = new File( System.getProperty( "user.dir" ) );
-                return new File( user, ".maven/repository" );
+                final String error = 
+                  "Unable to resolve maven repository.";
+                throw new IllegalStateException( error );
             }
+        }
+    }
+
+    private File getDirectory( File file )
+    {
+        if( file == null ) throw new NullPointerException( "file" );
+        if( file.exists() )
+        {
+            return file;
+        }
+        else
+        {
+            final String error =
+              "Directory [" + file + "] does not exist.";
+            throw new IllegalArgumentException( error );
         }
     }
 }
