@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Avalon Excalibur</title>
+    <subtitle>DataSource Management</subtitle>
+    <authors>
+      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="DataSource Management">
+      <p>
+        Avalon Excalibur's DataSource package in
+	<code>org.apache.avalon.excalibur.datasource</code> allows you
+	to manage pooled connections in one of two ways.  You can have
+	the package handle it for you, or you can use a J2EE server's
+	DataSource management.  It provides the same kind of access
+	regardless of which method you choose--since they are obtained
+	through Avalon's Component Manager infrastructure.
+      </p>
+      <p>
+        The DataSource package requires that you load the necessary
+	driver classes at init time, but it will take care of all
+	necessary issues from there.
+      </p>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2001/07/18 14:35:43 $
+    </legal>
+  </footer>
+</document>

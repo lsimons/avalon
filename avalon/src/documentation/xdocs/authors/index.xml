@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <header>
+  <title>Avalon Contributors</title>
+  <authors>
+   <person name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/>
+  </authors>
+ </header>
+
+<body>
+
+<s1 title="Contributors">
+
+<p>
+The people listed below have made significant contributions to Avalon by 
+working long and hard to make quality software for the rest of the world to use. 
+Contributors to the Avalon Project should be extremely proud of themselves.
+</p>
+
+<p>
+If you would like to become a contributor, please see the Todo document to find 
+areas where you can contribute effectively. If there is nothing in there that 
+suits your interest, but you still have ideas, please feel free to suggest them 
+on the mailing list.
+</p>
+
+<p>
+The table is listed in alphabetic order.
+</p>
+
+<p>
+<table>
+<tr>
+    <td>Federico Barbieri</td>
+    <td><link href="mailto:fede@apache.org">fede@apache.org</link></td>
+</tr>    
+<tr>
+    <td>Charles Benett</td>
+    <td><link href="mailto:charles@benett1.demon.co.uk">charles@benett1.demon.co.uk</link></td>
+</tr>    
+<tr>
+    <td>Peter Donald</td>
+    <td><link href="mailto:donaldp@apache.org">donaldp@apache.org</link></td>
+</tr>    
+<tr>
+    <td>Pierpaolo Fumagalli</td>
+    <td><link href="mailto:pier@apache.org">pier@apache.org</link></td>
+</tr>    
+<tr>
+    <td>Serge Knystautas</td>
+    <td><link href="mailto:sergek@lokitech.com">sergek@lokitech.com</link></td>
+</tr>    
+<tr>
+    <td>Roberto Lo Giacco</td>
+    <td><link href="mailto:rlogiacco@mail.com">rlogiacco@mail.com</link></td>
+</tr>    
+<tr>
+    <td><link href="bloritsch.html">Berin Loritsch</link></td>
+    <td><link href="mailto:bloritsch@apache.org">bloritsch@apache.org</link></td>
+</tr>    
+<tr>
+    <td>Stefano Mazzocchi</td>
+    <td><link href="mailto:stefano@apache.org">stefano@apache.org</link></td>
+</tr>    
+<tr>
+    <td>Leo Simons</td>
+    <td><link href="mailto:mail@leosimons.com">mail@leosimons.com</link></td>
+</tr>
+</table>
+
+</p>
+
+</s1>
+
+</body>
+</document>

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Avalon Excalibur</title>
+    <subtitle>Command-line Utilities</subtitle>
+    <authors>
+      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
+      <person name="Leo Simons" email="mail@leosimons.com"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Abstract">
+      <p>
+        The command line utilities in <code>org.apache.avalon.excalibur.cli</code>
+        assist you in parsing command line options during startup time. It
+        allows you to associate a short option and a long option to the same
+        command, and then test for it in a switch statement.
+      </p>
+      <p>
+        An example of how to use this code is included in the package API documentation.
+      </p>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2001/07/18 14:35:43 $
+    </legal>
+  </footer>
+</document>
