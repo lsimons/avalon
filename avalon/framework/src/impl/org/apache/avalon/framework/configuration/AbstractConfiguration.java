@@ -15,7 +15,7 @@ package org.apache.avalon.framework.configuration;
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
- * @version CVS $Revision: 1.3 $ $Date: 2001/06/01 21:09:32 $
+ * @version CVS $Revision: 1.4 $ $Date: 2001/09/25 14:58:05 $
  */
 public abstract class AbstractConfiguration
     implements Configuration
@@ -432,11 +432,11 @@ public abstract class AbstractConfiguration
     {
         final String value = getAttribute( name );
 
-        if( value.equals( "true" ) )
+        if( value.equalsIgnoreCase( "true" ) )
         {
             return true;
         }
-        else if( value.equals( "false" ) )
+        else if( value.equalsIgnoreCase( "false" ) )
         {
             return false;
         }
@@ -490,7 +490,7 @@ public abstract class AbstractConfiguration
 
     /**
      * Return the first <code>Configuration</code> object child of this
-     * associated with the given name. If no such child exists, a new one 
+     * associated with the given name. If no such child exists, a new one
      * will be created.
      *
      * @param name the name of the child
