@@ -35,8 +35,6 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 import org.apache.avalon.phoenix.components.frame.DefaultApplicationFrame;
-import org.apache.avalon.phoenix.components.phases.Traversal;
-import org.apache.avalon.phoenix.components.phases.BlockDAG;
 import org.apache.avalon.phoenix.components.phases.BlockVisitor;
 import org.apache.avalon.phoenix.components.phases.ShutdownPhase;
 import org.apache.avalon.phoenix.components.phases.StartupPhase;
@@ -67,8 +65,6 @@ public final class DefaultServerApplication
         ResourceManager.getPackageResources( DefaultServerApplication.class );
 
     private DefaultConfigurationBuilder     m_builder = new DefaultConfigurationBuilder();
-
-    private BlockDAG                 m_dag              = new BlockDAG();
 
     //the following are used for setting up facilities
     private Context                  m_context;
@@ -183,7 +179,7 @@ public final class DefaultServerApplication
         loadBlockListeners();
 
         // load blocks
-        runPhase( "startup", m_startupVisitor, Traversal.FORWARD  );
+        runPhase( "startup", m_startupVisitor, true  );
     }
 
     /**
@@ -199,7 +195,7 @@ public final class DefaultServerApplication
                                               new Integer( m_blocks.length ) );
         getLogger().info( message );
 
-        runPhase( "shutdown", m_shutdownVisitor, Traversal.REVERSE  );
+        runPhase( "shutdown", m_shutdownVisitor, false  );
     }
 
     public void dispose()
@@ -303,16 +299,15 @@ public final class DefaultServerApplication
      * all the blocks to make sure they are in that state aswell.
      * Exceptions leave the blocks in an indeterminate state.
      *
-     * @param name the name of phase for logging purposes
-     * @param phase the phase
+     * @param name the name of phase (for logging purposes)
      * @exception Exception if an error occurs
      */
     protected final void runPhase( final String name, 
                                    final BlockVisitor visitor, 
-                                   final Traversal traversal )
+                                   final boolean forward )
         throws Exception
     {
-        final String[] path = m_dag.walkGraph( traversal, m_blocks );
+        final String[] path = DependencyGraph.walkGraph( forward, m_blocks );
         
         if( getLogger().isInfoEnabled() )
         {

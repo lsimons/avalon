@@ -5,23 +5,36 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.components.phases;
+package org.apache.avalon.phoenix.components.application;
 
 import java.util.ArrayList;
 import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
+import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 
 /**
- * This is the dependency graph for blocks.
+ * 
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class BlockDAG
-    implements Component
+public class DependencyGraph
 {
-    public String[] walkGraph( final Traversal traversal, final BlockMetaData[] blocks )
+    ///Private constructor to block instantiation
+    private DependencyGraph()
+    {
+    }
+
+    /**
+     * Method to generate an ordering of nodes to traverse.
+     * It is expected that the specified Blocks have passed
+     * verification tests and are well formed.
+     *
+     * @param forward true if forward dependencys traced, false if dependencies reversed
+     * @param blocks the blocks to traverse
+     * @return the ordered node names
+     */
+    public static String[] walkGraph( final boolean forward, final BlockMetaData[] blocks )
     {
         final ArrayList result = new ArrayList();
 
@@ -31,28 +44,28 @@ public class BlockDAG
 
         for( int i = 0; i < blocks.length; i++ )
         {
-            visitBlock( blocks[ i ], blocks, traversal, done, result );
+            visitBlock( blocks[ i ], blocks, forward, done, result );
         }
 
         return (String[])result.toArray( new String[ 0 ] );
     }
 
-    private void visitBlock( final BlockMetaData block, 
-                             final BlockMetaData[] blocks,
-                             final Traversal traversal,
-                             final ArrayList done,
-                             final ArrayList order )
+    private static void visitBlock( final BlockMetaData block,
+                                    final BlockMetaData[] blocks,
+                                    final boolean forward,
+                                    final ArrayList done,
+                                    final ArrayList order )
     {
         //If already visited this block then bug out early
         final String name = block.getName();
         if( done.contains( name ) ) return;
         done.add( name );
 
-        if( Traversal.FORWARD == traversal )
+        if( forward )
         {
             visitDependencies( block, blocks, done, order );
         }
-        else if( Traversal.REVERSE == traversal )
+        else
         {
             visitReverseDependencies( block, blocks, done, order );
         }
@@ -66,17 +79,17 @@ public class BlockDAG
      * @param name name of BlockMetaData
      * @param block the BlockMetaData
      */
-    private void visitDependencies( final BlockMetaData block, 
-                                    final BlockMetaData[] blocks,
-                                    final ArrayList done,
-                                    final ArrayList order )
+    private static void visitDependencies( final BlockMetaData block,
+                                           final BlockMetaData[] blocks,
+                                           final ArrayList done,
+                                           final ArrayList order )
     {
         final DependencyDescriptor[] descriptors = block.getBlockInfo().getDependencies();
         for( int i = 0; i < descriptors.length; i++ )
         {
             final DependencyMetaData dependency = block.getDependency( descriptors[ i ].getRole() );
             final BlockMetaData other = getBlock( dependency.getName(), blocks );
-            visitBlock( other, blocks, Traversal.FORWARD, done, order );
+            visitBlock( other, blocks, true, done, order );
         }
     }
 
@@ -87,10 +100,10 @@ public class BlockDAG
      * @param name name of BlockMetaData
      * @param block the BlockMetaData
      */
-    private void visitReverseDependencies( final BlockMetaData block,
-                                           final BlockMetaData[] blocks,
-                                           final ArrayList done,
-                                           final ArrayList order )
+    private static void visitReverseDependencies( final BlockMetaData block,
+                                                  final BlockMetaData[] blocks,
+                                                  final ArrayList done,
+                                                  final ArrayList order )
     {
         final String name = block.getName();
 
@@ -104,13 +117,20 @@ public class BlockDAG
                 final String depends = roles[ j ].getName();
                 if( depends.equals( name ) )
                 {
-                    visitBlock( other, blocks, Traversal.REVERSE, done, order );
+                    visitBlock( other, blocks, false, done, order );
                 }
             }
         }
     }
 
-    private BlockMetaData getBlock( final String name, final BlockMetaData[] blocks )
+    /**
+     * Utility method to get block with specified name from specified array.
+     *
+     * @param name the name of block
+     * @param blocks the Block array
+     * @return the Block
+     */
+    private static BlockMetaData getBlock( final String name, final BlockMetaData[] blocks )
     {
         for( int i = 0; i < blocks.length; i++ )
         {
