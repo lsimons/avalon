@@ -11,17 +11,17 @@ package org.apache.avalon.cornerstone.blocks.transport.publishing;
 
 
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandler;
-import org.apache.commons.altrmi.server.impl.socket.PartialSocketObjectStreamServer;
+import org.apache.commons.altrmi.server.impl.socket.PartialSocketCustomStreamServer;
 
 
 /**
- * Class SocketObjectStreamPublisher
+ * Class SocketCustomStreamPublisher
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.1 $
  */
-public class SocketObjectStreamPublisher extends AbstractStreamPublisher
+public class SocketCustomStreamPublisher extends AbstractStreamPublisher
 {
 
     /**
@@ -33,9 +33,9 @@ public class SocketObjectStreamPublisher extends AbstractStreamPublisher
     public ConnectionHandler createConnectionHandler() throws Exception
     {
 
-        final SocketObjectStreamConnectionHandler handler =
-            new SocketObjectStreamConnectionHandler(
-                (PartialSocketObjectStreamServer) m_AbstractServer);
+        final SocketCustomStreamConnectionHandler handler =
+            new SocketCustomStreamConnectionHandler(
+                (PartialSocketCustomStreamServer) m_AbstractServer);
 
         setupLogger(handler);
 
@@ -60,10 +60,10 @@ public class SocketObjectStreamPublisher extends AbstractStreamPublisher
     public void initialize() throws Exception
     {
 
-        m_AbstractServer = new PartialSocketObjectStreamServer();
+        m_AbstractServer = new PartialSocketCustomStreamServer();
 
         setupLogger(m_AbstractServer);
         super.initialize();
-        m_connectionManager.connect("SocketObjectStreamListener", makeServerSocket(), this);
+        m_connectionManager.connect("SocketCustomStreamListener", makeServerSocket(), this);
     }
 }

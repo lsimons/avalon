@@ -13,7 +13,7 @@ package org.apache.avalon.cornerstone.blocks.transport.publishing;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandler;
-import org.apache.commons.altrmi.server.impl.socket.PartialSocketObjectStreamServer;
+import org.apache.commons.altrmi.server.impl.socket.PartialSocketCustomStreamServer;
 
 import java.net.Socket;
 import java.net.ProtocolException;
@@ -22,29 +22,29 @@ import java.io.IOException;
 
 
 /**
- * Class SocketObjectStreamConnectionHandler
+ * Class SocketCustomStreamConnectionHandler
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.1 $
  */
-public class SocketObjectStreamConnectionHandler extends AbstractLogEnabled
+public class SocketCustomStreamConnectionHandler extends AbstractLogEnabled
         implements Component, ConnectionHandler
 {
 
-    private PartialSocketObjectStreamServer m_PartialSocketObjectStreamServer;
+    private PartialSocketCustomStreamServer m_PartialSocketCustomStreamServer;
 
     /**
-     * Constructor SocketObjectStreamConnectionHandler
+     * Constructor SocketCustomStreamConnectionHandler
      *
      *
-     * @param partialSocketObjectStreamServer
+     * @param partialSocketCustomStreamServer
      *
      */
-    public SocketObjectStreamConnectionHandler(
-            PartialSocketObjectStreamServer partialSocketObjectStreamServer)
+    public SocketCustomStreamConnectionHandler(
+            PartialSocketCustomStreamServer partialSocketCustomStreamServer)
     {
-        m_PartialSocketObjectStreamServer = partialSocketObjectStreamServer;
+        m_PartialSocketCustomStreamServer = partialSocketCustomStreamServer;
     }
 
     /**
@@ -57,6 +57,6 @@ public class SocketObjectStreamConnectionHandler extends AbstractLogEnabled
      */
     public void handleConnection(Socket connection) throws IOException, ProtocolException
     {
-        m_PartialSocketObjectStreamServer.handleConnection(connection);
+        m_PartialSocketCustomStreamServer.handleConnection(connection);
     }
 }
