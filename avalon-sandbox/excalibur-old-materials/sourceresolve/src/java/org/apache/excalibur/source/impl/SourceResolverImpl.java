@@ -97,7 +97,7 @@ import org.apache.excalibur.source.SourceUtil;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.31 2003/05/20 20:56:43 bloritsch Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.32 2003/05/23 16:13:40 bloritsch Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
@@ -163,7 +163,7 @@ public class SourceResolverImpl
      * Set the current <code>ComponentLocator</code> instance used by this
      * <code>Composable</code>.
      *
-     * @avalon.dependency type="org.apache.excalibur.source.SourceFactorySelector"
+     * @avalon.dependency type="org.apache.excalibur.source.SourceFactory"
      */
     public void service( final ServiceManager manager )
         throws ServiceException
@@ -187,7 +187,7 @@ public class SourceResolverImpl
 
     /**
      * Get a <code>Source</code> object.
-     * @throws SourceNotFoundException if the source cannot be found
+     * @throws org.apache.excalibur.source.SourceNotFoundException if the source cannot be found
      */
     public Source resolveURI( String location )
         throws MalformedURLException, IOException, SourceException
@@ -197,7 +197,7 @@ public class SourceResolverImpl
 
     /**
      * Get a <code>Source</code> object.
-     * @throws SourceNotFoundException if the source cannot be found
+     * @throws org.apache.excalibur.source.SourceNotFoundException if the source cannot be found
      */
     public Source resolveURI( String location,
                               String baseURI,

@@ -72,6 +72,7 @@
             </fileset>
         </copy>
 
+        <ant antfile="fortress-meta.xml"/>
     </target>
 
     <!-- Compiles the unit test source code -->
