@@ -279,7 +279,7 @@
     -->
     <maven:snapshot project="${pom}"/>
     <j:set var="timestamp" value="${snapshotSignature.substring(7,15)}"/>
-    <j:set var="package.name" value="${maven.final.name}-${timestamp}"/>
+    <j:set var="package.name" value="${maven.final.name}-dist-${timestamp}"/>
 
     <ant:echo>Building distribution: ${package.name}</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${package.name}.zip">

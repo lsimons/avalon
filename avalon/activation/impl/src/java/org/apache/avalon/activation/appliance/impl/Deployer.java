@@ -65,7 +65,7 @@ import org.apache.avalon.framework.activity.Disposable;
  * serve basis.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/01/14 16:32:39 $
+ * @version $Revision: 1.6 $ $Date: 2004/01/16 16:39:02 $
  * @see DeploymentRequest
  */
 class Deployer
@@ -131,16 +131,38 @@ class Deployer
         {
             throw new NullPointerException( "deployable" );
         }
-        if( m_logger.isDebugEnabled() )
-        {
-            m_logger.debug( "deploying: " + deployable );
-        }
         if( null != m_deploymentThread )
         {
+            if( m_logger.isDebugEnabled() )
+            {
+                if( deployable instanceof ContainmentModel )
+                {
+                    m_logger.debug( 
+                      "initiating container deployment [" 
+                      + deployable.getName() 
+                      + "]" );
+                }
+                else
+                {
+                    m_logger.debug( 
+                      "initiating component deployment [" 
+                      + deployable.getName() 
+                      + "]" );
+                }
+            }
+
             DeploymentRequest req = 
               new DeploymentRequest( deployable, m_deploymentThread );
             m_deploymentFIFO.put( req );
-            req.waitForCompletion();
+            long t = req.waitForCompletion();
+            if( m_logger.isDebugEnabled() )
+            {
+                m_logger.debug( 
+                  "deployment of [" 
+                  + deployable.getName() 
+                  + "] completed in " 
+                  + t + " milliseconds" );
+            }
         }
         else
         {

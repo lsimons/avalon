@@ -82,6 +82,7 @@ import org.apache.avalon.composition.model.ModelFactory;
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.ClassLoaderContext;
 import org.apache.avalon.composition.model.ClassLoaderModel;
+import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ModelRepository;
 import org.apache.avalon.composition.model.impl.DefaultSystemContext;
 import org.apache.avalon.composition.model.impl.DelegatingSystemContext;
@@ -133,6 +134,9 @@ public class DefaultFactory implements Factory
     private static Resources REZ =
         ResourceManager.getPackageResources( DefaultFactory.class );
 
+    private static final String LINE = 
+      "\n-----------------------------------------------------------";
+
     private static final XMLComponentProfileCreator CREATOR = 
       new XMLComponentProfileCreator();
 
@@ -141,6 +145,7 @@ public class DefaultFactory implements Factory
 
     private static final XMLTargetsCreator TARGETS = 
       new XMLTargetsCreator();
+
 
     //--------------------------------------------------------------------------
     // state
@@ -244,13 +249,17 @@ public class DefaultFactory implements Factory
         getLogger().debug( "logging system established" );
 
 
+        String[] hosts = 
+          getHosts( 
+            kernelConfig.getChild( "repository" ).getChild( "hosts" ) );
+
         //
         // Create the system context.
         //
 
         SystemContext systemContext = 
           createSystemContext( 
-            m_context, criteria, logging, kernelConfig, name );
+            m_context, criteria, hosts, logging, kernelConfig, name );
 
         //
         // with the logging system established, check if the 
@@ -260,8 +269,15 @@ public class DefaultFactory implements Factory
 
         if( criteria.isInfoEnabled() )
         {
-            String report = createInfoListing( m_context, criteria );
-            getLogger().info( report );
+            StringBuffer buffer = new StringBuffer( "info report" );
+            buffer.append( LINE );
+            buffer.append( "\n" );
+            buffer.append( REZ.getString( "info.listing" ) );
+            buffer.append( LINE );
+            createInfoListing( buffer, hosts, m_context, criteria );
+            buffer.append( "\n" );
+            buffer.append( LINE );
+            getLogger().info( buffer.toString() );
         }
 
         //
@@ -388,6 +404,11 @@ public class DefaultFactory implements Factory
                 throw new KernelException( error, e );
             }
 
+            if( criteria.isAuditEnabled() )
+            {
+                printModel( application );
+            }
+
             if( !criteria.isServerEnabled() )
             {
                 getLogger().debug( "shutdown phase" );
@@ -443,8 +464,8 @@ public class DefaultFactory implements Factory
     * @param name not sure - need to check
     */
     private SystemContext createSystemContext( 
-      InitialContext context, KernelCriteria criteria, LoggingManager logging, 
-      Configuration config, String name ) throws Exception
+      InitialContext context, KernelCriteria criteria, String[] hosts, 
+      LoggingManager logging, Configuration config, String name ) throws Exception
     {
 
         //
@@ -453,8 +474,9 @@ public class DefaultFactory implements Factory
 
         Configuration repositoryConfig = 
           config.getChild( "repository" );
-        Repository repository = 
-          createRepository( context, criteria, repositoryConfig );
+        CacheManager cache = 
+          createCacheManager( context, criteria, hosts, config );
+        Repository repository = cache.createRepository();
         getLogger().debug( 
           "repository established: " + repository );
 
@@ -566,30 +588,28 @@ public class DefaultFactory implements Factory
     * @param config the repositotry configuration element
     * @return the repository
     */
-    private Repository createRepository( 
-      InitialContext context, KernelCriteria criteria, Configuration config )
+    private CacheManager createCacheManager( 
+      InitialContext context, KernelCriteria criteria, String[] hosts, Configuration config )
       throws KernelException
     {
-        File cache = criteria.getRepositoryDirectory();
+        File root = criteria.getRepositoryDirectory();
+        File cache = getCacheDirectory( root, config.getChild( "cache" ) );
+        Configuration proxy = config.getChild( "proxy", false );
         CacheManager manager = 
-          createCacheManager( context, cache, config );
-        return manager.createRepository();
+          createCacheManager( context, cache, hosts, proxy );
+        return manager;
     }
 
     private CacheManager createCacheManager( 
-      InitialContext context, File root, Configuration config ) 
+      InitialContext context, File cache, String[] hosts, Configuration proxyConfig ) 
       throws KernelException
     {
-
         //
         // the supplied root argument is the root cache resolved relative
         // to system properties and environment variables.  This value is 
         // overriden if a cache is declared in the kernel repository 
         // configuration
         //
-
-        File cache = getCacheDirectory( root, config.getChild( "cache" ) );
-        String[] hosts = getHosts( config.getChild( "hosts" ) );
 
         try
         {
@@ -598,7 +618,6 @@ public class DefaultFactory implements Factory
             criteria.put( "avalon.repository.cache", cache );
             criteria.put( "avalon.repository.hosts", hosts );
 
-            Configuration proxyConfig = config.getChild( "proxy", false );
             if( null != proxyConfig )
             {
                 final String host = 
@@ -912,12 +931,9 @@ public class DefaultFactory implements Factory
         return new FileTargetProvider( file );
     }
 
-    private String createInfoListing( 
-      InitialContext context, KernelCriteria criteria )
+    private void createInfoListing( 
+      StringBuffer buffer, String[] hosts, InitialContext context, KernelCriteria criteria )
     {
-        StringBuffer buffer = 
-          new StringBuffer( REZ.getString( "info.listing" ) );
-
         buffer.append( "\n" );
         buffer.append( 
           "\n  ${user.dir} == " 
@@ -930,18 +946,14 @@ public class DefaultFactory implements Factory
         buffer.append( "\n  ${avalon.repository.cache} == " 
           + context.getInitialCacheDirectory() );
         buffer.append( "\n  ${avalon.repository.hosts} == " );
-        String[] hosts = context.getInitialHosts();
-        for( int i=0; i<hosts.length; i++ )
+        String[] ihosts = context.getInitialHosts();
+        for( int i=0; i<ihosts.length; i++ )
         {
             if( i>0 ) buffer.append( "," );
-            buffer.append( hosts[i] );
+            buffer.append( ihosts[i] );
         }
 
         buffer.append( "\n" );
-
-        buffer.append( 
-          "\n  ${merlin.repository} == " 
-          + criteria.getRepositoryDirectory() );
 
         buffer.append( 
           "\n  ${merlin.lang} == " 
@@ -992,12 +1004,27 @@ public class DefaultFactory implements Factory
           + criteria.isDebugEnabled() );
 
         buffer.append( 
+          "\n  ${merlin.audit} == " 
+          + criteria.isAuditEnabled() );
+
+        buffer.append( 
           "\n  ${merlin.server} == " 
           + criteria.isServerEnabled() );
 
         buffer.append( 
           "\n  ${merlin.autostart} == " 
           + criteria.isAutostartEnabled() );
+
+        buffer.append( 
+          "\n  ${merlin.repository} == " 
+          + criteria.getRepositoryDirectory() );
+
+        buffer.append( "\n  ${merlin.repository.hosts} == " );
+        for( int i=0; i<hosts.length; i++ )
+        {   
+            if( i>0 ) buffer.append( "," );  
+            buffer.append( StringHelper.toString( hosts[i] ) );
+        }
 
         buffer.append( "\n  ${merlin.deployment} == " );
         URL[] urls = criteria.getDeploymentURLs();
@@ -1006,9 +1033,6 @@ public class DefaultFactory implements Factory
             if( i>0 ) buffer.append( "," );  
             buffer.append( StringHelper.toString( urls[i] ) );
         }
-        buffer.append( "\n" );
-
-        return buffer.toString();
     }
 
    /**
@@ -1049,4 +1073,102 @@ public class DefaultFactory implements Factory
         );
     }
 
+    public void printModel( DeploymentModel model )
+    {
+        StringBuffer buffer = new StringBuffer( "audit report" );
+        buffer.append( LINE );
+        buffer.append( "\nApplication Model" );
+        buffer.append( LINE );
+        buffer.append( "\n" );
+        printModel( buffer, "  ", model );
+        buffer.append( "\n" );
+        buffer.append( LINE );
+        getLogger().info( buffer.toString() );
+    }
+
+    public void printModel( StringBuffer buffer, String lead, DeploymentModel model )
+    {
+        if( model instanceof ContainmentModel )
+        {
+            printContainmentModel( buffer, lead, (ContainmentModel) model );
+        }
+        else if( model instanceof ComponentModel ) 
+        {
+            printComponentModel( buffer, lead, (ComponentModel) model );
+        }
+    }
+
+    public void printContainmentModel( StringBuffer buffer, String lead, ContainmentModel model )
+    {
+        buffer.append( 
+          "\n" + lead 
+          + "container:" 
+          + model 
+          + ")" );
+        printDeploymentModel( buffer, lead, model );
+        DeploymentModel[] models = model.getModels();
+        if( models.length > 0 )
+        {
+            buffer.append( "\n" + lead + "  children:" );
+            for( int i=0; i<models.length; i++ )
+            {
+                DeploymentModel m = models[i];
+                printModel( buffer, "    " + lead, m );
+            }
+        }
+        models = model.getStartupGraph();
+        if( models.length > 0 )
+        {
+            buffer.append( "\n" + lead + "  startup:" );
+            for( int i=0; i<models.length; i++ )
+            {
+                DeploymentModel m = models[i];
+                buffer.append( "\n" + "    " + lead + (i+1) + ": " + m );
+            }
+        }
+        models = ((ContainmentModel)model).getShutdownGraph();
+        if( models.length > 0 )
+        {
+            buffer.append( "\n" + lead + "  shutdown:" );
+            for( int i=0; i<models.length; i++ )
+            {
+                DeploymentModel m = models[i];
+                buffer.append( "\n" + "    " + lead + (i+1) + ": " + m );
+            }
+        }
+    }
+
+    public void printComponentModel( StringBuffer buffer, String lead, ComponentModel model )
+    {
+        buffer.append( 
+          "\n" + lead 
+          + "component:" 
+          + model + "(" 
+          + model.getDeploymentTimeout() 
+          + ")" );
+        printDeploymentModel( buffer, lead, model );
+    }
+
+    public void printDeploymentModel( StringBuffer buffer, String lead, DeploymentModel model )
+    {
+        DeploymentModel[] providers = model.getProviderGraph();
+        DeploymentModel[] consumers = model.getConsumerGraph();
+
+        if(( providers.length == 0 ) && ( consumers.length == 0 ))
+        {
+            return;
+        }
+
+        if( providers.length > 0 ) for( int i=0; i<providers.length; i++ )
+        {
+            DeploymentModel m = providers[i];
+            buffer.append( "\n" + lead + "  <-- " + m );
+        }
+
+        if( consumers.length > 0 ) for( int i=0; i<consumers.length; i++ )
+        {
+            DeploymentModel m = consumers[i];
+            buffer.append( "\n" + lead + "  --> " + m );
+        }
+    }
 }

@@ -85,7 +85,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -204,6 +204,8 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
               MERLIN_INFO, Boolean.class, new Boolean( false ) ),
             new Parameter( 
               MERLIN_DEBUG, Boolean.class, new Boolean( false ) ),
+            new Parameter( 
+              MERLIN_AUDIT, Boolean.class, new Boolean( false ) ),
             new Parameter( 
               MERLIN_SERVER, Boolean.class, new Boolean( true ) ),
             new Parameter( 
@@ -569,6 +571,18 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
     public boolean isDebugEnabled()
     {
         Boolean value = (Boolean) get( MERLIN_DEBUG );
+        if( null != value ) return value.booleanValue();
+        return false;
+    }
+
+   /**
+    * Return audit policy.  If TRUE a model listing will be generated.
+    *
+    * @return the audit policy
+    */
+    public boolean isAuditEnabled()
+    {
+        Boolean value = (Boolean) get( MERLIN_AUDIT );
         if( null != value ) return value.booleanValue();
         return false;
     }

@@ -59,26 +59,27 @@ import org.apache.avalon.composition.logging.TargetDescriptor;
 import org.apache.avalon.composition.logging.impl.DefaultLoggingManager;
 import org.apache.avalon.composition.model.ModelFactory;
 import org.apache.avalon.composition.model.SystemContext;
+import org.apache.avalon.composition.data.CategoryDirective;
+
 import org.apache.avalon.repository.Repository;
 import org.apache.avalon.repository.provider.CacheManager;
 import org.apache.avalon.repository.impl.DefaultCacheManager;
 import org.apache.avalon.repository.impl.DefaultRepository;
+
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.parameters.Parameters;
 
-import org.apache.avalon.composition.data.CategoryDirective;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 
 
 /**
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/01/13 11:41:26 $
+ * @version $Revision: 1.7 $ $Date: 2004/01/16 16:39:02 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext
@@ -104,7 +105,8 @@ public class DefaultSystemContext extends DefaultContext
     {
         LoggingManager logging = createLoggingManager( base, priority );
         Logger logger = logging.getLoggerForCategory( "" );
-        Repository repository = createRepository( root );
+        CacheManager cache = createCacheManager( root );
+        Repository repository = cache.createRepository();
         final File working = new File( System.getProperty( "user.dir" ), "working" );
         final File home = new File( working, "home" );
         final File temp = new File( working, "temp" );
@@ -113,12 +115,11 @@ public class DefaultSystemContext extends DefaultContext
           logging, base, home, temp, repository, "system", false, null );
     }
 
-    private static Repository createRepository( File root ) throws Exception
+    private static CacheManager createCacheManager( File root ) throws Exception
     {
         String dpml = "http://dpml.net";
         String ibiblio = "http://www.ibiblio.org/maven";
-        CacheManager manager = new DefaultCacheManager( root, null, new String[]{ dpml, ibiblio } );
-        return manager.createRepository();
+        return new DefaultCacheManager( root, null, new String[]{ dpml, ibiblio } );
     }
 
     private static LoggingManager createLoggingManager( File base, int priority ) throws Exception
@@ -211,7 +212,7 @@ public class DefaultSystemContext extends DefaultContext
     *   within a classpath or library directive shall be resolved
     * @param home the home directory
     * @param temp the temp directory
-    * @param repository a resource repository to be used when resolving 
+    * @param repository the application repository to be used when resolving 
     *   resource directives
     * @param trace flag indicating if internal logging is enabled
     */

@@ -60,7 +60,7 @@ import org.apache.avalon.composition.model.DeploymentModel;
 /**
  * A deployment request handler.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/13 11:41:22 $
+ * @version $Revision: 1.4 $ $Date: 2004/01/16 16:39:02 $
  */
 class DeploymentRequest
 {
@@ -91,7 +91,6 @@ class DeploymentRequest
         m_interrupted = false;
         m_exception = null;
         m_deploymentThread = deploymentThread;
-        m_timeout = deployable.getDeploymentTimeout();
     }
 
     //------------------------------------------------------------
@@ -103,19 +102,22 @@ class DeploymentRequest
         return m_deployable;
     }
 
-    void waitForCompletion()
+    long waitForCompletion()
         throws Exception
     {
+        long t1 = System.currentTimeMillis();
         synchronized( this )
         {
-            wait( m_timeout ); // wait for startup
+            long timeout = getDeployable().getDeploymentTimeout();
+            wait( timeout ); // wait for startup
             processException();
             if( m_completed )
             {
-                return;
+                long t2 = System.currentTimeMillis();
+                return t2-t1;
             }
             m_deploymentThread.interrupt();
-            wait( m_timeout ); // wait for shutdown
+            wait( timeout ); // wait for shutdown
             processException();
             if( m_interrupted || m_completed )
             {
@@ -123,7 +125,7 @@ class DeploymentRequest
                   "deployment target: [" 
                   + m_deployable 
                   + "] did not respond within the timeout period: [" 
-                  + m_timeout
+                  + timeout
                   + "] and was successfully interrupted.";
                 throw new DeploymentException( error );
             }
@@ -133,7 +135,7 @@ class DeploymentRequest
                   "deployment target: [" 
                   + m_deployable 
                   + "] did not respond within the timeout period: [" 
-                  + m_timeout
+                  + timeout
                   + "] and failed to respond to an interrupt.";
                 throw new FatalDeploymentException( error );
             }

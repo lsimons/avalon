@@ -89,7 +89,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13 $ $Date: 2004/01/13 18:43:15 $
+ * @version $Revision: 1.14 $ $Date: 2004/01/16 16:39:02 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
   implements Block, CompositionEventListener
@@ -278,7 +278,7 @@ public abstract class AbstractBlock extends AbstractAppliance
             Thread.currentThread().setContextClassLoader( classloader );
 
             Deployer deployer = 
-              new Deployer( getLogger().getChildLogger( "deployer" ) );
+              new Deployer( getLogger() );
 
             try
             {

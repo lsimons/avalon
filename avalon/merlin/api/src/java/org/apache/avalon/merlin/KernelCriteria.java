@@ -57,7 +57,7 @@ import java.util.Map;
 /**
  * A service that provides access to versioned resources.
  * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/16 00:09:12 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/16 16:39:02 $
  */
 public interface KernelCriteria extends Map
 {
@@ -145,6 +145,12 @@ public interface KernelCriteria extends Map
     */
     String MERLIN_DEBUG = 
       "merlin.debug";
+
+   /**
+    * Audit policy parameter.
+    */
+    String MERLIN_AUDIT = 
+      "merlin.audit";
 
    /**
     * Server model parameter.
@@ -260,6 +266,13 @@ public interface KernelCriteria extends Map
     * @return the debug policy
     */
     boolean isDebugEnabled();
+
+   /**
+    * Return audit policy.  If TRUE a model listing will be generated.
+    *
+    * @return the audit policy
+    */
+    boolean isAuditEnabled();
 
    /**
     * Return server execution policy.  If TRUE the kernel will 
