@@ -222,7 +222,7 @@ Legal:
         <!-- thats why you are required to define do.checkstyle property to generate the report -->
         <taskdef name="checkstyle"
             classname="com.puppycrawl.tools.checkstyle.CheckStyleTask">
-            <classpath refid="project.class.path"/>
+            <classpath refid="tools.class.path"/>
         </taskdef>
         <checkstyle
             lcurlyType="nl"
@@ -259,8 +259,11 @@ Legal:
         description="Generate Checkstyle Report">
 
         <mkdir dir="${build.reports}/checkstyle"/>
+        <property name="checkstyle.pathhack" location="."/>
         <style style="${tools.dir}/etc/checkstyle-frames.xsl" in="${build.dir}/checkstyle-results.xml"
-            out="${build.reports}/checkstyle/delete-me.html"/>
+            out="${build.reports}/checkstyle/delete-me.html">
+            <param name="pathhack" expression="${checkstyle.pathhack}"/>
+        </style>
 
     </target>
 
