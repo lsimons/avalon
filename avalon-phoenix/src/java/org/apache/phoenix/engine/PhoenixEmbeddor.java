@@ -26,7 +26,7 @@ import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
 import org.apache.avalon.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.configuration.Parameters;
-import org.apache.avalon.util.log.AvalonLogFormatter;
+import org.apache.phoenix.engine.facilities.log.AvalonLogFormatter;
 import org.apache.log.LogKit;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
