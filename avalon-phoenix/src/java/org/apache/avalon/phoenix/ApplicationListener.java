@@ -23,29 +23,23 @@ public interface ApplicationListener extends BlockListener
     /**
      * Notification that an application is being started.
      *
-     * @param event the ApplicationEvent
+     * @param applicationEvent the ApplicationEvent
      *
      */
     void applicationStarting( ApplicationEvent applicationEvent ) throws Exception;
 
     /**
      * Notification that an application has now started.
-     *
-     *
      */
     void applicationStarted();
 
     /**
      * Notification that an application is being stopped.
-     *
-     *
      */
     void applicationStopping();
 
     /**
      * Notification that an application has stopped.
-     *
-     *
      */
     void applicationStopped();
 
@@ -55,9 +49,7 @@ public interface ApplicationListener extends BlockListener
      * thing for correct shutdown both before and after this method
      * is called.  The user of this method should NOT call System.exit()
      *
-     *
      * @param causeOfFailure
-     *
      */
     void applicationFailure( Exception causeOfFailure );
 }
