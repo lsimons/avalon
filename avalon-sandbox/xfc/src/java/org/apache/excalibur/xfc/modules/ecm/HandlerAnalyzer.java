@@ -49,23 +49,14 @@
 */
 package org.apache.excalibur.xfc.modules.ecm;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.DefaultConfiguration;
-
-import org.apache.excalibur.xfc.model.Model;
-import org.apache.excalibur.xfc.model.Definition;
-import org.apache.excalibur.xfc.model.Instance;
-import org.apache.excalibur.xfc.model.RoleRef;
 
 import org.apache.excalibur.xfc.modules.Constants;
 
 /**
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HandlerAnalyzer.java,v 1.1 2002/10/16 16:20:38 crafterm Exp $
+ * @version CVS $Id: HandlerAnalyzer.java,v 1.2 2002/10/17 10:08:46 crafterm Exp $
  */
 public final class HandlerAnalyzer implements Constants
 {
