@@ -5,9 +5,9 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.cache.validator;
+package org.apache.excalibur.cache.validator;
 
-import org.apache.avalon.excalibur.cache.CacheValidator;
+import org.apache.excalibur.cache.CacheValidator;
 
 /**
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>

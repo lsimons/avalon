@@ -5,11 +5,11 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.cache.policy;
+package org.apache.excalibur.cache.policy;
 
 import java.util.HashMap;
 import java.util.TreeMap;
-import org.apache.avalon.excalibur.cache.ReplacementPolicy;
+import org.apache.excalibur.cache.ReplacementPolicy;
 
 /**
  * TimeMapLRU(Least Recently Used) replacement policy.

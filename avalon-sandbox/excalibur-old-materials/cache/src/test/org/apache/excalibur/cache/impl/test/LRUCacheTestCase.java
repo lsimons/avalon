@@ -5,9 +5,9 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.cache.impl.test;
+package org.apache.excalibur.cache.impl.test;
 
-import org.apache.avalon.excalibur.cache.LRUCache;
+import org.apache.excalibur.cache.LRUCache;
 
 /**
  * TestCase for LRUCache.

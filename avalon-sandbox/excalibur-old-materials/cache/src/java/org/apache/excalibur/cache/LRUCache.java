@@ -5,17 +5,17 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.cache;
+package org.apache.excalibur.cache;
 
 /**
  * LRUCache.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
- * @version $Revision: 1.7 $ $Date: 2002/04/03 10:36:02 $
- * @deprecated Use org.apache.avalon.excalibur.cache.impl.LRUCache
+ * @version $Revision: 1.8 $ $Date: 2002/05/01 04:01:32 $
+ * @deprecated Use org.apache.excalibur.cache.impl.LRUCache
  */
 public class LRUCache
-    extends org.apache.avalon.excalibur.cache.impl.LRUCache
+    extends org.apache.excalibur.cache.impl.LRUCache
 {
     public LRUCache( final int capacity )
     {

@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.cache.policy;
+package org.apache.excalibur.cache.policy;
 
 /**
  * LRU(Least Recently Used) replacement policy.
