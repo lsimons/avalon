@@ -60,8 +60,13 @@ import org.apache.avalon.framework.CascadingException;
  * The exception thrown to indicate a problem with Components.
  * It is usually thrown by ComponentManager or ComponentSelector.
  *
+ * <p>
+ *  <span style="color: red">Deprecated: </span><i>
+ *    Use {@link org.apache.avalon.framework.service.ServiceException} instead.
+ *  </i>
+ * </p>
+ *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
- * @deprecated Use {@link org.apache.avalon.framework.service.ServiceException} instead.
  */
 public class ComponentException
     extends CascadingException

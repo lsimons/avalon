@@ -58,11 +58,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This is the default implementation of the ComponentSelector
+ * This is the default implementation of the ComponentSelector.
+ *
+ * <p>
+ *  <span style="color: red">Deprecated: </span><i>
+ *    Use {@link org.apache.avalon.framework.service.DefaultServiceSelector} instead.
+ *  </i>
+ * </p>
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @version 1.0
- * @deprecated Use {@link org.apache.avalon.framework.service.DefaultServiceSelector} instead.
  */
 public class DefaultComponentSelector
     implements ComponentSelector
