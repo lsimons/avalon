@@ -93,7 +93,6 @@ Legal:
     <pathelement path="${java.class.path}" />
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
-      <exclude name="logkit*.jar"/>
       <exclude name="xerces*.jar"/>
     </fileset>
     <pathelement path="${build.classes}" />
@@ -191,7 +190,7 @@ Legal:
 
   <target name="jar-exceptionutil" depends="compile-exceptionutil">
     <mkdir dir="${build.lib}"/>
-    <jar file="${build.lib}/exceptionutil.jar" basedir="${build.classes}">
+    <jar jarfile="${build.lib}/exceptionutil.jar" basedir="${build.classes}">
       <include name="org/apache/avalon/framework/ExceptionUtil.class" />
       <include name="org/apache/avalon/framework/Cascading*" />
     </jar>
@@ -418,7 +417,7 @@ Legal:
   <!-- Creates all the .jar files -->
   <target name="all" depends="compile" description="generates the Avalon jar files">
     <mkdir dir="${build.lib}"/>
-    <jar file="${build.lib}/${framework.name}.jar" basedir="${build.classes}">
+    <jar jarfile="${build.lib}/${framework.name}.jar" basedir="${build.classes}">
       <include name="org/apache/avalon/framework/**"/>
       <exclude name="**/test/*"/>
     </jar>
