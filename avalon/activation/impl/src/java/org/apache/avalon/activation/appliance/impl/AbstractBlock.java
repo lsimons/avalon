@@ -89,7 +89,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2003/12/29 14:31:21 $
+ * @version $Revision: 1.10 $ $Date: 2004/01/01 13:05:05 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
   implements Block, Composite, CompositionEventListener
@@ -179,40 +179,6 @@ public abstract class AbstractBlock extends AbstractAppliance
     {
         return m_context.getContainmentModel();
     }
-
-   /**
-    * Add a model as a child to this block.
-    * @param url the model url
-    * @return the appliance established to handle the model
-    * @exception ApplianceException if a error occurs
-    */
-    //public Appliance addModel( URL url ) throws ApplianceException
-    //{
-    //    try
-    //    {
-    //        return addModel( 
-    //          getContainmentModel().addModel( url ) );
-    //    }
-    //    catch( Throwable e )
-    //    {
-    //        final String error = 
-    //          "Cannot add model due to a model related error.";
-    //        throw new ApplianceException( error, e );
-    //    }
-    //}
-
-   /**
-    * Add a model as a child to this block.
-    * @param model the model to add as a child of the block
-    * @return the appliance established to handle the model
-    * @exception ApplianceException if a error occurs
-    */
-    //public Appliance addModel( Model model ) throws ApplianceException
-    //{
-    //    Appliance appliance = createAppliance( model );
-    //    m_repository.addAppliance( appliance );
-    //    return appliance;
-    //}
 
     //-------------------------------------------------------------------
     // CompositionEventListener
@@ -992,18 +958,6 @@ public abstract class AbstractBlock extends AbstractAppliance
         graph.add( appliance );
         return appliance;
     }
-
-    /**
-     * Remove an appliance.
-     * @param model the component model
-     * @return the appliance
-     */
-    //public void removeAppliance( String name ) throws ApplianceException
-    //{
-    //    final Appliance appliance = getLocalAppliance( name );
-    //    m_context.getDependencyGraph().remove( appliance );
-    //    m_repository.removeAppliance( appliance );
-    //}
 
     //-------------------------------------------------------------------
     // Object
