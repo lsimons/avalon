@@ -8,12 +8,13 @@
 package org.apache.avalon.framework.context;
 
 /**
- * Extends composer to allow recontextualizing.
+ * Extends Contextualizable to allow recontextualizing.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public interface Recontextualizable
     extends Contextualizable
 {
-    void recontextualizable( Context context ) ;
+    void recontextualize( Context context )
+        throws ContextException;
 }
