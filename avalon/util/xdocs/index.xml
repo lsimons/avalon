@@ -75,6 +75,10 @@ concern.  The following table provides a brief overview of the current set.
         <table>      
           <tr><th>Utility</th><th>Description</th></tr>
           <tr>
+            <td><a href="criteria/index.html">Criteria</a></td>
+            <td>A parameterized map implementation.</td>
+          </tr>
+          <tr>
             <td><a href="defaults/index.html">Defaults</a></td>
             <td>Collection and consilidation of properties.</td>
           </tr>
@@ -87,11 +91,6 @@ concern.  The following table provides a brief overview of the current set.
             <td><a href="exception/index.html">Exception</a></td>
             <td>A static class that provides support for report
                 generation from cascading exceptions.</td>
-          </tr>
-          <tr>
-            <td><a href="factory/index.html">Factory</a></td>
-            <td>A generic factory interface and a default 
-                map implementation.</td>
           </tr>
         </table>
       </subsection>
