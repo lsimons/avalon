@@ -21,7 +21,7 @@ import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
-import org.apache.avalon.phoenix.components.kapi.BlockEntry;
+import org.apache.avalon.phoenix.components.application.BlockEntry;
 import org.apache.avalon.phoenix.components.listeners.BlockListenerManager;
 
 /**

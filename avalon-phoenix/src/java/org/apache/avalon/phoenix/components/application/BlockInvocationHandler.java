@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.components.kapi;
+package org.apache.avalon.phoenix.components.application;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -26,7 +26,7 @@ import java.lang.reflect.Proxy;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/09/24 11:12:05 $
+ * @version CVS $Revision: 1.1 $ $Date: 2001/09/24 11:33:29 $
  */
 final class BlockInvocationHandler
     implements InvocationHandler
