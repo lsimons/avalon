@@ -8,7 +8,7 @@
   <description>Merlin Plugin for Maven</description>
   <shortDescription>Merlin Plugin for Maven</shortDescription>
   <package>org.apache.avalon.merlin</package>
-  <currentVersion>1.0</currentVersion>
+  <currentVersion>1.1-SNAPSHOT</currentVersion>
 
   <dependencies>
 
