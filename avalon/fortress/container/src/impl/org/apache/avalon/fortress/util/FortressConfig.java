@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -63,7 +63,7 @@ import org.apache.excalibur.mpool.PoolManager;
 
 /**
  * Helper class to create a m_context for the ContextManager.
- * @version CVS $Revision: 1.9 $ $Date: 2003/03/22 12:31:52 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/03/22 12:46:34 $
  */
 public class FortressConfig
 {

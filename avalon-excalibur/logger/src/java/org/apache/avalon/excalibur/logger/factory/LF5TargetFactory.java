@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -70,7 +70,7 @@ import org.apache.log.output.lf5.LF5LogTarget;
  * format the log event for display on the "NDC" line in the Swing GUI.
  *
  * @author <a href="sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/03/22 12:31:57 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/03/22 12:46:49 $
  */
 
 public class LF5TargetFactory implements LogTargetFactory
