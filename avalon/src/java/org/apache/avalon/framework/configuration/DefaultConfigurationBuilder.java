@@ -100,7 +100,7 @@ import org.xml.sax.XMLReader;
  * </p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.27 $ $Date: 2003/03/10 12:11:16 $
+ * @version CVS $Revision: 1.28 $ $Date: 2003/03/10 12:11:35 $
  */
 public class DefaultConfigurationBuilder
 {
@@ -140,7 +140,7 @@ public class DefaultConfigurationBuilder
             }
 
             final SAXParser saxParser = saxParserFactory.newSAXParser();
-            this.setParser( saxParser.getXMLReader() );
+            setParser( saxParser.getXMLReader() );
         }
         catch( final Exception se )
         {
