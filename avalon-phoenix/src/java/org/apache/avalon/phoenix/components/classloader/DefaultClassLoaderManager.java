@@ -15,7 +15,6 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
 
 /**
  * Component that creates and manages the <code>ClassLoader</code>
