@@ -56,11 +56,6 @@
         <ant dir="extension" target="${subproject-target}"/>
     </target>
 
-    <!-- Fortress -->
-    <target name="prj-fortress" depends="prj-lifecycle, prj-event, prj-instrument, prj-instrument-manager, prj-logger, prj-sourceresolve">
-        <ant dir="fortress" target="${subproject-target}"/>
-    </target>
-
     <!-- I18n -->
     <target name="prj-i18n">
         <ant dir="i18n" target="${subproject-target}"/>
@@ -129,7 +124,7 @@
         depends="prj-compatibility,
         prj-i18n, prj-extension,
                 prj-configuration, prj-event,
-                prj-thread, prj-monitor, prj-fortress, prj-datasource,
+                prj-thread, prj-monitor, prj-datasource,
                 prj-instrument, prj-store, prj-logger,
                 prj-pool, prj-xmlutil, prj-lifecycle,
                 prj-sourceresolve, prj-instrument-client,
