@@ -1,8 +1,8 @@
 
-The etc/deliverables directory is a placeholder for jar 
+The etc/deliverables/jars directory is a placeholder for jar 
 files that are required to bootstrap the core buildsystem.  
 To setup the library you need to download the following 
-jar files and place them in this directory under the names 
+jar files and place them in jars directory under the names 
 show below:
 
   mailapi-1.3.1.jar
