@@ -9,7 +9,7 @@ package org.apache.avalon.excalibur.xml;
 
 import java.io.IOException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.thread.SingleThreaded;
+import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.xerces.dom.DocumentImpl;
 import org.apache.xerces.parsers.DOMParser;
 import org.apache.xerces.parsers.SAXParser;
@@ -25,21 +25,12 @@ import org.xml.sax.ext.LexicalHandler;
  *
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  *         (Apache Software Foundation, Exoffice Technologies)
- * @version CVS $Revision: 1.3 $ $Date: 2002/07/09 13:57:57 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/07/10 08:34:45 $
  */
 public class XercesParser
     extends AbstractLogEnabled
-    implements Parser, ErrorHandler, SingleThreaded
+    implements Parser, ErrorHandler, ThreadSafe
 {
-    /** the SAX Parser */
-    private SAXParser m_parser;
-
-    public XercesParser()
-        throws SAXException
-    {
-        m_parser = createSAXParser();
-    }
-
     public void parse( final InputSource in,
                        final ContentHandler consumer )
         throws SAXException, IOException
@@ -64,7 +55,7 @@ public class XercesParser
                        final LexicalHandler lexicalHandler )
         throws SAXException, IOException
     {
-        final SAXParser parser = getSAXParser();
+        final SAXParser parser = createSAXParser();
 
         if( null != lexicalHandler )
         {
@@ -74,13 +65,6 @@ public class XercesParser
         parser.setErrorHandler( this );
         parser.setContentHandler( contentHandler );
         parser.parse( in );
-
-        //Note it is a deliberate choice to make sure that
-        //the parser is only released when a successful parse
-        //has occured. If an exception is generated the
-        //parser becomes fubar so we need to let it go into
-        //the void to be garbage collected
-        releaseSAXParser( parser );
     }
 
     /**
@@ -155,27 +139,6 @@ public class XercesParser
             spe.getLineNumber() + " col. " + spe.getColumnNumber() +
             "): " + spe.getMessage();
         throw new SAXException( message, spe );
-    }
-
-    /**
-     * Aquire a parser from the pool of {@link SAXParser} objects.
-     *
-     * @return the parser
-     */
-    private SAXParser getSAXParser()
-        throws SAXException
-    {
-        return m_parser;
-    }
-
-    /**
-     * Utility method to release parser back into pool.
-     *
-     * @param parser the parser
-     */
-    private void releaseSAXParser( final SAXParser parser )
-    {
-        m_parser = parser;
     }
 
     /**
