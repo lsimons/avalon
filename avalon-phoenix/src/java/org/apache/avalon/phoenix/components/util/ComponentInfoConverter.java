@@ -19,10 +19,10 @@ import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
 
 /**
- * Convert a {@link org.apache.avalon.framework.info.ComponentInfo} into a {@link org.apache.avalon.phoenix.metainfo.BlockInfo}.
+ * Convert a {@link ComponentInfo} into a {@link BlockInfo}.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2002/11/16 08:56:02 $
+ * @version $Revision: 1.7 $ $Date: 2002/11/16 14:47:25 $
  */
 public class ComponentInfoConverter
 {
@@ -30,10 +30,16 @@ public class ComponentInfoConverter
     {
     }
 
+    /**
+     * Convert a ComponentInfo object into a BlockInfo object.
+     *
+     * @param component the ComponentInfo object
+     * @return the BlockInfo object
+     */
     public static BlockInfo toBlockInfo( final ComponentInfo component )
     {
         final BlockDescriptor descriptor =
-            toBlockDescriptor( component.getDescriptor() );
+            toBlockDescriptor( component );
         final ServiceDescriptor[] services =
             toPhoenixServices( component.getServices() );
         final ServiceDescriptor[] mxServices =
@@ -45,9 +51,14 @@ public class ComponentInfoConverter
                               services,
                               mxServices,
                               dependencys );
-
     }
 
+    /**
+     * Return Phoenix Management services from Info Service array.
+     *
+     * @param services the services
+     * @return the management services
+     */
     private static ServiceDescriptor[] getMXServices(
         final org.apache.avalon.framework.info.ServiceDescriptor[] services )
     {
@@ -63,6 +74,12 @@ public class ComponentInfoConverter
         return (ServiceDescriptor[])serviceSet.toArray( new ServiceDescriptor[ serviceSet.size() ] );
     }
 
+    /**
+     * Return Phoenix services from Info Service array.
+     *
+     * @param services the services
+     * @return the Phoenix services
+     */
     private static ServiceDescriptor[] toPhoenixServices(
         final org.apache.avalon.framework.info.ServiceDescriptor[] services )
     {
@@ -74,6 +91,12 @@ public class ComponentInfoConverter
         return (ServiceDescriptor[])serviceSet.toArray( new ServiceDescriptor[ serviceSet.size() ] );
     }
 
+    /**
+     * Convert Info service to Phoenix Service descriptor.
+     *
+     * @param service the Info Service
+     * @return the Phoenix service
+     */
     private static ServiceDescriptor toPhoenixService(
         final org.apache.avalon.framework.info.ServiceDescriptor service )
     {
@@ -82,6 +105,12 @@ public class ComponentInfoConverter
         return new ServiceDescriptor( classname, version );
     }
 
+    /**
+     * Convert Info dependencys to Phoenix dependencys.
+     *
+     * @param dependencies the Info dependencys
+     * @return the Phoenix dependencys
+     */
     private static DependencyDescriptor[] toPhoenixDependencys(
         final org.apache.avalon.framework.info.DependencyDescriptor[] dependencies )
     {
@@ -93,6 +122,12 @@ public class ComponentInfoConverter
         return (DependencyDescriptor[])depends.toArray( new DependencyDescriptor[ depends.size() ] );
     }
 
+    /**
+     * Convert Info dependency to Phoenix dependency descriptor.
+     *
+     * @param dependency the Info dependency
+     * @return the Phoenix dependency
+     */
     private static DependencyDescriptor toPhoenixDependency(
         final org.apache.avalon.framework.info.DependencyDescriptor dependency )
     {
@@ -102,25 +137,38 @@ public class ComponentInfoConverter
         return new DependencyDescriptor( dependency.getKey(), service );
     }
 
-    private static BlockDescriptor toBlockDescriptor( final ComponentDescriptor component )
+    /**
+     * Create a BlockDescriptor object from ComponentInfo.
+     *
+     * @param component the info
+     * @return the BlockDescriptor
+     */
+    private static BlockDescriptor toBlockDescriptor( final ComponentInfo component )
     {
-        final Version version = toVersion( component );
-        String schemaType = null;
-        final Attribute tag = component.getAttribute( "phoenix" );
-        if( null != tag )
+        final ComponentDescriptor descriptor = component.getDescriptor();
+        final Version version = toVersion( descriptor );
+
+        String schemaType = component.getSchema().getType();
+        if( "".equals( schemaType ) )
         {
-            schemaType = tag.getParameter( "schema-type" );
+            schemaType = null;
         }
 
         return new BlockDescriptor( null,
-                                    component.getImplementationKey(),
+                                    descriptor.getImplementationKey(),
                                     schemaType,
                                     version );
     }
 
-    private static Version toVersion( final FeatureDescriptor component )
+    /**
+     * Create a version for a feature. Defaults to 1.0 if not specified.
+     *
+     * @param feature the feature
+     * @return the Version object
+     */
+    private static Version toVersion( final FeatureDescriptor feature )
     {
-        final Attribute tag = component.getAttribute( "avalon" );
+        final Attribute tag = feature.getAttribute( "avalon" );
         Version version = new Version( 1, 0, 0 );
         if( null != tag )
         {
