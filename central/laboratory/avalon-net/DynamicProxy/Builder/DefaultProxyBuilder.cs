@@ -24,29 +24,27 @@ namespace Apache.Avalon.DynamicProxy.Builder
 	{
 		#region IProxyBuilder Members
 
-		public Type CreateInterfaceProxy(Type[] interfaces)
+		public virtual Type CreateInterfaceProxy(Type[] interfaces)
 		{
 			InterfaceProxyGenerator generator = new InterfaceProxyGenerator();
 			return generator.GenerateCode( interfaces );
 		}
 
-		public Type CreateClassProxy(Type theClass)
+		public virtual Type CreateClassProxy(Type theClass)
 		{
 			ClassProxyGenerator generator = new ClassProxyGenerator();
 			return generator.GenerateCode( theClass );
 		}
 
-		public Type CreateCustomInterfaceProxy(Type[] interfaces, EnhanceTypeDelegate enhance, 
-			ScreenInterfacesDelegate screenInterfaces)
+		public virtual Type CreateCustomInterfaceProxy(Type[] interfaces, GeneratorContext context)
 		{
-			InterfaceProxyGenerator generator = new InterfaceProxyGenerator(enhance, screenInterfaces);
+			InterfaceProxyGenerator generator = new InterfaceProxyGenerator(context);
 			return generator.GenerateCode( interfaces );
 		}
 
-		public Type CreateCustomClassProxy(Type theClass, EnhanceTypeDelegate enhance, 
-			ScreenInterfacesDelegate screenInterfaces)
+		public virtual Type CreateCustomClassProxy(Type theClass, GeneratorContext context)
 		{
-			ClassProxyGenerator generator = new ClassProxyGenerator(enhance, screenInterfaces);
+			ClassProxyGenerator generator = new ClassProxyGenerator(context);
 			return generator.GenerateCode( theClass );
 		}
 

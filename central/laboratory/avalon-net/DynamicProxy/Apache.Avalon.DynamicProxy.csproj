@@ -109,6 +109,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Builder\GeneratorContext.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Builder\IProxyBuilder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

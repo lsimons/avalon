@@ -24,33 +24,29 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 	/// </summary>
 	public abstract class BaseCodeGenerator
 	{
+		private static readonly String FILE_NAME = "GeneratedAssembly.dll";
+
+		private Type m_baseType = typeof(Object);
+		private AssemblyBuilder m_assemblyBuilder;
 		private TypeBuilder m_typeBuilder;
 		private FieldBuilder m_handlerField;
 		private ConstructorBuilder m_constBuilder;
 		private IList m_generated = new ArrayList();
 
-		private EnhanceTypeDelegate m_enhanceDelegate;
-		private ScreenInterfacesDelegate m_screenInterfacesDelegate;
+		private GeneratorContext m_context;
 
-		protected BaseCodeGenerator()
+		protected BaseCodeGenerator(GeneratorContext context)
+		{
+			m_context = context;
+		}
+
+		protected BaseCodeGenerator() : this(new GeneratorContext())
 		{
 		}
 
-		protected BaseCodeGenerator(EnhanceTypeDelegate enhance, 
-			ScreenInterfacesDelegate screenInterfaces)
+		protected GeneratorContext Context
 		{
-			m_enhanceDelegate = enhance;
-			m_screenInterfacesDelegate = screenInterfaces;
-		}
-
-		protected EnhanceTypeDelegate EnhanceTypeDelegate
-		{
-			get { return m_enhanceDelegate; }
-		}
-
-		protected ScreenInterfacesDelegate ScreenInterfacesDelegate
-		{
-			get { return m_screenInterfacesDelegate; }
+			get { return m_context; }
 		}
 
 		protected TypeBuilder MainTypeBuilder
@@ -73,18 +69,30 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 			AssemblyName assemblyName = new AssemblyName();
 			assemblyName.Name = "DynamicAssemblyProxyGen";
 
-			AssemblyBuilder assemblyBuilder =
+			ModuleBuilder moduleBuilder = null;
+
+#if (DEBUG)
+			m_assemblyBuilder =
+				AppDomain.CurrentDomain.DefineDynamicAssembly(
+					assemblyName,
+					AssemblyBuilderAccess.RunAndSave);
+			moduleBuilder = m_assemblyBuilder.DefineDynamicModule(assemblyName.Name, FILE_NAME);
+#else
+			m_assemblyBuilder =
 				AppDomain.CurrentDomain.DefineDynamicAssembly(
 					assemblyName,
 					AssemblyBuilderAccess.Run);
+			moduleBuilder = m_assemblyBuilder.DefineDynamicModule(assemblyName.Name, true);
+#endif
 
-			return assemblyBuilder.DefineDynamicModule(assemblyName.Name, true);
+			return moduleBuilder;
 		}
 
 		protected virtual TypeBuilder CreateTypeBuilder(Type baseType, Type[] interfaces)
 		{
 			ModuleBuilder moduleBuilder = CreateDynamicModule();
 
+			m_baseType = baseType;
 			m_typeBuilder = moduleBuilder.DefineType(
 				"ProxyType", TypeAttributes.Public | TypeAttributes.Class, baseType, interfaces);
 
@@ -94,14 +102,52 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 			return m_typeBuilder;
 		}
 
+		protected virtual void EnhanceType()
+		{
+			if (Context.EnhanceType != null)
+			{
+				Context.EnhanceType(MainTypeBuilder, HandlerFieldBuilder, DefaultConstructorBuilder);
+			}
+		}
+
+		protected virtual Type[] ScreenInterfaces(Type[] interfaces)
+		{
+			if (Context.ScreenInterfaces != null)
+			{
+				interfaces = Context.ScreenInterfaces(interfaces);
+			}
+
+			return interfaces;
+		}
+
+		protected virtual Type CreateType()
+		{
+			Type newType = MainTypeBuilder.CreateType();
+#if (DEBUG)
+			m_assemblyBuilder.Save(FILE_NAME);
+#endif
+			return newType;
+		}
+
 		/// <summary>
 		/// Generates a public field holding the <see cref="IInvocationHandler"/>
 		/// </summary>
 		/// <returns><see cref="FieldBuilder"/> instance</returns>
 		protected FieldBuilder GenerateField()
 		{
-			return m_typeBuilder.DefineField("handler",
-			                                 typeof (IInvocationHandler), FieldAttributes.Public);
+			return GenerateField("handler", typeof (IInvocationHandler) );
+		}
+
+		/// <summary>
+		/// Generates a public field
+		/// </summary>
+		/// <param name="name">Field's name</param>
+		/// <param name="type">Field's type</param>
+		/// <returns></returns>
+		protected FieldBuilder GenerateField( String name, Type type )
+		{
+			return m_typeBuilder.DefineField(name,
+				typeof (IInvocationHandler), FieldAttributes.Public);
 		}
 
 		/// <summary>
@@ -118,7 +164,7 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 
 			ILGenerator ilGenerator = consBuilder.GetILGenerator();
 			ilGenerator.Emit(OpCodes.Ldarg_0);
-			ilGenerator.Emit(OpCodes.Call, typeof (Object).GetConstructor(new Type[0]));
+			ilGenerator.Emit(OpCodes.Call, m_baseType.GetConstructor(new Type[0]));
 			ilGenerator.Emit(OpCodes.Ldarg_0);
 			ilGenerator.Emit(OpCodes.Ldarg_1);
 			ilGenerator.Emit(OpCodes.Stfld, m_handlerField);
@@ -135,7 +181,10 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 		{
 			foreach(Type inter in interfaces)
 			{
-				GenerateTypeImplementation(inter, false);
+				if (!Context.ShouldSkip( inter ))
+				{
+					GenerateTypeImplementation(inter, false);
+				}
 			}
 		}
 
