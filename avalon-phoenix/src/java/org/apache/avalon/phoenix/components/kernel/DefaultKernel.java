@@ -79,10 +79,10 @@ public class DefaultKernel
      * @param application the application instance
      * @exception ContainerException if an error occurs
      */
-    protected void prepareApplication( final String name, final Entry entry )
+    protected void prepareApplication( final String name, final SarEntry entry )
         throws ContainerException
     {
-        final Application application = (Application)entry.getInstance();
+        final Application application = entry.getApplication();
         final SarEntry saEntry = (SarEntry)entry;
         final SarMetaData metaData = saEntry.getMetaData();
 
