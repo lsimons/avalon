@@ -109,7 +109,17 @@ public abstract class AbstractFileRepository
 
         m_path = destination.substring( HANDLED_URL.length() );
 
-        File directory = new File( m_baseDirectory, m_path );
+        File directory;
+
+        // Check for absolute path
+        if( m_path.startsWith( "/" ) )
+        {
+            directory = new File ( m_path );
+        } 
+        else
+        {
+            directory = new File( m_baseDirectory, m_path );
+        }
 
         try
         {

@@ -82,7 +82,7 @@ public class DefaultDataSourceSelector
             {
                 if( !"".equals( driver ) )
                 {
-                    Class.forName( driver );
+                    Class.forName( driver, true, Thread.currentThread().getContextClassLoader() );
                 }
 
                 component = (DataSourceComponent)Class.forName( clazz ).newInstance();
