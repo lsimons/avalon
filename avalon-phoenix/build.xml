@@ -90,7 +90,7 @@ Legal:
         <antcall target="main"/>
     </target>
 
-    <target name="all" depends="dist-lite" description="generates the Phoenix distribution">
+    <target name="all" depends="main" description="generates the Phoenix distribution">
         <ant target="docs" antfile="docs.xml" inheritall="false" />
     </target>
 
