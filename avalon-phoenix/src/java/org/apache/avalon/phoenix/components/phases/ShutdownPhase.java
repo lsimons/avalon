@@ -115,18 +115,6 @@ public class ShutdownPhase
         entry.setState( State.SHUTDOWN );
         getLogger().debug( REZ.getString( "shutdown.notice.destroy.success" ) );
 
-/*
-        try
-        {
-            m_container.remove( name );
-            getLogger().debug( REZ.getString( "shutdown.notice.container.remove" ) );
-        }
-        catch( final Throwable t )
-        {
-            final String message = REZ.getString( "shutdown.error.container.failremove", name );
-            getLogger().warn( message, t );
-        }
-*/
         final String message = REZ.getString( "shutdown.error.phase.completed", name );
         getLogger().info( message );
     }
