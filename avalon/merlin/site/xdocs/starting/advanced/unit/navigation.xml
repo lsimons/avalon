@@ -72,7 +72,9 @@
           <item name="Deployment Templates" href="/starting/advanced/profiles.html"/>
           <item name="Profile Selection" href="/starting/advanced/selection.html"/>
           <item name="Composition" href="/starting/advanced/composite.html"/>
-          <item name="Unit Test" href="/starting/advanced/unit/index.html"/>
+          <item name="Unit Test" href="/starting/advanced/unit/index.html">
+            <item name="Hello Example" href="/starting/advanced/unit/example.html"/>
+          </item>
         </item>
       </item>
       <item name="Merlin System" href="/merlin/index.html"/>
