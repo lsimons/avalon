@@ -82,7 +82,8 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <exception cref=""> NullPointerException if the descriptor argument is null
 		/// </exception>
-		public ServiceDescriptor(ServiceDescriptor descriptor) : base(descriptor.Properties)
+		public ServiceDescriptor(ServiceDescriptor descriptor) : 
+			base(descriptor.Properties, null)
 		{
 			m_designator = descriptor.Reference;
 		}
@@ -108,7 +109,9 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <exception cref=""> NullPointerException if the designator argument is null
 		/// </exception>
-		public ServiceDescriptor(ReferenceDescriptor designator, System.Collections.Specialized.NameValueCollection attributes):base(attributes)
+		public ServiceDescriptor(ReferenceDescriptor designator, 
+			System.Collections.Specialized.NameValueCollection attributes) : 
+			base(attributes, null)
 		{
 			
 			if (null == designator)

@@ -77,7 +77,9 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <exception cref=""> NullPointerException if the reference argument is null
 		/// </exception>
-		public StageDescriptor(System.String urn, System.Collections.Specialized.NameValueCollection attributes):base(attributes)
+		public StageDescriptor(System.String urn, 
+			System.Collections.Specialized.NameValueCollection attributes) : 
+			base(attributes, null)
 		{
 			
 			if (null == (System.Object) urn)

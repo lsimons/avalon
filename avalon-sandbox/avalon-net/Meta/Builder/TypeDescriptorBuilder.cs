@@ -62,7 +62,12 @@ namespace Apache.Avalon.Meta.Builder
 		{
 		}
 
-		public TypeDescriptor CreateTypeDescriptor(String typename)
+		/// <summary>
+		/// TODO
+		/// </summary>
+		/// <param name="typename"></param>
+		/// <returns></returns>
+		public TypeDescriptor CreateTypeDescriptor( String typename )
 		{
 			Type targetType = null;
 
@@ -76,15 +81,29 @@ namespace Apache.Avalon.Meta.Builder
 					String.Format("Exception obtaining type {0}", typename), e);
 			}
 
+			TypeMetaInformation typeInfo = null;
+			
+			try
+			{
+				typeInfo = TypeMetaInformation.Build( targetType );
+			}
+			catch(Exception e)
+			{
+				throw new BuilderException(
+					String.Format("Exception gathering attributes from type {0}",
+						targetType.FullName), e);
+			}
+
+
 			TypeDescriptor descriptor = null;
 
-			InfoDescriptor info = BuildInfoDescriptor( targetType );
-			CategoryDescriptor[] loggers = BuildCategoryDescriptor( targetType );
-			ContextDescriptor context = BuildContextDescriptor( targetType );
-			ServiceDescriptor[] services = BuildServiceDescriptor( targetType );
-			DependencyDescriptor[] dependencies = BuildDependencyDescriptor( targetType );
-			StageDescriptor[] stages = BuildStageDescriptor( targetType );
-			ExtensionDescriptor[] extensions = BuildExtensionDescriptor( targetType );
+			InfoDescriptor info = BuildInfoDescriptor( typeInfo );
+			CategoryDescriptor[] loggers = BuildCategoryDescriptor( typeInfo );
+			ContextDescriptor context = BuildContextDescriptor( typeInfo );
+			ServiceDescriptor[] services = BuildServiceDescriptor( typeInfo );
+			DependencyDescriptor[] dependencies = BuildDependencyDescriptor( typeInfo );
+			StageDescriptor[] stages = BuildStageDescriptor( typeInfo );
+			ExtensionDescriptor[] extensions = BuildExtensionDescriptor( typeInfo );
 
 			descriptor = new TypeDescriptor(info, loggers, 
 				context, services, 
@@ -93,104 +112,137 @@ namespace Apache.Avalon.Meta.Builder
 			return descriptor;
 		}
 
-		private ContextDescriptor BuildContextDescriptor( Type targetType )
+		private ContextDescriptor BuildContextDescriptor( TypeMetaInformation typeInfo )
 		{
-			// TODO: Not supported yet
-			return new ContextDescriptor( new EntryDescriptor[0] );
-		}
+			ArrayList list = new ArrayList();
 
-		private ServiceDescriptor[] BuildServiceDescriptor( Type targetType )
-		{
-			if (! (targetType.IsDefined( typeof(AvalonServiceAttribute), true )) )
+			foreach(AvalonEntryAttribute attribute in typeInfo.EntriesAttribute)
 			{
-				throw new BuilderException(
-					String.Format("Type {0} is not exposing AvalonServiceAttribute", targetType.FullName));
+				EntryDescriptor entryDescriptor = 
+					new EntryDescriptor( attribute.Key, attribute.EntryType, 
+						attribute.Optional, attribute.Volatile, attribute.Alias, typeInfo[ attribute ] );
+
+				list.Add( entryDescriptor );
 			}
 
-			ArrayList serviceList = new ArrayList();
+			EntryDescriptor[] entries = (EntryDescriptor[]) list.ToArray( typeof(EntryDescriptor) );
 
-			object[] attr = targetType.GetCustomAttributes( typeof(AvalonServiceAttribute), true );
-			foreach(AvalonServiceAttribute serviceAttribute in attr)
+			ContextDescriptor desc = null;
+			
+			if (typeInfo.ContextAttribute != null)
+			{
+				desc = new ContextDescriptor( typeInfo.ContextAttribute.ContextType, entries );
+			}
+			else
+			{
+				desc = new ContextDescriptor( entries );
+			}
+
+			return desc;
+		}
+
+		private ServiceDescriptor[] BuildServiceDescriptor( TypeMetaInformation typeInfo )
+		{
+			if (typeInfo.ServicesAttribute.Length == 0)
+			{
+				throw new BuilderException(
+					String.Format("Type {0} is not exposing AvalonServiceAttribute", typeInfo.TargetType.FullName));
+			}
+
+			ArrayList list = new ArrayList();
+
+			foreach(AvalonServiceAttribute attribute in typeInfo.ServicesAttribute)
 			{
 				ReferenceDescriptor referenceDescriptor = 
-					new ReferenceDescriptor( serviceAttribute.ServiceType.FullName );
+					new ReferenceDescriptor( attribute.ServiceType.FullName );
 
 				ServiceDescriptor serviceDescriptor = 
 					new ServiceDescriptor(referenceDescriptor);
 
-				serviceList.Add( serviceDescriptor );
+				list.Add( serviceDescriptor );
 			}
 
-			return (ServiceDescriptor[]) serviceList.ToArray( typeof(ServiceDescriptor) );
+			return (ServiceDescriptor[]) list.ToArray( typeof(ServiceDescriptor) );
 		}
 
-		private DependencyDescriptor[] BuildDependencyDescriptor( Type targetType )
+		private DependencyDescriptor[] BuildDependencyDescriptor( TypeMetaInformation typeInfo )
 		{
-			if (! (targetType.IsDefined( typeof(AvalonDependencyAttribute), true )) )
+			if (typeInfo.DependenciesAttribute.Length == 0)
 			{
 				return null;
 			}
 
-			ArrayList dependencyList = new ArrayList();
+			ArrayList list = new ArrayList();
 
-			object[] attr = targetType.GetCustomAttributes( typeof(AvalonDependencyAttribute), true );
-			foreach(AvalonDependencyAttribute dependencyAttribute in attr)
+			foreach(AvalonDependencyAttribute attribute in typeInfo.DependenciesAttribute)
 			{
 				ReferenceDescriptor referenceDescriptor = 
-					new ReferenceDescriptor( dependencyAttribute.DependencyType.FullName );
+					new ReferenceDescriptor( attribute.DependencyType.FullName );
 
 				DependencyDescriptor serviceDescriptor = 
-					new DependencyDescriptor( dependencyAttribute.Key, 
+					new DependencyDescriptor( attribute.Key, 
 						referenceDescriptor, 
-						dependencyAttribute.IsOptional, null );
+						attribute.IsOptional, null, typeInfo[ attribute ] );
 
-				dependencyList.Add( serviceDescriptor );
+				list.Add( serviceDescriptor );
 			}
 
-			return (DependencyDescriptor[]) dependencyList.ToArray( typeof(DependencyDescriptor) );
+			return (DependencyDescriptor[]) list.ToArray( typeof(DependencyDescriptor) );
 		}
 
-		private StageDescriptor[] BuildStageDescriptor( Type targetType )
+		private StageDescriptor[] BuildStageDescriptor( TypeMetaInformation typeInfo )
 		{
-			// TODO: Not supported yet
-			return new StageDescriptor[0];
+			ArrayList list = new ArrayList();
+
+			foreach( AvalonStageAttribute attribute in typeInfo.StagesAttribute )
+			{
+				list.Add ( new StageDescriptor(attribute.ExtensionID) );
+			}
+
+			return (StageDescriptor[]) list.ToArray( typeof(StageDescriptor) );
 		}
 
-		private ExtensionDescriptor[] BuildExtensionDescriptor( Type targetType )
+		private ExtensionDescriptor[] BuildExtensionDescriptor( TypeMetaInformation typeInfo )
 		{
-			// TODO: Not supported yet
-			return new ExtensionDescriptor[0];
+			ArrayList list = new ArrayList();
+
+			foreach( AvalonExtensionAttribute attribute in typeInfo.ExtensionsAttribute )
+			{
+				list.Add ( new ExtensionDescriptor(attribute.ID) );
+			}
+
+			return (ExtensionDescriptor[]) list.ToArray( typeof(ExtensionDescriptor) );
 		}
 
-		private CategoryDescriptor[] BuildCategoryDescriptor( Type targetType )
+		private CategoryDescriptor[] BuildCategoryDescriptor( TypeMetaInformation typeInfo )
 		{
-			// TODO: Currently very restrict usage:
-			object[] attr = targetType.GetCustomAttributes( typeof(AvalonComponentAttribute), false );
-			AvalonComponentAttribute componentAtt = attr[0] as AvalonComponentAttribute;
+			String loggerName = typeInfo.ComponentAttribute.Name;
 
-			CategoryDescriptor category = new CategoryDescriptor( componentAtt.LoggerName, null );
+			if (typeInfo.LoggerAttribute != null)
+			{
+				loggerName = typeInfo.LoggerAttribute.Name;
+			}
+
+			CategoryDescriptor category = new CategoryDescriptor( loggerName, null );
 
 			return new CategoryDescriptor[] { category };
 		}
 
-		private InfoDescriptor BuildInfoDescriptor( Type targetType )
+		private InfoDescriptor BuildInfoDescriptor( TypeMetaInformation typeInfo )
 		{
-			if (!(targetType.IsDefined( typeof(AvalonComponentAttribute), false )))
+			if ( typeInfo.ComponentAttribute == null )
 			{
 				throw new BuilderException(
-					String.Format("Type {0} is not an Avalon component", targetType.FullName));
+					String.Format("Type {0} is not an Avalon component", typeInfo.TargetType.FullName));
 			}
 
-			object[] attr = targetType.GetCustomAttributes( typeof(AvalonComponentAttribute), false );
-			AvalonComponentAttribute componentAtt = attr[0] as AvalonComponentAttribute;
-
-			String name = componentAtt.Name;
-			String typename = targetType.FullName; // Verificar se o nome do assembly é incluido
-			Version version = targetType.Assembly.GetName().Version;
-			Lifestyle lifestyle = componentAtt.Lifestyle;
+			String name = typeInfo.ComponentAttribute.Name;
+			String typename = typeInfo.TargetType.FullName; // Verificar se o nome do assembly é incluido
+			Version version = typeInfo.TargetType.Assembly.GetName().Version;
+			Lifestyle lifestyle = typeInfo.ComponentAttribute.Lifestyle;
 			
 			// TODO: What is a component schema anyway?
-			String schema = String.Empty; 
+			String schema = ExtractSchemaName( typeInfo ); 
 			
 			// TODO: We should expose this using some attribute
 			CollectionPolicy collectionPolicy = CollectionPolicy.Conservative; 
@@ -200,6 +252,18 @@ namespace Apache.Avalon.Meta.Builder
 
 			return new InfoDescriptor( name, typename, version, 
 				lifestyle, collectionPolicy, schema, attributes );
+		}
+
+		private String ExtractSchemaName( TypeMetaInformation typeInfo )
+		{
+			String schema = String.Empty;
+
+			if (typeInfo.ConfigurationAttribute != null)
+			{
+				schema = typeInfo.ConfigurationAttribute.Schema;
+			}
+
+			return schema;
 		}
 	}
 }

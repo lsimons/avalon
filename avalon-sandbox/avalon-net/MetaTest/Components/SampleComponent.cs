@@ -63,14 +63,14 @@ namespace Apache.Avalon.Meta.Test.Components
 	{
 	}
 
-
 	/// <summary>
 	/// Summary description for SampleComponent.
 	/// </summary>
-	[AvalonComponent("samplecomponent", Lifestyle.Singleton, LoggerName="logger")]
+	[AvalonComponent("samplecomponent", Lifestyle.Singleton )]
 	[AvalonService( typeof(IFirstService) )]
 	[AvalonService( typeof(ISecondService) )]
 	[AvalonDependency( typeof(IThirdService), "role", Optional.True )]
+	[AvalonLogger( "loggerName" )]
 	public class SampleComponent : IFirstService, ISecondService
 	{
 	}

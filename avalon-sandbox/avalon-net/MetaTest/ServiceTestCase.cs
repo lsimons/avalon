@@ -69,7 +69,7 @@ namespace Apache.Avalon.Meta.Test
 		public virtual void  setUp()
 		{
 			m_reference = new ReferenceDescriptor(typeof(ServiceTestCase).Name, new Version("1.2.3"));
-			m_entries = new EntryDescriptor[]{new EntryDescriptor("key", typeof(System.String).FullName)};
+			m_entries = new EntryDescriptor[]{new EntryDescriptor("key", typeof(System.String), null)};
 		}
 
 		protected override internal Descriptor Descriptor

@@ -69,7 +69,7 @@ namespace Apache.Avalon.Meta
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/01/13 00:59:28 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/01/19 01:19:41 $
 	/// </version>
 	[Serializable]
 	public sealed class InfoDescriptor : Descriptor
@@ -129,11 +129,17 @@ namespace Apache.Avalon.Meta
 		/// </exception>
 		public InfoDescriptor(System.String name, System.String typename, 
 			Version version, Lifestyle lifestyle, CollectionPolicy collection, 
-			System.String schema, System.Collections.Specialized.NameValueCollection attributes) : base(attributes)
+			System.String schema, 
+			System.Collections.Specialized.NameValueCollection attributes) : 
+			base(attributes, null)
 		{
 			if (null == (System.Object) typename)
 			{
-				throw new System.NullReferenceException("typename");
+				throw new System.ArgumentNullException("typename");
+			}
+			if (null == (System.Object) name)
+			{
+				throw new System.ArgumentNullException("name");
 			}
 			
 			m_name = name;

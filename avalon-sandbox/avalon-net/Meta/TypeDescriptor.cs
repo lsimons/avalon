@@ -135,7 +135,10 @@ namespace Apache.Avalon.Meta
 		/// <exception cref=""> NullPointerException if the descriptor, loggers, context, services,
 		/// dependencies, stages, or extensions argument is null
 		/// </exception>
-		public TypeDescriptor(InfoDescriptor descriptor, CategoryDescriptor[] loggers, ContextDescriptor context, ServiceDescriptor[] services, DependencyDescriptor[] dependencies, StageDescriptor[] stages, ExtensionDescriptor[] extensions, IConfiguration defaults)
+		public TypeDescriptor(InfoDescriptor descriptor, CategoryDescriptor[] loggers, 
+			ContextDescriptor context, ServiceDescriptor[] services,
+			DependencyDescriptor[] dependencies, StageDescriptor[] stages, 
+			ExtensionDescriptor[] extensions, IConfiguration defaults)
 		{
 			if (null == descriptor)
 			{
@@ -290,7 +293,7 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <returns> TRUE if the logging subcategory is declared.
 		/// </returns>
-		public virtual bool isaCategory(System.String name)
+		public virtual bool IsACategory(System.String name)
 		{
 			CategoryDescriptor[] loggers = Categories;
 			for (int i = 0; i < loggers.Length; i++)
@@ -311,7 +314,7 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <returns> the service descriptor or null if it does not exist
 		/// </returns>
-		public virtual ServiceDescriptor getService(ReferenceDescriptor reference)
+		public virtual ServiceDescriptor GetService(ReferenceDescriptor reference)
 		{
 			for (int i = 0; i < m_services.Length; i++)
 			{
@@ -331,7 +334,7 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <returns> the service descriptor or null if it does not exist
 		/// </returns>
-		public virtual ServiceDescriptor getService(System.String classname)
+		public virtual ServiceDescriptor GetService(System.String classname)
 		{
 			for (int i = 0; i < m_services.Length; i++)
 			{
@@ -351,7 +354,7 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <returns> the dependency or null if it does not exist
 		/// </returns>
-		public virtual DependencyDescriptor getDependency(System.String key)
+		public virtual DependencyDescriptor GetDependency(System.String key)
 		{
 			for (int i = 0; i < m_dependencies.Length; i++)
 			{
@@ -370,9 +373,9 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <returns> a matching extension or null if no matching extension
 		/// </returns>
-		public virtual ExtensionDescriptor getExtension(StageDescriptor stage)
+		public virtual ExtensionDescriptor GetExtension(StageDescriptor stage)
 		{
-			return getExtension(stage.Key);
+			return GetExtension(stage.Key);
 		}
 		
 		/// <summary> Return the extension supporting the supplied stage.
@@ -382,7 +385,7 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <returns> a matching extension or null if no matching extension
 		/// </returns>
-		public virtual ExtensionDescriptor getExtension(System.String key)
+		public virtual ExtensionDescriptor GetExtension(System.String key)
 		{
 			ExtensionDescriptor[] extensions = Extensions;
 			for (int i = 0; i < extensions.Length; i++)

@@ -56,7 +56,7 @@ namespace Apache.Avalon.Meta
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/01/13 00:59:28 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/01/19 01:19:41 $
 	/// </version>
 	[Serializable]
 	public class Service : Descriptor
@@ -119,7 +119,9 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <param name="attributes">the set of attributes to assign to the descriptor
 		/// </param>
-		public Service(ReferenceDescriptor reference, EntryDescriptor[] entries, System.Collections.Specialized.NameValueCollection attributes):base(attributes)
+		public Service(ReferenceDescriptor reference, EntryDescriptor[] entries, 
+			System.Collections.Specialized.NameValueCollection attributes) : 
+			base(attributes, null)
 		{
 			if (reference == null)
 			{
