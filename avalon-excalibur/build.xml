@@ -320,11 +320,13 @@ Legal:
       <!-- All tests in the src/test directory -->
       <fileset dir="${test.dir}">
         <include name="**/test/**"/>
+        <include name="*Test.java"/>
       </fileset>
 
       <!-- All tests in the src/scratchpad directory -->
       <fileset dir="${scratchpad.dir}">
         <include name="**/test/**"/>
+        <include name="*Test.java"/>
       </fileset>
     </copy>
 
@@ -341,7 +343,7 @@ Legal:
            optimize="${build.optimize}"
            deprecation="${build.deprecation}"
            target="1.2">
-      <classpath refid="project.class.path" />
+      <classpath refid="test.class.path" />
     </javac>
   </target>
 
