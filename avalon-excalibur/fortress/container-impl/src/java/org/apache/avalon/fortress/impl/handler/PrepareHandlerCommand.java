@@ -52,13 +52,12 @@ package org.apache.avalon.fortress.impl.handler;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.NullLogger;
 import org.apache.excalibur.event.command.Command;
-import org.apache.avalon.fortress.impl.handler.ComponentHandler;
 
 /**
  * This is the command class to initialize a ComponentHandler
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/07 16:08:12 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/10 15:47:00 $
  */
 public final class PrepareHandlerCommand implements Command
 {
