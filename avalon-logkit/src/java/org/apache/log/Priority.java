@@ -45,6 +45,11 @@ public final class Priority
      */
     public static final Priority FATAL_ERROR = new Priority( "FATAL_ERROR", 25 );
 
+    /**
+     * Do not log anything.
+     */
+    public static final Priority NONE = new Priority( "NONE", Integer.MAX_VALUE );
+    
     private final String m_name;
     private final int m_priority;
 
@@ -66,6 +71,8 @@ public final class Priority
             return Priority.ERROR;
         else if( Priority.FATAL_ERROR.getName().equals( priority ) )
             return Priority.FATAL_ERROR;
+        else if( Priority.NONE.getName().equals( priority ) )
+            return Priority.NONE;
         else
             return Priority.DEBUG;
     }
