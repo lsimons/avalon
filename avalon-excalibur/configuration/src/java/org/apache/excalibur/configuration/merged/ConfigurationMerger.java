@@ -128,7 +128,7 @@ public class ConfigurationMerger
             }
 
             final int layerMatch = getMatchingConfiguration( matcher, layerKids );
-            final int baseMatch = getMatchingConfiguration( matcher, layerKids );
+            final int baseMatch = getMatchingConfiguration( matcher, baseKids );
 
             if( layerMatch >= 0 && baseMatch >= 0 )
             {
