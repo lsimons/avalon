@@ -84,7 +84,7 @@
             <td>Extending HelloComponent to expose a service and the respective type declarations.</td>
           </tr>
           <tr>
-            <td><a href="dependencies.html">Managing Dependencies</a></td>
+            <td><a href="dependencies/index.html">Managing Dependencies</a></td>
             <td>Addition of a dependency to HelloComponent and the corresponding declarations in the component type descriptor.</td>
           </tr>
         </table>
