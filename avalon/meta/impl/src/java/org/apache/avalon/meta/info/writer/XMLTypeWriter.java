@@ -32,13 +32,15 @@ import org.apache.avalon.meta.info.ServiceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 import org.apache.avalon.meta.info.ExtensionDescriptor;
 import org.apache.avalon.meta.info.Type;
+import org.apache.avalon.meta.info.SecurityDescriptor;
+import org.apache.avalon.meta.info.PermissionDescriptor;
 
 /**
  * Write {@link Type} objects to a stream as xml documents.
  *
  * TODO: Address configuration schema support
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/02/21 13:27:04 $
+ * @version $Revision: 1.10 $ $Date: 2004/02/24 22:32:46 $
  */
 public class XMLTypeWriter
     implements TypeWriter
@@ -62,6 +64,7 @@ public class XMLTypeWriter
         writeDoctype( writer, "type" );
         writer.write( "\n\n<type>" );
         writeInfo( writer, type.getInfo() );
+        writeSecurity( writer, type.getSecurity() );
         writeLoggers( writer, type.getCategories() );
         writeContext( writer, type.getContext() );
         writeServices( writer, type.getServices() );
@@ -144,6 +147,74 @@ public class XMLTypeWriter
         {
             writeAttributes( writer, info );
             writer.write( "\n  </info>" );
+        }
+    }
+
+    /**
+     * Write out xml representation of the security criteria.
+     *
+     * @param writer the writer
+     * @param security the security descriptor
+     * @throws IOException if unable to write xml
+     */
+    private void writeSecurity( final Writer writer,
+                               final SecurityDescriptor descriptor )
+        throws IOException
+    {
+        PermissionDescriptor[] permissions = descriptor.getPermissions();
+        if(
+          ( 0 == descriptor.getAttributeNames().length )
+          && ( 0 == permissions.length ) )
+        {
+            return;
+        }
+
+        writer.write( "\n  <security>" );
+        for( int i = 0; i < permissions.length; i++ )
+        {
+            writePermission( writer, permissions[ i ] );
+        }
+
+        writer.write( "\n  </security>" );
+    }
+
+
+    /**
+     * Write out xml representation of a logger.
+     *
+     * @param writer the writer
+     * @param logger the logger
+     * @throws IOException if unable to write xml
+     */
+    private void writePermission( final Writer writer,
+                              final PermissionDescriptor permission )
+        throws IOException
+    {
+        writer.write( "\n    <permission class=\"" );
+        writer.write( permission.getClassname() );
+        writer.write( "\" " );
+        if( null != permission.getName() )
+        {
+            writer.write( " name=\"" );
+            writer.write( permission.getName() );
+            writer.write( "\"" );
+        }
+        if( 0 == permission.getActions().length )
+        {
+            writer.write( "/>" );
+        }
+        else
+        {
+            writer.write( ">" );
+            String[] actions = permission.getActions();
+            for( int i=0; i<actions.length; i++ )
+            {
+                String action = actions[i];
+                writer.write( "\n      <action>" );
+                writer.write( action );
+                writer.write( "</action>" );
+            }
+            writer.write( "\n    </permission>" );
         }
     }
 

@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * </ul>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/24 21:35:31 $
+ * @version $Revision: 1.3 $ $Date: 2004/02/24 22:32:46 $
  */
 public final class PermissionDescriptor
         implements Serializable
@@ -168,18 +168,6 @@ public final class PermissionDescriptor
             hash >>>= 13;
         }
         return hash;
-    }
-
-    private static String[] expandActions( String arg )
-    {
-        if( null == arg ) return new String[0];
-        ArrayList list = new ArrayList();
-        StringTokenizer tokenizer = new StringTokenizer( arg, "," );
-        while( tokenizer.hasMoreTokens() )
-        {
-            list.add( tokenizer.nextToken() );
-        }
-        return (String[]) list.toArray( new String[0] );
     }
 
     public String toString()
