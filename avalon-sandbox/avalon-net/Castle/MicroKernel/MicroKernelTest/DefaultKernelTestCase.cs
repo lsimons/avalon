@@ -58,7 +58,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 		public void SimpleAvalonComponent()
 		{
 			AvalonKernel container = new DefaultKernel();
-			container.AddComponent( "a", typeof(IMailService), typeof(AvalonMailService) );
+			container.AddComponent( "a", typeof(IMailService), typeof(AvalonMailService2) );
 
 			IHandler handler = container[ "a" ];
 

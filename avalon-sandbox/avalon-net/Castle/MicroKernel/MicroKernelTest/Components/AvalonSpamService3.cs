@@ -21,11 +21,13 @@ namespace Apache.Avalon.Castle.MicroKernel.Test.Components
 	/// <summary>
 	/// Summary description for AvalonSpamService3.
 	/// </summary>
-	[AvalonComponent("spamservice2", Lifestyle.Singleton)]
+	[AvalonComponent("spamservice2", Lifestyle.Transient)]
 	[AvalonService( typeof(ISpamService2) )]
-	public class AvalonSpamService3 : IInitializable, ISpamService2
+	public class AvalonSpamService3 : IInitializable, ISpamService2, IDisposable
 	{
 		public IMailService m_mailService;
+
+		public bool disposed = false;
 
 		public AvalonSpamService3()
 		{
@@ -63,6 +65,15 @@ namespace Apache.Avalon.Castle.MicroKernel.Test.Components
 			{
 				throw new Exception("Dependency not satisfied.");
 			}
+		}
+
+		#endregion
+
+		#region IDisposable Members
+
+		public void Dispose()
+		{
+			disposed = true;
 		}
 
 		#endregion

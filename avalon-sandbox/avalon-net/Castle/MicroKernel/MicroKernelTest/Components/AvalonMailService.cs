@@ -23,7 +23,8 @@ namespace Apache.Avalon.Castle.MicroKernel.Test.Components
 	/// </summary>
 	[AvalonComponent("mailservice", Lifestyle.Singleton)]
 	[AvalonService( typeof(IMailService) )]
-	public class AvalonMailService : IMailService, IInitializable, IConfigurable, IDisposable
+	public class AvalonMailService : 
+		IMailService, IInitializable, IConfigurable, IDisposable
 	{
 		public bool initialized;
 		public bool configured;
