@@ -302,7 +302,7 @@ public class Magic extends DataType
         else
         {
             File user = new File( System.getProperty( "user.home" ) );
-            File system = new File( user, ".merlin" );
+            File system = new File( user, ".magic" );
             return Context.getCanonicalFile( system );
         }
     }
