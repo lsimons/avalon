@@ -67,8 +67,14 @@ import org.apache.log.output.AbstractOutputTarget;
 public class StreamTarget
     extends AbstractOutputTarget
 {
+    ///Default character encoding
+    private static final String DEFAULT_ENCODING = "US-ASCII";
+
     ///OutputStream we are writing to
     private OutputStream m_outputStream;
+
+    //The encoding to use when creating byte array for string
+    private String m_encoding;
 
     /**
      * Constructor that writes to a stream and uses a particular formatter.
@@ -76,15 +82,30 @@ public class StreamTarget
      * @param outputStream the OutputStream to write to
      * @param formatter the Formatter to use
      */
-    public StreamTarget( final OutputStream outputStream, final Formatter formatter )
+    public StreamTarget( final OutputStream outputStream,
+                         final Formatter formatter,
+                         final String encoding )
     {
         super( formatter );
+        m_encoding = encoding;
 
         if( null != outputStream )
         {
             setOutputStream( outputStream );
             open();
         }
+    }
+
+    /**
+     * Constructor that writes to a stream and uses a particular formatter.
+     *
+     * @param outputStream the OutputStream to write to
+     * @param formatter the Formatter to use
+     */
+    public StreamTarget( final OutputStream outputStream,
+                         final Formatter formatter )
+    {
+        this( outputStream, formatter, DEFAULT_ENCODING );
     }
 
     /**
@@ -123,8 +144,7 @@ public class StreamTarget
 
         try
         {
-            //TODO: We should be able to specify encoding???
-            outputStream.write( data.getBytes() );
+            outputStream.write( data.getBytes( m_encoding ) );
             outputStream.flush();
         }
         catch( final IOException ioe )
