@@ -28,21 +28,17 @@ div#banner {
 /* make the whole column grey */
 #navcolumn {
  width: 150px;
- background: none;
- border-top: none;
- border-right: none;
- border-bottom: none;
  }
 
 #leftcol {
  width: 150px;
- background: #eee;
- border-top: 1px solid #fff;
- border-right: 1px solid #aaa;
- border-bottom: 1px solid #aaa;
 }
 
 /* breadcrumbs */
+#breadcrumbs
+{
+	font-weight: bold;
+}
 .breadcrumbTrail
 {
 	padding-left: 5px;

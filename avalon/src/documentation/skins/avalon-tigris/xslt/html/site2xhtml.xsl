@@ -16,7 +16,7 @@
             </title>
          </head>
 
-         <body marginwidth="0" marginheight="0" class="composite">
+         <body marginwidth="0" marginheight="0" class="composite" bgcolor="white">
 <!-- TOP IMAGE -->
             <div id="banner">
                <table border="0" cellspacing="0" cellpadding="8" width="100%">
@@ -35,12 +35,22 @@
 
 <!-- end header -->
 <!-- breadcrumb trail (javascript-generated) -->
-            <div id="breadcrumbs">
-              <script type="text/javascript" language="JavaScript" src="skin/breadcrumbs.js"></script>
-              <!-- optimized version crumb:
-                <script type="text/javascript" language="JavaScript" src="skin/breadcrumbs-optimized.js"></script>
-               -->
-            </div>
+            <!-- don't do breadcrumbs for now as they apparantly break the skin in some browsers -->
+            <table id="breadcrumbs" border="0" cellspacing="0" cellpadding="0" width="100%">
+                        <td>
+            <a href="http://jakarta.apache.org/">Jakarta Main</a> |
+            <a href="http://jakarta.apache.org/avalon">Avalon Main</a> |
+            <a href="../">Up</a>
+                        </td>
+                        <td align="right" style="text-align: right">
+            <a href="http://jakarta.apache.org/avalon/framework/">Framework</a> |
+            <a href="http://jakarta.apache.org/avalon/excalibur/">Excalibur</a> |
+            <a href="http://jakarta.apache.org/avalon/cornerstone/">Cornerstone</a> |
+            <a href="http://jakarta.apache.org/avalon/phoenix/">Phoenix</a> |
+            <a href="http://jakarta.apache.org/avalon/apps/">Apps</a> |
+            <a href="http://jakarta.apache.org/avalon/logkit/">Logkit</a>
+                        </td>
+            </table>
 
 <!-- end breadcrumb trail -->
 
