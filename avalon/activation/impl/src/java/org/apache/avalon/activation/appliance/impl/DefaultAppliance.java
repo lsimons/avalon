@@ -108,7 +108,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.22 $ $Date: 2004/01/20 05:26:17 $
+ * @version $Revision: 1.23 $ $Date: 2004/01/21 05:17:26 $
  */
 public class DefaultAppliance extends AbstractAppliance implements Appliance
 {
@@ -202,10 +202,10 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
         m_accessControlContext = access;
         m_secured = secured;
         
-        // Enabled the SecurityManager is none already exists, and that
+        // Enabled the SecurityManager if none already exists, and that
         // the kernel setting for enabling the secure execution has been
-        // set. The parameter in the kernel is urn:composition:security.enabled
-        if( System.getSecurityManager() == null )
+        // set. The parameter in the kernel is urn:composition.security.enabled
+        if( m_secured && System.getSecurityManager() == null )
         {
             System.setSecurityManager( new SecurityManager() );
         }
