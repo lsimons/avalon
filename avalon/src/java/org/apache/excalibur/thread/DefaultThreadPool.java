@@ -40,7 +40,7 @@ public class DefaultThreadPool
     {
         super( name );
         m_pool = new SoftResourceLimitingPool( this, 0 );
-        m_pool.init();
+        m_pool.initialize();
     }
 
     public void setLogger( final Logger logger )
