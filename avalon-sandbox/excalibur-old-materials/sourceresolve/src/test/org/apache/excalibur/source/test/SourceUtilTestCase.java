@@ -62,7 +62,7 @@ import junit.framework.TestCase;
  * Test case for SourceUtil.
  *
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version $Id: SourceUtilTestCase.java,v 1.5 2003/07/07 16:50:41 bloritsch Exp $
+ * @version $Id: SourceUtilTestCase.java,v 1.6 2003/07/07 16:52:44 bloritsch Exp $
  */
 public class SourceUtilTestCase extends TestCase
 {

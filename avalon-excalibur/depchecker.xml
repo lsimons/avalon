@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.55 $
+                   Version $Revision: 1.56 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
