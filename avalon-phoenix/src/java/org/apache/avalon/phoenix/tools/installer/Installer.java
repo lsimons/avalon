@@ -30,7 +30,6 @@ import org.apache.avalon.excalibur.io.ExtensionFileFilter;
 import org.apache.avalon.excalibur.io.FileUtil;
 import org.apache.avalon.excalibur.io.IOUtil;
 import org.apache.avalon.framework.logger.AbstractLoggable;
-import org.apache.avalon.phoenix.tools.protocols.sar.SarURLConnection;
 
 /**
  * An Installer is responsible for taking a URL for Sar
@@ -342,7 +341,7 @@ public class Installer
         final String server = getURLAsString( new File( directory, FS_SERVER_XML ) );
         final FileDigest[] fileDigests = (FileDigest[])digests.toArray( new FileDigest[0] );
 
-        return new Installation( directory, config, assembly, server, classPath, fileDigests );
+        return new Installation( file, directory, config, assembly, server, classPath, fileDigests );
     }
 
     /**
@@ -403,7 +402,7 @@ public class Installer
         final String server = getURLAsString( new File( directory, OLD_SERVER_XML ) );
         final FileDigest[] fileDigests = (FileDigest[])digests.toArray( new FileDigest[0] );
 
-        return new Installation( directory, config, assembly, server, classPath, fileDigests );
+        return new Installation( file, directory, config, assembly, server, classPath, fileDigests );
     }
 
     /**
@@ -420,7 +419,7 @@ public class Installer
         final String assembly = getURLAsString( new File( directory, OLD_ASSEMBLY_XML ) );
         final String server = getURLAsString( new File( directory, OLD_SERVER_XML ) );
 
-        return new Installation( directory, config, assembly, server, classPath );
+        return new Installation( directory, directory, config, assembly, server, classPath, null );
     }
    
     /**
