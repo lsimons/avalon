@@ -8,7 +8,7 @@
     </authors>
   </header>
   <body>
-    <s1 title="Introduction">
+    <section><title>Introduction</title>
       <p>
         Avalon Excalibur's resource management code allows you to
         be notified when a resource has changed.  There are two
@@ -27,12 +27,12 @@
         The resource management API uses regular JavaBeans property
         change event handling.
       </p>
-    </s1>
+    </section>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/04/05 06:36:51 $
+      $Revision: 1.2 $ $Date: 2003/02/20 14:32:32 $
     </legal>
   </footer>
 </document>
