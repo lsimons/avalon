@@ -24,6 +24,17 @@
         <li>initialization of the project model</li>
       </ul>
 
+      <p>
+      The following example demonstrates the initialization of 
+      a home using a default ${project.home}/index.xml.
+      </p>
+
+<source><![CDATA[
+  <property name="project.home" value=".."/>
+
+  <x:home/>
+]]></source>
+
       <subsection name="Property Loading">
 
       <p>
@@ -76,7 +87,20 @@
       </p>
 
       </subsection>
-      <subsection name="Usage">
+      <subsection name="Project Identification">
+
+      <p>
+      A project build.xml identifies itself to magic using the 
+      property ${project.name}.  The value of ${project.name}
+      is the name of a project within the model.  If no ${project.name}
+      property is defined, the name of the project (build file name)
+      will be used as the key.  Subsequent version, project group, 
+      dependency and plugin requirements will be resolved relative to 
+      the project defintion identified by the key.
+      </p>
+
+      </subsection>
+      <subsection name="Examples">
 
       <p>
       The following example demonstrates the initialization of 
@@ -93,7 +117,7 @@
       </p>
 
 <source><![CDATA[
-  <property name="project.home" value="../.."/>
+  <property name="project.home" value=".."/>
 
   <x:home/>
 ]]></source>
