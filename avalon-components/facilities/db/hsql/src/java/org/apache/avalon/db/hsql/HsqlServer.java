@@ -33,7 +33,7 @@ import EDU.oswego.cs.dl.util.concurrent.ThreadedExecutor;
  * This is a database server facility for the HypersonicSQL database.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/06 00:01:40 $
+ * @version $Revision: 1.2 $ $Date: 2004/05/11 21:08:03 $
  */
 public class HsqlServer {
     /**
@@ -122,16 +122,12 @@ public class HsqlServer {
                        boolean silent,
                        Logger logger)
     {
-        logger.info("Entering constructor");
-        
         m_name = name;
         m_port = port;
         m_host = host;
         m_debug = debug;
         m_silent = silent;
         m_logger = logger;
-
-        logger.info("Exiting constructor");
     }
 
     /**
@@ -229,8 +225,6 @@ public class HsqlServer {
      */
     public void startServer() throws Exception
     {
-        m_logger.info("Entering startServer()");
-        
         // create the HSQLDB server and socket request handler
         try 
         {
@@ -249,12 +243,9 @@ public class HsqlServer {
             throw sqle;
         }
         
-        m_logger.info("Waypoint 1");
-        
         // start up primary socket server 
         final ServerSocket serverSocket = new ServerSocket( m_port,
             BACKLOG, m_host );
-        m_logger.info("Waypoint 2");
         serverSocket.setSoTimeout( TIMEOUT );
         m_serverSocketThread = 
           new Thread( new Runnable() {
@@ -263,16 +254,12 @@ public class HsqlServer {
                 runServer( serverSocket );
             }
           } );
-        m_logger.info("Waypoint 3");
         m_serverSocketThread.start();
-        m_logger.info("Waypoint 4");
         
         if ( m_logger.isInfoEnabled() ) 
         {
             m_logger.info( "Hypersonic SQL listening on port " + m_port );
         }
-        
-        m_logger.info("Exiting startServer()");
     }
     
     /**
