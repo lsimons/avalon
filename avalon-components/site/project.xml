@@ -5,12 +5,12 @@
   <extend>${basedir}/../project.xml</extend>
 
   <groupId>cornerstone</groupId>
-  <id>cornerstone-threads</id>
-  <name>Cornerstone Threads Package</name>
-  <package>org.apache.avalon.cornerstone.threads</package>
+  <id>cornerstone</id>
+  <name>Avalon Components Site</name>
+  <package>org.apache.avalon.cornerstone</package>
 
   <inceptionYear>2001</inceptionYear>
-  <shortDescription>Cornerstone Threads Package</shortDescription>
+  <shortDescription>Avalon Components Site</shortDescription>
 
   <dependencies>
     <dependency>

@@ -7,3 +7,5 @@ distributions
 docs
 *.ipr
 maven.log
+velocity.log
+
