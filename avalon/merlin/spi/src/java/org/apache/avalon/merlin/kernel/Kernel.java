@@ -50,19 +50,29 @@
 
 package org.apache.avalon.merlin.kernel;
 
-import java.net.URL;
-
-import org.apache.avalon.activation.appliance.Home;
+import org.apache.avalon.activation.appliance.Block;
+import org.apache.avalon.composition.model.ContainmentModel;
 
 /**
  * A Kernel is the root of a containment solution. This interfaces 
- * defines the contract for any kernel implementation, core covering 
- * management aspects and service resolutiuon aspects.
+ * defines the contract for any kernel implementation covering 
+ * management aspects and service resolution aspects.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:33:22 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/07 17:44:10 $
  */
-public interface Kernel extends Home, Controller
+public interface Kernel extends Controller
 {
+   /**
+    * Return the root containment model.
+    * @return the containment model
+    */
+    ContainmentModel getContainmentModel();
+
+   /**
+    * Return the block matching the supplied model.
+    * @return the containment block
+    */
+    Block getBlock( ContainmentModel model ) throws KernelException;
 
 }

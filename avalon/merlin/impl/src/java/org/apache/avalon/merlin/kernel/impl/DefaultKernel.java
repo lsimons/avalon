@@ -64,8 +64,10 @@ import org.apache.avalon.merlin.kernel.KernelException;
 import org.apache.avalon.merlin.kernel.KernelRuntimeException;
 import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.Block;
+import org.apache.avalon.activation.appliance.Engine;
 import org.apache.avalon.activation.appliance.Composite;
 import org.apache.avalon.activation.appliance.ServiceContext;
+import org.apache.avalon.activation.appliance.UnknownServiceException;
 import org.apache.avalon.activation.appliance.impl.DefaultBlock;
 import org.apache.avalon.activation.appliance.impl.DefaultServiceContext;
 import org.apache.avalon.composition.data.TargetDirective;
@@ -92,13 +94,14 @@ import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
+import org.apache.avalon.framework.Version;
 import org.apache.excalibur.mpool.PoolManager;
 
 /**
  * Implementation of the default Merlin Kernel.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:33:15 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/07 17:44:09 $
  */
 public class DefaultKernel extends NotificationBroadcasterSupport 
   implements Kernel, DefaultKernelMBean
@@ -378,64 +381,35 @@ public class DefaultKernel extends NotificationBroadcasterSupport
     }
 
     //--------------------------------------------------------------
-    // Home
+    // Kernel
     //--------------------------------------------------------------
 
-    /**
-     * Resolve a object to a value.
-     *
-     * @param source the context within the the resolution is applied
-     * @return the resolved object
-     * @throws Exception if an error occurs
-     */
-    public Object resolve( Object source ) throws Exception
+   /**
+    * Return the root containment model.
+    * @return the containment model
+    */
+    public ContainmentModel getContainmentModel()
     {
-        if( m_self.isEnabled() )
-        {
-            return m_block.resolve( source );
-        }
-        else
-        {
-            throw new IllegalStateException( "kernel" );
-        }
+        return m_model;
     }
 
-    /**
-     * Resolve a object to a value relative to a supplied set of 
-     * interface classes.
-     *
-     * @param source the aquiring source
-     * @param ref the castable service classes 
-     * @return the resolved object
-     * @throws Exception if an error occurs
-     */
-    public Object resolve( Object source, Class[] ref ) throws Exception
+   /**
+    * Return the block matching the supplied model.
+    * @return the containment block
+    */
+    public Block getBlock( ContainmentModel model ) throws KernelException
     {
-        if( m_self.isEnabled() )
+        if( !m_self.isEnabled() ) throw new IllegalStateException( "kernel" );
+        try
         {
-            return m_block.resolve( source, ref );
+            return (Block) m_block.resolveAppliance( model.getQualifiedName() );
         }
-        else
+        catch( Throwable e )
         {
-            throw new IllegalStateException( "kernel" );
-        }
-    }
-
-    /**
-     * Release an object
-     *
-     * @param source the client that obtained the intial reference
-     * @param instance the object to be released
-     */
-    public void release( Object source, Object instance )
-    {
-        if( m_self.isEnabled() )
-        {
-            m_block.release( source, instance );
-        }
-        else
-        {
-            throw new IllegalStateException( "kernel" );
+            final String error = 
+              "Unable to resolve block relative to the containment path: [" 
+              + model.getPath() + "].";
+            throw new KernelRuntimeException( error, e );
         }
     }
 
