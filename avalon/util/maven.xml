@@ -1,7 +1,18 @@
 <project default="avalon:build" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
-  <ant:property name="pom.organization.identifier" value="ASF"/>
-  <ant:property name="pom.specificationVersion" value="1.0"/>
+  <!--
+  ==============================================================================
+  switches 
+  ==============================================================================
+  -->
+
+  <ant:property name="avalon.snapshot" value="true"/>
+
+  <!--
+  ==============================================================================
+  dependent properties 
+  ==============================================================================
+  -->
 
   <ant:property name="maven.dist.assembly.dir"
     value="${maven.build.dir}/temp"/>
@@ -16,6 +27,20 @@
   <ant:property name="maven.dist.dir"
     value="${maven.build.dir}/distributions"/>
 
+  <!--
+  ==============================================================================
+  structural properties 
+  ==============================================================================
+  -->
+
+  <ant:property name="pom.organization.identifier" value="ASF"/>
+  <ant:property name="pom.specificationVersion" value="1.0"/>
+
+  <!--
+  ==============================================================================
+  build the utilities package
+  ==============================================================================
+  -->
 
   <goal name="avalon:build" description="Build the Repository.">
 
@@ -26,13 +51,26 @@
       banner="Building:"
       ignoreFailures="false"
       postProcessing="true" />
-    <ant:copy todir="${maven.build.dir}">
+    <ant:copy todir="${maven.build.dir}/jars">
       <j:forEach var="child" items="${reactorProjects}">
         <ant:fileset dir="${child.file.parentFile}/target">
           <ant:include name="${child.artifactId}-${child.currentVersion}.jar"/>
         </ant:fileset>
       </j:forEach>
     </ant:copy>
+    <j:forEach var="child" items="${reactorProjects}">
+      <j:set var="path" 
+          value="${child.artifactId}-${child.currentVersion}.jar"/>
+      <checksum file="${maven.build.dir}/jars/${path}"/>
+      <j:if test="${maven.gpg.exe != ''}">
+        <ant:exec executable="${maven.gpg.exec}">
+          <ant:arg value="--armour"/>
+          <ant:arg value="--yes"/>
+          <ant:arg value="-b"/>
+          <ant:arg value="${maven.build.dir}/jars/${path}"/>
+        </ant:exec>
+      </j:if>
+    </j:forEach>
   </goal>
 
   <goal name="avalon:clean" prereqs="clean">
@@ -42,7 +80,7 @@
       excludes="project.xml,**/target/**"
       goals="clean:clean"
       banner="Cleaning subproject:"
-      ignoreFailures="false"/>
+      ignoreFailures="true"/>
   </goal>
 
   <goal name="avalon:site">
@@ -72,6 +110,18 @@
     description="Set up directories for a distribution build">
     <ant:delete dir="${maven.dist.dir}"/>
     <ant:mkdir dir="${maven.dist.dir}"/>
+    <j:choose>
+      <j:when test="${avalon.snapshot}">
+        <maven:snapshot project="${pom}"/>
+        <j:set var="timestamp" value="${snapshotSignature.substring(12)}"/>
+        <j:set var="build.name" value="${maven.final.name}-${timestamp}"/>
+        <echo>Snapshot Packaging: ${timestamp}</echo>
+      </j:when>
+      <j:otherwise>
+        <j:set var="build.name" value="${maven.final.name}"/>
+        <echo>Release Packaging: ${pom.currentVersion}</echo>
+      </j:otherwise>
+    </j:choose>
   </goal>
 
 
@@ -81,22 +131,31 @@
     description="Build the binary distribution.">
 
     <!-- Create a tar.gz file -->
-    <ant:tar longfile="gnu" tarfile="${maven.dist.dir}/${maven.final.name}.tar">
+    <ant:tar longfile="gnu" tarfile="${maven.dist.dir}/${build.name}-bin.tar">
       <ant:tarfileset dir="${maven.dist.bin.archive.dir}"/>
     </ant:tar>
-
     <ant:gzip 
-      zipfile="${maven.dist.dir}/${maven.final.name}.tar.gz"
-      src="${maven.dist.dir}/${maven.final.name}.tar"
+      zipfile="${maven.dist.dir}/${build.name}-bin.tar.gz"
+      src="${maven.dist.dir}/${build.name}-bin.tar"
     />
-    <checksum file="${maven.dist.dir}/${maven.final.name}.tar.gz"/>
-    <ant:delete file="${maven.dist.dir}/${maven.final.name}.tar"/>
+    <ant:delete file="${maven.dist.dir}/${build.name}-bin.tar"/>
+    <checksum file="${maven.dist.dir}/${build.name}-bin.tar.gz"/>
+    <ant:exec executable="${maven.gpg.exec}">
+      <ant:arg value="--armour"/>
+      <ant:arg value="-b"/>
+      <ant:arg value="${maven.dist.dir}/${build.name}-bin.tar.gz"/>
+    </ant:exec>
 
     <!-- Create a zip file -->
-    <ant:zip zipfile="${maven.dist.dir}/${maven.final.name}.zip">
+    <ant:zip zipfile="${maven.dist.dir}/${build.name}-bin.zip">
       <ant:zipfileset dir="${maven.dist.bin.archive.dir}"/>
     </ant:zip>
-    <checksum file="${maven.dist.dir}/${maven.final.name}.zip"/>
+    <checksum file="${maven.dist.dir}/${build.name}-bin.zip"/>
+    <ant:exec executable="${maven.gpg.exec}">
+      <ant:arg value="--armour"/>
+      <ant:arg value="-b"/>
+      <ant:arg value="${maven.dist.dir}/${build.name}-bin.zip"/>
+    </ant:exec>
   </goal>
 
   <goal
@@ -105,21 +164,31 @@
     description="Build the source distribution.">
  
     <!-- Create a tar.gz file -->
-    <ant:tar longfile="gnu" tarfile="${maven.dist.dir}/${maven.final.name}-src.tar">
+    <ant:tar longfile="gnu" tarfile="${maven.dist.dir}/${build.name}-src.tar">
       <ant:tarfileset dir="${maven.dist.src.archive.dir}"/>
     </ant:tar>
     <ant:gzip 
-      zipfile="${maven.dist.dir}/${maven.final.name}-src.tar.gz" 
-      src="${maven.dist.dir}/${maven.final.name}-src.tar"
+      zipfile="${maven.dist.dir}/${build.name}-src.tar.gz" 
+      src="${maven.dist.dir}/${build.name}-src.tar"
     />
-    <checksum file="${maven.dist.dir}/${maven.final.name}-src.tar.gz"/>
-    <ant:delete file="${maven.dist.dir}/${maven.final.name}-src.tar"/>
+    <ant:delete file="${maven.dist.dir}/${build.name}-src.tar"/>
+    <checksum file="${maven.dist.dir}/${build.name}-src.tar.gz"/>
+    <ant:exec executable="${maven.gpg.exec}">
+      <ant:arg value="--armour"/>
+      <ant:arg value="-b"/>
+      <ant:arg value="${maven.dist.dir}/${build.name}-src.tar.gz"/>
+    </ant:exec>
 
     <!-- Create a zip file -->
-    <ant:zip zipfile="${maven.dist.dir}/${maven.final.name}-src.zip">
+    <ant:zip zipfile="${maven.dist.dir}/${build.name}-src.zip">
       <ant:zipfileset dir="${maven.dist.src.archive.dir}"/>
     </ant:zip>
-    <checksum file="${maven.dist.dir}/${maven.final.name}-src.zip"/>
+    <checksum file="${maven.dist.dir}/${build.name}-src.zip"/>
+    <ant:exec executable="${maven.gpg.exec}">
+      <ant:arg value="--armour"/>
+      <ant:arg value="-b"/>
+      <ant:arg value="${maven.dist.dir}/${build.name}-src.zip"/>
+    </ant:exec>
   </goal>
 
   <goal
@@ -136,13 +205,14 @@
     <ant:copy todir="${maven.dist.bin.assembly.dir}">
       <ant:fileset dir=".">
         <ant:include name="LICENSE*"/>
+        <ant:include name="README*"/>
       </ant:fileset>
     </ant:copy>
 
     <!-- Copy Jars -->
     <ant:copy todir="${maven.dist.bin.assembly.dir}">
       <ant:fileset dir="${maven.build.dir}">
-        <ant:include name="*.jar"/>
+        <ant:include name="jars/*.*"/>
         <ant:include name="docs/**"/>
       </ant:fileset>
     </ant:copy>
