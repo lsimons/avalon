@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.phoenix.components.classloader;
+package org.apache.avalon.phoenix.components.util;
 
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
@@ -15,10 +15,10 @@ import org.apache.avalon.framework.context.Resolvable;
  * This provides utility methods for properties.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/02/22 05:34:44 $
+ * @version CVS $Revision: 1.1 $ $Date: 2003/03/01 08:16:17 $
  * @since 4.0
  */
-final class PropertyUtil
+public final class PropertyUtil
 {
     private PropertyUtil()
     {
@@ -32,7 +32,7 @@ final class PropertyUtil
      * @param context the context in which to resolve property
      * @param ignoreUndefined if false will throw an PropertyException if property is not found
      * @return the reolved property
-     * @exception Exception if an error occurs
+     * @exception java.lang.Exception if an error occurs
      */
     public static Object resolveProperty( final String property,
                                           final Context context,
@@ -113,7 +113,7 @@ final class PropertyUtil
      * @param context the Context
      * @param ignoreUndefined true if undefined variables are ignored
      * @return the object retrieved from context
-     * @exception Exception if an error occurs
+     * @exception java.lang.Exception if an error occurs
      */
     private static Object resolveValue( final String key,
                                         final Context context,

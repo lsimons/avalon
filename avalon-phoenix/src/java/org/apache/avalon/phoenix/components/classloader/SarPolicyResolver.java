@@ -20,6 +20,7 @@ import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.components.util.ResourceUtil;
+import org.apache.avalon.phoenix.components.util.PropertyUtil;
 import org.apache.excalibur.policy.builder.PolicyResolver;
 
 /**
@@ -27,7 +28,7 @@ import org.apache.excalibur.policy.builder.PolicyResolver;
  * (like remapping URLs).
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003/02/22 04:03:26 $
+ * @version $Revision: 1.6 $ $Date: 2003/03/01 08:16:16 $
  */
 class SarPolicyResolver
     extends AbstractLogEnabled
