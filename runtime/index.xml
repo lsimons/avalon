@@ -109,6 +109,9 @@
       <version>4.3.0</version>
       <status>SNAPSHOT</status> <!-- impact on derived versions ? -->
     </info>
+    <dependencies>
+      <include key="avalon-logkit" runtime="true" test="false"/>
+    </dependencies>
   </project>
 
   <project basedir="framework/legacy">
@@ -120,7 +123,6 @@
     </info>
     <dependencies>
       <include key="avalon-framework-api"/>
-      <include key="avalon-logkit" runtime="true" test="false"/>
     </dependencies>
   </project>
 
