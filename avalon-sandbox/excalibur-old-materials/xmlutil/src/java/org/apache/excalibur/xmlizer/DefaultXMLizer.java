@@ -33,7 +33,8 @@ import java.util.Map;
  * the transformation to the registered on.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/12/06 22:11:05 $
+ * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
+ * @version CVS $Revision: 1.2 $ $Date: 2002/12/07 01:00:51 $
  */
 public final class DefaultXMLizer extends AbstractLogEnabled
         implements XMLizer, Serviceable, Configurable, ThreadSafe, Component
@@ -105,7 +106,7 @@ public final class DefaultXMLizer extends AbstractLogEnabled
         }
         catch ( ServiceException e )
         {
-            throw new SAXException( "Cannot parse content of type" + mimeType );
+            throw new SAXException( "Cannot parse content of type " + mimeType, e );
         }
     }
 }
