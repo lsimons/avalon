@@ -63,18 +63,9 @@ public class PackageRepositoryTestCase
 
     private File getTestClassesDir()
     {
-        String path = System.getProperty( "project.dir" );
-        if( null != path )
-        {
-            File base = new File( path );
-            return new File( base, "../classes" );
-        }
-        else
-        {
-            path = System.getProperty( "basedir" );
-            File root = new File( path );
-            return new File( root, "target/test-classes" ); // maven
-        }
+        String path = System.getProperty( "basedir" );
+        File root = new File( path );
+        return new File( root, "target/test-classes" ); 
     }
 
     public void testGoodPath()
