@@ -4,6 +4,7 @@
     xmlns:x="antlib:org.apache.avalon.tools" 
     xmlns:d="plugin:demo/demo#1.0" > 
 
+  <property file="build.properties"/>
   <import file="${project.home}/standard.xml"/>
 
   <x:home>
