@@ -27,6 +27,9 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 
+import org.apache.avalon.composition.event.CompositionEvent;
+import org.apache.avalon.composition.event.CompositionListener;
+
 import org.apache.avalon.composition.model.ContainmentModel;
 
 import org.apache.metro.facilities.reflector.ReflectorService;
@@ -37,7 +40,8 @@ import org.apache.metro.facilities.reflector.ReflectorService;
  *                   collection="weak"
  */
 public class ModelRegistrator
-    implements Contextualizable, Serviceable, Initializable
+    implements Contextualizable, Serviceable, Initializable, 
+               CompositionListener
 {
     private ContainmentModel m_Model;
     private ReflectorService m_Reflector;
@@ -58,6 +62,7 @@ public class ModelRegistrator
         throws ContextException
     {
         m_Model = (ContainmentModel) ctx.get( "urn:composition:containment.model" );
+        m_Model.addCompositionListener( this );
     }
 
     /** The service method is called by the Avalon framework container.
@@ -77,4 +82,27 @@ public class ModelRegistrator
     {
         m_Reflector.addRootObject( "model", m_Model );
     }
+
+    /**
+     * Notify the listener that a model has been added to 
+     * a source containment model.
+     *
+     * @param event the containment event raised by the 
+     *    source containment model
+     */
+    public void modelAdded( CompositionEvent event )
+    {
+    }
+
+    /**
+     * Notify the listener that a model has been removed from 
+     * a source containment model.
+     *
+     * @param event the containment event raised by the 
+     *    source containment model
+     */
+    public void modelRemoved( CompositionEvent event )
+    {
+    }
+
 }
