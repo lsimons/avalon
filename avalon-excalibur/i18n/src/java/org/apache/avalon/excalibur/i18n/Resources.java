@@ -66,161 +66,6 @@ public class Resources
         }
     }
 
-    /**
-     * Retrieve a string from resource bundle and format it with specified args.
-     *
-     * @param key the key for resource
-     * @param arg1 an arg
-     * @return the formatted string
-     */
-    public String getString( final String key, final Object arg1 )
-    {
-        final Object[] args = new Object[] { arg1 };
-        return format( key, args );
-    }
-
-    /**
-     * Retrieve a string from resource bundle and format it with specified args.
-     *
-     * @param key the key for resource
-     * @param arg1 an arg
-     * @param arg2 an arg
-     * @return the formatted string
-     */
-    public String getString( final String key, final Object arg1, final Object arg2 )
-    {
-        final Object[] args = new Object[] { arg1, arg2 };
-        return format( key, args );
-    }
-
-    /**
-     * Retrieve a string from resource bundle and format it with specified args.
-     *
-     * @param key the key for resource
-     * @param arg1 an arg
-     * @param arg2 an arg
-     * @param arg3 an arg
-     * @return the formatted string
-     */
-    public String getString( final String key, 
-                             final Object arg1, 
-                             final Object arg2, 
-                             final Object arg3 )
-    {
-        final Object[] args = new Object[] { arg1, arg2, arg3 };
-        return format( key, args );
-    }
-
-    /**
-     * Retrieve a string from resource bundle and format it with specified args.
-     *
-     * @param key the key for resource
-     * @param arg1 an arg
-     * @param arg2 an arg
-     * @param arg3 an arg
-     * @param arg4 an arg
-     * @return the formatted string
-     */
-    public String getString( final String key, 
-                             final Object arg1, 
-                             final Object arg2, 
-                             final Object arg3,
-                             final Object arg4 )
-    {
-        final Object[] args = new Object[] { arg1, arg2, arg3, arg4 };
-        return format( key, args );
-    }
-
-    /**
-     * Retrieve a string from resource bundle and format it with specified args.
-     *
-     * @param key the key for resource
-     * @param arg1 an arg
-     * @param arg2 an arg
-     * @param arg3 an arg
-     * @param arg4 an arg
-     * @param arg5 an arg
-     * @return the formatted string
-     */
-    public String getString( final String key,
-                             final Object arg1,
-                             final Object arg2,
-                             final Object arg3,
-                             final Object arg4,
-                             final Object arg5 )
-    {
-        final Object[] args = new Object[] { arg1, arg2, arg3, arg4, arg5 };
-        return format( key, args );
-    }
-
-    /**
-     * Retrieve a string from resource bundle and format it with specified args.
-     *
-     * @param key the key for resource
-     * @param args an array of args
-     * @return the formatted string
-     */
-    public String format( final String key, final Object[] args )
-    {
-        try
-        {
-            final String pattern = getPatternString( key );
-            return MessageFormat.format( pattern, args );
-        }
-        catch( final MissingResourceException mre )
-        {
-            final StringBuffer sb = new StringBuffer();
-            sb.append( "Unknown resource. Bundle: '" );
-            sb.append( m_baseName );
-            sb.append( "' Key: '" );
-            sb.append( key );
-            sb.append( "' Args: '" );
-
-            for( int i = 0; i < args.length; i++ )
-            {
-                if( 0 != i ) sb.append( "', '" );
-                sb.append( args[ i ] );
-            }
-
-            sb.append( "' Reason: " );
-            sb.append( mre );
-
-            return sb.toString();
-        }
-    }
-
-    /**
-     * Retrieve a raw string from bundle.
-     *
-     * @param key the key of resource
-     * @param defaultValue the default value if key is missing
-     * @return the resource string
-     */
-    public String getString( final String key, final String defaultValue )
-        throws MissingResourceException
-    {
-        try
-        {
-            return getString( key );
-        }
-        catch( final MissingResourceException mre )
-        {
-            return defaultValue;
-        }
-    }
-
-    /**
-     * Retrieve a raw string from bundle.
-     *
-     * @param key the key of resource
-     * @return the resource string
-     */
-    public String getString( final String key )
-        throws MissingResourceException
-    {
-        final ResourceBundle bundle = getBundle();
-        return bundle.getString( key );
-    }
 
     /**
      * Retrieve a boolean from bundle.
@@ -556,6 +401,162 @@ public class Resources
                                                 "java.lang.String",
                                                 key );
         }
+    }
+
+    /**
+     * Retrieve a string from resource bundle and format it with specified args.
+     *
+     * @param key the key for resource
+     * @param arg1 an arg
+     * @return the formatted string
+     */
+    public String getString( final String key, final Object arg1 )
+    {
+        final Object[] args = new Object[] { arg1 };
+        return format( key, args );
+    }
+
+    /**
+     * Retrieve a string from resource bundle and format it with specified args.
+     *
+     * @param key the key for resource
+     * @param arg1 an arg
+     * @param arg2 an arg
+     * @return the formatted string
+     */
+    public String getString( final String key, final Object arg1, final Object arg2 )
+    {
+        final Object[] args = new Object[] { arg1, arg2 };
+        return format( key, args );
+    }
+
+    /**
+     * Retrieve a string from resource bundle and format it with specified args.
+     *
+     * @param key the key for resource
+     * @param arg1 an arg
+     * @param arg2 an arg
+     * @param arg3 an arg
+     * @return the formatted string
+     */
+    public String getString( final String key, 
+                             final Object arg1, 
+                             final Object arg2, 
+                             final Object arg3 )
+    {
+        final Object[] args = new Object[] { arg1, arg2, arg3 };
+        return format( key, args );
+    }
+
+    /**
+     * Retrieve a string from resource bundle and format it with specified args.
+     *
+     * @param key the key for resource
+     * @param arg1 an arg
+     * @param arg2 an arg
+     * @param arg3 an arg
+     * @param arg4 an arg
+     * @return the formatted string
+     */
+    public String getString( final String key, 
+                             final Object arg1, 
+                             final Object arg2, 
+                             final Object arg3,
+                             final Object arg4 )
+    {
+        final Object[] args = new Object[] { arg1, arg2, arg3, arg4 };
+        return format( key, args );
+    }
+
+    /**
+     * Retrieve a string from resource bundle and format it with specified args.
+     *
+     * @param key the key for resource
+     * @param arg1 an arg
+     * @param arg2 an arg
+     * @param arg3 an arg
+     * @param arg4 an arg
+     * @param arg5 an arg
+     * @return the formatted string
+     */
+    public String getString( final String key,
+                             final Object arg1,
+                             final Object arg2,
+                             final Object arg3,
+                             final Object arg4,
+                             final Object arg5 )
+    {
+        final Object[] args = new Object[] { arg1, arg2, arg3, arg4, arg5 };
+        return format( key, args );
+    }
+
+    /**
+     * Retrieve a string from resource bundle and format it with specified args.
+     *
+     * @param key the key for resource
+     * @param args an array of args
+     * @return the formatted string
+     */
+    public String format( final String key, final Object[] args )
+    {
+        try
+        {
+            final String pattern = getPatternString( key );
+            return MessageFormat.format( pattern, args );
+        }
+        catch( final MissingResourceException mre )
+        {
+            final StringBuffer sb = new StringBuffer();
+            sb.append( "Unknown resource. Bundle: '" );
+            sb.append( m_baseName );
+            sb.append( "' Key: '" );
+            sb.append( key );
+            sb.append( "' Args: '" );
+
+            for( int i = 0; i < args.length; i++ )
+            {
+                if( 0 != i ) sb.append( "', '" );
+                sb.append( args[ i ] );
+            }
+
+            sb.append( "' Reason: " );
+            sb.append( mre );
+
+            return sb.toString();
+        }
+    }
+
+    /**
+     * Retrieve a raw string from bundle.
+     *
+     * @param key the key of resource
+     * @param defaultValue the default value if key is missing
+     * @return the resource string
+     */
+    public String getString( final String key, final String defaultValue )
+        throws MissingResourceException
+    {
+        try
+        {
+            return getString( key );
+        }
+        catch( final MissingResourceException mre )
+        {
+            return defaultValue;
+        }
+    }
+
+    /**
+     * Retrieve a raw string from bundle.
+     *
+     * @param key the key of resource
+     * @return the resource string
+     */
+    public String getString( final String key )
+        throws MissingResourceException
+    {
+        final ResourceBundle bundle = getBundle();
+        return bundle.getString( key );
     }
 
     /**
