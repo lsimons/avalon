@@ -24,9 +24,10 @@ import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
-import org.apache.avalon.phoenix.metainfo.BlockInfoBuilder;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
+import org.apache.avalon.phoenix.tools.infobuilder.BlockInfoBuilder;
+import org.apache.log.Logger;
 
 /**
  * This Class verifies that Sars are valid. It performs a number
@@ -63,7 +64,13 @@ public class SarVerifier
     private static final Resources REZ =
         ResourceManager.getPackageResources( SarVerifier.class );
 
-    private final DefaultConfigurationBuilder  m_builder  = new DefaultConfigurationBuilder();
+    private final BlockInfoBuilder m_builder = new BlockInfoBuilder();
+
+    public void setLogger( final Logger logger )
+    {
+        super.setLogger( logger );
+        setupLogger( m_builder );
+    }
 
     public void verifySar( final SarMetaData sar, final ClassLoader classLoader )
         throws VerifyException
@@ -614,10 +621,11 @@ public class SarVerifier
             throw new VerifyException( message );
         }
 
+        final DefaultConfigurationBuilder configBuilder = new DefaultConfigurationBuilder();
         try
         {
-            final Configuration info = m_builder.build( resource.toString() );
-            final BlockInfo blockInfo = BlockInfoBuilder.build( classname, info );
+            final Configuration info = configBuilder.build( resource.toString() );
+            final BlockInfo blockInfo = m_builder.build( classname, info );
             cache.put( classname, blockInfo );
             return blockInfo;
         }
@@ -721,7 +729,7 @@ public class SarVerifier
                 final String message =
                     REZ.getString( "service-interface-deprecated", name, classname );
                 getLogger().warn( message );
-                //System.err.println( message );
+                System.err.println( message );
             }
         }
 
