@@ -23,6 +23,8 @@ import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.data.Targets;
 
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.parameters.Parameters;
 
 /**
  * Handles internalization of an XML based description of a {@link Targets}
@@ -34,7 +36,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 public class XMLTargetsCreator extends XMLComponentProfileCreator 
 {
    /**
-    * Create a set of target directives from the confiugration.
+    * Create a set of target directives from the configuration.
     * @param config the targets configuration
     */
     public Targets createTargets( Configuration config )
@@ -46,6 +48,26 @@ public class XMLTargetsCreator extends XMLComponentProfileCreator
         {
             targets[i] = createTargetDirective( children[i] );
         }
+
+        //
+        // check that no non-target elements are declared
+        //
+
+        Configuration[] nodes = config.getChildren();
+        for( int i=0; i<nodes.length; i++ )
+        {
+            final Configuration node = nodes[i];
+            final String name = node.getName();
+            if( ! name.equals( "target" ) )
+            {
+                final String error = 
+                  "Unrecognized configuration element '" 
+                  + name + "' is declared within a targets directive. "
+                  + "A 'targets' directive may only contain 'target' elements.";
+                throw new ConfigurationException( error );
+            }
+        }
+        
         return new Targets( targets );
     }
 
@@ -91,9 +113,24 @@ public class XMLTargetsCreator extends XMLComponentProfileCreator
         final Configuration conf = config.getChild( "configuration", false );
 
         //
+        // get the overriding parameters
+        //
+
+        final Configuration paramsConfig = config.getChild( "parameters", false );
+        final Parameters params = getTargetParameters( paramsConfig );
+
+        //
         // and create the target directive
         //
 
-        return new TargetDirective( name, conf, categories, profile );
+        return new TargetDirective( name, conf, params, categories, profile );
     }
+
+    private Parameters getTargetParameters( Configuration config ) throws ConfigurationException
+    {
+        if( null == config ) 
+          return null;
+        return Parameters.fromConfiguration( config );
+    }
+
 }

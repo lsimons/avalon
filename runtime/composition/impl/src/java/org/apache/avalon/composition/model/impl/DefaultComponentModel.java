@@ -151,15 +151,32 @@ public class DefaultComponentModel extends DefaultDeploymentModel
 
         if( isParameterizable() )
         {
+            Parameters staticDefaults = m_context.getType().getParameters();
             final Parameters parameters = 
               m_context.getComponentProfile().getParameters();
             if( parameters != null )
             {
-                m_parameters = parameters;
+                if( null == staticDefaults )
+                {
+                    m_parameters = parameters;
+                }
+                else
+                {
+                    m_parameters = new Parameters();
+                    m_parameters.merge( staticDefaults );
+                    m_parameters.merge( parameters );
+                }
             }
             else
             {
-                m_parameters = Parameters.EMPTY_PARAMETERS;
+                if( null == staticDefaults )
+                {
+                    m_parameters = Parameters.EMPTY_PARAMETERS;
+                }
+                else
+                {
+                    m_parameters = staticDefaults;
+                }
             }
         }
 
@@ -585,14 +602,14 @@ public class DefaultComponentModel extends DefaultDeploymentModel
     * parameters value.
     *
     * @param parameters the supplied parameters
-    * @param policy if TRUE the supplied parameters replaces the current
-    *   parameters value otherwise the existing and supplied values
-    *   are aggregrated
+    * @param policy if TRUE the supplied parameters are merged with existing 
+    *    parameters otherwise the supplied parameters replace any existing
+    *    parameters
     * @exception IllegalStateException if the component type backing the 
     *   model does not implement the parameteriazable interface
     * @exception NullPointerException if the supplied parameters are null
     */
-    public void setParameters( Parameters parameters, boolean policy )
+    public void setParameters( Parameters parameters, boolean merge )
       throws IllegalStateException
     {
         if( !isParameterizable() )
@@ -610,7 +627,7 @@ public class DefaultComponentModel extends DefaultDeploymentModel
             throw new NullPointerException( "parameters" );
         }
 
-        if( policy )
+        if( merge )
         {
             Properties props = Parameters.toProperties( m_parameters );
             Properties suppliment = Parameters.toProperties( parameters );
@@ -638,14 +655,18 @@ public class DefaultComponentModel extends DefaultDeploymentModel
 
    /**
     * Return the parameters to be applied to the component.
-    * If the the component type does not implementation the 
-    * Parameterizable interface, the implementation returns null. 
     *
     * @return the assigned parameters
     */
     public Parameters getParameters()
     {
-        return m_parameters;
+        Parameters params = new Parameters();
+        if( null != m_parameters )
+        {
+            params.merge( m_parameters );
+        }
+        params.makeReadOnly();
+        return params;
     }
 
    /**
@@ -682,7 +703,7 @@ public class DefaultComponentModel extends DefaultDeploymentModel
     * configuration may suppliment or replace the existing configuration.
     *
     * @param config the supplied configuration
-    * @param policy if TRUE the supplied configuration replaces the current
+    * @param policy if FALSE the supplied configuration replaces the current
     *   configuration otherwise the resoved configuration shall be layed above
     *   the configuration supplied with the profile which in turn is layer above 
     *   the type default configuration (if any)
