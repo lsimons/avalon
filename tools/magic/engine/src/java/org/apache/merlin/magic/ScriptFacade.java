@@ -1,18 +1,16 @@
 package org.apache.merlin.magic;
 
-import bsh.EvalError;
-import bsh.Interpreter;
-import bsh.BshClassManager;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-
-import java.util.Properties;
 import java.util.StringTokenizer;
 
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+
+import bsh.BshClassManager;
+import bsh.EvalError;
+import bsh.Interpreter;
 
 
 public class ScriptFacade extends AbstractLogEnabled    
@@ -66,9 +64,9 @@ public class ScriptFacade extends AbstractLogEnabled
         {
             bsh.eval( m_Script );
         }
-            String expr1 = "import org.apache.merlin.magic.Plugin;  Plugin plugin = new " + classname + "();";
-            System.out.println( expr1 );
-            bsh.eval( expr1 );
+        String expr1 = "import org.apache.merlin.magic.Plugin;  Plugin plugin = new " + classname + "();";
+        System.out.println( expr1 );
+        bsh.eval( expr1 );
         m_Plugin = (Plugin) bsh.get( "plugin" );
         return m_Plugin;
     }

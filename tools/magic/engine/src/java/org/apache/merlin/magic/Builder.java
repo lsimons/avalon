@@ -1,21 +1,13 @@
 package org.apache.merlin.magic;
 
+import java.io.File;
+import java.lang.reflect.Method;
+import java.util.Properties;
+
+import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.ConsoleLogger;
-
 import org.apache.avalon.framework.service.ServiceException;
-
-import bsh.Interpreter;
-
-import java.io.File;
-import java.io.FileReader;
-
-import java.lang.reflect.Method;
-
-import java.net.URL;
-
-import java.util.Properties;
 
 public class Builder
 {

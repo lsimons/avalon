@@ -1,0 +1,106 @@
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+
+import java.net.URL;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import org.apache.merlin.magic.Artifact;
+import org.apache.merlin.magic.Plugin;
+import org.apache.merlin.magic.PluginContext;
+
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.Contextualizable;
+
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.types.Path;
+
+public class ArtifactPlugin extends AbstractLogEnabled
+    implements Plugin, Contextualizable
+{
+    private PluginContext m_PluginContext;
+    
+    private Project m_Project;
+    
+    private ArrayList m_CompileListeners;
+    
+    private boolean m_Compiled = false;
+        
+    public void contextualize( Context ctx )
+    {
+        m_PluginContext = (PluginContext) ctx;
+        m_Project = m_PluginContext.getAntProject();
+    }
+
+    public ClassLoader getClassloader( Artifact[] dependencies )
+    {
+    }
+    
+    public Path getClassPath( Artifact[] dependencies )
+    {
+    }
+    
+    public void upload( Artifact artifact )
+    {
+    }
+    
+    private void download( Artifact artifact, File dest )
+        throws IOException, MalformedURLException
+    {
+        FileOutputStream out = null;
+        BufferedOutputStream bos = null;
+        try
+        {
+            out = new FileOutputStream( dest );
+            bos = new BufferedOutputStream( out );
+            URL url = toRemoteFile( artifact );
+            Connection conn = url.openConnection();
+            conn.connect();
+            InputStream in = conn.getInputStream();
+            BufferedInputStream bis = new BufferedInputStream( in );
+            int b;
+            while( ( b = bis.read() ) != -1 )
+            {
+                bos.write( b );
+            }
+        } finally
+        {
+            if( out != null )
+                out.close();
+            if( bos != null )
+                bos.close();
+            if( in != null )
+                in.close();
+            if( bis != null )
+                bis.close();
+        }
+    }
+    
+    private URL toRemoteURL( Artifact artifact )
+        throws MalformedURLException
+    {
+        String href = artifact.getRepository() + "/" + 
+                      artifact.getGroupId() + "/" +
+                      artifact.getType() + "s/" +
+                      artifact.getArtifactId() + "-" +
+                      artifact.getVersion()  + ".jar" ;
+        return new URL( href );
+    }
+    
+    private File toLocalFile( Artifact artifact )
+    {
+        String href = m_PluginContext.getProperty( "artifact.local.repository.dir" ) + "/" + 
+                      artifact.getGroupId() + "/" +
+                      artifact.getType() + "s/" +
+                      artifact.getArtifactId() + "-" +
+                      artifact.getVersion()  + ".jar" ;
+        return new URL( href );
+    }
+}   
