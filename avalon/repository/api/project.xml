@@ -7,7 +7,7 @@
   <groupId>avalon-repository</groupId>
   <id>avalon-repository-api</id>
   <name>Avalon Repository API</name>
-  <currentVersion>1.2-dev</currentVersion>
+  <currentVersion>1.2</currentVersion>
 
   <package>org.apache.avalon.repository</package>
 

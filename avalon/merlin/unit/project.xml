@@ -7,7 +7,7 @@
   <groupId>merlin</groupId>
   <id>merlin-unit</id>
   <name>Merlin Unit Test</name>
-  <currentVersion>3.2.6-dev</currentVersion>
+  <currentVersion>3.2.6</currentVersion>
 
   <package>org.apache.avalon.merlin</package>
 
@@ -18,7 +18,7 @@
     <dependency>
       <groupId>avalon-repository</groupId>
       <artifactId>avalon-repository-main</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>

@@ -6,7 +6,7 @@
   <groupId>avalon</groupId>
   <id>avalon-reposiory</id>
   <name>Avalon Repository</name>
-  <currentVersion>1.2-RC2</currentVersion>
+  <currentVersion>1.2-RC3</currentVersion>
 
   <organization>
     <name>Apache Software Foundation</name>
@@ -69,17 +69,6 @@
       </roles>
     </developer>
   </developers>
-
-  <!--
-  <dependencies>
-    <dependency>
-      <groupId>avalon-repository</groupId>
-      <artifactId>avalon-repository-plugin</artifactId>
-      <version>1.2.1-dev</version>
-      <type>plugin</type>
-    </dependency>
-  </dependencies>
-  -->
 
   <build>
 
