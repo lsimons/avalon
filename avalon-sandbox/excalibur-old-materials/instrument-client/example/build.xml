@@ -66,6 +66,7 @@
     <!-- Cleans up compiled classes and generated XMLC source.               -->
     <!-- =================================================================== -->
     <target name="clean" description="cleans up the directory">
+        <delete dir="${lib.dir}"/>
     </target>
 </project>
 
