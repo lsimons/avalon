@@ -31,7 +31,7 @@ makes one. The ConfigurationMerger can take a "layer" and a "base" and merge
 the layer with the base. The ConfigurationMerger goes a step farther than the
 CascadingConfiguration in that it provides a consistent view of
 Configuration.getChildren() based off of meta-attributes that can exist in the
-layer.
+layer. 
 
 ConfigurationSplitter
 ---------------------

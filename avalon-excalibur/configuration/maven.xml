@@ -1,0 +1,10 @@
+<project default="site" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util">
+
+  <property file="${basedir}/build.properties"/>
+  <property file="${basedir}/project.properties"/>
+
+  <preGoal name="site">
+    <attainGoal name="license"/>
+  </preGoal>
+
+</project>
