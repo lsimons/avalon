@@ -1,7 +1,7 @@
 
 <container>
 
-  <include name="test" id="avalon/test:avalon-test-includes">
+  <include name="test" artifact="@AVALON-TEST-INCLUDES-SPEC@">
     <target path="primary/block/test">
       <categories priority="INFO"/>
     </target>

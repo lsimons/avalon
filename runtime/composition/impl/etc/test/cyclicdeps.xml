@@ -2,7 +2,7 @@
 <container>
 <classloader>
      <classpath>
-       <artifact>artifact:jar:avalon/test/avalon-test-testcyclic</artifact>
+       <artifact>@AVALON-TEST-CYCLIC-SPEC@</artifact>
      </classpath>
    </classloader>
    <container name="sub">

@@ -2,7 +2,7 @@
 <container name="test">
    <classloader>
      <classpath>
-       <artifact>artifact:jar:avalon/test/avalon-test-dynamics</artifact>
+       <artifact>@AVALON-TEST-DYNAMICS-SPEC@</artifact>
      </classpath>
    </classloader>
 </container>

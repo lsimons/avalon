@@ -4,9 +4,9 @@
 
    <classloader>
      <classpath>
-       <artifact>artifact:jar:avalon/test/avalon-test-testa</artifact>
-       <artifact>artifact:jar:avalon/test/avalon-test-testb</artifact>
-       <artifact>artifact:jar:avalon/test/avalon-test-testc</artifact>
+       <artifact>@AVALON-TEST-A-SPEC@</artifact>
+       <artifact>@AVALON-TEST-B-SPEC@</artifact>
+       <artifact>@AVALON-TEST-C-SPEC@</artifact>
        <!--
        <fileset dir="ext">
          <include>test-a.jar</include>
