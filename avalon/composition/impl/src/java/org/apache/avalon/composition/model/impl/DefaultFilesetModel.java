@@ -37,7 +37,7 @@ import org.apache.avalon.framework.logger.Logger;
  * <code>FilesetDirective</code>.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/04/20 00:03:32 $
+ * @version $Revision: 1.3 $ $Date: 2004/04/21 03:21:04 $
  */
 public class DefaultFilesetModel extends AbstractLogEnabled
     implements FilesetModel
@@ -142,8 +142,9 @@ public class DefaultFilesetModel extends AbstractLogEnabled
      */
     public void setDefaultIncludes(String[] defaultIncludes) {
         if (defaultIncludes == null) {
-            m_defaultIncludes = new String[1];
-            m_defaultIncludes[0] = "*.jar";
+            //m_defaultIncludes = new String[1];
+            //m_defaultIncludes[0] = "*.jar";
+            m_defaultIncludes = new String[0];
         } else {
             m_defaultIncludes = defaultIncludes;
         }
@@ -182,10 +183,16 @@ public class DefaultFilesetModel extends AbstractLogEnabled
      * to include in the classpath.
      */
     public void resolveFileset() throws IOException, IllegalStateException {
-/*        
 
         // New stuff...
+        if ( m_includes.length == 0 && m_defaultIncludes.length == 0 ) {
+            m_list.add( m_anchor );
+            m_logger.debug("candidates=[" + m_anchor + "]");
+            return;
+        }
+        
         DirectoryScanner ds = new DirectoryScanner();
+        ds.setLogger(m_logger);
 
         // Supply the directory scanner with our base directory anchor
         ds.setBasedir( m_anchor );
@@ -194,6 +201,7 @@ public class DefaultFilesetModel extends AbstractLogEnabled
         // Any default excludes to add?
         for (int i = 0; i < m_defaultExcludes.length; i++ )
         {
+            m_logger.debug("m_defaultExcludes[" + i + "]=[" + m_defaultExcludes[i] + "]");
             ds.addDefaultExclude( m_defaultExcludes[i] );
         }
 
@@ -207,6 +215,7 @@ public class DefaultFilesetModel extends AbstractLogEnabled
             for (int i = 0; i < m_defaultIncludes.length; i++)
             {
                 includes[i] = m_defaultIncludes[i];
+                m_logger.debug("includes[" + i + "]=[" + includes[i] + "]");
             }
         }
         else
@@ -214,6 +223,7 @@ public class DefaultFilesetModel extends AbstractLogEnabled
             for (int i = 0; i < m_includes.length; i++ )
             {
                 includes[i] = m_includes[i].getPath();
+                m_logger.debug("includes[" + i + "]=[" + includes[i] + "]");
             }
         }
         ds.setIncludes( includes );
@@ -223,6 +233,7 @@ public class DefaultFilesetModel extends AbstractLogEnabled
         for (int i = 0; i < m_excludes.length; i++ )
         {
             excludes[i] = m_excludes[i].getPath();
+            m_logger.debug("excludes[" + i + "]=[" + excludes[i] + "]");
         }
         ds.setExcludes( excludes );
 
@@ -238,20 +249,25 @@ public class DefaultFilesetModel extends AbstractLogEnabled
         if ( candidates.length > 0 ) {
             for (int i = 0; i < candidates.length; i++) {
                 File file = new File( m_anchor, candidates[i] );
+                m_logger.debug("candidates[" + i + "]=[" + file.getAbsolutePath() + "]");
                 m_list.add( file );
             }
         } else {
             m_list.add( m_anchor );
+            m_logger.debug("candidates=[" + m_anchor + "]");
         }
-*/
+/*        
         // Original stuff...
         if( m_includes.length > 0 ) {
             for( int j=0; j<m_includes.length; j++ ) {
                 File file = new File( m_anchor, m_includes[j].getPath() );
+                m_logger.debug("candidates[" + j + "]=[" + file.getAbsolutePath() + "]");
                 m_list.add( file );
             }
         } else {
             m_list.add( m_anchor );
+            m_logger.debug("candidates=[" + m_anchor + "]");
         }
+*/
     }
 }
