@@ -50,7 +50,6 @@
 package org.apache.avalon.fortress.util.test;
 
 import junit.framework.TestCase;
-import org.apache.avalon.fortress.InitializationException;
 import org.apache.avalon.fortress.util.CompositeException;
 
 /**
@@ -71,8 +70,8 @@ public class CompositeExceptionTestCase extends TestCase
     public void setUp()
     {
         m_exceptions = new Exception[2];
-        m_exceptions[0] = new RuntimeException("Test1");
-        m_exceptions[1] = new RuntimeException("Test2");
+        m_exceptions[0] = new RuntimeException( "Test1" );
+        m_exceptions[1] = new RuntimeException( "Test2" );
     }
 
     public void testRegularCreation()
@@ -95,9 +94,9 @@ public class CompositeExceptionTestCase extends TestCase
         Exception[] exceptions = exc.getExceptions();
         assertEquals( m_exceptions.length, exceptions.length );
 
-        for (int i = 0; i < exceptions.length; i++)
+        for ( int i = 0; i < exceptions.length; i++ )
         {
-            assertEquals( m_exceptions[i], exceptions[i]);
+            assertEquals( m_exceptions[i], exceptions[i] );
         }
     }
 
@@ -125,21 +124,21 @@ public class CompositeExceptionTestCase extends TestCase
     {
         try
         {
-            new CompositeException(null);
-            fail("Did not throw an IllegalArgumentException");
+            new CompositeException( null );
+            fail( "Did not throw an IllegalArgumentException" );
         }
-        catch(IllegalArgumentException iae)
+        catch ( IllegalArgumentException iae )
         {
             // SUCCESS!!
         }
-        catch(Exception e)
+        catch ( Exception e )
         {
-            fail("Threw the wrong exception: " + e.getClass().getName());
+            fail( "Threw the wrong exception: " + e.getClass().getName() );
         }
 
         try
         {
-            new CompositeException( new Exception[] {} );
+            new CompositeException( new Exception[]{} );
             fail( "Did not throw an IllegalArgumentException" );
         }
         catch ( IllegalArgumentException iae )
