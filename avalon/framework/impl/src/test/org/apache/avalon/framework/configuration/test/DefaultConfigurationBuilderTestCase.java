@@ -17,13 +17,21 @@ package org.apache.avalon.framework.configuration.test;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
+
 import junit.framework.TestCase;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.xml.sax.SAXException;
+import org.xml.sax.InputSource;
+import org.xml.sax.EntityResolver;
+
 
 /**
  * Test that the <code>Configuration</code>s built by
@@ -34,17 +42,22 @@ import org.xml.sax.SAXException;
 public final class DefaultConfigurationBuilderTestCase
     extends TestCase
 {
+    private static final String SIMPLE_FILE_NAME = "config_simple.xml";
+    private static final String NS_FILE_NAME = "config_namespaces.xml";
+    private static final String EXTERNAL_FILE_NAME = "config_usingexternal.xml";
+    private static final String INNER_FILE_NAME = "config_inner.xml";
+    private static final String TEST_PATH = "test/framework/io/";
 
     private DefaultConfigurationBuilder m_builder;
     private DefaultConfigurationBuilder m_nsBuilder;
+
     private File m_file;
     private File m_nsFile;
+    private File m_fileWithExternalEntity;
+    private File m_innerXmlFile;
     private File m_testDirectory;
-    private final String m_simpleFileName = "config_simple.xml";
-    private final String m_nsFileName = "config_namespaces.xml";
-    private final String m_path = "test/framework/io/";
 
-    private final String simpleXML =
+    private final String SIMPLE_XML =
     "<?xml version=\"1.0\" ?>"+
     "<config boolAttr=\"true\" floatAttr=\"1.32\">"+
     "   <elements-a>"+
@@ -114,7 +127,7 @@ public final class DefaultConfigurationBuilderTestCase
         assertEquals( "A value-containing element should have no child nodes", 0, conf.getChild("elements-c").getChildren().length );
     }
 
-    private final String nsXML =
+    private final String NS_XML =
     "<?xml version=\"1.0\" ?>"+
     "<conf:config"+
     "       boolAttr=\"true\" floatAttr=\"1.32\""+
@@ -132,13 +145,6 @@ public final class DefaultConfigurationBuilderTestCase
     "   <d:element>d:element</d:element>"+
     "   <e:element>e:element</e:element>"+        
     "</conf:config>";
-    /*
-    "<?xml version=\"1.0\"?>"+
-    "<my-system version='1.3' xmlns:doc=\"http://myco.com/documentation\">"+
-    "   <doc:desc>This is a highly fictitious config file</doc:desc>"+
-    "   <widget name=\"fooWidget\" initOrder=\"1\" threadsafe=\"true\"/>"+
-    "</my-system>";
-    */
 
     /**
      * These assertions apply when the default builder is used to create a
@@ -271,7 +277,7 @@ public final class DefaultConfigurationBuilderTestCase
     public DefaultConfigurationBuilderTestCase( final String name )
     {
         super( name );
-        m_testDirectory = (new File( m_path)).getAbsoluteFile();
+        m_testDirectory = (new File( TEST_PATH )).getAbsoluteFile();
         if( !m_testDirectory.exists() )
         {
             m_testDirectory.mkdirs();
@@ -281,26 +287,29 @@ public final class DefaultConfigurationBuilderTestCase
     protected void setUp()
         throws Exception
     {
-        m_file = new File( m_testDirectory, m_simpleFileName );
-        m_nsFile = new File( m_testDirectory, m_nsFileName );
+        m_file = new File( m_testDirectory, SIMPLE_FILE_NAME );
+        m_nsFile = new File( m_testDirectory, NS_FILE_NAME );
+        m_fileWithExternalEntity = new File( m_testDirectory, EXTERNAL_FILE_NAME );
+        m_innerXmlFile = new File( m_testDirectory, INNER_FILE_NAME );
+        
         FileWriter writer = new FileWriter( m_file );
-        writer.write( simpleXML );
+        writer.write( SIMPLE_XML );
         writer.close();
         writer = new FileWriter( m_nsFile );
-        writer.write( nsXML );
+        writer.write( NS_XML );
         writer.close();
-
+        writer = new FileWriter( m_fileWithExternalEntity );
+        writer.write( XML_WITH_EXTERNAL_ENTITY );
+        writer.close();
+        writer = new FileWriter( m_innerXmlFile );
+        writer.write( INNER_XML );
+        writer.close();
     }
+
 
     protected  void tearDown()
         throws Exception
     {
-        /*FileWriter writer = new FileWriter( m_file );
-        writer.write( "" );
-        writer.close();
-        writer = new FileWriter( m_nsFile );
-        writer.write( "" );
-        writer.close();*/
         m_builder = null;
         m_nsBuilder = null;
     }
@@ -309,14 +318,14 @@ public final class DefaultConfigurationBuilderTestCase
     public void testBuildFromFileName()
         throws Exception
     {
-        m_builder = new DefaultConfigurationBuilder();
-        m_nsBuilder = new DefaultConfigurationBuilder(true); // switch on namespace support
-        Configuration conf = m_builder.buildFromFile( m_path + m_simpleFileName );
-        simpleAssertions( conf );
-        conf = m_builder.buildFromFile( m_path + m_nsFileName );
-        simpleAssertionsNS( conf );
-        conf = m_nsBuilder.buildFromFile( m_path + m_nsFileName );
-        nsAssertions( conf );
+         m_builder = new DefaultConfigurationBuilder();
+         m_nsBuilder = new DefaultConfigurationBuilder(true); // switch on namespace support
+         Configuration conf = m_builder.buildFromFile( TEST_PATH + SIMPLE_FILE_NAME );
+         simpleAssertions( conf );
+         conf = m_builder.buildFromFile( TEST_PATH + NS_FILE_NAME );
+         simpleAssertionsNS( conf );
+         conf = m_nsBuilder.buildFromFile( TEST_PATH + NS_FILE_NAME );
+         nsAssertions( conf );
     }
 
     public void testBuildFromFile()
@@ -402,5 +411,51 @@ public final class DefaultConfigurationBuilderTestCase
             fail ("Must fail on mixed content");
         } catch ( SAXException e )
         {}
+    }
+
+    private final String XML_WITH_EXTERNAL_ENTITY =
+    "<?xml version=\"1.0\" ?>"+
+    "<!DOCTYPE document"+
+    "["+
+    "<!ENTITY config SYSTEM \"inner.xml\">"+
+    "]>"+
+    "<config boolAttr=\"true\" floatAttr=\"1.32\">"+
+    "   &config; "+
+    "</config>";
+
+    private final String INNER_XML =
+    "   <elements-a>"+
+    "       <element name=\"a\"/>"+
+    "   </elements-a>"+
+    "   <elements-b>"+
+    "       <element name=\"b\"/> "+
+    "   </elements-b>"+
+    "   <elements-b type=\"type-b\"/>"+
+    "   <elements-c>"+
+    "   true"+
+    "   </elements-c>"; 
+    
+    public void testExternalEntity() throws Exception
+    {
+        DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+ 
+        MyEntityResolver customResolver = new MyEntityResolver();
+ 
+        builder.setEntityResolver( new MyEntityResolver() );
+        Configuration conf = builder.buildFromFile( TEST_PATH + EXTERNAL_FILE_NAME );
+        simpleAssertions( conf );
+    }
+    
+    /**
+     * Mock implementation for EntityResolver
+     */
+    class MyEntityResolver implements EntityResolver
+    {
+        public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException
+        {
+            Reader reader = new FileReader( m_innerXmlFile );
+    
+            return new InputSource(reader);
+        }
     }
 }
