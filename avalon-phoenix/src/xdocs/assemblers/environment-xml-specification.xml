@@ -86,28 +86,30 @@
         Below is example configuration.
       </p>
         <source><![CDATA[
-<logger version="1.1">
-<factories>
-  <factory type="file"
-           class="org.apache.avalon.excalibur.logger.factory.FileTargetFactory"/>
-</factories>
+<?xml version="1.0"?>
+<environment>
+	<logs version="1.1">
+	<factories>
+	  <factory type="file" class="org.apache.avalon.excalibur.logger.factory.FileTargetFactory"/>
+	</factories>
 
-<categories>
-  <category name="" log-level="INFO">
-    <log-target id-ref="default"/>
-  </category>
-</categories>
+	<categories>
+	  <category name="" log-level="INFO">
+	    <log-target id-ref="default"/>
+	  </category>
+	</categories>
 
-<targets>
-  <file id="default">
-    <filename>{app.home}/logs/default-</filename">
-    <append>true</append>
-    <rotation type="unique" pattern="yyyyMMdd" suffix=".log">
-      <date>yyyyMMdd</date>
-    </rotation>
-  </file>
-</targets>
-</logger>]]>
+	<targets>
+	  <file id="default">
+	    <filename>${app.home}/logs/default-</filename>
+	    <append>true</append>
+	    <rotation type="unique" pattern="yyyyMMdd" suffix=".log">
+	      <date>yyyyMMdd</date>
+	    </rotation>
+	  </file>
+	</targets>
+</logs>
+</environment>]]>
 </source>
     </section>
   </body>
