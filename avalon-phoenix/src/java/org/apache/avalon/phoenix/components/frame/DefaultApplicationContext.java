@@ -43,12 +43,12 @@ import org.apache.log.Logger;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class DefaultApplicationFrame
+public class DefaultApplicationContext
     extends AbstractLoggable
-    implements ApplicationFrame, Composable, Configurable
+    implements ApplicationContext, Composable, Configurable
 {
     private static final Resources REZ =
-        ResourceManager.getPackageResources( DefaultApplicationFrame.class );
+        ResourceManager.getPackageResources( DefaultApplicationContext.class );
 
     ///Map of thread pools for application
     private HashMap      m_threadPools     = new HashMap();
@@ -67,9 +67,9 @@ public class DefaultApplicationFrame
 
     private SarMetaData m_metaData;
 
-    public DefaultApplicationFrame( final SarMetaData metaData,
-                                    final ClassLoader classLoader,
-                                    final Hierarchy hierarchy )
+    public DefaultApplicationContext( final SarMetaData metaData,
+                                      final ClassLoader classLoader,
+                                      final Hierarchy hierarchy )
     {
         m_metaData = metaData;
         m_classLoader = classLoader;
@@ -144,7 +144,6 @@ public class DefaultApplicationFrame
     {
         return m_hierarchy.getLoggerFor( category );
     }
-
 
     /**
      * Get the Configuration for specified component.
