@@ -54,19 +54,15 @@ import org.apache.avalon.framework.component.WrapperComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.LogKit2AvalonLoggerAdapter;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.excalibur.container.lifecycle.LifecycleExtensionManager;
 import org.apache.excalibur.instrument.AbstractLogEnabledInstrumentable;
 import org.apache.excalibur.instrument.CounterInstrument;
-import org.apache.excalibur.instrument.InstrumentManageable;
-import org.apache.excalibur.instrument.InstrumentManager;
-import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.mpool.ObjectFactory;
 
 /**
@@ -74,7 +70,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/03/07 13:14:22 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/03/07 17:46:01 $
  * @since 4.0
  */
 public class ComponentFactory
@@ -115,9 +111,8 @@ public class ComponentFactory
      */
     private final LifecycleExtensionManager m_extManager;
 
-    /** InstrumentManager
+    /** The component's logger
      */
-    private final InstrumentManager m_instrumentManager;
     private Logger m_componentLogger;
 
     /**
@@ -134,18 +129,17 @@ public class ComponentFactory
                              final ServiceManager serviceManager,
                              final Context context,
                              final LoggerManager loggerManager,
-                             final LifecycleExtensionManager extManager,
-                             final InstrumentManager instrumentManager )
+                             final LifecycleExtensionManager extManager )
     {
         m_componentClass = componentClass;
         m_configuration = configuration;
         m_serviceManager = serviceManager;
-        m_context = context;
+        m_context = new DefaultContext(context);
+        ((DefaultContext)m_context).put("component.name", configuration.getAttribute("id", componentClass.getName()));
+        ((DefaultContext)m_context).makeReadOnly();
         m_loggerManager = loggerManager;
         m_extManager = extManager;
         enableLogging( m_loggerManager.getLoggerForCategory( "system.factory" ) );
-        m_instrumentManager = instrumentManager;
-        m_instrumentableName = configuration.getAttribute( "id", componentClass.getName() );
         m_componentLogger = aquireLogger();
 
         m_newInstance = new CounterInstrument( "creates" );
@@ -179,64 +173,31 @@ public class ComponentFactory
             getLogger().debug( message );
         }
 
-        if( component instanceof LogEnabled ||
-            component instanceof Loggable )
-        {
-
-            if( component instanceof LogEnabled )
-            {
-                ContainerUtil.enableLogging( component, m_componentLogger );
-            }
-            else
-            {
-                final String message = "WARNING: " + m_componentClass.getName() +
-                    " implements the Loggable lifecycle stage. This is " +
-                    " a deprecated feature that will be removed in the future. " +
-                    " Please upgrade to using LogEnabled.";
-                getLogger().warn( message );
-                System.out.println( message );
-
-                final org.apache.log.Logger logkitLogger =
-                    LogKit2AvalonLoggerAdapter.createLogger( m_componentLogger );
-                ( (Loggable)component ).setLogger( logkitLogger );
-            }
-        }
-
-        // Set the name of the instrumentable before initialization.
-        if( component instanceof Instrumentable )
-        {
-            final Instrumentable instrumentable = (Instrumentable)component;
-            instrumentable.setInstrumentableName( m_instrumentableName );
-        }
+        ContainerUtil.enableLogging(component, m_componentLogger);
         
-        if( component instanceof InstrumentManageable )
+        if( component instanceof Loggable )
         {
-            ( (InstrumentManageable)component ).setInstrumentManager( m_instrumentManager );
+            final String message = "WARNING: " + m_componentClass.getName() +
+                " implements the Loggable lifecycle stage. This is " +
+                " a deprecated feature that will be removed in the future. " +
+                " Please upgrade to using LogEnabled.";
+            getLogger().warn( message );
+            System.out.println( message );
+
+            final org.apache.log.Logger logkitLogger =
+                LogKit2AvalonLoggerAdapter.createLogger( m_componentLogger );
+            ( (Loggable)component ).setLogger( logkitLogger );
         }
 
         ContainerUtil.contextualize( component, m_context );
         ContainerUtil.compose( component, new WrapperComponentManager( m_serviceManager ) );
         ContainerUtil.service( component, m_serviceManager );
         ContainerUtil.configure( component, m_configuration );
-
-        if( component instanceof Parameterizable )
-        {
-            Parameters parameters = Parameters.fromConfiguration( m_configuration );
-            ContainerUtil.parameterize( component, parameters );
-        }
+        ContainerUtil.parameterize(component, Parameters.fromConfiguration(m_configuration));
 
         m_extManager.executeCreationExtensions( component, m_context );
 
         ContainerUtil.initialize( component );
-
-        if( component instanceof Instrumentable )
-        {
-            final Instrumentable instrumentable = (Instrumentable)component;
-            
-            // Get the name from the instrumentable in case it was changed since being set above.
-            m_instrumentManager.registerInstrumentable(
-                instrumentable, instrumentable.getInstrumentableName() );
-        }
 
         ContainerUtil.start( component );
 

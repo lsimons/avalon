@@ -58,6 +58,7 @@ import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.fortress.Container;
 import org.apache.avalon.fortress.RoleEntry;
 import org.apache.avalon.fortress.RoleManager;
+import org.apache.avalon.fortress.impl.extensions.InstrumentableCreator;
 import org.apache.avalon.fortress.impl.handler.ComponentFactory;
 import org.apache.avalon.fortress.impl.handler.ComponentHandler;
 import org.apache.avalon.fortress.impl.handler.LEAwareComponentHandler;
@@ -95,7 +96,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/03/07 13:14:21 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/03/07 17:46:01 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled
@@ -194,9 +195,27 @@ public abstract class AbstractContainer
                 final String message =
                     "No Container.LIFECYCLE_EXTENSION_MANAGER is given, " +
                     "installing default lifecycle extension manager with " +
-                    "0 extensions";
+                    "1 extensions";
                 getLogger().debug( message );
             }
+        }
+
+        /* Add all the standard extensions if they have not already been
+         * done.
+         */
+        boolean isInstrumentEnabled = false;
+        Iterator it = m_extManager.creatorExtensionsIterator();
+        while(it.hasNext())
+        {
+            if (it.next() instanceof InstrumentableCreator)
+            {
+                isInstrumentEnabled = true;
+            }
+        }
+        
+        if ( ! isInstrumentEnabled )
+        {
+            m_extManager.addCreatorExtension(new InstrumentableCreator(m_instrumentManager));
         }
 
         if( serviceManager.hasService( Queue.ROLE ) )
@@ -410,8 +429,7 @@ public abstract class AbstractContainer
         final ComponentFactory componentFactory =
             new ComponentFactory( clazz, configuration,
                                   m_serviceManager, m_context,
-                                  m_loggerManager, m_extManager,
-                                  m_instrumentManager );
+                                  m_loggerManager, m_extManager );
         return new ProxyObjectFactory( componentFactory );
     }
 
