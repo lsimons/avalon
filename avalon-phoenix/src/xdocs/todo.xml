@@ -63,13 +63,7 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
 
 <s1 title="Wish List">
 
-    <s2 title="Rename server.xml to environment.xml">
-      <p>
-        Rename server.xml to environment.xml to make it more obvious 
-        what purpose it serves.
-      </p>
-    </s2>      
-    <s2 title="">
+    <s2 title="Separate and Antify Validation code">
       <p>
       Refactor block validation code. Write an Ant taks that uses this 
       and validates the .bar files and another task that validates the
@@ -172,15 +166,8 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
 
     <s2 title="Proxy Interfaces">
       <p>
-      Rework kernel so that components are optionally provided via proxied
-      interfaces. External services and management will also be provided via 
-      proxy interfaces.
-      </p>
-      <p>
-      (Update) DynamicProxy now exists in Excalibur, but it relies
-      on a reflection way of proxying - there could be speed issues there.  It may 
-      be better to replicate some features of Kawa's gnu.bytecode package to 
-      genuinely make classes inside the VM.
+      Currently services are provided via a proxy interface. Rework kernel so that
+      the proxy interface can be turned off via a command-line switch.
       </p>
     </s2>
 
@@ -204,19 +191,6 @@ list (avalon-dev@jakarta.apache.org) and ask your specific questions there.
       will provide a standard and flexible connection service and
       messaging service. It allows for both point to point messaging
       and multicast messaging (subscriber/provider). 
-      </p>
-    </s2>
-
-    <s2 title="Logging to database">
-      <p>
-      Support for sending log events to a database.  Not all logging
-      systems will want to send information to the filesystem.
-      </p>
-    </s2>
-
-    <s2 title="Multiple implementations of Persistence Store">
-      <p>
-      Persistent Store should be able to optionally store in a database.
       </p>
     </s2>
 
