@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-repository-spi" default="dist" basedir=".">
+  <property file="build.properties"/>
+  <import file="${project.home}/build/standard.xml"/>
+</project>

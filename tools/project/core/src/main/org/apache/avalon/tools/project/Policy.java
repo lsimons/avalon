@@ -26,6 +26,11 @@ package org.apache.avalon.tools.project;
  */
 public class Policy 
 {
+    public static final int ANY = -1;
+    public static final int BUILD = 0;
+    public static final int TEST = 1;
+    public static final int RUNTIME = 2;
+
     public static final boolean ENABLED = true;
     public static final boolean DISABLED = false;
 
@@ -58,6 +63,26 @@ public class Policy
     public boolean isRuntimeEnabled()
     {
         return m_runtime;
+    }
+
+    public boolean matches( int mode )
+    {
+        if( mode == BUILD )
+        {
+            return isBuildEnabled();
+        }
+        else if( mode == TEST )
+        {
+            return isTestEnabled();
+        }
+        else if( mode == RUNTIME )
+        {
+            return isRuntimeEnabled();
+        }
+        else
+        {
+            return true;
+        }
     }
 
     public boolean equals( Object other )

@@ -3,11 +3,15 @@
 
   <x:home/>
 
-  <target name="clean">
+  <target name="init">
+    <x:info/>
+  </target>
+
+  <target name="clean" depends="init">
     <x:clean/>
   </target>
 
-  <target name="prepare" depends="">
+  <target name="prepare" depends="init">
     <x:prepare/>
   </target>
 

@@ -303,29 +303,11 @@ public class Artifact implements Serializable
     */
     public String toString()
     {
-        if( "block".equals( getType() ) )
-        {
-            return "block:" + getSpecification();
-        }
-        else if( "jar".equals( getType() ) )
-        {
-            return "artifact:" + getSpecification();
-        }
-        else
-        {
-            String path = "artifact:" + getGroup() + "/" + getName();
-            if( getVersion() != null )
-            { 
-                path = path + "#" + getVersion();
-                if( getType() != null ) path = path + "&type=" + getType();
-                return path;
-            }
-            else
-            {
-                if( getType() != null ) path = path + "?type=" + getType();
-                return path;
-            }
-        }
+        StringBuffer buffer = new StringBuffer( "artifact:" );
+        buffer.append( getType() );
+        buffer.append( ":" );
+        buffer.append( getSpecification() );
+        return buffer.toString();
     }
 
     // ------------------------------------------------------------------------

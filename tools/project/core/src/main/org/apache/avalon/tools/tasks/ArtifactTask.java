@@ -233,7 +233,8 @@ public class ArtifactTask extends SystemTask
     private ResourceRef[] getRuntimeRefs( final Definition def )
     {
         ArrayList list = new ArrayList();
-        ResourceRef[] resources = getHome().getRepository().getResourceRefs( def );
+        ResourceRef[] resources = 
+          getHome().getRepository().getResourceRefs( def, Policy.RUNTIME );
         for( int i=0; i<resources.length; i++ )
         {
             ResourceRef ref = resources[i];

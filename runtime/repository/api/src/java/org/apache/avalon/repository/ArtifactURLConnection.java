@@ -54,7 +54,7 @@ public class ArtifactURLConnection extends AbstractURLConnection
      {
          try
          {
-             final String path = getURL().getPath();
+             final String path = getPath( url );
              final int i = path.lastIndexOf( "/" );
              final String group = path.substring( 0, i );
              final String name = path.substring( i+1 );
@@ -70,9 +70,32 @@ public class ArtifactURLConnection extends AbstractURLConnection
          }
      }
 
+     private final String getPath( URL url )
+     {
+         final String path = getURL().getPath();
+         int n = path.indexOf( ":" );
+         if( n > -1 )
+         {
+             return path.substring( n+1 );
+         }
+         else
+         {
+             return path;
+         }
+     }
+
      private String getType( URL url, String type )
      {
-         return getQueryField( url, "type", type );
+         final String path = getURL().getPath();
+         int n = path.indexOf( ":" );
+         if( n > -1 )
+         {
+             return path.substring( 0, n );
+         }
+         else
+         {
+             return getQueryField( url, "type", type );
+         }
      }
 
 

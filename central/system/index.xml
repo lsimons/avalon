@@ -78,6 +78,15 @@
       </info>
     </resource>
 
+    <resource>
+      <info>
+        <group>commons-cli</group>
+        <name>commons-cli</name>
+        <version>1.0</version>
+        <type>jar</type>
+      </info>
+    </resource>
+
   </resources>
 
   <!--
@@ -292,6 +301,106 @@
         <taskdef name="meta" class="org.apache.avalon.meta.info.MetaTask"/>
       </tasks>
     </plugin>
+
+    <!--
+    Avalon Repository.
+    -->
+
+    <project basedir="../../runtime/repository/api">
+      <info>
+        <group>avalon/repository</group>
+        <name>avalon-repository-api</name>
+        <version>2.0.0</version>
+      </info>
+    </project>
+
+    <project basedir="../../runtime/repository/spi">
+      <info>
+        <group>avalon/repository</group>
+        <name>avalon-repository-spi</name>
+        <version>2.0.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-repository-api"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/repository/util">
+      <info>
+        <group>avalon/repository</group>
+        <name>avalon-repository-util</name>
+        <version>2.0.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-repository-api"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/repository/impl">
+      <info>
+        <group>avalon/repository</group>
+        <name>avalon-repository-impl</name>
+        <version>2.0.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-repository-main" runtime="false"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/repository/main">
+      <info>
+        <group>avalon/repository</group>
+        <name>avalon-repository-main</name>
+        <version>2.0.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-repository-spi"/>
+          <projectref key="avalon-repository-util"/>
+          <projectref key="avalon-util-exception"/>
+          <projectref key="avalon-util-env"/>
+          <projectref key="avalon-util-i18n"/>
+          <projectref key="avalon-util-criteria"/>
+          <projectref key="avalon-util-defaults"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/repository/cli">
+      <info>
+        <group>avalon/repository</group>
+        <name>avalon-repository-cli</name>
+        <version>2.0.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-repository-main"/>
+        </projects>
+        <resources>
+          <resourceref key="commons-cli"/>
+        </resources>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/repository/test">
+      <info>
+        <group>avalon/repository</group>
+        <name>avalon-repository-test</name>
+        <version>2.0.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-repository-main"/>
+          <projectref key="avalon-framework-impl"/>
+        </projects>
+      </dependencies>
+    </project>
 
     <!--
     Avalon Logging.
