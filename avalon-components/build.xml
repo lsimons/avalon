@@ -50,13 +50,15 @@
   <property name="dist.name" value="${Name}-${version}"/>
   <property name="dist.base" value="distributions"/>
 
-  <property name="xerces.jar" value="${tools.dir}/lib/xerces.jar"/>
+  <property name="xerces.jar" value="${tools.dir}/lib/xerces-2.0.1.jar"/>
+  <property name="xml-apis.jar" value="${tools.dir}/lib/xml-apis.jar"/>
   <property name="junit.jar" value="${tools.dir}/lib/junit-3.7.jar"/>
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
   <path id="project.class.path">
     <pathelement location="${junit.jar}"/>
     <pathelement location="${xerces.jar}"/>
+    <pathelement location="${xml-apis.jar}"/>
     <pathelement path="${java.class.path}" />
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
@@ -111,6 +113,10 @@
         classpathref="project.class.path"
         property="LTPJB.present"/>
 
+    <available property="nio.present"
+        classname="java.nio.channels.Channels"
+        classpathref="project.class.path"/>
+
     <mkdir dir="${build.classes}"/>
 
     <javac srcdir="${java.dir}"
@@ -140,6 +146,10 @@
                unless="LTPJB.present" />
       <exclude name="org/apache/avalon/cornerstone/blocks/transport/**/*.java"
                unless="AltRMI.present" />
+      <exclude name="org/apache/avalon/cornerstone/blocks/channels/*.java"
+               unless="nio.present" />
+      <exclude name="org/apache/avalon/cornerstone/services/channels/*.java"
+               unless="nio.present" />
     </javac>
   </target>
 
