@@ -51,11 +51,11 @@ package org.apache.avalon.fortress.test.data;
 
 /**
  * @avalon.component
- * @x-avalon.lifecycle thread
+ * @x-avalon.lifecycle type=thread
  * @x-avalon.info name=component3
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003/04/10 16:53:22 $
+ * @version $Revision: 1.7 $ $Date: 2003/04/10 21:14:06 $
  */
 public class Component3
     implements Role3
