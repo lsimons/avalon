@@ -53,8 +53,8 @@ import java.util.*;
 
 /**
  * DirectedAcyclicGraphVerifier provides methods to verify that any set of
- * verteces has no cycles.  A Directed Acyclic Graph is a "graph" or set of
- * verteces where all connections between each vertex goes in a particular
+ * vertices has no cycles.  A Directed Acyclic Graph is a "graph" or set of
+ * vertices where all connections between each vertex goes in a particular
  * direction and there are no cycles or loops.  It is used to track dependencies
  * and ansure that dependencies can be loaded and unloaded in the proper order.
  *
@@ -67,110 +67,114 @@ public class DirectedAcyclicGraphVerifier
      * Verify that a vertex and its set of dependencies have no cycles.
      *
      * @param vertex  The vertex we want to test.
+     *
      * @throws CyclicDependencyException  if there is a cycle.
      */
-    public static void verify( Vertex vertex ) throws CyclicDependencyException
+    public static void verify( Vertex vertex )
+        throws CyclicDependencyException
     {
-        List list = new ArrayList(1);
-        list.add(vertex);
-
-        addDependencies( list, vertex );
-
-        topologicalSort(list);
+        // We need a list of vertices that contains the entire graph, so build it.
+        List vertices = new ArrayList();
+        addDependencies( vertex, vertices );
+        
+        verify( vertices );
     }
-
-    private static void addDependencies( final List list, final Vertex vertex )
+    
+    /**
+     * Recursively add a vertex and all of its dependencies to a list of
+     *  vertices
+     *
+     * @param vertex Vertex to be added.
+     * @param vertices Existing list of vertices.
+     */
+    private static void addDependencies( final Vertex vertex, final List vertices )
     {
-        Iterator deps = vertex.getDependencies().iterator();
-        while(deps.hasNext())
+        if ( !vertices.contains( vertex ) )
         {
-            Vertex v = (Vertex)deps.next();
-
-            if ( ! list.contains(v) )
+            vertices.add( vertex );
+            
+            for ( Iterator iter = vertex.getDependencies().iterator(); iter.hasNext(); )
             {
-                list.add(v);
-                addDependencies(list, v);
+                addDependencies( (Vertex)iter.next(), vertices );
             }
         }
     }
 
     /**
-     * Verify a set of verteces and all their dependencies have no cycles.
+     * Verify a set of vertices and all their dependencies have no cycles.  All
+     *  Vertices in the graph must exist in the list.
      *
-     * @param verteces  The list of verteces we want to test.
+     * @param vertices  The list of vertices we want to test.
+     *
      * @throws CyclicDependencyException  if there is a cycle.
      */
-    public static void verify( List verteces ) throws CyclicDependencyException
+    public static void verify( List vertices )
+        throws CyclicDependencyException
     {
-        topologicalSort(verteces);
+        // Reset the orders of all the vertices.
+        resetVertices( vertices );
+        
+        // Assert that all vertices are in the vertices list and resolve each of their orders.
+        Iterator it = vertices.iterator();
+        while ( it.hasNext() )
+        {
+            Vertex v = (Vertex) it.next();
+            
+            // Make sure that any dependencies are also in the vertices list.  This adds
+            //  a little bit to the load, but we don't test this and the test would have
+            //  failed, this would lead to some very hard to track down problems elsewhere.
+            Iterator dit = v.getDependencies().iterator();
+            while( dit.hasNext() )
+            {
+                Vertex dv = (Vertex) dit.next();
+                if ( !vertices.contains( dv ) )
+                {
+                    throw new IllegalStateException( "A dependent vertex (" + dv.getName() + ") of "
+                        + "vertex (" + v.getName() + ") was not included in the vertices list." );
+                }
+            }
+            
+            v.resolveOrder();
+        }
     }
 
     /**
-     * Sort a set of verteces so that no dependency is before its vertex.  If
+     * Sort a set of vertices so that no dependency is before its vertex.  If
      * we have a vertex named "Parent" and one named "Child" that is listed as
      * a dependency of "Parent", we want to ensure that "Child" always comes
      * after "Parent".  As long as there are no cycles in the list, we can sort
-     * any number of verteces that may or may not be related.
+     * any number of vertices that may or may not be related.  Both "Parent"
+     * and "Child" must exist in the vertices list, but "Child" will also be
+     * referenced as a dependency of "Parent".
      *
      * <p>
      *   <b>Implementation Detail:</b> This particular algorithm is a more
      *   efficient variation of the typical Topological Sort algorithm.  It uses
      *   a Queue (Linked List) to ensure that each edge (connection between
-     *   two verteces) or vertex is checked only once.  The efficiency is
+     *   two vertices) or vertex is checked only once.  The efficiency is
      *   O = (|V| + |E|).
      * </p>
      *
-     * @param verteces
+     * @param vertices
      * @throws CyclicDependencyException
      */
-    public static void topologicalSort( final List verteces ) throws CyclicDependencyException
+    public static void topologicalSort( final List vertices ) throws CyclicDependencyException
     {
-        resetVerteces( verteces );
-        int counter = 0;
-        final LinkedList queue = new LinkedList();
-
-        Iterator it = verteces.iterator();
-        while ( it.hasNext() )
-        {
-            Vertex v = (Vertex) it.next();
-
-            if ( v.getIndegrees() == 0 )
-            {
-                queue.addFirst( v );
-            }
-        }
-
-        while ( !queue.isEmpty() )
-        {
-            Vertex v = (Vertex) queue.removeLast();
-            v.setOrder( counter );
-            counter++;
-
-            Iterator deps = v.getDependencies().iterator();
-            while ( deps.hasNext() )
-            {
-                Vertex w = (Vertex) deps.next();
-
-                w.accountForIndegree();
-                if ( w.getIndegrees() == 0 )
-                {
-                    queue.addFirst( w );
-                }
-            }
-        }
-
-        if ( counter != verteces.size() ) throw new CyclicDependencyException();
-
-        Collections.sort( verteces );
+        // Verify the graph and set the vertex orders in the process.
+        verify( vertices );
+        
+        // We now that there are no cycles and that each of the vertices has an order
+        //  that will allow them to be sorted.
+        Collections.sort( vertices );
     }
 
     /**
-     * Resets all the verteces so that the visitation flags and indegrees are
+     * Resets all the vertices so that the visitation flags and indegrees are
      * reset to their start values.
      *
      * @param vertices
      */
-    public static void resetVerteces( List vertices )
+    public static void resetVertices( List vertices )
     {
         Iterator it = vertices.iterator();
         while ( it.hasNext() )

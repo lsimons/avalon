@@ -107,6 +107,45 @@ public class DirectedAcyclicGraphVerifierTestCase extends TestCase
         }
     }
 
+    /**
+     * This test waas written to test the algorithm used to search for cycles.
+     *  It makes sure that cycles that start a ways into the dependency tree
+     *  are handled correctly.
+     */
+    public void testCycleTest() throws Exception
+    {
+        Vertex component1 = new Vertex( "Component1" );
+        Vertex component2 = new Vertex( "Component2" );
+        Vertex component3 = new Vertex( "Component3" );
+        Vertex component4 = new Vertex( "Component4" );
+        Vertex component5 = new Vertex( "Component5" );
+        
+        List vertices = new ArrayList( 5 );
+        vertices.add( component1 );
+        vertices.add( component2 );
+        vertices.add( component3 );
+        vertices.add( component4 );
+        vertices.add( component5 );
+        
+        component1.addDependency( component2 );
+        component2.addDependency( component3 );
+            
+        component3.addDependency( component4 );
+        component4.addDependency( component5 );
+        component5.addDependency( component3 ); // Cycle
+        
+        try
+        {
+            DirectedAcyclicGraphVerifier.topologicalSort( vertices );
+            fail( "Did not detect the expected cyclic dependency" );
+        }
+        catch ( CyclicDependencyException cde )
+        {
+            //Success!
+        }
+    }
+        
+    
     public void testSortDAG() throws Exception
     {
         Vertex component1 = new Vertex( "Component1" );
@@ -131,14 +170,13 @@ public class DirectedAcyclicGraphVerifierTestCase extends TestCase
         vertices.add( component5 );
 
         DirectedAcyclicGraphVerifier.topologicalSort( vertices );
-
-        List verifyList = generateVerifyList( component1, component5, component2, component3, component4 );
-        verifyTopSort( vertices, verifyList );
+        verifyGraphOrders( vertices );
+        verifyListOrder( vertices );
 
         Collections.shuffle( vertices );
         DirectedAcyclicGraphVerifier.topologicalSort( vertices );
-        verifyList = generateVerifyList( component1, component5, component2, component3, component4 );
-        verifyTopSort( vertices, verifyList );
+        verifyGraphOrders( vertices );
+        verifyListOrder( vertices );
 
         component4.addDependency( component1 );
         Collections.shuffle( vertices );
@@ -153,38 +191,34 @@ public class DirectedAcyclicGraphVerifierTestCase extends TestCase
             //Success!
         }
     }
-
-    private List generateVerifyList( Vertex component1, Vertex component5, Vertex component2, Vertex component3, Vertex component4 )
+    
+    private void verifyGraphOrders( List vertices )
     {
-        List verifyList = new ArrayList( 3 );
-        List level1 = new ArrayList( 2 );
-        level1.add( component1 );
-        level1.add( component5 );
-        verifyList.add( level1 );
-        List level2 = new ArrayList( 2 );
-        level2.add( component2 );
-        level2.add( component3 );
-        verifyList.add( level2 );
-        List level3 = new ArrayList( 1 );
-        level3.add( component4 );
-        verifyList.add( level3 );
-        return verifyList;
-    }
-
-    private void verifyTopSort( List vertices, List verifyList )
-    {
-        List currList = null;
-        Iterator it = vertices.iterator();
-        while ( it.hasNext() )
+        for ( Iterator iter = vertices.iterator(); iter.hasNext(); )
         {
-            if ( null == currList || currList.isEmpty() )
+            Vertex v = (Vertex)iter.next();
+            
+            // Make sure that the orders of all dependencies are less than
+            //  the order of v.
+            for ( Iterator iter2 = v.getDependencies().iterator(); iter2.hasNext(); )
             {
-                currList = (List) verifyList.remove( 0 );
+                Vertex dv = (Vertex)iter2.next();
+                assertTrue( "The order of " + dv.getName() + " (" + dv.getOrder() + ") should be "
+                    + "less than the order of " + v.getName() + " (" + v.getOrder() + ")",
+                    dv.getOrder() < v.getOrder() );
             }
-
-            Vertex v = (Vertex) it.next();
-
-            assertTrue( currList.remove( v ) );
+        }
+    }
+    
+    private void verifyListOrder( List vertices )
+    {
+        Vertex[] ary = new Vertex[vertices.size()];
+        vertices.toArray( ary );
+        for ( int i = 1; i < ary.length; i++ )
+        {
+            assertTrue( "The order of vertex #" + ( i - 1 ) + " (" + ary[i - 1].getOrder() + ") "
+                + "should be <= the order of vertex #" + ( i ) + " (" + ary[i].getOrder() + ")",
+                ary[i - 1].getOrder() <= ary[i].getOrder() );
         }
     }
 }

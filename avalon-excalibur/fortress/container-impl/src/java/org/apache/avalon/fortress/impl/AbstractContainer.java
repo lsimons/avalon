@@ -96,7 +96,7 @@ import java.util.*;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.29 $ $Date: 2003/05/27 18:39:46 $
+ * @version CVS $Revision: 1.30 $ $Date: 2003/05/28 17:50:20 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled
@@ -655,14 +655,25 @@ public abstract class AbstractContainer
 
     private void verifyComponents() throws CyclicDependencyException
     {
-        List verteces = new ArrayList(m_components.size());
+        Map vertexMap = new HashMap();
+        List vertices = new ArrayList( m_components.size() );
         Iterator it = m_components.iterator();
-
+        
         while(it.hasNext())
         {
             ComponentHandlerEntry entry = (ComponentHandlerEntry) it.next();
-            Vertex v = new Vertex(entry.getHandler());
-            MetaInfoEntry meta = m_metaManager.getMetaInfoForClassname(entry.getMetaData().getClassname());
+            ComponentHandlerMetaData metaData = entry.getMetaData();
+            
+            String name = metaData.getName();
+            Vertex v = (Vertex)vertexMap.get( name );
+            if ( v == null )
+            {
+                v = new Vertex( name, entry.getHandler() );
+                vertexMap.put( name, v );
+                vertices.add( v );
+            }
+            
+            MetaInfoEntry meta = m_metaManager.getMetaInfoForClassname(metaData.getClassname());
 
             Iterator dit = meta.getDependencies().iterator();
             while(dit.hasNext())
@@ -672,21 +683,42 @@ public abstract class AbstractContainer
                 while(mdit.hasNext())
                 {
                     Map.Entry depEntry = (Map.Entry)mdit.next();
-
-                    if ( ! depEntry.getKey().equals(DEFAULT_ENTRY) ||
-                         ! depEntry.getKey().equals(SELECTOR_ENTRY))
+                    
+                    // If this key is neither the DEFAULT_ENTRY or the SELECTOR_ENTRY then we
+                    //  want to add a dependency vertex.
+                    if ( ! ( depEntry.getKey().equals( DEFAULT_ENTRY ) ||
+                        depEntry.getKey().equals( SELECTOR_ENTRY ) ) )
                     {
-                        v.addDependency(new Vertex(depEntry.getValue()));
+                        String dName = depEntry.getKey().toString();
+                        Vertex dv = (Vertex)vertexMap.get( dName );
+                        if ( dv == null )
+                        {
+                            dv = new Vertex( dName, depEntry.getValue() );
+                            vertexMap.put( dName, dv );
+                            vertices.add( dv );
+                        }
+                        v.addDependency( dv );
                     }
                 }
             }
-
-            verteces.add(v);
         }
-
-        DirectedAcyclicGraphVerifier.topologicalSort(verteces);
-        Collections.reverse(verteces);
-        m_shutDownOrder = verteces;
+        
+        DirectedAcyclicGraphVerifier.topologicalSort(vertices);
+        
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "Component initialization order:" );
+            int i = 1;
+            for ( Iterator iter = vertices.iterator(); iter.hasNext(); i++ )
+            {
+                Vertex v = (Vertex)iter.next();
+                getLogger().debug( "  #" + i + " (" + v.getOrder() + ") : " + v.getName() );
+            }
+        }
+        
+        Collections.reverse(vertices);
+        
+        m_shutDownOrder = vertices;
     }
 
     /**
@@ -694,6 +726,18 @@ public abstract class AbstractContainer
      */
     public void dispose()
     {
+        
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "Component shutdown order:" );
+            int i = 1;
+            for ( Iterator iter = m_shutDownOrder.iterator(); iter.hasNext(); i++ )
+            {
+                Vertex v = (Vertex)iter.next();
+                getLogger().debug( "  #" + i + " (" + v.getOrder() + ") : " + v.getName() );
+            }
+        }
+        
         final Iterator i = m_shutDownOrder.iterator();
         while ( i.hasNext() )
         {

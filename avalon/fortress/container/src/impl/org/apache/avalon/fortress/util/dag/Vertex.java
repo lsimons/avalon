@@ -50,6 +50,7 @@
 package org.apache.avalon.fortress.util.dag;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -58,14 +59,20 @@ import java.util.List;
  * proper order, or bundles were loaded and unloaded in the proper order, etc.
  *
  * @author <a href="bloritsch.at.d-haven.org">Berin Loritsch</a>
+ * @author <a href="leif.at.apache.org">Leif Mortenson</a>
  * @version CVS $ Revision: 1.1 $
  */
 public final class Vertex implements Comparable
 {
+    private final String m_name;
     private final Object m_node;
-    private int m_indegrees;
-    private int m_currentIndegrees;
     private int m_order;
+    
+    /** Flag used to keep track of whether or not a given vertex has been
+     *   seen by the resolveOrder methods. */
+    private boolean m_seen;
+    
+    /** List of all direct dependent Vertices. */
     private final List m_dependencies;
 
     /**
@@ -75,21 +82,21 @@ public final class Vertex implements Comparable
      */
     public Vertex( final Object node )
     {
+        this( node.toString(), node );
+    }
+    
+    /**
+     * A vertex wraps a node, which can be anything.
+     *
+     * @param name  A name for the node which will be used to produce useful errors.
+     * @param node  The wrapped node.
+     */
+    public Vertex( final String name, final Object node )
+    {
+        m_name = name;
         m_node = node;
-        m_indegrees = 0;
-        m_order = 0;
         m_dependencies = new ArrayList();
         reset();
-    }
-
-    /**
-     * Mark this vertex so that it knows it is referenced.  It is used to
-     * determine the number of indegrees this vertex has.
-     */
-    private void isReferenced()
-    {
-        m_indegrees++;
-        m_currentIndegrees++;
     }
 
     /**
@@ -98,41 +105,20 @@ public final class Vertex implements Comparable
      */
     public void reset()
     {
-        m_currentIndegrees = m_indegrees;
         m_order = 0;
+        m_seen = false;
     }
-
+    
     /**
-     * Provide an ordinal or order number for the vertex, used in properly
-     * sorting the verteces.
+     * Returns the name of the Vertex.
      *
-     * @param orderNum  The ordinal for this vertex.
+     * @return The name of the Vertex.
      */
-    public void setOrder( int orderNum )
+    public String getName()
     {
-        m_order = orderNum;
+        return m_name;
     }
-
-    /**
-     * Get the number of indegrees for this Vertex.  An indegree is an incomming
-     * edge, or a Vertex that depends on this one.
-     *
-     * @return  The current number of tracked indegrees
-     */
-    public int getIndegrees()
-    {
-        return m_currentIndegrees;
-    }
-
-    /**
-     * Account for one of the indegrees.  This decrements the current number of
-     * tracked indegrees, and is used in the topological sort algorithm.
-     */
-    public void accountForIndegree()
-    {
-        m_currentIndegrees--;
-    }
-
+    
     /**
      * Get the wrapped node that this Vertex represents.
      *
@@ -155,7 +141,62 @@ public final class Vertex implements Comparable
         if ( !m_dependencies.contains( v ) )
         {
             m_dependencies.add( v );
-            v.isReferenced();
+        }
+    }
+    
+    
+    /**
+     * Recurse through the tree from this vertex assigning an order to each
+     *  and at the same time checking for any cyclic dependencies.
+     *
+     * @throws CyclicDependencyException If a cyclic dependency is discovered.
+     */
+    public void resolveOrder()
+        throws CyclicDependencyException
+    {
+        resolveOrder( getName() );
+    }
+    
+    /**
+     * Recursively searches for cycles by travelling down the dependency lists
+     *  of this vertex, looking for the start vertex.
+     *
+     * @param start Vertex which will indicate a cylic graph.
+     * @param path The path to the Vertex.  It is worth the load as it makes a
+     *             descriptive error message possible.
+     *
+     * @return The highest order of any of the dependent vertices.
+     *
+     * @throws CyclicDependencyException If a cyclic dependency is discovered.
+     */
+    private int resolveOrder( String path )
+        throws CyclicDependencyException
+    {
+        m_seen = true;
+        try
+        {
+            int highOrder = -1;
+            for ( Iterator iter = m_dependencies.iterator(); iter.hasNext(); )
+            {
+                Vertex dv = (Vertex)iter.next();
+                if ( dv.m_seen )
+                {
+                    throw new CyclicDependencyException( path + " -> " + dv.getName() );
+                }
+                else
+                {
+                    highOrder = Math.max(
+                        highOrder, dv.resolveOrder( path + " -> " + dv.getName() ) );
+                }
+            }
+            
+            // Set this order so it is one higher than the highest dependency.
+            m_order = highOrder + 1;
+            return m_order;
+        }
+        finally
+        {
+            m_seen = false;
         }
     }
 
@@ -170,7 +211,7 @@ public final class Vertex implements Comparable
     }
 
     /**
-     * Used in the sort algorithm to sort all the Verteces so that they respect
+     * Used in the sort algorithm to sort all the Vertices so that they respect
      * the ordinal they were given during the topological sort.
      *
      * @param o  The other Vertex to compare with
@@ -179,10 +220,20 @@ public final class Vertex implements Comparable
     public int compareTo( final Object o )
     {
         final Vertex other = (Vertex) o;
-        int orderInd = 0;
+        int orderInd;
 
-        if ( m_order < other.m_order ) orderInd = -1;
-        if ( m_order > other.m_order ) orderInd = 1;
+        if ( m_order < other.m_order )
+        {
+            orderInd = -1;
+        }
+        else if ( m_order > other.m_order )
+        {
+            orderInd = 1;
+        }
+        else
+        {
+            orderInd = 0;
+        }
 
         return orderInd;
     }
