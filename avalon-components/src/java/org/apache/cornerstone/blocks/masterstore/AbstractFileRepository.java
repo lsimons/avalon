@@ -31,7 +31,6 @@ import org.apache.phoenix.Block;
 import org.apache.phoenix.BlockContext;
 import org.apache.cornerstone.services.Store;
 import org.apache.avalon.util.io.ExtensionFileFilter;
-import org.apache.avalon.util.io.ResettableFileInputStream;
 
 /**
  * This an abstract class implementing functionality for creating a file-store.

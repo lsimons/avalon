@@ -14,7 +14,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.apache.cornerstone.services.Store;
-import org.apache.avalon.util.io.ResettableFileInputStream;
 import org.apache.avalon.util.io.IOUtil;
 
 /**
