@@ -16,25 +16,30 @@ public class URLClassLoaderScanner implements ClassLoaderScanner {
         return URLClassLoader.class;
     }
     
-    private Collection getAllClassesFromJarFile (ClassLoader cl, JarFile jar) throws Exception {
-        HashSet result = new HashSet ();
-        Enumeration enum = jar.entries ();
-        while (enum.hasMoreElements ()) {
-            JarEntry entry = (JarEntry) enum.nextElement ();
-            if (!entry.isDirectory ()) {
-                String className = entry.getName ();
-                if (className.endsWith (".class")) {
-                    className = className.substring (0, className.length () - 6);
-                    className.replace ('/', '.').replace ('\\', '.').replace (':', '.');
-                    try {
-                        Class clazz = cl.loadClass (className);
-                        result.add (clazz);
-                    } catch (Exception e) {
+    private Collection getAllClassesFromJarFile (ClassLoader cl, File file) throws Exception {
+        JarFile jar = new JarFile (file);
+        try {
+            HashSet result = new HashSet ();
+            Enumeration enum = jar.entries ();
+            while (enum.hasMoreElements ()) {
+                JarEntry entry = (JarEntry) enum.nextElement ();
+                if (!entry.isDirectory ()) {
+                    String className = entry.getName ();
+                    if (className.endsWith (".class")) {
+                        className = className.substring (0, className.length () - 6);
+                        className.replace ('/', '.').replace ('\\', '.').replace (':', '.');
+                        try {
+                            Class clazz = cl.loadClass (className);
+                            result.add (clazz);
+                        } catch (Exception e) {
+                        }
                     }
                 }
             }
+            return result;
+        } finally {
+            jar.close ();
         }
-        return result;
     }
     
     private Collection getAllClassesFromDirectory (ClassLoader cl, File dir, String prefix) throws Exception {
@@ -67,7 +72,7 @@ public class URLClassLoaderScanner implements ClassLoaderScanner {
                 if (f.isDirectory ()) {
                     return getAllClassesFromDirectory (cl, f);
                 } else {
-                    return getAllClassesFromJarFile (cl, new JarFile (f));
+                    return getAllClassesFromJarFile (cl, f);
                 }                
             } else {
                 return new ArrayList (0);
