@@ -5,3 +5,4 @@ clean       plugin.install
 artifact    plugin.install
 java        plugin.install
 jar         plugin.install
+# test        plugin.install

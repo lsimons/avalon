@@ -15,142 +15,39 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
+import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.Session;
+
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.net.URLConnection;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Properties;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.avalon.magic.AbstractPlugin;
 import org.apache.avalon.magic.Artifact;
-import org.apache.avalon.magic.Plugin;
+
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Path;
+import org.apache.tools.ant.taskdefs.optional.ssh.Scp;
+import org.apache.tools.ant.taskdefs.optional.ssh.SSHUserInfo;
 
 public class ArtifactPlugin extends AbstractPlugin
+    implements Serviceable
 {
-    public Artifact resolve( String artifactId )
-        throws IOException
+    private Object m_PreparePlugin;
+    
+    public void service( ServiceManager man )
+        throws ServiceException
     {
-        File definitionsDir = new File( m_Context.getProjectSystemDir(), "definitions" );
-        File file = new File( definitionsDir, artifactId );
-        Properties p = new Properties();
-        if( file.exists() )
-        {
-            FileInputStream fis = new FileInputStream( file );
-            try
-            {
-                p.load( fis );
-            } finally
-            {
-                if( fis != null )
-                    fis.close();
-            }
-        }
-        
-        String repository = p.getProperty( "artifact.repository" );
-        if( repository == null )
-            repository = m_Context.getProperty( "artifact.repository" );
-
-        String groupId = p.getProperty( "artifact.group" );
-        if( groupId == null )
-            groupId = artifactId;
-
-        String version = p.getProperty( "artifact.version" );
-        if( version == null )
-            version = "1.0.dev-0";
-
-        String type = p.getProperty( "artifact.type" );
-        if( type == null )
-            type = "jar";
-
-        Artifact artifact = new Artifact( artifactId, groupId, version, type, repository );
-        if( getLogger().isDebugEnabled() )
-            getLogger().debug( "Artifact: " + artifact );
-        return artifact;
-    }
-    
-    
-    public Artifact[] getDependencies( Artifact artifact )
-        throws IOException
-    {
-        File definitionsDir = new File( m_Context.getProjectSystemDir(), "dependencies" );
-        File file = new File( definitionsDir, artifact.getArtifactId() );
-        if( ! file.exists() )
-            return new Artifact[0];
-        FileReader reader = null;
-        BufferedReader br = null;
-        ArrayList deps = new ArrayList();
-        try
-        {
-            reader = new FileReader( file );
-            br = new BufferedReader( reader );
-            String line;
-            while( ( line = br.readLine() ) != null )
-            {
-                line = line.trim();
-                if( ! line.equals( "" ) )
-                    deps.add( line );
-            }
-        } catch( IOException e )
-        {
-            e.printStackTrace();
-            throw e;
-        } finally
-        {
-            if( reader != null )
-                reader.close();
-            if( br != null )
-                br.close();
-        }
-        Artifact[] result = new Artifact[ deps.size() ];
-        Iterator list = deps.iterator();
-        for( int i=0 ; list.hasNext() ; i++ )
-        {
-            String dep = (String) list.next();
-            result[i] = resolve( dep );
-        }
-        return result;
-    }
-    
-    
-    public ClassLoader getClassloader( Artifact[] artifacts )
-        throws IOException
-    {
-        URL[] jars = getLocalURLs( artifacts );
-        URLClassLoader classloader = new URLClassLoader( jars );
-        return classloader;        
-    }
-    
-    public URL[] getLocalURLs( Artifact[] artifacts )
-        throws IOException
-    {
-        URL[] jars = new URL[ artifacts.length ];
-        for( int i=0 ; i < artifacts.length ; i++ )
-        {
-            File localFile = toLocalFile( artifacts[i] );
-            if( ! localFile.exists() )
-            {
-                localFile.getParentFile().mkdirs();
-                download( artifacts[i], localFile );
-            }
-            jars[i] = localFile.toURL();
-        }
-        return jars;
+        m_PreparePlugin = man.lookup( "prepare" );
     }
     
     public Path getClassPath( Artifact[] artifacts )
@@ -159,19 +56,7 @@ public class ArtifactPlugin extends AbstractPlugin
         Path result = new Path( m_Project );
         for( int i=0 ; i < artifacts.length ; i++ )
         {
-            File localFile = toLocalFile( artifacts[i] );
-            if( ! localFile.exists() )
-            {
-                if( getLogger().isDebugEnabled() )
-                    getLogger().debug( artifacts[i] + "    does NOT exists locally." );
-                localFile.getParentFile().mkdirs();
-                download( artifacts[i], localFile );
-            }
-            else
-            {
-                if( getLogger().isDebugEnabled() )
-                    getLogger().debug( artifacts[i] + "    exists locally." );
-            }
+            File localFile = artifacts[i].toLocalFile();
             Path.PathElement pe = result.createPathElement();
             pe.setLocation( localFile );
         }
@@ -180,75 +65,87 @@ public class ArtifactPlugin extends AbstractPlugin
         return result;
     }
     
-    public void upload( Artifact artifact, File content )
+    public void install( Artifact artifact, File content )
+        throws IOException
     {
-    }
-    
-    private void download( Artifact artifact, File dest )
-        throws IOException, MalformedURLException
-    {
-        FileOutputStream out = null;
-        BufferedOutputStream bos = null;
-        InputStream in = null;
-        BufferedInputStream bis = null;
-        File dlFile = File.createTempFile( "~magic", ".tmp", dest.getParentFile() );
-        dlFile.deleteOnExit();
         try
         {
-            out = new FileOutputStream( dlFile );
-            bos = new BufferedOutputStream( out );
-            URL url = toRemoteURL( artifact );
-            URLConnection conn = url.openConnection();
-            conn.connect();
-            in = conn.getInputStream();
-            bis = new BufferedInputStream( in );
-            int b;
-            int counter = 0;
-            while( ( b = bis.read() ) != -1 )
-            {
-                counter++;
-                if( counter > 1000 )
-                {
-                    counter = 0;
-                    System.out.print( "." );
-                }
-                bos.write( b );
-            }
-            System.out.println( "\nDownloaded: " + counter + " bytes." );
-            dlFile.renameTo( dest );            
-        } finally
+            File dest = artifact.toLocalFile();
+            PreparePlugin prepare = (PreparePlugin) m_PreparePlugin;
+            prepare.copyFile( content, dest );
+        } catch( Exception e )
         {
-            if( out != null )
-                out.close();
-            if( bos != null )
-                bos.close();
-            if( in != null )
-                in.close();
-            if( bis != null )
-                bis.close();
-            dlFile.delete();
+            e.printStackTrace();
+            throw new IOException( "Unable to install " + artifact );
         }
     }
     
-    private URL toRemoteURL( Artifact artifact )
-        throws MalformedURLException
+    public void upload( Artifact artifact )
+        throws IOException
     {
-        String href = artifact.getRepository() + "/" + 
-                      artifact.getGroupId() + "/" +
-                      artifact.getType() + "s/" +
-                      artifact.getArtifactId() + "-" +
-                      artifact.getVersion()  + ".jar" ;
-        return new URL( href );
-    }
-    
-    private File toLocalFile( Artifact artifact )
-    {
-        String href = m_Context.getProperty( "artifact.local.repository.dir" ) + "/" + 
-                      artifact.getGroupId() + "/" +
-                      artifact.getType() + "s/" +
-                      artifact.getArtifactId() + "-" +
-                      artifact.getVersion()  + ".jar" ;
-        return new File( href );
+        int port = -1;
+        try
+        {
+            port = Integer.parseInt( m_Context.getProperty( "artifact.remote.port" ) );
+        } catch( NumberFormatException e )
+        {} // ignore
+
+        try
+        {
+            boolean trust = "true".equals( m_Context.getProperty( "artifact.remote.trust" ) );
+            boolean failOnError = "true".equals( m_Context.getProperty( "artifact.remote.fail.on.error" ) );
+            String host =       m_Context.getProperty( "artifact.remote.host" );
+            String destDir =    m_Context.getProperty( "artifact.remote.dir" );
+            String keyfile =    m_Context.getProperty( "artifact.remote.keys.file" );
+            String knownhosts = m_Context.getProperty( "artifact.remote.knownhosts.file" );
+            String passphrase = m_Context.getProperty( "artifact.remote.passphrase" );
+            String password =   m_Context.getProperty( "artifact.remote.password" );
+            String username =   m_Context.getProperty( "artifact.remote.username" );
+
+            System.out.println( "    Host:" + host );
+            System.out.println( "    User:" + username );
+            System.out.println( "     Dir:" + destDir );
+            System.out.println( " KeyFile:" + keyfile );
+            System.out.println( "   Known:" + knownhosts );
+            System.out.println( "  Phrase:" + passphrase );
+            System.out.println( "Password:" + password );
+                        
+            String fullDest = username + "@" + host + ":" + destDir + "/";
+            
+            m_Project.addTaskDefinition( "scp", Scp.class );
+            Scp scp = (Scp) m_Project.createTask( "scp" );
+            scp.init();
+            scp.setFile( artifact.toLocalFile().getAbsolutePath() );
+            scp.setFailonerror( failOnError );
+            scp.setHost( host );
+
+            if( ! "".equals( keyfile ) )
+                scp.setKeyfile( keyfile );
+
+            if( ! "".equals( knownhosts ) )
+                scp.setKnownhosts( knownhosts );
+
+            if( ! "".equals( password ) )
+                scp.setPassword( password );
+            else
+                scp.setPassphrase( passphrase );
+
+
+            if( port != -1 )
+                scp.setPort( port );
+
+            scp.setTrust( trust );
+
+            if( ! "".equals( username ) )
+                scp.setUsername( username );
+            scp.setTodir( fullDest );
+            
+            scp.execute();
+        } catch( Exception e )
+        {
+            e.printStackTrace();
+            throw new IOException( "Can't upload " + artifact );
+        }
     }
 }
    

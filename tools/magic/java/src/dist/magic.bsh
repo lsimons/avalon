@@ -18,12 +18,9 @@ limitations under the License.
 import java.io.File;
 import java.io.IOException;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import org.apache.avalon.magic.AbstractPlugin;
 import org.apache.avalon.magic.Artifact;
-import org.apache.avalon.magic.Plugin;
+import org.apache.avalon.magic.ArtifactException;
 import org.apache.avalon.magic.PluginContext;
 
 import org.apache.avalon.framework.logger.Logger;
@@ -53,7 +50,7 @@ public class JavacPlugin extends AbstractPlugin
     }
     
     public void compile()
-        throws IOException
+        throws IOException, ArtifactException
     {   
         if( m_Compiled )
             return;
@@ -67,7 +64,7 @@ public class JavacPlugin extends AbstractPlugin
     }
     
     private void executeCompile()
-        throws IOException
+        throws IOException, ArtifactException
     {
         Logger logger = getLogger();
         if( logger.isDebugEnabled() )
@@ -85,7 +82,7 @@ public class JavacPlugin extends AbstractPlugin
     }
     
     public void compile( String classpath, File destDir, File srcDir )
-        throws IOException
+        throws IOException, ArtifactException
     {
         Javac javac = (Javac) m_Project.createTask( "javac" );
         /* Set the destination */
@@ -100,8 +97,8 @@ public class JavacPlugin extends AbstractPlugin
 
         ArtifactPlugin ap = (ArtifactPlugin) m_ArtifactPlugin;
         String projectname = m_Context.getProjectName();
-        Artifact thisArtifact = ap.resolve( projectname );
-        Artifact[] deps = ap.getDependencies( thisArtifact );
+        Artifact thisArtifact = Artifact.resolve( m_Context, projectname );
+        Artifact[] deps = thisArtifact.getDependencies();
         Path depPath = ap.getClassPath( deps );
         cp.add( depPath );
         
