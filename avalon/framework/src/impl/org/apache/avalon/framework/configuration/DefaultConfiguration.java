@@ -27,6 +27,7 @@ public class DefaultConfiguration
 
     private final String                     m_name;
     private final String                     m_location;
+    private final Namespace                  m_namespace;
     private HashMap                          m_attributes;
     private ArrayList                        m_children;
     private String                           m_value;
@@ -37,8 +38,17 @@ public class DefaultConfiguration
      */
     public DefaultConfiguration( final String name, final String location )
     {
+        this (name, location, Namespace.getNamespace(null));
+    }
+
+    /**
+     * Create a new <code>DefaultConfiguration</code> instance.
+     */
+    public DefaultConfiguration( final String name, final String location, final Namespace ns )
+    {
         m_name = name;
         m_location = location;
+        m_namespace = ns;
     }
 
     /**
@@ -47,6 +57,14 @@ public class DefaultConfiguration
     public String getName()
     {
         return m_name;
+    }
+
+    /**
+     * Returns the namespace of this configuration element
+     */
+    public Namespace getNamespace()
+    {
+        return m_namespace;
     }
 
     /**
