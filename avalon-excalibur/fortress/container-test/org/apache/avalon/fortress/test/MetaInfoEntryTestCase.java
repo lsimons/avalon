@@ -214,6 +214,29 @@ public class MetaInfoEntryTestCase extends TestCase
         }
     }
 
+    public void testCreateShortName()
+    {
+        String start = "Regular";
+        String end   = "regular";
+
+        assertEquals( end, MetaInfoEntry.createShortName(start));
+
+        start = "TwoWords";
+        end = "two-words";
+
+        assertEquals( end, MetaInfoEntry.createShortName(start));
+
+        start = "MANYcaps";
+        end = "manycaps";
+
+        assertEquals( end, MetaInfoEntry.createShortName( start ) );
+
+        start = "MANYcapsAndWords";
+        end = "manycaps-and-words";
+
+        assertEquals( end, MetaInfoEntry.createShortName( start ) );
+    }
+
     private void checkMetaInfoEntry( MetaInfoEntry entry, Class handler, String name, boolean oneRole )
     {
         assertEquals( m_componentClass, entry.getComponentClass() );

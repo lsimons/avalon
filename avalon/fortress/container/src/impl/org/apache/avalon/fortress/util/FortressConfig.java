@@ -64,7 +64,7 @@ import java.io.File;
 
 /**
  * Helper class to create a m_context for the ContextManager.
- * @version CVS $Revision: 1.14 $ $Date: 2003/04/18 20:02:30 $
+ * @version CVS $Revision: 1.15 $ $Date: 2003/04/22 12:37:09 $
  */
 public final class FortressConfig
 {
@@ -135,8 +135,6 @@ public final class FortressConfig
         defaultContext.put( ClassLoader.class.getName(), classLoader );
         defaultContext.put( ContextManagerConstants.CONFIGURATION_URI, "conf/system.xconf" );
         defaultContext.put( ContextManagerConstants.LOGGER_MANAGER_CONFIGURATION_URI, "conf/logkit.xconf" );
-        //defaultContext.put( ContextManagerConstants.ROLE_MANAGER_CONFIGURATION_URI, "resource://ext/system.roles" );
-        defaultContext.put( ContextManagerConstants.ASSEMBLY_CONFIGURATION_URI, "resource://ext/assembly.xml" );
 
         defaultContext.makeReadOnly();
 
@@ -197,17 +195,6 @@ public final class FortressConfig
     public void setContainerConfiguration( final String location )
     {
         m_context.put( ContextManagerConstants.CONFIGURATION_URI, location );
-    }
-
-    public void setAssemblyConfiguration( final Configuration config )
-    {
-        m_context.put( ContextManagerConstants.ASSEMBLY_CONFIGURATION, config );
-        m_context.put( ContextManagerConstants.ASSEMBLY_CONFIGURATION_URI, null );
-    }
-
-    public void setAssemblyConfiguration( final String location )
-    {
-        m_context.put( ContextManagerConstants.ASSEMBLY_CONFIGURATION_URI, location );
     }
 
     public void setContextClassLoader( final ClassLoader loader )
