@@ -15,9 +15,8 @@ import org.xml.sax.SAXException;
  * of their current state as SAX events.
  *
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/22 10:06:04 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/07/07 07:15:49 $
  */
-
 public interface XMLizable
 {
     /**
@@ -27,5 +26,4 @@ public interface XMLizable
      * events or directly implements the LexicalHandler interface!
      */
     void toSAX( ContentHandler handler ) throws SAXException;
-
 }
