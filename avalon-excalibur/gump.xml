@@ -414,6 +414,7 @@
         </ant>
 
         <depend project="jakarta-ant"/>
+        <depend project="jakarta-avalon-logkit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <depend project="checkstyle"/>
