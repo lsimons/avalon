@@ -14,18 +14,15 @@ import java.util.Observer;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.ExceptionUtil;
-import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AvalonFormatter;
-import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.Constants;
+import org.apache.avalon.phoenix.components.LifecycleUtil;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
@@ -181,29 +178,13 @@ public final class CLIMain
             final String embeddorClassname = configuration.getAttribute( "class" );
             m_embeddor = (Embeddor)Class.forName( embeddorClassname ).newInstance();
 
-            if( m_embeddor instanceof LogEnabled )
-            {
-                final Logger logger = createLogger( parameters );
-                ( (LogEnabled)m_embeddor ).enableLogging( logger );
-            }
-
-            if( m_embeddor instanceof Contextualizable )
-            {
-                final DefaultContext context = new DefaultContext( data );
-                ( (Contextualizable)m_embeddor ).contextualize( context );
-            }
-
-            if( m_embeddor instanceof Parameterizable )
-            {
-                ( (Parameterizable)m_embeddor ).parameterize( parameters );
-            }
-
-            if( m_embeddor instanceof Configurable )
-            {
-                ( (Configurable)m_embeddor ).configure( configuration );
-            }
-
-            m_embeddor.initialize();
+            LifecycleUtil.logEnable( m_embeddor,
+                                     createLogger( parameters ) );
+            LifecycleUtil.contextualize( m_embeddor,
+                                         new DefaultContext( data ) );
+            LifecycleUtil.parameterize( m_embeddor, parameters );
+            LifecycleUtil.configure( m_embeddor, configuration );
+            LifecycleUtil.initialize( m_embeddor );
         }
         catch( final Throwable throwable )
         {
@@ -285,7 +266,7 @@ public final class CLIMain
 
             try
             {
-                m_embeddor.dispose();
+                LifecycleUtil.shutdown( m_embeddor );
             }
             catch( final Throwable throwable )
             {
