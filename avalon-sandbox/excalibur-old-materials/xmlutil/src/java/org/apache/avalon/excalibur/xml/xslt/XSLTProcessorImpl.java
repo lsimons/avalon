@@ -9,6 +9,7 @@ package org.apache.avalon.excalibur.xml.xslt;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import javax.xml.transform.Result;
 import javax.xml.transform.Templates;
 import javax.xml.transform.Transformer;
@@ -31,9 +32,9 @@ import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.parameters.ParameterException;
-import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceResolver;
@@ -58,24 +59,28 @@ import org.apache.excalibur.store.Store;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.3 2002/05/02 10:04:05 cziegeler Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.4 2002/05/02 10:56:40 cziegeler Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
-public class XSLTProcessorImpl extends AbstractLogEnabled
-  implements XSLTProcessor, Composable, Disposable, Parameterizable, URIResolver
-{
+public class XSLTProcessorImpl
+  extends AbstractLogEnabled
+  implements XSLTProcessor,
+             Composable,
+             Disposable,
+             Parameterizable,
+             URIResolver {
 
     protected ComponentManager manager;
 
     /** The store service instance */
     protected Store store;
 
-    /** The trax TransformerFactory */
-    protected SAXTransformerFactory tfactory;
+    /** The trax TransformerFactory lookup table*/
+    protected HashMap factories;
 
-    /** The factory class used to create tfactory */
-    protected Class tfactoryClass;
+    /** The trax TransformerFactory this component uses */
+    protected SAXTransformerFactory factory;
 
     /** Is the store turned on? (default is off) */
     protected boolean useStore = false;
@@ -96,7 +101,6 @@ public class XSLTProcessorImpl extends AbstractLogEnabled
       throws ComponentException
     {
         this.manager = manager;
-        this.getLogger().debug( "XSLTProcessorImpl component initialized." );
         this.store = (Store)manager.lookup(Store.TRANSIENT_STORE);
         this.errorHandler = new TraxErrorHandler( this.getLogger() );
         this.resolver = (SourceResolver)this.manager.lookup( SourceResolver.ROLE );
@@ -109,15 +113,13 @@ public class XSLTProcessorImpl extends AbstractLogEnabled
     {
         if ( null != this.manager )
         {
-            this.manager.release( this.resolver );
-            this.resolver = null;
             this.manager.release(this.store);
             this.store = null;
+            this.manager.release( this.resolver );
+            this.resolver = null;
         }
         this.errorHandler = null;
         this.manager = null;
-        this.tfactoryClass = null;
-        this.tfactory = null;
     }
 
     /**
@@ -128,31 +130,14 @@ public class XSLTProcessorImpl extends AbstractLogEnabled
     {
         this.useStore = params.getParameterAsBoolean( "use-store", true );
         this.incrementalProcessing = params.getParameterAsBoolean( "incremental-processing", false );
+        this.factory = getTransformerFactory(params.getParameter("transformer-factory", null));
+    }
 
-        String factoryName = params.getParameter( "transformer-factory", null );
-        if( factoryName == null )
-        {
-            // Will use default TRAX mechanism
-            this.tfactoryClass = null;
-        }
-        else
-        {
-            // Will use specific class
-            getLogger().debug( "Using factory " + factoryName );
-            try
-            {
-                this.tfactoryClass = Thread.currentThread().getContextClassLoader().loadClass( factoryName );
-            }
-            catch( ClassNotFoundException cnfe )
-            {
-                throw new ParameterException( "Cannot load TransformerFactory class", cnfe );
-            }
-
-            if( !TransformerFactory.class.isAssignableFrom( tfactoryClass ) )
-            {
-                throw new ParameterException( "Class " + factoryName + " isn't a TransformerFactory" );
-            }
-        }
+    /**
+     * Set the transformer factory used by this component
+     */
+    public void setTransformerFactory(String classname) {
+        this.factory = getTransformerFactory(classname);
     }
 
     public TransformerHandler getTransformerHandler( Source stylesheet )
@@ -168,7 +153,7 @@ public class XSLTProcessorImpl extends AbstractLogEnabled
         try
         {
             final String id = stylesheet.getSystemId();
-            Templates templates = null; //TODO: getTemplates(stylesheet, id);
+            Templates templates = getTemplates(stylesheet, id);
             if( templates == null )
             {
                 if( this.getLogger().isDebugEnabled() )
@@ -178,9 +163,12 @@ public class XSLTProcessorImpl extends AbstractLogEnabled
 
                 // Create a Templates ContentHandler to handle parsing of the
                 // stylesheet.
-                TemplatesHandler templatesHandler
-                  = getTransformerFactory().newTemplatesHandler();
+                TemplatesHandler templatesHandler = this.factory.newTemplatesHandler();
 
+                // Set the system ID for the template handler since some
+                // TrAX implementations (XSLTC) rely on this in order to obtain
+                // a meaningful identifier for the Templates instances.
+                templatesHandler.setSystemId(id);
                 if( filter != null )
                 {
                     filter.setContentHandler( templatesHandler );
@@ -199,7 +187,7 @@ public class XSLTProcessorImpl extends AbstractLogEnabled
                 // Get the Templates object (generated during the parsing of
                 // the stylesheet) from the TemplatesHandler.
                 templates = templatesHandler.getTemplates();
-                //TODO: putTemplates (templates, stylesheet, id);
+                putTemplates (templates, stylesheet, id);
             }
             else
             {
@@ -209,7 +197,7 @@ public class XSLTProcessorImpl extends AbstractLogEnabled
                 }
             }
 
-            TransformerHandler handler = getTransformerFactory().newTransformerHandler( templates );
+            TransformerHandler handler = this.factory.newTransformerHandler(templates);
 
             /* (VG)
             From http://java.sun.com/j2se/1.4/docs/api/javax/xml/transform/TransformerFactory.html#newTemplates(javax.xml.transform.Source)
@@ -229,7 +217,6 @@ public class XSLTProcessorImpl extends AbstractLogEnabled
             */
 
             handler.getTransformer().setErrorListener( this.errorHandler );
-
             return handler;
         }
         catch( XSLTProcessorException e )
@@ -321,38 +308,75 @@ public class XSLTProcessorImpl extends AbstractLogEnabled
     }
 
     /**
-     * Helper for TransformerFactory.
+     * Get the TransformerFactory associated with the given classname. If
+     * the class can't be found or the given class doesn't implement
+     * the required interface, the default factory is returned.
      */
-    private SAXTransformerFactory getTransformerFactory() throws Exception
+    private SAXTransformerFactory getTransformerFactory(String factoryName)
     {
-        if( tfactory == null )
+        SAXTransformerFactory _factory;
+
+        if ( null == factoryName )
         {
-            if( tfactoryClass == null )
+            _factory = (SAXTransformerFactory) TransformerFactory.newInstance();
+        }
+        else
+        {
+            try
             {
-                tfactory = ( SAXTransformerFactory ) TransformerFactory.newInstance();
+                ClassLoader loader = Thread.currentThread().getContextClassLoader();
+                if( loader == null )
+                {
+                    loader = this.getClass().getClassLoader();
+                }
+                _factory = (SAXTransformerFactory) loader.loadClass(factoryName).newInstance();
             }
-            else
+            catch (ClassNotFoundException cnfe)
             {
-                tfactory = ( SAXTransformerFactory ) tfactoryClass.newInstance();
+                getLogger().error("Cannot find the requested TrAX factory '" + factoryName
+                        + "'. Using default TrAX Transformer Factory instead.");
+                if (this.factory != null) return this.factory;
+                _factory = (SAXTransformerFactory) TransformerFactory.newInstance();
             }
-            tfactory.setErrorListener( this.errorHandler );
-            tfactory.setURIResolver( this );
-            // TODO: If we will support this feature with a different
-            // transformer than Xalan we'll have to set that corresponding
-            // feature
-            if( tfactory.getClass().getName().equals( "org.apache.xalan.processor.TransformerFactoryImpl" ) )
+            catch (ClassCastException cce)
             {
-                tfactory.setAttribute( "http://xml.apache.org/xalan/features/incremental",
-                                       new Boolean( incrementalProcessing ) );
+                getLogger().error("The indicated class '" + factoryName
+                        + "' is not a TrAX Transformer Factory. Using default TrAX Transformer Factory instead.");
+                if (this.factory != null) return this.factory;
+                _factory = (SAXTransformerFactory) TransformerFactory.newInstance();
+            }
+            catch (Exception e)
+            {
+                getLogger().error("Error found loading the requested TrAX Transformer Factory '"
+                        + factoryName + "'. Using default TrAX Transformer Factory instead.");
+                if (this.factory != null) return this.factory;
+                _factory = (SAXTransformerFactory) TransformerFactory.newInstance();
             }
         }
-        return tfactory;
+
+        _factory.setErrorListener(this.errorHandler);
+        _factory.setURIResolver(this);
+
+        // FIXME (SM): implementation-specific parameter passing should be
+        // made more extensible.
+        if (_factory.getClass().getName().equals("org.apache.xalan.processor.TransformerFactoryImpl"))
+        {
+            _factory.setAttribute("http://xml.apache.org/xalan/features/incremental",
+                                       new Boolean( incrementalProcessing ) );
+        }
+
+        return _factory;
     }
 
     private Templates getTemplates(Source stylesheet, String id)
     throws IOException, XSLTProcessorException {
         if (!useStore)
             return null;
+
+        // we must augment the template ID with the factory classname since one
+        // transformer implementation cannot handle the instances of a
+        // template created by another one.
+        id += factory.getClass().getName();
 
         if (getLogger().isDebugEnabled()) getLogger().debug("XSLTProcessorImpl getTemplates: stylesheet " + id);
 
@@ -387,6 +411,11 @@ public class XSLTProcessorImpl extends AbstractLogEnabled
     throws IOException, XSLTProcessorException {
         if (!useStore)
             return;
+
+        // we must augment the template ID with the factory classname since one
+        // transformer implementation cannot handle the instances of a
+        // template created by another one.
+        id += factory.getClass().getName();
 
         // only stylesheets with a last modification date are stored
         SourceValidity validity = stylesheet.getValidity();
