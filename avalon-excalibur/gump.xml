@@ -11,19 +11,19 @@
         <package>org.apache.avalon.excalibur</package>
 
         <ant basedir="all" target="dist">
-            <depend property="xerces.jar"    project="xml-xerces" id="parser"/>
-            <depend property="logkit.jar"    project="jakarta-avalon-logkit"/>
-            <depend property="excalibur-pool.jar"    project="excalibur-pool"/>
-            <depend property="excalibur-collections.jar"    project="excalibur-collections"/>
-            <depend property="avalon-framework.jar"    project="jakarta-avalon"/>
-            <depend property="excalibur-instrument.jar"    project="excalibur-instrument"/>
-            <depend property="excalibur-component.jar"    project="excalibur-component"/>
-            <depend property="excalibur-event.jar"    project="excalibur-event"/>
             <property name="skip.dependencies" value="true"/>
         </ant>
 
         <depend project="jakarta-ant"/>
-        <depend project="excalibur-datasource"/>
+        <depend project="xml-xerces" id="parser" runtime="true"/>
+        <depend project="excalibur-pool" runtime="true"/>
+        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="jakarta-avalon-logkit" runtime="true"/>
+        <depend project="excalibur-datasource" runtime="true"/>
+        <depend project="excalibur-component" runtime="true"/>
+        <depend project="excalibur-collections" runtime="true"/>
+        <depend project="excalibur-event" runtime="true"/>
+        <depend project="excalibur-instrument" runtime="true"/>
         <depend project="xml-xalan2"/>
         <depend project="jdom"/>
         <depend project="junit"/>
