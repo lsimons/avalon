@@ -25,7 +25,7 @@
 <config>
 
     <myAuthorizer>
-      &lt;!-- ...configuration data here... --&gt;
+      <!-- ...configuration data here... -->
     </myAuthorizer>
 
     <myBlock>
