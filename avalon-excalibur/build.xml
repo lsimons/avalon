@@ -26,6 +26,7 @@ Legal:
     (and without typing -D each time he compiles it)
   -->
   <property file="build.properties"/>
+  <property file="./.ant.properties"/> <!-- The build.properties version is preferred -->
   <property file="${user.home}/.ant.properties"/>
 
   <property name="name" value="excalibur"/>
@@ -303,7 +304,7 @@ Legal:
       <exclude name="**/test/**"/>
     </rmic>
   </target>
-    
+
   <!-- Compiles all of the tests after copying them into a new src directory -->
   <target name="compile-tests" depends="compile">
     <!-- Copy over all of the tests applying test filters -->
@@ -326,7 +327,7 @@ Legal:
         <include name="**/test/**"/>
       </fileset>
     </copy>
-        
+
     <!-- Compile all of the tests -->
     <mkdir dir="${build.testclasses}"/>
     <copy todir="${build.testclasses}">
@@ -343,7 +344,7 @@ Legal:
       <classpath refid="project.class.path" />
     </javac>
   </target>
-    
+
   <!-- Run all of the tests and generate an html report -->
   <target name="test" depends="check"/>
   <target name="check" depends="compile-tests" description="perform unit tests">
@@ -782,7 +783,7 @@ Legal:
 
   <!-- Prepares the documentation directory -->
   <target name="docs" depends="javadocs, html-docs" description="generates the Excalibur documentation"/>
-    
+
   <!-- Create the source distribution -->
   <target name="src-dist" depends="setup-properties">
 
