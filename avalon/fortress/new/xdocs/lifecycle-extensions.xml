@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <title>Fortress Getting Started</title>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+  </properties>
+
+  <body>
+    <section name="What are lifecycle extensions ?">
+   <p>
+    Lifecycle extensions are additional stages a component can traverse through during
+    it's lifetime. Lifecycle extensions allow a Container to provide extra functionality
+    to Components in addition to the standard stages defined by Avalon Framework.
+   </p>
+
+   <p>
+    Avalon Framework defines a set of standard interfaces often termed as Lifecycle
+    metainfo which tells the ComponentManager how a particular Component should be treated
+    during it's life.
+   </p>
+
+   <p>
+    This metainfo allows the developer to separate the various concerns involved when
+    writing a Component, often termed SoC and IoC (Separation of Concerns and Inversion of
+    Control) and is one of primary advantages of using Avalon.
+   </p>
+
+   <p>
+    Sometimes it's useful to extend this development paradigm from the framework level
+    into the application domain, to create customized lifecycle extensions that are called
+    upon in addition to the standard set defined by the Avalon Framework.
+   </p>
+
+   <p>
+    Such custom lifecycle stages can further enable domain specific logic across many,
+    perhaps even unrelated components, can reduce code duplication, and allows the developer
+    to reuse the same development and thinking paradigm as the standard lifecycle stages.
+   </p>
+
+   <p>
+    For example, you might want to pass a specialized SecurityManager to some of your
+    components before they are initialized, or have their internal state persistently cached
+    during system shutdown and restored at during startup. You might want to pass user
+    dependent decryption keys to your component, or give components the opportunity to
+    recycle themselves before being disposed or returned to a pooled component handler.
+   </p>
+
+   <p>
+    The possibilities and number of extensions are only limited by the requirements of your
+    particular application domain.
+   </p>
+
+   <p>
+    This document describes how to add new lifecycle extensions using <strong>Fortress</strong>.
+    This document assumes a knowledge of what an Avalon lifecycle is, and a basic understanding
+    of the standard lifecycle interfaces Avalon Framework defines. References in this document to
+    Component and ComponentManager can also be freely interpreted as Service and ServiceManager
+    by the reader.
+   </p>
+
+    <note>As at the time of writing, Fortress is the only Avalon container that
+    supports lifecycle extensions, which means Components that use this feature will most likely
+    only work as expected with Fortress, and not with the other Avalon containers
+    (ExcaliburComponentManager, Phoenix, Merlin, Tweety, etc)</note>
+
+   <p>
+    Support for lifecycle extensions in the other Avalon containers is technically possible but
+    has not yet been discussed. Please check with the Avalon developer mailing list if you use
+    one of these containers and would like to use lifecycle extensions.
+   </p>
+
+  </section>
+
+  <section name="How do I extend a Component's lifecycle ?">
+   <p>
+    Extending a Component's lifecycle is straightforward. An overview of the process
+    follows:
+   </p>
+
+    <ol>
+        <li>Define the new component interface<br/>
+
+      Create the new interface defining the operations that should be called upon components
+      that implement this interface. Using the previously mentioned examples, this would be
+      your <code>SecurityManageable</code>, <code>Cacheable</code>, <code>Decryptable</code>,
+      <code>Recycleable</code> interfaces.
+      </li>
+
+     <li>Define an extension object that calls upon the methods defined in the new interface,
+     during one or more of the pre-defined phases of component's lifecycle<br/>
+    
+      Create a class that implements <code>LifecycleExtension</code>, that tests any given
+      component for the above defined interface (and others if applicable), invoking methods
+      defined in that interface.
+    </li>
+
+     <li>Register the extension object with Fortress' <code>LifecycleExtensionManager</code><br/>
+
+      Create an instance of the class defined in the previous step, and register it with a
+      <code>LifecycleExtensionManager</code>, using either the default manager available inside
+      of your container, or an externally created manager that is later given to the container
+      to use.
+      </li>
+
+     <li>Implement the new component interface on your component<br/>
+
+      Add the new <code>implements</code> clause to your Component, or Component implementation,
+      and write any methods defined in the implemented interface.
+      </li>
+
+      <li><code>lookup()/select()/release()</code> components as normal<br/>
+      Proceed as normal. Checking for extensions is done implicitly within Fortress. Once
+      lifecycle extensions are registered they will be invoked on any implementing components
+      during the 4 phases defined later in this document.
+     </li>
+    </ol>
+  </section>
+
+  <section name="When can a Component's lifecycle be extended ?">
+   <p>
+    The life of any component can be broken down to the following phases:
+   </p>
+
+    <ol>
+        <li>Creation<br/>
+
+      When the Component is actually instantiated.
+     </li>
+
+     <li>Access<br/>
+
+      When the Component is accessed via a ComponentManager/Selector
+      (<code>lookup()/select()</code>).
+     </li>
+
+     <li>Release<br/>
+
+      When the Component is released via a ComponentManager/Selector (<code>release()</code>).
+     </li>
+
+     <li>Destruction<br/>
+
+      When the Component is decommissioned, ready for garbage collection.
+     </li>
+
+    </ol>
+
+    <p>A Component will go through it's Creation and Destruction phase only once. Since
+    <code>ComponentHandler</code> classes can implement different handling strategies
+    (Poolable, ThreadSafe, etc), the access and release phases of a component can be
+    done multiple times.</p>
+
+   <p>
+    Lifecycle extensions can be added to any of the above defined phases. This allows
+    you to choose when your particular extension will be executed.
+   </p>
+
+   <p>
+    For example, thread or user dependent extensions would be added at the access and release
+    levels (ie. when the component is retrieved and returned to the ComponentManager) as they
+    depend on runtime data not available until they are actually used.
+   </p>
+
+   <p>
+    More static, or global extensions would be added at the creation or destruction level, since
+    they do not depend on any external data that change during runtime, nor are they particular
+    to any one context of use.
+   </p>
+
+  </section>
+
+  <section name="Which interfaces and classes do I need to use ?">
+
+   <p>
+    Support for lifecycle extensions in Fortress is done using the following classes/interfaces.
+   </p>
+
+  <subsection name="The Component Extension Interface">
+   <p>
+    This interface specifies the business particular extension components will be tested for.
+    It defines the new interface that components will implement to receive additional
+    functionality.
+   </p>
+
+   <p>
+    There is no particular base interface the developer needs to extend, and the interface
+    can be kept separate from the Container itself.
+   </p>
+  </subsection>
+
+  <subsection name="The LifecycleExtension Interface">
+
+   <p>
+    Component extensions are invoked via a Lifecycle extension object. Lifecycle extension
+    objects are managed via a <code>LifecycleExtensionManager</code> class and essentially
+    test for a particular Component extension interface, and appropriately call methods defined
+    in that interface.
+   </p>
+
+   <p>
+    All Lifecycle extension objects must implement the <code>LifecycleExtension</code> interface.
+    The <code>LifecycleExtension</code> interface defines 4 methods that are called upon to allow
+    an implementor to extend a component's lifecycle.
+   </p>
+
+   <p>
+    The 4 methods (<code>create</code>, <code>destroy</code>, <code>access</code> and
+    <code>release</code>) are invoked by a manager class from inside Fortress. Each method
+    accepts 2 parameters, the particular Component instance being extended, and the container
+    <code>Context</code>.
+   </p>
+
+   <p>
+    The container <code>Context</code> is passed as a parameter to provide access to any
+    miscellaneous objects that might be needed during extension code (to make use of this feature
+    the container Context will need to be initialized with references and passed to the
+    <code>FortressConfig</code> during Fortress' startup sequence).
+   </p>
+
+   <p>
+    Each method may throw an exception to indicate an error, which will be logged, but will
+    not terminate other extensions from being executed on that Component.
+   </p>
+
+   <source>
+     /**
+      * LifecycleExtension interface. This interface defines the methods that
+      * a LifecycleExtensionManager can call on a particular concrete
+      * LifecycleExtensionMarker class.
+      */
+     public interface LifecycleExtension
+     {
+         /**
+          * Create, called when the given component is being
+          * instantiated.
+          *
+          * @param component a Component instance
+          * @param context a Context instance
+          * @exception Exception if an error occurs
+          */
+         void create( Object component, Context context )
+             throws Exception;
+
+         /**
+          * Destroy, called when the given component is being
+          * decommissioned.
+          *
+          * @param component a Component instance
+          * @param context a Context instance
+          * @exception Exception if an error occurs
+          */
+         void destroy( Object component, Context context )
+             throws Exception;
+
+         /**
+          * Access, called when the given component is being
+          * accessed (ie. via lookup() or select()).
+          *
+          * @param component a Component instance
+          * @param context a Context instance
+          * @exception Exception if an error occurs
+          */
+         void access( Object component, Context context )
+             throws Exception;
+
+         /**
+          * Release, called when the given component is being
+          * released (ie. by a CM or CS).
+          *
+          * @param component a Component instance
+          * @param context a Context instance
+          * @exception Exception if an error occurs
+          */
+         void release( Object component, Context context )
+             throws Exception;
+     }
+   </source>
+
+   <p>
+    Many extensions will not require implementation of every method defined in the
+    above interface, for that reason, there's a <code>AbstractLifecycleExtension</code>
+    convenience class available which provides default (empty) implementations of each
+    method which you can extend from. This allows you to implement only the methods
+    necessary for your particular extension.
+   </p>
+
+  </subsection>
+
+  <subsection name="The LifecycleExtensionManager class">
+
+   <p>
+    The <code>LifecycleExtensionManager</code> class provides default management of
+    extension implementations and an API which ComponentManager/Selector's can call
+    upon to execute them.
+   </p>
+
+   <p>
+    The LifecycleExtensionManager class API is too big to list here, instead please look at
+    the following <link href="http://avalon.apache.org/excalibur/fortress/api/org/apache/excalibur/fortress/lifecycle/LifecycleExtensionManager.html">link</link>. It essentially defines
+    4 methods for executing extension objects at the various phases of a component's lifecycle,
+    and several methods for registering extension objects with the manager.
+   </p>
+
+   <p>
+    The <code>LifecycleExtensionManager</code> class will operate safely in multithreaded
+    environments, and allows you to add/remove extensions to a running system.
+   </p>
+
+   <p>
+    By default, all Fortress based containers will be initialized with a default
+    <code>LifecycleExtensionManager</code> that contains no extensions. You can alternatively
+    provide a pre-configured LifecycleExtensionManager to your Container via the
+    FortressConfig class (<code>ContainerConstants.EXTENSION_MANAGER</code> key) if you like.
+   </p>
+
+   <p>
+    To add a new lifecycle extension object to the manager simply call the method
+    <code>LifecycleExtensionManager.addExtension()</code>. Methods also exist for removing
+    and iterating through the currently available extensions.
+   </p>
+  </subsection>
+
+  <subsection name="FortressComponentManager/FortressComponentSelector">
+
+   <p>
+    Fortress' inbuilt Component Manager/Selector/Factory code will automatically call
+    upon the LifecycleExtensionManager class at each phase in a Component's life at the
+    following predefined times:
+   </p>
+
+    <ol>
+        <li>Access<br/>
+
+      Called inside the ComponentManager, after the component has been retrieved
+      from it's handler, but before it's returned to the invoker of
+      <code>lookup()/select()</code>.
+     </li>
+
+     <li>Release<br/>
+
+      Called inside the ComponentManager, before the component is passed back to
+      it's handler to be disposed/pooled/etc.
+     </li>
+
+     <li>Creation<br/>
+
+      Called inside the ComponentFactory, before <code>initialize()</code>.
+     </li>
+
+     <li>Destruction<br/>
+
+      Called inside the ComponentFactory, after <code>dispose()</code>.
+     </li>
+    </ol>
+
+    <note>, components created via Fortress' ComponentHandler classes directly
+    will bypass the logic for <code>access</code> and <code>release</code> extensions. This is
+    because the code performing this logic is located in the ComponentManager/Selector classes
+    (independent from all handlers).</note>
+
+  </subsection>
+
+  </section>
+
+  <section name="An Example">
+
+   <p>
+    Let's look at a simple example. The following is also available as a working sample
+    in Fortress' examples directory.
+   </p>
+
+   <p>
+    Our example implements a Lifecycle extension for passing a <code>SecurityManager</code> to
+    Components. We'll call it the <code>SecurityManageable</code> interface.
+   </p>
+
+  <subsection name="Define the component extension interface">
+
+   <p>
+    First we define the new Component extension interface.
+   </p>
+
+   <source>
+   /**
+    * Simple custom lifecycle extension interface for supplying a component
+    * with a security manager.
+    */
+   public interface SecurityManageable
+   {
+       /**
+        * Pass a SecurityManager object to the component
+        *
+        * @param manager a SecurityManager value
+        */
+       void secure( SecurityManager manager )
+           throws SecurityException;
+   }
+   </source>
+
+  </subsection>
+
+  <subsection name="Create the lifecycle extensions class">
+
+   <p>
+    Next we define the actual extension implementation which invokes the <code>secure()</code>
+    method. We extend from <code>AbstractLifecycleExtension</code> since we only want
+    <code>secure()</code> to be invoked upon each access (ie. lookup()) to the component, and
+    don't need to implement the other 3 LifecycleExtension methods (create, release, and
+    destroy).
+   </p>
+
+   <source>
+   /**
+    * Some custom extensions for this container's components.
+    */
+   public class Extensions
+       extends AbstractLifecycleExtension
+   {
+       /**
+        * Access, called when the given component is being
+        * accessed (ie. via lookup() or select()).
+        *
+        * @param component a Component instance
+        * @param context a Context instance
+        * @exception Exception if an error occurs
+        */
+       public void access( Object component, Context context )
+           throws Exception
+       {
+           if ( component instanceof SecurityManageable )
+           {
+               // pass in a simple security manager, a real system might want to pass
+               // in specialized/custom security managers
+               ( ( SecurityManageable ) component ).secure( new SecurityManager() );
+           }
+       }
+   }
+   </source>
+   </subsection>
+
+    <p>An extension class may run components through any given number of
+    extensions, and are not limited to just one.</p>
+
+  </section>
+
+  <section name="Register the lifecycle extensions class">
+
+   <p>
+    We then inform our container about the extension. This could be done in several different
+    ways, for simplicity we'll extend <code>initialize()</code> and add it to the
+    <code>LifecycleExtensionManager</code> there.
+   </p>
+
+   <p>
+    (an alternative might be to initialize a LifecycleExtensionManager before creating the
+    container and pass it in via the <code>FortressConfig.setExtensionManager()</code> method,
+    or to create a LifecycleExtensionManager subclass that includes the extension preset)
+   </p>
+
+   <source>
+   /**
+    * Simple container that includes custom lifecycle extensions.
+    */
+   public final class ExtendedContainer
+       extends AbstractContainer
+   {
+       public void initialize()
+           throws Exception
+       {
+           super.initialize();
+
+           m_extManager.addExtension( new Extensions() );
+       }
+   }
+   </source>
+
+  </section>
+
+  <section name="Use the new component interface">
+
+   <p>
+    To use the new SecurityManageable lifecycle extension, we simply implement
+    SecurityManageable just as we do with any other Avalon lifecycle interfaces
+    (assuming a predefined Component interface <code>ExtendedComponent</code>).
+   </p>
+
+   <source>
+   /**
+    * ExtendedComponentImpl, demonstrating the use of a custom
+    * lifecycle stage SecurityManageable. This code does
+    * a simple access check for several files on the file system and logs
+    * the results accordingly.
+    */
+   public class ExtendedComponentImpl
+       extends AbstractLogEnabled
+       implements ExtendedComponent, SecurityManageable
+   {
+       /**
+        * Pass a SecurityManager object to the component
+        *
+        * @param manager a SecurityManager value
+        */
+       public void secure( final SecurityManager manager )
+           throws SecurityException
+       {
+           getLogger().info( "Received SecurityManager instance: " + manager );
+
+           final String[] files = { "/tmp", "/vmlinuz", "/usr/lib/libc.a" };
+
+           for ( int i = 0; i &lt; files.length; ++i )
+           {
+               try
+               {
+                   manager.checkRead( files[ i ] );
+                   getLogger().info( "Thread can read " + files[ i ] );
+               }
+               catch ( SecurityException e )
+               {
+                   getLogger().info( "Thread can not read " + files[ i ] );
+               }
+           }
+       }
+   }
+   </source>
+  </section>
+
+  <section name="Need more information?">
+   <p>
+    If you have any particular questions, comments, etc, please send an email to the Avalon
+    developer mailing <link href="mailto:dev@avalon.apache.org">list</link>.
+   </p>
+  </section>
+  </body>
+</document>
