@@ -166,11 +166,12 @@ public class FilesetModelTestCase extends TestCase
      *          <include name="*.jar/>
      *      </fileset>
      *
-     * should return all the files ind my-dir with the
+     * should return all the files in my-dir with the
      * .jar extension.
      */
-    public void testWildcardIncludes() throws Exception {
-        // testing a include directive = "*.jar"
+    public void testWildcardIncludes() throws Exception
+    {
+        // testing an include directive = "*.jar"
         IncludeDirective[] includes = new IncludeDirective[1];
         includes[0] = new IncludeDirective( "*.jar" );
 
@@ -194,9 +195,150 @@ public class FilesetModelTestCase extends TestCase
         {
         	m_model.resolveFileset();
             ArrayList list = m_model.getIncludes();
-            if ( list.size() < 4 )
+            if ( list.size() != 4 )
             {
                 fail( "The include set returned did not equal 4 (four) entries" );
+            }
+            for ( int i = 0; i < list.size(); i++ )
+            {
+                File file = (File) list.get( i );
+                if ( !file.isFile() )
+                {
+                    fail( "One of the included entries is not a file" );
+                }
+                if ( !file.getName().endsWith( "jar" ) )
+                {
+                    fail( "One of the included file entries does not have a .jar extension" );
+                }
+            }
+        }
+        catch( IllegalStateException ise )
+        {
+            fail( "The exception thrown was an " + ise.getClass().getName() );
+        }
+        catch( IOException ioe )
+        {
+            fail( "The exception thrown was an " + ioe.getClass().getName() );
+        }
+        catch( Exception e )
+        {
+            fail( "The exception thrown was " + e.getClass().getName() );
+        }
+    }
+
+    /**
+     * A fileset directive of:
+     *
+     *      <fileset dir="my-dir">
+     *          <include name="*.jar/>
+     *          <exclude name="test*.jar/>
+     *      </fileset>
+     *
+     * should return all the files in my-dir with the
+     * .jar extension with the exception of jar files
+     * whose filename begins with "test".
+     */
+    public void testIncludeExcludes() throws Exception
+    {
+        // testing an include directive = "*.jar"
+        IncludeDirective[] includes = new IncludeDirective[1];
+        includes[0] = new IncludeDirective( "*.jar" );
+
+        // testing an exclude directive = "test*.jar"
+        ExcludeDirective[] excludes = new ExcludeDirective[1];
+        excludes[0] = new ExcludeDirective( "test*.jar" );
+
+        // provide legitimate fileset directory attribute
+        final String dir = "target/test/ext";
+        FilesetDirective fsd = new FilesetDirective( dir, includes, excludes );
+
+        // set the fileset model's anchor directory and set of includes/excludes
+        File anchor = new File( m_root, fsd.getBaseDirectory() );
+        m_model.setBaseDirectory( anchor );
+        m_model.setIncludeDirectives( fsd.getIncludes() );
+        m_model.setExcludeDirectives( fsd.getExcludes() );
+        m_model.setDefaultIncludes( null );
+        m_model.setDefaultExcludes( null );
+
+        // do the test...
+        try
+        {
+        	m_model.resolveFileset();
+            ArrayList list = m_model.getIncludes();
+            if ( list.size() != 2 )
+            {
+                fail( "The include set returned did not equal 2 (two) entries" );
+            }
+            for ( int i = 0; i < list.size(); i++ )
+            {
+                File file = (File) list.get( i );
+                if ( !file.isFile() )
+                {
+                    fail( "One of the included entries is not a file" );
+                }
+                if ( !file.getName().endsWith( "jar" ) )
+                {
+                    fail( "One of the included file entries does not have a .jar extension" );
+                }
+                if ( file.getName().startsWith( "test" ) )
+                {
+                    fail( "One of the include file entries has a filename beginning with 'test'" );
+                }
+            }
+        }
+        catch( IllegalStateException ise )
+        {
+            fail( "The exception thrown was an " + ise.getClass().getName() );
+        }
+        catch( IOException ioe )
+        {
+            fail( "The exception thrown was an " + ioe.getClass().getName() );
+        }
+        catch( Exception e )
+        {
+            fail( "The exception thrown was " + e.getClass().getName() );
+        }
+    }
+
+    /**
+     * A fileset directive of:
+     *
+     *      <fileset dir="my-dir">
+     *          <include name="**//*.jar/>
+     *      </fileset>
+     *
+     * should return all the files in my-dir and it's child
+     * directories with the .jar extension.
+     */
+    public void testRecursiveIncludes() throws Exception
+    {
+        // testing an include directive = "**/*.jar"
+        IncludeDirective[] includes = new IncludeDirective[1];
+        includes[0] = new IncludeDirective( "**/*.jar" );
+
+        // testing empty exclude directives
+        ExcludeDirective[] excludes = new ExcludeDirective[0];
+
+        // provide legitimate fileset directory attribute
+        final String dir = "target/test";
+        FilesetDirective fsd = new FilesetDirective( dir, includes, excludes );
+
+        // set the fileset model's anchor directory and set of includes/excludes
+        File anchor = new File( m_root, fsd.getBaseDirectory() );
+        m_model.setBaseDirectory( anchor );
+        m_model.setIncludeDirectives( fsd.getIncludes() );
+        m_model.setExcludeDirectives( fsd.getExcludes() );
+        m_model.setDefaultIncludes( null );
+        m_model.setDefaultExcludes( null );
+
+        // do the test...
+        try
+        {
+        	m_model.resolveFileset();
+            ArrayList list = m_model.getIncludes();
+            if ( list.size() != 9 )
+            {
+                fail( "The include set returned did not equal 9 (nine) entries" );
             }
             for ( int i = 0; i < list.size(); i++ )
             {
