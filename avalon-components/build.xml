@@ -43,9 +43,9 @@
   <property name="tools.dir" location="../jakarta-avalon/tools"/>
   <property name="docs.dir" value="docs"/>
   <property name="www.dir" value="../jakarta-avalon-site/docs/cornerstone"/>
-  <property name="avalon.skin" value="${tools.dir}/lib/jakarta-style.jar"/>
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>
-  <property name="context.dir" value="../jakarta-avalon/src/documentation"/>
+  <property name="jakarta-site.dir" value="../jakarta-site"/>
+
 
   <property name="dist.name" value="${Name}-${version}"/>
   <property name="dist.base" value="distributions"/>
@@ -406,3 +406,4 @@
   </target>
 
 </project>
+
