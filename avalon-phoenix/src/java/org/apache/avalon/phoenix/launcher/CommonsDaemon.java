@@ -16,10 +16,10 @@ import org.apache.commons.daemon.DaemonController;
 
 /**
  * A frontend for Phoenix that starts it as a native service
- * using the Jakarta commons daemon.
+ * using the Jakarta commons-daemon.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
- * @version $Revision: 1.1 $ $Date: 2002/02/28 15:50:18 $
+ * @version $Revision: 1.2 $ $Date: 2002/02/28 17:11:16 $
  */
 public class CommonsDaemon
     implements Daemon, Observer
@@ -70,39 +70,40 @@ public class CommonsDaemon
         {
             if ( m_debugEnabled )
             {
-                System.out.println( "CommonsDaemon: restart requested." );
-                System.out.flush();
+                log( "restart requested." );
             }
 
             m_controller.reload();
 
             if ( m_debugEnabled )
             {
-                //Should never get here???
-                System.out.println( "CommonsDaemon: restart completed." );
-                System.out.flush();
+                log( "restart completed." );
             }
         }
         else if ( command.equals( "shutdown" ) )
         {
             if ( m_debugEnabled )
             {
-                System.out.println( "CommonsDaemon: shutdown requested." );
-                System.out.flush();
+                log( "shutdown requested." );
             }
 
             m_controller.shutdown();
 
             if ( m_debugEnabled )
             {
-                //Should never get here???
-                System.out.println( "CommonsDaemon: shutdown completed." );
-                System.out.flush();
+                log( "shutdown completed." );
             }
         }
         else
         {
             throw new IllegalArgumentException( "Unknown action " + command );
         }
+    }
+
+    private void log( final String message )
+    {
+        System.out.print( "CommonsDaemon: " );
+        System.out.println( message );
+        System.out.flush();
     }
 }
