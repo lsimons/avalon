@@ -20,10 +20,10 @@ import junit.framework.TestCase;
 public final class CronTimeTriggerTestCase
     extends TestCase
 {
-    protected final static long MINUTE = 60000;
-    protected final static long HOUR = 60 * MINUTE;
-    protected final static long DAY = 24 * HOUR;
-    protected final static long WEEK = 7 * DAY;
+    protected static final long MINUTE = 60000;
+    protected static final long HOUR = 60 * MINUTE;
+    protected static final long DAY = 24 * HOUR;
+    protected static final long WEEK = 7 * DAY;
 
     public CronTimeTriggerTestCase( final String name )
     {
