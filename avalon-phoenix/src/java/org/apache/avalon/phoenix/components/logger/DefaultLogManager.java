@@ -1,136 +1,53 @@
 /*
- * Copyright (C) The Apache Software Foundation. All rights reserved.
- *
- * This software is published under the terms of the Apache Software License
- * version 1.1, a copy of which has been included with this distribution in
- * the LICENSE.txt file.
- */
-package org.apache.avalon.phoenix.components.logger;
 
-import java.io.File;
+ ============================================================================
+                   The Apache Software License, Version 1.1
+ ============================================================================
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
-import org.apache.avalon.excalibur.logger.LoggerManager;
-import org.apache.avalon.excalibur.logger.SimpleLogKitManager;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.container.ContainerUtil;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.phoenix.BlockContext;
-import org.apache.avalon.phoenix.interfaces.LogManager;
+ Copyright (C) 1997-2003 The Apache Software Foundation. All rights reserved.
 
-/**
- * Interface that is used to manage Log objects for a Sar.
- *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- */
-public class DefaultLogManager
-    extends AbstractLogEnabled
-    implements LogManager, Contextualizable
-{
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( DefaultLogManager.class );
+ Redistribution and use in source and binary forms, with or without modifica-
+ tion, are permitted provided that the following conditions are met:
 
-    /**
-     * Constant used to define LogManager class to use original log format.
-     */
-    private static final String VERSION_1 = SimpleLogKitManager.class.getName();
+ 1. Redistributions of  source code must  retain the above copyright  notice,
+    this list of conditions and the following disclaimer.
 
-    /**
-     * Constant used to define LogManager class to use excaliburs log format.
-     */
-    private static final String VERSION_1_1 = LogKitLoggerManager.class.getName();
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
 
-    /**
-     * Constant used to define LogManager class to use log4j log format and system.
-     */
-    private static final String VERSION_LOG4J =
-        "org.apache.avalon.excalibur.logger.Log4JConfLoggerManager";
+ 3. The end-user documentation included with the redistribution, if any, must
+    include  the following  acknowledgment:  "This product includes  software
+    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
+    Alternately, this  acknowledgment may  appear in the software itself,  if
+    and wherever such third-party acknowledgments normally appear.
 
-    /**
-     * Hold the value of phoenix.home
-     */
-    private File m_phoenixHome;
+ 4. The names "Avalon", "Phoenix" and "Apache Software Foundation"
+    must  not be  used to  endorse or  promote products derived  from this
+    software without prior written permission. For written permission, please
+    contact apache@apache.org.
 
-    public void contextualize( final Context context ) throws ContextException
-    {
-        m_phoenixHome = (File)context.get( "phoenix.home" );
-    }
+ 5. Products  derived from this software may not  be called "Apache", nor may
+    "Apache" appear  in their name,  without prior written permission  of the
+    Apache Software Foundation.
 
-    private Context createLoggerManagerContext( final Context appContext )
-    {
-        final DefaultContext context = new DefaultContext( appContext );
+ THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
+ INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
+ APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
+ INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
+ DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
+ ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
+ (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-        context.put( "phoenix.home", m_phoenixHome );
-        context.makeReadOnly();
+ This software  consists of voluntary contributions made  by many individuals
+ on  behalf of the Apache Software  Foundation. For more  information on the
+ Apache Software Foundation, please see <http://www.apache.org/>.
 
-        return context;
-    }
+*/
 
-    /**
-     * Create a Logger hierarchy for specified application.
-     *
-     * @param logs the configuration data for logging
-     * @param context the context in which to create loggers
-     * @return the Log hierarchy
-     * @throws Exception if unable to create Loggers
-     */
-    public Logger createHierarchy( final Configuration logs,
-                                   final Context context )
-        throws Exception
-    {
-        final String version = logs.getAttribute( "version", "1.0" );
-        if( getLogger().isDebugEnabled() )
-        {
-            final String message =
-                REZ.getString( "logger-create",
-                               context.get( BlockContext.APP_NAME ),
-                               version );
-            getLogger().debug( message );
-        }
-        final LoggerManager loggerManager = createLoggerManager( version );
-        ContainerUtil.enableLogging( loggerManager, getLogger() );
-        ContainerUtil.contextualize( loggerManager, createLoggerManagerContext( context ) );
-        ContainerUtil.configure( loggerManager, logs );
-        return loggerManager.getDefaultLogger();
-    }
-
-    /**
-     * Create a {@link LoggerManager} for specified version string.
-     *
-     * @param version the version string
-     * @return the created {@link LoggerManager}
-     */
-    private LoggerManager createLoggerManager( final String version )
-    {
-        final String classname = getClassname( version );
-        try
-        {
-            final ClassLoader classLoader = getClass().getClassLoader();
-            final Class clazz = classLoader.loadClass( classname );
-            return (LoggerManager)clazz.newInstance();
-        }
-        catch( final Exception e )
-        {
-            final String message =
-                REZ.getString( "no-create-manager", version, e );
-            throw new IllegalArgumentException( message );
-        }
-    }
-
-    /**
-     * Get the classname of {@link LoggerManager} that coresponds
-     * to specified version.
-     *
-     * @param version the version string
-     * @return the classname of {@link LoggerManager}
-     */
     private String getClassname( final String version )
     {
         if( version.equals( "1.0" ) )
