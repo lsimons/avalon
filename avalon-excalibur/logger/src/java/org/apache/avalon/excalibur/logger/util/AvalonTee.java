@@ -63,16 +63,16 @@ import org.apache.avalon.framework.container.ContainerUtil;
 import java.util.ArrayList;
 
 /**
- * This class boradcasts Avalon lifestyle events to several
+ * This class broadcasts Avalon lifestyle events to several
  * destination objects, somewhat like Unix 'tee' command
- * directing its input both to file and to tis output.
+ * directing its input both to file and to its output.
  *
  * The current implementation is incomplete and handles
  * only LogEnabled, Contextutalizable, Configurable and Disposable
  * interfaces.
  *
  * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/06/11 12:14:45 $
+ * @version CVS $Revision: 1.1.1.1 $ $Date: 2003/10/02 19:18:45 $
  * @since 4.0
  */
 

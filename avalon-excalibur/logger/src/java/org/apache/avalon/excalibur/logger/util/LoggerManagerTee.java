@@ -60,7 +60,7 @@ import org.apache.avalon.framework.logger.Logger;
  * This object proxies LoggerManager interface.
  *
  * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/06/11 12:14:45 $
+ * @version CVS $Revision: 1.1.1.1 $ $Date: 2003/10/02 19:18:45 $
  * @since 4.0
  */
 public class LoggerManagerTee extends AvalonTee implements LoggerManager

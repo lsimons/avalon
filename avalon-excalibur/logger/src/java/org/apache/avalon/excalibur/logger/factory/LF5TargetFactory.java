@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -49,13 +49,10 @@
 */
 package org.apache.avalon.excalibur.logger.factory;
 
+import org.apache.avalon.excalibur.logger.LogTargetFactory;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-
-import org.apache.avalon.excalibur.logger.LogTargetFactory;
-
 import org.apache.log.LogTarget;
-import org.apache.log.format.PatternFormatter;
 import org.apache.log.output.lf5.LF5LogTarget;
 
 /**
@@ -69,26 +66,26 @@ import org.apache.log.output.lf5.LF5LogTarget;
  * &lt;/lf5&gt;
  * </pre>
  *
- * The optional "NDC-pattern" configuration defines the pattern that will be used to 
+ * The optional "NDC-pattern" configuration defines the pattern that will be used to
  * format the log event for display on the "NDC" line in the Swing GUI.
  *
  * @author <a href="sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/23 09:40:14 $
+ * @version CVS $Revision: 1.1.1.1 $ $Date: 2003/10/02 19:18:45 $
  */
 
 public class LF5TargetFactory implements LogTargetFactory
 {
     public LogTarget createTarget( final Configuration configuration )
-      throws ConfigurationException
+        throws ConfigurationException
     {
         LF5LogTarget result = new LF5LogTarget();
-        
+
         Configuration child = configuration.getChild( "NDC-pattern", false );
-        if ( null != child )
+        if( null != child )
         {
             result.setNDCFormatter( new FormatterFactory().createFormatter( child ) );
         }
-        
+
         return result;
     }
 }

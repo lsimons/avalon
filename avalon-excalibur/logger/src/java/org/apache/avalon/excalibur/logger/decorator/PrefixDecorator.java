@@ -62,7 +62,7 @@ import org.apache.avalon.excalibur.logger.util.LoggerUtil;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/06/11 10:52:10 $
+ * @version CVS $Revision: 1.1.1.1 $ $Date: 2003/10/02 19:18:44 $
  * @since 4.0
  */
 public class PrefixDecorator extends LoggerManagerDecorator implements LoggerManager

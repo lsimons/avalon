@@ -65,7 +65,7 @@ import org.apache.log.Hierarchy;
  * Add methods here to create LoggerManagers to your preference.
  *
  * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/06/11 10:52:10 $
+ * @version CVS $Revision: 1.1.1.1 $ $Date: 2003/10/02 19:18:44 $
  * @since 4.0
  */
 

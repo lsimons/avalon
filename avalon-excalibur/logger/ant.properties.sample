@@ -6,52 +6,61 @@
 # external modules that this component depend on.  Copy this file to
 # "ant.properties" in the source directory, and customize it as needed.
 #
-# The ant.properties values in this directory apply only to this component, and
-# override the defaults in ../ant.properties.
+# The ant.properties values in this directory apply only to this component.
+# It is overridden by ../ant.properties and ~/build.properties
+# It overrides all default.properties files and ~/.ant.properties
 #
-# $Id: ant.properties.sample,v 1.1 2002/04/04 02:34:13 leif Exp $
+# $Id: ant.properties.sample,v 1.1.1.1 2003/10/02 19:18:42 bloritsch Exp $
 # -----------------------------------------------------------------------------
-
-# --------------------------------------------------
-#      COMPONENT-SPECIFIC REQUIRED LIBRARIES
-# --------------------------------------------------
-
 
 # ----- Compile Control Flags -----
 build.debug=on
 build.optimize=off
 build.deprecation=off
+#build.compiler=jikes
 
 # ----- Base Directory in which all the packages are stored -----
-base.path=/opt
+base.path=${basedir}/../..
 
 # --------------------------------------------------
 #                REQUIRED LIBRARIES
 # --------------------------------------------------
 
 # ----- Logkit -----
-logkit.home=../../jakarta-avalon-logkit/build/lib
+logkit.home=../../avalon-logkit/build/lib
 logkit.jar=${logkit.home}/logkit.jar
 
 # ----- Avalon Framework -----
-avalon-framework.home=../../jakarta-avalon/build/lib
+avalon-framework.home=../../avalon/target/lib
 avalon-framework.jar=${avalon-framework.home}/avalon-framework.jar
-
-# ----- JUnit Unit Test Suite, version 3.7 or later -----
-junit.home=${base.path}/junit3.7
-junit.lib=${junit.home}
-junit.jar=${junit.lib}/junit.jar
-
-
 
 # --------------------------------------------------
 #                OPTIONAL LIBRARIES
 # --------------------------------------------------
 
-# ----- Checkstyle, version 2.1 or later -----
+# For optional logging capabilities.  See http://jakarta.apache.org/turbine/jars/
+servlet.jar=${lib.repo}/servletapi-2.2.jar
+jdbc.jar=${lib.repo}/jdbc2_0-stdext.jar
+mail.jar=${lib.repo}/javamail-1.2.jar
+jms.jar=${lib.repo}/jms-1.0.2b.jar
 
+
+# ----- JUnit Unit Test Suite, version 3.7 or later. -----
+#  Not needed if junit.jar is in $ANT_HOME/lib 
+junit.home=${base.path}/junit3.7
+junit.lib=${junit.home}
+junit.jar=${junit.lib}/junit.jar
+
+
+# ----- Checkstyle, version 2.1 or later -----
 # Uncomment the 'do.checkstyle' flag property to enable checkstyle
 # do.checkstyle=
 checkstyle.home=${base.path}/checkstyle-2.1
 checkstyle.lib=${checkstyle.home}
 checkstyle.jar=${checkstyle.lib}/checkstyle-all-2.1.jar
+
+# ----- JavaMail, version 1.2 or later -----
+# Required for SMTPTargetFactory support
+mail.home=${base.path}/mail
+mail.lib=${mail.home}
+mail.jar=${mail.lib}/mail.jar
