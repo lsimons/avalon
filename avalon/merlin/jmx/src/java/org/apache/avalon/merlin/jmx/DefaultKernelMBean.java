@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.merlin.impl;
+package org.apache.avalon.merlin.jmx;
 
 import org.apache.avalon.merlin.KernelController;
 
@@ -24,7 +24,7 @@ import org.apache.avalon.merlin.KernelController;
  * Management interface for the Merlin Kernel.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:32 $
+ * @version $Revision: 1.4 $ $Date: 2004/03/09 15:57:33 $
  */
 public interface DefaultKernelMBean extends KernelController
 {
