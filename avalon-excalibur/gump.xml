@@ -523,7 +523,6 @@
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="instrument/build/classes"/>
-        <work nested="instrument/build/managerclasses"/>
 
         <home nested="instrument"/>
         <jar name="build/lib/excalibur-instrument-@@DATE@@.jar"/>
@@ -533,30 +532,59 @@
     </project>
 
     <project name="excalibur-instrument-manager">
-        <package>org.apache.avalon.excalibur.instrument</package>
+        <package>org.apache.avalon.excalibur.instrument.manager</package>
 
-        <mkdir dir="instrument/build/managerclasses"/>
+        <mkdir dir="instrument-manager/build/classes"/>
 
-        <ant basedir="instrument" target="manager-jar">
+        <ant basedir="instrument-manager">
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
             <property name="skip.dependencies" value="true"/>
-            <depend property="excalibur-instrument.jar" project="excalibur-instrument"/>
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="excalibur-altrmi" runtime="true"/>
+        <depend project="excalibur-instrument" runtime="true"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
-        <work nested="instrument/build/managerclasses"/>
+        <work nested="instrument-manager/build/classes"/>
 
-        <home nested="instrument"/>
+        <home nested="instrument-manager"/>
         <jar name="build/lib/excalibur-instrument-manager-@@DATE@@.jar"/>
         <jar name="build/lib/excalibur-instrument-manager-interfaces-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="excalibur-instrument-client">
+        <package>org.apache.avalon.excalibur.instrument.client</package>
+
+        <mkdir dir="instrument-client/build/classes"/>
+
+        <ant basedir="instrument-client">
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="excalibur-altrmi" runtime="true"/>
+        <depend project="excalibur-instrument-manager" runtime="true"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="instrument-client/build/classes"/>
+
+        <home nested="instrument-client"/>
+        <jar name="build/lib/excalibur-instrument-client-@@DATE@@.jar"/>
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>

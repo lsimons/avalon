@@ -9,7 +9,7 @@
 # The ant.properties values in this directory apply only to this component, and
 # override the defaults in ../ant.properties.
 #
-# $Id: ant.properties.sample,v 1.2 2002/08/10 21:14:33 hammant Exp $
+# $Id: ant.properties.sample,v 1.3 2002/08/14 14:58:23 leif Exp $
 # -----------------------------------------------------------------------------
 
 # --------------------------------------------------
@@ -69,11 +69,16 @@ excalibur-logger.jar=${excalibur-logger.home}/excalibur-logger-1.0.jar
 excalibur-pool.home=../../../pool/build/lib
 excalibur-pool.jar=${excalibur-pool.home}/excalibur-pool-1.1.jar
 
-# ----- Excalibur Instrument -----
-excalibur-instrument.home=../../../instrument/build/lib
-excalibur-instrument.jar=${excalibur-instrument.home}/excalibur-instrument-0.3.jar
-excalibur-instrument-manager.jar=${excalibur-instrument.home}/excalibur-instrument-manager-0.3.jar
-excalibur-instrument-manager-interfaces.jar=${excalibur-instrument.home}/excalibur-instrument-manager-interfaces-0.3.jar
+# ----- Excalibur instrument -----
+excalibur-instrument.home=../../../instrument/dist
+excalibur-instrument.lib=${excalibur-instrument.home}
+excalibur-instrument.jar=${excalibur-instrument.lib}/excalibur-instrument-0.3.jar
+
+# ----- Excalibur instrument-manager -----
+excalibur-instrument-manager.home=../../../instrument-manager/dist
+excalibur-instrument-manager.lib=${excalibur-instrument-manager.home}
+excalibur-instrument-manager.jar=${excalibur-instrument-manager.lib}/excalibur-instrument-manager-0.3.jar
+excalibur-instrument-manager-interfaces.jar=${excalibur-instrument-manager.lib}/excalibur-instrument-manager-interfaces-0.3.jar
 
 # ----- Altrmi -----
 excalibur-altrmi.home=../../../altrmi/build/lib

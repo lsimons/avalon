@@ -10,7 +10,7 @@
 # It is overridden by ../ant.properties and ~/build.properties
 # It overrides all default.properties files and ~/.ant.properties
 #
-# $Id: ant.properties.sample,v 1.4 2002/08/06 16:29:02 leif Exp $
+# $Id: ant.properties.sample,v 1.5 2002/08/14 14:58:23 leif Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Control Flags -----
@@ -25,23 +25,14 @@ base.path=${basedir}/../..
 # --------------------------------------------------
 #                REQUIRED LIBRARIES
 # --------------------------------------------------
-# ----- Avalon Framework, version 4.1 or later -----
-avalon-framework.home=${basedir}/../../jakarta-avalon
-avalon-framework.lib=${avalon-framework.home}/build/lib
-avalon-framework.jar=${avalon-framework.lib}/avalon-framework.jar
-
-# ----- Altrmi -----
-excalibur-altrmi.home=${basedir}/../altrmi/dist
-excalibur-altrmi-common.jar=${excalibur-altrmi.home}/excalibur-altrmi-common.jar
-excalibur-altrmi-server-impl.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-impl.jar
-excalibur-altrmi-server-interfaces.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-interfaces.jar
-excalibur-altrmi-client-impl.jar=${excalibur-altrmi.home}/excalibur-altrmi-client-impl.jar
-excalibur-altrmi-client-interfaces.jar=${excalibur-altrmi.home}/excalibur-altrmi-client-interfaces.jar
-excalibur-altrmi-generator.jar=${excalibur-altrmi.home}/excalibur-altrmi-generator.jar
 
 # --------------------------------------------------
 #                OPTIONAL LIBRARIES
 # --------------------------------------------------
+# ----- Avalon Framework, version 4.1 or later -----
+avalon-framework.home=${basedir}/../../jakarta-avalon
+avalon-framework.lib=${avalon-framework.home}/build/lib
+avalon-framework.jar=${avalon-framework.lib}/avalon-framework.jar
 
 # ----- JUnit Unit Test Suite, version 3.7 or later. -----
 #  Not needed if junit.jar is in $ANT_HOME/lib 

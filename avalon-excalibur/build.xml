@@ -24,6 +24,7 @@
         <ant dir="altrmi" target="dist"/>
         <ant dir="collections" target="dist"/>
         <ant dir="concurrent" target="dist"/>
+        <ant dir="instrument" target="dist"/>
         <ant dir="logger" target="dist"/>
         <ant dir="threadcontext" target="dist"/>
         <ant dir="sourceresolve" target="dist"/>
@@ -31,13 +32,15 @@
         <ant dir="store" target="dist"/>
 
         <!-- Sub projects with dependencies. -->
-        <ant dir="instrument" target="dist"/>         <!-- altrmi -->
+        <ant dir="instrument-manager" target="dist"/> <!-- altrmi, instrument -->
+        <ant dir="instrument-client" target="dist"/>  <!-- altrmi, instrument-manager -->
         <ant dir="pool" target="dist"/>               <!-- collections, concurrent, instrument -->
         <ant dir="thread" target="dist"/>             <!-- lang, instrument, threadcontext, pool -->
-        <ant dir="component" target="dist"/>          <!-- collections, logger, instrument, pool -->
-        <ant dir="xmlbundle" target="dist"/>          <!-- instrument, component, store -->
-        <ant dir="util" target="dist"/>               <!-- component -->
+        <ant dir="component" target="dist"/>          <!-- collections, logger, instrument, instrument-manager, pool -->
         <ant dir="testcase" target="dist"/>           <!-- logger, component -->
+        <ant dir="xmlutil" target="dist"/>            <!-- collections, component, instrument, logger, pool, sourceresolve, store, testcase -->
+        <ant dir="xmlbundle" target="dist"/>          <!-- instrument, component, store, xmlutil -->
+        <ant dir="util" target="dist"/>               <!-- component -->
         <ant dir="event" target="dist"/>              <!-- collections, concurrent, lang, pool, thread, util, event -->
 
 
@@ -64,9 +67,11 @@
             <pathelement location="altrmi/src/java"/>
             <pathelement location="altrmi/src/test"/>
             <pathelement location="instrument/src/java"/>
-            <pathelement location="instrument/src/client"/>
-            <pathelement location="instrument/src/manager"/>
             <pathelement location="instrument/src/test"/>
+            <pathelement location="instrument-manager/src/java"/>
+            <pathelement location="instrument-manager/src/test"/>
+            <pathelement location="instrument-client/src/java"/>
+            <pathelement location="instrument-client/src/test"/>
             <pathelement location="concurrent/src/java"/>
             <pathelement location="concurrent/src/test"/>
             <pathelement location="collections/src/java"/>
@@ -162,19 +167,20 @@
         <!-- Sub projects with dependencies. -->
         <ant dir="pool" target="dist-jar"/>               <!-- collections, instrument -->
         <ant dir="altrmi" target="dist-jar"/>             <!-- pool -->
-        <ant dir="instrument" target="dist-manager-jar"/> <!-- altrmi -->
+        <ant dir="instrument-manager" target="dist-jar"/> <!-- altrmi, instrument -->
+        <ant dir="instrument-client" target="dist-jar"/>  <!-- altrmi, instrument-manager -->
         <ant dir="datasource" target="dist-jar"/>         <!-- pool -->
         <ant dir="thread" target="dist-jar"/>             <!-- lang, instrument, threadcontext, pool -->
-        <ant dir="component" target="dist-jar"/>          <!-- collections, logger, instrument, pool -->
-        <ant dir="xmlbundle" target="dist-jar"/>          <!-- instrument, component, store -->
-        <ant dir="util" target="dist-jar"/>               <!-- component -->
+        <ant dir="component" target="dist-jar"/>          <!-- collections, logger, instrument, instrument-manager, pool -->
         <ant dir="testcase" target="dist-jar"/>           <!-- logger, component -->
+        <ant dir="xmlutil" target="dist-jar"/>            <!-- collections, component, instrument, logger, pool, sourceresolve, store, testcase -->
+        <ant dir="xmlbundle" target="dist-jar"/>          <!-- instrument, component, store, xmlutil -->
+        <ant dir="util" target="dist-jar"/>               <!-- component -->
         <ant dir="event" target="dist-jar"/>              <!-- collections, concurrent, util, threadcontext -->
         
         <ant dir="cli" target="dist-jar"/>
         <ant dir="i18n" target="dist-jar"/>
         <ant dir="io" target="dist-jar"/>
-        <ant dir="xmlutil" target="dist-jar"/>
         <ant dir="naming" target="dist-jar"/>
         <ant dir="fortress" target="dist-jar"/>
 
@@ -189,6 +195,7 @@
                 <fileset dir=".">
                     <include name="collections/dist/*.jar"/>
                     <include name="instrument/dist/*.jar"/>
+                    <include name="instrument-manager/dist/*.jar"/>
                     <include name="concurrent/dist/*.jar"/>
                     <include name="i18n/dist/*.jar"/>
                     <include name="io/dist/*.jar"/>
@@ -208,6 +215,7 @@
                     <include name="util/dist/*.jar"/>
                     <include name="store/dist/*.jar"/>
                     <include name="xmlbundle/dist/*.jar"/>
+                    <include name="xmlutil/dist/*.jar"/>
                     <include name="cli/dist/*.jar"/>
                     <include name="naming/dist/*.jar"/>
                     <include name="monitor/dist/*.jar"/>
@@ -251,13 +259,15 @@
         <!-- Sub projects with dependencies. -->
         <ant dir="pool" target="jar"/>               <!-- collections, instrument -->
         <ant dir="altrmi" target="jar"/>             <!-- pool -->
-        <ant dir="instrument" target="manager-jar"/> <!-- altrmi -->
+        <ant dir="instrument-manager" target="jar"/> <!-- altrmi, instrument -->
+        <ant dir="instrument-client" target="jar"/>  <!-- altrmi, instrument-manager -->
         <ant dir="datasource" target="jar"/>         <!-- pool -->
         <ant dir="thread" target="jar"/>             <!-- lang, instrument, threadcontext, pool -->
-        <ant dir="component" target="jar"/>          <!-- collections, logger, instrument, pool -->
+        <ant dir="component" target="jar"/>          <!-- collections, logger, instrument, instrument-manager, pool -->
+        <ant dir="testcase" target="jar"/>           <!-- logger, component -->
+        <ant dir="xmlutil" target="jar"/>            <!-- collections, component, instrument, logger, pool, sourceresolve, store, testcase -->
         <ant dir="xmlbundle" target="jar"/>          <!-- instrument, component, store -->
         <ant dir="util" target="jar"/>               <!-- component -->
-        <ant dir="testcase" target="jar"/>           <!-- logger, component -->
         <ant dir="event" target="jar"/>              <!-- collections, concurrent, util, threadcontext -->
 
         <!-- Baxter requires JMX.jar to build and is causing the build to fail.
@@ -301,6 +311,8 @@
     <!--
         <ant dir="fortress" target="docs"/>
         <ant dir="instrument" target="docs"/>
+        <ant dir="instrument-manager" target="docs"/>
+        <ant dir="instrument-client" target="docs"/>
         <ant dir="altrmi" target="docs"/>
         <ant dir="baxter" target="docs"/>
         <ant dir="bzip2" target="docs"/>
@@ -344,9 +356,11 @@
           been done.
         -->
 
-        <!--<ant dir="fortress" target="site"/> -->
-        <!--<ant dir="instrument" target="site"/>  -->
         <!--
+        <ant dir="fortress" target="site"/>
+        <ant dir="instrument" target="site"/>
+        <ant dir="instrument-manager" target="site"/>
+        <ant dir="instrument-client" target="site"/>
         <ant dir="altrmi" target="site"/>
         <ant dir="baxter" target="site"/>
         <ant dir="bzip2" target="site"/>
@@ -400,6 +414,8 @@
         <ant dir="fortress" target="real-clean"/>
         <ant dir="i18n" target="real-clean"/>
         <ant dir="instrument" target="real-clean"/>
+        <ant dir="instrument-manager" target="real-clean"/>
+        <ant dir="instrument-client" target="real-clean"/>
         <ant dir="io" target="real-clean"/>
         <ant dir="logger" target="real-clean"/>
         <ant dir="monitor" target="real-clean"/>
@@ -414,6 +430,7 @@
         <ant dir="threadcontext" target="real-clean"/>
         <ant dir="util" target="real-clean"/>
         <ant dir="xmlbundle" target="real-clean"/>
+        <ant dir="xmlutil" target="real-clean"/>
         <ant dir="zip" target="real-clean"/>
 
     </target>

@@ -10,7 +10,7 @@
 # building all components. These values are overridable in component-specific
 # ant.properties files.
 #
-# $Id: ant.properties.sample,v 1.17 2002/08/10 21:14:33 hammant Exp $
+# $Id: ant.properties.sample,v 1.18 2002/08/14 14:58:23 leif Exp $
 # -----------------------------------------------------------------------------
 
 
@@ -90,21 +90,13 @@ excalibur-event.jar=${excalibur-event.home}/excalibur-event-1.0a.jar
 excalibur-concurrent.home=${base.path}/jakarta-avalon-excalibur/concurrent/build/lib
 excalibur-concurrent.jar=${excalibur-concurrent.home}/excalibur-concurrent-1.0.jar
 
-# ----- Excalibur Concurrent -----
-excalibur-altrmi.home=${base.path}/jakarta-avalon-excalibur/altrmi/build/lib
-excalibur-altrmi-common.jar=${excalibur-altrmi.home}/excalibur-altrmi-common.jar
-excalibur-altrmi-client-impl.jar=${excalibur-altrmi.home}/excalibur-altrmi-client-impl.jar
-excalibur-altrmi-client-interfaces.jar=${excalibur-altrmi.home}/excalibur-altrmi-client-interfaces.jar
-excalibur-altrmi-generator.jar=${excalibur-altrmi.home}/excalibur-altrmi-generator.jar
-excalibur-altrmi-server-impl.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-impl.jar
-excalibur-altrmi-server-interfaces.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-interfaces.jar
-
 # ----- Excalibur Instrument -----
 excalibur-instrument.home=${base.path}/jakarta-avalon-excalibur/instrument/build/lib
 excalibur-instrument.jar=${excalibur-instrument.home}/excalibur-instrument-0.3.jar
 
 # ----- Excalibur Instrument Manager -----
-excalibur-instrument-manager.home=${base.path}/jakarta-avalon-excalibur/instrument/build/lib
+excalibur-instrument-manager.home=${base.path}/jakarta-avalon-excalibur/instrument-manager/build/lib
+excalibur-instrument-manager.jar=${excalibur-instrument-manager.home}/excalibur-instrument-manager-0.3.jar
 excalibur-instrument-manager-interfaces.jar=${excalibur-instrument-manager.home}/excalibur-instrument-manager-interfaces-0.3.jar
 
 # ----- Altrmi -----
