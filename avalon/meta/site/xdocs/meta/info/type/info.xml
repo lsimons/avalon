@@ -10,6 +10,35 @@
 
     <section name="Info Descriptor">
 
+      <subsection name="Attributes">
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>collection</td><td>no</td>
+            <td>
+             Declaration of a decommissioning policy default override.  If 
+             the value is "liberal" the component will be decommissioned automatically
+             if all references to the component have ben released.  If the value is
+             "conservative" the component will be maintained for the life of its parent
+             (where parent for a singleton is the jvm and for a thread lifestyle - the 
+             parent is the thread).  The default policy is "liberal" for transient and 
+             pooled components and "conservative" for singelton and thread lifestyles.
+            </td>
+          </tr>
+          <tr>
+            <td>destruction</td><td>no</td>
+            <td>
+             Declaration of a destruction policy default override.  If 
+             the value is "terminal" the component will be released for garbage collection
+             folowing decomissioning.  If the value is "redeemable" the coponent will be 
+             decommissioned and recommissioned if it is associated with compone pool 
+             (otherwise the terminal policy will hold).  The default policy for all 
+             component lifestyle is "terminal".
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
       <subsection name="Nested Elements">
         <table>
           <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
@@ -70,7 +99,7 @@ The org.apache.avalon.meta.info.infoDescriptor class describes the component typ
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2003/09/24 08:15:57 $
+      $Revision: 1.2 $ $Date: 2003/10/17 02:03:06 $
     </legal>
   </footer>
 

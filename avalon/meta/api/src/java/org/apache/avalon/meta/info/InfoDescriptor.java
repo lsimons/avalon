@@ -72,7 +72,7 @@ import org.apache.avalon.framework.Version;
  * name of container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 08:15:08 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/17 02:03:06 $
  */
 public final class InfoDescriptor extends Descriptor
 {
@@ -87,6 +87,14 @@ public final class InfoDescriptor extends Descriptor
     public static final String THREAD = "thread";
 
     public static final String POOLED = "pooled";
+
+    public static final String LIBERAL = "liberal";
+
+    public static final String CONSERVATIVE = "conservative";
+
+    public static final String TERMINAL = "terminal";
+
+    public static final String REDEEMABLE = "redeemable";
 
     //-------------------------------------------------------------------
     // immutable state
@@ -119,6 +127,24 @@ public final class InfoDescriptor extends Descriptor
      */
     private final String m_schema;
 
+    /**
+     * The component destruction policy. If the descruction policy is TERMINAL
+     * then true otherwise the descruction policy is REDIMABLE.  A teminal componet
+     * shall be decommissioned on release.  A redimable componet may be recycled by
+     * a container if a pool is available.  Otherwise, the redimable component will 
+     * handled as a terminal component.
+     */
+    private final boolean m_terminal;
+
+    /**
+     * The component garbage collection policy. If the collection policy is LIBERAL
+     * then true otherwise the collection policy is CONSERVATIVE.  A liberal componet
+     * shall be decommissioned when a garbage collector has resolved that there are no 
+     * outstanding references to the component. A conservative componet will not be 
+     * decommissioned so long as it containing context exists (i.e. jvm or thread).
+     */
+    private final boolean m_liberal;
+
     //-------------------------------------------------------------------
     // constructor
     //-------------------------------------------------------------------
@@ -145,11 +171,36 @@ public final class InfoDescriptor extends Descriptor
      * @param version the implementation version
      * @param attributes a set of attributes associated with the component type
      * @exception IllegalArgumentException if the implementation key is not a classname
+     * @since 1.1
      */
     public InfoDescriptor( final String name,
                            final String classname,
                            final Version version,
                            final String lifestyle,
+                           final String schema,
+                           final Properties attributes )
+            throws IllegalArgumentException
+    {
+        this( name, classname, version, lifestyle, null, null, schema, attributes );
+    }
+
+    /**
+     * Creation of a new info descriptor using a supplied name, key, version
+     * and attribute set.
+     *
+     * @param name the component name
+     * @param classname the implemetation classname
+     * @param version the implementation version
+     * @param attributes a set of attributes associated with the component type
+     * @exception IllegalArgumentException if the implementation key is not a classname
+     * @since 1.2
+     */
+    public InfoDescriptor( final String name,
+                           final String classname,
+                           final Version version,
+                           final String lifestyle,
+                           final String collection,
+                           final String destruction,
                            final String schema,
                            final Properties attributes )
             throws IllegalArgumentException
@@ -175,6 +226,58 @@ public final class InfoDescriptor extends Descriptor
         {
             validateLifestyle( lifestyle );
             m_lifestyle = lifestyle;
+        }
+
+        if ( collection == null )
+        {
+            final String policy = getLifestyle();
+            if( policy.equals( TRANSIENT ) || policy.equals( POOLED ))
+            {
+                m_liberal = true;
+            }
+            else
+            {
+                m_liberal = false;
+            }
+        }
+        else
+        {
+            if( collection.equalsIgnoreCase( CONSERVATIVE ) )
+            {
+                m_liberal = false;
+            }
+            else if( collection.equalsIgnoreCase( LIBERAL ) )
+            {
+                m_liberal = true;
+            }
+            else
+            {
+                final String error =
+                  "Unrecognized collection argument [" + collection + "]";
+                throw new IllegalArgumentException( error );
+            }
+        }
+
+        if ( destruction == null )
+        {
+            m_terminal = true;
+        }
+        else
+        {
+            if( destruction.equalsIgnoreCase( TERMINAL ) )
+            {
+                m_terminal = true;
+            }
+            else if( destruction.equalsIgnoreCase( REDEEMABLE ) )
+            {
+                m_terminal = false;
+            }
+            else
+            {
+                final String error =
+                  "Unrecognized destruction argument [" + destruction + "]";
+                throw new IllegalArgumentException( error );
+            }
         }
 
         if ( name != null )
@@ -221,6 +324,81 @@ public final class InfoDescriptor extends Descriptor
     public String getName()
     {
         return m_name;
+    }
+
+    /**
+     * Return the component termination policy as a String.
+     *
+     * @return the policy
+     */
+    public String getDestructionPolicy()
+    {
+        if( m_terminal )
+        {
+            return TERMINAL;
+        }
+        else
+        {
+            return REDEEMABLE;
+        }
+    }
+
+    /**
+     * Return the component type redemtion policy.
+     *
+     * @return the policy
+     */
+    public boolean isRedeemable()
+    {
+        return !m_terminal;
+    }
+
+    /**
+     * Return the component type termination policy.
+     * This is the opositite of the redemption policy.
+     * @return the policy
+     */
+    public boolean isTerminal()
+    {
+        return m_terminal;
+    }
+
+    /**
+     * Return the component termination policy as a String.
+     *
+     * @return the policy
+     */
+    public String getCollectionPolicy()
+    {
+        if( m_liberal )
+        {
+            return LIBERAL;
+        }
+        else
+        {
+            return CONSERVATIVE;
+        }
+    }
+
+
+    /**
+     * Return the component termination policy.
+     *
+     * @return the policy
+     */
+    public boolean isLiberal()
+    {
+        return m_liberal;
+    }
+
+    /**
+     * Return the component termination policy.
+     *
+     * @return the policy
+     */
+    public boolean isConservative()
+    {
+        return !m_liberal;
     }
 
     /**
@@ -286,6 +464,8 @@ public final class InfoDescriptor extends Descriptor
             isEqual = isEqual && m_classname.equals( info.m_classname );
             isEqual = isEqual && m_name.equals( info.m_name );
             isEqual = isEqual && m_lifestyle.equals( info.m_lifestyle );
+            isEqual = isEqual && m_liberal == info.m_liberal;
+            isEqual = isEqual && m_terminal == info.m_terminal;
 
             if ( null == m_version )
             {
@@ -311,6 +491,9 @@ public final class InfoDescriptor extends Descriptor
         hash >>>= 7;
         hash ^= m_classname.hashCode();
         hash >>>= 7;
+
+        hash >>>= ( m_liberal ) ? 1 : 3;
+        hash >>>= ( m_terminal ) ? 1 : 3;
 
         if ( null != m_name )
         {

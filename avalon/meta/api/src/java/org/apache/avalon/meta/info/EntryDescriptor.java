@@ -62,7 +62,7 @@ import java.io.Serializable;
  * </ul>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 08:15:07 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/17 02:03:06 $
  */
 public final class EntryDescriptor
         implements Serializable
@@ -155,7 +155,7 @@ public final class EntryDescriptor
         }
         if ( null == classname )
         {
-            throw new NullPointerException( "classnamei" );
+            throw new NullPointerException( "classname" );
         }
 
         m_key = key;

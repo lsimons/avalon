@@ -36,6 +36,23 @@
              is not required to supply the entry.  The default value is FALSE.
             </td>
           </tr>
+          <tr>
+            <td>alias</td><td>no</td>
+            <td>
+             An alternative name that a component may use to locate an entry.
+             This is convinient when dealing with legacy applications.
+            </td>
+          </tr>
+          <tr>
+            <td>volatile</td><td>no</td>
+            <td>
+             A 'true' or 'false' value that determines if a entry value may
+             be cached by a container or if the value must be recomputed on 
+             each access.  The default value is 'false' resulting in cached
+             behaviour.  Volotile entries are useful for contitions such as
+             incremental key generation, time value lookup, etc.
+            </td>
+          </tr>
         </table>
       </subsection>
 
@@ -50,6 +67,7 @@ The entry element declares the criteria for the inclusion of a context entry wit
 <context>
   <entry key="home" type="java.io.File"/>
   <entry key="test" type="MySpecialClass" optional="TRUE"/>
+  <entry key="timestamp" type="java.util.Data" volatile="TRUE"/>
 </context>
 ]]></source>
       </subsection>
@@ -59,7 +77,7 @@ The entry element declares the criteria for the inclusion of a context entry wit
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2003/09/24 08:15:58 $
+      $Revision: 1.2 $ $Date: 2003/10/17 02:03:06 $
     </legal>
   </footer>
 

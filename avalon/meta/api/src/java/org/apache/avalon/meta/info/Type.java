@@ -72,7 +72,7 @@ import org.apache.avalon.framework.configuration.Configuration;
  * <p><image src="doc-files/Type.gif" border="0"/></p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 08:15:11 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/17 02:03:06 $
  */
 public class Type implements Serializable
 {
@@ -105,6 +105,7 @@ public class Type implements Serializable
      *   suppier resolution
      * @exception NullPointerException if the descriptor, loggers, context, services,
      *   dependencies, stages, or extensions argument is null
+     * @since 1.1
      */
     public Type( final InfoDescriptor descriptor,
                  final CategoryDescriptor[] loggers,

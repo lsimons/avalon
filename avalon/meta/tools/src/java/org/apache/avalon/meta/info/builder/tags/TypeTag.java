@@ -89,7 +89,7 @@ import com.thoughtworks.qdox.model.JavaClass;
  * </table>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/04 11:51:25 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/17 02:03:07 $
  */
 public class TypeTag extends AbstractTag
 {
@@ -109,9 +109,19 @@ public class TypeTag extends AbstractTag
     public static final String VERSION_PARAM = "version";
 
    /**
-    * The version parameter
+    * The lifestyle parameter
     */
     public static final String LIFESTYLE_PARAM = "lifestyle";
+
+   /**
+    * The lifestyle collection policy parameter
+    */
+    public static final String LIFESTYLE_COLLECTION_PARAM = "collection";
+
+   /**
+    * The lifestyle destruction policy parameter
+    */
+    public static final String LIFESTYLE_DESTRUCTION_PARAM = "destruction";
 
    /**
     * Type tag constructor.
@@ -138,10 +148,14 @@ public class TypeTag extends AbstractTag
         final String name = getName( tag );
         final Version version = getVersion( tag );
         final String lifestyle = getLifestyle( tag );
+        final String collection = getLifestyleCollectionPolicy( tag );
+        final String destruction = getLifestyleDestructionPolicy( tag );
         final String type = getJavaClass().getFullyQualifiedName();
         final Properties properties = new AttributeTag( getJavaClass() ).getProperties();
         final String schema = new SchemaTag( getJavaClass() ).getConfigurationSchema();
-        final InfoDescriptor info = new InfoDescriptor( name, type, version, lifestyle, schema, properties );
+        final InfoDescriptor info = 
+          new InfoDescriptor( 
+            name, type, version, lifestyle, collection, destruction, schema, properties );
         final ServiceDescriptor[] services = new ServicesTag( getJavaClass() ).getServices();
         final CategoryDescriptor[] loggers = new LoggerTag( getJavaClass() ).getCategories();
         final DependencyDescriptor[] dependencies =
@@ -161,6 +175,16 @@ public class TypeTag extends AbstractTag
     private String getLifestyle(DocletTag tag)
     {
         return getNamedParameter( tag, LIFESTYLE_PARAM, null );
+    }
+
+    private String getLifestyleCollectionPolicy(DocletTag tag)
+    {
+        return getNamedParameter( tag, LIFESTYLE_COLLECTION_PARAM, null );
+    }
+
+    private String getLifestyleDestructionPolicy(DocletTag tag)
+    {
+        return getNamedParameter( tag, LIFESTYLE_DESTRUCTION_PARAM, null );
     }
 
     private Version getVersion(DocletTag tag)
