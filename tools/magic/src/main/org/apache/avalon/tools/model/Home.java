@@ -19,6 +19,7 @@ package org.apache.avalon.tools.model;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.BuildListener;
+import org.apache.tools.ant.Task;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Get;
 import org.apache.tools.ant.taskdefs.Property;
@@ -30,6 +31,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Date;
 
 /**
  *
@@ -42,6 +44,9 @@ public class Home extends DataType
     // static
     //-------------------------------------------------------------
 
+    public static final String BANNER = 
+      "------------------------------------------------------------------------";
+
     public static final String KEY = "project.home";
     public static final String HOME_KEY = "project.home";
     public static final String INDEX_KEY = "project.index";
@@ -53,17 +58,19 @@ public class Home extends DataType
 
     private final File m_index;
     private final Hashtable m_resources = new Hashtable();
+    private final ArrayList m_includes = new ArrayList();
     private final Magic m_system;
 
     //-------------------------------------------------------------
     // constructor
     //-------------------------------------------------------------
 
-    protected Home( final Project project, Magic system, File index )
+    protected Home( Project project, Magic system, File index )
     {
+        setProject( project );
+        project.log( "index: " + index );
         m_index = index;
         m_system = system;
-        setProject( project );
         buildList( index, false );
     }
 
@@ -218,17 +225,33 @@ public class Home extends DataType
                 final String path = element.getAttribute( "href" );
                 if(( null != path ) && ( !"".equals( path ) ))
                 {
-                    File index = createTempFile();
-                    index.deleteOnExit(); // safety harness in case we abort
-                    final URL url = createURL( path );
-                    final Get get = (Get) project.createTask( "get" );
-                    get.setSrc( url );
-                    get.setDest( index );
-                    get.setIgnoreErrors( false );
-                    get.setUseTimestamp( true );
-                    get.setVerbose( false );
-                    get.execute();
-                    buildList( index, true );
+                    if( !m_includes.contains( path ) )
+                    {
+                        File index = createTempFile();
+                        final URL url = createURL( path );
+                        final Get get = (Get) project.createTask( "get" );
+                        get.setSrc( url );
+                        get.setDest( index );
+                        get.setIgnoreErrors( false );
+                        get.setUseTimestamp( false );
+                        get.setVerbose( false );
+                        get.execute();
+
+                        m_includes.add( path );
+
+                        try
+                        {
+                            buildList( index, true );
+                        }
+                        catch( BuildException be )
+                        {
+                            final String error = 
+                              "Model error occured while processing import."
+                              + "\n" + path;
+                            getProject().log( error );
+                            throw be;
+                        }
+                    }
                 }
                 else
                 {
@@ -236,7 +259,11 @@ public class Home extends DataType
                     if(( null != filename ) && ( !"".equals( filename ) ))
                     {
                         final File index = Context.getFile( system, path );
-                        buildList( index, true );
+                        if( !m_includes.contains( index.toString() ) )
+                        {
+                            m_includes.add( index );
+                            buildList( index, true );
+                        }
                     }
                     else
                     {
