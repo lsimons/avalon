@@ -84,11 +84,13 @@ Legal:
   <property name="announce2site" value="${tools.dir}/announcement2site.xsl"/>
 
   <property name="servlet.jar" value="${lib.dir}/servlet.jar"/>
+  <property name="mail.jar" value="${lib.dir}/mail.jar"/>
 
   <path id="project.class.path">
     <pathelement path="${java.class.path}" />
     <pathelement location="${junit.jar}"/>
     <pathelement path="${servlet.jar}" />
+    <pathelement path="${mail.jar}"/>
     <pathelement path="${j2ee.jar}" />
     <pathelement path="${jdbc.driver.jar}" />
     <fileset dir="${lib.dir}">
@@ -185,6 +187,10 @@ Legal:
                classname="javax.jms.TopicConnection"
                classpathref="project.class.path" />
 
+    <available property="javax.mail.present"
+               classname="javax.mail.Message"
+               classpathref="project.class.path" />
+
   </target>
 
   <target name="op-warning" description="General waring target (used by other targets)">
@@ -206,6 +212,15 @@ Legal:
       <param name="thing" value="Servlet"/>
       <param name="recovery"
         value="Run the build target import-servlet-jar and it will download the servlet api jar - you should be online for that."/>
+    </antcall>
+  </target>
+
+  <target name="mail-warn" unless="javax.mail.present"
+      description="Outputs a warning if javax.mail.* classes are missing during compilation">
+    <antcall target="op-warning">
+      <param name="thing" value="SMTP"/>
+      <param name="recovery"
+        value="Get mail.jar from inside javamail-1_2.zip from http://java.sun.com/products/javamail/ and place it in the lib dir"/>
     </antcall>
   </target>
 
@@ -241,7 +256,7 @@ Legal:
     <echo/>
   </target>
 
-  <target name="optional-warnings" depends="jms-warn,framework-warn,sql-warn,servlet-warn"
+  <target name="optional-warnings" depends="jms-warn,framework-warn,sql-warn,servlet-warn,mail-warn"
       description="Outputs warnings if some jars are missing from the environment">
   </target>
 
@@ -265,6 +280,8 @@ Legal:
       <src path="${compat.dir}"/>
       <exclude name="org/apache/log/output/ServletOutputLogTarget.java"
                unless="servlet.present"/>
+      <exclude name="org/apache/log/output/net/SMTPOutputLogTarget.java"
+               unless="javax.mail.present"/>
       <exclude name="org/apache/log/format/AvalonFormatter.java"
                unless="avalon-framework.present"/>
       <exclude name="org/apache/log/output/db/**"
@@ -370,6 +387,8 @@ Legal:
       <fileset dir="${java.dir}">
         <exclude name="org/apache/log/output/ServletOutputLogTarget.java"
                  unless="servlet.present"/>
+        <exclude name="org/apache/log/output/net/SMTPOutputLogTarget.java"
+                 unless="javax.mail.present"/>
         <exclude name="org/apache/log/format/AvalonFormatter.java"
                  unless="avalon-framework.present"/>
         <exclude name="org/apache/log/output/db/**"
@@ -689,3 +708,4 @@ Legal:
   </target>
 
 </project>
+
