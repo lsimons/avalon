@@ -1,0 +1,224 @@
+/* 
+ * Copyright 2004 Apache Software Foundation
+ * Licensed  under the  Apache License,  Version 2.0  (the "License");
+ * you may not use  this file  except in  compliance with the License.
+ * You may obtain a copy of the License at 
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed  under the  License is distributed on an "AS IS" BASIS,
+ * WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ * implied.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.apache.avalon.tools.project.builder;
+
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.taskdefs.Sequential;
+
+import org.apache.avalon.tools.home.Home;
+import org.apache.avalon.tools.home.Repository;
+
+import org.apache.avalon.tools.util.ElementHelper;
+import org.apache.avalon.tools.project.Info;
+import org.apache.avalon.tools.project.Definition;
+import org.apache.avalon.tools.project.ProjectRef;
+import org.apache.avalon.tools.project.ResourceRef;
+import org.apache.avalon.tools.project.Resource;
+import org.apache.avalon.tools.project.PluginRef;
+import org.apache.avalon.tools.project.Plugin;
+import org.apache.avalon.tools.project.Policy;
+
+import org.w3c.dom.Element;
+
+/**
+ * Definition of a project. 
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
+ */
+public class XMLDefinitionBuilder 
+{
+
+    public static Resource createResource( Element element )
+    {
+        Info info = 
+          createInfo( ElementHelper.getChild( element, "info" ) );
+        String key = getDefinitionKey( element, info );
+        return new Resource( key, info );
+    }
+
+    public static Definition createDefinition( File anchor, Element element )
+    {
+        Info info = 
+          createInfo( ElementHelper.getChild( element, "info" ) );
+
+        String key = getDefinitionKey( element, info );
+
+        File basedir = getBasedir( anchor, element );
+       
+        Element deps = ElementHelper.getChild( element, "dependencies" );
+
+        ResourceRef[] resources = 
+          createResourceRefs( 
+            ElementHelper.getChild( deps, "resources" ) );
+        
+        ProjectRef[] projects = 
+          createProjectRefs( 
+            ElementHelper.getChild( deps, "projects" ) );
+
+        PluginRef[] plugins = 
+          createPluginRefs( 
+            ElementHelper.getChild( deps, "plugins" ) );
+
+        return new Definition( key, basedir, info, resources, projects, plugins );
+    }
+
+    public static Plugin createPlugin( File anchor, Element element )
+    {
+        Info info = 
+          createInfo( ElementHelper.getChild( element, "info" ) );
+
+        String key = getDefinitionKey( element, info );
+
+        File basedir = getBasedir( anchor, element );
+       
+        Element deps = ElementHelper.getChild( element, "dependencies" );
+
+        ResourceRef[] resources = 
+          createResourceRefs( 
+            ElementHelper.getChild( deps, "resources" ) );
+        
+        ProjectRef[] projects = 
+          createProjectRefs( 
+            ElementHelper.getChild( deps, "projects" ) );
+
+        PluginRef[] plugins = 
+          createPluginRefs( 
+            ElementHelper.getChild( deps, "plugins" ) );
+
+        return new Plugin( key, basedir, info, resources, projects, plugins );
+    }
+
+    private static File getBasedir( File anchor, Element element )
+    {
+        String path = element.getAttribute( "basedir" );
+        if( null == path )
+        {
+            final String error = 
+              "Missing 'basedir' attribute.";
+            throw new BuildException( error );
+        }
+
+        File basedir = new File( anchor, path );
+        if( !basedir.exists() )
+        {
+            final String error = 
+              "Declared basedir [" + basedir + "] does not exist.";
+            throw new BuildException( error );
+        }
+        if( !basedir.isDirectory() )
+        {
+            final String error = 
+              "Declared basedir [" + basedir + "] is not a directory.";
+            throw new BuildException( error );
+        }
+        return basedir;
+    }
+
+    private static String getDefinitionKey( Element element, Info info )
+    {
+        String key = element.getAttribute( "key" );
+        if( null == key ) 
+        {
+            return info.getName();
+        }
+        if( key.equals( "" ) )
+        {
+            return info.getName();
+        }
+        return key;
+    }
+
+    private static Info createInfo( Element info )
+    {
+        String group = 
+          ElementHelper.getValue( 
+            ElementHelper.getChild( info, "group" ) );
+        String name = 
+          ElementHelper.getValue( 
+            ElementHelper.getChild( info, "name" ) );
+        String version = 
+          ElementHelper.getValue( 
+            ElementHelper.getChild( info, "version" ) );
+        String type = 
+          ElementHelper.getValue( 
+            ElementHelper.getChild( info, "type" ) );
+
+        return new Info( group, name, version, type );
+    }
+
+    private static ResourceRef[] createResourceRefs( Element element )
+      throws BuildException
+    {
+        Element[] children = ElementHelper.getChildren( element, "resourceref" );
+        ResourceRef[] refs = new ResourceRef[ children.length ];
+
+        for( int i=0; i<children.length; i++ )
+        {
+            Element child = children[i];
+            String key = child.getAttribute( "key" );
+            Policy policy = createPolicy( child );
+            refs[i] = new ResourceRef( key, policy );
+        }
+        return refs;
+    }
+
+    private static ProjectRef[] createProjectRefs( Element element )
+      throws BuildException
+    {
+        Element[] children = ElementHelper.getChildren( element, "projectref" );
+        ProjectRef[] refs = new ProjectRef[ children.length ];
+        for( int i=0; i<children.length; i++ )
+        {
+            Element child = children[i];
+            String key = child.getAttribute( "key" );
+            Policy policy = createPolicy( child );
+            refs[i] = new ProjectRef( key, policy );
+        }
+        return refs;
+    }
+
+    private static PluginRef[] createPluginRefs( Element element )
+      throws BuildException
+    {
+        Element[] children = ElementHelper.getChildren( element, "pluginref" );
+        PluginRef[] refs = new PluginRef[ children.length ];
+        for( int i=0; i<children.length; i++ )
+        {
+            Element child = children[i];
+            String key = child.getAttribute( "key" );
+            Policy policy = createPolicy( child );
+            refs[i] = new PluginRef( key, policy );
+        }
+        return refs;
+    }
+
+    private static Policy createPolicy( Element element )
+    {
+        boolean build = 
+          ElementHelper.getBooleanAttribute( element, "build", true );
+        boolean test = 
+          ElementHelper.getBooleanAttribute( element, "test", true );
+        boolean runtime = 
+          ElementHelper.getBooleanAttribute( element, "runtime", true );
+        return new Policy( build, test, runtime );
+    }
+}

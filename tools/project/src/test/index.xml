@@ -1,0 +1,159 @@
+
+<system>
+
+  <!-- 
+  Declaration of the working repository for artifacts 
+  used and created by this build system.
+  -->
+
+  <repository>
+    <cache dir=".cache"/>
+    <proxy/>
+    <hosts>
+      <host>http://www.dpml.net</host>
+    </hosts>
+  </repository>
+
+  <!--
+  Declaration of the binary resources available through
+  the repository used by local projects.
+  -->
+
+  <resources>
+    <resource>
+      <info>
+        <group>avalon-framework</group>
+        <name>avalon-framework-api</name>
+        <version>4.2.0</version>
+        <type>jar</type>
+      </info>
+    </resource>
+    <resource>
+      <info>
+        <group>avalon-util</group>
+        <name>avalon-util-i18n</name>
+        <version>1.0.0</version>
+        <type>jar</type>
+      </info>
+    </resource>
+  </resources>
+
+  <!--
+  Declaration of the local projects.
+  -->
+
+  <projects>
+
+    <project basedir="projects/demo">
+      <info>
+        <group>demo</group>
+        <name>demo</name>
+        <version>1.0</version>
+        <type>jar</type>
+      </info>
+      <dependencies>
+        <resources>
+          <resourceref key="avalon-framework-api"/>
+        </resources>
+        <projects>
+          <projectref key="widget"/>
+          <projectref key="gizmo"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <project basedir="projects/gizmo">
+      <info>
+        <group>demo</group>
+        <name>gizmo</name>
+        <version>1.0</version>
+        <type>jar</type>
+      </info>
+      <dependencies>
+        <resources>
+          <resourceref key="avalon-util-i18n"/>
+        </resources>
+        <plugins>
+          <pluginref key="prepare"/>
+        </plugins>
+      </dependencies>
+    </project>
+
+    <project basedir="projects/widget">
+      <info>
+        <group>demo</group>
+        <name>widget</name>
+        <version>1.0</version>
+        <type>jar</type>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="gizmo"/>
+        </projects>
+      </dependencies>
+    </project>
+
+  </projects>
+
+
+  <!--
+  Declaration of the local plugins.
+  -->
+
+  <plugins>
+
+    <plugin basedir="plugins/manager">
+      <info>
+        <group>avalon/magic</group>
+        <name>manager</name>
+        <version>1.0</version>
+        <type>jar</type>
+      </info>
+      <dependencies>
+        <resources>
+          <resourceref key="avalon-framework-api"/>
+          <resourceref key="avalon-framework-impl"/>
+        </resources>
+      </dependencies>
+    </plugin>
+
+    <plugin basedir="plugins/prepare">
+      <info>
+        <group>avalon/magic</group>
+        <name>prepare</name>
+        <version>1.0</version>
+        <type>jar</type>
+      </info>
+      <dependencies>
+        <resources>
+          <resourceref key="avalon-framework-api"/>
+        </resources>
+        <plugins>
+          <pluginref key="manager"/>
+        </plugins>
+      </dependencies>
+    </plugin>
+
+    <plugin basedir="plugins/compile">
+      <info>
+        <group>avalon/magic</group>
+        <name>compile</name>
+        <version>1.0</version>
+        <type>jar</type>
+      </info>
+      <dependencies>
+        <resources>
+          <resourceref key="avalon-framework-api"/>
+          <resourceref key="avalon-framework-impl"/>
+        </resources>
+        <plugins>
+          <pluginref key="prepare"/>
+        </plugins>
+      </dependencies>
+    </plugin>
+
+  </plugins>
+
+
+
+</system>
