@@ -7,12 +7,10 @@
  */
 package org.apache.avalon.phoenix.components.kapi;
 
-import java.io.File;
 import java.net.URL;
 import org.apache.avalon.excalibur.container.Entry;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
-import org.apache.log.Logger;
 
 /**
  * This is the structure describing each server application before it is loaded.
@@ -23,7 +21,6 @@ public class SarEntry
     extends Entry
 {
     private SarMetaData     m_metaData;
-    private Logger          m_logger;
     private Configuration   m_configuration;
     private URL[]           m_classPath;
 
@@ -44,16 +41,6 @@ public class SarEntry
     public SarMetaData getMetaData()
     {
         return m_metaData;
-    }
-
-    public Logger getLogger()
-    {
-        return m_logger;
-    }
-
-    public void setLogger( final Logger logger )
-    {
-        m_logger = logger;
     }
 
     public Configuration getConfiguration()
