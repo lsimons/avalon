@@ -18,15 +18,15 @@ import org.apache.log.format.RawFormatter;
 import org.apache.log.output.io.StreamTarget;
 import org.apache.log.util.LoggerOutputStream;
 import org.apache.log.util.StackIntrospector;
-import org.apache.testlet.AbstractTestlet;
+import junit.framework.TestCase;
 
 /**
  * Test suite for utility features of Logger.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public final class UtilTestlet
-    extends AbstractTestlet
+public final class UtilTestCase
+    extends TestCase
 {
     private final static String EOL = System.getProperty( "line.separator", "\n" );
     private final static RawFormatter FORMATTER = new RawFormatter();
@@ -34,6 +34,11 @@ public final class UtilTestlet
     private final static String MSG = "No soup for you!";
     private final static String RMSG = MSG;
     private final static String METHOD_RESULT = UtilTestlet.class.getName() + ".";
+
+    public UtilTestCase( final String name )
+    {
+        super( name );
+    }
 
     private String getResult( final ByteArrayOutputStream output )
     {
@@ -75,12 +80,12 @@ public final class UtilTestlet
         final PrintStream printer = new PrintStream( outputStream, true );
 
         printer.println( MSG );
-        assertEquality( "LoggerOutputStream", RMSG + EOL, getResult( output ) );
+        assertEquals( "LoggerOutputStream", RMSG + EOL, getResult( output ) );
 
         //unbuffered output
         printer.print( MSG );
         printer.flush();
-        assertEquality( "LoggerOutputStream", RMSG, getResult( output ) );
+        assertEquals( "LoggerOutputStream", RMSG, getResult( output ) );
 
         printer.close();
     }

@@ -49,6 +49,8 @@ Legal:
   <property name="build.classes" value="${build.dir}/classes"/>
   <property name="build.javadocs" value="${build.dir}/javadocs"/>
   <property name="build.docs" value="${build.dir}/docs"/>
+  <property name="build.testdocs" value="${build.docs}/test"/>
+  <property name="build.reports" value="${build.dir}/reports"/>
   <property name="build.context" value="${build.dir}/documentation"/>
   <property name="build.xdocs" value="${build.context}/xdocs/logkit"/>
 
@@ -69,6 +71,7 @@ Legal:
 
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
   <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
+  <property name="junit.jar" value="${tools.dir}/lib/junit-3.7.jar"/>
   <property name="j2ee.jar" value="${cjan.dir}/j2ee.jar"/>
   <property name="jdbc.driver.jar" value=""/>
 
@@ -85,6 +88,7 @@ Legal:
   <path id="project.class.path">
     <pathelement path="${java.class.path}" />
     <pathelement location="${testlet.jar}"/>
+    <pathelement location="${junit.jar}"/>
     <pathelement path="${servlet.jar}" />
     <pathelement path="${j2ee.jar}" />
     <pathelement path="${jdbc.driver.jar}" />
@@ -98,9 +102,15 @@ Legal:
   <path id="tools.class.path">
     <pathelement location="${tools.jar}"/>
     <pathelement location="${testlet.jar}"/>
+    <pathelement location="${junit.jar}"/>
     <fileset dir="${tools.dir}/lib">
       <exclude name="ant.jar" />
     </fileset>
+  </path>
+
+  <path id="test.class.path">
+    <path refid="tools.class.path"/>
+    <path refid="project.class.path"/>
   </path>
 
   <!-- Main target -->
@@ -267,6 +277,8 @@ Legal:
                unless="javax.jms.present"/>
       <exclude name="org/apache/log/output/test/DBTargetTestlet.java"
                unless="javax.sql.present"/>
+      <exclude name="org/apache/log/output/test/DBTargetTestCase.java"
+               unless="javax.sql.present"/>
     </javac>
 
     <copy todir="${build.classes}">
@@ -279,16 +291,52 @@ Legal:
 
   <target name="test" depends="check"/>
 
-  <target name="check" depends="compile" > 
+  <target name="check" depends="compile" >
+    <mkdir dir="${build.reports}"/>
+
     <echo message="Performing Unit Tests" />
-    <test showSuccess="true" showBanner="false" showTrace="true" forceShowTrace="true" > 
-       <classpath refid="project.class.path" />
-       <testlet>org.apache.log.format.test.FormatterTestlet</testlet>
-       <testlet>org.apache.log.output.test.OutputTargetTestlet</testlet>
-       <testlet>org.apache.log.test.InheritanceTestlet</testlet>
-       <testlet>org.apache.log.util.test.UtilTestlet</testlet>
-       <!--<testlet>org.apache.log.output.test.DBTargetTestlet</testlet>-->
-    </test>
+    <junit fork="true" printsummary="yes" dir="${build.reports}">
+      <formatter type="plain"/>
+      <classpath>
+        <path refid="test.class.path"/>
+        <pathelement location="${build.classes}"/>
+      </classpath>
+      <batchtest todir="${build.reports}">
+        <fileset dir="${build.classes}">
+          <exclude name="**/test/Abstract*TestCase.class"/>
+          <include name="**/test/*TestCase.class"/>
+        </fileset>
+      </batchtest>
+    </junit>
+
+  </target>
+
+  <target name="test-report" depends="compile" >
+    <mkdir dir="${build.testdocs}"/>
+    <mkdir dir="${build.reports}"/>
+
+    <echo message="Performing Unit Tests" />
+    <junit fork="true" printsummary="yes" dir="${build.reports}">
+      <formatter type="xml"/>
+      <classpath>
+        <path refid="test.class.path"/>
+        <pathelement location="${build.classes}"/>
+      </classpath>
+      <batchtest todir="${build.reports}">
+        <fileset dir="${build.classes}">
+          <exclude name="**/test/Abstract*TestCase.class"/>
+          <include name="**/test/*Profile.class" if="test.profile"/>
+          <include name="**/test/*TestCase.class"/>
+        </fileset>
+      </batchtest>
+    </junit>
+
+    <junitreport todir="${build.reports}">
+      <fileset dir="${build.reports}">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="${build.testdocs}"/>
+    </junitreport>
   </target>
 
   <!-- Creates all the .jar file -->
@@ -335,6 +383,8 @@ Legal:
         <exclude name="org/apache/log/output/jms/**"
                  unless="javax.jms.present"/>
         <exclude name="org/apache/log/output/test/DBTargetTestlet.java"
+                 unless="javax.sql.present"/>
+        <exclude name="org/apache/log/output/test/DBTargetTestCase.java"
                  unless="javax.sql.present"/>
       </fileset>
     </copy>

@@ -16,7 +16,7 @@ import org.apache.log.format.RawFormatter;
 import org.apache.log.format.XMLFormatter;
 import org.apache.log.format.SyslogFormatter;
 import org.apache.log.format.PatternFormatter;
-import org.apache.testlet.AbstractTestlet;
+import junit.framework.TestCase;
 
 /**
  * Test suite for the formatters.
@@ -24,8 +24,8 @@ import org.apache.testlet.AbstractTestlet;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public final class FormatterTestlet
-    extends AbstractTestlet
+public final class FormatterTestCase
+    extends TestCase
 {
     private static String EOL  = System.getProperty( "line.separator", "\n" );
 
@@ -183,6 +183,11 @@ public final class FormatterTestlet
         }
     }
 
+    public FormatterTestCase( final String name )
+    {
+        super( name );
+    }
+
     public void testRawFormatter()
     {
         final Formatter formatter = new RawFormatter();
@@ -191,9 +196,9 @@ public final class FormatterTestlet
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );
 
-        assertEquality( "Raw formatting of E1", E1.getMessage(), result1 );
-        assertEquality( "Raw formatting of E2", E2.getMessage(), result2 );
-        assertEquality( "Raw formatting of E3", E3.getMessage(), result3 );
+        assertEquals( "Raw formatting of E1", E1.getMessage(), result1 );
+        assertEquals( "Raw formatting of E2", E2.getMessage(), result2 );
+        assertEquals( "Raw formatting of E3", E3.getMessage(), result3 );
     }
 
     public void testXMLFormatter()
@@ -204,9 +209,9 @@ public final class FormatterTestlet
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );
 
-        assertEquality( "XML formatting of E1", E1_XML, result1 );
-        assertEquality( "XML formatting of E2", E2_XML, result2 );
-        assertEquality( "XML formatting of E3", E3_XML, result3 );
+        assertEquals( "XML formatting of E1", E1_XML, result1 );
+        assertEquals( "XML formatting of E2", E2_XML, result2 );
+        assertEquals( "XML formatting of E3", E3_XML, result3 );
     }
 
     public void testSyslogFormatter()
@@ -217,9 +222,9 @@ public final class FormatterTestlet
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );
 
-        assertEquality( "SYSLOG formatting of E1", E1_SYSLOG, result1 );
-        assertEquality( "SYSLOG formatting of E2", E2_SYSLOG, result2 );
-        assertEquality( "SYSLOG formatting of E3", E3_SYSLOG, result3 );
+        assertEquals( "SYSLOG formatting of E1", E1_SYSLOG, result1 );
+        assertEquals( "SYSLOG formatting of E2", E2_SYSLOG, result2 );
+        assertEquals( "SYSLOG formatting of E3", E3_SYSLOG, result3 );
     }
 
     public void testSyslogWithBannerFormatter()
@@ -230,9 +235,9 @@ public final class FormatterTestlet
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );
 
-        assertEquality( "SYSLOG with banner formatting of E1", E1_SYSLOG_WB, result1 );
-        assertEquality( "SYSLOG with banner formatting of E2", E2_SYSLOG_WB, result2 );
-        assertEquality( "SYSLOG with banner formatting of E3", E3_SYSLOG_WB, result3 );
+        assertEquals( "SYSLOG with banner formatting of E1", E1_SYSLOG_WB, result1 );
+        assertEquals( "SYSLOG with banner formatting of E2", E2_SYSLOG_WB, result2 );
+        assertEquals( "SYSLOG with banner formatting of E3", E3_SYSLOG_WB, result3 );
     }
 
     public void testPattern1Formatter()
@@ -243,9 +248,9 @@ public final class FormatterTestlet
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );
         
-        assertEquality( "Pattern1 formatting of E1", E1_PATTERN1, result1 );
-        assertEquality( "Pattern1 formatting of E2", E2_PATTERN1, result2 );
-        assertEquality( "Pattern1 formatting of E3", E3_PATTERN1, result3 );
+        assertEquals( "Pattern1 formatting of E1", E1_PATTERN1, result1 );
+        assertEquals( "Pattern1 formatting of E2", E2_PATTERN1, result2 );
+        assertEquals( "Pattern1 formatting of E3", E3_PATTERN1, result3 );
     }
 
     public void testPattern2Formatter()
@@ -256,9 +261,9 @@ public final class FormatterTestlet
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );
 
-        assertEquality( "Pattern2 formatting of E1", E1_PATTERN2, result1 );
-        assertEquality( "Pattern2 formatting of E2", E2_PATTERN2, result2 );
-        assertEquality( "Pattern2 formatting of E3", E3_PATTERN2, result3 );
+        assertEquals( "Pattern2 formatting of E1", E1_PATTERN2, result1 );
+        assertEquals( "Pattern2 formatting of E2", E2_PATTERN2, result2 );
+        assertEquals( "Pattern2 formatting of E3", E3_PATTERN2, result3 );
     }
 
     public void testPattern3Formatter()
@@ -269,9 +274,9 @@ public final class FormatterTestlet
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );
         
-        assertEquality( "Pattern3 formatting of E1", E1_PATTERN3, result1 );
-        assertEquality( "Pattern3 formatting of E2", E2_PATTERN3, result2 );
-        assertEquality( "Pattern3 formatting of E3", E3_PATTERN3, result3 );
+        assertEquals( "Pattern3 formatting of E1", E1_PATTERN3, result1 );
+        assertEquals( "Pattern3 formatting of E2", E2_PATTERN3, result2 );
+        assertEquals( "Pattern3 formatting of E3", E3_PATTERN3, result3 );
     }
 
     public void testPattern4Formatter()
@@ -282,9 +287,9 @@ public final class FormatterTestlet
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );
 
-        assertEquality( "Pattern4 formatting of E1", E1_PATTERN4, result1 );
-        assertEquality( "Pattern4 formatting of E2", E2_PATTERN4, result2 );
-        assertEquality( "Pattern4 formatting of E3", E3_PATTERN4, result3 );
+        assertEquals( "Pattern4 formatting of E1", E1_PATTERN4, result1 );
+        assertEquals( "Pattern4 formatting of E2", E2_PATTERN4, result2 );
+        assertEquals( "Pattern4 formatting of E3", E3_PATTERN4, result3 );
     }
 
     public void testPattern5Formatter()
@@ -295,9 +300,9 @@ public final class FormatterTestlet
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );
 
-        assertEquality( "Pattern5 formatting of E1", E1_PATTERN5, result1 );
-        assertEquality( "Pattern5 formatting of E2", E2_PATTERN5, result2 );
-        assertEquality( "Pattern5 formatting of E3", E3_PATTERN5, result3 );
+        assertEquals( "Pattern5 formatting of E1", E1_PATTERN5, result1 );
+        assertEquals( "Pattern5 formatting of E2", E2_PATTERN5, result2 );
+        assertEquals( "Pattern5 formatting of E3", E3_PATTERN5, result3 );
     }
 
     public void testPattern6Formatter()
@@ -308,9 +313,9 @@ public final class FormatterTestlet
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );
 
-        assertEquality( "Pattern6 formatting of E1", E1_PATTERN6, result1 );
-        assertEquality( "Pattern6 formatting of E2", E2_PATTERN6, result2 );
-        assertEquality( "Pattern6 formatting of E3", E3_PATTERN6, result3 );
+        assertEquals( "Pattern6 formatting of E1", E1_PATTERN6, result1 );
+        assertEquals( "Pattern6 formatting of E2", E2_PATTERN6, result2 );
+        assertEquals( "Pattern6 formatting of E3", E3_PATTERN6, result3 );
     }
 
     public void testPattern7Formatter()
@@ -321,9 +326,9 @@ public final class FormatterTestlet
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );
 
-        assertEquality( "Pattern7 formatting of E1", E1_PATTERN7, result1 );
-        assertEquality( "Pattern7 formatting of E2", E2_PATTERN7, result2 );
-        assertEquality( "Pattern7 formatting of E3", E3_PATTERN7, result3 );
+        assertEquals( "Pattern7 formatting of E1", E1_PATTERN7, result1 );
+        assertEquals( "Pattern7 formatting of E2", E2_PATTERN7, result2 );
+        assertEquals( "Pattern7 formatting of E3", E3_PATTERN7, result3 );
     }
 
     public void testPattern8Formatter()
@@ -334,9 +339,9 @@ public final class FormatterTestlet
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );
 
-        assertEquality( "Pattern8 formatting of E1", E1_PATTERN8, result1 );
-        assertEquality( "Pattern8 formatting of E2", E2_PATTERN8, result2 );
-        assertEquality( "Pattern8 formatting of E3", E3_PATTERN8, result3 );
+        assertEquals( "Pattern8 formatting of E1", E1_PATTERN8, result1 );
+        assertEquals( "Pattern8 formatting of E2", E2_PATTERN8, result2 );
+        assertEquals( "Pattern8 formatting of E3", E3_PATTERN8, result3 );
     }
 /*
     public void testPattern9Formatter()
@@ -351,11 +356,11 @@ public final class FormatterTestlet
         System.out.println( "results2: " + result2 );
         System.out.println( "results3: " + result3 );
 
-        assertEquality( "Pattern9 formatting of E1", E1_PATTERN9, result1 );
-        assert( "Pattern9 formatting of E2", result2.startsWith( E2_PATTERN9_START ) );
-        assert( "Pattern9 end formatting of E2", result2.endsWith( E2_PATTERN9_END ) );
-        assert( "Pattern9 formatting of E3", result3.startsWith( E3_PATTERN9_START ) );
-        assert( "Pattern9 end formatting of E3", result3.endsWith( E3_PATTERN9_END ) );
+        assertEquals( "Pattern9 formatting of E1", E1_PATTERN9, result1 );
+        assertTrue( "Pattern9 formatting of E2", result2.startsWith( E2_PATTERN9_START ) );
+        assertTrue( "Pattern9 end formatting of E2", result2.endsWith( E2_PATTERN9_END ) );
+        assertTrue( "Pattern9 formatting of E3", result3.startsWith( E3_PATTERN9_START ) );
+        assertTrue( "Pattern9 end formatting of E3", result3.endsWith( E3_PATTERN9_END ) );
     }
 */
     public void testPattern10Formatter()
@@ -366,9 +371,9 @@ public final class FormatterTestlet
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );
 
-        assertEquality( "Pattern10 formatting of E1", E1_PATTERN10, result1 );
-        assertEquality( "Pattern10 formatting of E2", E2_PATTERN10, result2 );
-        assertEquality( "Pattern10 formatting of E3", E3_PATTERN10, result3 );
+        assertEquals( "Pattern10 formatting of E1", E1_PATTERN10, result1 );
+        assertEquals( "Pattern10 formatting of E2", E2_PATTERN10, result2 );
+        assertEquals( "Pattern10 formatting of E3", E3_PATTERN10, result3 );
     }
 
     public void testPattern11Formatter()
@@ -379,8 +384,8 @@ public final class FormatterTestlet
         final String result2 = formatter.format( E2 );
         final String result3 = formatter.format( E3 );
 
-        assertEquality( "Pattern11 formatting of E1", E1_PATTERN11, result1 );
-        assertEquality( "Pattern11 formatting of E2", E2_PATTERN11, result2 );
-        assertEquality( "Pattern11 formatting of E3", E3_PATTERN11, result3 );
+        assertEquals( "Pattern11 formatting of E1", E1_PATTERN11, result1 );
+        assertEquals( "Pattern11 formatting of E2", E2_PATTERN11, result2 );
+        assertEquals( "Pattern11 formatting of E3", E3_PATTERN11, result3 );
     }
 }
