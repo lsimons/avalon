@@ -93,7 +93,7 @@
 
       <fileset dir="${build.gen}">
          <include name="**/${ant.project.name}/**/*.xinfo"/>
-         <include name="**${ant.project.name}/**/*.mxinfo"/>
+         <include name="**/${ant.project.name}/**/*.mxinfo"/>
       </fileset>
       <fileset dir="${src.dir}/java">
          <include name="**/${ant.project.name}/**/*-schema.xml"/>
