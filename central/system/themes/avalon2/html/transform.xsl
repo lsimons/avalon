@@ -46,6 +46,13 @@
             <div class="project">Apache Avalon</div>
             <div class="title"><xsl:value-of select="../properties/title" /></div>
           </td>
+          <td id="asf" >
+            <a href="http://www.apache.org" >
+              <img>
+                <xsl:attribute name="src"><xsl:value-of select="$x[position() = last()]" />resources/asf.png</xsl:attribute>
+              </img>
+            </a>
+          </td>
         </tr>
       </table>
       
@@ -152,13 +159,13 @@
       
       <xsl:otherwise>
         <div class="menu">
-          <xsl:apply-templates select="menu" >
-            <xsl:with-param name="dir" select="concat( $dir, '../')" />
-          </xsl:apply-templates>
           <xsl:if test="count( item ) = 0" >
             <xsl:attribute name="border">none</xsl:attribute>
             <span class="dummy" />
           </xsl:if>
+          <xsl:apply-templates select="menu" >
+            <xsl:with-param name="dir" select="concat( $dir, '../')" />
+          </xsl:apply-templates>
           <xsl:apply-templates select="item" >
             <xsl:with-param name="dir" select="$dir" />
           </xsl:apply-templates>
