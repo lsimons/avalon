@@ -52,7 +52,6 @@ package org.apache.avalon.phoenix.components.embeddor;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.avalon.excalibur.packagemanager.ExtensionManager;
 import org.apache.avalon.phoenix.interfaces.Deployer;
 import org.apache.avalon.phoenix.interfaces.DeployerMBean;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
@@ -61,6 +60,7 @@ import org.apache.avalon.phoenix.interfaces.ExtensionManagerMBean;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.KernelMBean;
 import org.apache.avalon.phoenix.interfaces.LogManager;
+import org.apache.avalon.phoenix.components.extensions.pkgmgr.ExtensionManager;
 
 /**
  *

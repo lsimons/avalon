@@ -40,7 +40,7 @@
 
             <!--
               By default the Mx4J Http Adaptor will bind a webserver to a
-              single network interface, localhost. If you wish to restrict it to 
+              single network interface, localhost. If you wish to restrict it to
               only one a different interface, include that below. To bind to all
               interfaces, use 0.0.0.0 as the value.
             -->
@@ -179,12 +179,12 @@
         <component role="org.apache.avalon.phoenix.interfaces.ClassLoaderManager"
             class="org.apache.avalon.phoenix.components.classloader.DefaultClassLoaderManager"
             logger="classes"/>
-        <component role="org.apache.avalon.excalibur.packagemanager.ExtensionManager"
+        <component role="org.apache.avalon.phoenix.components.extensions.pkgmgr.ExtensionManager"
             class="org.apache.avalon.phoenix.components.extensions.DefaultExtensionManager"
             logger="packages"/>
         <!--
-                <component role="org.apache.avalon.excalibur.packagemanager.ExtensionManager"
-                    class="org.apache.avalon.excalibur.packagemanager.impl.NoopPackageRepository"
+                <component role="org.apache.avalon.phoenix.components.extensions.pkgmgr.ExtensionManager"
+                    class="org.apache.avalon.phoenix.components.extensions.pkgmgr.impl.NoopPackageRepository"
                     logger="packages"/>
         -->
 

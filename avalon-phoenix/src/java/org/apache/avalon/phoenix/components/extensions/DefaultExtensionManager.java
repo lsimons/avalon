@@ -47,15 +47,12 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-
 package org.apache.avalon.phoenix.components.extensions;
 
 import java.io.File;
 import java.util.ArrayList;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.packagemanager.ExtensionManager;
-import org.apache.avalon.excalibur.packagemanager.OptionalPackage;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.LogEnabled;
@@ -64,13 +61,15 @@ import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.interfaces.ExtensionManagerMBean;
+import org.apache.avalon.phoenix.components.extensions.pkgmgr.ExtensionManager;
+import org.apache.avalon.phoenix.components.extensions.pkgmgr.OptionalPackage;
 
 /**
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003/03/22 12:07:09 $
+ * @version $Revision: 1.10 $ $Date: 2003/04/30 10:15:19 $
  */
 public class DefaultExtensionManager
-    extends org.apache.avalon.excalibur.packagemanager.impl.DefaultExtensionManager
+    extends org.apache.avalon.phoenix.components.extensions.pkgmgr.impl.DefaultExtensionManager
     implements LogEnabled, Parameterizable, Initializable, Disposable,
     ExtensionManager, ExtensionManagerMBean
 {
