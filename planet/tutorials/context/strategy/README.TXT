@@ -4,7 +4,7 @@ Typesafe context casting
 
 This tutorial covers the declaration of custom contextualization strategy.
 
-$ maven
+$ ant
 $ merlin -execute target\classes
 
 [INFO   ] (tutorial.standard): contextualization using a custom strategy
