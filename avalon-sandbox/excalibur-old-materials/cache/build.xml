@@ -225,7 +225,7 @@
                 <include name="**/*.java"/>
             </fileset>
             <formatter type="plain"/>
-            <formatter type="xml" toFile="build/checkstyle-results.xml"/>
+            <formatter type="xml" toFile="${build.dir}/checkstyle-results.xml"/>
         </checkstyle>
     </target>
 
@@ -236,7 +236,7 @@
 
         <mkdir dir="${build.reports}/checkstyle"/>
         <property name="checkstyle.pathhack" location="."/>
-        <style style="../tools/etc/checkstyle-frames.xsl" in="build/checkstyle-results.xml"
+        <style style="${tools.dir}/etc/checkstyle-frames.xsl" in="${build.dir}/checkstyle-results.xml"
             out="${build.reports}/checkstyle/delete-me.html">
             <param name="pathhack" expression="${checkstyle.pathhack}"/>
         </style>
