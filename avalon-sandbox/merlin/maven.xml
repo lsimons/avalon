@@ -65,8 +65,7 @@
   </goal>
 
 
-  <goal name="merlin:build" description="Build Merlin." >
-    <!-- build the subprojects -->
+  <goal name="merlin:build" description="Build Merlin.">
     <maven:reactor basedir="${basedir}"
       includes="**/project.xml"
       excludes="target/**,merlin-platform/**,kernel/plugin/**,project.xml,merlin-extensions/**"
@@ -76,10 +75,8 @@
     <attainGoal name="merlin:plugin"/>
   </goal>
 
-
   <goal name="merlin:install" 
     description="Build the Merlin distribution." prereqs="merlin:build,xinstall"/>
-
 
   <goal name="xinstall">
     <!-- prepare structure -->
