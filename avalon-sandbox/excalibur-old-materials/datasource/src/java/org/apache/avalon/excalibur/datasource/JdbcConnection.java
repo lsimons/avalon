@@ -25,12 +25,18 @@ import java.util.Map;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/01/26 16:00:31 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/01/26 16:57:42 $
  * @since 4.0
  */
 public class JdbcConnection
     extends AbstractJdbcConnection
 {
+    /**
+     * @param connection a driver specific JDBC connection to be wrapped.
+     * @param keepAlive a query which will be used to check the statis of the connection after it
+     *                  has been idle.  A null value will cause the keep alive feature to
+     *                  be disabled.
+     */
     public JdbcConnection( final Connection connection, final String keepAlive )
     {
         super( connection, keepAlive );

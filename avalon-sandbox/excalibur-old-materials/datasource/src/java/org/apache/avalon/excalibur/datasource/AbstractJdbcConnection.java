@@ -29,7 +29,7 @@ import org.apache.avalon.framework.logger.Logger;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.10 $ $Date: 2002/01/23 15:49:52 $
+ * @version CVS $Revision: 1.11 $ $Date: 2002/01/26 16:57:42 $
  * @since 4.1
  */
 public abstract class AbstractJdbcConnection
@@ -56,6 +56,12 @@ public abstract class AbstractJdbcConnection
         this(connection, (oradb) ? "select 1 from dual" : "select 1");
     }
 
+    /**
+     * @param connection a driver specific JDBC connection to be wrapped.
+     * @param keepAlive a query which will be used to check the statis of the connection after it
+     *                  has been idle.  A null value will cause the keep alive feature to
+     *                  be disabled.
+     */
     public AbstractJdbcConnection( final Connection connection, final String keepAlive )
     {
         m_connection = connection;
