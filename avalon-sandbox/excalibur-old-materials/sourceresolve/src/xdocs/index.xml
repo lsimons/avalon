@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
 
 <document>
   <header>
@@ -73,7 +74,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2003/02/20 15:39:35 $
+      $Revision: 1.5 $ $Date: 2003/03/17 12:40:48 $
     </legal>
   </footer>
 </document>
