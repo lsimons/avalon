@@ -36,7 +36,7 @@ import org.apache.avalon.framework.service.Serviceable;
  * Bean for making it easier to run Fortress, for example as Ant task.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/28 15:16:27 $
+ * @version CVS $Revision: 1.6 $ $Date: 2004/03/02 16:20:41 $
  */
 public class FortressBean implements Initializable, LogEnabled, Serviceable, Disposable {
 
@@ -81,6 +81,8 @@ public class FortressBean implements Initializable, LogEnabled, Serviceable, Dis
             // Get the root container initialized
             this.cm = new DefaultContainerManager(config.getContext());
             ContainerUtil.initialize(cm);
+            // set the static logger for commons logging 
+            System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.AvalonLogger");
 
             this.container = (DefaultContainer) cm.getContainer();
             this.sm = container.getServiceManager();
