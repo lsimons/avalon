@@ -3,6 +3,9 @@ package org.apache.avalon.attributes.test;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Constructor;
+import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
 import org.apache.avalon.attributes.Attributes;
 import junit.framework.TestCase;
 
@@ -128,5 +131,20 @@ public class AttributesTestCase extends TestCase {
     public void testNoAttributes () throws Exception {
         Method m = Sample.class.getMethod ("methodWithNoAttributes", new Class[0]);
         assertEquals (0, Attributes.getAttributes (m).size ());
+    }
+    
+    /**
+     * Ensure that loading a class with the same name from two different class loaders
+     * won't mess up the attribute cache.
+     */
+    public void testClassLoaderKeying () throws Exception {
+        URLClassLoader cl1 = new URLClassLoader (new URL[]{new File ("api/target/cl1/").toURL ()}, getClass().getClassLoader ());
+        URLClassLoader cl2 = new URLClassLoader (new URL[]{new File ("api/target/cl2/").toURL ()}, getClass().getClassLoader ());
+        
+        Class cl1Class = cl1.loadClass ("TestClass");
+        Class cl2Class = cl2.loadClass ("TestClass");
+        
+        assertEquals ("[[TestAttribute 1]]", Attributes.getAttributes (cl1Class).toString ());
+        assertEquals ("[[TestAttribute 2]]", Attributes.getAttributes (cl2Class).toString ());
     }
 }

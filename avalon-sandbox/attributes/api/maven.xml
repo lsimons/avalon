@@ -17,6 +17,34 @@
             </classpath>
         </taskdef>
         
+        <!-- Set up the classloader tests -->
+        <attributes destDir="target/cl1/">
+            <fileset dir="src/cl1/" includes="**/*.java"/>
+        </attributes>
+        <attributes destDir="target/cl2/">
+            <fileset dir="src/cl2/" includes="**/*.java"/>
+        </attributes>
+        <javac destdir="target/cl1/"
+            classpath="target/cl1/"
+            debug="true"
+            deprecation="true">
+            <src> 
+                <pathelement path="target/cl1/"/>
+                <pathelement path="src/cl1/"/>
+                <pathelement path="src/java/"/>
+            </src>
+        </javac>
+        <javac destdir="target/cl2/"
+            classpath="target/cl2/"
+            debug="true"
+            deprecation="true">
+            <src> 
+                <pathelement path="target/cl2/"/>
+                <pathelement path="src/cl2/"/>
+                <pathelement path="src/java/"/>
+            </src>
+        </javac>
+        
         <!-- Create the Attribute Repository Classes. -->
         <attributes destDir="target/temp/">
             <fileset dir="src/test/" includes="**/*.java"/>
