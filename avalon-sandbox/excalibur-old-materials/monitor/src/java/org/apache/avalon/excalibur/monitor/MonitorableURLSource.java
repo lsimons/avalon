@@ -49,13 +49,16 @@
 */
 package org.apache.avalon.excalibur.monitor;
 
+import java.io.File;
+
+import org.apache.excalibur.source.SourceUtil;
 import org.apache.excalibur.source.impl.URLSource;
 
 /**
  * This adds the {@link Monitorable} interface to the {@link URLSource}.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/03/31 14:24:43 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/04/05 22:32:05 $
  */
 public class MonitorableURLSource
     extends URLSource
@@ -75,9 +78,10 @@ public class MonitorableURLSource
         throws Exception
     {
         checkInfos();
-        if( null != getFile() )
+        File f = SourceUtil.getFile(this);
+        if ( null != f )
         {
-            return new FileResource( getFile().getAbsolutePath() );
+            return new FileResource( f.getAbsolutePath() );
         }
         else
         {
