@@ -29,7 +29,7 @@ import org.w3c.dom.Document;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.3 $ $Date: 2004/02/25 10:33:20 $
+ * @version CVS $Revision: 1.4 $ $Date: 2004/02/25 23:12:54 $
  * @avalon.component
  */
 public class DefaultDOMHandlerFactory
@@ -43,6 +43,7 @@ public class DefaultDOMHandlerFactory
     public void initialize()
         throws Exception
     {
+        m_documentBuilderFactory.setNamespaceAware( true );
         m_documentBuilder = m_documentBuilderFactory.newDocumentBuilder();
     }
 

@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <!-- 
  Copyright 2002-2004 Apache Software Foundation
  Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -14,7 +15,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  -->
-<?xml version="1.0"?>
+
 
 <testcase>
     <annotation>JaxenProcessor test case</annotation>
