@@ -12,27 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel
+namespace Apache.Avalon.Castle.MicroKernel.Test.Components
 {
 	using System;
 
 	/// <summary>
-	/// Summary description for AssertUtil.
+	/// Summary description for IMailMarketingService.
 	/// </summary>
-	internal class AssertUtil
+	public interface IMailMarketingService
 	{
-		private AssertUtil()
+		ICustomerManager CustomerManager
 		{
+			get;
+			set;
 		}
 
-		public static void ArgumentNotNull( object argValue, String argName )
+		IMailService MailService
 		{
-			if (argValue == null)
-			{
-				throw new ArgumentNullException(
-					argName, 
-					String.Format("Argument {0} can't be null", argName) );
-			}
+			get;
+			set;
 		}
+
+		void AnnoyMillionsOfPeople(String message);
 	}
 }

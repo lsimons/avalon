@@ -12,27 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel
+namespace Apache.Avalon.Castle.MicroKernel.Test.Components
 {
 	using System;
 
 	/// <summary>
-	/// Summary description for AssertUtil.
+	/// Summary description for SimpleCustomerManager.
 	/// </summary>
-	internal class AssertUtil
+	public class SimpleCustomerManager : ICustomerManager
 	{
-		private AssertUtil()
+		public SimpleCustomerManager()
 		{
 		}
 
-		public static void ArgumentNotNull( object argValue, String argName )
+		#region ICustomerManager Members
+
+		public object[] Customers
 		{
-			if (argValue == null)
+			get
 			{
-				throw new ArgumentNullException(
-					argName, 
-					String.Format("Argument {0} can't be null", argName) );
+				return null;
 			}
 		}
+
+		#endregion
 	}
 }

@@ -27,8 +27,12 @@ namespace Apache.Avalon.Castle.MicroKernel
 
 		private Hashtable m_service2handler;
 
+		private PropertyInfo[] m_properties = new PropertyInfo[0];
+
 		public ConstructionInfo(ConstructorInfo constructor, Hashtable service2handler)
 		{
+			AssertUtil.ArgumentNotNull( constructor, "constructor" );
+
 			m_constructor = constructor;
 			m_service2handler = service2handler;
 		}
@@ -38,6 +42,19 @@ namespace Apache.Avalon.Castle.MicroKernel
 			get
 			{
 				return m_constructor;
+			}
+		}
+
+		public PropertyInfo[] Properties
+		{
+			get
+			{
+				return m_properties;
+			}
+			set
+			{
+				AssertUtil.ArgumentNotNull( value, "value" );
+				m_properties = value;
 			}
 		}
 

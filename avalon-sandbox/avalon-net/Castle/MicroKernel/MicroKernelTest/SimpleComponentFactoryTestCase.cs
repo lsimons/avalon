@@ -92,5 +92,46 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 
 			factory.Etherialize();
 		}
+
+		[Test]
+		public void DependencyInSetMethods()
+		{
+			Type service = typeof( IMailMarketingService );
+			Type implementation = typeof( SimpleMailMarketingService );
+			Type serviceDep1 = typeof( IMailService );
+			Type implementationDep1 = typeof( SimpleMailService );
+			Type serviceDep2 = typeof( ICustomerManager );
+			Type implementationDep2 = typeof( SimpleCustomerManager );
+
+			kernel.AddComponent( "a", service, implementation );
+			kernel.AddComponent( "b", serviceDep1, implementationDep1 );
+			kernel.AddComponent( "c", serviceDep2, implementationDep2 );
+
+			ConstructorInfo constructor = 
+				implementation.GetConstructor( Type.EmptyTypes );
+
+			Hashtable serv2Handler = new Hashtable();
+			serv2Handler[ serviceDep1 ] = kernel.GetHandlerForService( serviceDep1 );
+			serv2Handler[ serviceDep2 ] = kernel.GetHandlerForService( serviceDep2 );
+
+			ConstructionInfo info = new ConstructionInfo( constructor, serv2Handler );
+			info.Properties = service.GetProperties();
+
+			SimpleComponentFactory factory = new SimpleComponentFactory( 
+				service, implementation, new IAspect[0], new IAspect[0], info );
+
+			Object instance = factory.Incarnate();
+
+			AssertNotNull( instance );
+			AssertNotNull( instance as IMailMarketingService );
+			
+			SimpleMailMarketingService mailMarketing = (SimpleMailMarketingService) instance;
+			AssertNotNull( mailMarketing.m_mailService );
+			AssertNotNull( mailMarketing.m_customerManager );
+
+			mailMarketing.AnnoyMillionsOfPeople( "Say something" );
+
+			factory.Etherialize();
+		}
 	}
 }

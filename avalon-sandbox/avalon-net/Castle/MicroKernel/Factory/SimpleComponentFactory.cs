@@ -62,6 +62,12 @@ namespace Apache.Avalon.Castle.MicroKernel.Factory
 						new AspectInvocationHandler( m_before, m_after, instance ) ); 
 				}
 
+				foreach( PropertyInfo property in m_info.Properties )
+				{
+					IHandler handler = m_info[ property.PropertyType ];
+					property.SetValue( instance, handler.Resolve(), null);
+				}
+
 				return instance;
 			}
 			catch(Exception ex)
