@@ -47,7 +47,7 @@ import org.apache.avalon.meta.info.builder.XMLTypeCreator;
 
 import org.apache.avalon.repository.Artifact;
 
-import org.apache.excalibur.configuration.ConfigurationUtil;
+import org.apache.avalon.util.configuration.ConfigurationUtil;
 
 /**
  * Handles internalization of an XML based description of a {@link ContainmentProfile}

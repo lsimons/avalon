@@ -39,7 +39,7 @@ import org.apache.avalon.composition.data.StageDirective;
 
 import org.apache.avalon.meta.info.InfoDescriptor;
 
-import org.apache.excalibur.configuration.ConfigurationUtil;
+import org.apache.avalon.util.configuration.ConfigurationUtil;
 
 /**
  *

@@ -30,8 +30,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 
 import org.apache.avalon.util.exception.ExceptionHelper;
-
-import org.apache.excalibur.configuration.ConfigurationUtil;
+import org.apache.avalon.util.configuration.ConfigurationUtil;
 
 import org.apache.avalon.logging.data.CategoriesDirective;
 
@@ -64,7 +63,7 @@ public class TargetsTestCase extends AbstractTestCase
         try
         {
             File source = 
-              new File( getTargetDir(), "/test-classes/conf/targets-config.xml" );
+              new File( BASEDIR, "targets-config.xml" );
             TargetDirective[] targets = loadTargets( source ).getTargets();
             for( int i=0; i<targets.length; i++ )
             {

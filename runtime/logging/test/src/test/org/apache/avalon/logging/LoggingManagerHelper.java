@@ -70,14 +70,8 @@ public class LoggingManagerHelper
         //
 
         File basedir = getBaseDir();
-        File target = new File( basedir, "target" );
-
-        //File conf = new File( target, "test-classes/conf" );
-        //File file = new File( conf, filename );
         File file = new File( basedir, filename );
-
         criteria.put( "avalon.logging.configuration", file );
-        //criteria.put( "avalon.logging.basedir", target );
         criteria.put( "avalon.logging.basedir", basedir );
 
         //
@@ -162,9 +156,19 @@ public class LoggingManagerHelper
         }
     }
 
-    protected static File getBaseDir()
+    private static File getBaseDir()
     {
-        return new File( System.getProperty( "basedir" ) );
+        String path = System.getProperty( "project.dir" );
+        if( null != path )
+        {
+            return new File( path );
+        }
+        else
+        {
+            path = System.getProperty( "basedir" );
+            File root = new File( path );
+            return new File( root, "target/test-classes" );
+        }
     }
 
     private static Artifact[] getArtifactsToRegister( String path ) throws Exception

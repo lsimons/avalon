@@ -40,9 +40,24 @@ public final class RevolvingFileStrategyTestCase
     {
         super( name );
 
-        File basedir = new File( System.getProperty( "basedir" ) );
+        File basedir = getWorkDir();
         m_baseFile = ( new File( basedir, "build/testdata/log" ) ).getCanonicalFile();
         m_baseFile.getParentFile().mkdirs();
+    }
+
+    private File getWorkDir()
+    {
+        String path = System.getProperty( "project.dir" );
+        if( null != path )
+        {
+            return new File( path );
+        }
+        else
+        {
+            path = System.getProperty( "basedir" );
+            File root = new File( path );
+            return new File( root, "target/test-classes" );
+        }
     }
 
     private void deleteFiles( final int maxRotation )

@@ -277,13 +277,29 @@ public final class DefaultConfigurationBuilderTestCase
     public DefaultConfigurationBuilderTestCase( final String name )
     {
         super( name );
-        File basedir = new File( System.getProperty( "basedir" ) );
+        File basedir = getWorkDir();
         m_testDirectory = (new File( basedir, TEST_PATH )).getAbsoluteFile();
         if( !m_testDirectory.exists() )
         {
             m_testDirectory.mkdirs();
         }
     }
+
+    private File getWorkDir()
+    {
+        String path = System.getProperty( "project.dir" );
+        if( null != path )
+        {
+            return new File( path );
+        }
+        else
+        {
+            path = System.getProperty( "basedir" );
+            File root = new File( path );
+            return new File( root, "target/test-classes" );
+        }
+    }
+
 
     protected void setUp()
         throws Exception

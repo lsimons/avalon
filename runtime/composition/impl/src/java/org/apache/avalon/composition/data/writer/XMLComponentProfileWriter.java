@@ -29,15 +29,19 @@ import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.data.ContextDirective;
 import org.apache.avalon.composition.data.DependencyDirective;
 import org.apache.avalon.composition.data.SelectionDirective;
+
 import org.apache.avalon.logging.data.CategoriesDirective;
 import org.apache.avalon.logging.data.CategoryDirective;
+
 import org.apache.avalon.composition.data.ImportDirective;
 import org.apache.avalon.composition.data.EntryDirective;
 import org.apache.avalon.composition.data.ConstructorDirective;
 import org.apache.avalon.composition.data.StageDirective;
 import org.apache.avalon.composition.data.Parameter;
+
 import org.apache.avalon.meta.info.InfoDescriptor;
-import org.apache.excalibur.configuration.ConfigurationUtil;
+
+import org.apache.avalon.util.configuration.ConfigurationUtil;
 
 /**
  * Write a {@link ComponentProfile} to a stream as xml documents.

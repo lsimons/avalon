@@ -43,7 +43,7 @@ public final class DefaultConfigurationSerializerTestCase extends TestCase
     }
     
     public void setUp() {
-        File basedir = new File( System.getProperty( "basedir" ) );
+        File basedir = getWorkDir();
         testDirectory = (new File( basedir, "io" ) ).getAbsoluteFile();
         testDirectory2 = 
           new File( 
@@ -56,6 +56,21 @@ public final class DefaultConfigurationSerializerTestCase extends TestCase
         }
         
         assertTrue ( !testDirectory2.exists() );
+    }
+
+    private File getWorkDir()
+    {
+        String path = System.getProperty( "project.dir" );
+        if( null != path )
+        {
+            return new File( path );
+        }
+        else
+        {
+            path = System.getProperty( "basedir" );
+            File root = new File( path );
+            return new File( root, "target/test-classes" );
+        }
     }
 
     /**

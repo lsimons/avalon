@@ -65,8 +65,23 @@ public final class OutputTargetTestCase
     {
         super( name );
 
-        File basedir = new File( System.getProperty( "basedir" ) );
+        File basedir = getWorkDir();
         m_logFile = ( new File( basedir, "test/log/logfile.txt" ) ).getCanonicalFile();
+    }
+
+    private File getWorkDir()
+    {
+        String path = System.getProperty( "project.dir" );
+        if( null != path )
+        {
+            return new File( path );
+        }
+        else
+        {
+            path = System.getProperty( "basedir" );
+            File root = new File( path );
+            return new File( root, "target/test-classes" );
+        }
     }
 
     private String getResult( final ByteArrayOutputStream output )

@@ -50,15 +50,31 @@ public class PackageRepositoryTestCase
     {
         super( name );
 
-        File root = new File( System.getProperty( "basedir" ) );
-        m_baseDirectory =
+        m_baseDirectory = 
           new File( 
-            root, 
-            "../classes/org/apache/avalon/extension/test/" 
+            getTestClassesDir(), 
+            "org/apache/avalon/extension/test/" 
           ).getCanonicalFile();
+
         m_pathElement1 = new File( m_baseDirectory, "path1" );
         m_pathElement2 = new File( m_baseDirectory, "path2" );
         m_path = new File[]{m_pathElement1, m_pathElement2};
+    }
+
+    private File getTestClassesDir()
+    {
+        String path = System.getProperty( "project.dir" );
+        if( null != path )
+        {
+            File base = new File( path );
+            return new File( base, "../classes" );
+        }
+        else
+        {
+            path = System.getProperty( "basedir" );
+            File root = new File( path );
+            return new File( root, "target/test-classes" ); // maven
+        }
     }
 
     public void testGoodPath()
