@@ -435,7 +435,7 @@ Legal:
   </target>
 
   <!-- Creates the clutil.jar file -->
-  <target name="compile-clutil" depends="prepare">
+  <target name="compile-cli" depends="prepare">
 
     <mkdir dir="${build.classes}"/>
 
@@ -449,7 +449,7 @@ Legal:
     </javac>
   </target>
 
-  <target name="jar-clutil" depends="compile-clutil">
+  <target name="jar-cli" depends="compile-cli">
     <mkdir dir="${build.lib}"/>
     <jar jarfile="${build.lib}/excalibur-cli.jar" basedir="${build.classes}" compress="${compress.jars}">
       <include name="org/apache/avalon/excalibur/cli/*" />
