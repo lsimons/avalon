@@ -56,18 +56,18 @@ public class DefaultDataSourceSelector
             final ClassLoader classLoader = 
                 Thread.currentThread().getContextClassLoader();
 
+            DataSourceComponent component = null;
             if( null == classLoader )
             {
                 Class.forName( driver );
+                component = (DataSourceComponent)Class.forName( clazz ).newInstance();
             }
             else
             {
                 classLoader.loadClass( driver );
+                component = (DataSourceComponent)classLoader.loadClass( clazz ).newInstance();
             }
 
-            
-            final DataSourceComponent component =
-                (DataSourceComponent)Class.forName( clazz ).newInstance();
             setupLogger( component, name );
             component.configure( dataSourceConf );
             m_dataSources.put( name, component );
