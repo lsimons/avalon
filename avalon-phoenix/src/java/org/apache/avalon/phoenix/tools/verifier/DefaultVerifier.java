@@ -149,25 +149,25 @@ public class DefaultVerifier
 
         for( int i = 0; i < roles.length; i++ )
         {
-            final String name = roles[ i ].getName();
-            final String interfaceName = roles[ i ].getInterface();
+            final String blockName = roles[ i ].getName();
+            final String roleName = roles[ i ].getRole();
             final ServiceDescriptor service =
-                info.getDependency( interfaceName ).getService();
+                info.getDependency( roleName ).getService();
 
             //Make sure block does not depend on itself
-            if( name.equals( block.getName() ) )
+            if( blockName.equals( block.getName() ) )
             {
                 final String message = 
-                    REZ.getString( "dependency-circular", name, service );
+                    REZ.getString( "dependency-circular", blockName, service );
                 throw new VerifyException( message );
             }
 
             //Get the other block that is providing service
-            final BlockMetaData other = getBlock( name, others );
+            final BlockMetaData other = getBlock( blockName, others );
             if( null == other )
             {
                 final String message = 
-                    REZ.getString( "dependency-noblock", name, block.getName() );
+                    REZ.getString( "dependency-noblock", blockName, block.getName() );
                 throw new VerifyException( message );
             }
 
@@ -177,7 +177,7 @@ public class DefaultVerifier
             if( !hasMatchingService( service, services ) )
             {
                 final String message = 
-                    REZ.getString( "dependency-noservice", name, service, block.getName() );
+                    REZ.getString( "dependency-noservice", blockName, service, block.getName() );
                 throw new VerifyException( message );
             }
         }
@@ -445,8 +445,8 @@ public class DefaultVerifier
         final RoleMetaData[] roles = block.getRoles();
         for( int i = 0; i < roles.length; i++ )
         {
-            final String interfaceName = roles[ i ].getInterface();
-            final DependencyDescriptor descriptor = block.getBlockInfo().getDependency( interfaceName );
+            final String roleName = roles[ i ].getRole();
+            final DependencyDescriptor descriptor = block.getBlockInfo().getDependency( roleName );
 
             //If there is no dependency descriptor in BlockInfo then
             //user has specified an uneeded dependency.
@@ -454,7 +454,7 @@ public class DefaultVerifier
             {
                 final String message = REZ.getString( "unknown-dependency",
                                                       roles[ i ].getName(),
-                                                      interfaceName,
+                                                      roleName,
                                                       block.getName() );
                 throw new VerifyException( message );
             }

@@ -269,7 +269,7 @@ public class StartupPhase
             final RoleMetaData role = roles[ i ];
             final BlockEntry dependency = (BlockEntry)m_container.getEntry( role.getName() );
 
-            componentManager.put( role.getName(), 
+            componentManager.put( role.getRole(), 
                                   (Block)dependency.getBlockInvocationHandler().getProxy() );
         }
 
