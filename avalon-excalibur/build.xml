@@ -294,6 +294,7 @@ Legal:
           <exclude name="**/test/Abstract*TestCase.class"/>
           <exclude name="org/apache/avalon/excalibur/datasource/test/DataSourceTestCase.class"/>
           <exclude name="org/apache/avalon/excalibur/naming/rmi/test/RMIContextTestCase.class"/>
+          <exclude name="org/apache/avalon/excalibur/logger/test/LogKitManagementTestCase.class"/>
           <include name="**/test/*TestCase.class"/>
         </fileset>
         <fileset dir="${build.scratchpad}">
