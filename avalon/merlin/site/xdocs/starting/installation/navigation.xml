@@ -38,7 +38,7 @@
           <item name="CVS" href="/starting/installation/cvs.html"/>
           <item name="3.0" href="/starting/installation/install.3.0.html"/>
           <item name="3.2.5 (current)" href="/starting/installation/install.3.2.html"/>
-          <item name="3.3 (bleeding edge)" href="/starting/installation/install.3.3.html"/>
+          <item name="3.3 (dev)" href="/starting/installation/install.3.3.html"/>
         </item>
         <item name="Using Merlin" href="/starting/tutorial/index.html"/>
         <item name="Advanced Features" href="/starting/advanced/index.html"/>
