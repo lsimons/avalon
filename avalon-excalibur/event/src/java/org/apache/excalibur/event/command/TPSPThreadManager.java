@@ -54,8 +54,6 @@ import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
 import org.apache.commons.collections.StaticBucketMap;
 import org.apache.excalibur.event.EventHandler;
 import org.apache.excalibur.event.Source;
-import org.apache.excalibur.thread.ThreadControl;
-import org.apache.excalibur.thread.ThreadPool;
 
 /**
  * This is a <code>ThreadManager</code> which provides a threadpool per
@@ -67,7 +65,6 @@ import org.apache.excalibur.thread.ThreadPool;
  */
 public final class TPSPThreadManager implements Runnable, ThreadManager
 {
-    private final ThreadPool m_threadPool;
     private final StaticBucketMap m_pipelines = new StaticBucketMap();
     private volatile boolean m_done = false;
     private final long m_sleepTime;
@@ -152,20 +149,13 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
     {
         while( !m_done )
         {
-            try
-            {
-                Iterator i = m_pipelines.values().iterator();
+            Iterator i = m_pipelines.values().iterator();
 
-                while( i.hasNext() )
-                {
-                    Thread runner = new Thread( (PipelineRunner)i.next() );
-                    runner.setDaemon(true);
-                    runner.start();
-                }
-            }
-            catch( InterruptedException ie )
+            while( i.hasNext() )
             {
-                // ignore for now
+                Thread runner = new Thread( (PipelineRunner)i.next() );
+                runner.setDaemon(true);
+                runner.start();
             }
 
             if (! m_done)
