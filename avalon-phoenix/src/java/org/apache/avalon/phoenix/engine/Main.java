@@ -8,6 +8,7 @@
 package org.apache.avalon.phoenix.engine;
 
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.excalibur.cli.CLArgsParser;
 import org.apache.avalon.excalibur.cli.CLOption;
 import org.apache.avalon.excalibur.cli.CLOptionDescriptor;
@@ -73,7 +74,12 @@ public class Main
         //final PhoenixEmbeddor embeddor = new PhoenixEmbeddor();
         final SingleAppEmbeddor embeddor = new SingleAppEmbeddor();
         parameters.setParameter( "application-location", "../apps/avalon-demo.sar" );
-        embeddor.parameterize( parameters );
+
+        if( embeddor instanceof Parameterizable )
+        {
+            ((Parameterizable)embeddor).parameterize( parameters );
+        }
+
         embeddor.initialize();
         embeddor.start();
 
