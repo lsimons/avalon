@@ -17,8 +17,9 @@ limitations under the License.
 -->
 <project>
 
-  <extend>${basedir}/../project-common.xml</extend>
+  <extend>${basedir}/../../buildsystem/project-common.xml</extend>
 
+  <groupId>excalibur-pool</groupId>
   <id>excalibur-pool-site</id>
   <name>Excalibur Pool Documentation</name>
 
