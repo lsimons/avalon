@@ -53,6 +53,7 @@ import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.fortress.InitializationException;
 import org.apache.avalon.fortress.RoleManager;
 import org.apache.avalon.fortress.util.ContextManager;
+import org.apache.avalon.fortress.util.ContextManagerConstants;
 import org.apache.avalon.fortress.util.LifecycleExtensionManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
@@ -75,7 +76,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * See that interface for a description.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/03/07 20:21:26 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/03/19 17:46:28 $
  */
 public class DefaultContainerManager
     implements Initializable, Disposable, org.apache.avalon.fortress.ContainerManager, org.apache.avalon.fortress.ContainerManagerConstants
@@ -142,7 +143,20 @@ public class DefaultContainerManager
     {
         try
         {
-            return ( (LoggerManager)initParameters.get( LoggerManager.ROLE ) ).getDefaultLogger();
+            String logCategory = (String)initParameters.get( ContextManagerConstants.LOG_CATEGORY );
+            LoggerManager loggerManager = (LoggerManager)initParameters.get( LoggerManager.ROLE );
+            Logger logger;
+            
+            if (null == logCategory)
+            {
+                logger = loggerManager.getDefaultLogger();
+            }
+            else
+            {
+                logger = loggerManager.getLoggerForCategory(logCategory);
+            }
+
+            return logger;
         }
         catch( ContextException ce )
         {
