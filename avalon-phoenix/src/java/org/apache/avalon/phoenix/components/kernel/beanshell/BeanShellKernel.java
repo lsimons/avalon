@@ -7,7 +7,6 @@
 package org.apache.avalon.phoenix.components.kernel.beanshell;
 
 import org.apache.avalon.phoenix.components.kernel.DefaultKernel;
-import org.apache.avalon.phoenix.interfaces.Kernel;
 
 public class BeanShellKernel
     extends DefaultKernel

@@ -10,11 +10,12 @@ package org.apache.avalon.phoenix.framework.tools.infobuilder;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
+
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.framework.info.Attribute;
 import org.apache.avalon.phoenix.framework.info.ComponentDescriptor;
 import org.apache.avalon.phoenix.framework.info.ComponentInfo;
@@ -22,9 +23,8 @@ import org.apache.avalon.phoenix.framework.info.ContextDescriptor;
 import org.apache.avalon.phoenix.framework.info.DependencyDescriptor;
 import org.apache.avalon.phoenix.framework.info.EntryDescriptor;
 import org.apache.avalon.phoenix.framework.info.LoggerDescriptor;
-import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
 import org.apache.avalon.phoenix.framework.info.SchemaDescriptor;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
 import org.xml.sax.InputSource;
 
 /**
@@ -33,7 +33,7 @@ import org.xml.sax.InputSource;
  * is specified in the <a href="package-summary.html#external">package summary</a>.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/03/01 03:39:47 $
+ * @version $Revision: 1.2 $ $Date: 2003/03/03 14:16:02 $
  */
 public final class XMLInfoReader
     extends AbstractLogEnabled
