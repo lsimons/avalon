@@ -9,10 +9,16 @@ package org.apache.avalon.phoenix.components.manager;
 
 import java.io.File;
 import javax.management.Attribute;
+import javax.management.AttributeNotFoundException;
+import javax.management.InstanceNotFoundException;
+import javax.management.InvalidAttributeValueException;
+import javax.management.MBeanException;
 import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
 import javax.management.ObjectName;
+import javax.management.ReflectionException;
 import mx4j.adaptor.rmi.jrmp.JRMPAdaptorMBean;
+import mx4j.log.Log;
 import mx4j.util.StandardMBeanProxy;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -36,11 +42,14 @@ public class MX4JSystemManager
         "com.sun.jndi.rmi.registry.RegistryContextFactory";
     private static final int DEFAULT_HTTPADAPTER_PORT =
         Integer.getInteger( "phoenix.adapter.http", 8082 ).intValue();
+
     private int m_port;
     private boolean m_rmi;
     private File m_homeDir;
     private String m_stylesheetDir;
     private String m_namingFactory;
+    private String m_password;
+    private String m_username;
 
     public void contextualize( Context context )
         throws ContextException
@@ -54,7 +63,12 @@ public class MX4JSystemManager
         m_port = configuration.getChild( "manager-adaptor-port" ).
             getValueAsInteger( DEFAULT_HTTPADAPTER_PORT );
 
-        getLogger().debug("MX4J HTTP listener port: " + m_port);
+        //This is for backwards compatability with old-style
+        //RI JMX implementation
+        m_port = configuration.getChild( "port" ).
+            getValueAsInteger( m_port );
+
+        getLogger().debug( "MX4J HTTP listener port: " + m_port );
 
         m_rmi = configuration.getChild( "enable-rmi-adaptor" ).getValueAsBoolean( false );
 
@@ -67,6 +81,14 @@ public class MX4JSystemManager
         {
             m_stylesheetDir = new File( m_homeDir, stylesheets ).getAbsolutePath();
         }
+
+        /*<user>
+          <name>user</name>
+          <password>passwd</password>
+        </user>*/
+        final Configuration userConfig = configuration.getChild( "user" );
+        m_username = userConfig.getChild( "name" ).getValue( null );
+        m_password = userConfig.getChild( "password" ).getValue( null );
     }
 
     public void initialize()
@@ -76,22 +98,36 @@ public class MX4JSystemManager
 
         final MBeanServer mBeanServer = getMBeanServer();
 
+        configureHttpAdaptor( mBeanServer );
+
+        if( m_rmi )
+        {
+            startRMIAdaptor( mBeanServer );
+        }
+    }
+
+    private void configureHttpAdaptor( final MBeanServer mBeanServer )
+        throws Exception
+    {
         final ObjectName adaptorName = new ObjectName( "Http:name=HttpAdaptor" );
         mBeanServer.createMBean( "mx4j.adaptor.http.HttpAdaptor", adaptorName, null );
         mBeanServer.setAttribute( adaptorName, new Attribute( "Port", new Integer( m_port ) ) );
 
+        if( null != m_username )
+        {
+            configureAuthentication( mBeanServer, adaptorName );
+        }
 
-        /**
-         // add user names
-         m_mBeanServer.invoke(adaptorName,
-         "addAuthorization",
-         new Object[] {"mx4j", "mx4j"},
-         new String[] {"java.lang.String", "java.lang.String"});
+        configureProcessor( mBeanServer, adaptorName );
 
-         // use basic authentication
-         m_mBeanServer.setAttribute(adaptorName, new Attribute("AuthenticationMethod", "basic"));
-         */
+        // starts the server
+        mBeanServer.invoke( adaptorName, "start", null, null );
+    }
 
+    private void configureProcessor( final MBeanServer mBeanServer,
+                                     final ObjectName adaptorName )
+        throws Exception
+    {
         final ObjectName processorName = new ObjectName( "Http:name=XSLTProcessor" );
         mBeanServer.createMBean( "mx4j.adaptor.http.XSLTProcessor", processorName, null );
         mBeanServer.setAttribute( adaptorName, new Attribute( "ProcessorName", processorName ) );
@@ -105,35 +141,40 @@ public class MX4JSystemManager
         final Attribute useCache =
             new Attribute( "UseCache", Boolean.FALSE );
         mBeanServer.setAttribute( processorName, useCache );
-
-        // starts the server
-        mBeanServer.invoke( adaptorName, "start", null, null );
-
-        if( m_rmi )
-        {
-            startRMIAdaptor( mBeanServer );
-        }
     }
 
-    private void startRMIAdaptor( MBeanServer server ) throws Exception
+    private void configureAuthentication( final MBeanServer mBeanServer, final ObjectName adaptorName ) throws InstanceNotFoundException, MBeanException, ReflectionException, AttributeNotFoundException, InvalidAttributeValueException
+    {
+        // add user names
+        mBeanServer.invoke( adaptorName,
+                            "addAuthorization",
+                            new Object[]{m_username, m_password},
+                            new String[]{"java.lang.String", "java.lang.String"} );
+
+        // use basic authentication
+        mBeanServer.setAttribute( adaptorName,
+                                  new Attribute( "AuthenticationMethod", "basic" ) );
+    }
+
+    private void startRMIAdaptor( final MBeanServer server )
+        throws Exception
     {
         System.setProperty( "java.naming.factory.initial", m_namingFactory );
 
         // Create and start the naming service
-        ObjectName naming = new ObjectName( "Naming:type=rmiregistry" );
+        final ObjectName naming = new ObjectName( "Naming:type=rmiregistry" );
         server.createMBean( "mx4j.tools.naming.NamingService", naming, null );
         server.invoke( naming, "start", null, null );
 
         // Create the JRMP adaptor
-        ObjectName adaptor = new ObjectName( "Adaptor:protocol=JRMP" );
+        final ObjectName adaptor = new ObjectName( "Adaptor:protocol=JRMP" );
         server.createMBean( "mx4j.adaptor.rmi.jrmp.JRMPAdaptor", adaptor, null );
         JRMPAdaptorMBean mbean =
             (JRMPAdaptorMBean)StandardMBeanProxy.create( JRMPAdaptorMBean.class,
                                                          server,
                                                          adaptor );
         // Set the JNDI name with which will be registered
-        String jndiName = "jrmp";
-        mbean.setJNDIName( jndiName );
+        mbean.setJNDIName( "jrmp" );
         // Register the JRMP adaptor in JNDI and start it
         mbean.start();
     }
@@ -141,8 +182,8 @@ public class MX4JSystemManager
     protected MBeanServer createMBeanServer()
         throws Exception
     {
-        MX4JLoggerAdapter.setLogger(getLogger());
-        mx4j.log.Log.redirectTo(new MX4JLoggerAdapter());
+        MX4JLoggerAdapter.setLogger( getLogger() );
+        Log.redirectTo( new MX4JLoggerAdapter() );
         return MBeanServerFactory.createMBeanServer( "Phoenix" );
     }
 }
