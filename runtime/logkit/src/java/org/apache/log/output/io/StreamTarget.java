@@ -153,7 +153,7 @@ public class StreamTarget
             if( null != outputStream )
             {
                 // Never close System Streams
-                if( ! ( System.out == outputStream && System.err == outputStream ) )
+                if( ! ( System.out == outputStream || System.err == outputStream ) )
                 {
                     outputStream.close();
                 }
