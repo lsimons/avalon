@@ -15,9 +15,9 @@ import org.apache.avalon.excalibur.extension.Extension;
  * {@link FilesetDef} objects.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/09/01 00:43:54 $
+ * @version $Revision: 1.1 $ $Date: 2002/09/01 00:51:37 $
  */
-public class ClassloaderDef
+public class ClassLoaderDef
 {
     /**
      * The name of the current classloader.
@@ -46,7 +46,7 @@ public class ClassloaderDef
      */
     private final FilesetDef[] m_filesets;
 
-    public ClassloaderDef( final String name,
+    public ClassLoaderDef( final String name,
                                 final String parent,
                                 final EntryDef[] elements,
                                 final Extension[] extensions,
