@@ -21,9 +21,10 @@ import org.apache.excalibur.altrmi.server.impl.socket.AbstractPartialSocketStrea
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
  * @author Peter Royal.
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
-public class PartialSocketStreamConnectionHandler extends AbstractLogEnabled
+public class PartialSocketStreamConnectionHandler
+    extends AbstractLogEnabled
     implements Component, ConnectionHandler
 {
 
