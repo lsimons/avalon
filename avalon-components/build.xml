@@ -629,7 +629,7 @@
       </tarfileset>
     </tar>
 
-    <gzip file="${dist.base}/${dist.name}-bin.tar.gz"
+    <gzip tofile="${dist.base}/${dist.name}-bin.tar.gz"
           src="${dist.base}/${dist.name}-bin.tar"/>
 
     <delete file="${dist.base}/${dist.name}-bin.tar"/>
@@ -653,7 +653,7 @@
       </tarfileset>
     </tar>
 
-    <gzip file="${dist.base}/${dist.name}-src.tar.gz"
+    <gzip tofile="${dist.base}/${dist.name}-src.tar.gz"
           src="${dist.base}/${dist.name}-src.tar"/>
 
     <antcall target="distributions-apps">
