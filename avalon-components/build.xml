@@ -69,8 +69,13 @@
   <property name="dist.name" value="${Name}-${version}"/>
   <property name="dist.base" value="distributions"/>
 
+  <property name="avalonapi.jar" value="${lib.dir}/avalonapi.jar"/>
+  <property name="phoenix-client.jar" value="${lib.dir}/phoenix-client.jar"/>
+
   <path id="project.class.path">
     <pathelement path="${java.class.path}" />
+    <pathelement location="${avalonapi.jar}"/>
+    <pathelement location="${phoenix-client.jar}"/>
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
     </fileset>
@@ -179,7 +184,6 @@
       <exclude name="**/*.xinfo"/>
       <exclude name="**/demos/**"/>
     </jar>
-
 
     <jar jarfile="${build.lib}/cornerstone.bar"
          basedir="${build.classes}"
@@ -403,7 +407,7 @@
     <property name="install.dir" value="../jakarta-avalon-phoenix/dist"/>
 
     <echo message="install.dir not specified." />
-    <echo message="Guessing install.dir=${install.dir} not specified." />
+    <echo message="Guessing install.dir=${install.dir}" />
 
   </target>
 
@@ -449,9 +453,14 @@
       <fileset dir="${tools.dir}"/>
     </copy>
 
+<!--
     <copy todir="${src.dist.lib}">
       <fileset dir="${lib.dir}"/>
     </copy>
+-->
+
+    <copy file="${avalonapi.jar}" tofile="${src.dist.lib}/avalonapi.jar">
+    <copy file="${phoenix-client.jar}" tofile="${src.dist.lib}/phoenix-client.jar">
 
     <copy todir="${src.dist.src}">
       <fileset dir="${src.dir}"/>
