@@ -16,11 +16,7 @@
    </requires>
 
 
-   <extension-point 
-         id="org.apache.avalon.ide.eclipse.repository" 
-         name="Avalon Repository" 
-         schema="schema/org.apache.avalon.ide.eclipse.repository.exsd"
-   />
+   <extension-point id="agent" name="Avalon Repository Agent" schema="schema/agent.exsd"/>
 
    <extension
          point="org.eclipse.ui.actionSets">
@@ -92,13 +88,6 @@
             file="testToc.xml"
             primary="true">
       </toc>
-   </extension>
-   <extension
-         point="org.eclipse.ui.newWizards">
-      <category
-            name="Avalon Wizards"
-            id="org.apache.avalon.ide.eclipse.repository">
-      </category>
    </extension>
    <extension
          point="org.eclipse.ui.popupMenus">
