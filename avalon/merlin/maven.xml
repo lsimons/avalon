@@ -51,7 +51,8 @@
     </copy>
   </goal>
 
-  <goal name="merlin:validate" description="Validate that the tutorial targets are buildable." >
+  <goal name="merlin:validate" 
+       description="Validate that the tutorial targets are buildable." >
     <maven:reactor
       basedir="${basedir}"
       includes="platform/tutorials/**/project.xml"
@@ -93,9 +94,9 @@
     description="Build the Merlin distribution." prereqs="merlin:build,xinstall"/>
 
   <goal name="xinstall">
+
     <!-- prepare structure -->
     <ant:mkdir dir="${merlin.build.inst.dir}"/>
-    <!--<ant:mkdir dir="${merlin.build.inst.dir}/ext"/>-->
     <ant:mkdir dir="${merlin.build.inst.dir}/bin/lib"/>
 
     <!-- import bootstrap jar -->
@@ -125,15 +126,36 @@
 
     <!-- add supporting resources -->
     <ant:copy toDir="${merlin.build.inst.dir}">
+      <fileset dir="${basedir}">
+        <include name="INSTALL.TXT"/>
+      </fileset>
+      <filterset>
+        <filter token="@MERLIN_PLUGIN_JAR@" value="${merlin.plugin.jar}"/>
+        <filter token="@META_PLUGIN_JAR@" value="${meta.plugin.jar}"/>
+        <filter token="@VERSION@" value="${pom.currentVersion}"/>
+      </filterset>
+    </ant:copy>
+
+    <!-- add supporting resources -->
+    <ant:copy toDir="${merlin.build.inst.dir}">
       <fileset dir="${basedir}/platform/src">
         <include name="bin/**/*"/>
+      </fileset>
+      <fileset dir="${basedir}">
+        <include name="README.TXT"/>
+      </fileset>
+      <filterset>
+        <filter token="@VERSION@" value="${pom.currentVersion}"/>
+      </filterset>
+    </ant:copy>
+
+    <ant:copy toDir="${merlin.build.inst.dir}">
+      <fileset dir="${basedir}/platform/src">
         <include name="config/**/*"/>
         <include name="system/**/*"/>
       </fileset>
       <fileset dir="${basedir}">
         <include name="LICENSE.txt"/>
-        <include name="README.TXT"/>
-        <include name="INSTALL.TXT"/>
       </fileset>
     </ant:copy>
 
