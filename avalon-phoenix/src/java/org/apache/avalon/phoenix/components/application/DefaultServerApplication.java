@@ -152,7 +152,6 @@ public final class DefaultServerApplication
         throws Exception
     {
         setupComponent( m_frame, "frame" );
-        setupComponent( m_dag, "dag" );
         setupComponent( m_startupVisitor, "startup" );
         setupComponent( m_shutdownVisitor, "shutdown" );
     }
