@@ -4,8 +4,18 @@ echo
 echo "Cornerstone Build System"
 echo "------------------------"
 
+
 if [ "$AVALON_TOOLS" = "" ] ; then
-    AVALON_TOOLS=../jakarta-avalon/tools
+    if [ -d ../jakarta-avalon/tools ] ; then 
+        AVALON_TOOLS=../jakarta-avalon/tools
+    elif [ -d tools ] ; then 
+        AVALON_TOOLS=tools
+    else
+        echo "Unable to locate tools directory at "
+        echo "../jakarta-avalon/tools/ or tools/. "
+        echo "Aborting."
+        exit 1
+    fi
 fi
 
 chmod u+x $AVALON_TOOLS/bin/antRun
