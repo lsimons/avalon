@@ -25,12 +25,10 @@ import org.apache.avalon.framework.parameters.Parameterizable;
  * within your own code.
  *
  * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/11/30 21:37:06 $
+ * @version CVS $Revision: 1.3 $ $Date: 2001/11/30 21:54:02 $
  */
 public abstract class AbstractComponent implements Component
 {
-    private static final String OUT_OF_ORDER = "Initialization perfomed out of order";
-
     private static final long LOG_ENABLED    = 0x00000001;
     private static final long CONTEXTUALIZED = 0x00000002;
     private static final long PARAMETERIZED  = 0x00000004;
