@@ -1,0 +1,10 @@
+avalon-framework-api
+avalon-framework-impl
+avalon-repository-spi
+avalon-logging-api
+avalon-logging-spi
+avalon-logging-impl
+avalon-util-criteria
+avalon-util-i18n
+excalibur-configuration
+log4j

@@ -4,19 +4,20 @@ merlin-composition-api
 merlin-composition-spi
 merlin-composition-impl
 merlin-activation-api
-merlin-meta-api
-merlin-meta-spi
-merlin-meta-impl
-merlin-repository-api
-merlin-repository-spi
-merlin-util-extension-api
-merlin-util-extension-impl
-merlin-util-i18n
+avalon-meta-api
+avalon-meta-spi
+avalon-meta-impl
+avalon-repository-api
+avalon-repository-spi
+avalon-util-extension-api
+avalon-util-extension-impl
+avalon-util-i18n
 excalibur-lifecycle-api
 
-
-merlin-logging-spi              test
-merlin-util-exception           test
-merlin-util-env                 test
-merlin-util-defaults            test
-merlin-repository-main          test
+# The following are unittesting dependencies...
+# Commented out, since Magic still doesn't support such feature.
+# avalon-logging-spi              test
+# avalon-util-exception           test
+# avalon-util-env                 test
+# avalon-util-defaults            test
+# avalon-repository-main          test
