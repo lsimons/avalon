@@ -37,7 +37,6 @@ import org.apache.avalon.composition.provider.Runtime;
 
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.Repository;
-import org.apache.avalon.repository.provider.CacheManager;
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.provider.Factory;
@@ -54,7 +53,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.18 $ $Date: 2004/02/14 21:33:56 $
+ * @version $Revision: 1.19 $ $Date: 2004/02/19 08:58:04 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext

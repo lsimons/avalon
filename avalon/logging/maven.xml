@@ -154,7 +154,7 @@
     <j:choose>
       <j:when test="${avalon.snapshot}">
         <maven:snapshot project="${pom}"/>
-        <j:set var="timestamp" value="${snapshotSignature.substring(18)}"/>
+        <j:set var="timestamp" value="${snapshotSignature.substring(15)}"/>
         <j:set var="binary.name" value="${maven.final.name}-${timestamp}-dist"/>
         <j:set var="source.name" value="${maven.final.name}-${timestamp}-src"/>
         <echo>Snapshot Packaging: ${timestamp}</echo>

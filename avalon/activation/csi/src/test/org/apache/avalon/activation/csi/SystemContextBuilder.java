@@ -34,7 +34,7 @@ import org.apache.avalon.logging.data.CategoryDirective;
 
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.Repository;
-import org.apache.avalon.repository.provider.CacheManager;
+import org.apache.avalon.repository.provider.RepositoryCriteria;
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.provider.Factory;
@@ -51,7 +51,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:14:23 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/19 08:58:04 $
  */
 public class SystemContextBuilder
 {
@@ -86,8 +86,7 @@ public class SystemContextBuilder
           createLoggingManager( context, artifact, base, priority );
 
         Logger logger = logging.getLoggerForCategory( "" );
-        CacheManager cache = createCacheManager( context, root );
-        Repository repository = cache.createRepository();
+        Repository repository = createTestRepository( context, root );
 
         final File home = new File( base, "home" );
         final File temp = new File( base, "temp" );
@@ -100,20 +99,13 @@ public class SystemContextBuilder
           false, deploymenttimeout, secure );
     }
 
-    private static CacheManager createCacheManager( 
-      InitialContext context, File root ) 
-      throws Exception
+    private static Repository createTestRepository( InitialContext context, File cache ) throws Exception
     {
-        String dpml = "http://dpml.net";
-        String ibiblio = "http://www.ibiblio.org/maven";
-        String[] hosts = new String[]{ dpml, ibiblio };
-
         Factory factory = context.getInitialFactory();
-        Map criteria = factory.createDefaultCriteria();
-        criteria.put( "avalon.repository.cache", root );
-        criteria.put( "avalon.repository.hosts", hosts );
-
-        return (CacheManager) factory.create( criteria );
+        RepositoryCriteria criteria = (RepositoryCriteria) factory.createDefaultCriteria();
+        criteria.setCacheDirectory( cache );
+        criteria.setHosts( new String[0] );
+        return (Repository) factory.create( criteria );
     }
 
     private static LoggingManager createLoggingManager( 

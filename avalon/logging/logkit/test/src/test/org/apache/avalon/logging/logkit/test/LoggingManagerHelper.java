@@ -31,7 +31,7 @@ import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.provider.Factory;
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.Builder;
-import org.apache.avalon.repository.main.DefaultInitialContext;
+import org.apache.avalon.repository.main.DefaultInitialContextFactory;
 import org.apache.avalon.repository.main.DefaultBuilder;
 
 import org.apache.avalon.util.env.Env;
@@ -42,7 +42,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class LoggingManagerHelper
 {
@@ -58,9 +58,10 @@ public class LoggingManagerHelper
      */
     public static LoggingManager setUpLoggingManager( String filename ) throws Exception
     {
-        InitialContext context = 
-          new DefaultInitialContext( 
-            getMavenRepositoryDirectory() );
+        DefaultInitialContextFactory initial = 
+           new DefaultInitialContextFactory( "avalon", getBaseDir() );
+        initial.setCacheDirectory( getMavenRepositoryDirectory() );
+        InitialContext context = initial.createInitialContext();
 
         //
         // FIX ME - remove hard reference (get from a property)
@@ -83,7 +84,6 @@ public class LoggingManagerHelper
         File conf = new File( basedir, "conf" );
         File file = new File( conf, filename );
 
-        //criteria.put( "avalon.logging.bootstrap", "debug" );
         criteria.put( "avalon.logging.configuration", file );
         criteria.put( "avalon.logging.basedir", target );
 

@@ -85,7 +85,7 @@
   -->
 
   <goal name="avalon:build" description="Build Merlin."
-    prereqs="avalon:build-main,avalon:build-kernel,avalon:build-plugin,avalon:build-facilities,avalon:build-externals"/>
+    prereqs="avalon:build-main,avalon:build-kernel,avalon:build-plugin,avalon:build-externals"/>
 
   <goal name="avalon:build-main" description="Build Merlin.">
     <maven:reactor basedir="${basedir}"
@@ -217,7 +217,7 @@
        toDir="${maven.build.dir}/merlin/plugins"/>
   </goal>
 
-  <goal name="avalon:build-facilities" description="Build Facilities.">
+  <goal name="avalon:facilities" description="Build Facilities.">
     <maven:reactor basedir="${basedir}"
       includes="facilities/**/project.xml"
       excludes="facilities/*/project.xml"

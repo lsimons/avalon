@@ -36,7 +36,8 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
 
 import org.apache.avalon.repository.provider.InitialContext;
-import org.apache.avalon.repository.main.DefaultInitialContext;
+import org.apache.avalon.repository.provider.InitialContextFactory;
+import org.apache.avalon.repository.main.DefaultInitialContextFactory;
 
 import org.apache.avalon.util.exception.ExceptionHelper;
 import org.apache.avalon.util.env.Env;
@@ -107,9 +108,12 @@ public abstract class AbstractTestCase extends TestCase
     */
     public void setUp( File base, File block ) throws Exception
     {
-        InitialContext context = 
-          new DefaultInitialContext( getMavenRepositoryDirectory() );
-  
+
+        InitialContextFactory initial = 
+          new DefaultInitialContextFactory( "test", base );
+        initial.setCacheDirectory( getMavenRepositoryDirectory() );
+        InitialContext context = initial.createInitialContext();
+
         long timeout = 3000;
         File local = new File( base, "repository" );
 

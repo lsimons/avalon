@@ -72,7 +72,7 @@ import org.apache.avalon.merlin.KernelContext;
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.Repository;
 import org.apache.avalon.repository.provider.Builder;
-import org.apache.avalon.repository.provider.CacheManager;
+import org.apache.avalon.repository.provider.RepositoryCriteria;
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.Factory;
 
@@ -392,9 +392,13 @@ public class DefaultFactory implements Factory
 
         Configuration repositoryConfig = 
           config.getChild( "repository" );
-        CacheManager cache = 
-          createCacheManager( context, criteria, hosts, config );
-        Repository repository = cache.createRepository();
+
+        File root = criteria.getRepositoryDirectory();
+        File cache = getCacheDirectory( root, repositoryConfig.getChild( "cache" ) );
+
+        Repository repository = 
+          createApplicationRepository( context, cache, hosts );
+
         getLogger().debug( 
           "repository established: " + repository );
 
@@ -493,92 +497,26 @@ public class DefaultFactory implements Factory
     * Utility method to create the application repository.
     * @param context the initial context
     * @param criteria the supplied factory criteria
-    * @param config the repositotry configuration element
+    * @param hosts the declared hosts
     * @return the repository
     */
-    private CacheManager createCacheManager( 
-      InitialContext context, KernelCriteria criteria, 
-      String[] hosts, Configuration config )
+    private Repository createApplicationRepository( 
+      InitialContext context, File cache, String[] hosts )
       throws KernelException
     {
-        File root = criteria.getRepositoryDirectory();
-        File cache = getCacheDirectory( root, config.getChild( "cache" ) );
-        Configuration proxy = config.getChild( "proxy", false );
-        CacheManager manager = 
-          createCacheManager( context, cache, hosts, proxy );
-        return manager;
-    }
-
-    private CacheManager createCacheManager( 
-      InitialContext context, File cache, String[] hosts, 
-      Configuration proxyConfig ) 
-      throws KernelException
-    {
-        //
-        // the supplied root argument is the root cache resolved relative
-        // to system properties and environment variables.  This value is 
-        // overriden if a cache is declared in the kernel repository 
-        // configuration
-        //
-
         try
         {
             Factory factory = context.getInitialFactory();
-            Map criteria = factory.createDefaultCriteria();
-            criteria.put( "avalon.repository.cache", cache );
-            criteria.put( "avalon.repository.hosts", hosts );
-
-            if( null != proxyConfig )
-            {
-                final String host = 
-                  proxyConfig.getChild( "host" ).getValue( null );
-                criteria.put( "avalon.repository.proxy.host", host );
-
-                final int port = 
-                  proxyConfig.getChild( "port" ).getValueAsInteger( 0 );
-                criteria.put( "avalon.repository.proxy.port", new Integer( port ) );
-
-                Configuration credentials = 
-                  proxyConfig.getChild( "credentials", false );
-                if( credentials != null )
-                {
-                    final String username = 
-                      credentials.getChild( "username" ).getValue( null );
-                    if( username == null )
-                    {
-                        final String error =
-    "Credentials configuration does not contain the required 'username' element."
-                          + ConfigurationUtil.list( credentials );
-                        throw new KernelException( error );                
-                    }
-                    else
-                    {
-                        criteria.put( "avalon.repository.proxy.username", username );
-                    }
-
-                    final String password = 
-                        credentials.getChild( "password" ).getValue( null );
-                    if( password == null )
-                    {
-                        final String error =
-     "Credentials configuration does not contain the required 'password' element."
-                          + ConfigurationUtil.list( credentials );
-                        throw new KernelException( error );                
-                    }
-                    else
-                    {
-                        criteria.put( "avalon.repository.proxy.password", password );
-                    }
-                }
-            }
-
-            return (CacheManager) factory.create( criteria );
+            RepositoryCriteria criteria = 
+              (RepositoryCriteria) factory.createDefaultCriteria();
+            criteria.setCacheDirectory( cache );
+            criteria.setHosts( hosts );
+            return (Repository) factory.create( criteria );
         }
-        catch ( Throwable e )
+        catch( Throwable e )
         {
             final String error = 
-              "Internal error while attempting to create the common repository "
-              + " using the supplied cache: [" + cache + "].";
+              "Cannot create application repository.";
             throw new KernelException( error, e );
         }
     }
