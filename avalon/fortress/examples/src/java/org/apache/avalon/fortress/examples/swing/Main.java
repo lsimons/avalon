@@ -55,7 +55,7 @@ import org.apache.avalon.fortress.impl.DefaultContainerManager;
  * Fortress container example.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version $Id: Main.java,v 1.5 2003/03/22 12:46:32 leosimons Exp $
+ * @version $Id: Main.java,v 1.6 2003/04/11 07:36:21 donaldp Exp $
  */
 public final class Main
 {
@@ -90,7 +90,7 @@ public final class Main
          * you to defer proper shutdown of Fortress resources when your
          * application is closed.
          */
-        ((SwingContainer)cm.getContainer()).run();
+        ( (SwingContainer)cm.getContainer() ).run();
 
         // Properly clean up when we are done
         org.apache.avalon.framework.container.ContainerUtil.dispose( cm );

@@ -52,12 +52,11 @@ package org.apache.avalon.fortress.examples.extended.extensions;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.lifecycle.AbstractAccessor;
 
-
 /**
  * Some custom extensions for this container's components.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/03/22 12:46:32 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/04/11 07:36:20 $
  */
 public class Extensions
     extends AbstractAccessor

@@ -50,11 +50,9 @@
 package org.apache.avalon.fortress.examples.servlet;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-
 
 /**
  * Fortress based servlet example. Presents a simple page to the user
@@ -62,7 +60,7 @@ import javax.servlet.ServletResponse;
  * written in.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/03/22 12:46:32 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/04/11 07:36:20 $
  */
 public final class ServletContainer extends org.apache.avalon.fortress.impl.DefaultContainer
 {

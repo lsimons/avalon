@@ -49,7 +49,6 @@
 */
 package org.apache.avalon.fortress.examples.extended.components;
 
-
 /**
  * <code>TestComponentImpl</code>, demonstrating the use of a custom
  * lifecycle stage <code>SecurityManageable</code>. This code does
@@ -57,7 +56,7 @@ package org.apache.avalon.fortress.examples.extended.components;
  * the results accordingly.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/03/22 12:46:32 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/04/11 07:36:20 $
  */
 public class ExtendedComponentImpl
     extends org.apache.avalon.framework.logger.AbstractLogEnabled

@@ -56,7 +56,7 @@ import org.apache.avalon.fortress.impl.DefaultContainerManager;
  * via a simple swing gui.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version $Id: Main.java,v 1.6 2003/03/22 12:46:32 leosimons Exp $
+ * @version $Id: Main.java,v 1.7 2003/04/11 07:36:21 donaldp Exp $
  */
 public final class Main
 {
@@ -83,7 +83,7 @@ public final class Main
             cm = new DefaultContainerManager( config.getContext() );
             org.apache.avalon.framework.container.ContainerUtil.initialize( cm );
 
-            ((org.apache.avalon.fortress.examples.viewer.ComponentViewer)cm.getContainer()).run();
+            ( (org.apache.avalon.fortress.examples.viewer.ComponentViewer)cm.getContainer() ).run();
         }
         catch( org.apache.avalon.framework.CascadingException e )
         {
