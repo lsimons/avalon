@@ -27,10 +27,10 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.logger.DefaultLogKitManager;
 import org.apache.avalon.excalibur.logger.LogKitManager;
-import org.apache.avalon.excalibur.thread.DefaultThreadPool;
-import org.apache.avalon.excalibur.thread.ThreadContext;
-import org.apache.avalon.excalibur.thread.ThreadHook;
+import org.apache.avalon.excalibur.thread.impl.DefaultThreadPool;
 import org.apache.avalon.excalibur.thread.ThreadPool;
+import org.apache.avalon.excalibur.lang.ThreadContext;
+import org.apache.avalon.excalibur.lang.ThreadContextPolicy;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.log.Logger;
 
@@ -41,7 +41,7 @@ import org.apache.log.Logger;
  */
 public class DefaultApplicationFrame
     extends AbstractLoggable
-    implements ApplicationFrame, Contextualizable, Configurable, Initializable, ThreadHook
+    implements ApplicationFrame, Contextualizable, Configurable, Initializable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultPolicy.class );
@@ -73,6 +73,12 @@ public class DefaultApplicationFrame
     ///Base context for all blocks in application
     private Context      m_context;
 
+    ///Context which application threads must execute in
+    private ThreadContext m_threadContext;
+
+    ///Cached version of configuration so that accessible in init() to configure threads
+    private Configuration m_configuration;
+
     public void contextualize( final Context context )
         throws ContextException
     {
@@ -94,13 +100,12 @@ public class DefaultApplicationFrame
         final Configuration policy = configuration.getChild( "policy" );
         configurePolicy( policy );
 
-        //Configure thread pools
-        final Configuration threads = configuration.getChild( "threads" );
-        configureThreadPools( threads );
-
         //Configure Logging
         final Configuration logs = configuration.getChild( "logs" );
         configureLogKitManager( logs );
+
+        //Cache config to use in building thread pools
+        m_configuration = configuration;
     }
 
     /**
@@ -120,6 +125,25 @@ public class DefaultApplicationFrame
         context.put( BlockContext.APP_NAME, m_name );
         context.put( BlockContext.APP_HOME_DIR, m_baseDirectory );
         m_context = context;
+
+        final PhoenixThreadContextPolicy policy = new PhoenixThreadContextPolicy();
+        final HashMap map = new HashMap( 1 );
+        map.put( ThreadContextPolicy.CLASSLOADER, m_classLoader );
+        m_threadContext = new ThreadContext( policy, map );
+
+        //Configure thread pools
+        final Configuration threads = m_configuration.getChild( "threads" );
+        configureThreadPools( threads );
+    }
+
+    /**
+     * Get ThreadContext for the current application.
+     *
+     * @return the ThreadContext
+     */
+    public ThreadContext getThreadContext()
+    {
+        return m_threadContext;
     }
 
     /**
@@ -191,16 +215,6 @@ public class DefaultApplicationFrame
     }
 
     /**
-     * Called before a thread executes work.
-     * Used to initialize thread specific resources.
-     *
-     */
-    public void setupThread()
-    {
-        ThreadContext.setCurrentThreadPool( getDefaultThreadPool() );
-    }
-
-    /**
      * Setup policy based on configuration data.
      *
      * @param configuration the configuration data
@@ -227,30 +241,34 @@ public class DefaultApplicationFrame
         final Configuration[] groups = configuration.getChildren( "thread-group" );
         for( int i = 0; i < groups.length; i++ )
         {
-            final Configuration group = groups[ i ];
+            configureThreadPool( groups[ i ] );
+        }
+    }
 
-            final String name = group.getChild( "name" ).getValue();
-            final int priority = group.getChild( "priority" ).getValueAsInteger( 5 );
-            final boolean isDaemon = group.getChild( "is-daemon" ).getValueAsBoolean( false );
+    private void configureThreadPool( final Configuration configuration )
+        throws ConfigurationException
+    {
+        final String name = configuration.getChild( "name" ).getValue();
+        final int priority = configuration.getChild( "priority" ).getValueAsInteger( 5 );
+        final boolean isDaemon = configuration.getChild( "is-daemon" ).getValueAsBoolean( false );
+        
+        final int minThreads = configuration.getChild( "min-threads" ).getValueAsInteger( 5 );
+        final int maxThreads = configuration.getChild( "max-threads" ).getValueAsInteger( 10 );
+        final int minSpareThreads = configuration.getChild( "min-spare-threads" ).
+            getValueAsInteger( maxThreads - minThreads );
 
-            final int minThreads = group.getChild( "min-threads" ).getValueAsInteger( 5 );
-            final int maxThreads = group.getChild( "max-threads" ).getValueAsInteger( 10 );
-            final int minSpareThreads = group.getChild( "min-spare-threads" ).
-                getValueAsInteger( maxThreads - minThreads );
-
-            try
-            {
-                final DefaultThreadPool threadPool = 
-                    new DefaultThreadPool( name, maxThreads, this );
-                threadPool.setDaemon( isDaemon );
-                threadPool.setLogger( getLogger() );
-                m_threadPools.put( name, threadPool );
-            }
-            catch( final Exception e )
-            {
-                final String message = REZ.getString( "frame.error.thread.create", name );
-                throw new ConfigurationException( message, e );
-            }
+        try
+        {
+            final DefaultThreadPool threadPool = 
+                new DefaultThreadPool( name, maxThreads, m_threadContext );
+            threadPool.setDaemon( isDaemon );
+            threadPool.setLogger( getLogger() );
+            m_threadPools.put( name, threadPool );
+        }
+        catch( final Exception e )
+        {
+            final String message = REZ.getString( "frame.error.thread.create", name );
+            throw new ConfigurationException( message, e );
         }
     }
 
