@@ -2,228 +2,196 @@
 
 <!DOCTYPE changes SYSTEM "dtd/changes-v10.dtd">
 
-<changes title="Avalon History of Changes">
+<changes title="Avalon Framework - History of Changes">
   <devs>
     <person name="Federico Barbieri" email="fede@apache.org" id="FB"/>
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
-    <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
+    <person name="Peter Donald" email="peter@apache.org" id="PD"/>
+    <person name="Jeff Turner" email="jefft@apache.org" id="JT"/>
+    <person name="Paul Hammant" email="hammant@apache.org" id="PH"/>
+    <person name="Leif Mortenson" email="leif@apache.org" id="LM"/>
+    <person name="Carston Ziegeler" email="cziegeler@apache.org" id="CZ"/>
   </devs>
-  <release version="4.0-dev" date="unreleased">
+  <release version="4.1.4" date="current">
+    <action dev="BL" type="remove">
+      Remove the hard deprecation on the o.a.a.f.component package.  It
+      has been replaced by a softer form of deprecation (i.e. just notes
+      in JavaDocs that do not affect the compile).
+    </action>
+    <action dev="PD" type="add">
+      New ContainerUtil available to make creating components easier.
+    </action>
+  </release>
+  <release version="4.1.3" date="July 30, 2002">
+    <action dev="BL" type="update">
+      Undocumented release.  Not sure who, what, when, where, why or how.
+    </action>
+  </release>
+  <release version="4.1.2" date="January 31, 2002">
+    <action dev="BL" type="udpate">
+      Updated the build jars.
+    </action>
+    <action dev="CZ" type="add">
+      Add EMPTY_PARAMETERS constant object to the Parameters object.
+    </action>
+    <action dev="PD" type="update">
+      Made it configurable whether you print nested exceptions or not,
+      and specify the depth that the AvalonFormatter will go with nested
+      exceptions (defaults to 8).
+    </action>
+    <action dev="LM" type="update">
+      Update build to have a "compress.jars" property (defaults to
+      true by default).
+    </action>
+  </release>
+  <release version="4.1.1" date="December 21, 2001">
+    <action dev="BL" type="fix">
+      Force build process to produce JDK 1.2 compliant class files.
+      The last release had JDK 1.4 compliant class files, causing
+      some classloaders to not work with the Framework.
+    </action>
+  </release>
+  <release version="4.1" date="December 12, 2001">
+    <action dev="JT" type="update">
+      Improve and update the configuration javadocs to reflect the new
+      namespace support.
+    </action>
+    <action dev="BL" type="remove">
+      Deprecate the Loggable and AbstractLoggable classes, and replace
+      them with LogEnabled and AbstractLogEnabled.
+    </action>
     <action dev="BL" type="add">
-      Added new comprehensive documentation called "Developing with Avalon".
+      Add an abstraction layer to the Logging implementation.  Thanks
+      to Peter Donald for supplying the interface.
+    </action>
+    <action dev="BL" type="add">
+      Add Namespace support to Configuration files.
+    </action>
+    <action dev="BL" type="add">
+      Add AvalonFormatter that was in LogKit's heirarchy.  This way, we
+      avoid circular dependancies.
+    </action>
+    <action dev="PD" type="fix">
+      Previously resolve did not throw a ContextException. This made it
+      difficult to indicate errors resolving objects. It now throws an
+      exception thus allowing errors to be propogated and recorded.
+    </action>
+    <action dev="BL" type="add">
+      New ConfigurationSerializer to have your configuration objects persist.
+    </action>
+    <action dev="BL" type="update">
+      Upgrade DefaultConfigurationBuilder to be JAXP compliant,
+      with the option to pass in your own XMLReader.
+    </action>
+    <action dev="PD" type="update">
+      Configuration objects are now Serializable.
+    </action>
+    <action dev="BL" type="add">
+      Add new support to ask a component manager if it has a component.
+    </action>
+    <action dev="PD" type="fix">
+      Bug fixes for documentation
+    </action>
+    <action dev="BL" type="update">
+      Update developers docs to support new configuration methods.
+    </action>
+    <action dev="PH" type="add">
+      Improved "Hello World" documentation.
+    </action>
+    <action dev="PD" type="add">
+      Add UML diagrams supplied by Dieter Wimberger
+    </action>
+    <action dev="BL" type="update">
+      Add new author bios.
+    </action>
+    <action dev="BL" type="update">
+      Update build process to proposed standard.
+    </action>
+    <action dev="PD" type="add">
+      Added a method to Version to parse a Version from a string. Added accessor
+      methods to Version to allow access to major/minor/micro components of version.
+    </action>
+    <action dev="PD" type="change">
+      Updated Version class to refer to micro version rather than revision. This 
+      is to match the terminology for JDK versioning. This is just documentation 
+      changes.
+    </action>
+    <action dev="JT" type="fix">
+      Changed access of Enum and ValuedEnum constructors from public to
+      protected, to prevent Enum users from breaking type-safety by adding new
+      Enum items. This breaks backwards-compatibility in cases where Enum
+      and ValuedEnum were being incorrectly used.
+    </action>
+  </release>
+  <release version="4.0" date="July 30, 2001">
+    <action dev="BL" type="add">
+      Added new method to Component Manager and Selector for discovering
+      if a Component exists inside or not.  Also augmented the default
+      versions with the basic implementation to discover them.
+    </action>
+    <action dev="BL" type="add">
+      Added stylesheet to convert Stylebook markup to DocBook markup.
+    </action>
+    <action dev="BL" type="change">
+      Changed the documentation build process to use Cocoon to build
+      the site.
+    </action>
+    <action dev="BL" type="add">
+      Added new "Developing with Avalon" book in DocBook format.
+    </action>
+    <action dev="PD" type="add">
+      Added Executable interface to activity package.
+    </action>
+    <action dev="PD" type="fix">
+      Updated Resolvable interface to allow a ContextException to be thrown 
+      on failure. 
+    </action>
+    <action dev="PD" type="update">
+      Add a makeReadOnly() method to the default implementations of Configuration, 
+      Context and ComponentManager. Calling this method after the respective
+      object has been filled will make the object read-only. This is a safety 
+      precaution to stop code performing unwanted operations.
+    </action>
+    <action dev="PD" type="update">
+      Updated the javadocs of many of the classes.
+    </action>
+    <action dev="BL" type="update">
+      Update documentation so that it is more accurate and descriptive.
     </action>
   </release>
   <release version="4.0b3" date="June 6, 2001">
     <action dev="BL" type="update">
-      New release due to Excalibur's Showstopper
+      Release 4.0b3
+    </action>
+    <action dev="PD" type="fix">
+      Made DefaultComponentManager/Selector, DefaultContext, and
+      DefaultConfiguration read-only to avoid bad programming
+      practices by clients.
     </action>
   </release>
-  <release version="4.0b2" date="June 4, 2001">
-   <action dev="BL" type="add">
-     Added KEYS file so that we can sign our releases
-   </action>
-  </release>
+<release version="4.0b2" date="June 4, 2001">
+  <action dev="BL" type="update">
+    Release 4.0b2
+  </action>
+  <action dev="PD" type="add">
+    Add makeReadOnly() method to default implementations to prevent
+    alteration after they are set up.
+  </action>
+  <action dev="BL" type="update">
+    Removed the "throws Exception" from Disposable interface.  That was
+    inadvertently left in the previous release.
+  </action>
+  <action dev="BL" type="add">
+    Added extra methods to Parameters to throw exceptions if the value
+    does not exist.  They are the "no default value" methods.
+  </action>
+  <action dev="PD" type="update">
+    Updated javadocs for Framework.
+  </action>
+</release>
 <release version="4.0b1" date="May 11, 2001">
-  <action dev="BL" type="fix">
-    Fixed Avalon pooling code and unified pooling framework for
-    Excalibur.
-  </action>
-  <action dev="BL" type="add">
-    Added complex ComponentManagement framework for Excalibur.
-  </action>
-  <action dev="BL" type="add">
-    Added Release plan for Avalon 4.0.
-  </action>
-</release>
-<release version="3.1a1" date="29th January 2001">
-  <action dev="BL" type="add">
-    Added in DataSource implementation for use with J2EE style apps.
-  </action>
-  <action dev="PD" type="add">
-    Added the notion of ServerApplication to replace the concept of .bar as a server. 
-    A ServerApplication is a isolated environment that manages it's own threads, 
-    security, logging, classloading etc. It has a specific layout as documented 
-    in Assembly guide. The kernel was refactored to contain ServerApplications
-    rather than Blocks and a lot of support was refactored to support safe separation
-    of ServerApplications. The archives are in .sar format and are similar in many 
-    aspects to .war of servlet fame.
-  </action>
-  <action dev="PD" type="add">
-    Refactored thread management so specific thread pools can assigned to specific
-    threads/thread groups in a manner similar to how ContextClassLoader is associated 
-    with threads. Thread management was also moved to a new package 
-    (org.apache.avalon.util.threads).
-  </action>
-  <action dev="PD" type="update">
-    Modify the packaging of all kernel related files into org.apache.phoenix.
-  </action>
-  <action dev="PD" type="update">
-    Modify the packaging of all blocks/services/demos into package hierarchy 
-    org.apache.cornerstone.
-  </action>
-  <action dev="PD" type="add">
-    Added two new services/blocks by refactoring code from tomcat and old SocketServer. 
-    There is now a SocketManager and a ConnectionManager. The TLS code is now much improved 
-    and there is the beginning of client socket factory. This provides for future client 
-    socket code factories for SSL/TLS or SSH1/2 etc. Also adapted SimpleServer to use 
-    these methods.
-  </action>
-  <action dev="PD" type="update">
-    Changed config file from per .bar to per .sar and changed name from BAR-INF/&lt;
-    barname&gt;.conf.xml to conf/assembly.xml. It still contains configuration data as 
-    well as assembly data but this will be removed in a future revision.
-  </action>
-  <action dev="PD" type="add">
-    Added an extra config file to .sar (conf/server.xml) that is responsible for 
-    configuring .sar wide variables. Some examples include security, logging and thread loading.
-  </action>
-  <action dev="PD" type="update">
-    Refactored most of the code to use AbstractLoggable and the corresponding getLogger() 
-    method. Also removed the remaining static access to LogKit.
-  </action>
-  <action dev="PD" type="update">
-    Continued to refine the Camelot API.
-  </action>
-  <action dev="PD" type="add">
-    Removed blockdefs.properties in favour of adding attributes to manifest entries of jars. 
-    This should enable future GUI tools to easily assemble blocks.
-  </action>
-  <action dev="PD" type="add">
-    Re-Added the sub-classed context BlockContext to allow blocks full access to important 
-    environmental information.
-  </action>
-  <action dev="PD" type="update">
-    Many of the lifecycle methods now have a chance to fail by throwing an exception.
-  </action>
-  <action dev="PD" type="remove">
-    Removed all notion of kernel configurability.
-  </action>
-  <action dev="PD" type="update">
-    Enabled securityManager by default and now ServerApplications have to specify a security
-    policy.
-  </action>
-  <action dev="PD" type="update">
-    Removed classloader hack in ObjectStorageRepository as it is no longer required with 
-    new .sar format.
-  </action>
-  <action dev="PD" type="update">
-    Homogenized the remaining code to follow one style.
-  </action>
-  <action dev="PD" type="update">
-    Configuration temporarily will create new Configuration objects on getChild() if they 
-    don't exist until Berin's work is finalized.
-  </action>
-  <action dev="PD" type="update">
-    Altered Compose so that it threw ComponentManagerException of which the previous two 
-    exceptions thrown are now subclasses.
-  </action>
-  <action dev="PD" type="update">
-    Made loading of jars relative to avalon-loader.jar rather than via current working 
-    directory so that some tools (ie VAJava) would not complain.
-  </action>
-  <action dev="PD" type="update">
-    Separated out tools directory/jars from main jars that avalon uses.
-  </action>
   <action dev="BL" type="update">
-    A number of bug fixes and more descriptive exceptions for Configuration and Parameters 
-    objects.
-  </action>
-</release>
-
-<release version="3.0a3" date="11th October 2000">
-  <action dev="PD" type="update">
-    Made SocketManager accept arbitrary SocketServer.Listener objects.
-  </action>
-  <action dev="FB" type="update">
-    Updated all blocks to use new system level logging.
-  </action>
-  <action dev="FB" type="update">
-    Changed Threads so that it is now a system level service.
-  </action>
-  <action dev="PD" type="add">
-    Added new LogManager that manages arbitrary log categories.
-  </action>
-  <action dev="PD" type="add">
-    Added the BlockInfo requirement. Thus blocks need to have an XML file that describe the
-    services it offers, the services it depends upon and other meta information.
-  </action>
-  <action dev="PD" type="add">
-    Added support for Blocks to implement BlockContextualizable. If they do this the kernel 
-    will pass them Context information. Currently the context information is limited to 
-    a handle to kernel instance and the name they were configured under.
-  </action>
-  <action dev="PD" type="add">
-    Changed SimpleContext and SimpleComponentManager to DefaultComponent and 
-    DefaultComponentManager to match better with other Avalon design patterns.    
-  </action>
-  <action dev="PD" type="add">
-    Added functionality that allowed you to listen to BlockEvents generated by kernel. 
-    Events indicate when a Block is being created, initialized, composed, destroyed, ran and
-    stopped.
-  </action>
-  <action dev="PD" type="add">
-    Updated Logger interface so arbitrary integer levels are not allowed to be passed. The user 
-    is forced to use defined enumerants. This was done to increase safety.
-  </action>
-  <action dev="PD" type="add">
-    Updated kernel so that is now delegates to AvalonKernelConfigurator to configure itself.
-  </action>
-  <action dev="PD" type="update">
-    Updated kernel so that it is now pluggable. Any kernel can be loaded via the code in main.
-    Kernel configuration files are loaded from default configuration directory in a file
-    with same name as class with a .conf.xml appended.
-  </action>
-  <action dev="PD" type="update">
-    Removed getDescription method from Block as it is to become part of BlockInfo
-  </action>
-  <action dev="PD" type="update">
-    Change methods in Configure/Reconfigure to throw ConfigurationExceptions.
-  </action>
-  <action dev="PD" type="update">
-    Change methods in Configure/Reconfigure to match Java standards.
-  </action>
-  <action dev="FB" type="add">
-    Add to the Logger log level support.
-  </action>
-  <action dev="BL" type="add">
-   JNDI for the lookup of blocks and components.  Still keep the
-   Composer interface for those lightweight blocks that don't
-   need the extra features of the Context.  JNDI should be the
-   ComponentManager of choice.
-  </action>
-  <action dev="BL" type="update">
-    Synchronized Avalon with Cocoon 2 enhancements.  Uses SAX 2 for
-    configuration, incorporated abstract and base classes for fundamental
-    types, and incorporated the NamedComponent interface.
-  </action>
-  <action dev="BL" type="update">
-    Upgraded Loader architecture and the AvalonClassLoader to provide
-    better detail, as well as new ways of configuring the loader at the
-    beginning.  It does not require any extra libraries to load.
-  </action>
-</release>
-
-<release version="2.1" date="2000">
-  <action dev="FB" type="update">
-    Changed the Acceptor pattern to a more flexible event provider.
-  </action>
-  <action dev="FB" type="add">
-    Added a TimeServer to easily manage time events.
-  </action>
-  <action dev="FB" type="update">
-    Make Store implementation more pluggable.
-  </action>
-</release>
-
-<release version="2.0" date="2000">
-  <action dev="FB" type="update">
-    Updated Context pattern to Configurable-Composer pattern.
-  </action>
-</release>
-
- <release version="1.0-dev" date="Can't remember">
-  <action dev="FB" type="update">
-    First Avalon implementation.
+    Official release
   </action>
 </release>
 
