@@ -32,10 +32,14 @@ dependencies the services that this block require to operate
 <!--
 The block element describes the block, it defines:
 
+name	        the human readable name of block type. Must be a string
+             containing alphanumeric characters, '.', '_' and starting
+             with a letter.
 version	     the version of the block in (in the format #.#.#, #.# or # where
              # is a integer
 -->
 <!ELEMENT block          (version)>
+  <!ATTLIST block name CDATA #IMPLIED>
   <!ELEMENT version       (#PCDATA) >
 
 <!--
@@ -49,10 +53,10 @@ version	     the version of the block in (in the format #.#.#, #.# or # where
              # is a integer
 -->
 <!ELEMENT service   EMPTY >
-  <!ATTLIST service 
+  <!ATTLIST service
        name CDATA #REQUIRED
        version CDATA #IMPLIED
-  > 
+  >
 
 <!--
 The service dependency describes a service that the block

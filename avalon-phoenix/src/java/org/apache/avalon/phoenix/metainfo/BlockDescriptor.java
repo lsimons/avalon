@@ -15,14 +15,33 @@ import org.apache.avalon.framework.Version;
  */
 public class BlockDescriptor
 {
+    /**
+     * The short name of the Block. Useful for displaying
+     * human readable strings describing the type in
+     * assembly tools or generators.
+     */
+    private final String m_name;
     private final String m_classname;
     private final Version m_version;
     //private final ConfigSchema    m_schema;
 
-    public BlockDescriptor( final String classname, final Version version )
+    public BlockDescriptor( final String name,
+                            final String classname,
+                            final Version version )
     {
+        m_name = name;
         m_classname = classname;
         m_version = version;
+    }
+
+    /**
+     * Retrieve the name of Block type.
+     *
+     * @return the name of Block type.
+     */
+    public String getName()
+    {
+        return m_name;
     }
 
     /**
@@ -30,7 +49,7 @@ public class BlockDescriptor
      *
      * @return the Class Name of block
      */
-    public String getClassName()
+    public String getClassname()
     {
         return m_classname;
     }
