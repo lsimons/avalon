@@ -60,7 +60,7 @@
     <section name="Meta Model">
 
     <subsection name="Overview">
-<p>The Merlin container provides a comprehense mata model supporting component deployment.  The meta model provides a set of directives that that provide the information necesasary for component deployment.  Underlying the Merlin Meta-Model is the <a href="http://avalon.apache.org/sandbox/avalon-meta/index.html">Avalon Meta-Info Model</a> which defines a component type. 
+<p>The Merlin container provides a comprehense mata model supporting component deployment.  The meta model provides a set of directives that that provide the information necesasary for component deployment.  Underlying the Merlin Meta-Model is the <a href="http://avalon.apache.org/meta/index.html">Avalon Meta-Info Model</a> which defines a component type. 
 </p>
     </subsection>
 

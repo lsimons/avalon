@@ -50,13 +50,15 @@
 
 package org.apache.avalon.activation.lifestyle.impl;
 
+import java.lang.ref.WeakReference;
+
 import org.apache.avalon.activation.lifecycle.Factory;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.Logger;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:30:47 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/17 03:26:28 $
  */
 public class SingletonLifestyleHandler extends AbstractLifestyleHandler
   implements Disposable
@@ -76,12 +78,10 @@ public class SingletonLifestyleHandler extends AbstractLifestyleHandler
      * Resolve a object to a value relative to a supplied set of 
      * interface classes.
      *
-     * @param source the aquiring source
-     * @param ref the castable service classes 
      * @return the resolved object
      * @throws Exception if an error occurs
      */
-    public Object resolve( Object source, Class[] ref ) throws Exception
+    public Object resolve() throws Exception
     {
         //
         // TODO: Add support for ref handling - first off
@@ -99,13 +99,13 @@ public class SingletonLifestyleHandler extends AbstractLifestyleHandler
     }
 
     /**
-     * Release an object.  The abstract implementation does nothing,
+     * Release an object.
      *
-     * @param source the context with respect the reclaimed object is qualified
-     * @param object the object to be reclaimed
+     * @param instance the object to be released
      */
-    public void release( Object source, Object object )
+    public void release( Object instance )
     {
+        // don't release the singleton
     }
 
    /**

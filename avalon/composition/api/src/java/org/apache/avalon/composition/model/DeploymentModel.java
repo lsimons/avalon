@@ -61,7 +61,7 @@ import org.apache.avalon.meta.info.Type;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:17 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/17 03:26:29 $
  */
 public interface DeploymentModel extends Model
 {
@@ -207,5 +207,12 @@ public interface DeploymentModel extends Model
     * @return the stage models
     */
     StageModel[] getStageModels();
+
+   /**
+    * Return the set of services produced by the model as a array of classes.
+    *
+    * @return the service classes
+    */
+    Class[] getInterfaces();
 
 }

@@ -50,16 +50,12 @@
 
 package org.apache.avalon.merlin.kernel;
 
-import java.net.URL;
-
-import org.apache.avalon.activation.appliance.Home;
-
 /**
  * The Controller interface defines a subset of management operations exposed by
  * a kernel implementation.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:33:21 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/17 03:26:29 $
  */
 public interface Controller
 {

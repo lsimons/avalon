@@ -54,6 +54,10 @@ import java.net.URL;
 import java.util.Map;
 import java.util.Hashtable;
 import java.util.ArrayList;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.ApplianceException;
@@ -112,10 +116,10 @@ import org.apache.avalon.meta.info.ExtensionDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:30:35 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/17 03:26:28 $
  */
 public class DefaultAppliance extends AbstractAppliance
-  implements Composite, Factory, DefaultApplianceMBean
+  implements Composite, DefaultApplianceMBean
 {
     //-------------------------------------------------------------------
     // static
@@ -163,6 +167,11 @@ public class DefaultAppliance extends AbstractAppliance
     * The system service context. 
     */
     private final ServiceContext m_context;
+
+   /**
+    * The instance factory.
+    */
+    private final Factory m_factory = new StandardFactory();
 
     //-------------------------------------------------------------------
     // mutable state
@@ -299,7 +308,7 @@ public class DefaultAppliance extends AbstractAppliance
                         StageDescriptor stage = 
                           new StageDescriptor( clazz.getName() );
                         m_contextProvider = 
-                          m_engine.resolveAppliance( stage );
+                          m_engine.locate( stage );
                     }
                     catch( Throwable e )
                     {
@@ -356,7 +365,7 @@ public class DefaultAppliance extends AbstractAppliance
                 try
                 {
                     final Appliance appliance = 
-                      m_engine.resolveAppliance( dependency );
+                      m_engine.locate( dependency );
                     registerListener( appliance );
                     m_providers.put( key, appliance );
                     if( getLogger().isDebugEnabled() )
@@ -388,7 +397,7 @@ public class DefaultAppliance extends AbstractAppliance
                 try
                 {
                     final Appliance appliance = 
-                      m_engine.resolveAppliance( stage );
+                      m_engine.locate( stage );
                     registerListener( appliance );
                     m_stages.put( key, appliance );
                     if( getLogger().isDebugEnabled() )
@@ -502,7 +511,7 @@ public class DefaultAppliance extends AbstractAppliance
 
             if( m_model.getActivationPolicy() )
             {
-                Object instance = resolve( this );
+                Object instance = resolve();
                 if( getLogger().isDebugEnabled() )
                 {
                     int id = System.identityHashCode( instance );
@@ -531,7 +540,7 @@ public class DefaultAppliance extends AbstractAppliance
             }
             if( m_contextProvider != null )
             {
-                m_contextProvider.release( this, m_contextualization );
+                m_contextProvider.release( m_contextualization );
                 m_contextualization = null;
             }
             m_deployment.setEnabled( false );
@@ -546,55 +555,45 @@ public class DefaultAppliance extends AbstractAppliance
     /**
      * Resolve a object to a value.
      *
-     * @param source the context within the the resolution is applied
      * @return the resolved object
      * @throws Exception if an error occurs
      */
-    public Object resolve( Object source ) throws Exception
+    public Object resolve() throws Exception
     {
-        return resolve( source, new Class[0] );
-    }
-
-    /**
-     * Resolve a object to a value relative to a supplied set of 
-     * interface classes.
-     *
-     * @param source the aquiring source
-     * @param ref the castable service classes
-     * @return the resolved object
-     * @throws Exception if an error occurs
-     */
-    public Object resolve( final Object source, final Class[] ref ) throws Exception
-    {
-        if( source == null ) throw new NullPointerException( "source" );
         if( !m_deployment.isEnabled() )
         {
             final String error = 
               "Illegal attempt to resolve an service from a non-deployed appliance ["
-              + this + "]. A probably cause is a recursive dependency declaration.";
+              + this + "]. A possible cause is a recursive dependency declaration.";
             getLogger().error( error );
             throw new IllegalStateException( error );
         }
 
-        Class[] refs = ref;
-        if( refs == null ) refs = new Class[0];
-        Object instance = m_lifestyle.resolve( source, refs );
-        return applyAccessStages( instance, true );
+        Object provider = m_lifestyle.resolve();
+        accessInstance( getProviderInstance( provider ) );
+        return provider;
     }
 
     /**
      * Release an object.
      *
-     * @param source the client that obtained the intial reference
      * @param instance the object to be released
      */
-    public void release( Object source, Object instance )
+    public void release( Object instance )
     {
         if( instance == null ) return;
-        if( source == null ) throw new NullPointerException( "source" );
-
         if( !m_deployment.isEnabled() ) return;
+        releaseInstance( getProviderInstance( instance ) );
+        m_lifestyle.release( instance );
+    }
 
+    private void accessInstance( Object instance ) throws Exception
+    {
+        applyAccessStages( instance, true );
+    }
+
+    private void releaseInstance( Object instance )
+    {
         try
         {
             applyAccessStages( instance, false );
@@ -605,66 +604,25 @@ public class DefaultAppliance extends AbstractAppliance
               REZ.getString( "lifestyle.release.warning" );
             getLogger().warn( error, e );
         }
-        finally
-        {
-            m_lifestyle.release( source, instance );
-        }
     }
 
-    //-------------------------------------------------------------------
-    // Factory
-    //-------------------------------------------------------------------
 
-   /**
-    * Create a new fully deployed instance of the type managed by the 
-    * appliance.
-    *
-    * @return the deployed component instance
-    * @exception LifecycleException if an error while processing
-    *    the component though its deployment lifecycle
-    */
-    public Object newInstance() throws LifecycleException
+    private Object getProviderInstance( Object instance )
     {
-        Class clazz = m_model.getDeploymentClass();
-        Object instance = null;
-        try
+        if( Proxy.isProxyClass( instance.getClass() ) )
         {
-            instance = createNewInstance( clazz );
-            if( getLogger().isDebugEnabled() )
-            {
-                int id = System.identityHashCode( instance );
-                getLogger().debug( "new instance: " + id );
-            }
-
-            applyLogger( instance );
-            applyContext( instance );
-            applyServices( instance );
-            applyConfiguration( instance );
-            applyParameters( instance );
-            applyCreateStages( instance, true );
-            applyInitialization( instance );
-            applyStart( instance );
-
-            if( getLogger().isDebugEnabled() )
-            {
-                int id = System.identityHashCode( instance );
-                getLogger().debug( "established: " + id );
-            }
-
+            ApplianceInvocationHandler handler = 
+              (ApplianceInvocationHandler) Proxy.getInvocationHandler( instance );
+            return handler.getInstance();
+        }
+        else
+        {
             return instance;
         }
-        catch( Throwable e )
-        {
-            destroy( instance );
-            final String error = 
-              REZ.getString( "lifestyle.new.error", m_model.getQualifiedName() );
-            throw new LifecycleException( error, e );
-        }
     }
 
-    public void destroy( Object instance )
+    private void destroyInstance( Object instance )
     {
-        if( instance == null ) return;
         final int id = System.identityHashCode( instance );
         getLogger().debug( "component disposal: " + id );
         try
@@ -677,10 +635,7 @@ public class DefaultAppliance extends AbstractAppliance
         {
             getLogger().warn( "ignoring release stage error", e );
         }
-        finally
-        {
-            getLogger().debug( "destroyed instance: " + id );
-        }
+        getLogger().debug( "destroyed instance: " + id );
     }
 
     //-------------------------------------------------------------------
@@ -825,7 +780,11 @@ public class DefaultAppliance extends AbstractAppliance
       throws Exception
     {
         StageDescriptor[] stages = m_model.getType().getStages();
-        getLogger().debug( "stage count: " + stages.length );
+        if( ( stages.length > 0 ) && getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "stage count: " + stages.length );
+        }
+
         for( int i=0; i<stages.length; i++ )
         {
             StageDescriptor stage = stages[i];
@@ -841,7 +800,7 @@ public class DefaultAppliance extends AbstractAppliance
 
             if( Creator.class.isAssignableFrom( c ) )
             {
-                Creator handler = (Creator) provider.resolve( this );
+                Creator handler = (Creator) provider.resolve();
                 Context context = m_model.getContextModel().getContext();
                 try
                 {
@@ -880,14 +839,14 @@ public class DefaultAppliance extends AbstractAppliance
                 }
                 finally
                 {
-                    provider.release( this, handler );
+                    provider.release( handler );
                 }
             }
 
             if( flag && LifecycleCreateExtension.class.isAssignableFrom( c ) )
             {
                 LifecycleCreateExtension handler = 
-                  (LifecycleCreateExtension) provider.resolve( this );
+                  (LifecycleCreateExtension) provider.resolve();
                 try
                 {
                     if( getLogger().isDebugEnabled() )
@@ -899,13 +858,13 @@ public class DefaultAppliance extends AbstractAppliance
                 }
                 finally
                 {
-                    provider.release( this, handler );
+                    provider.release( handler );
                 }
             }
             else if( !flag && LifecycleDestroyExtension.class.isAssignableFrom( c ) )
             {
                 LifecycleDestroyExtension handler = 
-                  (LifecycleDestroyExtension) provider.resolve( this );
+                  (LifecycleDestroyExtension) provider.resolve();
 
                 try
                 {
@@ -927,7 +886,7 @@ public class DefaultAppliance extends AbstractAppliance
                 }
                 finally
                 {
-                    provider.release( this, handler );
+                    provider.release( handler );
                 }
             }
         }
@@ -950,7 +909,7 @@ public class DefaultAppliance extends AbstractAppliance
             Class c = ((DeploymentModel)provider.getModel()).getDeploymentClass();
             if( Accessor.class.isAssignableFrom( c ) )
             {
-                Accessor handler = (Accessor) provider.resolve( this );
+                Accessor handler = (Accessor) provider.resolve();
                 try
                 {
                     Context context = m_model.getContextModel().getContext();
@@ -990,7 +949,7 @@ public class DefaultAppliance extends AbstractAppliance
                 }
                 finally
                 {
-                    provider.release( this, handler );
+                    provider.release( handler );
                 }
             }
         }
@@ -1133,7 +1092,7 @@ public class DefaultAppliance extends AbstractAppliance
 
         try
         {
-            return (ContextualizationHandler) appliance.resolve( this );
+            return (ContextualizationHandler) appliance.resolve();
         }
         catch( Throwable e )
         {
@@ -1150,19 +1109,19 @@ public class DefaultAppliance extends AbstractAppliance
         Logger log = getLogger();
         if( lifestyle.equals( InfoDescriptor.SINGLETON ) )
         {
-            return new SingletonLifestyleHandler( log, this );
+            return new SingletonLifestyleHandler( log, m_factory );
         }
         else if( lifestyle.equals( InfoDescriptor.THREAD ) )
         {
-            return new ThreadLifestyleHandler( log, this );
+            return new ThreadLifestyleHandler( log, m_factory );
         }
         else if( lifestyle.equals( InfoDescriptor.POOLED ) )
         {
-            return new PooledLifestyleHandler( log, this );
+            return new PooledLifestyleHandler( log, m_factory );
         }
         else
         {
-            return new TransientLifestyleHandler( log, this );
+            return new TransientLifestyleHandler( log, m_factory );
         }
     }
 
@@ -1183,4 +1142,165 @@ public class DefaultAppliance extends AbstractAppliance
         //
     }
 
+    private Object createProvider( Object instance ) throws ApplianceException
+    {
+        Class[] classes = m_model.getInterfaces();
+        try
+        {
+            ApplianceInvocationHandler handler = 
+              new ApplianceInvocationHandler( instance );
+            return Proxy.newProxyInstance( 
+              m_model.getDeploymentClass().getClassLoader(),
+              classes,
+              handler );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Proxy establishment failure in block: " + this;
+            throw new ApplianceException( error, e );
+        }
+    }
+
+   /**
+    * This makes a dynamic proxy for an object.  The object can be represented
+    * by one, some or all of it's interfaces.
+    *
+    */
+    private final class ApplianceInvocationHandler
+        implements InvocationHandler
+    {
+        private final Object m_instance;
+        private boolean m_disposed = false;
+
+       /**
+        * Create a proxy invocation handler.
+        *
+        * @param instance the underlying provider 
+        */
+        protected ApplianceInvocationHandler( Object instance )
+        {
+            m_instance = instance;
+        }
+
+        /**
+         * Invoke the specified method on underlying object.
+         * This is called by the proxy object.
+         *
+         * @param proxy the proxy object
+         * @param method the method invoked on proxy object
+         * @param args the arguments supplied to method
+         * @return the return value of method
+         * @throws Throwable if an error occurs
+         */
+        public Object invoke( final Object proxy,
+                final Method method,
+                final Object[] args )
+                throws Throwable
+        {
+            if( proxy == null ) throw new NullPointerException( "proxy" );
+            if( method == null ) throw new NullPointerException( "method" );
+            if( m_disposed ) throw new IllegalStateException( "disposed" );
+
+            try
+            {
+                return method.invoke( m_instance, args );
+            }
+            catch( InvocationTargetException e )
+            {
+                final String error = 
+                  "Delegation error raised by component: " + m_model.getQualifiedName();
+                throw new ApplianceException( error, e.getTargetException() );
+            }
+            catch( Throwable e )
+            {
+                final String error =
+                  "Service resolution failure for the component: '" 
+                  + method.getDeclaringClass()
+                  + "' for operation: '" + method.getName()
+                  + "' in appliance: " + m_model.getQualifiedName();
+                throw new ApplianceException( error, e );
+            }
+        }
+
+        protected void finalize() throws Throwable
+        {
+            if( !m_disposed )
+            {
+                release( m_instance );
+            }
+        }
+
+        Object getInstance()
+        {
+            return m_instance;
+        }
+    }
+
+    private class StandardFactory implements Factory
+    {
+       /**
+        * Create a new instance of a component. 
+        *
+        * @exception LifecycleException
+        */
+        public Object newInstance() throws LifecycleException
+        {
+            Class clazz = m_model.getDeploymentClass();
+            Object instance = null;
+            try
+            {
+                instance = createNewInstance( clazz );
+                if( getLogger().isDebugEnabled() )
+                {
+                    int id = System.identityHashCode( instance );
+                    getLogger().debug( "new instance: " + id );
+                }
+
+                applyLogger( instance );
+                applyContext( instance );
+                applyServices( instance );
+                applyConfiguration( instance );
+                applyParameters( instance );
+                applyCreateStages( instance, true );
+                applyInitialization( instance );
+                applyStart( instance );
+
+                if( getLogger().isDebugEnabled() )
+                {
+                    int id = System.identityHashCode( instance );
+                    getLogger().debug( "established: " + id );
+                }
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  REZ.getString( "lifestyle.new.error", m_model.getQualifiedName() );
+                throw new LifecycleException( error, e );
+            }
+
+            try
+            {
+                return createProvider( instance );
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Proxy establishment failure.";
+                getLogger().error( error );
+                throw new LifecycleException( error, e );
+            }
+        }
+
+       /**
+        * Decommission and dispose of the supplied component. 
+        *
+        * @param instance the object to decommission
+        */
+        public void destroy( Object instance )
+        {
+            if( instance == null ) throw new NullPointerException( "instance" );
+            destroyInstance( getProviderInstance( instance ) );
+        }
+    }
 }

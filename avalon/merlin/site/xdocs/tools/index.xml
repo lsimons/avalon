@@ -82,7 +82,7 @@ and services, and an equivalent Maven plugin.
           <tr><th>Topic</th><th>Summary</th></tr>
           <tr>
             <td>
-<a href="http://avalon.apache.org/sandbox/avalon-meta/tools/index.html">Javadoc Tags</a></td>
+<a href="http://avalon.apache.org/meta/tools/index.html">Javadoc Tags</a></td>
             <td>
               Reference specification of the Javadoc Tags used to 
               support automation of component and service metadata.

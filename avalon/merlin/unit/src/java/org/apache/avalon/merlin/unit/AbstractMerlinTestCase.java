@@ -325,14 +325,14 @@ public class AbstractMerlinTestCase extends TestCase
 
         try
         {
-            Appliance appliance = m_block.resolveAppliance( path );
+            Appliance appliance = m_block.locate( path );
             if( appliance == null )
             {
                 final String problem = 
                   "Unknown appliance: " + path;
                 throw new IllegalArgumentException( problem );
             }
-            return appliance.resolve( this );
+            return appliance.resolve();
         }
         catch( Throwable e )
         {

@@ -102,7 +102,7 @@ import org.apache.avalon.meta.info.Type;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/07 17:42:55 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/17 03:26:28 $
  */
 public class DefaultBlock extends AbstractAppliance 
   implements Block, Composite
@@ -226,17 +226,17 @@ public class DefaultBlock extends AbstractAppliance
     * @param dependency the dependency model
     * @return the appliance
     */
-    public Appliance resolveAppliance( DependencyModel dependency )
+    public Appliance locate( DependencyModel dependency )
       throws Exception
     {
         final String path = dependency.getPath();
         if( path != null )
         {
-            return resolveAppliance( path );
+            return locate( path );
         }
         else
         {
-            return resolveAppliance( dependency.getDependency() );
+            return locate( dependency.getDependency() );
         }
     }
 
@@ -248,7 +248,7 @@ public class DefaultBlock extends AbstractAppliance
     *    for the supplied dependency
     * @exception Exception if an error occurs
     */
-    public Appliance resolveAppliance( DependencyDescriptor dependency )
+    public Appliance locate( DependencyDescriptor dependency )
       throws Exception
     {
         if( getLogger().isDebugEnabled() )
@@ -287,7 +287,7 @@ public class DefaultBlock extends AbstractAppliance
 
         if( m_engine != null )
         {
-            return m_engine.resolveAppliance( dependency );
+            return m_engine.locate( dependency );
         }
         else
         {
@@ -301,17 +301,17 @@ public class DefaultBlock extends AbstractAppliance
     * @param stage the stage model
     * @return the appliance
     */
-    public Appliance resolveAppliance( StageModel stage )
+    public Appliance locate( StageModel stage )
       throws Exception
     {
         final String path = stage.getPath();
         if( path != null )
         {
-            return resolveAppliance( path );
+            return locate( path );
         }
         else
         {
-            return resolveAppliance( stage.getStage() );
+            return locate( stage.getStage() );
         }
     }
 
@@ -323,7 +323,7 @@ public class DefaultBlock extends AbstractAppliance
     *    for the supplied stage
     * @exception Exception if an error occurs
     */
-    public Appliance resolveAppliance( StageDescriptor stage )
+    public Appliance locate( StageDescriptor stage )
       throws NoProviderDefinitionException, Exception
     {
         if( getLogger().isDebugEnabled() )
@@ -360,7 +360,7 @@ public class DefaultBlock extends AbstractAppliance
 
         if( m_engine != null )
         {
-            return m_engine.resolveAppliance( stage );
+            return m_engine.locate( stage );
         }
         else
         {
@@ -375,7 +375,7 @@ public class DefaultBlock extends AbstractAppliance
     * @return the appliance
     * @exception Exception if an error occurs
     */
-    public Appliance resolveAppliance( String source )
+    public Appliance locate( String source )
       throws Exception
     {
         String path = source;
@@ -413,7 +413,7 @@ public class DefaultBlock extends AbstractAppliance
                 Appliance child = m_repository.getLocalAppliance( root );
                 if( child instanceof Engine )
                 {
-                    return ((Engine)child).resolveAppliance( path );
+                    return ((Engine)child).locate( path );
                 }
                 else
                 {
@@ -437,7 +437,7 @@ public class DefaultBlock extends AbstractAppliance
 
                 if( m_engine != null )
                 {
-                    return m_engine.resolveAppliance( path );
+                    return m_engine.locate( path );
                 }
                 else
                 {
@@ -694,24 +694,10 @@ public class DefaultBlock extends AbstractAppliance
     /**
      * Resolve a object to a value.
      *
-     * @param consumer the consumer
      * @return the resolved object
      * @throws Exception if an error occurs
      */
-    public Object resolve( Object consumer ) throws Exception
-    {
-        return resolve( consumer, new Class[0] );
-    }
-
-    /**
-     * Resolve a object to a value qualified by a supplied service reference.
-     *
-     * @param source the context within the the resolution is applied
-     * @param ref the requested service interfaces
-     * @return the resolved object
-     * @throws Exception if an error occurs
-     */
-    public Object resolve( Object source, Class[] ref ) throws Exception
+    public Object resolve() throws Exception
     {
         return m_proxy;
     }
@@ -719,14 +705,12 @@ public class DefaultBlock extends AbstractAppliance
     /**
      * Release an object
      *
-     * @param source the client that obtained the intial reference
      * @param instance the object to be released
      */
-    public void release( Object source, Object instance )
+    public void release( Object instance )
     {
         //
-        // TODO: propergate the release to the object 
-        // actually providing the service
+        // container proxy is a singleton reference
         //
     }
 
@@ -1016,7 +1000,7 @@ public class DefaultBlock extends AbstractAppliance
               m_model.getExportDirective( method.getDeclaringClass() );
 
             String path = service.getPath();
-            Appliance provider = (Appliance) m_block.resolveAppliance( path );
+            Appliance provider = (Appliance) m_block.locate( path );
             m_logger.debug( "delegating: " +  method.getName() );
 
             //
@@ -1026,7 +1010,7 @@ public class DefaultBlock extends AbstractAppliance
 
             try
             {
-                Object object = provider.resolve( this );
+                Object object = provider.resolve();
                 return method.invoke( object, args );
             }
             catch( InvocationTargetException e )
