@@ -25,9 +25,10 @@ import org.apache.avalon.logging.provider.LoggingManager;
 import org.apache.avalon.logging.data.CategoryDirective;
 
 import org.apache.avalon.composition.model.ModelFactory;
-import org.apache.avalon.composition.model.RuntimeFactory;
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.ContainmentModel;
+import org.apache.avalon.composition.runtime.RuntimeFactory;
+import org.apache.avalon.composition.runtime.impl.DefaultRuntimeFactory;
 
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.Repository;
@@ -48,7 +49,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.14 $ $Date: 2004/02/07 14:03:42 $
+ * @version $Revision: 1.15 $ $Date: 2004/02/07 22:46:42 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext
@@ -82,6 +83,8 @@ public class DefaultSystemContext extends DefaultContext
 
     private ModelFactory m_factory;
 
+    private RuntimeFactory m_runtime;
+
     private final long m_timeout;
 
     private boolean m_secure;
@@ -109,9 +112,15 @@ public class DefaultSystemContext extends DefaultContext
     * @param trace flag indicating if internal logging is enabled
     */
     public DefaultSystemContext( 
-      LoggingManager logging, File base, File home, File temp, 
-      Repository repository, String category, boolean trace, 
-      long timeout, boolean secure )
+      LoggingManager logging, 
+      File base, 
+      File home, 
+      File temp, 
+      Repository repository, 
+      String category, 
+      boolean trace, 
+      long timeout, 
+      boolean secure )
     {
         if( base == null )
         {
@@ -145,6 +154,7 @@ public class DefaultSystemContext extends DefaultContext
         m_system = SystemContext.class.getClassLoader();
         m_common = Logger.class.getClassLoader();
         m_factory = new DefaultModelFactory( this );
+        m_runtime = new DefaultRuntimeFactory( this );
     }
 
     //--------------------------------------------------------------
@@ -168,7 +178,7 @@ public class DefaultSystemContext extends DefaultContext
     */
     public RuntimeFactory getRuntimeFactory()
     {
-        throw new UnsupportedOperationException( "getRuntimeFactory" );
+        return m_runtime;
     }
 
    /**

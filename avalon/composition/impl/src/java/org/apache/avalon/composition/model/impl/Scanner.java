@@ -52,7 +52,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * A repository for services, types and profiles.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/01/24 23:25:28 $
+ * @version $Revision: 1.6 $ $Date: 2004/02/07 22:46:42 $
  */
 class Scanner extends AbstractLogEnabled
 {
@@ -357,7 +357,9 @@ class Scanner extends AbstractLogEnabled
             if( getLogger().isWarnEnabled() )
             {
                 final String error = 
-                  REZ.getString( "scanner.type.verification.ncdf.failure", classname, e.getMessage() );
+                  REZ.getString( 
+                    "scanner.type.verification.ncdf.failure", 
+                    classname, e.getMessage() );
                 getLogger().warn( error );
             }
         }
@@ -366,7 +368,9 @@ class Scanner extends AbstractLogEnabled
             if( getLogger().isWarnEnabled() )
             {
                 final String error = 
-                  REZ.getString( "scanner.type.verification.failure", classname );
+                  REZ.getString( 
+                    "scanner.type.verification.failure", 
+                    classname );
                 getLogger().warn( ExceptionHelper.packException( 
                   error, e, getLogger().isDebugEnabled() ) );
             }
@@ -376,14 +380,17 @@ class Scanner extends AbstractLogEnabled
     private void addService( List list, String name ) throws Exception
     {
         String classname = parseResourceName( name );
-        Service service = SERVICE_BUILDER.build( classname, m_classloader );
+        Service service = 
+          SERVICE_BUILDER.build( classname, m_classloader );
         try
         {
             verifyService( service );
             if( getLogger().isDebugEnabled() )
             {
                 final String message =
-                  REZ.getString( "scanner.service.addition", classname );
+                  REZ.getString( 
+                    "scanner.service.addition", 
+                    classname );
                 getLogger().debug( message );
             }
             list.add( service );
@@ -393,7 +400,9 @@ class Scanner extends AbstractLogEnabled
             if( getLogger().isWarnEnabled() )
             {
                 final String error = 
-                  REZ.getString( "scanner.service.verification.failure", classname );
+                  REZ.getString( 
+                    "scanner.service.verification.failure", 
+                    classname );
                 getLogger().warn( ExceptionHelper.packException( 
                   error, e, getLogger().isDebugEnabled() ) );
             }
@@ -430,13 +439,17 @@ class Scanner extends AbstractLogEnabled
         {
             String ref = parseResourceName( ncdf.getMessage() );
             final String error = 
-              REZ.getString( "scanner.service.bad-class.error", classname, ref );
+              REZ.getString( 
+                "scanner.service.bad-class.error", 
+                classname, ref );
             throw new ModelException( error );
         }
         catch( ClassNotFoundException cnfe )
         {
             final String error = 
-              REZ.getString( "scanner.service.missing-class.error", classname );
+              REZ.getString( 
+                "scanner.service.missing-class.error", 
+                classname );
             throw new ModelException( error );
         }
     }
@@ -460,7 +473,8 @@ class Scanner extends AbstractLogEnabled
             ServiceDescriptor service = services[i];
             if( (service.getAttribute(
               "urn:avalon:service.protocol", "native" ).equals( "native" ))
-              && (service.getAttribute( "urn:avalon:service.accessor", null ) == null) )
+              && ( service.getAttribute( 
+                "urn:avalon:service.accessor", null ) == null) )
             {
                 list.add( getServiceClass( services[i] ) );
             }
@@ -500,13 +514,16 @@ class Scanner extends AbstractLogEnabled
         {
             String ref = parseResourceName( ncdf.getMessage() );
             final String error = 
-              REZ.getString( "scanner.type.bad-class.error", classname, ref );
+              REZ.getString( 
+                "scanner.type.bad-class.error", 
+                classname, ref );
             throw new ModelException( error );
         }
         catch( ClassNotFoundException cnfe )
         {
             final String error = 
-              REZ.getString( "scanner.type.missing-class.error", classname );
+              REZ.getString( 
+                "scanner.type.missing-class.error", classname );
             throw new ModelException( error );
         }
     }
@@ -528,13 +545,15 @@ class Scanner extends AbstractLogEnabled
         {
             String ref = parseResourceName( ncdf.getMessage() );
             final String error = 
-              REZ.getString( "scanner.service.bad-class.error", classname, ref );
+              REZ.getString( 
+                "scanner.service.bad-class.error", classname, ref );
             throw new ModelException( error );
         }
         catch( ClassNotFoundException cnfe )
         {
             final String error = 
-              REZ.getString( "scanner.service.missing-class.error", classname );
+              REZ.getString( 
+                "scanner.service.missing-class.error", classname );
             throw new ModelException( error );
         }
     }
@@ -556,7 +575,9 @@ class Scanner extends AbstractLogEnabled
             return file;
         }
         final String error = 
-          REZ.getString( "scanner.url-not-a-directory.error", url.toString() );
+          REZ.getString( 
+            "scanner.url-not-a-directory.error", 
+            url.toString() );
         throw new IllegalArgumentException( error );
     }
 
@@ -567,7 +588,9 @@ class Scanner extends AbstractLogEnabled
             return new File( url.toString().substring( 5 ) );
         }
         final String error = 
-          REZ.getString( "scanner.not-file-protocol.error", url.toString() );
+          REZ.getString( 
+            "scanner.not-file-protocol.error", 
+            url.toString() );
         throw new IllegalArgumentException( error );
     }
 

@@ -50,7 +50,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Implementation of the default Merlin Kernel.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2004/02/07 20:23:32 $
+ * @version $Revision: 1.9 $ $Date: 2004/02/07 22:46:42 $
  */
 public class DefaultKernel implements Kernel, Disposable
 {
@@ -402,8 +402,8 @@ public class DefaultKernel implements Kernel, Disposable
                 catch( Throwable e )
                 {
                     final String error = 
-                      ExceptionHelper.packException( e, true );
-                    getLogger().warn( error );
+                      "Kernel listener raised an exception.";
+                    getLogger().warn( error, e );
                 }
             }
         }
