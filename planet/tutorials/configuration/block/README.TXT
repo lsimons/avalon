@@ -7,7 +7,7 @@ block.xml deployment directive plus a few releated features.
 
 Build using:
 
-  $ maven jar
+  $ ant
 
 Execute the demo and note the message concerning configuration source.
 In the example the configuration is based on the directive included 

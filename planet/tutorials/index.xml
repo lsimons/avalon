@@ -107,4 +107,22 @@
     </plugins>
   </project>
 
+  <!--
+  Configuration Tutorial.
+  -->
+
+  <project basedir="configuration/block">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-config-block</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+
 </system>
