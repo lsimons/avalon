@@ -23,12 +23,13 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.log.LogTarget;
 import org.apache.log.Priority;
-import org.apache.log.filter.PriorityFilter;
+import org.apache.log.output.PriorityFilteringTarget;
 
 /**
  * PriorityFilterTargetFactory class.
  *
- * This factory creates LogTargets with a wrapped PriorityFilter around it:
+ * This factory creates LogTargets with a wrapped PriorityFilteringTarget
+ * around it:
  *
  * <pre>
  *
@@ -40,14 +41,14 @@ import org.apache.log.filter.PriorityFilter;
  *
  * </pre>
  * <p>
- *  This factory creates a PriorityFilter object with a logging Priority set
+ *  This factory creates a PriorityFilteringTarget object with a logging Priority set
  *  to the value of the log-level attribute (which defaults to INFO if absent).
  *  The LogTarget to filter is described in child elements of the configuration (in
  *  the sample above named as &lt;any-target-definition/&gt;).
  * </p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.9 $ $Date: 2004/03/10 13:54:50 $
+ * @version CVS $Revision: 1.10 $ $Date: 2004/03/13 03:48:55 $
  * @since 4.0
  */
 public final class PriorityFilterTargetFactory
@@ -65,7 +66,7 @@ public final class PriorityFilterTargetFactory
     {
         final String loglevel = configuration.getAttribute( "log-level", "INFO" );
         getLogger().debug( "loglevel is " + loglevel );
-        final PriorityFilter filter = new PriorityFilter( Priority.getPriorityForName( loglevel ) );
+        final PriorityFilteringTarget filter = new PriorityFilteringTarget( Priority.getPriorityForName( loglevel ) );
 
         final Configuration[] configs = configuration.getChildren();
         for( int i = 0; i < configs.length; i++ )
