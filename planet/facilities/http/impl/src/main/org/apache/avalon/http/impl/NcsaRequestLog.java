@@ -17,9 +17,6 @@
 
 package org.apache.avalon.http.impl;
 
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-
 import org.apache.avalon.framework.activity.Startable;
 
 import org.apache.avalon.framework.logger.LogEnabled;
@@ -71,7 +68,7 @@ public class NcsaRequestLog extends NCSARequestLog
         String ignorepaths = params.getParameter( "ignore-paths", null );
         if( ignorepaths != null )
         {
-            String[] paths = tokenize( ignorepaths );
+            String[] paths = StringUtils.tokenize( ignorepaths );
             setIgnorePaths( paths );
         }
         
@@ -84,19 +81,6 @@ public class NcsaRequestLog extends NCSARequestLog
             setRetainDays( retain );
     }
         
-    private String[] tokenize( String string )
-    {
-        ArrayList result = new ArrayList();
-        StringTokenizer st = new StringTokenizer( string, " ,", false );
-        while( st.hasMoreTokens() )
-        {
-            result.add( st.nextToken() );
-        }
-        String[] retVal = new String[ result.size() ];
-        result.toArray( retVal );
-        return retVal;
-    }
-
     public void start()
         throws Exception
     {

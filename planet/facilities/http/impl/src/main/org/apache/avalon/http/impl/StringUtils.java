@@ -15,22 +15,24 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.http;
+package org.apache.avalon.http.impl;
 
-import org.mortbay.http.HttpContext;
-import org.mortbay.http.HttpHandler;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 
-/**
- * avalon.service version="1.0"
- */
-public interface HttpContextService
+public class StringUtils
 {
-    
-    void addHandler( HttpHandler handler );
-    
-    void addHandler( int index, HttpHandler handler );
-    
-    void removeHandler( HttpHandler handler );
-    
-    HttpContext getHttpContext();
+    static public String[] tokenize( String string )
+    {
+        ArrayList result = new ArrayList();
+        StringTokenizer st = new StringTokenizer( string, " ,", false );
+        while( st.hasMoreTokens() )
+        {
+            result.add( st.nextToken() );
+        }
+        String[] retVal = new String[ result.size() ];
+        result.toArray( retVal );
+        return retVal;
+    }
 }
+ 
