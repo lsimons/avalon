@@ -18,8 +18,7 @@
 package org.apache.avalon.composition.model;
 
 import java.net.URL;
-import java.security.Permission;
-import java.security.cert.Certificate;
+import java.security.ProtectionDomain;
 
 import org.apache.avalon.extension.manager.OptionalPackage;
 import org.apache.avalon.extension.manager.ExtensionManager;
@@ -31,7 +30,7 @@ import org.apache.avalon.framework.logger.Logger;
  * a fully qualifed classpath can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Revision: 1.6 $ $Date: 2004/02/23 13:00:31 $
  */
 public interface ClassLoaderModel
 {
@@ -94,12 +93,6 @@ public interface ClassLoaderModel
     */
     ClassLoader getClassLoader();
 
-   /** 
-    * Returns the Certificates associated with the classes that
-    * can be loaded by the classloader.
-    **/ 
-    Certificate[] getCertificates();
-    
    /**
     * Creation of a classloader model using this model as the 
     * relative parent.
@@ -113,14 +106,14 @@ public interface ClassLoaderModel
       Logger logger, ContainmentProfile profile, URL[] implied ) throws ModelException;
 
    /** 
-    * Return the security Permissions defined for this ClassLoaderModel.
+    * Return the security ProtectionDomain defined for this ClassLoaderModel.
     * 
-    * These Permissions will be enforced if code level security is enabled
+    * These ProtectionDomains will be enforced if code level security is enabled
     * globally. If no Permissions are returned, all the components under
     * this container will run without Permissions.
     *
-    * @return A SecurityPolicy which should be enagaged if codelevel
+    * @return A ProtectionDomain array which should be enagaged if codelevel
     *         security is enabled for the Classloader.
     **/
-    Permission[] getSecurityPermissions();
+    ProtectionDomain[] getProtectionDomains();
 }

@@ -40,7 +40,7 @@ import org.apache.avalon.framework.logger.Logger;
  * by one, some or all of it's interfaces.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/14 21:33:55 $
+ * @version $Revision: 1.4 $ $Date: 2004/02/23 13:00:31 $
  */
 public final class ApplianceInvocationHandler implements InvocationHandler
 {
@@ -102,7 +102,8 @@ public final class ApplianceInvocationHandler implements InvocationHandler
 
         try
         {
-            return secureInvocation( method, args );
+            Object instance = getInstance();
+            return method.invoke( instance, args );
         }
         catch( Throwable e )
         {
@@ -151,14 +152,6 @@ public final class ApplianceInvocationHandler implements InvocationHandler
         return m_instance;
     }
 
-    private Object secureInvocation( 
-      final Method method, final Object[] args )
-      throws Exception
-    {
-        Object instance = getInstance();
-        return method.invoke( instance, args );
-    }
-        
     private Throwable handleInvocationThrowable( Throwable e )
     {
         final String error = 

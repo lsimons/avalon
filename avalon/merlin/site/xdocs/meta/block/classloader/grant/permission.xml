@@ -20,9 +20,10 @@
 <document>
 
   <header>
-    <title>Include Directive</title>
+    <title>Permission Directive</title>
     <authors>
       <person name="Stephen McConnell" email="mcconnell@apache.org"/>
+      <person name="Niclas Hedhman" email="niclas@hedhman.org"/>
     </authors>
   </header>
 

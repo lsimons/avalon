@@ -19,15 +19,22 @@ package org.apache.avalon.composition.model.impl;
 
 import java.io.File;
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.Manifest;
+
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.security.Permission;
+
+import java.security.CodeSource;
+import java.security.Permissions;
+import java.security.ProtectionDomain;
+
 import java.security.cert.Certificate;
 
+import org.apache.avalon.composition.data.CertsDirective;
 import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.data.ClassLoaderDirective;
 import org.apache.avalon.composition.data.FilesetDirective;
@@ -36,11 +43,14 @@ import org.apache.avalon.composition.data.IncludeDirective;
 import org.apache.avalon.composition.data.PermissionDirective;
 import org.apache.avalon.composition.data.RepositoryDirective;
 import org.apache.avalon.composition.data.ResourceDirective;
+
 import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.TypeRepository;
 import org.apache.avalon.composition.model.ServiceRepository;
 import org.apache.avalon.composition.model.ModelException;
+
 import org.apache.avalon.composition.provider.ClassLoaderContext;
+
 import org.apache.avalon.composition.util.StringHelper;
 
 import org.apache.avalon.repository.Artifact;
@@ -84,7 +94,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and the extensions package.
  * </p>
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Revision: 1.10 $ $Date: 2004/02/23 13:00:31 $
  */
 public class DefaultClassLoaderModel extends AbstractLogEnabled 
     implements ClassLoaderModel
@@ -120,7 +130,7 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
 
     private final URLClassLoader m_classLoader;
 
-    private Permission[] m_permissions;
+    private ProtectionDomain[] m_protectionDomains;
     
     private final DefaultTypeRepository m_types;
 
@@ -184,7 +194,7 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
 
             m_manager = new PackageManager( m_extension );
             m_classpath = createClassPath( base, repository, directive, implicit );
-            m_permissions = createPermissions( directive.getGrantDirective() );
+            
             if( getLocalLogger().isDebugEnabled() )
             {
                 String str = "classpath: " 
@@ -197,6 +207,7 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
             m_urls = buildQualifiedClassPath();
             m_classLoader = 
               new URLClassLoader( m_urls, context.getClassLoader() );
+            m_protectionDomains = createProtectionDomains( directive.getGrantDirective() );
 
             //
             // scan the classpath for component type and service
@@ -340,28 +351,18 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
     }
 
    /** 
-    * Returns the Certificates associated with the classes that
-    * can be loaded by the classloader.
-    **/ 
-    public Certificate[] getCertificates()
-    {
-        // TODO: We currently don't support Certificates.
-        return null;
-    }
-    
-   /** 
-    * Return the security Permissions defined for this ClassLoaderModel.
+    * Return the security ProtectionDomains defined for this ClassLoaderModel.
     * 
-    * These Permissions will be enforced if code level security is enabled
-    * globally. If no Permissions are returned, all the components under
+    * These ProtectionDomains will be enforced if code level security is enabled
+    * globally. If no ProtectionDomain are returned, all the components under
     * this container will run without Permissions.
     *
-    * @return A SecurityPolicy which should be enagaged if codelevel
+    * @return A ProtectionDomain which should be enagaged if codelevel
     *         security is enabled for the Classloader.
     **/
-    public Permission[] getSecurityPermissions()
+    public ProtectionDomain[] getProtectionDomains()
     {
-        return m_permissions;
+        return m_protectionDomains;
     }
     
     //==============================================================
@@ -496,15 +497,25 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
         return (String[]) classpath.toArray( new String[0] );
     }
 
-    private Permission[] createPermissions( GrantDirective directive )
+    private ProtectionDomain[] createProtectionDomains( GrantDirective directive )
     {
-        PermissionDirective[] permissions = directive.getPermissionDirectives();
-        Permission[] result = new Permission[ permissions.length ];
-        for( int i=0 ; i < permissions.length ; i++ )
+        Permissions permissions = new Permissions();
+        PermissionDirective[] permDirectives = directive.getPermissionDirectives();
+        for( int i=0 ; i < permDirectives.length ; i++ )
         {
-            result[i] = permissions[i].getPermission();
+            permissions.add( permDirectives[i].getPermission() );
         }
-        return result;
+        
+        CertsDirective certsDirective = directive.getCertsDirective();
+        Certificate[] allCerts = certsDirective.getCertificates();
+            
+        ProtectionDomain[] pd = new ProtectionDomain[ m_urls.length ];
+        for( int i=0 ; i < m_urls.length ; i++ )
+        {
+            CodeSource cs = new CodeSource( m_urls[i], allCerts );
+            pd[i] = new ProtectionDomain( cs, permissions );
+        }                
+        return pd;
     }
     
     /**

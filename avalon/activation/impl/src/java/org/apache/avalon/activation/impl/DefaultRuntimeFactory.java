@@ -44,7 +44,7 @@ import org.apache.avalon.repository.Artifact;
  * A factory enabling the establishment of runtime handlers.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:19:15 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/23 13:00:31 $
  */
 public class DefaultRuntimeFactory implements RuntimeFactory
 {
@@ -91,7 +91,8 @@ public class DefaultRuntimeFactory implements RuntimeFactory
         {
 
             Appliance runtime = getRegisteredRuntime( model );
-            if( null != runtime ) return runtime;
+            if( null != runtime ) 
+                return runtime;
 
             //
             // create the runtime

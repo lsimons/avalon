@@ -20,52 +20,48 @@
 <document>
 
   <header>
-    <title>Classloader</title>
+    <title>PKCS7 Directive</title>
     <authors>
       <person name="Stephen McConnell" email="mcconnell@apache.org"/>
+      <person name="Niclas Hedhman" email="niclas@hedhman.org"/>
     </authors>
   </header>
 
   <body>
+    <section name="PKCS7 Directive">
 
-    <section name="Grant Directive">
-
-      <subsection name="Nested Elements">
+      <subsection name="Attributes">
         <table>
-          <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
           <tr>
-            <td><a href="permission.html">permission</a></td><td>0..n</td>
+            <td>href</td><td>yes</td>
             <td>
-             The permission descriptor.
-            </td>
-          </tr>
-          <tr>
-            <td><a href="certificates.html">certificates</a></td><td>0..1</td>
-            <td>
-             The certificates descriptor. In this nested element, one can list
-             the certificates required for the code sources. Either X.509 or
-             PKCS#7 certificates.
+              The name of the file containing 0, one or many PKCS#7 encoded
+              certificates.
             </td>
           </tr>
         </table>
       </subsection>
 
       <subsection name="Description">
-      <p>
-        The Grant is somewhat similar to the standard Java Security policy
-        files, except that it is assigned per container instead of for the
-        code loading location. This allow for sharing central repositories
-        of code, without necessary giving all the same level of security
-        within a system.
-      </p>
+<p>
+Each &lt;pkcs7&gt; element only points to a PKCS#7 encoded file.
+The &quot;href&quot; attribute is any valid URL.
+</p>
       </subsection>
 
       <subsection name="Example XML">
+<p>
+The following example block.xml demonstrates the inclusion of three blocks within another enclosing block.  In this example, the common shared API (containing service interfaces classes is declared in the containing block classloader).
+</p>
+
 <source><![CDATA[
 <classloader>
   <classpath>
     <repository>
-      <resource id="tutorial:composition-api" version="1.0"/>
+      <resource id="james:mail" version="1.3"/>
+      <resource id="james:activation" version="1.0"/>
+      <resource id="james:mailet-api" version="1.0"/>
     </repository>
   </classpath>
   <grant>
@@ -73,19 +69,26 @@
     <permission class="java.util.PropertyPermission" name="java.*" >
       <action>read</action>
     </permission>
-    <permission class="java.util.PropertyPermission" name="com.mycompany.*" >
+    <permission class="java.util.PropertyPermission" name="org.apache.*" >
       <action>read</action>
       <action>write</action>
     </permission>
+    <certificates>
+      <pkcs7 href="http://niclas.hedhman.org/certs/signature.cert" />
+    </certificates>
   </grant>
+    
+  <!-- include blocks here -->
+
+  <include name="james" id="james:block" type="xml"/>
 </classloader>
 ]]></source>
-      </subsection>
 
+     </subsection>
     </section>
-
   </body>
 
 </document>
+
 
 
