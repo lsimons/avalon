@@ -13,8 +13,17 @@
   <ant:property name="maven.javadoc.stylesheet" 
     value="${basedir}/merlin-platform/src/etc/stylesheet.css"/>
 
+  <!--
+  Get the MERLIN_HOME environment variable.  If its not declared then
+  default to ${user.home}/.merlin as the install directory.
+  -->
+
   <ant:property environment="env"/>
-  <ant:property name="merlin.home" value="${env.MERLIN_HOME}"/>
+  <ant:property name="merlinEnvironment" value="${env.MERLIN_HOME}"/>
+  <j:if test="${merlinEnvironment != ''}">
+    <ant:property name="merlin.home" value="${merlinEnvironment}"/>
+  </j:if>
+  <ant:property name="merlin.home" value="${user.home}/.merlin"/>
 
   <goal name="merlin:update">
     <!--<attainGoal name="merlin:clean"/>-->
@@ -26,6 +35,7 @@
   </goal>
 
   <goal name="merlin:replicate">
+    <mkdir dir="${merlin.home}"/>
     <copy toDir="${merlin.home}">
       <fileset dir="${merlin.build.inst.dir}"/>
     </copy>
@@ -46,7 +56,7 @@
     <!-- build the subprojects -->
     <maven:reactor basedir="${basedir}"
       includes="**/project.xml"
-      excludes="target/**,merlin-platform/**,merlin-plugin/**,project.xml,kernel/bootstrap/*,merlin-extensions/**"
+      excludes="target/**,merlin-platform/**,kernel/plugin/**,project.xml,kernel/bootstrap/*,merlin-extensions/**"
       goals="jar:install-snapshot"
       banner="Installing:"
       ignoreFailures="false" />
@@ -121,7 +131,7 @@
   <goal name="merlin:plugin">
     <maven:reactor
       basedir="${basedir}"
-      includes="merlin-plugin/project.xml"
+      includes="kernel/plugin/project.xml"
       goals="plugin:install"
       banner="Installing plugin:"
       ignoreFailures="false"/>
@@ -138,7 +148,7 @@
       <fileset dir="${basedir}">
         <include name="INSTALLATION.TXT"/>
       </fileset>
-      <fileset dir="${basedir}/merlin-plugin/target">
+      <fileset dir="${basedir}/kernel/plugin/target">
         <include name="*.jar"/>
       </fileset>
       <fileset dir="${basedir}/../meta/plugin/target">
@@ -303,7 +313,7 @@
     <maven:reactor
       basedir="${basedir}"
       includes="**/project.xml"
-      excludes="merlin-platform/**,project.xml,merlin-plugin/**/*,merlin-extensions/**"
+      excludes="merlin-platform/**,project.xml,kernel/plugin/**/*,merlin-extensions/**"
       goals="clean"
       banner="Cleaning subproject:"
       ignoreFailures="false"/>
