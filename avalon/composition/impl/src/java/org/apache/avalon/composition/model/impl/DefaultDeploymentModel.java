@@ -60,6 +60,7 @@ import org.apache.avalon.composition.model.DependencyModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.DeploymentContext;
 import org.apache.avalon.composition.model.Model;
+import org.apache.avalon.composition.model.ModelRepository;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.StageModel;
@@ -88,7 +89,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9.2.1 $ $Date: 2004/01/03 15:38:50 $
+ * @version $Revision: 1.9.2.2 $ $Date: 2004/01/03 18:14:58 $
  */
 public class DefaultDeploymentModel extends DefaultModel implements DeploymentModel
 {
@@ -279,6 +280,134 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
                 return;
             }
 
+            if( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "assembly phase" );
+            }
+
+            ModelRepository repository = 
+              m_context.getContainmentContext().getModelRepository();
+
+            //
+            // check if we need a contextualization handler
+            //
+
+            if( getContextModel() != null )
+            {
+                Class clazz = getContextModel().getStrategyClass();
+                if( !clazz.getName().equals( ContextModel.DEFAULT_STRATEGY_CLASSNAME ) )
+                {
+                    //
+                    // we need to load a deployment phase context strategy handler
+                    // using the strategy interface as the extension handler key
+                    //
+
+                    StageDescriptor stage = 
+                      new StageDescriptor( clazz.getName() );
+                    Model provider = repository.getModel( stage );
+                    if( null == provider )
+                    {
+                        final String error = 
+                          REZ.getString( 
+                            "assembly.context.error",
+                            getQualifiedName(), 
+                            clazz.getName() );
+                        throw new AssemblyException( error );
+                    }
+                    else
+                    {
+                        getContextModel().setProvider( provider );
+                    }
+
+                    /*
+                    #
+                    # TO DO = verify that the stage is a context handler
+                    #
+
+                    Class handler = m_contextProvider.getDeploymentClass();
+
+                    if( !ContextualizationHandler.class.isAssignableFrom( handler ) )
+                    {
+                        final String error = 
+                          REZ.getString( 
+                            "assembly.context-strategy.bad-class.error",
+                            handler.getName() );
+                        throw new AssemblyException( error );
+                    }
+                    */
+
+                    if( getLogger().isDebugEnabled() )
+                    {
+                        getLogger().debug( 
+                          "assigning context provider: " + provider );
+                    }
+                }
+            }
+
+            //
+            // get the dependency models for the type and resolve providers
+            //
+
+            DependencyModel[] dependencies = getDependencyModels();
+            for( int i=0; i<dependencies.length; i++ )
+            {
+                DependencyModel dependency = dependencies[i];
+                final String key = dependency.getDependency().getKey();
+                final Model model = 
+                  repository.getModel( dependency.getDependency() );
+                if( null == model )
+                {
+                    final String error = 
+                      REZ.getString( 
+                        "assembly.dependency.error",
+                        getQualifiedName(), key );
+                    throw new AssemblyException( error );
+                }
+                else
+                {
+                    dependency.setProvider( model );
+                    if( getLogger().isDebugEnabled() )
+                    {
+                        getLogger().debug( 
+                          "assigning service provider for key (" 
+                          + key + "): " 
+                          + model );
+                    }
+                }
+            }
+
+            //
+            // get the stage models for the type and resolve providers
+            //
+
+            StageModel[] stages = getStageModels();
+            for( int i=0; i<stages.length; i++ )
+            {
+                StageModel stage = stages[i];
+                final String key = stage.getStage().getKey();
+                final Model model = 
+                  repository.getModel( stage.getStage() );
+                if( null == model )
+                {
+                    final String error = 
+                      REZ.getString( 
+                        "assembly.stage.error",
+                        getQualifiedName(), key );
+                    throw new AssemblyException( error );
+                }
+                else
+                {
+                    stage.setProvider( model );
+                    if( getLogger().isDebugEnabled() )
+                    {
+                        getLogger().debug( 
+                          "assigning stage provider (" 
+                          + key + "): " 
+                          + model );
+                    }
+                }
+            }
+
             m_assembly.setEnabled( true );
         }
     }
@@ -293,6 +422,27 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
             if( !isAssembled() )
             {
                 return;
+            }
+
+            getLogger().debug( "dissassembly phase" );
+
+            StageModel[] stages = getStageModels();
+            for( int i=0; i<stages.length; i++ )
+            {
+                StageModel stage = stages[i];
+                stage.clearProvider();
+            }
+
+            DependencyModel[] dependencies = getDependencyModels();
+            for( int i=0; i<dependencies.length; i++ )
+            {
+                DependencyModel dependency = dependencies[i];
+                dependency.clearProvider();
+            }
+
+            if( null != getContextModel() )
+            {
+                getContextModel().clearProvider();
             }
 
             m_assembly.setEnabled( false );
@@ -313,7 +463,31 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
              throw new IllegalStateException( error );
         }
 
-        return new Model[0];
+        final ArrayList list = new ArrayList();
+        if( null != getContextModel() )
+        {
+            Model provider = getContextModel().getProvider();
+            if( provider != null )
+            {
+                list.add( provider );
+            }
+        }
+        
+        StageModel[] stages = getStageModels();
+        for( int i=0; i<stages.length; i++ )
+        {
+            StageModel stage = stages[i];
+            list.add( stage.getProvider() );
+        }
+
+        DependencyModel[] dependencies = getDependencyModels();
+        for( int i=0; i<dependencies.length; i++ )
+        {
+            DependencyModel dependency = dependencies[i];
+            list.add( dependency.getProvider() );
+        }
+
+        return (Model[]) list.toArray( new Model[0] );
     }
 
     //--------------------------------------------------------------
@@ -329,7 +503,6 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
     {
         return m_context.getType().getServices();
     }
-
 
    /**
     * Return TRUE is this model is capable of supporting a supplied 
@@ -690,6 +863,7 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
     {
         return m_contextModel;
     }
+
 
    /**
     * Return the dependency models for this component type.
