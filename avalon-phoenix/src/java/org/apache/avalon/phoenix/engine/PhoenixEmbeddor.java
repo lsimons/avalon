@@ -8,10 +8,9 @@
 package org.apache.avalon.phoenix.engine;
 
 import java.io.File;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
-import java.lang.UnsupportedOperationException;
-import org.apache.avalon.framework.CascadingException;
-import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.atlantis.Embeddor;
 import org.apache.avalon.framework.atlantis.Kernel;
@@ -24,18 +23,17 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.phoenix.engine.facilities.ConfigurationRepository;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
 import org.apache.log.Priority;
-import org.apache.log.output.FileOutputLogTarget;
 import org.apache.log.format.AvalonFormatter;
-import org.apache.avalon.phoenix.engine.facilities.ConfigurationRepository;
+import org.apache.log.output.FileOutputLogTarget;
 
 /**
  * This is the object that is interacted with to create, manage and
@@ -48,13 +46,16 @@ public class PhoenixEmbeddor
     extends AbstractLoggable
     implements Embeddor
 {
-    private static final String    PHOENIX_HOME         =
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( PhoenixEmbeddor.class );
+
+     private static final String    PHOENIX_HOME         =
         System.getProperty( "phoenix.home", ".." );
 
     private static final String    DEFAULT_LOG_FILE     = PHOENIX_HOME + "/logs/phoenix.log";
     private static final String    DEFAULT_APPS_PATH    = PHOENIX_HOME + "/apps";
 
-    private static final String    DEFAULT_DEPLOYER     = 
+    private static final String    DEFAULT_DEPLOYER     =
         System.getProperty( "phoenix.deployer", "org.apache.avalon.phoenix.engine.DefaultSarDeployer" );
 
     private static final String    DEFAULT_KERNEL       =
@@ -64,7 +65,7 @@ public class PhoenixEmbeddor
         System.getProperty( "phoenix.manager", "org.apache.avalon.framework.atlantis.NoopSystemManager" );
 
     private static final String    DEFAULT_REPOSITORY   =
-        System.getProperty( "phoenix.repository", 
+        System.getProperty( "phoenix.repository",
                             "org.apache.avalon.phoenix.engine.facilities.configuration.DefaultConfigurationRepository" );
 
     private Parameters     m_parameters;
@@ -144,15 +145,15 @@ public class PhoenixEmbeddor
             m_kernel.start();
 
             //Uncomment next bit to try registering...
-
             //TODO: Logger and SystemManager itself aswell???
-            //m_systemManager.register( "Phoenix.Kernel", m_kernel );
-            //m_systemManager.register( "Phoenix.Embeddor", this );
+            m_systemManager.register( "Phoenix.Kernel", m_kernel );
+            m_systemManager.register( "Phoenix.Embeddor", this );
         }
         catch( final Exception e )
         {
             // whoops!
-            getLogger().fatalError( "There was a fatal error while starting phoenix.", e );
+            final String message = REZ.getString( "embeddor.error.start.failed" );
+            getLogger().fatalError( message, e );
             throw e;
         }
     }
@@ -248,49 +249,10 @@ public class PhoenixEmbeddor
         final Logger logger = createLogger();
         setLogger( logger );
 
-        try
-        {
-            m_repository = createRepository();
-        }
-        catch( final Exception e )
-        {
-            final String message = "Unable to create Configuration repository!";
-            getLogger().fatalError( message, e );
-            throw new CascadingException( message, e );
-        }
-
-        try
-        {
-            m_deployer = createDeployer();
-        }
-        catch( final Exception e )
-        {
-            final String message = "Unable to create deployer!";
-            getLogger().fatalError( message, e );
-            throw new CascadingException( message, e );
-        }
-
-        try
-        {
-            m_systemManager = createSystemManager();
-        }
-        catch( final Exception e )
-        {
-            final String message = "Unable to create SystemManager!";
-            getLogger().fatalError( message, e );
-            throw new CascadingException( message, e );
-        }
-
-        try
-        {
-            m_kernel = createKernel();
-        }
-        catch( final Exception e )
-        {
-            final String message = "Unable to create kernel!";
-            getLogger().fatalError( message, e );
-            throw new CascadingException( message, e );
-        }
+        m_repository = createRepository();
+        m_deployer = createDeployer();
+        m_systemManager = createSystemManager();
+        m_kernel = createKernel();
     }
 
     /**
@@ -308,7 +270,8 @@ public class PhoenixEmbeddor
         }
         catch( final Exception e )
         {
-            getLogger().fatalError( "Unable to setup deployer!", e );
+            final String message = REZ.getString( "embeddor.error.setup.deployer" );
+            getLogger().fatalError( message, e );
             throw e;
         }
 
@@ -318,7 +281,8 @@ public class PhoenixEmbeddor
         }
         catch( final Exception e )
         {
-            getLogger().fatalError( "Unable to setup SystemManager!", e );
+            final String message = REZ.getString( "embeddor.error.setup.manager" );
+            getLogger().fatalError( message, e );
             throw e;
         }
 
@@ -328,7 +292,8 @@ public class PhoenixEmbeddor
         }
         catch( final Exception e )
         {
-            getLogger().fatalError( "Unable to setup kernel!", e );
+            final String message = REZ.getString( "embeddor.error.setup.kernel" );
+            getLogger().fatalError( message, e );
             throw e;
         }
     }
@@ -342,37 +307,29 @@ public class PhoenixEmbeddor
      * logtargets.
      */
     private Logger createLogger()
-        throws ConfigurationException
+        throws Exception
     {
-        try
-        {
-            final String logDestination =
-                m_parameters.getParameter( "log-destination", DEFAULT_LOG_FILE );
+        final String logDestination =
+            m_parameters.getParameter( "log-destination", DEFAULT_LOG_FILE );
 
-            final String logPriority = 
-                m_parameters.getParameter( "log-priority", "INFO" );
+        final String logPriority =
+            m_parameters.getParameter( "log-priority", "INFO" );
 
-            final FileOutputLogTarget logTarget = new FileOutputLogTarget( logDestination );
-            final AvalonFormatter formatter = new AvalonFormatter();
-            formatter.setFormat( "%{time} [%7.7{priority}] <<%{category}>> " +
-                                 "(%{context}): %{message}\\n%{throwable}" );
-            logTarget.setFormatter( formatter );
+        final FileOutputLogTarget logTarget = new FileOutputLogTarget( logDestination );
+        final AvalonFormatter formatter = new AvalonFormatter();
+        formatter.setFormat( "%{time} [%7.7{priority}] <<%{category}>> " +
+                             "(%{context}): %{message}\\n%{throwable}" );
+        logTarget.setFormatter( formatter );
 
-            //Create an anonymous hierarchy so no other 
-            //components can get access to logging hierarchy
-            final Hierarchy hierarchy = new Hierarchy();
-            final Logger logger = hierarchy.getLoggerFor( "Phoenix" );
-            logger.setLogTargets( new LogTarget[] { logTarget } );
-            logger.setPriority( Priority.getPriorityForName( logPriority ) );
+        //Create an anonymous hierarchy so no other
+        //components can get access to logging hierarchy
+        final Hierarchy hierarchy = new Hierarchy();
+        final Logger logger = hierarchy.getLoggerFor( "Phoenix" );
+        logger.setLogTargets( new LogTarget[] { logTarget } );
+        logger.setPriority( Priority.getPriorityForName( logPriority ) );
 
-            logger.info( "Logger started" );
-            return logger;
-        }
-        catch( final Exception e )
-        {
-            e.printStackTrace();
-            throw new ConfigurationException( "Failed to create Logger", e );
-        }
+        logger.info( "Logger started" );
+        return logger;
     }
 
     /**
@@ -384,7 +341,7 @@ public class PhoenixEmbeddor
     private ConfigurationRepository createRepository()
         throws ConfigurationException
     {
-        final String className = 
+        final String className =
             m_parameters.getParameter( "repository-class", DEFAULT_REPOSITORY );
         try
         {
@@ -392,8 +349,8 @@ public class PhoenixEmbeddor
         }
         catch( final Exception e )
         {
-            throw new ConfigurationException( "Failed to create repository of class " +
-                                              className, e );
+            final String message = REZ.format( "embeddor.error.create.repository", className );
+            throw new ConfigurationException( message, e );
         }
     }
     /**
@@ -405,7 +362,7 @@ public class PhoenixEmbeddor
     private Deployer createDeployer()
         throws ConfigurationException
     {
-        final String className = 
+        final String className =
             m_parameters.getParameter( "deployer-class", DEFAULT_DEPLOYER );
         try
         {
@@ -413,8 +370,8 @@ public class PhoenixEmbeddor
         }
         catch( final Exception e )
         {
-            throw new ConfigurationException( "Failed to create Deployer of class " +
-                                              className, e );
+            final String message = REZ.format( "embeddor.error.create.deployer", className );
+            throw new ConfigurationException( message, e );
         }
     }
 
@@ -463,10 +420,6 @@ public class PhoenixEmbeddor
                 deployFiles( m_deployer, files );
             }
         }
-
-        // TODO: load facilities from .fars
-        // final File directory2 = new File( (String)this.context.get( "default-facilities-location" ) );
-        // CamelotUtil.deployFromDirectory( deployer, directory2, ".far" );
     }
 
     private void deployFiles( final Deployer deployer, final File[] files )
@@ -494,7 +447,7 @@ public class PhoenixEmbeddor
     private SystemManager createSystemManager()
         throws ConfigurationException
     {
-        final String className = 
+        final String className =
             m_parameters.getParameter( "manager-class", DEFAULT_MANAGER );
         try
         {
@@ -502,8 +455,8 @@ public class PhoenixEmbeddor
         }
         catch( final Exception e )
         {
-            throw new ConfigurationException( "Failed to create SystemManager of class " +
-                                              className, e );
+            final String message = REZ.format( "embeddor.error.create.manager", className );
+            throw new ConfigurationException( message, e );
         }
     }
 
@@ -530,16 +483,7 @@ public class PhoenixEmbeddor
             ((Configurable)m_systemManager).configure( configuration );
         }
 
-        try
-        {
-            m_systemManager.initialize();
-        }
-        catch( final Exception e )
-        {
-            getLogger().fatalError( "There was a fatal error; " +
-                                    "phoenix's SystemManager could not be started", e );
-            throw e;
-        }
+        m_systemManager.initialize();
     }
 
     /**
@@ -558,8 +502,8 @@ public class PhoenixEmbeddor
         }
         catch( final Exception e )
         {
-            throw new ConfigurationException( "Failed to create Kernel of class " +
-                                              className, e );
+            final String message = REZ.format( "embeddor.error.create.kernel", className );
+            throw new ConfigurationException( message, e );
         }
     }
 
@@ -601,15 +545,7 @@ public class PhoenixEmbeddor
             ((Configurable)m_kernel).configure( configuration );
         }
 
-        try
-        {
-            m_kernel.initialize();
-        }
-        catch( final Exception e )
-        {
-            getLogger().fatalError( "There was a fatal error; phoenix could not be started", e );
-            throw e;
-        }
+        m_kernel.initialize();
     }
 
     /**
