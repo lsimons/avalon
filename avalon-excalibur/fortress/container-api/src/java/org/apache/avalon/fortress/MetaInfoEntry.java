@@ -60,7 +60,7 @@ import java.util.*;
  * to enable "self-healing" configuration files.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2003/06/17 20:50:26 $
+ * @version $Revision: 1.7 $ $Date: 2003/06/18 13:16:46 $
  */
 public final class MetaInfoEntry
 {
@@ -111,7 +111,7 @@ public final class MetaInfoEntry
         if ( null == deps ) throw new NullPointerException( "\"deps\" cannot be null." );
 
         m_klass = componentClass;
-        m_configName = properties.getProperty( "x-avalon.name", Service.createShortName( componentClass.getName() ) );
+        m_configName = properties.getProperty( "x-avalon.name", createShortName( componentClass.getName() ) );
         m_handler = Thread.currentThread().getContextClassLoader().loadClass( getHandler( properties ) );
         m_roles = new HashSet();
         m_dependencies = deps;
@@ -248,6 +248,44 @@ public final class MetaInfoEntry
         }
 
         return handler;
+    }
+
+    /**
+     * Convert a Component implmentation classname into a shorthand
+     * name.  It assumes all classnames for a particular component is
+     * unique.
+     *
+     * @param className  The classname of a component
+     * @return String the short name
+     */
+    public static final String createShortName( final String className )
+    {
+        final StringBuffer shortName = new StringBuffer();
+
+        final char[] name = className.substring(
+            className.lastIndexOf( '.' ) + 1 ).toCharArray();
+        char last = '\0';
+
+        for (int i = 0; i < name.length; i++)
+        {
+            if (Character.isUpperCase(name[i]))
+            {
+                if ( Character.isLowerCase( last ) )
+                {
+                    shortName.append('-');
+                }
+
+                shortName.append(Character.toLowerCase(name[i]));
+            }
+            else
+            {
+                shortName.append(name[i]);
+            }
+
+            last = name[i];
+        }
+
+        return shortName.toString().toLowerCase();
     }
 
 }
