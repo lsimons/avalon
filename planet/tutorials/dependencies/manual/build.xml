@@ -8,6 +8,8 @@
 
   <target name="build" depends="standard.build">
     <x:block name="tutorial" embed="MAIN">
+      <x:component name="gloria" class="tutorial.IdentifiableComponent"/>
+      <x:component name="nancy" class="tutorial.IdentifiableComponent"/>
       <x:component name="hello" class="tutorial.HelloComponent">
         <x:dependencies>
           <x:dependency key="primary" source="gloria"/>

@@ -351,8 +351,10 @@ class DefaultContainmentModelAssemblyHelper
             DeploymentModel model = m_model.getModel( path );
             if( null == model )
             {
-                final String error = "Could not locate a model at the address: ["
-                        + path + "] in " + this + ".";
+                final String error = 
+                  "The supplied dependency path ["
+                  + path 
+                  + "] does not reference a known component.";
                 throw new AssemblyException( error );
             }
             assembleModel( model, subjects );
