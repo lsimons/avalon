@@ -138,8 +138,8 @@ public class MX4JSystemManager
         }
 
         /*<user>
-          <name>user</name>
-          <password>passwd</password>
+         ï¿½<name>user</name>
+         ï¿½<password>passwd</password>
         </user>*/
         final Configuration userConfig = configuration.getChild( "user" );
         m_username = userConfig.getChild( "name" ).getValue( null );
@@ -253,8 +253,11 @@ public class MX4JSystemManager
                                                          adaptor );
         // Set the JNDI name with which will be registered
         mbean.setJNDIName( "jrmp" );
-        mbean.putJNDIProperty( javax.naming.Context.INITIAL_CONTEXT_FACTORY,
-                               m_namingFactory );
+
+        mbean.putNamingProperty( javax.naming.Context.INITIAL_CONTEXT_FACTORY,
+                                 m_namingFactory);
+        //mbean.putJNDIProperty( javax.naming.Context.INITIAL_CONTEXT_FACTORY,
+        //                       m_namingFactory );
         //mbean.putJNDIProperty( javax.naming.Context.PROVIDER_URL, "rmi://localhost:1099" );
         // Register the JRMP adaptor in JNDI and start it
         mbean.start();
