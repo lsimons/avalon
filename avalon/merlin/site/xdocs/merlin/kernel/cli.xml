@@ -48,7 +48,7 @@ Example of block deployment based on a supplied block directive.
         </p>
 <source><![CDATA[
  $ merlin -help
-usage: merlin [block] [-lang <code>] [-library <directory>]
+usage: merlin [block] [-lang <code>] [-anchor <directory>]
        [-help] [-version] [-home <directory>] [-impl <artifact>]
        [-debug] [-info] [-config <url>] [-context <directory>] [-system
        <directory>] [-execute] [-repository <directory>] [-kernel <url>]
@@ -64,7 +64,7 @@ usage: merlin [block] [-lang <code>] [-library <directory>]
             <td>Sets the default language country code to the supplied value.</td>
           </tr>
           <tr>
-            <td>library</td>
+            <td>anchor</td>
             <td>directory</td>
             <td>Override the default anchor directory for jar extension references
                and classpath include relative file references.</td>
