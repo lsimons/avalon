@@ -57,7 +57,7 @@ import java.util.Map;
 import org.apache.avalon.excalibur.collections.Buffer;
 import org.apache.avalon.excalibur.collections.VariableSizeBuffer;
 import org.apache.avalon.excalibur.concurrent.Mutex;
-import org.apache.excalibur.event.DefaultQueue;
+import org.apache.excalibur.event.impl.DefaultQueue;
 import org.apache.excalibur.event.EventHandler;
 import org.apache.excalibur.event.Queue;
 import org.apache.excalibur.event.Signal;

@@ -50,7 +50,7 @@
 package org.apache.excalibur.event.test;
 
 import junit.framework.TestCase;
-import org.apache.excalibur.event.DefaultQueue;
+import org.apache.excalibur.event.impl.DefaultQueue;
 import org.apache.excalibur.event.Queue;
 import org.apache.excalibur.event.Sink;
 import org.apache.excalibur.event.SinkException;
@@ -61,7 +61,7 @@ import org.apache.excalibur.event.Source;
  *
  * @author <a href="mailto:proyal@managingpartners.com">Peter Royal</a>
  * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version VSS $Revision: 1.8 $ $Date: 2002/09/03 17:10:56 $
+ * @version VSS $Revision: 1.9 $ $Date: 2002/09/03 17:43:01 $
  */
 public class ThreadedQueueTestCase
     extends TestCase
