@@ -24,18 +24,18 @@ body {
 .app h3 {
  background-color: #036;
  }
-.app h4 { 
+.app h4 {
  background-color: #888;
  }
-.a td { 
+.a td {
  background: #ddd;
  }
-.b td { 
+.b td {
  background: #efefef;
  }
 table, th, td {
  border: none
- } 
+ }
 .mtb {
  border-top: solid 1px #ddd;
  }
@@ -64,13 +64,13 @@ div#helptext td {
  border-bottom: 1px solid #fff;
  border-right: 1px solid #fff;
  }
-.tabs { 
+.tabs {
  border-bottom: 6px #ddd solid;
  }
 .tabs th, .tabs th a:link, .tabs th a:visited {
  color: #555;
  }
-.tabs td, .tabs td a:link, .tabs td a:visited  { 
+.tabs td, .tabs td a:link, .tabs td a:visited  {
  color: #fff;
  }
 .tabs a  {
@@ -91,7 +91,7 @@ div#helptext td {
 #rightcol div.www, #rightcol div.help {
  border: 1px solid #ddd;
  }
-div#navcolumn div.focus { 
+div#navcolumn div.focus {
  border-top: 1px solid #aaa;
  border-left: 1px solid #aaa;
  background-color: #fff;
