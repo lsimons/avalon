@@ -1,26 +1,26 @@
-<project default="jar:jar" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util">
+<project default="jar:jar" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
-  <property file="${basedir}/../build.properties"/>
-  <property file="${basedir}/../project.properties"/>
-  <property file="project.properties"/>
-  <property name="merlin.build.inst" value="inst"/>
-  <property name="merlin.build.inst.dir" value="${maven.build.dir}/${merlin.build.inst}"/>
-  <property name="maven.jar.manifest.extensions.add" value="true"/>
+  <ant:property file="${basedir}/../build.properties"/>
+  <ant:property file="${basedir}/../project.properties"/>
+  <ant:property file="project.properties"/>
+  <ant:property name="merlin.build.inst" value="inst"/>
+  <ant:property name="merlin.build.inst.dir" value="${maven.build.dir}/${merlin.build.inst}"/>
+  <ant:property name="maven.jar.manifest.extensions.add" value="true"/>
 
-  <property name="maven.checkstyle.format" value="avalon"/>
-  <property name="pom.organization.identifier" value="ASF"/>
-  <property name="pom.specificationVersion" value="1.0"/>
+  <ant:property name="maven.checkstyle.format" value="avalon"/>
+  <ant:property name="pom.organization.identifier" value="ASF"/>
+  <ant:property name="pom.specificationVersion" value="1.0"/>
 
   <goal name="merlin-dist" 
     description="Build the Merlin distribution." >
 
-    <mkdir dir="${merlin.build.inst.dir}"/>
-    <mkdir dir="${merlin.build.inst.dir}/ext"/>
-    <mkdir dir="${merlin.build.inst.dir}/lib/system"/>
-    <mkdir dir="${merlin.build.inst.dir}/lib/shared"/>
-    <copy toDir="${merlin.build.inst.dir}/lib">
+    <ant:mkdir dir="${merlin.build.inst.dir}"/>
+    <ant:mkdir dir="${merlin.build.inst.dir}/ext"/>
+    <ant:mkdir dir="${merlin.build.inst.dir}/lib/system"/>
+    <ant:mkdir dir="${merlin.build.inst.dir}/lib/shared"/>
+    <ant:copy toDir="${merlin.build.inst.dir}/lib">
       <fileset dir="${basedir}/merlin-platform/lib"/>
-    </copy>
+    </ant:copy>
 
     <!--
     Install the sub-project jars (meta, assembly, merlin, etc.)
@@ -52,18 +52,18 @@
     Move spi and framework jar files into the shared library.
     -->
 
-    <move toDir="${merlin.build.inst.dir}/lib/shared">
+    <ant:move toDir="${merlin.build.inst.dir}/lib/shared">
       <fileset dir="${merlin.build.inst.dir}/lib/system">
         <include name="*-api-*.jar"/>
         <include name="*-spi-*.jar"/>
       </fileset>
-    </move>
+    </ant:move>
 
     <!--
     Add the supporting resources.
     -->
 
-    <copy toDir="${merlin.build.inst.dir}">
+    <ant:copy toDir="${merlin.build.inst.dir}">
       <fileset dir="${basedir}/merlin-platform/src">
         <include name="bin/**/*"/>
         <include name="config/**/*"/>
@@ -73,18 +73,18 @@
         <include name="LICENSE.txt"/>
         <include name="README.TXT"/>
       </fileset>
-    </copy>
+    </ant:copy>
 
-    <chmod file="${merlin.build.inst.dir}/bin/merlin.sh" perm="ugo+rx"/>
+    <ant:chmod file="${merlin.build.inst.dir}/bin/merlin.sh" perm="ugo+rx"/>
 
   </goal>
 
   <goal name="testing">
-    <copy toDir="${merlin.build.inst.dir}" flatten="true">
+    <ant:copy toDir="${merlin.build.inst.dir}" flatten="true">
       <fileset dir="${basedir}/merlin-platform/src/etc">
         <include name="LICENSE.txt"/>
       </fileset>
-    </copy>
+    </ant:copy>
   </goal>
 
   <!--
@@ -94,11 +94,11 @@
   directory.
   -->
   <goal name="merlin-propergate" prereqs="jar:install">
-    <copy todir="${basedir}/../target/${merlin.build.inst}/lib/system">
+    <ant:copy todir="${basedir}/../target/${merlin.build.inst}/lib/system">
       <fileset dir="${maven.build.dir}">
         <include name="${maven.final.name}.jar"/>
       </fileset>
-    </copy>
+    </ant:copy>
   </goal>
 
   <!--
@@ -185,14 +185,14 @@
   place.  It is useful if you want to update an existing installation.
   -->
   <goal name="merlin-install" prereqs="merlin-install-plugin,merlin-dist">
-    <property environment="env"/>
-    <mkdir dir="${env.MERLIN_HOME}"/>
-    <echo>Installing Merlin into home directory: ${env.MERLIN_HOME}</echo>
-    <copy toDir="${env.MERLIN_HOME}">
+    <ant:property environment="env"/>
+    <ant:mkdir dir="${env.MERLIN_HOME}"/>
+    <ant:echo>Installing Merlin into home directory: ${env.MERLIN_HOME}</ant:echo>
+    <ant:copy toDir="${env.MERLIN_HOME}">
       <fileset dir="${merlin.build.inst.dir}">
         <include name="**/*"/>
       </fileset>
-    </copy>
+    </ant:copy>
   </goal>
 
   <!--
@@ -201,28 +201,28 @@
   the jar files in the lib subdirectories.
   -->
   <goal name="merlin-libs" prereqs="merlin-install-plugin,merlin-dist">
-    <property environment="env"/>
-    <mkdir dir="${env.MERLIN_HOME}/lib/shared"/>
-    <echo>Updating Merlin libraries: ${env.MERLIN_HOME}</echo>
-    <copy toDir="${env.MERLIN_HOME}/lib/shared">
+    <ant:property environment="env"/>
+    <ant:mkdir dir="${env.MERLIN_HOME}/lib/shared"/>
+    <ant:echo>Updating Merlin libraries: ${env.MERLIN_HOME}</ant:echo>
+    <ant:copy toDir="${env.MERLIN_HOME}/lib/shared">
       <fileset dir="${merlin.build.inst.dir}/lib/shared">
         <include name="**/*"/>
       </fileset>
-    </copy>
-    <mkdir dir="${env.MERLIN_HOME}/lib/system"/>
-    <copy toDir="${env.MERLIN_HOME}/lib/system">
+    </ant:copy>
+    <ant:mkdir dir="${env.MERLIN_HOME}/lib/system"/>
+    <ant:copy toDir="${env.MERLIN_HOME}/lib/system">
       <fileset dir="${merlin.build.inst.dir}/lib/system">
         <include name="**/*"/>
       </fileset>
-    </copy>
+    </ant:copy>
   </goal>
 
   <goal name="xjavadoc">
-    <mkdir dir="${basedir}/target/docs/api" />
-    <property name="copyright"
+    <ant:mkdir dir="${basedir}/target/docs/api" />
+    <ant:property name="copyright"
       value="Copyright &amp;copy; ${year} ${pom.organization.name}. All Rights Reserved." />
-    <property name="title" value="${pom.name} ${pom.currentVersion} API"/>
-    <javadoc destdir="${basedir}/target/docs/api" 
+    <ant:property name="title" value="${pom.name} ${pom.currentVersion} API"/>
+    <ant:javadoc destdir="${basedir}/target/docs/api" 
 	doctitle="&lt;h1&gt;Merlin Service Management API&lt;/h1&gt;" 
       noindex="false" author="true" use="true"
 	windowtitle="${title}" 
@@ -256,7 +256,7 @@
 	  <link href="${excalibur.pool.link}" />
 	  <link href="${excalibur.thread.link}" />
 	  <link href="${excalibur.event.link}" />
-    </javadoc>
+    </ant:javadoc>
   </goal>
 
   <!--
