@@ -23,6 +23,7 @@ Legal:
       Give user a chance to override without editing this file
       (and without typing -D each time he compiles it)
     -->
+        
     <property file="ant.properties"/>
     <property file="${user.home}/.ant.properties"/>
 
@@ -65,6 +66,8 @@ Legal:
     <!-- Invoke 'ant get-mx4j' to get these -->
     <property name="mx4j.jar" value="mx4j/mx4j-1.1.1/lib/mx4j-jmx.jar"/>
     <property name="mx4j-tools.jar" value="mx4j/mx4j-1.1.1/lib/mx4j-tools.jar"/>
+
+    <property name="kernel.impl.class" value="org.apache.avalon.phoenix.components.kernel.DefaultKernel"/>
 
     <path id="project.class.path">
         <pathelement location="${xerces.jar}"/>
