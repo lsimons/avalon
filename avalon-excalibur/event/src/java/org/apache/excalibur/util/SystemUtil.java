@@ -15,7 +15,7 @@ package org.apache.excalibur.util;
  * Windows support.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/09/25 14:52:28 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/09/26 12:52:40 $
  */
 public final class SystemUtil
 {
@@ -36,7 +36,7 @@ public final class SystemUtil
         try
         {
             String name = "org.apache.excalibur.util.system." +
-                StringUtil.stripWhitespace( m_osName );
+                stripWhitespace( m_osName );
             Class klass = Class.forName( name );
             CPUParser parser = (CPUParser)klass.newInstance();
 
@@ -57,6 +57,30 @@ public final class SystemUtil
 
         m_processors = procs;
         m_cpuInfo = info;
+    }
+
+    /**
+     * Utility method to strip whitespace from specified name.
+     *
+     * @param mosname the name
+     * @return the whitespace stripped version
+     */
+    private static String stripWhitespace( String mosname )
+    {
+        final StringBuffer sb = new StringBuffer();
+
+        final int size = mosname.length();
+        for( int i =0; i < size; i++ )
+        {
+            final char ch = mosname.charAt( i );
+            if( ch != '\t' && ch != '\r' &&
+                ch != '\n' && ch != '\b' )
+            {
+                sb.append( ch );
+            }
+        }
+
+        return sb.toString();
     }
 
     /** keep utility from being instantiated */
