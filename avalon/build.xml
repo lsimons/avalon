@@ -176,17 +176,31 @@ Legal:
     <available property="datasource.present" classname="javax.sql.DataSource">
       <classpath refid="project.class.path"/>
     </available>
+    <available property="jdbc3.present" classname="java.sql.Savepoint">
+      <classpath refid="project.class.path"/>
+    </available>
   </target>
 
   <target name="check-datasource" depends="check-environment" if="datasource.present">
     <property name="j2ee.present" value="true"/>
   </target>
 
+  <target name="jdbc2" unless="jdbc3.present">
+    <copy file="${java.dir}/org/apache/avalon/excalibur/datasource/Jdbc2Connection.java"
+          tofile="${java.dir}/org/apache/avalon/excalibur/datasource/JdbcConnection.java"
+          overwrite="yes"/>
+  </target>
+
+  <target name="jdbc3" if="jdbc3.present">
+    <copy file="${java.dir}/org/apache/avalon/excalibur/datasource/Jdbc3Connection.java"
+          tofile="${java.dir}/org/apache/avalon/excalibur/datasource/JdbcConnection.java"
+          overwrite="yes"/>
+  </target>
+
   <!-- Prepares the build directory -->
-  <target name="prepare" depends="check-datasource,setup-properties">
+  <target name="prepare" depends="check-datasource,setup-properties,jdbc2,jdbc3">
     <tstamp/>
     <mkdir dir="${build.dir}"/>
-
   </target>
 
   <!-- Compiles the source code -->
@@ -211,6 +225,8 @@ Legal:
       <src path="${test.dir}"/>
       <exclude name="org/apache/avalon/excalibur/datasource/J2eeDataSource.java"
                unless="j2ee.present"/>
+      <exclude name="org/apache/avalon/excalibur/datasource/Jdbc2Connection.java"/>
+      <exclude name="org/apache/avalon/excalibur/datasource/Jdbc3Connection.java"/>
     </javac>
 
     <javac srcdir="${scratchpad.dir}"
