@@ -40,7 +40,20 @@ build from source, download an install Ant 1.6.1 or later, then
 run:
 
    ant setup               <-- only needed once to bootstrap magic
+   ant clean		   <-- deletes any 'dirty' content
    ant                     <-- builds entire Avalon platform
+
+Magic uses an environmental variable "MAGIC_HOME" which defaults
+to ${user.home}/.magic .  This directory contains artifact
+and document caches.
+
+Magic also uses a set of property files for handling default behavior.
+You may want to copy the contents of the 'build.properties' file into
+a new file named 'user.properties' which you can then use to override
+any default build values (such as HTTP proxies).
+
+The 'setup' tasks requires internet access to download the latest
+plugins and dependencies. [fixme: offline setup instructions]
 
 
 What is the repository layout?

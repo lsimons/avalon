@@ -51,10 +51,10 @@ public class Magic extends DataType
     public static final String DOCS_CACHE_KEY = "magic.docs";
     public static final String TEMPLATES_KEY = "magic.templates";
 
-    public static final String PROXY_HOST_KEY = "project.proxy.host";
-    public static final String PROXY_PORT_KEY = "project.proxy.port";
-    public static final String PROXY_USERNAME_KEY = "project.proxy.username";
-    public static final String PROXY_PASSWORD_KEY = "project.proxy.password";
+    public static final String PROXY_HOST_KEY = "magic.proxy.host";
+    public static final String PROXY_PORT_KEY = "magic.proxy.port";
+    public static final String PROXY_USERNAME_KEY = "magic.proxy.username";
+    public static final String PROXY_PASSWORD_KEY = "magic.proxy.password";
 
     private static Magic SYSTEM;
     private static Repository MAIN;
