@@ -174,58 +174,29 @@ public class ServiceFactory implements ObjectFactory
         }
     }
 
-    private Object loadKernel( ClassLoader loader, Map map )
+    private Object loadKernel( ClassLoader loader, Map map ) throws Exception
     {
         Thread.currentThread().setContextClassLoader( loader );
         Object kernelLoader = null;
-        Class clazz;
+        
 
         //
         // load the kernel loader class from the supplied classloader
+        // and instantiate the loader
         //
 
-        try
-        {
-            clazz = loader.loadClass( MERLIN_KERNEL_LOADER_CLASSNAME );
-        }
-        catch( Throwable e )
-        {
-            final String error =
-              "Internal error during loader class creation.";
-            throw new RuntimeException( error, e );
-        }
+        Class clazz = loader.loadClass( MERLIN_KERNEL_LOADER_CLASSNAME );
 
-        //
-        // instantiate the loader
-        //
-
-        try
-        {
-            Constructor constructor = clazz.getConstructor( new Class[0] );
-            kernelLoader = constructor.newInstance( new Object[0] );
-        }
-        catch( Throwable e )
-        {
-            final String error =
-              "Internal error during loader instantiation.";
-            throw new RuntimeException( error, e );
-        }
+        Constructor constructor = clazz.getConstructor( new Class[0] );
+        kernelLoader = constructor.newInstance( new Object[0] );
 
         //
         // create the kernel instance
         //
 
-        try
-        {
-            Method method = kernelLoader.getClass().getMethod( "build", new Class[]{ Map.class } );
-            return method.invoke( kernelLoader, new Object[]{ map } );
-        }
-        catch( Throwable e )
-        {
-            final String error =
-              "Internal error during kernel resolution.";
-            throw new RuntimeException( error, e );
-        }
+        Method method = 
+          kernelLoader.getClass().getMethod( "build", new Class[]{ Map.class } );
+        return method.invoke( kernelLoader, new Object[]{ map } );
     }
 
     private static URL[] getJarFiles( File base )

@@ -232,8 +232,6 @@
         <j:forEach var="packageGroup" items="${pom.packageGroups}">
       	  <group title="${packageGroup.title}" packages="${packageGroup.packages}"/>
         </j:forEach>
-        <sourcepath path="${basedir}/../meta-spi/src/java"/>
-        <sourcepath path="${basedir}/../meta/src/java"/>
         <sourcepath path="${basedir}/../extension-spi/src/java"/>
         <sourcepath path="${basedir}/../extension/src/java"/>
         <!--
