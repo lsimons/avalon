@@ -55,13 +55,13 @@ import org.apache.log.output.net.DatagramOutputTarget;
  * <p>
  *  This factory creates a DatagramOutputTarget object which will
  *  sends datagrams to the specified address. The name of the target is specified by the hostname attribute
- *  of the &lt;address&gt; element and the port by the port attribute.The &lt;address&gt; element
+ *  of the &lt;address&gt; element and the port by the port attribute.The &lt;format&gt; element
  *  wraps the format to output the log.
  * </p>
  *
  * @author <a href="mailto:rghorpade@onebridge.de"> Rajendra Ghorpade </a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/04 20:49:11 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/21 15:20:19 $
  */
 public class DatagramTargetFactory implements LogTargetFactory
 {
