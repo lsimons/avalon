@@ -11,7 +11,6 @@ import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Hierarchy;
 
@@ -29,8 +28,8 @@ public interface Kernel
                          Hierarchy hierarchy,
                          Configuration server )
         throws Exception;
-    
-    void removeApplication( String name ) 
+
+    void removeApplication( String name )
         throws Exception;
 
     Application getApplication( String name );

@@ -7,8 +7,6 @@
  */
 package org.apache.avalon.phoenix.interfaces;
 
-import java.io.File;
-import java.net.URL;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.phoenix.metadata.SarMetaData;

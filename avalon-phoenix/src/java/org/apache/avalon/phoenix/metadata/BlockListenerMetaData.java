@@ -14,8 +14,8 @@ package org.apache.avalon.phoenix.metadata;
  */
 public final class BlockListenerMetaData
 {
-    private final String        m_name;
-    private final String        m_classname;
+    private final String m_name;
+    private final String m_classname;
 
     public BlockListenerMetaData( final String name, final String classname )
     {

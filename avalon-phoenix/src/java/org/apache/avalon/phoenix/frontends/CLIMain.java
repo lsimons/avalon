@@ -7,10 +7,6 @@
  */
 package org.apache.avalon.phoenix.frontends;
 
-import org.apache.avalon.excalibur.cli.CLArgsParser;
-import org.apache.avalon.excalibur.cli.CLOption;
-import org.apache.avalon.excalibur.cli.CLOptionDescriptor;
-import org.apache.avalon.excalibur.cli.CLUtil;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.parameters.Parameterizable;
@@ -31,12 +27,12 @@ public final class CLIMain
         ResourceManager.getPackageResources( CLIMain.class );
 
     ///The embeddor attached to frontend
-    private Embeddor      m_embeddor;
+    private Embeddor m_embeddor;
 
     ///The code to return to system using exit code
-    private int           m_exitCode;
+    private int m_exitCode;
 
-    private ShutdownHook  m_hook;
+    private ShutdownHook m_hook;
 
     /**
      * Main entry point.
@@ -119,12 +115,12 @@ public final class CLIMain
             m_embeddor = new DefaultEmbeddor();
             //m_embeddor = new SingleAppEmbeddor();
             //parameters.setParameter( "application-location", "../apps/avalon-demo.sar" );
-            
+
             if( m_embeddor instanceof Parameterizable )
             {
-                ((Parameterizable)m_embeddor).parameterize( parameters );
+                ( (Parameterizable)m_embeddor ).parameterize( parameters );
             }
-                
+
             m_embeddor.initialize();
         }
         catch( final Throwable throwable )
@@ -144,7 +140,7 @@ public final class CLIMain
         final String message = REZ.getString( "main.abnormal-exit.notice" );
         System.out.println( message );
         System.out.flush();
-        
+
         //Null hook so it is not tried to be removed
         //when we are shutting down. (Attempting to remove
         //hook during shutdown raises an exception).
@@ -185,7 +181,7 @@ public final class CLIMain
         System.out.println( REZ.getString( "main.exception.header" ) );
         System.out.println( "---------------------------------------------------------" );
         System.out.println( "--- Message ---" );
-        System.out.println( throwable.getMessage() );                
+        System.out.println( throwable.getMessage() );
         System.out.println( "--- Stack Trace ---" );
         throwable.printStackTrace( System.out );
         System.out.println( "---------------------------------------------------------" );
@@ -198,7 +194,7 @@ public final class CLIMain
 final class ShutdownHook
     extends Thread
 {
-    private CLIMain   m_main;
+    private CLIMain m_main;
 
     protected ShutdownHook( CLIMain main )
     {

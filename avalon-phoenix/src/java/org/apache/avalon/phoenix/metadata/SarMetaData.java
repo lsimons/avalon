@@ -10,15 +10,15 @@ package org.apache.avalon.phoenix.metadata;
 import java.io.File;
 
 /**
- * MetaData for the application. 
+ * MetaData for the application.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class SarMetaData
 {
-    private String                  m_name;
-    private File                    m_homeDirectory;
-    private BlockMetaData[]         m_blocks;
+    private String m_name;
+    private File m_homeDirectory;
+    private BlockMetaData[] m_blocks;
     private BlockListenerMetaData[] m_listeners;
 
     public SarMetaData( final String name,

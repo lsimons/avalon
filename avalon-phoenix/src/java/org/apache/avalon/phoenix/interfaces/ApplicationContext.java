@@ -26,6 +26,7 @@ public interface ApplicationContext
     String ROLE = "org.apache.avalon.phoenix.interfaces.ApplicationContext";
 
     SarMetaData getMetaData();
+
     ThreadContext getThreadContext();
 
     /**
