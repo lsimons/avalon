@@ -11,7 +11,7 @@
       <p>This page contains a real production example of a block
       assembly and block .xinfo description based an extract from
       a B2B Enterprise Integration and Collaboration Platform developed by
-      <a href="http://www.osm.net">OSM</a></p>.
+      <a href="http://www.osm.net">OSM</a>.</p>
       <p>This example was originally a Mailing List response to a
       some user questions!</p>
       <p>The orginal post was written by Stephen McConnell from OSM.</p>
@@ -128,8 +128,8 @@
       E.g. the provide element references a block by its name - and declares that the
       named block will serve as the provider of the service. The role attribute matches
       the role element in the <code>.xinfo</code> dependency declaration.</p>
-      The name attribute also serves a the key to lookup a configuration element in
-      the application configuration.xml file.
+      <p>The name attribute also serves a the key to lookup a configuration element in
+      the application configuration.xml file.</p>
       <source><![CDATA[
 <?xml version="1.0"?>
 
