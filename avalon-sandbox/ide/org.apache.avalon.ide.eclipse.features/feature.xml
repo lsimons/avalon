@@ -4,9 +4,15 @@
       label="MerlinDeveloper Feature"
       version="0.0.4"
       provider-name="Apache Software Foundation"
-      nl="en_US"
-      primary="true"
-      exclusive="true">
+      nl="en_US">
+
+   <copyright>
+      this is a copyright
+   </copyright>
+
+   <license>
+      and this a license
+   </license>
 
    <url>
       <update label="MerlinDeveloper Updates" url="http://www.apache.org/~oberhack/eclipse/updates/"/>
