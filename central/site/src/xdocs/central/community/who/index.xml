@@ -2,10 +2,10 @@
 <document>
   <properties>
     <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
-    <title>Apache Avalon: Who we are</title>
+    <title>Contributors</title>
   </properties>
   <body>
-   <section name="Avalon Committers">
+   <section name="Avalon Contributors">
     <p>
      The following ASF committers have access to the
      core Avalon CVS repositories.  If you're interested in 
@@ -13,39 +13,43 @@
      Community Process</a> page for more information.
     </p>
     <table>
-<tr><td>akarasulu</td>  <td>Alex Karasulu</td></tr>
+<tr><td><a href="akarasulu.html">akarasulu</a></td>  <td>Alex Karasulu</td></tr>
 <tr><td>atagunov</td> 	<td>Anton Tagunov</td></tr>
-<tr><td>bloritsch</td> 	<td>Berin Loritsch</td></tr>
+<tr><td><a href="bloritsch.html">bloritsch</a></td> 	<td>Berin Loritsch</td></tr>
 <tr><td>charlesb</td> 	<td>Charles Benett</td></tr>
-<tr><td>colus</td> 	<td>Eung-ju Park</td></tr>
-<tr><td>crafterm</td> 	<td>Marcus Crafter</td></tr>
-<tr><td>cziegeler</td> 	<td>Carsten Ziegeler</td></tr>
-<tr><td>farra</td> 	<td>Aaron Farr</td></tr>
+<tr><td><a href="eungju.html">colus</a></td><td>Eung-Ju Park</td></tr>
+<tr><td><a href="craterm.html">crafterm</a></td> 	<td>Marcus Crafter</td></tr>
+<tr><td><a href="cziegler.html">cziegeler</a></td> 	<td>Carsten Ziegeler</td></tr>
+<tr><td><a href="farra.html">farra</a></td> 	<td>Aaron Farr</td></tr>
+<tr><td><a href="fede.html">fede</a></td><td>Federico Barbieri</td></tr>
 <tr><td>froehlich</td> 	<td>Gerhard Froehlich</td></tr>
 <tr><td>giacomo</td> 	<td>Giacomo Pati</td></tr>
-<tr><td>hammett</td> 	<td>Hamilton Verissimo de Oliveira</td></tr>
-<tr><td>huw</td> 	<td>Huw Roberts</td></tr>
-<tr><td>jefft</td> 	<td>Jeff Turner</td></tr>
+<tr><td><a href="hammett.html">hammett</a></td> 	<td>Hamilton Verissimo de Oliveira</td></tr>
+<tr><td><a href="huw.html">huw</a></td> 	<td>Huw Roberts</td></tr>
+<tr><td><a href="jturner.html">jefft</a></td> 	<td>Jeff Turner</td></tr>
 <tr><td>jon</td> 	<td>Jon Stevens</td></tr>
 <tr><td>jrudd</td> 	<td>Justin Rudd</td></tr>
-<tr><td>leif</td> 	<td>Leif Mortenson</td></tr>
-<tr><td>leosimons</td> 	<td>Leo Simons</td></tr>
+<tr><td><a href="leif.html">leif</a></td> 	<td>Leif Mortenson</td></tr>
+<tr><td><a href="leosimons.html">leosimons</a></td> 	<td>Leo Simons</td></tr>
 <tr><td>leosutic</td> 	<td>Leo Sutic</td></tr>
 <tr><td>lmccay</td> 	<td>lawrence_mccay</td></tr>
-<tr><td>mcconnell</td> 	<td>Stephen McConnell</td></tr>
+<tr><td><a href="mcconnell.html">mcconnell</a></td> 	<td>Stephen McConnell</td></tr>
 <tr><td>mirceatoma</td> <td>Mircea Toma</td></tr>
 <tr><td>morpheus</td> 	<td>Mark Wood</td></tr>
 <tr><td>mschier</td> 	<td>Marc Schier</td></tr>
-<tr><td>neeme</td> 	<td>Neeme Praks</td></tr>
-<tr><td>niclas</td> 	<td>Niclas Hedhman</td></tr>
-<tr><td>nicolaken</td> 	<td>Nicola Ken Barozzi</td></tr>
+<tr><td><a href="neeme.html">neeme</a></td> 	<td>Neeme Praks</td></tr>
+<tr><td><a href="niclas.html">niclas</a></td> 	<td>Niclas Hedhman</td></tr>
+<tr><td><a href="nicolaken.html">nicolaken</a></td> 	<td>Nicola Ken Barozzi</td></tr>
 <tr><td>noel</td> 	<td>Noel J. Bergman</td></tr>
 <tr><td>oberhack</td> 	<td>Andreas Oberhack</td></tr>
-<tr><td>proyal</td> 	<td>Peter Royal</td></tr>
+<tr><td><a href="pier.html">pier</a></td><td>Pier Fumagalli</td></tr>
+<tr><td><a href="proyal.html">proyal</a></td> 	<td>Peter Royal</td></tr>
 <tr><td>ramc</td> 	<td>Ram C</td></tr>
 <tr><td>rana_b</td> 	<td>Rana Bhattacharyya</td></tr>
+<tr><td><a href="roberto.html">rlogiacco</a></td><td>Roberto Lo Giacco</td></tr>
+<tr><td><a href="stefano.html">stefano</a></td><td>Stefano Mazzocchi</td></tr>
 <tr><td>sylvain</td> 	<td>Sylvain Wallez</td></tr>
-<tr><td>tbennett</td>   <td>Timothy Bennett</td></tr>
+<tr><td><a href="tbennett.html">tbennett</a></td>   <td>Timothy Bennett</td></tr>
 <tr><td>vinayc</td> 	<td>Vinay Chandran</td></tr>
 <tr><td>ymikulski</td> 	<td>Yauheny Mikulski</td></tr>
      </table>
