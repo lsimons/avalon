@@ -115,7 +115,8 @@ public class DefaultClassLoaderManager
         if( getLogger().isDebugEnabled() )
         {
             final String message =
-                REZ.getString( "classpath-entries", Arrays.asList( classPath ) );
+                REZ.getString( "classpath-entries",
+                               Arrays.asList( classPath ) );
             getLogger().debug( message );
         }
 
@@ -132,17 +133,8 @@ public class DefaultClassLoaderManager
             getLogger().debug( message );
         }
 
-        //If source is not a file then there will be no need to pass in
-        //a URLStreamHandler factory anyway so we can just pass in null
-        //SarURLStreamHandlerFactory factory = null;
-        //if( source.isFile() )
-        //{
-        //final JarFile archive = new JarFile( source, true, JarFile.OPEN_READ );
-        //factory = new SarURLStreamHandlerFactory( archive );
-        //URL.setURLStreamHandlerFactory( factory );
-        //}
         final PolicyClassLoader classLoader =
-            new PolicyClassLoader( classPath, m_commonClassLoader, null, policy );
+            new PolicyClassLoader( classPath, m_commonClassLoader, policy );
         setupLogger( classLoader, "classloader" );
 
         for( int i = 0; i < extensions.length; i++ )
@@ -171,10 +163,12 @@ public class DefaultClassLoaderManager
         if( getLogger().isDebugEnabled() )
         {
             final String message1 =
-                REZ.getString( "available-extensions", Arrays.asList( available ) );
+                REZ.getString( "available-extensions",
+                               Arrays.asList( available ) );
             getLogger().debug( message1 );
             final String message2 =
-                REZ.getString( "required-extensions", Arrays.asList( required ) );
+                REZ.getString( "required-extensions",
+                               Arrays.asList( required ) );
             getLogger().debug( message2 );
         }
 
