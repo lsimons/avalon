@@ -7,8 +7,6 @@
  */
 package org.apache.avalon.framework.logger;
 
-import org.apache.log.Logger;
-
 /**
  * Utility class to allow construction of easy components that will perform logging.
  *
@@ -28,6 +26,14 @@ public abstract class AbstractLoggable
     public void setLogger( final Logger logger )
     {
         m_logger = logger;
+    }
+
+    /**
+     * Set the component's logger.
+     */
+    public void setLogger( final org.apache.log.Logger logger )
+    {
+        setLogger( new LogKitLogger(logger) );
     }
 
     /**
@@ -60,12 +66,12 @@ public abstract class AbstractLoggable
     protected void setupLogger( final Object component, final String subCategory )
     {
         Logger logger = m_logger;
-        
+
         if( null != subCategory )
         {
             logger = m_logger.getChildLogger( subCategory );
         }
-        
+
         setupLogger( component, logger );
     }
 
