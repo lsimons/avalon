@@ -15,13 +15,12 @@ implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
 <project>
     <extend>${basedir}/../project.xml</extend>
 
     <name>Excalibur Sourceresolve</name>
     <id>excalibur-sourceresolve</id>
-    <currentVersion>1.1</currentVersion>
+    <currentVersion>2.0</currentVersion>
     <inceptionYear>1997</inceptionYear>
     <shortDescription>A utility for finding resources given an URI</shortDescription>
     <description>
@@ -52,23 +51,21 @@ limitations under the License.
             <version>1.0.3_02</version>
         </dependency>
         
-<!--    Not USED ???    
-        <dependency>
-            <id>xml-commons-resolver</id>
-            <version>1.0</version>
-        </dependency>
--->     
-   
         <dependency>
             <!-- for testing only -->
             <id>commons-logging</id>
             <version>1.0.2</version>
         </dependency>
+
         <dependency>
-            <!-- for metadata generation only -->
-            <id>excalibur-fortress-tools</id>
-            <version>1.0</version>
             <groupId>excalibur-fortress</groupId>
+            <artifactId>excalibur-fortress-container-api</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>excalibur-fortress</groupId>
+            <artifactId>excalibur-fortress-meta</artifactId>
+            <version>1.2</version>
         </dependency>
         <dependency>
             <!-- for metadata generation only -->

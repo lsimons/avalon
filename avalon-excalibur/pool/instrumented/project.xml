@@ -7,7 +7,7 @@
   <groupId>excalibur-pool</groupId>
   <id>excalibur-pool-instrumented</id>
   <name>Excalibur Pool Instrumented Implementation</name>
-  <currentVersion>SNAPSHOT</currentVersion>
+  <currentVersion>2.0</currentVersion>
   <package>org.apache.excalibur.pool</package>
   <inceptionYear>2001</inceptionYear>
   <shortDescription>Excalibur Pool Instrumented Implementation</shortDescription>
@@ -16,12 +16,12 @@
     <dependency>
       <groupId>excalibur-pool</groupId>
       <artifactId>excalibur-pool-api</artifactId>
-      <version>SNAPSHOT</version>
+      <version>2.0</version>
     </dependency>
     <dependency>
       <groupId>excalibur-pool</groupId>
       <artifactId>excalibur-pool-impl</artifactId>
-      <version>SNAPSHOT</version>
+      <version>2.0</version>
     </dependency>
     <dependency>
       <groupId>avalon-framework</groupId>
@@ -51,7 +51,7 @@
     <dependency>
       <groupId>excalibur-instrument</groupId>
       <artifactId>excalibur-instrument</artifactId>
-      <version>1.0</version>
+      <version>1.2</version>
     </dependency>
   </dependencies>
 

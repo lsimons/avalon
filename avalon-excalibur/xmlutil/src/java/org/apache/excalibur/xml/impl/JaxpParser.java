@@ -84,7 +84,7 @@ import org.xml.sax.ext.LexicalHandler;
  * </ul>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.6 $ $Date: 2004/02/28 11:47:20 $
+ * @version CVS $Revision: 1.7 $ $Date: 2004/03/28 18:56:45 $
  * @avalon.component
  */
 public final class JaxpParser
@@ -339,6 +339,7 @@ public final class JaxpParser
             
             if( m_nsPrefixes )
             {
+                System.out.println( "NAMESPACE PREFIX!!!!!!!!!!!!!!!!!!!!!!!!!!" );
                 try
                 {
                     m_reader.setFeature( "http://xml.org/sax/features/namespace-prefixes",

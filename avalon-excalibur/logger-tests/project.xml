@@ -15,7 +15,6 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-
 <project>
     <extend>${basedir}/../project.xml</extend>
 
@@ -26,7 +25,7 @@
     <shortDescription>Container utility for implementing LogEnabled/Loggable support.</shortDescription>
     <description>
         Excalibur-Logger integrates neatly into Avalon-ECM
-        and Avalon-Fortress. The main goal is to be able to
+        and Excalibur Fortress. The main goal is to be able to
         define the log categories on a component basis by
         specifying a 'logger' attribute which denotes the log
         category to use for a particular component (given the
@@ -49,12 +48,19 @@
     <dependencies>
         <dependency>
             <id>avalon-framework</id>
-            <version>4.1.4</version>
+            <version>4.1.5</version>
             <groupId>framework</groupId>
         </dependency>
         
         <dependency>
-            <id>logkit</id>
+            <groupId>excalibur-logger</groupId>
+            <artifactId>excalibur-logger</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>avalon-logkit</groupId>
+            <artifactId>avalon-logkit</artifactId>
             <version>2.0</version>
         </dependency>
 
@@ -62,12 +68,7 @@
             <id>servletapi</id>
             <version>2.2</version>
         </dependency>
-        <!-- Download from Sun.
-        <dependency>
-            <id>j2ee</id>
-            <version>1.3</version>
-        </dependency>
-        -->
+        
         <dependency>
             <id>log4j</id>
             <version>1.2.7</version>
@@ -99,34 +100,30 @@
         <dependency>
             <!-- testing only -->
             <id>excalibur-component</id>
-            <version>1.2</version>
+            <version>1.3</version>
         </dependency>
                
         <dependency>
             <!-- testing only -->
-            <id>excalibur-testcase</id>
-            <version>1.2</version>
             <groupId>excalibur-component</groupId>
+            <artifactId>excalibur-testcase</artifactId>
+            <version>1.3</version>
         </dependency>
         
         <dependency>
             <!-- testing only -->
             <id>excalibur-pool</id>
-            <version>1.0</version>
+            <version>1.3</version>
         </dependency>
         <dependency>
             <!-- testing only -->
             <id>excalibur-instrument</id>
-            <version>1.0</version>
+            <version>1.2</version>
         </dependency>
         <dependency>
             <!-- testing only -->
             <id>excalibur-i18n</id>
-            <version>1.0</version>
+            <version>1.2</version>
         </dependency>
-        <!--<dependency>
-            <id>junit</id>
-            <version>3.8.1</version>
-        </dependency>-->
     </dependencies>
 </project>

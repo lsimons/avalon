@@ -19,7 +19,6 @@ package org.apache.avalon.fortress.util;
 
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
-import org.apache.avalon.excalibur.logger.Log4JConfLoggerManager;
 import org.apache.avalon.fortress.MetaInfoManager;
 import org.apache.avalon.fortress.RoleManager;
 import org.apache.avalon.fortress.impl.role.ConfigurableRoleManager;
@@ -85,7 +84,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.51 $ $Date: 2004/02/28 15:16:26 $
+ * @version CVS $Revision: 1.52 $ $Date: 2004/03/28 18:56:42 $
  * @since 4.1
  */
 public class ContextManager
@@ -844,69 +843,19 @@ public class ContextManager
                     getConfiguration( LOGGER_MANAGER_CONFIGURATION,
                             LOGGER_MANAGER_CONFIGURATION_URI );
 
-            boolean log4j = false;
-
             if ( loggerManagerConfig == null )
             {
                 // Create an empty configuration so that
                 // a default logger can be created.
                 loggerManagerConfig = EMPTY_CONFIG;
             }
-            else
-            {
-                /*
-                 * We rely on namespace handing being turned off in DefaultConfiguration
-                 * builder here. TODO: add code that tests
-                 * root element for name "configuration" and for the correct Log4J
-                 * configuration namespace (not currently known to me - Anton Tagunov)
-                 * to survive if a namespace-enabled configuration has been passed to us.
-                 */
-                final String version = loggerManagerConfig.getAttribute( "version", null );
-                if ( "log4j".equals( version ) )
-                {
-                    log4j = true;
-                }
-                else if ( "log4j:configuration".equals( loggerManagerConfig.getName() ) )
-                {
-                    log4j = true;
-                }
-            }
-
+            
             final String lmDefaultLoggerName =
-                    (String) get( m_rootContext, ContextManagerConstants.LOG_CATEGORY, "fortress" );
-            final String lmLoggerName = loggerManagerConfig.getAttribute( "logger",
-                    log4j ? "system.log4j" : "system.logkit" );
+                (String) get( m_rootContext, ContextManagerConstants.LOG_CATEGORY, "fortress" );
+            final String lmLoggerName = loggerManagerConfig.getAttribute( "logger", "system.logkit" );
 
-            if ( log4j )
-            {
-                /**
-                 * Working around a weird compilation problem: with JDK 1.4.1-b21
-                 * on Win2K couldn't get the following statement to compile:
-                 *
-                 * m_loggerManager =
-                 *         new Log4JConfLoggerManager( lmDefaultLoggerName, lmLoggerName );
-                 *
-                 * javac kept complaining:
-                 *
-                 * file org\apache\log4j\spi\LoggerRepository.class not found
-                 *           new Log4JConfLoggerManager( lmDefaultLoggerName, lmLoggerName );
-                 *
-                 * ... ContextManager.java:xxx: cannot access org.apache.log4j.spi.LoggerRepository
-                 * file org\apache\log4j\spi\LoggerRepository.class not found
-                 * m_loggerManager = new Log4JConfLoggerManager( lmDefaultLoggerName, lmLoggerName );
-                 *                 ^
-                 *
-                 * - Anton Tagunov
-                 */
-                m_loggerManager = Log4JConfLoggerManager.newInstance(
-                        lmDefaultLoggerName, lmLoggerName );
-            }
-            else // LogKitLoggerManager
-            {
-                // Setup the Logger Manager
-                m_loggerManager = new LogKitLoggerManager(
-                        lmDefaultLoggerName, lmLoggerName );
-            }
+            // Setup the Logger Manager
+            m_loggerManager = new LogKitLoggerManager( lmDefaultLoggerName, lmLoggerName );
 
             ContainerUtil.enableLogging( m_loggerManager, getLogger() );
             ContainerUtil.contextualize( m_loggerManager, m_rootContext );

@@ -7,7 +7,7 @@
   <groupId>excalibur-pool</groupId>
   <id>excalibur-pool-impl</id>
   <name>Excalibur Pool Implementation</name>
-  <currentVersion>SNAPSHOT</currentVersion>
+  <currentVersion>2.0</currentVersion>
   <package>org.apache.excalibur.pool</package>
   <inceptionYear>2001</inceptionYear>
   <shortDescription>Excalibur Pool Implementation</shortDescription>
@@ -16,7 +16,7 @@
     <dependency>
       <groupId>excalibur-pool</groupId>
       <artifactId>excalibur-pool-api</artifactId>
-      <version>SNAPSHOT</version>
+      <version>2.0</version>
     </dependency>
     <dependency>
       <groupId>avalon-framework</groupId>

@@ -16,13 +16,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <project>
-    <extend>${avalon.buildsystem}/project-common.xml</extend>
+    <extend>${basedir}/../project.xml</extend>
 
-    <name>Avalon-Fortress-Container</name>
-    <id>avalon-fortress-container</id>
-    <groupId>avalon-fortress</groupId>
-    <currentVersion>1.1</currentVersion>
-    <inceptionYear>2003</inceptionYear>
+    <name>Excalibur Fortress Container Implementation</name>
+    <id>excalibur-fortress-container-impl</id>
+    
     <shortDescription>The Avalon-Fortress container</shortDescription>
     <description>
 Fortress contains a framework to help you create your own avalon
@@ -32,14 +30,26 @@ easy embedding into various environments like servlet engines.
     </description>
 
     <dependencies>
+   
         <dependency>
-            <id>avalon-framework</id>
+            <groupId>avalon-framework</groupId>
+            <artifactId>avalon-framework</artifactId>
             <version>4.1.5</version>
-            <groupId>framework</groupId>
         </dependency>
         <dependency>
-            <id>logkit</id>
-            <version>1.2.2</version>
+            <groupId>excalibur-fortress</groupId>
+            <artifactId>excalibur-fortress-container-api</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>excalibur-fortress</groupId>
+            <artifactId>excalibur-fortress-meta</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>avalon-logkit</groupId>
+            <artifactId>avalon-logkit</artifactId>
+            <version>2.0</version>
         </dependency>
         <dependency>
             <id>commons-collections</id>
@@ -55,27 +65,22 @@ easy embedding into various environments like servlet engines.
         </dependency>
         <dependency>
             <id>excalibur-instrument</id>
-            <version>1.0</version>
+            <version>1.2</version>
         </dependency>
         <dependency>
-            <id>excalibur-instrument-manager</id>
-            <version>1.0</version>
-            <groupId>excalibur-instrument-manager</groupId>
-        </dependency>
-        <dependency>
-            <id>excalibur-instrument-manager-interfaces</id>
-            <version>1.0</version>
-            <groupId>excalibur-instrument-manager</groupId>
+            <groupId>excalibur-instrument</groupId>
+            <artifactId>excalibur-instrument-manager</artifactId>
+            <version>1.2</version>
         </dependency>
         <dependency>
             <groupId>excalibur-event</groupId>
             <artifactId>excalibur-event-api</artifactId>
-            <version>1.1</version>
+            <version>2.0</version>
         </dependency>
         <dependency>
             <groupId>excalibur-event</groupId>
             <artifactId>excalibur-event-impl</artifactId>
-            <version>1.1</version>
+            <version>2.0</version>
         </dependency>
         <dependency>
             <id>bcel</id>
@@ -83,50 +88,28 @@ easy embedding into various environments like servlet engines.
         </dependency>
         <dependency>
             <id>excalibur-logger</id>
-            <version>1.1</version>
-        </dependency>
-        <dependency>
-            <id>excalibur-sourceresolve</id>
-            <version>1.1</version>
-        </dependency>
-        <dependency>
-            <id>excalibur-lifecycle</id>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <id>xml-apis</id>
-            <version>2.0.2</version>
-        </dependency>
-
-        <!-- test -->
-        <dependency>
-            <id>excalibur-i18n</id>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <id>xalan</id>
-            <version>2.5.1</version>
-        </dependency>
-        <dependency>
-            <id>xerces</id>
-            <version>2.3.0</version>
-        </dependency>
-
-        <!-- "Solves" the cyclic dependency problem for a while -->
-        <dependency>
-            <id>excalibur-fortress-tools</id>
-            <version>1.0</version>
-            <groupId>excalibur-fortress</groupId>
-        </dependency>
-
-        <!-- dependencies for tools -->
-        <dependency>
-            <id>qdox</id>
             <version>1.2</version>
         </dependency>
         <dependency>
-            <id>ant</id>
-            <version>1.5.1</version>
+            <id>excalibur-sourceresolve</id>
+            <version>2.0</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>excalibur-lifecycle</groupId>
+            <artifactId>excalibur-lifecycle-api</artifactId>
+            <version>1.1</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>excalibur-lifecycle</groupId>
+            <artifactId>excalibur-lifecycle-impl</artifactId>
+            <version>1.1</version>
+        </dependency>
+        
+        <dependency>
+            <id>excalibur-i18n</id>
+            <version>1.2</version>
         </dependency>
     </dependencies>
 

@@ -16,13 +16,12 @@
  limitations under the License.
 -->
 <project>
-
   <extend>${basedir}/../project.xml</extend>
 
   <id>excalibur-configuration</id>
   <name>Excalibur Configuration</name>
   <package>org.apache.excalibur.configuration</package>
-  <currentVersion>1.1</currentVersion>
+  <currentVersion>1.2</currentVersion>
 
   <inceptionYear>2002</inceptionYear>
   <shortDescription>
