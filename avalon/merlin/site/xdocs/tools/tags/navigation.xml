@@ -54,6 +54,7 @@
         <item name="Meta-Info Generator Task" href="/tools/ant.html"/>
         <item name="Merlin Plugin for Maven" href="/tools/maven/index.html"/>
       </item>
+      <item name="Extensions" href="/extensions/index.html" />
     </menu>
 
     <menu name="Resources">
