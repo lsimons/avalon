@@ -106,9 +106,9 @@ To build a project independnet of dependent project groups is possible using any
 
   <goal name="xactivation">
     <maven:reactor basedir="${basedir}"
-      includes="activation/**/project.xml"
+      includes="activation/project.xml"
       banner="Building:"
-      goals="jar:install"
+      goals="avalon:build"
       ignoreFailures="false" 
       postProcessing="false" />
   </goal>
