@@ -181,6 +181,8 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
             new Parameter( 
               MERLIN_AUDIT, Boolean.class, new Boolean( false ) ),
             new Parameter( 
+              MERLIN_PROXY, Boolean.class, new Boolean( true ) ),
+            new Parameter( 
               MERLIN_SERVER, Boolean.class, new Boolean( true ) ),
             new Parameter( 
               MERLIN_AUTOSTART, Boolean.class, new Boolean( true ) ),
@@ -556,6 +558,18 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
         Boolean value = (Boolean) get( MERLIN_AUDIT );
         if( null != value ) return value.booleanValue();
         return false;
+    }
+
+   /**
+    * Return proxy policy. 
+    *
+    * @return the proxy policy
+    */
+    public boolean isProxyEnabled()
+    {
+        Boolean value = (Boolean) get( MERLIN_PROXY );
+        if( null != value ) return value.booleanValue();
+        return true;
     }
 
    /**

@@ -97,6 +97,10 @@ public class Main
            "debug",
            REZ.getString( "cli-debug-description" ) );
 
+        Option noproxy = new Option(
+           "noproxy",
+           REZ.getString( "cli-noproxy-description" ) );
+
         Option audit = new Option(
            "audit",
            REZ.getString( "cli-audit-description" ) );
@@ -177,6 +181,7 @@ public class Main
         options.addOption( info );
         options.addOption( debug );
         options.addOption( audit );
+        options.addOption( noproxy );
         options.addOption( secure );
         options.addOption( install );
         options.addOption( home );
@@ -323,6 +328,7 @@ public class Main
         setInfoPolicy( criteria, line );
         setDebugPolicy( criteria, line );
         setAuditPolicy( criteria, line );
+        setProxyPolicy( criteria, line );
         setServerPolicy( criteria, line );
         setSecurityPolicy( criteria, line );
         setAnchorDirectory( criteria, line );
@@ -409,6 +415,14 @@ public class Main
         if( line.hasOption( "audit" ) )
         {
             criteria.put( "merlin.audit", new Boolean( true ) );
+        }
+    }
+
+    private void setProxyPolicy( Map criteria, CommandLine line )
+    {
+        if( line.hasOption( "noproxy" ) )
+        {
+            criteria.put( "merlin.proxy", new Boolean( false ) );
         }
     }
 
