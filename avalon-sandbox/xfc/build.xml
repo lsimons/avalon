@@ -14,7 +14,7 @@
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${build.classes}"/>
         <pathelement location="${checkstyle.jar}"/>
-        <pathelement location="${excalibur-cli.jar}"/>
+        <pathelement location="${excalibur-compatibility.jar}"/>
         <pathelement path="${java.class.path}"/>
     </path>
 
@@ -36,8 +36,8 @@
     </path>
     <property name="cp" refid="test.class.path"/>
 
-    <target name="main" depends="jar" description="Build the project">
-        <copy todir="${build.lib}" file="${excalibur-cli.jar}"/>
+    <target name="main" depends="test,jar" description="Build the project">
+        <copy todir="${build.lib}" file="${excalibur-compatibility.jar}"/>
         <copy todir="${build.lib}" file="${avalon-framework.jar}"/>
         <copy todir="${build.lib}" file="${xerces.jar}"/>
         <copy todir="${build.lib}" file="${xml-apis.jar}"/>
@@ -48,7 +48,7 @@
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCli"/>	
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCompatibility"/>
     </target>
 
     <target name="dependencies-test" depends="dist-jar, dependencies"
@@ -61,7 +61,7 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkDatasource"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkSourceResolve"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrument"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkConfiguration"/>	
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkConfiguration"/>
     </target>
 
 
@@ -362,17 +362,17 @@
   -->
 
   <target name="patch">
-    <replace dir="src/java" 
+    <replace dir="src/java"
        token="getTypes("
        value="getTypeEntries(" >
      <include name="**/classloader/*.java"/>
     </replace>
-    <replace dir="src/java" 
+    <replace dir="src/java"
        token="getBlocks("
        value="getBlockEntries(" >
      <include name="**/classloader/*.java"/>
     </replace>
-    <replace dir="src" 
+    <replace dir="src"
        token="getServices("
        value="getServiceEntries(" >
      <include name="**/classloader/*.java"/>

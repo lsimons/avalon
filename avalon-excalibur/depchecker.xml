@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.49 $
+                   Version $Revision: 1.50 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -474,11 +474,8 @@ To use it, type 'ant -f depchecker.xml'
         </ant>
     </target>
     <target name="checkTestcase">
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="proj.jar.name" value="excalibur-testcase.jar"/>
-            <property name="path" value="${excalibur-testcase.jar}"/>
-            <property name="proj.home" value="${basedir}/../testcase"/>
-    </ant>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkComponent">
+        </ant>
     </target>
     <target name="checkThreadcontext">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">

@@ -95,7 +95,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.19 $ $Date: 2003/04/04 16:17:56 $
+ * @version CVS $Revision: 1.20 $ $Date: 2003/04/05 19:39:35 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled

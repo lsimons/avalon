@@ -54,7 +54,7 @@ package org.apache.excalibur.event;
  * are executed before and after elements are pulled from a
  * queue.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @author  <a href="mailto:schierma@users.sourceforge.net">schierma</a>
  */
 public interface DequeueInterceptor

@@ -18,17 +18,16 @@
         <pathelement location="${commons-collections.jar}"/>
         <pathelement location="${build.classes}"/>
         <pathelement location="${util.concurrent.jar}"/>
-        <pathelement location="${excalibur-scratchpad.jar}"/>
         <pathelement location="${avalon-framework.jar}"/>
-        <pathelement location="${checkstyle.jar}"/>
         <pathelement path="${java.class.path}"/>
+
+        <!-- optional -->
+        <pathelement location="${checkstyle.jar}"/>
     </path>
 
     <path id="tools.class.path">
         <pathelement location="${junit.jar}"/>
         <pathelement location="${tools.jar}"/>
-        <fileset dir="${tools.dir}/lib"/>
-        <fileset dir="${tools.dir}/ext"/>
     </path>
 
     <path id="test.class.path">
@@ -45,7 +44,7 @@
     <target name="check-dependencies" depends="junit-check"/>
     <target name="import-dependencies" depends="import-junit"/>
 
-    <target name="main" depends="jar" description="Build the project"/>
+    <target name="main" depends="test,jar" description="Build the project"/>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
 
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">

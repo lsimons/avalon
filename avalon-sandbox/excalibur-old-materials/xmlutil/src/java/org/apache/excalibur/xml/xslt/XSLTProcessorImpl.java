@@ -114,7 +114,7 @@ import org.xml.sax.XMLFilter;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.28 2003/03/29 18:53:26 bloritsch Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.29 2003/04/05 19:39:39 leosimons Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
@@ -311,7 +311,7 @@ public final class XSLTProcessorImpl
                     // Create transformer handler
                     final TransformerHandler handler = m_factory.newTransformerHandler( template );
                     handler.getTransformer().setErrorListener( m_errorHandler );
-		    handler.getTransformer().setURIResolver( this );
+            handler.getTransformer().setURIResolver( this );
 
                     // Create aggregated validity
                     AggregatedValidity aggregated = null;

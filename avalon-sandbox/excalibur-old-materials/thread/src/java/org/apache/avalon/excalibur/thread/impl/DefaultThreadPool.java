@@ -100,7 +100,7 @@ public class DefaultThreadPool
 
     public DefaultThreadPool( final String name,
                               final int min,
-			      final int max,
+                  final int max,
                               final ThreadContext context )
         throws Exception
     {

@@ -60,7 +60,7 @@ package org.apache.excalibur.instrument;
  *  as an instrument used by the instrument manager.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/20 17:07:55 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/04/05 19:39:36 $
  * @since 4.1
  */
 public interface InstrumentProxy

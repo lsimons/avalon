@@ -32,7 +32,7 @@
     </path>
     <property name="cp" refid="test.class.path"/>
 
-    <target name="main" depends="jar" description="Build the project"/>
+    <target name="main" depends="test,jar" description="Build the project"/>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
 
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
@@ -336,10 +336,10 @@
         <fileset dir="${build.docs}">
           <include name="**"/>
         </fileset>
-      </copy>    
+      </copy>
 
     </target>
-    
+
     <target name="site" depends="docs" description=" Places Docs ready for hosting on website">
 
       <mkdir dir="../site/dist/docs/${dir-name}"/>

@@ -57,7 +57,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * Test Implementation of an AbstractInstrumentable.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/27 15:20:57 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/04/05 19:39:36 $
  */
 public class AbstractInstrumentableImpl
     extends AbstractInstrumentable
