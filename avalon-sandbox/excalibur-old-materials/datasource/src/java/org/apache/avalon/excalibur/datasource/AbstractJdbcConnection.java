@@ -29,7 +29,7 @@ import org.apache.avalon.framework.logger.Logger;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/01/15 17:07:04 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/01/17 13:27:20 $
  * @since 4.1
  */
 public abstract class AbstractJdbcConnection
@@ -63,7 +63,12 @@ public abstract class AbstractJdbcConnection
         // subclasses can override initialize()
         this.initialize();
 
-        if (null != keepAlive && "".equals(keepAlive.trim()))
+        if (null == keepAlive && "".equals(keepAlive.trim()))
+        {
+            m_testStatement = null;
+            m_testException = null;
+        }
+        else
         {
             try
             {
@@ -74,11 +79,6 @@ public abstract class AbstractJdbcConnection
                 m_testStatement = null;
                 m_testException = se;
             }
-        }
-        else
-        {
-            m_testStatement = null;
-            m_testException = null;
         }
     }
 
