@@ -47,19 +47,13 @@ import org.apache.log.Logger;
  */
 public class DefaultApplicationFrame
     extends AbstractLoggable
-    implements ApplicationFrame, Contextualizable, Composable, Configurable, Initializable
+    implements ApplicationFrame, Composable, Configurable, Initializable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultApplicationFrame.class );
 
     private final static String  DEFAULT_FORMAT =
         "%{time} [%7.7{priority}] (%{category}): %{message}\\n%{throwable}";
-
-    ///Name of application
-    private String       m_name;
-
-    ///Base directory of applications working directory
-    private File         m_baseDirectory;
 
     ///Map of thread pools for application
     private HashMap      m_threadPools     = new HashMap();
@@ -96,13 +90,6 @@ public class DefaultApplicationFrame
         return m_metaData;
     }
 
-    public void contextualize( final Context context )
-        throws ContextException
-    {
-        m_name = (String)context.get( "app.name" );
-        m_baseDirectory = (File)context.get( "app.home" );
-    }
-
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
@@ -135,10 +122,11 @@ public class DefaultApplicationFrame
     public void initialize()
         throws Exception
     {
+        m_listenerSupport = new BlockListenerSupport();
         //base context that all block contexts inherit from
         final DefaultContext context = new DefaultContext();
-        context.put( BlockContext.APP_NAME, m_name );
-        context.put( BlockContext.APP_HOME_DIR, m_baseDirectory );
+        context.put( BlockContext.APP_NAME, m_metaData.getName() );
+        context.put( BlockContext.APP_HOME_DIR, m_metaData.getHomeDirectory() );
         m_context = context;
 
         final DefaultThreadContextPolicy policy = new DefaultThreadContextPolicy();
@@ -237,7 +225,7 @@ public class DefaultApplicationFrame
     public Configuration getConfiguration( final String component )
         throws ConfigurationException
     {
-        return m_repository.getConfiguration( m_name, component );
+        return m_repository.getConfiguration( m_metaData.getName(), component );
     }
 
     /**
@@ -342,8 +330,8 @@ public class DefaultApplicationFrame
         throws ConfigurationException
     {
         final DefaultContext context = new DefaultContext();
-        context.put( BlockContext.APP_NAME, m_name );
-        context.put( BlockContext.APP_HOME_DIR, m_baseDirectory );
+        context.put( BlockContext.APP_NAME, m_metaData.getName() );
+        context.put( BlockContext.APP_HOME_DIR, m_metaData.getHomeDirectory() );
 
         try
         {
