@@ -25,12 +25,12 @@ import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentDescr
 import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
 import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
 
-import org.apache.commons.altrmi.common.AltrmiInvocationException;
+import org.apache.excalibur.altrmi.common.AltrmiInvocationException;
 
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/03/30 01:30:49 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/04/03 11:36:09 $
  * @since 4.1
  */
 public class MenuBar

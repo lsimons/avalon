@@ -38,11 +38,11 @@
             todir="${lib.dir}" preservelastmodified="yes"/>
         
         <!-- Altrmi Jars -->
-        <copy file="${commons-altrmi-client-impl.jar}"
+        <copy file="${excalibur-altrmi-client-impl.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
-        <copy file="${commons-altrmi-client-interfaces.jar}"
+        <copy file="${excalibur-altrmi-client-interfaces.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
-        <copy file="${commons-altrmi-common.jar}"
+        <copy file="${excalibur-altrmi-common.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
         
         <!-- Instrument Client Jar -->

@@ -26,12 +26,12 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 
-import org.apache.commons.altrmi.common.AltrmiInvocationException;
+import org.apache.excalibur.altrmi.common.AltrmiInvocationException;
 
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/03/30 01:30:49 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/04/03 11:36:09 $
  * @since 4.1
  */
 class InstrumentSampleFrame
