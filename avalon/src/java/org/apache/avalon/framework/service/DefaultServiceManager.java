@@ -105,7 +105,6 @@ public class DefaultServiceManager
         throws ServiceException
     {
         final Object object = m_objects.get( key );
-
         if( null != object )
         {
             return object;
@@ -116,7 +115,8 @@ public class DefaultServiceManager
         }
         else
         {
-            throw new ServiceException( key, "Unable to provide implementation for " + key, null );
+            final String message = "Unable to provide implementation for " + key;
+            throw new ServiceException( key, message, null );
         }
     }
 
