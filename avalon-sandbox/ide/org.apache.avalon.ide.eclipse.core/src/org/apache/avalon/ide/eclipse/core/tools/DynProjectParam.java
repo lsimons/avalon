@@ -121,6 +121,16 @@ public class DynProjectParam
 
     }
     /**
+     * @param string
+     */
+    public void setDatabaseName(String string)
+    {
+
+        param.put("%databasename%", string);
+
+    }
+    
+    /**
 	 * @param string
 	 * @return Object
 	 */
