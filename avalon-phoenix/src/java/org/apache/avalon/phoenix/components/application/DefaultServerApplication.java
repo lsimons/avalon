@@ -253,7 +253,6 @@ public final class DefaultServerApplication
             final String message = 
                 REZ.getString( "blocks-processing", count, name, pathList );
             getLogger().info( message );
-            System.out.println( message );
         }
 
         //Setup thread context for calling visitors
