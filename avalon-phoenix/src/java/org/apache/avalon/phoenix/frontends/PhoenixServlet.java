@@ -7,17 +7,25 @@
  */
 package org.apache.avalon.phoenix.frontends;
 
+import java.io.File;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.avalon.framework.ExceptionUtil;
+import org.apache.avalon.framework.logger.AvalonFormatter;
+import org.apache.avalon.framework.logger.LogKitLogger;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.phoenix.components.embeddor.SingleAppEmbeddor;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
+import org.apache.log.Hierarchy;
+import org.apache.log.LogTarget;
+import org.apache.log.Priority;
+import org.apache.log.output.io.FileTarget;
 
 /**
  * Servlet frontends for SingleAppEmbeddor.
@@ -31,6 +39,11 @@ public class PhoenixServlet
     private static final Resources REZ =
         ResourceManager.getPackageResources( PhoenixServlet.class );
 
+    private static final String DEFAULT_LOG_FILE = "/logs/phoenix.log";
+
+    private final static String DEFAULT_FORMAT =
+        "%{time} [%7.7{priority}] (%{category}): %{message}\\n%{throwable}";
+
     private Parameters m_parameters;
     private SingleAppEmbeddor m_embeddor;
 
@@ -38,7 +51,7 @@ public class PhoenixServlet
                                      final String defaultValue )
     {
         final String value = getInitParameter( name );
-        if( null == value )
+        if ( null == value )
         {
             return defaultValue;
         }
@@ -55,11 +68,11 @@ public class PhoenixServlet
 
         //TODO: configuring with more parameters.
         final ServletContext context = getServletContext();
-        final String logDestination = 
+        final String logDestination =
             context.getRealPath( getInitParameter( "log-destination", "/WEB-INF/logs/phoenix.log" ) );
         final String logPriority = getInitParameter( "log-priority", "INFO" );
         final String appName = getInitParameter( "application-name", "default" );
-        final String appLoc = 
+        final String appLoc =
             context.getRealPath( getInitParameter( "application-location", "/WEB-INF/" + appName ) );
 
         m_parameters = new Parameters();
@@ -71,7 +84,8 @@ public class PhoenixServlet
         try
         {
             m_embeddor = new SingleAppEmbeddor();
-            if( m_embeddor instanceof Parameterizable )
+            m_embeddor.enableLogging( createLogger( m_parameters ) );
+            if ( m_embeddor instanceof Parameterizable )
             {
                 ( (Parameterizable)m_embeddor ).parameterize( m_parameters );
             }
@@ -80,7 +94,7 @@ public class PhoenixServlet
             final Thread thread = new Thread( this, "Phoenix" );
             thread.start();
         }
-        catch( final Throwable throwable )
+        catch ( final Throwable throwable )
         {
             log( REZ.getString( "main.exception.header" ) );
             log( "---------------------------------------------------------" );
@@ -99,7 +113,7 @@ public class PhoenixServlet
         {
             m_embeddor.execute();
         }
-        catch( final Throwable throwable )
+        catch ( final Throwable throwable )
         {
             log( REZ.getString( "main.exception.header" ) );
             log( "---------------------------------------------------------" );
@@ -122,7 +136,7 @@ public class PhoenixServlet
             m_embeddor = null;
             m_parameters = null;
         }
-        catch( final Throwable throwable )
+        catch ( final Throwable throwable )
         {
             log( REZ.getString( "main.exception.header" ) );
             log( "---------------------------------------------------------" );
@@ -130,5 +144,27 @@ public class PhoenixServlet
             log( "---------------------------------------------------------" );
             log( REZ.getString( "main.exception.footer" ) );
         }
+    }
+
+    private Logger createLogger( final Parameters parameters )
+        throws Exception
+    {
+        final String phoenixHome = parameters.getParameter( "phoenix.home" );
+        final String logDestination =
+            parameters.getParameter( "log-destination", phoenixHome + DEFAULT_LOG_FILE );
+        final String logPriority =
+            parameters.getParameter( "log-priority", "INFO" );
+        final AvalonFormatter formatter = new AvalonFormatter( DEFAULT_FORMAT );
+        final File file = new File( logDestination );
+        final FileTarget logTarget = new FileTarget( file, false, formatter );
+
+        //Create an anonymous hierarchy so no other
+        //components can get access to logging hierarchy
+        final Hierarchy hierarchy = new Hierarchy();
+        final org.apache.log.Logger logger = hierarchy.getLoggerFor( "Phoenix" );
+        logger.setLogTargets( new LogTarget[]{logTarget} );
+        logger.setPriority( Priority.getPriorityForName( logPriority ) );
+        logger.info( "Logger started" );
+        return new LogKitLogger( logger );
     }
 }
