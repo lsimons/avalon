@@ -328,7 +328,9 @@
       <name>avalon-tutorial-main</name>
     </info>
     <dependencies>
+      <include key="avalon-tutorial-hello" runtime="false"/>
       <include key="avalon-repository-main"/>
     </dependencies>
   </project>
+
 </system>
