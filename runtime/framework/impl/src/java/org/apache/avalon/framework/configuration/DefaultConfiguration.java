@@ -733,8 +733,10 @@ public class DefaultConfiguration
      */
     public boolean equals( Object other )
     {
-        if( other == null ) return false;
-        if( !( other instanceof Configuration ) ) return false;
+        if( other == null ) 
+            return false;
+        if( !( other instanceof Configuration ) ) 
+            return false;
         return ConfigurationUtil.equals( this, (Configuration) other );
     }
     
@@ -746,17 +748,23 @@ public class DefaultConfiguration
     public int hashCode()
     {
         int hash = m_prefix.hashCode();
-        if( m_name != null ) hash ^= m_name.hashCode();
+        if( m_name != null ) 
+            hash ^= m_name.hashCode();
         hash >>>= 7;
-        if( m_location != null ) hash ^= m_location.hashCode();
+        if( m_location != null ) 
+            hash ^= m_location.hashCode();
         hash >>>= 7;
-        if( m_namespace != null ) hash ^= m_namespace.hashCode();
+        if( m_namespace != null ) 
+            hash ^= m_namespace.hashCode();
         hash >>>= 7;
-        if( m_attributes != null ) hash ^= m_attributes.hashCode();
+        if( m_attributes != null ) 
+            hash ^= m_attributes.hashCode();
         hash >>>= 7;
-        if( m_children != null ) hash ^= m_children.hashCode();
+        if( m_children != null ) 
+            hash ^= m_children.hashCode();
         hash >>>= 7;
-        if( m_value != null ) hash ^= m_value.hashCode();
+        if( m_value != null ) 
+            hash ^= m_value.hashCode();
         hash >>>= 7;
         hash ^= ( m_readOnly ) ? 1 : 3;
         return hash;
