@@ -10,9 +10,6 @@ Avalon-Block: true
 Name: org/apache/cornerstone/blocks/masterstore/RepositoryManager.class
 Avalon-Block: true
 
-Name: org/apache/cornerstone/blocks/scheduler/DefaultJobScheduler.class
-Avalon-Block: true
-
 Name: org/apache/cornerstone/blocks/scheduler/DefaultTimeScheduler.class
 Avalon-Block: true
 
