@@ -63,7 +63,7 @@ import org.apache.avalon.framework.context.ContextException;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version CVS $ Revision: 1.1 $
  */
-public class DeploymentProfileTestCase extends TestCase
+public class ComponentProfileTestCase extends TestCase
 {
     private Type m_type;
     private CategoriesDirective m_categories;
@@ -78,7 +78,7 @@ public class DeploymentProfileTestCase extends TestCase
     private String m_classname;
     private int m_collection;
 
-    public DeploymentProfileTestCase( String name )
+    public ComponentProfileTestCase( String name )
     {
         super( name );
     }
@@ -86,7 +86,7 @@ public class DeploymentProfileTestCase extends TestCase
     public void setUp()
     {
         m_name = "Test";
-        m_classname = DeploymentProfileTestCase.class.getName();
+        m_classname = ComponentProfileTestCase.class.getName();
         m_context = 
           new ContextDirective( getClass().getName(), new ImportDirective[0] );
         m_configuration = new DefaultConfiguration("test");
@@ -101,7 +101,7 @@ public class DeploymentProfileTestCase extends TestCase
 
     public void testProfile() throws ContextException
     {
-        DeploymentProfile profile = new DeploymentProfile(
+        ComponentProfile profile = new ComponentProfile(
           m_name, m_activation, m_collection, m_classname, m_categories, 
           m_context, m_dependencies, m_stages, m_parameters, 
           m_configuration, m_mode );

@@ -55,7 +55,7 @@ import java.io.Writer;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.parameters.ParameterException;
-import org.apache.avalon.composition.data.DeploymentProfile;
+import org.apache.avalon.composition.data.ComponentProfile;
 import org.apache.avalon.composition.data.ContextDirective;
 import org.apache.avalon.composition.data.DependencyDirective;
 import org.apache.avalon.composition.data.SelectionDirective;
@@ -70,12 +70,12 @@ import org.apache.avalon.meta.info.InfoDescriptor;
 import org.apache.excalibur.configuration.ConfigurationUtil;
 
 /**
- * Write a {@link DeploymentProfile} to a stream as xml documents.
+ * Write a {@link ComponentProfile} to a stream as xml documents.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.1.2.1 $ $Date: 2004/01/09 20:37:38 $
  */
-public class XMLDeploymentProfileWriter
+public class XMLComponentProfileWriter
 {
 
     public static final String INDENT = "  ";
@@ -85,8 +85,8 @@ public class XMLDeploymentProfileWriter
     * @param writer the writer
     * @throws IOException if unable to write xml
     */
-    protected void writeDeploymentProfile( 
-      final Writer writer, DeploymentProfile profile, String pad )
+    protected void writeComponentProfile( 
+      final Writer writer, ComponentProfile profile, String pad )
       throws Exception
     {
         //
@@ -140,7 +140,7 @@ public class XMLDeploymentProfileWriter
     * @throws IOException if unable to write xml
     */
     protected void writeDeploymentBody( 
-      final Writer writer, DeploymentProfile profile, String pad )
+      final Writer writer, ComponentProfile profile, String pad )
       throws Exception
     {
         //

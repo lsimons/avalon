@@ -48,32 +48,72 @@
 
 */
 
-package org.apache.avalon.activation.appliance;
-
-import org.apache.excalibur.mpool.PoolManager;
-import org.apache.avalon.composition.logging.LoggingManager;
+package org.apache.avalon.composition.data;
 
 /**
- * Service context supplied to an appliance factory.
+ * A named deployment profile.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:00 $
+ * @version $Revision: 1.1.2.1 $ $Date: 2004/01/09 20:37:38 $
  */
-public interface ServiceContext
+public class NamedComponentProfile extends DeploymentProfile
 {
-    /**
-     * Return the pool manager.
-     *
-     * @return the pool manager
-     */
-    PoolManager getPoolManager();
 
     /**
-     * Return the logging manager.
-     *
-     * @return the logging manager
+     * The component classname.
      */
-    LoggingManager getLoggingManager();
+    private String m_classname;
 
+    /**
+     * The profile key.
+     */
+    private String m_key;
+
+    //--------------------------------------------------------------------------
+    // constructor
+    //--------------------------------------------------------------------------
+
+    public NamedComponentProfile( 
+           final String name, 
+           final String classname,
+           final String key,
+           final boolean activation )
+    {
+        super( name, activation, Mode.EXPLICIT );
+        m_classname = classname;
+        m_key = key;
+    }
+
+    //--------------------------------------------------------------------------
+    // implementation
+    //--------------------------------------------------------------------------
+
+    /**
+     * Return the component type classname.
+     *
+     * @return classname of the component type
+     */
+    public String getClassname()
+    {
+        return m_classname;
+    }
+
+    /**
+     * Return the component profile key.
+     *
+     * @return the name of a profile pacikaged with the component type
+     */
+    public String getKey()
+    {
+        return m_key;
+    }
+
+    /**
+     * Returns a string representation of the profile.
+     * @return a string representation
+     */
+    public String toString()
+    {
+        return "[" + getName() + "-" + getKey() + "]";
+    }
 }
-
