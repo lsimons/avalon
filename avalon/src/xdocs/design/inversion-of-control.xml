@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<!DOCTYPE document SYSTEM "../dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Avalon Developer Documentation</title>
+    <subtitle>Patterns</subtitle>
+    <authors>
+      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Inversion of Control">
+      <p>
+        One of the key design principles behind Avalon is the principle
+        of <em>Inversion of Control</em>.  <em>Inversion of Control</em> is
+        a concept promoted by one of the founders of the Avalon project,
+        <link href="mailto:stefano@apache.org">Stefano Mazzocchi</link>.  The
+        principle enforces security by design.
+      </p>
+      <p>
+        It is difficult to track down one paper that defines this pattern
+        at length, so here are a couple of different definitions of
+        <em>Inversion of Control</em>.
+      </p>
+      <s2 title="What it Means">
+        <p>
+          The Framework plays the role of the main program in coordinating
+          and sequencing events and application activity.
+        </p>
+        <p>
+          A designer sets up a chain among objects that can all react
+          to certain messages in a delegation hierarchy.
+        </p>
+        <s3 title="Definition by Analogy">
+          <p>
+            There are a couple of different analogies that make
+            understanding <em>Inversion of Control</em> easier.  We
+            experience this in many different ways in regular life,
+            so we are borrowing the form in code.  The best analogy,
+            however, is called &quot;Chain of Command&quot; in the
+            military.
+          </p>
+          <s4 title="Chain of Command">
+            <p>
+              This is probably the clearest parallel to <em>Inversion
+              of Control</em>.  The military provides each new recruit
+              with the basic things they need to operate at their rank,
+              and issues commands that recruit must obey.  The same
+              principle applies in code.  Each Component is given the
+              provisions they need to operate by the instantiating
+              entity (i.e. Commanding Officer in this analogy).  The
+              instantiating entity then acts on that Component how it
+              needs to act.
+            </p>
+          </s4>
+        </s3>
+      </s2>
+      <s2 title="How to Apply It">
+        <p>
+          <em>Inversion of Control</em> is applied in a very simple
+          manner.  Basically, it means that the Component architecture
+          employs a <em>passive</em> structure.  See the following code:
+        </p>
+        <source>
+class MyComponent implements Component, Composer {
+    ComponentManager manager;
+
+    MyComponent() {
+        // Nothing to do here.
+    }
+
+    setComponentManager(ComponentManager manager){
+        this.manager = manager;
+    }
+
+    myMethod() {
+        Logger logger = (Logger) manager.getComponent("org.apache.avalon.blocks.Logger");
+
+        logger.log("MyComponent", "Hello World!", Logger.INFO);
+    }
+}
+        </source>
+        <p>
+          The parent of MyComponent instantiates MyComponent, sets the
+          ComponentManager, and calls myMethod.  The Component is not
+          autonomous, and is given a ComponentManager that has an instance
+          of the Logger object that is called by role.
+        </p>
+        <p>
+          The MyComponent class has no state apart from the parent, and
+          has no way of obtaining a reference to the Logger implementation
+          without the parent telling it which implementation it can receive.
+        </p>
+      </s2>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2001/02/23 10:47:48 $
+    </legal>
+  </footer>
+</document>

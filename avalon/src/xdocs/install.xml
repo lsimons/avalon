@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <header>
+  <title>Avalon Installation</title>
+  <authors>
+   <person name="Avalon Documentation Team" email="bloritsch@apache.org"/>
+  </authors>
+ </header>
+
+<body>
+
+<s1 title="Installation">
+
+<p>
+    Avalon runs on a variety of platforms that have installed the Java 2 Virtual Machine.
+    The JSSE (Java Secure Sockets Extention) is required for users who want to compile 
+    Avalon to use SSL/TLS facilities.
+</p>
+
+<p>
+    Everything required to run Avalon and develope Avalon based products comes with the 
+    <link href="http://java.apache.org/framework/dist/">distribution</link>. If you wish 
+    to help develop Avalon then it is recomended that you obtain the full source tree from
+    <link href="http://jakarta.apache.org/getinvolved/cvsindex.html">CVS</link> or from the
+    <link href="http://jakarta.apache.org/builds/jakarta-avalon/nightly/">nightly builds
+    </link>
+</p>
+
+</s1>
+
+<s1 title="Compiling">
+
+<p>
+    Execute the relavent platform specific script (build.[sh|bat]) in the base avalon directory. 
+    Place the JSSE jars into the lib/ sub-directory if you wish to compile in TLS/SSL support. 
+</p>    
+
+<p>
+    Executing this script will create a <filename>dist</filename> directory within the Avalon
+    distribution directory. The <filename>dist</filename> directory will contain the 
+    compiled class files packaged into jars.
+</p>
+
+</s1>
+
+<s1 title="Testing Your Installation">
+
+<p>
+    As of the present time there is minimal support for Unit Testing and no support for 
+    functional testing. This will change in the future pending changes in ant to support 
+    such facilities.
+</p>
+
+</s1>
+
+</body>
+</document>
+

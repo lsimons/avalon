@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Avalon Phoenix Administrator Documentation</title>
+    <subtitle>Introduction</subtitle>
+    <authors>
+      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Introduction">
+      <p>
+        Avalon is a Server Framework that provides or will provide for 
+        central administration, server pooling, and quicker time to market.  
+        The framework defines a standard method of piecing together server 
+        components and creating a server.
+      </p>
+      <s2 title="Target Audience">
+        <p>
+          This documentation describes the care and feeding of the Avalon
+          Phoenix kernel from the point of view of the administrator.
+          It will be expanded as the system becomes more complete.
+        </p>
+      </s2>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2001/02/23 10:47:47 $
+    </legal>
+  </footer>
+</document>

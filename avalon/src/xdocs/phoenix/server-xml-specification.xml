@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "../dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Server Assemblers Guide</title>
+    <subtitle>Specification of server.xml</subtitle>
+    <authors>
+      <person id="PD" name="Peter Donald" email="donaldp@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Introduction">
+      <p>
+        The purpose of the <code>server.xml</code> file is to configure Server 
+        Application wide settings. Currently this means being able to set the 
+        security policy, configure logging and setup thread pools. An sample
+        <code>server.xml</code> follows.
+      </p>
+    </s1>
+    <s1 title="Sample server.xml file">
+      <source><![CDATA[
+<?xml version="1.0"?>
+
+<server>
+
+    <logs>
+      <category name="" target="default" priority="DEBUG" />
+      <category name="myAuthorizer" target="myAuthorizer-target" priority="DEBUG" />
+
+      <log-target name="default" location="/logs/default.log" />
+      <log-target name="myAuthorizer-target" location="/logs/authorizer.log" />
+    </logs>
+
+    <threads>
+      <thread-group>
+        <name>default</name>
+        <priority>5</priority> 
+        <is-daemon>false</is-daemon>
+        <min-threads>20</min-threads>
+        <min-spare-threads>20</min-spare-threads>
+        <max-threads>40</max-threads>
+      </thread-group>
+    </threads>
+
+    <policy>
+      <keystore name="foo-keystore" 
+                location="file:${app.home}${/}conf${/}keystore" 
+                type="JKS" /> 
+
+      <grant signed-by="Bob" 
+             code-base="file:${app.home}${/}blocks${/}*" 
+             key-store="foo-keystore" >
+        <permission class="java.io.FilePermission" target="${/}tmp${/}*" action="read,write" />
+      </grant>
+    </policy>
+
+</server>]]>
+
+      </source>
+      <p>
+        The format of the policy section should be self evident if the assembler 
+        has experienve with standard policy files. It should be noted that if no 
+        policy section is given then the Server Application runs at full permissions.
+        The evaluation of properties occurs in a similar manner to standard 
+        policy file property expansion. There are a number of extra properties that 
+        will be evaluated. These include; <code>app.home</code>, <code>app.name</code>, 
+        <code>app.blocks</code>, <code>app.lib</code> and <code>app.conf</code>.
+      </p>
+      <p>
+        The format of the threads section should be largely self explanatory. The only
+        complication is that there must be a thread group declared with name of "default".
+        It also should have a max-threads larger than the number of Blocks that implement
+        Runnable. Otherwise the initialisation sequence could hang indefinetly.
+      </p>
+      <p>
+        The logs section can currently have two types of elements; <em>log-target</em>s 
+        which represent destinations for logging and <em>category</em>s. There must be a
+        log-target with the name "default". Categories are hierarchial in nature, have a 
+        priority and are associated with one or more log-targets. See the logging 
+        documentation for a further description of this section.
+      </p>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2001/02/23 10:47:51 $
+    </legal>
+  </footer>
+</document>
+

@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "../dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Avalon Design Documentation</title>
+    <subtitle>Designing a Component</subtitle>
+    <version>3.0</version>
+    <authors>
+      <person id="BL" name="Berin Loritsch" email="bloritsch@apache.org"/>
+    </authors>
+    <notice>
+      Avalon documentation is under construction. Everything you can find
+      outside this page is to be considered obsolete.
+    </notice> 
+  </header>
+  <body>
+    <s1 title="Introduction"> 
+      <p>
+        In Avalon, a Component is defined as a passive entity that performs
+        a specific role.  This is an important concept to grasp because
+        it forces you to think in a specific manner when designing a system
+        using Components.  First, a Component employs a passive API (one
+        that is acted upon).  Second, the Component's purpose is narrowed
+        to perform one function.
+      </p> 
+      <p>
+        The difference between Object Oriented Programming (OOP) and Component
+        Oriented Programming (COP) is the Black Box idea.  Regular OOP goes
+        so far as to organize data objects into entities that take care of
+        themselves.  It has many powerful features that make things that
+        used to be difficult to impossible relatively easy.  However, its
+        limitation is one of object codependency.  That doesn't mean that
+        all OOP is horrid and previous OO programmers didn't have a clue.
+        It means that over time a more rigid idea had to be formalized:
+        the Component.  The key difference between a Component and an
+        Object is that the Component is a completely replaceable entity.
+      </p>
+      <p>
+        The idea of programming for replaceability is an intriguing one,
+        and it requires careful planning.  The first point is that a
+        Component is not just an object by itself, but a combination of
+        an interface and one or more objects to perform the task at hand.
+      </p>
+    </s1>
+    <s1 title="Roles">
+      <p>
+        The concept of roles come from the theater.  A play, musical,
+        or movie will have a certain number of roles that actors play.
+        Although there never seems to be a shortage of actors, there
+        are a finite number of roles.  I am not going to make reference
+        to different types of roles at this point, but simply bring
+        the concept to light.  The function or action of a role is
+        defined by it's script.
+      </p>
+      <p>
+        We are introducing this concept now because you need to have it
+        in mind when you are designing your system architecture.  Think
+        of the different roles in your system, and you will have your
+        "cast" of components so to speak.
+      </p>
+      <p>
+        For each role, you need to specify it's script, or interface to
+        the rest of the system.  To be honest the interface is not enough.
+        There are specific contracts that you must define and keep in mind
+        when you specify your interfaces.  In other words, what users
+        of the Component must provide, and what the Component produces.
+        When the interface and contract are defined, you can work on your
+        implementation.
+      </p>
+    </s1>
+    <s1 title="Writing the Component">
+      <p>
+        John Milton wrote, "No man is an island." to communicate that we
+        are all interdependent.  The same is true for the Component.  That
+        is why there are different concerns regarding the Component.  In
+        the section on roles we specified one of the concerns--the role.
+        The concerns directly supported by Avalon are: configuration,
+        external component use, management, and execution.
+      </p>
+      <p>
+        As you might of guessed, each one of these concerns has a separate
+        interface that describes that concern.  We will delve deeper into
+        the interfaces and the reasoning behind them in other sections.  It
+        is important to know the order of precedence for the concerns so
+        that you know the overall contracts of how they are put together.
+      </p>
+      <ol>
+        <li>
+          <strong>Configurable:</strong> marks an object that can be configured.
+        </li>
+        <li>
+          <strong>Composer:</strong> marks an object that uses Components.
+        </li>
+        <li>
+          <strong>Initializable:</strong> marks an object that can be initialized
+          and destroyed.
+        </li>
+        <li>
+          <strong>Disposable:</strong> marks an object that can be disposed.
+        </li>
+        <li>
+          <strong>Stoppable</strong> marks an object that can be started and stopped.
+        </li>
+      </ol>
+      <p>
+        The contract surrounding this order means that the methods defined
+        by each of those interfaces are called in a specific order by the object
+        that created the Component.  Each interface represents a narrow view
+        of the Component or object being controlled.
+      </p>
+      <note>
+        Notice that each interface is separate from Component, so you can use
+        them for simple objects.
+      </note>
+      <s2 title="How is the Component Going to be Used?">
+        <p>
+          The first step in writing the Component is determining how it is going
+          to be used.  There will be a number of times where you have a powerful
+          Component that can be used in many different contexts.  Those contexts
+          may include executing the Component from the command line (separate
+          from Avalon), using it as a part of a sub system, or using it as an
+          integral part of Avalon.
+        </p>
+        <s3 title="Part of Avalon">
+          <p>
+            All Components are an integral part of Avalon, so there is really
+            nothing to be done beyond specifying its interface (role).  It is
+            important to identify and document it's social contract with the
+            rest of the system.  What I mean by social contract is the order
+            of dependencies, what it needs to function, and what it supplies
+            to the rest of the system.
+          </p>
+        </s3>
+        <s3 title="Part of a Sub System">
+          <p>
+            A sub system can either be part of Avalon, or live in a separate
+            context.  A perfect example would be a Component that can function
+            within a Servlet or Enterprise Application.  Neither of those
+            contexts are native to Avalon (though they can easily be built
+            on top of Avalon).
+          </p>
+          <p>
+            It is important to do even more careful planning than in the
+            first scenario.  The reason is that you want the interface to be
+            as generic as possible and still accurately represent its role.
+          </p>
+          <p>
+            Because the contexts that may not be an integral part of Avalon,
+            you must take care to use the Component in the same manner as
+            Avalon would.  That means that you follow the order of concerns
+            that Avalon has specified for those concerns.
+          </p>
+        </s3>
+        <s3 title="A Stand Alone Program">
+          <p>
+            When you are designing a Component to be run from the command
+            line (or directly by the operating system), try to separate
+            the main function from the Component itself.  This is imperative
+            in order to maintain the passive API of Avalon.  By designing
+            you Component in the manner stated in the previous section,
+            you have effectively minimized what the main function has to
+            do.
+          </p>
+          <p>
+            Follow the practice of having an object dedicated to the main
+            function that includes the parsing of the command line parameters
+            and initialization of the Component.  When the Component is used
+            the exact same way in every context (including the command line),
+            you minimize the number of locations to look while debugging.
+          </p>
+          <note>
+            A common mistake is to combine the main function in the
+            implementation of the Component.  This requires violating the
+            contracts and principles that Avalon is built upon.  This
+            violation of the pattern of "Inversion of Control" is
+            aptly dubbed "Subversion of Control" (thanks to Steven Coffman
+            for the name of the anti-pattern).
+          </note>
+        </s3>
+      </s2>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2001/02/23 10:47:48 $
+    </legal>
+  </footer>
+</document>
+
