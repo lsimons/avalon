@@ -205,7 +205,10 @@ public class Hierarchy
      */
     public synchronized void addLoggerListener( final LoggerListener loggerListener )
     {
-        if ( null == loggerListener ) throw new NullPointerException( "loggerListener" );
+        if ( null == loggerListener )
+        {
+            throw new NullPointerException( "loggerListener" );
+        }
 
         if ( null == m_loggerListener )
         {
@@ -225,12 +228,25 @@ public class Hierarchy
      */
     public synchronized void removeLoggerListener( final LoggerListener loggerListener )
     {
-        if ( null == loggerListener ) throw new NullPointerException( "loggerListener" );
+        if ( null == loggerListener )
+        {
+            throw new NullPointerException( "loggerListener" );
+        }
 
         if ( null != m_loggerListener && m_loggerListener == loggerListener );
         {
             m_loggerListener = null;
         }
+    }
+
+    /**
+     * Set the LoggerListener associated with hierarchy.
+     *
+     * @param loggerListener the LoggerListener
+     */
+    public synchronized void setLoggerListener( final LoggerListener loggerListener )
+    {
+        m_loggerListener = loggerListener;
     }
 
     /**
