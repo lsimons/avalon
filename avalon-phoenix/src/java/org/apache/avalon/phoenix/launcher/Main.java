@@ -54,7 +54,7 @@ public final class Main
      * @param data a set of extra parameters to pass to embeddor
      * @param blocking false if the current thread is expected to return.
      *
-     * @returns the exit code which should be used to exit the JVM
+     * @return the exit code which should be used to exit the JVM
      *
      * @throws Exception if an error occurs
      */
