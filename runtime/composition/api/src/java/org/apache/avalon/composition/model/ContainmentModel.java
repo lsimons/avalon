@@ -166,7 +166,7 @@ public interface ContainmentModel extends DeploymentModel
     * @param model the model to add 
     * @return the model 
     */
-    DeploymentModel addModel( DeploymentModel model );
+    DeploymentModel addModel( DeploymentModel model ) throws ModelException;
 
    /**
     * Remove a named model from this model.
