@@ -25,7 +25,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * read-only connection.
  *
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
- * @version CVS $Revision: 1.4 $ $Date: 2001/10/28 11:24:09 $
+ * @version CVS $Revision: 1.5 $ $Date: 2001/10/28 11:31:05 $
  */
 class SarURLConnection
     extends URLConnection
@@ -54,8 +54,6 @@ class SarURLConnection
     public void connect() throws IOException
     {
         if (connected) return;
-
-        System.out.println( "URL Connected " + url );
 
         final String name = url.getPath().substring( 1 );
         m_entry = m_jar.getJarEntry( name );
