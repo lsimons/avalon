@@ -48,24 +48,32 @@
 */
 package org.apache.avalon.fortress.impl.handler;
 
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+
 /**
  * The ThreadSafeComponentHandler to make sure components are initialized
  * and destroyed correctly.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/04/18 20:02:29 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/10/01 12:30:00 $
  * @since 4.0
  */
 public final class PerThreadComponentHandler
     extends AbstractComponentHandler
 {
     private ThreadLocalComponent m_instance;
+    private List m_instances;
 
     public void initialize()
         throws Exception
     {
         super.initialize();
         m_instance = new ThreadLocalComponent( this );
+        m_instances = Collections.synchronizedList(new LinkedList());
     }
 
     /**
@@ -85,8 +93,14 @@ public final class PerThreadComponentHandler
 
     protected void doDispose()
     {
-        disposeComponent( m_instance.get() );
+        Iterator it = m_instances.iterator();
+        while (it.hasNext())
+        {
+            disposeComponent( it.next() );
+            it.remove();
+        }
         m_instance = null;
+        m_instances = null;
     }
 
     private static final class ThreadLocalComponent
@@ -103,7 +117,9 @@ public final class PerThreadComponentHandler
         {
             try
             {
-                return m_handler.newComponent();
+                Object component = m_handler.newComponent();
+                m_handler.m_instances.add(component);
+                return component;
             }
             catch ( final Exception e )
             {
