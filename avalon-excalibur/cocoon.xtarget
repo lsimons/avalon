@@ -1,19 +1,14 @@
 
-
-
     <!-- Setup the filters -->
     <target name="cocoon:setup-filters">
     
-    
-     <property file="cocoon.properties"/>
-    
-      <filter token="Name" value="Avalon ${Name}"/>
-      <filter token="name" value="${dir-name}"/>
-      <filter token="version" value="${version}"/>
-      <filter token="year" value="${year}"/>
-      <filter token="status" value="${status}"/>
-      <filter token="release" value="${release}"/>
-      <filter token="short-version" value="${short.version}"/>
+    <filter token="Name" value="Avalon ${Name}"/>
+    <filter token="name" value="${dir-name}"/>
+    <filter token="version" value="${version}"/>
+    <filter token="year" value="${year}"/>
+    <filter token="status" value="${status}"/>
+    <filter token="release" value="${release}"/>
+    <filter token="short-version" value="${short.version}"/>
       
     <!-- Skin filters -->
     <filter token="skin"              value="${use.skin}"/>
