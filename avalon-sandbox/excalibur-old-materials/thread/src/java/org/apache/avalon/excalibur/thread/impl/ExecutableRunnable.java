@@ -12,7 +12,7 @@ import org.apache.avalon.framework.activity.Executable;
 /**
  * Class to adapt a <code>Runnable</code> object in an <code>Executable</code> object.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 final class ExecutableRunnable
     implements Executable

@@ -19,7 +19,7 @@ import org.apache.excalibur.threadcontext.ThreadContext;
  * This class extends the Thread class to add recyclable functionalities.
  *
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 class WorkerThread
     extends Thread

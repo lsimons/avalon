@@ -23,7 +23,7 @@ import org.apache.excalibur.threadcontext.ThreadContext;
  * This class is the public frontend for the thread pool code.
  *
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public class DefaultThreadPool
     extends ThreadGroup

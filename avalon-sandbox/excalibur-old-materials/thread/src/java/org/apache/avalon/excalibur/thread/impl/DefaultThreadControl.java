@@ -12,7 +12,7 @@ import org.apache.avalon.excalibur.thread.ThreadControl;
 /**
  * Default implementation of ThreadControl interface.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 final class DefaultThreadControl
     implements ThreadControl

@@ -12,7 +12,7 @@ import org.apache.avalon.framework.activity.Executable;
 /**
  * This class is the public frontend for the thread pool code.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public interface ThreadPool
 {
