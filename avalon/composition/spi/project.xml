@@ -8,7 +8,7 @@
   <id>avalon-composition-spi</id>
   <name>Avalon Composition SPI</name>
   <package>org.apache.avalon.assembly</package>
-  <currentVersion>1.2-dev</currentVersion>
+  <currentVersion>1.2.1-dev</currentVersion>
 
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Avalon Composition SPI</shortDescription>
@@ -26,12 +26,6 @@ An API supporting component composition.
     </dependency>
 
     <dependency>
-      <groupId>avalon-repository</groupId>
-      <artifactId>avalon-repository-spi</artifactId>
-      <version>1.1-dev</version>
-    </dependency>
-
-    <dependency>
       <groupId>avalon-extension</groupId>
       <artifactId>avalon-extension-spi</artifactId>
       <version>1.0</version>
@@ -40,7 +34,7 @@ An API supporting component composition.
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-api</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2.1-dev</version>
     </dependency>
 
   </dependencies>

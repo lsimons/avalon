@@ -65,9 +65,12 @@ import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.merlin.kernel.Kernel;
 import org.apache.avalon.merlin.kernel.KernelException;
+import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.Repository;
-import org.apache.avalon.repository.ProxyContext;
-import org.apache.avalon.repository.impl.DefaultFileRepository;
+import org.apache.avalon.repository.provider.CacheManager;
+import org.apache.avalon.repository.impl.ProxyContext;
+import org.apache.avalon.repository.impl.DefaultCacheManager;
+import org.apache.avalon.repository.impl.DefaultRepository;
 import org.apache.avalon.repository.impl.DefaultAuthenticator;
 
 /**
@@ -101,24 +104,9 @@ public class DefaultEmbeddedKernel implements Runnable, Kernel
     private static final String CONTINUE = "continue";
     private static final String EXIT = "exit";
 
-    private static final URL DPML = createURL( "http://dpml.net/" );
-    private static final URL IBIBLIO = createURL( "http://www.ibiblio.org/maven/" );
-    private static final URL[] DEFAULT_REMOTE_URLS = new URL[]{ DPML, IBIBLIO };
-
-    private static URL createURL( String path )
-    {
-        try
-        {
-            return new URL( path );
-        }
-        catch( Throwable e )
-        {
-            // will not happen
-            final String error =  
-              "Unexpect error while building url: " + path;
-            throw new UnitRuntimeException( error, e );
-        }
-    }
+    private static final String DPML = "http://dpml.net/";
+    private static final String IBIBLIO = "http://www.ibiblio.org/maven/";
+    private static final String[] DEFAULT_REMOTE_URLS = new String[]{ DPML, IBIBLIO };
 
     //--------------------------------------------------------
     // state
@@ -457,8 +445,9 @@ public class DefaultEmbeddedKernel implements Runnable, Kernel
         {
             File repo = getSystemRepositoryDirectory();
             ProxyContext proxy = createProxyContext();
-            URL[] hosts = createHostsSequence();
-            return new DefaultFileRepository( repo, proxy, hosts );
+            CacheManager manager = new DefaultCacheManager( repo, proxy );
+            String[] hosts = createHostsSequence();
+            return new DefaultRepository( manager, hosts );
         }
         catch( Throwable e )
         {
@@ -472,7 +461,7 @@ public class DefaultEmbeddedKernel implements Runnable, Kernel
     * Return an array of hosts based on the maven.repo.remote property value.
     * @return the array of remote hosts
     */
-    private URL[] createHostsSequence() throws Exception
+    private String[] createHostsSequence() throws Exception
     {
         ArrayList list = new ArrayList();
         String path = System.getProperty( "maven.repo.remote" );
@@ -485,9 +474,9 @@ public class DefaultEmbeddedKernel implements Runnable, Kernel
         while( tokenizer.hasMoreElements() )
         {
             String token = tokenizer.nextToken();
-            list.add( new URL( token ) );
+            list.add( token );
         }
-        return (URL[]) list.toArray( new URL[0] );
+        return (String[]) list.toArray( new String[0] );
     }
 
    /**
@@ -619,7 +608,8 @@ public class DefaultEmbeddedKernel implements Runnable, Kernel
                  artifact = item.substring( n+1, item.length() );
              }
             
-             return repository.getArtifact( group, artifact, version, "jar" );
+             Artifact ref = Artifact.createArtifact( group, artifact, version );
+             return repository.getResource( ref );
          }
          catch( Throwable e )
          {

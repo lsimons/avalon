@@ -8,7 +8,7 @@
   <id>avalon-activation-impl</id>
   <name>Avalon Activation Framework</name>
   <package>org.apache.avalon.activation</package>
-  <currentVersion>1.2.2-dev</currentVersion>
+  <currentVersion>1.2.3-dev</currentVersion>
 
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Runtime activation framework.</shortDescription>
@@ -32,40 +32,50 @@
 
     <dependency>
       <groupId>avalon-repository</groupId>
+      <artifactId>avalon-repository-api</artifactId>
+      <version>1.2-dev</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-repository</groupId>
       <artifactId>avalon-repository-spi</artifactId>
-      <version>1.1-dev</version>
+      <version>1.2-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-repository</groupId>
       <artifactId>avalon-repository-impl</artifactId>
-      <version>1.1-dev</version>
+      <version>1.2-dev</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-repository</groupId>
+      <artifactId>avalon-repository-util</artifactId>
+      <version>1.2-dev</version>
     </dependency>
 
     <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-api</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2.1-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-spi</artifactId>
-      <version>1.2.1-dev</version>
+      <version>1.2.2-dev</version>
     </dependency>
 
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-api</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2.1-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-spi</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2.1-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-impl</artifactId>
-      <version>1.2.1-dev</version>
+      <version>1.2.2-dev</version>
     </dependency>
 
     <dependency>

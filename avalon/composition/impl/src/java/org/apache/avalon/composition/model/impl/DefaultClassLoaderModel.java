@@ -71,6 +71,7 @@ import org.apache.avalon.composition.model.TypeRepository;
 import org.apache.avalon.composition.model.ServiceRepository;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.util.StringHelper;
+import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.Repository;
 import org.apache.avalon.extension.Extension;
 import org.apache.avalon.extension.manager.ExtensionManager;
@@ -110,7 +111,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and the extensions package.
  * </p>
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.3 $ $Date: 2003/12/03 19:04:53 $
  */
 public class DefaultClassLoaderModel extends AbstractLogEnabled 
   implements ClassLoaderModel
@@ -439,7 +440,9 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
         {
             if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug( "repository declarations: " + repositories.length );
+                getLogger().debug( 
+                  "repository declarations: " 
+                  + repositories.length );
             }
         }
 
@@ -448,7 +451,10 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
             ResourceDirective[] resources = repositories[i].getResources();
             if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug( "repository " + i + " contains " + resources.length + " entries." );
+                getLogger().debug( "repository " + i 
+                + " contains " 
+                + resources.length 
+                + " entries." );
             }
 
             for( int j=0; j<resources.length; j++ )
@@ -458,7 +464,12 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
                 String version = resource.getVersion();
                 if( resource.getType().equals( "jar" ) )
                 {
-                    URL url = repository.getArtifact( id, version, "jar" );
+                  URL url = repository.getResource(
+                    Artifact.createArtifact(
+                      resource.getGroup(),
+                      resource.getName(),
+                      resource.getVersion(),
+                      resource.getType() ) );
                     classpath.add( url.toString() );
                 }
             }

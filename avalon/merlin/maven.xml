@@ -2,7 +2,7 @@
 
   <maven:snapshot project="${pom}"/>
 
-  <ant:property name="merlin.bootstrap.jar" value="merlin-bootstrap-1.0.jar"/>
+  <ant:property name="merlin.bootstrap.jar" value="merlin-bootstrap-1.1.jar"/>
   <ant:property name="merlin.plugin.jar" value="merlin-plugin-1.1-SNAPSHOT.jar"/>
   <ant:property name="meta.plugin.jar" value="avalon-meta-plugin-1.2.jar"/>
   <ant:property name="repository.plugin.jar" 
@@ -343,10 +343,6 @@
         <j:forEach var="packageGroup" items="${pom.packageGroups}">
           <group title="${packageGroup.title}" packages="${packageGroup.packages}"/>
         </j:forEach>
-        <sourcepath path="${basedir}/util/env/src/java"/>
-        <sourcepath path="${basedir}/util/defaults/src/java"/>
-        <sourcepath path="${basedir}/repository/spi/src/java"/>
-        <sourcepath path="${basedir}/repository/impl/src/java"/>
         <sourcepath path="${basedir}/extension/spi/src/java"/>
         <sourcepath path="${basedir}/extension/impl/src/java"/>
         <sourcepath path="${basedir}/composition/api/src/java"/>

@@ -82,10 +82,13 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.merlin.kernel.KernelContext;
 import org.apache.avalon.merlin.kernel.KernelException;
 import org.apache.avalon.merlin.kernel.KernelRuntimeException;
+import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.Repository;
-import org.apache.avalon.repository.ProxyContext;
+import org.apache.avalon.repository.provider.CacheManager;
+import org.apache.avalon.repository.impl.DefaultCacheManager;
+import org.apache.avalon.repository.impl.ProxyContext;
 import org.apache.avalon.repository.impl.DefaultAuthenticator;
-import org.apache.avalon.repository.impl.DefaultFileRepository;
+import org.apache.avalon.repository.impl.DefaultRepository;
 import org.apache.excalibur.configuration.ConfigurationUtil;
 import org.apache.excalibur.mpool.PoolManager;
 
@@ -95,7 +98,7 @@ import org.xml.sax.InputSource;
  * Default implementation of a kernel context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2003/10/28 20:21:01 $
+ * @version $Revision: 1.5 $ $Date: 2003/12/03 19:04:53 $
  */
 public class DefaultKernelContext extends AbstractLogEnabled 
   implements KernelContext
@@ -202,6 +205,8 @@ public class DefaultKernelContext extends AbstractLogEnabled
 
     private final String m_bootstrap;
 
+    private CacheManager m_cacheManager;
+
     //--------------------------------------------------------------
     // constructor
     //--------------------------------------------------------------
@@ -229,7 +234,7 @@ public class DefaultKernelContext extends AbstractLogEnabled
     {
         if( bootstrap == null ) throw new NullPointerException( "bootstrap" );
 
-        m_bootstrap = bootstrap.getLocation();
+        m_bootstrap = bootstrap.toString();
         m_temp = new File( System.getProperty( "java.io.tmpdir" ) );
         final File base = new File( System.getProperty( "user.dir" ) );
 
@@ -370,7 +375,7 @@ public class DefaultKernelContext extends AbstractLogEnabled
 
         Configuration repositoryConfig = kernelConfig.getChild( "repository" );
         m_repository = createRepository( m_user, repositoryConfig );
-        getLogger().debug( "repository established: " + m_repository.getLocation() );
+        getLogger().debug( "repository established: " + m_repository.toString() );
 
         //
         // if the debug flag is enabled then print the context object
@@ -455,7 +460,7 @@ public class DefaultKernelContext extends AbstractLogEnabled
         //
 
         final Configuration[] hosts = config.getChild( "hosts" ).getChildren( "host" );
-        final URL[] list = new URL[ hosts.length ];
+        final String[] list = new String[ hosts.length ];
         for( int i=0; i<hosts.length; i++ )
         {
             Configuration host = hosts[i];
@@ -487,22 +492,7 @@ public class DefaultKernelContext extends AbstractLogEnabled
                         throw new KernelException( error );
                     }
                 }
-                if( !path.endsWith( "/" ) )
-                {
-                    path = path + "/";
-                }
-                URL url = new URL( path );
-                final String protocol = url.getProtocol();
-                if( url.getProtocol().equals( "http" ) )
-                { 
-                    list[i] = url;
-                }
-                else
-                {
-                    final String error = 
-                      "Unsupported protocol: " + protocol;
-                    throw new KernelException( error );
-                }
+                list[i] = path;
             }
             catch( Throwable e )
             {
@@ -558,7 +548,9 @@ public class DefaultKernelContext extends AbstractLogEnabled
             proxy = new ProxyContext( host, port, authenticator );
         }
 
-        return new DefaultFileRepository( base, proxy, list );
+        // nasty hack to - but this is going to be replaced anyway
+        m_cacheManager = new DefaultCacheManager( base, proxy );
+        return new DefaultRepository( m_cacheManager, list );
     }
 
     //--------------------------------------------------------------
@@ -601,6 +593,16 @@ public class DefaultKernelContext extends AbstractLogEnabled
     {
         return m_repository;
     }
+
+   /**
+    * Return the cache manager
+    * @return the cache manager
+    */
+    public CacheManager getCacheManager()
+    {
+        return m_cacheManager;
+    }
+
 
    /**
     * Return the library path
@@ -727,7 +729,7 @@ public class DefaultKernelContext extends AbstractLogEnabled
               + System.getProperty( "java.version" ) );
         buffer.append( "\n  Deployment Home: " + StringHelper.toString( getHomePath() ) );
         buffer.append( "\n  System Repository: " + getBootstrapRepositoryPath() );
-        buffer.append( "\n  Runtime Repository: " + getRepository().getLocation() );
+        buffer.append( "\n  Runtime Repository: " + getRepository() );
         buffer.append( "\n  Library Anchor: " + StringHelper.toString( getLibraryPath() ) );
         buffer.append( "\n  Kernel Path: " + StringHelper.toString( m_kernelURL ) );
         buffer.append( "\n  Deployment Blocks: " + StringHelper.toString( m_blocks ) );
@@ -928,7 +930,8 @@ public class DefaultKernelContext extends AbstractLogEnabled
 
     private URL loadKernelDirective( Repository repository ) throws Exception
     {
-        return repository.getArtifact( "merlin", "kernel", "", "xml" );
+        Artifact artifact = Artifact.createArtifact( "merlin", "kernel", null, "xml" );
+        return repository.getResource( artifact );
     }
 
    /**

@@ -60,7 +60,9 @@ import org.apache.avalon.composition.logging.impl.DefaultLoggingManager;
 import org.apache.avalon.composition.model.ModelFactory;
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.repository.Repository;
-import org.apache.avalon.repository.impl.DefaultFileRepository;
+import org.apache.avalon.repository.provider.CacheManager;
+import org.apache.avalon.repository.impl.DefaultCacheManager;
+import org.apache.avalon.repository.impl.DefaultRepository;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -73,7 +75,7 @@ import org.apache.avalon.composition.data.CategoryDirective;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.3 $ $Date: 2003/12/03 19:04:53 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext
@@ -110,8 +112,12 @@ public class DefaultSystemContext extends DefaultContext
 
     private static Repository createRepository( File root ) throws Exception
     {
-        URL ibiblio = new URL( "http://www.ibiblio.org/maven" );
-        return new DefaultFileRepository( root, new URL[]{ ibiblio } );
+        String dpml = "http://dpml.net";
+        String ibiblio = "http://www.ibiblio.org/maven";
+        CacheManager manager = new DefaultCacheManager( root, null );
+        return new DefaultRepository( 
+           manager, 
+           new String[]{ dpml, ibiblio } );
     }
 
     private static LoggingManager createLoggingManager( File base, int priority ) throws Exception
@@ -309,14 +315,7 @@ public class DefaultSystemContext extends DefaultContext
     */
     public ClassLoader getCommonClassLoader()
     {
-        //
-        // TODO: setup proper handling of classloader management, but 
-        // the meantime, return the system classloader in place of the 
-        // api classloader
-        //
-
         return m_common;
-        //return getSystemClassLoader();
     }
 
    /**

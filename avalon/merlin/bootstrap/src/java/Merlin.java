@@ -58,8 +58,11 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
+import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.Repository;
-import org.apache.avalon.repository.impl.DefaultFileRepository;
+import org.apache.avalon.repository.provider.CacheManager;
+import org.apache.avalon.repository.impl.DefaultRepository;
+import org.apache.avalon.repository.impl.DefaultCacheManager;
 
 /**
  * Merlin commandline bootstrap handler.
@@ -155,8 +158,9 @@ public class Merlin
             System.out.println( "system remote repositories: " + remotePath );
         }
 
-        URL[] remote = getRemoteURLs( remotePath );
-        repository = new DefaultFileRepository( base, null, remote );
+        String[] remote = getRemoteURLs( remotePath );
+        CacheManager cache = new DefaultCacheManager( base, null );
+        repository = new DefaultRepository( cache, remote );
 
         //
         // get the set of URLs for the bootstrap classloader from the 
@@ -297,16 +301,16 @@ public class Merlin
         }
     }
 
-    private static URL[] getRemoteURLs( String path ) throws Exception
+    private static String[] getRemoteURLs( String path ) throws Exception
     {
         ArrayList list = new ArrayList();
         StringTokenizer tokenizer = new StringTokenizer( path, "," );
         while( tokenizer.hasMoreElements() )
         {
             String token = tokenizer.nextToken();
-            list.add( new URL( token ) );
+            list.add( token );
         }
-        return (URL[]) list.toArray( new URL[0] );
+        return (String[]) list.toArray( new String[0] );
     }
 
    /**
@@ -377,8 +381,10 @@ public class Merlin
              {
                  artifact = item.substring( n+1, item.length() );
              }
-            
-             return repository.getArtifact( group, artifact, version, "jar" );
+
+             Artifact ref = Artifact.createArtifact( group, artifact, version );            
+
+             return repository.getResource( ref );
          }
          catch( Throwable e )
          {
