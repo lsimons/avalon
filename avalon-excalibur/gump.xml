@@ -458,6 +458,7 @@
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="excalibur-altrmi" runtime="true"/>
         <depend project="excalibur-instrument" runtime="true"/>
+        <depend project="excalibur-instrument-manager" runtime="true"/>
         <depend project="excalibur-collections" runtime="true"/>
         <depend project="excalibur-concurrent" runtime="true"/>
         <depend project="excalibur-event" runtime="true"/>
