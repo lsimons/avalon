@@ -16,7 +16,7 @@ import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.component.ComponentManager;
 import org.apache.avalon.component.Composable;
 import org.apache.avalon.logger.AbstractLoggable;
-import org.apache.avalon.util.Enum;
+import org.apache.avalon.Enum;
 import org.apache.phoenix.Block;
 import org.apache.phoenix.metainfo.DependencyDescriptor;
 import org.apache.phoenix.metainfo.ServiceDescriptor;
