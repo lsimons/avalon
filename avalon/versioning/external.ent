@@ -1,8 +1,0 @@
-
-<!ENTITY xml-apis-id "xml-apis">
-<!ENTITY xml-apis-group "xml-apis">
-<!ENTITY xml-apis-version "2.0.2">
-
-<!ENTITY xerces-id "xerces">
-<!ENTITY xerces-group "xerces">
-<!ENTITY xerces-version "2.4.0">
