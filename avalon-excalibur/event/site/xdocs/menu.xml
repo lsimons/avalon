@@ -17,15 +17,18 @@
       <item href="thread.html" name="Thread"/>
       <item href="util.html" name="Util"/>
     </menu>
-<!--
+
     <menu name="How To">
+<!--
       <item href="event-howto.html" name="Use Event Queues"/>
       <item href="command-howto.html" name="Use the Command Manager"/>
       <item href="mpool-howto.html" name="Use MPool"/>
       <item href="thread-howto.html" name="Use Thread Pools"/>
+-->
       <item href="util-howto.html" name="Use System Util"/>
+<!--
       <item href="cpuparser-howto.html" name="Extend System Util"/>
+-->
     </menu>
-  -->
   </body>
 </project>
