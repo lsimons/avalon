@@ -104,7 +104,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.14 $ $Date: 2003/12/12 14:02:35 $
+ * @version $Revision: 1.15 $ $Date: 2003/12/22 21:28:09 $
  */
 public class DefaultAppliance extends AbstractAppliance
   implements Composite, DefaultApplianceMBean
@@ -277,7 +277,10 @@ public class DefaultAppliance extends AbstractAppliance
                 return;
             }
 
-            getLogger().debug( "assembly phase" );
+            if( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "assembly phase" );
+            }
 
             //
             // check if we need a contextualization handler
