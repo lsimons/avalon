@@ -1,3 +1,16 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE role-list [
+<!ELEMENT role-list (role+)> 
+<!ELEMENT role (component+)>
+<!ELEMENT component EMPTY>
+<!ATTLIST role name CDATA #REQUIRED>
+<!ATTLIST component shorthand CDATA #REQUIRED
+               class CDATA #REQUIRED
+               handler CDATA #REQUIRED
+>
+]>
+
 <role-list>
 
   <!-- single component definitions -->
