@@ -74,7 +74,9 @@ Legal:
     <pathelement location="${jmxri.jar}"/>
     <pathelement location="${jmxtools.jar}"/>
     <pathelement location="${wrapper.jar}"/>
+    <pathelement path="${checkstyle.jar}" />
     <pathelement path="${java.class.path}" />
+
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
     </fileset>
@@ -213,6 +215,54 @@ Legal:
     </jar>
 
   </target>
+
+    <target name="checkstyle" if="do.checkstyle" description="Checkstyle">
+
+        <!-- this invocation of checkstyle requires that checkstyle be downloaded and setup -->
+        <!-- thats why you are required to define do.checkstyle property to generate the report -->
+        <taskdef name="checkstyle"
+            classname="com.puppycrawl.tools.checkstyle.CheckStyleTask">
+            <classpath refid="project.class.path"/>
+        </taskdef>
+        <checkstyle
+            lcurlyType="nl"
+            lcurlyMethod="nl"
+            lcurlyOther="nl"
+            rcurly="ignore"
+            allowProtected="false"
+            allowPackage="false"
+            allowNoAuthor="false"
+            maxLineLen="100"
+            maxMethodLen="100"
+            maxConstructorLen="100"
+            memberPattern="^m_[a-z][a-zA-Z0-9]*$"
+            staticPattern="^c_[a-z][a-zA-Z0-9]*$"
+            constPattern="(^c_[a-z][a-zA-Z0-9]*$)|([A-Z_]*$)"
+            ignoreImportLen="true"
+            allowTabs="false"
+            javadocScope="protected"
+            ignoreWhitespace="true"
+            cacheFile="checkstyle.cache"
+            failOnViolation="false"
+            ignoreCastWhitespace="true">
+            <fileset dir="${java.dir}">
+                <include name="**/*.java"/>
+            </fileset>
+            <formatter type="plain"/>
+            <formatter type="xml" toFile="build/checkstyle-results.xml"/>
+        </checkstyle>
+    </target>
+
+    <target name="checkstyle-report"
+        depends="checkstyle"
+        if="do.checkstyle"
+        description="Generate Checkstyle Report">
+
+        <mkdir dir="${build.reports}/checkstyle"/>
+        <style style="../tools/etc/checkstyle-frames.xsl" in="build/checkstyle-results.xml"
+            out="${build.reports}/checkstyle/delete-me.html"/>
+
+    </target>
 
   <!-- Create the lite build -->
   <target name="dist-lite" depends="jars"
