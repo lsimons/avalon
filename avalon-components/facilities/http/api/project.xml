@@ -7,8 +7,8 @@
 
   <extend>${basedir}/../../common-project.xml</extend>
 
+  <groupId>&avalon-http-id;</groupId>
   <id>&avalon-http-api-id;</id>
-  <groupId>&avalon-http-api-id;</groupId>
   <currentVersion>&avalon-http-api-version;</currentVersion>
 
   <name>Avalon HTTP API</name>

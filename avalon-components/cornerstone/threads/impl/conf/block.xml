@@ -14,15 +14,15 @@ Thread Block deployment directive.
    <classloader>
      <classpath>
        <repository>
-         <resource id="avalon-framework:avalon-framework-api" version="4.1.5"/>
-         <resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/>
+         <resource id="avalon-framework:avalon-framework-api" version="4.2.0"/>
+         <resource id="avalon-framework:avalon-framework-impl" version="4.2.0"/>
          <resource id="commons-collections:commons-collections" version="2.1"/>
          <resource id="concurrent:concurrent" version="1.3.1"/>
-         <resource id="excalibur-pool:excalibur-pool-api" version="SNAPSHOT"/>
-         <resource id="excalibur-pool:excalibur-pool-impl" version="SNAPSHOT"/>
-         <resource id="excalibur-thread:excalibur-thread-api" version="SNAPSHOT"/>
-         <resource id="excalibur-thread:excalibur-thread-impl" version="SNAPSHOT"/>
-         <resource id="cornerstone-threads:cornerstone-threads-api" version="SNAPSHOT"/>
+         <resource id="excalibur-pool:excalibur-pool-api" version="2.0"/>
+         <resource id="excalibur-pool:excalibur-pool-impl" version="2.0"/>
+         <resource id="excalibur-thread:excalibur-thread-api" version="2.0"/>
+         <resource id="excalibur-thread:excalibur-thread-impl" version="2.0"/>
+         <resource id="cornerstone-threads:cornerstone-threads-api" version="2.0"/>
        </repository>
      </classpath>
    </classloader>
