@@ -24,9 +24,9 @@
  *    itself, if and wherever such third-party acknowledgments
  *    normally appear.
  *
- * 4. The names "D-Haven" and "Apache Software Foundation"
- *    must not be used to endorse or promote products derived from this
- *    software without prior written permission. For written
+ * 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software
+ *    Foundation" must not be used to endorse or promote products derived
+ *    from this software without prior written permission. For written
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache",
@@ -68,7 +68,7 @@ import java.util.*;
  * Represents a component, and output the meta information.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.17 $ $Date: 2003/07/08 12:29:18 $
+ * @version CVS $Revision: 1.18 $ $Date: 2003/12/01 18:01:30 $
  */
 final class Component
 {
