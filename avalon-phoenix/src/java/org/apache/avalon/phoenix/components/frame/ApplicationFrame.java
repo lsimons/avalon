@@ -7,12 +7,14 @@
  */
 package org.apache.avalon.phoenix.components.frame;
 
-import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.excalibur.lang.ThreadContext;
+import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.phoenix.BlockContext;
+import org.apache.avalon.phoenix.BlockListener;
+import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Logger;
 
 /**
@@ -21,9 +23,25 @@ import org.apache.log.Logger;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public interface ApplicationFrame
-    extends Component
+    extends Component, BlockListener
 {
     String ROLE = "org.apache.avalon.phoenix.components.frame.ApplicationFrame";
+
+    /**
+     * Add a BlockListener to those requiring notification of
+     * <code>BlockEvent</code>s.
+     *
+     * @param listener the BlockListener
+     */
+    void addBlockListener( BlockListener listener );
+
+    /**
+     * Remove a BlockListener from those requiring notification of
+     * <code>BlockEvent</code>s.
+     *
+     * @param listener the BlockListener
+     */
+    void removeBlockListener( BlockListener listener );
 
     /**
      * Get ThreadContext for the current application.
@@ -31,6 +49,8 @@ public interface ApplicationFrame
      * @return the ThreadContext
      */
     ThreadContext getThreadContext();
+
+    SarMetaData getMetaData();
 
     /**
      * Get ClassLoader for the current application.
