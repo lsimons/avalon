@@ -3,5 +3,6 @@ gen
 *.el
 dist
 build
+distributions
 docs
 *.ipr
