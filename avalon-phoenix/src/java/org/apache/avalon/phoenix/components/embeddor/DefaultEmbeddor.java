@@ -221,8 +221,17 @@ public class DefaultEmbeddor
 
     private boolean emptyKernel()
     {
-        final String[] names = m_kernel.getApplicationNames();
-        return ( 0 == names.length );
+        if( null != m_kernel )
+        {
+            final String[] names = m_kernel.getApplicationNames();
+            return ( 0 == names.length );
+        }
+        else
+        {
+            //Consider the kernel empty
+            //if it has been shutdown
+            return true;
+        }
     }
 
     private void gotoSleep()
