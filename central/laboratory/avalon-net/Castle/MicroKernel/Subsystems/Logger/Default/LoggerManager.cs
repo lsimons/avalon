@@ -27,12 +27,9 @@ namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Logger.Default
 	/// </summary>
 	public class LoggerManager : AbstractSubsystem, ILoggerManager
 	{
-		private LoggerConfiguration m_configuration;
 
 		public LoggerManager()
 		{
-			m_configuration = (LoggerConfiguration)
-				ConfigurationSettings.GetConfig( AvalonLoggerSectionHandler.Section );
 		}
 
 		#region ILoggerManager Members
@@ -54,7 +51,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Logger.Default
 				name = implementationName;
 			}
 
-			return m_configuration.RootLogger.CreateChildLogger( name );
+			return new ConsoleLogger().CreateChildLogger( name );
 		}
 
 		#endregion

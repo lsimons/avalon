@@ -139,6 +139,12 @@ namespace Apache.Avalon.Castle.MicroKernel.Concerns.Default
 				return m_key2handler.Contains( role );
 			}
 
+			public object LookUp(string role, object criteria)
+			{
+				return null;
+				// return m_key2handler.Contains( role );
+			}
+
 			#endregion
 		}
 	}

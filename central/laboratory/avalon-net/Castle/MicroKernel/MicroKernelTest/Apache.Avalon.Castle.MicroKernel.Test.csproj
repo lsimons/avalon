@@ -80,11 +80,6 @@
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
-                    Name = "nunit.framework"
-                    AssemblyName = "nunit.framework"
-                    HintPath = "..\..\..\..\..\..\..\..\dotnet\NUnit2\bin\nunit.framework.dll"
-                />
-                <Reference
                     Name = "MicroKernel"
                     Project = "{1E57B734-BA4B-4ADE-B4C2-78C7D4993AD4}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
@@ -92,7 +87,12 @@
                 <Reference
                     Name = "Apache.Avalon.Framework"
                     AssemblyName = "Apache.Avalon.Framework"
-                    HintPath = "..\..\bin\Apache.Avalon.Framework.dll"
+                    HintPath = "..\..\..\bin\Apache.Avalon.Framework.dll"
+                />
+                <Reference
+                    Name = "nunit.framework"
+                    AssemblyName = "nunit.framework"
+                    HintPath = "..\..\..\..\..\..\..\..\..\..\dotnet\NUnit2\bin\nunit.framework.dll"
                 />
             </References>
         </Build>
@@ -144,12 +144,52 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "EventManagerTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "EventSubsystemTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "LoggerManagerTestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "SimpleComponentFactoryTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Business\Components\AbstractBusinessObject.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Business\Components\BusinessObject.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Business\Components\CustomerBusinessObject.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Business\Components\CustomerBusinessObjectImpl.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Business\Components\CustomerDataAccess.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Business\Components\CustomerDataAccessImpl.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

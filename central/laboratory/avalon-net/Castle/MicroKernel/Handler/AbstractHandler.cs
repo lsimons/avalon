@@ -107,6 +107,8 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
 
 		protected virtual void RegisterInstance( object instance )
 		{
+			RaiseComponentCreatedEvent( instance );
+
 			if (!HasInstance( instance, false ))
 			{
 				// WeakReference reference = new WeakReference( instance );
@@ -117,6 +119,8 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
 
 		protected virtual void UnregisterInstance( object instance )
 		{
+			RaiseComponentCreatedEvent( instance );
+
 			if (m_instances.Count == 0)
 			{
 				return;
