@@ -72,6 +72,7 @@ public class DirectedAcyclicGraphVerifier
     public static void verify( Vertex vertex ) throws CyclicDependencyException
     {
         List list = new ArrayList(1);
+        list.add(vertex);
         topologicalSort(list);
     }
 
