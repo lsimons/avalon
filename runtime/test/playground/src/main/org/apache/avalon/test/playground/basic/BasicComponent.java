@@ -35,10 +35,12 @@ import org.apache.avalon.test.playground.NullService;
  * <code>BasicService</code> interface and has no dependencies.
  *
  * @avalon.component name="basic" lifestyle="singleton"
+ * @avalon.service type="org.apache.avalon.test.playground.basic.BasicService"
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class BasicComponent extends AbstractLogEnabled
-        implements Contextualizable, Configurable, Initializable, Startable, Disposable, BasicService, NullService
+   implements Contextualizable, Configurable, Initializable, 
+   Startable, Disposable, BasicService, NullService
 {
 
     private String m_location;

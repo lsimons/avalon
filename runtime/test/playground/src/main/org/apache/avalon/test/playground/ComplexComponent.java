@@ -61,9 +61,9 @@ public class ComplexComponent
 
    /**
     * @avalon.logger name="internal" 
-    * @avalon.dependency key="simple" 
-    *    type="org.apache.avalon.test.playground.basic.BasicService"
     * @avalon.dependency key="basic" 
+    *    type="org.apache.avalon.test.playground.basic.BasicService" version="1.1"
+    * @avalon.dependency key="simple" 
     *    type="org.apache.avalon.test.playground.SimpleService" 
     */
     public ComplexComponent( Logger logger, ServiceManager manager ) throws ServiceException
@@ -75,8 +75,33 @@ public class ComplexComponent
         // lookup the primary service
         //
 
-        m_simple = (SimpleService) m_manager.lookup( "simple" );
-        m_basic = (BasicService) m_manager.lookup( "basic" );
+        Object simple = null;
+        try
+        {
+            simple = m_manager.lookup( "simple" );
+            m_simple = (SimpleService) simple;
+        }
+        catch( ClassCastException cce )
+        {
+            final String error = 
+              "Container supplied service for the key 'simple' is not an instance of SimpleService: ["
+              + simple.getClass().getName() 
+              + ", " 
+              + simple.toString()
+              + "].";
+            throw new ServiceException( "simple", error, cce );
+        }
+
+        try
+        {
+            m_basic = (BasicService) m_manager.lookup( "basic" );
+        }
+        catch( ClassCastException cce )
+        {
+            final String error = 
+              "Container supplied service for the key 'basic' is not an instance of BasicService.";
+            throw new ServiceException( "simple", error, cce );
+        }
 
         Logger child = getLogger().getChildLogger( "internal" );
         if( child.isInfoEnabled() )
