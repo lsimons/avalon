@@ -11,9 +11,11 @@
   <id>&avalon-util-plugin-id;</id>
   <currentVersion>&avalon-util-plugin-version;</currentVersion>
 
-  <name>Avalon Plugin</name>
-  <description>Avalon Plugin for Maven</description>
-  <shortDescription>Avalon Plugin</shortDescription>
+  <name>Avalon Artifact Enhancer Plugin</name>
+  <description>Avalon Artifact Enhancer Plugin creates a .meta file
+  for each Jar which contains dependencies and other information about
+  the Jar file.</description>
+  <shortDescription>Avalon Artifact Enhancer Plugin</shortDescription>
   <package>org.apache.avalon</package>
 
   <build>

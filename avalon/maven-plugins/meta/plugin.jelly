@@ -36,7 +36,10 @@ in the project.properties file.
 <fail message="avalon:meta has been dropped, and no longer used." />
   </goal>
   
+  <postGoal name="java:prepare-filesystem">
+<!--  
   <postGoal name="java:compile"  >
+-->
 <echo>Entering the Meta Generation for Java Sources</echo>
     <ant:available property="javaSourcesPresent"
        file="${maven.src.dir}/java"/>
@@ -45,7 +48,6 @@ in the project.properties file.
        file="${maven.src.dir}/main"/>
     
     <j:set var="needsMetaGen" value="${avalon.meta.enabled}" />
-    
     <j:if test="${needsMetaGen }" >
      <j:if test="${ (javaSourcesPresent || mainSourcesPresent )}">
       <ant:mkdir dir="${maven.build.dest}"/>
@@ -67,17 +69,21 @@ in the project.properties file.
       </ant:meta-generate>
      </j:if>
     </j:if>
+
   </postGoal>
   
-  <postGoal name="test:compile"  >
+  <postGoal name="test:prepare-filesystem" >
+
 <echo>Entering the Meta Generation for Test Sources</echo>
     <ant:mkdir dir="${maven.build.dest}"/>
     <ant:available property="testSourcesPresent"
         file="${maven.src.dir}/test"/>
+    
     <j:set var="needsMetaGen" value="${avalon.meta.enabled}" />
     
     <j:if test="${needsMetaGen }" >
-     <j:if test="${needsMetaGen}">
+   
+     <j:if test="${testSourcesPresent}">
       <ant:mkdir dir="${maven.build.dir}/test-classes"/>
       <ant:meta-generate destDir="${maven.build.dir}/test-classes" 
           format="${avalon.meta.format}" 
