@@ -12,6 +12,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.components.cpbuilder.metadata.ClassLoaderDef;
 import org.apache.avalon.phoenix.components.cpbuilder.metadata.ClassLoaderSetDef;
+import org.apache.avalon.phoenix.components.cpbuilder.metadata.EntryDef;
 import org.apache.avalon.phoenix.components.cpbuilder.metadata.JoinDef;
 
 /**
@@ -23,17 +24,19 @@ import org.apache.avalon.phoenix.components.cpbuilder.metadata.JoinDef;
  *       or '_'.</li>
  *   <li>No ClassLoader can have a parent ClassLoader that is
  *       not predefined or not defined in ClassLoaderSet.</li>
+ *   <li>No "join" ClassLoader can link against a non-existent
+ *       ClassLoader.</li>
  *   <li>No "join" ClassLoader can join multiple instances
  *       of same ClassLoader.</li>
  *   <li>No ClassLoader can have multiple entrys that point
  *       to the same location.</li>
- *   <li>No ClassLoader (either join or regular) can have the same
- *       name.</li>
+ *   <li>No ClassLoader (either predefined, join or regular)
+ *       can have the same name.</li>
  *   <li>The default ClassLoader must exist.</li>
  * </ul>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/09/01 02:31:29 $
+ * @version $Revision: 1.2 $ $Date: 2002/09/01 03:09:31 $
  */
 public class ClassLoaderVerifier
     extends AbstractLogEnabled
@@ -45,6 +48,18 @@ public class ClassLoaderVerifier
         throws Exception
     {
         String message = null;
+
+        message = REZ.getString( "valid-names.notice" );
+        getLogger().info( message );
+        verifyNames( set );
+
+        message = REZ.getString( "valid-parents.notice" );
+        getLogger().info( message );
+        verifyParents( set );
+
+        message = REZ.getString( "valid-links.notice" );
+        getLogger().info( message );
+        verifyLinks( set );
 
         message = REZ.getString( "default-loader.notice" );
         getLogger().info( message );
@@ -62,6 +77,230 @@ public class ClassLoaderVerifier
         getLogger().info( message );
         verifyUniquePredefinedNames( set );
 
+        message = REZ.getString( "unique-joins-entrys.notice" );
+        getLogger().info( message );
+        verifyUniqueJoinEntrys( set );
+
+        message = REZ.getString( "unique-classpath-entrys.notice" );
+        getLogger().info( message );
+        verifyUniqueClassLoaderEntrys( set );
+    }
+
+    /**
+     * Verify that all the classloaders have valid names.
+     *
+     * @throws Exception if validity check fails
+     */
+    private void verifyNames( ClassLoaderSetDef set )
+        throws Exception
+    {
+        final ClassLoaderDef[] classLoaders = set.getClassLoaders();
+        for( int i = 0; i < classLoaders.length; i++ )
+        {
+            final String name = classLoaders[ i ].getName();
+            verifyName( name );
+        }
+
+        final JoinDef[] joins = set.getJoins();
+        for( int i = 0; i < joins.length; i++ )
+        {
+            final String name = joins[ i ].getName();
+            verifyName( name );
+        }
+    }
+
+    /**
+     * Verify that all the classloaders have valid parents.
+     *
+     * @throws Exception if validity check fails
+     */
+    private void verifyParents( ClassLoaderSetDef set )
+        throws Exception
+    {
+        final ClassLoaderDef[] classLoaders = set.getClassLoaders();
+        for( int i = 0; i < classLoaders.length; i++ )
+        {
+            final ClassLoaderDef classLoader = classLoaders[ i ];
+            final String parent = classLoader.getParent();
+            if( isLoaderDefined( parent, set ) )
+            {
+                final String message =
+                    REZ.getString( "invalid-parent.error",
+                                   classLoader.getName(),
+                                   parent );
+                throw new Exception( message );
+            }
+        }
+    }
+
+    /**
+     * Verify that each join ClassLoader only
+     * links to ClassLoaders that exist.
+     *
+     * @throws Exception if validity check fails
+     */
+    private void verifyLinks( final ClassLoaderSetDef set )
+        throws Exception
+    {
+        final JoinDef[] joins = set.getJoins();
+        for( int i = 0; i < joins.length; i++ )
+        {
+            verifyLinks( joins[ i ], set );
+        }
+    }
+
+    /**
+     * Verify that each join ClassLoader only
+     * links to ClassLoaders that exist.
+     *
+     * @throws Exception if validity check fails
+     */
+    private void verifyLinks( final JoinDef join,
+                              final ClassLoaderSetDef set )
+        throws Exception
+    {
+        final String[] classloaders = join.getClassloaders();
+        for( int i = 0; i < classloaders.length; i++ )
+        {
+            final String classloader = classloaders[ i ];
+            if( !isLoaderDefined( classloader, set ) )
+            {
+                final String message =
+                    REZ.getString( "bad-join-link.error",
+                                   join.getName(),
+                                   classloader );
+                throw new Exception( message );
+            }
+        }
+    }
+
+    /**
+     * Verify that all the classloaders have valid names.
+     *
+     * @throws Exception if validity check fails
+     */
+    private void verifyName( final String name )
+        throws Exception
+    {
+        final int size = name.length();
+        if( 0 == size )
+        {
+            final String message =
+                REZ.getString( "empty-name.error",
+                               name );
+            throw new Exception( message );
+        }
+        final char ch = name.charAt( 0 );
+        if( !Character.isLetter( ch ) &&
+            '_' != ch )
+        {
+            final String message =
+                REZ.getString( "name-invalid-start.error",
+                               name );
+            throw new Exception( message );
+        }
+
+        for( int i = 1; i < size; i++ )
+        {
+            final char c = name.charAt( i );
+            if( !Character.isLetterOrDigit( c ) &&
+                '_' != c &&
+                '-' != c )
+            {
+                final String message =
+                    REZ.getString( "name-invalid-char.error",
+                                   name,
+                                   String.valueOf( c ) );
+                throw new Exception( message );
+            }
+        }
+    }
+
+    /**
+     * Verify that each regular ClassLoader only
+     * contains unique entrys.
+     *
+     * @throws Exception if validity check fails
+     */
+    private void verifyUniqueClassLoaderEntrys( final ClassLoaderSetDef set )
+        throws Exception
+    {
+        final ClassLoaderDef[] classLoaders = set.getClassLoaders();
+        for( int i = 0; i < classLoaders.length; i++ )
+        {
+            verifyUniqueClassLoaderEntrys( classLoaders[ i ] );
+        }
+    }
+
+    /**
+     * Verify that each regular ClassLoader only
+     * contains unique entrys.
+     *
+     * @throws Exception if validity check fails
+     */
+    private void verifyUniqueClassLoaderEntrys( final ClassLoaderDef classLoader )
+        throws Exception
+    {
+        final EntryDef[] entrys = classLoader.getEntrys();
+        for( int i = 0; i < entrys.length; i++ )
+        {
+            final EntryDef entry = entrys[ i ];
+            final String location = entry.getLocation();
+            for( int j = i + 1; j < entrys.length; j++ )
+            {
+                final EntryDef other = entrys[ j ];
+                if( location.equals( other.getLocation() ) )
+                {
+                    final String message =
+                        REZ.getString( "join-dup-entrys.error",
+                                       classLoader.getName(),
+                                       location );
+                    throw new Exception( message );
+                }
+            }
+        }
+    }
+
+    /**
+     * Verify that each join only contains unique classloaders.
+     *
+     * @throws Exception if validity check fails
+     */
+    private void verifyUniqueJoinEntrys( final ClassLoaderSetDef set )
+        throws Exception
+    {
+        final JoinDef[] joins = set.getJoins();
+        for( int i = 0; i < joins.length; i++ )
+        {
+            verifyUniqueJoinEntrys( joins[ i ] );
+        }
+    }
+
+    /**
+     * Verify that specified join only contains unique classloaders.
+     *
+     * @throws Exception if validity check fails
+     */
+    private void verifyUniqueJoinEntrys( final JoinDef join )
+        throws Exception
+    {
+        final String[] classloaders = join.getClassloaders();
+        for( int j = 0; j < classloaders.length; j++ )
+        {
+            final String name = classloaders[ j ];
+            for( int k = j + 1; k < classloaders.length; k++ )
+            {
+                final String other = classloaders[ k ];
+                if( other.equals( name ) )
+                {
+                    final String message =
+                        REZ.getString( "join-dup-entrys.error",
+                                       join.getName(),
+                                       name );
+                    throw new Exception( message );
+                }
+            }
+        }
     }
 
     /**
