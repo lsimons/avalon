@@ -47,83 +47,60 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.excalibur.event;
+package org.apache.excalibur.event.impl;
 
-import org.apache.avalon.excalibur.collections.Buffer;
-import org.apache.avalon.excalibur.collections.VariableSizeBuffer;
+import org.apache.excalibur.event.*;
+
 import org.apache.avalon.excalibur.concurrent.Mutex;
 
 /**
- * The default queue implementation is a variable size queue.  This queue is
- * thread safe, however the overhead in synchronization costs a few extra
- * milliseconds.
+ * An implementation of the <code>Queue</code> that has a fixed size.  Once
+ * the maximum number of elements are set, this <code>Queue</code> cannot be
+ * changed.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public final class DefaultQueue extends AbstractQueue
+public final class FixedSizeQueue
+    extends AbstractQueue
 {
-    private final Buffer m_elements;
+    private final Object[] m_elements;
     private final Mutex m_mutex;
-    private int m_reserve;
-    private final int m_maxSize;
+    private int m_start = 0;
+    private int m_end = 0;
+    private int m_reserve = 0;
 
     /**
-     * Construct a new DefaultQueue with the specified number of elements.
-     * if the number of elements is greater than zero, then the
-     * <code>Queue</code> is bounded by that number.  Otherwise, the
-     * <code>Queue</code> is not bounded at all.
-     *
-     * @param  size  The maximum number of elements in the <code>Queue</code>.
-     *               Any number less than 1 means there is no limit.
+     * Create a <code>FixedSizedQueue</code> with the specified maximum size.
+     * The maximum size must be 1 or more.
      */
-    public DefaultQueue( int size )
+    public FixedSizeQueue( int size )
     {
-        int maxSize;
+        if ( size < 1 )
+            throw new IllegalArgumentException("Cannot specify an unbounded Queue");
 
-        if( size > 0 )
+        m_elements = new Object[ size + 1 ];
+        m_mutex = new Mutex();
+    }
+
+    public int size()
+    {
+        int size = 0;
+
+        if( m_end < m_start )
         {
-            m_elements = new VariableSizeBuffer( size );
-            maxSize = size;
+            size = maxSize() - m_start + m_end;
         }
         else
         {
-            m_elements = new VariableSizeBuffer();
-            maxSize = -1;
+            size = m_end - m_start;
         }
 
-        m_mutex = new Mutex();
-        m_reserve = 0;
-        m_maxSize = maxSize;
+        return size;
     }
 
-    /**
-     * Create an unbounded DefaultQueue.
-     */
-    public DefaultQueue()
-    {
-        this( -1 );
-    }
-
-    /**
-     * Return the number of elements currently in the <code>Queue</code>.
-     *
-     * @return <code>int</code> representing the number of elements.
-     */
-    public int size()
-    {
-        return m_elements.size();
-    }
-
-    /**
-     * Return the maximum number of elements that will fit in the
-     * <code>Queue</code>.  A number below 1 indecates an unbounded
-     * <code>Queue</code>, which means there is no limit.
-     *
-     * @return <code>int</code> representing the maximum number of elements
-     */
     public int maxSize()
     {
-        return m_maxSize;
+        return m_elements.length;
     }
 
     public PreparedEnqueue prepareEnqueue( final Object[] elements )
@@ -136,13 +113,12 @@ public final class DefaultQueue extends AbstractQueue
             m_mutex.acquire();
             try
             {
-
-                if( maxSize() > 0 && elements.length + m_reserve + size() > maxSize() )
+                if( elements.length + m_reserve + size() > maxSize() )
                 {
                     throw new SinkFullException( "Not enough room to enqueue these elements." );
                 }
 
-                enqueue = new DefaultPreparedEnqueue( this, elements );
+                enqueue = new FixedSizePreparedEnqueue( this, elements );
             }
             finally
             {
@@ -165,13 +141,12 @@ public final class DefaultQueue extends AbstractQueue
             m_mutex.acquire();
             try
             {
-
-                if( maxSize() > 0 && 1 + m_reserve + size() > maxSize() )
+                if( 1 + m_reserve + size() > maxSize() )
                 {
                     return false;
                 }
 
-                m_elements.add( element );
+                addElement( element );
                 success = true;
             }
             finally
@@ -196,14 +171,14 @@ public final class DefaultQueue extends AbstractQueue
             m_mutex.acquire();
             try
             {
-                if( maxSize() > 0 && elements.length + m_reserve + size() > maxSize() )
+                if( elements.length + m_reserve + size() > maxSize() )
                 {
                     throw new SinkFullException( "Not enough room to enqueue these elements." );
                 }
 
                 for( int i = 0; i < len; i++ )
                 {
-                    m_elements.add( elements[ i ] );
+                    addElement( elements[ i ] );
                 }
             }
             finally
@@ -224,12 +199,12 @@ public final class DefaultQueue extends AbstractQueue
             m_mutex.acquire();
             try
             {
-                if( maxSize() > 0 && 1 + m_reserve + size() > maxSize() )
+                if( 1 + m_reserve + size() > maxSize() )
                 {
                     throw new SinkFullException( "Not enough room to enqueue these elements." );
                 }
 
-                m_elements.add( element );
+                addElement( element );
             }
             finally
             {
@@ -251,8 +226,7 @@ public final class DefaultQueue extends AbstractQueue
             {
                 try
                 {
-                    elements = retrieveElements( m_elements,
-                                                 Math.min( size(),
+                    elements = retrieveElements( Math.min( size(),
                                                            numElements ) );
                 }
                 finally
@@ -268,6 +242,60 @@ public final class DefaultQueue extends AbstractQueue
         return elements;
     }
 
+    private final void addElement( Object element )
+    {
+        m_elements[ m_end ] = element;
+
+        m_end++;
+        if( m_end >= maxSize() )
+        {
+            m_end = 0;
+        }
+    }
+
+    private final Object removeElement()
+    {
+        Object element = m_elements[ m_start ];
+
+        if( null != element )
+        {
+            m_elements[ m_start ] = null;
+
+            m_start++;
+            if( m_start >= maxSize() )
+            {
+                m_start = 0;
+            }
+        }
+
+        return element;
+    }
+
+    /**
+     * Removes exactly <code>count</code> elements from the underlying
+     * element store and returns them as an array of Objects.
+     * The caller is responsible for synchronizing access to the
+     * element store and passing the correct value for
+     * <code>count</code>.
+     * <p>
+     * The method can be further optimized by using System.arraycopy
+     * if it is found to underperform.
+     *
+     * @param count number of elements to return
+     * @return requested number of elements
+     */
+    private final Object[] retrieveElements( int count )
+    {
+        Object[] elements = new Object[ count ];
+
+        for( int i = 0; i < count; i++ )
+        {
+            elements[ i ] = removeElement();
+        }
+
+        return elements;
+    }
+
     public Object[] dequeueAll()
     {
         Object[] elements = EMPTY_ARRAY;
@@ -278,7 +306,7 @@ public final class DefaultQueue extends AbstractQueue
             {
                 try
                 {
-                    elements = retrieveElements( m_elements, size() );
+                    elements = retrieveElements( size() );
                 }
                 finally
                 {
@@ -288,29 +316,6 @@ public final class DefaultQueue extends AbstractQueue
         }
         catch( InterruptedException ie )
         {
-        }
-
-        return elements;
-    }
-
-    /**
-     * Removes the given number of elements from the given <code>buf</code>
-     * and returns them in an array. Trusts the caller to pass in a buffer
-     * full of <code>Object</code>s and with at least
-     * <code>count</code> elements available.
-     * <p>
-     * @param buf to remove elements from, the caller is responsible
-     *            for synchronizing access
-     * @param count number of elements to remove/return
-     * @return requested number of elements
-     */
-    private static Object[] retrieveElements( Buffer buf, int count )
-    {
-        Object[] elements = new Object[ count ];
-
-        for( int i = 0; i < count; i++ )
-        {
-            elements[ i ] = (Object) buf.remove();
         }
 
         return elements;
@@ -328,7 +333,7 @@ public final class DefaultQueue extends AbstractQueue
                 {
                     if( size() > 0 )
                     {
-                        element = (Object)m_elements.remove();
+                        element = removeElement();
                     }
                 }
                 finally
@@ -344,12 +349,12 @@ public final class DefaultQueue extends AbstractQueue
         return element;
     }
 
-    private static final class DefaultPreparedEnqueue implements PreparedEnqueue
+    private static final class FixedSizePreparedEnqueue implements PreparedEnqueue
     {
-        private final DefaultQueue m_parent;
+        private final FixedSizeQueue m_parent;
         private Object[] m_elements;
 
-        private DefaultPreparedEnqueue( DefaultQueue parent, Object[] elements )
+        private FixedSizePreparedEnqueue( FixedSizeQueue parent, Object[] elements )
         {
             m_parent = parent;
             m_elements = elements;

@@ -47,7 +47,9 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.excalibur.event;
+package org.apache.excalibur.event.impl;
+
+import org.apache.excalibur.event.*;
 
 /**
  * Provides the base functionality for the other <code>Queue</code> types.

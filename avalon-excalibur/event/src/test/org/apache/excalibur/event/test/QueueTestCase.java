@@ -49,7 +49,7 @@
 */
 package org.apache.excalibur.event.test;
 
-import org.apache.excalibur.event.DefaultQueue;
+import org.apache.excalibur.event.impl.DefaultQueue;
 
 /**
  * The default queue implementation is a variabl size queue.
