@@ -50,28 +50,15 @@
   <property name="dist.base" value="distributions"/>
 
   <property name="xerces.jar" value="${tools.dir}/lib/xerces.jar"/>
-  <property name="logkit.jar" value="${lib.dir}/logkit-1.0.1.jar"/>
-  <property name="framework.jar" value="${lib.dir}/avalon-framework-4.1.2.jar"/>
-  <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur-4.1.jar"/>
-  <property name="scratchpad.jar" value="${lib.dir}/avalon-scratchpad-4.1.jar"/>
-  <property name="phoenix-client.jar" value="${lib.dir}/phoenix-client-20020226.jar"/>
   <property name="junit.jar" value="${tools.dir}/lib/junit-3.7.jar"/>
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
   <path id="project.class.path">
-    <pathelement location="${framework.jar}"/>
-    <pathelement location="${excalibur.jar}"/>
-    <pathelement location="${scratchpad.jar}"/>
-    <pathelement location="${logkit.jar}"/>
     <pathelement location="${junit.jar}"/>
     <pathelement location="${xerces.jar}"/>
-    <pathelement location="${phoenix-client.jar}"/>
     <pathelement path="${java.class.path}" />
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
-      <exclude name="phoenix-client*.jar"/>
-      <exclude name="avalon-*"/>
-      <exclude name="logkit*.jar"/>
     </fileset>
     <pathelement path="${build.classes}" />
   </path>
@@ -356,10 +343,11 @@
       <fileset dir="${tools.dir}"/>
     </copy>
 
-    <copy file="${logkit.jar}" todir="${src.dist.lib}"/>
-    <copy file="${framework.jar}" todir="${src.dist.lib}"/>
-    <copy file="${excalibur.jar}" todir="${src.dist.lib}"/>
-    <copy file="${phoenix-client.jar}" todir="${src.dist.lib}"/>
+    <copy todir="${src.dist.lib}">
+      <fileset dir="lib">
+        <include name="*.jar"/>
+      </fileset>
+    </copy>
 
     <copy todir="${src.dist.src}">
       <fileset dir="${src.dir}"/>
