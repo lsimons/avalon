@@ -8,15 +8,9 @@
   </properties>
 
   <body>
-    <section name="Cornerstone Components - Datasource">
+    <section name="Datasource">
       <subsection name="Description">
         <p>
-        The ConnectionManager service provides a facility to listen 
-        for incoming socket connections.
-        The DefaultConnectionManager compoent gives a thread pooled 
-        implementation of this service. If there are multiple server 
-        components depending on this component, they would all share
-        the same thread pool.
         </p>
       </subsection>
       <subsection name="Deployment Facts">

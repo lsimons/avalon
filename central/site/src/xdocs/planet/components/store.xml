@@ -8,7 +8,7 @@
   </properties>
 
   <body>
-    <section name="Cornerstone Components - Datasource">
+    <section name="Store">
       <subsection name="Description">
         <p>
           The Store service provides a way to store named Objects or 
