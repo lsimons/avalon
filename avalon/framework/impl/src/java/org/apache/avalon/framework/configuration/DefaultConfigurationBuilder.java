@@ -7,6 +7,7 @@
  */
 package org.apache.avalon.framework.configuration;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +27,6 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DefaultConfigurationBuilder
-    implements ConfigurationBuilder
 {
     protected final static String                 DEFAULT_PARSER =
         "org.apache.xerces.parsers.SAXParser";
@@ -63,27 +63,28 @@ public class DefaultConfigurationBuilder
         return new SAXConfigurationHandler();
     }
 
-    public Configuration build( final String resource )
+    public synchronized Configuration buildFromFile( final String filename )
         throws SAXException, IOException, ConfigurationException
     {
-        final InputStream input = new FileInputStream( resource );
-
-        try { return build( input ); }
-        finally
-        {
-            try { input.close(); }
-            catch( final IOException ioe ) {}
-        }
+        return buildFromFile( new File( filename ) );
     }
 
-    public Configuration build( final InputStream inputStream )
+    public synchronized Configuration buildFromFile( final File file )
+        throws SAXException, IOException, ConfigurationException
+    {
+        m_handler.clear();
+        m_parser.parse( file.toURL().toString() );
+        return m_handler.getConfiguration();
+    }
+
+    public synchronized Configuration build( final InputStream inputStream )
         throws SAXException, IOException, ConfigurationException
     {
         final InputSource inputSource = new InputSource( inputStream );
         return build( inputSource );
     }
 
-    public Configuration build( final InputSource input )
+    public synchronized Configuration build( final InputSource input )
         throws SAXException, IOException, ConfigurationException
     {
         m_handler.clear();
