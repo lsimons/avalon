@@ -462,11 +462,11 @@ Legal:
   <target name="distributions" depends="site-docs,announcement">
     <mkdir dir="${dist.base}"/>
 
-    <copy file="${build.lib}/avalon-framework.jar" tofile="${tools.dir}/ext/avalon-framework.jar"/>
-
     <antcall target="dist">
       <param name="dist.dir" value="${dist.name}" />
     </antcall>
+
+    <copy file="${build.lib}/avalon-framework.jar" tofile="${tools.dir}/ext/avalon-framework.jar"/>
 
     <zip zipfile="${dist.base}/${dist.name}-bin.zip"
          basedir="${dist.name}/.."
