@@ -33,7 +33,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.9 $ $Date: 2002/06/27 23:49:50 $
+ * @version CVS $Revision: 1.10 $ $Date: 2002/06/28 03:34:25 $
  * @since 4.0
  */
 public class ExcaliburComponentSelector
@@ -254,7 +254,7 @@ public class ExcaliburComponentSelector
                 getLogger().error( message );
             }
 
-            throw new ComponentException( hint, message );
+            throw new ComponentException( message );
         }
 
         ComponentHandler handler = (ComponentHandler)m_componentHandlers.get( hint );
