@@ -115,4 +115,9 @@ public class TestComponent extends AbstractLogEnabled
     {
         return System.getProperty( "java.version" );
     }
+
+    public void setJavaVersion( String newVer )
+    {
+        System.setProperty( "java.version", newVer );
+    }
 }

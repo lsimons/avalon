@@ -146,6 +146,23 @@ public class CodeSecurityEnabledTestCase extends AbstractTestCase
             getLogger().error( message );
             throw new Exception( message );
         }
+    
+        try
+        {
+            test.setJavaVersion( "1.0.2" ); 
+            fail( "CodeSecurityTest failure: This operation should not be allowed." );
+        }
+        catch( SecurityException e )
+        {
+            // ignore, expected
+        }
+        catch( Throwable e )
+        {
+            final String error = "CodeSecurityTest primary failure.";
+            final String message = ExceptionHelper.packException( error, e, true );
+            getLogger().error( message );
+            throw new Exception( message );
+        }
     }
 
     private TestService setupTestService() throws Exception
