@@ -143,13 +143,14 @@ public class ReplicateTask extends Task
         String[] translation = Path.translatePath( getProject(), sequence );
         final FileSet fileset = new FileSet();
         fileset.setDir( cache );
+        log( "Constructing repository based fileset", Project.MSG_VERBOSE );
         for( int i=0; i<translation.length; i++ )
         {
             String trans = translation[i];
             if( trans.startsWith( root ) )
             {
                 String relativeFilename = trans.substring( root.length() + 1 );
-                System.out.println( relativeFilename );
+                log( relativeFilename, Project.MSG_VERBOSE );
                 fileset.createInclude().setName( relativeFilename );
             }
         }
