@@ -702,6 +702,7 @@
     <dependencies>
       <include key="avalon-framework-api"/>
       <include key="metro-reflector-spi"/>
+      <include key="avalon-composition-api"/>
     </dependencies>
     <plugins>
       <include key="avalon-meta-tools"/>
