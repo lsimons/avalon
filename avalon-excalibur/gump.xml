@@ -525,7 +525,7 @@
     <project name="excalibur-microcontainer">
         <package>org.apache.excalibur.microcontainer</package>
 
-        <ant basedir="merlin">
+        <ant basedir="microcontainer">
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
