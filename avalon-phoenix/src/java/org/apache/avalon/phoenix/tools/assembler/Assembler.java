@@ -20,6 +20,7 @@ import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.avalon.phoenix.metadata.InterceptorMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.apache.avalon.phoenix.tools.infobuilder.BlockInfoBuilder;
@@ -30,7 +31,7 @@ import org.apache.avalon.phoenix.tools.infobuilder.BlockInfoBuilder;
  * and is in the format specified for <tt>assembly.xml</tt> files.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.20 $ $Date: 2002/09/06 11:20:22 $
+ * @version $Revision: 1.20.4.1 $ $Date: 2002/09/08 12:51:50 $
  */
 public class Assembler
     extends AbstractLogEnabled
@@ -125,9 +126,9 @@ public class Assembler
 
             final DependencyMetaData[] roles = buildDependencyMetaDatas( provides );
             final BlockInfo info = getBlockInfo( name, classname, classLoader );
+            final InterceptorMetaData[] interceptors = buildInterceptorMetaData( block );
 
-
-            return new BlockMetaData( name, roles, disableProxy, info );
+            return new BlockMetaData( name, roles, disableProxy, info, interceptors );
         }
         catch( final ConfigurationException ce )
         {
@@ -248,5 +249,50 @@ public class Assembler
         }
 
         return (DependencyMetaData[])dependencies.toArray( new DependencyMetaData[ 0 ] );
+    }
+
+
+    /**
+     * A utility method to build an array of <code>InterceptorMetaData</code>
+     * objects from specified configuraiton.
+     *
+     * @param configuration the interceptors configuration
+     * @return the created InterceptorMetaData
+     * @throws ConfigurationException if an error occurs
+     */
+    private InterceptorMetaData[] buildInterceptorMetaData( Configuration configuration )
+        throws ConfigurationException
+    {
+        final boolean proxyDisabled = configuration.getAttributeAsBoolean("disable", false);
+        final Configuration[] elements = configuration.getChildren( "interceptor" );
+        if( proxyDisabled && elements.length > 0 )
+        {
+            final String message =
+                REZ.getString( "interceptors-without-proxy", configuration.getLocation() );
+            throw new ConfigurationException( message );
+        }
+        final ArrayList interceptors = new ArrayList();
+
+        for( int i = 0; i < elements.length; i++ )
+        {
+            final InterceptorMetaData interceptor = buildInterceptor( elements[ i ] );
+            interceptors.add( interceptor );
+        }
+
+        return (InterceptorMetaData[])interceptors.toArray( new InterceptorMetaData[ 0 ] );
+    }
+
+    /**
+     * A utility method to build a <code>InterceptorMetaData</code>
+     * object from specified configuraiton.
+     *
+     * @return the created DependencyDescriptor
+     * @throws ConfigurationException if an error occurs
+     */
+    private InterceptorMetaData buildInterceptor( final Configuration interceptor )
+        throws ConfigurationException
+    {
+        final String classname = interceptor.getAttribute( "class" );
+        return new InterceptorMetaData( classname );
     }
 }
