@@ -214,13 +214,24 @@
 
     <div align="right">
       <table border="0" cellpadding="2" cellspacing="0">
+            <xsl:attribute name="width">
+              <xsl:choose>
+                <xsl:when test="number($level)=1">100%</xsl:when>
+                <xsl:when test="number($level)=2">99%</xsl:when>
+                <xsl:otherwise>98%</xsl:otherwise>
+              </xsl:choose>
+            </xsl:attribute>      
+        <!--
+        This does not work for S3+
         <xsl:attribute name="width"><xsl:value-of select="number(100)-(1*(number($level)-1))"/>%</xsl:attribute>
+        -->
         <tr>
           <td bgcolor="#bbccdd">
             <xsl:attribute name="bgcolor">
               <xsl:choose>
                 <xsl:when test="number($level)=1">bbccdd</xsl:when>
-                <xsl:otherwise>ddeeff</xsl:otherwise>
+                <xsl:when test="number($level)=2">ddeeff</xsl:when>
+                <xsl:otherwise>e8f8ff</xsl:otherwise>
               </xsl:choose>
             </xsl:attribute>
             <font color="#000000" face="arial,helvetica,sanserif">
