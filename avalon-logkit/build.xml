@@ -142,11 +142,8 @@ Legal:
     <property name="src.dist.tools" value="${src.dist.dir}/tools"/>
   </target>
 
-  <!-- Prepares the build directory -->
-  <target name="compile">
-    <mkdir dir="${build.dir}"/>
-    <mkdir dir="${build.classes}"/>
-
+  <target name="optional-tests" description="Tests for classes missing to the environment">
+  
     <available property="servlet.present"
                classname="javax.servlet.ServletContext"
                classpathref="project.class.path" />
@@ -161,7 +158,61 @@ Legal:
 
     <available property="javax.jms.present"
                classname="javax.jms.TopicConnection"
-               classpathref="project.class.path" />
+               classpathref="project.class.path" />  
+  
+  </target>
+  
+  <target name="op-warning" description="General waring target (used by other targets)">              
+    <echo>**********************************************</echo>
+    <echo>*</echo>
+    <echo>*  Classes needed for output via ${thing} are not </echo>
+    <echo>*  available.  Logkit should build without them</echo>
+    <echo>*</echo>        
+    <echo>***********************************************</echo>
+    <echo/>
+  </target>
+  
+  <target name="servlet-warn" unless="servlet.present" 
+      description="Outputs a warning if javax.servlet.* classes are missing during compilation">
+    <antcall target="op-warning">
+      <param name="thing" value="Servlet"/>
+    </antcall>
+  </target>    
+  
+  <target name="jms-warn" unless="javax.jms.present" 
+      description="Outputs a warning if javax.jms.* classes are missing during compilation">
+    <antcall target="op-warning">
+      <param name="thing" value="JMS"/>
+    </antcall>
+  </target>  
+  
+  <target name="sql-warn" unless="javax.SQL.present" 
+      description="Outputs a warning if javax.sql.* classes are missing during compilation">
+    <antcall target="op-warning">
+      <param name="thing" value="SQL databases"/>
+    </antcall>
+  </target>  
+  
+  <target name="framework-warn" unless="avalon-framework.present" 
+      description="If Avalon's Framework jar is missing, a warning will be output">
+    <echo>**********************************************</echo>
+    <echo>*</echo>
+    <echo>*  Optional classes from Avalon's framework subproject</echo> 
+    <echo>*  are missing.  Logkit should build without them.</echo>
+    <echo>*</echo>        
+    <echo>***********************************************</echo>
+    <echo/>
+  </target>  
+  
+  <target name="optional-warnings" depends="jms-warn,framework-warn,sql-warn,servlet-warn" 
+      description="Outputs warnings if some jars are missing from the environment">
+  </target>  
+  
+  <!-- Prepares the build directory -->
+  <target name="compile" depends="optional-tests, optional-warnings">
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${build.classes}"/>
+
 
     <javac srcdir="${java.dir}"
            destdir="${build.classes}"
