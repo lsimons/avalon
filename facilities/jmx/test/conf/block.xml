@@ -1,0 +1,31 @@
+<container name="jmx-test">
+  <classloader>
+    <classpath>
+      <repository>
+        <resource id="avalon-framework:avalon-framework-api" version="4.1.5"/>
+        <resource id="avalon-composition:avalon-composition-api" version="2.0.0"/>
+        <resource id="avalon-jmx:avalon-jmx-api" version="1.0.dev-0"/>
+        <resource id="avalon-jmx:avalon-jmx-handler" version="1.0.dev-0"/>
+        <resource id="avalon-jmx:avalon-jmx-test" version="1.0.dev-0"/>
+      </repository>
+    </classpath>
+  </classloader>
+ 
+  <include name="mx4j" id="avalon-jmx:avalon-jmx-mx4j" version="1.0.dev-0">
+    <target path="registry">
+      <configuration>
+        <enable-rmi-adaptor>
+          true
+        </enable-rmi-adaptor>
+        <rmi-naming-factory>
+          com.sun.jndi.rmi.registry.RegistryContextFactory
+        </rmi-naming-factory>
+      </configuration>
+    </target>
+  </include>
+ 
+  <component name="test"  class="org.apache.avalon.playground.jmxtest.JMXTestComponent"/>
+ 
+  <component name="handler" class="org.apache.avalon.jmx.handler.JmxManagementHandler"/>
+</container>
+ 

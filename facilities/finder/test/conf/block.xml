@@ -1,0 +1,18 @@
+<container name="test">
+
+  <classloader>
+    <classpath>
+      <repository>
+        <resource id="avalon-finder:avalon-finder-api" version="@AVALON-FINDER-API-VERSION@"/>
+        <resource id="avalon-finder:avalon-finder-impl" version="@AVALON-FINDER-IMPL-VERSION@"/>
+      </repository>
+      <fileset dir="target">
+        <include name="classes"/>
+        <include name="test-classes"/>
+      </fileset>
+    </classpath>
+  </classloader>
+
+  <component name="finder" class="org.apache.avalon.finder.impl.DefaultFinder"/>
+  
+</container>

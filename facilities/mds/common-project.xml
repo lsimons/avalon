@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+
+  <extend>${basedir}/../common-project.xml</extend>
+
+  <groupId>avalon-mds</groupId>
+  <name>Avalon MDS</name>
+
+  <shortDescription>Avalon MDS Project</shortDescription>
+
+  <packageGroups>
+    <packageGroup>
+      <title>Avalon MDS API</title>
+      <packages>org.apache.avalon.mds</packages>
+    </packageGroup>
+    <packageGroup>
+      <title>Avalon MDS Implementation</title>
+      <packages>org.apache.avalon.http.*</packages>
+    </packageGroup>
+  </packageGroups>
+
+
+  <build>
+
+    <nagEmailAddress>dev@avalon.apache.org</nagEmailAddress>
+    <sourceDirectory>${basedir}/src/java</sourceDirectory>
+    <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
+
+    <unitTest>
+      <includes>
+        <include>**/*TestCase.*</include>
+      </includes>
+      <excludes>
+        <exclude>**/Abstract*.*</exclude>
+      </excludes>
+      <resources>
+        <resource>
+          <directory>${basedir}/src/test</directory>
+          <includes>
+            <include>**/*.dtd</include>
+            <include>**/*.properties</include>
+            <include>**/*.x*</include>
+          </includes>
+        </resource>
+      </resources>
+    </unitTest>
+
+    <resources>
+      <resource>
+        <directory>${basedir}/src/java</directory>
+        <includes>
+          <include>**/*.dtd</include>
+          <include>**/*.properties</include>
+          <include>**/*.x*</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>${basedir}/conf</directory>
+        <targetPath>BLOCK-INF</targetPath>
+        <includes>
+          <include>block.xml</include>
+        </includes>
+      </resource>
+    </resources>
+
+    <jars></jars>
+  </build>
+
+</project>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+  <extend>${basedir}/../common-project.xml</extend>
+
+  <groupId>avalon-dbcp</groupId>
+  <name>Avalon Database Connection Pooling Master POM</name>
+  <currentVersion>1.0</currentVersion>
+  
+  <shortDescription>Master Maven POM for Database Connection Pooling facility of Avalon</shortDescription>
+  <description>
+
+  </description>
+
+</project>

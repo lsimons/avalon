@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+
+<project>
+
+  <extend>${basedir}/../../common-project.xml</extend>
+
+  <groupId>&avalon-finder-id;</groupId>
+  <id>&avalon-finder-impl-id;</id>
+  <currentVersion>&avalon-finder-impl-version;</currentVersion>
+
+  <name>Avalon Finder Implementation</name>
+  <shortDescription>Avalon Finder Implementation</shortDescription>
+  <package>org.apache.avalon.finder.impl</package>
+
+  <dependencies>
+
+    <!-- implementation dependencies -->
+
+    <dependency>
+      <groupId>&avalon-finder-id;</groupId>
+      <artifactId>&avalon-finder-api-id;</artifactId>
+      <version>&avalon-finder-api-version;</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-api</artifactId>
+      <version>4.1.5</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>&avalon-composition-id;</groupId>
+      <artifactId>&avalon-composition-api-id;</artifactId>
+      <version>&avalon-composition-api-version;</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>avalon-meta</groupId>
+      <artifactId>avalon-meta-api</artifactId>
+      <version>1.4-SNAPSHOT</version>
+    </dependency>
+    
+    <!-- Generation of Meta info  -->
+    <dependency>
+      <groupId>avalon-meta</groupId>
+      <artifactId>avalon-meta-plugin</artifactId>
+      <version>1.4-SNAPSHOT</version>
+    </dependency>
+
+
+  </dependencies>
+  
+</project>

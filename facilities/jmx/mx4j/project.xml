@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+
+<project>
+
+  <extend>${basedir}/../../common-project.xml</extend>
+
+  <id>&avalon-jmx-mx4j-id;</id>
+  <groupId>&avalon-jmx-id;</groupId>
+  <currentVersion>&avalon-jmx-mx4j-version;</currentVersion>
+
+  <name>Avalon JMX MX4J Implementation</name>
+  <package>org.apache.avalon.jmx.mx4j</package>
+  <shortDescription>MX4J implementation of JMX in Merlin</shortDescription>
+  <description>
+    MX4J implementation of JMX in Merlin
+  </description>
+  
+  <dependencies>
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-api</artifactId>
+      <version>4.1.5</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-jmx-id;</groupId>
+      <artifactId>&avalon-jmx-api-id;</artifactId>
+      <version>&avalon-jmx-api-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-jmx-id;</groupId>
+      <artifactId>&avalon-jmx-spi-id;</artifactId>
+      <version>&avalon-jmx-spi-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>mx4j</groupId>
+      <artifactId>mx4j-jmx</artifactId>
+      <version>1.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>mx4j</groupId>
+      <artifactId>mx4j-tools</artifactId>
+      <version>1.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-util</groupId>
+      <artifactId>avalon-util-i18n</artifactId>
+      <version>1.0</version>
+    </dependency>
+  </dependencies>
+</project>

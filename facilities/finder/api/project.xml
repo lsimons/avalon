@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+
+<project>
+
+  <extend>${basedir}/../../common-project.xml</extend>
+
+  <groupId>&avalon-finder-id;</groupId>
+  <id>&avalon-finder-api-id;</id>
+  <currentVersion>&avalon-finder-api-version;</currentVersion>
+
+  <name>Avalon Finder API</name>
+  <package>org.apache.avalon.finder</package>
+  <shortDescription>Avalon Finder API</shortDescription>
+
+</project>

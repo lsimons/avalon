@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container name="mds">
+
+   <classloader>
+     <classpath>
+       <repository>
+
+           <resource id="avalon-mds:avalon-mds-api" version="0.1"/>
+           <resource id="avalon-framework:avalon-framework" version="4.1.5"/>
+           <resource id="avalon-composition:avalon-composition-api" version="3.3.0"/>
+           <resource id="avalon-meta:avalon-meta-api" version="1.4-SNAPSHOT"/>
+           <resource id="commons-messenger:commons-messenger" version="1.0-dev-8"/>
+           <resource id="commons-digester:commons-digester" version="1.5"/>
+           <resource id="commons-collections:commons-collections" version="2.1"/>
+           <resource id="commons-beanutils:commons-beanutils" version="1.6.1"/>
+           <resource id="commons-logging:commons-logging" version="1.0.1"/>
+           <resource id="servletapi:servletapi" version="2.3"/>
+
+           <resource id="geronimo-spec:geronimo-spec-jms" version="DEV"/>
+           <resource id="geronimo-spec:geronimo-spec-jta" version="DEV"/>
+       </repository>
+     </classpath>
+   </classloader>
+
+   <categories>
+     <category name="server" priority="INFO"/>
+   </categories>
+
+   <component name="mds-manager" class="org.apache.avalon.mds.impl.DefaultMDSManager" activation="startup"/>
+
+</container>
