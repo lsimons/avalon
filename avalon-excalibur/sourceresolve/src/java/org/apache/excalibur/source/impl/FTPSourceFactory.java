@@ -64,7 +64,7 @@ import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceFactory;
 
 /**
- * A factory for an @link FTPSource.
+ * A factory for an {@link FTPSource}.
  * 
  * @avalon.component
  * @avalon.service type=SourceFactory

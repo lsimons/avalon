@@ -65,7 +65,7 @@ import org.apache.excalibur.source.SourceValidity;
  * Abstract base class for a source implementation.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/11/09 12:46:57 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/11/22 11:30:40 $
  */
 
 public abstract class AbstractSource
@@ -187,7 +187,7 @@ public abstract class AbstractSource
 
     /**
      * Sets the lastModificationDate.
-     * @param setLastModified The lastModificationDate to set
+     * @param lastModificationDate The lastModificationDate to set
      */
     protected void setLastModified(long lastModificationDate)
     {

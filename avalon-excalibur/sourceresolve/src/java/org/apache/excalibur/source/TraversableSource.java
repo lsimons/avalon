@@ -63,7 +63,7 @@ import java.util.Collection;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/11/09 12:46:57 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/11/22 11:30:40 $
  */
 public interface TraversableSource extends Source {
 
@@ -82,7 +82,7 @@ public interface TraversableSource extends Source {
      * <em>Note:</em> only those sources actually fetched from the
      * collection need to be released using the {@link SourceResolver}.
      * 
-     * @see #isTraversable()
+     * @see #isCollection()
      * @return a collection of {@link Source}s (actually most probably <code>TraversableSource</code>s).
      * @throws SourceException this source is not traversable, or if some problem occurs.
      */

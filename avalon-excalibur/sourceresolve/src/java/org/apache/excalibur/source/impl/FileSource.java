@@ -81,7 +81,7 @@ import org.apache.excalibur.source.impl.validity.FileTimeStampValidity;
  * A {@link ModifiableTraversableSource} for filesystem objects.
  *
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version $Id: FileSource.java,v 1.1 2003/11/09 12:46:57 leosimons Exp $
+ * @version $Id: FileSource.java,v 1.2 2003/11/22 11:30:40 unico Exp $
  */
 
 public class FileSource implements ModifiableTraversableSource, MoveableSource
@@ -450,7 +450,7 @@ public class FileSource implements ModifiableTraversableSource, MoveableSource
     //----------------------------------------------------------------------------------
 
     /**
-     * @see org.apache.excalibur.source.MoveableSource#copy(org.apache.excalibur.source.Source)
+     * @see org.apache.excalibur.source.MoveableSource#copyTo(org.apache.excalibur.source.Source)
      */
     public void copyTo(Source destination) throws SourceException
     {
@@ -465,7 +465,7 @@ public class FileSource implements ModifiableTraversableSource, MoveableSource
     }
 
     /**
-     * @see org.apache.excalibur.source.MoveableSource#move(org.apache.excalibur.source.Source)
+     * @see org.apache.excalibur.source.MoveableSource#moveTo(org.apache.excalibur.source.Source)
      */
     public void moveTo(Source destination) throws SourceException
     {

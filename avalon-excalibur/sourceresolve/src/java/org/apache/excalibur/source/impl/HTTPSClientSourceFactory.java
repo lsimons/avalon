@@ -63,7 +63,7 @@ import org.apache.commons.httpclient.protocol.Protocol;
 import org.apache.commons.httpclient.protocol.SecureProtocolSocketFactory;
 
 /**
- * {@link HTTPSClientSource} Factory class.
+ * {@link HTTPClientSource} Factory class.
  *
  * @avalon.component
  * @avalon.service type=org.apache.excalibur.source.SourceFactory
@@ -71,7 +71,7 @@ import org.apache.commons.httpclient.protocol.SecureProtocolSocketFactory;
  * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HTTPSClientSourceFactory.java,v 1.1 2003/11/09 12:46:57 leosimons Exp $
+ * @version CVS $Id: HTTPSClientSourceFactory.java,v 1.2 2003/11/22 11:30:40 unico Exp $
  */
 public class HTTPSClientSourceFactory extends HTTPClientSourceFactory
 {
@@ -91,7 +91,7 @@ public class HTTPSClientSourceFactory extends HTTPClientSourceFactory
     public static final String HTTPS          = "https";
 
     /**
-     * Parameterize this {@link SourceFactory}.
+     * Parameterize this {@link org.apache.excalibur.source.SourceFactory SourceFactory}.
      *
      * @param params {@link Parameters} instance
      * @exception ParameterException if an error occurs
