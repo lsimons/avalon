@@ -19,6 +19,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.component.Component;
 
 /**
  * Default implementation of TimeScheduler service.
@@ -31,7 +32,7 @@ import org.apache.avalon.framework.service.Serviceable;
  */
 public class DefaultTimeScheduler
     extends AbstractLogEnabled
-    implements TimeScheduler, Serviceable, Startable, Disposable, Runnable
+    implements TimeScheduler, Serviceable, Startable, Disposable, Runnable, Component
 {
     private final Hashtable m_entries = new Hashtable();
     private final PriorityQueue m_priorityQueue =
