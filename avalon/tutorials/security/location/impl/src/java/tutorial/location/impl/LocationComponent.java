@@ -70,7 +70,7 @@ Configurable, Disposable, LocationService
 
     public void dispose()
     {
-        getLogger().info( "disposal" );
+        getLogger().info( "locator disposal" );
     }
 }
 

@@ -6,15 +6,14 @@
          <repository>
            <resource id="avalon-framework:avalon-framework-api" version="4.1.5"/>
            <resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/>
-           <resource id="merlin-tutorial:locator-api" version="1.0"/>
-           <resource id="merlin-tutorial:publisher-api" version="1.0"/>
-           <resource id="merlin-tutorial:application-impl" version="1.0"/>
+           <resource id="merlin-tutorial:secure-locator-api" version="1.0"/>
+           <resource id="merlin-tutorial:secure-publisher-api" version="1.0"/>
          </repository>
        </classpath>
      </classloader>
 
-     <include name="location" id="merlin-tutorial:locator-impl" version="1.0"/>
-     <include name="publisher" id="merlin-tutorial:publisher-impl" version="1.0"/>
+     <include name="location" id="merlin-tutorial:secure-locator-impl" version="1.0"/>
+     <include name="publisher" id="merlin-tutorial:secure-publisher-impl" version="1.0"/>
 
      <component name="spain" 
         class="tutorial.application.Application" activation="startup">

@@ -66,7 +66,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/02/29 22:25:26 $
+ * @version $Revision: 1.10 $ $Date: 2004/03/07 03:02:42 $
  */
 public class DefaultComponentModel extends DefaultDeploymentModel 
   implements ComponentModel
@@ -302,7 +302,7 @@ public class DefaultComponentModel extends DefaultDeploymentModel
         if( !isAssembled() ) 
         {
              final String error = 
-               "Model is not assembled.";
+               "Model is not assembled " + this;
              throw new IllegalStateException( error );
         }
 

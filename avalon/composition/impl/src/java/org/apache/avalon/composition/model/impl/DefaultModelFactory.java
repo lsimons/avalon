@@ -43,6 +43,7 @@ import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.ModelException;
+import org.apache.avalon.composition.model.ModelRuntimeException;
 import org.apache.avalon.composition.model.DependencyGraph;
 import org.apache.avalon.composition.provider.SecurityModel;
 import org.apache.avalon.composition.provider.SystemContext;
@@ -70,7 +71,7 @@ import org.apache.avalon.meta.info.Type;
  * A factory enabling the establishment of new composition model instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.11 $ $Date: 2004/03/07 00:00:58 $
+ * @version $Revision: 1.12 $ $Date: 2004/03/07 03:02:42 $
  */
 public class DefaultModelFactory
   implements ModelFactory
@@ -170,12 +171,21 @@ public class DefaultModelFactory
             {
                 SecurityProfile profile = profiles[i];
                 final String name = profile.getName();
-                SecurityModel model = new DefaultSecurityModel( profile );
-                m_security.put( profile.getName(), model );
                 if( m_logger.isDebugEnabled() )
                 {
                     m_logger.debug( 
-                      "added security profile [" + name + "]." );
+                      "adding security profile [" + name + "]." );
+                }
+                try
+                {
+                    SecurityModel model = new DefaultSecurityModel( profile );
+                    m_security.put( profile.getName(), model );
+                }
+                catch( Throwable e )
+                {
+                    final String error = 
+                      "Cannot include initial security model [" + name + "].";
+                    throw new ModelRuntimeException( error, e );
                 }
             }
 
