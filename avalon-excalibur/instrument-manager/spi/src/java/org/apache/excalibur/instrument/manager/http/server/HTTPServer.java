@@ -40,7 +40,7 @@ import org.apache.excalibur.instrument.CounterInstrument;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/03/06 14:01:28 $
+ * @version CVS $Revision: 1.6 $ $Date: 2004/03/10 13:59:34 $
  * @since 4.1
  */
 public class HTTPServer
@@ -142,10 +142,6 @@ public class HTTPServer
         //  and all encoded variables.  All of the following lines until a pair of
         //  Line feeds are headers and can be skipped for now.
         
-        // Get the actual output stream so we can write the response.
-        ByteArrayOutputStream hbos = new ByteArrayOutputStream();
-        PrintWriter out = new PrintWriter( hbos );
-        
         // Read the input header
         BufferedReader r = new BufferedReader( new InputStreamReader( is ) );
         String request = r.readLine();
@@ -163,7 +159,17 @@ public class HTTPServer
         }
         while ( ( header != null ) && ( header.length() > 0 ) );
         
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "got request: " + request + " : "
+                + Thread.currentThread().getName() );
+        }
+        
         Throwable error = null;
+        
+        // Get the actual output stream so we can write the response.
+        ByteArrayOutputStream hbos = new ByteArrayOutputStream();
+        PrintWriter out = new PrintWriter( hbos );
         
         // Parse the header to make sure it is valid.
         StringTokenizer st = new StringTokenizer( request, " " );
@@ -353,6 +359,7 @@ public class HTTPServer
         // Write the contents of the headers.
         out.flush();
         os.write( hbos.toByteArray() );
+        os.flush();
         
         return false;
     }
