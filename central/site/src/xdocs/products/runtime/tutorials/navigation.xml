@@ -24,10 +24,8 @@
   <body>
 
     <menu>
-      <item name="Installation" href="installation/index.html"/>
-      <item name="Using Merlin" href="tutorial/index.html"/>
-      <item name="Advanced Features" href="advanced/index.html"/>
-      <item name="Tutorial" href="tutorial/index.html"/>
+      <item name="Basic" href="basic/index.html"/>
+      <item name="Advanced" href="advanced/index.html"/>
     </menu>
 
   </body>
