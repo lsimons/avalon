@@ -35,6 +35,7 @@ import org.apache.avalon.tools.home.Home;
 import org.apache.avalon.tools.project.Resource;
 import org.apache.avalon.tools.project.Definition;
 import org.apache.avalon.tools.project.ResourceRef;
+import org.apache.avalon.tools.project.Policy;
 
 /**
  * Build a set of projects taking into account dependencies within the 
@@ -124,6 +125,96 @@ public class FilterTask extends SystemTask
         {
             return resource.getInfo().getURI();
         }
-        return null;        
+        else if( resource instanceof Definition )
+        {
+            Definition def = (Definition) resource;
+            if( m_feature.equals( "system-classpath-for-windows" ) )
+            {
+                return getPath( def, true );
+            }
+            else if( m_feature.equals( "system-classpath-for-unix" ) )
+            {
+                return getPath( def, false );
+            }
+        }
+        return null;
+    }
+
+    private String getPath( Definition def, boolean windows )
+    {
+        StringBuffer buffer = new StringBuffer();
+        String symbol = getPlatformCacheSymbol( windows );
+        ResourceRef[] refs = 
+          def.getResourceRefs( Policy.RUNTIME, ResourceRef.ANY, true );
+        for( int i=0; i<refs.length; i++ )
+        {
+            if( i>0 )
+            {
+                buffer.append( File.pathSeparator );
+            }
+
+            ResourceRef ref = refs[i];
+            Resource resource = getHome().getResource( ref );
+            buffer.append( symbol );
+            if( windows )
+            {
+                buffer.append( "\\" );
+                buffer.append( resource.getInfo().getPath().replace( '/', '\\' ) );
+            }
+            else
+            {
+                buffer.append( "/" );
+                String path = resource.getInfo().getPath();
+            }
+        }
+        return buffer.toString();
+    }
+
+    private String getPlatformCacheSymbol( boolean windows )
+    {
+        if( windows )
+        {
+            return "%SYSTEM_CACHE_DIRECTORY%";
+        }
+        else
+        {
+            return "$SYSTEM_CACHE_DIRECTORY";
+        } 
+    }
+    
+    public static class Attribute
+    {
+        private String m_name;
+        private String m_value;
+       
+        public Attribute()
+        {
+        }
+
+        public Attribute( final String name, final String value )
+        {
+            m_name = name;
+            m_value = value;
+        }
+
+        public void setName( String name )
+        {
+            m_name = name;
+        }
+
+        public void setValue( String value )
+        {
+            m_value = value;
+        }
+
+        public String getName()
+        {
+            return m_name;
+        }
+
+        public String getValue()
+        {
+            return m_value;
+        }
     }
 }
