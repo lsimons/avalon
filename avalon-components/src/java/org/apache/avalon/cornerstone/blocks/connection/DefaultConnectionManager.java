@@ -14,10 +14,10 @@ import org.apache.avalon.cornerstone.services.connection.ConnectionManager;
 import org.apache.avalon.cornerstone.services.threads.ThreadManager;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.Block;
 
 /**
@@ -30,7 +30,7 @@ import org.apache.avalon.phoenix.Block;
  */
 public class DefaultConnectionManager
     extends AbstractLogEnabled
-    implements Block, ConnectionManager, Composable, Disposable
+    implements Block, ConnectionManager, Serviceable, Disposable
 {
     private HashMap m_connections = new HashMap();
     private ThreadManager m_threadManager;
@@ -38,10 +38,10 @@ public class DefaultConnectionManager
     /**
      * @phoenix:dependency name="org.apache.avalon.cornerstone.services.threads.ThreadManager"
      */
-    public void compose( final ComponentManager componentManager )
-        throws ComponentException
+    public void service( final ServiceManager serviceManager )
+        throws ServiceException
     {
-        m_threadManager = (ThreadManager)componentManager.lookup( ThreadManager.ROLE );
+        m_threadManager = (ThreadManager)serviceManager.lookup( ThreadManager.ROLE );
     }
 
     public void dispose()
