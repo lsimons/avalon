@@ -1,4 +1,5 @@
 ant.properties
+velocity.log*
 dist
 build
 distributions
