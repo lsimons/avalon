@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+
+ <title>Apache Avalon</title>
+
+ <body>
+
+    <links>
+      <item name="Apache" href="http://apache.org/"/>
+      <item name="Avalon" href="/index.html"/>
+      <item name="Framework" href="/product/framework/index.html"/>
+      <item name="Merlin" href="/product/containers/index.html"/>
+      <item name="Planet" href="/product/components/index.html"/>
+    </links>
+
+    <menu name="About Avalon">
+      <item name="Overview" href="/overview.html"/>
+      <item name="Latest News" href="/news.html"/>
+      <item name="Community" href="/community/index.html">
+        <item name="Who We Are" href="/community/who/index.html"/>
+        <item name="Process" href="/community/process/index.html">
+          <item name="Project Charter" href="/community/process/mission.html"/>
+          <item name="Management Committee" href="/community/process/pmc.html"/>
+          <item name="PMC Procedures" href="/community/process/pmc-votes.html"/>
+          <item name="Coding Standards" href="/community/process/code-standards.html"/>
+	  <item name="Release Management" href="/community/process/release.html"/>
+        </item>
+        <item name="History" href="/community/history/index.html"/>
+      </item>
+      <item name="Products" href="/product/index.html"/>
+      <item name="Documentation" href="/doc/index.html"/>
+    </menu>
+
+    <menu name="Resources">
+      <item name="License" href="/license.html"/>
+      <item name="Downloads" href="/download.cgi"/>
+      <item name="CVS" href="/cvs.html"/>
+      <item name="WIKI" href="http://wiki.apache.org/avalon"/>
+      <item name="Sandbox" href="/sandbox/index.html"/>
+      <item name="Mailing Lists" href="/mailing-lists.html"/>
+      <item name="Issue Tracking"  href="/issues.html"/>
+      <item name="External Projects" href="/related/index.html"/>
+    </menu>
+
+    <menu name="Related">
+      <item name="Avalon Framework" href="http://avalon.apache.org/framework"/>
+      <item name="Avalon Meta" href="http://avalon.apache.org/meta"/>
+      <item name="Avalon Utilities" href="http://avalon.apache.org/util"/>
+      <item name="Avalon Repository" href="http://avalon.apache.org/repository"/>
+      <item name="Avalon Merlin" href="http://avalon.apache.org/merlin"/>
+      <item name="Avalon Planet" href="http://avalon.apache.org/components"/>
+    </menu>
+
+ </body>
+
+</project>
