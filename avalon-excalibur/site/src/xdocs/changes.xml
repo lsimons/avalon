@@ -1,0 +1,338 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE changes SYSTEM "dtd/changes-v10.dtd">
+
+<changes title="Avalon Excalibur History of Changes">
+  <devs>
+    <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
+    <person name="Leo Simons" email="mail@leosimons.com" id="LS"/>
+    <person name="Peter Donald" email="peter@apache.org" id="PD"/>
+    <person name="Jeff Turner" email="jeff@socialchange.net.au" id="JT"/>
+    <person name="Neeme Praks" email="neeme.praks@one.ee" id="NP"/>
+    <person name="Giacomo Pati" email="giacomo@apache.org" id="GP"/>
+    <person name="Paul Hammant" email="hammant@apache.org" id="PH"/>
+    <person name="Leif Mortenson" email="leif@apache.org" id="LM"/>
+    <person name="Eung-ju Park" email="colus@apache.org" id="EP"/>
+    <person name="Carston Ziegler" email="cziegler@apache.org" id="CZ"/>
+  </devs>
+  <release version="@version@" date="@date@">
+    <action dev="CZ" type="add">
+      Added XML Parser role and implementation, EntityResolver role and
+      some misc. XML support (from Cocoon).
+    </action>
+    <action dev="Whole Team" type="add">
+      Broken Excalibur from single jar into multiple smaller jars.
+    </action>
+    
+  </release>
+  <release version="4.1" date="January 30, 2002">
+    <action dev="CZ" type="add">
+      Initial port of Cocoon's Source resolvers and XML parsers
+    </action>
+    <action dev="NP" type="update">
+      Added many fixes to the XML Resource Bundles and Resource Bundle
+      access code.
+    </action>
+    <action dev="PD" type="update">
+      Update the extension management code and make it more robust.
+    </action>
+    <action dev="BL" type="add">
+      Add new Container abstraction to separate ComponentManager from
+      Container code (i.e. ExcaliburComponentManager violates this).
+      The new ContainerManager and Container abstraction make the system
+      much easier to manage.
+    </action>
+    <action dev="BL" type="add">
+      Add new CommandManager architecture to manage all asynchronous
+      commands and the ThreadManager architecture to manage the thread
+      allocation policy for the CommandManager.
+    </action>
+    <action dev="DP" type="add">
+      New component to handle automatic XML Catalog resolution.
+    </action>
+    <action dev="EP" type="update">
+      Many improvements to the cache component.  Extended cache validation
+      support, multiple store backends, and more.
+    </action>
+    <action dev="JT" type="add">
+      Add an XPathProcessor abstraction Component with ThreadSafe
+      implementations for Jaxen and Xalan backed XPath processors.
+    </action>
+    <action dev="PD" type="update">
+      Made automatic proxy code even more robust.
+    </action>
+    <action dev="PD" type="update">
+      Add support for recursive property resolution. Added appropriate
+      unit test to accompany feature.
+    </action>
+    <action dev="BL" type="update">
+      Optimized pool implementations, and provided a new abstraction for
+      managed pools (in scratchpad).
+    </action>
+    <action dev="GP" type="add">
+      Add many new LogTargetFactories to LogKitManager.
+    </action>
+    <action dev="BL" type="add">
+      Add new LoggerManager abstraction that works with the new framework
+      Logger abstractions.
+    </action>
+    <action dev="PD" type="fix">
+      Fixed some classloader issues in the i18n package for loading resources.
+      Also fixed some i18n related issues in FileUtil and IOUtil.
+    </action>
+    <action dev="LM" type="update">
+      Applied many optimizations and logic fixes to DataSourceComponent
+      code.
+    </action>
+    <action dev="BL" type="fix">
+      Applied fixes to ReadWriteLock from Avi Drissman (drissman@acm.org)
+    </action>
+    <action dev="BL" type="update">
+      Officially deprecate Lock in favor of Mutex.  They have the same
+      purpose, and Mutex is more correct.
+    </action>
+    <action dev="BL" type="update">
+      Optimize logging calls throughout components.  Also, make the log
+      messages more informative.
+    </action>
+    <action dev="PD" type="update">
+      ListUtils now checks for duplicates when merging Lists.
+    </action>
+    <action dev="PD" type="update">
+      Make BinaryHeap and PriorityQueue use Objects instead of Comparables.
+      Optimize BinaryHeap code.
+    </action>
+    <action dev="BL" type="add">
+      Add new Buffer classes to the collections package.  These are amazingly
+      performant.  It is based on CircularBuffer, which is now deprecated.
+    </action>
+    <action dev="BL" type="update">
+      Shake out some more performance of CLI Util, as well as better support
+      for DUPLICATES_ALLOWED.
+    </action>
+    <action dev="LM" type="update">
+      Added some build improvements.
+    </action>
+    <action dev="BL" type="add">
+      Add new profiler instrumentation interfaces inspired by Matt Welsh's
+      SEDA architecture.
+    </action>
+    <action dev="BL" type="add">
+      Add new asynchronous event queue system inspired by Matt Welsh's
+      SEDA architecture.
+    </action>
+    <action dev="BL" type="update">
+      Update all the components to the new LogEnabled interface.
+    </action>
+  </release>
+  <release version="4.0" date="September 11, 2001">
+    <action dev="BL" type="update">
+      Update user docs.
+    </action>
+    <action dev="PD" type="remove">
+      Remove dead code in scratchpad.
+    </action>
+    <action dev="PD" type="update">
+      Rework thread pooling package to a new design.  This provides a mechanism
+      to run a cleanup thread when the JVM is killed.
+    </action>
+    <action dev="PD" type="add">
+      Add classloader extension framework into the extension package.
+    </action>
+    <action dev="PD" type="add">
+      Add Container mechanism from Avalon Phoenix.
+    </action>
+    <action dev="PD" type="update">
+      Add support for recursive property resolution. Added appropriate unit test
+      to accompany feature. (Property utils).
+    </action>
+    <action dev="PD" type="fix">
+      Problem Fixed: I've encountered a problem with the SingleThreadedPool in
+      that it alternatley returns valid and null pooled objects until you've got
+      the "initial" constructor argument + 1 and then it starts returning
+      (Poolable)m_factory.newInstance().  Submitted by: "Corey O'Donovan".
+    </action>
+    <action dev="BL" type="fix">
+      Fix some bugs found by Pool Profiling tests.
+    </action>
+    <action dev="BL" type="add">
+      Add new resource monitoring facility.  This allows you to actively
+      monitor resources and be notified if they are changed by outside
+      forces.
+    </action>
+    <action dev="DP" type="update">
+      Set hierarchy via constructor to allow LogKit to work in sub classloaders.
+      Submitted By: Sylvain Wallez.
+    </action>
+    <action dev="DP" type="update">
+      Update FileUtils with methods to count size of a directory,
+      input argument check, fix javadoc, and method to convert an array of
+      Files into URLs.
+    </action>
+    <action dev="PH" type="add">
+      ClassLoaderObjectInputStream moves from Cornerstone to Excalibur.
+    </action>
+    <action dev="DP" type="update">
+      Promote the i18n ResourceManager code to Excalibur production.
+    </action>
+    <action dev="BL" type="update">
+      Updated log messages for JdbcConnection--as well as added runtime
+      detection if no connections could be created.  This provides better
+      reporting if the connection has configuration errors or other mitigating
+      errors.
+    </action>
+    <action dev="BL" type="add">
+      Add direct support for Informix connection pooling.  Requires the most
+      recent JDBC drivers from Informix to use this feature.
+    </action>
+    <action dev="BL" type="update">
+      Deprecated the oradb attribute in JdbcDataSourceComponent, and added a
+      keepalive element.This way we can test the line with valid SQL statements
+      no matter what the DB is.  Informix had trouble with the "select 1" and I
+      am sure there are others.
+    </action>
+    <action dev="BL" type="fix">
+      Fix bugs found by ReadWriteLock Test Case in the concurrent package.
+    </action>
+    <action dev="DP" type="update">
+      Update component package with support for Paremeterizable components
+      (patch from Mircea Toma)
+    </action>
+    <action dev="BL" type="update">
+      Add support to display if an option is required.  Patch was from
+      Tom Jordahl (from xml-axis project).
+    </action>
+    <action dev="PD" type="fix" fixes-bug="3255">
+      Fixed bug "CLArgsParser loops infinitely on OPTIONAL options" like
+      "-Fa -B" where F optionally has an argument. Added unit tests to verify
+      that it has been fixed.
+    </action>
+    <action dev="JT" type="update">
+      Update javadocs with '@since' tags so that we know when components
+      have been introduced.
+    </action>
+    <action dev="BL" type="update">
+      Update JDBC datasource component so that you can specify your keep-alive
+      query.  This is for databases that don't like "SELECT 1;" as a query.
+    </action>
+    <action dev="GP" type="add">
+      Add new JUnit TestCase for automatically setting up Avalon Components
+      and running tests.
+    </action>
+    <action dev="BL" type="fix">
+      Fix a number of tests, and provided a couple new tests.
+    </action>
+    <action dev="PD" type="fix">
+      Fix build process for tests and fix some of the tests.
+    </action>
+    <action dev="GP" type="add">
+      Add new LogKit Management framework to allow each component to have unique
+      logger implementations and provide fine grained control over logging.
+    </action>
+    <action dev="PD" type="add">
+      Add new JNDI package to Excalibur with Memmory and RMI providers.
+    </action>
+    <action dev="BL" type="update">
+      Updated Announcement.xml to not refer to Testlet anymore.
+    </action>
+  </release>
+  <release version="4.0b4" date="August 10, 2001">
+    <action dev="BL" type="fix">
+      Fixed race condition brought to my attention by Tom Klaasen.  His excellent
+      analysis of the problem enabled me to not only fix the race condition but
+      also increase the efficiency of the pool in some cases by 200%
+    </action>
+    <action dev="BL" type="add">
+      Added new InformixDataSource that uses the Informix JDBC 2.2 driver
+      and Cadastre to provide pooled connections from Informix.  Unfortunately
+      the drivers do not yet support transactions.  I need to look further
+      into this, as it might be a server configuration issue as opposed to
+      a driver issue.
+    </action>
+    <action dev="BL" type="fix">
+      Fixed errors in utilities discovered by the tests.
+    </action>
+    <action dev="BL" type="change">
+      Converted tests from Testlet to JUnit.
+    </action>
+    <action dev="BL" type="fix">
+      Fixed the build structure so that everything builds correctly.
+    </action>
+    <action dev="BL" type="add">
+      Added extra convenience methods to discover if a component exists.
+    </action>
+    <action dev="BL" type="add">
+      Added stylesheet to convert Stylebook markup to DocBook markup.
+    </action>
+    <action dev="BL" type="change">
+      Changed the documentation build process to use Cocoon to build
+      the site.
+    </action>
+    <action dev="BL" type="add">
+      Add new configuration element "driver" to JdbcDataSource so that
+      the class is loaded in the current context classloader when the
+      component is first set up.
+    </action>
+    <action dev="BL" type="update">
+      Optimize all logging functions to make it easier for JVMs to decide
+      whether or not to concatenate strings for log messages.
+    </action>
+    <action dev="NP" type="update">
+      Extensive reworking of the excalibur.i18n package (XML Resource bundles).
+    </action>
+    <action dev="JT" type="update">
+      Extensive additions to IOUtils so that it accepts numerous different
+      stream/writer types. Also will convert streams to strings using a
+      specific encoder or else by using default platform encoder.
+    </action>
+    <action dev="PD" type="add">
+      Added EndianUtil to excalibur.io to help when need to work with little endian data.
+    </action>
+    <action dev="BL" type="add">
+      Added "ROLE" attribute to DataSource--to comply with practices
+      outlined in whitepaper.
+    </action>
+  </release>
+  <release version="4.0b3" date="June 6, 2001">
+    <action dev="BL" type="update">
+      Release 4.0b3
+    </action>
+    <action dev="BL" type="fix">
+      Repair major showstopper in Excalibur Component Manager.  This
+      showstopper manifests itself as a NullPointerException with
+      ExcaliburComponentSelectors.  Because of the reflective code
+      in the ComponentFactory, this was originally missed in the
+      Beta 2 release.
+    </action>
+  </release>
+<release version="4.0b2" date="June 4, 2001">
+  <action dev="BL" type="update">
+    Release 4.0b2
+  </action>
+  <action dev="BL" type="update">
+    Updated Component Package to be Initializable, so that all components
+    can be initialized once it is ready.
+  </action>
+  <action dev="BL" type="add">
+    Added initial documentation for Excalibur.
+  </action>
+  <action dev="BL" type="fix">
+    Fixed issues introduced with removing "throws Exception" from
+    Disposable.
+  </action>
+  <action dev="BL" type="fix">
+    Made connections expire after 15 uses.  This avoids problems with
+    buggy client code or buggy drivers from causing serious issues
+    in the long run.
+  </action>
+  <action dev="BL" type="fix">
+    Made Component Manager fixes to use the Thread's context classloader.
+  </action>
+</release>
+<release version="4.0b1" date="May 11, 2001">
+  <action dev="BL" type="change">
+    Initial beta release.
+  </action>
+</release>
+
+</changes>
