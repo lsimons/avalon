@@ -1,0 +1,6 @@
+build
+distributions
+dist
+excalibur-*
+*.el
+*.ipr
