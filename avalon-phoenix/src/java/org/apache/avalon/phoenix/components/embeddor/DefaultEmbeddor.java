@@ -7,8 +7,8 @@
  */
 package org.apache.avalon.phoenix.components.embeddor;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 import java.io.File;
 import java.util.Date;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -70,7 +70,7 @@ public class DefaultEmbeddor
     private final static String DEFAULT_FORMAT =
         "%{time} [%7.7{priority}] (%{category}): %{message}\\n%{throwable}";
 
-    private Context m_context;
+    private EmbeddorObservable m_observable = new EmbeddorObservable();
     private Parameters m_parameters;
     private String m_phoenixHome;
 
@@ -98,7 +98,16 @@ public class DefaultEmbeddor
     public void contextualize( final Context context )
         throws ContextException
     {
-        m_context = context;
+        try
+        {
+            final Observer observer = (Observer)context.get( Observer.class.getName() );
+            m_observable.addObserver( observer );
+        }
+        catch( final ContextException ce )
+        {
+            final String message = REZ.getString( "embeddor.notice.no-restart" );
+            getLogger().warn( message );
+        }
     }
 
     /**
@@ -279,18 +288,10 @@ public class DefaultEmbeddor
     {
         try
         {
-            //Pass a message back to original invoker.
-            //We use an ActionListener rather than operating on some more meaningful
-            //event system as ActionListener and friends can be loaded from system
-            //ClassLoader and thus the Embeddor does not have to share a common
-            //classloader ancestor with invoker
-            final ActionListener listener =
-                (ActionListener)m_context.get( ActionListener.class.getName() );
-            final ActionEvent action =
-                new ActionEvent( new Object(), ActionEvent.ACTION_PERFORMED, "restart" );
-            listener.actionPerformed( action );
+            m_observable.change();
+            m_observable.notifyObservers( "restart" );
         }
-        catch( final ContextException ce )
+        catch( final Exception e )
         {
             throw new UnsupportedOperationException();
         }
@@ -658,5 +659,14 @@ public class DefaultEmbeddor
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         return builder.buildFromFile( location );
+    }
+}
+
+class EmbeddorObservable
+    extends Observable
+{
+    public void change()
+    {
+        super.setChanged();
     }
 }
