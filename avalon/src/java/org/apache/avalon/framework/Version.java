@@ -272,8 +272,8 @@ public final class Version
             //If of major version but lower minor version then incompatible
             return false;
         }
-        else if( m_minor == other.m_minor &&
-            m_micro < other.m_micro )
+        else if( m_minor == other.m_minor 
+            && m_micro < other.m_micro )
         {
             //If same major version, same minor version but lower micro level
             //then incompatible
