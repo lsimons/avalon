@@ -19,6 +19,7 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 import org.xml.sax.SAXException;
+import org.xml.sax.ContentHandler;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.NamespaceSupport;
 
@@ -26,23 +27,13 @@ import org.xml.sax.helpers.NamespaceSupport;
  * A ConfigurationSerializer serializes configurations via SAX2 compliant parser.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  * @version 1.0
  */
 public class DefaultConfigurationSerializer
 {
     private SAXTransformerFactory m_tfactory;
-    private TransformerHandler m_handler;
-    private OutputStream m_out;
     private Properties m_format = new Properties();
-    private NamespaceSupport m_namespaceSupport = new NamespaceSupport();
-
-    /**
-     * Build a ConfigurationSerializer
-     */
-    public DefaultConfigurationSerializer()
-    {
-        getTransformerFactory();
-    }
 
     /**
      * Sets the Serializer's use of indentation.  This will cause linefeeds to be added
@@ -62,18 +53,21 @@ public class DefaultConfigurationSerializer
     }
 
     /**
-     * Internally set the output strream we will be using.
+     * Create a ContentHandler for an OutputStream
      * @param out an <code>OutputStream</code> value
+     * @return contenthandler that goes to specified OutputStream
      */
-    protected void setOutputStream( final OutputStream out )
+    protected ContentHandler createContentHandler( final OutputStream out )
     {
         try
         {
-            m_out = out;
-            m_handler = getTransformerFactory().newTransformerHandler();
+            TransformerHandler handler = getTransformerFactory().newTransformerHandler();
+
             m_format.put( OutputKeys.METHOD, "xml" );
-            m_handler.setResult( new StreamResult( out ) );
-            m_handler.getTransformer().setOutputProperties( m_format );
+            handler.setResult( new StreamResult( out ) );
+            handler.getTransformer().setOutputProperties( m_format );
+
+            return handler;
         }
         catch( final Exception e )
         {
@@ -97,31 +91,34 @@ public class DefaultConfigurationSerializer
     }
 
     /**
-     * Start the serialization process.  The output stream <strong>must</strong>
-     * be set before calling this method.
+     * Serialize the configuration to a ContentHandler
+     * @param handler a <code>ContentHandler</code> to serialize to
      * @param source a <code>Configuration</code> value
      * @throws SAXException if an error occurs
      * @throws ConfigurationException if an error occurs
      */
-    protected void serialize( final Configuration source )
+    public void serialize( final ContentHandler handler, final Configuration source )
         throws SAXException, ConfigurationException
     {
-        m_namespaceSupport.reset();
-        m_handler.startDocument();
-        serializeElement( source );
-        m_handler.endDocument();
+        handler.startDocument();
+        serializeElement( handler, new NamespaceSupport(), source );
+        handler.endDocument();
     }
 
     /**
      * Serialize each Configuration element.  This method is called recursively.
+     * @param handler a <code>ContentHandler</code> to use
+     * @param namespaceSupport a <code>NamespaceSupport</code> to use
      * @param element a <code>Configuration</code> value
      * @throws SAXException if an error occurs
      * @throws ConfigurationException if an error occurs
      */
-    protected void serializeElement( final Configuration element )
+    protected void serializeElement( final ContentHandler handler,
+                                     final NamespaceSupport namespaceSupport,
+                                     final Configuration element )
         throws SAXException, ConfigurationException
     {
-        m_namespaceSupport.pushContext();
+        namespaceSupport.pushContext();
 
         AttributesImpl attr = new AttributesImpl();
         String[] attrNames = element.getAttributeNames();
@@ -150,7 +147,7 @@ public class DefaultConfigurationSerializer
 
         boolean nsWasDeclared = false;
 
-        final String existingURI = m_namespaceSupport.getURI( nsPrefix );
+        final String existingURI = namespaceSupport.getURI( nsPrefix );
 
         // ie, there is no existing URI declared for this prefix or we're
         // remapping the prefix to a different URI
@@ -171,8 +168,8 @@ public class DefaultConfigurationSerializer
                 // (re)declare a mapping from nsPrefix to nsURI
                 attr.addAttribute( "", "xmlns:" + nsPrefix, "xmlns:" + nsPrefix, "CDATA", nsURI );
             }
-            m_handler.startPrefixMapping( nsPrefix, nsURI );
-            m_namespaceSupport.declarePrefix( nsPrefix, nsURI );
+            handler.startPrefixMapping( nsPrefix, nsURI );
+            namespaceSupport.declarePrefix( nsPrefix, nsURI );
         }
 
         String localName = element.getName();
@@ -186,7 +183,7 @@ public class DefaultConfigurationSerializer
             qName = nsPrefix + ":" + localName;
         }
 
-        m_handler.startElement( nsURI, localName, qName, attr );
+        handler.startElement( nsURI, localName, qName, attr );
 
         String value = element.getValue( null );
 
@@ -196,22 +193,22 @@ public class DefaultConfigurationSerializer
 
             for( int i = 0; i < children.length; i++ )
             {
-                serializeElement( children[ i ] );
+                serializeElement( handler, namespaceSupport, children[ i ] );
             }
         }
         else
         {
-            m_handler.characters( value.toCharArray(), 0, value.length() );
+            handler.characters( value.toCharArray(), 0, value.length() );
         }
 
-        m_handler.endElement( nsURI, localName, qName );
+        handler.endElement( nsURI, localName, qName );
 
         if( nsWasDeclared )
         {
-            m_handler.endPrefixMapping( nsPrefix );
+            handler.endPrefixMapping( nsPrefix );
         }
 
-        m_namespaceSupport.popContext();
+        namespaceSupport.popContext();
     }
 
     /**
@@ -253,11 +250,7 @@ public class DefaultConfigurationSerializer
     public void serialize( final OutputStream outputStream, final Configuration source )
         throws SAXException, IOException, ConfigurationException
     {
-        synchronized( this )
-        {
-            setOutputStream( outputStream );
-            serialize( source );
-        }
+        serialize( createContentHandler( outputStream ), source );
     }
 
     /**
