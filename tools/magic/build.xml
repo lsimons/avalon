@@ -12,13 +12,13 @@
     </x:javadoc>
   </target>
 
+  <!--
   <target name="test" depends="standard.test">
-    <!--
     <mkdir dir="${basedir}/target/deliverables/demos"/>
     <zip destfile="${basedir}/target/deliverables/demos/demo.zip"
       basedir="etc/test/demo"/>
-    -->
   </target>
+  -->
 
   <target name="package" depends="standard.package">
     <x:bar/>
@@ -27,7 +27,7 @@
   <target name="install" depends="standard.install">
     <mkdir dir="${user.home}/.ant/lib"/>
     <copy toDir="${user.home}/.ant/lib" 
-       file="${basedir}/target/deliverables/jars/${project.name}.jar"/>
+       file="${basedir}/target/deliverables/jars/${project.filename}"/>
   </target>
 
   <target name="properties" depends="info">
@@ -49,9 +49,11 @@ project.name:    ${project.name}
     </echo>
   </target>
 
+  <!--
   <target name="validate" depends="standard.test">
     <ant dir="target/test/temp/demo" target="install"/>
   </target>
+  -->
 
   <target name="gump">
     <x:home/>
