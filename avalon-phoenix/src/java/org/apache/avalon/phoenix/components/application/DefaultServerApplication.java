@@ -32,6 +32,7 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 import org.apache.avalon.phoenix.components.frame.DefaultApplicationFrame;
+import org.apache.avalon.phoenix.components.phases.Traversal;
 import org.apache.avalon.phoenix.components.phases.BlockDAG;
 import org.apache.avalon.phoenix.components.phases.BlockVisitor;
 import org.apache.avalon.phoenix.components.phases.ShutdownPhase;
@@ -59,7 +60,7 @@ public final class DefaultServerApplication
 
     private final static class PhaseEntry
     {
-        protected BlockDAG.Traversal  m_traversal;
+        protected Traversal           m_traversal;
         protected BlockVisitor        m_visitor;
     }
 
@@ -164,13 +165,13 @@ public final class DefaultServerApplication
     {
         PhaseEntry entry = new PhaseEntry();
         entry.m_visitor = new StartupPhase();
-        entry.m_traversal = BlockDAG.FORWARD;
+        entry.m_traversal = Traversal.FORWARD;
         m_phases.put( "startup", entry );
         setupComponent( entry.m_visitor, "StartupPhase" );
 
         entry = new PhaseEntry();
         entry.m_visitor = new ShutdownPhase();
-        entry.m_traversal = BlockDAG.REVERSE;
+        entry.m_traversal = Traversal.REVERSE;
         m_phases.put( "shutdown", entry );
         setupComponent( entry.m_visitor, "ShutdownPhase" );
     }

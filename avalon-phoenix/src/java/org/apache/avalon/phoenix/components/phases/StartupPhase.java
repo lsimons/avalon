@@ -13,6 +13,7 @@ import org.apache.avalon.excalibur.thread.ThreadContext;
 import org.apache.avalon.framework.CascadingException;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
+import org.apache.avalon.framework.camelot.State;
 import org.apache.avalon.framework.camelot.Container;
 import org.apache.avalon.framework.camelot.ContainerException;
 import org.apache.avalon.framework.camelot.Entry;
@@ -98,7 +99,7 @@ public class StartupPhase
     public void visitBlock( final String name, final BlockEntry entry )
         throws Exception
     {
-        if( entry.getState() != BlockEntry.BASE &&
+        if( entry.getState() != State.BASE &&
             null != entry.getState() ) return;
 
         if( getLogger().isInfoEnabled() )
@@ -181,7 +182,7 @@ public class StartupPhase
                 getLogger().debug( REZ.getString( "startup.notice.start.success" ) );
             }
 
-            entry.setState( BlockEntry.STARTEDUP );
+            entry.setState( State.STARTEDUP );
         }
         catch( final Exception e )
         {

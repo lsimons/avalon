@@ -14,10 +14,17 @@ import org.apache.avalon.framework.ValuedEnum;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class State
+public final class State
     extends ValuedEnum
 {
-    public State( final String name, final int value )
+
+    //A list of constants representing phases in Blocks lifecycle.
+    //Each phase is made up of a number of stages.
+    public final static State  BASE       = new State( "BASE", 0 );
+    public final static State  STARTEDUP  = new State( "STARTEDUP", 10 );
+    public final static State  SHUTDOWN   = new State( "SHUTDOWN", 20 );
+
+    private State( final String name, final int value )
     {
         super( name, value );
     }

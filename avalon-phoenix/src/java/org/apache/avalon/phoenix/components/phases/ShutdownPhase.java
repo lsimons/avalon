@@ -11,6 +11,7 @@ import org.apache.avalon.excalibur.thread.ThreadContext;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.camelot.Container;
+import org.apache.avalon.framework.camelot.State;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
@@ -51,7 +52,7 @@ public class ShutdownPhase
     public void visitBlock( final String name, final BlockEntry entry )
         throws Exception
     {
-        if( entry.getState() != BlockEntry.STARTEDUP ) return;
+        if( entry.getState() != State.STARTEDUP ) return;
 
         if( getLogger().isInfoEnabled() )
         {
@@ -111,7 +112,7 @@ public class ShutdownPhase
         //Destruction stage
         getLogger().debug( REZ.getString( "shutdown.notice.destroy.pre" ) );
         entry.setInstance( null );
-        entry.setState( BlockEntry.SHUTDOWN );
+        entry.setState( State.SHUTDOWN );
         getLogger().debug( REZ.getString( "shutdown.notice.destroy.success" ) );
 
         try

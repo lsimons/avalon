@@ -21,12 +21,6 @@ import org.apache.avalon.phoenix.metainfo.BlockInfo;
 public class BlockEntry
     extends Entry
 {
-    //A list of constants representing phases in Blocks lifecycle.
-    //Each phase is made up of a number of stages.
-    public final static State  BASE       = new State( "BASE", 0 );
-    public final static State  STARTEDUP  = new State( "STARTEDUP", 10 );
-    public final static State  SHUTDOWN   = new State( "SHUTDOWN", 20 );
-
     private final RoleEntry[]   m_roleEntrys;
 
     private final String        m_name;
@@ -38,7 +32,7 @@ public class BlockEntry
         m_name = name;
         m_roleEntrys = roleEntrys;
         setLocator( locator );
-        setState( BASE );
+        setState( State.BASE );
     }
 
     public String getName()
