@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE tabs PUBLIC "-//APACHE//DTD Cocoon Documentation Tab V1.0//EN" "tab-cocoon-v10.dtd">
+
+      <tabs software="MyProj"
+        title="MyProj"
+        copyright="Foo"
+        xmlns:xlink="http://www.w3.org/1999/xlink">
+
+        <tab label="Avalon Home" href="http://avalon.apache.org/"/>
+        <tab label="Framework" dir=""/>
+        <tab label="Components" href="http://avalon.apache.org/components/"/>
+        <tab label="Phoenix" href="http://avalon.apache.org/phoenix/"/>
+        <tab label="SECA" href="http://avalon.apache.org/seca/"/>
+        <tab label="Apps" href="http://avalon.apache.org/apps/"/>
+    </tabs>

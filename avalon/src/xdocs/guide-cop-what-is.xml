@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+  <header>
+    <title>Avalon Framework - Guide - What is COP?</title>
+    <version>1.0</version>
+    <authors>
+      <person name="Leo Simons" email="leosimons@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <section>
+<title>Introduction</title> 
+      <p>
+        Component Oriented Programming, or COP for short, takes Object Oriented
+        Programming one step further. Regular OOP organizes data objects into
+        entities that take care of themselves. There are many advantages to this
+        approach. I'll assume that you, being a Java programmer, are familiar
+        with those.
+      </p>
+      <p>
+        It also has a big limitation: that of object co-dependency. To remove that
+        limitation, a more rigid idea had to be formalized: the component. The key
+        difference between a regular object and a component is that a component is
+        completely replaceable.
+      </p>
+    </section>
+    <section>
+<title>COP is not just a Buzzword</title>
+      <p>
+        There is a lot of buzz in the industry touting Component Based Design
+	(CBD).  You will find, that the definition of a component in Avalon
+	is more formal than most companies' definition of a component.  Any
+	system developed with the principles of Avalon can claim CBD.  In
+	fact the Avalon Framework formalizes CBD more rigidly than the marketing
+	definition.  Do not be fooled though, CBD and COP aren't necessarily
+	the same thing.  Component Based Design refers to how a system is
+	designed and not how it is implemented.  Component Oriented Programming,
+	on the other hand, refers to how a system is implemented and not how
+	it is designed.  In practice, you can't implement COP without first
+	designing with components in mind.
+      </p>
+    </section>
+  </body>
+</document>
