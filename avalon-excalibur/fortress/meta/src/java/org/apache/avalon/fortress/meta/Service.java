@@ -67,7 +67,7 @@ import java.util.Set;
  * logic to serialize the service.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/04/18 20:02:31 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/04/24 19:53:24 $
  */
 final class Service
 {
@@ -125,7 +125,7 @@ final class Service
 
         try
         {
-            writer = new PrintWriter( new FileWriter( serviceFile, true ) );
+            writer = new PrintWriter( new FileWriter( serviceFile ) );
 
             final Iterator it = m_components.iterator();
             while ( it.hasNext() )

@@ -80,7 +80,7 @@ import java.util.Map;
  * ANT task to collect all the meta information for the components.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.15 $ $Date: 2003/04/18 20:02:31 $
+ * @version CVS $Revision: 1.16 $ $Date: 2003/04/24 19:53:24 $
  */
 public final class ComponentMetaInfoCollector extends AbstractQdoxTask
 {
@@ -162,7 +162,7 @@ public final class ComponentMetaInfoCollector extends AbstractQdoxTask
      */
     public void writeServiceList( final Iterator it ) throws IOException
     {
-        final PrintWriter writer = new PrintWriter( new FileWriter( m_serviceFile, true ) );
+        final PrintWriter writer = new PrintWriter( new FileWriter( m_serviceFile ) );
         int numServices = 0;
 
         while ( it.hasNext() )
