@@ -58,9 +58,16 @@ namespace Apache.Avalon.Activation.Default.Lifestyles
 		/// </summary>
 		public override void Decommission()
 		{
-			foreach(WeakReference reference in m_list)
+			try
 			{
-				Finalize( reference.Target );
+				foreach(WeakReference reference in m_list)
+				{
+					Finalize( reference.Target );
+				}
+			}
+			catch(Exception)
+			{
+				// Ingores WeakReference exceptions
 			}
 			m_list.Clear();
 		}

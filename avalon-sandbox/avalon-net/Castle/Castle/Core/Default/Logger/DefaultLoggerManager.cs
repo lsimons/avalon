@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.Default.Logger
+namespace Apache.Avalon.Castle.Core.Default.Logger
 {
 	using System;
 

@@ -33,7 +33,7 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// <author>  
 	/// <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.3 $ $Date: 2004/03/06 15:44:41 $
+	/// <version>  $Revision: 1.4 $ $Date: 2004/03/07 22:06:40 $
 	/// </version>
 	public class DefaultContainmentModel : DefaultDeploymentModel, IContainmentModel
 	{
@@ -172,12 +172,14 @@ namespace Apache.Avalon.Composition.Model.Default
 					for (int i = 0; i < startup.Length; i++)
 					{
 						IDeploymentModel child = startup[i];
-						commissioner.commission(child);
+						commissioner.Commission(child);
 					}
+
+					commissioner.Run();
 				}
 				finally
 				{
-					commissioner.dispose();
+					commissioner.Dispose();
 				}
 
 				//
@@ -212,7 +214,6 @@ namespace Apache.Avalon.Composition.Model.Default
 				IDeploymentModel[] shutdown = ShutdownGraph;
 				long timeout = DeploymentTimeout;
 				
-				/*
 				Commissioner commissioner = new Commissioner(Logger, false);
 				
 				try
@@ -222,12 +223,13 @@ namespace Apache.Avalon.Composition.Model.Default
 						IDeploymentModel child = shutdown[i];
 						child.Decommission();
 					}
+
+					commissioner.Run();
 				}
 				finally
 				{
 					commissioner.Dispose();
 				}
-				*/
 				
 				m_commissioned.Enabled = false;
 			}
@@ -353,7 +355,6 @@ namespace Apache.Avalon.Composition.Model.Default
 		/// </param>
 		/// <exception cref=""> Exception if an error occurs during model assembly
 		/// </exception>
-		//UPGRADE_ISSUE: Class hierarchy differences between ''java.util.List'' and ''System.Collections.IList'' may cause compilation errors. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1186"'
 		public override void Assemble(System.Collections.IList subjects)
 		{
 			lock (m_assembly)

@@ -99,6 +99,11 @@ namespace Apache.Avalon.Activation.Default
 
 		public void Etherialize(object instance)
 		{
+			if (instance == null)
+			{
+				return;
+			}
+
 			try
 			{
 				ApplyCreateStage( instance, false );

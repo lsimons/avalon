@@ -30,7 +30,7 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// </summary>
 	/// <author>  <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/28 22:15:42 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/03/07 22:06:40 $
 	/// </version>
 	public class DefaultModelRepository : IModelRepository
 	{
@@ -131,7 +131,6 @@ namespace Apache.Avalon.Composition.Model.Default
 				IDeploymentModel model = (IDeploymentModel) iterator.Current;
 				if (model.IsaCandidate(stage))
 				{
-					//UPGRADE_TODO: The equivalent in .NET for method 'java.util.ArrayList.add' may return a different value. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1043"'
 					list.Add(model);
 				}
 			}
@@ -149,7 +148,6 @@ namespace Apache.Avalon.Composition.Model.Default
 		}
 		
 		/// <summary> Locate all models meeting the supplied dependency criteria.
-		/// 
 		/// </summary>
 		/// <param name="dependency">a component service dependency
 		/// </param>
@@ -173,15 +171,14 @@ namespace Apache.Avalon.Composition.Model.Default
 				IDeploymentModel[] models = m_parent.GetCandidateProviders(dependency);
 				for (int i = 0; i < models.Length; i++)
 				{
-					//UPGRADE_TODO: The equivalent in .NET for method 'java.util.ArrayList.add' may return a different value. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1043"'
 					list.Add(models[i]);
 				}
 			}
 			return (IDeploymentModel[]) list.ToArray( typeof(IDeploymentModel) );
 		}
 		
-		/// <summary> Locate a model meeting the supplied criteria.
-		/// 
+		/// <summary> 
+		/// Locate a model meeting the supplied criteria.
 		/// </summary>
 		/// <param name="stage">a component stage dependency
 		/// </param>
@@ -213,7 +210,6 @@ namespace Apache.Avalon.Composition.Model.Default
 		//------------------------------------------------------------------
 		
 		/// <summary> Add an model to the repository.
-		/// 
 		/// </summary>
 		/// <param name="model">the model to add
 		/// </param>

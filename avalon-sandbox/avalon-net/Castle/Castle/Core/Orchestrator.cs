@@ -15,9 +15,8 @@
 namespace Apache.Avalon.Castle.Core
 {
 	using System;
+	using System.Collections;
 
-	using Apache.Avalon.Castle.Core.Proxies;
-	using Apache.Avalon.Castle.ManagementExtensions;
 	using Apache.Avalon.Composition.Data;
 	using Apache.Avalon.Composition.Model;
 	using Apache.Avalon.Composition.Model.Default;
@@ -25,6 +24,8 @@ namespace Apache.Avalon.Castle.Core
 	using Apache.Avalon.Meta;
 	using Apache.Avalon.Repository;
 	using Apache.Avalon.Castle.Util;
+	using Apache.Avalon.Castle.Util.Proxies;
+	using Apache.Avalon.Castle.ManagementExtensions;
 	using ILogger = Apache.Avalon.Framework.ILogger;
 
 	/// <summary>
@@ -33,13 +34,11 @@ namespace Apache.Avalon.Castle.Core
 	[ManagedComponent]
 	public class Orchestrator : ManagedService
 	{
-		private static readonly int LOGGER_MANAGER = 0;
-		private static readonly int CONFIG_MANAGER = 1;
-		private static readonly int LOOKUP_MANAGER = 2;
+		#region Fields
 
-		protected ManagedObjectName[] m_childServices = new ManagedObjectName[3];
-		
-		protected ManagedObjectName m_deployManager;
+		protected ManagedObjectName m_deployManagerName;
+
+		protected ManagedObjectName m_loggingManagerName;
 
 		protected ManagedObjectName m_runtimeName;
 
@@ -59,6 +58,12 @@ namespace Apache.Avalon.Castle.Core
 
 		protected ISystemContext m_systemContext;
 
+		protected ArrayList m_applications = new ArrayList();
+
+		#endregion
+
+		#region Constructor
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -66,6 +71,10 @@ namespace Apache.Avalon.Castle.Core
 		{
 			m_logger.Debug("Constructor");
 		}
+
+		#endregion
+
+		#region Attributes
 
 		[ManagedAttribute]
 		public ISystemContext SystemContext
@@ -107,53 +116,30 @@ namespace Apache.Avalon.Castle.Core
 		{
 			get
 			{
-				return m_deployManager;
+				return m_deployManagerName;
 			}
 			set
 			{
-				m_deployManager = value;
+				m_deployManagerName = value;
 			}
 		}
-
 
 		[ManagedAttribute]
 		public ManagedObjectName LoggerManager
 		{
 			get
 			{
-				return m_childServices[LOGGER_MANAGER];
+				return m_loggingManagerName;
 			}
 			set
 			{
-				m_childServices[LOGGER_MANAGER] = value;
+				m_loggingManagerName = value;
 			}
 		}
 
-		[ManagedAttribute]
-		public ManagedObjectName ConfigurationManager
-		{
-			get
-			{
-				return m_childServices[CONFIG_MANAGER];
-			}
-			set
-			{
-				m_childServices[CONFIG_MANAGER] = value;
-			}
-		}
+		#endregion
 
-		[ManagedAttribute]
-		public ManagedObjectName LookupManager
-		{
-			get
-			{
-				return m_childServices[LOOKUP_MANAGER];
-			}
-			set
-			{
-				m_childServices[LOOKUP_MANAGER] = value;
-			}
-		}
+		#region Deployment Operations
 
 		[ManagedOperation]
 		public void DeployContainmentProfile(ContainmentProfile profile)
@@ -174,6 +160,8 @@ namespace Apache.Avalon.Castle.Core
 			containmentModel.Commission();
 
 			m_logger.Info("Started");
+
+			m_applications.Add( containmentModel );
 		}
 
 		protected IContainmentContext CreateContainmentContext( ISystemContext system, ILogger logger, 
@@ -191,6 +179,10 @@ namespace Apache.Avalon.Castle.Core
 
 			return context;
 		}
+
+		#endregion
+
+		#region ManagedService overrides
 
 		public override void Create()
 		{
@@ -222,12 +214,26 @@ namespace Apache.Avalon.Castle.Core
 			m_logger.Debug("Stop");
 
 			base.Stop();
+
+			foreach( IContainmentModel model in m_applications )
+			{
+				model.Decommission();
+			}
+
+			foreach( IContainmentModel model in m_applications )
+			{
+				model.Disassemble();
+			}
 		}
+
+		#endregion
+
+		#region Private implementation
 
 		protected void RetriveCastleOptions()
 		{
 			m_options = (CastleOptions) 
-				MXUtil.GetAttribute( Server, CastleLoader.CONTROLLER, "Options" );
+				MXUtil.GetAttribute( Server, CastleConstants.CONTROLLER_NAME, "Options" );
 		}
 
 		protected void CreateSystemContext() 
@@ -279,11 +285,11 @@ namespace Apache.Avalon.Castle.Core
 
 		protected void CreateAndStartNotificationSystem()
 		{
-			m_notificationSystem = new OrchestratorNotificationSystem();
+			m_notificationSystem = new OrchestratorNotificationSystem( Server );
 
-			foreach(ManagedObjectName child in m_childServices)
+			foreach(ManagedObjectName child in Children)
 			{
-				if (child == null)
+				if (!child.Domain.Equals( CastleConstants.CASTLE_PHASE_DOMAIN ))
 				{
 					continue;
 				}
@@ -311,6 +317,33 @@ namespace Apache.Avalon.Castle.Core
 			}
 		}
 
+		#endregion
+
+		#region Creation / Destruction
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="model"></param>
+		[ManagedOperation]
+		public void InvokeCreatePhases( IComponentModel model )
+		{
+			
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="model"></param>
+		[ManagedOperation]
+		public void InvokeDestructionPhases( IComponentModel model )
+		{
+		}
+
+		#endregion
+
+		#region Utilities
+
 		private void AssertNotNull( ManagedObjectName name, String message )
 		{
 			if (name == null)
@@ -318,5 +351,7 @@ namespace Apache.Avalon.Castle.Core
 				throw new OrchestratorException( message );
 			}
 		}
+
+		#endregion
 	}
 }

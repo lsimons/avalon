@@ -26,7 +26,7 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/28 22:15:42 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/03/07 22:06:40 $
 	/// </version>
 	class SimpleFIFO
 	{
@@ -37,7 +37,7 @@ namespace Apache.Avalon.Composition.Model.Default
 			m_Queue = new System.Collections.ArrayList();
 		}
 		
-		internal virtual void  clear()
+		public void Clear()
 		{
 			lock (this)
 			{
@@ -45,7 +45,7 @@ namespace Apache.Avalon.Composition.Model.Default
 			}
 		}
 		
-		internal virtual void  put(System.Object obj)
+		public void Put(System.Object obj)
 		{
 			lock (this)
 			{
@@ -54,23 +54,30 @@ namespace Apache.Avalon.Composition.Model.Default
 			}
 		}
 		
-		internal virtual System.Object get_Renamed()
+		public System.Object Get()
 		{
 			lock (this)
 			{
-				while (m_Queue.Count == 0)
-					System.Threading.Monitor.Wait(this, TimeSpan.FromMilliseconds(100));
+				// while (m_Queue.Count == 0)
+				//	System.Threading.Monitor.Wait(this, TimeSpan.FromMilliseconds(100));
+				if (m_Queue.Count == 0)
+				{
+					return null;
+				}
 				object ret = m_Queue[0];
 				m_Queue.RemoveAt(0);
 				return ret;
 			}
 		}
 		
-		internal virtual int size()
+		public int Size
 		{
-			lock (this)
+			get
 			{
-				return m_Queue.Count;
+				lock (this)
+				{
+					return m_Queue.Count;
+				}
 			}
 		}
 	}

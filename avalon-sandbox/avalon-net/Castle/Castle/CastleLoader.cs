@@ -29,9 +29,6 @@ namespace Apache.Avalon.Castle
 	/// </summary>
 	public class CastleLoader : IDisposable
 	{
-		public static readonly ManagedObjectName CONTROLLER = 
-			new ManagedObjectName(Castle.CASTLE_DOMAIN + ":name=Controller");
-		
 		protected MServer m_server;
 
 		protected MConnectorServer m_connectorServer;
@@ -87,7 +84,7 @@ namespace Apache.Avalon.Castle
 			{
 				if (m_controller != null)
 				{
-					MXUtil.Stop( m_server, CONTROLLER );
+					MXUtil.Stop( m_server, CastleConstants.CONTROLLER_NAME );
 				}
 
 				MServerFactory.Release(m_server);
@@ -109,13 +106,13 @@ namespace Apache.Avalon.Castle
 			CastleController controllerInstance = new CastleController(options);
 
 			m_logger.Debug("Registering Controller");
-			m_controller = m_server.RegisterManagedObject( controllerInstance, CONTROLLER );
+			m_controller = m_server.RegisterManagedObject( controllerInstance, CastleConstants.CONTROLLER_NAME );
 
 			m_logger.Debug("Invoking Create on Controller...");
-			MXUtil.Create( m_server, CONTROLLER );
+			MXUtil.Create( m_server, CastleConstants.CONTROLLER_NAME );
 
 			m_logger.Debug("Invoking Start on Controller...");
-			MXUtil.Start( m_server, CONTROLLER );
+			MXUtil.Start( m_server, CastleConstants.CONTROLLER_NAME );
 		}
 
 		protected virtual void CreateServerConnector(String url, System.Collections.Specialized.NameValueCollection properties)

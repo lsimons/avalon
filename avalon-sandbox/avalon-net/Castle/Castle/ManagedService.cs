@@ -112,11 +112,16 @@ namespace Apache.Avalon.Castle
 				throw new ArgumentNullException( "childName", "Child name can't be null" );
 			}
 
-			m_children.Add( childName );
+			if (!m_children.Contains( childName ))
+			{
+				m_children.Add( childName );
 
-			m_server.Invoke( 
-				childName, 
-				"SetParent", new Object[] { ManagedObjectName }, new Type[] { typeof(ManagedObjectName) } );
+				m_server.Invoke( 
+					childName, 
+					"SetParent", 
+					new Object[] { ManagedObjectName }, 
+					new Type[] { typeof(ManagedObjectName) } );
+			}
 		}
 
 		[ManagedOperation]
@@ -172,7 +177,9 @@ namespace Apache.Avalon.Castle
 			{
 				m_server.Invoke( 
 					ParentName, 
-					"RemoveChild", new Object[] { ManagedObjectName }, new Type[] { typeof(ManagedObjectName) } );
+					"RemoveChild", 
+					new Object[] { ManagedObjectName }, 
+					new Type[] { typeof(ManagedObjectName) } );
 			}
 		}
 

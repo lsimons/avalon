@@ -26,7 +26,7 @@ namespace Apache.Avalon.Castle
 		/// <summary>
 		/// 
 		/// </summary>
-		private String m_defaultDomain = Castle.CASTLE_DOMAIN;
+		private String m_defaultDomain = CastleConstants.CASTLE_DOMAIN;
 		
 		/// <summary>
 		/// 

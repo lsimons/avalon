@@ -104,13 +104,13 @@ namespace Apache.Avalon.Activation.Default
 		/// <returns> the resolved object</returns>
 		public override object Resolve()
 		{
-			if( ComponentModel.TypeDescriptor.Info.GetAttribute( "urn:activation:proxy", "true" ).Equals( "false" ) )
+			if( ComponentModel.TypeDescriptor.Info.GetAttribute( "urn:activation:proxy", "false" ).Equals( "true" ) )
 			{
-				return Resolve( false );
+				return Resolve( true );
 			}
 			else        
 			{
-				return Resolve( true );
+				return Resolve( false );
 			}
 		}
 
