@@ -19,6 +19,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.DefaultComponentManager;
+import org.apache.avalon.framework.component.WrapperComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
@@ -40,7 +41,7 @@ import org.apache.excalibur.containerkit.lifecycle.ResourceProvider;
  * Block or Listener.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2002/10/02 11:25:55 $
+ * @version $Revision: 1.12 $ $Date: 2002/11/07 16:37:16 $
  */
 class BlockResourceProvider
     extends AbstractLogEnabled
@@ -136,31 +137,8 @@ class BlockResourceProvider
     public ComponentManager createComponentManager( final Object entry )
         throws Exception
     {
-        final BlockMetaData metaData = getMetaDataFor( entry );
-        final DefaultComponentManager manager = new DefaultComponentManager();
-
-        final Map serviceMap = createServiceMap( entry );
-        final Iterator iterator = serviceMap.keySet().iterator();
-        while( iterator.hasNext() )
-        {
-            final String key = (String)iterator.next();
-            final Object value = serviceMap.get( key );
-            if( value instanceof Component )
-            {
-                manager.put( key, (Component)value );
-            }
-            else
-            {
-                final String message =
-                    REZ.getString( "lifecycle.nota-component.error",
-                                   metaData.getName(),
-                                   key,
-                                   metaData.getDependency( key ).getName() );
-                throw new Exception( message );
-            }
-        }
-
-        return manager;
+        final ServiceManager serviceManager = createServiceManager( entry );
+        return new WrapperComponentManager( serviceManager );
     }
 
     /**
