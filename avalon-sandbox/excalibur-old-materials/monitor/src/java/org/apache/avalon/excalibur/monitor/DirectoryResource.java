@@ -21,7 +21,7 @@ import java.util.Set;
  * send an event indicating the change.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/09/13 10:18:24 $
+ * @version $Revision: 1.4 $ $Date: 2002/09/13 10:31:51 $
  */
 public class DirectoryResource
     extends Resource
@@ -73,31 +73,31 @@ public class DirectoryResource
         final HashSet addedFiles = new HashSet();
 
         final File[] files = m_dir.listFiles();
-        if( null == files )
-        {
-            //In the case that the directory does not exist
-            return;
-        }
 
-        for( int i = 0; i < files.length; i++ )
+        int fileCount = 0;
+        if( null != files )
         {
-            final File file = files[ i ];
-            final long newModTime = file.lastModified();
-            if( m_files.contains( file ) )
+            fileCount = files.length;
+            for( int i = 0; i < files.length; i++ )
             {
-                existingFiles.add( file );
-
-                final Long oldModTime = (Long)m_times.get( file );
-                if( oldModTime.longValue() != newModTime )
+                final File file = files[ i ];
+                final long newModTime = file.lastModified();
+                if( m_files.contains( file ) )
                 {
-                    modifiedFiles.add( file );
+                    existingFiles.add( file );
+
+                    final Long oldModTime = (Long)m_times.get( file );
+                    if( oldModTime.longValue() != newModTime )
+                    {
+                        modifiedFiles.add( file );
+                    }
                 }
+                else
+                {
+                    addedFiles.add( file );
+                }
+                m_times.put( file, new Long( newModTime ) );
             }
-            else
-            {
-                addedFiles.add( file );
-            }
-            m_times.put( file, new Long( newModTime ) );
         }
 
         final int lastCount = m_files.size();
@@ -106,7 +106,7 @@ public class DirectoryResource
 
         //If no new files have been added and
         //none deleted then nothing to do
-        if( files.length == lastCount &&
+        if( fileCount == lastCount &&
             0 == addedCount &&
             0 == modifiedCount )
         {
@@ -117,7 +117,7 @@ public class DirectoryResource
 
         //If only new files were added and none were changed then
         //we don't have to scan for deleted files
-        if( files.length != lastCount + addedCount )
+        if( fileCount != lastCount + addedCount )
         {
             //Looks like we do have to scan for deleted files
             final Iterator iterator = m_files.iterator();
