@@ -11,7 +11,16 @@ import java.util.ArrayList;
 import java.util.Stack;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.activity.Startable;
+import org.apache.avalon.framework.component.Composable;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.Service;
@@ -49,13 +58,26 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * </ul>
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2002/05/10 02:43:04 $
+ * @version $Revision: 1.12 $ $Date: 2002/05/14 10:42:50 $
  */
 public class SarVerifier
     extends AbstractLogEnabled
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( SarVerifier.class );
+
+    private static final Class[] FRAMEWORK_CLASSES = new Class[]
+    {
+        LogEnabled.class,
+        Contextualizable.class,
+        Composable.class,
+        Serviceable.class,
+        Configurable.class,
+        Parameterizable.class,
+        Initializable.class,
+        Startable.class,
+        Disposable.class
+    };
 
     /**
      * Verify the specified <code>SarMetaData</code> object.
@@ -391,11 +413,12 @@ public class SarVerifier
         }
         catch( final Exception e )
         {
-            final String message = REZ.getString( "bad-listener-class",
-                                                  listener.getName(),
-                                                  listener.getClassname(),
-                                                  e.getMessage() );
-            throw new VerifyException( message );
+            final String message =
+                REZ.getString( "bad-listener-class",
+                               listener.getName(),
+                               listener.getClassname(),
+                               e.getMessage() );
+            throw new VerifyException( message, e );
         }
 
         if( !BlockListener.class.isAssignableFrom( clazz ) )
@@ -649,10 +672,41 @@ public class SarVerifier
                 getLogger().warn( message );
                 System.err.println( message );
             }
+
+            checkNotFrameworkInterface( name, classname, classes[ i ] );
         }
 
         classes[ services.length ] = Block.class;
         return classes;
+    }
+
+    /**
+     * Warn the user if any of the service interfaces extend
+     * a Lifecycle interface (a generally unrecomended approach).
+     *
+     * @param name the name of block
+     * @param classname the classname of block
+     * @param clazz the service implemented by block
+     */
+    private void checkNotFrameworkInterface( final String name,
+                                             final String classname,
+                                             final Class clazz )
+    {
+        for( int i = 0; i < FRAMEWORK_CLASSES.length; i++ )
+        {
+            final Class lifecycle = FRAMEWORK_CLASSES[ i ];
+            if( lifecycle.isAssignableFrom( clazz ) )
+            {
+                final String message =
+                    REZ.getString( "verifier.service-isa-lifecycle.error",
+                                   name,
+                                   classname,
+                                   clazz.getName(),
+                                   lifecycle.getName() );
+                getLogger().warn( message );
+                System.err.println( message );
+            }
+        }
     }
 
     /**
