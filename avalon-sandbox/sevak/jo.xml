@@ -23,7 +23,7 @@
   <!-- Set the properties for intermediate directory -->
   <property name="build.dir" value="build"/>
   <property name="build.lib" value="${build.dir}/lib"/>
-  <property name="build.xdoclet" value="${build.dir}/xdoclet"/>
+  <property name="build.metagenerate" value="${build.dir}/metagenerate"/>
   <property name="build.src" value="${build.dir}/src"/>  
   <property name="build.classes" value="${build.dir}/classes"/>
   <property name="build.javadocs" value="${build.dir}/javadocs"/>  
@@ -34,7 +34,7 @@
   <!-- Sevak specific properties for building -->
   <property name="build.reports" value="${build.dir}/reports"/>
   <property name="build.demoClasses" value="${build.dir}/demoClasses"/> 
-  <property name="build.demoXdoclet" value="${build.dir}/demoXdoclet"/>
+  <property name="build.demoMetagenerate" value="${build.dir}/demoMetagenerate"/>
 
 
   <!-- Set the properties for source directories -->
