@@ -7,7 +7,7 @@
  */
 package org.apache.avalon.phoenix.components.kernel;
 
-import org.apache.jmx.introspector.ConstructiveMBean;
+import org.apache.avalon.excalibur.baxter.ConstructiveMBean;
 
 /**
  * The manager for the kernel. Used to test ConstructiveMBean.
