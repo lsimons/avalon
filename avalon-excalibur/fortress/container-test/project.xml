@@ -49,7 +49,6 @@ easy embedding into various environments like servlet engines.
         <dependency>
             <id>avalon-framework</id>
             <version>4.1.5</version>
-            <groupId>framework</groupId>
         </dependency>
         <dependency>
             <groupId>avalon-logkit</groupId>
