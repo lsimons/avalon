@@ -9,6 +9,7 @@ package org.apache.avalon.phoenix.components.assembler;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.List;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -27,7 +28,7 @@ import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
  * and is in the format specified for <tt>assembly.xml</tt> files.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003/01/25 15:47:18 $
+ * @version $Revision: 1.3 $ $Date: 2003/01/26 23:32:43 $
  */
 public class Assembler
     extends AbstractLogEnabled
@@ -68,7 +69,7 @@ public class Assembler
      * @throws AssemblyException if an error occurs
      */
     private PartitionMetaData assembleSar( final String name,
-                                          final Configuration assembly )
+                                           final Configuration assembly )
         throws AssemblyException
     {
         final Configuration[] blockConfig = assembly.getChildren( "block" );
@@ -79,7 +80,7 @@ public class Assembler
                                    PartitionMetaData.EMPTY_SET,
                                    blocks, Attribute.EMPTY_SET );
 
-        final Configuration[] listenerConfig = assembly.getChildren( "listeners" );
+        final Configuration[] listenerConfig = assembly.getChildren( "listener" );
         final ComponentMetaData[] listeners = buildBlockListeners( listenerConfig );
         final PartitionMetaData listenerPartition =
             new PartitionMetaData( ContainerConstants.LISTENER_PARTITION,
@@ -163,20 +164,20 @@ public class Assembler
      * the &lt;listener .../&gt; sections in <tt>assembly.xml</tt>.
      *
      * @param config the list of Configuration objects for config
-     * @return the ComponentMetaData array
+     * @return the array of listeners
      * @throws AssemblyException if an error occurs
      */
     private ComponentMetaData[] buildBlockListeners( final Configuration[] config )
         throws AssemblyException
     {
-        final ArrayList listeners = new ArrayList();
+        final List listeners = new ArrayList();
         for( int i = 0; i < config.length; i++ )
         {
             final ComponentMetaData listener = buildBlockListener( config[ i ] );
             listeners.add( listener );
         }
-
-        return (ComponentMetaData[])listeners.toArray( new ComponentMetaData[ listeners.size() ] );
+        return (ComponentMetaData[])listeners.
+            toArray( new ComponentMetaData[ listeners.size() ] );
     }
 
     /**
@@ -193,11 +194,11 @@ public class Assembler
         try
         {
             final String name = listener.getAttribute( "name" );
-            final String className = listener.getAttribute( "class" );
+            final String classname = listener.getAttribute( "class" );
 
-            return new ComponentMetaData( name, className,
+            return new ComponentMetaData( name, classname,
                                           new DependencyMetaData[ 0 ],
-                                          null, null, null );
+                                          null, null, Attribute.EMPTY_SET );
         }
         catch( final ConfigurationException ce )
         {
