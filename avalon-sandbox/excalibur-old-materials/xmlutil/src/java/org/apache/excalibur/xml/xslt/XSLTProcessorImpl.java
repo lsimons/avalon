@@ -114,7 +114,7 @@ import org.xml.sax.XMLFilter;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.32 2003/05/23 09:57:48 cziegeler Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.33 2003/06/06 09:10:43 cziegeler Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
@@ -129,34 +129,37 @@ public class XSLTProcessorImpl
     URIResolver
 {
     /** The store service instance */
-    private Store m_store;
+    protected Store m_store;
 
     /** The configured transformer factory to use */
-    private String m_transformerFactory;
+    protected String m_transformerFactory;
     /** The trax TransformerFactory this component uses */
-    private SAXTransformerFactory m_factory;
+    protected SAXTransformerFactory m_factory;
     /** The default TransformerFactory used by this component */
-    private SAXTransformerFactory m_defaultFactory;
+    protected SAXTransformerFactory m_defaultFactory;
     
     /** Is the store turned on? (default is off) */
-    private boolean m_useStore;
+    protected boolean m_useStore;
 
     /** Is incremental processing turned on? (default for Xalan: no) */
-    private boolean m_incrementalProcessing;
+    protected boolean m_incrementalProcessing;
 
     /** Resolver used to resolve XSLT document() calls, imports and includes */
-    private SourceResolver m_resolver;
+    protected SourceResolver m_resolver;
 
     /** The error handler for the transformer */
-    private TraxErrorHandler m_errorHandler;
+    protected TraxErrorHandler m_errorHandler;
 
+    /** Check included stylesheets */
+    protected boolean m_checkIncludes;
+    
     /** Map of pairs of System ID's / validities of the included stylesheets */
-    private Map m_includesMap = new HashMap();
+    protected Map m_includesMap = new HashMap();
 
-    private XMLizer m_xmlizer;
+    protected XMLizer m_xmlizer;
 
     /** The ServiceManager */
-    private ServiceManager m_manager;
+    protected ServiceManager m_manager;
     
     /**
      * Compose. Try to get the store
@@ -216,6 +219,7 @@ public class XSLTProcessorImpl
         m_useStore = params.getParameterAsBoolean( "use-store", this.m_useStore );
         m_incrementalProcessing = params.getParameterAsBoolean( "incremental-processing", this.m_incrementalProcessing );
         m_transformerFactory = params.getParameter( "transformer-factory", null );
+        m_checkIncludes = params.getParameterAsBoolean("check-includes", true);
         if( !m_useStore )
         {
             // release the store, if we don't need it anymore
@@ -299,8 +303,8 @@ public class XSLTProcessorImpl
                 }
 
                 // Initialize List for included validities
-                final SourceValidity validity = stylesheet.getValidity();
-                if( validity != null )
+                SourceValidity validity = stylesheet.getValidity();
+                if( validity != null && m_checkIncludes)
                 {
                     m_includesMap.put( id, new ArrayList() );
                 }
@@ -327,11 +331,11 @@ public class XSLTProcessorImpl
                     // Create transformer handler
                     final TransformerHandler handler = m_factory.newTransformerHandler( template );
                     handler.getTransformer().setErrorListener( m_errorHandler );
-            handler.getTransformer().setURIResolver( this );
+                    handler.getTransformer().setURIResolver( this );
 
                     // Create aggregated validity
                     AggregatedValidity aggregated = null;
-                    if( validity != null )
+                    if( validity != null && m_checkIncludes)
                     {
                         List includes = (List)m_includesMap.get( id );
                         if( includes != null )
@@ -342,15 +346,16 @@ public class XSLTProcessorImpl
                             {
                                 aggregated.add( (SourceValidity)( (Object[])includes.get( i ) )[ 1 ] );
                             }
+                            validity = aggregated;
                         }
                     }
 
                     // Create result
-                    handlerAndValidity = new TransformerHandlerAndValidity( handler, aggregated );
+                    handlerAndValidity = new TransformerHandlerAndValidity( handler, validity );
                 }
                 finally
                 {
-                    m_includesMap.remove( id );
+                    if ( m_checkIncludes ) m_includesMap.remove( id );
                 }
             }
             else
@@ -572,40 +577,44 @@ public class XSLTProcessorImpl
         }
 
         // Check includes
-        AggregatedValidity aggregated = null;
-        List includes = (List)templateAndValidityAndIncludes[ 2 ];
-        if( includes != null )
+        if ( m_checkIncludes ) 
         {
-            aggregated = new AggregatedValidity();
-            aggregated.add( storedValidity );
-
-            for( int i = includes.size() - 1; i >= 0; i-- )
+            AggregatedValidity aggregated = null;
+            List includes = (List)templateAndValidityAndIncludes[ 2 ];
+            if( includes != null )
             {
-                // Every include stored as pair of source ID and validity
-                Object[] pair = (Object[])includes.get( i );
-                storedValidity = (SourceValidity)pair[ 1 ];
+                aggregated = new AggregatedValidity();
                 aggregated.add( storedValidity );
-
-                valid = storedValidity.isValid();
-                isValid = false;
-                if( valid == 0 )
+    
+                for( int i = includes.size() - 1; i >= 0; i-- )
                 {
-                    SourceValidity included = m_resolver.resolveURI( (String)pair[ 0 ] ).getValidity();
-                    if( included != null )
+                    // Every include stored as pair of source ID and validity
+                    Object[] pair = (Object[])includes.get( i );
+                    storedValidity = (SourceValidity)pair[ 1 ];
+                    aggregated.add( storedValidity );
+    
+                    valid = storedValidity.isValid();
+                    isValid = false;
+                    if( valid == 0 )
                     {
-                        valid = storedValidity.isValid( included );
+                        SourceValidity included = m_resolver.resolveURI( (String)pair[ 0 ] ).getValidity();
+                        if( included != null )
+                        {
+                            valid = storedValidity.isValid( included );
+                            isValid = ( valid == 1 );
+                        }
+                    }
+                    else
+                    {
                         isValid = ( valid == 1 );
                     }
+                    if( !isValid )
+                    {
+                        m_store.remove( key );
+                        return null;
+                    }
                 }
-                else
-                {
-                    isValid = ( valid == 1 );
-                }
-                if( !isValid )
-                {
-                    m_store.remove( key );
-                    return null;
-                }
+                storedValidity = aggregated;
             }
         }
 
@@ -613,7 +622,7 @@ public class XSLTProcessorImpl
             (Templates)templateAndValidityAndIncludes[ 0 ] );
         handler.getTransformer().setErrorListener( m_errorHandler );
         handler.getTransformer().setURIResolver( this );
-        return new TransformerHandlerAndValidity( handler, aggregated );
+        return new TransformerHandlerAndValidity( handler, storedValidity );
     }
 
     private void putTemplates( Templates templates, Source stylesheet, String id )
@@ -635,7 +644,10 @@ public class XSLTProcessorImpl
             Object[] templateAndValidityAndIncludes = new Object[ 3 ];
             templateAndValidityAndIncludes[ 0 ] = templates;
             templateAndValidityAndIncludes[ 1 ] = validity;
-            templateAndValidityAndIncludes[ 2 ] = m_includesMap.get( id );
+            if ( m_checkIncludes ) 
+            {
+                templateAndValidityAndIncludes[ 2 ] = m_includesMap.get( id );
+            }
             m_store.store( key, templateAndValidityAndIncludes );
         }
     }
@@ -709,19 +721,21 @@ public class XSLTProcessorImpl
                 getLogger().debug( "xslSource = " + xslSource + ", system id = " + xslSource.getURI() );
             }
 
-            // Populate included validities
-            List includes = (List)m_includesMap.get( base );
-            if( includes != null )
-            {
-                SourceValidity included = xslSource.getValidity();
-                if( included != null )
+            if ( m_checkIncludes ) {
+                // Populate included validities
+                List includes = (List)m_includesMap.get( base );
+                if( includes != null )
                 {
-                    includes.add( new Object[]{xslSource.getURI(), xslSource.getValidity()} );
-                }
-                else
-                {
-                    // One of the included stylesheets is not cacheable
-                    m_includesMap.remove( base );
+                    SourceValidity included = xslSource.getValidity();
+                    if( included != null )
+                    {
+                        includes.add( new Object[]{xslSource.getURI(), xslSource.getValidity()} );
+                    }
+                    else
+                    {
+                        // One of the included stylesheets is not cacheable
+                        m_includesMap.remove( base );
+                    }
                 }
             }
 
