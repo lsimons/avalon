@@ -62,7 +62,7 @@ import org.apache.excalibur.event.Source;
  *
  * @author <a href="mailto:proyal@managingpartners.com">Peter Royal</a>
  * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version VSS $Revision: 1.6 $ $Date: 2002/08/08 00:57:25 $
+ * @version VSS $Revision: 1.7 $ $Date: 2002/08/13 08:15:21 $
  */
 public class ThreadedQueueTestCase
     extends TestCase

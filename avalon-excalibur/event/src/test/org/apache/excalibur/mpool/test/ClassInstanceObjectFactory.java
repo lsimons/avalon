@@ -56,7 +56,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/07 22:44:26 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/13 08:15:21 $
  * @since 4.1
  */
 public class ClassInstanceObjectFactory

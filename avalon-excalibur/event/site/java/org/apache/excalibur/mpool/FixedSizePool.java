@@ -59,7 +59,7 @@ import org.apache.avalon.framework.activity.Disposable;
  * Please note that this pool offers no resource limiting whatsoever.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/08/09 19:06:51 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/08/13 08:15:20 $
  * @since 4.1
  */
 public final class FixedSizePool
