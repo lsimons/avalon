@@ -9,8 +9,8 @@ package org.apache.avalon.framework.parameters;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -39,10 +39,12 @@ public class Parameters
      * If the specified value is <b>null</b> the parameter is removed.
      *
      * @return The previous value of the parameter or <b>null</b>.
+     * @exception IllegalStateException if the Parameters object is read-only
      */
     public String setParameter( final String name, final String value )
+        throws IllegalStateException
     {
-        return this.setParameter(name, value, false);
+        return setParameter( name, value, false );
     }
 
     /**
@@ -51,8 +53,11 @@ public class Parameters
      * If the specified value is <b>null</b> the parameter is removed.
      *
      * @return The previous value of the parameter or <b>null</b>.
+     * @exception IllegalStateException if the Parameters object is read-only
      */
-    public String setParameter( final String name, final String value, final boolean isLocked )
+    public synchronized String setParameter( final String name, 
+                                             final String value, 
+                                             final boolean isLocked )
     {
         checkWriteable();
 
@@ -61,25 +66,19 @@ public class Parameters
             return null;
         }
 
-        if (Boolean.TRUE.equals((Boolean) m_locks.get(name)))
+        if( Boolean.TRUE.equals( (Boolean)m_locks.get( name ) ) )
         {
             return null;
         }
 
         if( null == value )
         {
-            synchronized(this)
-            {
-                m_locks.remove(name);
-                return (String)m_parameters.remove( name );
-            }
+            m_locks.remove( name );
+            return (String)m_parameters.remove( name );
         }
 
-        synchronized(this)
-        {
-            m_locks.put(name, new Boolean(isLocked));
-            return (String)m_parameters.put( name, value );
-        }
+        m_locks.put( name, new Boolean( isLocked ) );
+        return (String)m_parameters.put( name, value );
     }
 
     /**
@@ -87,7 +86,7 @@ public class Parameters
      */
     public void removeParameter( final String name )
     {
-        this.setParameter(name, null, false);
+        setParameter( name, null, false );
     }
 
     /**
@@ -444,7 +443,11 @@ public class Parameters
         return this;
     }
 
-
+    /**
+     * Make this Parameters read-only so that it will throw a
+     * <code>IllegalStateException</code> if someone tries to
+     * modify it.
+     */
     public void makeReadOnly()
     {
         m_readOnly = true;
@@ -472,7 +475,7 @@ public class Parameters
     public static Parameters fromConfiguration( final Configuration configuration )
         throws ConfigurationException
     {
-        return Parameters.fromConfiguration(configuration, "parameter");
+        return fromConfiguration( configuration, "parameter" );
     }
 
     /**
@@ -522,12 +525,11 @@ public class Parameters
     public static Parameters fromProperties( final Properties properties )
     {
         final Parameters parameters = new Parameters();
+        final Map.Entry[] entries = (Map.Entry[])properties.entrySet().toArray( new Map.Entry[ 0 ] );
 
-        final Map.Entry[] entries = (Map.Entry[]) properties.entrySet().toArray(new Map.Entry[] {});
-
-        for ( int i = 0; i < entries.length; i++ )
+        for( int i = 0; i < entries.length; i++ )
         {
-            parameters.setParameter( (String) entries[i].getKey(), (String) entries[i].getValue(), false );
+            parameters.setParameter( (String)entries[i].getKey(), (String)entries[i].getValue(), false );
         }
 
         return parameters;
