@@ -7,8 +7,12 @@
   </properties> 
 
   <body>
-    <section name="Production Tasks">
+    <section name="Plugin Management Tasks">
       <p>
+      A set of tasks are provided that support plugin meta-data generation,
+      initialization of dependendent plugin loading relative to a project
+      defintion, plugin classloader creation and plugin deployment, and 
+      tasks supporting repository-enabled factory meta-data creation. 
       </p>
     </section>
   </body>

@@ -12,7 +12,7 @@
       The clean task deletes the ${basedir}/target directory.
       </p>
 <source><![CDATA[
-    <x:clean/>
+<x:clean/>
 ]]></source>
 
       <p><i>Example output of the clean task:</i></p>

@@ -9,6 +9,9 @@
   <body>
     <section name="Common Tasks">
       <p>
+      The common tasks provide support for the establish of the Magic
+      project model, parameterized filters, build preperation, and 
+      cleaning.
       </p>
     </section>
   </body>
