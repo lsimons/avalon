@@ -4,7 +4,7 @@
 
 <document>
   <header>
-    <title>Phoenix Server Assembler's Guide - What is a Server Application?</title>
+    <title>Avalon Phoenix - Guide - What is a Server Application?</title>
     <authors>
       <person id="PD" name="Peter Donald" email="peter@apache.org"/>
       <person id="BL" name="Berin Loritsch" email="bloritsch@apache.org"/>
@@ -27,11 +27,20 @@
         application specific.
       </p>
     </s1>
+     <s1 title="Guide Contents">
+       <ol>
+        <li>What is a Server Application?</li>
+        <li><link href="guide-assemblers-creating-a-server-application.html">How do I create a Server Application?</link></li>
+        <li><link href="reference-config-xml-specification.html">config.xml specification</link></li>
+	<li><link href="reference-assembly-xml-specification.html">assembly.xml specification</link></li>
+        <li><link href="reference-environment-xml-specification.html">environment.xml specification</link></li>
+       </ol>
+      </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.3 $ $Date: 2002/04/02 18:56:21 $
+      $Revision: 1.1 $ $Date: 2002/05/12 19:52:49 $
     </legal>
   </footer>
 </document>

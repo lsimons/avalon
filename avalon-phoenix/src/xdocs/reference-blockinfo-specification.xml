@@ -4,7 +4,7 @@
 
 <document>
   <header>
-    <title>Phoenix Block Developer's Guide - The BlockInfo Specification</title>
+    <title>Avalon Phoenix - Reference - The BlockInfo Specification</title>
     <version>3.0</version>
     <authors>
       <person id="PD" name="Peter Donald" email="peter@apache.org"/>
@@ -27,7 +27,7 @@
         The BlockInfo file has the same name as the Block except with the extention 
         <code>.xinfo</code>. Thus if you were looking up the meta info for a block named 
         <code>com.biz.cornerstone.blocks.MyBlock</code> you would look up the resource
-        <code>com/biz/cornerstone/blocks/MyBlock.xinfo</code> in the same block jar file that 
+        <code>com/biz/cornerstone/blocks/MyBlock.xinfo</code> in the same block jar file that
         the block was packaged in. The BlockInfo file is a simple XML format. An
         example of such a file follows.
       </p>
@@ -67,7 +67,7 @@
       </source>
       <p>
         You will notice that the information in the BlockInfo file is separated into 
-        three main sections; <code>block</code>, <code>services</code> and 
+        three main sections; <code>block</code>, <code>services</code> and
         <code>dependencies</code>. 
       </p>
       <s2 title="BlockInfo 'block' Section"> 
@@ -85,10 +85,10 @@
         <p>The services section documents the services that this block requires to operate.
         Required services are placed in the Blocks ComponentManager under the name
         specified by the <code>role</code> element of dependency. As is documented in the 
-        <link href="@FRAMEWORK_BASE@/components.html">components</link> section, the 
-        concept of Role is more than just a behavioural contract. A <code>Service</code> is 
-        a behavioural contract and thus the necessity to support the role element. In most 
-        cases however the role element and the name attribute of the service will be 
+        <link href="@FRAMEWORK_BASE@/guide-cop-in-avalon.html">components</link> section, the
+        concept of Role is more than just a behavioural contract. A <code>Service</code> is
+        a behavioural contract and thus the necessity to support the role element. In most
+        cases however the role element and the name attribute of the service will be
         identical. In these cases it is sufficient to just specify service element and role
         will default to name of service.</p>
       </s2>
@@ -97,7 +97,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.8 $ $Date: 2002/04/02 18:56:21 $
+      $Revision: 1.1 $ $Date: 2002/05/12 19:52:50 $
     </legal>
   </footer>
 </document>

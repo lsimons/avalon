@@ -4,7 +4,7 @@
 
 <document>
   <header>
-    <title>Phoenix - Deployers Guide</title>
+    <title>Avalon Phoenix - Guide - for Deployers</title>
     <authors>
       <person name="Peter Donald" email="peter@apache.org"/>
     </authors>
@@ -29,7 +29,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.3 $ $Date: 2002/04/02 18:56:21 $
+      $Revision: 1.1 $ $Date: 2002/05/12 19:52:50 $
     </legal>
   </footer>
 </document>
