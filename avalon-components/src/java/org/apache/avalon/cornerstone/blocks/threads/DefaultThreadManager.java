@@ -71,7 +71,7 @@ public class DefaultThreadManager
         try
         {
             final DefaultThreadPool threadPool =
-                new DefaultThreadPool( name, maxThreads, maxThreads, threadContext );
+                new DefaultThreadPool( name, minThreads, maxThreads, threadContext );
             threadPool.setDaemon( isDaemon );
             threadPool.enableLogging( getLogger() );
             m_threadPools.put( name, threadPool );
