@@ -18,6 +18,6 @@ goto end
 
 :runAnt
 set ANT_HOME=%AVALON_TOOLS%
-%AVALON_TOOLS%\bin\ant.bat -logger org.apache.tools.ant.NoBannerLogger -emacs -Dtools.dir=%AVALON_TOOLS% %1 %2 %3 %4 %5 %6 %7 %8
+%AVALON_TOOLS%\bin\ant.bat -logger org.apache.tools.ant.NoBannerLogger -emacs -Dtools.dir=%AVALON_TOOLS% %1 -Dapps-target=%2 %3 %4 %5 %6 %7 %8
 
 :end

@@ -508,4 +508,18 @@
     <ant antfile="build.xml" dir="apps/demo" target="distclean" inheritall="false"/>
   </target>
   
+  
+  <!-- Delegated (to apps/xxxxxx) Targets -->
+  <target name="demo" depends="compile" description="Delegates to build.xml in apps/demo'">
+    <ant antfile="build.xml" dir="apps/demo" target="${apps-target}" inheritall="false"/>
+  </target>
+  <target name="jesktop" depends="compile" description="Delegates to build.xml in apps/jesktop">
+    <ant antfile="build.xml" dir="apps/jesktop" target="${apps-target}" inheritall="false"/>
+  </target>
+  <target name="ftpserver" depends="compile" description="Delegates to build.xml in apps/ftpserver">
+    <ant antfile="build.xml" dir="apps/ftpserver" target="${apps-target}" inheritall="false"/>
+  </target>
+  
+  
+  
 </project>
