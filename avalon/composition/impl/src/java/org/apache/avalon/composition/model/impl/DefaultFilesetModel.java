@@ -37,7 +37,7 @@ import org.apache.avalon.framework.logger.Logger;
  * <code>FilesetDirective</code>.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/04/21 17:53:52 $
+ * @version $Revision: 1.7 $ $Date: 2004/04/21 17:56:25 $
  */
 public class DefaultFilesetModel extends AbstractLogEnabled
     implements FilesetModel
@@ -77,18 +77,6 @@ public class DefaultFilesetModel extends AbstractLogEnabled
     private final Logger m_logger;
     
     /**
-     * Constructs a new default fileset model.  Note this instance is
-     * in an illegal state for performing fileset resolution.
-     * 
-     * @param logger <code>Logger</code> for the fileset model to use
-     */
-    public DefaultFilesetModel(Logger logger)
-    {
-        m_logger = logger;
-        m_list = new ArrayList();
-    }
-    
-    /**
      * Constructs a new default fileset model.
      * 
      * @param anchor base directory anchor from which to begin
@@ -107,7 +95,8 @@ public class DefaultFilesetModel extends AbstractLogEnabled
             ExcludeDirective[] excludes, String[] defaultIncludes,
             String[] defaultExcludes, Logger logger)
     {
-        this( logger );
+        m_logger = logger;
+        m_list = new ArrayList();
         setBaseDirectory( anchor );
         setIncludeDirectives( includes );
         setExcludeDirectives( excludes );
