@@ -126,6 +126,10 @@
     <pre><xsl:apply-templates/></pre>
   </xsl:template>
   
+  <xsl:template match="//source/font">
+    <font color="{@color}"><xsl:apply-templates/></font>
+  </xsl:template>
+    
   <xsl:template match="fixme">
    <!-- ignore on documentation -->
   </xsl:template>
