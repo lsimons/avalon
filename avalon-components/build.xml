@@ -126,9 +126,9 @@
            deprecation="${build.deprecation}">
       <classpath refid="project.class.path" />
       <src path="${test.dir}"/>
-      <exclude name="org/apache/avalon/cornerstone/blocks/sockets/TLSServerSocketFactory.java"
+      <exclude name="org/apache/avalon/cornerstone/blocks/sockets/*SSL*.java"
                unless="jsse.present" />
-      <exclude name="org/apache/avalon/cornerstone/blocks/sockets/TLSSocketFactory.java"
+      <exclude name="org/apache/avalon/cornerstone/blocks/sockets/*TLS*.java"
                unless="jsse.present" />
       <exclude name="org/apache/avalon/cornerstone/services/silk/**.java"
                unless="event.present" />
