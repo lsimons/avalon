@@ -15,6 +15,7 @@ import java.io.StreamCorruptedException;
 import java.io.ObjectStreamClass;
 import java.io.OutputStream;
 import org.apache.avalon.cornerstone.services.store.ObjectRepository;
+import org.apache.avalon.excalibur.io.ClassLoaderObjectInputStream;
 
 /**
  * This is a simple implementation of persistent object store using
@@ -71,7 +72,7 @@ public class File_Persistent_Object_Repository
 
             try
             {
-                final ObjectInputStream stream = new FileStoreObjectInputStream( classLoader, inputStream );
+                final ObjectInputStream stream = new ClassLoaderObjectInputStream( classLoader, inputStream );
                 final Object object = stream.readObject();
                 if( DEBUG )
                 {
