@@ -1,6 +1,0 @@
-excalibur-*
-build
-ant.properties
-*.ipr
-.classpath
-.project
