@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<targets>
+
+  <target path="/webapp-server/context">
+    <configuration>
+      <web-application>/home/niclas/struts-documentation.war</web-application>
+      <context-path>/struts-docs</context-path>
+      <defaults-descriptor>blocks/webappserver/etc/webdefaults.xml</defaults-descriptor>
+    </configuration>
+  </target>
+
+</targets>

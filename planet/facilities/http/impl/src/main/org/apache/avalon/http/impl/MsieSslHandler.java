@@ -45,9 +45,9 @@ public class MsieSslHandler
     implements Startable, Parameterizable, LogEnabled, 
                Serviceable, Contextualizable
 {
-    private Logger m_Logger;
-    private HttpContextService  m_Context;
-    private int m_Index;
+    private Logger      m_Logger;
+    private HttpContextService m_Context;
+    private int         m_Index;
     
     public MsieSslHandler()
     {

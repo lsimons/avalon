@@ -34,10 +34,6 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 
-import org.apache.avalon.framework.parameters.ParameterException;
-import org.apache.avalon.framework.parameters.Parameterizable;
-import org.apache.avalon.framework.parameters.Parameters;
-
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -57,58 +53,31 @@ import org.mortbay.http.UserRealm;
  * @avalon.component name="http-context" lifestyle="singleton"
  * @avalon.service type="org.apache.avalon.http.HttpContextService"
  */
-public class HttpContextImpl
+public class HttpContextImpl extends org.mortbay.http.HttpContext
     implements LogEnabled, Contextualizable, Serviceable, Startable, 
-               Disposable, Configurable, HttpContextService, Initializable
+               Disposable, Configurable, HttpContextService
 {
     private HttpService m_HttpServer;
-    private HttpContext m_HttpContext;
-    private Logger      m_Logger;
     private boolean     m_Graceful;
-    private File        m_TemporaryDir;
-    private File        m_ResourceBase;
-    private int         m_MaxCacheSize;
-    private int         m_MaxCachedFilesize;
+    private Logger      m_Logger;
     
-    private ClassLoader m_ClassLoader;
-    private RequestLog  m_RequestLog;
-    private MimeTypes   m_MimeTypes;
-    private UserRealm   m_UserRealm;
-    private Authenticator m_Authenticator;
-    
-    public HttpContextImpl()
-    {
-    }
-    
+
     public HttpContext getHttpContext()
     {
-        return m_HttpContext;
+        return this;
     }
-    
-    public void setAuthenticator( Authenticator authenticator )
+        
+    public Logger getLogger()
     {
-        m_HttpContext.setAuthenticator( authenticator );
+        return m_Logger;
     }
-    
-    public Authenticator getAuthenticator()
-    {
-        return m_HttpContext.getAuthenticator();
-    }
-    
     
     /**
-     * Enable the logging system.
-     *
      * @avalon.logger name="http"
      */
     public void enableLogging( Logger logger )
     {
         m_Logger = logger;
-    }
-    
-    public Logger getLogger()
-    {
-        return m_Logger;
     }
     
     /** 
@@ -120,10 +89,12 @@ public class HttpContextImpl
     public void contextualize( Context ctx )
         throws ContextException
     {
-        m_TemporaryDir = (File) ctx.get( "urn:avalon:temp" );
-        m_TemporaryDir.mkdirs();
+        File tmpDir = (File) ctx.get( "urn:avalon:temp" );
+        tmpDir.mkdirs();
+        setTempDirectory( tmpDir );
     
-        m_ClassLoader = (ClassLoader) ctx.get( "urn:avalon:classloader" );
+        ClassLoader cl = (ClassLoader) ctx.get( "urn:avalon:classloader" );
+        setClassLoader( cl );
     }
     
     /**
@@ -144,53 +115,67 @@ public class HttpContextImpl
         m_HttpServer = (HttpService) man.lookup( "server" );
         
         if( man.hasService( "authenticator" ) )
-            m_Authenticator = (Authenticator) man.lookup( "authenticator" );
+        {
+            Authenticator authenticator = (Authenticator) man.lookup( "authenticator" );
+            if( authenticator != null )
+                setAuthenticator( authenticator );
+        }
         
         if( man.hasService( "realm" ) )
-            m_UserRealm = (UserRealm) man.lookup( "realm" );
+        {
+            UserRealm userRealm = (UserRealm) man.lookup( "realm" );
+            if( userRealm != null )
+            {
+                setRealm( userRealm );
+                setRealmName( userRealm.getName() ); // Is this necessary?
+            }
         
-        m_RequestLog = (RequestLog) man.lookup( "request-log" );
+        }
+        
+        RequestLog requestLog = (RequestLog) man.lookup( "request-log" );
+        setRequestLog( requestLog );
         
         if( man.hasService( "mimetypes" ) )
-            m_MimeTypes = (MimeTypes) man.lookup( "mimetypes" );
-    }
-
-    public void parameterize( Parameters params )
-        throws ParameterException
-    {
-        String[] names = params.getNames();
-        for( int i=0 ; i < names.length ; i++ )
         {
-            String value = params.getParameter( names[i] );
-            m_HttpContext.setInitParameter( names[i], value );
+            MimeTypes mimeTypes = (MimeTypes) man.lookup( "mimetypes" );
+            if( mimeTypes != null )
+                setMimeMap( mimeTypes.getExtensionMap() );
         }
     }
-    
+
     public void configure( Configuration conf )
         throws ConfigurationException
     {
         Configuration virtualHostConf = conf.getChild( "virtual-host" );
         String virtualHost = virtualHostConf.getValue( null );
+        addVirtualHost( virtualHost );
         
         Configuration contextConf = conf.getChild( "context-path" );
         String contextPath = contextConf.getValue( "/" );
-        
-        m_HttpContext = m_HttpServer.getContext( virtualHost, contextPath );
+        setContextPath( contextPath );
         
         m_Graceful = conf.getChild( "graceful-stop" ).getValueAsBoolean( false );
         
         Configuration attributes = conf.getChild( "attributes" );
         configureAttributes( attributes );
     
+        Configuration initParams = conf.getChild( "init-parameters" );
+        configureInitParameters( initParams );
+        
         Configuration welcomeFiles = conf.getChild( "welcome-files" );
         configureWelcomeFiles( welcomeFiles );
         
         String resourceBase = conf.getChild( "resource-base").getValue( "." );
-        m_ResourceBase = new File( resourceBase );
+        File rsrc = new File( resourceBase );
+        setResourceBase( rsrc.getAbsolutePath() );
         
-        m_MaxCachedFilesize = conf.getChild( "max-cached-filesize" ).getValueAsInteger( -1 );
+        int maxCachedFilesize = conf.getChild( "max-cached-filesize" ).getValueAsInteger( -1 );
+        if( maxCachedFilesize > 0 )
+            setMaxCachedFileSize( maxCachedFilesize );        
         
-        m_MaxCacheSize = conf.getChild( "max-cache-size" ).getValueAsInteger( -1 );
+        int maxCacheSize = conf.getChild( "max-cache-size" ).getValueAsInteger( -1 );
+        if( maxCacheSize > 0 )
+            setMaxCacheSize( maxCacheSize );        
     }
     
     private void configureAttributes( Configuration conf )
@@ -210,7 +195,19 @@ public class HttpContextImpl
         // TODO: setAttribute() support Object as a value.
         //       need to figure out what that could be and introduce
         //       support for it.
-        m_HttpContext.setAttribute( name, value );
+        setAttribute( name, value );
+    }
+    
+    private void configureInitParameters( Configuration conf )
+        throws ConfigurationException
+    {
+        Configuration[] inits = conf.getChildren( "parameter" );
+        for( int i=0 ; i < inits.length ; i++ )
+        {
+            String name = inits[i].getAttribute( "name" );
+            String value = inits[i].getAttribute( "value" );
+            setInitParameter( name, value );
+        }
     }
     
     private void configureVirtualHosts( Configuration conf )
@@ -218,7 +215,7 @@ public class HttpContextImpl
     {
         Configuration[] hosts = conf.getChildren( "host" );
         for( int i=0 ; i < hosts.length ; i++ )
-            m_HttpContext.addVirtualHost( hosts[i].getValue() );
+            addVirtualHost( hosts[i].getValue() );
     }
     
     private void configureWelcomeFiles( Configuration conf )
@@ -226,79 +223,39 @@ public class HttpContextImpl
     {
         Configuration[] files = conf.getChildren( "file" );
         for( int i=0 ; i < files.length ; i++ )
-            m_HttpContext.addWelcomeFile( files[i].getValue() );
+            addWelcomeFile( files[i].getValue() );
     }
 
-    public void initialize()
-        throws ConfigurationException
-    {
-        m_HttpContext.setClassLoader( m_ClassLoader );
-        m_HttpContext.setTempDirectory( m_TemporaryDir );
-        m_HttpContext.setRequestLog( m_RequestLog );
-        m_HttpContext.setResourceBase( m_ResourceBase.getAbsolutePath() );
-        if( m_Authenticator != null )
-            m_HttpContext.setAuthenticator( m_Authenticator );
-        if( m_UserRealm != null )
-        {
-            m_HttpContext.setRealm( m_UserRealm );
-            m_HttpContext.setRealmName( m_UserRealm.getName() ); // Is this necessary?
-        }
-        
-        if( m_MaxCacheSize > 0 )
-            m_HttpContext.setMaxCacheSize( m_MaxCacheSize );        
-        if( m_MaxCachedFilesize > 0 )
-            m_HttpContext.setMaxCachedFileSize( m_MaxCachedFilesize );        
-        if( m_MimeTypes != null )
-            m_HttpContext.setMimeMap( m_MimeTypes.getExtensionMap() );
-    }
-        
     public void start()
         throws Exception
     {
         if( m_Logger.isDebugEnabled() )
-            m_Logger.debug( "Starting context: " + m_HttpContext );
-        m_HttpServer.addContext( m_HttpContext );
-        m_HttpContext.start();
+            m_Logger.debug( "Starting context: " + this );
+        m_HttpServer.addContext( this );
+        super.start();
     }
     
     public void stop()
-        throws Exception
+        throws InterruptedException
     {
         if( m_Logger.isDebugEnabled() )
-            m_Logger.debug( "Stopping context: " + m_HttpContext );
-        m_HttpContext.stop( m_Graceful );
-        m_HttpServer.removeContext( m_HttpContext );
+            m_Logger.debug( "Stopping context: " + this );
+            
+        // The following is need due to strange delegation between the 
+        // methods stop() and stop( boolean ) in the superclasses are
+        // inaccurately implemented, and an endless loop will result
+        // unless the isStarted() method is checked.
+        if( isStarted() )
+            super.stop( m_Graceful );
+            
+        m_HttpServer.removeContext( this );
     }
     
     public void dispose()
     {
         if( m_Logger.isDebugEnabled() )
-            m_Logger.debug( "Disposing context: " + m_HttpContext );
-        m_HttpContext.destroy();
+            m_Logger.debug( "Disposing context: " + this );
+        destroy();
         m_HttpServer = null;
-        m_HttpContext = null;
-    }
-
-    /* Service Interface */
-    
-    public void addHandler( HttpHandler handler )
-    {
-        if( m_Logger.isDebugEnabled() )
-            m_Logger.debug( "Adding handler: " + handler );
-        m_HttpContext.addHandler( handler );
-    }
-    
-    public void addHandler( int index, HttpHandler handler )
-    {
-        if( m_Logger.isDebugEnabled() )
-            m_Logger.debug( "Adding handler: " + handler );
-        m_HttpContext.addHandler( handler );
-    }
-    
-    public void removeHandler( HttpHandler handler )
-    {
-        if( m_Logger.isDebugEnabled() )
-            m_Logger.debug( "Removing handler: " + handler );
-        m_HttpContext.removeHandler( handler );
     }
 }
