@@ -12,8 +12,7 @@ import java.util.Iterator;
 import java.util.Map;
 import org.apache.avalon.AbstractLoggable;
 import org.apache.avalon.Component;
-import org.apache.avalon.ComponentManagerException;
-import org.apache.avalon.ComponentNotFoundException;
+import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.Disposable;
 import org.apache.avalon.Initializable;
 import org.apache.avalon.configuration.Configurable;
@@ -84,20 +83,19 @@ public class DefaultDataSourceSelector
     }
 
     public DataSourceComponent selectDataSource( final Object hint )
-        throws ComponentManagerException
+        throws ComponentException
     {
         return (DataSourceComponent)select( hint );
     }
 
     public Component select( final Object hint )
-        throws ComponentManagerException
+        throws ComponentException
     {
         final Component component = (Component)m_dataSources.get( hint );
 
         if( null == component )
         {
-            throw new ComponentNotFoundException( "Unable to provide implementation for "
-                                                  + hint );
+            throw new ComponentException( "Unable to provide implementation for " + hint );
         }
         
         return component;

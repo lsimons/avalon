@@ -14,26 +14,24 @@ import java.util.Iterator;
 import org.apache.avalon.AbstractLoggable;
 import org.apache.avalon.Component;
 import org.apache.avalon.ComponentManager;
-import org.apache.avalon.ComponentManagerException;
-import org.apache.avalon.ComponentNotAccessibleException;
-import org.apache.avalon.ComponentNotFoundException;
 import org.apache.avalon.Composer;
-import org.apache.avalon.configuration.Configurable;
-import org.apache.avalon.configuration.Configuration;
-import org.apache.avalon.configuration.ConfigurationException;
 import org.apache.avalon.Context;
 import org.apache.avalon.Contextualizable;
 import org.apache.avalon.Initializable;
-import org.apache.phoenix.Block;
-import org.apache.cornerstone.services.store.Store;
+import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.configuration.Configurable;
+import org.apache.avalon.configuration.Configuration;
+import org.apache.avalon.configuration.ConfigurationException;
 import org.apache.cornerstone.services.store.Repository;
+import org.apache.cornerstone.services.store.Store;
+import org.apache.phoenix.Block;
 
 /**
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  */
-public class RepositoryManager 
-    extends AbstractLoggable 
+public class RepositoryManager
+    extends AbstractLoggable
     implements Block, Store, Contextualizable, Composer, Configurable,
     org.apache.cornerstone.services.Store
 {
@@ -52,33 +50,33 @@ public class RepositoryManager
     }
 
     public void compose( final ComponentManager componentManager )
-        throws ComponentManagerException
+        throws ComponentException
     {
         m_componentManager = componentManager;
-    }    
+    }
 
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
-        final Configuration[] registeredClasses = 
+        final Configuration[] registeredClasses =
             configuration.getChild( "repositories" ).getChildren( "repository" );
-        
+
         for( int i = 0; i < registeredClasses.length; i++ )
         {
             registerRepository( registeredClasses[ i ] );
         }
     }
 
-    public void registerRepository( final Configuration repConf ) 
+    public void registerRepository( final Configuration repConf )
         throws ConfigurationException
     {
         final String className = repConf.getAttribute( "class" );
         getLogger().info( "Registering Repository " + className );
 
-        final Configuration[] protocols = 
+        final Configuration[] protocols =
             repConf.getChild( "protocols" ).getChildren( "protocol" );
         final Configuration[] types = repConf.getChild( "types" ).getChildren( "type" );
-        final Configuration[] modelIterator = 
+        final Configuration[] modelIterator =
             repConf.getChild( "models" ).getChildren( "model" );
 
         for( int i = 0; i < protocols.length; i++ )
@@ -103,33 +101,33 @@ public class RepositoryManager
     {
     }
 
-    public Component select( Object hint ) 
-        throws ComponentManagerException
+    public Component select( Object hint )
+        throws ComponentException
     {
         Configuration repConf = null;
         try
         {
             repConf = (Configuration) hint;
-        } 
+        }
         catch( final ClassCastException cce )
         {
-            throw new ComponentNotAccessibleException( "Hint is of the wrong type. " + 
-                                                       "Must be a Configuration", cce );
+            throw new ComponentException( "Hint is of the wrong type. " +
+                                          "Must be a Configuration", cce );
         }
         URL destination = null;
-        try 
+        try
         {
             destination = new URL( repConf.getAttribute("destinationURL") );
-        } 
+        }
         catch( final ConfigurationException ce )
         {
-            throw new ComponentNotAccessibleException( "Malformed configuration has no " + 
-                                                       "destinationURL attribute", ce );
-        } 
+            throw new ComponentException( "Malformed configuration has no " +
+                                          "destinationURL attribute", ce );
+        }
         catch( final MalformedURLException mue )
         {
-            throw new ComponentNotAccessibleException( "destination is malformed. " + 
-                                                       "Must be a valid URL", mue );
+            throw new ComponentException( "destination is malformed. " +
+                                          "Must be a valid URL", mue );
         }
 
         try
@@ -139,32 +137,32 @@ public class RepositoryManager
             Repository reply = (Repository)m_repositories.get( repID );
             final String model = (String)repConf.getAttribute( "model" );
 
-            if( null != reply ) 
+            if( null != reply )
             {
                 if( m_models.get( repID ).equals( model ) )
                 {
                     return reply;
-                } 
+                }
                 else
                 {
                     final String message = "There is already another repository with the " +
                         "same destination and type but with different model";
-                    throw new ComponentNotFoundException( message );
+                    throw new ComponentException( message );
                 }
-            } 
+            }
             else
             {
                 final String protocol = destination.getProtocol();
                 final String repClass = (String)m_classes.get( protocol + type + model );
 
-                getLogger().debug( "Need instance of " + repClass + " to handle: " + 
+                getLogger().debug( "Need instance of " + repClass + " to handle: " +
                                    protocol + type + model );
 
-                try 
+                try
                 {
                     reply = (Repository)Class.forName( repClass ).newInstance();
                     setupLogger( reply, "repository" );
-                    
+
                     if( reply instanceof Contextualizable )
                     {
                         ((Contextualizable)reply).contextualize( m_context );
@@ -187,26 +185,26 @@ public class RepositoryManager
 
                     m_repositories.put( repID, reply );
                     m_models.put( repID, model );
-                    getLogger().info( "New instance of " + repClass + " created for " + 
+                    getLogger().info( "New instance of " + repClass + " created for " +
                                       destination );
                     return reply;
-                } 
+                }
                 catch( final Exception e )
                 {
                     final String message = "Cannot find or init repository: " + e.getMessage();
                     getLogger().warn( message, e );
-                    
-                    throw new ComponentNotAccessibleException( message, e );
+
+                    throw new ComponentException( message, e );
                 }
             }
-        } 
-        catch( final ConfigurationException ce ) 
+        }
+        catch( final ConfigurationException ce )
         {
-            throw new ComponentNotAccessibleException( "Malformed configuration", ce );
+            throw new ComponentException( "Malformed configuration", ce );
         }
     }
-        
-    public static final String getName() 
+
+    public static final String getName()
     {
         return REPOSITORY_NAME + id++;
     }
