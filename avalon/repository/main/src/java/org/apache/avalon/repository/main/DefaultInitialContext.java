@@ -66,7 +66,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public class DefaultInitialContext extends AbstractBuilder implements InitialContext
 {
@@ -363,34 +363,29 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     }
 
    /**
-    * Create a factory using a supplied artifact.
+    * Create a factory builder using a supplied artifact.
     * @param artifact the factory artifact
-    * @return the factory
-    * @exception Exception if a factory creation error occurs
+    * @return the factory builder
+    * @exception Exception if a builder creation error occurs
     */
-    public Factory createFactory( Artifact artifact )
+    public Builder newBuilder( Artifact artifact )
       throws Exception
     {
-        Builder builder = 
-          new DefaultBuilder( this, artifact );
-        return builder.getFactory();
+        return new DefaultBuilder( this, artifact );
     }
 
    /**
-    * Create a factory using a supplied artifact.
+    * Create a factory builder using a supplied artifact.
     * @param classloader the parent classloader
     * @param artifact the factory artifact
     * @return the factory
     * @exception Exception if a factory creation error occurs
     */
-    public Factory createFactory( ClassLoader classloader, Artifact artifact )
+    public Builder newBuilder( ClassLoader classloader, Artifact artifact )
       throws Exception
     {
-        Builder builder = 
-          new DefaultBuilder( this, classloader, artifact );
-        return builder.getFactory();
+        return new DefaultBuilder( this, classloader, artifact );
     }
-
 
     // ------------------------------------------------------------------------
     // implementation

@@ -27,7 +27,7 @@ import org.apache.avalon.repository.RepositoryException;
  * The initial context established by an initial repository factory.
  *
  * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
- * @version $Revision: 1.5 $ $Date: 2004/01/24 23:20:05 $
+ * @version $Revision: 1.6 $ $Date: 2004/01/25 13:17:51 $
  */
 public interface InitialContext
 {        
@@ -69,22 +69,22 @@ public interface InitialContext
     Factory getInitialFactory();
 
    /**
-    * Create a factory using a supplied artifact.
+    * Create a factory builder using a supplied artifact.
     * @param artifact the factory artifact
-    * @return the factory
-    * @exception Exception if a factory creation error occurs
+    * @return the factory builder
+    * @exception Exception if a builder creation error occurs
     */
-    Factory createFactory( Artifact artifact )
+    Builder newBuilder( Artifact artifact )
       throws Exception;
 
    /**
-    * Create a factory using a supplied artifact.
+    * Create a factory builder using a supplied artifact.
     * @param classloader the parent classloader
     * @param artifact the factory artifact
     * @return the factory
     * @exception Exception if a factory creation error occurs
     */
-    Factory createFactory( ClassLoader classloader, Artifact artifact )
+    Builder newBuilder( ClassLoader classloader, Artifact artifact )
       throws Exception;
 
 }
