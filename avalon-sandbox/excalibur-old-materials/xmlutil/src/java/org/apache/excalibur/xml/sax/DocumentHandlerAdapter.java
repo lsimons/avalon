@@ -22,7 +22,7 @@ import org.xml.sax.helpers.NamespaceSupport;
  * {@link ContentHandler} and forwarding the events to it.
  *
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/10/15 23:25:09 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/10/16 00:01:36 $
  */
 
 public class DocumentHandlerAdapter implements DocumentHandler
@@ -32,14 +32,14 @@ public class DocumentHandlerAdapter implements DocumentHandler
     private final ContentHandler m_handler;
     private final NamespaceSupport m_support = new NamespaceSupport();
     
-    public DocumentHandlerAdapter(ContentHandler handler)
+    public DocumentHandlerAdapter( ContentHandler handler )
     {
         m_handler = handler;
     }
     
-    public void setDocumentLocator(Locator locator)
+    public void setDocumentLocator( Locator locator )
     {
-        m_handler.setDocumentLocator(locator);
+        m_handler.setDocumentLocator( locator );
     }
     
     public void startDocument() throws SAXException
@@ -52,70 +52,70 @@ public class DocumentHandlerAdapter implements DocumentHandler
         m_handler.endDocument();
     }
     
-    public void characters(char ch[], int start, int length) throws SAXException
+    public void characters( char ch[], int start, int length ) throws SAXException
     {
-        m_handler.characters(ch, start, length);
+        m_handler.characters( ch, start, length );
     }
     
-    public void ignorableWhitespace(char ch[], int start, int length) throws SAXException
+    public void ignorableWhitespace( char ch[], int start, int length ) throws SAXException
     {
-        m_handler.ignorableWhitespace(ch, start, length);
+        m_handler.ignorableWhitespace( ch, start, length );
     }
     
-    public void processingInstruction(String target, String data) throws SAXException
+    public void processingInstruction( String target, String data ) throws SAXException
     {
-        m_handler.processingInstruction(target, data);
+        m_handler.processingInstruction( target, data );
     }
     
-    public void startElement(String name, AttributeList atts) throws SAXException
+    public void startElement( String name, AttributeList atts ) throws SAXException
     {
         m_support.pushContext();
         
         for (int i = 0; i < atts.getLength(); i++)
         {
             final String attributeName = atts.getName(i);
-            if (attributeName.startsWith(XMLNS_PREFIX))
+            if ( attributeName.startsWith( XMLNS_PREFIX ) )
             {
-                m_support.declarePrefix(attributeName.substring(6), atts.getValue(i));
+                m_support.declarePrefix( attributeName.substring( 6 ), atts.getValue( i ) );
             }
-            else if (attributeName.equals(XMLNS))
+            else if ( attributeName.equals( XMLNS ) )
             {
-                m_support.declarePrefix("", atts.getValue(i));
+                m_support.declarePrefix( "", atts.getValue( i ) );
             }
         }
         
         final AttributesImpl attributes = new AttributesImpl();
-        for (int i = 0; i < atts.getLength(); i++)
+        for ( int i = 0; i < atts.getLength(); i++ )
         {
             final String attributeName = atts.getName(i);
-            if (!attributeName.startsWith(XMLNS_PREFIX) && !attributeName.equals(XMLNS))
+            if ( !attributeName.startsWith( XMLNS_PREFIX ) && !attributeName.equals( XMLNS ) )
             {
-                final String[] parts = m_support.processName(name, new String[3], true);
-                attributes.addAttribute(parts[0], parts[1], parts[2], atts.getType(i), atts.getValue(i));
+                final String[] parts = m_support.processName( name, new String[3], true );
+                attributes.addAttribute(parts[0], parts[1], parts[2], atts.getType( i ), atts.getValue( i ) );
             }
         }
         
         final Enumeration e = m_support.getDeclaredPrefixes();
-        while(e.hasMoreElements())
+        while( e.hasMoreElements() )
         {
             final String prefix = (String)e.nextElement();
-            m_handler.startPrefixMapping(prefix, m_support.getURI(prefix));
+            m_handler.startPrefixMapping( prefix, m_support.getURI( prefix ) );
         }
         
-        final String[] parts = m_support.processName(name, new String[3], false);
-        m_handler.startElement(parts[0], parts[1], parts[2], attributes);
+        final String[] parts = m_support.processName( name, new String[3], false );
+        m_handler.startElement( parts[0], parts[1], parts[2], attributes );
     }
     
-    public void endElement(String name) throws SAXException
+    public void endElement( String name ) throws SAXException
     {
-        final String[] parts = m_support.processName(name, new String[3], false);
-        m_handler.endElement(parts[0], parts[1], parts[2]);
+        final String[] parts = m_support.processName( name, new String[3], false );
+        m_handler.endElement( parts[0], parts[1], parts[2] );
         
         final Enumeration e = m_support.getDeclaredPrefixes();
-        while(e.hasMoreElements())
+        while( e.hasMoreElements() )
         {
             final String prefix = (String)e.nextElement();
-            m_handler.endPrefixMapping(prefix);
+            m_handler.endPrefixMapping( prefix );
         }
         
         m_support.popContext();
