@@ -71,7 +71,7 @@
           <item name="logging" href="/meta/kernel/logging.html"/>
           <item name="repository" href="/meta/kernel/repository/index.html"/>
           <item name="parameters" href="/meta/kernel/parameters/index.html">
-            <item name="parameter" href="/meta/kernel/repository/parameter.html"/>
+            <item name="parameter" href="/meta/kernel/parameters/parameter.html"/>
           </item>
         </item>
         <item name="block.xml" href="/meta/block/index.html"/>
