@@ -2,7 +2,7 @@
 
 package org.apache.avalon.composition.model.test;
 
-import org.apache.avalon.composition.model.Model;
+import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.DependencyModel;
@@ -44,7 +44,7 @@ public class AssemblyTestCase extends AbstractTestCase
         }
     }
 
-    private void printModel( String lead, Model model )
+    private void printModel( String lead, DeploymentModel model )
     {
         if( model instanceof ContainmentModel )
         {
@@ -60,13 +60,13 @@ public class AssemblyTestCase extends AbstractTestCase
     {
         System.out.println( lead + "model:" + model );
         printCompositeModel( "\t" + lead, model );
-        Model[] models = model.getModels();
+        DeploymentModel[] models = model.getModels();
         if( models.length > 0 )
         {
             System.out.println( lead + "\tchildren:" );
             for( int i=0; i<models.length; i++ )
             {
-                Model m = models[i];
+                DeploymentModel m = models[i];
                 printModel( "\t\t" + lead, m );
             }
         }
@@ -76,7 +76,7 @@ public class AssemblyTestCase extends AbstractTestCase
             System.out.println( lead + "\tstartup:" );
             for( int i=0; i<models.length; i++ )
             {
-                Model m = models[i];
+                DeploymentModel m = models[i];
                 System.out.println( "\t\t" + lead + (i+1) + ": " + m );
             }
         }
@@ -86,7 +86,7 @@ public class AssemblyTestCase extends AbstractTestCase
             System.out.println( lead + "\tshutdown:" );
             for( int i=0; i<models.length; i++ )
             {
-                Model m = models[i];
+                DeploymentModel m = models[i];
                 System.out.println( "\t\t" + lead + (i+1) + ": " + m );
             }
         }
@@ -98,18 +98,18 @@ public class AssemblyTestCase extends AbstractTestCase
         printCompositeModel( lead, model );
     }
 
-    private void printCompositeModel( String lead, Model model )
+    private void printCompositeModel( String lead, DeploymentModel model )
     {
-        Model[] models = model.getProviderGraph();
+        DeploymentModel[] models = model.getProviderGraph();
         for( int i=0; i<models.length; i++ )
         {
-            Model m = models[i];
+            DeploymentModel m = models[i];
             System.out.println( "\t" + lead + (i+1) + ": " + m + " (provider)" );
         }
         models = model.getConsumerGraph();
         for( int i=0; i<models.length; i++ )
         {
-            Model m = models[i];
+            DeploymentModel m = models[i];
             System.out.println( "\t" + lead + (i+1) + ": " + m + " (consumer)" );
         }
     }

@@ -52,7 +52,6 @@ package org.apache.avalon.activation.appliance;
 
 import java.net.URL;
 
-import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.ContainmentModel;
 
 /**
@@ -60,7 +59,7 @@ import org.apache.avalon.composition.model.ContainmentModel;
  * appliance instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3.2.1 $ $Date: 2004/01/03 15:38:49 $
+ * @version $Revision: 1.3.2.2 $ $Date: 2004/01/04 21:28:59 $
  */
 public interface Block extends Appliance, Engine
 {

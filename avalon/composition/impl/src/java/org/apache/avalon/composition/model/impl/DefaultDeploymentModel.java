@@ -50,75 +50,134 @@
 
 package org.apache.avalon.composition.model.impl;
 
-import java.util.ArrayList;
-
 import org.apache.avalon.composition.model.DeploymentModel;
-import org.apache.avalon.composition.model.Dependent;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.composition.model.DeploymentContext;
+import org.apache.avalon.composition.model.DependencyGraph;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.composition.data.Mode;
+
 
 /**
- * Default dependent model.
+ * Abstract model base class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.2.3 $ $Date: 2004/01/04 21:28:59 $
+ * @version $Revision: 1.9.2.5 $ $Date: 2004/01/04 21:28:59 $
  */
-public class DefaultDependent extends AbstractLogEnabled implements Dependent
+public abstract class DefaultDeploymentModel
+  implements DeploymentModel
 {
+    //--------------------------------------------------------------
+    // static
+    //--------------------------------------------------------------
+
+    private static final Resources REZ =
+      ResourceManager.getPackageResources( DefaultDeploymentModel.class );
+
     //--------------------------------------------------------------
     // immutable state
     //--------------------------------------------------------------
 
-    private DeploymentModel m_provider;
+    private final DeploymentContext m_context;
 
     //--------------------------------------------------------------
     // constructor
     //--------------------------------------------------------------
 
    /**
-    * Creation of a new stage model.
+    * Creation of an abstract model.  The model associated a 
+    * name and a partition.
     *
-    * @param logger the logging channel
+    * @param context the deployment context
     */
-    public DefaultDependent( final Logger logger )
-    {
-        if( logger == null )
+    public DefaultDeploymentModel( DeploymentContext context )
+    { 
+        if( null == context )
         {
-            throw new NullPointerException( "logger" );
+            throw new NullPointerException( "context" );
         }
-        enableLogging( logger );
+        m_context = context;
     }
 
     //--------------------------------------------------------------
-    // Dependent
+    // DeploymentModel
     //--------------------------------------------------------------
 
    /**
-    * Set the provider model.
-    * 
-    * @param model the provider model
+    * Return the profile name.
+    * @return the name
     */
-    public void setProvider( DeploymentModel model )
+    public String getName()
     {
-        m_provider = model;
+        return m_context.getName();
     }
 
    /**
-    * Return the assigned provider model.
-    * 
-    * @return the stage provider model
+    * Return the profile path.
+    * @return the path
     */
-    public DeploymentModel getProvider()
+    public String getPath()
     {
-        return m_provider;
+        if( null == m_context.getPartitionName() )
+        {
+            return SEPARATOR;
+        }
+        return m_context.getPartitionName();
     }
 
    /**
-    * Clear the assigned provider.
+    * Return the model fully qualified name.
+    * @return the fully qualified name
     */
-    public void clearProvider()
+    public String getQualifiedName()
     {
-        m_provider = null;
+        return getPath() + getName();
+    }
+
+   /**
+    * Return the mode of establishment.
+    * @return the mode
+    */
+    public Mode getMode()
+    {
+        return m_context.getMode();
+    }
+
+   /**
+    * Return the set of models consuming this model.
+    * @return the consumers
+    */
+    public DeploymentModel[] getConsumerGraph()
+    {
+        return m_context.getDependencyGraph().getConsumerGraph( this );
+    }
+
+   /**
+    * Return the set of models supplying this model.
+    * @return the providers
+    */
+    public DeploymentModel[] getProviderGraph()
+    {
+        return m_context.getDependencyGraph().getProviderGraph( this );
+    }
+
+    //--------------------------------------------------------------
+    // implementation
+    //--------------------------------------------------------------
+
+   /**
+    * Return the logging channel.
+    * @return the logger
+    */
+    protected Logger getLogger()
+    {
+        return m_context.getLogger();
+    }
+
+    public String toString()
+    {
+        return "[model: " + getQualifiedName() + "]";
     }
 
 }

@@ -59,7 +59,7 @@ import org.apache.avalon.composition.model.ContextModel;
 import org.apache.avalon.composition.model.DependencyModel;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.ComponentContext;
-import org.apache.avalon.composition.model.Model;
+import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ModelRepository;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.SystemContext;
@@ -89,9 +89,10 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.2.3 $ $Date: 2004/01/04 20:20:52 $
+ * @version $Revision: 1.1.2.4 $ $Date: 2004/01/04 21:28:59 $
  */
-public class DefaultComponentModel extends DefaultModel implements ComponentModel
+public class DefaultComponentModel extends DefaultDeploymentModel 
+  implements ComponentModel
 {
     //--------------------------------------------------------------
     // static
@@ -302,7 +303,7 @@ public class DefaultComponentModel extends DefaultModel implements ComponentMode
 
                     StageDescriptor stage = 
                       new StageDescriptor( clazz.getName() );
-                    Model provider = repository.getModel( stage );
+                    DeploymentModel provider = repository.getModel( stage );
                     if( null == provider )
                     {
                         final String error = 
@@ -351,7 +352,7 @@ public class DefaultComponentModel extends DefaultModel implements ComponentMode
             {
                 DependencyModel dependency = dependencies[i];
                 final String key = dependency.getDependency().getKey();
-                final Model model = 
+                final DeploymentModel model = 
                   repository.getModel( dependency.getDependency() );
                 if( null == model )
                 {
@@ -383,7 +384,7 @@ public class DefaultComponentModel extends DefaultModel implements ComponentMode
             {
                 StageModel stage = stages[i];
                 final String key = stage.getStage().getKey();
-                final Model model = 
+                final DeploymentModel model = 
                   repository.getModel( stage.getStage() );
                 if( null == model )
                 {
@@ -452,7 +453,7 @@ public class DefaultComponentModel extends DefaultModel implements ComponentMode
      * @return the providers consumed by the model
      * @exception IllegalStateException if the model is not in an assembled state 
      */
-    public Model[] getProviders()
+    public DeploymentModel[] getProviders()
     {
         if( !isAssembled() ) 
         {
@@ -464,7 +465,7 @@ public class DefaultComponentModel extends DefaultModel implements ComponentMode
         final ArrayList list = new ArrayList();
         if( null != getContextModel() )
         {
-            Model provider = getContextModel().getProvider();
+            DeploymentModel provider = getContextModel().getProvider();
             if( provider != null )
             {
                 list.add( provider );
@@ -485,11 +486,11 @@ public class DefaultComponentModel extends DefaultModel implements ComponentMode
             list.add( dependency.getProvider() );
         }
 
-        return (Model[]) list.toArray( new Model[0] );
+        return (DeploymentModel[]) list.toArray( new DeploymentModel[0] );
     }
 
     //--------------------------------------------------------------
-    // Model
+    // DeploymentModel
     //--------------------------------------------------------------
 
    /**

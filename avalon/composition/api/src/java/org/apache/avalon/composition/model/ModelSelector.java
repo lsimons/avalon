@@ -63,7 +63,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * driven approach).
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/28 12:53:48 $
+ * @version $Revision: 1.2.2.1 $ $Date: 2004/01/04 21:28:59 $
  */
 public interface ModelSelector
 {
@@ -76,7 +76,7 @@ public interface ModelSelector
      * @return the preferred model or null if no satisfactory provider 
      *    can be established
      */
-    Model select( Model[] models, DependencyDescriptor dependency );
+    DeploymentModel select( DeploymentModel[] models, DependencyDescriptor dependency );
 
     /**
      * Returns the preferred model from an available selection of candidates
@@ -85,5 +85,5 @@ public interface ModelSelector
      * @return the preferred provider or null if no satisfactory provider 
      *    can be established
      */
-    Model select( Model[] models, StageDescriptor stage );
+    DeploymentModel select( DeploymentModel[] models, StageDescriptor stage );
 }

@@ -50,34 +50,109 @@
 
 package org.apache.avalon.composition.model;
 
+import org.apache.avalon.composition.data.Mode;
+import org.apache.avalon.meta.info.DependencyDescriptor;
+import org.apache.avalon.meta.info.ServiceDescriptor;
+import org.apache.avalon.meta.info.StageDescriptor;
+
 /**
- * Stage model handles the establishment of an explicit source 
- * extension defintion or stage provider selection based on 
- * extension qualification.
+ * Model desribing a deployment scenario.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1.2.2 $ $Date: 2004/01/04 21:28:59 $
+ * @version $Revision: 1.7.2.3 $ $Date: 2004/01/04 21:28:59 $
  */
-public interface Dependent
+public interface DeploymentModel
 {
-   /**
-    * Set the provider model.
-    * 
-    * @param model the provider model
-    */
-    void setProvider( DeploymentModel model );
+    String SEPARATOR = "/";
 
    /**
-    * Return the assigned provider model.
-    * 
-    * @return the provider model
+    * Return the name of the model.
+    * @return the name
     */
-    DeploymentModel getProvider();
+    String getName();
 
    /**
-    * Clean the assigned provider.
+    * Return the model partition path.
+    * @return the path
     */
-    void clearProvider();
+    String getPath();
+
+   /**
+    * Return the model fully qualified name.
+    * @return the fully qualified name
+    */
+    String getQualifiedName();
+
+   /**
+    * Return the mode of model establishment.
+    * @return the mode
+    */
+    Mode getMode();
+
+    //-----------------------------------------------------------
+    // service production
+    //-----------------------------------------------------------
+    
+   /**
+    * Return the set of services produced by the model.
+    * @return the services
+    */
+    ServiceDescriptor[] getServices();
+
+   /**
+    * Return TRUE is this model is capable of supporting a supplied 
+    * depedendency.
+    * @return true if this model can fulfill the dependency
+    */
+    boolean isaCandidate( DependencyDescriptor dependency );
+
+   /**
+    * Return TRUE is this model is capable of supporting a supplied 
+    * stage dependency.
+    * @return true if this model can fulfill the dependency
+    */
+    boolean isaCandidate( StageDescriptor stage );
+
+    //-----------------------------------------------------------
+    // composite assembly
+    //-----------------------------------------------------------
+
+    /**
+     * Returns the assembled state of the model.
+     * @return true if this model is assembled
+     */
+    boolean isAssembled();
+
+    /**
+     * Assemble the model.
+     * @exception Exception if an error occurs during model assembly
+     */
+    void assemble() throws AssemblyException;
+
+   /**
+    * Return the set of models consuming this model.
+    * @return the consumers
+    */
+    DeploymentModel[] getConsumerGraph();
+
+   /**
+    * Return the set of models supplying this model.
+    * @return the providers
+    */
+    DeploymentModel[] getProviderGraph();
+
+    /**
+     * Disassemble the model.
+     */
+    void disassemble();
+
+    /**
+     * Return the set of models assigned as providers.
+     * @return the providers consumed by the model
+     * @exception IllegalStateException if invoked prior to 
+     *    the completion of the assembly phase 
+     */
+    DeploymentModel[] getProviders();
 
 
 }

@@ -74,7 +74,7 @@ import org.apache.avalon.composition.event.CompositionEventListener;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.DependencyModel;
 import org.apache.avalon.composition.model.ComponentModel;
-import org.apache.avalon.composition.model.Model;
+import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.StageModel;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.Logger;
@@ -89,7 +89,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10.2.1 $ $Date: 2004/01/04 17:23:16 $
+ * @version $Revision: 1.10.2.2 $ $Date: 2004/01/04 21:28:59 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
   implements Block, Composite, CompositionEventListener
@@ -158,7 +158,7 @@ public abstract class AbstractBlock extends AbstractAppliance
         synchronized( model )
         {
             model.addCompositionListener( this );
-            Model[] models = model.getModels();
+            DeploymentModel[] models = model.getModels();
             for( int i=0; i<models.length; i++ )
             {
                 Appliance appliance = createAppliance( models[i] );
@@ -218,7 +218,7 @@ public abstract class AbstractBlock extends AbstractAppliance
     public void modelRemoved( CompositionEvent event )
     {
         getLogger().debug( "event/removal: " + event );
-        final Model model = event.getChild();
+        final DeploymentModel model = event.getChild();
         final String name = model.getName();
         final Appliance appliance = getLocalAppliance( name );
         m_context.getDependencyGraph().remove( appliance );
@@ -282,7 +282,7 @@ public abstract class AbstractBlock extends AbstractAppliance
         // from the model and add the appliance to the repository
         //
 
-        Model model = 
+        DeploymentModel model = 
           m_context.getContainmentModel().getModel( dependency );
         if( model != null )
         {
@@ -368,7 +368,7 @@ public abstract class AbstractBlock extends AbstractAppliance
         // try to establish the model locally 
         //
 
-        Model model = m_context.getContainmentModel().getModel( stage );
+        DeploymentModel model = m_context.getContainmentModel().getModel( stage );
         if( model != null )
         {
             appliance = createAppliance( model );
@@ -906,7 +906,7 @@ public abstract class AbstractBlock extends AbstractAppliance
      * @param model the component model
      * @return the appliance
      */
-    public Appliance createAppliance( Model model ) throws ApplianceException
+    public Appliance createAppliance( DeploymentModel model ) throws ApplianceException
     {
         Appliance appliance = null;
 

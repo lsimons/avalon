@@ -50,7 +50,7 @@
 
 package org.apache.avalon.activation.appliance;
 
-import org.apache.avalon.composition.model.Model;
+import org.apache.avalon.composition.model.DeploymentModel;
 
 /**
  * An Appliance is the basic tool merlin wraps around a component to
@@ -72,7 +72,7 @@ import org.apache.avalon.composition.model.Model;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/18 00:34:19 $
+ * @version $Revision: 1.2.2.1 $ $Date: 2004/01/04 21:28:59 $
  */
 public interface Appliance extends Deployable, Home
 {
@@ -82,7 +82,7 @@ public interface Appliance extends Deployable, Home
      * Return the model backing the appliance.
      * @return the model that the appliance is managing
      */
-    Model getModel();
+    DeploymentModel getModel();
 
     /**
      * Test if this appliance is enabled.  An appliance is enabled unless
