@@ -52,56 +52,55 @@ public class PreparePlugin extends AbstractPlugin
         m_Initialized = true;
     }
     
-    private void copySources()
+    public void copySources()
     {
         String destdirname = m_Context.getProperty( "prepare.build.src.dir" );
         File toDir = new File( destdirname ); 
         String srcdirname = m_Context.getProperty( "prepare.src.dir" );
         File fromDir = new File( srcdirname ); 
         toDir.mkdirs();  /* ensure that the directory exists. */
+        
         String textFiles = m_Context.getProperty( "prepare.filtered.files" );
         
-        copyWithFilter( fromDir, toDir, textFiles );
-        copyWithOutFilter( fromDir, toDir, textFiles );
-        
+        copy( fromDir, toDir, textFiles, "", true );
+        copy( fromDir, toDir, "**/*", textFiles, false );
     }
     
-    private void copyWithFilter( File fromDir, File toDir, String textFiles )
+    public void copy( File fromDir, File toDir, String includes, String excludes, boolean filtering )
     {
         FileSet from = new FileSet();
         from.setDir( fromDir );
-        from.setIncludes( textFiles );
-
-        /* Copy with filtering */    
+        from.setIncludes( includes );
+        from.setExcludes( excludes );
+        toDir.mkdirs();  /* ensure that the directory exists. */
+        
         Copy copy = (Copy) m_Project.createTask( "copy" );
-        FilterSet fs = copy.createFilterSet();
+        if( filtering )
+        {
+            FilterSet fs = copy.createFilterSet();
+            configureFilterSet( fs );
+            copy.setFiltering( true );
+        }
+        else
+        {
+            copy.setFiltering( false );
+        }
+        copy.setTodir( toDir );
+        copy.addFileset( from );
+        copy.execute();
+    }
+
+    private void configureFilterSet( FilterSet fs )
+    {
+        fs.setBeginToken( "@" );
+        fs.setEndToken( "@" );
         Iterator list = m_Context.getPropertyKeys();
         while( list.hasNext() )
         {
             String key = (String) list.next();
             String value = m_Context.getProperty( key );
-            fs.addFilter( key.toUpperCase(), value );
+            key = key.toUpperCase();
+            fs.addFilter( key, value );
         }
-        copy.setTodir( toDir );
-        copy.setFiltering( true );
-        copy.addFileset( from );
-        copy.init();
-        copy.execute();
-    }
-    
-    private void copyWithOutFilter( File fromDir, File toDir, String textFiles )
-    {
-        FileSet from = new FileSet();
-        from.setDir( fromDir );
-        from.setIncludes( "**/*" );
-        from.setExcludes( textFiles );
-        
-        /* Copy without filtering */    
-        Copy copy = (Copy) m_Project.createTask( "copy" );
-        copy.setTodir( toDir );
-        copy.addFileset( from );
-        copy.setFiltering( false );
-        copy.init();
-        copy.execute();
     }
 }   
