@@ -16,8 +16,19 @@
       <p>
         The source resolver of Avalon Excalibur is a component
         helping you in this task. It resolves sources from a given
-        URI. The URI can use all available protocols of the JVM.
-        In addition own protocols can be plugged-in.
+        URI. The URI can use all available protocols of the JRE.
+        In addition own protocols can be plugged-in. So using
+        the standard protocols like HTTP, FTP or file can be handled
+        in the same way, like dealing with custom, self-build
+        protocols such as myxmldatabase://root/documents/test.xml.
+      </p>
+      <p>
+        The main advantage in comparisson to the mechanisms provided
+        by the JRE is that the source resolver can be used without
+        any problems with web application servers. Each web
+        application can use it's own configured version of this
+        component avoiding any possible conflicts between these
+        applications.
       </p>
       <p>
         The architecture of this package is simple but powerful.
@@ -29,18 +40,17 @@
       </p>
       <p>
         Own protocols can be configured using the SourceFactory interface.
-        Whenever the SourceResolver finds a protocol which it can't handle
+        Whenever the SourceResolver finds a protocol that it can't handle
         by itself, it gets a role selector for a SourceFactory and tries
         to get a component with the role name of the protocol.
         If such a factory exists, the source creation is passed on to this
         factory.
       </p>
       <p>
-        The Source object is handled similar to any other Avalon component.
+        The Source object is handled similar to Avalon components.
         After it has been used it must be released using the SourceResolver.
-        In addition the implementation of the Source object can implement
-        any of the lifecycle interfaces of usual components and it gets
-        all the information from the SourceResolver.
+        The SourceResolver in turn passed on the release of the
+        object to the SourceFactory that created it.
       </p>
       <p>
         The Source object is a lightwight object which can be extended with
@@ -63,7 +73,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2002/06/05 13:56:44 $
+      $Revision: 1.3 $ $Date: 2002/12/15 11:56:48 $
     </legal>
   </footer>
 </document>
