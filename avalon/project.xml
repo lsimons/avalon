@@ -148,6 +148,14 @@ limitations under the License.
         <role>Kernel loading strategy, refactoring and optimization of embedded aspects.</role>
       </roles>
     </developer>
+    <developer>
+      <name>Niclas Hedhman</name>
+      <email>niclas@apache.org</email>
+      <id>niclas</id>
+      <roles>
+        <role>Most stuff.</role>
+      </roles>
+    </developer>
   </developers>
 
   <contributors>
@@ -168,7 +176,7 @@ limitations under the License.
       </roles>
     </contributor>
     <contributor>
-      <name>Jörg Schaible</name>
+      <name>Jrg Schaible</name>
       <email>Joerg.Schaible@gmx.de</email>
       <organization>Elsag-Solutions AG</organization>
       <roles>
@@ -204,13 +212,6 @@ limitations under the License.
       <email>alag@users.sf.net</email>
       <roles>
         <role>Debugging, script enhancements and release testing.</role>
-      </roles>
-    </contributor>
-    <contributor>
-      <name>Niclas Hedhman</name>
-      <email>niclas@hedhman.org</email>
-      <roles>
-        <role>Patches improving build procedures, validating and enhancing cross-platform builds, resolving maven bugs.</role>
       </roles>
     </contributor>
   </contributors>
