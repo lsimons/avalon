@@ -7,14 +7,14 @@
  */
 package org.apache.avalon.excalibur.component.servlet;
 
-import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.instrument.InstrumentManager;
+import org.apache.excalibur.instrument.Instrumentable;
 
 /**
  * Reference Proxy to an InstrumentManager
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/21 12:45:11 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/11/07 05:11:35 $
  * @since 4.2
  */
 final class InstrumentManagerReferenceProxy
@@ -22,7 +22,7 @@ final class InstrumentManagerReferenceProxy
     implements InstrumentManager
 {
     private InstrumentManager m_instrumentManager;
-    
+
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -40,7 +40,7 @@ final class InstrumentManagerReferenceProxy
         super( latch, name );
         m_instrumentManager = instrumentManager;
     }
-    
+
     /*---------------------------------------------------------------
      * InstrumentManager Methods
      *-------------------------------------------------------------*/

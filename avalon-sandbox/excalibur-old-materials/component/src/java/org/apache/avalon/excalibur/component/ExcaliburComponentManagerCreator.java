@@ -10,10 +10,8 @@ package org.apache.avalon.excalibur.component;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-
-import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
-
+import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -22,12 +20,10 @@ import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.LogKitLogger;
-
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.instrument.manager.DefaultInstrumentManager;
-
 import org.apache.log.Hierarchy;
 import org.apache.log.Priority;
 
@@ -58,7 +54,7 @@ import org.apache.log.Priority;
  *  getter methods.  getComponentManager() for example.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/08/21 12:45:11 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/11/07 05:11:34 $
  * @since 4.2
  */
 public class ExcaliburComponentManagerCreator
@@ -85,8 +81,7 @@ public class ExcaliburComponentManagerCreator
     private ComponentManager m_componentManager;
     
     /** Internal instrument manager. */
-    private InstrumentManager m_instrumentManager;
-    
+    private InstrumentManag
     /*---------------------------------------------------------------
      * Static Methods
      *-------------------------------------------------------------*/
@@ -99,7 +94,7 @@ public class ExcaliburComponentManagerCreator
         context.makeReadOnly();
         return context;
     }
-    
+
     /**
      * Creates a Configuration object from data read from an InputStream.
      *
@@ -112,7 +107,7 @@ public class ExcaliburComponentManagerCreator
     private static Configuration readConfigurationFromStream( InputStream is )
         throws Exception
     {
-        if ( is == null )
+        if( is == null )
         {
             return null;
         }
@@ -123,7 +118,7 @@ public class ExcaliburComponentManagerCreator
             return config;
         }
     }
-    
+
     /**
      * Creates a Configuration object from data read from an InputStream.
      *
@@ -136,7 +131,7 @@ public class ExcaliburComponentManagerCreator
     private static Configuration readConfigurationFromFile( File file )
         throws Exception
     {
-        if ( file == null )
+        if( file == null )
         {
             return null;
         }
@@ -153,7 +148,7 @@ public class ExcaliburComponentManagerCreator
             }
         }
     }
-    
+
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -182,7 +177,7 @@ public class ExcaliburComponentManagerCreator
                                              Configuration instrumentManagerConfig )
         throws Exception
     {
-        if ( context == null )
+        if( context == null )
         {
             m_context = createDefaultContext();
         }
@@ -190,7 +185,7 @@ public class ExcaliburComponentManagerCreator
         {
             m_context = context;
         }
-        
+
         // The primordial logger is used for all output up until the point
         //  where the Logger manager has been initialized.  However it is set
         //  into objects used to load the configuration resource files.  Any
@@ -199,7 +194,7 @@ public class ExcaliburComponentManagerCreator
         //  be displayed, so turn it off by default.
         //  Unfortunately, there is not a very good place to make this settable.
         m_primordialLogger = new ConsoleLogger( ConsoleLogger.LEVEL_INFO );
-        
+
         try
         {
             initializeLoggerManager( loggerManagerConfig );
@@ -207,14 +202,14 @@ public class ExcaliburComponentManagerCreator
             initializeInstrumentManager( instrumentManagerConfig );
             initializeComponentManager( componentManagerConfig );
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             // Clean up after the managers which were set up.
             dispose();
             throw e;
         }
     }
-    
+
     /**
      * Create a new ExcaliburComponentManagerCreator using Input Streams.
      *
@@ -244,13 +239,13 @@ public class ExcaliburComponentManagerCreator
                                              InputStream instrumentManagerConfigStream )
         throws Exception
     {
-        this ( context,
-            readConfigurationFromStream( loggerManagerConfigStream ),
-            readConfigurationFromStream( roleManagerConfigStream ),
-            readConfigurationFromStream( componentManagerConfigStream ),
-            readConfigurationFromStream( instrumentManagerConfigStream ) );
+        this( context,
+              readConfigurationFromStream( loggerManagerConfigStream ),
+              readConfigurationFromStream( roleManagerConfigStream ),
+              readConfigurationFromStream( componentManagerConfigStream ),
+              readConfigurationFromStream( instrumentManagerConfigStream ) );
     }
-    
+
     /**
      * Create a new ExcaliburComponentManagerCreator using Files.
      *
@@ -279,13 +274,13 @@ public class ExcaliburComponentManagerCreator
                                              File instrumentManagerConfigFile )
         throws Exception
     {
-        this ( context,
-            readConfigurationFromFile( loggerManagerConfigFile ),
-            readConfigurationFromFile( roleManagerConfigFile ),
-            readConfigurationFromFile( componentManagerConfigFile ),
-            readConfigurationFromFile( instrumentManagerConfigFile ) );
+        this( context,
+              readConfigurationFromFile( loggerManagerConfigFile ),
+              readConfigurationFromFile( roleManagerConfigFile ),
+              readConfigurationFromFile( componentManagerConfigFile ),
+              readConfigurationFromFile( instrumentManagerConfigFile ) );
     }
-    
+
     /*---------------------------------------------------------------
      * Disposable Methods
      *-------------------------------------------------------------*/
@@ -298,27 +293,27 @@ public class ExcaliburComponentManagerCreator
         // Clean up all of the objects that we created in the propper order.
         try
         {
-            if ( m_componentManager != null )
+            if( m_componentManager != null )
             {
                 ContainerUtil.shutdown( m_componentManager );
             }
-            
-            if ( m_instrumentManager != null )
+
+            if( m_instrumentManager != null )
             {
                 ContainerUtil.shutdown( m_instrumentManager );
             }
-            
-            if ( m_roleManager != null )
+
+            if( m_roleManager != null )
             {
                 ContainerUtil.shutdown( m_roleManager );
             }
-            
-            if ( m_loggerManager != null )
+
+            if( m_loggerManager != null )
             {
                 ContainerUtil.shutdown( m_loggerManager );
             }
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             getLogger().error( "Unexpected error disposing managers.", e );
         }
@@ -336,7 +331,7 @@ public class ExcaliburComponentManagerCreator
     {
         return m_loggerManager;
     }
-    
+
     /**
      * Returns the configured InstrumentManager.  May be null if an instrument
      *  configuration was not specified in the constructor.
@@ -347,7 +342,7 @@ public class ExcaliburComponentManagerCreator
     {
         return m_instrumentManager;
     }
-    
+
     /**
      * Returns the configured ComponentManager.
      *
@@ -357,19 +352,19 @@ public class ExcaliburComponentManagerCreator
     {
         return m_componentManager;
     }
-    
+
     /**
      * Returns the logger for internal use.
      */
     private Logger getLogger()
     {
-        if ( m_logger != null )
+        if( m_logger != null )
         {
             return m_logger;
         }
         return m_primordialLogger;
     }
-    
+
     private void initializeLoggerManager( Configuration loggerManagerConfig )
         throws Exception
     {
@@ -379,7 +374,7 @@ public class ExcaliburComponentManagerCreator
         // Resolve a name for the logger, taking the logPrefix into account
         String lmDefaultLoggerName;
         String lmLoggerName;
-        if ( logPrefix == null )
+        if( logPrefix == null )
         {
             lmDefaultLoggerName = "";
             lmLoggerName = loggerManagerConfig.getAttribute( "logger", "system.logkit" );
@@ -411,7 +406,7 @@ public class ExcaliburComponentManagerCreator
         loggerManager.contextualize( m_context );
         loggerManager.configure( loggerManagerConfig );
         m_loggerManager = loggerManager;
-        
+
         // Since we now have a LoggerManager, we can update the m_logger field
         //  if it is null and start logging to the "right" logger.
         if( m_logger == null )
@@ -438,10 +433,12 @@ public class ExcaliburComponentManagerCreator
     private void initializeInstrumentManager( Configuration instrumentManagerConfig )
         throws Exception
     {
-        if ( instrumentManagerConfig != null )
+        if( instrumentManagerConfig != null )
         {
             // Get the logger for the instrument manager
             Logger imLogger = m_loggerManager.getLoggerForCategory(
+                instrumentManagerConfig.getAttribute( "logger", "system.instrument" ) );
+
                 instrumentManagerConfig.getAttribute( "logger", "system.instrument" ) );
         
             // Set up the Instrument Manager

@@ -8,7 +8,6 @@
 package org.apache.avalon.excalibur.component;
 
 import java.util.ArrayList;
-
 import org.apache.excalibur.instrument.Instrument;
 import org.apache.excalibur.instrument.Instrumentable;
 

@@ -8,7 +8,6 @@
 package org.apache.avalon.excalibur.component;
 
 import org.apache.avalon.excalibur.pool.Poolable;
-
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
@@ -17,10 +16,9 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.thread.SingleThreaded;
 import org.apache.avalon.framework.thread.ThreadSafe;
-
 import org.apache.excalibur.instrument.CounterInstrument;
-import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.instrument.InstrumentManager;
+import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.instrument.ValueInstrument;
 
 /**
@@ -30,7 +28,7 @@ import org.apache.excalibur.instrument.ValueInstrument;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/09/24 20:39:53 $
+ * @version CVS $Revision: 1.8 $ $Date: 2002/11/07 05:11:34 $
  * @since 4.0
  */
 public abstract class ComponentHandler
@@ -48,7 +46,7 @@ public abstract class ComponentHandler
 
     /** Instrument used to profile the number of puts. */
     private CounterInstrument m_putsInstrument;
-    
+
     /*---------------------------------------------------------------
      * Static Methods
      *-------------------------------------------------------------*/
@@ -89,7 +87,7 @@ public abstract class ComponentHandler
                                                      null,
                                                      "N/A" );
     }
-    
+
     /**
      * Looks up and returns a component handler for a given component class.
      *
@@ -139,8 +137,8 @@ public abstract class ComponentHandler
         if( numInterfaces > 1 )
         {
             throw new Exception( "[CONFLICT] More than one lifecycle interface in "
-                + componentClass.getName() + "  May implement no more than one of "
-                + "SingleThreaded, ThreadSafe, or Poolable" );
+                                 + componentClass.getName() + "  May implement no more than one of "
+                                 + "SingleThreaded, ThreadSafe, or Poolable" );
         }
 
         // Create the factory to use to create the instances of the Component.
@@ -170,7 +168,7 @@ public abstract class ComponentHandler
         }
 
         // Set the instrumentable name of the handler.
-        ((Instrumentable)handler).setInstrumentableName(
+        ( (Instrumentable)handler ).setInstrumentableName(
             ExcaliburComponentManager.INSTRUMENTABLE_NAME + "." + instrumentableName );
 
         return handler;
@@ -204,7 +202,7 @@ public abstract class ComponentHandler
 
         return new ThreadSafeComponentHandler( componentInstance );
     }
-    
+
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -241,7 +239,7 @@ public abstract class ComponentHandler
         {
             m_references++;
         }
-        
+
         // Notify the instrument manager
         m_getsInstrument.increment();
         m_referencesInstrument.setValue( m_references );
@@ -273,8 +271,7 @@ public abstract class ComponentHandler
         {
             m_references--;
         }
-        
-        // Notify the instrument manager
+t manager
         m_putsInstrument.increment();
         m_referencesInstrument.setValue( m_references );
 

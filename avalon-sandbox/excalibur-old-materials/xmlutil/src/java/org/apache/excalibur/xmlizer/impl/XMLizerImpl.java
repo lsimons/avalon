@@ -9,7 +9,6 @@ package org.apache.excalibur.xmlizer.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
-import org.apache.avalon.excalibur.component.DefaultComponentSelector;
 import org.apache.avalon.excalibur.component.ExcaliburComponentSelector;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.thread.ThreadSafe;
@@ -25,7 +24,7 @@ import org.xml.sax.SAXException;
  * the transformation to the registered on.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/11/07 04:54:07 $
+ * @version CVS $Revision: 1.8 $ $Date: 2002/11/07 05:11:07 $
  */
 public final class XMLizerImpl
     extends ExcaliburComponentSelector

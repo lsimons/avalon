@@ -9,23 +9,19 @@ package org.apache.avalon.excalibur.component.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.avalon.excalibur.logger.LoggerManager;
-
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.logger.Logger;
-
 import org.apache.excalibur.instrument.CounterInstrument;
 import org.apache.excalibur.instrument.Instrument;
-import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.instrument.InstrumentManager;
+import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.instrument.ValueInstrument;
 
 /**
@@ -34,7 +30,7 @@ import org.apache.excalibur.instrument.ValueInstrument;
  *  and instrumentation features.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/09/19 05:41:10 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/11/07 05:11:35 $
  * @since 4.2
  */
 public abstract class AbstractComponentManagerServlet
@@ -61,8 +57,7 @@ public abstract class AbstractComponentManagerServlet
     private CounterInstrument m_instrumentRequests;
     
     /** Records the amount of time execute takes to be processed. */
-    private ValueInstrument m_instrumentTime;
-    
+    private ValueInstrument m_inst
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -77,18 +72,18 @@ public abstract class AbstractComponentManagerServlet
     {
         //System.out.println( "AbstractComponentManagerServlet( " + referenceName + " )" );
         m_referenceName = referenceName;
-        
+
         // Set up Instrumentable like AbstractInstrumentable
         m_registered = false;
         m_instrumentList = new ArrayList();
         m_childList = new ArrayList();
-        
+
         // Create the instruments
         setInstrumentableName( referenceName );
         addInstrument( m_instrumentRequests = new CounterInstrument( "requests" ) );
         addInstrument( m_instrumentTime = new ValueInstrument( "time" ) );
     }
-    
+
     /*---------------------------------------------------------------
      * HttpServlet Methods
      *-------------------------------------------------------------*/
@@ -108,82 +103,82 @@ public abstract class AbstractComponentManagerServlet
         // Initialize logging for the servlet.
         LoggerManager loggerManager =
             (LoggerManager)context.getAttribute( LoggerManager.class.getName() );
-        if ( loggerManager == null )
+        if( loggerManager == null )
         {
             throw new IllegalStateException(
                 "The ExcaliburComponentManagerServlet servlet was not correctly initialized." );
         }
         Logger logger = loggerManager.getLoggerForCategory( "servlet" );
         m_logger = logger.getChildLogger( m_referenceName );
-        
-        if ( getLogger().isDebugEnabled() )
+
+        if( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "servlet.init( config )" );
         }
-        
+
         // Obtain a reference to the ComponentManager
         m_componentManager =
             (ComponentManager)context.getAttribute( ComponentManager.class.getName() );
-        if ( m_componentManager == null )
+        if( m_componentManager == null )
         {
             throw new IllegalStateException(
                 "The ExcaliburComponentManagerServlet servlet was not correctly initialized." );
         }
-        
+
         // Register this servlet with the InstrumentManager if it exists.
         InstrumentManager instrumentManager =
             (InstrumentManager)context.getAttribute( InstrumentManager.class.getName() );
-        if ( instrumentManager != null )
+        if( instrumentManager != null )
         {
             try
             {
                 instrumentManager.registerInstrumentable(
                     this, "servlets." + getInstrumentableName() );
             }
-            catch ( Exception e )
+            catch( Exception e )
             {
                 throw new ServletException(
                     "Unable to register the servlet with the instrument manager.", e );
             }
         }
-        
+
         // Do this last so the subclasses will be able to access these objects in their
         //  init method.
         super.init( config );
     }
-    
+
     /**
      * Called by the servlet container to indicate to a servlet that the servlet
      *  is being taken out of service.
      */
     public void destroy()
     {
-        if ( getLogger().isDebugEnabled() )
+        if( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "servlet.destroy()" );
         }
-        
+
         //System.out.println( "AbstractComponentManagerServlet.destroy()" );
         // Release the ComponentManager by removing its reference.
         m_componentManager = null;
-        
+
         super.destroy();
-        
+
         // Make sure that the component manager gets collected.
         System.gc();
-        
+
         // Give the system time for the Gc to complete.  This is necessary to make sure that
         //  the ECMServlet has time to dispose all of its managers before the Tomcat server
         //  invalidates the current class loader.
         try
         {
-            Thread.sleep(250);
+            Thread.sleep( 250 );
         }
-        catch ( InterruptedException e )
+        catch( InterruptedException e )
         {
         }
     }
-    
+
     /**
      * Receives standard HTTP requests from the public service method and dispatches
      *  them to the doXXX methods defined in this class.
@@ -195,35 +190,35 @@ public abstract class AbstractComponentManagerServlet
      *                 the servlet returns to the client.
      */
     public void service( HttpServletRequest request, HttpServletResponse response )
-         throws ServletException, IOException
+        throws ServletException, IOException
     {
-        if ( getLogger().isDebugEnabled() )
+        if( getLogger().isDebugEnabled() )
         {
             StringBuffer sb = new StringBuffer( request.getRequestURI() );
             String query = request.getQueryString();
-            if ( query != null )
+            if( query != null )
             {
                 sb.append( "?" );
                 sb.append( query );
             }
-            
+
             getLogger().debug( "Request: " + sb.toString() );
         }
-        
+
         long start = System.currentTimeMillis();
-        
+
         // Notify the Instrument Manager
         m_instrumentRequests.increment();
-        
+
         super.service( request, response );
-        
+
         // Notify the Instrument Manager how long the service took.
-        if ( m_instrumentTime.isActive() )
+        if( m_instrumentTime.isActive() )
         {
             m_instrumentTime.setValue( (int)( System.currentTimeMillis() - start ) );
         }
     }
-    
+
     /*---------------------------------------------------------------
      * Instrumentable Methods
      *-------------------------------------------------------------*/
@@ -301,6 +296,10 @@ public abstract class AbstractComponentManagerServlet
         {
             Instrument[] instruments = new Instrument[ m_instrumentList.size() ];
             m_instrumentList.toArray( instruments );
+            return instruments;
+        }
+    }
+rray( instruments );
             return instruments;
         }
     }

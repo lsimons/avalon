@@ -8,17 +8,17 @@
 package org.apache.avalon.excalibur.component;
 
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.log.Hierarchy;
 import org.apache.log.LogEvent;
 import org.apache.log.LogTarget;
 import org.apache.log.Priority;
-import org.apache.log.Hierarchy;
 
 /**
  * A basic LogKit target that routes from LogKit to
  * Avalon Logger.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/09/12 15:47:53 $
+ * @version $Revision: 1.4 $ $Date: 2002/11/07 05:11:34 $
  */
 class LogKit2LoggerTarget
     implements LogTarget
