@@ -15,6 +15,9 @@
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
         <pathelement path="${java.class.path}"/>
+        <fileset dir="${lib.dir}">
+            <include name="*.jar" />
+        </fileset>
     </path>
 
     <path id="tools.class.path">
