@@ -9,7 +9,6 @@ package org.apache.avalon.phoenix.components.phases;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import org.apache.avalon.framework.Enum;
 import org.apache.avalon.framework.camelot.Container;
 import org.apache.avalon.framework.camelot.ContainerException;
 import org.apache.avalon.framework.component.Component;
@@ -36,19 +35,6 @@ public class BlockDAG
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( BlockDAG.class );
-
-    public final static Traversal  FORWARD     = new Traversal( "FORWARD" );
-    public final static Traversal  REVERSE     = new Traversal( "REVERSE" );
-    public final static Traversal  LINEAR      = new Traversal( "LINEAR" );
-
-    public final static class Traversal
-        extends Enum
-    {
-        private Traversal( final String name )
-        {
-            super( name );
-        }
-    }
 
     private Container       m_container;
 
@@ -116,7 +102,7 @@ public class BlockDAG
             final RoleEntry roleEntry = entry.getRoleEntry( role );
             final String dependencyName = roleEntry.getName();
             final BlockEntry dependency = getBlockEntry( dependencyName );
-            visitBlock( dependencyName, dependency, visitor, FORWARD, completed );
+            visitBlock( dependencyName, dependency, visitor, Traversal.FORWARD, completed );
         }
     }
 
@@ -162,7 +148,7 @@ public class BlockDAG
                     }
 
                     //finally try to traverse block
-                    visitBlock( blockName, entry, visitor, REVERSE, completed );
+                    visitBlock( blockName, entry, visitor, Traversal.REVERSE, completed );
                 }
             }
         }
@@ -179,11 +165,11 @@ public class BlockDAG
         if( completed.contains( name ) ) return;
         completed.add( name );
 
-        if( FORWARD == traversal )
+        if( Traversal.FORWARD == traversal )
         {
             visitDependencies( name, entry, visitor, completed );
         }
-        else if( REVERSE == traversal )
+        else if( Traversal.REVERSE == traversal )
         {
             visitReverseDependencies( name, visitor, completed );
         }
