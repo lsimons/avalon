@@ -16,16 +16,16 @@ import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentSampl
 
 import org.apache.avalon.framework.activity.Disposable;
 
-import org.apache.commons.altrmi.server.AltrmiServerException;
-import org.apache.commons.altrmi.server.PublicationDescription;
-import org.apache.commons.altrmi.server.PublicationException;
-import org.apache.commons.altrmi.server.impl.AbstractServer;
-import org.apache.commons.altrmi.server.impl.socket.CompleteSocketCustomStreamServer;
+import org.apache.excalibur.altrmi.server.AltrmiServerException;
+import org.apache.excalibur.altrmi.server.PublicationDescription;
+import org.apache.excalibur.altrmi.server.PublicationException;
+import org.apache.excalibur.altrmi.server.impl.AbstractServer;
+import org.apache.excalibur.altrmi.server.impl.socket.CompleteSocketCustomStreamServer;
 
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/03/28 04:06:18 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/04/03 11:36:10 $
  * @since 4.1
  */
 public class InstrumentManagerAltrmiServer

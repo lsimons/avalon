@@ -12,17 +12,17 @@ import java.util.ArrayList;
 
 import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
 
-import org.apache.commons.altrmi.client.AltrmiHostContext;
-import org.apache.commons.altrmi.client.AltrmiFactory;
-import org.apache.commons.altrmi.client.impl.socket.SocketCustomStreamHostContext;
-import org.apache.commons.altrmi.client.impl.ClientClassAltrmiFactory;
-import org.apache.commons.altrmi.common.AltrmiConnectionException;
-import org.apache.commons.altrmi.common.AltrmiInvocationException;
+import org.apache.excalibur.altrmi.client.AltrmiHostContext;
+import org.apache.excalibur.altrmi.client.AltrmiFactory;
+import org.apache.excalibur.altrmi.client.impl.socket.SocketCustomStreamHostContext;
+import org.apache.excalibur.altrmi.client.impl.ClientClassAltrmiFactory;
+import org.apache.excalibur.altrmi.common.AltrmiConnectionException;
+import org.apache.excalibur.altrmi.common.AltrmiInvocationException;
 
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/04/01 09:21:52 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/04/03 11:36:09 $
  * @since 4.1
  */
 class InstrumentManagerConnection

@@ -9,7 +9,7 @@
 # The ant.properties values in this directory apply only to this component, and
 # override the defaults in ../ant.properties.
 #
-# $Id: ant.properties.sample,v 1.2 2002/03/30 08:46:04 jefft Exp $
+# $Id: ant.properties.sample,v 1.3 2002/04/03 11:36:10 hammant Exp $
 # -----------------------------------------------------------------------------
 
 # --------------------------------------------------
@@ -50,10 +50,10 @@ excalibur-instrument.home=../instrument/build/lib
 excalibur-instrument.jar=${excalibur-instrument.home}/excalibur-instrument-0.1.jar
 
 # ----- Altrmi -----
-commons-altrmi.home=../../jakarta-commons-sandbox/altrmi/dist
-commons-altrmi-common.jar=${commons-altrmi.home}/commons-altrmi-common.jar
-commons-altrmi-server-impl.jar=${commons-altrmi.home}/commons-altrmi-server-impl.jar
-commons-altrmi-server-interfaces.jar=${commons-altrmi.home}/commons-altrmi-server-interfaces.jar
+excalibur-altrmi.home=../../../altrmi/build/lib
+excalibur-altrmi-common.jar=${excalibur-altrmi.home}/excalibur-altrmi-common.jar
+excalibur-altrmi-server-impl.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-impl.jar
+excalibur-altrmi-server-interfaces.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-interfaces.jar
 
 # ----- JUnit Unit Test Suite, version 3.7 or later -----
 junit.home=${base.path}/junit3.7

@@ -73,11 +73,11 @@
             todir="${lib.dir}" preservelastmodified="yes"/>
         
         <!-- Altrmi Jars -->
-        <copy file="${commons-altrmi-common.jar}"
+        <copy file="${excalibur-altrmi-common.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
-        <copy file="${commons-altrmi-server-impl.jar}"
+        <copy file="${excalibur-altrmi-server-impl.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
-        <copy file="${commons-altrmi-server-interfaces.jar}"
+        <copy file="${excalibur-altrmi-server-interfaces.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
     </target>
 

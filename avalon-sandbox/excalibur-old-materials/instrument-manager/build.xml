@@ -56,9 +56,9 @@
         <pathelement location="${avalon-excalibur.jar}"/>
         <pathelement location="${excalibur-collections.jar}"/>
         <pathelement location="${excalibur-instrument.jar}"/>
-        <pathelement location="${commons-altrmi-common.jar}"/>
-        <pathelement location="${commons-altrmi-server-impl.jar}"/>
-        <pathelement location="${commons-altrmi-server-interfaces.jar}"/>
+        <pathelement location="${excalibur-altrmi-common.jar}"/>
+        <pathelement location="${excalibur-altrmi-server-impl.jar}"/>
+        <pathelement location="${excalibur-altrmi-server-interfaces.jar}"/>
         <pathelement location="${junit.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
     </path>
