@@ -21,6 +21,7 @@ import java.io.File;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Startable;
+import org.apache.avalon.framework.activity.Initializable;
 
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -57,16 +58,18 @@ import org.mortbay.http.UserRealm;
  */
 public class HttpContextImpl
     implements LogEnabled, Contextualizable, Serviceable, Startable, 
-               Disposable, Configurable, HttpContextService
+               Disposable, Configurable, HttpContextService, Initializable
 {
     private HttpService m_HttpServer;
     private HttpContext m_HttpContext;
     private Logger      m_Logger;
     private boolean     m_Graceful;
-        
+    private File        m_TemporaryDir;
+    private ClassLoader m_ClassLoader;
+    private RequestLog  m_RequestLog;
+    
     public HttpContextImpl()
     {
-        m_HttpContext = new HttpContext();
     }
     
     public HttpContext getHttpContext()
@@ -98,12 +101,10 @@ public class HttpContextImpl
     public void contextualize( Context ctx )
         throws ContextException
     {
-        File tmpDir = (File) ctx.get( "urn:avalon:temp" );
-        tmpDir.mkdirs();
-        m_HttpContext.setTempDirectory( tmpDir );
+        m_TemporaryDir = (File) ctx.get( "urn:avalon:temp" );
+        m_TemporaryDir.mkdirs();
     
-        ClassLoader cl = (ClassLoader) ctx.get( "urn:avalon:classloader" );
-        m_HttpContext.setClassLoader( cl );
+        m_ClassLoader = (ClassLoader) ctx.get( "urn:avalon:classloader" );
     }
     
     /**
@@ -134,8 +135,7 @@ public class HttpContextImpl
             m_HttpContext.setRealmName( realm.getName() ); // Is this necessary?
         } 
         
-        RequestLog log = (RequestLog) man.lookup( "request-log" );
-        m_HttpContext.setRequestLog( log );
+        m_RequestLog = (RequestLog) man.lookup( "request-log" );
     }
 
     public void parameterize( Parameters params )
@@ -152,16 +152,18 @@ public class HttpContextImpl
     public void configure( Configuration conf )
         throws ConfigurationException
     {
+        Configuration virtualHostConf = conf.getChild( "virtual-host" );
+        String virtualHost = virtualHostConf.getValue( null );
+        
+        Configuration contextConf = conf.getChild( "context-path" );
+        String contextPath = contextConf.getValue( "/" );
+        
+        m_HttpContext = m_HttpServer.getContext( virtualHost, contextPath );
+        
         m_Graceful = conf.getChild( "graceful-stop" ).getValueAsBoolean( false );
         
         Configuration attributes = conf.getChild( "attributes" );
         configureAttributes( attributes );
-        
-        Configuration contextPath = conf.getChild( "context-path" );
-        m_HttpContext.setContextPath( contextPath.getValue( "/" ) );
-        
-        Configuration virtualHosts = conf.getChild( "virtual-hosts" );
-        configureVirtualHosts( virtualHosts );
     
         Configuration welcomeFiles = conf.getChild( "welcome-files" );
         configureWelcomeFiles( welcomeFiles );
@@ -202,7 +204,14 @@ public class HttpContextImpl
         for( int i=0 ; i < files.length ; i++ )
             m_HttpContext.addWelcomeFile( files[i].getValue() );
     }
-    
+
+    public void initialize()
+    {
+        m_HttpContext.setClassLoader( m_ClassLoader );
+        m_HttpContext.setTempDirectory( m_TemporaryDir );
+        m_HttpContext.setRequestLog( m_RequestLog );
+    }
+        
     public void start()
         throws Exception
     {
