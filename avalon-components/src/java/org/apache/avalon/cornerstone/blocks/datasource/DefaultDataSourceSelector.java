@@ -48,6 +48,7 @@ import org.apache.avalon.framework.logger.LogEnabled;
  * @phoenix:service name="org.apache.avalon.cornerstone.services.datasource.DataSourceSelector"
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
+ * @deprecated Use {@link org.apache.avalon.cornerstone.blocks.source.DefaultDataSourceSelector} instead.
  */
 public class DefaultDataSourceSelector
     extends AbstractLogEnabled
