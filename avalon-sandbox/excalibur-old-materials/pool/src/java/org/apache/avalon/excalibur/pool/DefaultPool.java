@@ -58,7 +58,7 @@ import org.apache.avalon.framework.activity.Disposable;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/03/25 21:34:02 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/04/08 18:29:12 $
  * @since 4.0
  */
 public class DefaultPool
@@ -223,7 +223,12 @@ public class DefaultPool
             m_mutex.acquire();
             try
             {
-                m_active.remove(obj);
+                if( !m_active.remove(obj) )
+                {
+                    final String msg = "Attempted to return object that is not in active list: "
+                            + obj ;
+                    getLogger().warn( msg );
+                }
 
                 if( getLogger().isDebugEnabled() )
                 {
