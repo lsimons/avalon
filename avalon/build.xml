@@ -1,22 +1,23 @@
 <?xml version="1.0"?>
+  <!DOCTYPE project [
+    <!ENTITY forrest-targets SYSTEM "file:forrest-targets.ent">
+    <!ENTITY check-targets SYSTEM "file:check-targets.ent">
+  ]>
 
 <!--
 ==============================================================================
-
  Avalon build file
+==============================================================================
+You need ant 1.5 or later and forrest 0.2 or later installed in order to
+build avalon from source. See:
 
-Type './build.sh' (Unix) or 'build' (Windows) to build. The flag '-projecthelp'
-will list normal targets. If combined with '-verbose', all targets are printed.
+http://ant.apache.org/
+http://xml.apache.org/forrest/
 
-Authors:
- Federico Barbieri <scoobie@apache.org>
- Berin Loritsch <bloritsch@apache.org>
- Peter Donald <peter at apache.org>
- Nicola Ken Barozzi <nicolaken@apache.org>
+type `ant -projecthelp` for more info
 
 Legal:
-  Copyright (c) 1999-2002 The Apache Software Foundation. All Rights Reserved.
-
+  Copyright (c) 1999-2003 The Apache Software Foundation. All Rights Reserved.
 ==============================================================================
 -->
 
@@ -33,7 +34,7 @@ Legal:
     <property name="Name" value="Avalon"/>
     <property name="framework.name" value="avalon-framework"/>
     <property name="version" value="4.1.4"/>
-    <property name="year" value="1999-2002"/>
+    <property name="year" value="1999-2003"/>
     <property name="status" value="final"/>
     <property name="release" value="5th"/>
     <property name="short.version" value="4.1"/>
@@ -53,8 +54,6 @@ Legal:
     <property name="target.docs" value="${target.dir}/docs"/>
     <property name="target.testdocs" value="${target.docs}/test"/>
     <property name="target.reports" value="${target.dir}/reports"/>
-    <property name="target.context" value="${target.dir}/documentation"/>
-    <property name="target.xdocs" value="${target.context}/content/xdocs"/>
 
     <!-- Set the properties for source directories -->
     <property name="src.dir" value="src"/>
@@ -64,22 +63,14 @@ Legal:
     <property name="lib.dir" value="lib"/>
     <property name="tools.dir" value="tools"/>
     <property name="docs.dir" value="docs"/>
-    <property name="www.dir" value="../jakarta-avalon-site/docs"/>
+    <property name="www.dir" value="../jakarta-avalon-site/site/framework"/>
     <property name="javadocs.dir" value="${docs.dir}/api"/>
-    <property name="xdocs.dir" value="${src.dir}/xdocs"/>
     <property name="context.dir" value="${src.dir}/documentation"/>
 
     <property name="dist.name" value="${Name}-${version}"/>
     <property name="dist.base" value="distributions"/>
 
     <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
-
-    <property name="logkit.jar" value="${tools.dir}/ext/logkit-1.2.jar"/>
-    <property name="xerces.jar" value="${tools.dir}/lib/xerces-2.0.1.jar"/>
-    <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.3.1.jar"/>
-    <property name="bsf.jar" value="${tools.dir}/lib/bsf.jar"/>
-    <property name="junit.jar" value="${tools.dir}/lib/junit-3.7.jar"/>
-    <property name="log4j.jar" value="${tools.dir}/lib/log4j-1.2.7.jar"/>
 
     <property name="announce2txt" value="${tools.dir}/announcement2txt.xsl"/>
     <property name="announce2header" value="${tools.dir}/announcement2header.xsl"/>
@@ -88,12 +79,6 @@ Legal:
     <property name="document2docbook" value="${context.dir}/stylesheets/document2docbook.xsl"/>
 
     <path id="project.class.path">
-        <pathelement location="${logkit.jar}"/>
-        <pathelement location="${xalan.jar}"/>
-        <pathelement location="${bsf.jar}"/>
-        <pathelement location="${xerces.jar}"/>
-        <pathelement location="${junit.jar}"/>
-        <pathelement location="${log4j.jar}"/>
         <pathelement path="${java.class.path}" />
         <fileset dir="${lib.dir}">
             <include name="*.jar" />
@@ -102,9 +87,7 @@ Legal:
     </path>
 
     <path id="tools.class.path">
-        <pathelement location="${xerces.jar}"/>
-        <pathelement location="${junit.jar}"/>
-        <pathelement location="${checkstyle.jar}"/>
+        <path refid="project.class.path"/>
         <pathelement location="${tools.jar}"/>
         <fileset dir="${tools.dir}/lib">
             <include name="*.jar" />
@@ -116,6 +99,9 @@ Legal:
         <path refid="project.class.path"/>
     </path>
 
+    &check-targets;
+    &forrest-targets;
+
     <!-- Main target -->
     <target name="main" depends="all" description="generates the Avalon distribution without the javadocs"/>
 
@@ -126,16 +112,9 @@ Legal:
 
     <target name="dist.lite" depends="main"/>
     <target name="help" depends="usage"/>
-
-    <!-- Set up dist properties -->
-    <target name="setup-properties" >
-        <available property="log4j.present" classname="org.apache.log4j.Logger">
-            <classpath refid="project.class.path"/>
-        </available>
-        <available property="jdk14.present" classname="java.util.logging.Logger">
-            <classpath refid="project.class.path"/>
-        </available>
-
+    
+    <!-- Set up properties -->
+    <target name="setup-properties" depends="setup-dependencies">
         <property name="dist.dir" value="${dist.base}/${dist.name}"/>
         <property name="dist.bin" value="${dist.dir}/bin"/>
         <property name="dist.apps" value="${dist.dir}/apps"/>
@@ -151,14 +130,20 @@ Legal:
         <property name="src.dist.tools" value="${src.dist.dir}/tools"/>
     </target>
 
+    <!-- defer to check-targets.ent for figuring out dependencies -->
+    <target name="check-dependencies" depends="junit-check,log4j-check,logkit-check,jdk14-check"/>
+
+    <!-- defer to check-targets.ent for downloading dependencies -->
+    <target name="import-dependencies" depends="import-junit,import-log4j,import-logkit"/>
+
     <!-- Prepares the build directory -->
-    <target name="prepare">
+    <target name="prepare" depends="check-dependencies">
         <tstamp/>
         <mkdir dir="${target.dir}"/>
     </target>
 
     <!-- Compiles the source code -->
-    <target name="compile" depends="setup-properties,prepare" description="compiles the source code">
+    <target name="compile" depends="setup-properties,setup-dependencies,prepare" description="compiles the source code">
 
         <mkdir dir="${target.classes}"/>
 
@@ -170,8 +155,16 @@ Legal:
             target="1.2">
             <classpath refid="project.class.path" />
             <src path="${test.dir}"/>
+            <exclude name="org/apache/avalon/framework/logger/LogKit*.java"
+                unless="logkit.present"/>
+            <exclude name="org/apache/avalon/framework/logger/AvalonFormatter.java"
+                unless="logkit.present"/>
             <exclude name="org/apache/avalon/framework/logger/Log4JLogger.java"
                 unless="log4j.present"/>
+            <exclude name="org/apache/avalon/framework/logger/AbstractLoggable.java"
+                unless="logkit.present"/>
+            <exclude name="org/apache/avalon/framework/logger/Loggable.java"
+                unless="logkit.present"/>
             <exclude name="org/apache/avalon/framework/logger/Jdk14Logger.java"
                 unless="jdk14.present"/>
         </javac>
@@ -215,7 +208,7 @@ Legal:
 
     <target name="test" depends="check"/>
 
-    <target name="check" depends="compile" description="perform unit tests">
+    <target name="check" depends="compile,junit-check" description="perform unit tests">
         <echo message="Avalon Framework is mostly interfaces."/>
         <echo message="But some tests to be performed at this time."/>
 
@@ -237,7 +230,7 @@ Legal:
 
     </target>
 
-    <target name="test-report" depends="compile" >
+    <target name="test-report" depends="compile,junit-check">
         <mkdir dir="${target.testdocs}"/>
         <mkdir dir="${target.reports}"/>
 
@@ -265,7 +258,7 @@ Legal:
         </junitreport>
     </target>
 
-    <target name="checkstyle" if="do.checkstyle" description="Checkstyle">
+    <target name="checkstyle" if="checkstyle.present" description="Checkstyle">
 
         <!-- this invocation of checkstyle requires that checkstyle be downloaded and setup -->
         <!-- thats why you are required to define do.checkstyle property to generate the report -->
@@ -302,122 +295,11 @@ Legal:
     </target>
 
     <!-- Prepares the documentation directory -->
-    <target name="docs" depends="html-docs, javadocs" description="generates all the Avalon documentation"/>
+   <target name="docs" depends="html-docs, javadocs" description="generates all the Avalon documentation"/>
 
-    <target name="prepare-html-docs" depends="prepare" description="prepares the xdocs-based documentation">
-
-   
-        <echo message="-------------------------------------------------------------"/>
-        <echo message="  Preparing docs..."/>
-        
-        <property name="use.skin"              value="avalon-tigris"/>
-
-        <!-- Skin filters -->
-        <filter token="Name"              value="${Name}"/>
-        <filter token="skin"              value="${use.skin}"/>
-        <filter token="link1"             value="apache"/>
-        <filter token="link1.href"        value="http://www.apache.org"/>
-        <filter token="link2"             value="jakarta"/>
-        <filter token="link2.href"        value="http://jakarta.apache.org"/>
-        <filter token="link3"             value=""/>
-        <filter token="link3.href"        value=""/>
-        <filter token="group-logo.src"    value="images/jakarta-logo.gif"/>
-        <filter token="group-logo.href"   value="http://jakarta.apache.org/"/>
-        <filter token="project-logo.src"  value="images/header.gif"/>
-        <filter token="project-logo.href" value="http://jakarta.apache.org/avalon/"/>
-        <filter token="year" value="2002"/>
-        <filter token="vendor" value="Apache Software Foundation"/>
-
-        <delete dir="${target.dir}/work"/>
-
-        <mkdir dir="${target.context}"/>
-        <mkdir dir="${target.docs}"/>
-        <mkdir dir="${target.xdocs}"/>
-        <mkdir dir="${target.dir}/work"/>
-
-        <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
-        <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
-        <property name="framework.base" value="http://jakarta.apache.org/avalon/framework"/>
-        <property name="excalibur.base" value="http://jakarta.apache.org/avalon/excalibur"/>
-        <property name="phoenix.base" value="http://jakarta.apache.org/avalon/phoenix"/>
-        <property name="cornerstone.base" value="http://jakarta.apache.org/avalon/cornerstone"/>
-        <property name="logkit.base" value="http://jakarta.apache.org/avalon/logkit"/>
-        <property name="apps.base" value="http://jakarta.apache.org/avalon/apps"/>
-        <property name="testlet.base" value="http://jakarta.apache.org/avalon/testlet"/>
-
-        <filter token="year" value="${year}"/>
-        <filter token="AVALON_BASE" value="${avalon.base}"/>
-        <filter token="FRAMEWORK_BASE" value="${framework.base}"/>
-        <filter token="EXCALIBUR_BASE" value="${excalibur.base}"/>
-        <filter token="PHOENIX_BASE" value="${phoenix.base}"/>
-        <filter token="CORNERSTONE_BASE" value="${cornerstone.base}"/>
-        <filter token="LOGKIT_BASE" value="${logkit.base}"/>
-        <filter token="TESTLET_BASE" value="${testlet.base}"/>
-        <filter token="APPS_BASE" value="${apps.base}"/>
-
-        <copy todir="${target.context}" overwrite="true" filtering="on">
-            <fileset dir="${context.dir}">
-                <exclude name="**/*.ico"/>
-                <exclude name="**/*.gif"/>
-                <exclude name="**/*.jpg"/>
-                <exclude name="**/*.png"/>
-            </fileset>
-        </copy>
-
-        <copy todir="${target.context}" filtering="off">
-            <fileset dir="${context.dir}">
-                <include name="**/*.ico"/>
-                <include name="**/*.gif"/>
-                <include name="**/*.jpg"/>
-                <include name="**/*.png"/>
-            </fileset>
-        </copy>
-        <copy todir="${target.xdocs}" filtering="on" overwrite="true">
-            <fileset dir="${xdocs.dir}"/>
-        </copy>
-
-
-        <copy file="${context.dir}/resources/schema/CatalogManager.properties"
-              todir="${target.context}/resources/schema" filtering="off"/>
-
-        <echo message="                   ok."/>
-        
-   </target>
-
-   <target name="html-docs" depends="prepare-html-docs" description="generates the xdocs-based documentation">
-
-        <echo message="              -"/>
-        <echo message="  Generating docs, please stand by ..."/>
- 
-        <java classname="org.apache.cocoon.Main" fork="true" maxmemory="128m" failonerror="true">
-        
-            <arg value="-c${target.context}/"/>
-            <arg value="-d${target.docs}"/>
-            <arg value="-w${target.dir}/work"/>
-            <arg value="-b${target.dir}/brokenlinks.txt"/>            
-            <arg value="-k${target.context}/logkit.xconf"/>
-            <!-- <arg value="-l${target.dir}/work/cocoon.log"/> -->
-            <arg value="-uERROR"/>
-            <arg value="-V"/>            
-            <arg value="index.html"/>
-            <classpath>
-                <path refid="tools.class.path"/>
-                <fileset dir="${tools.dir}/ext">
-                    <include name="*.jar"/>
-                </fileset>
-            </classpath>
-        </java>
-
-        <delete dir="${target.dir}/work"/>
-
-        <echo message="  ...docs generated succesfully in ./build/docs dir."/>
-        <echo message="-------------------------------------------------------------"/>
-
+   <target name="html-docs" depends="site" description="generates the xdocs-based documentation">
+        <!-- todo: remove -->
         <mkdir dir="${target.docs}/framework/diagrams"/>
-        <copy todir="${target.docs}/framework/diagrams" filtering="off">
-            <fileset dir="${src.dir}/diagrams"/>
-        </copy>
-
     </target>
   
     <!-- Create the API documentation -->
@@ -598,7 +480,7 @@ Legal:
 
         <mkdir dir="${dist.dir}"/>
         <copy file="${target.lib}/${framework.name}.jar" tofile="${dist.dir}/${framework.name}-${version}.jar"/>
-        <copy file="${logkit.jar}" todir="${dist.dir}"/>
+        <copy file="${lib.dir}/${logkit.jar}" todir="${dist.dir}"/>
 
         <mkdir dir="${dist.docs}"/>
         <mkdir dir="${dist.javadocs}"/>
@@ -630,7 +512,7 @@ Legal:
             </fileset>
         </copy>
 
-        <copy file="${logkit.jar}" todir="${src.dist.lib}"/>
+        <copy file="${lib.dir}/${logkit.jar}" todir="${src.dist.lib}"/>
 
         <copy todir="${src.dist.src}">
 	  <fileset dir="${src.dir}">
@@ -761,5 +643,4 @@ Legal:
         <delete file="Announcement.txt" />
         <delete file="jakarta-news.xml" />
     </target>
-
 </project>
