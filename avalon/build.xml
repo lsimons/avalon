@@ -219,7 +219,7 @@ Legal:
                      Prepares the documentation directory
        ===================================================================
   -->
-  <target name="docs">
+  <target name="xdocs">
   
     <filter token="year" value="${year}"/>
     
@@ -232,11 +232,19 @@ Legal:
       </fileset>
     </copy>
 
-    <copy todir="${build.xdocs}" filtering="off">
+    <copy todir="${build.docs}" filtering="off">
       <fileset dir="${xdocs.dir}">
         <include name="**/images/**"/>
       </fileset>
     </copy>
+
+    <copy todir="${build.docs}" filtering="off">
+      <fileset dir="${avalon.skin}">
+        <include name="resources/**"/>
+      </fileset>
+    </copy>
+
+<!--    <replace file="${build.xdocs}/book.xml" token="@BASE_URL@" value="."/> -->
 
     <stylebook targetdirectory="${build.docs}"
                book="${build.xdocs}/book.xml"
@@ -278,7 +286,7 @@ Legal:
        Create the Local site documentation
        ===================================================================
   -->
-  <target name="local-docs" depends="docs">
+  <target name="local-docs" depends="xdocs">
 
     <delete>
       <fileset dir="${docs.dir}">
@@ -352,7 +360,7 @@ Legal:
                             Create the distribution
        ===================================================================
   -->
-  <target name="dist" depends="jars,javadocs,docs">
+  <target name="dist" depends="jars,javadocs,xdocs">
 
     <mkdir dir="${dist.dir}"/>
     <copy file="${build.lib}/avalonapi.jar" tofile="${dist.dir}/avalonapi-${version}.jar"/>
@@ -383,7 +391,7 @@ Legal:
                             Create the source distribution
        ===================================================================
   -->
-  <target name="src-dist" depends="docs,setup-properties">
+  <target name="src-dist" depends="xdocs,setup-properties">
 
     <mkdir dir="${src.dist.dir}" />
 
