@@ -38,8 +38,8 @@
 
   <preGoal name="jar:jar">
     <mkdir dir="${maven.build.dir}/classes"/>
-    <ant:xslt in="${basedir}/project.xml" out="${maven.build.dir}/classes/project.xml"
-      style="${basedir}/copy-all.xsl">
+    <ant:xslt in="${basedir}/runtime.xml" out="${maven.build.dir}/classes/project.xml"
+      style="${basedir}/copy-all.xsl" force="true">
       <outputproperty name="method" value="xml" />
       <outputproperty name="standalone" value="yes"/>
       <outputproperty name="indent" value="yes"/>
