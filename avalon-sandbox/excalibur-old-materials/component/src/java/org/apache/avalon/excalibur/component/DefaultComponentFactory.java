@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import org.apache.avalon.excalibur.collections.BucketMap;
 import org.apache.avalon.excalibur.logger.LogKitManageable;
-import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
@@ -25,7 +24,6 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
@@ -37,7 +35,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.2.2.2 $ $Date: 2002/05/18 05:35:49 $
+ * @version CVS $Revision: 1.2.2.3 $ $Date: 2002/05/18 06:08:34 $
  * @since 4.0
  */
 public class DefaultComponentFactory
@@ -65,9 +63,9 @@ public class DefaultComponentFactory
      */
     private RoleManager m_roles;
 
-    /** The LogKitManager for child ComponentSelectors
+    /** The LogkitLoggerManager for child ComponentSelectors
      */
-    private LogKitManager m_logkit;
+    private LogkitLoggerManager m_logkit;
 
     /** Components created by this factory, and their associated ComponentManager
      *  proxies, if they are Composables.
@@ -88,7 +86,7 @@ public class DefaultComponentFactory
                                     final ComponentManager componentManager,
                                     final Context context,
                                     final RoleManager roles,
-                                    final LogKitManager logkit )
+                                    final LogkitLoggerManager logkit )
     {
         m_componentClass = componentClass;
         m_configuration = configuration;
@@ -126,7 +124,7 @@ public class DefaultComponentFactory
                 else
                 {
                     getLogger().debug( "logger attribute is " + logger );
-                    ( (LogEnabled)component ).enableLogging( new LogKitLogger( m_logkit.getLogger( logger ) ) );
+                    ( (LogEnabled)component ).enableLogging( m_logkit.getLoggerForCategory( logger ) );
                 }
             }
         }
@@ -148,7 +146,7 @@ public class DefaultComponentFactory
                 else
                 {
                     getLogger().debug( "logger attribute is " + logger );
-                    ( (Loggable)component ).setLogger( m_logkit.getLogger( logger ) );
+                    ( (Loggable)component ).setLogger( m_logkit.getLogKitLoggerForCategory( logger ) );
                 }
             }
         }
@@ -179,7 +177,7 @@ public class DefaultComponentFactory
 
         if( component instanceof LogKitManageable )
         {
-            ( (LogKitManageable)component ).setLogKitManager( m_logkit );
+            ( (LogKitManageable)component ).setLogKitManager( m_logkit.getLogKitManager() );
         }
 
         if( component instanceof Configurable )
