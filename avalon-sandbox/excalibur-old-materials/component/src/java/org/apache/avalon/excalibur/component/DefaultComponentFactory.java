@@ -49,14 +49,10 @@
 */
 package org.apache.avalon.excalibur.component;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.apache.avalon.excalibur.logger.LogKitManageable;
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -67,7 +63,6 @@ import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.service.WrapperServiceManager;
 import org.apache.avalon.framework.thread.ThreadSafe;
@@ -85,7 +80,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.24 $ $Date: 2003/07/07 16:27:53 $
+ * @version CVS $Revision: 1.25 $ $Date: 2003/11/07 12:46:44 $
  * @since 4.0
  */
 public class DefaultComponentFactory
@@ -105,6 +100,10 @@ public class DefaultComponentFactory
      */
     private ComponentManager m_componentManager;
 
+    /** The service manager for this component
+     */
+    private WrapperServiceManager m_serviceManager;
+    
     /** The configuration for this component.
      */
     private Configuration m_configuration;
@@ -121,8 +120,6 @@ public class DefaultComponentFactory
      *  proxies, if they are Composables.  These must be seperate maps in case
      *  a component falls into more than one category, which they often do.
      */
-    private final StaticBucketMap m_composableProxies = new StaticBucketMap();
-    private final StaticBucketMap m_serviceableProxies = new StaticBucketMap();
     private final StaticBucketMap m_componentProxies = new StaticBucketMap();
 
     /** Instrument Manager to register objects created by this factory with (May be null). */
@@ -203,6 +200,7 @@ public class DefaultComponentFactory
         m_instrumentManager = instrumentManager;
         m_instrumentableName = instrumentableName;
         m_proxyGenerator = new ComponentProxyGenerator( m_componentClass.getClassLoader() );
+        m_serviceManager = new WrapperServiceManager( m_componentManager );
     }
 
     /*---------------------------------------------------------------
@@ -282,26 +280,13 @@ public class DefaultComponentFactory
 
         if( component instanceof Composable )
         {
-            // wrap the real CM with a proxy, see below for more info
-            final ComponentManagerProxy manager =
-                new ComponentManagerProxy( m_componentManager );
-            ContainerUtil.compose( component, manager );
-
-            // Store the mapping of the component manager to its proxy so it can
-            //  be found to be decommissioned later.
-            m_composableProxies.put( component, manager );
+            ContainerUtil.compose( component, m_componentManager );
         }
 
         if( component instanceof Serviceable )
         {
-            // Wrap the real CM with a proxy, see below for more info
-            final ServiceManagerProxy manager =
-                new ServiceManagerProxy( m_componentManager );
-            ContainerUtil.service( component, manager );
+            ContainerUtil.service( component, m_serviceManager );
 
-            // Store the mapping of the component manager to its proxy so it can
-            //  be found to be decommissioned later.
-            m_serviceableProxies.put( component, manager );
         }
 
         if( component instanceof RoleManageable )
@@ -383,7 +368,7 @@ public class DefaultComponentFactory
         ContainerUtil.stop( decommissionComponent );
         ContainerUtil.dispose( decommissionComponent );
 
-        if ( decommissionComponent instanceof Composable )
+        /*if ( decommissionComponent instanceof Composable )
         {
             // A proxy will have been created.  Ensure that components created by it
             //  are also released.
@@ -397,7 +382,7 @@ public class DefaultComponentFactory
             //  are also released.
             ((ServiceManagerProxy)m_serviceableProxies.remove( decommissionComponent )).
                 releaseAll();
-        }
+        }*/
     }
 
     /*---------------------------------------------------------------
@@ -407,158 +392,4 @@ public class DefaultComponentFactory
     {
     }
 
-    /*---------------------------------------------------------------
-     * ThreadSafe Methods
-     *-------------------------------------------------------------*/
-    // No methods
-
-    /*---------------------------------------------------------------
-     * Methods
-     *-------------------------------------------------------------*/
-    /**
-     * Proxy <code>ComponentManager</code> class to maintain references to
-     * components looked up within a <code>Composable</code> instance created
-     * by this factory.
-     *
-     * This class acts a safety net to ensure that all components looked
-     * up within a <code>Composable</code> instance created by this factory are
-     * released when the instance itself is released.
-     */
-    private static class ComponentManagerProxy implements ComponentManager
-    {
-        private final ComponentManager m_realManager;
-        private final Collection m_unreleased = new ArrayList();
-
-        ComponentManagerProxy( ComponentManager manager )
-        {
-            m_realManager = manager;
-        }
-
-        public Component lookup( String role ) throws ComponentException
-        {
-            Component component = m_realManager.lookup( role );
-
-            addUnreleased( component );
-
-            return component;
-        }
-
-        public boolean hasComponent( String role )
-        {
-            return m_realManager.hasComponent( role );
-        }
-
-        public void release( Component component )
-        {
-            removeUnreleased( component );
-
-            m_realManager.release( component );
-        }
-
-        private synchronized void addUnreleased( Component component )
-        {
-            m_unreleased.add( component );
-        }
-
-        private synchronized void removeUnreleased( Component component )
-        {
-            m_unreleased.remove( component );
-        }
-
-        /**
-         * Releases all components that have been looked up through this
-         * <code>ComponentManager</code>, that have not yet been released
-         * via user code.
-         */
-        private void releaseAll()
-        {
-            Component[] unreleased;
-
-            synchronized( this )
-            {
-                unreleased = new Component[ m_unreleased.size() ];
-                m_unreleased.toArray( unreleased );
-            }
-
-            for( int i = 0; i < unreleased.length; i++ )
-            {
-                release( unreleased[ i ] );
-            }
-        }
-    }
-
-    /**
-     * Proxy <code>ServiceManager</code> class to maintain references to
-     * components looked up within a <code>Serviceable</code> instance created
-     * by this factory.
-     * <p>
-     * Extends the WrapperServiceManager class to avoid duplicating
-     * code and decrease the chance of making errors.
-     *
-     * This class acts a safety net to ensure that all components looked
-     * up within a <code>Serviceable</code> instance created by this factory are
-     * released when the instance itself is released.
-     */
-    private static class ServiceManagerProxy
-        extends WrapperServiceManager
-    {
-        private final ComponentManager m_realManager;
-
-        /** Use a StaticBucketMap rather than an ArrayList as above because this will
-         *   contain Proxy instances.  And proxy instances always return false for
-         *   equals() making a test for inclusion in the list always fail. */
-        private final StaticBucketMap m_unreleased = new StaticBucketMap();
-
-        ServiceManagerProxy( final ComponentManager manager )
-        {
-            super( manager );
-            m_realManager = manager;
-        }
-
-        public Object lookup( final String role )
-            throws ServiceException
-        {
-            final Object component = super.lookup( role );
-            addUnreleased( component );
-            return component;
-        }
-
-        public void release( final Object component )
-        {
-            removeUnreleased( component );
-            super.release( component );
-        }
-
-        private synchronized void addUnreleased( final Object component )
-        {
-            m_unreleased.put( component, component );
-        }
-
-        private synchronized void removeUnreleased( final Object component )
-        {
-            m_unreleased.remove( component );
-        }
-
-        /**
-         * Releases all components that have been looked up through this
-         * <code>ServiceManager</code>, that have not yet been released
-         * via user code.
-         */
-        private void releaseAll()
-        {
-            Object[] unreleased;
-
-            synchronized( this )
-            {
-                Collection unreleasedC = m_unreleased.keySet();
-                unreleased = new Object[ unreleasedC.size() ];
-                unreleasedC.toArray( unreleased );
-            }
-
-            for( int i = 0; i < unreleased.length; i++ )
-            {
-                release( unreleased[ i ] );
-            }
-        }
-    }
 }
