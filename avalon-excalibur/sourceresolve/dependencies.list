@@ -1,0 +1,11 @@
+# Dependencies
+#
+# artifact-id version groupid repository gumpid gumpopts
+#
+avalon-framework 4.1.4 framework http://www.apache.org/dist/avalon - runtime,inherit=runtime
+commons-httpclient 2.0-rc2 - - - runtime,inherit=runtime
+jsse 1.0.3_02 - - - runtime,inherit=runtime
+commons-logging 1.0.2 - - - runtime,inherit=runtime
+excalibur-fortress-container-api 1.2 excalibur-fortress - - runtime,inherit=runtime
+excalibur-fortress-meta 1.2 excalibur-fortress - - runtime,inherit=runtime
+qdox 1.1 - - - runtime,inherit=runtime

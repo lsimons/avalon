@@ -1,0 +1,18 @@
+# Dependencies
+#
+# artifact-id version groupid repository gumpid gumpopts
+#
+mm-mysql 2.0.13-bin - - - runtime,inherit=runtime
+hsqldb 1.7.1 - - - runtime,inherit=runtime
+avalon-framework 4.1.4 framework http://www.apache.org/dist/avalon - runtime,inherit=runtime
+avalon-logkit 2.0 - - - runtime,inherit=runtime
+excalibur-instrument 1.2 - - - runtime,inherit=runtime
+excalibur-pool-api 2.0 excalibur-pool - - runtime,inherit=runtime
+excalibur-pool-impl 2.0 excalibur-pool - - runtime,inherit=runtime
+excalibur-pool-instrumented 2.0 excalibur-pool - - runtime,inherit=runtime
+commons-collections 2.1 - - - runtime,inherit=runtime
+concurrent 1.3.1 - - - runtime,inherit=runtime
+excalibur-i18n 1.2.0-dev - - - runtime,inherit=runtime
+excalibur-testcase 1.3 excalibur-component - - runtime,inherit=runtime
+excalibur-component 1.3 - - - runtime,inherit=runtime
+excalibur-logger 1.2 - - - runtime,inherit=runtime

@@ -1,0 +1,14 @@
+# Dependencies
+#
+# artifact-id version groupid repository gumpid gumpopts
+#
+avalon-framework 4.1.4 framework http://www.apache.org/dist/avalon - runtime,inherit=runtime
+altrmi-common 0.9.6 altrmi - - runtime,inherit=runtime
+altrmi-client-interfaces 0.9.6 altrmi - - runtime,inherit=runtime
+altrmi-client-impl 0.9.6 altrmi - - runtime,inherit=runtime
+altrmi-generator 0.9.6 altrmi - - runtime,inherit=runtime
+excalibur-instrument 1.2 - - - runtime,inherit=runtime
+excalibur-instrument-spi 1.2 excalibur-instrument - - runtime,inherit=runtime
+excalibur-instrument-impl 1.2 excalibur-instrument - - runtime,inherit=runtime
+altrmi-server-interfaces 0.9.6 altrmi - - runtime,inherit=runtime
+altrmi-server-impl 0.9.6 altrmi - - runtime,inherit=runtime

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<project default="jar:install-snapshot" name="JBS-based build" basedir=".">
+    <property file="project.properties"/>
+    <property name="jbs.home" value="${user.home}/.jbs"/>
+    <import file="${jbs.home}/build-project.xml"/>
+</project>

@@ -1,0 +1,5 @@
+# Dependencies
+#
+# artifact-id version groupid repository gumpid gumpopts
+#
+avalon-framework-api 4.1.5 avalon-framework - - runtime,inherit=runtime

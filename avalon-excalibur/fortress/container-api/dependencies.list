@@ -1,0 +1,7 @@
+# Dependencies
+#
+# artifact-id version groupid repository gumpid gumpopts
+#
+avalon-framework 4.1.5 framework http://www.apache.org/dist/avalon - runtime,inherit=runtime
+excalibur-event-api 2.0 excalibur-event - - runtime,inherit=runtime
+excalibur-event-impl 2.0 excalibur-event - - runtime,inherit=runtime
