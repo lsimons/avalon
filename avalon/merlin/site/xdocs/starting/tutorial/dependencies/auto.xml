@@ -66,8 +66,8 @@
         the component using the Avalon Serviceable interface.
         </p>
         <p>
-        Resource supporting this tutorial are contained in the 
-        turorials/dependencies package.
+        Resources supporting this tutorial are contained in the 
+        turorials/dependencies/auto package.
         </p>
       </subsection>
       <subsection name="Adding a Serviceable method implementation">
@@ -174,7 +174,7 @@ $ merlin target\classes -execute
         </source>
         <p>
         In the logging output we see that Merlin has automatically
-        locating both RandomGeneratorProvider and IdentifiableComponent 
+        located both RandomGeneratorProvider and IdentifiableComponent 
         and provided these to the consumer.  The HelloComponent
         implementation has logged the result of accessing and using 
         both services.
