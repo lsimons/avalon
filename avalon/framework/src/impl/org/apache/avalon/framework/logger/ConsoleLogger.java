@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.framework.logger;
 
-
 /**
  * Logger sending everything to the standard output streams.
  * This is mainly for the cases when you have a utility that
@@ -16,7 +15,8 @@ package org.apache.avalon.framework.logger;
  * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public final class ConsoleLogger implements Logger
+public final class ConsoleLogger
+    implements Logger
 {
     public final static int LEVEL_DEBUG = 0;
     public final static int LEVEL_INFO = 1;
