@@ -169,7 +169,10 @@ public class DefaultInstaller
                 final String name = entryName.replace( '/', File.separatorChar );
                 //TODO: Do this before filter and use getParentFile(), getName()
                 final File destination = new File( directory, name );
-                expandZipEntry( zipFile, entry, destination );
+                if ( ! destination.exists() )
+                {
+                    expandZipEntry( zipFile, entry, destination );
+                }
             }
         }
         catch( final IOException ioe )
