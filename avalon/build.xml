@@ -31,7 +31,8 @@ Legal:
   <property name="version" value="4.0"/>
   <property name="year" value="1999-2001"/>
   <property name="status" value="final"/>
-
+  <property name="release" value="1st"/>
+  <property name="short.version" value="4.0"/>
   <!--
     these are here only for those who use jikes compiler. For other
     developers this part makes no difference.
@@ -330,6 +331,8 @@ Legal:
     <filter token="version" value="${version}"/>
     <filter token="year" value="${year}"/>
     <filter token="status" value="${status}"/>
+    <filter token="release" value="${release}"/>
+    <filter token="short-version" value="${short.version}"/>
 
     <mkdir dir="${build.dir}" />
     <mkdir dir="${dist.base}" />
