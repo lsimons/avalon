@@ -55,7 +55,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.26 $
+ * @version $Revision: 1.27 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -171,12 +171,6 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
               MERLIN_RUNTIME, 
               String.class, null ),
             new Parameter( 
-              MERLIN_RUNTIME_IMPLEMENTATION, 
-              String.class, null ),
-            new Parameter( 
-              MERLIN_CS_RUNTIME_IMPLEMENTATION, 
-              String.class, null ),
-            new Parameter( 
               MERLIN_OVERRIDE, String.class, null ),
             new Parameter( 
               MERLIN_DIR, File.class, context.getInitialWorkingDirectory() ),
@@ -233,13 +227,15 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
             final File work = context.getInitialWorkingDirectory();
             DefaultsBuilder builder = new DefaultsBuilder( key, work );
             Properties defaults = 
-              Defaults.getStaticProperties( DefaultCriteria.class, "/merlin.properties" );
+              Defaults.getStaticProperties( 
+                DefaultCriteria.class, "/merlin.properties" );
 
             //
             // set the ${merlin.dir} value 
             //
 
-            defaults.setProperty( "merlin.dir", getWorkingDirectory().toString() );
+            defaults.setProperty( 
+              "merlin.dir", getWorkingDirectory().toString() );
 
             //
             // get the consolidated properties
@@ -263,7 +259,8 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
             for( int i=0; i<keys.length; i++ )
             {
                 final String propertyKey = keys[i];
-                final String value = properties.getProperty( propertyKey );
+                final String value = 
+                  properties.getProperty( propertyKey );
                 if( null != value )
                 {
                     put( propertyKey, value );
@@ -453,14 +450,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
         }
         else
         {
-            if( isCodeSecurityEnabled() )
-            {
-                return getSecureRuntimeImplementation();
-            }
-            else
-            {
-                return getStandardRuntimeImplementation();
-            }
+            return getStandardRuntimeImplementation();
         }
     }
 
@@ -471,16 +461,6 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
     public Artifact getStandardRuntimeImplementation()
     {
         String value = (String) get( MERLIN_RUNTIME_IMPLEMENTATION );
-        return Artifact.createArtifact( value );
-    }
-
-   /**
-    * Return the artifact reference to the secure runtime implementation factory .
-    * @return the secure runtime implementation factory artifact
-    */
-    public Artifact getSecureRuntimeImplementation()
-    {
-        String value = (String) get( MERLIN_CS_RUNTIME_IMPLEMENTATION );
         return Artifact.createArtifact( value );
     }
 

@@ -411,9 +411,13 @@ public class DefaultFactory implements Factory
         //
 
         Configuration secConfig = config.getChild( "security" );
-        SecurityProfile[] profiles = 
-          SECURITY_CREATOR.createSecurityProfiles( secConfig );
-        factory.setSecurityProfiles( profiles );
+        if( context.isCodeSecurityEnabled() )
+        {
+            SecurityProfile[] profiles = 
+              SECURITY_CREATOR.createSecurityProfiles( secConfig );
+            factory.setSecurityProfiles( profiles );
+        }
+        factory.
 
         //
         // create the application repository

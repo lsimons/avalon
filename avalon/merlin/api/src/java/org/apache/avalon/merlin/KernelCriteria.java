@@ -26,7 +26,7 @@ import org.apache.avalon.repository.Artifact;
 /**
  * A service that provides access to versioned resources.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/03/01 13:40:20 $
+ * @version $Revision: 1.10 $ $Date: 2004/03/01 16:31:41 $
  */
 public interface KernelCriteria extends Map
 {
@@ -85,16 +85,10 @@ public interface KernelCriteria extends Map
       "merlin.logging.implementation";
 
    /**
-    * The default merlin runtime for non-secure execution.
+    * The default merlin runtime artifact spec.
     */
     String MERLIN_RUNTIME_IMPLEMENTATION = 
-      "merlin.runtime.standard.implementation";
-
-   /**
-    * The default secure runtime.
-    */
-    String MERLIN_CS_RUNTIME_IMPLEMENTATION = 
-      "merlin.runtime.csi.implementation";
+      "merlin.runtime.implementation";
 
    /**
     * The preferred runtime.
@@ -241,19 +235,6 @@ public interface KernelCriteria extends Map
     * @return the runtime implementation artifact
     */
     Artifact getRuntimeImplementation();
-
-   /**
-    * Return the standard non-secure runtime implementation artifact.
-    * @return the runtime implementation artifact
-    */
-    Artifact getStandardRuntimeImplementation();
-
-   /**
-    * Return the code secure runtime implementation artifact.
-    * @return the runtime implementation artifact
-    */
-    Artifact getSecureRuntimeImplementation();
-
 
    /**
     * Return the url to the configuration override targets.

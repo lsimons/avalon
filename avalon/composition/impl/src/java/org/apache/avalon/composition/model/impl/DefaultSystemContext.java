@@ -57,7 +57,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.23 $ $Date: 2004/02/29 22:25:26 $
+ * @version $Revision: 1.24 $ $Date: 2004/03/01 16:31:41 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext
@@ -110,81 +110,6 @@ public class DefaultSystemContext extends DefaultContext
    /**
     * Creation of a new system context.
     *
-    * @param context a repository initial context
-    * @param artifact an artifact identifying the default runtime
-    * @param logging the logging manager
-    * @param base the base directory from which relative references 
-    *   within a classpath or library directive shall be resolved
-    * @param home the home directory
-    * @param temp the temp directory
-    * @param repository the application repository to be used when resolving 
-    *   resource directives
-    * @param category the kernel logging category name
-    * @param trace flag indicating if internal logging is enabled
-    * @param timeout a system wide default deployment timeout
-    * @param security the security profiles
-    */
-    /*
-    public DefaultSystemContext( 
-      InitialContext context,
-      Artifact artifact, 
-      LoggingManager logging, 
-      File base, 
-      File home, 
-      File temp, 
-      Repository repository, 
-      String category, 
-      boolean trace, 
-      long timeout, 
-      SecurityProfile[] security,
-      TargetDirective[] targets ) throws SystemException
-    {
-        this( 
-          context, artifact, null, logging, base, home, temp, 
-          repository, category, trace, timeout, security,
-          targets );
-    }
-    */
-
-   /**
-    * Creation of a new system context.
-    *
-    * @param clazz the runtime class
-    * @param logging the logging manager
-    * @param base the base directory from which relative references 
-    *   within a classpath or library directive shall be resolved
-    * @param home the home directory
-    * @param temp the temp directory
-    * @param repository the application repository to be used when resolving 
-    *   resource directives
-    * @param category the kernel logging category name
-    * @param trace flag indicating if internal logging is enabled
-    * @param timeout a system wide default deployment timeout
-    * @param security the security profiles
-    */
-    /*
-    public DefaultSystemContext( 
-      Class clazz, 
-      LoggingManager logging, 
-      File base, 
-      File home, 
-      File temp, 
-      Repository repository, 
-      String category, 
-      boolean trace, 
-      long timeout, 
-      SecurityProfile[] security,
-      TargetDirective[] targets ) throws SystemException
-    {
-        this( 
-          null, null, clazz, logging, base, home, temp, repository, category, 
-          trace, timeout, security, targets );
-    }
-    */
-
-   /**
-    * Creation of a new system context.
-    *
     * @param context the repository intial context
     * @param artifact the runtime artifact
     * @param runtime the runtime class
@@ -213,6 +138,7 @@ public class DefaultSystemContext extends DefaultContext
       String category, 
       boolean trace, 
       long timeout, 
+      boolean secure, 
       SecurityProfile[] security,
       TargetDirective[] targets ) throws SystemException
     {
@@ -248,17 +174,14 @@ public class DefaultSystemContext extends DefaultContext
         m_system = SystemContext.class.getClassLoader();
         m_common = DeploymentModel.class.getClassLoader();
 
-        if( security.length > 0 )
+        m_secure = secure;
+
+        if( m_secure )
         {
-            m_secure = true;
             if( System.getSecurityManager() == null )
             {
                 System.setSecurityManager( new SecurityManager() );
             }
-        }
-        else
-        {
-            m_secure = false;
         }
 
         m_factory = new DefaultModelFactory( this, security, targets );
