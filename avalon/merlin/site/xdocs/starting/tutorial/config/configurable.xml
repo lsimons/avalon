@@ -112,7 +112,7 @@ public class HelloComponent extends AbstractLogEnabled
       <subsection name="Declaring a Configuration">
 
         <p>
-        A number of different approach to controllling the confiugration 
+        A number of different approaches to controlling the configuration 
         that is supplied to a component are presented in the <a href="block.html">next 
         turorial</a>.
         </p>
