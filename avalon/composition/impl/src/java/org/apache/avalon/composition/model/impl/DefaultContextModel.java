@@ -75,7 +75,7 @@ import org.apache.avalon.composition.data.ConstructorDirective;
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/01 23:34:45 $
+ * @version $Revision: 1.4 $ $Date: 2004/01/04 13:37:42 $
  */
 public class DefaultContextModel extends AbstractLogEnabled implements ContextModel
 {
@@ -167,10 +167,31 @@ public class DefaultContextModel extends AbstractLogEnabled implements ContextMo
                 }
                 catch( ContextException e )
                 {
-                    final String error = 
-                      REZ.getString( 
-                        "context.non-standard-avalon-key.error", key );
-                    throw new ModelException( error );
+                    if( entry.isRequired() )
+                    {
+                        final String error = 
+                          REZ.getString( 
+                            "context.non-standard-avalon-key.error", key );
+                         throw new ModelException( error );
+                    }
+                }
+            }
+            else if( key.startsWith( "urn:merlin:" ) )
+            {
+                try
+                {
+                    Object value = m_context.getSystemContext().get( key );
+                    m_map.put( key, value );
+                }
+                catch( ContextException e )
+                {
+                    if( entry.isRequired() )
+                    {
+                        final String error = 
+                          REZ.getString( 
+                            "context.non-standard-avalon-key.error", key );
+                        throw new ModelException( error );
+                    }
                 }
             }
             else
