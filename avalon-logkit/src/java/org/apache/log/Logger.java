@@ -477,6 +477,11 @@ public class Logger
         //Create new logger
         final Logger child = new Logger( m_errorHandler, category, null, this );
 
+        if( m_additivity )
+        {
+            child.setAdditivity( true );
+        }
+
         //Add new logger to child list
         if( null == m_children )
         {
