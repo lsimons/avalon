@@ -41,7 +41,7 @@ import org.apache.avalon.framework.service.ServiceException;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/08/04 10:33:33 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/08/05 02:53:11 $
  * @since 4.1
  */
 public class DefaultInstrumentManager
@@ -867,6 +867,7 @@ public class DefaultInstrumentManager
                 // The sample lease has expired.
                 InstrumentProxy instrument = sample.getInstrumentProxy();
                 instrument.removeInstrumentSample( sample );
+                sample.expire();
                 
                 m_leasedInstrumentSamples.remove( sample );
                 m_leasedInstrumentSampleArray = null;

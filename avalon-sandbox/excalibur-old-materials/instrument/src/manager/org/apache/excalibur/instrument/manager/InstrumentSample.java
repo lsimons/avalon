@@ -22,7 +22,7 @@ import org.apache.avalon.framework.logger.LogEnabled;
  *  InstrumentClient.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/03 15:00:38 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/08/05 02:53:11 $
  * @since 4.1
  */
 interface InstrumentSample
@@ -133,6 +133,13 @@ interface InstrumentSample
      *         permanent.
      */
     long extendLease( long lease );
+    
+    /**
+     * Tells the sample that its lease has expired.  No new references to
+     *  the sample will be made available, but clients which already have
+     *  access to the sample may continue to use it.
+     */
+    void expire();
     
     /**
      * Obtains a static snapshot of the InstrumentSample.
