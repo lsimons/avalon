@@ -604,9 +604,9 @@ Legal:
 
         <javac srcdir="${test.dir}"
             destdir="${target.testclasses}"
-            debug="${target.debug}"
-            optimize="${target.optimize}"
-            deprecation="${target.deprecation}">
+            debug="${build.debug}"
+            optimize="${build.optimize}"
+            deprecation="${build.deprecation}">
             <classpath refid="test.class.path"/>
             <src path="${test.dir}"/>
         </javac>
