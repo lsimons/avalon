@@ -16,7 +16,6 @@ import java.util.Iterator;
 import org.apache.avalon.cornerstone.services.packet.PacketHandler;
 import org.apache.avalon.cornerstone.services.packet.PacketHandlerFactory;
 import org.apache.avalon.excalibur.thread.ThreadPool;
-import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
@@ -27,7 +26,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  */
 class Acceptor
     extends AbstractLogEnabled
-    implements Component, Runnable
+    implements Runnable
 {
     private final DatagramSocket m_datagramSocket;
     private final PacketHandlerFactory m_handlerFactory;
@@ -131,7 +130,7 @@ class Acceptor
 
 class PacketHandlerRunner
     extends AbstractLogEnabled
-    implements Runnable, Component
+    implements Runnable
 {
     private DatagramPacket m_packet;
     private Thread m_thread;
