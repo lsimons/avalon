@@ -29,7 +29,7 @@
       <section name="Avalon Repository - Example">
 
          <p>The following example is taken from the the 
-         <a href="http://avalon.apache.org/merlin">Merlin</a> project. 
+         <a href="../../../about/index.html">Merlin</a> project. 
          It demonstrates the creation of an embedded logging service using
          the Repository Facility builder, factory and criteria handling 
          patterns.</p>

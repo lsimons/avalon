@@ -52,7 +52,7 @@
     </p>
     <p>
       It is also a good idea to understand the
-      <a href="http://avalon.apache.org/framework/cop/guide-patterns-soii.html">
+      <a href="../../about/cop/guide-patterns-soii.html">
       separation of interface and implementation</a> when designing components.
     </p>
   </section>

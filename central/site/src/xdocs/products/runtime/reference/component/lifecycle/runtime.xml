@@ -39,7 +39,11 @@ Runtime management deals with interaction with a component between the incarnati
             <td><p>suspension</p></td>
             <td>
 <p>
-A component implementing the the <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/activity/Suspendable.html">Suspendable</a> lifecycle may be suspended by a container management system. Following suspension a container may re-apply lifecycle artifact delivery stages (logging, contextualization, service, parameterization). 
+A component implementing the
+<a href="/api/org/apache/avalon/framework/activity/Suspendable.html">Suspendable</a>
+lifecycle may be suspended by a container management system. Following 
+suspension a container may re-apply lifecycle artifact delivery stages 
+(logging, contextualization, service, parameterization). 
 </p>
 <p><i>Suspendable Example:</i></p>
 <source>
@@ -57,7 +61,10 @@ A component implementing the the <a href="http://avalon.apache.org/framework/api
             <td><p>resumption</p></td>
             <td>
 <p>
-A component implementing the the <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/activity/Suspendable.html">Suspendable</a> lifecycle may be placed back into operation following suspension by a container management system.
+A component implementing the 
+<a href="/api/org/apache/avalon/framework/activity/Suspendable.html">Suspendable</a>
+lifecycle may be placed back into operation following suspension by a container
+management system.
 </p>
 <p><i>Suspendable Example:</i></p>
 <source>

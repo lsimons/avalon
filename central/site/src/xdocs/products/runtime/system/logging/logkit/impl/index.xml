@@ -26,7 +26,7 @@
         in applications. To get started using LogKit, it is recomended that you read the
         <a href="whitepaper.html">whitepaper</a>
         and browse the
-        <a href="http://avalon.apache.org/logkit/api/index.html">API docs</a>.
+        <a href="../../../../../../api/org/apache/log/package.html">API docs</a>.
       </p>
     </section>
   </body>

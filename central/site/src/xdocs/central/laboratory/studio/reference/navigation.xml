@@ -17,9 +17,8 @@
  limitations under the License.
 -->
 
-<project href="http://avalon.apache.org/logkit" 
-         name="Avalon Framework">
-  <title>Merlin Developer</title>
+<project name="Avalon Studio">
+  <title>Avalon Studio</title>
 
   <body>
     <menu>

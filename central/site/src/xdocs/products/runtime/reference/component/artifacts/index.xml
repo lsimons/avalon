@@ -31,12 +31,21 @@
       <subsection name="Overview">
 
       <p>
-Component-based solutions leverage the principals of Inversersion of Control (IoC). This principal leads to the notion that a component should be supplied with the resources it needs in order to function.  Another way of looking at this is that the component code should not be cluttered with content that is attempting to resolve resources relative to its environment. Through the application of a meta-info model a container has available to it a complete description of the component type and from this information can build the necessary resources that a component needs. These resources are supplied to a component through a set of standard Avalon lifecycle artificats.  These include 
-<a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/logger/Logger.html">Logger</a>, 
-<a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/context/Context.html">Context</a>, 
-<a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/configuration/Configuration.html">Configuration</a>, 
-<a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/parameters/Parameters.html">Parameters</a>, and 
-<a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/service/ServiceManager.html">ServiceManager</a>.
+Component-based solutions leverage the principals of Inversersion of Control 
+(IoC). This principal leads to the notion that a component should be supplied 
+with the resources it needs in order to function.  Another way of looking at 
+this is that the component code should not be cluttered with content that is 
+attempting to resolve resources relative to its environment. Through the 
+application of a meta-info model a container has available to it a complete 
+description of the component type and from this information can build the 
+necessary resources that a component needs. These resources are supplied to 
+a component through a set of standard Avalon lifecycle artificats.  These 
+include 
+<a href="/api/org/apache/avalon/framework/logger/Logger.html">Logger</a>, 
+<a href="/api/org/apache/avalon/framework/context/Context.html">Context</a>, 
+<a href="/api/org/apache/avalon/framework/configuration/Configuration.html">Configuration</a>, 
+<a href="/api/org/apache/avalon/framework/parameters/Parameters.html">Parameters</a>, and 
+<a href="/api/org/apache/avalon/framework/service/ServiceManager.html">ServiceManager</a>.
       </p>
 
       <p>
@@ -57,7 +66,15 @@ The artifact injection strategy enables the passing of artifacts via the compone
           <tr>
             <td>phased</td>
             <td>
-The phased artifact delivery strategy is based on a set of delivery interfaces (<a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/logger/LogEnabled.html">LogEnabled</a>, <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/context/Contextualizable.html">Contextualizable</a>, <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/configuration/Configurable.html">Configurable</a>, <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/parameters/Parameterizable.html">Parameterizable</a> and <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/service/Serviceable.html">Serviceable</a>).  The advantage of phased delivery over the injection strategy relates to artifact re-assignment by a component management subsystem. Phased artifact delivery is the traditional approach used be earlier Avalon solutions.
+The phased artifact delivery strategy is based on a set of delivery interfaces 
+(<a href="/api/org/apache/avalon/framework/logger/LogEnabled.html">LogEnabled</a>, 
+<a href="/api/org/apache/avalon/framework/context/Contextualizable.html">Contextualizable</a>, 
+<a href="/api/org/apache/avalon/framework/configuration/Configurable.html">Configurable</a>, 
+<a href="/api/org/apache/avalon/framework/parameters/Parameterizable.html">Parameterizable</a> and 
+<a href="/api/org/apache/avalon/framework/service/Serviceable.html">Serviceable</a>).  
+The advantage of phased delivery over the injection strategy relates to artifact
+re-assignment by a component management subsystem. Phased artifact delivery is 
+the traditional approach used in earlier Avalon solutions.
             </td>
           </tr>
         </table>

@@ -13,7 +13,7 @@
       <table>
         <tr><th>Topic</th><th>Description</th></tr>
         <tr><td>
-          <a href="http://avalon.apache.org/components/index.html">Cornerstone Collection</a></td>
+          Cornerstone Collection</td>
           <td>
             <p>
         The cornerstone project is the home of a set of component blocks
@@ -25,7 +25,7 @@
         </tr>
         <tr>
           <td>
-          <a href="http://avalon.apache.org/excalibur/index.html">Excalibur Utilities</a></td>
+          <a href="http://excalibur.apache.org">Excalibur Utilities</a></td>
           <td>
             <p>
         The Excalibur project is the home of a set of utility services

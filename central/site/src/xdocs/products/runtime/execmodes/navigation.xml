@@ -23,10 +23,10 @@
 
   <body>
     <menu>
-      <item name="Generic Embedding" href="generic.html"/>
       <item name="CLI Handler" href="cli.html"/>
-      <item name="Servlet" href="servlet.html"/>
-      <item name="Unit" href="unit.html"/>
+      <item name="Generic Embedded" href="generic.html"/>
+      <item name="Embedded in Servlet" href="servlet.html"/>
+      <item name="Unit Testing" href="unit.html"/>
     </menu>
  </body>
 

@@ -51,7 +51,7 @@
         <p>
           The Merlin container supports both LogKit and Log4J logging subsystem,
           and please look at the 
-          <a href="http://avalon.apache.org/logging/index.html">Avalon Logging</a> subsystem for 
+          <a href="../../../../products/runtime/system/logging/index.html">Avalon Logging</a> subsystem for 
           details.
         </p>
       </subsection>
@@ -72,7 +72,7 @@
           The ServiceManager will only provide the component with components
           that satisfy the <strong>dependencies</strong> declaration in the
           component's 
-          <a href="http://avalon.apache.org/meta/meta/info/type/index.html">Type descriptor</a> 
+          <a href="../../../../products/runtime/system/meta/meta/info/type/index.html">Type descriptor</a> 
           (.xinfo). If it attempts to lookup anything outside the declared
           dependencies, the container is expected to throw a ServiceException.
         </p>
@@ -99,7 +99,7 @@
         <p>
           The above construct allow for very complex Configurations, using
           XML nested elements, but not any XML, it must follow certain rules.
-          See <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/configuration/Configuration.html">
+          See <a href="/api/org/apache/avalon/framework/configuration/Configuration.html">
           Configuration</a> API docs for details.
         </p>
       </subsection>
@@ -120,7 +120,7 @@
 </source>
         <p>
           It is also possible to create custom context entries. 
-          <a href="http://avalon.apache.org/merlin/starting/advanced/context.html">Read more about it.</a>
+          <a href="../../../about/tutorials/advanced/context.html">Read more about it.</a>
         </p>
       </subsection>
       
@@ -137,7 +137,7 @@
         </p>
         <p>
           Avalon has in the meantime created the 
-          <a href="http://avalon.apache.org/repository/index.html">Avalon Repository</a> which allows
+          <a href="../../../../products/runtime/system/repository/index.html">Avalon Repository</a> which allows
           the applications to be distributed without any Jars, and the right
           versions of the Jars will be picked up at one or many central 
           repositories. This system is compatible with the Maven repositories,
@@ -153,7 +153,7 @@
           The most straight forward deployment case is the stand-alone server,
           that is started from the command-line. No programming is required, 
           and there are heaps of command-line arguments available. Read about
-          the details <a href="http://avalon.apache.org/merlin/merlin/kernel/cli.html">here</a>.
+          the details <a href="../../../../products/runtime/execmodes/cli.html">here</a>.
         </p>
         <p>
           Merlin even supports that it is bootstrapped, with a tiny JAR, which 
@@ -182,7 +182,7 @@
       <subsection name="Running as a Windows NT/XP Service" >
         <p>
           Merlin is capable of starting as a Windows NT/XP Service. You can
-          read about how on <a href="http://avalon.apache.org/merlin/merlin/kernel/nt.html">this 
+          read about how on <a href="../../../about/installation/nt.html">this 
           page.</a>
         </p>
       </subsection>
@@ -194,7 +194,9 @@
           into components, you will need to create Merlin embedded inside your
           application. About 10-15 lines of code is currently required, where
           the InitialContext is established, the Directives are setup and a 
-          Kernel is created. It looks more complicated than it is, but it is
+          Kernel is created. It 
+          <a href="../../../../products/runtime/execmodes/servlet.html">looks 
+          more complicated</a> than it is, but it is
           extremely powerful, and allows the same features as the stand-alone
           server, in fact the small bootstrapper in the stand-alone case, does
           exactly the same thing. 
@@ -205,7 +207,7 @@
         <p>
           If the Servlet engine allows, it is possible to embedd Merlin inside
           a Servlet. The code required to do it, can be seen
-          <a href="http://avalon.apache.org/merlin/extensions/servlet/index.html">here</a>.
+          <a href="../../../../products/runtime/execmodes/servlet.html">here</a>.
           It is expected that this Servlet will undergo some enhancement prior
           to be officially released in the Merlin distribution. This is to
           ensure maximum usability for our users.

@@ -28,10 +28,22 @@
 
     <section name="Component Descriptors">
       <p>
-Within the COP (Component Oriented Programming) domain there is a principal that the component is supplied with the resources its needs in order to function properly.  The direct implication of this principal is that a component should declare exactly what it needs.  When we consider a portable and reusable component we need to think its deployment dependecies, structural dependencies, context assumptions, configuration and parameterization criteria, throught to minor details such the logging channels that the component implementation assumes.
+Within the COP (Component Oriented Programming) domain there is a principal
+that the component is supplied with the resources its needs in order to 
+function properly.  The direct implication of this principal is that a 
+component should declare exactly what it needs.  When we consider a 
+portable and reusable component we need to think its deployment 
+dependecies, structural dependencies, context assumptions, configuration 
+and parameterization criteria, throught to minor details such the logging 
+channels that the component implementation assumes.
       </p>
       <p>
-This information is captured in a object called a Type.  An instance of Type describes the component and can be used by a container without necessarily loading the component class.  Instance of Type are created from an XML external form.  The XML descriptor can be created manually or more typically through development tools that automate the creation process based on javadoc tags included in the source code.
+This information is captured in a object called a Type.  An instance of Type 
+describes the component and can be used by a container without necessarily 
+loading the component class.  Instance of Type are created from an XML 
+external form.  The XML descriptor can be created manually or more typically 
+through development tools that automate the creation process based on javadoc 
+tags included in the source code.
       </p>
     </section>
 
@@ -39,10 +51,16 @@ This information is captured in a object called a Type.  An instance of Type des
 
       <subsection name="Javadoc Tag Markup">
         <p>
-Information about a component type may be declared in the form of javadoc tags (refer <a href="http://avalon.apache.org/meta/tools/tags/index.html">Tag Specification</a>.  Using <a href="http://avalon.apache.org/meta/tools/index.html">development tools</a> supplied as part of the <a href="http://avalon.apache.org/meta/index.html">Avalon Meta</a> package - the process of generation of an XML type descriptor can be completely automated.  
+Information about a component type may be declared in the form of javadoc tags
+(refer <a href="../../../system/meta/tags/index.html">Tag Specification</a>.  
+Using <a href="../../../tools/index.html">development 
+tools</a> supplied as part of the 
+<a href="../../../system/meta/index.html">Avalon Meta</a> package - 
+the process of generation of an XML type descriptor can be completely automated.  
         </p>
         <p>
-A special tag @avalon.component is used to identify a class as a component.  The following code framgment illustrates the use of the @avalon.component tag.
+A special tag @avalon.component is used to identify a class as a component.  The
+following code framgment illustrates the use of the @avalon.component tag.
         </p>
 <source>
 /**
@@ -98,15 +116,23 @@ Additional tags are used to markup requirements that a component class has towar
       <subsection name="XML External Form">
 
         <p>
-A component type may be associated with a component class by colocating an XML file with the suffix "xinfo" with the component implementation class.  For example, the class tutorial.Hello is packaged in a jar file under the path /tutorial/Hello.class.  The xinfo file is packaged as /tutorial/Hello.xinfo.
+A component type may be associated with a component class by colocating an 
+XML file with the suffix "xinfo" with the component implementation class.  
+For example, the class tutorial.Hello is packaged in a jar file under the 
+path /tutorial/Hello.class.  The xinfo file is packaged as 
+/tutorial/Hello.xinfo.
         </p>
 
         <p>
-The formal specification of the <a href="http://avalon.apache.org/meta/meta/info/index.html">XML external form</a> for component type descriptors is available as part of the <a href="http://avalon.apache.org/meta/index.html">Avalon Meta Package</a>.
+The formal specification of the 
+<a href="../../../system/meta/info/index.html">XML external 
+form</a> for component type descriptors is available as part of the 
+<a href="../../../systen/meta/index.html">Avalon Meta Package</a>.
         </p>
 
         <p>
-An example of a xinfo XML content taken from the context casting tutorial is presented below.
+An example of a xinfo XML content taken from the context casting tutorial is 
+presented below.
         </p>
 
 <source><![CDATA[
@@ -131,7 +157,16 @@ An example of a xinfo XML content taken from the context casting tutorial is pre
       <subsection name="Type Model">
 
         <p>
-The Avalon Meta package provides the overal meta-info layer within which a component type descriptor is defined.  The descriptor is an immutable data object that contains a component classname, attributes, context dependencies, deployment dependencies, runtime service dependencies, service and extension publication, and associating logging channel assumptions. The full specification of the <a href="http://avalon.apache.org/meta/api/org/apache/avalon/meta/info/Type.html">Type</a> class is provided in the package javadoc.  Type establishment is typically automated by the container by scanner jar file for xinfo descriptors (or possibly through dynamic type creation).
+The Avalon Meta package provides the overal meta-info layer within which a 
+component type descriptor is defined.  The descriptor is an immutable data 
+object that contains a component classname, attributes, context dependencies, 
+deployment dependencies, runtime service dependencies, service and extension 
+publication, and associating logging channel assumptions. The full specification
+of the 
+<a href="/api/org/apache/avalon/meta/info/Type.html">Type</a>
+class is provided in the package javadoc.  Type establishment is typically 
+automated by the container by scanner jar file for xinfo descriptors (or 
+possibly through dynamic type creation).
         </p>
 
       </subsection>

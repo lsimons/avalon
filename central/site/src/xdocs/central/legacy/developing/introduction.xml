@@ -44,9 +44,9 @@
       AvalonNet which is a Microsoft dotNet implementation of 
       Avalon. Avalon also carries a lot of legacy, which was deprecated
       in 2004, namely 
-      <a href="http://avalon.apache.org/excalibur">Excalibur</a>,
-      <a href="http://avalon.apache.org/phoenix">Phoenix</a> and 
-      <a href="http://avalon.apache.org/excalibur/fortress">Fortress</a>.
+      <a href="http://excalibur.apache.org">Excalibur</a>,
+      <a href="http://loom.codehaus.org">Phoenix now known as Loom</a> and 
+      <a href="http://excalibur.apache.org/fortress">Fortress</a>.
       These containers and utilities has been deprecated and no longer
       being actively worked on.
     </p>
