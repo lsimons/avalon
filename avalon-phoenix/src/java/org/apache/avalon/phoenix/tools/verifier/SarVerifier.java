@@ -23,7 +23,6 @@ import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockListener;
-import org.apache.avalon.phoenix.Service;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
@@ -58,7 +57,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * </ul>
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2002/05/14 10:42:50 $
+ * @version $Revision: 1.13 $ $Date: 2002/05/15 12:02:12 $
  */
 public class SarVerifier
     extends AbstractLogEnabled
@@ -663,14 +662,6 @@ public class SarVerifier
                 final String message =
                     REZ.getString( "service-not-interface", name, classname );
                 throw new VerifyException( message );
-            }
-
-            if( Service.class.isAssignableFrom( classes[ i ] ) )
-            {
-                final String message =
-                    REZ.getString( "service-interface-deprecated", name, classname );
-                getLogger().warn( message );
-                System.err.println( message );
             }
 
             checkNotFrameworkInterface( name, classname, classes[ i ] );
