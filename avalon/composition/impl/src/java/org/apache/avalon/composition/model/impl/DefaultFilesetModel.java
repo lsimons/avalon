@@ -37,7 +37,7 @@ import org.apache.avalon.framework.logger.Logger;
  * <code>FilesetDirective</code>.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/04/21 05:38:07 $
+ * @version $Revision: 1.5 $ $Date: 2004/04/21 06:20:41 $
  */
 public class DefaultFilesetModel extends AbstractLogEnabled
     implements FilesetModel
@@ -200,7 +200,6 @@ public class DefaultFilesetModel extends AbstractLogEnabled
             throw new IllegalStateException("No basedir set");
         }
         if (!m_anchor.exists()) {
-            System.out.println("basedir=[" + m_anchor + "]");
             throw new IllegalStateException("basedir " + m_anchor
                                             + " does not exist");
         }
