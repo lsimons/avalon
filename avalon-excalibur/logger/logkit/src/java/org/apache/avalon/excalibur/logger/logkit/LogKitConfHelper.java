@@ -20,6 +20,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.apache.avalon.excalibur.logger.DefaultLogTargetFactoryManager;
+import org.apache.avalon.excalibur.logger.DefaultLogTargetManager;
 import org.apache.avalon.excalibur.logger.LogTargetFactoryManageable;
 import org.apache.avalon.excalibur.logger.LogTargetFactoryManager;
 import org.apache.avalon.excalibur.logger.LogTargetManager;
@@ -49,7 +51,7 @@ import org.apache.log.util.Closeable;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/19 09:12:05 $
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/24 19:23:05 $
  * @since 4.0
  */
 public class LogKitConfHelper extends AbstractLogEnabled implements
