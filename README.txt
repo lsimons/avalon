@@ -62,9 +62,7 @@ A brief explanation of the source respository structure.  For more
 info, see each subproject's own README documentation:
 
    central              
-     laboratory         <--  code sandbox, latest developme# magic system home directory
-
-project.home = central/systemnts
+     laboratory         <--  code sandbox, latest development magic system home directory
      site               <--  XML source site documentation
      system             <--  site transformation (XSL) resources
    discovery            <--  service publishing and delivery system
