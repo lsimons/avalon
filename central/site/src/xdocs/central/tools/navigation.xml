@@ -23,12 +23,7 @@
 
  <body>
     <menu>
-      <item name="Welcome" href="about/index.html"/>
-      <item name="Community" href="community/index.html"/>
-      <item name="Laboratory" href="laboratory/index.html"/>
-      <item name="Tools" href="tools/index.html"/>
-      <item name="Legacy" href="legacy/index.html"/>
-      <item name="DPML" href="dpml/index.html"/>
+      <item name="Magic" href="magic/index.html"/>
     </menu>
  </body>
 
