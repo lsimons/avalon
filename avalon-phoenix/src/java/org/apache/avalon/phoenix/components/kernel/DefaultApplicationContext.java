@@ -158,11 +158,10 @@ class DefaultApplicationContext
     public Configuration getConfiguration( final String component )
         throws ConfigurationException
     {
-        return m_repository.getConfiguration( m_metaData.getName(), component );
-    }
+        final Configuration configuration = m_repository.getConfiguration( m_metaData.getName(), component );
 
-    public void validateConfiguration( String component ) throws ConfigurationException
-    {
-        m_validator.isValid( m_metaData.getName(), component, getConfiguration( component ) );
+        m_validator.isValid( m_metaData.getName(), component, configuration );
+
+        return configuration;
     }
 }
