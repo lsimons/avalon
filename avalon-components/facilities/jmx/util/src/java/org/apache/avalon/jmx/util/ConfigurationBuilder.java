@@ -31,7 +31,7 @@ import org.xml.sax.XMLReader;
  * Utility class used to load Configuration trees from XML files.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  *
  * @todo update JavaDocs
  */
@@ -43,13 +43,13 @@ class ConfigurationBuilder
         (
             "-//PHOENIX/Mx Info DTD Version 1.0//EN",
             "http://avalon.apache.org/dtds/meta/mxinfo_1_0.dtd",
-            "org/apache/avalon/merlin/jmx/util/mxinfo.dtd" 
+            "org/apache/avalon/jmx/util/mxinfo.dtd" 
         ),
         new DTDInfo
         ( 
             "-//PHOENIX/Mx Info DTD Version 1.0//EN",
             "http://jakarta.apache.org/avalon/dtds/phoenix/mxinfo_1_0.dtd",
-            "org/apache/avalon/merlin/jmx/util/mxinfo.dtd" 
+            "org/apache/avalon/jmx/util/mxinfo.dtd" 
         )
     };
 

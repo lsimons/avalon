@@ -2,11 +2,11 @@
 
 <project>
 
-  <extend>${basedir}/../common-project.xml</extend>
+  <extend>${basedir}/../../common-project.xml</extend>
   <id>avalon-jmx-site</id>
-  <name>JMX Management Documentation</name>
+  <name>Avalon JMX Documentation</name>
   <package>org.apache.avalon.facilities.jmx</package>
-  <shortDescription>JMX Management Documentation</shortDescription>
+  <shortDescription>Avalon JMX Documentation</shortDescription>
   <description>
     JMX Management Site Documentation.
   </description>

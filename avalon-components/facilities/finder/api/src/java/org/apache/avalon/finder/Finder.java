@@ -19,7 +19,21 @@ package org.apache.avalon.finder;
 /**
  * Defintion of the Finder service contract.
  */
-public interface Finder 
+public interface Finder
 {
+   /**
+    * Find an object fullfilling the supplied service class.
+    * 
+    * @param service the service class that the returned 
+    *    object if gauranteed to fulfill
+    * @exception FinderException if a provider could not be found
+    */
     Object find( Class service ) throws FinderException;
+
+   /**
+    * Release an object that was resolved using the find operation.
+    * 
+    * @param object the object to release
+    */
+    void release( Object object );
 }

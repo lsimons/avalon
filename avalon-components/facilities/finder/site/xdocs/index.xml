@@ -51,13 +51,6 @@ directives.
                 services dynamically.
                 </td>
               </tr>
-              <tr>
-                <td>ECM</td>
-                <td>
-                A componet based implementation of the class ECM
-                utility based on the finder implementation.
-                </td>
-              </tr>
             </table>
           </subsection>
         </section>

@@ -26,7 +26,7 @@ import org.apache.avalon.finder.impl.DefaultFinder;
  * DefaultFinder testcase.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/04/04 15:00:55 $
+ * @version $Revision: 1.2 $ $Date: 2004/04/08 08:35:15 $
  */
 public class DefaultFinderTestCase extends TestCase
 {
@@ -50,7 +50,7 @@ public class DefaultFinderTestCase extends TestCase
     {
         try
         {
-            Finder finder = new DefaultFinder( null );
+            Finder finder = new DefaultFinder( null, null );
         }
         catch( NullPointerException npe )
         {

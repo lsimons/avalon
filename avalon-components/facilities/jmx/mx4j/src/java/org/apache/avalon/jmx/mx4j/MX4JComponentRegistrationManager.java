@@ -48,21 +48,21 @@ import mx4j.util.StandardMBeanProxy;
  * A component manager using the MX4J implementation of JMX.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  *
- * @avalon.component name="MX4JComponentRegistrationManager" version="0.1" lifestyle="singleton"
- * @avalon.service type="org.apache.avalon.merlin.jmx.ComponentRegistrationManager"
+ * @avalon.component name="jmx-mx4j-manager" lifestyle="singleton"
+ * @avalon.service type="org.apache.avalon.jmx.ComponentRegistrationManager"
  */
-
 public class MX4JComponentRegistrationManager extends AbstractJMXComponentRegistrationManager 
     implements Contextualizable, Configurable
 {
-    private static final Resources REZ = ResourceManager.getPackageResources( MX4JComponentRegistrationManager.class );
+    private static final Resources REZ = 
+      ResourceManager.getPackageResources( MX4JComponentRegistrationManager.class );
     private static final String DEFAULT_NAMING_FACTORY =
         "com.sun.jndi.rmi.registry.RegistryContextFactory";
     private static final String DEFAULT_HTTPADAPTER_HOST = "localhost";
-    private static final int DEFAULT_HTTPADAPTER_PORT = Integer.getInteger( "merlin.adapter.http",
-        8082 ).intValue();
+    private static final int DEFAULT_HTTPADAPTER_PORT = 
+      Integer.getInteger( "merlin.adapter.http", 8082 ).intValue();
 
     private String m_host;
     private int m_port;
@@ -72,6 +72,13 @@ public class MX4JComponentRegistrationManager extends AbstractJMXComponentRegist
     private String m_namingFactory;
     private String m_password;
     private String m_username;
+
+   /*
+    public MX4JComponentRegistrationManager(
+      final Context context, final Configuration configuration, ServiceManager manager )
+    {
+    }
+    */
 
     /**
      * @avalon.entry key="urn:avalon:home" type="java.io.File"
@@ -100,7 +107,8 @@ public class MX4JComponentRegistrationManager extends AbstractJMXComponentRegist
         m_namingFactory = configuration.getChild( "rmi-naming-factory" ).getValue(
             DEFAULT_NAMING_FACTORY );
 
-        final String stylesheets = configuration.getChild( "stylesheets-dir" ).getValue( null );
+        final String stylesheets = 
+          configuration.getChild( "stylesheets-dir" ).getValue( null );
         if ( null != stylesheets )
         {
             m_stylesheetDir = new File( m_homeDir, stylesheets ).getAbsolutePath();

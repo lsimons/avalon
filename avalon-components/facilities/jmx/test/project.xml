@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
 
-  <extend>${basedir}/../common-project.xml</extend>
-  <id>avalon-jmx-test</id>
-  <name>JMX Facility Test</name>
+  <extend>${basedir}/../../common-project.xml</extend>
+
+  <id>&avalon-jmx-test-id;</id>
+  <groupId>&avalon-jmx-id;</groupId>
+  <currentVersion>&avalon-jmx-test-version;</currentVersion>
+
+  <name>Avalon JMX Test</name>
   <package>org.apache.avalon.playground.jmxtest</package>
   <shortDescription>JMX Facility Test</shortDescription>
   <description>

@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
 
-  <extend>${basedir}/../common-project.xml</extend>
-  <id>avalon-jmx-util</id>
-  <name>Merlin JMX Utility</name>
-  <package>org.apache.avalon.merlin.jmx.util</package>
+  <extend>${basedir}/../../common-project.xml</extend>
+
+  <id>&avalon-jmx-util-id;</id>
+  <groupId>&avalon-jmx-id;</groupId>
+  <currentVersion>&avalon-jmx-util-version;</currentVersion>
+
+  <name>Avalon JMX Utility</name>
+  <package>org.apache.avalon.jmx.util</package>
   <shortDescription>Merlin JMX utilities</shortDescription>
   <description>
     Utility classes to create JMX MBeans.

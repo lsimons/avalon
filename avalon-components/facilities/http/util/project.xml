@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
 
-  <extend>${basedir}/../common-project.xml</extend>
+  <extend>${basedir}/../../common-project.xml</extend>
+
+  <groupId>&avalon-http-id;</groupId>
+  <id>&avalon-http-util-id;</id>
+  <currentVersion>&avalon-http-util-version;</currentVersion>
+
 
   <id>avalon-http-util</id>
   <name>Avalon HTTP Util</name>
@@ -16,11 +24,10 @@
       <artifactId>servletapi</artifactId>
       <version>2.3</version>
     </dependency>
-    
     <dependency>
-      <groupId>avalon-http</groupId>
-      <artifactId>avalon-http-api</artifactId>
-      <version>${pom.currentVersion}</version>
+      <groupId>&avalon-http-id;</groupId>
+      <artifactId>&avalon-http-api-id;</artifactId>
+      <version>&avalon-http-api-version;</version>
     </dependency>
   </dependencies>
   

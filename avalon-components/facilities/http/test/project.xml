@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
-  <extend>${basedir}/../common-project.xml</extend>
+
+  <extend>${basedir}/../../common-project.xml</extend>
+
+  <groupId>&avalon-http-id;</groupId>
+  <id>&avalon-http-test-id;</id>
+  <currentVersion>&avalon-http-test-version;</currentVersion>
 
   <id>avalon-http-test</id>
   <name>Avalon HTTP Test</name>
@@ -17,15 +25,14 @@
     </dependency>
     
     <dependency>
-      <groupId>avalon-http</groupId>
-      <artifactId>avalon-http-api</artifactId>
-      <version>${pom.currentVersion}</version>
+      <groupId>&avalon-http-id;</groupId>
+      <artifactId>&avalon-http-api-id;</artifactId>
+      <version>&avalon-http-api-version;</version>
     </dependency>
-    
     <dependency>
-      <groupId>avalon-http</groupId>
-      <artifactId>avalon-http-util</artifactId>
-      <version>${pom.currentVersion}</version>
+      <groupId>&avalon-http-id;</groupId>
+      <artifactId>&avalon-http-util-id;</artifactId>
+      <version>&avalon-http-util-version;</version>
     </dependency>
     
     <dependency>
@@ -35,10 +42,12 @@
     </dependency>
     
     <!-- Generation of Meta info  -->
+    <!--
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-plugin</artifactId>
       <version>1.4-SNAPSHOT</version>
     </dependency>
+    -->
   </dependencies>
 </project>
