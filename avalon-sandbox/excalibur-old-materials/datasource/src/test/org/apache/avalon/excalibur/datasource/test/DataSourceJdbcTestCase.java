@@ -36,12 +36,10 @@ public class DataSourceJdbcTestCase
     public DataSourceJdbcTestCase( String name )
     {
         super( name );
-        System.out.println("1");
     }
 
     public void testOverAllocation()
     {
-        System.out.println("2");
         DataSourceComponent ds = null;
         this.isSuccessful = false;
         LinkedList connectionList = new LinkedList();
@@ -99,7 +97,6 @@ public class DataSourceJdbcTestCase
 
     public void testNormalUse()
     {
-        System.out.println("3");
         DataSourceComponent ds = null;
         this.isSuccessful = true;
 

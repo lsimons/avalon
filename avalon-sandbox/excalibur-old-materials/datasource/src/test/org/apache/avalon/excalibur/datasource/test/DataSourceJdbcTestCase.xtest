@@ -34,7 +34,7 @@
     </targets>
 
     <categories>
-      <category name="test" log-level="DEBUG">
+      <category name="test" log-level="INFO">
         <log-target id-ref="console"/>
         <log-target id-ref="file"/>
       </category>
