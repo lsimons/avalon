@@ -24,7 +24,7 @@ import org.apache.avalon.phoenix.interfaces.ManagerException;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:Huw@mmlive.com">Huw Roberts</a>
- * @version $Revision: 1.3 $ $Date: 2002/07/30 12:31:16 $
+ * @version $Revision: 1.4 $ $Date: 2002/08/02 17:48:09 $
  */
 public abstract class AbstractJMXManager
     extends AbstractSystemManager
@@ -105,7 +105,17 @@ public abstract class AbstractJMXManager
     {
         try
         {
-            getMBeanServer().unregisterMBean( createObjectName( name ) );
+            final Target target = (Target) exportedObject;
+            final Set topicNames = target.getTopicNames();
+            final Iterator i = topicNames.iterator();
+
+            while( i.hasNext() )
+            {
+                final ObjectName objectName =
+                    createObjectName( name, target.getTopic( ( String ) i.next() ) );
+
+                getMBeanServer().unregisterMBean( objectName );
+            }
         }
         catch( final Exception e )
         {
@@ -228,7 +238,7 @@ public abstract class AbstractJMXManager
         throws Exception
     {
         final Object mBean = createMBean( topic, target );
-        final ObjectName objectName = createObjectName( targetName + ",topic=" + topic.getDescription() );
+        final ObjectName objectName = createObjectName( targetName, topic );
         getMBeanServer().registerMBean( mBean, objectName );
 
         // debugging stuff.
@@ -326,10 +336,10 @@ public abstract class AbstractJMXManager
      * @return the {@link ObjectName} representing object
      * @throws MalformedObjectNameException if malformed name
      */
-    private ObjectName createObjectName( final String name )
+    private ObjectName createObjectName( final String name, final ModelMBeanInfo topic )
         throws MalformedObjectNameException
     {
-        return new ObjectName( getDomain() + ":" + name );
+        return new ObjectName( getDomain() + ":" + name + ",topic=" + topic.getDescription() );
     }
 
     /**
