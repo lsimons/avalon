@@ -29,4 +29,49 @@
             ----------------------------------------------------------------
         </echo>
     </goal>
+
+    <!-- ==========================================================
+          Doc Generation
+         ==========================================================
+
+         For now, I've just copy-pasted the relevant snippets from
+         the ant build that call forrest. We need a forrest plugin.
+
+         ========================================================== -->
+
+    <postGoal name="xdoc">
+        <attainGoal name="forrest:generate"/>
+    </postGoal>
+
+    <property file="${user.home}/build.properties"/>
+    <property file="${basedir}/../ant.properties"/>
+    <property file="${basedir}/ant.properties"/>
+    <property file="${user.home}/.ant.properties"/>
+    <property file="${basedir}/../libraries.properties"/>
+    <property file="${basedir}/../default.properties"/>
+    <property file="${basedir}/default.properties"/>
+
+    <goal name="forrest:docs" description="Transforms forrest docs">
+
+        <mkdir dir="${docs.dir}"/>
+
+        <ant antfile="${basedir}/../forrestbuild.xml"/>
+
+        <copy todir="${maven.build.dir}/docs/">
+          <fileset dir="${build.docs}">
+            <include name="**"/>
+          </fileset>
+        </copy>
+
+   </goal>
+
+    <!-- ==========================================================
+          Cleanup of ant artifacts
+         ========================================================== -->
+
+    <postGoal name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+    </postGoal>
+
 </project>
