@@ -126,7 +126,7 @@ supporting configuration management.
         protocols such as myxmldatabase://root/documents/test.xml.
       </p>
                 </td></tr>
-                <tr><td>Store</td><td>
+                <tr><td><a href="store-index.html">Store</a></td><td>
       <p>
           The Store Package provides a way to store named objects without 
           taking care about where and how they are stored.

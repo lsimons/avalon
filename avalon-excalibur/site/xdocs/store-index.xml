@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<document>
+    <properties>
+        <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+        <title>Excalibur Store - Overview</title>
+    </properties>
+
+    <body>
+
+    <section name="Introduction">
+      <p>
+          The Store Package provides a way to store named objects without 
+          taking care about where and how they are stored.
+          You can choose between different implementations that store
+          the data e.g. in memory or on the file system etc.
+      </p>
+      <p>  
+        This project provides some general components for dealing with stores.
+        It contains different store implementations, like the
+        <a href="store-mru.html">MRU Store</a> and a montoring component,
+        the <a href="store-janitor.html">Store Janitor</a>.
+      </p>
+      <p>
+        These components have been donated by the <a href="http://cocoon.apache.org">Apache Cocoon project</a>.
+      </p>
+    </section>
+  </body>
+</document>
+
