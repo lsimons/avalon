@@ -52,8 +52,6 @@ package org.apache.avalon.phoenix.interfaces;
 
 import java.io.File;
 import java.io.InputStream;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
 import org.apache.excalibur.instrument.InstrumentManager;
@@ -122,15 +120,6 @@ public interface ApplicationContext
      * the resource named "data/main.html" or similar.
      */
     InputStream getResourceAsStream( String name );
-
-    /**
-     * Get the Configuration for specified component.
-     *
-     * @param component the component
-     * @return the Configuration
-     */
-    Configuration getConfiguration( String component )
-        throws ConfigurationException;
 
     /**
      * Get logger with category for application.

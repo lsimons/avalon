@@ -71,7 +71,7 @@ import org.apache.avalon.phoenix.interfaces.ContainerConstants;
  * and is in the format specified for <tt>assembly.xml</tt> files.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003/04/05 04:25:42 $
+ * @version $Revision: 1.10 $ $Date: 2003/04/06 11:23:21 $
  */
 public class Assembler
     extends AbstractLogEnabled
@@ -85,7 +85,7 @@ public class Assembler
      * name and assembly configuration. This implementation takes two
      * parameters. {@link org.apache.avalon.phoenix.interfaces.ContainerConstants#ASSEMBLY_NAME} specifies
      * the name of the assembly and
-     * {@link org.apache.avalon.phoenix.interfaces.ContainerConstants#ASSEMBLY_CONFIG} specifies the configuration
+     * {@link org.apache.avalon.phoenix.interfaces.ContainerConstants#ASSEMBLY_DESCRIPTOR} specifies the configuration
      * tree to use when assembling Partition.
      *
      * @param parameters the parameters for constructing assembly
@@ -97,9 +97,11 @@ public class Assembler
     {
         final String name =
             (String)parameters.get( ContainerConstants.ASSEMBLY_NAME );
-        final Configuration configuration =
-            (Configuration)parameters.get( ContainerConstants.ASSEMBLY_CONFIG );
-        return assembleSar( name, configuration );
+        final Configuration assembly =
+            (Configuration)parameters.get( ContainerConstants.ASSEMBLY_DESCRIPTOR );
+        final Configuration config =
+            (Configuration)parameters.get( ContainerConstants.CONFIG_DESCRIPTOR );
+        return assembleSar( name, config, assembly );
     }
 
     /**
@@ -112,11 +114,12 @@ public class Assembler
      * @throws AssemblyException if an error occurs
      */
     private PartitionMetaData assembleSar( final String name,
+                                           final Configuration config,
                                            final Configuration assembly )
         throws AssemblyException
     {
         final Configuration[] blockConfig = assembly.getChildren( "block" );
-        final ComponentMetaData[] blocks = buildBlocks( blockConfig );
+        final ComponentMetaData[] blocks = buildBlocks( blockConfig, config );
         final PartitionMetaData blockPartition =
             new PartitionMetaData( ContainerConstants.BLOCK_PARTITION,
                                    new String[]{ContainerConstants.LISTENER_PARTITION},
@@ -124,7 +127,7 @@ public class Assembler
                                    blocks, Attribute.EMPTY_SET );
 
         final Configuration[] listenerConfig = assembly.getChildren( "listener" );
-        final ComponentMetaData[] listeners = buildBlockListeners( listenerConfig );
+        final ComponentMetaData[] listeners = buildBlockListeners( listenerConfig, config );
         final PartitionMetaData listenerPartition =
             new PartitionMetaData( ContainerConstants.LISTENER_PARTITION,
                                    new String[ 0 ],
@@ -146,13 +149,14 @@ public class Assembler
      * @return the BlockMetaData array
      * @throws AssemblyException if an error occurs
      */
-    private ComponentMetaData[] buildBlocks( final Configuration[] blocks )
+    private ComponentMetaData[] buildBlocks( final Configuration[] blocks,
+                                             final Configuration config )
         throws AssemblyException
     {
         final ArrayList blockSet = new ArrayList();
         for( int i = 0; i < blocks.length; i++ )
         {
-            blockSet.add( buildBlock( blocks[ i ] ) );
+            blockSet.add( buildBlock( blocks[ i ], config ) );
         }
 
         return (ComponentMetaData[])blockSet.toArray( new ComponentMetaData[ blockSet.size() ] );
@@ -166,7 +170,8 @@ public class Assembler
      * @return the BlockMetaData object
      * @throws AssemblyException if an error occurs
      */
-    private ComponentMetaData buildBlock( final Configuration block )
+    private ComponentMetaData buildBlock( final Configuration block,
+                                          final Configuration config  )
         throws AssemblyException
     {
         try
@@ -190,9 +195,11 @@ public class Assembler
             final Attribute[] attributes =
                 (Attribute[])attributeSet.toArray( new Attribute[ attributeSet.size() ] );
 
+            final Configuration configuration = config.getChild( name );
+
             return new ComponentMetaData( name, classname,
-                                          dependencys,
-                                          null, null, attributes );
+                                          dependencys, null,
+                                          configuration, attributes );
         }
         catch( final ConfigurationException ce )
         {
@@ -206,17 +213,18 @@ public class Assembler
      * Create an array of {@link ComponentMetaData} objects to represent
      * the &lt;listener .../&gt; sections in <tt>assembly.xml</tt>.
      *
-     * @param config the list of Configuration objects for config
+     * @param listenerConfigs the list of Configuration objects for listenerConfigs
      * @return the array of listeners
      * @throws AssemblyException if an error occurs
      */
-    private ComponentMetaData[] buildBlockListeners( final Configuration[] config )
+    private ComponentMetaData[] buildBlockListeners( final Configuration[] listenerConfigs,
+                                                     final Configuration config )
         throws AssemblyException
     {
         final List listeners = new ArrayList();
-        for( int i = 0; i < config.length; i++ )
+        for( int i = 0; i < listenerConfigs.length; i++ )
         {
-            final ComponentMetaData listener = buildBlockListener( config[ i ] );
+            final ComponentMetaData listener = buildBlockListener( listenerConfigs[ i ], config );
             listeners.add( listener );
         }
         return (ComponentMetaData[])listeners.
@@ -231,17 +239,18 @@ public class Assembler
      * @return the BlockListenerMetaData object
      * @throws AssemblyException if an error occurs
      */
-    private ComponentMetaData buildBlockListener( final Configuration listener )
+    private ComponentMetaData buildBlockListener( final Configuration listener,
+                                                  final Configuration config )
         throws AssemblyException
     {
         try
         {
             final String name = listener.getAttribute( "name" );
             final String classname = listener.getAttribute( "class" );
-
+            final Configuration configuration = config.getChild( name );
             return new ComponentMetaData( name, classname,
                                           new DependencyMetaData[ 0 ],
-                                          null, null, Attribute.EMPTY_SET );
+                                          null, configuration, Attribute.EMPTY_SET );
         }
         catch( final ConfigurationException ce )
         {

@@ -63,6 +63,7 @@ import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
@@ -70,11 +71,9 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.BlockContext;
-import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
 import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
 import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
 import org.apache.avalon.phoenix.containerkit.profile.ProfileBuilder;
-import org.apache.avalon.phoenix.framework.info.SchemaDescriptor;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderSet;
@@ -90,7 +89,6 @@ import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
-import org.apache.avalon.phoenix.tools.verifier.VerifyException;
 import org.xml.sax.InputSource;
 
 /**
@@ -224,9 +222,7 @@ public class DefaultDeployer
 
             for( int i = 0; i < blocks.length; i++ )
             {
-                //remove configuration and schema from repository and validator
                 m_repository.removeConfiguration( name, blocks[ i ] );
-                m_validator.removeSchema( name, blocks[ i ] );
             }
 
             m_installer.uninstall( installation );
@@ -323,19 +319,23 @@ public class DefaultDeployer
 
             context.put( "classloader", classLoader );
 
+            final Configuration newConfig = processConfiguration( name, config );
+
             final Map parameters = new HashMap();
             parameters.put( ContainerConstants.ASSEMBLY_NAME, name );
-            parameters.put( ContainerConstants.ASSEMBLY_CONFIG, assembly );
+            parameters.put( ContainerConstants.ASSEMBLY_DESCRIPTOR, assembly );
+            parameters.put( ContainerConstants.CONFIG_DESCRIPTOR, newConfig );
             parameters.put( ContainerConstants.ASSEMBLY_CLASSLOADER, classLoader );
 
             //assemble all the blocks for application
             final PartitionProfile profile = m_builder.buildProfile( parameters );
 
-            storeConfigurationSchemas( profile, classLoader );
-            verify( profile, classLoader );
+            m_verifier.verifySar( profile, classLoader );
 
             //Setup configuration for all the applications blocks
-            setupConfiguration( profile.getMetaData(), config.getChildren() );
+            verifyConfiguration( profile, newConfig );
+
+            validateConfiguration( profile, classLoader );
 
             //Finally add application to kernel
             m_kernel.addApplication( profile,
@@ -379,106 +379,6 @@ public class DefaultDeployer
     }
 
     /**
-     * Verify that the application conforms to our requirements.
-     *
-     * @param profile the application profile
-     * @throws VerifyException on error
-     */
-    private void verify( final PartitionProfile profile,
-                         final ClassLoader classLoader )
-        throws VerifyException
-    {
-        try
-        {
-            m_verifier.verifySar( profile, classLoader );
-        }
-        catch( org.apache.avalon.phoenix.framework.tools.verifier.VerifyException e )
-        {
-            throw new VerifyException( e.getMessage(), e.getCause() );
-        }
-    }
-
-    /**
-     * Store the configuration schemas for this application
-     *
-     * @param profile the application profile
-     * @throws DeploymentException upon invalid schema
-     */
-    private void storeConfigurationSchemas( final PartitionProfile profile,
-                                            final ClassLoader classLoader )
-        throws DeploymentException
-    {
-        final String application = profile.getMetaData().getName();
-        final PartitionProfile partition = profile.getPartition( ContainerConstants.BLOCK_PARTITION );
-        final ComponentProfile[] blocks = partition.getComponents();
-        int i = 0;
-        String name = null;
-
-        try
-        {
-            for( i = 0; i < blocks.length; i++ )
-            {
-                final ComponentProfile block = blocks[ i ];
-                final SchemaDescriptor descriptor = block.getInfo().getConfigurationSchema();
-                name = block.getMetaData().getName();
-
-                if( null != descriptor && !descriptor.getType().equals( "" ) )
-                {
-                    final String implementationKey =
-                        block.getInfo().getDescriptor().getImplementationKey();
-
-                    m_validator.addSchema( application,
-                                           name,
-                                           descriptor.getType(),
-                                           getConfigurationSchemaURL( name,
-                                                                      implementationKey,
-                                                                      classLoader )
-                    );
-                }
-            }
-        }
-        catch( ConfigurationException e )
-        {
-            //uh-oh, bad schema bad bad!
-            final String message =
-                REZ.getString( "deploy.error.config.schema.invalid",
-                               name );
-
-            //back out any schemas that we have already stored for this app
-            while( --i >= 0 )
-            {
-                m_validator.removeSchema( application,
-                                          blocks[ i ].getMetaData().getName() );
-            }
-
-            throw new DeploymentException( message, e );
-        }
-    }
-
-    private String getConfigurationSchemaURL( final String name,
-                                              final String classname,
-                                              final ClassLoader classLoader )
-        throws DeploymentException
-    {
-        final String resourceName = classname.replace( '.', '/' ) + "-schema.xml";
-
-        final URL resource = classLoader.getResource( resourceName );
-        if( null == resource )
-        {
-
-            final String message =
-                REZ.getString( "deploy.error.config.schema.missing",
-                               name,
-                               resourceName );
-            throw new DeploymentException( message );
-        }
-        else
-        {
-            return resource.toString();
-        }
-    }
-
-    /**
      * Helper method to load configuration data.
      *
      * @param install the install data
@@ -503,57 +403,111 @@ public class DefaultDeployer
     }
 
     /**
-     * Setup Configuration for all the Blocks/BlockListeners in Sar.
+     * Pass the configuration to the configurationManager
+     * and give it a chance to process the configuration in
+     * one form or another.
      *
-     * @param metaData the SarMetaData.
-     * @param configurations the block configurations.
+     * @param configuration the block configurations.
      * @throws DeploymentException if an error occurs
      */
-    private void setupConfiguration( final PartitionMetaData metaData,
-                                     final Configuration[] configurations )
+    private Configuration processConfiguration( final String application,
+                                                final Configuration configuration )
         throws DeploymentException
     {
-        final String application = metaData.getName();
-        final PartitionMetaData listenerPartition =
-            metaData.getPartition( ContainerConstants.LISTENER_PARTITION );
-        final PartitionMetaData blockPartition =
-            metaData.getPartition( ContainerConstants.BLOCK_PARTITION );
+        final DefaultConfiguration newConfiguration = new DefaultConfiguration( "config" );
+        final Configuration[] configurations = configuration.getChildren();
         for( int i = 0; i < configurations.length; i++ )
         {
-            final Configuration configuration = configurations[ i ];
-            final String name = configuration.getName();
-            final boolean listener =
-                null != listenerPartition.getComponent( name );
-            final boolean block =
-                null != blockPartition.getComponent( name );
-            if( !block && !listener )
-            {
-                final String message =
-                    REZ.getString( "deploy.error.extra.config",
-                                   name );
-                throw new DeploymentException( message );
-            }
-
+            final Configuration config = configurations[ i ];
             try
             {
-                //No way to validate listener configuration--yet
-                if( listener || m_validator.isFeasiblyValid( application, name, configuration ) )
-                {
-                    m_repository.storeConfiguration( application,
-                                                     name,
-                                                     configuration );
-                }
-                else
-                {
-                    final String message =
-                        REZ.getString( "deploy.error.config.invalid", name );
-                    throw new DeploymentException( message );
-                }
+                final Configuration newConfig =
+                    m_repository.processConfiguration( application,
+                                                       config.getName(),
+                                                       config );
+                newConfiguration.addChild( newConfig );
             }
             catch( final ConfigurationException ce )
             {
                 throw new DeploymentException( ce.getMessage(), ce );
             }
         }
+        return newConfiguration;
     }
+
+    /**
+     * Verify that configuration present in config file is valid for this assembly.
+     *
+     * @param profile the PartitionProfile
+     * @param config the block configurations.
+     * @throws DeploymentException if an error occurs
+     */
+    private void verifyConfiguration( final PartitionProfile profile,
+                                      final Configuration config )
+        throws DeploymentException
+    {
+        final Configuration[] configurations = config.getChildren();
+        final PartitionProfile listenerPartition =
+            profile.getPartition( ContainerConstants.LISTENER_PARTITION );
+        final PartitionProfile blockPartition =
+            profile.getPartition( ContainerConstants.BLOCK_PARTITION );
+        for( int i = 0; i < configurations.length; i++ )
+        {
+            final Configuration configuration = configurations[ i ];
+            final String name = configuration.getName();
+            ComponentProfile component = listenerPartition.getComponent( name );
+            if( null == component )
+            {
+                component = blockPartition.getComponent( name );
+            }
+            if( null == component )
+            {
+                final String message =
+                    REZ.getString( "deploy.error.extra.config",
+                                   name );
+                throw new DeploymentException( message );
+            }
+        }
+    }
+
+    /**
+     * Verify that configuration conforms to schema for all components in this assembly.
+     *
+     * @param profile the PartitionProfile
+     * @param classLoader the classloader application is loaded in
+     * @throws DeploymentException if an error occurs
+     */
+    private void validateConfiguration( final PartitionProfile profile,
+                                        final ClassLoader classLoader )
+        throws DeploymentException
+    {
+        final PartitionProfile[] partitions = profile.getPartitions();
+        for( int i = 0; i < partitions.length; i++ )
+        {
+            validateConfiguration( partitions[ i ], classLoader );
+        }
+        final ComponentProfile[] components = profile.getComponents();
+        for( int i = 0; i < components.length; i++ )
+        {
+            final ComponentProfile component = components[ i ];
+            boolean isValid = false;
+            try
+            {
+                isValid = m_validator.isValid( component, classLoader );
+            }
+            catch( ConfigurationException e )
+            {
+                getLogger().warn( e.getMessage(), e );
+            }
+            if( !isValid )
+            {
+                final String message =
+                    "Unable to validate configuration of component " +
+                    component.getMetaData().getName() + " of type " +
+                    component.getInfo().getDescriptor().getImplementationKey();
+                throw new DeploymentException( message );
+            }
+        }
+    }
+
 }

@@ -57,12 +57,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.WrapperComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
@@ -82,15 +79,12 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * Block or Listener.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.21 $ $Date: 2003/04/05 04:25:41 $
+ * @version $Revision: 1.22 $ $Date: 2003/04/06 11:23:21 $
  */
 class BlockResourceProvider
     extends AbstractLogEnabled
     implements ResourceProvider
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( BlockResourceProvider.class );
-
     /**
      * Context in which Blocks/Listeners operate.
      */
@@ -340,20 +334,7 @@ class BlockResourceProvider
         throws Exception
     {
         final ComponentProfile metaData = getProfileFor( entry );
-        final String name = metaData.getMetaData().getName();
-        try
-        {
-            return m_context.getConfiguration( name );
-        }
-        catch( final ConfigurationException ce )
-        {
-            //Note that this shouldn't ever happen once we
-            //create a Config validator
-            final String message =
-                REZ.getString( "missing-block-configuration",
-                               name );
-            throw new ConfigurationException( message, ce );
-        }
+        return metaData.getMetaData().getConfiguration();
     }
 
     public Parameters createParameters( final Object entry )

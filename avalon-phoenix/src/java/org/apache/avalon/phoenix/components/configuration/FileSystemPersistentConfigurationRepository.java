@@ -52,10 +52,11 @@ package org.apache.avalon.phoenix.components.configuration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.FileUtil;
-import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -69,7 +70,6 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.components.util.PropertyUtil;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
-import org.apache.avalon.phoenix.interfaces.ConfigurationRepositoryMBean;
 import org.apache.excalibur.configuration.merged.ConfigurationMerger;
 import org.apache.excalibur.configuration.merged.ConfigurationSplitter;
 import org.xml.sax.SAXException;
@@ -95,18 +95,14 @@ import org.xml.sax.SAXException;
  */
 public class FileSystemPersistentConfigurationRepository
     extends AbstractLogEnabled
-    implements ConfigurationRepository, Contextualizable, Configurable, Initializable,
-    ConfigurationRepositoryMBean
+    implements ConfigurationRepository, Contextualizable, Configurable, Initializable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( FileSystemPersistentConfigurationRepository.class );
 
-    private final DefaultConfigurationRepository m_persistedConfigurations =
-        new DefaultConfigurationRepository();
-    private final DefaultConfigurationRepository
-        m_transientConfigurations = new DefaultConfigurationRepository();
-    private final DefaultConfigurationRepository
-        m_mergedConfigurations = new DefaultConfigurationRepository();
+    private final Map m_persistedConfigurations = new HashMap();
+    private final Map m_transientConfigurations = new HashMap();
+    private final Map m_mergedConfigurations = new HashMap();
 
     private Context m_context;
 
@@ -134,6 +130,15 @@ public class FileSystemPersistentConfigurationRepository
             throw new ConfigurationException( message, e );
 
         }
+    }
+
+    public Configuration processConfiguration( String application,
+                                               String block,
+                                               Configuration configuration )
+        throws ConfigurationException
+    {
+        storeConfiguration( application, block, configuration );
+        return getConfiguration( application, block );
     }
 
     private String constructStoragePath( final Configuration configuration )
@@ -194,9 +199,8 @@ public class FileSystemPersistentConfigurationRepository
             final String block =
                 blocks[ i ].getName().substring( 0, blocks[ i ].getName().indexOf( ".xml" ) );
 
-            m_persistedConfigurations.storeConfiguration( app,
-                                                          block,
-                                                          builder.buildFromFile( blocks[ i ] ) );
+            m_persistedConfigurations.put( genKey( app, block ),
+                                           builder.buildFromFile( blocks[ i ] ) );
 
             if( getLogger().isDebugEnabled() )
             {
@@ -204,6 +208,11 @@ public class FileSystemPersistentConfigurationRepository
                                    + ", block: " + block + "]" );
             }
         }
+    }
+
+    private String genKey( final String app, final String block )
+    {
+        return app + '-' + block;
     }
 
     private void persistConfiguration( final String application,
@@ -229,8 +238,8 @@ public class FileSystemPersistentConfigurationRepository
     public void removeConfiguration( final String application, final String block )
         throws ConfigurationException
     {
-        m_transientConfigurations.removeConfiguration( application, block );
-        m_mergedConfigurations.removeConfiguration( application, block );
+        m_transientConfigurations.remove( genKey( application, block ) );
+        m_mergedConfigurations.remove( genKey( application, block ) );
     }
 
     public synchronized void storeConfiguration( final String application,
@@ -239,7 +248,7 @@ public class FileSystemPersistentConfigurationRepository
         throws ConfigurationException
     {
 
-        if( m_transientConfigurations.hasConfiguration( application, block ) )
+        if( m_transientConfigurations.containsKey( genKey( application, block ) ) )
         {
             if( !ConfigurationUtil.equals( configuration, getConfiguration( application, block ) ) )
             {
@@ -249,8 +258,8 @@ public class FileSystemPersistentConfigurationRepository
                                                                    block,
                                                                    m_transientConfigurations ) );
 
-                m_persistedConfigurations.storeConfiguration( application, block, layer );
-                m_mergedConfigurations.removeConfiguration( application, block );
+                m_persistedConfigurations.put( genKey( application, block ), layer );
+                m_mergedConfigurations.remove( genKey( application, block ) );
 
                 try
                 {
@@ -274,7 +283,7 @@ public class FileSystemPersistentConfigurationRepository
         }
         else
         {
-            m_transientConfigurations.storeConfiguration( application, block, configuration );
+            m_transientConfigurations.put( genKey( application, block ), configuration );
         }
     }
 
@@ -282,15 +291,16 @@ public class FileSystemPersistentConfigurationRepository
                                                         final String block )
         throws ConfigurationException
     {
-        if( m_mergedConfigurations.hasConfiguration( application, block ) )
+        final String key = genKey( application, block );
+        if( m_mergedConfigurations.containsKey( key ) )
         {
-            return m_mergedConfigurations.getConfiguration( application, block );
+            return (Configuration)m_mergedConfigurations.get( key );
         }
         else
         {
             final Configuration configuration = createMergedConfiguration( application, block );
 
-            m_mergedConfigurations.storeConfiguration( application, block, configuration );
+            m_mergedConfigurations.put( key, configuration );
 
             return configuration;
         }
@@ -325,31 +335,16 @@ public class FileSystemPersistentConfigurationRepository
 
     private Configuration getConfiguration( final String application,
                                             final String block,
-                                            final DefaultConfigurationRepository repository )
+                                            final Map repository )
     {
-        if( repository.hasConfiguration( application, block ) )
-        {
-            try
-            {
-                return repository.getConfiguration( application, block );
-            }
-            catch( ConfigurationException e )
-            {
-                final String message = REZ.getString( "config.error.noconfig", block, application );
-
-                throw new CascadingRuntimeException( message, e );
-            }
-        }
-        else
-        {
-            return null;
-        }
+        return (Configuration)repository.get( genKey( application, block ) );
     }
 
     public boolean hasConfiguration( final String application, final String block )
     {
-        return m_mergedConfigurations.hasConfiguration( application, block ) ||
-            m_transientConfigurations.hasConfiguration( application, block ) ||
-            m_persistedConfigurations.hasConfiguration( application, block );
+        final String key = genKey( application, block );
+        return m_mergedConfigurations.containsKey( key ) ||
+            m_transientConfigurations.containsKey( key ) ||
+            m_persistedConfigurations.containsKey( key );
     }
 }

@@ -59,19 +59,14 @@ import java.util.Map;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.components.util.ResourceUtil;
-import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
 import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
-import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
-import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
 import org.apache.avalon.phoenix.interfaces.ContainerConstants;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.ManagerException;
@@ -101,12 +96,6 @@ class DefaultApplicationContext
 
     ///ThreadContext for application
     private final ThreadContext m_threadContext;
-
-    //Repository of configuration data to access
-    private ConfigurationRepository m_repository;
-
-    //Validator to validate configuration against
-    private ConfigurationValidator m_validator;
 
     //InstrumentManager to register instruments with
     private InstrumentManager m_instrumentManager;
@@ -173,12 +162,8 @@ class DefaultApplicationContext
     public void service( final ServiceManager serviceManager )
         throws ServiceException
     {
-        m_repository = (ConfigurationRepository)serviceManager.
-            lookup( ConfigurationRepository.ROLE );
         m_systemManager = (SystemManager)serviceManager.
             lookup( SystemManager.ROLE );
-        m_validator = (ConfigurationValidator)serviceManager.
-            lookup( ConfigurationValidator.ROLE );
         m_kernel = (Kernel)serviceManager.lookup( Kernel.ROLE );
         m_instrumentManager = (InstrumentManager)serviceManager.lookup( InstrumentManager.ROLE );
     }
@@ -308,43 +293,6 @@ class DefaultApplicationContext
         throws Exception
     {
         m_blockManager.unregister( name );
-    }
-
-    /**
-     * Get the Configuration for specified component.
-     *
-     * @param component the component
-     * @return the Configuration
-     */
-    public Configuration getConfiguration( final String component )
-        throws ConfigurationException
-    {
-        final Configuration configuration =
-            m_repository.getConfiguration( getName(),
-                                           component );
-
-        //no validation of listeners just yet..
-        final PartitionMetaData partition =
-            m_profile.getMetaData().getPartition( ContainerConstants.LISTENER_PARTITION );
-        final boolean isListener = null != partition.getComponent( component );
-        if( isListener )
-        {
-            return configuration;
-        }
-        else if( m_validator.isValid( getName(),
-                                      component,
-                                      configuration ) )
-        {
-
-            return configuration;
-        }
-        else
-        {
-            final String message =
-                REZ.getString( "applicationcontext.error.invalidconfig",
-                               component );
-            throw new ConfigurationException( message );
-        }
     }
 
     public ClassLoader getClassLoader( final String name )

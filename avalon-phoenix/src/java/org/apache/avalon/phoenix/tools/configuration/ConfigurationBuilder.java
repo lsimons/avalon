@@ -73,7 +73,7 @@ import org.xml.sax.ContentHandler;
  * Utility class used to load Configuration trees from XML files.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.17 $ $Date: 2003/04/05 11:21:10 $
+ * @version $Revision: 1.18 $ $Date: 2003/04/06 11:23:22 $
  */
 public class ConfigurationBuilder
 {
@@ -121,31 +121,46 @@ public class ConfigurationBuilder
             final ConfigValidator validator =
                 ConfigValidatorFactory.create( inputSource, c_resolver );
             final ValidationResult result = validator.validate( input, (ContentHandler)handler );
-            if( !result.isValid() )
-            {
-                final ValidationIssue[] issues = result.getIssues();
-                for( int i = 0; i < issues.length; i++ )
-                {
-                    final ValidationIssue issue = issues[ i ];
-                    final String message = issue.getException().getMessage();
-                    if( issue.isWarning() )
-                    {
-                        logger.info( message );
-                    }
-                    else if( issue.isError() )
-                    {
-                        logger.warn( message );
-                    }
-                    else if( issue.isFatalError() )
-                    {
-                        logger.error( message );
-                    }
-                }
-                final ValidateException exception = result.getException();
-                throw new Exception( exception.getMessage(), exception );
-            }
+            processValidationResults( result, logger );
         }
         return handler.getConfiguration();
+    }
+
+    /**
+     * Process validation results. Print out any warnings or
+     * errors and if validation failed then throw an exception.
+     *
+     * @param result the validation results
+     * @param logger the logger to print messages to
+     * @throws Exception if validation failed
+     */
+    public static void processValidationResults( final ValidationResult result,
+                                                 final Logger logger )
+        throws Exception
+    {
+        if( !result.isValid() )
+        {
+            final ValidationIssue[] issues = result.getIssues();
+            for( int i = 0; i < issues.length; i++ )
+            {
+                final ValidationIssue issue = issues[ i ];
+                final String message = issue.getException().getMessage();
+                if( issue.isWarning() )
+                {
+                    logger.info( message );
+                }
+                else if( issue.isError() )
+                {
+                    logger.warn( message );
+                }
+                else if( issue.isFatalError() )
+                {
+                    logger.error( message );
+                }
+            }
+            final ValidateException exception = result.getException();
+            throw new Exception( exception.getMessage(), exception );
+        }
     }
 
     private static void setupResolver()
@@ -157,5 +172,4 @@ public class ConfigurationBuilder
                 ResolverFactory.createResolver( ConfigurationBuilder.class.getClassLoader() );
         }
     }
-
 }
