@@ -271,17 +271,17 @@ public class JUnitTestTask extends SystemTask
         final Environment.Variable work = new Environment.Variable();
         work.setKey( WORK_DIR_KEY );
         work.setValue( working.toString() );
-        junit.addSysproperty( work );
+        junit.addConfiguredSysproperty( work );
 
         final Environment.Variable basedir = new Environment.Variable();
         basedir.setKey( "basedir" );
         basedir.setValue( project.getBaseDir().toString() );
-        junit.addSysproperty( basedir );
+        junit.addConfiguredSysproperty( basedir );
 
         final Environment.Variable cache = new Environment.Variable();
         cache.setKey( CACHE_PATH_KEY );
         cache.setValue( getCachePath() );
-        junit.addSysproperty( cache );
+        junit.addConfiguredSysproperty( cache );
 
         final File policy = new File( working, "security.policy" );
         if( policy.exists() )
@@ -289,7 +289,7 @@ public class JUnitTestTask extends SystemTask
             final Environment.Variable security = new Environment.Variable();
             security.setKey( "java.security.policy" );
             security.setValue( policy.toString() );
-            junit.addSysproperty( security );
+            junit.addConfiguredSysproperty( security );
         }
 
         junit.setErrorProperty( ERROR_KEY );

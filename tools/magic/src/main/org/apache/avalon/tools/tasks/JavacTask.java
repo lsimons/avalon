@@ -45,6 +45,9 @@ public class JavacTask extends SystemTask
     public static final String FORK_KEY = "java.compile.fork";
     public static final boolean FORK_VALUE = false;
 
+    public static final String DEPRECATION_KEY = "java.compile.deprecation";
+    public static final boolean DEPRECATION_VALUE = true;
+
     public void init() throws BuildException 
     {
         if( !isInitialized() )
@@ -121,6 +124,7 @@ public class JavacTask extends SystemTask
         final Path.PathElement element = src.createPathElement();
         element.setLocation( sources );
         javac.setDestdir( classes );
+        javac.setDeprecation( getDeprecationProperty() );
         javac.setDebug( getDebugProperty() );
         javac.setFork( getForkProperty() );
         javac.setClasspath( classpath );
@@ -131,6 +135,11 @@ public class JavacTask extends SystemTask
     private boolean getDebugProperty()
     {
         return getBooleanProperty( DEBUG_KEY, DEBUG_VALUE );
+    }
+
+    private boolean getDeprecationProperty()
+    {
+        return getBooleanProperty( DEPRECATION_KEY, DEPRECATION_VALUE );
     }
 
     private boolean getForkProperty()

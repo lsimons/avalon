@@ -413,6 +413,7 @@ public class GumpTask extends SystemTask
     {
         String path = definition.getBaseDir().getCanonicalPath();
 
+        Project project = getProject();
         String basedir = resolveBaseDir( project, path );
 
         writer.write( 
