@@ -3,10 +3,10 @@
 <project name="testsuite" default="run" basedir=".">
   <!-- The property ${eclipse-home} should be passed into this script -->
   <!-- Set a meaningful default value for when it is not. -->
-  <property name="eclipse-home" value="c:/eclipse/3.0 test"/>
+  <property name="eclipse-home" value="c:/eclipse/3.0_test"/>
 
   <!-- sets the properties eclipse-home, and library-file -->
-  <property name="plugin-name" value="org.apache.metro.studio.core"/>
+  <property name="plugin-name" value="org.apache.metro.studio.tests"/>
   <property name="library-file"
             value="${eclipse-home}/plugins/org.eclipse.test/library.xml"/>
 
@@ -26,11 +26,11 @@
     <property name="metro-folder"
               value="${eclipse-home}/metro_test_folder"/>
     <delete dir="${metro-folder}" quiet="true"/>
-    <ant target="ui-test" antfile="${library-file}" dir="${eclipse-home}">
+    <ant target="core-test" antfile="${library-file}" dir="${eclipse-home}">
       <property name="data-dir" value="${metro-folder}"/>
       <property name="plugin-name" value="${plugin-name}"/>
       <property name="classname"
-                value="org.apache.metro.studio.eclipse.core.AllCoreTests"/>
+                value="org.apache.metro.studio.eclipse.core.templateengine.test.AllCoreTests"/>
     </ant>
   </target>
 
