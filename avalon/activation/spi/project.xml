@@ -47,7 +47,7 @@ An API supporting component assembly and deployment and decommissioning.
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-api</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2.1-dev</version>
     </dependency>
 
     <dependency>

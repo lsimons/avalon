@@ -90,7 +90,6 @@
     <ant:mkdir dir="${merlin.build.inst.dir}"/>
     <ant:mkdir dir="${merlin.build.inst.dir}/ext"/>
     <ant:mkdir dir="${merlin.build.inst.dir}/bin/lib"/>
-    <ant:mkdir dir="${merlin.build.inst.dir}/repository"/>
 
     <!-- import bootstrap jar -->
     <ant:copy 
@@ -140,11 +139,6 @@
       <fileset dir="${basedir}">
         <include name="LICENSE.txt"/>
         <include name="README.TXT"/>
-      </fileset>
-    </ant:copy>
-
-    <ant:copy toDir="${maven.build.dir}">
-      <fileset dir="${basedir}">
         <include name="INSTALLATION.TXT"/>
       </fileset>
     </ant:copy>
