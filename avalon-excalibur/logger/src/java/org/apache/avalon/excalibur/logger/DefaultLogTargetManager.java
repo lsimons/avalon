@@ -62,7 +62,7 @@ import org.apache.log.LogTarget;
  * from a configuration file.
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/10/02 01:47:02 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/11/26 07:44:45 $
  * @since 4.0
  */
 public class DefaultLogTargetManager
@@ -106,7 +106,8 @@ public class DefaultLogTargetManager
     {
         if( null == m_factoryManager )
         {
-            throw new ConfigurationException( "LogTargetFactory not received" );
+            final String message = "LogTargetFactory not received";
+            throw new ConfigurationException( message );
         }
 
         final Configuration[] confs = configuration.getChildren();
@@ -116,14 +117,16 @@ public class DefaultLogTargetManager
             final LogTargetFactory logTargetFactory = m_factoryManager.getLogTargetFactory( targetName );
             if( logTargetFactory == null )
             {
-                throw new ConfigurationException( "Factory definition for '" + targetName
-                                                  + "' missing from logger configuration." );
+                final String message = "Factory definition for '" + targetName
+                    + "' missing from logger configuration.";
+                throw new ConfigurationException( message );
             }
             final LogTarget logTarget = logTargetFactory.createTarget( confs[ i ] );
             final String targetId = confs[ i ].getAttribute( "id" );
             if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug( "added new LogTarget of id " + targetId );
+                final String message = "added new LogTarget of id " + targetId;
+                getLogger().debug( message );
             }
             m_targets.put( targetId, logTarget );
         }
