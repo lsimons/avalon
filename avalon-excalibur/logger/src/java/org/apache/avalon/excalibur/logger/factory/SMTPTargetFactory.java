@@ -56,6 +56,7 @@ import javax.mail.internet.InternetAddress;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.log.LogTarget;
 import org.apache.log.format.Formatter;
 import org.apache.log.output.net.SMTPOutputLogTarget;
@@ -96,7 +97,7 @@ import org.apache.log.output.net.SMTPOutputLogTarget;
  * <p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/10/02 01:52:22 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/10/07 17:46:43 $
  * @since 4.1
  */
 public class SMTPTargetFactory
@@ -112,15 +113,10 @@ public class SMTPTargetFactory
     public final LogTarget createTarget( final Configuration config )
         throws ConfigurationException
     {
-        if( m_context == null )
-        {
-            throw new ConfigurationException( "Context not available" );
-        }
-
         try
         {
             return new SMTPOutputLogTarget(
-                getSession(),
+                getSession( config ),
                 getToAddresses( config ),
                 getFromAddress( config ),
                 getSubject( config ),
@@ -159,19 +155,45 @@ public class SMTPTargetFactory
     }
 
     /**
-     * Helper method to obtain the JavaMail <code>Session</code> object
-     * from this factories context object. Override this method if you
-     * need to obtain the JavaMail session using some other way.
+     * Helper method to create a JavaMail <code>Session</code> object.
+     *
+     * If your session object has simple needs, you can nest a configuration element
+     * named <b>session</b> containing name-value pairs that are passed to
+     * <code>Session.getInstance()</code>.
+     *
+     * If no configuration is found, a <code>Session</code> will be loaded from this
+     * factory's context object.
+     *
+     * You can override this method if you need ot obtain the JavaMail session using
+     * some other means.
      *
      * @return JavaMail <code>Session</code> instance
      * @exception ContextException if an error occurs
+     * @exception ConfigurationException if invalid session configuration
      */
-    protected Session getSession()
-        throws ContextException
+    protected Session getSession( Configuration config )
+        throws ContextException, ConfigurationException
     {
-        final String contextkey =
-            m_configuration.getAttribute( "context-key", "session-context" );
-        return (Session)m_context.get( contextkey );
+        final Configuration sessionConfig = config.getChild( "session", false );
+
+        if ( null == sessionConfig )
+        {
+            final String contextkey =
+                m_configuration.getAttribute( "context-key", "session-context" );
+
+            if( m_context == null )
+            {
+                throw new ConfigurationException( "Context not available" );
+            }
+
+            return (Session) m_context.get( contextkey );
+        }
+        else
+        {
+            return Session.getInstance(
+                Parameters.toProperties(
+                    Parameters.fromConfiguration( sessionConfig ) ) );
+        }
     }
 
     /**
