@@ -32,7 +32,7 @@ import org.apache.avalon.logger.AbstractLoggable;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/04/18 13:16:36 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/04/20 20:48:34 $
  */
 public class DefaultComponentManager
     extends AbstractLoggable
@@ -87,10 +87,18 @@ public class DefaultComponentManager
         while( keys.hasNext() )
         {
             final Object key = keys.next();
-            final DefaultComponentHandler handler =
-                (DefaultComponentHandler)m_componentHandlers.get( key );
+            final ComponentHandler handler =
+                (ComponentHandler)m_componentHandlers.get( key );
 
-            handler.dispose();
+            try
+            {
+                handler.dispose();
+            }
+            catch (Exception e)
+            {
+                getLogger().debug("Caught an exception trying to dispose of the component handler.", e);
+            }
+
             keyList.add( key );
         }
 
@@ -127,7 +135,7 @@ public class DefaultComponentManager
             throw new ComponentException( message );
         }
 
-        DefaultComponentHandler handler = (DefaultComponentHandler)m_componentHandlers.get( role );
+        ComponentHandler handler = (ComponentHandler)m_componentHandlers.get( role );
 
         // Retrieve the instance of the requested component
         if( null == handler )
@@ -144,11 +152,11 @@ public class DefaultComponentManager
                 final Configuration configuration = new DefaultConfiguration( "", "-" );
 
                 handler =
-                    new DefaultComponentHandler( componentClass,
-                                                 configuration,
-                                                 this,
-                                                 m_context,
-                                                 m_roles );
+                    ComponentHandler.getComponentHandler( componentClass,
+                                                          configuration,
+                                                          this,
+                                                          m_context,
+                                                          m_roles );
 
                 handler.setLogger( getLogger() );
                 handler.init();
@@ -177,10 +185,9 @@ public class DefaultComponentManager
         }
         catch( final IllegalStateException ise )
         {
-            handler.init();
-
             try
             {
+                handler.init();
                 component = handler.get();
             }
             catch( final Exception e )
@@ -279,12 +286,20 @@ public class DefaultComponentManager
     {
         if( null == component ) return;
 
-        final DefaultComponentHandler handler =
-            (DefaultComponentHandler)m_componentMapping.get( component );
+        final ComponentHandler handler =
+            (ComponentHandler)m_componentMapping.get( component );
 
         if( null != handler )
         {
-            handler.put( component );
+            try
+            {
+                handler.put( component );
+            }
+            catch (Exception e)
+            {
+                getLogger().debug("Error trying to release component.", e);
+            }
+
             m_componentMapping.remove( component );
         }
     }
@@ -301,9 +316,11 @@ public class DefaultComponentManager
     {
         try
         {
-            final DefaultComponentHandler handler =
-                new DefaultComponentHandler( component, configuration, this, m_context, m_roles );
+            getLogger().debug("Attempting to get Handler for: " + role);
+            final ComponentHandler handler =
+                ComponentHandler.getComponentHandler( component, configuration, this, m_context, m_roles );
 
+            getLogger().debug("Handler type = " + handler.getClass().getName());
             handler.setLogger( getLogger() );
             m_componentHandlers.put( role, handler );
         }
@@ -321,7 +338,7 @@ public class DefaultComponentManager
     {
         try
         {
-            DefaultComponentHandler handler = new DefaultComponentHandler( (Component)instance );
+            ComponentHandler handler = ComponentHandler.getComponentHandler( (Component)instance );
             handler.setLogger( getLogger() );
             m_componentHandlers.put( role, handler );
         }

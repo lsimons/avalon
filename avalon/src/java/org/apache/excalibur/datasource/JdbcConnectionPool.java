@@ -26,7 +26,7 @@ import org.apache.excalibur.pool.Pool;
  * thread to manage the number of SQL Connections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/04/18 13:15:48 $
+ * @version CVS $Revision: 1.3 $ $Date: 2001/04/20 20:48:35 $
  */
 public class JdbcConnectionPool
     extends AbstractLoggable
@@ -147,6 +147,11 @@ public class JdbcConnectionPool
             else
             {
                 obj = (Poolable)m_ready.remove( 0 );
+                if (((Connection)obj).isClosed())
+                {
+                    ((JdbcConnection)obj).recycle();
+                    obj = this.createJdbcConnection();
+                }
 
                 m_active.add( obj );
             }
