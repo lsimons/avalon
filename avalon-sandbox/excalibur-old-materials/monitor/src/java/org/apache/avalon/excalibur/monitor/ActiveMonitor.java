@@ -8,13 +8,12 @@
 package org.apache.avalon.excalibur.monitor;
 
 import java.lang.reflect.Constructor;
-import java.util.HashMap;
-import java.util.Map;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.thread.ThreadSafe;
 
 /**
@@ -35,19 +34,25 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ActiveMonitor.java,v 1.12 2002/06/13 17:24:52 bloritsch Exp $
+ * @version $Id: ActiveMonitor.java,v 1.13 2002/09/07 07:15:56 donaldp Exp $
  */
 public final class ActiveMonitor
-    extends AbstractLogEnabled
-    implements Monitor, Startable, ThreadSafe, Configurable, Runnable
+    extends org.apache.avalon.excalibur.monitor.impl.ActiveMonitor
+    implements Monitor, LogEnabled, Configurable, Startable, ThreadSafe
 {
-    private static final Class[] m_constructorParams = new Class[]{String.class};
-    private static final Resource[] m_arrayType = new Resource[]{};
-    private final Thread m_monitorThread = new Thread( this );
-    private long m_frequency;
-    private int m_priority;
-    private Map m_resources = new HashMap();
-    private boolean m_keepRunning = true;
+    private static final Class[] c_constructorParams = new Class[]{String.class};
+
+    private Logger m_logger;
+
+    public void enableLogging( final Logger logger )
+    {
+        m_logger = logger;
+    }
+
+    private Logger getLogger()
+    {
+        return m_logger;
+    }
 
     /**
      * Configure the ActiveMonitor.
@@ -55,145 +60,72 @@ public final class ActiveMonitor
     public final void configure( Configuration conf )
         throws ConfigurationException
     {
-        m_frequency = conf.getChild( "thread" ).getAttributeAsLong( "frequency", 1000L * 60L );
-        m_priority = conf.getChild( "thread" ).getAttributeAsInteger( "priority", Thread.MIN_PRIORITY );
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        Configuration[] initialResources = conf.getChild( "init-resources" ).getChildren( "resource" );
-
+        final Configuration thread = conf.getChild( "thread" );
+        final long frequency =
+            thread.getAttributeAsLong( "frequency", 1000L * 60L );
+        final int priority =
+            thread.getAttributeAsInteger( "priority", Thread.MIN_PRIORITY );
         if( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "Active monitor will sample all resources every " +
-                               m_frequency + " milliseconds with a thread priority of " +
-                               m_priority + "(Minimum = " + Thread.MIN_PRIORITY +
+                               frequency + " milliseconds with a thread priority of " +
+                               priority + "(Minimum = " + Thread.MIN_PRIORITY +
                                ", Normal = " + Thread.NORM_PRIORITY +
                                ", Maximum = " + Thread.MAX_PRIORITY + ")." );
         }
 
+        final Configuration[] resources =
+            conf.getChild( "init-resources" ).getChildren( "resource" );
+        configureResources( resources );
+
+        setFrequency( frequency );
+        setPriority( priority );
+    }
+
+    private void configureResources( final Configuration[] initialResources )
+    {
         for( int i = 0; i < initialResources.length; i++ )
         {
-            String key = initialResources[ i ].getAttribute( "key", "*** KEY NOT SPECIFIED ***" );
-            String className = initialResources[ i ].getAttribute( "class", "*** CLASSNAME NOT SPECIFIED ***" );
+            final Configuration initialResource = initialResources[ i ];
+            final String key =
+                initialResource.getAttribute( "key", "** Unspecified key **" );
+            final String className =
+                initialResource.getAttribute( "class", "** Unspecified class **" );
 
             try
             {
-                Class clazz = loader.loadClass( className );
-                Constructor initializer = clazz.getConstructor( ActiveMonitor.m_constructorParams );
-                this.addResource( (Resource)initializer.newInstance( new Object[]{key} ) );
+                final Resource resource = createResource( className, key );
+                addResource( resource );
 
                 if( getLogger().isDebugEnabled() )
                 {
-                    getLogger().debug( "Initial Resource: \"" + key + "\" Initialized." );
+                    final String message =
+                        "Initial Resource: \"" + key + "\" Initialized.";
+                    getLogger().debug( message );
                 }
             }
-            catch( Exception e )
+            catch( final Exception e )
             {
                 if( getLogger().isWarnEnabled() )
                 {
-                    getLogger().warn( "Initial Resource: \"" + key +
-                                      "\" Failed (" + className + ").", e );
+                    final String message =
+                        "Initial Resource: \"" + key +
+                        "\" Failed (" + className + ").";
+                    getLogger().warn( message, e );
                 }
             }
         }
     }
 
-    public final void start()
+    private Resource createResource( final String className,
+                                     final String key )
         throws Exception
     {
-        m_monitorThread.setDaemon( true );
-        m_monitorThread.setPriority( Thread.MIN_PRIORITY );
-        m_monitorThread.start();
-    }
-
-    public final void stop()
-        throws Exception
-    {
-        m_keepRunning = false;
-        m_monitorThread.join();
-    }
-
-    /**
-     * Add a resource to monitor.  The resource key referenced in the other
-     * interfaces is derived from the resource object.
-     */
-    public final void addResource( final Resource resource )
-    {
-
-        synchronized( m_resources )
-        {
-            if( m_resources.containsKey( resource.getResourceKey() ) )
-            {
-                Resource original = (Resource)m_resources.get( resource.getResourceKey() );
-                original.addPropertyChangeListenersFrom( resource );
-            }
-            else
-            {
-                m_resources.put( resource.getResourceKey(), resource );
-            }
-        }
-    }
-
-    /**
-     * Find a monitored resource.  If no resource is available, return null
-     */
-    public final Resource getResource( final String key )
-    {
-        synchronized( m_resources )
-        {
-            return (Resource)m_resources.get( key );
-        }
-    }
-
-    /**
-     * Remove a monitored resource by key.
-     */
-    public final void removeResource( final String key )
-    {
-        synchronized( m_resources )
-        {
-            Resource resource = (Resource)m_resources.remove( key );
-            resource.removeAllPropertyChangeListeners();
-        }
-    }
-
-    /**
-     * Remove a monitored resource by reference.
-     */
-    public final void removeResource( final Resource resource )
-    {
-        this.removeResource( resource.getResourceKey() );
-    }
-
-    public final void run()
-    {
-        while( m_keepRunning )
-        {
-            long currentTestTime = System.currentTimeMillis();
-            long sleepTillTime = currentTestTime + m_frequency;
-
-            while( ( currentTestTime = System.currentTimeMillis() ) < sleepTillTime )
-            {
-                try
-                {
-                    Thread.sleep( sleepTillTime - currentTestTime );
-                }
-                catch( InterruptedException e )
-                {
-                    // ignore interrupted exception and keep sleeping until it's
-                    // time to wake up
-                }
-            }
-
-            Resource[] resources;
-
-            synchronized( m_resources )
-            {
-                resources = (Resource[])m_resources.values().toArray( ActiveMonitor.m_arrayType );
-            }
-
-            for( int i = 0; i < resources.length; i++ )
-            {
-                resources[ i ].testModifiedAfter( currentTestTime );
-            }
-        }
+        final ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        final Class clazz = loader.loadClass( className );
+        final Constructor initializer =
+            clazz.getConstructor( ActiveMonitor.c_constructorParams );
+        final Resource resource = (Resource)initializer.newInstance( new Object[]{key} );
+        return resource;
     }
 }
