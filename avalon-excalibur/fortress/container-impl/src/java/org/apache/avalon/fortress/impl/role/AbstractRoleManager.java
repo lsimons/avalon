@@ -49,6 +49,10 @@
 */
 package org.apache.avalon.fortress.impl.role;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.avalon.fortress.RoleManager;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
@@ -56,7 +60,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * the information is hard-coded.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/02/25 15:23:47 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/03/17 20:22:56 $
  * @since 4.1
  */
 public abstract class AbstractRoleManager
@@ -64,24 +68,24 @@ public abstract class AbstractRoleManager
     implements org.apache.avalon.fortress.RoleManager
 {
    /**
-    * The classloader
+    * The classloader used to load and check roles and components.
     */
-    private final ClassLoader m_loader;
+    protected final ClassLoader m_loader;
 
     /**
      * Map for shorthand to RoleEntry
      */
-    private java.util.Map m_shorthands = new java.util.Hashtable();
+    private Map m_shorthands = new HashMap();
 
     /**
      * Map for classname to RoleEntry
      */
-    private java.util.Map m_classnames = new java.util.Hashtable();
+    private Map m_classnames = new HashMap();
 
     /**
      * Parent <code>RoleManager</code> for nested resolution
      */
-    private final org.apache.avalon.fortress.RoleManager m_parent;
+    private final RoleManager m_parent;
 
     /**
      * Default constructor--this RoleManager has no parent.
