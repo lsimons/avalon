@@ -18,18 +18,20 @@ STRUCTURE:
     +-- merlin-core              merlin kernel, block, and container 
     +-- merlin-spi               merlin SPI interfaces and classes
     +-- merlin-plugin            plugin for Maven 
+    +-- merlin-extensions        
+        +- merlin-jndi           merlin JNDI connector
+        +- merlin-servlet        merlin Servlet utilities
+    +-- merlin-platform          site and installation resources
+        +- src                   resources used to build a merlin installation
+        +- tutorials             several merlin tutorials
+        +- examples              example applications
+        +- target
+           +- docs               generate site documentation
     +-- meta                     meta package implementation
     +-- meta-spi                 meta SPI interfaces and classes
     +-- meta-tools               meta info generator task
-    +-- merlin-extensions        
-          +- merlin-jndi         merlin JNDI connector
-    +-- merlin-platform               site and installation resources
-          +- src
-               +- tutorial       several merlin tutorials
-          +- target
-               +- docs           generate site documentation
     +-- target
-          +- inst                the generated installation (see 
+        +- inst                  the generated installation (see 
                                  build procedure detailed below)
 
 
