@@ -21,7 +21,7 @@ import org.xml.sax.XMLReader;
  * Utility class used to load Configuration trees from XML files.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2002/09/30 22:47:53 $
+ * @version $Revision: 1.10 $ $Date: 2002/10/01 07:40:27 $
  */
 public class ConfigurationBuilder
 {
@@ -62,7 +62,10 @@ public class ConfigurationBuilder
                      "org/apache/avalon/phoenix/tools/assembly.dtd" ),
         new DTDInfo( "-//PHOENIX/Mx Info DTD Version 1.0//EN",
                      "http://jakarta.apache.org/avalon/dtds/phoenix/mxinfo_1.0.dtd",
-                     "org/apache/avalon/phoenix/tools/mxinfo.dtd" )
+                     "org/apache/avalon/phoenix/tools/mxinfo.dtd" ),
+        new DTDInfo( "-//PHOENIX/Assembly DTD Version 1.1//EN",
+                     "http://jakarta.apache.org/phoenix/assembly_1.1.dtd",
+                     "org/apache/avalon/phoenix/tools/assembly.dtd" )
     };
 
     private static final DTDResolver c_resolver =
