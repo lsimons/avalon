@@ -7,23 +7,43 @@
 -->
 <environment>
 
-    <logs>
+  <logs version="1.1">
 
-      <category name="" target="default"
-                priority="DEBUG" />
-      <category name="objectstorage" target="objectstorage-target"
-                priority="DEBUG" />
+    <factories>
+      <factory type="file" class="org.apache.avalon.excalibur.logger.factory.FileTargetFactory"/>
+      
+    </factories>
 
-      <log-target name="default"
-                  location="/logs/avalon-demo.log" />
-      <log-target name="objectstorage-target"
-                  location="/logs/objectstorage.log" />
-    </logs>
+    <targets>
+      <file id="default">
+        <filename>${app.home}/logs/avalon-demo.log</filename>
+        <format type="extended">
+          %6.6{priority} %10.10{time} [%8.8{category}] (%{context}): %{message}\n%{throwable}
+        </format>
+      </file>
 
-    <policy>
-      <grant code-base="sar:SAR-INF/lib/*">
-        <permission class="java.security.AllPermission" />
-      </grant>
-    </policy>
+      <file id="access_log">
+        <filename>${app.home}/logs/access.log</filename>
+        <format type="extended">
+          %{message}\n
+        </format>
+      </file>
+    </targets>
+
+    <categories>
+      <category name="" log-level="DEBUG">
+        <log-target id-ref="default"/>
+      </category>
+      <category name="access" log-level="INFO">
+        <log-target id-ref="access_log"/>
+      </category>
+    </categories>
+  </logs>
+
+  <policy>
+    <grant code-base="sar:SAR-INF/lib/*">
+      <permission class="java.security.AllPermission" />
+    </grant>
+  </policy>
 
 </environment>
