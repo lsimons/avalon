@@ -20,6 +20,7 @@
     <property name="build.javadocs" value="${build.dir}/javadocs"/>
     <property name="src.dir" value="src"/>
     <property name="java.dir" value="${src.dir}/java"/>
+    <property name="compat.dir" value="${src.dir}/compat"/>
     <property name="xdocs.dir" value="src/xdocs"/>
     <property name="jakarta-site.dir" value="../jakarta-site"/>
     <property name="dist.base" value="distributions"/>
@@ -94,7 +95,7 @@
     <mkdir dir="${build.javadocs}"/>
 
     <javadoc packagenames="org.apache.*"
-             sourcepath="${java.dir}"
+             sourcepath="${java.dir}:${compat.dir}"
              destdir="${build.javadocs}">
       <classpath refid="project.class.path" />
       <doclet name="com.sun.tools.doclets.standard.Standard">

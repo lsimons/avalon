@@ -43,6 +43,7 @@ Legal:
     <!-- Set the properties for source directories -->
     <property name="src.dir" value="src"/>
     <property name="java.dir" value="${src.dir}/java"/>
+    <property name="compat.dir" value="${src.dir}/compat"/>
     <property name="conf.dir" value="${src.dir}/conf"/>
     <property name="script.dir" value="${src.dir}/script"/>
     <property name="lib.dir" value="lib"/>
@@ -177,7 +178,7 @@ Legal:
 
         <mkdir dir="${build.src}"/>
         <copy todir="${build.src}">
-            <fileset dir="${java.dir}">
+            <fileset dir="${compat.dir}">
                 <include name="${constants.file}" />
             </fileset>
         </copy>
@@ -202,6 +203,7 @@ Legal:
             deprecation="${build.deprecation}">
             <classpath refid="project.class.path" />
             <src path="${build.src}" />
+            <src path="${compat.dir}" />
             <exclude name="${constants.file}" />
             <exclude name="org/apache/avalon/phoenix/frontends/PhoenixServlet.java" unless="servlet.present"/>
             <exclude name="org/apache/avalon/phoenix/frontends/ComposableServlet.java" unless="servlet.present"/>
