@@ -13,20 +13,18 @@ import org.apache.avalon.excalibur.collections.Buffer;
 import org.apache.avalon.excalibur.collections.VariableSizeBuffer;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.LogKitLogger;
-import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.thread.ThreadSafe;
 
 /**
  * This is an <code>Pool</code> that caches Poolable objects for reuse.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/04/07 06:28:06 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/08/07 16:31:38 $
  * @since 4.0
  */
 public abstract class AbstractPool
     extends AbstractLogEnabled
-    implements Pool, Loggable, ThreadSafe
+    implements Pool, ThreadSafe
 {
     public static final int DEFAULT_POOL_SIZE = 8;
     protected final ObjectFactory m_factory;
@@ -48,11 +46,6 @@ public abstract class AbstractPool
         {
             initialize();
         }
-    }
-
-    public void setLogger( final org.apache.log.Logger logger )
-    {
-        enableLogging( new LogKitLogger( logger ) );
     }
 
     protected void initialize()
