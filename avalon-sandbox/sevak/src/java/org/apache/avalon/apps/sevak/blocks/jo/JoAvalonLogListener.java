@@ -138,7 +138,7 @@ import org.apache.avalon.framework.logger.Logger;
  * A connector between the tagtraum log packages and avalon logging.
  *
  * @author <a href="mailto:hs@tagtraum.com">Hendrik Schreiber</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class JoAvalonLogListener implements I_LogEventListener
 {
@@ -151,63 +151,63 @@ public class JoAvalonLogListener implements I_LogEventListener
      * @param name the name of the log
      * @param logger the logger
      */
-    public JoAvalonLogListener(String name, Logger logger)
+    public JoAvalonLogListener( String name, Logger logger )
     {
         this.m_name = name;        // source
         this.m_logger = logger;
-        Log.getLog(name).addI_LogEventListener(this);
+        Log.getLog( name ).addI_LogEventListener( this );
     }
 
     /**
      * Handle a log event
      * @param le the log event
      */
-    public void handleLogEvent(LogEvent le)
+    public void handleLogEvent( LogEvent le )
     {
-        switch (le.getLevel())
+        switch( le.getLevel() )
         {
             case C_Log.NOLOG:
                 break;
             case C_Log.ERROR:
-                if (le.getMessage() != null && le.getThrowable() != null)
+                if( le.getMessage() != null && le.getThrowable() != null )
                 {
-                    m_logger.error(le.getMessage(), le.getThrowable());
+                    m_logger.error( le.getMessage(), le.getThrowable() );
                 }
-                else if (le.getMessage() != null)
+                else if( le.getMessage() != null )
                 {
-                    m_logger.error(le.getMessage());
+                    m_logger.error( le.getMessage() );
                 }
-                else if (le.getThrowable() != null)
+                else if( le.getThrowable() != null )
                 {
-                    m_logger.error(le.getThrowable().toString(), le.getThrowable());
+                    m_logger.error( le.getThrowable().toString(), le.getThrowable() );
                 }
                 break;
             case C_Log.MODULE:
-                if (le.getMessage() != null && le.getThrowable() != null)
+                if( le.getMessage() != null && le.getThrowable() != null )
                 {
-                    m_logger.info(le.getMessage(), le.getThrowable());
+                    m_logger.info( le.getMessage(), le.getThrowable() );
                 }
-                else if (le.getMessage() != null)
+                else if( le.getMessage() != null )
                 {
-                    m_logger.info(le.getMessage());
+                    m_logger.info( le.getMessage() );
                 }
-                else if (le.getThrowable() != null)
+                else if( le.getThrowable() != null )
                 {
-                    m_logger.info(le.getThrowable().toString(), le.getThrowable());
+                    m_logger.info( le.getThrowable().toString(), le.getThrowable() );
                 }
                 break;
             default:
-                if (le.getMessage() != null && le.getThrowable() != null)
+                if( le.getMessage() != null && le.getThrowable() != null )
                 {
-                    m_logger.debug(le.getMessage(), le.getThrowable());
+                    m_logger.debug( le.getMessage(), le.getThrowable() );
                 }
-                else if (le.getMessage() != null)
+                else if( le.getMessage() != null )
                 {
-                    m_logger.debug(le.getMessage());
+                    m_logger.debug( le.getMessage() );
                 }
-                else if (le.getThrowable() != null)
+                else if( le.getThrowable() != null )
                 {
-                    m_logger.debug(le.getThrowable().toString(), le.getThrowable());
+                    m_logger.debug( le.getThrowable().toString(), le.getThrowable() );
                 }
         }
     }
@@ -244,20 +244,20 @@ public class JoAvalonLogListener implements I_LogEventListener
      * @param obj to test against
      * @return equals or not.
      */
-    public boolean equals(Object obj)
+    public boolean equals( Object obj )
     {
-        if (obj == null)
+        if( obj == null )
         {
             return false;
         }
-        if (obj == this)
+        if( obj == this )
         {
             return true;
         }
-        if (obj.getClass() == getClass())
+        if( obj.getClass() == getClass() )
         {
-            return m_logger.equals(((JoAvalonLogListener) obj).getLogger())
-                    && m_name.equals(((JoAvalonLogListener) obj).getName());
+            return m_logger.equals( ( (JoAvalonLogListener)obj ).getLogger() )
+                && m_name.equals( ( (JoAvalonLogListener)obj ).getName() );
         }
         return false;
     }

@@ -57,14 +57,13 @@ package org.apache.avalon.apps.sevak.blocks.catalina;
 import org.apache.catalina.Container;
 import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.Rule;
-
 import org.xml.sax.Attributes;
 
 /**
  * A Parent Classloader Rule for Catalina
  *
  * @author  Daniel Krieg<dkrieg@kc.rr.com>
- * @version $Revision: 1.4 $ $Date: 2003/03/22 12:53:12 $
+ * @version $Revision: 1.5 $ $Date: 2003/04/11 00:29:11 $
  */
 public class ParentClassLoaderRule extends Rule
 {
@@ -75,9 +74,9 @@ public class ParentClassLoaderRule extends Rule
      * @param digester The Digester
      * @param parentClassLoader The parent ClassLoader
      */
-    public ParentClassLoaderRule(Digester digester, ClassLoader parentClassLoader)
+    public ParentClassLoaderRule( Digester digester, ClassLoader parentClassLoader )
     {
-        super(digester);
+        super( digester );
         this.m_parentClassLoader = parentClassLoader;
     }
 
@@ -86,9 +85,9 @@ public class ParentClassLoaderRule extends Rule
      * @param attributes the attributes
      * @throws Exception if an Exception
      */
-    public void begin(Attributes attributes) throws Exception
+    public void begin( Attributes attributes ) throws Exception
     {
-        Container top = (Container) digester.peek();
-        top.setParentClassLoader(m_parentClassLoader);
+        Container top = (Container)digester.peek();
+        top.setParentClassLoader( m_parentClassLoader );
     }
 }

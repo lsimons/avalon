@@ -61,7 +61,7 @@ import org.apache.avalon.framework.CascadingException;
  * Date: Jan 15, 2002
  * Time: 7:04:54 PM
  * @author <a href="mailto:hs@tagtraum.com">Hendrik Schreiber</a>
- * @version $Id: JoException.java,v 1.5 2003/03/22 12:53:14 leosimons Exp $
+ * @version $Id: JoException.java,v 1.6 2003/04/11 00:29:12 donaldp Exp $
  */
 public class JoException extends CascadingException
 {
@@ -70,9 +70,9 @@ public class JoException extends CascadingException
      * Construct a Jo Exception
      * @param message the message
      */
-    public JoException(String message)
+    public JoException( String message )
     {
-        super(message);
+        super( message );
 
     }
 
@@ -81,9 +81,9 @@ public class JoException extends CascadingException
      * @param message the message*
      * @param nestedException a nested exception
      */
-    public JoException(String message, Exception nestedException)
+    public JoException( String message, Exception nestedException )
     {
-        super(message, nestedException);
+        super( message, nestedException );
     }
 
 }

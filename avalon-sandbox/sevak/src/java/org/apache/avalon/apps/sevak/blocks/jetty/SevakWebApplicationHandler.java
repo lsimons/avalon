@@ -50,7 +50,6 @@
 package org.apache.avalon.apps.sevak.blocks.jetty;
 
 import org.apache.avalon.apps.sevak.SevakContext;
-
 import org.mortbay.jetty.servlet.ServletHolder;
 import org.mortbay.jetty.servlet.WebApplicationHandler;
 

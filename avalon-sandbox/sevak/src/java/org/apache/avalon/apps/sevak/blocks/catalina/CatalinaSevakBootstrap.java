@@ -54,11 +54,11 @@
  */
 package org.apache.avalon.apps.sevak.blocks.catalina;
 
+import java.io.File;
 import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
+import org.apache.avalon.apps.sevak.MultihostSevak;
 import org.apache.avalon.apps.sevak.Sevak;
 import org.apache.avalon.apps.sevak.SevakException;
-import org.apache.avalon.apps.sevak.MultihostSevak;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -70,8 +70,6 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.phoenix.BlockContext;
-
-import java.io.File;
 
 /**
  * @phoenix:block
@@ -94,8 +92,9 @@ import java.io.File;
  * @version 1.0
  */
 public class CatalinaSevakBootstrap
-        extends AbstractLogEnabled
-        implements Contextualizable, Configurable, Initializable, Startable, Sevak, MultihostSevak {
+    extends AbstractLogEnabled
+    implements Contextualizable, Configurable, Initializable, Startable, Sevak, MultihostSevak
+{
     private BlockContext m_context;
     private Configuration m_configuration;
     private Object m_sevak;
@@ -105,12 +104,14 @@ public class CatalinaSevakBootstrap
     private String m_configFile;
     private final static String C_HOST = "localhost";
 
-    public void contextualize( Context context ) throws ContextException {
+    public void contextualize( Context context ) throws ContextException
+    {
         getLogger().debug( "CatalinaSevakBootstrap.contextualize()" );
         m_context = (BlockContext)context;
     }
 
-    public void configure( Configuration configuration ) throws ConfigurationException {
+    public void configure( Configuration configuration ) throws ConfigurationException
+    {
         getLogger().debug( "CatalinaSevakBootstrap.configure()" );
         m_configuration = configuration;
 
@@ -126,7 +127,8 @@ public class CatalinaSevakBootstrap
         getLogger().debug( "Catalina Base: " + getCatalinaBase() );
     }
 
-    public void initialize() throws Exception {
+    public void initialize() throws Exception
+    {
         getLogger().debug( "CatalinaSevakBootstrap.initialize()" );
         CatalinaSevakClassLoaderFactory.setLogger( getLogger() );
 
@@ -135,7 +137,8 @@ public class CatalinaSevakBootstrap
         ClassLoader commonLoader = null;
         ClassLoader sevakLoader = null;
         ClassLoader sharedLoader = null;
-        try {
+        try
+        {
             File[] unpacked = new File[ 1 ];
             File[] packed = new File[ 1 ];
             File[] packed2 = new File[ 2 ];
@@ -165,12 +168,15 @@ public class CatalinaSevakBootstrap
             packed[ 0 ] = new File( getCatalinaBase(), "shared" + File.separator + "lib" );
             sharedLoader = CatalinaSevakClassLoaderFactory.createClassLoader( unpacked, packed, commonLoader );
             getLogger().debug( "Loaded shared dir..." );
-        } catch( Exception e ) {
+        }
+        catch( Exception e )
+        {
             getLogger().fatalError( "Class loader creation threw exception", e );
             throw e;
         }
 
-        try {
+        try
+        {
             // Load our startup class and run its lifecycle
             Thread.currentThread().setContextClassLoader( sevakLoader );
             CatalinaSevakClassLoaderFactory.securityClassLoad( sevakLoader );
@@ -178,7 +184,7 @@ public class CatalinaSevakBootstrap
             // Instantiate a startup class instance
             getLogger().debug( "Loading startup class" );
             Class startupClass =
-                    sevakLoader.loadClass( "org.apache.avalon.apps.sevak.blocks.catalina.CatalinaSevak" );
+                sevakLoader.loadClass( "org.apache.avalon.apps.sevak.blocks.catalina.CatalinaSevak" );
             getLogger().debug( "Startup class loaded: " + startupClass );
             m_sevak = startupClass.newInstance();
 
@@ -208,94 +214,123 @@ public class CatalinaSevakBootstrap
             methodName = "initialize";
             method = m_sevak.getClass().getMethod( methodName, null );
             method.invoke( m_sevak, null );
-        } catch( Exception e ) {
+        }
+        catch( Exception e )
+        {
             getLogger().fatalError( "Exception during startup processing", e );
             throw e;
         }
         getLogger().debug( "CatalinaSevakBootstrap complete." );
     }
 
-    public void start() throws Exception {
+    public void start() throws Exception
+    {
         getLogger().debug( "CatalinaSevakBootstrap.start()" );
         m_sevak.getClass().getMethod( "start", null ).invoke( m_sevak, null );
     }
 
-    public void stop() throws Exception {
+    public void stop() throws Exception
+    {
         getLogger().debug( "CatalinaSevakBootstrap.stop()" );
         m_sevak.getClass().getMethod( "stop", null ).invoke( m_sevak, null );
     }
 
-    public void deploy( String context, File pathToWebAppFolder ) throws SevakException {
+    public void deploy( String context, File pathToWebAppFolder ) throws SevakException
+    {
         getLogger().debug( "CatalinaSevakBootstrap.deploy()" );
         deploy( C_HOST, context, pathToWebAppFolder );
     }
 
-    public void undeploy( String context ) throws SevakException {
+    public void undeploy( String context ) throws SevakException
+    {
         getLogger().debug( "CatalinaSevakBootstrap.undeploy()" );
         undeploy( C_HOST, context );
     }
 
-    public void deploy( String host, String context, File pathToWebAppFolder ) throws SevakException {
+    public void deploy( String host, String context, File pathToWebAppFolder ) throws SevakException
+    {
         Class[] paramTypes = {String.class, String.class, File.class};
         Object[] paramValues = {host, context, pathToWebAppFolder};
-        try {
+        try
+        {
             m_sevak.getClass().getMethod( "deploy", paramTypes ).invoke( m_sevak, paramValues );
-        } catch( Exception e ) {
+        }
+        catch( Exception e )
+        {
             throw new SevakException( "Unable to deploy", e );
         }
     }
 
-    public void deploy(String context, File pathToWebAppFolder, ServiceManager serviceManager) throws SevakException
+    public void deploy( String context, File pathToWebAppFolder, ServiceManager serviceManager ) throws SevakException
     {
         throw new UnsupportedOperationException();
     }
 
-    public void undeploy( String host, String context ) throws SevakException {
+    public void undeploy( String host, String context ) throws SevakException
+    {
         Class[] paramTypes = {String.class, String.class};
         Object[] paramValues = {host, context};
-        try {
+        try
+        {
             m_sevak.getClass().getMethod( "undeploy", paramTypes ).invoke( m_sevak, paramValues );
-        } catch( Exception e ) {
+        }
+        catch( Exception e )
+        {
             throw new SevakException( "Unable to undeploy", e );
         }
     }
 
-    private void setCatalinaBase() {
-        if( m_catalinaBase.equals( "default" ) ) {
+    private void setCatalinaBase()
+    {
+        if( m_catalinaBase.equals( "default" ) )
+        {
             System.setProperty( "catalina.base", getCatalinaHome() );
-        } else if( m_catalinaBase.equals( "user.dir" ) ) {
+        }
+        else if( m_catalinaBase.equals( "user.dir" ) )
+        {
             System.setProperty( "catalina.base", System.getProperty( "user.dir" ) );
-        } else {
+        }
+        else
+        {
             System.setProperty( "catalina.base", m_catalinaBase );
         }
     }
 
-    private String getCatalinaBase() {
-        if( System.getProperty( "catalina.base" ) == null ) {
+    private String getCatalinaBase()
+    {
+        if( System.getProperty( "catalina.base" ) == null )
+        {
             setCatalinaBase();
         }
         return System.getProperty( "catalina.base" );
     }
 
-    private void setCatalinaHome() {
-        if( m_catalinaHome.equals( "default" ) ) {
+    private void setCatalinaHome()
+    {
+        if( m_catalinaHome.equals( "default" ) )
+        {
             System.setProperty( "catalina.home", System.getProperty( "phoenix.home" ) + File.separator + "catalina" );
-        } else {
+        }
+        else
+        {
             System.setProperty( "catalina.home", m_catalinaHome );
         }
     }
 
-    private String getCatalinaHome() {
-        if( System.getProperty( "catalina.home" ) == null ) {
+    private String getCatalinaHome()
+    {
+        if( System.getProperty( "catalina.home" ) == null )
+        {
             setCatalinaHome();
         }
         return System.getProperty( "catalina.home" );
     }
 
-    private String getStartupDir() {
+    private String getStartupDir()
+    {
         String startup = this.getClass().getClassLoader()
-                .getResource( "org/apache/avalon/apps/sevak/blocks/catalina/CatalinaSevak.class" )
-                .toExternalForm();
+            .getResource( "org/apache/avalon/apps/sevak/blocks/catalina/CatalinaSevak.class" )
+            .toExternalForm();
         startup = startup.substring( "jar:file:/".length(), startup.indexOf( "!" ) );
         getLogger().debug( "Start up JAR " + startup );
         return new File( startup ).getParent();

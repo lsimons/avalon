@@ -51,10 +51,8 @@ package org.apache.avalon.apps.sevak.blocks.jetty;
 
 import org.apache.avalon.apps.sevak.SevakContext;
 import org.apache.avalon.framework.container.ContainerUtil;
-import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceManager;
-
 import org.mortbay.jetty.servlet.ServletHolder;
 
 /**
