@@ -71,6 +71,22 @@ public class DefaultComponentManager
         }
     }
 
+    public boolean hasComponent( final String role ) {
+        boolean componentExists = false;
+
+        try
+        {
+            this.release(this.lookup(role));
+            componentExists = true;
+        }
+        catch (Throwable t)
+        {
+            // Ignore all throwables--we want a yes or no answer.
+        }
+
+        return componentExists;
+    }
+
     /**
      * Place Component into ComponentManager.
      *

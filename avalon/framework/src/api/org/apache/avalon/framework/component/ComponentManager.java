@@ -12,7 +12,7 @@ package org.apache.avalon.framework.component;
  * role.  The contract is that all the <code>Component</code>s implement the
  * differing roles and there is one <code>Component</code> per role.  If you
  * need to select on of many <code>Component</code>s that implement the same
- * role, then you need to use a <code>ComponentSelector</code>.  Roles are 
+ * role, then you need to use a <code>ComponentSelector</code>.  Roles are
  * usually the full interface name.
  *
  * A role is better understood by the analogy of a play.  There are many
@@ -49,12 +49,12 @@ public interface ComponentManager
      * <code>LoggerComponent</code> stored and referenced by role, I would use
      * the following call:
      * <pre>
-     * try 
+     * try
      * {
-     *     LoggerComponent log;
-     *     log = (LoggerComponent) manager.lookup("org.apache.avalon.framework.blocks.Logger");
-     * } 
-     * catch (...) 
+     *     MyComponent log;
+     *     myComponent = (MyComponent) manager.lookup(MyComponent.ROLE);
+     * }
+     * catch (...)
      * {
      *     ...
      * }
@@ -65,6 +65,14 @@ public interface ComponentManager
      */
     Component lookup( String role )
         throws ComponentException;
+
+    /**
+     * Check to see if a <code>Component</code> exists for a role.
+     *
+     * @param role  a string identifying the role to check.
+     * @return True if the component exists, False if it does not.
+     */
+    boolean hasComponent( String role );
 
     /**
      * Return the <code>Component</code> when you are finished with it.  This
