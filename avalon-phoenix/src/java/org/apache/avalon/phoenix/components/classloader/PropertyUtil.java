@@ -15,7 +15,7 @@ import org.apache.avalon.framework.context.Resolvable;
  * This provides utility methods for properties.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/06/27 04:11:21 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/07/13 10:06:35 $
  * @since 4.0
  */
 final class PropertyUtil
@@ -243,7 +243,9 @@ final class PropertyUtil
         if( null == value )
         {
             if( ignoreUndefined )
+            {
                 return "";
+            }
             else
             {
                 throw new Exception( "Unable to find " + key + " to expand during " +
