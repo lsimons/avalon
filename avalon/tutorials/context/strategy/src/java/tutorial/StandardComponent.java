@@ -80,7 +80,7 @@ public class StandardComponent extends AbstractLogEnabled
     //=======================================================================
 
    /**
-    * Supply of the the component context to the component type.
+    * Supply of the component context to the component type.
     *
     * @param context the context value
     *
