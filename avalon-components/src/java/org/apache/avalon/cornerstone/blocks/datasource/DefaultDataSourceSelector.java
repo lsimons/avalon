@@ -44,7 +44,7 @@ import org.apache.avalon.phoenix.Block;
  * &lt;/data-sources&gt;
  * </pre>
  *
- * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
+ * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
 public class DefaultDataSourceSelector
     extends AbstractLoggable
@@ -74,7 +74,7 @@ public class DefaultDataSourceSelector
             final String clazz = dataSourceConf.getAttribute( "class" );
             final String driver = dataSourceConf.getChild( "driver", true ).getValue("");
 
-            final ClassLoader classLoader = 
+            final ClassLoader classLoader =
                 Thread.currentThread().getContextClassLoader();
 
             DataSourceComponent component = null;
