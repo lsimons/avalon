@@ -204,4 +204,14 @@ public class DefaultKernel
         componentManager.makeReadOnly();
         return componentManager;
     }
+    
+    public void removeApplication( String name ) throws Exception
+    {
+        final SarEntry entry = (SarEntry)m_entrys.get( name );
+        if( null != entry )        
+        {
+            shutdown( entry );
+        }
+    }
+    
 }

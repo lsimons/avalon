@@ -29,6 +29,9 @@ public interface Kernel
                          Hierarchy hierarchy,
                          Configuration server )
         throws Exception;
+    
+    void removeApplication( String name ) 
+        throws Exception;
 
     Application getApplication( String name );
 
