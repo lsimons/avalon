@@ -103,6 +103,25 @@ public class DefaultEmbeddedKernel implements Runnable, Kernel
     private static final String CONTINUE = "continue";
     private static final String EXIT = "exit";
 
+    private static final URL DPML = createURL( "http://dpml.net/" );
+    private static final URL IBIBLIO = createURL( "http://www.ibiblio.org/maven/" );
+    private static final URL[] DEFAULT_REMOTE_URLS = new URL[]{ DPML, IBIBLIO };
+
+    private static URL createURL( String path )
+    {
+        try
+        {
+            return new URL( path );
+        }
+        catch( Throwable e )
+        {
+            // will not happen
+            final String error =  
+              "Unexpect error while building url: " + path;
+            throw new UnitRuntimeException( error, e );
+        }
+    }
+
     //--------------------------------------------------------
     // state
     //--------------------------------------------------------
@@ -446,7 +465,10 @@ public class DefaultEmbeddedKernel implements Runnable, Kernel
     {
         ArrayList list = new ArrayList();
         String path = System.getProperty( "maven.repo.remote" );
-        if( path == null ) return new URL[0];
+        if( path == null ) 
+        {
+            return DEFAULT_REMOTE_URLS;
+        }
 
         StringTokenizer tokenizer = new StringTokenizer( path, "," );
         while( tokenizer.hasMoreElements() )
@@ -490,6 +512,8 @@ public class DefaultEmbeddedKernel implements Runnable, Kernel
 
    /**
     * Return the file corresponding  to the merlin system repository.
+    * Currently hardwired to use the maven repository until we get the 
+    * Merlin environment stuff in place.
     *
     * @return the system repository directory
     */
