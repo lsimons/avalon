@@ -110,6 +110,8 @@
         classpathref="project.class.path"/>
 
     <mkdir dir="${build.classes}"/>
+    <mkdir dir="${gen.dir}"/>
+    <mkdir dir="${docs.dir}"/>
 
     <javac srcdir="${java.dir}"
            destdir="${build.classes}"
