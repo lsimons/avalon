@@ -10,7 +10,7 @@
   <property file="${basedir}/build.properties"/>
 
   <property name="reactor.xml" 
-    value="${magic.dir}/etc/deliverables/templates/reactor.xml"/>
+    value="${project.home}/build/reactor.xml"/>
 
   <target name="setup">
     <ant dir="." antfile="${magic.dir}/setup.xml"/>
@@ -20,7 +20,9 @@
     <ant dir="." antfile="${reactor.xml}" target="clean"/>
   </target>
 
-  <target name="install" depends="verify">
+  <target name="install" depends="default"/>
+
+  <target name="default" depends="verify">
     <ant dir="." antfile="${reactor.xml}" target="default"/>
   </target>
 

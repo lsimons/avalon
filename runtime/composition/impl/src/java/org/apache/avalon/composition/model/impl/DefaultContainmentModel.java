@@ -134,6 +134,8 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
 
     private final DefaultState m_commissioned = new DefaultState();
 
+    private final DefaultState m_dirty = new DefaultState();
+
     //--------------------------------------------------------------
     // state
     //--------------------------------------------------------------
@@ -202,7 +204,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     */
     public void commission() throws Exception
     {
-        if( !isAssembled() ) assemble();
+        assemble();
 
         synchronized( m_commissioned )
         {
@@ -395,7 +397,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         {
             if( isAssembled() )
             {
-                return;
+                if( !m_dirty.isEnabled() ) return;
             }
 
             getLogger().debug( "assembly phase" );
@@ -409,8 +411,8 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
                 DeploymentModel model = models[i];
                 helper.assembleModel( model, subjects );
             }
-
             m_assembly.setEnabled( true );
+            m_dirty.setEnabled( false );
         }
     }
 
@@ -833,14 +835,19 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     {
         if( model.equals( this ) ) 
             return model;
-        ModelRepository repository = m_context.getModelRepository();
-        synchronized( repository )
+
+        synchronized( m_commissioned )
         {
-            repository.addModel( name, model );
-            m_context.getDependencyGraph().add( model );
-            CompositionEvent event = new CompositionEvent( this, model );
-            fireModelAddedEvent( event );
-            return model;
+            m_dirty.setEnabled( true );
+            ModelRepository repository = m_context.getModelRepository();
+            synchronized( repository )
+            {
+                repository.addModel( name, model );
+                m_context.getDependencyGraph().add( model );
+                CompositionEvent event = new CompositionEvent( this, model );
+                fireModelAddedEvent( event );
+                return model;
+            }
         }
     }
 

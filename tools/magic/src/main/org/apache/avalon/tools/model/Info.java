@@ -27,6 +27,8 @@ import org.apache.tools.ant.BuildException;
  */
 public class Info 
 {
+    public static final String SNAPSHOT = "SNAPSHOT";
+ 
     public static final String PROTOCOL = "artifact";
 
     public static Info create( final String id )
@@ -49,15 +51,25 @@ public class Info
         final String group = getGroupFromId( id, n );
         final String name = getNameFromId( id, n );
         final String version = getVersionFromId( id );
-        return new Info( group, name, version, type );
+        if( SNAPSHOT.equalsIgnoreCase( version ) )
+        {
+            return new Info( group, name, version, type, true );
+        }
+        else
+        {
+            return new Info( group, name, version, type, false );
+        }
     }
 
     private String m_name;
     private String m_group;
     private String m_version;
     private String m_type;
+    private boolean m_snapshot;
 
-    public Info( final String group, final String name, final String version, final String type )
+    public Info( 
+      final String group, final String name, final String version, 
+      final String type, boolean snapshot )
     {
         assertNotNull( "group", group );
         assertNotNull( "name", name );
@@ -66,6 +78,7 @@ public class Info
         m_name = name;
         m_version = version;
         m_type = type;
+        m_snapshot = snapshot;
     }
 
     public String getGroup()
@@ -78,9 +91,22 @@ public class Info
         return m_name;
     }
 
+   /**
+    * Return the version identifier.
+    * @return a string identifying the build version.
+    */
     public String getVersion()
     {
         return m_version;
+    }
+
+   /**
+    * Return the snampshot staus of this artifact.
+    * @return true if this artifact is marked as a snapshot
+    */
+    public boolean isaSnapshot()
+    {
+        return m_snapshot;
     }
 
     public String getType()
@@ -118,25 +144,24 @@ public class Info
         buffer.append( ":" );
         buffer.append( getType() );
         buffer.append( ":" );
-        buffer.append( getGroup() );
-        buffer.append( "/" );
-        buffer.append( getName() );
-        if( null != getVersion() )
-        {
-            buffer.append( "#" );
-            buffer.append( getVersion() );
-        }
+        buffer.append( getSpec() );
         return buffer.toString();
     }
 
     public String getSpec()
     {
+        return getSpecification( "/", "#" );
+    }
+
+    public String getSpecification( 
+      String groupSeparator, String versionSeparator )
+    {
         final StringBuffer buffer = new StringBuffer( getGroup() );
-        buffer.append( "/" );
+        buffer.append( groupSeparator );
         buffer.append( getName() );
-        if( null != getVersion() )
+        if(( null != m_version ) && !"".equals( m_version ))
         {
-            buffer.append( "#" );
+            buffer.append( versionSeparator );
             buffer.append( getVersion() );
         }
         return buffer.toString();
@@ -152,16 +177,17 @@ public class Info
         if( other instanceof Info )
         {
             final Info info = (Info) other;
+            if( isaSnapshot() != info.isaSnapshot() ) return false;
             if( !getName().equals( info.getName() ) ) return false;
             if( !getGroup().equals( info.getGroup() ) ) return false;
             if( !getType().equals( info.getType() ) ) return false;
-            if( null == m_version ) 
+            if( null == getVersion() ) 
             {
                 return ( null == info.getVersion() );
             }
             else
             {
-                return m_version.equals( info.getVersion() );
+                return getVersion().equals( info.getVersion() );
             }
         }
         else
@@ -221,5 +247,4 @@ public class Info
             return id.substring( j+1 );
         }
     }
-
 }

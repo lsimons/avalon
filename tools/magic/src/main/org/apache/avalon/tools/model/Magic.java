@@ -47,8 +47,8 @@ public class Magic extends DataType
     public static final String KEY = "magic.home";
 
     public static final String HOSTS_KEY = "magic.hosts";
-    public static final String MAIN_CACHE_KEY = "magic.cache";
-    public static final String DOCS_CACHE_KEY = "magic.docs";
+    public static final String CACHE_KEY = "magic.cache";
+    public static final String DOCS_KEY = "magic.docs";
     public static final String TEMPLATES_KEY = "magic.templates";
 
     public static final String PROXY_HOST_KEY = "magic.proxy.host";
@@ -73,11 +73,11 @@ public class Magic extends DataType
 
         File main = SYSTEM.getRepository().getCacheDirectory();
         project.setProperty( 
-          MAIN_CACHE_KEY, Context.getCanonicalPath( main ) );
+          CACHE_KEY, Context.getCanonicalPath( main ) );
 
-        File docs = SYSTEM.getRepository().getCacheDirectory();
+        File docs = SYSTEM.getDocsRepository().getCacheDirectory();
         project.setProperty( 
-          DOCS_CACHE_KEY, Context.getCanonicalPath( docs ) );
+          DOCS_KEY, Context.getCanonicalPath( docs ) );
 
         project.setProperty( 
           TEMPLATES_KEY, getTemplatePath( system ) );
@@ -116,13 +116,21 @@ public class Magic extends DataType
         File properties = new File( m_system, "magic.properties" );
         loadProperties( project, properties );
 
+        //
+        // setup the main and docs cache
+        //
+
         final String hostsPath = project.getProperty( HOSTS_KEY );
         final String[] hosts = getHostsSequence( hostsPath );
 
-        final File main = new File( m_system, "main" );
+        project.setNewProperty( CACHE_KEY, "main" );
+        final String cachePath = project.getProperty( CACHE_KEY );
+        final File main = Context.getFile( m_system, cachePath );
         m_main = new Repository( project, main, hosts );
 
-        final File docs = new File( m_system, "docs" );
+        project.setNewProperty( DOCS_KEY, "docs" );
+        final String docsPath = project.getProperty( DOCS_KEY );
+        final File docs = Context.getFile( m_system, docsPath );
         m_docs = new Repository( project, docs, hosts );
 
         setupProxy( project );
@@ -133,7 +141,7 @@ public class Magic extends DataType
             project.log( "  host: " + hosts[i], Project.MSG_VERBOSE ); 
         }
         project.log( 
-          "artifact cache: " + m_main.getCacheDirectory(), 
+          "main cache: " + m_main.getCacheDirectory(), 
           Project.MSG_VERBOSE );
         project.log( 
           "docs cache: " + m_docs.getCacheDirectory(), 

@@ -29,11 +29,16 @@ import org.apache.avalon.meta.info.ReferenceDescriptor;
 
 import org.apache.avalon.util.exception.ExceptionHelper;
 
-import org.apache.avalon.test.dynamics.Widget;
-import org.apache.avalon.test.dynamics.Gizmo;
 
 public class DynamicsTestCase extends AbstractTestCase
 {      
+    private static final String WIDGET = 
+      "org.apache.avalon.test.dynamics.Widget";
+
+    private static final String GIZMO = 
+      "org.apache.avalon.test.dynamics.Gizmo";
+
+
    //-------------------------------------------------------
    // constructor
    //-------------------------------------------------------
@@ -59,8 +64,7 @@ public class DynamicsTestCase extends AbstractTestCase
     {
         try
         {
-            String spec = Widget.class.getName();
-            ReferenceDescriptor ref = new ReferenceDescriptor( spec );
+            ReferenceDescriptor ref = new ReferenceDescriptor( WIDGET );
             ComponentModel widget = (ComponentModel) m_model.getModel( ref );
             validate( widget );
         }
@@ -81,8 +85,7 @@ public class DynamicsTestCase extends AbstractTestCase
         try
         {
             m_model.assemble();
-            String spec = Gizmo.class.getName();
-            ReferenceDescriptor ref = new ReferenceDescriptor( spec );
+            ReferenceDescriptor ref = new ReferenceDescriptor( GIZMO );
             ComponentModel gizmo = (ComponentModel) m_model.getModel( ref );
             validate( gizmo );
         }

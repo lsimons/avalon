@@ -250,6 +250,30 @@ public class DefaultComponentModel extends DefaultDeploymentModel
     }
 
     //--------------------------------------------------------------
+    // Commissionable
+    //--------------------------------------------------------------
+
+   /**
+    * Commission the model. 
+    *
+    * @exception Exception if a commissioning error occurs
+    */
+    public void commission() throws Exception
+    {
+        if( isAssembled() )
+        {
+            super.commission();
+        }
+        else
+        {
+            final String error = 
+              "Illegal attempt to commission a non-assembled component model: "
+              + this;
+            throw new ModelException( error );
+        }
+    }
+
+    //--------------------------------------------------------------
     // Composite
     //--------------------------------------------------------------
 

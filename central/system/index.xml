@@ -107,10 +107,10 @@
       <name>avalon-tools-magic</name>
     </info>
     <dependencies>
-      <include key="ant" runtime="true" build="false" test="false"/>
-      <include key="junit" runtime="true" build="false" test="false"/>
-      <include key="ant-junit" runtime="true" build="false" test="false"/>
-      <include key="ant-nodeps" runtime="true" build="false" test="false"/>
+      <include key="ant" build="false" test="false" runtime="true"/>
+      <include key="junit" build="false" test="false" runtime="true"/>
+      <include key="ant-junit" build="false" test="false" runtime="true"/>
+      <include key="ant-nodeps" build="false" test="false" runtime="true"/>
     </dependencies>
   </project>
 
@@ -156,6 +156,7 @@
       <group>avalon/framework</group>
       <name>avalon-framework-api</name>
       <version>4.2.1</version>
+      <status>SNAPSHOT</status> <!-- impact on derived versions ? -->
     </info>
   </project>
 
@@ -540,6 +541,7 @@
       <include key="avalon-repository-impl" test="false"/>
       <include key="avalon-repository-main"/>
       <include key="avalon-framework-impl" test="true"/>
+      <include key="avalon-repository-cli" build="false" test="false"/>
     </dependencies>
   </project>
 
@@ -668,7 +670,7 @@
       <include key="avalon-repository-main"/>
       <include key="avalon-logging-impl"/>
       <include key="avalon-framework-impl"/>
-      <include key="avalon-repository-test" build="false" test="false" runtime="false"/>
+      <include key="avalon-repository-test" build="false" test="false"/>
     </dependencies>
   </project>
 
@@ -707,6 +709,7 @@
       <group>avalon/composition</group>
       <name>avalon-composition-impl</name>
       <version>2.0.1</version>
+      <status>SNAPSHOT</status>
     </info>
     <dependencies>
       <include key="avalon-composition-spi"/>
@@ -716,9 +719,9 @@
       <include key="avalon-util-extension-impl"/>
       <include key="avalon-util-lifecycle"/>
       <include key="avalon-logging-impl" build="false" test="true"/>
-      <include key="avalon-test-dynamics" build="false" test="true" runtime="false"/>
-      <include key="avalon-test-includes" build="false" test="true" runtime="false"/>
-      <include key="avalon-logging-test" build="false" test="false" runtime="false"/>
+      <include key="avalon-test-dynamics" build="false" test="false"/>
+      <include key="avalon-test-includes" build="false" test="true"/>
+      <include key="avalon-logging-test" build="false" test="false"/>
     </dependencies>
   </project>
 
@@ -750,11 +753,10 @@
       <include key="avalon-repository-spi"/>
       <include key="avalon-composition-spi"/>
       <include key="avalon-activation-api"/>
-      <include key="avalon-framework-impl" build="true" test="true" runtime="true"/>
-      <include key="avalon-composition-impl" 
-         build="false" test="true" runtime="false"/>
-      <include key="avalon-test-components" build="false" test="true" runtime="false"/>
-      <include key="avalon-test-playground" build="false" test="true" runtime="false"/>
+      <include key="avalon-framework-impl"/>
+      <include key="avalon-composition-impl" build="false" test="true"/>
+      <include key="avalon-test-components" build="false" test="true"/>
+      <include key="avalon-test-playground" build="false" test="true"/>
     </dependencies>
   </project>
 
@@ -777,7 +779,8 @@
     <info>
       <group>avalon/merlin</group>
       <name>avalon-merlin-impl</name>
-      <version>3.3.0</version>
+      <version>3.3.1</version>
+      <status>SNAPSHOT</status>
     </info>
     <dependencies>
       <include key="avalon-framework-api" tag="api"/>
@@ -788,11 +791,12 @@
       <include key="avalon-meta-spi" tag="spi"/>
       <include key="avalon-repository-spi" tag="spi"/>
       <include key="avalon-logging-spi" tag="spi"/>
+      <include key="avalon-logging-impl" tag="impl"/>
       <include key="avalon-composition-spi" tag="spi"/>
       <include key="avalon-composition-impl" tag="impl"/>
       <include key="avalon-util-configuration" tag="impl"/>
       <include key="avalon-repository-main" runtime="false"/>
-      <include key="avalon-activation-impl" build="false" test="false" runtime="false"/>
+      <include key="avalon-activation-impl" build="false" test="false"/>
     </dependencies>
   </project>
 
@@ -800,10 +804,11 @@
     <info>
       <group>avalon/merlin</group>
       <name>avalon-merlin-cli</name>
-      <version>3.3.0</version>
+      <version>3.3.1</version>
+      <status>SNAPSHOT</status>
     </info>
     <dependencies>
-      <include key="avalon-merlin-impl" build="false" test="false" runtime="false"/>
+      <include key="avalon-merlin-impl" build="false" test="false"/>
       <include key="avalon-repository-main"/>
       <include key="commons-cli"/>
     </dependencies>
@@ -813,7 +818,8 @@
     <info>
       <group>avalon</group>
       <name>runtime</name>
-      <version>3.3.0</version>
+      <version>3.3.1</version>
+      <status>SNAPSHOT</status>
     </info>
     <dependencies>
       <include key="avalon-framework-api" tag="api"/>
@@ -828,7 +834,7 @@
       <include key="avalon-composition-impl" tag="impl"/>
       <include key="avalon-util-configuration" tag="impl"/>
       <include key="avalon-repository-main" runtime="false"/>
-      <include key="avalon-activation-impl" build="false" test="false" runtime="false"/>
+      <include key="avalon-activation-impl" build="false" test="false"/>
       <include key="avalon-merlin-api" tag="spi"/>
       <include key="avalon-merlin-impl"/>
       <include key="avalon-merlin-cli"/>
@@ -844,7 +850,7 @@
     </info>
     <dependencies>
       <include key="avalon-repository-main"/>
-      <include key="avalon-merlin-impl" build="false" test="false" runtime="false"/>
+      <include key="avalon-merlin-impl" build="false" test="false"/>
     </dependencies>
   </project>
 
@@ -856,7 +862,7 @@
     </info>
     <dependencies>
       <include key="avalon-repository-main"/>
-      <include key="avalon-merlin-impl" build="false" test="false" runtime="false"/>
+      <include key="avalon-merlin-impl" build="false" test="false"/>
     </dependencies>
   </project>
 

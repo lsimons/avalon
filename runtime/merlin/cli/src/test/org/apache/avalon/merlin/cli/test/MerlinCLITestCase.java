@@ -73,9 +73,8 @@ public class MerlinCLITestCase extends TestCase
         }
         catch( Throwable e )
         {
-            final String error = ExceptionHelper.packException( e, true );
-            System.out.println( error );
-            throw new Exception( error );
+            final String error = ExceptionHelper.packException( e, false );
+            fail( error );
         }
     }
 
