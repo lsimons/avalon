@@ -2,7 +2,7 @@
 
 <project>
 
-  <extend>${basedir}/../../../project.xml</extend>
+  <extend>${basedir}/../../../master.xml</extend>
 
   <id>publisher-api</id>
   <name>Composition Publisher API Tutorial</name>

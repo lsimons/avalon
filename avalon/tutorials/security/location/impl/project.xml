@@ -2,7 +2,7 @@
 
 <project>
 
-  <extend>${basedir}/../../../project.xml</extend>
+  <extend>${basedir}/../../../master.xml</extend>
 
   <id>secure-locator-impl</id>
   <name>Composition Locator Impl Tutorial</name>

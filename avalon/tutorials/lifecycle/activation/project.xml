@@ -5,7 +5,7 @@
 
 <project>
 
-  <extend>${basedir}/../../project.xml</extend>
+  <extend>${basedir}/../../master.xml</extend>
 
   <id>merlin-tutorial-lifecycle-excalibur</id>
   <name>Merlin Lifecycle Tutorial</name>

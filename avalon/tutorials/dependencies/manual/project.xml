@@ -2,7 +2,7 @@
 
 <project>
 
-  <extend>${basedir}/../../project.xml</extend>
+  <extend>${basedir}/../../master.xml</extend>
 
   <id>merlin-tutorial-manual-dependencies</id>
   <name>Merlin Explicit Dependencies Tutorial</name>

@@ -2,7 +2,7 @@
 
 <project>
 
-  <extend>${basedir}/../../project.xml</extend>
+  <extend>${basedir}/../../master.xml</extend>
 
   <id>merlin-tutorial-context-constructed</id>
   <name>Merlin Context Constuctor Tutorial</name>

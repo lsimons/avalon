@@ -564,7 +564,7 @@
     <ant:copy todir="${basedir}/target/tutorials">
       <fileset dir="${basedir}/platform/tutorials">
         <include name="**/README.TXT"/>
-        <include name="project.xml"/>
+        <include name="master.xml"/>
         <include name="**/maven.xml"/>
         <exclude name="maven.xml"/>
       </fileset>
@@ -578,7 +578,7 @@
     <maven:reactor
       basedir="${basedir}"
       includes="platform/tutorials/**/project.xml"
-      excludes="platform/tutorials/project.xml,**/target/**,platform/tutorials/mixed/**,platform/tutorials/jmx/**,platform/tutorials/security/**"
+      excludes="**/target/**,**/mixed/**,**/jmx/**,**/security/**"
       goals="xgen" 
       banner="Generation:"
       ignoreFailures="false" 
@@ -600,34 +600,6 @@
       </ant:copy>
     </j:forEach>
 
-  </goal>
-
-  <goal name="avalon:generate" 
-       description="Generate a clean tutorial package." >
-    <j:set var="xyz" value="abc"/>
-    <maven:reactor
-      basedir="${basedir}"
-      includes="platform/tutorials/**/project.xml"
-      excludes="platform/tutorials/project.xml,**/target/**"
-      banner="Transfer:"
-      postProcessing="true" />
-  
-  </goal>
-
-  <!--
-  ==============================================================================
-  veriify the the tutorials are executable
-  ==============================================================================
-  -->
-
-  <goal name="merlin:demo" description="Execute the demo targets." >
-    <maven:reactor
-      basedir="${basedir}"
-      includes="platform/tutorials/**/project.xml"
-      excludes="**/target/**"
-      goals="demo"
-      banner="Demo:"
-      ignoreFailures="false" />
   </goal>
 
   <!--
@@ -665,7 +637,7 @@
     <maven:reactor
       basedir="${basedir}"
       includes="**/project.xml"
-      excludes="project.xml,**/target/project.xml,platform/**"
+      excludes="project.xml,**/target/**"
       goals="clean:clean"
       banner="Cleaning subproject:"
       ignoreFailures="true"/>

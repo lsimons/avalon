@@ -2,7 +2,7 @@
 
 <project>
 
-    <extend>${basedir}/../project.xml</extend>
+    <extend>${basedir}/../master.xml</extend>
     <groupId>merlin-tutorial</groupId>
     <id>simple-web-server</id>
     
