@@ -302,7 +302,7 @@ class LifecycleHelper
         if( block instanceof Loggable )
         {
             notice( name, stage );
-            ContainerUtil.setupLoggable( block, m_context.getLogger( name ) );
+            ( (Loggable)block ).setLogger( m_context.getLogger( name ) );
         }
         else if( block instanceof LogEnabled )
         {

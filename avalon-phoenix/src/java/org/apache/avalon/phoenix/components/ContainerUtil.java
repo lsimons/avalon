@@ -20,7 +20,6 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
@@ -34,10 +33,7 @@ import org.apache.avalon.framework.service.Serviceable;
  * a component throught it's lifecycle stages.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/05/12 11:51:30 $
- * @todo Add a MissingResource exception and make all the method
- *       throw that if supplied resource (logger, context, etc)
- *       is null.
+ * @version $Revision: 1.3 $ $Date: 2002/05/15 11:24:43 $
  */
 public final class ContainerUtil
 {
@@ -64,49 +60,22 @@ public final class ContainerUtil
 
     /**
      * Supply specified object with Logger if it implements the
-     * {@link Loggable} interface.
-     *
-     * @param object the object to Start
-     * @param logger the logger to enable component with. May be null
-     *        in which case the specified object must not implement Loggable.
-     * @throws Exception if the object is Loggable but Logger is null
-     * @deprecated Note that this is deprecated as it uses the deprecated
-     *             Loggable interface.
-     */
-    public static void setupLoggable( final Object object,
-                                      final org.apache.log.Logger logger )
-        throws Exception
-    {
-        if( object instanceof Loggable )
-        {
-            if( null == logger )
-            {
-                final String message = "Missing logger";
-                throw new Exception( message );
-            }
-            ( (Loggable)object ).setLogger( logger );
-        }
-    }
-
-    /**
-     * Supply specified object with Logger if it implements the
      * {@link LogEnabled} interface.
      *
      * @param object the object to Start
      * @param logger the logger to enable component with. May be null
      *        in which case the specified object must not implement LogEnabled.
-     * @throws Exception if the object is LogEnabled but Logger is null
+     * @throws IllegalArgumentException if the object is LogEnabled but Logger is null
      */
     public static void logEnable( final Object object,
                                   final Logger logger )
-        throws Exception
     {
         if( object instanceof LogEnabled )
         {
             if( null == logger )
             {
-                final String message = "Missing logger";
-                throw new Exception( message );
+                final String message = "logger is null";
+                throw new IllegalArgumentException( message );
             }
             ( (LogEnabled)object ).enableLogging( logger );
         }
@@ -120,8 +89,9 @@ public final class ContainerUtil
      * @param context the context object to use for object.
      *        May be null in which case the specified object must not
      *        implement Contextualizable.
-     * @throws ContextException if there is a problem contextualizing object,
-     *         or the object is Contextualizable but context is null
+     * @throws ContextException if there is a problem contextualizing object
+     * @throws IllegalArgumentException if the object is Contextualizable but
+     *         context is null
      */
     public static void contextualize( final Object object,
                                       final Context context )
@@ -131,8 +101,8 @@ public final class ContainerUtil
         {
             if( null == context )
             {
-                final String message = "Missing context";
-                throw new ContextException( message );
+                final String message = "context is null";
+                throw new IllegalArgumentException( message );
             }
             ( (Contextualizable)object ).contextualize( context );
         }
@@ -146,8 +116,9 @@ public final class ContainerUtil
      * @param serviceManager the serviceManager object to use for object.
      *        May be null in which case the specified object must not
      *        implement Serviceable.
-     * @throws ServiceException if there is a problem servicing object,
-     *         or the object is Servicable but ServiceManager is null
+     * @throws ServiceException if there is a problem servicing object
+     * @throws IllegalArgumentException if the object is Servicable but
+     *         ServiceManager is null
      */
     public static void service( final Object object,
                                 final ServiceManager serviceManager )
@@ -157,8 +128,8 @@ public final class ContainerUtil
         {
             if( null == serviceManager )
             {
-                final String message = "Missing ServiceManager";
-                throw new ServiceException( message );
+                final String message = "serviceManager is null";
+                throw new IllegalArgumentException( message );
             }
             ( (Serviceable)object ).service( serviceManager );
         }
@@ -172,11 +143,12 @@ public final class ContainerUtil
      * @param componentManager the ComponentManager object to use for object.
      *        May be null in which case the specified object must not
      *        implement Composable.
-     * @throws ComponentException if there is a problem composing object,
-     *         or the object is Composable but ComponentManager is null
+     * @throws ComponentException if there is a problem composing object
      * @deprecated compose() is no longer the preferred method via
      *             which components will be supplied with Components. Please
      *             Use service() from Serviceable instead.
+     * @throws IllegalArgumentException if the object is Composable but
+     *         ComponentManager is null
      */
     public static void compose( final Object object,
                                 final ComponentManager componentManager )
@@ -186,8 +158,8 @@ public final class ContainerUtil
         {
             if( null == componentManager )
             {
-                final String message = "Missing ComponentManager";
-                throw new ComponentException( message );
+                final String message = "componentManager is null";
+                throw new IllegalArgumentException( message );
             }
             ( (Composable)object ).compose( componentManager );
         }
@@ -203,6 +175,8 @@ public final class ContainerUtil
      *        must not implement Configurable
      * @throws ConfigurationException if there is a problem Configuring object,
      *         or the object is Configurable but Configuration is null
+     * @throws IllegalArgumentException if the object is Configurable but
+     *         Configuration is null
      */
     public static void configure( final Object object,
                                   final Configuration configuration )
@@ -212,8 +186,8 @@ public final class ContainerUtil
         {
             if( null == configuration )
             {
-                final String message = "Missing configuration";
-                throw new ConfigurationException( message );
+                final String message = "configuration is null";
+                throw new IllegalArgumentException( message );
             }
             ( (Configurable)object ).configure( configuration );
         }
@@ -227,8 +201,9 @@ public final class ContainerUtil
      * @param parameters the parameters object to use during Parameterization.
      *        May be null in which case the specified object must not
      *        implement Parameterizable.
-     * @throws ParameterException if there is a problem Parameterizing object,
-     *         or the object is Parameterizable but parameters is null
+     * @throws ParameterException if there is a problem Parameterizing object
+     * @throws IllegalArgumentException if the object is Parameterizable but
+     *         parameters is null
      */
     public static void parameterize( final Object object,
                                      final Parameters parameters )
@@ -238,8 +213,8 @@ public final class ContainerUtil
         {
             if( null == parameters )
             {
-                final String message = "Missing parameters";
-                throw new ParameterException( message );
+                final String message = "parameters is null";
+                throw new IllegalArgumentException( message );
             }
             ( (Parameterizable)object ).parameterize( parameters );
         }
