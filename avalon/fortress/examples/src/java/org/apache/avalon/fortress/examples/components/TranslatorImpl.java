@@ -77,23 +77,23 @@ import org.apache.excalibur.instrument.CounterInstrument;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/28 21:19:18 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/01/30 18:24:38 $
  */
-public class TranslatorImpl extends org.apache.excalibur.instrument.AbstractLogEnabledInstrumentable
-    implements org.apache.avalon.fortress.examples.components.Translator, org.apache.avalon.framework.configuration.Configurable
+public class TranslatorImpl extends AbstractLogEnabledInstrumentable
+    implements Translator, org.apache.avalon.framework.configuration.Configurable
 {
     // Instrument to count the number of translations performed
-    private org.apache.excalibur.instrument.CounterInstrument m_translationsInstrument;
+    private CounterInstrument m_translationsInstrument;
 
     // internal store of translation mappings
-    private java.util.Map m_keys = new java.util.HashMap();
+    private Map m_keys = new java.util.HashMap();
 
     /**
      * Create a new TranslatorImpl.
      */
     public TranslatorImpl()
     {
-        addInstrument( m_translationsInstrument = new org.apache.excalibur.instrument.CounterInstrument( "translations" ) );
+        addInstrument( m_translationsInstrument = new CounterInstrument( "translations" ) );
     }
 
     /**
@@ -104,20 +104,20 @@ public class TranslatorImpl extends org.apache.excalibur.instrument.AbstractLogE
      * @param config <code>Configuration</code> details
      * @exception org.apache.avalon.framework.configuration.ConfigurationException if an error occurs
      */
-    public void configure( org.apache.avalon.framework.configuration.Configuration config )
-        throws org.apache.avalon.framework.configuration.ConfigurationException
+    public void configure( Configuration config )
+        throws ConfigurationException
     {
         if( config != null )
         {
-            org.apache.avalon.framework.configuration.Configuration[] entries =
+            Configuration[] entries =
                 config.getChild( "dictionary" ).getChildren( "translation" );
 
             for( int i = 0; i < entries.length; ++i )
             {
                 String key = entries[ i ].getAttribute( "key" );
-                org.apache.avalon.framework.configuration.Configuration[] values = entries[ i ].getChildren( "value" );
+                Configuration[] values = entries[ i ].getChildren( "value" );
 
-                java.util.Map translations = new java.util.HashMap();
+                Map translations = new HashMap();
 
                 for( int j = 0; j < values.length; ++j )
                 {
@@ -158,8 +158,8 @@ public class TranslatorImpl extends org.apache.excalibur.instrument.AbstractLogE
      */
     public String[] getSupportedLanguages( String key )
     {
-        java.util.Map translations = (java.util.Map)m_keys.get( key );
-        java.util.Set keys = translations.keySet();
+        Map translations = (Map)m_keys.get( key );
+        Set keys = translations.keySet();
         return (String[])keys.toArray( new String[]{} );
     }
 
@@ -177,7 +177,7 @@ public class TranslatorImpl extends org.apache.excalibur.instrument.AbstractLogE
         // Notify the Instrument Manager
         m_translationsInstrument.increment();
 
-        java.util.Map translationMap = (java.util.Map)m_keys.get( key );
+        Map translationMap = (Map)m_keys.get( key );
         return (String)translationMap.get( language );
     }
 }
