@@ -56,7 +56,39 @@
   <body>
     <section name="Exception">
       <subsection name="Overview">
-        <p>IN PREPARATION</p>
+        <p>The exception utility contains a single class ExceptionHelper
+        that provides a set of static methods for generating exception
+        reports that take into consideration a causal chain.</p>
+        <source>
+
+try
+{
+    // do stuff
+}
+catch( Throwable e )
+{
+    final String message = 
+      "A problem occured.";
+    final String error = ExceptionHelper.packException( message, e, true );
+    System.out.println( error );
+}</source>
+
+        <p>The above code results in the creation of report similar to 
+         the following:</p>
+
+<source>
+---- exception report ----------------------------------------------------------
+An error occured.
+Exception: org.apache.avalon.util.exception.StandardException
+Message: Unable to do something due to a error condition.
+---- cause ---------------------------------------------------------------------
+Exception: org.apache.avalon.util.exception.StandardRuntimeException
+Message: Unable to do something else due to a error condition.
+---- cause ---------------------------------------------------------------------
+Exception: org.apache.avalon.util.exception.StandardError
+Message: Raising exception because that's what I'm programmed to do.
+--------------------------------------------------------------------------------        </source>
+
       </subsection>
     </section>
   </body>

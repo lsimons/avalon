@@ -6,7 +6,7 @@ import junit.framework.TestCase ;
  * ExceptionHelper tests.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ExceptionHelperTest extends TestCase
 {    
@@ -45,7 +45,7 @@ public class ExceptionHelperTest extends TestCase
              "Composite exception report", 
              new Throwable[]{ e1, e2 }, false );
         assertNotNull( message );
-        System.out.println( message );
+        //System.out.println( message );
     }
 
     final public void testExceptionWithMessageReport()
@@ -59,6 +59,7 @@ public class ExceptionHelperTest extends TestCase
         {
             final String message = 
               ExceptionHelper.packException( "An error occured.", e );
+            //System.out.println( message );
             assertNotNull( message );
         }
     }
