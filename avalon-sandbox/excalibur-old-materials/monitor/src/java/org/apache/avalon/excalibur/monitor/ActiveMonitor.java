@@ -38,10 +38,10 @@ import java.util.HashMap;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ActiveMonitor.java,v 1.5 2002/02/14 22:00:29 bloritsch Exp $
+ * @version $Id: ActiveMonitor.java,v 1.6 2002/02/15 16:18:15 bloritsch Exp $
  */
 public final class ActiveMonitor extends AbstractLogEnabled
-    implements Monitor, Component, Startable, ThreadSafe, Configurable, Runnable
+    implements Monitor, Startable, ThreadSafe, Configurable, Runnable
 {
     private static final Class[]    m_constructorParams = new Class[] { String.class };
     private static final Resource[] m_arrayType         =  new Resource[] {};
