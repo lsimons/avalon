@@ -5,6 +5,10 @@
     xmlns="http://www.w3.org/1999/xhtml" 
     xml:lang="en" 
 >
+  <xsl:output doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" 
+              doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
+              method="xml" />
+
   <xsl:param name="directory" />
   <xsl:param name="file" />
   <xsl:param name="fullpath" />
