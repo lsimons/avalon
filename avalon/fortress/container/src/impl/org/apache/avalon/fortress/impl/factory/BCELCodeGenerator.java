@@ -49,17 +49,17 @@
 */
 package org.apache.avalon.fortress.impl.factory;
 
-import org.apache.bcel.classfile.JavaClass;
-import org.apache.bcel.classfile.Field;
-import org.apache.bcel.classfile.Method;
-import org.apache.bcel.classfile.ExceptionTable;
-import org.apache.bcel.generic.*;
 import org.apache.bcel.Constants;
+import org.apache.bcel.classfile.ExceptionTable;
+import org.apache.bcel.classfile.Field;
+import org.apache.bcel.classfile.JavaClass;
+import org.apache.bcel.classfile.Method;
+import org.apache.bcel.generic.*;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -587,14 +587,14 @@ public final class BCELCodeGenerator
         }
 
         Set methods = new HashSet();
-        extractMethods(interfaceToImplement, methods);
-        JavaClass[] interfaces  = interfaceToImplement.getInterfaces();
-        for (int i = 0; i < interfaces.length; i++)
+        extractMethods( interfaceToImplement, methods );
+        JavaClass[] interfaces = interfaceToImplement.getInterfaces();
+        for ( int i = 0; i < interfaces.length; i++ )
         {
-            extractMethods(interfaces[i], methods);
+            extractMethods( interfaces[i], methods );
         }
 
-        return (Method[])methods.toArray(new Method[] {});
+        return (Method[]) methods.toArray( new Method[]{} );
     }
 
     private static final void extractMethods( final JavaClass interfaceToImplement, final Set methods )

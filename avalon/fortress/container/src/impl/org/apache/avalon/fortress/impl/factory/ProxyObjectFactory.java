@@ -49,8 +49,8 @@
 */
 package org.apache.avalon.fortress.impl.factory;
 
-import org.apache.excalibur.mpool.ObjectFactory;
 import org.apache.avalon.framework.component.Component;
+import org.apache.excalibur.mpool.ObjectFactory;
 
 import java.lang.reflect.Proxy;
 
@@ -59,7 +59,7 @@ import java.lang.reflect.Proxy;
  * and proxies results of that factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/04/22 16:11:23 $
+ * @version $Revision: 1.2 $ $Date: 2003/04/22 16:12:49 $
  */
 public final class ProxyObjectFactory extends AbstractObjectFactory
 {
@@ -71,7 +71,7 @@ public final class ProxyObjectFactory extends AbstractObjectFactory
      */
     public ProxyObjectFactory( final ObjectFactory objectFactory ) throws NullPointerException
     {
-        super(objectFactory);
+        super( objectFactory );
     }
 
     /**

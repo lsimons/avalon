@@ -50,8 +50,6 @@
 package org.apache.avalon.fortress.impl.factory;
 
 import org.apache.excalibur.mpool.ObjectFactory;
-import org.apache.avalon.fortress.impl.factory.BCELWrapperGenerator;
-import org.apache.avalon.fortress.impl.factory.WrapperClass;
 
 /**
  * An object factory that delegates all calls to another object factory and
