@@ -135,6 +135,15 @@ public class EventThreadPool
 
     protected void releaseWorker( final WorkerThread worker )
     {
-        m_pool.release( worker );
+        try
+        {
+            m_pool.release( worker );
+        }
+        catch( Throwable e )
+        {
+            // trying to figure out why a NullPointer exeception can occur ...
+            final String error = "Unexpected condition while releasing worker: " + worker );
+            e.printStackTrace();
+        }
     }
 }
