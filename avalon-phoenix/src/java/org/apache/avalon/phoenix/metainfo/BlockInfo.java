@@ -7,22 +7,18 @@
  */
 package org.apache.avalon.phoenix.metainfo;
 
-import org.apache.avalon.framework.configuration.Configuration;
-
 /**
  * This class contains meta-information of use to administative
  * tools and the kernel. It describes the services offered by a type
  * of block, the dependencies of the block, the management interface of
- * block (if any), the configuration schema this block needs (if any)
- * and also contains information useful to presenting information
- * in administative screens (like human readable names etc).
+ * block (if any) and also contains information useful to presenting
+ * information in administative screens (like human readable names etc).
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class BlockInfo
 {
     private final BlockDescriptor m_descriptor;
-    private final Configuration m_configurationSchema;
     private final ServiceDescriptor[] m_services;
     private final ServiceDescriptor[] m_managementAccessPoints;
     private final DependencyDescriptor[] m_dependencies;
@@ -31,13 +27,11 @@ public class BlockInfo
      * Basic constructor that takes as parameters all parts.
      */
     public BlockInfo( final BlockDescriptor descriptor,
-                      final Configuration configurationSchema,
                       final ServiceDescriptor[] services,
                       final ServiceDescriptor[] managementAccessPoints,
                       final DependencyDescriptor[] dependencies )
     {
         m_descriptor = descriptor;
-        m_configurationSchema = configurationSchema;
         m_services = services;
         m_managementAccessPoints = managementAccessPoints;
         m_dependencies = dependencies;
@@ -53,16 +47,6 @@ public class BlockInfo
     public BlockDescriptor getBlockDescriptor()
     {
         return m_descriptor;
-    }
-
-    /**
-     * Return configuration schema for this block, if one exists.
-     *
-     * @return the schema, or null
-     */
-    public Configuration getConfigurationSchema()
-    {
-        return m_configurationSchema;
     }
 
     /**
