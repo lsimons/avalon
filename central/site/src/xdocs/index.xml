@@ -32,24 +32,49 @@
      <!--
      <table>
       <tr>
-        <td><!--<a href="central/about/index.html"> -->
+        <td>
             <img src="images/avalon-central.png"
                  border="0" alt="Avalon Central"/>
-            <!-- </a> -->
             </td>
-        <td><!-- <a href="products/runtime/index.html"> -->
+        <td>
             <img src="images/avalon-products.png"
                  border="0" alt="Avalon Products"></img>
-           <!-- </a> -->
            </td>
-        <td><!-- <a href="planet/components/index.html"> -->
+        <td>
             <img src="images/avalon-planet.png"
                  border="0" alt="Avalon Planet"></img>
-	    <!-- </a> -->
 	    </td>
       </tr>
      </table>
      -->
+
+     <table>
+      <tr>
+        <td>CENTRAL</td>
+        <td>PRODUCTS</td>
+        <td>PLANET</td>
+      </tr>
+      <tr>
+        <td>
+          <ul>
+            <li>Tutorials</li>
+            <li>Mailing Lists & Issue Tracking</li>
+            <li>Downloads</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>Merlin Runtime</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>Component Library</li>
+            <li>Facilities</li>
+          </ul>
+        </td>
+      </tr>
+     </table>
 
      </section>
   </body>
