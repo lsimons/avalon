@@ -137,6 +137,13 @@
         <role>Documentation and tutorial review, testing and patches.</role>
       </roles>
     </contributor>
+    <contributor>
+      <name>Kristian Meier</name>
+      <email>kristian.meier@jentro.com</email>
+      <roles>
+        <role>Patches enhancing the meta-info generation sources and documentation.</role>
+      </roles>
+    </contributor>
   </contributors>
 
   <build>
