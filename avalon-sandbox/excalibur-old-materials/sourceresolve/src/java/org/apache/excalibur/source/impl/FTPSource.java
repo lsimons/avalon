@@ -71,307 +71,307 @@ import sun.net.ftp.FtpClient;
  * @author <a href="mailto:unico@hippo.nl">Unico Hommes</a>
  */
 public class FTPSource extends URLSource implements ModifiableSource
-{	
-	
-	public FTPSource()
-	{
-		super();
-	}
+{   
+    
+    public FTPSource()
+    {
+        super();
+    }
 
-	/**
-	 * Can the data sent to an <code>OutputStream</code> returned by
-	 * {@link #getOutputStream()} be cancelled ?
-	 *
-	 * @return <code>true</code> if the stream can be cancelled
-	 */
-	public boolean canCancel( final OutputStream stream )
-	{
-		if (stream instanceof FTPSourceOutputStream)
-		{
-			FTPSourceOutputStream fsos = (FTPSourceOutputStream) stream;
-			if ( fsos.getSource() == this )
-			{
-				return fsos.canCancel();
-			}
-		}
+    /**
+     * Can the data sent to an <code>OutputStream</code> returned by
+     * {@link #getOutputStream()} be cancelled ?
+     *
+     * @return <code>true</code> if the stream can be cancelled
+     */
+    public boolean canCancel( final OutputStream stream )
+    {
+        if (stream instanceof FTPSourceOutputStream)
+        {
+            FTPSourceOutputStream fsos = (FTPSourceOutputStream) stream;
+            if ( fsos.getSource() == this )
+            {
+                return fsos.canCancel();
+            }
+        }
 
-		throw new IllegalArgumentException( "The stream is not associated to this source" );
-	}
+        throw new IllegalArgumentException( "The stream is not associated to this source" );
+    }
 
-	/**
-	 * Cancel the data sent to an <code>OutputStream</code> returned by
-	 * {@link #getOutputStream()}.
-	 * <p>
-	 * After cancel, the stream should not be used.
-	 */
-	public void cancel( final OutputStream stream ) throws IOException
-	{
-		if (stream instanceof FTPSourceOutputStream)
-		{
-			FTPSourceOutputStream fsos = (FTPSourceOutputStream) stream;
-			if ( fsos.getSource() == this )
-			{
-				try
-				{
-					fsos.cancel();
-				}
-				catch ( Exception e )
-				{
-					throw new SourceException( "Exception during cancel.", e );
-				}
-				return;
-			}
-		}
+    /**
+     * Cancel the data sent to an <code>OutputStream</code> returned by
+     * {@link #getOutputStream()}.
+     * <p>
+     * After cancel, the stream should not be used.
+     */
+    public void cancel( final OutputStream stream ) throws IOException
+    {
+        if (stream instanceof FTPSourceOutputStream)
+        {
+            FTPSourceOutputStream fsos = (FTPSourceOutputStream) stream;
+            if ( fsos.getSource() == this )
+            {
+                try
+                {
+                    fsos.cancel();
+                }
+                catch ( Exception e )
+                {
+                    throw new SourceException( "Exception during cancel.", e );
+                }
+                return;
+            }
+        }
 
-		throw new IllegalArgumentException( "The stream is not associated to this source" );
-	}
+        throw new IllegalArgumentException( "The stream is not associated to this source" );
+    }
 
-	/**
-	 * Delete the source.
-	 */
-	public void delete() throws SourceException
-	{
-		EnhancedFtpClient ftpClient = null;
-		try
-		{
-			ftpClient = getFtpClient();
-			final String relativePath = m_url.getPath().substring( 1 );
-			ftpClient.delete( relativePath );
-		}
-		catch ( IOException e )
-		{
-			if ( e instanceof FileNotFoundException )
-			{
-				throw new SourceNotFoundException( e.getMessage() );
-			}
-			else
-			{
-				final String message =
-					"Failure during delete";
-				throw new SourceException( message, e );
-			}
-		}
-		finally
-		{
-			if ( ftpClient != null )
-			{
-				try
-				{
-					ftpClient.closeServer();
-				}
-				catch ( IOException e ) {}
-			}
-		}
-	}
+    /**
+     * Delete the source.
+     */
+    public void delete() throws SourceException
+    {
+        EnhancedFtpClient ftpClient = null;
+        try
+        {
+            ftpClient = getFtpClient();
+            final String relativePath = m_url.getPath().substring( 1 );
+            ftpClient.delete( relativePath );
+        }
+        catch ( IOException e )
+        {
+            if ( e instanceof FileNotFoundException )
+            {
+                throw new SourceNotFoundException( e.getMessage() );
+            }
+            else
+            {
+                final String message =
+                    "Failure during delete";
+                throw new SourceException( message, e );
+            }
+        }
+        finally
+        {
+            if ( ftpClient != null )
+            {
+                try
+                {
+                    ftpClient.closeServer();
+                }
+                catch ( IOException e ) {}
+            }
+        }
+    }
 
-	/**
-	 * Return an {@link OutputStream} to write to.
-	 */
-	public OutputStream getOutputStream() throws IOException
-	{
-		return new FTPSourceOutputStream( this );
-	}
-	
-	/**
-	 * Creates an FtpClient and logs in the current user.
-	 */
-	private final EnhancedFtpClient getFtpClient()
-		throws IOException
-	{
-		final EnhancedFtpClient ftpClient = 
-			new EnhancedFtpClient( m_url.getHost() );
-		ftpClient.login( getUser(), getPassword() );
-		return ftpClient;
-	}
-	
-	/**
-	 * @return the user part of the user info string, 
-	 * <code>null</code> if there is no user info.
-	 */
-	private final String getUser() 
-	{
-		final String userInfo = m_url.getUserInfo();
-		if ( userInfo != null )
-		{
-			int index = userInfo.indexOf( ':' );
-			if ( index != -1 )
-			{
-				return userInfo.substring( 0, index );
-			}
-		}
-		return null;
-	}
-	
-	/**
-	 * @return the password part of the user info string, 
-	 * <code>null</code> if there is no user info.
-	 */
-	private final String getPassword()
-	{
-		final String userInfo = m_url.getUserInfo();
-		if ( userInfo != null )
-		{
-			int index = userInfo.indexOf( ':' );
-			if ( index != -1 && userInfo.length() > index + 1 )
-			{
-				return userInfo.substring( index + 1 );
-			}
-		}
-		return null;
-	}
-	
-	/**
-	 * Need to extend FtpClient in order to get to protected issueCommand
-	 * and implement additional functionality.
-	 */
-	private static class EnhancedFtpClient extends FtpClient
-	{
-		
-		private EnhancedFtpClient( String host ) throws IOException
-		{
-			super( host );
-		}
-		
-		void delete( final String path ) throws IOException
-		{
-			issueCommand( "DELE " + path );
-		}
-		
-		/**
-		 * Create a directory in the current working directory.
-		 */
-		void mkdir( final String directoryName ) throws IOException
-		{
-			issueCommand( "MKD " + directoryName );
-		}
-		
-		/**
-		 * Create all directories along a directory path if they
-		 * do not already exist.
-		 * 
-		 * The algorithm traverses the directory tree in reversed
-		 * direction. cd'ing first to the deepest level 
-		 * and if that directory doesn't exist try cd'ing to its
-		 * parent from where it can be created.
-		 * 
-		 * NOTE: after completion the current working directory 
-		 * will be the directory identified by directoryPath.
-		 */
-		void mkdirs( final String directoryPath ) throws IOException
-		{
-			try
-			{
-				cd( directoryPath );
-			}
-			catch ( FileNotFoundException e )
-			{
-				// doesn't exist, create it
-				String directoryName = null;
-				final int index = directoryPath.lastIndexOf( '/' );
-				if ( index != -1 )
-				{
-					final String parentDirectoryPath = 
-						directoryPath.substring( 0, index );
-					directoryName = directoryPath.substring( index + 1 );
-					mkdirs( parentDirectoryPath );
-				}
-				else
-				{
-					directoryName = directoryPath;
-				}
-				mkdir( directoryName );
-				cd( directoryName );
-			}			
-		}
-					
-	}
-	
-	/**
-	 * Buffers the output in a byte array and only writes to the remote 
-	 * FTP location at closing time.
-	 */
-	private static class FTPSourceOutputStream extends ByteArrayOutputStream
-	{
-		private final FTPSource m_source;
-		private boolean m_isClosed = false;
-		
-		FTPSourceOutputStream( final FTPSource source )
-		{
-			super( 8192 );
-			m_source = source;
-		}
-		
-		public void close() throws IOException
-		{			
-			if ( !m_isClosed )
-			{
-				EnhancedFtpClient ftpClient = null;
-				OutputStream out = null;
-				try
-				{
-					ftpClient = m_source.getFtpClient();
-					String parentPath = null;
-					String fileName = null;
-					final String relativePath = m_source.m_url.getPath().substring( 1 );
-					final int index = relativePath.lastIndexOf( '/' );
-					if ( index != -1 )
-					{
-						parentPath = relativePath.substring( 0, index );
-						fileName = relativePath.substring( index + 1 );
-						ftpClient.mkdirs( parentPath );
-					}
-					else
-					{
-						fileName = relativePath;
-					}
-					out = ftpClient.put( fileName );
-					final byte[] bytes = toByteArray();
-					out.write( bytes );
-				}
-				finally 
-				{
-					if ( out != null )
-					{
-						try
-						{
-							out.close();
-						}
-						catch ( IOException e ) {}
-					}
-					if ( ftpClient != null )
-					{
-						try
-						{
-							ftpClient.closeServer();
-						}
-						catch ( IOException e ) {}
-					}
-					m_isClosed = true;
-				}
-			}
-		}
-		
-		boolean canCancel()
-		{
-			return !m_isClosed;
-		}
+    /**
+     * Return an {@link OutputStream} to write to.
+     */
+    public OutputStream getOutputStream() throws IOException
+    {
+        return new FTPSourceOutputStream( this );
+    }
+    
+    /**
+     * Creates an FtpClient and logs in the current user.
+     */
+    private final EnhancedFtpClient getFtpClient()
+        throws IOException
+    {
+        final EnhancedFtpClient ftpClient = 
+            new EnhancedFtpClient( m_url.getHost() );
+        ftpClient.login( getUser(), getPassword() );
+        return ftpClient;
+    }
+    
+    /**
+     * @return the user part of the user info string, 
+     * <code>null</code> if there is no user info.
+     */
+    private final String getUser() 
+    {
+        final String userInfo = m_url.getUserInfo();
+        if ( userInfo != null )
+        {
+            int index = userInfo.indexOf( ':' );
+            if ( index != -1 )
+            {
+                return userInfo.substring( 0, index );
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * @return the password part of the user info string, 
+     * <code>null</code> if there is no user info.
+     */
+    private final String getPassword()
+    {
+        final String userInfo = m_url.getUserInfo();
+        if ( userInfo != null )
+        {
+            int index = userInfo.indexOf( ':' );
+            if ( index != -1 && userInfo.length() > index + 1 )
+            {
+                return userInfo.substring( index + 1 );
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Need to extend FtpClient in order to get to protected issueCommand
+     * and implement additional functionality.
+     */
+    private static class EnhancedFtpClient extends FtpClient
+    {
+        
+        private EnhancedFtpClient( String host ) throws IOException
+        {
+            super( host );
+        }
+        
+        void delete( final String path ) throws IOException
+        {
+            issueCommand( "DELE " + path );
+        }
+        
+        /**
+         * Create a directory in the current working directory.
+         */
+        void mkdir( final String directoryName ) throws IOException
+        {
+            issueCommand( "MKD " + directoryName );
+        }
+        
+        /**
+         * Create all directories along a directory path if they
+         * do not already exist.
+         * 
+         * The algorithm traverses the directory tree in reversed
+         * direction. cd'ing first to the deepest level 
+         * and if that directory doesn't exist try cd'ing to its
+         * parent from where it can be created.
+         * 
+         * NOTE: after completion the current working directory 
+         * will be the directory identified by directoryPath.
+         */
+        void mkdirs( final String directoryPath ) throws IOException
+        {
+            try
+            {
+                cd( directoryPath );
+            }
+            catch ( FileNotFoundException e )
+            {
+                // doesn't exist, create it
+                String directoryName = null;
+                final int index = directoryPath.lastIndexOf( '/' );
+                if ( index != -1 )
+                {
+                    final String parentDirectoryPath = 
+                        directoryPath.substring( 0, index );
+                    directoryName = directoryPath.substring( index + 1 );
+                    mkdirs( parentDirectoryPath );
+                }
+                else
+                {
+                    directoryName = directoryPath;
+                }
+                mkdir( directoryName );
+                cd( directoryName );
+            }           
+        }
+                    
+    }
+    
+    /**
+     * Buffers the output in a byte array and only writes to the remote 
+     * FTP location at closing time.
+     */
+    private static class FTPSourceOutputStream extends ByteArrayOutputStream
+    {
+        private final FTPSource m_source;
+        private boolean m_isClosed = false;
+        
+        FTPSourceOutputStream( final FTPSource source )
+        {
+            super( 8192 );
+            m_source = source;
+        }
+        
+        public void close() throws IOException
+        {           
+            if ( !m_isClosed )
+            {
+                EnhancedFtpClient ftpClient = null;
+                OutputStream out = null;
+                try
+                {
+                    ftpClient = m_source.getFtpClient();
+                    String parentPath = null;
+                    String fileName = null;
+                    final String relativePath = m_source.m_url.getPath().substring( 1 );
+                    final int index = relativePath.lastIndexOf( '/' );
+                    if ( index != -1 )
+                    {
+                        parentPath = relativePath.substring( 0, index );
+                        fileName = relativePath.substring( index + 1 );
+                        ftpClient.mkdirs( parentPath );
+                    }
+                    else
+                    {
+                        fileName = relativePath;
+                    }
+                    out = ftpClient.put( fileName );
+                    final byte[] bytes = toByteArray();
+                    out.write( bytes );
+                }
+                finally 
+                {
+                    if ( out != null )
+                    {
+                        try
+                        {
+                            out.close();
+                        }
+                        catch ( IOException e ) {}
+                    }
+                    if ( ftpClient != null )
+                    {
+                        try
+                        {
+                            ftpClient.closeServer();
+                        }
+                        catch ( IOException e ) {}
+                    }
+                    m_isClosed = true;
+                }
+            }
+        }
+        
+        boolean canCancel()
+        {
+            return !m_isClosed;
+        }
 
-		void cancel() throws Exception
-		{
-			if ( m_isClosed )
-			{
-				final String message =
-					"Cannot cancel: outputstrem is already closed";
-				throw new IllegalStateException( message );
-			}
-			m_isClosed = true;
-		}
-		
-		FTPSource getSource()
-		{
-			return m_source;
-		}
-		
-	}
+        void cancel() throws Exception
+        {
+            if ( m_isClosed )
+            {
+                final String message =
+                    "Cannot cancel: outputstrem is already closed";
+                throw new IllegalStateException( message );
+            }
+            m_isClosed = true;
+        }
+        
+        FTPSource getSource()
+        {
+            return m_source;
+        }
+        
+    }
 
 }

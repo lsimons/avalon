@@ -29,7 +29,7 @@
     <path id="test.class.path">
         <pathelement location="${build.testclasses}"/>
         <pathelement location="${junit.jar}"/>
-        <pathelement location="${commons-logging.jar}"/>	
+        <pathelement location="${commons-logging.jar}"/>    
         <path refid="project.class.path"/>
     </path>
     <property name="cp" refid="test.class.path"/>
@@ -74,8 +74,8 @@
             target="1.2">
             <classpath refid="project.class.path" />
             <include name="**/*.java"/>
-	    <exclude name="**/HTTPClient*"
-	            unless="commons-httpclient.present"/>
+        <exclude name="**/HTTPClient*"
+                unless="commons-httpclient.present"/>
         </javac>
 
         <!-- copy resources to same location as .class files -->
@@ -110,8 +110,8 @@
             target="1.2">
             <classpath refid="test.class.path" />
             <include name="**/*.java"/>
-	    <exclude name="**/HTTPClient*"
-	            unless="commons-httpclient.present"/>
+        <exclude name="**/HTTPClient*"
+                unless="commons-httpclient.present"/>
         </javac>
 
         <copy todir="${build.testclasses}">
@@ -204,8 +204,8 @@
                 <fileset dir="${build.testclasses}">
                     <include name="**/test/*TestCase.class"/>
                     <exclude name="**/Abstract*"/>
-		    <exclude name="**/test/HTTPClient*"
-		             unless="commons-httpclient.present"/>
+            <exclude name="**/test/HTTPClient*"
+                     unless="commons-httpclient.present"/>
                 </fileset>
             </batchtest>
 

@@ -23,7 +23,7 @@
                 where an InstrumentManager is not present, or where it is present but output is
                 not currently being collected, the Instrument effectively becomes a noop.
             </p>
-            <p>	
+            <p> 
                 There are currently two types of Instruments available for use by components.
                 So far they have proven to be enough to profile any type of quantitative
                 information.

@@ -33,17 +33,17 @@
         <section><title>Automated Component Management</title>
           <p>
             The <code>org.apache.avalon.excalibur.component</code> package
-    	    in Excalibur will allow you to manage components specified in
-    	    a configuration file.  The beauty of this approach is that the
-    	    ComponentManagers and ComponentSelectors become the Container
-    	    and automagically maintain your Component's lifecycle.
+            in Excalibur will allow you to manage components specified in
+            a configuration file.  The beauty of this approach is that the
+            ComponentManagers and ComponentSelectors become the Container
+            and automagically maintain your Component's lifecycle.
           </p>
           <p>
             The Excalibur Component Management infrastructure uses a
-    	    RoleManager to help your configuration files remain readable.
-    	    All classes are instantiated using the current thread's
-    	    ContextClassLoader--unless you pass a different one in the
-    	    constructor.
+            RoleManager to help your configuration files remain readable.
+            All classes are instantiated using the current thread's
+            ContextClassLoader--unless you pass a different one in the
+            constructor.
           </p>
         </section>
         <section><title>The Developing with Avalon paper</title>
@@ -57,7 +57,7 @@
     <footer>
         <legal>
           Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-          $Revision: 1.9 $ $Date: 2003/07/07 16:31:13 $
+          $Revision: 1.10 $ $Date: 2003/07/07 16:50:40 $
         </legal>
     </footer>
 </document>
