@@ -94,8 +94,13 @@ class DefaultServiceManager implements ServiceManager
         for( int i=0; i<dependencies.length; i++ )
         {
             final DependencyModel dependency = dependencies[i];
-            final String key = dependency.getDependency().getKey();
-            m_map.put( key, dependency );
+            
+            DeploymentModel provider = dependency.getProvider();
+            if( provider != null )
+            {
+                final String key = dependency.getDependency().getKey();
+                m_map.put( key, dependency );
+            }
         }
     }
 
@@ -132,7 +137,7 @@ class DefaultServiceManager implements ServiceManager
     /**
      * Retrieve Object by key.
      * @param key the role
-     * @return the Object
+     * @return the Object or null if the Object doesn't exist
      * @throws ServiceException if an error occurs
      * @throws NullPointerException if the supplied key is null
      */
@@ -157,11 +162,11 @@ class DefaultServiceManager implements ServiceManager
 
         DependencyModel dependency = (DependencyModel) m_map.get( key );
         final DeploymentModel provider = dependency.getProvider();
+        
         if( null == provider )
         {
             final String error = 
-              REZ.getString( 
-                "service.error.null-provider", key );
+                REZ.getString( "service.error.null-provider", key );
             throw new IllegalStateException( error );
         }
 

@@ -308,7 +308,8 @@ public class DefaultComponentModel extends DefaultDeploymentModel
         StageModel[] stages = getStageModels();
         for( int i=0; i<stages.length; i++ )
         {
-            if( null == stages[i].getProvider() ) return false;
+            if( null == stages[i].getProvider() ) 
+                return false;
         }
         return true;
     }
@@ -318,7 +319,12 @@ public class DefaultComponentModel extends DefaultDeploymentModel
         DependencyModel[] dependencies = getDependencyModels();
         for( int i=0; i<dependencies.length; i++ )
         {
-            if( null == dependencies[i].getProvider() ) return false;
+            DependencyModel dep = dependencies[i];
+            if( null == dep.getProvider() && 
+                dep.getDependency().isRequired() ) 
+            {
+                return false;
+            }
         }
         return true;
     }
@@ -358,7 +364,9 @@ public class DefaultComponentModel extends DefaultDeploymentModel
         for( int i=0; i<dependencies.length; i++ )
         {
             DependencyModel dependency = dependencies[i];
-            list.add( dependency.getProvider() );
+            DeploymentModel provider = dependency.getProvider();
+            if( provider != null )
+                list.add( provider );
         }
 
         return (DeploymentModel[]) list.toArray( new DeploymentModel[0] );
