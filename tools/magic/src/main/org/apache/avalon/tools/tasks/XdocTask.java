@@ -418,6 +418,6 @@ public class XdocTask extends SystemTask
 
     private String getOrganization()
     {
-        getProject().getProperty( ORG_NAME_KEY );
+        return getProject().getProperty( ORG_NAME_KEY );
     }
 }
