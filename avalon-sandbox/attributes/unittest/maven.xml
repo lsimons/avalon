@@ -58,13 +58,17 @@
                 <path refid="maven.dependency.classpath"/>
             </classpath>
         </taskdef>
-        <attributes-index destFile="target/cl2/META-INF/attrs.index">
-            <fileset dir="target/cl2/" includes="**/*.class"/>
-        </attributes-index>
+        
         <jar jarfile="target/cl2/cl2.jar">
             <fileset dir="target/cl2/" includes="**/*.class"/>
             <fileset dir="target/cl2/" includes="META-INF/**/*"/>
         </jar>        
+        
+        <attributes-index jarFile="target/cl2/cl2.jar">
+            <classpath>
+                <path refid="maven.dependency.classpath"/>
+            </classpath>
+        </attributes-index>
         
         <!-- Create the Attribute Repository Classes. -->
         <attributes destDir="target/temp/">
