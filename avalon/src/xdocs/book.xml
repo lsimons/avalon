@@ -10,6 +10,7 @@
     <menu-item label="Overview" source="index.xml"/>
     <menu-item label="Features" source="features.xml"/>
     <menu-item label="History" source="history/index.xml"/>
+    <menu-item label="Developing with Avalon" source="developing/index.xml"/>
       <!-- history pages -->
       <menu-item type="hidden" source="history/call-to-vote.xml" />
       <menu-item type="hidden" source="history/what-is-a-server.xml" />
