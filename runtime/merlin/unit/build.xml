@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-merlin-unit" default="dist" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
+
+  <property file="build.properties"/>
+  <import file="${project.home}/build/standard.xml"/>
+
+  <target name="init" depends="standard.init">
+    <x:filter key="avalon-logging-logkit-impl" feature="uri" 
+       token="LOGGING_IMPLEMENTATION"/>
+    <x:filter key="avalon-merlin-impl" feature="uri" 
+       token="MERLIN_IMPLEMENTATION"/>
+    <x:filter key="avalon-activation-impl" feature="uri" 
+       token="STANDARD_RUNTIME"/>
+  </target>
+
+</project>
