@@ -42,7 +42,7 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.13 $ $Date: 2002/08/18 14:40:22 $
+ * @version CVS $Revision: 1.14 $ $Date: 2002/08/22 22:56:10 $
  * @since 4.0
  */
 public class ExcaliburComponentSelector
@@ -161,18 +161,21 @@ public class ExcaliburComponentSelector
         {
             if( getLogger().isWarnEnabled() )
             {
-                getLogger().warn( "Looking up component on an uninitialized ComponentLocator: " + hint );
+                getLogger().warn( "Looking up component on an uninitialized ComponentLocator "
+                    + "with hint [" + hint + "]" );
             }
         }
 
         if( m_disposed )
         {
-            throw new IllegalStateException( "You cannot select a Component from a disposed ComponentSelector" );
+            throw new IllegalStateException(
+                "You cannot select a Component from a disposed ComponentSelector" );
         }
 
         if( null == hint )
         {
-            final String message = getName() + ": ComponentSelector Attempted to retrieve component with null hint.";
+            final String message = getName()
+                + ": ComponentSelector Attempted to retrieve component with null hint.";
             if( getLogger().isErrorEnabled() )
             {
                 getLogger().error( message );
@@ -186,7 +189,8 @@ public class ExcaliburComponentSelector
         // Retrieve the instance of the requested component
         if( null == handler )
         {
-            final String message = getName() + ": ComponentSelector could not find the component for hint: " + hint;
+            final String message = getName()
+                + ": ComponentSelector could not find the component for hint [" + hint + "]";
             if( getLogger().isDebugEnabled() )
             {
                 getLogger().debug( message );
@@ -207,7 +211,8 @@ public class ExcaliburComponentSelector
         }
         catch( final Exception e )
         {
-            final String message = getName() + ": ComponentSelector could not access the Component for hint: " + hint;
+            final String message = getName()
+                + ": ComponentSelector could not access the Component for hint [" + hint + "]";
 
             if( getLogger().isDebugEnabled() )
             {
@@ -218,7 +223,8 @@ public class ExcaliburComponentSelector
 
         if( null == component )
         {
-            final String message = getName() + ": ComponentSelector could not find the component for hint: " + hint;
+            final String message = getName()
+                + ": ComponentSelector could not find the component for hint [" + hint + "]";
             if( getLogger().isDebugEnabled() )
             {
                 getLogger().debug( message );
@@ -269,8 +275,8 @@ public class ExcaliburComponentSelector
 
         if( null == handler )
         {
-            getLogger().warn( "Attempted to release a " + component.getClass().getName() +
-                              " but its handler could not be located." );
+            getLogger().warn( "Attempted to release a " + component.getClass().getName()
+                + " but its handler could not be located." );
             return;
         }
 
@@ -367,8 +373,8 @@ public class ExcaliburComponentSelector
             catch( final ClassNotFoundException cnfe )
             {
                 final String message =
-                    "The component instance for '" + hint +
-                    "' has an invalid class name (" + className + ").";
+                    "The component instance for hint [" + hint
+                    + "] has an invalid class name (" + className + ").";
                 if( getLogger().isErrorEnabled() )
                 {
                     getLogger().error( message, cnfe );
@@ -380,8 +386,8 @@ public class ExcaliburComponentSelector
             {
                 if( getLogger().isErrorEnabled() )
                 {
-                    getLogger().error( "The component instance for '" + hint +
-                                       "' is not valid.", ce );
+                    getLogger().error(
+                        "The component instance for hint [" + hint + "] is not valid.", ce );
                 }
 
                 throw new ConfigurationException( "Could not set up component", ce );
@@ -390,7 +396,7 @@ public class ExcaliburComponentSelector
             {
                 if( getLogger().isErrorEnabled() )
                 {
-                    getLogger().error( "Unexpected exception for hint: " + hint, e );
+                    getLogger().error( "Unexpected exception for hint [" + hint + "]", e );
                 }
                 throw new ConfigurationException( "Unexpected exception", e );
             }
@@ -434,8 +440,8 @@ public class ExcaliburComponentSelector
                 {
                     if( getLogger().isDebugEnabled() )
                     {
-                        getLogger().debug( "Caught an exception trying to initialize " +
-                                           "of the component handler.", e );
+                        getLogger().debug( "Caught an exception trying to initialize "
+                            + "of the component handler.", e );
                     }
                 }
 
@@ -666,7 +672,8 @@ public class ExcaliburComponentSelector
     {
         if( m_initialized )
         {
-            throw new ComponentException( hint.toString(), "Cannot add components to an initialized ComponentSelector", null );
+            throw new ComponentException( hint.toString(),
+                "Cannot add components to an initialized ComponentSelector", null );
         }
 
         try
@@ -685,13 +692,14 @@ public class ExcaliburComponentSelector
 
             if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug( "Adding " + component.getName() + " for " + hint.toString() );
+                getLogger().debug(
+                    "Adding " + component.getName() + " for hint [" + hint.toString() + "]" );
             }
         }
         catch( final Exception e )
         {
             final String message =
-                "Could not set up Component for hint: " + hint;
+                "Could not set up Component for hint [ " + hint + "]";
             if( getLogger().isErrorEnabled() )
             {
                 getLogger().error( message, e );
@@ -709,7 +717,8 @@ public class ExcaliburComponentSelector
     {
         if( m_initialized )
         {
-            throw new IllegalStateException( "Cannot add components to an initialized ComponentSelector" );
+            throw new IllegalStateException(
+                "Cannot add components to an initialized ComponentSelector" );
         }
 
         try
@@ -723,15 +732,15 @@ public class ExcaliburComponentSelector
 
             if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug( "Adding " + instance.getClass().getName() +
-                                   " for " + hint.toString() );
+                getLogger().debug( "Adding " + instance.getClass().getName()
+                    + " for hint [" + hint.toString() + "]" );
             }
         }
         catch( final Exception e )
         {
             if( getLogger().isErrorEnabled() )
             {
-                getLogger().error( "Could not set up Component for hint: " + hint, e );
+                getLogger().error( "Could not set up Component for hint [" + hint + "]", e );
             }
         }
     }
