@@ -61,6 +61,7 @@
 
         <copy todir="${cocoon.build.context}" overwrite="true" filtering="on">
             <fileset dir="${cocoon.main.context.dir}">
+                <exclude name="**/*.ico"/>
                 <exclude name="**/*.gif"/>
                 <exclude name="**/*.jpg"/>
                 <exclude name="**/*.png"/>
@@ -69,6 +70,7 @@
 
         <copy todir="${cocoon.build.context}" filtering="off">
             <fileset dir="${cocoon.main.context.dir}">
+                <include name="**/*.ico"/>
                 <include name="**/*.gif"/>
                 <include name="**/*.jpg"/>
                 <include name="**/*.png"/>
@@ -89,13 +91,13 @@
         <echo message="  Building docs from list, please stand by ..."/>
                 
         <java classname="org.apache.cocoon.Main" fork="true" maxmemory="128m" failonerror="true">
-	    <arg value="-c${cocoon.build.context}/"/>
-	    <arg value="-k${cocoon.build.context}/logkit.xconf"/>
+            <arg value="-c${cocoon.build.context}/"/>
+            <arg value="-k${cocoon.build.context}/logkit.xconf"/>
             <arg value="-d${cocoon.build.docs}"/>
             <arg value="-w${cocoon.work}"/>
-	    <arg value="-l${cocoon.work}/cocoon.log"/>
+            <arg value="-l${cocoon.work}/cocoon.log"/>
             <arg value="-b${build.dir}/brokenlinks.txt"/>
-	    <arg value="-uERROR"/>
+            <arg value="-uERROR"/>
             <arg value="-f./build/content/xdocs/doc.uris"/>
             <arg value="-rno"/>            
             <classpath>
@@ -118,7 +120,7 @@
         <java classname="org.apache.cocoon.Main" fork="true" maxmemory="128m" failonerror="true">
             <arg value="-c${cocoon.build.context}/"/>
             <arg value="-d${cocoon.build.docs}"/>
-	    <arg value="-k${cocoon.build.context}/logkit.xconf"/>
+            <arg value="-k${cocoon.build.context}/logkit.xconf"/>
             <arg value="-w${cocoon.work}"/>
             <arg value="-l${cocoon.work}/cocoon.log"/>
             <arg value="-b${build.dir}/brokenlinks.txt"/>            
