@@ -40,7 +40,6 @@ public abstract class ComposableServlet
         if ( null == m_embeddor )
         {
             final String message = REZ.getString( "servlet.error.load" );
-
             throw new ServletException( message );
         }
 
