@@ -9,9 +9,10 @@ package org.apache.avalon.excalibur.xml.xslt;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 import javax.xml.transform.Result;
 import javax.xml.transform.Templates;
@@ -23,29 +24,26 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TemplatesHandler;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamSource;
-
-import org.xml.sax.ContentHandler;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLFilter;
-
 import org.apache.avalon.excalibur.xml.XMLizable;
-
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.ParameterException;
+import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceResolver;
 import org.apache.excalibur.source.SourceValidity;
 import org.apache.excalibur.source.impl.validity.AggregatedValidity;
-import org.apache.excalibur.xmlizer.XMLizer;
 import org.apache.excalibur.store.Store;
+import org.apache.excalibur.xmlizer.XMLizer;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLFilter;
 
 /**
  * This class defines the implementation of the {@link XSLTProcessor}
@@ -64,17 +62,18 @@ import org.apache.excalibur.store.Store;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.8 2002/07/01 00:52:07 proyal Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.9 2002/07/07 07:15:01 donaldp Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
 public class XSLTProcessorImpl
-  extends AbstractLogEnabled
-  implements XSLTProcessor,
-             Composable,
-             Disposable,
-             Parameterizable,
-             URIResolver {
+    extends AbstractLogEnabled
+    implements XSLTProcessor,
+    Composable,
+    Disposable,
+    Parameterizable,
+    URIResolver
+{
 
     protected ComponentManager manager;
 
@@ -91,7 +90,7 @@ public class XSLTProcessorImpl
     protected boolean useStore = false;
 
     /** Is incremental processing turned on? (default for Xalan: no) */
-    protected boolean incrementalProcessing = false;
+    protected boolean incrementalProcessing;
 
     /** Resolver used to resolve XSLT document() calls, imports and includes */
     protected SourceResolver resolver;
@@ -105,12 +104,12 @@ public class XSLTProcessorImpl
     /**
      * Compose. Try to get the store
      */
-    public void compose( ComponentManager manager )
-      throws ComponentException
+    public void compose( final ComponentManager manager )
+        throws ComponentException
     {
         this.manager = manager;
-        this.errorHandler = new TraxErrorHandler( getLogger() );
-        this.resolver = (SourceResolver)this.manager.lookup( SourceResolver.ROLE );
+        errorHandler = new TraxErrorHandler( getLogger() );
+        resolver = (SourceResolver)manager.lookup( SourceResolver.ROLE );
     }
 
     /**
@@ -118,35 +117,38 @@ public class XSLTProcessorImpl
      */
     public void dispose()
     {
-        if ( null != this.manager )
+        if( null != manager )
         {
-            this.manager.release(this.store);
-            this.store = null;
-            this.manager.release( this.resolver );
-            this.resolver = null;
+            manager.release( store );
+            store = null;
+            manager.release( resolver );
+            resolver = null;
         }
-        this.errorHandler = null;
-        this.manager = null;
+        errorHandler = null;
+        manager = null;
     }
 
     /**
      * Configure the component
      */
-    public void parameterize( Parameters params )
-      throws ParameterException
+    public void parameterize( final Parameters params )
+        throws ParameterException
     {
-        this.useStore = params.getParameterAsBoolean( "use-store", this.useStore );
-        this.incrementalProcessing = params.getParameterAsBoolean( "incremental-processing", this.incrementalProcessing );
-        this.factory = getTransformerFactory(params.getParameter("transformer-factory", null));
-        if ( this.useStore ) {
+        useStore = params.getParameterAsBoolean( "use-store", this.useStore );
+        incrementalProcessing = params.getParameterAsBoolean( "incremental-processing", this.incrementalProcessing );
+        factory = getTransformerFactory( params.getParameter( "transformer-factory", null ) );
+        if( useStore )
+        {
             try
             {
-                this.store = (Store)manager.lookup(Store.TRANSIENT_STORE);
+                store = (Store)manager.lookup( Store.TRANSIENT_STORE );
             }
-            catch (ComponentException ce)
+            catch( final ComponentException ce )
             {
-                throw new ParameterException("XSLTProcessor: use-store is set to true, "
-                          +"but the lookup of the Store failed.", ce);
+                final String message =
+                    "XSLTProcessor: use-store is set to true, " +
+                    "but the lookup of the Store failed.";
+                throw new ParameterException( message, ce );
             }
         }
     }
@@ -154,37 +156,39 @@ public class XSLTProcessorImpl
     /**
      * Set the transformer factory used by this component
      */
-    public void setTransformerFactory(String classname) {
-        this.factory = getTransformerFactory(classname);
+    public void setTransformerFactory( final String classname )
+    {
+        factory = getTransformerFactory( classname );
     }
 
-    public TransformerHandler getTransformerHandler( Source stylesheet )
-      throws XSLTProcessorException
+    public TransformerHandler getTransformerHandler( final Source stylesheet )
+        throws XSLTProcessorException
     {
         return getTransformerHandler( stylesheet, null );
     }
 
-    public TransformerHandler getTransformerHandler( Source stylesheet,
-                                                     XMLFilter filter )
-      throws XSLTProcessorException
+    public TransformerHandler getTransformerHandler( final Source stylesheet,
+                                                     final XMLFilter filter )
+        throws XSLTProcessorException
     {
-        return getTransformerHandlerAndValidity( stylesheet, filter ).getTransfomerHandler();
+        final XSLTProcessor.TransformerHandlerAndValidity validity = getTransformerHandlerAndValidity( stylesheet, filter );
+        return validity.getTransfomerHandler();
     }
 
-    public TransformerHandlerAndValidity getTransformerHandlerAndValidity( Source stylesheet )
-      throws XSLTProcessorException
+    public TransformerHandlerAndValidity getTransformerHandlerAndValidity( final Source stylesheet )
+        throws XSLTProcessorException
     {
         return getTransformerHandlerAndValidity( stylesheet, null );
     }
 
     public TransformerHandlerAndValidity getTransformerHandlerAndValidity( Source stylesheet, XMLFilter filter )
-      throws XSLTProcessorException
+        throws XSLTProcessorException
     {
         try
         {
             final String id = stylesheet.getSystemId();
-            TransformerHandlerAndValidity handlerAndValidity = getTemplates(stylesheet, id);
-            if( handlerAndValidity == null )
+            TransformerHandlerAndValidity handlerAndValidity = getTemplates( stylesheet, id );
+            if( null == handlerAndValidity )
             {
                 if( getLogger().isDebugEnabled() )
                 {
@@ -198,7 +202,7 @@ public class XSLTProcessorImpl
                 // Set the system ID for the template handler since some
                 // TrAX implementations (XSLTC) rely on this in order to obtain
                 // a meaningful identifier for the Templates instances.
-                templatesHandler.setSystemId ( id );
+                templatesHandler.setSystemId( id );
                 if( filter != null )
                 {
                     filter.setContentHandler( templatesHandler );
@@ -211,41 +215,48 @@ public class XSLTProcessorImpl
                 }
 
                 // Initialize List for included validities
-                SourceValidity validity = stylesheet.getValidity();
-                if (validity != null) {
+                final SourceValidity validity = stylesheet.getValidity();
+                if( validity != null )
+                {
                     includesMap.put( id, new ArrayList() );
                 }
 
-                try {
+                try
+                {
                     // Process the stylesheet.
                     sourceToSAX( stylesheet,
-                                 filter != null ? ( ContentHandler ) filter : ( ContentHandler ) templatesHandler );
+                                 filter != null ? (ContentHandler)filter : (ContentHandler)templatesHandler );
 
                     // Get the Templates object (generated during the parsing of
                     // the stylesheet) from the TemplatesHandler.
-                    Templates t = templatesHandler.getTemplates();
-                    putTemplates (t, stylesheet, id);
+                    final Templates template = templatesHandler.getTemplates();
+                    putTemplates( template, stylesheet, id );
 
                     // Create transformer handler
-                    TransformerHandler handler = this.factory.newTransformerHandler(t);
+                    final TransformerHandler handler = this.factory.newTransformerHandler( template );
                     handler.getTransformer().setErrorListener( this.errorHandler );
 
                     // Create aggregated validity
                     AggregatedValidity aggregated = null;
-                    if (validity != null) {
-                        List includes = (List) includesMap.get( id );
-                        if (includes != null) {
+                    if( validity != null )
+                    {
+                        List includes = (List)includesMap.get( id );
+                        if( includes != null )
+                        {
                             aggregated = new AggregatedValidity();
                             aggregated.add( validity );
-                            for ( int i = includes.size() - 1; i >= 0; i-- ) {
-                                aggregated.add( (SourceValidity) ((Object[])includes.get(i))[1] );
+                            for( int i = includes.size() - 1; i >= 0; i-- )
+                            {
+                                aggregated.add( (SourceValidity)( (Object[])includes.get( i ) )[ 1 ] );
                             }
                         }
                     }
 
                     // Create result
                     handlerAndValidity = new TransformerHandlerAndValidity( handler, aggregated );
-                } finally {
+                }
+                finally
+                {
                     includesMap.remove( id );
                 }
             }
@@ -278,53 +289,53 @@ public class XSLTProcessorImpl
     }
 
     private void sourceToSAX( Source source, ContentHandler handler )
-      throws SAXException, IOException, ComponentException, SourceException
+        throws SAXException, IOException, ComponentException, SourceException
     {
         if( source instanceof XMLizable )
         {
-            ( ( XMLizable ) source ).toSAX( handler );
+            ( (XMLizable)source ).toSAX( handler );
         }
         else
         {
-            XMLizer xmlizer = null;
-
+            final XMLizer xmlizer = (XMLizer)manager.lookup( XMLizer.ROLE );
             try
             {
-                xmlizer = ( XMLizer ) this.manager.lookup( XMLizer.ROLE );
-
-                xmlizer.toSAX( source.getInputStream(), source.getMimeType(), source.getSystemId(), handler );
+                final InputStream inputStream = source.getInputStream();
+                final String mimeType = source.getMimeType();
+                final String systemId = source.getSystemId();
+                xmlizer.toSAX( inputStream, mimeType, systemId, handler );
             }
             finally
             {
-                this.manager.release( xmlizer );
+                manager.release( xmlizer );
             }
         }
     }
 
-    public void transform( Source source,
-                           Source stylesheet,
-                           Parameters params,
-                           Result result )
-      throws XSLTProcessorException
+    public void transform( final Source source,
+                           final Source stylesheet,
+                           final Parameters params,
+                           final Result result )
+        throws XSLTProcessorException
     {
         try
         {
             if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug( "Transform source = " + source
-                                   + ", stylesheet = " + stylesheet
-                                   + ", parameters = " + params
-                                   + ", result = " + result );
+                getLogger().debug( "Transform source = " + source +
+                                   ", stylesheet = " + stylesheet +
+                                   ", parameters = " + params +
+                                   ", result = " + result );
             }
-            TransformerHandler handler = getTransformerHandler( stylesheet );
+            final TransformerHandler handler = getTransformerHandler( stylesheet );
             if( params != null )
             {
-                Transformer transformer = handler.getTransformer();
+                final Transformer transformer = handler.getTransformer();
                 transformer.clearParameters();
                 String[] names = params.getNames();
                 for( int i = names.length - 1; i >= 0; i-- )
                 {
-                    transformer.setParameter( names[i], params.getParameter( names[i] ) );
+                    transformer.setParameter( names[ i ], params.getParameter( names[ i ] ) );
                 }
             }
 
@@ -335,21 +346,24 @@ public class XSLTProcessorImpl
                 getLogger().debug( "Transform done" );
             }
         }
-        catch (SAXException e)
+        catch( SAXException e )
         {
             if( e.getException() == null )
             {
-                throw new XSLTProcessorException( "Error in running Transformation", e );
+                final String message = "Error in running Transformation";
+                throw new XSLTProcessorException( message, e );
             }
             else
             {
-                getLogger().debug( "Got SAXException. Rethrowing cause exception.", e );
+                final String message = "Got SAXException. Rethrowing cause exception.";
+                getLogger().debug( message, e );
                 throw new XSLTProcessorException( "Error in running Transformation", e.getException() );
             }
         }
         catch( Exception e )
         {
-            throw new XSLTProcessorException( "Error in running Transformation", e );
+            final String message = "Error in running Transformation";
+            throw new XSLTProcessorException( message, e );
         }
     }
 
@@ -358,13 +372,13 @@ public class XSLTProcessorImpl
      * the class can't be found or the given class doesn't implement
      * the required interface, the default factory is returned.
      */
-    private SAXTransformerFactory getTransformerFactory(String factoryName)
+    private SAXTransformerFactory getTransformerFactory( String factoryName )
     {
         SAXTransformerFactory _factory;
 
-        if ( null == factoryName )
+        if( null == factoryName )
         {
-            _factory = (SAXTransformerFactory) TransformerFactory.newInstance();
+            _factory = (SAXTransformerFactory)TransformerFactory.newInstance();
         }
         else
         {
@@ -375,48 +389,53 @@ public class XSLTProcessorImpl
                 {
                     loader = this.getClass().getClassLoader();
                 }
-                _factory = (SAXTransformerFactory) loader.loadClass(factoryName).newInstance();
+                _factory = (SAXTransformerFactory)loader.loadClass( factoryName ).newInstance();
             }
-            catch (ClassNotFoundException cnfe)
+            catch( ClassNotFoundException cnfe )
             {
-                getLogger().error("Cannot find the requested TrAX factory '" + factoryName
-                        + "'. Using default TrAX Transformer Factory instead.");
-                if (this.factory != null) return this.factory;
-                _factory = (SAXTransformerFactory) TransformerFactory.newInstance();
+                getLogger().error( "Cannot find the requested TrAX factory '" + factoryName
+                                   + "'. Using default TrAX Transformer Factory instead." );
+                if( this.factory != null )
+                    return this.factory;
+                _factory = (SAXTransformerFactory)TransformerFactory.newInstance();
             }
-            catch (ClassCastException cce)
+            catch( ClassCastException cce )
             {
-                getLogger().error("The indicated class '" + factoryName
-                        + "' is not a TrAX Transformer Factory. Using default TrAX Transformer Factory instead.");
-                if (this.factory != null) return this.factory;
-                _factory = (SAXTransformerFactory) TransformerFactory.newInstance();
+                getLogger().error( "The indicated class '" + factoryName
+                                   + "' is not a TrAX Transformer Factory. Using default TrAX Transformer Factory instead." );
+                if( this.factory != null )
+                    return this.factory;
+                _factory = (SAXTransformerFactory)TransformerFactory.newInstance();
             }
-            catch (Exception e)
+            catch( Exception e )
             {
-                getLogger().error("Error found loading the requested TrAX Transformer Factory '"
-                        + factoryName + "'. Using default TrAX Transformer Factory instead.");
-                if (this.factory != null) return this.factory;
-                _factory = (SAXTransformerFactory) TransformerFactory.newInstance();
+                getLogger().error( "Error found loading the requested TrAX Transformer Factory '"
+                                   + factoryName + "'. Using default TrAX Transformer Factory instead." );
+                if( this.factory != null )
+                    return this.factory;
+                _factory = (SAXTransformerFactory)TransformerFactory.newInstance();
             }
         }
 
-        _factory.setErrorListener(this.errorHandler);
-        _factory.setURIResolver(this);
+        _factory.setErrorListener( this.errorHandler );
+        _factory.setURIResolver( this );
 
         // FIXME (SM): implementation-specific parameter passing should be
         // made more extensible.
-        if (_factory.getClass().getName().equals("org.apache.xalan.processor.TransformerFactoryImpl"))
+        if( _factory.getClass().getName().equals( "org.apache.xalan.processor.TransformerFactoryImpl" ) )
         {
-            _factory.setAttribute("http://xml.apache.org/xalan/features/incremental",
-                                       new Boolean( incrementalProcessing ) );
+            _factory.setAttribute( "http://xml.apache.org/xalan/features/incremental",
+                                   new Boolean( incrementalProcessing ) );
         }
 
         return _factory;
     }
 
-    private TransformerHandlerAndValidity getTemplates(Source stylesheet, String id)
-    throws IOException, SourceException, TransformerException {
-        if (!useStore) {
+    private TransformerHandlerAndValidity getTemplates( Source stylesheet, String id )
+        throws IOException, SourceException, TransformerException
+    {
+        if( !useStore )
+        {
             return null;
         }
 
@@ -425,81 +444,94 @@ public class XSLTProcessorImpl
         // template created by another one.
         String key = id + this.factory.getClass().getName();
 
-        if (getLogger().isDebugEnabled())
+        if( getLogger().isDebugEnabled() )
         {
-            getLogger().debug("getTemplates: stylesheet " + id);
+            getLogger().debug( "getTemplates: stylesheet " + id );
         }
 
         SourceValidity newValidity = stylesheet.getValidity();
 
         // Only stylesheets with validity are stored
-        if (newValidity == null) {
+        if( newValidity == null )
+        {
             // Remove an old template
-            store.remove(key);
+            store.remove( key );
             return null;
         }
 
         // Stored is an array of the templates and the caching time and list of includes
-        Object[] templateAndValidityAndIncludes = (Object[]) store.get(key);
-        if (templateAndValidityAndIncludes == null) {
+        Object[] templateAndValidityAndIncludes = (Object[])store.get( key );
+        if( templateAndValidityAndIncludes == null )
+        {
             // Templates not found in cache
             return null;
         }
 
         // Check template modification time
-        SourceValidity storedValidity = (SourceValidity) templateAndValidityAndIncludes[1];
+        SourceValidity storedValidity = (SourceValidity)templateAndValidityAndIncludes[ 1 ];
         int valid = storedValidity.isValid();
         boolean isValid;
-        if ( valid == 0 ) {
+        if( valid == 0 )
+        {
             isValid = storedValidity.isValid( newValidity );
-        } else {
-            isValid = (valid == 1);
         }
-        if ( !isValid ) {
-            store.remove(key);
+        else
+        {
+            isValid = ( valid == 1 );
+        }
+        if( !isValid )
+        {
+            store.remove( key );
             return null;
         }
 
         // Check includes
         AggregatedValidity aggregated = null;
-        List includes = (List)templateAndValidityAndIncludes[2];
-        if (includes != null) {
+        List includes = (List)templateAndValidityAndIncludes[ 2 ];
+        if( includes != null )
+        {
             aggregated = new AggregatedValidity();
             aggregated.add( storedValidity );
 
-            for (int i = includes.size() - 1; i >= 0; i--) {
+            for( int i = includes.size() - 1; i >= 0; i-- )
+            {
                 // Every include stored as pair of source ID and validity
-                Object[] pair = (Object[])includes.get(i);
-                storedValidity = (SourceValidity)pair[1];
+                Object[] pair = (Object[])includes.get( i );
+                storedValidity = (SourceValidity)pair[ 1 ];
                 aggregated.add( storedValidity );
 
                 valid = storedValidity.isValid();
                 isValid = false;
-                if ( valid == 0 ) {
-                    SourceValidity included = resolver.resolveURI((String)pair[0]).getValidity();
-                    if (included != null) {
+                if( valid == 0 )
+                {
+                    SourceValidity included = resolver.resolveURI( (String)pair[ 0 ] ).getValidity();
+                    if( included != null )
+                    {
                         isValid = storedValidity.isValid( included );
                     }
-                } else {
-                    isValid = (valid == 1);
                 }
-                if ( !isValid ) {
-                    store.remove(key);
+                else
+                {
+                    isValid = ( valid == 1 );
+                }
+                if( !isValid )
+                {
+                    store.remove( key );
                     return null;
                 }
             }
         }
 
         TransformerHandler handler = factory.newTransformerHandler(
-                (Templates)templateAndValidityAndIncludes[0]);
+            (Templates)templateAndValidityAndIncludes[ 0 ] );
         handler.getTransformer().setErrorListener( this.errorHandler );
         return new TransformerHandlerAndValidity( handler, aggregated );
     }
 
-    private void putTemplates (Templates templates, Source stylesheet, String id)
-      throws IOException
+    private void putTemplates( Templates templates, Source stylesheet, String id )
+        throws IOException
     {
-        if (!useStore)
+        if( !useStore )
             return;
 
         // we must augment the template ID with the factory classname since one
@@ -509,13 +541,14 @@ public class XSLTProcessorImpl
 
         // only stylesheets with a last modification date are stored
         SourceValidity validity = stylesheet.getValidity();
-        if ( null != validity ) {
+        if( null != validity )
+        {
             // Stored is an array of the template and the current time
-            Object[] templateAndValidityAndIncludes = new Object[3];
-            templateAndValidityAndIncludes[0] = templates;
-            templateAndValidityAndIncludes[1] = validity;
-            templateAndValidityAndIncludes[2] = includesMap.get(id);
-            store.store(key, templateAndValidityAndIncludes);
+            Object[] templateAndValidityAndIncludes = new Object[ 3 ];
+            templateAndValidityAndIncludes[ 0 ] = templates;
+            templateAndValidityAndIncludes[ 1 ] = validity;
+            templateAndValidityAndIncludes[ 2 ] = includesMap.get( id );
+            store.store( key, templateAndValidityAndIncludes );
         }
     }
 
@@ -534,12 +567,12 @@ public class XSLTProcessorImpl
      * resolve the URI.
      */
     public javax.xml.transform.Source resolve( String href, String base )
-      throws TransformerException
+        throws TransformerException
     {
         if( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "resolve(href = " + href +
-                                    ", base = " + base + "); resolver = " + this.resolver );
+                               ", base = " + base + "); resolver = " + this.resolver );
         }
 
         Source xslSource = null;
@@ -589,13 +622,13 @@ public class XSLTProcessorImpl
             }
 
             // Populate included validities
-            List includes = (List)includesMap.get(base);
+            List includes = (List)includesMap.get( base );
             if( includes != null )
             {
                 SourceValidity included = xslSource.getValidity();
                 if( included != null )
                 {
-                    includes.add( new Object[] { xslSource.getSystemId(), xslSource.getValidity() } );
+                    includes.add( new Object[]{xslSource.getSystemId(), xslSource.getValidity()} );
                 }
                 else
                 {
@@ -610,8 +643,8 @@ public class XSLTProcessorImpl
         {
             if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug("Failed to resolve " + href
-                    + "(base = " + base + "), return null", e);
+                getLogger().debug( "Failed to resolve " + href
+                                   + "(base = " + base + "), return null", e );
             }
 
             // CZ: To obtain the same behaviour as when the resource is
@@ -622,8 +655,8 @@ public class XSLTProcessorImpl
         {
             if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug("Failed to resolve " + href
-                    + "(base = " + base + "), return null", mue);
+                getLogger().debug( "Failed to resolve " + href
+                                   + "(base = " + base + "), return null", mue );
             }
 
             return null;
@@ -632,8 +665,8 @@ public class XSLTProcessorImpl
         {
             if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug("Failed to resolve " + href
-                    + "(base = " + base + "), return null", ioe);
+                getLogger().debug( "Failed to resolve " + href
+                                   + "(base = " + base + "), return null", ioe );
             }
 
             return null;
@@ -651,8 +684,8 @@ public class XSLTProcessorImpl
      *
      * @throws IOException if I/O error occured.
      */
-    private static InputSource getInputSource( Source source )
-      throws IOException, SourceException
+    private static InputSource getInputSource( final Source source )
+        throws IOException, SourceException
     {
         final InputSource newObject = new InputSource( source.getInputStream() );
         newObject.setSystemId( source.getSystemId() );

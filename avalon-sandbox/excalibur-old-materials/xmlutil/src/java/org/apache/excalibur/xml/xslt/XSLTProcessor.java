@@ -9,24 +9,23 @@ package org.apache.avalon.excalibur.xml.xslt;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.sax.TransformerHandler;
-
-import org.xml.sax.XMLFilter;
-
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceValidity;
+import org.xml.sax.XMLFilter;
 
 /**
  * This is the interface of the XSLT processor.
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessor.java,v 1.5 2002/07/01 01:26:57 proyal Exp $
+ * @version CVS $Id: XSLTProcessor.java,v 1.6 2002/07/07 07:15:01 donaldp Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
-public interface XSLTProcessor extends Component
+public interface XSLTProcessor
+    extends Component
 {
     /**
      * The role implemented by an <code>XSLTProcessor</code>.
@@ -38,21 +37,21 @@ public interface XSLTProcessor extends Component
         private final TransformerHandler transformerHandler;
         private final SourceValidity transformerValidity;
 
-        protected TransformerHandlerAndValidity ( TransformerHandler transformerHandler,
-                                                  SourceValidity transformerValidity )
+        protected TransformerHandlerAndValidity( final TransformerHandler transformerHandler,
+                                                 final SourceValidity transformerValidity )
         {
             this.transformerHandler = transformerHandler;
             this.transformerValidity = transformerValidity;
         }
 
-        public TransformerHandler getTransfomerHandler ()
+        public TransformerHandler getTransfomerHandler()
         {
-            return this.transformerHandler;
+            return transformerHandler;
         }
 
-        public SourceValidity getTransfomerValidity ()
+        public SourceValidity getTransfomerValidity()
         {
-            return this.transformerValidity;
+            return transformerValidity;
         }
     }
 
@@ -66,11 +65,11 @@ public interface XSLTProcessor extends Component
      * or the indicated class doesn't implement the required interface
      * the original factory of the component is maintained.
      */
-    void setTransformerFactory(String classname);
+    void setTransformerFactory( String classname );
 
     /**
      * <p>Return a <code>TransformerHandler</code> for a given
-     * stylesheet <code>Source</code>. This can be used in a pipeline to
+     * stylesheet {@link Source}. This can be used in a pipeline to
      * handle the transformation of a stream of SAX events. See {@link
      * org.apache.cocoon.transformation.TraxTransformer#setConsumer} for
      * an example of how to use this method.
@@ -83,18 +82,18 @@ public interface XSLTProcessor extends Component
      * (modification time and list of included stylesheets) and performs
      * a reparsing only if this changes.
      *
-     * @param stylesheet a <code>Source</code> value
-     * @param filter a <code>XMLFilter</code> value
-     * @return a <code>TransformerHandler</code> value
+     * @param stylesheet a {@link Source} value
+     * @param filter a {@link XMLFilter} value
+     * @return a {@link TransformerHandler} value
      * @exception XSLTProcessorException if an error occurs
      */
     TransformerHandler getTransformerHandler( Source stylesheet, XMLFilter filter )
-      throws XSLTProcessorException;
+        throws XSLTProcessorException;
 
     /**
-     * <p>Return a <code>TransformerHandler</code> and
+     * <p>Return a {@link TransformerHandler} and
      * <code>SourceValidity</code> for a given stylesheet
-     * <code>Source</code>. This can be used in a pipeline to
+     * {@link Source}. This can be used in a pipeline to
      * handle the transformation of a stream of SAX events. See {@link
      * org.apache.cocoon.transformation.TraxTransformer#setConsumer} for
      * an example of how to use this method.
@@ -107,50 +106,50 @@ public interface XSLTProcessor extends Component
      * (modification time and list of included stylesheets) and performs
      * a reparsing only if this changes.
      *
-     * @param stylesheet a <code>Source</code> value
-     * @param filter a <code>XMLFilter</code> value
+     * @param stylesheet a {@link Source} value
+     * @param filter a {@link XMLFilter} value
      * @return a <code>TransformerHandlerAndValidity</code> value
      * @exception XSLTProcessorException if an error occurs
      */
     TransformerHandlerAndValidity getTransformerHandlerAndValidity( Source stylesheet, XMLFilter filter )
-      throws XSLTProcessorException;
+        throws XSLTProcessorException;
 
     /**
      * Same as {@link #getTransformerHandler(Source,XMLFilter)}, with
      * <code>filter</code> set to <code>null</code>.
      *
-     * @param stylesheet a <code>Source</code> value
-     * @return a <code>TransformerHandler</code> value
+     * @param stylesheet a {@link Source} value
+     * @return a {@link TransformerHandler} value
      * @exception XSLTProcessorException if an error occurs
      */
     TransformerHandler getTransformerHandler( Source stylesheet )
-      throws XSLTProcessorException;
+        throws XSLTProcessorException;
 
     /**
      * Same as {@link #getTransformerHandlerAndValidity(Source,XMLFilter)}, with
      * <code>filter</code> set to <code>null</code>.
      *
-     * @param stylesheet a <code>Source</code> value
-     * @return a <code>TransformerHandlerAndValidity</code> value
+     * @param stylesheet a {@link Source} value
+     * @return a {@link TransformerHandlerAndValidity} value
      * @exception XSLTProcessorException if an error occurs
      */
     TransformerHandlerAndValidity getTransformerHandlerAndValidity( Source stylesheet )
-      throws XSLTProcessorException;
+        throws XSLTProcessorException;
 
     /**
      * Applies an XSLT stylesheet to an XML document. The source and
-     * stylesheet documents are specified as <code>Source</code>
+     * stylesheet documents are specified as {@link Source}
      * objects. The result of the transformation is placed in
-     * <code>result</code>, which should be properly initialized before
+     * {@link Result}, which should be properly initialized before
      * invoking this method. Any additional parameters passed in
-     * <code>params</code> will become arguments to the stylesheet.
+     * {@link Parameters params} will become arguments to the stylesheet.
      *
-     * @param source a <code>Source</code> value
-     * @param stylesheet a <code>Source</code> value
+     * @param source a {@link Source} value
+     * @param stylesheet a {@link Source} value
      * @param params a <code>Parameters</code> value
      * @param result a <code>Result</code> value
      * @exception XSLTProcessorException if an error occurs
      */
     void transform( Source source, Source stylesheet, Parameters params, Result result )
-      throws XSLTProcessorException;
+        throws XSLTProcessorException;
 }
