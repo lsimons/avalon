@@ -33,7 +33,7 @@ public class CleanPlugin extends AbstractPlugin
         throws IOException
     {
         File basedir = m_Context.getProjectDir();
-        String targets = m_Context.getProperty( "clean.build.dest.dirs" );
+        String targets = m_Context.getProperty( "clean.dirs" );
         StringTokenizer st = new StringTokenizer( targets, " ,", false );
         while( st.hasMoreTokens() )
         {

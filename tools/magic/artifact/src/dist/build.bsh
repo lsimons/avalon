@@ -27,7 +27,7 @@ import org.apache.tools.ant.types.Path;
 
 public class ArtifactPlugin extends AbstractPlugin
 {
-    public Artifact locate( String artifactId )
+    public Artifact resolve( String artifactId )
         throws IOException
     {
         File definitionsDir = new File( m_Context.getProjectSystemDir(), "definitions" );
@@ -164,7 +164,7 @@ public class ArtifactPlugin extends AbstractPlugin
         return result;
     }
     
-    public void upload( Artifact artifact )
+    public void upload( Artifact artifact, File content )
     {
     }
     
