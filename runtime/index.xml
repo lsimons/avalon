@@ -34,6 +34,7 @@
     </info>
     <gump>
       <alias>logging-log4j</alias>
+      <id>log4j</id>
     </gump>
   </resource>
 
