@@ -53,7 +53,6 @@ package org.apache.avalon.phoenix.components.configuration;
 final class ConfigurationKey
 {
     private final String m_application;
-
     private final String m_block;
 
     public ConfigurationKey( final String application, final String block )
@@ -64,7 +63,7 @@ final class ConfigurationKey
 
     public int hashCode()
     {
-        return this.getApplication().hashCode() + this.getBlock().hashCode();
+        return getApplication().hashCode() + getBlock().hashCode();
     }
 
     public boolean equals( final Object obj )
@@ -72,9 +71,9 @@ final class ConfigurationKey
         if( obj instanceof ConfigurationKey )
         {
             final ConfigurationKey key = (ConfigurationKey)obj;
-
-            return this.getApplication().equals( key.getApplication() )
-                && this.getBlock().equals( key.getBlock() );
+            return
+                getApplication().equals( key.getApplication() ) &&
+                getBlock().equals( key.getBlock() );
         }
         else
         {
