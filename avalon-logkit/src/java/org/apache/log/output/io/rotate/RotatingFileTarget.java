@@ -70,8 +70,8 @@ public class RotatingFileTarget
         throws IOException
     {
         m_baseFile = baseFile;
-        m_filenameStrategy.setBaseFileName( baseFile );
-        setFile( m_filenameStrategy.getLogFileName(), false );
+        final File file = m_filenameStrategy.getLogFileName( m_baseFile );
+        setFile( file, false );
     }
 
     /**
@@ -88,7 +88,8 @@ public class RotatingFileTarget
             close();
             try
             {
-                setFile( m_filenameStrategy.getLogFileName(), false );
+                final File file = m_filenameStrategy.getLogFileName( m_baseFile );
+                setFile( file, false );
                 openFile();
             }
             catch( final IOException ioe )

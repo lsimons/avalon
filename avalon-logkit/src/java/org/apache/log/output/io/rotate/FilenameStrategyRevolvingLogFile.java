@@ -42,35 +42,6 @@ public class FilenameStrategyRevolvingLogFile
     {
         m_rotation = m_rotationMinValue;
         m_decimalFormat = new DecimalFormat( PATTERN );
-        setBaseFileName( new File(FilenameStrategy.BASE_FILE_NAME_DEFAULT) );
-    }
-
-    public FilenameStrategyRevolvingLogFile( FilenameStrategy fs ) 
-    {
-        this();
-        if( null != fs )
-        {
-            final File bfn = fs.getBaseFileName();
-            if( null != bfn )
-            {
-                setBaseFileName( bfn );
-            }
-        }
-    }
-
-    public FilenameStrategyRevolvingLogFile( final File baseFileName ) 
-    {
-        setBaseFileName( baseFileName );
-    }
-
-    public File getBaseFileName() 
-    {
-        return m_baseFileName;
-    }
-
-    public void setBaseFileName( final File baseFileName ) 
-    {
-        m_baseFileName = baseFileName;
     }
 
     /**
@@ -78,11 +49,11 @@ public class FilenameStrategyRevolvingLogFile
      *
      * @return File the calculated file name
      */
-    public File getLogFileName() 
+    public File getLogFileName( final File baseFileName ) 
     {
         final StringBuffer sb = new StringBuffer();
         final FieldPosition fp = new FieldPosition( NumberFormat.INTEGER_FIELD );
-        sb.append( m_baseFileName );
+        sb.append( baseFileName );
 
         final StringBuffer result = m_decimalFormat.format( m_rotation, sb, fp );
         m_rotation += 1;
