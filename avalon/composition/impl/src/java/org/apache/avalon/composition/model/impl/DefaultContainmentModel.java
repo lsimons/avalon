@@ -106,7 +106,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/04 11:53:04 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/07 17:41:36 $
  */
 public class DefaultContainmentModel extends DefaultModel 
   implements ContainmentModel
@@ -291,14 +291,8 @@ public class DefaultContainmentModel extends DefaultModel
         }
         else if( profile instanceof NamedDeploymentProfile ) 
         {
-            NamedDeploymentProfile holder = (NamedDeploymentProfile) profile;
-            final String classname = holder.getClassname();
-            final String key = holder.getKey();
-            TypeRepository repository = 
-              m_context.getClassLoaderModel().getTypeRepository();
-            Type type = repository.getType( classname );
-            DeploymentProfile template = repository.getProfile( type, key );
-            DeploymentProfile deployment = new DeploymentProfile( profile.getName(), template );
+            DeploymentProfile deployment = 
+              createDeploymentProfile( (NamedDeploymentProfile) profile );
             model = createDeploymentModel( deployment );
         }
         else if( profile instanceof BlockIncludeDirective ) 
@@ -954,7 +948,7 @@ public class DefaultContainmentModel extends DefaultModel
 
    /**
     * Return the set of service export mappings
-    * @return the block implementation model
+    * @return the set of export directives published by the model
     */
     public ServiceDirective[] getExportDirectives()
     {
@@ -963,6 +957,7 @@ public class DefaultContainmentModel extends DefaultModel
 
    /**
     * Return the set of service export directives for a supplied class.
+    * @param clazz a cleaa identifying the directive
     * @return the export directives
     */
     public ServiceDirective getExportDirective( Class clazz )
@@ -974,16 +969,58 @@ public class DefaultContainmentModel extends DefaultModel
     // implementation
     //==============================================================
 
+   /**
+    * Conver a classic url to a jar url.  TIf the supplied url protocol is not 
+    * the "jar" protocol, a ne url is created by prepending jar: and adding the 
+    * trailing "!/".
+    * @param url the url to convert
+    * @return the converted url
+    * @exception MalformedURLException if something goes wrong
+    */
     private URL convertToJarURL( URL url ) throws MalformedURLException
     {
         if( url.getProtocol().equals( "jar" ) ) return url;
         return new URL( "jar:" + url.toString() + "!/" );
     }
 
+   /**
+    * Return a simple string represention of the containment model.
+    * @return the string representation
+    */
     public String toString()
     {
         return "[containment model: " + getQualifiedName() + "]";
     }
 
-
+   /**
+    * Create a full deployment profile using a supplied named profile reference.
+    * @param profile the named profile reference directive
+    * @return the deployment profile
+    * @exception ModelException if an error occurs during profile creation
+    */
+    private DeploymentProfile createDeploymentProfile( NamedDeploymentProfile profile )
+      throws ModelException
+    {
+        try
+        {
+            NamedDeploymentProfile holder = (NamedDeploymentProfile) profile;
+            final String classname = holder.getClassname();
+            final String key = holder.getKey();
+            TypeRepository repository = 
+              m_context.getClassLoaderModel().getTypeRepository();
+            Type type = repository.getType( classname );
+            DeploymentProfile template = repository.getProfile( type, key );
+            return new DeploymentProfile( profile.getName(), template );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              REZ.getString( 
+                "containment.model.create.deployment.error", 
+                profile.getKey(), 
+                getPath(), 
+                profile.getClassname() );
+            throw new ModelException( error, e );
+        }
+    }
 }
