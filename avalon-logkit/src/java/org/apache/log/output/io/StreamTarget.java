@@ -67,13 +67,10 @@ import org.apache.log.output.AbstractOutputTarget;
 public class StreamTarget
     extends AbstractOutputTarget
 {
-    ///Default character encoding
-    private static final String DEFAULT_ENCODING = "US-ASCII";
-
-    ///OutputStream we are writing to
+    /** OutputStream we are writing to. */
     private OutputStream m_outputStream;
 
-    //The encoding to use when creating byte array for string
+    /** The encoding to use when creating byte array for string, may be null. */
     private String m_encoding;
 
     /**
@@ -81,6 +78,8 @@ public class StreamTarget
      *
      * @param outputStream the OutputStream to write to
      * @param formatter the Formatter to use
+     * @param encoding Desired encoding to use when writing to the log, null
+     *                 implies the default system encoding.
      */
     public StreamTarget( final OutputStream outputStream,
                          final Formatter formatter,
@@ -105,7 +104,12 @@ public class StreamTarget
     public StreamTarget( final OutputStream outputStream,
                          final Formatter formatter )
     {
-        this( outputStream, formatter, DEFAULT_ENCODING );
+        // We can get the default system encoding by calling the following
+        //  method, but it is not a standard API so we work around it by
+        //  allowing encoding to be null.
+        //    sun.io.Converters.getDefaultEncodingName();
+        
+        this( outputStream, formatter, null );
     }
 
     /**
@@ -144,7 +148,16 @@ public class StreamTarget
 
         try
         {
-            outputStream.write( data.getBytes( m_encoding ) );
+            byte[] bytes;
+            if ( m_encoding == null )
+            {
+                bytes = data.getBytes();
+            }
+            else
+            {
+                bytes = data.getBytes( m_encoding );
+            }
+            outputStream.write( bytes );
             outputStream.flush();
         }
         catch( final IOException ioe )
