@@ -45,10 +45,9 @@
       <item name="Specification" href="/reference/index.html">
         <item name="Component Specification" href="/reference/component/index.html">
           <item name="Descriptors" href="/reference/component/descriptors/index.html"/>
-          <item name="Lifecycle Management" href="/reference/component/lifecycle/index.html"/>
-          <item name="Lifecycle Artifacts" href="/reference/component/artifacts/index.html"/>
-          <item name="Artifact Delivery" href="/reference/component/delivery/index.html"/>
-          <item name="Lifestyles" href="/reference/component/lifestyle/index.html"/>
+          <item name="Artifacts" href="/reference/component/artifacts/index.html"/>
+          <item name="Lifecycle" href="/reference/component/lifecycle/index.html"/>
+          <item name="Lifestyle" href="/reference/component/lifestyle/index.html"/>
         </item>
         <item name="Deployment Specification" href="/reference/deployment/index.html"/>
       </item>
