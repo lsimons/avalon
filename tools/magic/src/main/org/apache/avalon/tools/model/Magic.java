@@ -278,42 +278,59 @@ public class Magic extends DataType
         if( null != value )
         {
             File index = Context.getFile( basedir, value );
-            return resolve( index );
+            return resolve( index, false );
         }
 
         final String path = project.getProperty( Home.KEY );
         if( null != path )
         {
             final File index = Context.getFile( basedir, path ) ;
-            return resolve( index );
+            return resolve( index, false );
         }
         else
         {
-            return resolve( basedir );
+            //
+            // seach from here progressively looking in the parent directory
+            // until we find an index
+            //
+
+            return resolve( basedir, true );
         }
     }
 
-    private File resolve( final File index )
+    private File resolve( File index, boolean traverse )
     {
-        if( index.exists() )
+        if( index.isFile() )
+            return index;
+        if( index.isDirectory() )
         {
-            if( index.isDirectory() )
+            File file = new File( index, "index.xml" );
+            if( file.isFile() ) 
+                return file;
+            if( traverse )
             {
-                return resolve( new File( index, "index.xml" ) );
-            }
-            else
-            {
-                return index;
+                File resolved = traverse( index );
+                if( resolved != null )
+                    return resolved;
             }
         }
-        else
-        {
-            final FileNotFoundException e =
-              new FileNotFoundException( index.toString() );
-            throw new BuildException( e );
-        }
+            
+        final FileNotFoundException fnfe =
+          new FileNotFoundException( index.toString() );
+        throw new BuildException( fnfe );
     }
-
+        
+    private File traverse( File dir )
+    {
+        File file = new File( dir, "index.xml" );
+        if( file.isFile() ) 
+            return file;
+        File parent = dir.getParentFile();
+        if( null != parent )
+            return traverse( parent );                
+        return null;
+    }
+    
     private static String getTemplatePath( File system )
     {
         File templates = new File( system, "templates" );

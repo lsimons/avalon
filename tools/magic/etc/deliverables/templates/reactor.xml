@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name="reactor" xmlns:x="antlib:org.apache.avalon.tools">
-
-  <x:home/>
-
+  
   <target name="init">
     <x:reactor target="init"/>
   </target>

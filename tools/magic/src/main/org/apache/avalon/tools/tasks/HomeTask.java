@@ -40,6 +40,10 @@ public class HomeTask extends ContextualTask
 
     private String m_path;
 
+    public HomeTask()
+    {
+    }
+    
     public void setIndex( final String path )
     {
         m_path = path;
@@ -53,7 +57,7 @@ public class HomeTask extends ContextualTask
         if( null != getProject().getReference( Home.KEY ) ) 
             return;
 
-        Magic system = Magic.getSystem( project );        
+        Magic system = Magic.getSystem( project );
         Home home = system.getHome( project, m_path );
         File root = getHomeDirectory( home );
 

@@ -3,6 +3,8 @@
 <project name="avalon-trunk" default="install" basedir="." 
   xmlns:x="antlib:org.apache.avalon.tools">
 
+  <x:home />
+  
   <available property="magic.available" classname="org.apache.avalon.tools.model.Home" >
     <classpath >
       <pathelement location="${user.home}/.ant/lib/avalon-tools-magic.jar"/>
@@ -13,7 +15,7 @@
   <property file="${basedir}/user.properties"/>
   <property file="${basedir}/build.properties"/>
   <property name="reactor.xml" 
-    value="${project.system}/build/reactor.xml"/>
+    value="${magic.templates}/reactor.xml"/>
 
   <condition property="magic.env.declared" value="false">
     <isset property="ENV.MAGIC_HOME"/>
