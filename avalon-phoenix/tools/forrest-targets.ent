@@ -152,8 +152,9 @@ A minimal build.xml would thus be:
       To run this target, you need Forrest installed.
       Please do the following:
 
-      export CVSROOT=:pserver:nicolaken@localhost:/home/cvs
-      cvs checkout xml-forrest
+      cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic login
+      password: anoncvs
+      cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic checkout xml-forrest
       cd xml-forrest
       build      (Windows)
       ./build.sh (Unix)
