@@ -6,6 +6,7 @@ import java.lang.reflect.Constructor;
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Collection;
 import org.apache.avalon.attributes.Attributes;
 import org.apache.avalon.attributes.AttributeIndex;
 import junit.framework.TestCase;
@@ -152,6 +153,18 @@ public class AttributesTestCase extends TestCase {
     public void testAttributeIndex () throws Exception {
         URLClassLoader cl2 = new URLClassLoader (new URL[]{new File ("unittest/target/cl2/cl2.jar").toURL ()}, getClass().getClassLoader ());
         AttributeIndex index = Attributes.getAttributeIndex (cl2);
-        assertEquals ("[TestClass]", index.getClassesWithAttribute ("TestAttribute").toString ());
+        Collection classes = index.getClassesWithAttribute ("TestAttribute");
+        System.out.println (classes);
+        assertEquals (2, classes.size ());
+        assertTrue (classes.contains ("TestClass"));
+        assertTrue (classes.contains ("TestClass.Inner"));        
+    }
+    
+    public void testInnerClasses () throws Exception {
+        Class c = Sample.InnerSample.class;
+        assertEquals (1, Attributes.getAttributes (c).size ());
+        assertEquals (1, Attributes.getAttributes (c, Dependency.class).size ());
+        assertTrue (Attributes.hasAttributeType (c, Dependency.class));
+        assertTrue (Attributes.hasAttribute (c, new Dependency ( SampleService.class, "inner-sample" )));
     }
 }

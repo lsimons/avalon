@@ -55,7 +55,7 @@ public class Attributes {
             Class attributeRepo;
             CachedRepository cached;
             try {
-                attributeRepo = Class.forName (clazz.getName () + "$__org_apache_avalon_Attributes", true, clazz.getClassLoader ());
+                attributeRepo = Class.forName (clazz.getName () + "$__attributeRepository", true, clazz.getClassLoader ());
                 AttributeRepositoryClass repo = (AttributeRepositoryClass) attributeRepo.newInstance ();
                 
                 cached = new DefaultCachedRepository (clazz, repo);

@@ -73,7 +73,7 @@ public class AttributeIndexer extends Task {
         return classPath;
     }
     
-    private static final String SUFFIX = "$__org_apache_avalon_Attributes";
+    private static final String SUFFIX = "$__attributeRepository";
     private static final String CLASS_SUFFIX = SUFFIX + ".class";
     private static final String SOURCE_SUFFIX = SUFFIX + ".java";
     
@@ -113,9 +113,10 @@ public class AttributeIndexer extends Task {
                 while (enum.hasMoreElements ()) {
                     JarEntry entry = (JarEntry) enum.nextElement ();
                     if (!entry.isDirectory ()) {
-                        String className = entry.getName ().replace ('/', '.').replace ('\\', '.');
+                        String className = entry.getName ();
                         if (className.endsWith (CLASS_SUFFIX)) {
-                            String baseClassName = className.substring (0, className.length () - CLASS_SUFFIX.length ());
+                            className = className.replace ('/', '.').replace ('\\', '.');
+                            String baseClassName = className.substring (0, className.length () - CLASS_SUFFIX.length ()).replace ('$', '.');
                             className = className.substring (0, className.length () - 6);
                             Class repoClass = cl.loadClass (className);
                             AttributeRepositoryClass repo = (AttributeRepositoryClass) repoClass.newInstance ();
