@@ -81,16 +81,6 @@
         <ant dir="container" target="${subproject-target}"/>
     </target>
 
-    <!-- Info -->
-    <target name="prj-info" depends="prj-i18n">
-        <ant dir="info" target="${subproject-target}"/>
-    </target>
-
-    <!-- ContainerKit -->
-    <target name="prj-containerkit" depends="prj-i18n,prj-info">
-        <ant dir="containerkit" target="${subproject-target}"/>
-    </target>
-
     <!-- Converter -->
     <target name="prj-converter" depends="prj-i18n">
         <ant dir="converter" target="${subproject-target}"/>
@@ -211,11 +201,6 @@
         <ant dir="threadcontext" target="${subproject-target}"/>
     </target>
 
-    <!-- Tweety -->
-    <target name="prj-tweety">
-        <ant dir="tweety" target="${subproject-target}"/>
-    </target>
-
     <!-- Util -->
     <target name="prj-util">
         <ant dir="util" target="${subproject-target}"/>
@@ -240,11 +225,11 @@
         depends="prj-zip, prj-cli, prj-bzip2, prj-baxter, prj-io, prj-loader,
                 prj-naming, prj-jprocess, prj-tar, prj-threadcontext, 
                 prj-collections, prj-converter, prj-i18n, prj-extension,
-                prj-concurrent, prj-containerkit, prj-altrmi, prj-info,
+                prj-concurrent, prj-altrmi,
                 prj-container, prj-cache, prj-configuration, prj-event,
                 prj-thread, prj-monitor, prj-fortress, prj-datasource,
                 prj-instrument, prj-store, prj-logger, prj-meta, prj-policy,
-                prj-pool, prj-tweety, prj-util, prj-xmlutil,
+                prj-pool, prj-util, prj-xmlutil,
                 prj-sourceresolve, prj-instrument-client,
                 prj-instrument-manager, prj-component, prj-assembly,
                 prj-testcase "/>
