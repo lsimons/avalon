@@ -21,6 +21,7 @@
   -->
 
   <resources>
+
     <resource>
       <info>
         <group>avalon-framework</group>
@@ -45,6 +46,7 @@
         <type>jar</type>
       </info>
     </resource>
+
   </resources>
 
   <!--
@@ -102,21 +104,12 @@
       </dependencies>
     </project>
 
-  </projects>
-
-
-  <!--
-  Declaration of the local plugins.
-  -->
-
-  <xplugins>
-
-    <plugin basedir="plugins/manager">
+    <project basedir="plugins/manager">
       <info>
         <group>avalon/magic</group>
         <name>manager</name>
         <version>1.0</version>
-        <type>jar</type>
+        <type>plugin</type>
       </info>
       <dependencies>
         <resources>
@@ -124,14 +117,14 @@
           <resourceref key="avalon-framework-impl"/>
         </resources>
       </dependencies>
-    </plugin>
+    </project>
 
-    <plugin basedir="plugins/prepare">
+    <project basedir="plugins/prepare">
       <info>
         <group>avalon/magic</group>
         <name>prepare</name>
         <version>1.0</version>
-        <type>jar</type>
+        <type>plugin</type>
       </info>
       <dependencies>
         <resources>
@@ -141,14 +134,14 @@
           <pluginref key="manager"/>
         </plugins>
       </dependencies>
-    </plugin>
+    </project>
 
-    <plugin basedir="plugins/compile">
+    <project basedir="plugins/compile">
       <info>
         <group>avalon/magic</group>
         <name>compile</name>
         <version>1.0</version>
-        <type>jar</type>
+        <type>plugin</type>
       </info>
       <dependencies>
         <resources>
@@ -159,8 +152,13 @@
           <pluginref key="prepare"/>
         </plugins>
       </dependencies>
-    </plugin>
+    </project>
 
-  </xplugins>
+  </projects>
+
+
+  <!--
+  Declaration of the local plugins.
+  -->
 
 </system>

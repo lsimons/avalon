@@ -61,9 +61,6 @@ public class Home
     private final File m_home;
 
     private final Hashtable m_resources = new Hashtable();
-    private final Hashtable m_definitions = new Hashtable();
-    private final Hashtable m_plugins = new Hashtable();
-
 
     public Home( Project project, File file )
     {
@@ -77,7 +74,6 @@ public class Home
         final Element repo = ElementHelper.getChild( root, "repository" );
         final Element resources = ElementHelper.getChild( root, "resources" );
         final Element projects = ElementHelper.getChild( root, "projects" );
-        final Element plugins = ElementHelper.getChild( root, "xplugins" );
 
         //
         // construct the repository
@@ -98,14 +94,6 @@ public class Home
         //
 
         buildProjectList( projects );
-
-        //
-        // build the definition of the available plugins  
-        // used within the system
-        //
-
-        buildPluginList( plugins );
-
     }
 
     private void buildResourceList( Element resources )
@@ -137,40 +125,9 @@ public class Home
             Definition definition = 
               XMLDefinitionBuilder.createDefinition( m_home, element );
             String key = definition.getKey();
-            m_definitions.put( key, definition );
+            m_resources.put( key, definition );
             m_project.log( 
               "project: " + definition + " key=" + key, Project.MSG_DEBUG );
-        }
-    }
-
-
-    private void buildPluginList( Element element )
-    {
-
-        System.out.println( "\n# PLUGINS ELEMENT: " + element );
-
-        if( null != element )
-        {
-            System.out.println( 
-                "# LENGTH: " + element.getChildNodes().getLength() );
-
-            Element[] plugins = ElementHelper.getChildren( element, "plugin" );
-
-            System.out.println( "# PLUGINS LENGTH: " + plugins.length );
-
-            m_project.log( "plugins: " + plugins.length, Project.MSG_DEBUG );
-            for( int i=0; i<plugins.length; i++ )
-            {
-                Element child = plugins[i];
-                Plugin plugin = 
-                  XMLDefinitionBuilder.createPlugin( m_home, child );
-                String key = plugin.getKey();
-                m_plugins.put( key, plugin );
-                m_project.log( 
-                  "plugin: " + plugin + " key=" + key, Project.MSG_DEBUG );
-                System.out.println( 
-                  "plugin: " + plugin + " key=" + key );
-            }
         }
     }
 
@@ -200,19 +157,6 @@ public class Home
         return getDefinition( ref.getKey() );
     }
 
-    public Definition getDefinition( String key )
-      throws BuildException
-    {
-        Definition def = (Definition) m_definitions.get( key );
-        if( null == def )
-        {
-            final String error = 
-              "Unknown definition [" + key + "]";
-            throw new BuildException( error );
-        }
-        return def;
-    }
-
     public Resource getResource( ResourceRef ref )
       throws BuildException
     {
@@ -227,20 +171,24 @@ public class Home
         return resource;
     }
 
-    public Plugin getPlugin( PluginRef ref )
+    public Definition getDefinition( String key )
       throws BuildException
     {
-        final String key = ref.getKey();
-        Plugin plugin = (Plugin) m_plugins.get( key );
-        if( null == plugin )
+        Resource def = (Resource) m_resources.get( key );
+        if( null == def )
         {
             final String error = 
-              "Unknown plugin [" + key + "]";
+              "Unknown definition [" + key + "]";
             throw new BuildException( error );
         }
-        return plugin;
+        if( !( def instanceof Definition ) )
+        {
+            final String error =
+              "Key [" + key + "] is not project.";
+            throw new BuildException( error );
+        }
+        return (Definition) def;
     }
-
 
     public void build( Definition definition )
     {
@@ -283,8 +231,8 @@ public class Home
         PluginRef[] pluginRefs = definition.getPluginRefs();
         for( int i=0; i<pluginRefs.length; i++ )
         {
-            Plugin plugin = getPlugin( pluginRefs[i] );
-            getBuildSequence( visited, targets, plugin );
+            Definition def = getDefinition( pluginRefs[i] );
+            getBuildSequence( visited, targets, def );
         }
         ProjectRef[] refs = definition.getProjectRefs();
         for( int i=0; i<refs.length; i++ )
@@ -304,7 +252,7 @@ public class Home
         PluginRef[] pluginRefs = definition.getPluginRefs();
         for( int i=0; i<pluginRefs.length; i++ )
         {
-            Plugin plugin = getPlugin( pluginRefs[i] );
+            Definition plugin = getDefinition( pluginRefs[i] );
             if( visited.contains( plugin ) )
             {
                 final String error =
