@@ -31,6 +31,9 @@ import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.types.FileSet;
 
 import org.apache.avalon.tools.home.Context;
+import org.apache.avalon.tools.project.Definition;
+import org.apache.avalon.tools.project.PluginRef;
+import org.apache.avalon.tools.project.Plugin;
 
 /**
  * Load a goal. 
@@ -38,7 +41,7 @@ import org.apache.avalon.tools.home.Context;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class PrepareTask extends ContextualTask
+public class PrepareTask extends SystemTask
 {
     private static final String SRC_FILTERED_INCLUDES_KEY = 
       "project.prepare.src.filtered.includes";
@@ -66,6 +69,32 @@ public class PrepareTask extends ContextualTask
     public void execute() throws BuildException 
     {
         Project project = getProject();
+
+        //
+        // if the project declares plugin dependencies then install
+        // these now
+        //
+
+        String key = getContext().getKey();
+        Definition def = getHome().getDefinition( key );
+        PluginRef[] refs = def.getPluginRefs();
+        for( int i=0; i<refs.length; i++ )
+        {
+            PluginRef ref = refs[i];
+            Plugin plugin = getHome().getPlugin( ref );
+            String path = "plugin:" + plugin.getInfo().getSpec();
+            PluginTask task = new PluginTask();
+            task.setTaskName( "plugin" );
+            task.setProject( project );
+            task.setArtifact( path );
+            task.init();
+            task.execute();            
+        }
+
+        //
+        // setup the file system
+        //
+
         File target = getContext().getTargetDirectory();
         if( !target.exists() )
         {

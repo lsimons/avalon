@@ -213,7 +213,7 @@ public class XMLDefinitionBuilder
             Element child = children[i];
             String key = child.getAttribute( "key" );
             String tag = child.getAttribute( "tag" );
-            Policy policy = createPolicy( child );
+            Policy policy = createPolicy( child, false, false, false );
             refs[i] = new PluginRef( key, policy, tag );
         }
         return refs;
@@ -221,12 +221,18 @@ public class XMLDefinitionBuilder
 
     private static Policy createPolicy( Element element )
     {
+        return createPolicy( element, true, true, true );
+    }
+
+    private static Policy createPolicy( 
+      Element element, boolean defBuild, boolean defTest, boolean defRuntime )
+    {
         boolean build = 
-          ElementHelper.getBooleanAttribute( element, "build", true );
+          ElementHelper.getBooleanAttribute( element, "build", defBuild );
         boolean test = 
-          ElementHelper.getBooleanAttribute( element, "test", true );
+          ElementHelper.getBooleanAttribute( element, "test", defTest );
         boolean runtime = 
-          ElementHelper.getBooleanAttribute( element, "runtime", true );
+          ElementHelper.getBooleanAttribute( element, "runtime", defRuntime );
         return new Policy( build, test, runtime );
     }
 }

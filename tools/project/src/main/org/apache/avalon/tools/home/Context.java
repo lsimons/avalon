@@ -71,6 +71,11 @@ public class Context extends Task
 
     public static Context getContext( Project project )
     {
+        if( null == project )
+        {
+            throw new NullPointerException( "project" );
+        }
+
         Context context = (Context) project.getReference( KEY );
         if( null == context )
         {

@@ -130,6 +130,19 @@ public class Info
         return buffer.toString();
     }
 
+    public String getSpec()
+    {
+        StringBuffer buffer = new StringBuffer( getGroup() );
+        buffer.append( "/" );
+        buffer.append( getName() );
+        if( null != getVersion() )
+        {
+            buffer.append( "#" );
+            buffer.append( getVersion() );
+        }
+        return buffer.toString();
+    }
+
     public String toString()
     {
         return getURI();
