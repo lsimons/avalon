@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="avalon" default="install" basedir="." 
+<project name="avalon-trunk" default="install" basedir="." 
   xmlns:x="antlib:org.apache.avalon.tools">
 
   <available property="magic.available" classname="org.apache.avalon.tools.model.Home" >
