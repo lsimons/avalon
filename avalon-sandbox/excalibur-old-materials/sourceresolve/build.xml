@@ -30,8 +30,6 @@
 
     <target name="dependencies" description="Check dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCollections"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkConcurrent"/>
     </target>
 
     <!-- Compiles the source code -->
