@@ -2,12 +2,12 @@
 
 <project>
 
-  <extend>${basedir}/../../../project.xml</extend>
+  <extend>${basedir}/../../project.xml</extend>
 
   <groupId>avalon-logging</groupId>
   <id>avalon-logkit-test</id>
   <name>Avalon Logkit Logging Test</name>
-  <package>org.apache.avalon.logging.logkit</package>
+  <package>org.apache.avalon.logging.logkit.test</package>
   <currentVersion>1.0-SNAPSHOT</currentVersion>
 
   <inceptionYear>2002</inceptionYear>

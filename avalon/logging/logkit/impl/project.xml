@@ -2,7 +2,7 @@
 
 <project>
 
-  <extend>${basedir}/../../../project.xml</extend>
+  <extend>${basedir}/../../project.xml</extend>
 
   <groupId>avalon-logging</groupId>
   <id>avalon-logkit-impl</id>
