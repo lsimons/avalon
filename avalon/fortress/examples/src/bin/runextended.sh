@@ -34,8 +34,12 @@ done
 
 CP=${CP}:${EXAMPLE_HOME}/build/classes
 
+if [ "$TERM" = "cygwin" ] ; then
+	CP=`cygpath --windows --path $CP`
+fi
+
 echo $CP
 
 # Run the example application
-$JAVACMD -classpath $CP org.apache.excalibur.fortress.examples.extended.Main $@
+$JAVACMD -classpath "$CP" org.apache.excalibur.fortress.examples.extended.Main $@
 
