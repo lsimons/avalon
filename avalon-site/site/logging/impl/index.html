@@ -211,7 +211,24 @@
       <small>
       	
       	
-      		<a href="../about/index.html">Overview</a>
+      		<a href="../index.html">Overview</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../spec/index.html">Specification</a>
       	
       </small>
 	  
@@ -284,7 +301,7 @@
       <small>
       	
       	
-      		<a href="../resources/download.html">Download</a>
+      		<a href="../download.html">Download</a>
       	
       </small>
 	  
@@ -297,6 +314,23 @@
     <div>
       <strong>Related Projects</strong>
       
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="http://avalon.apache.org/merlin">Merlin</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
     
     
     
@@ -406,6 +440,146 @@
         </h3>
       
       
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Implementation Model">Implementation Model</a>
+        </h4>
+      
+      
+    <p>
+      
+        The Avalon Logging system is defined by an API.  This API declares
+        a set of interfaces for use by plugable implementations.  Currently
+        we have one default plugable implementation which is based on the 
+        Avalon LogKit solution.
+        
+    </p>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Plugins">Plugins</a>
+        </h4>
+      
+      
+    
+    <table border="1" width="100%" cellspacing="2" cellpadding="3">
+      
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
+    <th>
+      Plugin
+    </th>
+   
+    <th>
+      Description
+    </th>
+   </tr>
+  
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <td>
+      
+    <a href="logkit/index.html">LogKit</a>
+  
+    </td>
+   
+    <td>
+      
+            The Avalon LogKit plugin provides support for four standard log 
+            targets.  These include a rotating file target, a console target, 
+            a multiplex target, and a plugin target.  The plugin target provides
+            support for the dynamic loading of new targets based on a artifact
+            identifier.
+            
+    </td>
+   </tr>
+  
+    </table>
+  
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Code Example">Code Example</a>
+        </h4>
+      
+      
+    <p>
+      
+        The following code is an example of a application loading 
+        and instantiating the Avalon Logging LogKit pluging.
+        
+    </p>
+   
+    <div id="source">
+      <pre>
+
+        File dir = new File( System.getProperty( "user.dir" ) );
+
+        // 
+        // create an initial context
+        //
+
+        DefaultInitialContextFactory initial = 
+           new DefaultInitialContextFactory( "avalon", dir );
+        initial.setCacheDirectory( getRepositoryDirectory() );
+        InitialContext context = initial.createInitialContext();
+
+        //
+        // get the plugin reference
+        //
+
+        Artifact artifact = Artifact.createArtifact( 
+          "artifact:avalon-logging/avalon-logkit-impl#1.0-SNAPSHOT" );
+
+        //
+        // build the plugin
+        //
+
+        Builder builder = context.newBuilder( artifact );
+        Factory factory = builder.getFactory();
+
+        //
+        // customize the plugin to you environment
+        //
+
+        File file = new File( dir, "logging.xml" );
+        Map criteria = factory.createDefaultCriteria();
+        criteria.put( "avalon.logging.configuration", file );
+        criteria.put( "avalon.logging.basedir", dir );
+
+        //
+        // create the logging manager
+        //
+
+        LoggingManager manager = (LoggingManager) factory.create( criteria );
+        </pre>
+    </div>
+  
+    </div>
+  
     </div>
   
                   
