@@ -8,6 +8,7 @@
 package org.apache.avalon.phoenix.components.phases;
 
 import org.apache.avalon.phoenix.Block;
+import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
 
 /**
  * Class containing utility methods for blocks.
@@ -23,7 +24,7 @@ public final class BlockUtil
     {
     }
 
-    public static boolean implementsService( final Block block,  final ServiceDescriptor service )
+    public static boolean implementsService( final Block block, final ServiceDescriptor service )
     {
         try
         {
