@@ -9,7 +9,6 @@ package org.apache.avalon.cornerstone.services.security;
 
 import java.security.Principal;
 import java.util.Iterator;
-import org.apache.avalon.phoenix.Service;
 
 /**
  * Interface for a Realm.

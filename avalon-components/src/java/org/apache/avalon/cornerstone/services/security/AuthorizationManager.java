@@ -10,7 +10,6 @@ package org.apache.avalon.cornerstone.services.security;
 import java.security.AccessControlException;
 import java.security.Permission;
 import java.security.Principal;
-import org.apache.avalon.phoenix.Service;
 
 /**
  * Service to manage authorization.
