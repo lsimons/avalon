@@ -60,7 +60,7 @@ import org.apache.avalon.framework.service.ServiceManager;
  * adding configuration markup semantics to the {@link AbstractContainer}.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.13 $ $Date: 2003/05/02 04:15:20 $
+ * @version CVS $Revision: 1.14 $ $Date: 2003/05/20 13:05:41 $
  */
 public class DefaultContainer
     extends AbstractContainer
@@ -71,23 +71,46 @@ public class DefaultContainer
      * mappings. At this point, all components are prepared and all mappings
      * are made. However, nothing is initialized.</p>
      *
-     * <p>The native Configuration format follows a specific convention.  If
-     * you use a RoleManager to map roles and implementations to more helpful
-     * names, we will internally rewrite the configuration to match this
-     * format.  Please note: If a configuration element does
-     * <strong>not</strong> have a unique id, it will not be treated as a
-     * Component.  That ID is used as the hint when there is more than one
-     * implementation of a role.</p>
+     * <p>The configuration format follows a specific convention:</p>
+     * <ul>
+     *   <li>root configuration element may have any name.</li>
+     *   <li>
+     *     child configuration elements are named after short names
+     *     managed by the <code>Container</code>'s
+     *     <code>MetaInfoManager</code> or <code>RoleManager</code>
+     *   </li>
+     *   <li>
+     *     alternatively <code>&lt;component&gt;</code> configuration elements
+     *     may be used. These elements specify implementation class directly
+     *     via the <code>class</code> attribute.
+     *   </li>
+     * </ul>
+     *
+     * <p>Please note: each configuration element <strong>must</strong>
+     * have a unique id. If a configuration element does <strong>not</strong> 
+     * have a unique id, it will not be treated as a component. 
+     * This id is used later as a hint when there is more than one implementation
+     * of a role.</p>
+     *
+     * <p>The first component encourted which implements a specific role becomes
+     * the default implemenation of that role. This can be changed by the
+     * <code>default</code> attribute in this configuration.</p>
      *
      * <pre>
-     *   &lt;component role="org.apache.avalon.excalibur.datasource.DataSourceComponent"
-     *                 id="default-connection"
-     *                 class="org.apache.avalon.excalibur.datasource.JdbcDataSourceComponent"
-     *                 handler="org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler"&gt;
+     *   &lt;my-config&gt;
+     *     &lt;component id="default-connection"
+     *                   class="org.apache.avalon.excalibur.datasource.JdbcDataSourceComponent"&gt;
      *
-     *    &lt;!-- Component specific configuration --&gt;
+     *       &lt;!-- Component specific configuration --&gt;
      *
-     *  &lt;/component&gt;
+     *     &lt;/component&gt;
+     * 
+     *     &lt;jdbc-data-source id="another-connection"&gt;
+     *
+     *         &lt;!-- Component specific configuration --&gt;
+     *
+     *     &lt;/jdbc-data-source&gt;
+     *   &lt;/my-config&gt;
      * </pre>
      *
      * @param config  The configuration element to translate into the
