@@ -13,8 +13,13 @@
        token="MERLIN_IMPLEMENTATION"/>
     <x:filter key="avalon-activation-impl" feature="uri" 
        token="STANDARD_RUNTIME"/>
-    <filter token="CACHE-DIRECTORY"
-       value="${project.home.cache.dir}"/>
+    <x:filter feature="system-classpath-for-windows" 
+       token="WINDOWS-CLI-CLASSPATH"/>
+    <x:filter feature="system-classpath-for-unix" 
+       token="UNIX-CLI-CLASSPATH"/>
+  </target>
+
+  <target name="package" depends="standard.package">
   </target>
 
 </project>
