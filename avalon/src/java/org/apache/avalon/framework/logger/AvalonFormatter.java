@@ -15,14 +15,32 @@ import org.apache.log.format.PatternFormatter;
  * This formatter extends PatternFormatter so that
  * CascadingExceptions are formatted with all nested exceptions.
  *
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
 public class AvalonFormatter
     extends PatternFormatter
 {
+    //The depth to which stacktraces are printed out
+    private final int m_stackDepth;
+
+    /**
+     * Construct the formatter with the specified pattern 
+     * and which which prints out exceptions to stackDepth of 8.
+     */
     public AvalonFormatter( final String pattern )
     {
+        this( pattern, 8 );
+    }
+
+    /**
+     * Construct the formatter with the specified pattern 
+     * and which which prints out exceptions to stackDepth specified.
+     */
+    public AvalonFormatter( final String pattern, final int stackDepth )
+    {
         super( pattern );
+        m_stackDepth = stackDepth;
     }
 
     /**
@@ -35,18 +53,6 @@ public class AvalonFormatter
     protected String getStackTrace( final Throwable throwable, final String format )
     {
         if( null == throwable ) return "";
-        return ExceptionUtil.printStackTrace( throwable, 8, true );
-    }
-
-    /**
-     * Utility method to format time.
-     *
-     * @param time the time
-     * @param format ancilliary format parameter - allowed to be null
-     * @return the formatted string
-     */
-    protected String getTime( final long time, final String format )
-    {
-        return String.valueOf(System.currentTimeMillis());
+        return ExceptionUtil.printStackTrace( throwable, m_stackDepth, true );
     }
 }
