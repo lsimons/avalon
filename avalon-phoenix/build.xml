@@ -600,7 +600,7 @@ Legal:
   </target>
 
   <!-- Makes the Phoneix Development Kit -->
-  <target name="make-pdk" depends="compile">
+  <target name="make-pdk" depends="compile" description="Generates a dual mode example Phoenix application">
 
     <zip file="${dist.base}/phoenix-devkit.zip">
       <fileset dir="src/pdk">
