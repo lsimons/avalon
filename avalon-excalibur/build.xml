@@ -95,8 +95,8 @@
     <!-- Generate one mega jar-ball -->
     <target name="mega-jar" description="Generate one large jar for all the products">
         <ant dir="all" target="all"/>
-        <ant dir="baxter" target="all"/>
-        <ant dir="bzip2" target="all"/>
+        <ant dir="baxter" target="jar"/>
+        <ant dir="bzip2" target="jar"/>
         <ant dir="cache" target="jar"/>
         <ant dir="cli" target="jar"/>
         <ant dir="extension" target="jar"/>
