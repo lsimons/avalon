@@ -226,7 +226,7 @@ import org.apache.log.output.io.StreamTarget;
  * @deprecated ECM is no longer supported
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Id: ExcaliburTestCase.java,v 1.4 2004/02/25 10:33:10 niclas Exp $
+ * @version $Id: ExcaliburTestCase.java,v 1.5 2004/02/25 21:20:20 leosutic Exp $
  */
 public class ExcaliburTestCase
     extends TestCase
@@ -560,14 +560,14 @@ public class ExcaliburTestCase
 
         // Set up the ComponentLocator
         String cmLoggerName = confCM.getAttribute( "logger", "cm" );
-        ExcaliburComponentManager manager = new ExcaliburComponentManager();
-        manager.setLogger( logKitManager.getLogger( cmLoggerName ) );
-        manager.setLogKitManager( logKitManager );
-        manager.contextualize( context );
-        manager.setRoleManager( roleManager );
-        manager.configure( confCM );
-        manager.initialize();
-        m_manager = manager;
+        ExcaliburComponentManager ecManager = new ExcaliburComponentManager();
+        ecManager.setLogger( logKitManager.getLogger( cmLoggerName ) );
+        ecManager.setLogKitManager( logKitManager );
+        ecManager.contextualize( context );
+        ecManager.setRoleManager( roleManager );
+        ecManager.configure( confCM );
+        ecManager.initialize();
+        m_manager = ecManager;
     }
 
     protected final Object lookup( final String key )
