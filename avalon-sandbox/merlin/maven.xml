@@ -61,11 +61,14 @@
     will included in the JVM bootstrap process.
     -->
     <ant:copy 
-       file="${merlin.build.inst.dir}/repository/xml-apis/jars/xml-apis-1.0.b2.jar" 
+       file="${merlin.build.inst.dir}/repository/xml-apis/jars/xml-apis-2.0.2.jar" 
+       toDir="${merlin.build.inst.dir}/ext"/>
+    <ant:copy 
+       file="${merlin.build.inst.dir}/repository/xml-apis/jars/xmlParserAPIs-2.0.2.jar" 
        toDir="${merlin.build.inst.dir}/ext"/>
     <delete dir="${merlin.build.inst.dir}/repository/xml-apis"/>
     <ant:copy 
-       file="${merlin.build.inst.dir}/repository/xerces/jars/xerces-2.2.1.jar" 
+       file="${merlin.build.inst.dir}/repository/xerces/jars/xerces-2.4.0.jar" 
        toDir="${merlin.build.inst.dir}/ext"/>
     <delete dir="${merlin.build.inst.dir}/repository/xerces"/>
 
@@ -94,14 +97,14 @@
 
   </goal>
 
-  <goal name="merlin-package">
+  <goal name="package">
     <attainGoal name="merlin-clean"/>
     <attainGoal name="merlin-dist"/>
     <attainGoal name="merlin-site"/>
-    <attainGoal name="package"/>
+    <attainGoal name="merlin-package"/>
   </goal>
 
-  <goal name="package">
+  <goal name="merlin-package">
     <maven:snapshot project="${pom}"/>    
     <j:set var="timestamp" value="${snapshotSignature.substring(7,15)}"/>
     <j:set var="package.name" value="${maven.final.name}-dist-${timestamp}"/>
