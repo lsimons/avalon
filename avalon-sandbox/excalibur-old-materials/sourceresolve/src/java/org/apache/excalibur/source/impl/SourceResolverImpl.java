@@ -54,7 +54,7 @@ import org.apache.excalibur.source.SourceResolver;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.7 2002/05/13 12:17:40 donaldp Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.8 2002/06/13 12:59:10 bloritsch Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
@@ -209,13 +209,12 @@ public class SourceResolverImpl
             // windows: absolute paths can start with drive letter
             if( location.length() > 2 && location.charAt( 2 ) == ':' )
             {
-                systemID = new StringBuffer( "file:" ).append( location ).toString();
+                systemID = "file:" + location;
             }
             else
             {
                 final int protocolEnd = baseURI.indexOf( ':' );
-                systemID = new StringBuffer( baseURI.substring( 0, protocolEnd + 1 ) )
-                    .append( location ).toString();
+                systemID = baseURI.substring( 0, protocolEnd + 1 ) + location;
             }
         }
         else if( location.indexOf( ":" ) > 1 )
@@ -225,7 +224,7 @@ public class SourceResolverImpl
         // windows: absolute paths can start with drive letter
         else if( location.length() > 1 && location.charAt( 1 ) == ':' )
         {
-            systemID = new StringBuffer( "file:/" ).append( location ).toString();
+            systemID = "file:/" + location;
         }
         else
         {
@@ -234,7 +233,7 @@ public class SourceResolverImpl
                 File temp = new File( baseURI.substring( "file:".length() ), location );
                 String path = temp.getAbsolutePath();
                 // windows paths starts with drive letter
-                if( path.charAt( 0 ) != File.separator.charAt( 0 ) )
+                if( path.charAt( 0 ) != File.separatorChar )
                 {
                     systemID = "file:/" + path;
                 }

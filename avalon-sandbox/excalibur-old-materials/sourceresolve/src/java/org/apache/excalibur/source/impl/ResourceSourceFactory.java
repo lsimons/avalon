@@ -20,7 +20,7 @@ import org.apache.excalibur.source.SourceFactory;
  * A factory for the Resource protocol
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: ResourceSourceFactory.java,v 1.4 2002/05/13 12:17:40 donaldp Exp $
+ * @version $Id: ResourceSourceFactory.java,v 1.5 2002/06/13 12:59:10 bloritsch Exp $
  */
 public class ResourceSourceFactory
     extends AbstractLogEnabled
@@ -34,9 +34,9 @@ public class ResourceSourceFactory
     public Source getSource( String location, Map parameters )
         throws MalformedURLException, IOException, SourceException
     {
-        if( this.getLogger().isDebugEnabled() )
+        if( getLogger().isDebugEnabled() )
         {
-            this.getLogger().debug( "Creating source object for " + location );
+            getLogger().debug( "Creating source object for " + location );
         }
         return new ResourceSource( location );
     }

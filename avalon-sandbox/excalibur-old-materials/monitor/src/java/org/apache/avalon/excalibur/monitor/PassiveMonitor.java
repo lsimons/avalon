@@ -14,7 +14,7 @@ import java.util.Map;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
 
 /**
@@ -34,10 +34,10 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: PassiveMonitor.java,v 1.8 2002/05/13 12:17:40 donaldp Exp $
+ * @version $Id: PassiveMonitor.java,v 1.9 2002/06/13 12:59:10 bloritsch Exp $
  */
 public final class PassiveMonitor
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements Monitor, ThreadSafe, Configurable
 {
     private static final Class[] m_constructorParams = new Class[]{String.class};
