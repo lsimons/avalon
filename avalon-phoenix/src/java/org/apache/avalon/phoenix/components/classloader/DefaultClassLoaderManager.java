@@ -8,19 +8,15 @@
 package org.apache.avalon.phoenix.components.classloader;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.JarURLConnection;
 import java.net.URL;
 import java.security.Policy;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.jar.Manifest;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.avalon.excalibur.extension.Extension;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.packagemanager.ExtensionManager;
-import org.apache.avalon.excalibur.packagemanager.OptionalPackage;
 import org.apache.avalon.excalibur.packagemanager.PackageManager;
+import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.ConfigurationUtil;
@@ -32,6 +28,13 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
+import org.apache.excalibur.loader.builder.LoaderBuilder;
+import org.apache.excalibur.loader.builder.LoaderResolver;
+import org.apache.excalibur.loader.metadata.ClassLoaderMetaData;
+import org.apache.excalibur.loader.metadata.ClassLoaderSetMetaData;
+import org.apache.excalibur.loader.metadata.FileSetMetaData;
+import org.apache.excalibur.loader.metadata.JoinMetaData;
+import org.apache.excalibur.loader.verifier.ClassLoaderVerifier;
 import org.apache.excalibur.policy.builder.PolicyBuilder;
 import org.apache.excalibur.policy.metadata.PolicyMetaData;
 import org.apache.excalibur.policy.reader.PolicyReader;
@@ -54,11 +57,8 @@ import org.w3c.dom.Element;
  */
 public class DefaultClassLoaderManager
     extends AbstractLogEnabled
-    implements ClassLoaderManager, Contextualizable, Serviceable
+    implements ClassLoaderManager, Contextualizable, Serviceable, Initializable
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( DefaultClassLoaderManager.class );
-
     /**
      * Component to manage "Optional Packages" aka
      * Extensions to allow programs to declare dependencies
@@ -71,6 +71,22 @@ public class DefaultClassLoaderManager
      * aka as the "common" classloader.
      */
     private ClassLoader m_commonClassLoader;
+
+    /**
+     * The utility class used to verify {@link ClassLoaderMetaData} objects.
+     */
+    private final ClassLoaderVerifier m_verifier = new ClassLoaderVerifier();
+
+    /**
+     * Utility class to build map of {@link ClassLoader} objects.
+     */
+    private final LoaderBuilder m_builder = new LoaderBuilder();
+
+    /**
+     * The map of predefined ClassLoaders. In the current incarnation this only
+     * contains the system classloader.
+     */
+    private Map m_predefinedLoaders;
 
     /**
      * Pass the Context to the Manager.
@@ -86,15 +102,31 @@ public class DefaultClassLoaderManager
     public void contextualize( Context context )
         throws ContextException
     {
-        m_commonClassLoader = (ClassLoader) context.get( "common.classloader" );
+        m_commonClassLoader = (ClassLoader)context.get( "common.classloader" );
     }
 
+    /**
+     * @avalon.dependency interface="ExtensionManager"
+     */
     public void service( final ServiceManager serviceManager )
         throws ServiceException
     {
         final ExtensionManager extensionManager =
-            (ExtensionManager) serviceManager.lookup( ExtensionManager.ROLE );
+            (ExtensionManager)serviceManager.lookup( ExtensionManager.ROLE );
         m_packageManager = new PackageManager( extensionManager );
+    }
+
+    /**
+     * Setup the map of predefined classloaders.
+     *
+     * @throws Exception if unable to setup map
+     */
+    public void initialize()
+        throws Exception
+    {
+        final Map defined = new HashMap();
+        defined.put( "*system*", m_commonClassLoader );
+        m_predefinedLoaders = Collections.unmodifiableMap( defined );
     }
 
     /**
@@ -118,141 +150,87 @@ public class DefaultClassLoaderManager
                                           final String[] classPath )
         throws Exception
     {
-        if( getLogger().isDebugEnabled() )
-        {
-            final String message =
-                REZ.getString( "classpath-entries",
-                               Arrays.asList( classPath ) );
-            getLogger().debug( message );
-        }
-
         //Configure policy
         final Configuration policyConfig = environment.getChild( "policy" );
         final Policy policy =
             configurePolicy( policyConfig, homeDirectory, workDirectory );
 
-        final File[] extensions = getOptionalPackagesFor( classPath );
-        if( getLogger().isDebugEnabled() )
-        {
-            final String message =
-                REZ.getString( "optional-packages-added", Arrays.asList( extensions ) );
-            getLogger().debug( message );
-        }
+        final ClassLoaderSetMetaData metaData =
+            getLoaderMetaData( environment );
 
-        final URL[] urls = new URL[ classPath.length ];
-        for( int i = 0; i < urls.length; i++ )
-        {
-            urls[ i ] = new URL( classPath[ i ] );
-        }
+        m_verifier.verifyClassLoaderSet( metaData );
 
-        final PolicyClassLoader classLoader =
-            new PolicyClassLoader( urls, m_commonClassLoader, policy );
-        setupLogger( classLoader, "classloader" );
-
-        for( int i = 0; i < extensions.length; i++ )
-        {
-            final URL url = extensions[ i ].toURL();
-            classLoader.addURL( url );
-        }
-
-        return classLoader;
+        final LoaderResolver resolver =
+            new SarLoaderResolver( m_packageManager, policy,
+                                   homeDirectory, workDirectory );
+        setupLogger( resolver );
+        final Map map =
+            m_builder.buildClassLoaders( metaData, resolver, m_predefinedLoaders );
+        return (ClassLoader)map.get( metaData.getDefault() );
     }
 
     /**
-     * Retrieve the files for the optional packages required by
-     * the jars in ClassPath.
+     * Extract the {@link ClassLoaderMetaData} from the environment
+     * configuration. If no &lt;classloader/&gt; section is defined
+     * in the config file then a default metadata will be created.
      *
-     * @param classPath the Classpath array
-     * @return the files that need to be added to ClassLoader
+     * @param environment the environment configuration
+     * @return the {@link ClassLoaderMetaData} object
      */
-    private File[] getOptionalPackagesFor( final String[] classPath )
-        throws Exception
+    private ClassLoaderSetMetaData getLoaderMetaData( final Configuration environment )
     {
-        final Manifest[] manifests = getManifests( classPath );
-        final Extension[] available = Extension.getAvailable( manifests );
-        final Extension[] required = Extension.getRequired( manifests );
-
-        if( getLogger().isDebugEnabled() )
+        final boolean loaderDefined = isClassLoaderDefined( environment );
+        if( !loaderDefined )
         {
-            final String message1 =
-                REZ.getString( "available-extensions",
-                               Arrays.asList( available ) );
-            getLogger().debug( message1 );
-            final String message2 =
-                REZ.getString( "required-extensions",
-                               Arrays.asList( required ) );
-            getLogger().debug( message2 );
+            return createDefaultLoaderMetaData();
         }
-
-        final ArrayList dependencies = new ArrayList();
-        final ArrayList unsatisfied = new ArrayList();
-
-        m_packageManager.scanDependencies( required,
-                                           available,
-                                           dependencies,
-                                           unsatisfied );
-
-        if( 0 != unsatisfied.size() )
+        else
         {
-            final int size = unsatisfied.size();
-            for( int i = 0; i < size; i++ )
-            {
-                final Extension extension = (Extension) unsatisfied.get( i );
-                final Object[] params = new Object[]
-                {
-                    extension.getExtensionName(),
-                    extension.getSpecificationVendor(),
-                    extension.getSpecificationVersion(),
-                    extension.getImplementationVendor(),
-                    extension.getImplementationVendorID(),
-                    extension.getImplementationVersion(),
-                    extension.getImplementationURL()
-                };
-                final String message = REZ.format( "missing.extension", params );
-                getLogger().warn( message );
-            }
-
-            final String message =
-                REZ.getString( "unsatisfied.extensions", new Integer( size ) );
-            throw new Exception( message );
+            throw new IllegalStateException( "Not implemented yet");
         }
-
-        final OptionalPackage[] packages =
-            (OptionalPackage[]) dependencies.toArray( new OptionalPackage[ 0 ] );
-        return OptionalPackage.toFiles( packages );
     }
 
-    private Manifest[] getManifests( final String[] classPath )
-        throws Exception
+    /**
+     * Create the default {@link ClassLoaderSetMetaData}. The
+     * default metadata includes all jars in the /SAR-INF/lib/ directory
+     * in addition to the /SAR-INF/classes/ directory.
+     *
+     * @return the default {@link ClassLoaderSetMetaData} object
+     */
+    private ClassLoaderSetMetaData createDefaultLoaderMetaData()
     {
-        final ArrayList manifests = new ArrayList();
+        final String[] includes = new String[]{"SAR-INF/lib/*.jar"};
+        final String[] excludes = new String[ 0 ];
+        final FileSetMetaData fileSet =
+            new FileSetMetaData( ".",
+                                 includes,
+                                 excludes );
+        final String name = "default";
+        final String parent = "*system*";
+        final String[] entrys = new String[]{"SAR-INF/classes/"};
+        final Extension[] extensions = new Extension[ 0 ];
+        final FileSetMetaData[] filesets = new FileSetMetaData[]{fileSet};
+        final ClassLoaderMetaData loader =
+            new ClassLoaderMetaData( name, parent, entrys, extensions, filesets );
+        final String[] predefined = new String[]{parent};
+        final ClassLoaderMetaData[] classLoaders = new ClassLoaderMetaData[]{loader};
+        final JoinMetaData[] joins = new JoinMetaData[ 0 ];
+        return
+            new ClassLoaderSetMetaData( name,
+                                        predefined,
+                                        classLoaders,
+                                        joins );
+    }
 
-        for( int i = 0; i < classPath.length; i++ )
-        {
-            final String element = classPath[ i ];
-
-            if( element.endsWith( ".jar" ) )
-            {
-                try
-                {
-                    final URL url = new URL( "jar:" + element + "!/" );
-                    final JarURLConnection connection = (JarURLConnection) url.openConnection();
-                    final Manifest manifest = connection.getManifest();
-                    if( null != manifest )
-                    {
-                        manifests.add( manifest );
-                    }
-                }
-                catch( final IOException ioe )
-                {
-                    final String message = REZ.getString( "bad-classpath-entry", element );
-                    getLogger().warn( message );
-                    throw new Exception( message );
-                }
-            }
-        }
-
-        return (Manifest[]) manifests.toArray( new Manifest[ 0 ] );
+    /**
+     * Return true if environment config defines "classloader" element, false otherwise.
+     *
+     * @param environment the environment config
+     * @return true if environment config defines "classloader" element, false otherwise.
+     */
+    private boolean isClassLoaderDefined( final Configuration environment )
+    {
+        return null != environment.getChild( "classloader", false );
     }
 
     /**
