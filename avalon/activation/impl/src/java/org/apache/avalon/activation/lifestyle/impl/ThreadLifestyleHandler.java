@@ -24,7 +24,7 @@ import org.apache.avalon.framework.activity.Disposable;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/01/24 23:25:22 $
+ * @version $Revision: 1.7 $ $Date: 2004/02/05 19:12:05 $
  */
 public class ThreadLifestyleHandler extends AbstractLifestyleHandler implements Disposable
 {
@@ -58,7 +58,7 @@ public class ThreadLifestyleHandler extends AbstractLifestyleHandler implements 
             {
                 final String error = 
                   "Unable to establish thread local variable.";
-                throw new LifecycleRuntimeException( error );
+                throw new LifecycleRuntimeException( error, e );
             }
         }
     }
