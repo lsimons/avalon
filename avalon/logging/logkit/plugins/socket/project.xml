@@ -5,7 +5,7 @@
 
 <project>
 
-  <extend>${basedir}/../../../../project-common.xml</extend>
+  <extend>${avalon.buildsystem}/project-common.xml</extend>
 
   <groupId>&avalon-logging-id;</groupId>
   <id>&avalon-logging-logkit-socket-id;</id>

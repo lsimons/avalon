@@ -28,7 +28,7 @@ import org.apache.avalon.assembly.data.Profile;
  * Select one profile from the multiple profile provided.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/24 22:18:23 $
+ * @version $Revision: 1.1.2.1 $ $Date: 2004/04/27 07:55:15 $
  */
 public class RandomProfileSelector extends AbstractLogEnabled
     implements ProfileSelector

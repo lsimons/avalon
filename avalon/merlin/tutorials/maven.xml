@@ -1,0 +1,18 @@
+
+<project default="dist" xmlns:ant="jelly:ant" >
+
+  <preGoal name="dist:prepare-bin-filesystem" >
+<echo>
+${maven.build.dir}/production
+${maven.build.dir}/production
+${maven.src.dir}
+</echo>
+    <ant:mkdir dir="${maven.build.dir}/production" />
+    <ant:copy  todir="${maven.build.dir}/production" >
+      <fileset dir="${maven.src.dir}" >
+        <includes include="**" />
+        <excludes exclude="**/CVS" />
+      </fileset>
+    </ant:copy>
+  </preGoal>
+</project>

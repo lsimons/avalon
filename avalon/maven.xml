@@ -10,18 +10,16 @@
   ==============================================================================
   -->
 
-  <preGoal name="java:jar-resources">
-    <ant:filter token="AVALON-LOGGING-LOGKIT-SPEC" 
-        value="&avalon-logging-logkit-artifact-spec;"/>
-    <ant:filter token="MERLIN_IMPLEMENTATION" 
-        value="artifact:merlin/merlin-impl#&merlin-impl-version;"/>
-    <ant:filter token="LOGGING_IMPLEMENTATION" 
-        value="&avalon-logging-logkit-artifact;"/>
-    <ant:filter token="STANDARD_RUNTIME" 
-        value="&avalon-activation-artifact;"/>
-    <ant:filter token="REPOSITORY_MAIN" 
-        value="&avalon-repository-artifact;"/>
-  </preGoal>
+  <ant:filter token="AVALON-LOGGING-LOGKIT-SPEC" 
+      value="&avalon-logging-logkit-artifact-spec;"/>
+  <ant:filter token="MERLIN_IMPLEMENTATION" 
+      value="artifact:merlin/merlin-impl#&merlin-impl-version;"/>
+  <ant:filter token="LOGGING_IMPLEMENTATION" 
+      value="&avalon-logging-logkit-artifact;"/>
+  <ant:filter token="STANDARD_RUNTIME" 
+      value="&avalon-activation-artifact;"/>
+  <ant:filter token="REPOSITORY_MAIN" 
+      value="&avalon-repository-artifact;"/>
 
   <postGoal name="java:compile">
 
