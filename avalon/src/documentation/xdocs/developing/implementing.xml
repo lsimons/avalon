@@ -966,7 +966,7 @@ public void myMethod()
 
         if (dbSelector != null)
         {
-            this.manager.release(instancesdbSelector);
+            this.manager.release(dbSelector);
         }
     }
 }
