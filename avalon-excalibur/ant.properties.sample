@@ -10,7 +10,7 @@
 # building all components. These values are overridable in component-specific
 # ant.properties files.
 #
-# $Id: ant.properties.sample,v 1.6 2002/03/28 04:06:17 leif Exp $
+# $Id: ant.properties.sample,v 1.7 2002/03/30 08:42:07 jefft Exp $
 # -----------------------------------------------------------------------------
 
 
@@ -47,7 +47,7 @@ avalon-framework.home=${base.path}/jakarta-avalon/build/lib
 avalon-framework.jar=${avalon-framework.home}/avalon-framework.jar
 
 # ----- Avalon Excalibur -----
-avalon-excalibur.home${base.path}/jakarta-avalon-excalibur/all/build/lib
+avalon-excalibur.home=${base.path}/jakarta-avalon-excalibur/all/build/lib
 avalon-excalibur.jar=${avalon-excalibur.home}/avalon-excalibur.jar
 
 # ----- Excalibur Instrument -----
