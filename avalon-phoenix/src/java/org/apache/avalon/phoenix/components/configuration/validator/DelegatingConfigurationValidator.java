@@ -29,17 +29,17 @@ import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  */
 public class DelegatingConfigurationValidator extends AbstractLogEnabled
-  implements Configurable, Initializable, Disposable, ConfigurationValidator
+    implements Configurable, Initializable, Disposable, ConfigurationValidator
 {
     private static final Resources REZ =
-      ResourceManager.getPackageResources( DelegatingConfigurationValidator.class );
+        ResourceManager.getPackageResources( DelegatingConfigurationValidator.class );
 
     private Map m_blockTypeMap = Collections.synchronizedMap( new HashMap() );
     private Map m_delegates = new HashMap();
     private String m_supportedTypes;
 
     public void configure( Configuration configuration )
-      throws ConfigurationException
+        throws ConfigurationException
     {
         final Configuration[] delegates = configuration.getChildren( "delegate" );
         final StringBuffer types = new StringBuffer();
@@ -48,7 +48,11 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
         {
             final String type = delegates[i].getAttribute( "schema-type" );
 
-            this.m_delegates.put( type, new DelegateEntry( type, delegates[i].getAttribute( "class" ), delegates[i] ) );
+            this.m_delegates.put( type,
+                                  new DelegateEntry( type,
+                                                     delegates[i].getAttribute( "class" ),
+                                                     delegates[i] )
+            );
 
             if( i > 0 )
             {
@@ -62,7 +66,7 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
     }
 
     public void initialize()
-      throws Exception
+        throws Exception
     {
         for( Iterator i = m_delegates.values().iterator(); i.hasNext(); )
         {
@@ -87,13 +91,17 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
     }
 
     public void addSchema( String application, String block, String schemaType, String url )
-      throws ConfigurationException
+        throws ConfigurationException
     {
         final DelegateEntry entry = ( DelegateEntry ) this.m_delegates.get( schemaType );
 
         if( entry == null )
         {
-            throw new ConfigurationException( REZ.getString( "jarv.error.badtype", schemaType, this.m_supportedTypes ) );
+            final String msg = REZ.getString( "jarv.error.badtype",
+                                              schemaType,
+                                              this.m_supportedTypes );
+
+            throw new ConfigurationException( msg );
         }
 
         entry.getValidator().addSchema( application, block, schemaType, url );
@@ -101,15 +109,19 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
     }
 
     public boolean isFeasiblyValid( String application, String block, Configuration configuration )
-      throws ConfigurationException
+        throws ConfigurationException
     {
-        return getDelegate( application, block ).isFeasiblyValid( application, block, configuration );
+        final ConfigurationValidator delegate = getDelegate( application, block );
+
+        return delegate.isFeasiblyValid( application, block, configuration );
     }
 
     public boolean isValid( String application, String block, Configuration configuration )
-      throws ConfigurationException
+        throws ConfigurationException
     {
-        return getDelegate( application, block ).isValid( application, block, configuration );
+        final ConfigurationValidator delegate = getDelegate( application, block );
+
+        return delegate.isValid( application, block, configuration );
     }
 
     public void removeSchema( String application, String block )
@@ -120,18 +132,22 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
         }
         catch( ConfigurationException e )
         {
-            getLogger().warn( "Unable to remove schema [app: " + application + ", block: " + block + "]", e );
+            getLogger().warn( "Unable to remove schema [app: " + application
+                              + ", block: " + block + "]",
+                              e );
         }
     }
 
     private ConfigurationValidator getDelegate( String application, String block )
-      throws ConfigurationException
+        throws ConfigurationException
     {
         final String type = ( String ) this.m_blockTypeMap.get( createKey( application, block ) );
 
         if( null == type )
         {
-            throw new ConfigurationException( REZ.getString( "jarv.error.noschema", application, block ) );
+            final String msg = REZ.getString( "jarv.error.noschema", application, block );
+
+            throw new ConfigurationException( msg );
         }
 
         return ( ( DelegateEntry ) this.m_delegates.get( type ) ).getValidator();
@@ -140,46 +156,5 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
     private String createKey( String application, String block )
     {
         return application + "." + block;
-    }
-
-    private class DelegateEntry
-    {
-        private final String schemaType;
-        private final String className;
-        private final Configuration configuration;
-
-        private ConfigurationValidator validator;
-
-        public DelegateEntry( String schemaType, String className, Configuration configuration )
-        {
-            this.className = className;
-            this.configuration = configuration;
-            this.schemaType = schemaType;
-        }
-
-        public String getSchemaType()
-        {
-            return this.schemaType;
-        }
-
-        public Configuration getConfiguration()
-        {
-            return this.configuration;
-        }
-
-        public String getClassName()
-        {
-            return this.className;
-        }
-
-        public ConfigurationValidator getValidator()
-        {
-            return this.validator;
-        }
-
-        public void setValidator( ConfigurationValidator validator )
-        {
-            this.validator = validator;
-        }
     }
 }
