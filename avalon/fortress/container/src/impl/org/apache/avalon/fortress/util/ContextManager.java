@@ -117,7 +117,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.34 $ $Date: 2003/05/29 13:15:06 $
+ * @version CVS $Revision: 1.35 $ $Date: 2003/05/30 16:11:46 $
  * @since 4.1
  */
 public final class ContextManager
@@ -695,6 +695,8 @@ public final class ContextManager
             manager.put( SourceResolver.ROLE, m_defaultSourceResolver );
         }
 
+        Object lem = get( m_rootContext, LifecycleExtensionManager.ROLE, null);
+
         /**
          * Role manager won't be passed here as it is now only
          * an utility for reading ECM role files.
@@ -705,6 +707,12 @@ public final class ContextManager
         manager.put( MetaInfoManager.ROLE, m_metaInfoManager );
         manager.put( PoolManager.ROLE, m_poolManager );
         manager.put( InstrumentManager.ROLE, m_instrumentManager );
+
+        if ( lem != null )
+        {
+            manager.put( LifecycleExtensionManager.ROLE, lem );
+        }
+
         manager.makeReadOnly();
 
         m_containerManagerContext.put( SERVICE_MANAGER, manager );
