@@ -212,7 +212,7 @@ public class DefaultFactory implements Factory
         //
 
         LoggingManager logging = 
-          createLoggingManager( criteria, config );
+          createLoggingManager( criteria );
 
         m_logger = 
           logging.getLoggerForCategory( "kernel" );
@@ -618,25 +618,20 @@ public class DefaultFactory implements Factory
     * @param config the kernel configuration 
     * @return the logging manager
     */
-    private LoggingManager createLoggingManager( 
-      KernelCriteria criteria, Configuration config )
+    private LoggingManager createLoggingManager( KernelCriteria criteria )
       throws Exception
     {
         File dir = criteria.getWorkingDirectory();
-        Configuration conf = getLoggingConfiguration( criteria, config );
         Artifact artifact = criteria.getLoggingImplementation();
         Builder builder = m_context.newBuilder( m_classloader, artifact );
         Factory factory = builder.getFactory();
-
+        
         LoggingCriteria params = getLoggingCriteria( factory );
-        if( conf.getAttribute( "debug", "false" ).equals( "true" ) )
-        {
-            params.setBootstrapLogger( 
-              new ConsoleLogger( ConsoleLogger.LEVEL_DEBUG ) );
-        }
+        URL conf = params.getLoggingConfiguration();
+
         params.setDebugEnabled( criteria.isDebugEnabled() );
         params.setBaseDirectory( dir );
-        params.setConfiguration( conf );
+        params.setLoggingConfiguration( conf );
 
         return (LoggingManager) factory.create( params );
     }
@@ -655,40 +650,6 @@ public class DefaultFactory implements Factory
               + map.getClass().getName() 
               + "].";
             throw new IllegalArgumentException( error );
-        }
-    }
-
-    private Configuration getLoggingConfiguration( 
-      KernelCriteria criteria, Configuration config )
-      throws Exception
-    {
-        if( null != config.getChild( "logging", false ) )
-        {
-            return config.getChild( "logging" );
-        }
-        else
-        {
-            File file = criteria.getLoggingConfiguration();
-            if( null != file )
-            {
-                try
-                {
-                    DefaultConfigurationBuilder builder = 
-                      new DefaultConfigurationBuilder();
-                    return builder.buildFromFile( file );  
-                }
-                catch( Throwable e )
-                {
-                    final String error = 
-                      "Internal error while attempting to build logging configuration from: "
-                      + file;
-                    throw new KernelException( error, e );
-                }
-            }
-            else
-            {
-                return config.getChild( "logging" );
-            }
         }
     }
 
