@@ -17,6 +17,9 @@
   </devs>
   <release version="@version@" date="@date@">
     <action dev="PR" type="fix">
+        Fixing proxy-based datasource code.
+    </action>
+    <action dev="PR" type="fix">
       PriorityFilterTargetFactory throws a ConfigurationException
       upon invalid targets
     </action>
