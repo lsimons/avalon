@@ -19,11 +19,11 @@ Where Is It?
 
    For more detailed information, visit the online documentation at:
 
-   http://avalon.apache.org/avalon/merlin
+   http://avalon.apache.org/merlin
 
 Installation Instructions:
 --------------------------
 
 The latest installation instructions can be found at:
-  http://avalon.apache.org/avalon/merlin/starting/installation.html
+  http://avalon.apache.org/merlin/starting/installation/
 
