@@ -216,12 +216,15 @@ class BasicThreadPool
 
     /**
      * Release worker back into pool.
+     * 
+     * FIX ME: do we want to verify if it is interrupted or interrupt the worker
+     *         thread?
      *
      * @param worker the worker (Should be a {@link SimpleWorkerThread}).
      */
     protected void releaseWorker( final WorkerThread worker )
     {
-        worker.interrupted();
+        worker.interrupt();
         m_pool.put( (SimpleWorkerThread)worker );
     }
 }

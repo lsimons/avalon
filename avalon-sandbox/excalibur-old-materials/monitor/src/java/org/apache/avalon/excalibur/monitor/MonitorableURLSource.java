@@ -55,7 +55,7 @@ import org.apache.excalibur.source.impl.URLSource;
  * This adds the {@link Monitorable} interface to the {@link URLSource}.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/03/22 12:46:50 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/03/29 18:53:25 $
  */
 public class MonitorableURLSource
     extends URLSource
@@ -75,9 +75,9 @@ public class MonitorableURLSource
         throws Exception
     {
         checkInfos();
-        if( null != file )
+        if( null != m_file )
         {
-            return new FileResource( file.getAbsolutePath() );
+            return new FileResource( m_file.getAbsolutePath() );
         }
         else
         {

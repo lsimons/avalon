@@ -63,11 +63,11 @@ import org.apache.avalon.framework.service.ServiceManager;
  * A testcase for the different handlers.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003/03/22 12:46:35 $
+ * @version $Revision: 1.7 $ $Date: 2003/03/29 18:53:25 $
  */
 public class HandlersTestCase extends TestCase
 {
-    private Exception m_exception;
+    protected Exception m_exception;
 
     public HandlersTestCase( final String name )
     {

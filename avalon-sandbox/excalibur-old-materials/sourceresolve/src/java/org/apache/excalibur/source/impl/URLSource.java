@@ -81,10 +81,9 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
 
 /**
  * Description of a source which is described by an URL.
- * FIXME: Get mime-type
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.21 $ $Date: 2003/02/25 16:28:33 $
+ * @version CVS $Revision: 1.22 $ $Date: 2003/03/29 18:53:26 $
  */
 public class URLSource
     extends AbstractSource
@@ -94,31 +93,31 @@ public class URLSource
     protected final String FILE = "file:";
 
     /** The URL of the source */
-    protected URL url;
+    protected URL m_url;
 
     /** The connection for a real URL */
-    protected URLConnection connection;
+    protected URLConnection m_connection;
 
     /** The file, if URL is a file */
-    protected File file;
+    protected File m_file;
 
     /** The <code>SourceParameters</code> used for a post*/
-    protected SourceParameters parameters;
+    protected SourceParameters m_parameters;
 
     /** Is this a post? */
-    protected boolean isPost = false;
+    protected boolean m_isPost = false;
     
     /** Does this source exist ? */
-    protected boolean exists = false;
+    protected boolean m_exists = false;
 
 
     /** the prev returned SourceValidity */
-    protected SourceValidity cachedValidity;
+    protected SourceValidity m_cachedValidity;
 
-    protected long cachedLastModificationDate;
+    protected long m_cachedLastModificationDate;
 
     /** The content type (if known) */
-    protected String mimeType;
+    protected String m_mimeType;
     
     /**
      * Constructor
@@ -135,43 +134,44 @@ public class URLSource
                       Map parameters )
         throws IOException
     {
-        this.systemId = url.toExternalForm();
+        String systemId = url.toExternalForm();
+        setSystemId(systemId);
         int pos = systemId.indexOf(':');
-        this.scheme = systemId.substring(0, pos);
+        setScheme(systemId.substring(0, pos));
         if (systemId.startsWith( FILE ))
         {
-            this.file = new File( this.systemId.substring( FILE.length() ) );
+            m_file = new File( systemId.substring( FILE.length() ) );
         }
         else
         {
-            this.file = null;
+            m_file = null;
         }
-        this.url = url;
-        this.gotInfos = false;
-        this.isPost = false;
+        m_url = url;
+        m_isPost = false;
+        
         if( null != parameters )
         {
-            this.parameters = (SourceParameters)parameters.get( SourceResolver.URI_PARAMETERS );
+            m_parameters = (SourceParameters)parameters.get( SourceResolver.URI_PARAMETERS );
             final String method = (String)parameters.get( SourceResolver.METHOD );
             if( "POST".equalsIgnoreCase( method ) )
-                this.isPost = true;
+                this.m_isPost = true;
         }
-        if( null == this.file
-            && null != this.parameters
-            && this.parameters.hasParameters()
-            && !this.isPost )
+        if( null == this.m_file
+            && null != this.m_parameters
+            && this.m_parameters.hasParameters()
+            && !this.m_isPost )
         {
-            StringBuffer urlBuffer = new StringBuffer( this.systemId );
+            StringBuffer urlBuffer = new StringBuffer( systemId );
             String key;
-            final Iterator i = this.parameters.getParameterNames();
+            final Iterator i = this.m_parameters.getParameterNames();
             Iterator values;
             String value;
-            boolean first = ( this.systemId.indexOf( '?' ) == -1 );
+            boolean first = ( systemId.indexOf( '?' ) == -1 );
             if( first == true ) urlBuffer.append( '?' );
             while( i.hasNext() )
             {
                 key = (String)i.next();
-                values = this.parameters.getParameterValues( key );
+                values = this.m_parameters.getParameterValues( key );
                 while( values.hasNext() == true )
                 {
                     value = SourceUtil.encode( (String)values.next() );
@@ -182,8 +182,8 @@ public class URLSource
                     urlBuffer.append( value );
                 }
             }
-            this.url = new URL( urlBuffer.toString() );
-            this.parameters = null;
+            this.m_url = new URL( urlBuffer.toString() );
+            this.m_parameters = null;
         }
     }
 
@@ -194,34 +194,34 @@ public class URLSource
      */
     protected void getInfos()
     {
-        // exists will be set below depending on the url type
-        this.exists = false;
+        // exists will be set below depending on the m_url type
+        this.m_exists = false;
         
-        if( null != this.file )
+        if( null != this.m_file )
         {
-            this.lastModificationDate = this.file.lastModified();
-            this.contentLength = this.file.length();
-            this.exists = this.file.exists();
+            setLastModified( m_file.lastModified() );
+            setContentLength( m_file.length() );
+            m_exists = m_file.exists();
         }
         else
         {
-            if( !this.isPost )
+            if( !this.m_isPost )
             {
                 try
                 {
-                    if( null == this.connection )
+                    if( null == this.m_connection )
                     {
-                        this.connection = this.url.openConnection();
+                        this.m_connection = this.m_url.openConnection();
                         String userInfo = this.getUserInfo();
-                        if( this.url.getProtocol().startsWith( "http" ) && userInfo != null )
+                        if( this.m_url.getProtocol().startsWith( "http" ) && userInfo != null )
                         {
-                            this.connection.setRequestProperty( "Authorization", "Basic " + SourceUtil.encodeBASE64( userInfo ) );
+                            this.m_connection.setRequestProperty( "Authorization", "Basic " + SourceUtil.encodeBASE64( userInfo ) );
                         }
                     }
-                    this.lastModificationDate = this.connection.getLastModified();
-                    this.contentLength = this.connection.getContentLength();
-                    this.mimeType = this.connection.getContentType();
-                    this.exists = true;
+                    setLastModified(m_connection.getLastModified());
+                    setContentLength(m_connection.getContentLength());
+                    m_mimeType = m_connection.getContentType();
+                    m_exists = true;
                 }
                 catch( IOException ignore )
                 {
@@ -230,7 +230,7 @@ public class URLSource
             }
             else
             {
-                // do not open connection when using post!
+                // do not open m_connection when using post!
                 super.getInfos();
             }
         }
@@ -242,7 +242,7 @@ public class URLSource
     public boolean exists()
     {
         this.checkInfos();
-        return this.exists;
+        return this.m_exists;
     }
 
     /**
@@ -259,36 +259,36 @@ public class URLSource
         {
             this.checkInfos();
             InputStream input = null;
-            if( null != this.file )
+            if( null != this.m_file )
             {
-                input = new FileInputStream( this.file );
+                input = new FileInputStream( this.m_file );
             }
             else
             {
-                if( this.connection == null )
+                if( this.m_connection == null )
                 {
-                    this.connection = this.url.openConnection();
+                    this.m_connection = this.m_url.openConnection();
                     /* The following requires a jdk 1.3 */
                     String userInfo = this.getUserInfo();
-                    if( this.url.getProtocol().startsWith( "http" ) && userInfo != null )
+                    if( this.m_url.getProtocol().startsWith( "http" ) && userInfo != null )
                     {
-                        this.connection.setRequestProperty( "Authorization", "Basic " + SourceUtil.encodeBASE64( userInfo ) );
+                        this.m_connection.setRequestProperty( "Authorization", "Basic " + SourceUtil.encodeBASE64( userInfo ) );
                     }
 
                     // do a post operation
-                    if( this.connection instanceof HttpURLConnection
-                        && this.isPost )
+                    if( this.m_connection instanceof HttpURLConnection
+                        && this.m_isPost )
                     {
                         StringBuffer buffer = new StringBuffer( 2000 );
                         String key;
-                        Iterator i = this.parameters.getParameterNames();
+                        Iterator i = this.m_parameters.getParameterNames();
                         Iterator values;
                         String value;
                         boolean first = true;
                         while( i.hasNext() )
                         {
                             key = (String)i.next();
-                            values = this.parameters.getParameterValues( key );
+                            values = this.m_parameters.getParameterValues( key );
                             while( values.hasNext() == true )
                             {
                                 value = SourceUtil.encode( (String)values.next() );
@@ -299,7 +299,7 @@ public class URLSource
                                 buffer.append( value );
                             }
                         }
-                        HttpURLConnection httpCon = (HttpURLConnection)connection;
+                        HttpURLConnection httpCon = (HttpURLConnection)m_connection;
                         httpCon.setDoInput( true );
 
                         if( buffer.length() > 1 )
@@ -316,18 +316,18 @@ public class URLSource
                             out.close();
                         }
                         input = httpCon.getInputStream();
-                        this.connection = null; // make sure a new connection is created next time
+                        this.m_connection = null; // make sure a new m_connection is created next time
                         return input;
                     }
                 }
-                input = this.connection.getInputStream();
-                this.connection = null; // make sure a new connection is created next time
+                input = this.m_connection.getInputStream();
+                this.m_connection = null; // make sure a new m_connection is created next time
             }
             return input;
         }
         catch (FileNotFoundException fnfe)
         {
-            throw new SourceNotFoundException("Resource not found " + this.systemId);
+            throw new SourceNotFoundException("Resource not found " + getURI());
         }
     }
 
@@ -348,7 +348,7 @@ public class URLSource
             {
                 try
                 {
-                    return (String)URLSource.urlGetUserInfo.invoke( this.url, URLSource.emptyParams );
+                    return (String)URLSource.urlGetUserInfo.invoke( m_url, URLSource.emptyParams );
                 }
                 catch( Exception e )
                 {
@@ -359,11 +359,11 @@ public class URLSource
         }
         else
         {
-            // test if the url class supports the getUserInfo method
+            // test if the m_url class supports the getUserInfo method
             try
             {
                 URLSource.urlGetUserInfo = URL.class.getMethod( "getUserInfo", null );
-                String ui = (String)URLSource.urlGetUserInfo.invoke( this.url, URLSource.emptyParams );
+                String ui = (String)URLSource.urlGetUserInfo.invoke( m_url, URLSource.emptyParams );
                 URLSource.checkedURLClass = true;
                 URLSource.urlSupportsGetUserInfo = true;
                 return ui;
@@ -386,22 +386,22 @@ public class URLSource
      */
     public SourceValidity getValidity()
     {
-        final long lm = this.getLastModified();
+        final long lm = getLastModified();
         if( lm > 0 )
         {
-            if (lm == this.cachedLastModificationDate)
-                return this.cachedValidity;
+            if (lm == m_cachedLastModificationDate)
+                return m_cachedValidity;
 
-            this.cachedLastModificationDate = lm;
-            if (file != null)
+            m_cachedLastModificationDate = lm;
+            if (m_file != null)
             {
-                this.cachedValidity = new FileTimeStampValidity(file, lm);
+                m_cachedValidity = new FileTimeStampValidity(m_file, lm);
             }
             else
             {
-                this.cachedValidity = new TimeStampValidity( lm );
+                m_cachedValidity = new TimeStampValidity( lm );
             }
-            return this.cachedValidity;
+            return m_cachedValidity;
         }
         return null;
     }
@@ -412,8 +412,8 @@ public class URLSource
      */
     public void refresh()
     {
-        // reset connection
-        this.connection = null;
+        // reset m_connection
+        m_connection = null;
         super.refresh();
     }
 
@@ -422,9 +422,9 @@ public class URLSource
      */
     public boolean isDirectory()
     {
-    	if ( null != this.file ) 
+    	if ( null != m_file ) 
     	{
-    		return this.file.isDirectory();
+    		return m_file.isDirectory();
     	}
     	return false;
     }
@@ -436,9 +436,9 @@ public class URLSource
      */
     public Collection getChildrenLocations() 
     {
-    	if ( null != this.file && this.file.isDirectory() )
+    	if ( null != m_file && m_file.isDirectory() )
     	{
-    		final String[] files = this.file.list();
+    		final String[] files = m_file.list();
     		return Arrays.asList(files);
     	}
     	return Collections.EMPTY_LIST;
@@ -451,7 +451,7 @@ public class URLSource
      */
     public String getMimeType()
     {
-        return this.mimeType;
+        return m_mimeType;
     }
     
 }

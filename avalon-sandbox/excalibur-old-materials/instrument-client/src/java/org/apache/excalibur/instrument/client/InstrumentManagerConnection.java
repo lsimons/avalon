@@ -92,14 +92,14 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleUtils;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.19 $ $Date: 2003/03/22 12:46:36 $
+ * @version CVS $Revision: 1.20 $ $Date: 2003/03/29 18:53:25 $
  * @since 4.1
  */
 class InstrumentManagerConnection
     extends JComponent
     implements LogEnabled
 {
-    private final InstrumentClientFrame m_frame;
+    protected final InstrumentClientFrame m_frame;
     private final String m_host;
     private final int m_port;
 
@@ -110,7 +110,7 @@ class InstrumentManagerConnection
     private HostContext m_altrmiHostContext;
     private Factory m_altrmiFactory;
     private InstrumentManagerClient m_manager;
-    private InstrumentManagerTreeModel m_treeModel;
+    protected InstrumentManagerTreeModel m_treeModel;
     private InstrumentManagerTree m_tree;
 
     private final ArrayList m_listeners = new ArrayList();
@@ -539,7 +539,7 @@ class InstrumentManagerConnection
         {
             try
             {
-                String name = manager.getName();
+                manager.getName();
                 return true;
             }
             catch ( InvocationException e )
@@ -669,8 +669,7 @@ class InstrumentManagerConnection
 
                     // If the sample already exists on the server, then the existing one
                     //  will be returned.
-                    InstrumentSampleDescriptor sampleDescriptor =
-                        instrumentDescriptor.createInstrumentSample(
+                    instrumentDescriptor.createInstrumentSample(
                             dialog.getSampleDescription(),
                             dialog.getInterval(),
                             dialog.getSampleCount(),
@@ -890,7 +889,7 @@ class InstrumentManagerConnection
     /**
      * Invokes GC on the JVM running the InstrumentManager.
      */
-    private void invokeGC()
+    protected void invokeGC()
     {
         InstrumentManagerClient manager = getInstrumentManagerClient();
         if ( manager != null )

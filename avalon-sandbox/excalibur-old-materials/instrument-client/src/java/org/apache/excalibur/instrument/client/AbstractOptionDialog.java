@@ -71,7 +71,7 @@ import javax.swing.border.EtchedBorder;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/03/22 12:46:36 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/03/29 18:53:25 $
  * @since 4.1
  */
 public abstract class AbstractOptionDialog
@@ -80,7 +80,7 @@ public abstract class AbstractOptionDialog
     public static final int BUTTON_OK = 1;
     public static final int BUTTON_CANCEL = 2;
     
-    private int m_action = BUTTON_CANCEL;
+    protected int m_action = BUTTON_CANCEL;
     
     /*---------------------------------------------------------------
      * Constructors

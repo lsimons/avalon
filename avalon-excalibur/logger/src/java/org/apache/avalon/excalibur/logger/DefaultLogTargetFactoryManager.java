@@ -68,7 +68,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * from a configuration file.
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/03/22 12:46:48 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/03/29 18:53:25 $
  * @since 4.0
  */
 public class DefaultLogTargetFactoryManager
@@ -137,8 +137,6 @@ public class DefaultLogTargetFactoryManager
             final String factoryClass = confs[ i ].getAttribute( "class" );
             final String factoryType = confs[ i ].getAttribute( "type" );
 
-            //FIXME(GP): Is this the right way to load a class or
-            //           should the ContextClassLoader be used?
             final LogTargetFactory logTargetFactory;
             try
             {

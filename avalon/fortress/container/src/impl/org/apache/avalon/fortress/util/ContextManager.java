@@ -99,23 +99,23 @@ import org.apache.log.Priority;
  * further operations will be possible on it.</p>
  *
  * <p>You can get two different contexts from the ContextManager: the child
- * context and the impl m_manager context. The former contains all
- * managers, such as the pool m_manager etc. necessary for a child impl to
- * create additional child containers. The impl m_manager context contains
+ * context and the impl manager context. The former contains all
+ * managers, such as the pool manager etc. necessary for a child impl to
+ * create additional child containers. The impl manager context contains
  * all of the child context, but also initialization parameters for the
  * impl, such as a Configuration object, a ComponentLocator, etc., that
  * the impl wants, but does not want to pass on to its children.</p>
  *
- * <p>You would typically use the impl m_manager context to initialize
- * the impl m_manager, and let it pass the child context on to the
+ * <p>You would typically use the impl manager context to initialize
+ * the impl manager, and let it pass the child context on to the
  * impl.</p>
  *
  * <p>The ContextManager will sometimes create new components, such as a
- * component m_manager, a pool m_manager, etc. It will manage these components
+ * component manager, a pool manager, etc. It will manage these components
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.13 $ $Date: 2003/03/22 12:46:34 $
+ * @version CVS $Revision: 1.14 $ $Date: 2003/03/29 18:53:24 $
  * @since 4.1
  */
 public class ContextManager
@@ -144,8 +144,8 @@ public class ContextManager
     private final DefaultContext m_childContext;
 
     /**
-     * Container m_manager's context. This context has the child context
-     * as parent. Put things here that you want the impl m_manager
+     * Container manager's context. This context has the child context
+     * as parent. Put things here that you want the impl manager
      * to see, but do not wish to expose to the impl.
      */
     private final DefaultContext m_containerManagerContext;
@@ -162,7 +162,7 @@ public class ContextManager
 
     /**
      * The components that are "owned" by this context and should
-     * be disposed by it. Any m_manager that is created as a result
+     * be disposed by it. Any manager that is created as a result
      * of it not being in the rootContext, or having been created
      * by the ContextManager should go in here.
      */
@@ -188,7 +188,7 @@ public class ContextManager
         m_logger = logger;
 
         // The primordial logger is used for all output up until the point where
-        //  the logger m_manager has been initialized.  However it is set into
+        //  the logger manager has been initialized.  However it is set into
         //  two objects used to load the configuration resource files within
         //  the ContextManager.  Any problems loading these files will result in
         //  warning or error messages.  However in most cases, the debug
@@ -201,21 +201,19 @@ public class ContextManager
      * Method to assume ownership of one of the managers the
      * <code>ContextManager</code> created.  Ownership means that the
      * <code>ContextManager</code> is responsible for destroying the
-     * m_manager when the <code>ContextManager</code> is destroyed.
-     *
-     * FIXME: We should throw a NullPointerException instead.
+     * manager when the <code>ContextManager</code> is destroyed.
      *
      * @param o  The object being claimed
      *
      * @throws IllegalArgumentException if the object is null.
      */
-    private void assumeOwnership( Object o )
+    private void assumeOwnership( Object object )
     {
-        if( o == null )
+        if( object == null )
         {
-            throw new IllegalArgumentException( "Can not assume ownership of a null!" );
+            throw new NullPointerException( "object: Can not assume ownership of a null!" );
         }
-        ownedComponents.add( o );
+        ownedComponents.add( object );
     }
 
     /**
@@ -227,10 +225,9 @@ public class ContextManager
      */
     public void initialize() throws Exception
     {
-        initializeOwnComponentManager();
+        initializeServiceManager();
         initializeLoggerManager();
         initializeRoleManager();
-        initializeServiceManager();
         initializeCommandQueue();
         initializePoolManager();
         initializeContext();
@@ -258,7 +255,7 @@ public class ContextManager
             if( containerConfig == null )
             {
                 // No config.
-                // Does the parent supply a logger m_manager?
+                // Does the parent supply a logger manager?
                 try
                 {
                     m_containerManagerContext.get( CONFIGURATION );
@@ -361,49 +358,6 @@ public class ContextManager
     }
 
     /**
-     * Will set up a ServiceLocator if none is supplied.
-     *
-     * <p>The postcondition is that
-     * <code>childContext.get( Container.SERVICE_MANAGER )</code> should
-     * return a valid logger m_manager.</p>
-     *
-     * @throws Exception if the ServiceManager could not be instantiated.
-     */
-    protected void initializeServiceManager() throws Exception
-    {
-        try
-        {
-            m_childContext.put( SERVICE_MANAGER, m_rootContext.get( SERVICE_MANAGER ) );
-            return;
-        }
-        catch( ContextException ce )
-        {
-        }
-
-        // See if we can inherit from the parent...
-        try
-        {
-            m_childContext.get( SERVICE_MANAGER );
-
-            // OK, done.
-            return;
-        }
-        catch( ContextException ce )
-        {
-            // No ComponentLocator available anywhere. (Set one up.)
-        }
-
-        final ServiceManager parent = (ServiceManager)get( m_rootContext, SERVICE_MANAGER_PARENT, null );
-
-        if( null != parent )
-        {
-            ServiceManager sm = new DefaultServiceManager( parent );
-            assumeOwnership( sm );
-            m_containerManagerContext.put( SERVICE_MANAGER, sm );
-        }
-    }
-
-    /**
      * Set up the CommandQueue to enable asynchronous management.
      *
      * @throws Exception if the <code>CommandQueue</code> could not be
@@ -450,7 +404,7 @@ public class ContextManager
         // Get the context Logger Manager
         LoggerManager loggerManager = (LoggerManager)m_childContext.get( LoggerManager.ROLE );
 
-        // Get the logger for the thread m_manager
+        // Get the logger for the thread manager
         Logger tmLogger = loggerManager.getLoggerForCategory( "system.threadmgr" );
 
         ContainerUtil.enableLogging( tm, tmLogger );
@@ -571,19 +525,19 @@ public class ContextManager
         // Get the context Logger Manager
         LoggerManager loggerManager = (LoggerManager)m_childContext.get( LoggerManager.ROLE );
 
-        // Create a logger for the role m_manager
+        // Create a logger for the role manager
         Logger rmLogger = loggerManager.getLoggerForCategory(
             roleConfig.getAttribute( "logger", "system.roles" ) );
 
         // Lookup the context class loader
         ClassLoader classLoader = (ClassLoader)m_containerManagerContext.get( ClassLoader.class.getName() );
 
-        // Create a parent role m_manager with all the default roles
+        // Create a parent role manager with all the default roles
         FortressRoleManager erm = new FortressRoleManager( null, classLoader );
         erm.enableLogging( rmLogger.getChildLogger( "defaults" ) );
         erm.initialize();
 
-        // Create a role m_manager with the configured roles
+        // Create a role manager with the configured roles
         ConfigurableRoleManager rm = new ConfigurableRoleManager( erm, classLoader );
         rm.enableLogging( rmLogger );
         rm.configure( roleConfig );
@@ -599,9 +553,10 @@ public class ContextManager
      *
      * @throws Exception when there is an error.
      */
-    protected void initializeOwnComponentManager() throws Exception
+    protected void initializeServiceManager() throws Exception
     {
-        final DefaultServiceManager manager = new DefaultServiceManager();
+        final ServiceManager parent = (ServiceManager)get(m_rootContext, SERVICE_MANAGER, null);
+        final DefaultServiceManager manager = new DefaultServiceManager(parent);
         final DefaultServiceSelector selector = new DefaultServiceSelector();
         final ResourceSourceFactory resource = new ResourceSourceFactory();
         resource.enableLogging( getLogger() );
@@ -622,6 +577,8 @@ public class ContextManager
         assumeOwnership( manager );
 
         m_manager = manager;
+        
+        m_childContext.put( ContextManagerConstants.SERVICE_MANAGER, m_manager );
     }
 
     /**
@@ -724,7 +681,7 @@ public class ContextManager
      *
      * <p>The postcondition is that
      * <code>childContext.get( LoggerManager.ROLE )</code> should
-     * return a valid logger m_manager.</p>
+     * return a valid logger manager.</p>
      *
      * @throws Exception if it cannot instantiate the LoggerManager
      */
@@ -732,7 +689,7 @@ public class ContextManager
     {
         try
         {
-            // Try copying an already existing logger m_manager from the override context.
+            // Try copying an already existing logger manager from the override context.
 
             m_childContext.put( LoggerManager.ROLE, m_rootContext.get( LoggerManager.ROLE ) );
         }
@@ -746,7 +703,7 @@ public class ContextManager
             {
                 // No config specified.
 
-                // Does the parent supply a logger m_manager?
+                // Does the parent supply a logger manager?
                 try
                 {
                     m_childContext.get( LoggerManager.ROLE );
@@ -809,7 +766,7 @@ public class ContextManager
      *
      * <p>The postcondition is that
      * <code>childContext.get( LoggerManager.ROLE )</code> should
-     * return a valid logger m_manager.</p>
+     * return a valid logger manager.</p>
      *
      * @throws Exception if it cannot instantiate the LoggerManager
      */
@@ -817,7 +774,7 @@ public class ContextManager
     {
         try
         {
-            // Try copying an already existing instrument m_manager from the override context.
+            // Try copying an already existing instrument manager from the override context.
 
             m_childContext.put( InstrumentManager.ROLE, m_rootContext.get( InstrumentManager.ROLE ) );
         }
@@ -829,7 +786,7 @@ public class ContextManager
             if( instrumentConfig == null )
             {
                 // No config.
-                // Does the parent supply a logger m_manager?
+                // Does the parent supply a logger manager?
                 try
                 {
                     m_childContext.get( InstrumentManager.ROLE );
@@ -847,7 +804,7 @@ public class ContextManager
             // Get the context Logger Manager
             LoggerManager loggerManager = (LoggerManager)m_childContext.get( LoggerManager.ROLE );
 
-            // Get the logger for the instrument m_manager
+            // Get the logger for the instrument manager
             Logger imLogger = loggerManager.getLoggerForCategory(
                 instrumentConfig.getAttribute( "logger", "system.instrument" ) );
 
@@ -868,7 +825,7 @@ public class ContextManager
      *
      * <p>The postcondition is that
      * <code>childContext.get( LoggerManager.ROLE )</code> should
-     * return a valid logger m_manager.</p>
+     * return a valid logger manager.</p>
      *
      * @throws Exception if it cannot instantiate the LoggerManager
      */
@@ -884,7 +841,7 @@ public class ContextManager
             if( containerConfig == null )
             {
                 // No config.
-                // Does the parent supply a logger m_manager?
+                // Does the parent supply a logger manager?
                 try
                 {
                     m_containerManagerContext.get( ASSEMBLY_CONFIGURATION );

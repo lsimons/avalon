@@ -63,7 +63,7 @@ import org.apache.excalibur.mpool.PoolManager;
 
 /**
  * Helper class to create a m_context for the ContextManager.
- * @version CVS $Revision: 1.10 $ $Date: 2003/03/22 12:46:34 $
+ * @version CVS $Revision: 1.11 $ $Date: 2003/03/29 18:53:24 $
  */
 public class FortressConfig
 {
@@ -154,11 +154,6 @@ public class FortressConfig
     public void setCommandQueue( final Queue commandQueue )
     {
         m_context.put( Queue.ROLE, commandQueue );
-    }
-
-    public void setServiceManagerParent( final ServiceManager serviceManager )
-    {
-        m_context.put( ContextManagerConstants.SERVICE_MANAGER_PARENT, serviceManager );
     }
 
     public void setServiceManager( final ServiceManager componentManager )

@@ -151,8 +151,7 @@ public final class PoolProfile
 
         final SingleThreadedPool pool1 = new SingleThreadedPool( A.class, 5, 10 );
         final long pool1Start = System.currentTimeMillis();
-        final int pool1Factor = 1;
-        final int pool1Loops = TEST_SIZE / pool1Factor;
+
         for( int i = 0; i < TEST_SIZE; i++ )
         {
             final Poolable a1 = pool1.get();
@@ -163,7 +162,7 @@ public final class PoolProfile
 
         System.gc();
         System.gc();
-        Thread.currentThread().sleep( 2 );
+        Thread.sleep( 2 );
 
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 1: " + Runtime.getRuntime().freeMemory() );
 
@@ -199,7 +198,7 @@ public final class PoolProfile
 
         System.gc();
         System.gc();
-        Thread.currentThread().sleep( 2 );
+        Thread.sleep( 2 );
 
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 2: " + Runtime.getRuntime().freeMemory() );
 
@@ -245,7 +244,7 @@ public final class PoolProfile
 
         System.gc();
         System.gc();
-        Thread.currentThread().sleep( 2 );
+        Thread.sleep( 2 );
 
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 3: " + Runtime.getRuntime().freeMemory() );
 
@@ -304,7 +303,7 @@ public final class PoolProfile
         final long createStart = System.currentTimeMillis();
         for( int i = 0; i < TEST_SIZE; i++ )
         {
-            final Poolable a1 = new C();
+            new C();
         }
         final long createEnd = System.currentTimeMillis();
         final long createDuration = createEnd - createStart;
@@ -336,12 +335,10 @@ public final class PoolProfile
 
         System.gc();
         System.gc();
-        Thread.currentThread().sleep( 2 );
+        Thread.sleep( 2 );
 
         final SingleThreadedPool pool1 = new SingleThreadedPool( B.class, 5, 10 );
         final long pool1Start = System.currentTimeMillis();
-        final int pool1Factor = 1;
-        final int pool1Loops = TEST_SIZE / pool1Factor;
 
         for( int i = 0; i < TEST_SIZE; i++ )
         {
@@ -353,7 +350,7 @@ public final class PoolProfile
 
         System.gc();
         System.gc();
-        Thread.currentThread().sleep( 2 );
+        Thread.sleep( 2 );
 
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 1: " + Runtime.getRuntime().freeMemory() );
 
@@ -390,7 +387,7 @@ public final class PoolProfile
 
         System.gc();
         System.gc();
-        Thread.currentThread().sleep( 2 );
+        Thread.sleep( 2 );
 
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 2: " + Runtime.getRuntime().freeMemory() );
 
@@ -437,7 +434,7 @@ public final class PoolProfile
 
         System.gc();
         System.gc();
-        Thread.currentThread().sleep( 2 );
+        Thread.sleep( 2 );
 
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 3: " + Runtime.getRuntime().freeMemory() );
 
@@ -497,7 +494,7 @@ public final class PoolProfile
         final long createStart = System.currentTimeMillis();
         for( int i = 0; i < TEST_SIZE; i++ )
         {
-            final Poolable a1 = new C();
+            new C();
         }
         final long createEnd = System.currentTimeMillis();
         final long createDuration = createEnd - createStart;
@@ -530,12 +527,11 @@ public final class PoolProfile
 
         System.gc();
         System.gc();
-        Thread.currentThread().sleep( 2 );
+        Thread.sleep( 2 );
 
         final SingleThreadedPool pool1 = new SingleThreadedPool( C.class, 5, 10 );
         final long pool1Start = System.currentTimeMillis();
-        final int pool1Factor = 1;
-        final int pool1Loops = TEST_SIZE / pool1Factor;
+
         for( int i = 0; i < TEST_SIZE; i++ )
         {
             final Poolable a1 = pool1.get();
@@ -546,7 +542,7 @@ public final class PoolProfile
 
         System.gc();
         System.gc();
-        Thread.currentThread().sleep( 2 );
+        Thread.sleep( 2 );
 
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 1: " + Runtime.getRuntime().freeMemory() );
 
@@ -582,7 +578,7 @@ public final class PoolProfile
 
         System.gc();
         System.gc();
-        Thread.currentThread().sleep( 2 );
+        Thread.sleep( 2 );
 
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 2: " + Runtime.getRuntime().freeMemory() );
 
@@ -628,7 +624,7 @@ public final class PoolProfile
 
         System.gc();
         System.gc();
-        Thread.currentThread().sleep( 2 );
+        Thread.sleep( 2 );
 
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 3: " + Runtime.getRuntime().freeMemory() );
 
@@ -688,7 +684,7 @@ public final class PoolProfile
         final long createStart = System.currentTimeMillis();
         for( int i = 0; i < TEST_SIZE; i++ )
         {
-            final Poolable a1 = new C();
+            new C();
         }
         final long createEnd = System.currentTimeMillis();
         final long createDuration = createEnd - createStart;
@@ -721,8 +717,6 @@ public final class PoolProfile
         final DefaultPool pool1 = new DefaultPool( A.class, 5, 10 );
         pool1.enableLogging( poolLogger );
         final long pool1Start = System.currentTimeMillis();
-        final int pool1Factor = 1;
-        final int pool1Loops = TEST_SIZE / pool1Factor;
 
         for( int i = 0; i < TEST_SIZE; i++ )
         {
@@ -734,7 +728,7 @@ public final class PoolProfile
 
         System.gc();
         System.gc();
-        Thread.currentThread().sleep( 2 );
+        Thread.sleep( 2 );
 
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 1: " + Runtime.getRuntime().freeMemory() );
 
@@ -772,7 +766,7 @@ public final class PoolProfile
 
         System.gc();
         System.gc();
-        Thread.currentThread().sleep( 2 );
+        Thread.sleep( 2 );
 
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 2: " + Runtime.getRuntime().freeMemory() );
 
@@ -820,7 +814,7 @@ public final class PoolProfile
 
         System.gc();
         System.gc();
-        Thread.currentThread().sleep( 2 );
+        Thread.sleep( 2 );
 
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 3: " + Runtime.getRuntime().freeMemory() );
 
@@ -881,7 +875,7 @@ public final class PoolProfile
         final long createStart = System.currentTimeMillis();
         for( int i = 0; i < TEST_SIZE; i++ )
         {
-            final Poolable a1 = new C();
+            new C();
         }
         final long createEnd = System.currentTimeMillis();
         final long createDuration = createEnd - createStart;
@@ -914,13 +908,11 @@ public final class PoolProfile
 
         System.gc();
         System.gc();
-        Thread.currentThread().sleep( 2 );
+        Thread.sleep( 2 );
 
         final DefaultPool pool1 = new DefaultPool( B.class, 5, 10 );
         pool1.enableLogging( poolLogger );
         final long pool1Start = System.currentTimeMillis();
-        final int pool1Factor = 1;
-        final int pool1Loops = TEST_SIZE / pool1Factor;
 
         for( int i = 0; i < TEST_SIZE; i++ )
         {
@@ -932,7 +924,7 @@ public final class PoolProfile
 
         System.gc();
         System.gc();
-        Thread.currentThread().sleep( 2 );
+        Thread.sleep( 2 );
 
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 1: " + Runtime.getRuntime().freeMemory() );
 
@@ -982,7 +974,7 @@ public final class PoolProfile
 
         System.gc();
         System.gc();
-        Thread.currentThread().sleep( 2 );
+        Thread.sleep( 2 );
 
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 2: " + Runtime.getRuntime().freeMemory() );
 
@@ -1047,7 +1039,7 @@ public final class PoolProfile
 
         System.gc();
         System.gc();
-        Thread.currentThread().sleep( 2 );
+        Thread.sleep( 2 );
 
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 3: " + Runtime.getRuntime().freeMemory() );
 
@@ -1128,7 +1120,7 @@ public final class PoolProfile
         final long createStart = System.currentTimeMillis();
         for( int i = 0; i < TEST_SIZE; i++ )
         {
-            final Poolable a1 = new C();
+            new C();
         }
         final long createEnd = System.currentTimeMillis();
         final long createDuration = createEnd - createStart;
@@ -1161,13 +1153,11 @@ public final class PoolProfile
 
         System.gc();
         System.gc();
-        Thread.currentThread().sleep( 2 );
+        Thread.sleep( 2 );
 
         final DefaultPool pool1 = new DefaultPool( C.class, 5, 10 );
         pool1.enableLogging( poolLogger );
         final long pool1Start = System.currentTimeMillis();
-        final int pool1Factor = 1;
-        final int pool1Loops = TEST_SIZE / pool1Factor;
 
         for( int i = 0; i < TEST_SIZE; i++ )
         {
@@ -1180,7 +1170,7 @@ public final class PoolProfile
 
         System.gc();
         System.gc();
-        Thread.currentThread().sleep( 2 );
+        Thread.sleep( 2 );
 
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 1: " + Runtime.getRuntime().freeMemory() );
 
@@ -1230,7 +1220,7 @@ public final class PoolProfile
 
         System.gc();
         System.gc();
-        Thread.currentThread().sleep( 2 );
+        Thread.sleep( 2 );
 
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 2: " + Runtime.getRuntime().freeMemory() );
 
@@ -1295,7 +1285,7 @@ public final class PoolProfile
 
         System.gc();
         System.gc();
-        Thread.currentThread().sleep( 2 );
+        Thread.sleep( 2 );
 
         if( logger.isDebugEnabled() ) logger.debug( "FreeMem post 3: " + Runtime.getRuntime().freeMemory() );
 
@@ -1356,7 +1346,7 @@ public final class PoolProfile
         final long createStart = System.currentTimeMillis();
         for( int i = 0; i < TEST_SIZE; i++ )
         {
-            final Poolable a1 = new C();
+            new C();
         }
         final long createEnd = System.currentTimeMillis();
         final long createDuration = createEnd - createStart;

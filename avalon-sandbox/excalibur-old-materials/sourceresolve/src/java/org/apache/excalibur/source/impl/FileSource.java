@@ -69,7 +69,7 @@ import org.apache.excalibur.source.SourceException;
  * A {@link ModifiableSource} for 'file:/' system IDs.
  *
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version $Id: FileSource.java,v 1.2 2003/02/25 16:28:33 bloritsch Exp $
+ * @version $Id: FileSource.java,v 1.3 2003/03/29 18:53:26 bloritsch Exp $
  */
 
 public class FileSource
@@ -85,7 +85,7 @@ public class FileSource
     throws IOException {
         super.init( url, parameters );
 
-        if ( null == this.file ) {
+        if ( null == this.m_file ) {
             throw new IllegalArgumentException("Malformed url for a file source : " + url);
         }
     }
@@ -94,7 +94,7 @@ public class FileSource
      * Get the associated file
      */
     public File getFile() {
-        return this.file;
+        return this.m_file;
     }
 
     /**
@@ -168,7 +168,7 @@ public class FileSource
      * @return true if the resource exists.
      */
     public boolean exists() {
-        return this.file.exists();
+        return this.m_file.exists();
     }
 
     /**
@@ -189,19 +189,19 @@ public class FileSource
     throws IOException, SourceException {
         // Create a temp file. It will replace the right one when writing terminates,
         // and serve as a lock to prevent concurrent writes.
-        File tmpFile = new File(this.file.getPath() + ".tmp");
+        File tmpFile = new File(this.m_file.getPath() + ".tmp");
 
         // Ensure the directory exists
         tmpFile.getParentFile().mkdirs();
 
         // Can we write the file ?
-        if (this.file.exists() && !this.file.canWrite()) {
-            throw new IOException("Cannot write to file " + this.file.getPath());
+        if (this.m_file.exists() && !this.m_file.canWrite()) {
+            throw new IOException("Cannot write to file " + this.m_file.getPath());
         }
 
         // Check if it temp file already exists, meaning someone else currently writing
         if (!tmpFile.createNewFile()) {
-            throw new ConcurrentModificationException("File " + this.file.getPath() +
+            throw new ConcurrentModificationException("File " + this.m_file.getPath() +
               " is already being written by another thread");
         }
 
@@ -254,6 +254,6 @@ public class FileSource
      * Delete the source.
      */
     public boolean delete()  {
-        return this.file.delete();
+        return this.m_file.delete();
     }
 }

@@ -56,7 +56,7 @@ import org.apache.avalon.excalibur.thread.impl.ResourceLimitingThreadPool;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/03/22 12:46:55 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/03/29 18:53:26 $
  * @since 4.1
  */
 public final class ResourceLimitingThreadPoolTestCase
@@ -114,7 +114,7 @@ public final class ResourceLimitingThreadPoolTestCase
         commonTest( 10, 10, 0L, 200L, 5, false, false, -1, -1 );
     }
 
-    private void incCompleteCount()
+    protected void incCompleteCount()
     {
         synchronized( this )
         {

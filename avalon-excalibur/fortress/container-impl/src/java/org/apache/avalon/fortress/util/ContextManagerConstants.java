@@ -55,7 +55,7 @@ import org.apache.avalon.fortress.ContainerManagerConstants;
  * Provides constants used to access the Context object for containers.
  *
  * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/03/22 12:46:34 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/03/29 18:53:24 $
  */
 public interface ContextManagerConstants extends ContainerManagerConstants
 {
@@ -72,6 +72,4 @@ public interface ContextManagerConstants extends ContainerManagerConstants
 
     String ASSEMBLY_CONFIGURATION_URI = "impl.assembly.config.uri";
     String CONFIGURATION_URI = "impl.configuration.uri";
-
-    String SERVICE_MANAGER_PARENT = "impl.serviceManager.parent";
 }

@@ -69,13 +69,13 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescript
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/03/22 12:46:38 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/03/29 18:53:25 $
  * @since 4.1
  */
 public class MenuBar
     extends JMenuBar
 {
-    private InstrumentClientFrame m_frame;
+    protected InstrumentClientFrame m_frame;
     //private ProfilerManager m_profilerManager;
 
     private JMenu m_menuFile;
@@ -86,8 +86,6 @@ public class MenuBar
     private JCheckBoxMenuItem m_menuItemShowUnconfigured;
 
     private JMenu m_menuWindow;
-
-    private boolean m_showUnconfigured;
 
     /*---------------------------------------------------------------
      * Constructors
@@ -211,7 +209,7 @@ public class MenuBar
         return m_menuInstrumentManagers;
     }
 
-    private void rebuildInstrumentManagersMenu()
+    protected void rebuildInstrumentManagersMenu()
     {
         m_menuInstrumentManagers.removeAll();
 
@@ -276,7 +274,7 @@ public class MenuBar
         }
     }
 
-    private void rebuildInstrumentManagerMenu( JMenu managerMenu,
+    protected void rebuildInstrumentManagerMenu( JMenu managerMenu,
                                                InstrumentManagerConnection connection )
     {
         managerMenu.removeAll();
@@ -371,7 +369,7 @@ public class MenuBar
         }
     }
 
-    private void rebuildInstrumentableMenu( JMenu instrumentableMenu,
+    protected void rebuildInstrumentableMenu( JMenu instrumentableMenu,
                                             InstrumentManagerConnection connection,
                                             InstrumentableDescriptor instrumentableDescriptor )
     {
@@ -442,7 +440,7 @@ public class MenuBar
         }
     }
 
-    private void rebuildInstrumentMenu( JMenu instrumentMenu,
+    protected void rebuildInstrumentMenu( JMenu instrumentMenu,
                                         InstrumentManagerConnection connection,
                                         InstrumentableDescriptor instrumentableDescriptor,
                                         InstrumentDescriptor instrumentDescriptor )
@@ -456,10 +454,11 @@ public class MenuBar
         {
             public void actionPerformed( ActionEvent event )
             {
+                /*  Not implemented.
+
                 JMenuItem item = (JMenuItem)event.getSource();
                 Action action = item.getAction();
 
-                /*
                 m_frame.instrumentCreateSample(
                     (InstrumentManagerConnection)action.getValue( "InstrumentManagerConnection" ),
                     (InstrumentDescriptor)action.getValue( "InstrumentDescriptor" ) );
@@ -495,10 +494,11 @@ public class MenuBar
                         {
                             public void actionPerformed( ActionEvent event )
                             {
+                                /* Not implemented
+
                                 JMenuItem menu = (JMenuItem)event.getSource();
                                 Action action = menu.getAction();
 
-                                /*
                                 m_frame.openInstrumentSampleFrame(
                                     (InstrumentManagerConnection)action.getValue(
                                         "InstrumentManagerConnection" ),
@@ -615,7 +615,7 @@ public class MenuBar
         return m_menuWindow;
     }
 
-    private void rebuildWindowMenu()
+    protected void rebuildWindowMenu()
     {
         m_menuWindow.removeAll();
 
