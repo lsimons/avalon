@@ -49,7 +49,7 @@
 */
 package org.apache.excalibur.event.impl;
 
-import org.apache.excalibur.event.*;
+import org.apache.excalibur.event.Queue;
 
 /**
  * Provides the base functionality for the other <code>Queue</code> types.

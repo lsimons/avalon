@@ -49,11 +49,12 @@
 */
 package org.apache.excalibur.event.impl;
 
-import org.apache.excalibur.event.*;
-
 import org.apache.avalon.excalibur.collections.Buffer;
 import org.apache.avalon.excalibur.collections.VariableSizeBuffer;
 import org.apache.avalon.excalibur.concurrent.Mutex;
+import org.apache.excalibur.event.PreparedEnqueue;
+import org.apache.excalibur.event.SinkException;
+import org.apache.excalibur.event.SinkFullException;
 
 /**
  * The default queue implementation is a variable size queue.  This queue is
