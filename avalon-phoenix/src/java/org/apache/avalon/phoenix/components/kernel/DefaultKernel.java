@@ -211,6 +211,7 @@ public class DefaultKernel
         if( null != entry )        
         {
             shutdown( entry );
+            m_entrys.remove( name );
         }
     }
     
