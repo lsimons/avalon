@@ -71,7 +71,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.14 $ $Date: 2003/03/19 16:41:52 $
+ * @version CVS $Revision: 1.15 $ $Date: 2003/03/19 16:50:35 $
  * @since 4.0
  */
 public class ComponentFactory
@@ -202,12 +202,12 @@ public class ComponentFactory
     private Logger aquireLogger()
     {
         Logger logger;
-        final String name = ( m_configuration == null ? null : m_configuration.getAttribute( "name", null ) );
+        final String name = ( m_configuration == null ? null : m_configuration.getAttribute( "id", null ) );
         if( null == name )
         {
             if( getLogger().isDebugEnabled() )
             {
-                final String message = "no name attribute available, using standard name";
+                final String message = "no id attribute available, using standard name";
                 getLogger().debug( message );
             }
             logger = m_loggerManager.getDefaultLogger();
@@ -216,7 +216,7 @@ public class ComponentFactory
         {
             if( getLogger().isDebugEnabled() )
             {
-                final String message = "name attribute is " + name;
+                final String message = "id attribute is " + name;
                 getLogger().debug( message );
             }
             logger = m_loggerManager.getLoggerForCategory( name );
