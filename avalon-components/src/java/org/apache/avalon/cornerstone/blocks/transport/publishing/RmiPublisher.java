@@ -16,7 +16,7 @@ import org.apache.commons.altrmi.server.impl.rmi.RmiServer;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class RmiPublisher extends AbstractPublisher
 {
@@ -52,6 +52,7 @@ public class RmiPublisher extends AbstractPublisher
 
         m_AbstractServer = new RmiServer( mHost, mPort );
 
+        setupLogger( m_AbstractServer );
         super.initialize();
     }
 }
