@@ -10,7 +10,7 @@
 # building all components. These values are overridable in component-specific
 # ant.properties files.
 #
-# $Id: ant.properties.sample,v 1.22 2003/01/19 11:14:26 hammant Exp $
+# $Id: ant.properties.sample,v 1.23 2003/02/05 00:10:57 hammant Exp $
 # -----------------------------------------------------------------------------
 
 
@@ -60,7 +60,7 @@ excalibur-lang.jar=${excalibur-lang.home}/excalibur-lang-1.0.jar
 
 # ----- Excalibur Thread -----
 excalibur-thread.home=${base.path}/jakarta-avalon-excalibur/thread/build/lib
-excalibur-thread.jar=${excalibur-thread.home}/excalibur-thread-1.0.jar
+excalibur-thread.jar=${excalibur-thread.home}/excalibur-thread-1.1.jar
 
 # ----- Excalibur Pool -----
 excalibur-pool.home=${base.path}/jakarta-avalon-excalibur/pool/build/lib
