@@ -1,0 +1,3 @@
+"org.apache.excalibur.source.SourceFactory"
+org.apache.excalibur.source.SourceResolver
+org.apache.excalibur.source.SourceFactory
