@@ -58,6 +58,8 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -69,7 +71,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.phoenix.interfaces.Installation;
+import org.apache.avalon.phoenix.interfaces.ContainerConstants;
 import org.apache.avalon.phoenix.interfaces.InstallationException;
 import org.apache.avalon.phoenix.interfaces.Installer;
 
@@ -78,7 +80,7 @@ import org.apache.avalon.phoenix.interfaces.Installer;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.14 $ $Date: 2003/03/22 12:07:09 $
+ * @version $Revision: 1.15 $ $Date: 2003/03/23 00:37:25 $
  */
 public class DefaultInstaller
     extends AbstractLogEnabled
@@ -174,10 +176,12 @@ public class DefaultInstaller
      * @param installation the installation
      * @throws InstallationException if an error occurs
      */
-    public void uninstall( final Installation installation )
+    public void uninstall( final Map installation )
         throws InstallationException
     {
-        deleteWorkDir( installation.getWorkDirectory() );
+        final File work =
+            (File)installation.get( ContainerConstants.INSTALL_WORK );
+        deleteWorkDir( work );
     }
 
     /**
@@ -217,7 +221,7 @@ public class DefaultInstaller
      * @param url the url of instalation
      * @throws InstallationException if an error occurs
      */
-    public Installation install( final String name, final URL url )
+    public Map install( final String name, final URL url )
         throws InstallationException
     {
         lock();
@@ -273,10 +277,10 @@ public class DefaultInstaller
      * @param zipFile the ZipFile representing sar
      * @return the Installation object
      */
-    private Installation installArchive( final String name,
-                                         final URL url,
-                                         final File file,
-                                         final ZipFile zipFile )
+    private Map installArchive( final String name,
+                                final URL url,
+                                final File file,
+                                final ZipFile zipFile )
         throws InstallationException
     {
         final File directory =
@@ -298,8 +302,14 @@ public class DefaultInstaller
             final String environment = getURLAsString( new File( directory, FS_ENV_XML ) );
 
             success = true;
-            return new Installation( file, directory, workDir,
-                                     config, assembly, environment );
+            final Map install = new HashMap();
+            install.put( ContainerConstants.INSTALL_SOURCE, file );
+            install.put( ContainerConstants.INSTALL_HOME, directory );
+            install.put( ContainerConstants.INSTALL_WORK, workDir );
+            install.put( ContainerConstants.INSTALL_CONFIG, config );
+            install.put( ContainerConstants.INSTALL_ASSEMBLY, assembly );
+            install.put( ContainerConstants.INSTALL_ENVIRONMENT, environment );
+            return install;
         }
         finally
         {
