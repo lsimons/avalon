@@ -34,7 +34,7 @@ import org.apache.excalibur.instrument.ValueInstrument;
  *  and instrumentation features.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/09/16 07:11:37 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/09/16 07:42:47 $
  * @since 4.2
  */
 public abstract class AbstractComponentManagerServlet
@@ -175,7 +175,19 @@ public abstract class AbstractComponentManagerServlet
     public void service( HttpServletRequest request, HttpServletResponse response )
          throws ServletException, IOException
     {
-        //System.out.println( "AbstractComponentManagerServlet.service( request, response )" );
+        if ( getLogger().isDebugEnabled() )
+        {
+            StringBuffer sb = new StringBuffer( request.getRequestURI() );
+            String query = request.getQueryString();
+            if ( query != null )
+            {
+                sb.append( "?" );
+                sb.append( query );
+            }
+            
+            getLogger().debug( "Request: " + sb.toString() );
+        }
+        
         long start = System.currentTimeMillis();
         
         // Notify the Instrument Manager
