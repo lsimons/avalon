@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.phoenix.components.application;
 
-import org.apache.avalon.excalibur.container.State;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
