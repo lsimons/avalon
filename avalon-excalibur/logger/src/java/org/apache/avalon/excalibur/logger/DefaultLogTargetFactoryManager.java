@@ -67,7 +67,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * from a configuration file.
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.12 $ $Date: 2003/06/02 13:53:33 $
+ * @version CVS $Revision: 1.13 $ $Date: 2003/06/04 22:14:56 $
  * @since 4.0
  */
 public class DefaultLogTargetFactoryManager
@@ -112,11 +112,18 @@ public class DefaultLogTargetFactoryManager
         m_context = context;
         try
         {
-            m_classLoader = (ClassLoader)m_context.get( "classloader" );
+            m_classLoader = (ClassLoader)m_context.get( ClassLoader.class.getName() );
         }
         catch( ContextException ce )
         {
-            m_classLoader = Thread.currentThread().getContextClassLoader();
+            try
+            {
+                m_classLoader = (ClassLoader)m_context.get( "classloader" );
+            }
+            catch( ContextException e )
+            {
+                m_classLoader = Thread.currentThread().getContextClassLoader();
+            }
         }
     }
 
@@ -139,18 +146,11 @@ public class DefaultLogTargetFactoryManager
             try
             {
                 Class clazz = null;
-
-                //First lets try the supplied ClassLoader
                 try
                 {
                     clazz = m_classLoader.loadClass( factoryClass );
                 }
                 catch( final ClassNotFoundException cnfe )
-                {
-                }
-
-                //Okay now lets try classLoader this class was loaded from
-                if( null == clazz )
                 {
                     clazz = getClass().getClassLoader().loadClass( factoryClass );
                 }
