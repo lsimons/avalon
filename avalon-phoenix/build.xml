@@ -485,6 +485,19 @@ Legal:
             <include name="README.txt"/>
           </fileset>
         </copy>
+        <mkdir dir="${src.dist.lib}/jing" />
+        <copy todir="${src.dist.lib}">
+          <fileset dir="${lib.dir}/jing">
+            <include name="**"/>
+          </fileset>          
+        </copy>
+        
+        <mkdir dir="${src.dist.lib}/xdoclet" />
+        <copy todir="${src.dist.lib}/xdoclet">
+          <fileset dir="${lib.dir}/xdoclet">
+            <include name="**"/>
+          </fileset>                    
+        </copy>
         <copy file="${logkit.jar}" todir="${src.dist.lib}"/>
 
         <copy todir="${src.dist.src}">
