@@ -54,11 +54,7 @@ import junit.framework.TestCase;
 import org.apache.avalon.fortress.ContainerManager;
 import org.apache.avalon.fortress.impl.DefaultContainer;
 import org.apache.avalon.fortress.impl.DefaultContainerManager;
-import org.apache.avalon.fortress.test.data.BaseRole;
-import org.apache.avalon.fortress.test.data.Role1;
-import org.apache.avalon.fortress.test.data.Role2;
-import org.apache.avalon.fortress.test.data.Role3;
-import org.apache.avalon.fortress.test.data.Role4;
+import org.apache.avalon.fortress.test.data.*;
 import org.apache.avalon.fortress.util.FortressConfig;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -67,7 +63,7 @@ import org.apache.avalon.framework.service.ServiceManager;
  * A testcase for the different handlers.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2003/04/18 20:02:31 $
+ * @version $Revision: 1.13 $ $Date: 2003/04/21 20:29:43 $
  */
 public class HandlersTestCase extends TestCase
 {

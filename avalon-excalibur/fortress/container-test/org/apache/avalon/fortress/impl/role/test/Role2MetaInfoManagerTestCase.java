@@ -49,9 +49,8 @@
 */
 package org.apache.avalon.fortress.impl.role.test;
 
-import junit.framework.TestCase;
-import org.apache.avalon.fortress.impl.role.Role2MetaInfoManager;
 import org.apache.avalon.fortress.impl.role.FortressRoleManager;
+import org.apache.avalon.fortress.impl.role.Role2MetaInfoManager;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 
 /**

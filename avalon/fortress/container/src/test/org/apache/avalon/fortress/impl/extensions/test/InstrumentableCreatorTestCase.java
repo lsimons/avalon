@@ -50,15 +50,13 @@
 package org.apache.avalon.fortress.impl.extensions.test;
 
 import junit.framework.TestCase;
-import junit.framework.Assert;
-import org.apache.avalon.lifecycle.Creator;
 import org.apache.avalon.fortress.impl.extensions.InstrumentableCreator;
-import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.excalibur.instrument.Instrumentable;
-import org.apache.excalibur.instrument.InstrumentManager;
+import org.apache.avalon.lifecycle.Creator;
 import org.apache.excalibur.instrument.Instrument;
 import org.apache.excalibur.instrument.InstrumentManageable;
+import org.apache.excalibur.instrument.InstrumentManager;
+import org.apache.excalibur.instrument.Instrumentable;
 
 /**
  * InstrumentableCreatorTestCase does XYZ
