@@ -76,7 +76,7 @@ import org.apache.avalon.merlin.env.EnvAccessException ;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class KernelDefaults
 {
@@ -120,7 +120,7 @@ public class KernelDefaults
     public static final String LIBRARY_PATH_KEY =
         s_keys[10] ;
     
-    public static final String TARGET_URLS_BASE =
+    public static final String BLOCK_URLS_BASE =
         "merlin.kernel.targeturls" ;
     public static final String MERLIN_FILE_BASE =
         "merlin.properties" ;
@@ -228,7 +228,7 @@ public class KernelDefaults
         while ( l_list.hasMoreElements() )
         {
             String l_key = ( String ) l_list.nextElement() ;
-            if ( l_key.startsWith( TARGET_URLS_BASE ) )
+            if ( l_key.startsWith( BLOCK_URLS_BASE ) )
             {
                 String l_default = System.getProperty( l_key,
                         s_defaults.getProperty( l_key ) ) ;
@@ -278,14 +278,27 @@ public class KernelDefaults
 
     
     /**
-     * Gets a default value for the remote repo.
+     * Gets a default value for the remote repositories.
      * 
      * @see org.apache.avalon.merlin.kernel.KernelConfig#
-     * getRemoteRepositoryUrl()
+     * getRemoteRepositoryUrls()
      */
-    public static String getRemoteRepositoryUrl()
+    public static String[] getRemoteRepositoryUrls()
     {
-        return s_defaults.getProperty( REMOTE_REPO_KEY ) ;
+        String [] l_urls = null ;
+        ArrayList l_urlArray = new ArrayList() ;
+        Enumeration l_list = s_defaults.keys() ;
+
+        while ( l_list.hasMoreElements() )
+        {
+            String l_key = ( String ) l_list.nextElement() ;
+            if ( l_key.startsWith( REMOTE_REPO_KEY ) )
+            {
+                l_urlArray.add( s_defaults.getProperty( l_key ) ) ;
+            }
+        }
+        return ( String [] ) l_urlArray.toArray( new String [0] ) ;
+
     }
 
     
@@ -362,9 +375,9 @@ public class KernelDefaults
      * kernel.  Note that properties are enumerated off of the base key using 
      * dot number notation like base.1, base.2, ... , base.n.
      * 
-     * @see org.apache.avalon.merlin.kernel.KernelConfig#getTargetUrls()
+     * @see org.apache.avalon.merlin.kernel.KernelConfig#getBlockUrls()
      */
-    public static String[] getTargetUrls()
+    public static String[] getBlockUrls()
     {
         String [] l_urls = null ;
         ArrayList l_urlArray = new ArrayList() ;
@@ -373,7 +386,7 @@ public class KernelDefaults
         while ( l_list.hasMoreElements() )
         {
             String l_key = ( String ) l_list.nextElement() ;
-            if ( l_key.startsWith( TARGET_URLS_BASE ) )
+            if ( l_key.startsWith( BLOCK_URLS_BASE ) )
             {
                 l_urlArray.add( s_defaults.getProperty( l_key ) ) ;
             }

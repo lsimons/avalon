@@ -6,7 +6,7 @@ package org.apache.avalon.merlin ;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class KernelConfig 
 {
@@ -18,8 +18,8 @@ public class KernelConfig
     private boolean m_isInfo = KernelDefaults.isInfoEnabled() ;
     
     /** @todo confirm default value */
-    private String m_remoteRepositoryUrl = 
-        KernelDefaults.getRemoteRepositoryUrl() ;
+    private String[] m_remoteRepositoryUrls = 
+        KernelDefaults.getRemoteRepositoryUrls() ;
     /** @todo confirm default value */
     private String m_systemRepositoryPath = 
         KernelDefaults.getSystemRepositoryPath() ;
@@ -38,31 +38,42 @@ public class KernelConfig
     private String m_tempPath = KernelDefaults.getTempPath() ;
     
     /** @todo confirm default value */
-    private String [] m_targetUrls = KernelDefaults.getTargetUrls() ;
+    private String [] m_blockUrls = KernelDefaults.getBlockUrls() ;
     
     
-
+   /**
+    * Return TRUE if the kernel is launched in server model.
+    * @return the server mode policy
+    */
     public boolean isServer()
     {
         return m_isServer ;
     }
-
     
+   /**
+    * Return the debug policy.  If TRUE debug level logging 
+    * shall be enabled on all channels.
+    * @return the debug policy
+    */
     public boolean isDebugEnabled()
     {
         return m_isDebug ;
     }
 
-    
+   /**
+    * Return the info policy.  If TRUE an environment
+    * summary is listed during kernel establishment.
+    * @return the info policy
+    */
     public boolean isInfoEnabled()
     {
         return m_isInfo ;
     }
 
     
-    public String getRemoteRepositoryUrl()
+    public String[] getRemoteRepositoryUrls()
     {
-        return m_remoteRepositoryUrl ;
+        return m_remoteRepositoryUrls ;
     }
 
     
@@ -102,9 +113,9 @@ public class KernelConfig
     }
 
     
-    public String[] getTargetUrls()
+    public String[] getBlockUrls()
     {
-        return m_targetUrls ;
+        return m_blockUrls ;
     }
 
     
@@ -178,11 +189,11 @@ public class KernelConfig
 
     
     /**
-     * @param a_remoteRepositoryUrl The remoteRepositoryUrl to set.
+     * @param a_remoteRepositoryUrls The remoteRepositoryUrl to set.
      */
-    public void setRemoteRepositoryUrl( String a_remoteRepositoryUrl )
+    public void setRemoteRepositoryUrls( String[] a_remoteRepositoryUrls )
     {
-        m_remoteRepositoryUrl = a_remoteRepositoryUrl ;
+        m_remoteRepositoryUrls = a_remoteRepositoryUrls ;
     }
 
 
@@ -196,11 +207,11 @@ public class KernelConfig
 
 
     /**
-     * @param a_targetUrls The targetUrls to set.
+     * @param a_blockUrls The blockUrls to set.
      */
-    public void setTargetUrls( String [] a_targetUrls )
+    public void setBlockUrls( String [] a_blockUrls )
     {
-        m_targetUrls = a_targetUrls ;
+        m_blockUrls = a_blockUrls ;
     }
 
 
