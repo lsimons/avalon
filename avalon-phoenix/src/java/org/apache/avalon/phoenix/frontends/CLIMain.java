@@ -254,8 +254,11 @@ public final class CLIMain
 
     /**
      * Shut the embeddor down.
+     *
+     * Note must be public so that the Frontend can
+     * shut it down via reflection.
      */
-    private synchronized void shutdown()
+    public synchronized void shutdown()
     {
         //Null hook so it is not tried to be removed
         //when we are shutting down. (Attempting to remove
