@@ -66,7 +66,7 @@ import org.apache.avalon.framework.component.ComponentSelector;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/11/07 08:29:04 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/11/07 09:06:13 $
  */
 public class WrapperServiceManager
     implements ServiceManager
@@ -116,8 +116,7 @@ public class WrapperServiceManager
         }
         catch( final ComponentException ce )
         {
-            final String message = "Could not return a reference to the Component";
-            throw new ServiceException( key, message, ce );
+            throw new ServiceException( key, ce.getMessage(), ce );
         }
     }
 

@@ -53,11 +53,13 @@
  * <http://www.apache.org/>.
  */
 
-package org.apache.avalon.framework.service;
+package org.apache.avalon.framework.component;
 
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentSelector;
+import org.apache.avalon.framework.service.ServiceSelector;
+import org.apache.avalon.framework.service.ServiceException;
 
 /**
  * This is a {@link ServiceSelector} implementation that can wrap around a legacy
@@ -66,15 +68,15 @@ import org.apache.avalon.framework.component.ComponentSelector;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/11/07 09:06:13 $
+ * @version CVS $Revision: 1.1 $ $Date: 2002/11/07 09:06:13 $
  */
-public class WrapperServiceSelector
-    implements ServiceSelector
+public class WrapperComponentSelector
+    implements ComponentSelector
 {
     /**
      * The Selector we are wrapping.
      */
-    private final ComponentSelector m_selector;
+    private final ServiceSelector m_selector;
 
     /**
      * The role that this selector was aquired via.
@@ -82,13 +84,13 @@ public class WrapperServiceSelector
     private final String m_key;
 
     /**
-     * This constructor is a constructor for a ComponentServiceManager
+     * This constructor is a constructor for a WrapperComponentSelector.
      *
      * @param key the key used to aquire this selector
      * @param selector the selector to wrap
      */
-    public WrapperServiceSelector( final String key,
-                                   final ComponentSelector selector )
+    public WrapperComponentSelector( final String key,
+                                     final ServiceSelector selector )
     {
         if( null == key )
         {
@@ -104,34 +106,42 @@ public class WrapperServiceSelector
     }
 
     /**
-     * Select a service based on a policy.
+     * Select a Component based on a policy.
      *
      * @param policy the policy
-     * @return the service
-     * @throws ServiceException if unable to select service
+     * @return the Component
+     * @throws ComponentException if unable to select service
      */
-    public Object select( final Object policy )
-        throws ServiceException
+    public Component select( final Object policy )
+        throws ComponentException
     {
         try
         {
-            return m_selector.select( policy );
+            final Object object = m_selector.select( policy );
+            if( object instanceof Component )
+            {
+                return (Component)object;
+            }
         }
-        catch( final ComponentException ce )
+        catch( final ServiceException se )
         {
-            throw new ServiceException( m_key + policy, ce.getMessage(), ce );
+            throw new ComponentException( m_key + policy, se.getMessage(), se );
         }
+
+        final String message = "Role does not implement the Component " +
+            "interface and thus can not be accessed via ComponentSelector";
+        throw new ComponentException( m_key + policy, message );
     }
 
     /**
-     * Check to see if a {@link Object} exists relative to the supplied policy.
+     * Check to see if a {@link Component} exists relative to the supplied policy.
      *
      * @param policy a {@link Object} containing the selection criteria
      * @return True if the component is available, False if it not.
      */
-    public boolean isSelectable( final Object policy )
+    public boolean hasComponent( final Object policy )
     {
-        return m_selector.hasComponent( policy );
+        return m_selector.isSelectable( policy );
     }
 
     /**
@@ -143,8 +153,8 @@ public class WrapperServiceSelector
      *
      * @param object The {@link Object} we are releasing.
      */
-    public void release( Object object )
+    public void release( final Component object )
     {
-        m_selector.release( (Component)object );
+        m_selector.release( object );
     }
 }
