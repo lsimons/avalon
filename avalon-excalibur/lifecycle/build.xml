@@ -282,7 +282,7 @@
 
 
         <copy file="${build.conf}/LICENSE.txt" todir="${dist.dir}"/>
-        <copy file="../KEYS" todir="${dist.dir}"/>
+        <copy file="../avalon/KEYS" todir="${dist.dir}"/>
 
         <mkdir dir="${dist.base}"/>
     </target>
@@ -293,7 +293,7 @@
         description="Generates a distribution (jar + docs javadocs + unit tests + checkstyle reports)">
 
         <copy file="${build.conf}/LICENSE.txt" todir="${dist.dir}"/>
-        <copy file="../KEYS" todir="${dist.dir}"/>
+        <copy file="../avalon/KEYS" todir="${dist.dir}"/>
 
         <zip zipfile="${dist.dir}/src.zip" compress="false">
             <zipfileset dir="src/java"/>
@@ -325,7 +325,7 @@
         description="Generates a minimal distribution (jar + javadocs)">
 
         <copy file="../LICENSE.txt" todir="${dist.dir}"/>
-        <copy file="../KEYS" todir="${dist.dir}"/>
+        <copy file="../avalon/KEYS" todir="${dist.dir}"/>
 
     </target>
 
