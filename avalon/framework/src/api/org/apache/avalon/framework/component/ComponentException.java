@@ -69,7 +69,7 @@ import org.apache.avalon.framework.CascadingException;
 public class ComponentException
     extends CascadingException
 {
-    private final String m_role;
+    private final String m_key;
 
     /**
      * Construct a new <code>ComponentException</code> instance.
@@ -77,10 +77,12 @@ public class ComponentException
      * @param message the exception message
      * @param throwable the throwable
      */
-    public ComponentException( final String role, final String message, final Throwable throwable )
+    public ComponentException( final String key,
+                               final String message,
+                               final Throwable throwable )
     {
         super( message, throwable );
-        m_role = role;
+        m_key = key;
     }
 
     /**
@@ -111,19 +113,30 @@ public class ComponentException
      *
      * @param message the exception message
      */
-    public ComponentException( final String role, final String message )
+    public ComponentException( final String key, final String message )
     {
-        this( role, message, null );
+        this( key, message, null );
     }
 
     /**
-     * Get the role which let to the exception.  May be null.
+     * Get the key which let to the exception.  May be null.
      *
-     * @return The role which let to the exception.
+     * @return The key which let to the exception.
+     */
+    public final String getKey()
+    {
+        return m_key;
+    }
+
+    /**
+     * Get the key which let to the exception.  May be null.
+     *
+     * @return The key which let to the exception.
+     * @deprecated Use getKey instead
      */
     public final String getRole()
     {
-        return m_role;
+        return getKey();
     }
 
     /**
@@ -133,13 +146,13 @@ public class ComponentException
      */
     public String getMessage()
     {
-        if( m_role == null )
+        if( m_key == null )
         {
             return super.getMessage();
         }
         else
         {
-            return super.getMessage() + " (role [" + m_role + "])";
+            return super.getMessage() + " (role [" + m_key + "])";
         }
     }
 }
