@@ -23,7 +23,7 @@ import org.apache.avalon.framework.parameters.Parameters;
  * more than one value for a parameter.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: SourceParameters.java,v 1.2 2002/07/06 03:55:06 donaldp Exp $
+ * @version $Id: SourceParameters.java,v 1.3 2002/11/07 07:30:10 donaldp Exp $
  */
 public final class SourceParameters
     implements Serializable, Cloneable
@@ -122,12 +122,12 @@ public final class SourceParameters
             StringTokenizer st = new StringTokenizer( queryString, "&" );
             while( st.hasMoreTokens() )
             {
-                String pair = (String)st.nextToken();
+                String pair = st.nextToken();
                 int pos = pair.indexOf( '=' );
                 if( pos != -1 )
                 {
-                    this.setParameter( this.parseName( pair.substring( 0, pos ) ),
-                                       this.parseName( pair.substring( pos + 1, pair.length() ) ) );
+                    setParameter( parseName( pair.substring( 0, pos ) ),
+                                  parseName( pair.substring( pos + 1, pair.length() ) ) );
                 }
             }
         }
