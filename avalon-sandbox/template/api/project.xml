@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+
+  <extend>${basedir}/../project.xml</extend>
+
+  <id>template-api</id>
+  <name>Template API</name>
+  <package>org.apache.avalon.playground</package>
+  <currentVersion>1.0</currentVersion>
+  <shortDescription>Template API</shortDescription>
+
+</project>
