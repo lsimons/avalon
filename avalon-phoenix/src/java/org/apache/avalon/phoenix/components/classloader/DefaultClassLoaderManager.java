@@ -69,16 +69,16 @@ public class DefaultClassLoaderManager
 
         //If source is not a file then there will be no need to pass in
         //a URLStreamHandler factory anyway so we can just pass in null
-        SarURLStreamHandlerFactory factory = null;
-        if( source.isFile() )
-        {
-            final JarFile archive = new JarFile( source, true, JarFile.OPEN_READ );
-            factory = new SarURLStreamHandlerFactory( archive );
-            URL.setURLStreamHandlerFactory( factory );
-        }
+        //SarURLStreamHandlerFactory factory = null;
+        //if( source.isFile() )
+        //{
+        //final JarFile archive = new JarFile( source, true, JarFile.OPEN_READ );
+        //factory = new SarURLStreamHandlerFactory( archive );
+        //URL.setURLStreamHandlerFactory( factory );
+        //}
 
         final PolicyClassLoader classLoader = 
-            new PolicyClassLoader( classPath, parentClassLoader, factory, policy );
+            new PolicyClassLoader( classPath, parentClassLoader, null, policy );
         setupLogger( classLoader, "classloader" );
         return classLoader;
     }
