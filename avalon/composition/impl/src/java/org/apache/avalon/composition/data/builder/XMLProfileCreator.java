@@ -17,8 +17,6 @@
 
 package org.apache.avalon.composition.data.builder;
 
-import java.util.ArrayList;
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
@@ -35,7 +33,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/03/11 01:30:38 $
+ * @version $Revision: 1.7 $ $Date: 2004/03/17 10:39:11 $
  */
 public abstract class XMLProfileCreator
 {

@@ -17,8 +17,6 @@
 
 package org.apache.avalon.composition.model.impl;
 
-import java.util.Map;
-
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.provider.ComponentContext;
@@ -27,7 +25,6 @@ import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;
 
 import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.composition.data.ImportDirective;
 
 import org.apache.avalon.meta.info.EntryDescriptor;
 
@@ -37,7 +34,7 @@ import org.apache.avalon.meta.info.EntryDescriptor;
  * Default implementation of a the context entry import model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/03/08 11:28:36 $
+ * @version $Revision: 1.8 $ $Date: 2004/03/17 10:39:10 $
  */
 public class DefaultImportModel extends DefaultEntryModel
 {

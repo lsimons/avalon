@@ -17,8 +17,6 @@
 
 package org.apache.avalon.composition.model.impl;
  
-import java.lang.reflect.InvocationTargetException;
-
 import org.apache.avalon.composition.model.CommissioningException;
 import org.apache.avalon.composition.model.FatalCommissioningException;
 import org.apache.avalon.composition.model.DeploymentModel;

@@ -18,28 +18,16 @@
 package org.apache.avalon.composition.model.impl;
 
 import java.io.File;
-import java.util.Map;
-import java.util.Hashtable;
 
 import org.apache.avalon.composition.data.ComponentProfile;
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.DeploymentModel;
-import org.apache.avalon.composition.model.EntryModel;
-import org.apache.avalon.composition.model.ModelRuntimeException;
 import org.apache.avalon.composition.model.DependencyGraph;
 import org.apache.avalon.composition.provider.SystemContext;
-import org.apache.avalon.composition.provider.ContainmentContext;
 import org.apache.avalon.composition.provider.ComponentContext;
-import org.apache.avalon.composition.provider.SecurityModel;
 
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.Logger;
 
 import org.apache.avalon.meta.info.Type;
-import org.apache.avalon.meta.info.EntryDescriptor;
-import org.apache.avalon.meta.info.DependencyDescriptor;
-import org.apache.avalon.meta.info.StageDescriptor;
 
 import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;
@@ -51,7 +39,7 @@ import org.apache.avalon.util.i18n.Resources;
  * model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2004/03/11 01:30:38 $
+ * @version $Revision: 1.11 $ $Date: 2004/03/17 10:39:10 $
  */
 public class DefaultComponentContext extends DefaultDeploymentContext 
   implements ComponentContext

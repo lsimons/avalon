@@ -17,15 +17,13 @@
 
 package org.apache.avalon.merlin.event;
 
-import java.util.EventObject;
-
 import org.apache.avalon.merlin.Kernel;
 
 /**
  * A event raised by a kernel signaling a state change.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/24 22:18:22 $
+ * @version $Revision: 1.4 $ $Date: 2004/03/17 10:39:11 $
  */
 public class KernelStateEvent extends KernelEvent
 {

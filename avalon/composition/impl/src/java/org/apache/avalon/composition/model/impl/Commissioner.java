@@ -19,10 +19,8 @@ package org.apache.avalon.composition.model.impl;
 
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.Commissionable;
 
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.activity.Disposable;
 
 /**
  * Runnable deployment thread that handles the commissioning of an 
@@ -31,7 +29,7 @@ import org.apache.avalon.framework.activity.Disposable;
  * serve basis.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/15 12:59:10 $
+ * @version $Revision: 1.3 $ $Date: 2004/03/17 10:39:10 $
  * @see CommissionRequest
  */
 class Commissioner implements Runnable

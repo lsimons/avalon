@@ -32,15 +32,11 @@ import org.apache.avalon.composition.info.InjectorDeliveryDescriptor;
 import org.apache.avalon.composition.info.NativeDeliveryDescriptor;
 import org.apache.avalon.composition.model.EntryModel;
 import org.apache.avalon.composition.model.ContextModel;
-import org.apache.avalon.composition.model.ComponentModel;
-import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.provider.ComponentContext;
 
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 
 import org.apache.avalon.meta.info.ContextDescriptor;
@@ -55,7 +51,7 @@ import org.apache.avalon.util.i18n.Resources;
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.15 $ $Date: 2004/03/13 23:26:57 $
+ * @version $Revision: 1.16 $ $Date: 2004/03/17 10:39:10 $
  */
 public class DefaultContextModel extends DefaultDependent implements ContextModel
 {

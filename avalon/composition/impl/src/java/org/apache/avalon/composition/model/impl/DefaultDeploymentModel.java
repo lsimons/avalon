@@ -23,14 +23,12 @@ import java.security.ProtectionDomain;
 
 import org.apache.avalon.composition.data.Mode;
 import org.apache.avalon.composition.model.DeploymentModel;
-import org.apache.avalon.composition.model.DependencyGraph;
 import org.apache.avalon.composition.model.Commissionable;
 import org.apache.avalon.composition.provider.DeploymentContext;
 import org.apache.avalon.composition.provider.SystemContext;
 import org.apache.avalon.composition.provider.SecurityModel;
 
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.parameters.Parameters;
 
 import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;
@@ -43,7 +41,7 @@ import org.apache.avalon.logging.provider.LoggingManager;
  * Abstract model base class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.20 $ $Date: 2004/03/11 01:30:38 $
+ * @version $Revision: 1.21 $ $Date: 2004/03/17 10:39:10 $
  */
 public abstract class DefaultDeploymentModel
   implements DeploymentModel

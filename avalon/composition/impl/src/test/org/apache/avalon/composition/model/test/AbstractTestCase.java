@@ -47,8 +47,6 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.util.exception.ExceptionHelper;
 import org.apache.avalon.util.env.Env;
 
-import org.apache.excalibur.configuration.ConfigurationUtil;
-
 import junit.framework.TestCase;
 
 public abstract class AbstractTestCase extends TestCase

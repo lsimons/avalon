@@ -20,7 +20,6 @@ package org.apache.avalon.composition.data.builder;
 import java.util.ArrayList;
 
 import org.apache.avalon.logging.data.CategoriesDirective;
-import org.apache.avalon.logging.data.CategoryDirective;
 
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -45,7 +44,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/03/11 01:30:38 $
+ * @version $Revision: 1.8 $ $Date: 2004/03/17 10:39:11 $
  */
 public class XMLComponentProfileCreator extends XMLProfileCreator
 {

@@ -21,21 +21,15 @@ import java.io.File;
 
 import org.apache.avalon.composition.data.ComponentProfile;
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.EntryModel;
-
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.logger.Logger;
 
 import org.apache.avalon.meta.info.ContextDescriptor;
-import org.apache.avalon.meta.info.DependencyDescriptor;
-import org.apache.avalon.meta.info.StageDescriptor;
 import org.apache.avalon.meta.info.Type;
 
 /**
  * Defintion of a component deployment context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/03/11 01:30:38 $
+ * @version $Revision: 1.4 $ $Date: 2004/03/17 10:39:11 $
  */
 public interface ComponentContext extends DeploymentContext
 {

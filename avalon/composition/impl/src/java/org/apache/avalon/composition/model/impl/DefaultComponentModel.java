@@ -17,12 +17,10 @@
 
 package org.apache.avalon.composition.model.impl;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.lang.reflect.Constructor;
-import java.security.AccessControlContext;
 
 import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.data.DependencyDirective;
@@ -30,22 +28,16 @@ import org.apache.avalon.composition.data.StageDirective;
 import org.apache.avalon.composition.data.ContextDirective;
 import org.apache.avalon.composition.data.Mode;
 import org.apache.avalon.composition.info.DeliveryDescriptor;
-import org.apache.avalon.composition.info.NativeDeliveryDescriptor;
 import org.apache.avalon.composition.info.StagedDeliveryDescriptor;
-import org.apache.avalon.composition.model.AssemblyException;
 import org.apache.avalon.composition.model.ContextModel;
 import org.apache.avalon.composition.model.DependencyModel;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
-import org.apache.avalon.composition.model.ModelRepository;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.ModelRuntimeException;
 import org.apache.avalon.composition.model.StageModel;
-import org.apache.avalon.composition.provider.SystemContext;
 import org.apache.avalon.composition.provider.ComponentContext;
 import org.apache.avalon.composition.provider.SecurityModel;
-
-import org.apache.avalon.logging.data.CategoriesDirective;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
@@ -71,7 +63,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.16 $ $Date: 2004/03/13 23:26:57 $
+ * @version $Revision: 1.17 $ $Date: 2004/03/17 10:39:10 $
  */
 public class DefaultComponentModel extends DefaultDeploymentModel 
   implements ComponentModel

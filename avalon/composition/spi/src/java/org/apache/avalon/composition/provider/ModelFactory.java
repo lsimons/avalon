@@ -18,9 +18,7 @@
 package org.apache.avalon.composition.provider;
 
 import java.net.URL;
-import java.io.File;
 
-import org.apache.avalon.composition.data.ComponentProfile;
 import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ComponentModel;
@@ -30,7 +28,7 @@ import org.apache.avalon.composition.model.ModelException;
  * A factory enabling the establishment of new containment model instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:23:35 $
+ * @version $Revision: 1.2 $ $Date: 2004/03/17 10:39:11 $
  */
 public interface ModelFactory 
 {

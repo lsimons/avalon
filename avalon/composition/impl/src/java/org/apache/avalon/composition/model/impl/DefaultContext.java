@@ -19,7 +19,6 @@ package org.apache.avalon.composition.model.impl;
 
 import java.util.Map;
 
-import org.apache.avalon.composition.model.ModelRuntimeException;
 import org.apache.avalon.composition.model.EntryModel;
 
 import org.apache.avalon.framework.context.Context;
@@ -35,7 +34,7 @@ import org.apache.avalon.util.i18n.Resources;
  * the request to an assigned model.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2004/03/08 11:28:36 $
+ * @version $Revision: 1.9 $ $Date: 2004/03/17 10:39:10 $
  */
 public final class DefaultContext implements Context
 {

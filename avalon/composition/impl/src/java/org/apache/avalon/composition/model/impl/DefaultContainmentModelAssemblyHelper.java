@@ -42,7 +42,6 @@ import org.apache.avalon.composition.provider.ContainmentContext;
 
 import org.apache.avalon.meta.info.Type;
 import org.apache.avalon.meta.info.DependencyDescriptor;
-import org.apache.avalon.meta.info.ServiceDescriptor;
 import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 
@@ -54,7 +53,7 @@ import org.apache.avalon.util.i18n.Resources;
  * a supplied path.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/03/13 23:26:57 $
+ * @version $Revision: 1.8 $ $Date: 2004/03/17 10:39:10 $
  */
 class DefaultContainmentModelAssemblyHelper
 {

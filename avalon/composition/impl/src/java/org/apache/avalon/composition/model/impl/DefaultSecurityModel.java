@@ -20,20 +20,11 @@ package org.apache.avalon.composition.model.impl;
 import java.security.Permission;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.security.Permission;
 import java.security.Permissions;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.net.URL;
 
 import org.apache.avalon.composition.data.SecurityProfile;
 import org.apache.avalon.composition.provider.SecurityModel;
 import org.apache.avalon.composition.provider.SystemRuntimeException;
-
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-
-import org.apache.avalon.logging.data.CategoriesDirective;
 
 import org.apache.avalon.meta.info.PermissionDescriptor;
 
@@ -41,7 +32,7 @@ import org.apache.avalon.meta.info.PermissionDescriptor;
  * <p>Implementation of the default security model.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/03/07 22:10:39 $
+ * @version $Revision: 1.8 $ $Date: 2004/03/17 10:39:10 $
  */
 public final class DefaultSecurityModel implements SecurityModel
 {

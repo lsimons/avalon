@@ -18,9 +18,6 @@
 package org.apache.avalon.composition.model.test;
 
 import org.apache.avalon.composition.model.DeploymentModel;
-import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.ComponentModel;
-import org.apache.avalon.composition.model.DependencyModel;
 
 import org.apache.avalon.meta.info.ReferenceDescriptor;
 
