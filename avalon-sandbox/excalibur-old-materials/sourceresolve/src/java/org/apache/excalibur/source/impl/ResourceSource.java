@@ -16,17 +16,16 @@ import org.apache.excalibur.source.impl.validity.NOPValidity;
 /**
  * Description of a source which is described by the resource protocol
  * which gets a resource from the classloader.
+ * FIXME: Get mime-type, content-length, lastModified
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/05/13 12:17:40 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/06/12 09:24:14 $
  */
 
 public final class ResourceSource
+    extends AbstractSource
     implements Source
 {
-    /** The system identifier */
-    private String systemId;
-
     /** Location of the resource */
     private String location;
 
@@ -55,14 +54,6 @@ public final class ResourceSource
     }
 
     /**
-     * Return the unique identifer for this source
-     */
-    public String getSystemId()
-    {
-        return this.systemId;
-    }
-
-    /**
      *  Get the Validity object. This can either wrap the last modification
      *  date or the expires information or...
      *  If it is currently not possible to calculate such an information
@@ -72,26 +63,6 @@ public final class ResourceSource
     {
         // we are always valid
         return NOPValidity.SHARED_INSTANCE;
-    }
-
-    /**
-     * Refresh this object and update the last modified date
-     * and content length.
-     */
-    public void discardValidity()
-    {
-        // nothing to do
-    }
-
-    /**
-     * The mime-type of the content described by this object.
-     * If the source is not able to determine the mime-type by itself
-     * this can be null.
-     */
-    public String getMimeType()
-    {
-        // FIXME
-        return null;
     }
 
 }

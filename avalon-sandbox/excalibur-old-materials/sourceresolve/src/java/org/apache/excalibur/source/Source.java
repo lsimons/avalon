@@ -9,6 +9,7 @@ package org.apache.excalibur.source;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Iterator;
 
 /**
  * Description of a source. This interface provides a simple interface
@@ -50,7 +51,7 @@ import java.io.InputStream;
  * validity object must be the same until discardValidity is called!
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/05/13 12:17:40 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/06/12 09:24:14 $
  */
 public interface Source
 {
@@ -86,7 +87,41 @@ public interface Source
     /**
      * The mime-type of the content described by this object.
      * If the source is not able to determine the mime-type by itself
-     * this can be null.
+     * this can be <code>null</code>.
      */
     String getMimeType();
+
+    /**
+     * Return the content length of the content or -1 if the length is
+     * unknown
+     */
+    long getContentLength();
+
+    /**
+     * Get the last modification date.
+     * @return The last modification in milliseconds since January 1, 1970 GMT
+     *         or 0 if it is unknown
+     */
+    long getLastModified();
+
+    /**
+     * Get the value of a parameter.
+     * Using this it is possible to get custom information provided by the
+     * source implementation, like an expires date, HTTP headers etc.
+     */
+    String getParameter(String name);
+
+    /**
+     * Get the value of a parameter.
+     * Using this it is possible to get custom information provided by the
+     * source implementation, like an expires date, HTTP headers etc.
+     */
+    long getParameterAsLong(String name);
+
+    /**
+     * Get parameter names
+     * Using this it is possible to get custom information provided by the
+     * source implementation, like an expires date, HTTP headers etc.
+     */
+    Iterator getParameterNames();
 }
