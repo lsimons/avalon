@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.28 $
+                   Version $Revision: 1.29 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -508,7 +508,7 @@ To use it, type 'ant -f depchecker.xml'
     <!-- Call to ensure a file (usu. jar) is present. If not,   -->
     <!-- either build it (if local), or print an error (remote) -->
     <!-- ====================================================== -->
-    <target name="checkRequiredFile" depends="checkIfLocal, checkRequiredFileLocal, checkRequiredFileRemote"/>
+    <target name="checkRequiredFile" depends="checkIfLocal, checkRequiredFileLocal, checkRequiredFileRemote, listRequiredFile, copyRequiredFile"/>
 
     <target name="checkIfLocal" if="proj.home">
         <available type="dir" file="${proj.home}" property="local"/>
@@ -536,6 +536,17 @@ To use it, type 'ant -f depchecker.xml'
         <antcall target="checkRequiredFile.fail"/>
     </target>
 
+    <!-- Record the required jar file's path in a file, ${jarlist} -->
+    <target name="listRequiredFile" if="jarlist">
+        <echo file="${jarlist}" append="true">${path}${nl}</echo>
+    </target>
+
+    <!-- Copy the required file to a directory, ${jardir} -->
+    <target name="copyRequiredFile" if="jardir">
+        <mkdir dir="${jardir}"/>
+        <copy file="${path}" todir="${jardir}"/>
+    </target>
+ 
     <!-- =================================================================== -->
     <!-- Script called to recursively call another depencency.xml file in    -->
     <!-- another project, and then run the 'dist.lite' target.               -->
