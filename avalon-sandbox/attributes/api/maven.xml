@@ -45,6 +45,10 @@
             </src>
         </javac>
         
+        <jar jarfile="target/cl2/cl2.jar">
+            <fileset dir="target/cl2/" includes="**/*.class"/>
+        </jar>
+        
         <!-- Create the Attribute Repository Classes. -->
         <attributes destDir="target/temp/">
             <fileset dir="src/test/" includes="**/*.java"/>

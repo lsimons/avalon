@@ -151,6 +151,19 @@ public class Attributes {
         return getAttributes (getAttributes (method), attributeClass);
     }
     
+    public static Collection getClassesWithAttributeType (Collection classes, Class attributeClass) {
+        ArrayList result = new ArrayList ();
+        Iterator iter = classes.iterator ();
+        while (iter.hasNext ()) {
+            Class clazz = (Class) iter.next ();
+            if (hasAttributeType (clazz, attributeClass)) {
+                result.add (clazz);
+            }
+        }
+        
+        return result;
+    }
+    
     /**
      * Convenience function to test whether a collection of attributes contain
      * an attribute of a given class.
