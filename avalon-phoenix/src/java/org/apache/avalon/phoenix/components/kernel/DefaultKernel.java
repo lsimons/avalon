@@ -118,7 +118,7 @@ public class DefaultKernel
         }
         catch( final Exception e )
         {
-            final String message = REZ.format( "kernel.error.entry.prepare", name );
+            final String message = REZ.getString( "kernel.error.entry.prepare", name );
             throw new ContainerException( message, e );
         }
     }
@@ -135,7 +135,7 @@ public class DefaultKernel
     {
         if( !(entry instanceof ServerApplicationEntry) )
         {
-            final String message = REZ.format( "kernel.error.entry.badtype", name );
+            final String message = REZ.getString( "kernel.error.entry.badtype", name );
             throw new ContainerException( message );
         }
     }

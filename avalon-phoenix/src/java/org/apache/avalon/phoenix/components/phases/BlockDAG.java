@@ -80,7 +80,7 @@ public class BlockDAG
     {
         if( getLogger().isDebugEnabled() )
         {
-            final String message = REZ.format( "dag.notice.traverse.name", name );
+            final String message = REZ.getString( "dag.notice.traverse.name", name );
             getLogger().debug( message );
         }
 
@@ -93,7 +93,7 @@ public class BlockDAG
             if( getLogger().isDebugEnabled() )
             {
                 final String message = 
-                    REZ.format( "dag.notice.traverse.depend", name, role, serviceDescriptor.getName() );
+                    REZ.getString( "dag.notice.traverse.depend", name, role, serviceDescriptor.getName() );
                 getLogger().debug( message );
             }
 
@@ -120,7 +120,7 @@ public class BlockDAG
     {
         if( getLogger().isDebugEnabled() )
         {
-            final String message = REZ.format( "dag.notice.reverse.name", name );
+            final String message = REZ.getString( "dag.notice.reverse.name", name );
             getLogger().debug( message );
         }
 
@@ -140,10 +140,10 @@ public class BlockDAG
                     if( getLogger().isDebugEnabled() )
                     {
                         final String message = 
-                            REZ.format( "dag.notice.reverse.depend", 
-                                        name,
-                                        depends,
-                                        blockName );
+                            REZ.getString( "dag.notice.reverse.depend", 
+                                           name,
+                                           depends,
+                                           blockName );
                         getLogger().debug( message );
                     }
 

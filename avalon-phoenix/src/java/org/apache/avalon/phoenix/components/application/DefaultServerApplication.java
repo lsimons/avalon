@@ -184,8 +184,8 @@ public final class DefaultServerApplication
     public void start()
         throws Exception
     {
-        final String message = REZ.format( "app.notice.block.loading-count",
-                                           new Integer( getEntryCount() ) );
+        final String message = REZ.getString( "app.notice.block.loading-count",
+                                              new Integer( getEntryCount() ) );
         getLogger().info( message );
 
         // load block info
@@ -205,8 +205,8 @@ public final class DefaultServerApplication
     public void stop()
         throws Exception
     {
-        final String message = REZ.format( "app.notice.block.unloading-count",
-                                           new Integer( getEntryCount() ) );
+        final String message = REZ.getString( "app.notice.block.unloading-count",
+                                              new Integer( getEntryCount() ) );
         getLogger().info( message );
 
         final PhaseEntry entry = (PhaseEntry)m_phases.get( "shutdown" );
@@ -258,7 +258,7 @@ public final class DefaultServerApplication
         final String className = entry.getLocator().getName();
         final String resourceName = className.replace( '.', '/' ) + ".xinfo";
 
-        final String notice = REZ.format( "app.notice.blockinfo.resource", resourceName );
+        final String notice = REZ.getString( "app.notice.blockinfo.resource", resourceName );
         getLogger().info( notice );
 
         final ClassLoader classLoader = m_frame.getClassLoader();
@@ -266,7 +266,7 @@ public final class DefaultServerApplication
 
         if( null == resource )
         {
-            final String message = REZ.format( "app.error.blockinfo.missing", name, resourceName );
+            final String message = REZ.getString( "app.error.blockinfo.missing", name, resourceName );
             getLogger().error( message );
             throw new Exception( message );
         }
@@ -274,7 +274,7 @@ public final class DefaultServerApplication
         try { return m_builder.build( resource.toString() ); }
         catch( final Exception e )
         {
-            final String message = REZ.format( "app.error.blockinfo.nocreate", name, resourceName );
+            final String message = REZ.getString( "app.error.blockinfo.nocreate", name, resourceName );
             getLogger().error( message, e );
             throw e;
         }
@@ -332,7 +332,7 @@ public final class DefaultServerApplication
         }
         catch( final Exception e )
         {
-            final String message = REZ.format( "app.error.phase.run", name );
+            final String message = REZ.getString( "app.error.phase.run", name );
             getLogger().error( message, e );
             throw e;
         }
@@ -359,10 +359,10 @@ public final class DefaultServerApplication
 
             if( null == descriptor )
             {
-                final String message = REZ.format( "app.error.depends.unknown",
-                                                   roleEntrys[ i ].getName(),
-                                                   role,
-                                                   name );
+                final String message = REZ.getString( "app.error.depends.unknown",
+                                                      roleEntrys[ i ].getName(),
+                                                      role,
+                                                      name );
                 getLogger().warn( message );
                 throw new Exception( message );
             }
@@ -377,9 +377,9 @@ public final class DefaultServerApplication
 
             if( null == roleEntry )
             {
-                final String message = REZ.format( "app.error.depends.noprovide",
-                                                   dependencies[ i ].getRole(),
-                                                   name );
+                final String message = REZ.getString( "app.error.depends.noprovide",
+                                                      dependencies[ i ].getRole(),
+                                                      name );
                 getLogger().warn( message );
                 throw new Exception( message );
             }

@@ -96,7 +96,7 @@ public abstract class AbstractKernel
             }
             catch( final ContainerException ce )
             {
-                final String message = REZ.format( "kernel.error.entry.dispose", name );
+                final String message = REZ.getString( "kernel.error.entry.dispose", name );
                 getLogger().warn( message, ce );
             }
         }
@@ -116,7 +116,7 @@ public abstract class AbstractKernel
             try { startEntry( name, entry ); }
             catch( final Exception e )
             {
-                final String message = REZ.format( "kernel.error.entry.start", name );
+                final String message = REZ.getString( "kernel.error.entry.start", name );
                 getLogger().warn( message, e );
             }
         }
@@ -159,7 +159,7 @@ public abstract class AbstractKernel
                 //so invalid instance is not used
                 entry.setInstance( null );
 
-                final String message = REZ.format( "kernel.error.entry.initialize", name );
+                final String message = REZ.getString( "kernel.error.entry.initialize", name );
                 throw new ContainerException( message, t );
             }
 
@@ -194,7 +194,7 @@ public abstract class AbstractKernel
         }
         else
         {
-            final String message = REZ.format( "kernel.error.entry.nostop", name );
+            final String message = REZ.getString( "kernel.error.entry.nostop", name );
             getLogger().warn( message );
         }
     }

@@ -58,7 +58,7 @@ public abstract class AbstractSystemManager
         checkRegister( name, object );
         if( null == interfaces )
         {
-            final String message = REZ.format( "manager.error.interfaces.null", name );
+            final String message = REZ.getString( "manager.error.interfaces.null", name );
             throw new IllegalArgumentException( message );
         }
 
@@ -108,7 +108,7 @@ public abstract class AbstractSystemManager
 
         if( null == entry )
         {
-            final String message = REZ.format( "manager.error.unregister.noentry", name );
+            final String message = REZ.getString( "manager.error.unregister.noentry", name );
             throw new ManagerException( message );
         }
 
@@ -166,14 +166,14 @@ public abstract class AbstractSystemManager
             if( !clazz.isInterface() )
             {
                 final String message = 
-                    REZ.format( "manager.error.verify.notinterface", clazz.getName() );
+                    REZ.getString( "manager.error.verify.notinterface", clazz.getName() );
                 throw new ManagerException( message );
             }
 
             if( !clazz.isInstance( object ) )
             {
                 final String message = 
-                    REZ.format( "manager.error.verify.notinstance", clazz.getName() );
+                    REZ.getString( "manager.error.verify.notinstance", clazz.getName() );
                 throw new ManagerException( message );
             }
 
@@ -205,7 +205,7 @@ public abstract class AbstractSystemManager
 
         if( null != m_entrys.get( name ) )
         {
-            final String message = REZ.format( "manager.error.register.exists", name );
+            final String message = REZ.getString( "manager.error.register.exists", name );
             throw new ManagerException( message );
         }
     }
