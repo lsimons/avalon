@@ -243,6 +243,15 @@ public class DefaultFactory implements Factory
           logging.getLoggerForCategory( name );
         getLogger().debug( "logging system established" );
 
+
+        //
+        // Create the system context.
+        //
+
+        SystemContext systemContext = 
+          createSystemContext( 
+            m_context, criteria, logging, kernelConfig, name );
+
         //
         // with the logging system established, check if the 
         // info listing mode is set and if so, generate a report
@@ -254,14 +263,6 @@ public class DefaultFactory implements Factory
             String report = createInfoListing( m_context, criteria );
             getLogger().info( report );
         }
-
-        //
-        // Create the system context.
-        //
-
-        SystemContext systemContext = 
-          createSystemContext( 
-            m_context, criteria, logging, kernelConfig, name );
 
         //
         // Create the application model.  Normally the application 
@@ -373,9 +374,6 @@ public class DefaultFactory implements Factory
         // instantiate the kernel
         //
 
-        //Kernel kernel = 
-        //  createKernel( getLogger(), criteria, systemContext, application );
-
         if( criteria.isAutostartEnabled() )
         {
             getLogger().debug( "startup phase" );
@@ -396,6 +394,10 @@ public class DefaultFactory implements Factory
                 try
                 {
                     kernel.shutdown();
+                    if( kernel instanceof Disposable )
+                    {
+                        ((Disposable)kernel).dispose();
+                    }
                 }
                 catch( Throwable e )
                 {
