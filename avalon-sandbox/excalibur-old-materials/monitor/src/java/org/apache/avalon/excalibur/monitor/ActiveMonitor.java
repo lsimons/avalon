@@ -11,7 +11,6 @@ import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -36,7 +35,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ActiveMonitor.java,v 1.8 2002/03/16 00:05:41 donaldp Exp $
+ * @version $Id: ActiveMonitor.java,v 1.9 2002/03/24 09:56:39 donaldp Exp $
  */
 public final class ActiveMonitor extends AbstractLogEnabled
     implements Monitor, Startable, ThreadSafe, Configurable, Runnable

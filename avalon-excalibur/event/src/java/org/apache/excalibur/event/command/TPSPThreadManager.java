@@ -15,7 +15,6 @@ import org.apache.avalon.excalibur.event.Source;
 import org.apache.avalon.excalibur.thread.ThreadControl;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.excalibur.thread.impl.ResourceLimitingThreadPool;
-import org.apache.avalon.framework.parameters.Parameters;
 
 /**
  * This is a ThreadManager which provides a threadpool per Sink per EventPipeline.

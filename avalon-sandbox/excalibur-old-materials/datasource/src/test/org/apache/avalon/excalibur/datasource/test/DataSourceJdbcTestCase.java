@@ -18,9 +18,6 @@ import org.apache.avalon.excalibur.testcase.CascadingAssertionFailedError;
 import org.apache.avalon.excalibur.testcase.ExcaliburTestCase;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.DefaultConfiguration;
 
 /**
  * Test the DataSource Component.  I don't know how to make this generic,
