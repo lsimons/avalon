@@ -14,6 +14,7 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.phoenix.metadata.SarMetaData;
 
 /**
  *
@@ -24,13 +25,13 @@ public class DefaultClassLoaderManager
     implements ClassLoaderManager
 {
     public ClassLoader createClassLoader( final Configuration server,
-                                          final File baseDirectory,
+                                          final File homeDirectory,
                                           final URL[] classPath )
         throws Exception
     {
         //Configure policy
         final Configuration policyConfig = server.getChild( "policy" );
-        final Policy policy = configurePolicy( policyConfig, baseDirectory );
+        final Policy policy = configurePolicy( policyConfig, homeDirectory );
 
         //TODO: Load Extensions from Package Repository as required
         //TODO: Determine parentClassLoader in a safer fashion
