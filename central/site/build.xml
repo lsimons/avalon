@@ -21,6 +21,9 @@
     <x:javadoc title="Avalon Magic" id="avalon-tools-magic">
       <x:link href="http://java.sun.com/j2se/1.4/docs/api" />
     </x:javadoc>
+    <x:javadoc title="Avalon Facilities" id="avalon-planet-facilities">
+      <x:link href="http://java.sun.com/j2se/1.4/docs/api" />
+    </x:javadoc>
   </target>
 
   <target name="site" depends="standard.site">
