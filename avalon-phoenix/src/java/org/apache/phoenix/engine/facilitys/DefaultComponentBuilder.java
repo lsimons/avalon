@@ -21,7 +21,6 @@ import org.apache.avalon.camelot.FactoryException;
 import org.apache.avalon.camelot.pipeline.ComponentBuilder;
 import org.apache.log.Logger;
 import org.apache.phoenix.Block;
-import org.apache.phoenix.engine.SarBlockFactory;
 import org.apache.phoenix.engine.blocks.BlockEntry;
 import org.apache.phoenix.metainfo.BlockUtil;
 import org.apache.phoenix.metainfo.ServiceInfo;
