@@ -2,14 +2,16 @@
 
 <document>
     <properties>
-        <title>Excalibur ??? - Overview</title>
-        <author email="???">???</author>
+        <title>Excalibur Instrument-Manager - Overview</title>
+        <author email="dev@avalon.apache.org">Avalon Documentation
+        Team</author>
     </properties>
     <body>
-        <section name="Introduction">
-            <p>
-                Blah!
-            </p>
+        <section name="See the Instrument package docs">
+            <p>Documentation for Instrument, Instrument-Client and
+            Instrument-Manager is maintained in a single location:
+            <a href="http://avalon.apache.org/excalibur/instrument">the
+            instrument package homepage</a>.</p>
         </section>
     </body>
 </document>
