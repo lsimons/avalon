@@ -13,13 +13,14 @@ import java.io.IOException;
 import java.util.Enumeration;
 
 /**
- * A Store is an object managing arbitrary data. It holds usually data stored
- * under a given key persistently.
- * It is up to the administrator of the application to decide whether the
- * store is persistent or not (by choosing an appropriate implementation).
- * However, the two roles TRANSIENT_STORE and PERSISTENT_STORE must exactly
- * define a STORE which is either transient or persistent, so the application
- * can rely on the behaviour.
+ * A Store is an object managing arbitrary data. It holds data stored
+ * under a given key persistently. So if you put something in a store
+ * you can be sure that the next time (even if the application restarted)
+ * your data is in the store (of course unless noone else did remove it).
+ * In some cases (like for example a cache) the data needs not to be
+ * persistent. Therefore with the two role TRANSIENT_STORE and
+ * PERSISTENT_STORE you get a store with exactly that behaviour. (The
+ * PERSISTENT_STORE is only an alias for ROLE).
  *
  * @author <a href="mailto:scoobie@betaversion.org">Federico Barbieri</a>
  *         (Betaversion Productions)
@@ -27,16 +28,18 @@ import java.util.Enumeration;
  *         (Apache Software Foundation)
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  *         (Apache Software Foundation, Exoffice Technologies)
- * @version CVS $Id: Store.java,v 1.1 2002/05/02 08:55:39 cziegeler Exp $
+ * @version CVS $Id: Store.java,v 1.2 2002/05/06 09:02:59 cziegeler Exp $
  */
 public interface Store
     extends Component
 {
-
+    /** The role for a persistent store */
     String ROLE = Store.class.getName();
 
-    String TRANSIENT_STORE = "org.apache.cocoon.components.store.Store/TransientCache";
-    String PERSISTENT_STORE = "org.apache.cocoon.components.store.Store/PersistentCache";
+    /** The role for a transient store */
+    String TRANSIENT_STORE = ROLE+"/TransientStore";
+    /** The role for a persistent store (this is an alias for ROLE) */
+    String PERSISTENT_STORE = ROLE;
 
     /**
      * Get the object associated to the given unique key.
@@ -44,19 +47,17 @@ public interface Store
     Object get(Object key);
 
     /**
-     * Store the given object in a persistent state. It is up to the
+     * Store the given object. It is up to the
      * caller to ensure that the key has a persistent state across
      * different JVM executions.
      */
     void store(Object key, Object value) throws IOException;
 
     /**
-     * Holds the given object in a volatile state. This means
-     * the object store will discard held objects if the
-     * virtual machine is restarted or some error happens.
+     * Try to free some used memory. The transient store can simply remove
+     * some hold data, the persistent store can free all memory by
+     * writing the data to a persistent store etc.
      */
-    void hold(Object key, Object value) throws IOException;
-
     void free();
 
     /**
