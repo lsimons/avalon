@@ -215,7 +215,7 @@ public class DefaultSarDeployer
         }
         catch( final ContainerException ce )
         {
-            throw new DeploymentException( "Error preparingserver application", ce );
+            throw new DeploymentException( "Error preparing server application", ce );
         }
 
         //rework next bit so it grabs deployments from archive
