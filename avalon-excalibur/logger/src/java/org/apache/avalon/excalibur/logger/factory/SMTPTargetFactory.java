@@ -98,7 +98,7 @@ import org.apache.log.output.net.SMTPOutputLogTarget;
  * <p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.10 $ $Date: 2003/03/22 12:46:49 $
+ * @version CVS $Revision: 1.11 $ $Date: 2003/04/07 11:24:34 $
  * @since 4.1
  */
 public class SMTPTargetFactory
@@ -107,7 +107,7 @@ public class SMTPTargetFactory
     /**
      * Creates an SMTPOutputLogTarget based on a Configuration
      *
-     * @param configuration a <code>Configuration</code> instance
+     * @param config a <code>Configuration</code> instance
      * @return <code>LogTarget</code> instance
      * @exception ConfigurationException if an error occurs
      */

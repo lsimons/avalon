@@ -79,14 +79,14 @@ import org.apache.log.output.net.SocketOutputTarget;
  *
  * @author <a href="mailto:rghorpade@onebridge.de"> Rajendra Ghorpade </a>
  */
-public class SocketTargetFactory extends AbstractTargetFactory
+public class SocketTargetFactory
+    extends AbstractTargetFactory
 {
-
     /**
      * Creates a log target based on Configuration
      *
-     *@param conf Configuration requied for creating the log target
-     *@throws ConfigurationException if something goes wrong while reading from
+     * @param conf Configuration requied for creating the log target
+     * @throws ConfigurationException if something goes wrong while reading from
      *          configuration
      */
     public LogTarget createTarget( final Configuration conf )
