@@ -13,9 +13,8 @@ import java.io.InputStream;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
-//import javax.xml.parsers.SAXParser;
-//import javax.xml.parsers.SAXParserFactory;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 /**
  * A SAXConfigurationBuilder builds configurations via SAX2 compliant parser.
@@ -25,38 +24,38 @@ import org.xml.sax.helpers.XMLReaderFactory;
  */
 public class DefaultConfigurationBuilder
 {
-    protected static final String                 DEFAULT_PARSER =
-        "org.apache.xerces.parsers.SAXParser";
-    protected static final String                 PARSER =
-        System.getProperty("org.xml.sax.parser", DEFAULT_PARSER );
-
     private SAXConfigurationHandler               m_handler;
     private XMLReader                             m_parser;
 
     public DefaultConfigurationBuilder()
     {
-        this( PARSER );
-    }
-
-    public DefaultConfigurationBuilder( final String parserClass )
-    {
         //yaya the bugs with some compilers and final variables ..
-        m_handler = getHandler();
         try
         {
-            //final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-            //final SAXParser saxParser = saxParserFactory.newSAXParser();
-            //m_parser = saxParser.getXMLReader();
-
-            m_parser = XMLReaderFactory.createXMLReader( parserClass );
-            //m_parser.setFeature("http://xml.org/sax/features/namespace-prefixes", true);
-            m_parser.setContentHandler( m_handler );
-            m_parser.setErrorHandler( m_handler );
+            final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+//            saxParserFactory.setNamespaceAware(true);
+            final SAXParser saxParser = saxParserFactory.newSAXParser();
+            this.setParser(saxParser.getXMLReader());
         }
-        catch( final SAXException se )
+        catch( final Exception se )
         {
             throw new Error( "Unable to setup SAX parser" + se );
         }
+    }
+
+    public DefaultConfigurationBuilder( XMLReader parser )
+    {
+        this.setParser(parser);
+    }
+
+    private void setParser(XMLReader parser)
+    {
+        m_parser = parser;
+
+        m_handler = getHandler();
+
+        m_parser.setContentHandler( m_handler );
+        m_parser.setErrorHandler( m_handler );
     }
 
     protected SAXConfigurationHandler getHandler()
