@@ -72,18 +72,22 @@
         <attribute name="Specification-Version" value="${version}"/>
         <attribute name="Implementation-Vendor" value="${vendor}"/>
         <attribute name="Implementation-Version" value="${package-version}"/>
+        <attribute name="Implementation-Vendor-Id" value="ASF"/>
 
         <attribute name="Extension-List" value="framework context thread"/>
         <attribute name="framework-Extension-Name" value="${avalon-framework.extension.name}"/>
         <attribute name="framework-Specification-Version" value="${avalon-framework.extension.version}"/>
         <attribute name="framework-Implementation-Version" value="${avalon-framework.extension.implementation}"/>
+        <attribute name="framework-Implementation-Vendor-Id" value="ASF"/>
 
         <attribute name="context-Extension-Name" value="${excalibur-threadcontext.ext.name}"/>
         <attribute name="context-Specification-Version" value="${excalibur-threadcontext.ext.version}"/>
+        <attribute name="context-Implementation-Vendor-Id" value="ASF"/>
 
         <attribute name="thread-Extension-Name" value="${excalibur-thread.ext.name}"/>
         <attribute name="thread-Specification-Version" value="${excalibur-thread.ext.version}"/>
         <attribute name="thread-Implementation-Version" value="${excalibur-thread.ext.impl}"/>
+        <attribute name="thread-Implementation-Vendor-Id" value="ASF"/>
 
       </manifest>
       -->

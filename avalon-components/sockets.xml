@@ -70,11 +70,13 @@
         <attribute name="Specification-Version" value="${version}"/>
         <attribute name="Implementation-Vendor" value="${vendor}"/>
         <attribute name="Implementation-Version" value="${package-version}"/>
+        <attribute name="threads-Implementation-Vendor-Id" value="ASF"/>
 
         <attribute name="Extension-List" value="framework"/>
         <attribute name="framework-Extension-Name" value="${avalon-framework.extension.name}"/>
         <attribute name="framework-Specification-Version" value="${avalon-framework.extension.version}"/>
         <attribute name="framework-Implementation-Version" value="${avalon-framework.extension.implementation}"/>
+        <attribute name="framework-Implementation-Vendor-Id" value="ASF"/>
 
       </manifest>
       -->
