@@ -15,7 +15,6 @@ import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
 import org.apache.avalon.util.thread.DefaultThreadPool;
-import org.apache.avalon.util.thread.ThreadManager;
 import org.apache.avalon.util.thread.ThreadPool;
 
 /**
@@ -26,7 +25,7 @@ import org.apache.avalon.util.thread.ThreadPool;
  */
 public class DefaultThreadManager
     extends AbstractLoggable
-    implements Facility, ThreadManager, Configurable 
+    implements Facility, ThreadManager, Configurable
 {
     protected final Hashtable       m_pools = new Hashtable();
 
@@ -38,7 +37,7 @@ public class DefaultThreadManager
         {
             final Configuration group = groups[ i ];
 
-            final String name = group.getChild( "name" ).getValue();            
+            final String name = group.getChild( "name" ).getValue();
             final int priority = group.getChild( "priority" ).getValueAsInt( 5 );
             final boolean isDaemon = group.getChild( "is-daemon" ).getValueAsBoolean( false );
 
@@ -67,7 +66,7 @@ public class DefaultThreadManager
         return getThreadPool( "default" );
     }
 
-    public ThreadPool getThreadPool( final String name ) 
+    public ThreadPool getThreadPool( final String name )
     {
         final ThreadPool threadPool = (ThreadPool)m_pools.get( name );
 
