@@ -50,8 +50,6 @@
 package org.apache.avalon.excalibur.datasource;
 
 import java.sql.Connection;
-import java.util.HashSet;
-import java.util.Iterator;
 
 import org.apache.avalon.excalibur.pool.DefaultPoolController;
 import org.apache.avalon.excalibur.pool.HardResourceLimitingPool;
@@ -65,7 +63,7 @@ import org.apache.avalon.framework.activity.Initializable;
  * thread to manage the number of SQL Connections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.22 $ $Date: 2003/03/25 20:01:48 $
+ * @version CVS $Revision: 1.23 $ $Date: 2003/03/25 21:34:01 $
  * @since 4.0
  */
 public class JdbcConnectionPool
@@ -76,7 +74,7 @@ public class JdbcConnectionPool
     private final boolean m_autoCommit;
     private boolean m_noConnections;
     private long m_wait = -1;
-    private HashSet m_waitingThreads = new HashSet();
+    private Object m_spinLock = new Object();
 
     public JdbcConnectionPool( final JdbcConnectionFactory factory, 
                                final DefaultPoolController controller, 
@@ -127,15 +125,15 @@ public class JdbcConnectionPool
             long endTime = curMillis + m_wait;
             while( ( null == conn ) && ( curMillis < endTime ) )
             {
-                Thread thread = Thread.currentThread();
-                m_waitingThreads.add( thread );
-
                 try
                 {
-                    curMillis = System.currentTimeMillis();
                     unlock();
+                    curMillis = System.currentTimeMillis();
 
-                    thread.wait( endTime - curMillis );
+                    synchronized(m_spinLock)
+                    {
+                        m_spinLock.wait( endTime - curMillis );
+                    }
                 }
                 finally
                 {
@@ -229,12 +227,9 @@ public class JdbcConnectionPool
     public void put( Poolable obj )
     {
         super.put( obj );
-        Iterator i = m_waitingThreads.iterator();
-        while( i.hasNext() )
+        synchronized(m_spinLock)
         {
-            Object thread = i.next();
-            thread.notify();
-            i.remove();
+            m_spinLock.notifyAll();
         }
     }
 

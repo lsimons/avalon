@@ -53,9 +53,7 @@
   -->
   <components>
     <datasource logger="test">
-      <pool-controller min="5" max="10" timeout="1000">
-         <keep-alive disable="true"/>
-      </pool-controller>
+      <pool-controller min="5" max="10"/>
       <driver>org.hsqldb.jdbcDriver</driver>
       <dburl>jdbc:hsqldb:test</dburl>
       <user>SA</user>
