@@ -2,7 +2,7 @@
 
 <project>
 
-  <extend>${basedir}/../../project.xml</extend>
+  <extend>${basedir}/../project.xml</extend>
 
   <id>merlin-jndi-new</id>
   <name>Merlin JNDI Provider</name>
@@ -16,67 +16,4 @@
     <!-- none -->
   </dependencies>
   
-  <build>
-
-    <sourceDirectory>${basedir}/src/main</sourceDirectory>
-    <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
-
-    <unitTest>
-      <includes>
-        <include>**/*TestCase*</include>
-      </includes>
-      <excludes>
-      </excludes>
-      <resources>
-        <resource>
-          <directory>${basedir}/src/test</directory>
-          <includes> 
-            <include>**/*.dtd</include>
-            <include>**/*.properties</include>
-            <include>**/*.xinfo</include>
-            <include>**/*.xtype</include>
-            <include>**/*.xprofile</include>
-            <include>**/*.xconfig</include>
-            <include>**/*.xml</include>
-            <include>**/*.xservice</include>
-            <include>**/*.mf</include>
-            <include>**/*.jar</include>
-          </includes>
-        </resource>
-        <resource>
-          <directory>${maven.conf.dir}</directory>
-          <includes> 
-            <include>**/*.properties</include>
-          </includes>
-        </resource>
-      </resources>
-    </unitTest>
-
-    <integrationUnitTestPatterns></integrationUnitTestPatterns>
-    
-    <resources>
-      <resource>
-        <directory>${basedir}/src/main</directory>
-        <includes>
-          <include>**/*.dtd</include>
-          <include>**/*.properties</include>
-          <include>**/*.xinfo</include>
-          <include>**/*.xtype</include>
-          <include>**/*.xprofile</include>
-          <include>**/*.xconfig</include>
-          <include>**/*.xml</include>
-          <include>**/*.xservice</include>
-        </includes>
-      </resource>
-      <resource>
-        <directory>${maven.conf.dir}</directory>
-        <includes>
-          <include>**/*.properties</include>
-        </includes>
-      </resource>
-    </resources>
-    
-    <jars></jars>
-  </build>
-
 </project>
