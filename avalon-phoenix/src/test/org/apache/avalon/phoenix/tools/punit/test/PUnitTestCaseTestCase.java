@@ -32,11 +32,17 @@ public class PUnitTestCaseTestCase extends PUnitTestCase
                 new InputSource(new StringReader("<hi>Hi</hi>")));
         addBlock("bl","block", block, configuration);
         startup();
+        // check lifecycle run thru
         assertNotNull("Configuration null", block.m_configuration);
         assertNotNull("Context null", block.m_context);
         assertNotNull("Logger null", block.m_logger);
         assertNotNull("ServiceManager null", block.m_serviceManager);
         assertTrue("Not Initialized", block.m_initialized);
+        // check lifecycle events logged
+        assertTrue("Service Not logged", super.logHasEntry("I:service"));
+        assertTrue("Initialize Not logged", super.logHasEntry("W:initialize"));
+        assertTrue("Contextualize Not logged", super.logHasEntry("E:contextualize"));
+        assertTrue("Configure Not logged", super.logHasEntry("F:configure"));
         shutdown();
     }
 

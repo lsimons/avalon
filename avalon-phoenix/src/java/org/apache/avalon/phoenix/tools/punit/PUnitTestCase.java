@@ -23,6 +23,7 @@ public abstract class PUnitTestCase extends TestCase
     private LifecycleHelper m_lifecycleHelper;
     private ArrayList m_blocks;
     private PUnitServiceManager m_pUnitServiceManager;
+    private PUnitLogger m_pUnitLogger = new PUnitLogger();
 
     /**
      * PUnitTestCase
@@ -32,6 +33,27 @@ public abstract class PUnitTestCase extends TestCase
     {
         super( name );
     }
+
+    /**
+     * Query the log
+     * @param startsWith For an expression that starts with this
+     * @return The logged entry.
+     */
+    public final String lookupInLog(String startsWith)
+    {
+        return m_pUnitLogger.get(startsWith);
+    }
+
+    /**
+     * Query the log
+     * @param startsWith For an expression that starts with this
+     * @return true or not
+     */
+    public final boolean logHasEntry(String startsWith)
+    {
+        return m_pUnitLogger.contains(startsWith);
+    }
+
 
     /**
      * Setup as per Junit
@@ -56,7 +78,7 @@ public abstract class PUnitTestCase extends TestCase
                              Object block , Configuration configuration )
     {
         PUnitBlock pBlock = new PUnitBlock( blockName, block,
-                new PUnitResourceProvider(m_pUnitServiceManager, configuration) );
+                new PUnitResourceProvider(m_pUnitServiceManager, configuration, m_pUnitLogger) );
         m_blocks.add( pBlock );
         if (serviceName != null)
         {
