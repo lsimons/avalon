@@ -56,6 +56,9 @@ package org.apache.excalibur.source.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.Iterator;
@@ -63,6 +66,7 @@ import java.util.Map;
 
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
@@ -73,10 +77,13 @@ import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.URIException;
+import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.HeadMethod;
+import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.excalibur.source.Source;
+import org.apache.excalibur.source.ModifiableSource;
+import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceNotFoundException;
 import org.apache.excalibur.source.SourceParameters;
 import org.apache.excalibur.source.SourceResolver;
@@ -90,10 +97,10 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * project.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HTTPClientSource.java,v 1.3 2003/07/03 14:40:48 crafterm Exp $
+ * @version CVS $Id: HTTPClientSource.java,v 1.4 2003/07/03 17:03:09 crafterm Exp $
  */
 public class HTTPClientSource extends AbstractLogEnabled 
-    implements Source, Initializable, Parameterizable
+    implements ModifiableSource, Initializable, Parameterizable
 {
     /**
      * Constant used for identifying POST requests.
@@ -339,6 +346,37 @@ public class HTTPClientSource extends AbstractLogEnabled
     private HeadMethod createHeadMethod( final String uri )
     {
         return new HeadMethod( uri );
+    }
+
+    /**
+     * Factory method to create a {@link PutMethod} object.
+     *
+     * @param uri URI to upload <code>uploadFile</code> to
+     * @param uploadFile {@link File} to be uploaded
+     * @return a {@link PutMethod} instance
+     * @exception IOException if an error occurs
+     */
+    private PutMethod createPutMethod(
+        final String uri, final File uploadFile
+    )
+        throws IOException
+    {
+        final PutMethod put = new PutMethod( uri );
+        put.setRequestBody( 
+            new FileInputStream( uploadFile.getAbsolutePath() ) 
+        );
+        return put;
+    }
+
+    /**
+     * Factory method to create a {@link DeleteMethod} object.
+     *
+     * @param uri URI to delete
+     * @return {@link DeleteMethod} instance.
+     */
+    private DeleteMethod createDeleteMethod( final String uri )
+    {
+        return new DeleteMethod( uri );
     }
 
     /**
@@ -618,5 +656,247 @@ public class HTTPClientSource extends AbstractLogEnabled
     private void recycle()
     {
         m_dataValid = false;
+    }
+
+    /////////////////////////// ModifiableSource methods
+
+    /**
+     * Obtain an {@link OutputStream} to write to. The {@link OutputStream}
+     * returned actually references a temporary local file, which will
+     * be written to the server upon closing.
+     *
+     * @return an {@link OutputStream} instance
+     * @exception IOException if an error occurs
+     */
+    public OutputStream getOutputStream() throws IOException
+    {
+        final File tempFile = File.createTempFile("httpclient", "tmp");
+        return new WrappedFileOutputStream( tempFile, getLogger() );
+    }
+
+    /**
+     * Internal class which extends {@link FileOutputStream} to 
+     * automatically upload the data written to it, upon a {@link #close}
+     * operation.
+     */
+    private class WrappedFileOutputStream extends FileOutputStream
+    {
+        /**
+         * Reference to the File being written itself.
+         */
+        private File m_file;
+
+        /**
+         * Reference to a {@link Logger}.
+         */
+        private final Logger m_logger;
+
+        /**
+         * Constructor, creates a new {@link WrappedFileOutputStream}
+         * instance.
+         *
+         * @param file {@link File} to write to.
+         * @param logger {@link Logger} reference.
+         * @exception IOException if an error occurs
+         */
+        public WrappedFileOutputStream( final File file, final Logger logger )
+            throws IOException
+        {
+            super( file );
+            m_file = file;
+            m_logger = logger;
+        }
+
+        /**
+         * Closes the stream, and uploads the file written to the
+         * server.
+         *
+         * @exception IOException if an error occurs
+         */
+        public void close() throws IOException
+        {
+            super.close();
+
+            if ( m_file != null )
+            {
+                upload();
+                m_file.delete();
+                m_file = null;
+            }
+        }
+
+        /**
+         * Method to test whether this stream can be closed.
+         *
+         * @return <code>true</code> if possible, false otherwise.
+         */
+        public boolean canCancel()
+        {
+            return m_file != null;
+        }
+
+        /**
+         * Cancels this stream.
+         *
+         * @exception IOException if stream is already closed
+         */
+        public void cancel() throws IOException
+        {
+            if ( m_file == null )
+            {
+                throw new IOException( "Stream already closed" );
+            }
+
+            super.close();
+            m_file.delete();
+            m_file = null;
+        }
+
+        /**
+         * Helper method to attempt uploading of the local data file
+         * to the remove server via a HTTP PUT.
+         *
+         * @exception IOException if an error occurs
+         */
+        private void upload()
+            throws IOException
+        {
+            HttpMethod uploader = null;
+
+            if ( m_logger.isDebugEnabled() )
+            {
+                m_logger.debug( "Stream closed, writing data to " + m_uri );
+            }
+
+            try
+            {
+                uploader = createPutMethod( m_uri, m_file );
+                final int response = executeMethod( uploader );
+
+                if ( !successfulUpload( response ) )
+                {
+                    throw new SourceException( 
+                        "Write to " + m_uri + " failed (" + response + ")"
+                    );
+                }
+
+                if ( m_logger.isDebugEnabled() )
+                {
+                    m_logger.debug( 
+                        "Write to " + m_uri + " succeeded (" + response + ")"
+                    );
+                }
+            }
+            finally
+            {
+                if ( uploader != null )
+                {
+                    uploader.releaseConnection();
+                }
+            }
+        }
+
+        /**
+         * According to RFC2616 (HTTP 1.1) valid responses for a HTTP PUT
+         * are 201 (Created), 200 (OK), and 204 (No Content).
+         *
+         * @param response response code from the HTTP PUT
+         * @return true if upload was successful, false otherwise.
+         */
+        private boolean successfulUpload( final int response )
+        {
+            return response == HttpStatus.SC_OK
+                || response == HttpStatus.SC_CREATED
+                || response == HttpStatus.SC_NO_CONTENT;
+        }
+    }
+
+    /**
+     * Deletes the referenced resource.
+     *
+     * @exception SourceException if an error occurs
+     */
+    public void delete() throws SourceException
+    {
+        try
+        {
+            final int response =
+                executeMethod( createDeleteMethod( m_uri ) );
+
+            if ( !deleteSuccessful( response ) )
+            {
+                throw new SourceException(
+                    "Failed to delete " + m_uri + " (" + response + ")"
+                );
+            }
+
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( m_uri + " deleted (" + response + ")");
+            }
+        }
+        catch ( final IOException e )
+        {
+            throw new SourceException(
+                "IOException thrown during delete", e 
+            );
+        }
+    }
+
+    /**
+     * According to RFC2616 (HTTP 1.1) valid responses for a HTTP DELETE
+     * are 200 (OK), 202 (Accepted) and 204 (No Content).
+     *
+     * @param response response code from the HTTP PUT
+     * @return true if upload was successful, false otherwise.
+     */
+    private boolean deleteSuccessful( final int response )
+    {
+        return response == HttpStatus.SC_OK
+            || response == HttpStatus.SC_ACCEPTED
+            || response == HttpStatus.SC_NO_CONTENT;
+    }
+
+    /**
+     * Method to determine whether writing to the supplied OutputStream 
+     * (which must be that returned from {@link #getOutputStream()}) can
+     * be cancelled
+     *
+     * @return true if writing to the stream can be cancelled, 
+     *         false otherwise
+     */
+    public boolean canCancel( final OutputStream stream )
+    {
+        // with help from FileSource, dankeschoen lads :)
+
+        if ( stream instanceof WrappedFileOutputStream )
+        {
+            return ((WrappedFileOutputStream) stream).canCancel();
+        }
+
+        throw new IllegalArgumentException(
+            "Output stream supplied was not created by this class"
+        );
+    }
+
+    /**
+     * Cancels any data sent to the {@link OutputStream} returned by
+     * {@link #getOutputStream()}.
+     *
+     * After calling this method, the supplied {@link OutputStream}
+     * should no longer be used.
+     */
+    public void cancel( final OutputStream stream ) throws IOException
+    {
+        if ( stream instanceof WrappedFileOutputStream )
+        {
+            ((WrappedFileOutputStream) stream).cancel();
+        }
+        else
+        {
+            throw new IllegalArgumentException(
+                "Output stream supplied was not created by this class"
+            );
+        }
     }
 }
