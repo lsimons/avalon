@@ -31,8 +31,8 @@
 
   <goal name="merlin:update">
     <attainGoal name="merlin:install"/>
-    <attainGoal name="merlin:site"/>
     <attainGoal name="merlin:tutorials"/>
+    <attainGoal name="merlin:site"/>
     <attainGoal name="merlin:package"/>
     <attainGoal name="merlin:replicate"/>
   </goal>
@@ -74,6 +74,16 @@
     <ant:mkdir dir="${merlin.build.inst.dir}"/>
     <ant:mkdir dir="${merlin.build.inst.dir}/ext"/>
     <ant:mkdir dir="${merlin.build.inst.dir}/bin/lib"/>
+
+    <ant:mkdir dir="${maven.build.dir}/plugins"/>
+    <ant:copy toDir="${maven.build.dir}/plugins">
+      <fileset dir="${basedir}/kernel/plugin/target">
+        <include name="${merlin.plugin.jar}"/>
+      </fileset>
+      <fileset dir="${basedir}/../meta/plugin/target">
+        <include name="${meta.plugin.jar}"/>
+      </fileset>
+    </ant:copy>
 
     <!-- import bootstrap jar -->
     <ant:copy 
@@ -123,6 +133,7 @@
         <include name="INSTALLATION.TXT"/>
       </fileset>
     </ant:copy>
+
   </goal>
 
   <goal name="merlin:plugin">
@@ -146,26 +157,16 @@
     <ant:echo>Building distribution: ${package.name}.zip</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${package.name}.zip">
       <zipfileset dir="${merlin.build.inst.dir}" prefix="merlin"/>
+      <zipfileset dir="${maven.build.dir}/plugins" prefix="plugins"/>
       <fileset dir="${basedir}">
         <include name="INSTALLATION.TXT"/>
-      </fileset>
-      <fileset dir="${basedir}/kernel/plugin/target">
-        <include name="${merlin.plugin.jar}"/>
-      </fileset>
-      <fileset dir="${basedir}/../meta/plugin/target">
-        <include name="${meta.plugin.jar}"/>
       </fileset>
     </ant:zip>
     <ant:tar tarfile="${maven.build.dir}/${package.name}.tar">
       <tarfileset dir="${merlin.build.inst.dir}" prefix="merlin"/>
+      <tarfileset dir="${maven.build.dir}/plugins" prefix="plugins"/>
       <fileset dir="${basedir}">
         <include name="INSTALLATION.TXT"/>
-      </fileset>
-      <fileset dir="${basedir}/kernel/plugin/target">
-        <include name="${merlin.plugin.jar}"/>
-      </fileset>
-      <fileset dir="${basedir}/../meta/plugin/target">
-        <include name="${meta.plugin.jar}"/>
       </fileset>
     </ant:tar>
     <ant:gzip 
