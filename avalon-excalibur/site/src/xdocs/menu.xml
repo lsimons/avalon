@@ -33,8 +33,6 @@
 
   <menu name="Testing and Analysis">
     <item name="Instrumentation" href="instrument/index.html"/>
-    <item name="Instrumentation Client" href="instrument-client/index.html"/>
-    <item name="Instrumentation Manager" href="instrument-manager/index.html"/>
     <item name="Component Testing Harness" href="testcase/index.html"/>
   </menu>
   
