@@ -57,7 +57,7 @@
       </source>
       <p>
         The format of the policy section should be self evident if the assembler 
-        has experienve with standard policy files. It should be noted that if no 
+        has experience with standard policy files. It should be noted that if no 
         policy section is given then the Server Application runs at full permissions.
         The evaluation of properties occurs in a similar manner to standard 
         policy file property expansion. There are a number of extra properties that 
@@ -75,7 +75,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2001/11/19 12:21:32 $
+      $Revision: 1.3 $ $Date: 2002/03/01 09:07:06 $
     </legal>
   </footer>
 </document>
