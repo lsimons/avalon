@@ -70,9 +70,8 @@ public final class Main
             Policy.setPolicy( new FreeNEasyPolicy() );
 
             //Create engine ClassLoader
-            final File mainJar = findEngineJar();
-            final URL archive = mainJar.toURL();
-            final URLClassLoader classLoader = new URLClassLoader( new URL[]{archive} );
+            final URL[] urls = getEngineClassPath();
+            final URLClassLoader classLoader = new URLClassLoader( urls );
 
             data.put( "common.classloader", ClassLoader.getSystemClassLoader() );
             data.put( "container.classloader", classLoader );
@@ -128,6 +127,20 @@ public final class Main
         {
             c_frontend = null;
         }
+    }
+
+    /**
+     * Create a ClassPath for the engine.
+     *
+     * @return the set of URLs that engine uses to load
+     * @throws Exception if unable to aquire classpath
+     */
+    private static URL[] getEngineClassPath()
+        throws Exception
+    {
+        final File mainJar = findEngineJar();
+        final URL archive = mainJar.toURL();
+        return new URL[]{archive};
     }
 
     /**
