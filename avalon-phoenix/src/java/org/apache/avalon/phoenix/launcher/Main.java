@@ -223,7 +223,9 @@ public final class Main
             }
         }
 
-        throw new Exception( "Unable to locate " + LOADER_JAR + " in classpath" );
+        throw new Exception( "Unable to locate " + LOADER_JAR +
+                             " in classpath. User must specify " +
+                             "phoenix.home system property." );
     }
 
     /**
