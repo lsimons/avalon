@@ -20,13 +20,19 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.LexicalHandler;
 
+/**
+ * @avalon.component
+ */
 public class DefaultDOMSerializer
     extends AbstractLogEnabled
     implements DOMSerializer, Component
 {
     private final TransformerFactory m_factory = TransformerFactory.newInstance();
 
-    public void serialize( Document document, ContentHandler contentHandler, LexicalHandler lexicalHandler ) throws SAXException
+    public void serialize( Document document,
+                           ContentHandler contentHandler,
+                           LexicalHandler lexicalHandler )
+        throws SAXException
     {
         try
         {
