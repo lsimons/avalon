@@ -47,8 +47,10 @@
             <item name="services" href="/reference/containment/directives/services/index.html"/>
             <item name="classloader" href="/reference/containment/directives/classloader/index.html">
               <item name="classpath" href="/reference/containment/directives/classloader/classpath/index.html">
-                <item name="repository" href="/reference/containment/directives/classloader/classpath/repository/index.html"/>
-                <item name="fileset" href="/reference/containment/directives/classloader/classpath/fileset.html"/>
+                <item name="repository" 
+                   href="/reference/containment/directives/classloader/classpath/repository/index.html"/>
+                <item name="fileset" 
+                   href="/reference/containment/directives/classloader/classpath/fileset/index.html"/>
               </item>
               <item name="library" href="/reference/containment/directives/classloader/extensions.html"/>
             </item>

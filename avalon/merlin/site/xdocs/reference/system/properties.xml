@@ -124,6 +124,12 @@ Merlin 3.2 introduces a complete property configuration model as part of the uni
                temp directory will be used.</td>
           </tr>
           <tr>
+            <td>merlin.anchor</td>
+            <td>${merlin.home}</td>
+            <td>The root directory used by merlin to resolve relative
+              filset directory references.</td>
+          </tr>
+          <tr>
             <td>merlin.ext</td>
             <td>${merlin.dir}</td>
             <td>The root directory used by merlin to resolve jar 

@@ -25,25 +25,20 @@ import org.apache.avalon.logging.data.CategoriesDirective;
 
 import org.apache.avalon.composition.data.BlockCompositionDirective;
 import org.apache.avalon.composition.data.BlockIncludeDirective;
-import org.apache.avalon.composition.data.CertsDirective;
 import org.apache.avalon.composition.data.ClassLoaderDirective;
 import org.apache.avalon.composition.data.ClasspathDirective;
 import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.data.FilesetDirective;
-import org.apache.avalon.composition.data.GrantDirective;
 import org.apache.avalon.composition.data.IncludeDirective;
 import org.apache.avalon.composition.data.LibraryDirective;
 import org.apache.avalon.composition.data.MetaDataException;
 import org.apache.avalon.composition.data.NamedComponentProfile;
-import org.apache.avalon.composition.data.PermissionDirective;
-import org.apache.avalon.composition.data.PKCS7Directive;
 import org.apache.avalon.composition.data.RepositoryDirective;
 import org.apache.avalon.composition.data.ResourceDirective;
 import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.data.Targets;
 import org.apache.avalon.composition.data.TargetDirective;
-import org.apache.avalon.composition.data.X509Directive;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.meta.info.ServiceDescriptor;
@@ -55,7 +50,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * from a Configuration object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.12 $ $Date: 2004/03/17 10:39:11 $
+ * @version $Revision: 1.13 $ $Date: 2004/04/07 16:49:22 $
  */
 public class XMLContainmentProfileCreator extends XMLProfileCreator
 {
@@ -156,92 +151,7 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
           createLibraryDirective( config.getChild( "library", false ) );
         ClasspathDirective classpath = 
           createClasspathDirective( config.getChild( "classpath", false ) );
-        GrantDirective grants =
-          createGrantDirective( config.getChild( "grant" ) );
-        return new ClassLoaderDirective( library, classpath, grants );
-    }
-
-    private GrantDirective createGrantDirective( Configuration config )
-       throws ConfigurationException
-    {
-        ArrayList result = new ArrayList();
-        Configuration[] permChildren = config.getChildren( "permission" );
-        for( int i = 0; i < permChildren.length; i++ )
-        {
-            Configuration child = permChildren[i];
-            PermissionDirective perm = createPermissionDirective( child );
-            result.add( perm );
-        }
-        PermissionDirective[] pd = new PermissionDirective[ result.size() ];
-        result.toArray( pd );
-        
-        
-        Configuration certChild = config.getChild( "certificates" );
-        CertsDirective certs = createCertsDirective( certChild );
-        return new GrantDirective( pd, certs );
-    }
-    
-    private CertsDirective createCertsDirective( Configuration conf )
-       throws ConfigurationException
-    {
-        Configuration[] x509conf = conf.getChildren( "x509" );
-        X509Directive[] x509 = new X509Directive[ x509conf.length ];
-        for( int i=0 ; i < x509conf.length ; i++ )
-        {
-            String href = x509conf[i].getAttribute( "href", "" );
-            String data = x509conf[i].getValue();
-            try
-            {
-                x509[i] = new X509Directive( href, data );
-            } catch( CertificateException e )
-            {
-                throw new ConfigurationException( "Invalid Certificate in " + x509conf[i], e );
-            } catch( IOException e )
-            {
-                throw new ConfigurationException( "Can't access: " + href, e );
-            }
-        }
-        
-        Configuration[] pkcs7conf = conf.getChildren( "pkcs7" );
-        PKCS7Directive[] pkcs7 = new PKCS7Directive[ pkcs7conf.length ];
-        for( int i=0 ; i < pkcs7conf.length ; i++ )
-        {
-            String href = pkcs7conf[i].getAttribute( "href" );
-            try
-            {
-                pkcs7[i] = new PKCS7Directive( href );
-            } catch( CertificateException e )
-            {
-                throw new ConfigurationException( "Invalid Certificate in " + pkcs7conf[i], e );
-            } catch( IOException e )
-            {
-                throw new ConfigurationException( "Can't access: " + href, e );
-            }
-        }
-        return new CertsDirective( x509, pkcs7 );
-    }
-    
-    private PermissionDirective createPermissionDirective( Configuration config )
-       throws ConfigurationException
-    {
-        String classname = config.getAttribute( "class" );
-        String name = config.getAttribute( "name", null );
-        String result = "";
-        Configuration[] actions = config.getChildren( "action" );
-        for( int i=0 ; i < actions.length ; i ++ )
-        {
-            if( i > 0 )
-                result = result + "," + actions[i].getValue();
-            else
-                result = result + actions[i].getValue();
-        }
-        try
-        {
-            return new PermissionDirective( classname, name, result );
-        } catch( Exception e )
-        {
-            throw new ConfigurationException( "Unable to create the Permission Directive.", e );
-        }
+        return new ClassLoaderDirective( library, classpath );
     }
     
     private ClasspathDirective createClasspathDirective( Configuration config )

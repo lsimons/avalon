@@ -67,6 +67,12 @@ NOTE: A component implementation may not duplicate constructor injection of life
 </source>
             </td>
           </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Optional Lifecycle Stages">
+
+        <table>
           <tr>
             <td><a name="logging"/><p>logging</p></td>
             <td>
