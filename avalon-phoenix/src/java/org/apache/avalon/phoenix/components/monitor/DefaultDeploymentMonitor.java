@@ -81,7 +81,7 @@ import org.apache.avalon.phoenix.interfaces.Deployer;
  * application as necessary.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/04/08 09:47:27 $
+ * @version $Revision: 1.5 $ $Date: 2003/04/08 09:48:48 $
  */
 public class DefaultDeploymentMonitor
     extends AbstractLogEnabled
@@ -108,7 +108,7 @@ public class DefaultDeploymentMonitor
     public void configure( Configuration configuration )
         throws ConfigurationException
     {
-        m_frequency = configuration.getChild("monitor-frequency").getValueAsLong( 1000L );
+        m_frequency = configuration.getChild( "monitor-frequency" ).getValueAsLong( 1000L );
     }
 
     /**
