@@ -82,18 +82,22 @@ Legal:
   <property name="xerces.jar" value="${lib.dir}/xerces_1_2_3.jar"/>
   <property name="framework.jar" value="${lib.dir}/avalon-framework.jar"/>
   <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur.jar"/>
+  <property name="scratchpad.jar" value="${lib.dir}/avalon-scratchpad.jar"/>
   <property name="logkit.jar" value="${lib.dir}/logkit.jar"/>
 
   <path id="project.class.path">
     <pathelement location="${xerces.jar}"/>
     <pathelement location="${framework.jar}"/>
     <pathelement location="${excalibur.jar}"/>
+    <pathelement location="${scratchpad.jar}"/>
     <pathelement location="${logkit.jar}"/>
     <pathelement path="${java.class.path}" />
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
       <exclude name="xerces.jar"/>
-      <exclude name="avalonapi.jar"/>
+      <exclude name="framework.jar"/>
+      <exclude name="excalibur.jar"/>
+      <exclude name="scratchpad.jar"/>
       <exclude name="logkit.jar"/>
     </fileset>
     <pathelement path="${build.classes}" />
@@ -383,6 +387,7 @@ Legal:
     <copy file="${logkit.jar}" todir="${dist.lib}"/>
     <copy file="${framework.jar}" todir="${dist.lib}"/>
     <copy file="${excalibur.jar}" todir="${dist.lib}"/>
+    <copy file="${scratchpad.jar}" todir="${dist.lib}"/>
     <copy file="${xerces.jar}" tofile="${dist.lib}/xerces.jar"/>
     <copy file="${lib.dir}/jmxtools.jar" todir="${dist.lib}"/>
     <copy file="${lib.dir}/jmxri.jar" todir="${dist.lib}"/>
@@ -477,7 +482,9 @@ Legal:
     </copy>
 
     <copy file="${xerces.jar}" todir="${src.dist.lib}/"/>
-    <copy file="${avalonapi.jar}" tofile="${src.dist.lib}/avalonapi.jar"/>
+    <copy file="${framework.jar}" tofile="${src.dist.lib}/framework.jar"/>
+    <copy file="${excalibur.jar}" tofile="${src.dist.lib}/excalibur.jar"/>
+    <copy file="${scratchpad.jar}" tofile="${src.dist.lib}/scratchpad.jar"/>
     <copy file="${logkit.jar}" tofile="${src.dist.lib}/logkit.jar"/>
 
     <copy todir="${src.dist.src}">
