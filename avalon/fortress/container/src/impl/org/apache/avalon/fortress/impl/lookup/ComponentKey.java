@@ -70,6 +70,6 @@ final class ComponentKey
 
     public int hashCode()
     {
-        return m_component.hashCode();
+        return System.identityHashCode(m_component);
     }
 }
