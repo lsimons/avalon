@@ -25,6 +25,7 @@
 
   <body>
     <menu name="About Repository">
+      <item name="Overview" href="index.html"/>
       <item name="Installation" href="install/index.html"/>
       <item name="Tutorial" href="tutorial/index.html"/>
     </menu>

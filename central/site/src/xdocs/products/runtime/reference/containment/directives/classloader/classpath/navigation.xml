@@ -22,6 +22,7 @@
 
   <body>
     <menu>
+      <item name="Overview" href="index.html"/>
       <item name="repository" href="repository/index.html"/>
       <item name="fileset" href="fileset/index.html"/>
     </menu>

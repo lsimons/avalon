@@ -19,10 +19,11 @@
 
 <project>
 
- <title>Merlin</title>
+  <title>Merlin</title>
 
- <body>
+  <body>
     <menu>
+      <item name="Overview" href="index.html"/>
     </menu>
   </body>
 

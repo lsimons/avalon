@@ -25,6 +25,7 @@
 
   <body>
     <menu>
+      <item name="Overview" href="index.html"/>
       <item name="Stage" href="stage.html"/>
     </menu>
   </body>

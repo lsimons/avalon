@@ -22,6 +22,7 @@
 
   <body>
     <menu>
+      <item name="Overview" href="index.html"/>
       <item name="Auto" href="auto.html"/>
       <item name="Manual" href="manual.html"/>
     </menu>

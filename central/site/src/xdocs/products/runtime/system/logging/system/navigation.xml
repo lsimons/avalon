@@ -22,8 +22,8 @@
   <title>Merlin</title>
 
   <body>
-
     <menu>
+      <item name="Overview" href="index.html"/>
       <item name="Overview" href="/index.html"/>
       <item name="Specification" href="/spec/index.html"/>
       <item name="Implementations" href="/impl/index.html"/>

@@ -22,11 +22,10 @@
   <title>Merlin</title>
 
   <body>
-
     <menu>
+      <item name="Overview" href="index.html"/>
       <item name="action" href="action.html"/>
     </menu>
-
   </body>
 
 </project>

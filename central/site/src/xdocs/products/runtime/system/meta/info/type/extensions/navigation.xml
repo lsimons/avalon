@@ -25,9 +25,9 @@
 
   <body>
     <menu>
+      <item name="Overview" href="index.html"/>
       <item name="Extension" href="extension.html"/>
     </menu>
-
   </body>
 
 </project>

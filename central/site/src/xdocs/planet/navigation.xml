@@ -6,6 +6,7 @@
 
  <body>
     <menu>
+      <item name="Overview" href="index.html"/>
       <item name="Components" href="components/index.html"/>
       <item name="Facilities" href="facilities/index.html"/>
     </menu>

@@ -22,12 +22,11 @@
   <title>Merlin</title>
 
   <body>
-
     <menu>
+      <item name="Overview" href="index.html"/>
       <item name="Properties" href="properties.html"/>
       <item name="kernel" href="kernel/index.html"/>
     </menu>
- 
   </body>
 
 </project>

@@ -24,8 +24,9 @@
   <body>
 
     <menu>
-      <item name="classpath" href="/reference/containment/directives/classloader/classpath/index.html"/>
-      <item name="library" href="/reference/containment/directives/classloader/extensions.html"/>
+      <item name="Overview" href="index.html"/>
+      <item name="classpath" href="classpath/index.html"/>
+      <item name="library" href="extensions.html"/>
     </menu>
   </body>
 

@@ -6,7 +6,8 @@
 
  <body>
     <menu>
-      <item name="Runtime" href="runtime/index.html"/>
+      <item name="Overview" href="index.html"/>
+      <item name="Runtime" href="runtime/about/index.html"/>
       <item name="Studio" href="studio/index.html"/>
       <item name="Discovery" href="discovery/index.html"/>
     </menu>

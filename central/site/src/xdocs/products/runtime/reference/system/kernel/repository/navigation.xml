@@ -22,13 +22,12 @@
   <title>Merlin</title>
 
   <body>
-
     <menu>
+      <item name="Overview" href="index.html"/>
       <item name="cache" href="cache.html"/>
       <item name="proxy" href="proxy.html"/>
       <item name="hosts" href="hosts.html"/>
     </menu>
-
   </body>
 
 </project>

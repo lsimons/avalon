@@ -24,13 +24,13 @@
   <title>Merlin</title>
 
   <body>
-
     <menu>
+      <item name="Overview" href="index.html"/>
       <item name="Programmer API" href="api/index.html"/>
       <item name="Provider SPI" href="spi.html"/>
       <item name="Implementation" href="reference.html"/>
       <item name="Bootstrap System" href="bootstrap.html"/>
     </menu>
- </body>
+  </body>
 
 </project>

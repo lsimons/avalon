@@ -25,14 +25,15 @@
 
   <body>
     <menu>
-      <item name="Info" href="/meta/info/type/info/index.html"/>
-      <item name="Loggers" href="/meta/info/type/loggers/index.html"/>
-      <item name="Context" href="/meta/info/type/context/index.html"/>
-      <item name="Dependencies" href="/meta/info/type/dependencies/index.html"/>
-      <!--<item name="Security" href="/meta/info/type/security/index.html"/>-->
-      <item name="Services" href="/meta/info/type/services/index.html"/>
-      <item name="Stages" href="/meta/info/type/stages/index.html"/>
-      <item name="Extensions" href="/meta/info/type/extensions/index.html"/>
+      <item name="Overview" href="index.html"/>
+      <item name="Info" href="info/index.html"/>
+      <item name="Loggers" href="loggers/index.html"/>
+      <item name="Context" href="context/index.html"/>
+      <item name="Dependencies" href="dependencies/index.html"/>
+      <!--<item name="Security" href="security/index.html"/>-->
+      <item name="Services" href="services/index.html"/>
+      <item name="Stages" href="stages/index.html"/>
+      <item name="Extensions" href="extensions/index.html"/>
     </menu>
 
  </body>
