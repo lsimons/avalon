@@ -80,27 +80,21 @@ import org.apache.excalibur.source.SourceFactory;
 import org.apache.excalibur.source.SourceResolver;
 
 /**
- * Base interface for resolving a source by system identifiers.
- * Instead of using the java.net.URL classes which prevent you
- * to add your own custom protocols in a server environment,
- * you should use this resolver for all URLs.
- *
- * The resolver creates for each source a <code>Source</code>
- * object, which could then be asked for an <code>InputStream</code>
- * etc.
- *
- * When the <code>Source</code> object is no longer needed
- * it must be released using the resolver. This is very similar like
- * looking up components from a <code>ComponentLocator</code>
- * and releasing them.
- *
- * It looks for the base URL in the <code>Context</code> object with
- * the "container.rootDir" entry.  If the entry does not exist, it is
- * populated with the system property "user.dir".
+ * This is the default implemenation of a {@link SourceResolver}. 
+ * 
+ * The source resolving is done relative to a base directory/URI (if
+ * the given location is relative). This implementation looks for the
+ * base URI in the {@link Context} object of the "container" for the
+ * "context-root" information. This information can either be a
+ * {@link File} object or a {@link URL} object.
+ * If the entry does not exist, the system property "user.dir" is used
+ * as the base URI instead.
+ * 
+ * @see org.apache.excalibur.source.SourceResolver
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.23 2003/01/29 06:56:01 cziegeler Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.24 2003/01/29 16:41:38 cziegeler Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
@@ -117,9 +111,6 @@ public class SourceResolverImpl
     /** The special Source factories */
     protected ComponentSelector m_factorySelector;
 
-    /** The context */
-    protected Context m_context;
-
     /**
      * The base URL
      */
@@ -134,17 +125,15 @@ public class SourceResolverImpl
     public void contextualize( Context context )
         throws ContextException
     {
-        m_context = context;
-
         try
         {
-            if( m_context.get( "context-root" ) instanceof URL )
+            if( context.get( "context-root" ) instanceof URL )
             {
-                m_baseURL = (URL)m_context.get( "context-root" );
+                m_baseURL = (URL)context.get( "context-root" );
             }
             else
             {
-                m_baseURL = ( (File)m_context.get( "context-root" ) ).toURL();
+                m_baseURL = ( (File)context.get( "context-root" ) ).toURL();
             }
         }
         catch( ContextException ce )
