@@ -72,7 +72,7 @@ import org.apache.log.util.StackIntrospector;
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/02/09 23:33:22 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/04/07 11:39:06 $
  */
 public class ExtendedPatternFormatter
     extends PatternFormatter
@@ -96,6 +96,7 @@ public class ExtendedPatternFormatter
 
    /**
     * Creation of a new extended pattern formatter.
+    *
     * @param format the format string
     * @param callStackOffset the offset
     */
@@ -128,6 +129,7 @@ public class ExtendedPatternFormatter
 
     /**
      * Formats a single pattern run (can be extended in subclasses).
+     *
      * @param event the log event
      * @param  run the pattern run to format.
      * @return the formatted result.
@@ -137,9 +139,9 @@ public class ExtendedPatternFormatter
         switch( run.m_type )
         {
             case TYPE_METHOD:
-                return getMethod( event, run.m_format );
+                return getMethod( event );
             case TYPE_THREAD:
-                return getThread( event, run.m_format );
+                return getThread( event );
             default:
                 return super.formatPatternRun( event, run );
         }
@@ -149,10 +151,9 @@ public class ExtendedPatternFormatter
      * Utility method to format category.
      *
      * @param event the event
-     * @param format ancilliary format parameter - allowed to be null
      * @return the formatted string
      */
-    private String getMethod( final LogEvent event, final String format )
+    private String getMethod( final LogEvent event )
     {
         final ContextMap map = event.getContextMap();
         if( null != map )
@@ -184,10 +185,9 @@ public class ExtendedPatternFormatter
      * Utility thread to format category.
      *
      * @param event the even
-     * @param format ancilliary format parameter - allowed to be null
      * @return the formatted string
      */
-    private String getThread( final LogEvent event, final String format )
+    private String getThread( final LogEvent event )
     {
         final ContextMap map = event.getContextMap();
         if( null != map )
