@@ -13,9 +13,11 @@
   </target>
 
   <target name="test" depends="standard.test">
+    <!--
     <mkdir dir="${basedir}/target/deliverables/demos"/>
     <zip destfile="${basedir}/target/deliverables/demos/demo.zip"
       basedir="etc/test/demo"/>
+    -->
   </target>
 
   <target name="package" depends="standard.package">
