@@ -119,7 +119,7 @@ public class MerlinExternalContainer extends AvalonContainer
     protected String getMainClass()
     {
 
-        return "Merlin";
+        return "org.apache.avalon.merlin.cli.Main";
     }
 
     /*
