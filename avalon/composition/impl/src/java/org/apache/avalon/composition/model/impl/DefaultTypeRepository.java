@@ -55,6 +55,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.avalon.composition.model.ProfileSelector;
 import org.apache.avalon.composition.model.TypeRepository;
 import org.apache.avalon.composition.model.TypeUnknownException;
 import org.apache.avalon.composition.model.ProfileUnknownException;
@@ -75,7 +76,7 @@ import org.apache.avalon.meta.info.Type;
  * storage and retrival of component types.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/13 11:41:26 $
+ * @version $Revision: 1.5 $ $Date: 2004/01/21 00:10:27 $
  */
 class DefaultTypeRepository implements TypeRepository
 {
@@ -289,6 +290,18 @@ class DefaultTypeRepository implements TypeRepository
      */
     public Type[] getTypes( DependencyDescriptor dependency )
     {
+        return getTypes( dependency, true );
+    }
+
+    /**
+     * Locate the set of component types in the local repository 
+     * capable of servicing the supplied dependency.
+     *
+     * @param dependency a service dependency descriptor
+     * @return a set of types capable of servicing the supplied dependency
+     */
+    public Type[] getTypes( DependencyDescriptor dependency, boolean search )
+    {
         if( dependency == null )
         {
             throw new NullPointerException( "dependency" );
@@ -306,7 +319,7 @@ class DefaultTypeRepository implements TypeRepository
             }
         }
 
-        if( m_parent != null )
+        if( search && m_parent != null )
         {
             Type[] suppliment = m_parent.getTypes( dependency );
             for( int i=0; i<suppliment.length; i++ )
@@ -365,6 +378,22 @@ class DefaultTypeRepository implements TypeRepository
     public ComponentProfile[] getProfiles( Type type ) 
       throws TypeUnknownException
     {
+        return getProfiles( type, true );
+    }
+
+   /**
+    * Return the set of deployment profiles for the supplied type. An 
+    * implementation is required to return a array of types > 0 in length
+    * or throw a TypeUnknownException.
+    * @param type the type
+    * @param search if the local search failes and search is TRUE then 
+    *    delegate to a parent repository if available
+    * @return a profile array containing at least one deployment profile
+    * @exception TypeUnknownException if the supplied type is unknown
+    */
+    private ComponentProfile[] getProfiles( Type type, boolean search ) 
+      throws TypeUnknownException
+    {
         final String classname = type.getInfo().getClassname();
         ProfilePackage profiles = (ProfilePackage) m_profiles.get( classname );
         if( profiles != null )
@@ -373,7 +402,7 @@ class DefaultTypeRepository implements TypeRepository
         }
         else
         {
-            if( m_parent != null )
+            if( search && m_parent != null )
             {
                 return m_parent.getProfiles( type );
             }
@@ -408,12 +437,59 @@ class DefaultTypeRepository implements TypeRepository
     }
 
    /**
+    * Attempt to locate a packaged deployment profile meeting the 
+    * supplied dependency description.
+    *
+    * @param dependency the dependency description 
+    * @param search the search policy  
+    * @return the deployment profile (possibly null) 
+    */
+    public DeploymentProfile getProfile( 
+      DependencyDescriptor dependency, boolean search )
+    {
+        DeploymentProfile[] profiles = getProfiles( dependency, search );
+        ProfileSelector profileSelector = new DefaultProfileSelector();
+        return profileSelector.select( profiles, dependency );
+    }
+
+   /**
+    * Return a set of local deployment profile for the supplied dependency.
+    * @param dependency the dependency descriptor
+    * @return a set of profiles matching the supplied dependency
+    */
+    public DeploymentProfile[] getProfiles( DependencyDescriptor dependency, boolean search ) 
+    {
+        Type[] types = getTypes( dependency, search );
+        ArrayList list = new ArrayList();
+        for( int i=0; i<types.length; i++ )
+        {
+            Type type = types[i];
+            try
+            {
+                DeploymentProfile[] profiles = getProfiles( type, false );
+                for( int j=0; j<profiles.length; j++ )
+                {
+                    list.add( profiles[j] );
+                }
+            }
+            catch( TypeUnknownException e )
+            {
+                final String error = 
+                  "Unexpected condition: " + e.toString();
+                throw new IllegalStateException( error );
+            }
+        }
+        return (DeploymentProfile[]) list.toArray( new DeploymentProfile[0] );
+    }
+
+   /**
     * Return the set of local profiles.
     * @return a profile or null if a profile connot be resolve
     */
     private DeploymentProfile[] getProfiles()
     {
-        return (DeploymentProfile[]) m_profiles.values().toArray( new DeploymentProfile[0] );
+        return (DeploymentProfile[]) 
+          m_profiles.values().toArray( new DeploymentProfile[0] );
     }
 
    /**

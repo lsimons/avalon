@@ -309,7 +309,7 @@
     </ant:zip>
     <checksum file="${maven.build.dir}/${package.name}.zip"/>
 
-    <ant:tar tarfile="${maven.build.dir}/${package.name}.tar">
+    <ant:tar longfile="gnu" tarfile="${maven.build.dir}/${package.name}.tar">
       <tarfileset dir="${merlin.build.inst.dir}" prefix="merlin"/>
       <fileset dir="${basedir}">
         <include name="INSTALL.TXT"/>
@@ -329,7 +329,7 @@
       <zipfileset dir="${basedir}/target/tutorials" prefix="tutorial"/>
     </ant:zip>
     <checksum file="${maven.build.dir}/${tutorial.name}.zip"/>
-    <ant:tar tarfile="${maven.build.dir}/${tutorial.name}.tar">
+    <ant:tar longfile="gnu" tarfile="${maven.build.dir}/${tutorial.name}.tar">
       <tarfileset dir="${basedir}/target/tutorials" prefix="tutorial"/>
     </ant:tar>
     <ant:gzip 

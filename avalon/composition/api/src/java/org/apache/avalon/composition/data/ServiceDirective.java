@@ -57,7 +57,7 @@ import org.apache.avalon.meta.info.ServiceDescriptor;
  * the component implementing the service.
  *
  * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/09/24 09:31:11 $
+ * @version CVS $Revision: 1.2 $ $Date: 2004/01/21 00:10:27 $
  */
 public final class ServiceDirective extends ServiceDescriptor
 {
@@ -79,7 +79,7 @@ public final class ServiceDirective extends ServiceDescriptor
 
         // TODO: put in place relative and absolute addressing
 
-        if( path.startsWith( "/" ) )
+        if( ( null != path ) && path.startsWith( "/" ) )
         {
             m_path = path.substring( 1, path.length() );
         }
@@ -91,7 +91,7 @@ public final class ServiceDirective extends ServiceDescriptor
 
    /**
     * Return the virtual service component relative path.
-    * @return the relative component path
+    * @return the relative component path (possibly null)
     */
     public String getPath()
     {

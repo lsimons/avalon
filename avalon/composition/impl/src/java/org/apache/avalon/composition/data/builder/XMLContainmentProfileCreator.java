@@ -87,7 +87,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * from a Configuration object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/01/19 01:26:19 $
+ * @version $Revision: 1.6 $ $Date: 2004/01/21 00:10:27 $
  */
 public class XMLContainmentProfileCreator extends XMLProfileCreator
 {
@@ -499,14 +499,8 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
         try
         {
             ServiceDescriptor service = TYPE_CREATOR.buildService( config );
-            Configuration source = config.getChild( "source", false );
-            if( source == null ) 
-            {
-                final String error = 
-                  "Service configuration must contain a source directive.";
-                throw new MetaDataException( error );
-            }
-            String path = source.getValue();
+            Configuration source = config.getChild( "source" );
+            String path = source.getValue( null );
             return new ServiceDirective( service, path );
         }
         catch( Throwable ce )

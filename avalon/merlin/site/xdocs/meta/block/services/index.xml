@@ -94,9 +94,7 @@
    <!-- declaration of one or more services and the underling provider -->
 
    <services>
-     <service type="tutorial.location.LocationService">
-       <source>info</source>
-     </service>
+     <service type="tutorial.location.LocationService"/>
    </services>
 
    <classloader>
@@ -130,7 +128,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2003/10/02 03:13:16 $
+      $Revision: 1.3 $ $Date: 2004/01/21 00:10:27 $
     </legal>
   </footer>
 
