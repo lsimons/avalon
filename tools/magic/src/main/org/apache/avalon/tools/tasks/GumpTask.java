@@ -519,10 +519,11 @@ public class GumpTask extends SystemTask
                 }
                 String key = resource.getKey();
                 String alias = Resource.getKeyForResource( resource );
+                String id = resource.getGump().getId();
+
                 writer.write( 
                    "\n      <depend property=\"gump.resource." + key 
                    + "\" project=\"" + alias + "\"" );
-                String id = resource.getGump().getId();
                 if( null != id )
                 {
                     writer.write( " id=\"" + id + "\"" );
@@ -645,6 +646,15 @@ public class GumpTask extends SystemTask
             Resource resource = getHome().getResource( refs[i] );
             boolean ignorable = isIgnorableDependency( resource );
             if( !ignorable && !list.contains( resource ) )
+            {
+                list.add( resource );
+            }
+        }
+        ResourceRef[] plugins = def.getPluginRefs();
+        for( int i=0; i<plugins.length; i++ )
+        {
+            Resource resource = getHome().getResource( plugins[i] );
+            if( !list.contains( resource ) )
             {
                 list.add( resource );
             }
