@@ -12,7 +12,7 @@
         external meta information.  As such it could be used for unit testing for a wide range of Avalon-Framework 
         enabled components.  Having said that, usage requires some knowledge of multi component applications and
         the order of component lifecycling. PUnit builds on JUnit.  You should have testing experience of 
-        <link href="http://www.junit.org">JUnit<link> before using PUnit.
+        <link href="http://www.junit.org">JUnit</link> before using PUnit.
       </p>
     </section>
     <section><title>Example Usage</title>
