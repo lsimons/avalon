@@ -44,6 +44,18 @@
           <ant:arg value="${maven.build.dir}/jars/${path}"/>
         </ant:exec>
       </j:if>
+      <util:file var="metaFile" name="${maven.build.dir}/jars/${path}.jar.meta"/>
+      <j:if test="${metaFile.exists()}">
+        <checksum file="${metaFile}" fileext=".md5" />
+        <j:if test="${maven_gpg_exe != null}">
+          <ant:exec executable="${maven_gpg_exe}">
+            <ant:arg value="-a"/>
+            <ant:arg value="--yes"/>
+            <ant:arg value="-b"/>
+            <ant:arg value="${metaFile}"/>
+          </ant:exec>
+        </j:if>
+      </j:if>
     </j:forEach>
   </goal>
 
