@@ -7,6 +7,8 @@
  */
 package org.apache.avalon.phoenix.metadata;
 
+import  org.apache.avalon.phoenix.metainfo.BlockInfo;
+
 /**
  * This is the structure describing each block.
  *
@@ -17,6 +19,8 @@ public class BlockMetaData
     private final String           m_name;
     private final String           m_classname;
     private final RoleMetaData[]   m_roles;
+
+    private BlockInfo              m_blockInfo;
 
     public BlockMetaData( final String name,
                           final String classname,
@@ -37,11 +41,21 @@ public class BlockMetaData
         return m_classname;
     }
 
-    public RoleMetaData getRole( final String role )
+    public BlockInfo getBlockInfo()
+    {
+        return m_blockInfo;
+    }
+
+    public void setBlockInfo( final BlockInfo blockInfo )
+    {
+        m_blockInfo = blockInfo;
+    }
+
+    public RoleMetaData getRole( final String interfaceName )
     {
         for( int i = 0; i < m_roles.length; i++ )
         {
-            if( m_roles[ i ].getRole().equals( role ) )
+            if( m_roles[ i ].getInterface().equals( interfaceName ) )
             {
                 return m_roles[ i ];
             }
