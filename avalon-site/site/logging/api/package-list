@@ -1,9 +1,0 @@
-org.apache.avalon.logging.data
-org.apache.avalon.logging.impl
-org.apache.avalon.logging.log4j
-org.apache.avalon.logging.logkit
-org.apache.avalon.logging.logkit.factory
-org.apache.avalon.logging.logkit.factory.datagram
-org.apache.avalon.logging.logkit.factory.socket
-org.apache.avalon.logging.logkit.factory.syslog
-org.apache.avalon.logging.provider
