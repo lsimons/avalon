@@ -21,6 +21,9 @@ import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
 import org.apache.avalon.phoenix.interfaces.ManagerException;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.excalibur.threadcontext.ThreadContext;
 import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
 import org.apache.log.Hierarchy;
@@ -30,11 +33,15 @@ import org.apache.log.Logger;
  * Manage the "frame" in which Applications operate.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  */
 class DefaultApplicationContext
     extends AbstractLogEnabled
     implements ApplicationContext, Serviceable, Initializable
 {
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( DefaultApplicationContext.class );
+
     //Log Hierarchy for application
     private final Hierarchy m_hierarchy;
 
@@ -155,15 +162,47 @@ class DefaultApplicationContext
      * @return the Configuration
      */
     public Configuration getConfiguration( final String component )
-        throws ConfigurationException
+      throws ConfigurationException
     {
         final Configuration configuration =
             m_repository.getConfiguration( m_metaData.getName(),
                                            component );
 
-        m_validator.isValid( m_metaData.getName(), component, configuration );
+        //no validation of listeners just yet..
+        if( hasBlockListener( component, this.m_metaData.getListeners() ) )
+        {
+            return configuration;
+        }
+        else if( m_validator.isValid( m_metaData.getName(), component, configuration ) )
+        {
 
-        return configuration;
+            return configuration;
+        }
+        else
+        {
+            throw new ConfigurationException( REZ.getString( "applicationcontext.error.invalidconfig", component ) );
+        }
+    }
+
+    /**
+     * Return true if specified array contains entry with specified name.
+     *
+     * @param name the blocks name
+     * @param listeners the set of BlockListenerMetaData objects to search
+     * @return true if block present, false otherwise
+     */
+    private boolean hasBlockListener( final String name,
+                                      final BlockListenerMetaData[] listeners )
+    {
+        for( int i = 0; i < listeners.length; i++ )
+        {
+            if( listeners[i].getName().equals( name ) )
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
