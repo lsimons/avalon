@@ -1,5 +1,5 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2002/12/17 13:25:28 $]
+Last modified at [$Date: 2002/12/20 15:47:24 $]
 
 Background:
 
@@ -55,13 +55,21 @@ Resolved Issues:
        +1: Leo Sutic, Leo Simons, Paul Hammant, Stephen McConnell,
            Nicola Ken Barozzi
       
+    o it'd be nice to get and set up a wiki.
+
 Pending issues:
 
     o Coming up with a set of bylaws for the project
 
     o Define the terms for serving as a Chair
+      Note: this is actually defined by the bylaws and board
+      resolutions, and we have no role in defining this.
     
-    o deciding on moving or not moving to avalon.apache.org
+    o move to avalon.apache.org?
+      +1: leosimons
+      +0:
+      -0:
+      -1:
 
     o discussing and writing medium-to-long term roadmap 
       regarding containers and possible avalon framework extension 
@@ -90,7 +98,12 @@ Pending issues:
       
     o All code donations [to the ASF, destined for Apache Avalon]
       arrive via the Incubator, unless the Incubator states they can
-      be placed directly into Avalon.      
+      be placed directly into Avalon.
+      -1: leosimons - I think that if, for example, our company
+          wants to donate avalon-related code to avalon, the best
+          body to judge whether the donation should be accepted
+          is avalon. If it's about "code-with-a-community", like
+          EOB maybe if it comes this way, it's a different story.
       
     o Creation of an "avalon" CVS repository for new Avalon5 
       codebase     
@@ -160,24 +173,33 @@ Pending issues:
         -1: leosutic (Same reasons as info)
 
 
-    o  Every committer that will propose an internal fork 
-       will have to go thru the community vote to be allowed 
-       to do that.       
-       [http://marc.theaimsgroup.com/?l=avalon-dev&m=103903695931512&w=2]
-       [http://marc.theaimsgroup.com/?t=103904717500001&r=1&w=2]
-       [http://marc.theaimsgroup.com/?t=103908800800002&r=1&w=2]
-       +1: stefano, bloritsch, nicolaken, crafterm, leosutic
+    o Every committer that will propose an internal fork 
+      will have to go thru the community vote to be allowed 
+      to do that.       
+      [http://marc.theaimsgroup.com/?l=avalon-dev&m=103903695931512&w=2]
+      [http://marc.theaimsgroup.com/?t=103904717500001&r=1&w=2]
+      [http://marc.theaimsgroup.com/?t=103908800800002&r=1&w=2]
+      +1: stefano, bloritsch, nicolaken, crafterm, leosutic, leosimons
       
-    o  Come up with a Meta-Info model for Context.
+    o Come up with a Meta-Info model for Context.
 
-    o  Define standard Context entries.
+    o Define standard Context entries.
 
-    o  Last-minute changes to the Context javadocs.
+    o Last-minute changes to the Context javadocs.
 
+    o fix the build system (for excalibur) (so that gump gives green light
+      again). Do we move to maven? Wait for a 1.0 release perhaps?
+
+    o move over docs to forrest (currently there's a branch in the
+      jakarta-avalon module which we need to merge back and move to,
+      but there's some stuff left to do).
 
 Project Mission:
 
-What is the project's mission?  Our statement of goals/mission/vision
+Note: work is underway in jakarta-avalon/src/proposal to define a charter,
+including mission.
+
+What is the project's mission? Our statement of goals/mission/vision
 could arise also from the answers to the following and other questions:
        
       - Should we have a minimum set of requirements before components
