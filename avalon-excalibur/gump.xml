@@ -445,80 +445,6 @@
             to="avalon-dev@jakarta.apache.org"/>
     </project>
 
-    <project name="excalibur-concurrent">
-        <package>org.apache.avalon.excalibur.concurrent</package>
-
-        <ant basedir="concurrent">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
-
-        <depend project="jakarta-ant"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-        <work nested="concurrent/build/classes"/>
-
-        <home nested="concurrent"/>
-        <jar name="build/lib/excalibur-concurrent-@@DATE@@.jar"/>
-
-        <nag from="Peter Donald &lt;peter@apache.org&gt;"
-            to="avalon-dev@jakarta.apache.org"/>
-    </project>
-
-    <project name="excalibur-sourceresolve">
-        <package>org.apache.excalibur.source</package>
-
-        <ant basedir="sourceresolve">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
-            <depend property="avalon-framework.jar" project="jakarta-avalon" runtime="true"/>
-            <depend property="excalibur-pool.jar" project="excalibur-pool" runtime="true"/>
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
-
-        <depend project="jakarta-ant"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-        <work nested="sourceresolve/build/classes"/>
-
-        <home nested="sourceresolve"/>
-        <jar name="build/lib/excalibur-sourceresolve-@@DATE@@.jar"/>
-
-        <nag from="Peter Donald &lt;peter@apache.org&gt;"
-            to="avalon-dev@jakarta.apache.org"/>
-    </project>
-
-    <project name="excalibur-threadcontext">
-        <package>org.apache.excalibur.threadcontext</package>
-
-        <ant basedir="threadcontext">
-            <depend property="junit.jar" project="junit"/>
-            <depend property="checkstyle.jar" project="checkstyle"/>
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
-
-        <depend project="jakarta-ant"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-        <work nested="threadcontext/build/classes"/>
-
-        <home nested="threadcontext"/>
-        <jar name="build/lib/excalibur-threadcontext-@@DATE@@.jar"/>
-
-        <nag from="Peter Donald &lt;peter@apache.org&gt;"
-            to="avalon-dev@jakarta.apache.org"/>
-    </project>
-
     <project name="excalibur-logger">
         <package>org.apache.avalon.excalibur.logger</package>
 
@@ -540,6 +466,30 @@
 
         <home nested="logger"/>
         <jar name="build/lib/excalibur-logger-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="excalibur-naming">
+        <package>org.apache.avalon.excalibur.naming</package>
+
+        <ant basedir="naming">
+            <depend property="junit.jar" project="junit"/>
+            <depend property="checkstyle.jar" project="checkstyle"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="naming/build/classes"/>
+
+        <home nested="naming"/>
+        <jar name="build/lib/excalibur-naming-@@DATE@@.jar"/>
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
@@ -573,12 +523,14 @@
             to="avalon-dev@jakarta.apache.org"/>
     </project>
 
-    <project name="excalibur-naming">
-        <package>org.apache.avalon.excalibur.naming</package>
+    <project name="excalibur-sourceresolve">
+        <package>org.apache.excalibur.source</package>
 
-        <ant basedir="naming">
+        <ant basedir="sourceresolve">
             <depend property="junit.jar" project="junit"/>
             <depend property="checkstyle.jar" project="checkstyle"/>
+            <depend property="avalon-framework.jar" project="jakarta-avalon" runtime="true"/>
+            <depend property="excalibur-pool.jar" project="excalibur-pool" runtime="true"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -588,10 +540,10 @@
         <depend project="jakarta-ant"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
-        <work nested="naming/build/classes"/>
+        <work nested="sourceresolve/build/classes"/>
 
-        <home nested="naming"/>
-        <jar name="build/lib/excalibur-naming-@@DATE@@.jar"/>
+        <home nested="sourceresolve"/>
+        <jar name="build/lib/excalibur-sourceresolve-@@DATE@@.jar"/>
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
@@ -673,6 +625,30 @@
 
         <home nested="thread"/>
         <jar name="build/lib/excalibur-thread-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="excalibur-threadcontext">
+        <package>org.apache.excalibur.threadcontext</package>
+
+        <ant basedir="threadcontext">
+            <depend property="junit.jar" project="junit"/>
+            <depend property="checkstyle.jar" project="checkstyle"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="threadcontext/build/classes"/>
+
+        <home nested="threadcontext"/>
+        <jar name="build/lib/excalibur-threadcontext-@@DATE@@.jar"/>
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
