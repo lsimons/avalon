@@ -862,7 +862,7 @@ Legal:
 
         <copy todir="${bin.dist.conf}">
             <fileset dir="${lib.dir}/deploy/conf">
-                <include name="*.xml"/>
+                <include name="**/*.xml"/>
             </fileset>
         </copy>
         <copy todir="${bin.dist.apps}">
