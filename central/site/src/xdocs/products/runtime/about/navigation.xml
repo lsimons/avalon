@@ -23,7 +23,6 @@
 
  <body>
     <menu>
-        <item name="Introduction" href="index.html"/>
         <item name="Purpose" href="purpose.html"/>
         <item name="Features" href="features.html"/>
         <item name="Benefits" href="benefits.html"/>

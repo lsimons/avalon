@@ -23,9 +23,9 @@
 
   <body>
     <menu>
-      <item name="Overview" href="index.html"/>
-      <item name="2004" href="2004/index.html"/>
-      <item name="2003" href="2003/index.html"/>
+      <item name="Latest News" href="index.html"/>
+      <item name="2004" href="2004/january/index.html"/>
+      <item name="2003" href="2003/september/index.html"/>
     </menu>
   </body>
 

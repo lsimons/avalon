@@ -23,8 +23,7 @@
 
  <body>
     <menu>
-      <item name="Overview" href="index.html"/>
-      <item name="Who We Are" href="who/index.html"/>
+      <item name="People" href="who/index.html"/>
       <item name="Process" href="process/index.html"/>
       <item name="History" href="history/index.html"/>
     </menu>

@@ -23,7 +23,6 @@
 
  <body>
     <menu>
-      <item name="Overview" href="index.html"/>
       <item name="Project Charter" href="mission.html"/>
       <item name="Management Committee" href="pmc.html"/>
       <item name="PMC Procedures" href="pmc-votes.html"/>

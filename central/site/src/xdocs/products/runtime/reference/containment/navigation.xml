@@ -23,7 +23,6 @@
 
   <body>
     <menu>
-      <item name="Overview" href="index.html"/>
       <item name="container" href="directives/index.html"/>
       <item name="targets" href="overrides/index.html"/>
     </menu>

@@ -22,12 +22,7 @@
   <title>Merlin</title>
 
   <body>
-
     <menu>
-      <item name="Overview" href="index.html"/>
-      <item name="Javadoc Tags" href="index.html#Javadoc Tag Markup"/>
-      <item name="External Form" href="index.html#XML External Form"/>
-      <item name="Type Model" href="index.html#Type Model"/>
     </menu>
   </body>
 

@@ -23,11 +23,10 @@
 
   <body>
     <menu>
-      <item name="Overview" href="index.html"/>
+      <item name="Binary" href="index.html"/>
+      <item name="NT Service" href="nt.html"/>
+      <item name="Other Versions" href="archive/index.html"/>
       <item name="CVS" href="cvs.html"/>
-      <item name="3.3.0" href="install.3.3.html"/>
-      <item name="3.2.5" href="install.3.2.html"/>
-      <item name="3.0.0" href="install.3.0.html"/>
     </menu>
 
  </body>

@@ -23,7 +23,6 @@
 
   <body>
     <menu>
-      <item name="Overview" href="index.html"/>
       <item name="Goals" href="deploy.html"/>
       <item name="Properties" href="properties.html"/>
     </menu>
