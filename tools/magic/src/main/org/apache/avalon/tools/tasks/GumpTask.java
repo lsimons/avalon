@@ -448,7 +448,7 @@ public class GumpTask extends SystemTask
         writer.write( 
            "\n      <!-- for magic -->" );
         writer.write( 
-           "\n      <depend name=\"magic.home\" reference=\"home\"" );
+           "\n      <property name=\"magic.home\" reference=\"home\"" );
         writer.write( 
            "\n          project=\"avalon-tools-magic-home\" inherit=\"runtime\" />" );
         writer.write( 
