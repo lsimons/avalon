@@ -13,6 +13,36 @@
 
   <logkit>
     <factories>
+      <factory type="stream" 
+               class="org.apache.avalon.excalibur.logger.factory.StreamTargetFactory"/>
+      <factory type="file" class="org.apache.avalon.excalibur.logger.factory.FileTargetFactory"/>
+    </factories>
+
+    <targets>
+      <stream id="console">
+        <stream>System.out</stream>
+        <format type="avalon">
+          %7.7{priority} %5.5{time}   [%8.8{category}] (%{context}): %{message}\n%{throwable}
+        </format>
+      </stream>
+      <file id="file">
+        <filename>TEST-org.apache.avalon.excalibur.datasource.test.DataSourceTestCase.log</filename>
+        <format type="extended">
+          %7.7{priority} %5.5{time}   [%8.8{category}] (%{context}): %{message}\n%{throwable}
+        </format>
+      </file>
+    </targets>
+
+    <categories>
+      <category name="test" log-level="INFO">
+        <log-target id-ref="console"/>
+        <log-target id-ref="file"/>
+      </category>
+    </categories>
+  </logkit>
+    
+  <logkit>
+    <factories>
       <factory type="file" class="org.apache.avalon.excalibur.logger.factory.FileTargetFactory"/>
     </factories>
 
@@ -45,10 +75,10 @@
   <components>
     <datasource logger="test">
       <pool-controller min="5" max="10"/>
-      <driver>sun.jdbc.odbc.JdbcOdbcDriver</driver>
-      <dburl>jdbc:odbc:test</dburl>
-      <user>test</user>
-      <password>test</password>
+      <driver>@test.jdbc.driver@</driver>
+      <dburl>@test.jdbc.url@</dburl>
+      <user>@test.jdbc.user@</user>
+      <password>@test.jdbc.password@</password>
     </datasource>
   </components>
 </testcase>

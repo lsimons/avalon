@@ -54,6 +54,8 @@ Legal:
   <property name="build.javadocs-scratchpad" value="${build.dir}/javadocs-scratchpad"/>
   <property name="build.docs" value="${build.dir}/docs"/>
   <property name="build.testdocs" value="${build.docs}/test"/>
+  <property name="build.testsrc" value="${build.dir}/testsrc"/>
+  <property name="build.testclasses" value="${build.dir}/testclasses"/>
   <property name="build.reports" value="${build.dir}/reports"/>
   <property name="build.context" value="${build.dir}/documentation"/>
   <property name="build.xdocs" value="${build.context}/xdocs"/>
@@ -110,6 +112,7 @@ Legal:
       <exclude name="avalon-framework*.jar"/>
     </fileset>
     <pathelement path="${build.classes}" />
+    <pathelement path="${build.scratchpad}" />
   </path>
 
   <path id="tools.class.path">
@@ -225,6 +228,7 @@ Legal:
           tofile="${build.src}/org/apache/avalon/excalibur/datasource/JdbcConnection.java"
           filtering="yes"/>
 
+<!--
     <copy todir="${build.scratchpad}">
       <fileset dir="${scratchpad.dir}">
         <include name="**/test/**"/>
@@ -238,6 +242,7 @@ Legal:
         <exclude name="**/test/*.java"/>
       </fileset>
     </copy>
+-->
 
 <!--
     <depend closure="yes"
@@ -246,6 +251,7 @@ Legal:
             destdir="${build.classes}" />
 -->
 
+    <!-- Compile all classes excluding the tests.  They are compiled in their own task -->
     <javac srcdir="${java.dir}"
            destdir="${build.classes}"
            debug="${build.debug}"
@@ -253,8 +259,8 @@ Legal:
            deprecation="${build.deprecation}"
            target="1.2">
       <classpath refid="project.class.path" />
-      <src path="${test.dir}"/>
       <src path="${build.src}"/>
+      <exclude name="**/test/**"/>
       <exclude name="**/Log4J*"
                unless="log4j.present"/>
       <exclude name="org/apache/avalon/excalibur/datasource/J2eeDataSource.java"
@@ -287,19 +293,60 @@ Legal:
            deprecation="${build.deprecation}"
            target="1.2">
       <classpath refid="project.class.path" />
+      <exclude name="**/test/**"/>
     </javac>
 
     <rmic base="${build.classes}"
           classname="org.apache.avalon.excalibur.naming.rmi.server.RMINamingProviderImpl"
           stubVersion="1.2">
       <classpath refid="project.class.path" />
+      <exclude name="**/test/**"/>
     </rmic>
-
   </target>
+    
+  <!-- Compiles all of the tests after copying them into a new src directory -->
+  <target name="compile-tests" depends="compile">
+    <!-- Copy over all of the tests applying test filters -->
+    <mkdir dir="${build.testsrc}"/>
+    <copy todir="${build.testsrc}">
+      <filterset>
+        <filter token="test.jdbc.driver"   value="${test.jdbc.driver}"/>
+        <filter token="test.jdbc.url"      value="${test.jdbc.url}"/>
+        <filter token="test.jdbc.user"     value="${test.jdbc.user}"/>
+        <filter token="test.jdbc.password" value="${test.jdbc.password}"/>
+      </filterset>
 
+      <!-- All tests in the src/test directory -->
+      <fileset dir="${test.dir}">
+        <include name="**/test/**"/>
+      </fileset>
+
+      <!-- All tests in the src/scratchpad directory -->
+      <fileset dir="${scratchpad.dir}">
+        <include name="**/test/**"/>
+      </fileset>
+    </copy>
+        
+    <!-- Compile all of the tests -->
+    <mkdir dir="${build.testclasses}"/>
+    <copy todir="${build.testclasses}">
+      <fileset dir="${build.testsrc}">
+        <exclude name="**/*.java"/>
+      </fileset>
+    </copy>
+    <javac srcdir="${build.testsrc}"
+           destdir="${build.testclasses}"
+           debug="${build.debug}"
+           optimize="${build.optimize}"
+           deprecation="${build.deprecation}"
+           target="1.2">
+      <classpath refid="project.class.path" />
+    </javac>
+  </target>
+    
   <!-- Run all of the tests and generate an html report -->
   <target name="test" depends="check"/>
-  <target name="check" depends="compile" description="perform unit tests">
+  <target name="check" depends="compile-tests" description="perform unit tests">
     <mkdir dir="${build.testdocs}"/>
     <mkdir dir="${build.reports}"/>
 
@@ -307,18 +354,25 @@ Legal:
     <junit fork="true" printsummary="yes" dir="${build.reports}">
       <formatter type="xml"/>    <!-- xml reports for junitreport -->
       <formatter type="plain"/>  <!-- text reports for humans     -->
+
+      <sysproperty key="test.jdbc.driver"   value="${test.jdbc.driver}"/>
+      <sysproperty key="test.jdbc.url"      value="${test.jdbc.url}"/>
+      <sysproperty key="test.jdbc.user"     value="${test.jdbc.user}"/>
+      <sysproperty key="test.jdbc.password" value="${test.jdbc.password}"/>
+
       <classpath>
         <path refid="test.class.path"/>
-        <pathelement location="${build.classes}"/>
-        <pathelement location="${build.scratchpad}"/>
+        <pathelement location="${build.testclasses}"/>
       </classpath>
       <batchtest todir="${build.reports}">
-        <!-- Excalibur tests -->
-        <fileset dir="${build.classes}">
-          <include name="**/test/*Profile.class" if="test.profile"/>
+        <fileset dir="${build.testclasses}">
           <include name="**/test/*TestCase.class"/>
-
           <exclude name="**/test/Abstract*TestCase.class"/>
+          <exclude name="**/test/*PerformanceTestCase.class" unless="test.profile"/>
+          <exclude name="**/test/*Profile.class" unless="test.profile"/>
+
+          <!-- **** Excalibur tests **** -->
+          <!-- Jdbc based tests -->
           <exclude name="org/apache/avalon/excalibur/datasource/test/DataSourceTestCase.class" unless="test.jdbc"/>
 
           <!-- Slow tests only run when test.all property set -->
@@ -326,15 +380,8 @@ Legal:
           <exclude name="org/apache/avalon/excalibur/logger/test/LogKitManagementTestCase.class" unless="test.all"/>
           <exclude name="org/apache/avalon/excalibur/concurrent/test/ReadWriteLockTestCase.class" unless="test.all"/>
           <exclude name="org/apache/avalon/excalibur/monitor/test/MonitorTestCase.class" unless="test.all"/>
-        </fileset>
 
-        <!-- Scratchpad tests -->
-        <fileset dir="${build.scratchpad}">
-          <include name="**/test/*TestCase.class"/>
-          <include name="**/test/*Profile.class" if="test.profile"/>
-          <exclude name="**/test/Abstract*TestCase.class"/>
-          <exclude name="**/test/*PerformanceTestCase.class" unless="test.profile"/>
-
+          <!-- **** Scratchpad tests **** -->
           <!-- Slow tests only run when test.all property set -->
           <exclude name="org/apache/avalon/excalibur/pool/test/*Multithread*TestCase.class" unless="test.all"/>
         </fileset>
@@ -363,21 +410,23 @@ Legal:
   <target name="test-subset-check" unless="junit.test">
     <fail message="junit.test not specified.  Example usage: build -Djunit.test=**/ResourceLimiting*TestCase.class test-subset" />
   </target>
-  <target name="test-subset" depends="test-subset-check, compile" description="perferm a subset of unit tests">
+  <target name="test-subset" depends="test-subset-check, compile-tests" description="perferm a subset of unit tests">
     <mkdir dir="${build.reports}"/>
 
     <junit fork="true" printsummary="yes" dir="${build.reports}">
       <formatter type="plain"/>  <!-- text reports for humans     -->
+
+      <sysproperty key="test.jdbc.driver"   value="${test.jdbc.driver}"/>
+      <sysproperty key="test.jdbc.url"      value="${test.jdbc.url}"/>
+      <sysproperty key="test.jdbc.user"     value="${test.jdbc.user}"/>
+      <sysproperty key="test.jdbc.password" value="${test.jdbc.password}"/>
+
       <classpath>
         <path refid="test.class.path"/>
-        <pathelement location="${build.classes}"/>
-        <pathelement location="${build.scratchpad}"/>
+        <pathelement location="${build.testclasses}"/>
       </classpath>
       <batchtest todir="${build.reports}">
-        <fileset dir="${build.classes}">
-          <include name="${junit.test}"/>
-        </fileset>
-        <fileset dir="${build.scratchpad}">
+        <fileset dir="${build.testclasses}">
           <include name="${junit.test}"/>
         </fileset>
       </batchtest>
