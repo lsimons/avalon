@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Initializable;
@@ -33,6 +34,7 @@ import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.ManagerException;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
+import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.threadcontext.ThreadContext;
 import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
 
@@ -63,6 +65,9 @@ class DefaultApplicationContext
 
     //Validator to validate configuration against
     private ConfigurationValidator m_validator;
+
+    //InstrumentManager to register instruments with
+    private InstrumentManager m_instrumentManager;
 
     ///Place to expose Management beans
     private SystemManager m_systemManager;
@@ -133,6 +138,7 @@ class DefaultApplicationContext
         m_validator = (ConfigurationValidator)serviceManager.
             lookup( ConfigurationValidator.ROLE );
         m_kernel = (Kernel)serviceManager.lookup( Kernel.ROLE );
+        m_instrumentManager = (InstrumentManager)serviceManager.lookup( InstrumentManager.ROLE );
     }
 
     public void initialize()
@@ -181,13 +187,13 @@ class DefaultApplicationContext
         {
             public void run()
             {
-                schedulShutdown();
+                scheduleShutdown();
             }
         };
         thread.start();
     }
 
-    private void schedulShutdown()
+    private void scheduleShutdown()
     {
         try
         {
@@ -325,6 +331,27 @@ class DefaultApplicationContext
         final SystemManager appContext =
             m_systemManager.getSubContext( null, "application" );
         return appContext.getSubContext( getName(), "block" );
+    }
+
+    /**
+     * Get the instrument manager to use for this application
+     *
+     * @return the InstrumentManager
+     */
+    public InstrumentManager getInstrumentManager()
+    {
+        return m_instrumentManager;
+    }
+
+    /**
+     * Get the name to use for the instrumentables for the specified component
+     *
+     * @param component the component
+     * @return the name to use for Instrumentables
+     */
+    public String getInstrumentableName( String component )
+    {
+        return ContainerConstants.ROOT_INSTRUMENT_CATEGORY + "." + getName() + "." + component;
     }
 
     private String getName()
