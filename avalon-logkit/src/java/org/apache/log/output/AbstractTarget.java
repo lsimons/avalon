@@ -59,6 +59,7 @@ import org.apache.log.ErrorHandler;
 import org.apache.log.LogEvent;
 import org.apache.log.LogTarget;
 import org.apache.log.util.DefaultErrorHandler;
+import org.apache.log.util.Closeable;
 
 /**
  * Abstract target.
@@ -67,7 +68,7 @@ import org.apache.log.util.DefaultErrorHandler;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public abstract class AbstractTarget
-    implements LogTarget, ErrorAware
+    implements LogTarget, ErrorAware, Closeable
 {
     private static final ErrorHandler DEFAULT_ERROR_HANDLER = new DefaultErrorHandler();
 
