@@ -109,11 +109,9 @@ public class JUnitTestTask extends SystemTask
         {
             File classes = new File( m_test, "classes" );
             mkDir( classes );
+
             Definition definition = getHome().getDefinition( getKey() );
             Path classpath = definition.getPath( project, Policy.TEST );
-
-            //Path classpath = 
-            //  getHome().getRepository().createPath( project, definition, Policy.TEST );
 
             //
             // add the project jar to the classpath for the compilation

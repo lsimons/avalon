@@ -754,6 +754,18 @@
       </dependencies>
     </project>
 
+    <project basedir="../../runtime/merlin/unit">
+      <info>
+        <group>avalon/merlin</group>
+        <name>avalon-merlin-unit</name>
+        <version>3.3.0</version>
+      </info>
+      <dependencies>
+        <include key="avalon-repository-main"/>
+        <include key="avalon-merlin-impl" build="false" test="false" runtime="false"/>
+      </dependencies>
+    </project>
+
   </projects>
 
 </system>
