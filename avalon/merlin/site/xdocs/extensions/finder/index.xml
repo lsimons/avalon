@@ -19,39 +19,22 @@
 
 <document>
 
-  <header>
-    <title>Action Directive</title>
-    <authors>
-      <person name="Stephen McConnell" email="mcconnell@apache.org"/>
-      <person name="Niclas Hedhman" email="niclas@hedhman.org"/>
-    </authors>
-  </header>
+  <properties>
+    <title>Merlin Servlet</title>
+    <author email="avalon-dev@jakarta.apache.org">Avalon Development Team</author>
+  </properties>
 
   <body>
-    <section name="Action Directive">
-
-      <subsection name="Description">
-<p>
-Multiple actions may be contained within the scope of a permission.  
-Each action contains a single value.
-</p>
-      </subsection>
-
-      <subsection name="Example XML">
-
-<source><![CDATA[
-    <permission class="java.io.FilePermission" name="org.apache.*" >
-      <action>read</action>
-      <action>write</action>
-    </permission>
-]]></source>
-      </subsection>
-
+    <section name="Finder Facility">
     </section>
-
   </body>
 
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2004/04/02 00:19:01 $
+    </legal>
+  </footer>
 </document>
-
 
 
