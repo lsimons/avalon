@@ -19,10 +19,13 @@ package org.apache.metro.studio.eclipse.core.templateengine;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.Hashtable;
 import java.util.Set;
 
-import org.apache.metro.studio.eclipse.core.MetroStudioCore;
+import org.apache.metro.studio.eclipse.core.MetroStudioCore; 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 
@@ -38,6 +41,7 @@ public class DirectoryTemplateManager
 {
 
     private Hashtable directoryTemplates = new Hashtable();
+    private static XStream xstream;
 
     /**
      *  
@@ -105,9 +109,7 @@ public class DirectoryTemplateManager
     public static DirectoryTemplateManager load(String filePathName)
     {
 
-        XStream xstream = new XStream(new DomDriver());
-        initXStream(xstream);
-        
+   
         FileReader reader = null;
         try
         {
@@ -122,19 +124,36 @@ public class DirectoryTemplateManager
         return (DirectoryTemplateManager) xstream.fromXML(reader);
     }
 
-    public static void initXStream(XStream xstream)
+    public static void initXStream()
     {
-        xstream.alias("DirectoryTemplates", DirectoryTemplateManager.class);
-        xstream.alias("DirectoryTemplate", DirectoryTemplate.class);
-        xstream.alias("Directory", Directory.class);
-        xstream.alias("Library", Library.class);
-        
+        xstream = new XStream(new DomDriver());
+        addXStreamAliases(xstream);
     }
     /**
      * @param xstream
      */
-    public void addXStreamAliases(XStream xstream)
+    public static void addXStreamAliases(XStream xstr)
     {
-        initXStream(xstream);
+        xstr.alias("DirectoryTemplates", DirectoryTemplateManager.class);
+        xstr.alias("DirectoryTemplate", DirectoryTemplate.class);
+        xstr.alias("Directory", Directory.class);
+        xstr.alias("Library", Library.class);
+    }
+
+    /**
+     * 
+     */
+    public void store(String configFileLocation)
+    {
+        try
+        {
+            Writer out = new FileWriter(configFileLocation);
+            xstream.toXML(this, out);
+        } catch (IOException e)
+        {
+            MetroStudioCore.log(e,
+            "can't write xstream");
+        }
+        
     }
 }
