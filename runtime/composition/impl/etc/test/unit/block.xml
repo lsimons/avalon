@@ -14,13 +14,13 @@
    <classloader>
      <library>
        <include>ext</include>
-       <group>avalon-framework</group>
+       <!--<group>avalon-framework</group>-->
      </library>
      <classpath>
        <fileset dir="lib">
          <include>test-c.jar</include>
        </fileset>
-       <artifact>avalon-framework/avalon-framework-impl#@FRAMEWORK_IMPL_VERSION@</artifact>
+       <artifact>@FRAMEWORK_IMPL_SPEC@</artifact>
        <artifact>test/test-d</artifact>
      </classpath>
    </classloader>

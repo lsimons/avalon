@@ -4,7 +4,7 @@
 
    <classloader>
      <classpath>
-       <artifact>avalon-framework/avalon-framework-impl#@FRAMEWORK_IMPL_VERSION@</artifact>
+       <artifact>@FRAMEWORK_IMPL_SPEC@</artifact>
      </classpath>
    </classloader>
 

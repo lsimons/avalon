@@ -9,8 +9,8 @@
   <target name="init" depends="standard.init">
     <x:filter key="avalon-logging-logkit-impl" feature="uri" 
        token="AVALON-LOGGING-LOGKIT-SPEC"/>
-    <x:filter key="avalon-framework-impl" feature="version" 
-       token="FRAMEWORK_IMPL_VERSION"/>
+    <x:filter key="avalon-framework-impl" feature="uri" 
+       token="FRAMEWORK_IMPL_SPEC"/>
   </target>
 
 </project>
