@@ -34,7 +34,7 @@ import java.io.Writer;
  * Junit TestCase for all the monitors in Excalibur.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: MonitorTestCase.java,v 1.6 2001/12/11 09:53:39 jefft Exp $
+ * @version $Id: MonitorTestCase.java,v 1.7 2002/02/20 15:52:27 leif Exp $
  */
 public class MonitorTestCase extends ExcaliburTestCase
 {
@@ -44,6 +44,9 @@ public class MonitorTestCase extends ExcaliburTestCase
     public MonitorTestCase( String name )
     {
         super( name );
+        
+        // Set the priority for default log output.
+        m_logPriority = org.apache.log.Priority.INFO;
     }
 
     public void testActiveMonitor()
