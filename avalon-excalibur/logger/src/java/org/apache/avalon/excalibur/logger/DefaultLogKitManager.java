@@ -16,9 +16,9 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Loggable;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
@@ -32,7 +32,7 @@ import org.apache.log.Priority;
  *             supports the new framework Logger interface.
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 02:34:14 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/05/21 10:03:23 $
  * @since 4.0
  */
 public class DefaultLogKitManager
@@ -174,24 +174,17 @@ public class DefaultLogKitManager
         throws ConfigurationException
     {
         final DefaultLogTargetFactoryManager targetFactoryManager = new DefaultLogTargetFactoryManager();
-        if( targetFactoryManager instanceof LogEnabled )
+        ContainerUtil.enableLogging( targetFactoryManager, getLogger() );
+        try
         {
-            targetFactoryManager.enableLogging( getLogger() );
+            ContainerUtil.contextualize( targetFactoryManager, m_context );
         }
-
-        if( targetFactoryManager instanceof Contextualizable )
+        catch( final ContextException ce )
         {
-            try
-            {
-                targetFactoryManager.contextualize( m_context );
-            }
-            catch( final ContextException ce )
-            {
-                throw new ConfigurationException( "cannot contextualize default factory manager", ce );
-            }
+            final String message = "cannot contextualize default factory manager";
+            throw new ConfigurationException( message, ce );
         }
-
-        targetFactoryManager.configure( configuration );
+        ContainerUtil.configure( targetFactoryManager, configuration );
 
         return targetFactoryManager;
     }
@@ -208,21 +201,15 @@ public class DefaultLogKitManager
     {
         final DefaultLogTargetManager targetManager = new DefaultLogTargetManager();
 
-        if( targetManager instanceof LogEnabled )
+        ContainerUtil.enableLogging( targetManager, getLogger() );
+        try
         {
-            targetManager.enableLogging( getLogger() );
+            ContainerUtil.contextualize( targetManager, m_context );
         }
-
-        if( targetManager instanceof Contextualizable )
+        catch( final ContextException ce )
         {
-            try
-            {
-                targetManager.contextualize( m_context );
-            }
-            catch( final ContextException ce )
-            {
-                throw new ConfigurationException( "cannot contextualize factory manager", ce );
-            }
+            final String message = "cannot contextualize factory manager";
+            throw new ConfigurationException( message, ce );
         }
 
         if( targetManager instanceof LogTargetFactoryManageable )
@@ -230,11 +217,7 @@ public class DefaultLogKitManager
             targetManager.setLogTargetFactoryManager( targetFactoryManager );
         }
 
-        if( targetManager instanceof Configurable )
-        {
-            targetManager.configure( configuration );
-        }
-
+        ContainerUtil.configure( targetManager, configuration );
         return targetManager;
     }
 
@@ -278,7 +261,8 @@ public class DefaultLogKitManager
                 fullCategory = parentCategory + Logger.CATEGORY_SEPARATOR + category;
             }
 
-            final Logger logger = m_hierarchy.getLoggerFor( fullCategory );
+            final Logger logger =
+                m_hierarchy.getLoggerFor( fullCategory );
             m_loggers.put( fullCategory, logger );
             if( getLogger().isDebugEnabled() )
             {
