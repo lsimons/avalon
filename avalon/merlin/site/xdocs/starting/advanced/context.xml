@@ -78,7 +78,7 @@
          src/tutorials/context/strategy package.
         </p>
       </subsection>
-      <subsection name="Contextualization stage defintion">
+      <subsection name="Contextualization stage definition">
         <p>
          You can declare any interface to serve as the contextualization
          lifecycle stage.  The following example follows the Avalon 
@@ -91,7 +91,7 @@ public interface Contextualizable
 {
     /**
      * Contextualization of the component.
-     * @param context the containement context
+     * @param context the containment context
      * @exception ContextException if a contextualization error occurs
      */
     void contextualize( StandardContext context ) 
@@ -104,7 +104,7 @@ public interface Contextualizable
         <p>
          A custom contextualization stage is managed by a contextualization
          handler component that you define.  The only constraint on a handler is 
-         it implements the org.apache.avalon.assembly.lifecycle.Contextualization
+         that it has to implement the org.apache.avalon.assembly.lifecycle.Contextualization
          interface.
         </p>
         <source><![CDATA[
@@ -232,7 +232,7 @@ public class ContextualizationHandler implements Contextualization
       <subsection name="Declaration of the handler">
         <p>
           In order for the handler component to be recognized by 
-          Merlin we need to declare a type defintion.  The defintion
+          Merlin we need to declare a type definition.  The definition
           includes the declaration of the components support for 
           the custom contextualization interface under an extension
           declaration.
@@ -260,7 +260,7 @@ public class StandardComponent
     implements Contextualizable
 {
     /**
-     * Supply of the the component context to the component type.
+     * Supply of the component context to the component type.
      * @param context the context value
      */
     public void contextualize( StandardContext context )
@@ -298,7 +298,7 @@ public class StandardComponent
 
       <subsection name="Execution">
         <p>
-          Execute the folowing commands to build and run the tutorial.
+          Execute the following commands to build and run the tutorial.
         </p>
 <source><![CDATA[
 $ ant jar
