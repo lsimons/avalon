@@ -8,7 +8,6 @@
 package org.apache.excalibur.cache.impl;
 
 import org.apache.excalibur.cache.CacheStore;
-import org.apache.excalibur.cache.DefaultCache;
 import org.apache.excalibur.cache.policy.TimeMapLRUPolicy;
 import org.apache.excalibur.cache.store.MemoryStore;
 
@@ -16,7 +15,7 @@ import org.apache.excalibur.cache.store.MemoryStore;
  * TimeMapLRUCache.
  *
  * @author <a href="alag@users.sourceforge.net">Alexis Agahi</a>
- * @version $Revision: 1.2 $ $Date: 2002/05/01 04:01:32 $
+ * @version $Revision: 1.3 $ $Date: 2002/05/20 03:36:09 $
  */
 public class TimeMapLRUCache
     extends DefaultCache

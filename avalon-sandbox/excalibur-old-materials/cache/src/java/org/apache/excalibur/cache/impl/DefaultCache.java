@@ -5,7 +5,10 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.excalibur.cache;
+package org.apache.excalibur.cache.impl;
+
+import org.apache.excalibur.cache.CacheStore;
+import org.apache.excalibur.cache.ReplacementPolicy;
 
 /**
  * Default <code>Cache</code> implementation.
@@ -37,9 +40,13 @@ public class DefaultCache
 
     public Object put( final Object key, final Object value )
     {
-        if ( null == key || null == value )
+        if ( null == key )
         {
-            return null;
+            throw new NullPointerException( "Attempted to put null key to cache" );
+        }
+        if ( null == value )
+        {
+            throw new NullPointerException( "Attempted to put null value to cache" );
         }
 
         final Object oldValue = remove( key );
@@ -60,7 +67,7 @@ public class DefaultCache
     {
         if ( null == key )
         {
-            return null;
+            throw new NullPointerException( "Attempted to put null key to cache" );
         }
 
         final Object value = m_store.get( key );
@@ -73,7 +80,7 @@ public class DefaultCache
     {
         if ( null == key )
         {
-            return null;
+            throw new NullPointerException( "Attempted to put null key to cache" );
         }
 
         Object value = null;

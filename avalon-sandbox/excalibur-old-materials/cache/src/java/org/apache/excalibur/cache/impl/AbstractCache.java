@@ -5,9 +5,13 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.excalibur.cache;
+package org.apache.excalibur.cache.impl;
 
 import java.util.ArrayList;
+
+import org.apache.excalibur.cache.Cache;
+import org.apache.excalibur.cache.CacheEvent;
+import org.apache.excalibur.cache.CacheListener;
 
 /**
  * An abstract superclass for cache implementations.

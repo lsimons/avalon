@@ -7,7 +7,7 @@
  */
 package org.apache.excalibur.cache.impl.test;
 
-import org.apache.excalibur.cache.LRUCache;
+import org.apache.excalibur.cache.impl.LRUCache;
 
 /**
  * TestCase for LRUCache.
