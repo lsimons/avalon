@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
   <!DOCTYPE project [
-    <!ENTITY forrest-targets SYSTEM "file:./forrest-targets.ent">
+    <!ENTITY forrest-targets SYSTEM "file:./tools/forrest-targets.ent">
   ]>
 <!--
 ==============================================================================
