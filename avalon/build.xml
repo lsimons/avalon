@@ -289,7 +289,7 @@ Legal:
       <fileset dir="${context.dir}/resources"/>
     </copy>
 
-    <java classname="org.apache.cocoon.Main" fork="true">
+    <java classname="org.apache.cocoon.Main" fork="true" maxmemory="128m">
       <arg value="-c${build.context}/"/>
       <arg value="-d${build.docs}"/>
       <arg value="-w${build.dir}/work"/>
