@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+
+ <header>
+  <title>Cornerstone To do list</title>
+  <authors>
+    <person name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/>
+  </authors>
+ </header>
+
+<body>
+  <s1 title="Overview">
+    <p>
+      We're looking for people to help out and write or port some of these services.  If it's a port of an existing service, it's original license should be honoured.  For example if you are porting C source from the BSD operating system to Java, it's probably true that you should keep the block as BSD licensed.  Naturely we'd prefer to see original code written that's Apache software licensed.  Of course there is plenty of room for multiple implementations of a given service/daemon.
+    </p>    
+  </s1>
+  <s1 title="Services">
+    <ul>
+      <li> 
+        To be specified.
+      </li>
+    </ul>    
+  </s1>
+  <s1 title="TCP/IP Daemons (as per Unix)">
+    <p>
+      RFC compliance is the key here.  Porting BSD source to Java might be a route 
+      to delivering these server apps. In some cases theoure could be multiple block implementations (One NTP block could look at the PC's local clock, another delagates to another NTP server, they may even share code and be in the same .bar file).
+    </p>
+    <ul>
+      <li>Domain Name Service</li>
+      <li>Echo</li>
+      <li>HTTP (basic)</li>      
+      <li>Network Time Protocol (NTP)</li>        
+      <li>Secure Shell (SSH)</li>  
+      <li>Telnet</li>
+    </ul>    
+  </s1>
+  <s1 title="Server Applications">
+    <ul>
+      <li> 
+        Enterprise Java Beans
+      </li>
+    </ul>      
+  </s1>  
+</body>
+</document>
