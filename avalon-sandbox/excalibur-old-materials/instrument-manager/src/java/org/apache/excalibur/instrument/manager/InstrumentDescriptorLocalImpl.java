@@ -15,7 +15,7 @@ import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentSample
  *  Instrument.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/14 14:58:21 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/09/06 02:10:12 $
  * @since 4.1
  */
 public class InstrumentDescriptorLocalImpl
@@ -156,6 +156,21 @@ public class InstrumentDescriptorLocalImpl
     public InstrumentSampleDescriptor[] getInstrumentSampleDescriptors()
     {
         return getInstrumentSampleDescriptorLocals();
+    }
+    
+    
+    /**
+     * Returns the stateVersion of the instrument.  The state version will be
+     *  incremented each time any of the configuration of the instrument or
+     *  any of its children is modified.
+     * Clients can use this value to tell whether or not anything has
+     *  changed without having to do an exhaustive comparison.
+     *
+     * @return The state version of the instrument.
+     */
+    public int getStateVersion()
+    {
+        return m_instrumentProxy.getStateVersion();
     }
     
     /*---------------------------------------------------------------

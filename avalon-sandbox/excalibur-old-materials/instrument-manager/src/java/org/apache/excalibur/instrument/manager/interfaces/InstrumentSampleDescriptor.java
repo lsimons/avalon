@@ -12,7 +12,7 @@ package org.apache.excalibur.instrument.manager.interfaces;
  *  InstrumentSample object.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/14 14:58:24 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/09/06 02:10:13 $
  * @since 4.1
  */
 public interface InstrumentSampleDescriptor
@@ -115,5 +115,16 @@ public interface InstrumentSampleDescriptor
      * @return A static snapshot of the InstrumentSample.
      */
     InstrumentSampleSnapshot getSnapshot();
+    
+    /**
+     * Returns the stateVersion of the sample.  The state version will be
+     *  incremented each time any of the configuration of the sample is
+     *  modified.
+     * Clients can use this value to tell whether or not anything has
+     *  changed without having to do an exhaustive comparison.
+     *
+     * @return The state version of the sample.
+     */
+    int getStateVersion();
 }
 

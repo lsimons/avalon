@@ -17,7 +17,7 @@ import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentExcept
  *  Instrumentable.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/14 14:58:21 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/09/06 02:10:12 $
  * @since 4.1
  */
 public class InstrumentableDescriptorLocalImpl
@@ -144,6 +144,20 @@ public class InstrumentableDescriptorLocalImpl
     public InstrumentDescriptor[] getInstrumentDescriptors()
     {
         return getInstrumentDescriptorLocals();
+    }
+    
+    /**
+     * Returns the stateVersion of the instrumentable.  The state version
+     *  will be incremented each time any of the configuration of the
+     *  instrumentable or any of its children is modified.
+     * Clients can use this value to tell whether or not anything has
+     *  changed without having to do an exhaustive comparison.
+     *
+     * @return The state version of the instrumentable.
+     */
+    public int getStateVersion()
+    {
+        return m_instrumentableProxy.getStateVersion();
     }
     
     /*---------------------------------------------------------------

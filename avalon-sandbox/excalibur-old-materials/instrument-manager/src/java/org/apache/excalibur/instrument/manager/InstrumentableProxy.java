@@ -26,7 +26,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * Not Synchronized.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/14 14:58:21 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/09/06 02:10:12 $
  * @since 4.1
  */
 class InstrumentableProxy
@@ -72,6 +72,9 @@ class InstrumentableProxy
 
     /** Optimized array of the InstrumentDescriptorLocals. */
     private InstrumentDescriptorLocal[] m_instrumentDescriptorArray;
+    
+    /** State Version. */
+    private int m_stateVersion;
 
     /*---------------------------------------------------------------
      * Constructors
@@ -294,6 +297,8 @@ class InstrumentableProxy
             m_childInstrumentableProxyArray = null;
             m_childInstrumentableDescriptorArray = null;
         }
+        
+        stateChanged();
     }
 
     /**
@@ -456,6 +461,8 @@ class InstrumentableProxy
             m_instrumentProxyArray = null;
             m_instrumentDescriptorArray = null;
         }
+        
+        stateChanged();
     }
 
     /**
@@ -521,6 +528,20 @@ class InstrumentableProxy
             descriptors = updateInstrumentDescriptorArray();
         }
         return descriptors;
+    }
+    
+    /**
+     * Returns the stateVersion of the instrumentable.  The state version
+     *  will be incremented each time any of the configuration of the
+     *  instrumentable or any of its children is modified.
+     * Clients can use this value to tell whether or not anything has
+     *  changed without having to do an exhaustive comparison.
+     *
+     * @return The state version of the instrumentable.
+     */
+    int getStateVersion()
+    {
+        return m_stateVersion;
     }
 
     /**
@@ -693,6 +714,27 @@ class InstrumentableProxy
                 }
                 instrumentProxy.loadState( instrumentConf );
             }
+        }
+        
+        stateChanged();
+    }
+    
+    /**
+     * Called whenever the state of the instrumentable is changed.
+     */
+    protected void stateChanged()
+    {
+        m_stateVersion++;
+        
+        // Propagate to the parent
+        if ( m_parentInstrumentableProxy == null )
+        {
+            // This is a top level Instrumentable
+            m_instrumentManager.stateChanged();
+        }
+        else
+        {
+            m_parentInstrumentableProxy.stateChanged();
         }
     }
 }

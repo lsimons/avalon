@@ -14,7 +14,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/14 14:58:24 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/09/06 02:10:13 $
  * @since 4.1
  */
 public interface InstrumentManagerClient
@@ -77,6 +77,17 @@ public interface InstrumentManagerClient
      */
     InstrumentableDescriptor[] getInstrumentableDescriptors();
     
+    /**
+     * Returns the stateVersion of the instrument manager.  The state version
+     *  will be incremented each time any of the configuration of the
+     *  instrument manager or any of its children is modified.
+     * Clients can use this value to tell whether or not anything has
+     *  changed without having to do an exhaustive comparison.
+     *
+     * @return The state version of the instrument manager.
+     */
+    int getStateVersion();
+        
     /**
      * Invokes garbage collection.
      */
