@@ -36,7 +36,7 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.excalibur.altrmi.client.HostContext;
 import org.apache.excalibur.altrmi.client.Factory;
 import org.apache.excalibur.altrmi.client.impl.socket.SocketCustomStreamHostContext;
-import org.apache.excalibur.altrmi.client.impl.ClientClassAltrmiFactory;
+import org.apache.excalibur.altrmi.client.impl.ClientSideClassFactory;
 import org.apache.excalibur.altrmi.client.impl.DefaultConnectionListener;
 import org.apache.excalibur.altrmi.common.ConnectionException;
 import org.apache.excalibur.altrmi.common.InvocationException;
@@ -52,7 +52,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleUtils;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.12 $ $Date: 2003/01/06 23:44:24 $
+ * @version CVS $Revision: 1.13 $ $Date: 2003/01/09 22:56:50 $
  * @since 4.1
  */
 class InstrumentManagerConnection
@@ -364,10 +364,10 @@ class InstrumentManagerConnection
 
         SocketCustomStreamHostContext altrmiHostContext =
             new SocketCustomStreamHostContext( m_host, m_port );
-        altrmiHostContext.setAltrmiConnectionListener( new DefaultConnectionListener( 0 ) );
+        altrmiHostContext.setConnectionListener( new DefaultConnectionListener( 0 ) );
 
         m_altrmiHostContext = altrmiHostContext;
-        m_altrmiFactory = new ClientClassAltrmiFactory( false );
+        m_altrmiFactory = new ClientSideClassFactory( false );
         m_altrmiFactory.setHostContext( altrmiHostContext );
 
         if ( getLogger().isDebugEnabled() )
