@@ -10,7 +10,7 @@
 # building all components. These values are overridable in component-specific
 # ant.properties files.
 #
-# $Id: ant.properties.sample,v 1.5 2002/03/27 11:41:18 leif Exp $
+# $Id: ant.properties.sample,v 1.6 2002/03/28 04:06:17 leif Exp $
 # -----------------------------------------------------------------------------
 
 
@@ -56,7 +56,7 @@ excalibur-instrument.jar=${excalibur-instrument.home}/excalibur-instrument-0.1.j
 
 # ----- Excalibur Instrument Manager -----
 excalibur-instrument-manager.home=${base.path}/jakarta-avalon-excalibur/instrument-manager/build/lib
-excalibur-instrument-manager-client.jar=${excalibur-instrument-manager.home}/excalibur-instrument-manager-client-0.1.jar
+excalibur-instrument-manager-interfaces.jar=${excalibur-instrument-manager.home}/excalibur-instrument-manager-interfaces-0.1.jar
 
 # ----- Altrmi -----
 commons-altrmi.home=${base.path}/jakarta-commons-sandbox/altrmi/dist

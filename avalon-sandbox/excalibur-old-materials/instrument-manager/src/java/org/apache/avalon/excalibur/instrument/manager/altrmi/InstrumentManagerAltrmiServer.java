@@ -9,10 +9,10 @@ package org.apache.avalon.excalibur.instrument.manager.altrmi;
 
 import org.apache.avalon.excalibur.instrument.manager.DefaultInstrumentManager;
 import org.apache.avalon.excalibur.instrument.manager.InstrumentManagerClientImpl;
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentableDescriptor;
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentDescriptor;
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentManagerClient;
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentSampleDescriptor;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
 
 import org.apache.avalon.framework.activity.Disposable;
 
@@ -25,7 +25,7 @@ import org.apache.commons.altrmi.server.impl.socket.CompleteSocketCustomStreamSe
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/03/27 16:01:52 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/03/28 04:06:18 $
  * @since 4.1
  */
 public class InstrumentManagerAltrmiServer

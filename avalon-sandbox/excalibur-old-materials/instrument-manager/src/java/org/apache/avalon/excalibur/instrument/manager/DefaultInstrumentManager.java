@@ -20,9 +20,9 @@ import org.apache.avalon.excalibur.instrument.Instrument;
 import org.apache.avalon.excalibur.instrument.Instrumentable;
 import org.apache.avalon.excalibur.instrument.InstrumentManager;
 import org.apache.avalon.excalibur.instrument.ValueInstrument;
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentableDescriptor;
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentManagerClient;
-import org.apache.avalon.excalibur.instrument.manager.client.NoSuchInstrumentableException;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.NoSuchInstrumentableException;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
@@ -38,7 +38,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/03/27 16:01:12 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/03/28 04:06:18 $
  * @since 4.1
  */
 public class DefaultInstrumentManager

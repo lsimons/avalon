@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.instrument.manager.client;
+package org.apache.avalon.excalibur.instrument.manager.interfaces;
 
 /**
  * Objects which implement the InstrumentListener interface can register
@@ -13,7 +13,7 @@ package org.apache.avalon.excalibur.instrument.manager.client;
  *  Profile Point's value.
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/03/26 11:56:17 $
+ * @version CVS $Revision: 1.1 $ $Date: 2002/03/28 04:06:19 $
  * @since 4.1
  */
 public interface ValueInstrumentListener

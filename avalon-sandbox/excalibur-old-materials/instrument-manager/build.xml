@@ -38,7 +38,7 @@
 
     <!-- property to specify name of zip/jar files -->
     <property name="dist.name" value="excalibur-${name}-${version}"/>
-    <property name="dist-client.name" value="excalibur-${name}-client-${version}"/>
+    <property name="dist-interfaces.name" value="excalibur-${name}-interfaces-${version}"/>
 
     <!-- property indicating directory where all distribution archives are placed -->
     <property name="dist.base" value="distributions"/>
@@ -106,10 +106,10 @@
             </zipfileset>
         </jar>
         
-        <jar jarfile="${build.lib}/${dist-client.name}.jar"
+        <jar jarfile="${build.lib}/${dist-interfaces.name}.jar"
             basedir="${build.classes}"
             compress="${build.compress}">
-            <include name="**/client/**"/>
+            <include name="**/interfaces/**"/>
             <exclude name="**/test/**"/>
             <zipfileset dir=".." prefix="META-INF/">
                 <include name="LICENSE.txt"/>

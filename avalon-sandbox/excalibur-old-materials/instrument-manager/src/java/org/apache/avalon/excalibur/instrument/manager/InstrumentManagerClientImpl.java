@@ -7,16 +7,16 @@
  */
 package org.apache.avalon.excalibur.instrument.manager;
 
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentableDescriptor;
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentManagerClient;
-import org.apache.avalon.excalibur.instrument.manager.client.NoSuchInstrumentableException;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.NoSuchInstrumentableException;
 
 import org.apache.avalon.framework.configuration.Configuration;
 
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/03/26 11:56:16 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/03/28 04:06:18 $
  * @since 4.1
  */
 public class InstrumentManagerClientImpl

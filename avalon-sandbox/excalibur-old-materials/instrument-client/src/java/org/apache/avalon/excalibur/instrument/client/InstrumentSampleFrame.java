@@ -13,14 +13,14 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.event.InternalFrameEvent;
 
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentableDescriptor;
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentDescriptor;
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentManagerClient;
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentSampleDescriptor;
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentSampleSnapshot;
-import org.apache.avalon.excalibur.instrument.manager.client.NoSuchInstrumentableException;
-import org.apache.avalon.excalibur.instrument.manager.client.NoSuchInstrumentException;
-import org.apache.avalon.excalibur.instrument.manager.client.NoSuchInstrumentSampleException;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentSampleSnapshot;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.NoSuchInstrumentableException;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.NoSuchInstrumentException;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.NoSuchInstrumentSampleException;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -31,7 +31,7 @@ import org.apache.commons.altrmi.common.AltrmiInvocationException;
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/03/26 11:32:24 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/03/28 04:06:18 $
  * @since 4.1
  */
 class InstrumentSampleFrame

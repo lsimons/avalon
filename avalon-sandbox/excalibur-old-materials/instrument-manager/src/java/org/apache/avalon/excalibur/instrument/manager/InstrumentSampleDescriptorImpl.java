@@ -7,16 +7,16 @@
  */
 package org.apache.avalon.excalibur.instrument.manager;
 
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentSampleDescriptor;
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentSampleListener;
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentSampleSnapshot;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentSampleListener;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentSampleSnapshot;
 
 /**
  * Describes an InstrumentSample and acts as a Proxy to protect the original
  *  InstrumentSample object.
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/03/26 11:56:16 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/03/28 04:06:18 $
  * @since 4.1
  */
 public class InstrumentSampleDescriptorImpl

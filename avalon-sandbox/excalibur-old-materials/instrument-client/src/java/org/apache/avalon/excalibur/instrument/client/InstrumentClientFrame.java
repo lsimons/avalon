@@ -19,14 +19,14 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.BevelBorder;
 
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentableDescriptor;
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentDescriptor;
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentSampleDescriptor;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
 
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/03/28 03:15:40 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/03/28 04:06:18 $
  * @since 4.1
  */
 class InstrumentClientFrame

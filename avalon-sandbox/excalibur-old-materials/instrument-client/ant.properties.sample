@@ -9,7 +9,7 @@
 # The ant.properties values in this directory apply only to this component, and
 # override the defaults in ../ant.properties.
 #
-# $Id: ant.properties.sample,v 1.1 2002/03/26 11:32:23 leif Exp $
+# $Id: ant.properties.sample,v 1.2 2002/03/28 04:06:18 leif Exp $
 # -----------------------------------------------------------------------------
 
 # --------------------------------------------------
@@ -35,7 +35,7 @@ avalon-framework.jar=${avalon-framework.home}/avalon-framework.jar
 
 # ----- Excalibur Instrument Manager -----
 excalibur-instrument-manager.home=../instrument-manager/build/lib
-excalibur-instrument-manager-client.jar=${excalibur-instrument-manager.home}/excalibur-instrument-manager-client-0.1.jar
+excalibur-instrument-manager-interfaces.jar=${excalibur-instrument-manager.home}/excalibur-instrument-manager-interfaces-0.1.jar
 
 # ----- Altrmi -----
 commons-altrmi.home=../../jakarta-commons-sandbox/altrmi/dist

@@ -11,7 +11,7 @@ import java.awt.Dimension;
 
 import javax.swing.event.InternalFrameEvent;
 
-import org.apache.avalon.excalibur.instrument.manager.client.InstrumentManagerClient;
+import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -20,7 +20,7 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/03/26 11:32:24 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/03/28 04:06:18 $
  * @since 4.1
  */
 class InstrumentManagerFrame
