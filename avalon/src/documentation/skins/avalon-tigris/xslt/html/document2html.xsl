@@ -61,48 +61,25 @@
 	 
 	 <xsl:choose>
 	 	<xsl:when test="$level=1">
-	 	  <div class="h1"><h1><xsl:value-of select="@title"/></h1></div>
-	      <xsl:apply-templates/>
-	 	</xsl:when>
-	 	<xsl:when test="$level=2">
-	 	  <div class="h2"><h2><xsl:value-of select="@title"/></h2></div>
-	      <xsl:apply-templates/>
-	 	</xsl:when>
-	 	<xsl:when test="$level=3">
 	 	  <div class="h3"><h3><xsl:value-of select="@title"/></h3></div>
 	      <xsl:apply-templates/>
 	 	</xsl:when>
-	 	<xsl:otherwise>
+	 	<xsl:when test="$level=2">
 	 	  <div class="h4"><h4><xsl:value-of select="@title"/></h4></div>
+	      <xsl:apply-templates/>
+	 	</xsl:when>
+	 	<xsl:when test="$level=3">
+	 	  <div class="h2"><h2><xsl:value-of select="@title"/></h2></div>
+	      <xsl:apply-templates/>
+	 	</xsl:when>
+	 	<xsl:otherwise>
+	 	  <div class="h5"><h5><xsl:value-of select="@title"/></h5></div>
 	      <xsl:apply-templates/>	 	 
 	 	</xsl:otherwise>
 	 </xsl:choose>
 
 	</xsl:template>  
     
-<!--    
-   <xsl:template match="s1">
-	  <div class="h1"><h1><xsl:value-of select="@title"/></h1></div>
-	  <xsl:apply-templates/>
-  </xsl:template>  
-
-   <xsl:template match="s2">
-	  <div class="h2"><h2><xsl:value-of select="@title"/></h2></div>
-	  <xsl:apply-templates/>
-   </xsl:template>  
-   
-   <xsl:template match="s3">
-	  <div class="h3"><h3><xsl:value-of select="@title"/></h3></div>
-	  <xsl:apply-templates/>
-   </xsl:template>  
-   
-   <xsl:template match="s4">
-	  <div class="h4"><h4><xsl:value-of select="@title"/></h4></div>
-	  <xsl:apply-templates/>
-   </xsl:template>        	   
--->
-
-
    <xsl:template match="s1">
 	  <div class="h3"><h3><xsl:value-of select="@title"/></h3></div>
 	  <xsl:apply-templates/>
