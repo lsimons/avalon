@@ -3,20 +3,23 @@
 <!--
 Skin configuration file. This file contains details of your project, which will
 be used to configure the chosen Forrest skin.
-
-jefft@apache.org
 -->
 
 <!DOCTYPE skinconfig [
 
   <!ENTITY % links.att 'name CDATA #REQUIRED'>
   <!ENTITY % link.att 'name CDATA #REQUIRED href CDATA #REQUIRED'>
-  <!ELEMENT skinconfig (disable-search?, searchsite-domain?, searchsite-name?, project-name, project-url, project-logo, group-name?, group-url?, group-logo?, host-url?, host-logo?, year?, vendor?, trail?, credits?)*>
+  <!ELEMENT skinconfig (disable-search?, searchsite-domain?, searchsite-name?,
+  project-name, project-url, project-logo, group-name?, group-url?, group-logo?,
+  host-url?, host-logo?, year?, vendor?, trail?, credits?)*>
   <!ELEMENT credits (credit*)>
-  <!ELEMENT credit (name, url, image, width?, height?)>
+  <!ELEMENT credit (name, url, image?, width?, height?)>
+  <!-- id uniquely identifies the tool, and role indicates its function -->
+  <!ATTLIST credit id   CDATA #IMPLIED
+                   role CDATA #IMPLIED>
   <!ELEMENT disable-search (#PCDATA)>
   <!ELEMENT searchsite-domain (#PCDATA)>
-  <!ELEMENT searchsite-name (#PCDATA)>
+  <!ELEMENT searchsite-name (#PCDATA)>  
   <!ELEMENT project-name (#PCDATA)>
   <!ELEMENT project-url (#PCDATA)>
   <!ELEMENT project-logo (#PCDATA)>
@@ -77,25 +80,20 @@ jefft@apache.org
     <link2 name="jakarta.apache" href="http://jakarta.apache.org/"/>
     <link3 name="" href=""/>
   </trail>
-
+  
+  
   <!-- Credits are typically rendered as a set of small clickable images in the
   page footer -->
-  <!--
   <credits>
     <credit>
-      <name>Built with Cocoon</name>
-      <url>http://xml.apache.org/cocoon/</url>
-      <image>images/built-with-cocoon.gif</image>
+      <name>Built with Apache Forrest</name>
+      <url>http://xml.apache.org/forrest/</url>
+      <image>images/built-with-forrest-button.png</image>
       <width>88</width>
       <height>31</height>
     </credit>
-    <credit>
-      <name>Krysalis Centipede</name>
-      <url>http://www.krysalis.org/centipede/</url>
-      <image>images/centipede-logo-small.gif</image>
-      <width>138</width>
-      <height>31</height>
-    </credit>
+    <!-- A credit with @role='pdf' will have its name and url displayed in the
+    PDF page's footer. -->
   </credits>
-  -->
+
 </skinconfig>
