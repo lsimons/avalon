@@ -7,14 +7,12 @@
  */
 package org.apache.avalon.phoenix.tools.verifier;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockListener;
@@ -26,8 +24,6 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
-import org.apache.avalon.phoenix.tools.infobuilder.BlockInfoBuilder;
-import org.apache.log.Logger;
 
 /**
  * This Class verifies that Sars are valid. It performs a number
@@ -40,8 +36,6 @@ import org.apache.log.Logger;
  *       letters, digits or the '_' character.</li>
  *   <li>Verify that the names of the Blocks and BlockListeners are
  *       unique to Sar.</li>
- *   <li>Verify that specified Blocks have coresponding BlockInfo
- *       files that are valid and well-formed.</li>
  *   <li>Verify that the dependendencies specified in assembly.xml
  *       correspond to dependencies specified in BlockInfo files.</li>
  *   <li>Verify that the inter-block dependendencies specified in
@@ -64,14 +58,17 @@ public class SarVerifier
     private static final Resources REZ =
         ResourceManager.getPackageResources( SarVerifier.class );
 
-    private final BlockInfoBuilder m_builder = new BlockInfoBuilder();
-
-    public void setLogger( final Logger logger )
-    {
-        super.setLogger( logger );
-        setupLogger( m_builder );
-    }
-
+    /**
+     * Verify the specified <code>SarMetaData</code> object. 
+     * The rules used to verify <code>SarMetaData</code> are specified
+     * in the Class javadocs.
+     *
+     * @param sar the SarMetaDat object
+     * @param classLoader the ClassLoader used to load types. This is used
+     *                    to verify that specified Class objects exist and
+     *                    implement the correct interfaces.
+     * @exception VerifyException if an error occurs
+     */
     public void verifySar( final SarMetaData sar, final ClassLoader classLoader )
         throws VerifyException
     {
@@ -89,10 +86,6 @@ public class SarVerifier
         message = REZ.getString( "verify-unique-names" );
         getLogger().info( message );
         checkNamesUnique( blocks, listeners );
-
-        message = REZ.getString( "loading-blockinfos" );
-        getLogger().info( message );
-        loadBlockInfos( blocks, classLoader );
 
         message = REZ.getString( "verify-dependencies-mapping" );
         getLogger().info( message );
@@ -113,29 +106,6 @@ public class SarVerifier
         message = REZ.getString( "verify-listener-type" );
         getLogger().info( message );
         verifyListenersType( listeners, classLoader );
-    }
-
-    /**
-     * Loade the BlockInfo objects from specified ClassLoader for specified blocks.
-     *
-     * @param blocks the blocks
-     * @param classLoader the ClassLoader
-     * @exception VerifyException if an error occurs
-     */
-    private void loadBlockInfos( final BlockMetaData[] blocks, final ClassLoader classLoader )
-        throws VerifyException
-    {
-        final HashMap infoCache = new HashMap();
-
-        for( int i = 0; i < blocks.length; i++ )
-        {
-            final String name = blocks[ i ].getName();
-            final String classname = blocks[ i ].getClassname();
-            final BlockInfo blockInfo =
-                getBlockInfo( name, classname, infoCache, classLoader );
-
-            blocks[ i ].setBlockInfo( blockInfo );
-        }
     }
 
     /**
@@ -583,57 +553,6 @@ public class SarVerifier
                 final String message = REZ.getString( "duplicate-name", name );
                 throw new VerifyException( message );
             }
-        }
-    }
-
-    /**
-     * Get a BlockInfo for Block with specified name and classname.
-     * The BlockInfo may be loaded from the specified cache otherwise it must be
-     * loaded from specified ClassLoader.
-     *
-     * @param name the name of Block
-     * @param classname the name of Blocks class
-     * @param cache the place to cache BlockInfo objects
-     * @return the BlockInfo for specified block
-     * @exception VerifyException if an error occurs
-     */
-    private BlockInfo getBlockInfo( final String name,
-                                    final String classname,
-                                    final HashMap cache,
-                                    final ClassLoader classLoader )
-        throws VerifyException
-    {
-        final BlockInfo cachedInfo = (BlockInfo)cache.get( classname );
-        if( null != cachedInfo )
-        {
-            return cachedInfo;
-        }
-
-        final String resourceName = classname.replace( '.', '/' ) + ".xinfo";
-
-        final String notice = REZ.getString( "loading-blockinfo", resourceName );
-        getLogger().debug( notice );
-
-        final URL resource = classLoader.getResource( resourceName );
-        if( null == resource )
-        {
-            final String message = REZ.getString( "blockinfo-missing", name, resourceName );
-            throw new VerifyException( message );
-        }
-
-        final DefaultConfigurationBuilder configBuilder = new DefaultConfigurationBuilder();
-        try
-        {
-            final Configuration info = configBuilder.build( resource.toString() );
-            final BlockInfo blockInfo = m_builder.build( classname, info );
-            cache.put( classname, blockInfo );
-            return blockInfo;
-        }
-        catch( final Exception e )
-        {
-            final String message =
-                REZ.getString( "blockinfo-nocreate", name, resourceName, e.getMessage() );
-            throw new VerifyException( message, e );
         }
     }
 
