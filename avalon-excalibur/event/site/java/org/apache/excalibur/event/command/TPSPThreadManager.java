@@ -57,9 +57,8 @@ import org.apache.excalibur.event.Source;
 
 /**
  * This is a <code>ThreadManager</code> which provides a threadpool per
- * <code>Sink</code> per <code>EventPipeline</code>.
- *
- * ::NOTE:: This is not implemented yet!
+ * <code>Sink</code> per <code>EventPipeline</code>. ::NOTE:: This is not
+ * implemented yet!
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
@@ -71,9 +70,9 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
     private int m_threadsPerPool = 2;
 
     /**
-     * The default constructor assumes there is a system property named "os.arch.cpus"
-     * that has a default for the number of CPUs on a system.  Otherwise, the value
-     * is 1.
+     * The default constructor assumes there is a system property named
+     * "os.arch.cpus" that has a default for the number of CPUs on a system.
+     * Otherwise, the value is 1.
      *
      * @throws Exception if there is any problems creating the ThreadManager
      */
@@ -84,11 +83,11 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
     }
 
     /**
-     * Constructor provides a specified number of threads per processor.  If
+     * Constructor provides a specified number of threads per processor. If
      * either value is less then one, then the value is rewritten as one.
      *
-     * @param maxThreadPerPool     The number of processors in the machine
-     * @param sleepTime            The number of milliseconds to wait between cycles
+     * @param maxThreadPerPool  The number of processors in the machine
+     * @param sleepTime         The number of milliseconds to wait between cycles
      *
      * @throws Exception when there is a problem creating the ThreadManager
      */

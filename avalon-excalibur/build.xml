@@ -95,21 +95,6 @@
         <ant dir="logger" target="${subproject-target}"/>
     </target>
 
-    <!-- Loader -->
-    <target name="prj-loader" depends="prj-extension, prj-i18n">
-        <ant dir="loader" target="${subproject-target}"/>
-    </target>
-
-    <!-- Naming -->
-    <target name="prj-naming">
-        <ant dir="naming" target="${subproject-target}"/>
-    </target>
-
-    <!-- Policy -->
-    <target name="prj-policy">
-        <ant dir="policy" target="${subproject-target}"/>
-    </target>
-
     <!-- Pool -->
     <target name="prj-pool" depends="prj-instrument">
         <ant dir="pool" target="${subproject-target}"/>
@@ -126,13 +111,8 @@
     </target>
 
     <!-- Thread -->
-    <target name="prj-thread" depends="prj-instrument, prj-pool, prj-threadcontext">
+    <target name="prj-thread" depends="prj-instrument, prj-pool">
         <ant dir="thread" target="${subproject-target}"/>
-    </target>
-
-    <!-- ThreadContext -->
-    <target name="prj-threadcontext">
-        <ant dir="threadcontext" target="${subproject-target}"/>
     </target>
 
     <!-- XMLUtil -->
@@ -146,12 +126,11 @@
     <!-- This target depends on all of the projects above.  Relies on -->
     <!--  Ant to decide on the correct build order. -->
     <target name="build-all-subprojects"
-        depends="prj-compatibility, prj-loader,
-                prj-naming, prj-threadcontext,
+        depends="prj-compatibility,
 		prj-i18n, prj-extension,
                 prj-configuration, prj-event,
                 prj-thread, prj-monitor, prj-fortress, prj-datasource,
-                prj-instrument, prj-store, prj-logger, prj-policy,
+                prj-instrument, prj-store, prj-logger,
                 prj-pool, prj-xmlutil, prj-lifecycle,
                 prj-sourceresolve, prj-instrument-client,
                 prj-instrument-manager, prj-component"/>
