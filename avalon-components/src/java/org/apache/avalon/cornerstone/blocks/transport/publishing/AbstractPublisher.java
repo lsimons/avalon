@@ -19,6 +19,7 @@ import org.apache.commons.altrmi.server.MethodInvocationHandler;
 import org.apache.commons.altrmi.server.impl.classretrievers.JarFileClassRetriever;
 import org.apache.commons.altrmi.server.impl.classretrievers.NoClassRetriever;
 import org.apache.commons.altrmi.common.MethodRequest;
+import org.apache.commons.altrmi.server.PublicationDescription;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.activity.Initializable;
@@ -47,7 +48,7 @@ import java.net.URL;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public abstract class AbstractPublisher extends AbstractLogEnabled
         implements AltrmiPublisher, Startable, Composable, Contextualizable,
@@ -151,86 +152,34 @@ public abstract class AbstractPublisher extends AbstractLogEnabled
      * Method publish
      *
      *
-     * @param o
-     * @param s
-     * @param aClass
+     * @param implementation
+     * @param asName
+     * @param interfaceToExpose
      *
      * @throws AltrmiPublicationException
      *
      */
-    public void publish(Object o, String s, Class aClass) throws PublicationException
+    public void publish(Object implementation, String asName, Class interfaceToExpose) throws PublicationException
     {
-        m_AltrmiServer.publish(o, s, aClass);
+        m_AltrmiServer.publish(implementation, asName, interfaceToExpose);
     }
 
     /**
      * Method publish
      *
      *
-     * @param o
-     * @param s
-     * @param aClass
+     * @param implementation
+     * @param asName
+     * @param publicationDescription
      * @param aClass1
      *
      * @throws AltrmiPublicationException
      *
      */
-    public void publish(Object o, String s, Class aClass, Class aClass1)
+    public void publish(Object implementation, String asName, PublicationDescription publicationDescription)
             throws PublicationException
     {
-        m_AltrmiServer.publish(o, s, aClass, aClass1);
-    }
-
-    /**
-     * Method publish
-     *
-     *
-     * @param o
-     * @param s
-     * @param aClass
-     * @param classes
-     *
-     * @throws AltrmiPublicationException
-     *
-     */
-    public void publish(Object o, String s, Class aClass, Class[] classes)
-            throws PublicationException
-    {
-        m_AltrmiServer.publish(o, s, aClass, classes);
-    }
-
-    /**
-     * Method publish
-     *
-     *
-     * @param o
-     * @param s
-     * @param classes
-     *
-     * @throws AltrmiPublicationException
-     *
-     */
-    public void publish(Object o, String s, Class[] classes) throws PublicationException
-    {
-        m_AltrmiServer.publish(o, s, classes);
-    }
-
-    /**
-     * Method publish
-     *
-     *
-     * @param o
-     * @param s
-     * @param classes
-     * @param classes1
-     *
-     * @throws AltrmiPublicationException
-     *
-     */
-    public void publish(Object o, String s, Class[] classes, Class[] classes1)
-            throws PublicationException
-    {
-        m_AltrmiServer.publish(o, s, classes, classes1);
+        m_AltrmiServer.publish(implementation, asName, publicationDescription);
     }
 
     /**
