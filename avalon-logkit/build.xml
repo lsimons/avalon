@@ -232,11 +232,29 @@ Legal:
   <!-- Create the API documentation -->
   <target name="javadocs">
 
+    <!-- Hack to exclude javax.sql and javax.jms dependent classes -->
+    <delete dir="${build.src}"/>
+    <mkdir dir="${build.src}"/>
+    <copy todir="${build.src}">
+      <fileset dir="${java.dir}">
+        <exclude name="org/apache/log/output/ServletOutputLogTarget.java"
+                 unless="servlet.present"/>
+        <exclude name="org/apache/log/format/AvalonFormatter.java"
+                 unless="avalon-framework.present"/>
+        <exclude name="org/apache/log/output/db/**"
+                 unless="javax.sql.present"/>
+        <exclude name="org/apache/log/output/jms/**"
+                 unless="javax.jms.present"/>
+        <exclude name="org/apache/log/output/test/DBTargetTestlet.java"
+                 unless="javax.sql.present"/>
+      </fileset>
+    </copy>
+
     <delete dir="${build.javadocs}"/>
     <mkdir dir="${build.javadocs}"/>
 
     <javadoc packagenames="org.apache.*"
-             sourcepath="${java.dir}"
+             sourcepath="${build.src}"
              destdir="${build.javadocs}">
       <classpath refid="project.class.path" />
       <doclet name="com.sun.tools.doclets.standard.Standard">
