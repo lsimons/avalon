@@ -138,8 +138,8 @@ public class MX4JSystemManager
         }
 
         /*<user>
-         �<name>user</name>
-         �<password>passwd</password>
+           <name>user</name>
+           <password>passwd</password>
         </user>*/
         final Configuration userConfig = configuration.getChild( "user" );
         m_username = userConfig.getChild( "name" ).getValue( null );
