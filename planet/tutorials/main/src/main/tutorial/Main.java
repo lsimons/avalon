@@ -79,6 +79,7 @@ public class Main
         Factory factory = builder.getFactory();
         Map criteria = factory.createDefaultCriteria();
         criteria.put( "merlin.server", "false" );
+        criteria.put( "merlin.repository", cache );
         Object kernel = factory.create( criteria );
 
         System.out.println( "Kernel established." );
