@@ -108,25 +108,21 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
      */
     public void parameterize( Parameters parameters ) throws ParameterException
     {
-        this.m_processors = parameters.getParameterAsInteger( "processors", -1 );
-        if( this.m_processors < 1 )
-        {
-            this.m_processors = Math.max( 1, SystemUtil.numProcessors() );
-        }
+        m_processors = Math.max(1, parameters.getParameterAsInteger( "processors", 1 ) );
 
-        this.m_threadsPerProcessor =
+        m_threadsPerProcessor =
             Math.max( parameters.getParameterAsInteger( "threads-per-processor", 1 ), 1 );
 
         setSleepTime( parameters.getParameterAsLong( "sleep-time", 1000L ) );
 
-        this.m_hardShutdown = ( parameters.getParameterAsBoolean( "force-shutdown", false ) );
+        m_hardShutdown = ( parameters.getParameterAsBoolean( "force-shutdown", false ) );
     }
 
     public void initialize() throws Exception
     {
-        if( this.m_processors < 1 )
+        if( m_processors < 1 )
         {
-            this.m_processors = Math.max( 1, SystemUtil.numProcessors() );
+            m_processors = Math.max( 1, SystemUtil.numProcessors() );
         }
 
         if( isInitialized() )
@@ -134,8 +130,9 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
             throw new IllegalStateException( "ThreadManager is already initailized" );
         }
 
-        m_threadPool = new PooledExecutor(( m_processors * m_threadsPerProcessor ) + 1);
+        m_threadPool = new PooledExecutor( m_processors + 1 );
         m_threadPool.setMinimumPoolSize( 2 ); // at least two threads
+        m_threadPool.setMaximumPoolSize( ( m_processors * m_threadsPerProcessor ) + 1 );
         m_threadPool.setKeepAliveTime( getSleepTime() );
         m_threadPool.waitWhenBlocked();
 
