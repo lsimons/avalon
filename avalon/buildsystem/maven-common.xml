@@ -466,7 +466,7 @@ directory yourself using a command such as
             description="Sign the distributions using GPG">
         <ant:echo>
 =======================================================================
- Sorry, but it is not possible to autmoate the keysigning. You need to
+ Sorry, but it is not possible to automate the keysigning. You need to
  install GnuPG or OpenPGP yourself, get yourself a key, add it to the
  KEYS file in the root of the 'avalon' cvs module, commit the modified
  file, upload it to daedalus.apache.org:/www/www.apache.org/dist/avalon
