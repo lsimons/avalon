@@ -6,3 +6,6 @@
 
 <!ENTITY template-impl-id "template-impl">
 <!ENTITY template-impl-version "0.1.0">
+
+<!ENTITY template-util-id "template-util">
+<!ENTITY template-util-version "0.1.0">
