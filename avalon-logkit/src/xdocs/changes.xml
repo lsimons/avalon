@@ -5,9 +5,18 @@
 <changes title="LogKit History of Changes">
   <devs>
     <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
+    <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
   </devs>
-
-<release version="1.0" date="May 11, 2001">
+<release version="1.0b2rc1" date="unreleased">
+  <action dev="BL" type="fix">
+    Fixed logical error in PriorityFilter.  The code _used_ to allow
+    anything up to a priority level (i.e. if priority was set to
+    ERROR, then it would allow DEBUG, INFO, and WARN).  Now it
+    operates correctly (i.e. if priority was set to ERROR, then
+    it will allow ERROR and FATAL_ERROR).
+  </action>
+</release>
+<release version="1.0b1" date="May 11, 2001">
 
   <action dev="PD" type="add">First public release.</action>
 
