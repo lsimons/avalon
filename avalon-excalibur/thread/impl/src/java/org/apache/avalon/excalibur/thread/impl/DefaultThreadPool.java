@@ -18,15 +18,15 @@ package org.apache.avalon.excalibur.thread.impl;
 
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.excalibur.pool.SoftResourceLimitingPool;
-import org.apache.avalon.excalibur.thread.ThreadPool;
-import org.apache.excalibur.thread.ThreadControl;
+
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Executable;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.framework.logger.LogKitLogger;
-import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.logger.Logger;
+
+import org.apache.excalibur.thread.ThreadControl;
+import org.apache.excalibur.thread.ThreadPool;
 
 /**
  * This class is the public frontend for the thread pool code.
@@ -35,7 +35,7 @@ import org.apache.avalon.framework.logger.Logger;
  */
 public class DefaultThreadPool
     extends ThreadGroup
-    implements ObjectFactory, Loggable, LogEnabled, Disposable, ThreadPool
+    implements ObjectFactory, LogEnabled, Disposable, ThreadPool
 {
     private final BasicThreadPool m_pool;
     private SoftResourceLimitingPool m_underlyingPool;
@@ -63,11 +63,6 @@ public class DefaultThreadPool
         super( name );
         m_underlyingPool = new SoftResourceLimitingPool( this, min, max );
         m_pool = new BasicThreadPool( this, name, m_underlyingPool );
-    }
-
-    public void setLogger( final org.apache.log.Logger logger )
-    {
-        enableLogging( new LogKitLogger( logger ) );
     }
 
     public void enableLogging( final Logger logger )

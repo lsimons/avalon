@@ -1,5 +1,5 @@
 /* 
- * Copyright 2002-2004 The Apache Software Foundation
+ * Copyright 2002-2004 Apache Software Foundation
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at 
@@ -18,12 +18,11 @@ package org.apache.avalon.excalibur.thread.impl.test;
 
 import junit.framework.TestCase;
 
-import org.apache.avalon.excalibur.testcase.BufferedLogger;
 import org.apache.avalon.excalibur.thread.impl.ResourceLimitingThreadPool;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:34 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/03/29 17:22:49 $
  * @since 4.1
  */
 public final class ResourceLimitingThreadPoolTestCase
