@@ -34,11 +34,6 @@ To build a project independnet of dependent project groups is possible using any
       </echo>
   </goal>
 
-  <!--
-  <goal name="avalon:build" description="Build the Avalon Platform."
-    prereqs="xmeta,xutil,xrepo,xlogging,xcomposition,xactivation,xmerlin"/>
-  -->
-
   <goal name="plugins" prereqs="xplugins"/>
 
   <goal name="util" prereqs="xutil"/>
