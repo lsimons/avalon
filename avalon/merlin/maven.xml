@@ -377,6 +377,8 @@
       </ant:exec>
     </j:if>
 
+    <!-- TODO 644 for .sh files and 755 for directories -->
+
     <ant:echo>Building tar distribution: ${package.name}</ant:echo>
     <ant:tar longfile="gnu" tarfile="${maven.build.dir}/${package.name}.tar">
       <tarfileset dir="${merlin.build.inst.dir}" prefix="merlin"/>
