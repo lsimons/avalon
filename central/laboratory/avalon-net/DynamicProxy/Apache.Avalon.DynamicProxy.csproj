@@ -104,12 +104,12 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Builder\IProxyBuilder.cs"
+                    RelPath = "Builder\DefaultProxyBuilder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Builder\ProxyBuilderImpl.cs"
+                    RelPath = "Builder\IProxyBuilder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
