@@ -5,8 +5,9 @@
 
   <property name="supplemental.bar" value="avalonx-supplemental-1.0.bar"/>
   <property name="mailapi.jar" value="mailapi-1.3.1.jar"/>
-  <x:home index="../system/index.xml"/>
-  <import file="../system/build/standard.xml"/>
+
+  <x:home index="../index.xml"/>
+  <import file="../../central/system/build/standard.xml"/>
 
   <available property="mailet.cache.available" 
       file="${magic.cache}/avalonx/supplemental/jars/${mailapi.jar}"/>
