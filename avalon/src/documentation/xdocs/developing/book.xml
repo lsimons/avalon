@@ -21,6 +21,10 @@
     <menu-item label="Conclusion" href="conclusion.html"/>
   </menu>
 
+  <menu label="Printer Friendly">
+    <menu-item label="As a PDF" href="../developing-with-avalon.pdf"/>
+  </menu>
+
 </book>
 
 
