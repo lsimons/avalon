@@ -66,7 +66,7 @@
         configuration, external component use, management, and execution.
       </p>
       <note>
-        We used to have a marker interface component. This has been deprecated
+        We used to have a marker interface Component. This has been deprecated
         because requiring all components extend this interface makes
         integrating Avalon with other component systems like
         <link href="http://www.corba.org">CORBA</link> very cumbersome.
@@ -83,7 +83,7 @@
           <strong>Configurable:</strong> marks an object that can be configured.
         </li>
         <li>
-          <strong>Composable:</strong> marks an object that uses Components.
+          <strong>Serviceable:</strong> marks an object that uses components.
         </li>
         <li>
           <strong>Initializable:</strong> marks an object that can be initialized.
@@ -108,51 +108,48 @@
     </section>
 
     <section>
-<title>The Composable</title>
+<title>The Serviceable</title>
       <p>
-        In Avalon, Composable is defined as an active entity that controls
+        In Avalon, Serviceable is defined as an active entity that controls
         or uses components.  Its best analogy is that of a musical composer.
         The musical composer chooses instruments (components) by their
         role in the symphony (system) and tells them which notes to play.
       </p>
       <p>
-        The Avalon Composable follows the principles of Inversion of Control,
-        and is assigned a Component Manager.  Within this section we will
+        The Avalon Serviceable follows the principles of Inversion of Control,
+        and is assigned a Service Manager.  Within this section we will
         discuss how to look up specific components, and then how to prepare
-        the ComponentManager for the Composable.
+        the ServiceManager for the Serviceable.
       </p>
       <note>
-        The Composable has a specific contract that must be enforced for security
-        reasons.  The ComponentManager must only be set once.  That means that
-        the <code>compose</code> method must ignore all subsequent
-        requests to set the ComponentManager after it is successfully set.
+        The Serviceable has a specific contract that must be enforced for security
+        reasons.  The ServiceManager must only be set once.  That means that
+        the <code>service</code> method must ignore all subsequent
+        requests to set the ServiceManager after it is successfully set.
       </note>
     </section>
 
     <section>
 <title>Finding your Component</title>
       <section>
-<title>The Component Manager</title>
+<title>The Service Manager</title>
         <p>
-          For the majority of all cases, you will need to use the ComponentManager
+          For the majority of all cases, you will need to use the ServiceManager
           to get the instance of the component you need.  If you recall the discussion
           on component roles in the component documentation, you already have
           a head start.  In Avalon, roles are defined by the work interface a
           component has.  A work interface is different from any other interface
-          because it is the interface that defines the component's role.  Composable
-          and Component are concern interfaces because they address specific
-          concerns about the component.
+          because it is the interface that defines the component's role.  Serviceable
+          is a concern interfaces because it address a specific concern about the component.
         </p>
         <p>
-          The ComponentManager has one method to retrieve all of your components.
+          The ServiceManager has one method to retrieve all of your components.
           The <code>lookup</code> method will look up the component based on the
-          fully qualified name (FQN) of the work interface (Role).  It is important
-          to realize that the ComponentManager returns Components, and therefore
-          you must recast the Component to the role you need.  See the following
+          fully qualified name (FQN) of the work interface (Role). See the following
           example:
         </p>
         <source>
-final MyComponent component = (MyComponent)manager.
+final MyComponent component = (MyComponent) manager.
      lookup( "com.mycompany.myproject.MyComponent" );
         </source>
         <p>
@@ -168,7 +165,7 @@ final MyComponent component = (MyComponent)manager.
         </p>
       </section>
       <section>
-<title>The Component Selector</title>
+<title>The Service Selector</title>
         <p>
           Sometimes you will have several components that function in the same role.
           For those cases, you will use the ComponentSelector to choose the exact
@@ -178,20 +175,19 @@ final MyComponent component = (MyComponent)manager.
           individual component implementations.  One formatter may take a text file
           and remove all tabs and replace them with four spaces.  Another formatter
           may reverse the formerly mentioned one.  Yet another takes the text file
-          and formats it for a canvas object.  For the Composable, it makes no difference
+          and formats it for a canvas object.  For the Serviceable, it makes no difference
           what the implementation does--just that it formats the text.
         </p>
         <p>
           Using the processing chain example in the previous paragraph, we realize
-          the unsuitability of the ComponentManager for getting the right component.
-          The component addresses the concern of one component per role.  Fortunately,
-          the ComponentSelector is a component.  That means we use the ComponentManager
-          to lookup the ComponentSelector.  The ComponentSelector is designed to choose
+          the unsuitability of the ServiceManager for getting the right component.
+          The component addresses the concern of one component per role.  We use the ServiceManager
+          to lookup the ServiceSelector.  The ServiceSelector is designed to choose
           the specific component out of many that perform the <strong>same</strong>
           role.  The following code will help:
         </p>
         <source>
-final ComponentSelector selector = (ComponentSelector)manager.
+final ServiceSelector selector = (ServiceSelector)manager.
     lookup( "org.mycompany.myproject.FormatterSelector" );
 final Formatter formatter = (Formatter)selector.select( myURL );
         </source>
@@ -203,17 +199,11 @@ final Formatter formatter = (Formatter)selector.select( myURL );
           specific component based on that hint.
         </p>
 
-	<note>
-	Discussions are currently taking place about the ComponentSelector interface and
-	concept. It might be deprecated at some point in the future. There are indications
-	that usage of the ComponentSelector is only required when an application is
-	badly designed.
-	</note>
       </section>
       <section>
-<title>When you are done with the Component</title>
+<title>When you are done with the component</title>
         <p>
-	  Both the ComponentManager and the ComponentSelector require you to
+	  Both the ServiceManager and the ServiceSelector require you to
 	  release your component when you are done with it.  The method used
 	  to do this is "release".  One way of handling this is to use the
 	  try/catch/finally construct.  For your convenience, the following
@@ -244,46 +234,46 @@ finally
     </section>
 
     <section>
-<title>Populating the ComponentManager</title>
+<title>Populating the ServiceManager</title>
       <p>
-        It is the responsibility of the entity that creates the Composable to give it a
-        ComponentManager with all of the Roles populated.  If you create your own
-        implementations of the ComponentManager and ComponentSelector then you have
+        It is the responsibility of the entity that creates the Serviceable to give it a
+        ServiceManager with all of the roles populated.  If you create your own
+        implementations of the ServiceManager and ServiceSelector then you have
         the liberty of deciding how to populate them.  Keep in mind that there are
         default implementations included, and you should model their behavior as
         much as possible.
       </p>
       <section>
-<title>DefaultComponentManager</title>
+<title>DefaultServiceManager</title>
         <p>
-          The DefaultComponentManager is nothing more than a Hashtable lookup of roles
-          and Components.  It even gives you the method <code>put</code> to populate
-          the ComponentManager.  One feature of the DefaultComponentManager is that
-          it can cascade.  In other words, if the role is not found in this ComponentManager,
-          the default implementation will look in the parent ComponentManager.
+          The DefaultServiceManager is nothing more than a Hashtable lookup of roles
+          and objects (components).  It even gives you the method <code>put</code> to populate
+          the ServiceManager.  One feature of the DefaultServiceManager is that
+          it can cascade.  In other words, if the role is not found in this ServiceManager,
+          the default implementation will look in the parent ServiceManager.
         </p>
         <p>
-          For the paranoid developer, the cascading feature of the ComponentManager
+          For the paranoid developer, the cascading feature of the ServiceManager
           can be seen as a security hole as opposed to a usability enhancement.  You
           are free to create your own implementation that does not use the cascading
           feature--but you have to manually populate it with anything that would
-          have been in the parent ComponentManager that your child Composable needs.
+          have been in the parent ServiceManager that your child Serviceable needs.
           Truth be told, there is very little risk due to the set-once contract for
-          ComponentManagers.  The method is never exposed to hostile agents before
-          the ComponentManager is set.
+          ServiceManagers.  The method is never exposed to hostile agents before
+          the ServiceManager is set.
         </p>
       </section>
       <section>
-<title>DefaultComponentSelector</title>
+<title>DefaultServiceSelector</title>
         <p>
-          The DefaultComponentSelector again is simply a Hashtable selection of components
-          based on hints.  It gives the method <code>put</code> to populate the ComponentSelector.
-          The ComponentSelector does not have the cascading feature of the ComponentManager,
-          nor should it.  A ComponentSelector simply holds a number of components that
+          The DefaultServiceSelector again is simply a Hashtable selection of components
+          based on hints.  It gives the method <code>put</code> to populate the ServiceSelector.
+          The ServiceSelector does not have the cascading feature of the ServiceManager,
+          nor should it.  A ServiceSelector simply holds a number of components that
           implement the same role--there really is no need to cascade.
         </p>
         <p>
-          After the ComponentSelector is populated, you must put it in the ComponentManager.
+          After the ServiceSelector is populated, you must put it in the ServiceManager.
           Please use the role of the component you are selecting, not the role of the selector
           itself.  An acceptable convention is to add the "Selector" name to the end of the
           role you are looking up.  Just be consistent.
