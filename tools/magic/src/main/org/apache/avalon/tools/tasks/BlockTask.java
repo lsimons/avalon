@@ -59,8 +59,10 @@ public class BlockTask extends DeclareTask
         private String m_classname;
         private String m_profile;
         private boolean m_context = false;
+        private boolean m_configured = false;
         private boolean m_parameters = false;
         private boolean m_dependencies = false;
+        private boolean m_activation = true;
         private ArrayList m_children = new ArrayList();
 
         public void setClass( final String classname )
@@ -68,9 +70,19 @@ public class BlockTask extends DeclareTask
             m_classname = classname;
         }
 
+        public void setActivation( final boolean flag )
+        {
+            m_activation = flag ;
+        }
+
         public void setProfile( final String profile )
         {
             m_profile = profile;
+        }
+
+        public boolean getActivation()
+        {
+            return m_activation;
         }
 
         public String getClassname()
@@ -96,6 +108,23 @@ public class BlockTask extends DeclareTask
             {
                 final String error = 
                   "Context entry already set!";
+                throw new BuildException( error );
+            }
+        }
+
+        public Configuration createConfiguration()
+        {
+            if( !m_configured )
+            {
+                Configuration config = new Configuration();
+                m_children.add( config );
+                m_configured = true;
+                return config;
+            }
+            else
+            {
+                final String error = 
+                  "Configuration entry already set!";
                 throw new BuildException( error );
             }
         }
@@ -346,6 +375,21 @@ public class BlockTask extends DeclareTask
         }
     }
 
+    public static class Configuration
+    {
+        private File m_file;
+
+        public void setFile( final File file )
+        {
+            m_file = file;
+        }
+
+        public File getFile()
+        {
+            return m_file;
+        }
+    }
+
     private String m_target;
     private String m_container;
     private List m_content = new ArrayList();
@@ -527,6 +571,11 @@ public class BlockTask extends DeclareTask
             writer.write( " profile=\"" + component.getProfile() + "\"" );
         }
 
+        if( !component.getActivation() )
+        {
+            writer.write( " activation=\"false\" " );
+        }
+
         Object[] children = component.getChildren();
         if( children.length == 0 )
         {
@@ -550,10 +599,51 @@ public class BlockTask extends DeclareTask
                 {
                     writeParameters( pad + "  ", writer, (Parameters) child );
                 }
+                else if( child instanceof Configuration )
+                {
+                    writeConfiguration( pad + "  ", writer, (Configuration) child );
+                }
+                else
+                {
+                    final String error = 
+                      "Component declaration contains an unrecognized class: "
+                      + child.getClass().getName();
+                    throw new IllegalStateException( error );
+                }
             }
             writer.write( "\n" + pad + "</component>" );
         }
     }
+
+    private void writeConfiguration( final String pad, final Writer writer, final Configuration config )
+        throws IOException
+    {
+        File file = config.getFile();
+        if( null == file )
+        {
+            final String error = 
+              "Missing file attribute in configuration declaration.";
+            throw new BuildException( error );
+        }
+        if( !file.exists() )
+        {
+            final String error = 
+              "Missing configuration file [" 
+              + file
+              + "] does not exist.";
+            throw new BuildException( error );
+        }
+        if( file.isDirectory() )
+        {
+            final String error = 
+              "Configuration file [" 
+              + file
+              + "] referes to a directory.";
+            throw new BuildException( error );
+        }
+        writer.write( "\n" + pad + "<configuration/>" ); 
+    }
+
 
     private void writeContext( final String pad, final Writer writer, final Context context )
         throws IOException

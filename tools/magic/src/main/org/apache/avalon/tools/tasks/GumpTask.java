@@ -496,9 +496,12 @@ public class GumpTask extends SystemTask
         writer.write( 
            "\n      <!-- for magic -->" );
         writer.write( 
+           "\n      <property name=\"build.sysclasspath\" value=\"last\"/> " );
+        writer.write( 
            "\n      <property name=\"magic.home\" reference=\"home\" project=\"magic\"/>" );
         writer.write( 
            "\n      <property name=\"gump.signature\" value=\"@@DATE@@\"/>" );
+
 
         final Resource[] resources = getContributingResources( definition );
 
