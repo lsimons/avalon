@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
-import org.apache.avalon.excalibur.pool.Recyclable;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
@@ -27,6 +26,7 @@ import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.excalibur.source.Recyclable;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceFactory;
@@ -54,7 +54,7 @@ import org.apache.excalibur.source.SourceResolver;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.10 2002/07/06 03:55:06 donaldp Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.11 2002/08/09 05:30:02 bloritsch Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
