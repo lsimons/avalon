@@ -122,6 +122,11 @@ Legal:
     </fileset>
   </path>
 
+  <path id="test.class.path">
+    <path refid="tools.class.path"/>
+    <path refid="project.class.path"/>
+  </path>
+
   <!-- Main target -->
   <target name="main" depends="jar" />
 
@@ -241,6 +246,19 @@ Legal:
 
   </target>
 
+  <target name="test" depends="compile" > 
+    <echo message="Performing Unit Tests" />
+    <test showSuccess="true" showBanner="false" showTrace="true" forceShowTrace="true" > 
+       <classpath refid="test.class.path" />
+       <testlet>org.apache.avalon.excalibur.cli.test.ClutilTestlet</testlet>
+       <testlet>org.apache.avalon.excalibur.collections.test.BinaryHeapTestlet</testlet>
+       <!-- <testlet>org.apache.avalon.excalibur.datasource.test.DataSourceTestlet</testlet> -->
+       <testlet>org.apache.avalon.excalibur.io.test.FileUtilTestlet</testlet>
+       <testlet>org.apache.avalon.excalibur.io.test.IOUtilTestlet</testlet>
+       <testlet>org.apache.avalon.excalibur.property.test.PropertyUtilTestlet</testlet>
+    </test>
+  </target>
+
   <!-- Creates the clutil.jar file -->
   <target name="compile-clutil" depends="prepare">
 
@@ -346,11 +364,7 @@ Legal:
 
   </target>
 
-  <!--
-       ===================================================================
-       Create the API documentation
-       ===================================================================
-  -->
+  <!-- Create the API documentation -->
   <target name="javadocs">
 
     <delete dir="${build.javadocs}"/>
@@ -373,11 +387,7 @@ Legal:
 
   </target>
 
-  <!--
-       ===================================================================
-       Create the Local site documentation
-       ===================================================================
-  -->
+  <!-- Create the Local site documentation -->
   <target name="local-xdocs" depends="xdocs">
 
     <delete>
@@ -393,11 +403,7 @@ Legal:
 
   </target>
 
-  <!--
-       ===================================================================
-       Create the Local API documentation
-       ===================================================================
-  -->
+  <!-- Create the Local API documentation -->
   <target name="local-javadocs" depends="javadocs">
 
     <delete dir="${javadocs.dir}"/>
@@ -411,11 +417,7 @@ Legal:
 
   <target name="local-docs" depends="local-javadocs,local-xdocs"/>
 
-  <!--
-       ===================================================================
-       Update the www directory
-       ===================================================================
-  -->
+  <!-- Update the www directory -->
   <target name="site-docs" depends="local-docs">
 
     <!-- delete all old documents but keep CVS directories -->
@@ -433,11 +435,7 @@ Legal:
 
   </target>
 
-  <!--
-       ===================================================================
-       Create the announcements
-       ===================================================================
-  -->
+  <!-- Create the announcements -->
   <target name="announcement" depends="setup-properties">
 
     <filter token="name" value="${Name}"/>
@@ -453,11 +451,7 @@ Legal:
 
   </target>
 
-  <!--
-       ===================================================================
-                           Creates all the .jar files
-       ===================================================================
-  -->
+  <!-- Creates all the .jar files -->
   <target name="jar" depends="compile">
 
     <mkdir dir="${build.lib}"/>
@@ -493,11 +487,7 @@ Legal:
     <fail message="cjan.lib not specified." />
   </target>
 
-  <!--
-       ===================================================================
-                            Create the distribution
-       ===================================================================
-  -->
+  <!-- Create the distribution -->
   <target name="dist" depends="jar,javadocs,xdocs">
 
     <mkdir dir="${dist.dir}"/>
@@ -527,11 +517,7 @@ Legal:
 
   </target>
 
-  <!--
-       ===================================================================
-                            Create the source distribution
-       ===================================================================
-  -->
+  <!-- Create the source distribution -->
   <target name="src-dist" depends="xdocs,setup-properties">
 
     <mkdir dir="${src.dist.dir}" />
@@ -588,11 +574,7 @@ Legal:
 
   </target>
 
-  <!--
-       ===================================================================
-                 Completely build all dists
-       ===================================================================
-  -->
+  <!-- Completely build all dists -->
   <target name="distributions">
     <mkdir dir="${dist.base}"/>
 
@@ -642,11 +624,7 @@ Legal:
 
   </target>
 
-  <!--
-       ===================================================================
-                 Cleans up build and distribution directories
-       ===================================================================
-  -->
+  <!-- Cleans up build and distribution directories -->
   <target name="clean" depends="setup-properties">
     <delete dir="${build.dir}" />
     <delete dir="${dist.dir}" />
@@ -655,11 +633,7 @@ Legal:
     </delete>
   </target>
 
-  <!--
-       ===================================================================
-                      Cleans absolutely everything up
-       ===================================================================
-  -->
+  <!-- Cleans absolutely everything up -->
   <target name="real-clean" depends="clean">
     <delete dir="${docs.dir}" />
     <delete dir="${dist.base}" />
