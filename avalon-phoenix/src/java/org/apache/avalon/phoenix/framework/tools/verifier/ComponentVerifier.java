@@ -75,14 +75,21 @@ import org.apache.avalon.framework.service.Serviceable;
  * rules of an Avalon component.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:14 $
+ * @version $Revision: 1.4 $ $Date: 2003/04/06 11:39:24 $
  */
 public class ComponentVerifier
     extends AbstractLogEnabled
 {
+    /**
+     * I18n utils.
+     */
     private static final Resources REZ =
         ResourceManager.getPackageResources( ComponentVerifier.class );
 
+    /**
+     * Constant for array of 0 classes. Saves recreating array everytime
+     * look up constructor with no args.
+     */
     private static final Class[] EMPTY_TYPES = new Class[ 0 ];
 
     /**
