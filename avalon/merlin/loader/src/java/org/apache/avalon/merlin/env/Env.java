@@ -48,26 +48,32 @@
 
 */
 
-package org.apache.avalon.merlin.env;
+package org.apache.avalon.merlin.env ;
 
+import java.io.File ;
+import java.io.FileReader ;
+import java.io.IOException ;
+import java.io.PrintWriter ;
 import java.io.BufferedReader ;
-import java.io.IOException;
 import java.io.InputStreamReader ;
 
 /**
  * Encapsulates operating system specific access to environment variables.
  * 
- * @todo Add more methods that allow access to path and library parameters in a
- * platform neutral fashion.
+ * @todo Add more methods that allow access to path and library parameters in
+ * a platform neutral fashion.
  * 
  * @see List of operating system specific System property values 
  * <a href="http://www.tolstoy.com/samizdat/sysprops.html">here</a>.
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class Env
 {
+    /** The shell environment to run under */
+    private static String m_shell = null ;
+
     /**
      * Gets the value of a shell environment variable.
      * 
@@ -81,6 +87,7 @@ public class Env
         String l_osName = System.getProperty( "os.name" ) ;
         
         if ( -1 != l_osName.indexOf( "Linux" )          || 
+             -1 != l_osName.indexOf( "SunOS" )          ||
              -1 != l_osName.indexOf( "Solaris" )        ||
              -1 != l_osName.indexOf( "MPE/iX" )         ||
              -1 != l_osName.indexOf( "AIX" )            ||
@@ -89,20 +96,91 @@ public class Env
              -1 != l_osName.indexOf( "Digital Unix" )   ||
              -1 != l_osName.indexOf( "HP-UX" ) )
         {
+            if ( null == m_shell )
+            {
+                m_shell = getUnixUserShell( a_name ) ;
+            }
+
             return getUnixVariable( a_name ) ;
         }
         else if ( -1 != l_osName.indexOf( "Windows" ) ) 
         {
+              if ( null == m_shell )
+              {
+                if ( -1 != l_osName.indexOf( "98" ) || 
+                  -1 != l_osName.indexOf( "95" ) )
+                {
+                    m_shell = "command.exe" ;
+                }
+                else
+                {
+                    m_shell = "cmd.exe" ;
+                }
+              }
             return getWindowsVariable( a_name ) ;
         }
         
-        throw new EnvAccessException( a_name, "Unrecognized operating system: " 
-                + l_osName ) ;
+        throw new EnvAccessException( a_name, 
+            "Unrecognized operating system: " + l_osName ) ;
     }
     
     
     /**
-     * Gets a UNIX shell environment parameter by forking a call to echo.  This
+     * Gets the default login shell used by a unix user.
+     *
+     * @param a_varName the var accessed used for exception constructor only
+     * @return the UNIX user's default shell as referenced in /etc/passwd
+     */
+    private static String getUnixUserShell( String a_varName )
+        throws EnvAccessException
+    {
+        File l_etcpasswd = new File( "/etc/passwd" ) ;
+    
+        if ( l_etcpasswd.exists() && l_etcpasswd.canRead() )
+        {
+            String l_username = System.getProperty( "user.name" ) ;
+            BufferedReader l_in = null ;
+    
+            try 
+            {
+                String l_entry = null ;
+                l_in = new BufferedReader( new FileReader( l_etcpasswd ) ) ;
+        
+                while( null != ( l_entry = l_in.readLine() ) )
+                {
+                    // Skip entries other than the one for this username
+                    if ( ! l_entry.startsWith( l_username ) ) 
+                    {
+                        continue ;
+                    }
+        
+                    // Get the shell part of the passwd entry
+                    int l_index = l_entry.lastIndexOf( ':' ) ;
+                    if ( l_index == -1 )
+                    {
+                        throw new EnvAccessException( a_varName,
+                            "/etc/passwd contains malformed user entry for " 
+                            + l_username ) ;
+                    }
+        
+                    return l_entry.substring( l_index + 1 ) ;
+                }
+            } 
+            catch ( IOException e )
+            {
+                throw new EnvAccessException( a_varName, e ) ;
+            }
+    
+            throw new EnvAccessException( a_varName, "User " + l_username 
+                    + " does not seem to exist in /etc/passwd" ) ;
+        }
+    
+        throw new EnvAccessException( a_varName, "Don't know what to do with"
+            + " a UNIX system without a readable /etc/passwd file" ) ;
+    }
+
+    /**
+     * Gets a UNIX shell environment parameter by forking a call to echo. This
      * should work on all UNIX shells like sh, ksh, csh, zsh and bash.
      * 
      * @param a_name the name of the variable accessed
@@ -114,7 +192,13 @@ public class Env
     {
         String l_value = null ;
         Process l_proc = null ;
+
+        // Read from process here
         BufferedReader l_in = null ;
+	
+        // Write to process here
+        PrintWriter l_out = null ;
+
         StringBuffer l_cmd = new StringBuffer() ;
         String l_osName = System.getProperty( "os.name" ) ;
         
@@ -125,14 +209,21 @@ public class Env
         try
         {
             l_proc = Runtime.getRuntime().exec( l_cmd.toString() ) ;
+            String [] l_args = { m_shell, "-t" } ;
+            l_proc = Runtime.getRuntime().exec( l_args ) ;
+            l_out = new PrintWriter( l_proc.getOutputStream() ) ;
+            l_out.println( l_cmd.toString() ) ;
+            l_out.flush() ;
             l_proc.waitFor() ;
             l_in = new BufferedReader( 
                     new InputStreamReader( l_proc.getInputStream() ) ) ;
             l_value = l_in.readLine() ;
             l_in.close() ;
+            l_out.close() ;
         }
         catch( Throwable t )
         {
+            t.printStackTrace() ;
             throw new EnvAccessException( a_name, t ) ;
         }
         finally
@@ -144,6 +235,11 @@ public class Env
                 if ( null != l_in )
                 {    
                     l_in.close() ;
+                }
+
+                if ( null != l_out )
+                {    
+                    l_out.close() ;
                 }
             }
             catch( IOException e )
@@ -163,8 +259,8 @@ public class Env
             return l_value ;
         }
         
-        throw new EnvAccessException( a_name, "Environment process failed with "
-                + "non-zero exit code of " + l_proc.exitValue() ) ;
+        throw new EnvAccessException( a_name, "Environment process failed "
+                + " with non-zero exit code of " + l_proc.exitValue() ) ;
     }
     
     
@@ -184,8 +280,9 @@ public class Env
         StringBuffer l_cmd = new StringBuffer() ;
         String l_osName = System.getProperty( "os.name" ) ;
 
-        // build the the command based on the shell used: cmd.exe or command.exe 
-        if ( -1 != l_osName.indexOf( "98" ) || -1 != l_osName.indexOf( "95" ) )
+        // build the command based on the shell used: cmd.exe or command.exe 
+        if ( -1 != l_osName.indexOf( "98" ) || 
+	     -1 != l_osName.indexOf( "95" ) )
         {
             l_cmd.append( "command.exe /C echo %" ) ;
         }
@@ -239,8 +336,8 @@ public class Env
             return l_value ;
         }
         
-        throw new EnvAccessException( a_name, "Environment process failed with "
-                + "non-zero exit code of " + l_proc.exitValue() ) ;
+        throw new EnvAccessException( a_name, "Environment process failed"
+                + " with non-zero exit code of " + l_proc.exitValue() ) ;
     }
 }
 
