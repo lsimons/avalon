@@ -52,7 +52,7 @@
         <available property="xpath.present" classname="org.apache.xpath.XPathAPI">
             <classpath refid="project.class.path"/>
         </available>
-        <available property="jaxen.present" classname="org.jaxen.dom.XPath">
+        <available property="jaxen.present" classname="org.jaxen.dom.DOMXPath">
             <classpath refid="project.class.path"/>
         </available>
         <available property="jtidy.present" classname="org.w3c.tidy.Tidy">
