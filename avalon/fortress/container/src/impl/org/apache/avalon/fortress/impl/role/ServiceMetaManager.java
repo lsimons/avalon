@@ -95,14 +95,7 @@ import java.util.*;
  * </p>
  *
  * <pre>
- *   &lt;taskdef name="collect-metainfo" classname="org.d_haven.guiapp.tools.ComponentMetaInfoCollector"&gt;
- *     &lt;classpath&gt;
- *       &lt;path refid="project.class.path"/&gt;
- *       &lt;pathelement path="${tools.dir}/guiapp-tools.jar"/&gt;
- *     &lt;/classpath&gt;
- *   &lt;/taskdef&gt;
- *
- *   &lt;taskdef name="collect-services" classname="org.d_haven.guiapp.tools.ServiceCollector"&gt;
+ *   &lt;taskdef name="collect-metainfo" classname="org.apache.avalon.fortress.tools.ComponentMetaInfoCollector"&gt;
  *     &lt;classpath&gt;
  *       &lt;path refid="project.class.path"/&gt;
  *       &lt;pathelement path="${tools.dir}/guiapp-tools.jar"/&gt;
@@ -112,13 +105,10 @@ import java.util.*;
  *   &lt;collect-metainfo destdir="${build.classes}"&gt;
  *      &lt;fileset dir="${src.dir}"/&gt;
  *   &lt;/collect-metainfo&gt;
- *
- *   &lt;collect-services inputjar="${build.dir}/${name}-core.jar"
- *                     outputjar="${lib.dir}/${name}.jar"/&gt;
  * </pre>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.1 $
+ * @version CVS $Revision: 1.2 $
  */
 public final class ServiceMetaManager extends AbstractMetaInfoManager implements Initializable
 {
