@@ -25,7 +25,7 @@ import javax.management.MBeanOperationInfo;
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.5 $ $Date: 2001/11/19 12:21:31 $
+ * @version CVS $Revision: 1.6 $ $Date: 2001/12/02 03:44:24 $
  */
 public class JavaBeanMBean
     extends AbstractMBean
@@ -159,7 +159,6 @@ public class JavaBeanMBean
         if( null == interfaces ) return null;
 
         final ArrayList operations = new ArrayList();
-        final ArrayList names = new ArrayList();
 
         for( int i = 0; i < interfaces.length; i++ )
         {
@@ -177,12 +176,34 @@ public class JavaBeanMBean
             final MethodDescriptor[] methods = beanInfo.getMethodDescriptors();
             for( int j = 0; j < methods.length; j++ )
             {
+                final MethodDescriptor descriptor = methods[ j ];
+                final Method method = descriptor.getMethod();                
+                if( isMutator( method ) || isAccessor( method ) )
+                {
+                    continue;
+                }
+
                 operations.add( methods[ j ] );
-                names.add( methods[ j ].getName() );
             }
         }
 
         return (MethodDescriptor[])operations.toArray( new MethodDescriptor[ 0 ] );
+    }
+
+    private boolean isMutator( final Method method )
+    {
+        return 
+            Void.TYPE == method.getReturnType() &&
+            method.getName().startsWith( "set" ) &&
+            1 == method.getParameterTypes().length;
+    }
+
+    private boolean isAccessor( final Method method )
+    {
+        return 
+            Void.TYPE != method.getReturnType() &&
+            method.getName().startsWith( "get" ) &&
+            0 == method.getParameterTypes().length;
     }
 
     /**
@@ -195,7 +216,6 @@ public class JavaBeanMBean
         if( null == interfaces ) return null;
 
         final ArrayList attributes = new ArrayList();
-        final ArrayList names = new ArrayList();
 
         for( int i = 0; i < interfaces.length; i++ )
         {
@@ -214,7 +234,6 @@ public class JavaBeanMBean
             for( int j = 0; j < propertys.length; j++ )
             {
                 attributes.add( propertys[ j ] );
-                names.add( propertys[ j ].getName() );
             }
         }
 
