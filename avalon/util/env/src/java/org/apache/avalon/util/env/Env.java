@@ -52,9 +52,7 @@ package org.apache.avalon.util.env ;
 
 
 import java.io.File ;
-import java.io.FileReader ;
 import java.io.IOException ;
-import java.io.PrintWriter ;
 import java.io.BufferedReader ;
 import java.io.InputStreamReader ;
 
@@ -71,7 +69,7 @@ import java.util.Enumeration ;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class Env extends Properties
 {
@@ -116,7 +114,8 @@ public class Env extends Properties
         
         if ( isUnix() )
         {
-            return getUnixShellVariable( a_name ) ;
+            Properties l_props = getUnixShellVariables() ;
+            return l_props.getProperty( a_name ) ;
         }
         else if ( -1 != l_osName.indexOf( "Windows" ) ) 
         {
@@ -220,10 +219,12 @@ public class Env extends Properties
             return getMacUserShell() ;
         }
         
+        /*
         if ( isUnix() )
         {
             return getUnixUserShell() ;
         }
+        */
         
         if ( isWindows() )
         {
@@ -321,152 +322,6 @@ public class Env extends Properties
     
     
     /**
-     * Gets the default login shell used by a unix user.
-     *
-     * @return the UNIX user's default shell as referenced in /etc/passwd
-     */
-    private static String getUnixUserShell()
-        throws EnvAccessException
-    {
-        if ( null != s_shell )
-        {
-            return s_shell ;
-        }
-        
-        File l_etcpasswd = new File( "/etc/passwd" ) ;
-        if ( l_etcpasswd.exists() && l_etcpasswd.canRead() )
-        {
-            BufferedReader l_in = null ;
-    
-            try 
-            {
-                String l_entry = null ;
-                l_in = new BufferedReader( new FileReader( l_etcpasswd ) ) ;
-        
-                while ( null != ( l_entry = l_in.readLine() ) )
-                {
-                    // Skip entries other than the one for this username
-                    if ( ! l_entry.startsWith( USERNAME ) ) 
-                    {
-                        continue ;
-                    }
-        
-                    // Get the shell part of the passwd entry
-                    int l_index = l_entry.lastIndexOf( ':' ) ;
-
-                    if ( l_index == -1 )
-                    {
-                        throw new EnvAccessException( 
-                            "/etc/passwd contains malformed user entry for " 
-                            + USERNAME ) ;
-                    }
-        
-                    s_shell = l_entry.substring( l_index + 1 ) ;
-                    return s_shell ;
-                }
-            } 
-            catch ( IOException e )
-            {
-                throw new EnvAccessException( e ) ;
-            }
-    
-            throw new EnvAccessException( "User " + USERNAME 
-                + " does not seem to exist in /etc/passwd" ) ;
-        }
-    
-        throw new EnvAccessException( "Don't know what to do with"
-            + " a UNIX system without a readable /etc/passwd file" ) ;
-    }
-
-
-    /**
-     * Gets a UNIX shell environment parameter by forking the user's default 
-     * shell based on /etc/passwd and running echo on the environment variable
-     * within the shell.  This should work on all UNIX shells like sh, ksh, csh,
-     * zsh and bash accross all the supported platforms.
-     * 
-     * @param a_name the name of the variable accessed
-     * @return the value of the variable 
-     * @throws EnvAccessException if there is an error accessing the value
-     */
-    private static String getUnixShellVariable( String a_name )
-        throws EnvAccessException
-    {
-        String l_value = null ;
-        Process l_proc = null ;
-
-        // Read from process here
-        BufferedReader l_in = null ;
-    
-        // Write to process here
-        PrintWriter l_out = null ;
-
-        StringBuffer l_cmd = new StringBuffer() ;
-        String l_osName = System.getProperty( "os.name" ) ;
-        
-        l_cmd.append( "echo $" ) ;
-        l_cmd.append( a_name ) ;
-
-        // fire up the shell and get echo'd results on stdout
-        try
-        {
-            String [] l_args = { getUnixUserShell(), "-t" } ;
-            l_proc = Runtime.getRuntime().exec( l_args ) ;
-            l_out = new PrintWriter( l_proc.getOutputStream() ) ;
-            l_out.println( l_cmd.toString() ) ;
-            l_out.flush() ;
-            l_proc.waitFor() ;
-            l_in = new BufferedReader( 
-                    new InputStreamReader( l_proc.getInputStream() ) ) ;
-            l_value = l_in.readLine() ;
-            l_in.close() ;
-            l_out.close() ;
-        }
-        catch( Throwable t )
-        {
-            t.printStackTrace() ;
-            throw new EnvAccessException( a_name, t ) ;
-        }
-        finally
-        {
-            l_proc.destroy() ;
-            
-            try
-            {
-                if ( null != l_in )
-                {    
-                    l_in.close() ;
-                }
-
-                if ( null != l_out )
-                {    
-                    l_out.close() ;
-                }
-            }
-            catch( IOException e )
-            {
-                
-            }
-        }
-        
-        // Check that we exited normally before returning an invalid output
-        if ( 0 == l_proc.exitValue() )
-        {
-            // Handle situations where the env property does not exist.
-            if ( l_value.trim().equals( "" ) )
-            {
-                return null ;
-            }
-            
-            return l_value ;
-        }
-        
-        throw new EnvAccessException( a_name, "Environment process failed "
-                + " with non-zero exit code of " + l_proc.exitValue() ) ;
-    }
-
-
-    /**
      * Adds a set of Windows variables to a set of properties.
      */
     private static Properties getUnixShellVariables()
@@ -478,17 +333,11 @@ public class Env extends Properties
         // Read from process here
         BufferedReader l_in = null ;
     
-        // Write to process here
-        PrintWriter l_out = null ;
-
         // fire up the shell and get echo'd results on stdout
         try
         {
-            String [] l_args = { getUnixUserShell(), "-t" } ;
+            String [] l_args = { getUnixEnv() } ;
             l_proc = Runtime.getRuntime().exec( l_args ) ;
-            l_out = new PrintWriter( l_proc.getOutputStream() ) ;
-            l_out.println( "env" ) ;
-            l_out.flush() ;
             l_in = new BufferedReader( 
                     new InputStreamReader( l_proc.getInputStream() ) ) ;
             
@@ -511,7 +360,6 @@ public class Env extends Properties
             
             l_proc.waitFor() ;
             l_in.close() ;
-            l_out.close() ;
         }
         catch( Throwable t )
         {
@@ -528,15 +376,9 @@ public class Env extends Properties
                 {    
                     l_in.close() ;
                 }
-
-                if ( null != l_out )
-                {    
-                    l_out.close() ;
-                }
             }
             catch( IOException e )
             {
-                
             }
         }
         
@@ -548,6 +390,32 @@ public class Env extends Properties
         }
         
         return l_props ;
+    }
+    
+    
+    /**
+     * Gets the UNIX env executable path.
+     * 
+     * @return the absolute path to the env program
+     * @throws EnvAccessException if it cannot be found
+     */
+    private static String getUnixEnv() throws EnvAccessException
+    {
+        File l_env = new File( "/bin/env" ) ;
+        
+        if( l_env.exists() && l_env.canRead() && l_env.isFile() )
+        {
+            return l_env.getAbsolutePath() ;
+        }
+        
+        l_env = new File( "/usr/bin/env" ) ;
+        if ( l_env.exists() && l_env.canRead() && l_env.isFile() )
+        {
+            return l_env.getAbsolutePath() ;
+        }
+        
+        throw new EnvAccessException( 
+                "Could not find the UNIX env executable" ) ;
     }
     
     
