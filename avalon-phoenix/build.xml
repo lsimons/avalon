@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
-
+  <!DOCTYPE project [
+    <!ENTITY forrest-targets SYSTEM "file:./forrest-targets.ent">
+  ]>
 <!--
 ==============================================================================
 
@@ -790,5 +792,7 @@ phoenix-punit.jar needs to be used with excalibur-containerkit-1.0.jar
         <delete dir="${dist.base}" />
         <ant target="clean" antfile="docs.xml" inheritall="false" />
     </target>
+
+    &forrest-targets;
 
 </project>

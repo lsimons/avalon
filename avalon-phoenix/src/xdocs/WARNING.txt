@@ -1,0 +1,9 @@
+*****************************  W A R N I N G  **********************************
+
+  This directory contains the "old" versions of teh Phoenix documentation and
+  should not be used till transition to the new Forrest format is completed.
+   
+  The new documentation directory is ../documentation
+
+*****************************  W A R N I N G  **********************************
+

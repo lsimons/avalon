@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+  <header>
+    <title>Overview</title>
+      
+  <authors><person name="Phoenix Documentation Team" email="avalon-phoenix-dev@jakarta.apache.org"/></authors></header>
+  <body>
+    <section><title>Introduction</title>
+      <p>
+        Phoenix is a micro-kernel designed and implemented on top of the Avalon
+        framework. It is both an API to program to and a reference implementation.
+        The reference implementation provides a number of facilities to manage the
+        environment of Server Applications. Such facilities include log management,
+        classloading, thread management and security. In the future it will
+        conditionally support extra facilities such as central server management,
+        server pools, and other facilities aimed at reducing the time to market. The API
+        defines a standard method of piecing together server components and creating a server.
+      </p>
+    </section>
+    <section><title>Documentation is coming</title>
+      <p>
+        Some of the information on this site is currently a bit out of date. We are
+    working hard to fix this. If you come across any incosistencies or have a
+    problem, please don't hesitate to contact us through the mailing list. Thank
+    you.
+      </p>
+    </section>
+    <section><title>Guide to Avalon Phoenix</title>
+      <p>
+        This guide starts with an architectural overview of Phoenix. Then, we identify
+    the different roles that typically exist in daily use of phoenix. For each of
+    these, we provide a basic guide. We finish with a complete example.
+      </p>
+        <section><title>Target Audience</title>
+          <p>
+            This documentation is aimed towards people who:
+            </p><ul>
+          <li>wish to create applications that run within phoenix</li>
+          <li>wish to create components (blocks) for use within phoenix</li>
+          <li>wish to setup and administer phoenix</li>
+              <li>are interested in the design principles of Avalon Phoenix</li>
+              <li>wish to develop code that will be incorporated into Avalon Phoenix</li>
+              <li>wish to reuse Avalon Phoenix concepts in their own application</li>
+            </ul><p>
+          </p>
+        </section>
+        <section><title>Contents</title>
+          <ol>
+            <li><link href="guide-architecture.html">Architectural overview</link></li>
+            <li><link href="guide-roles.html">Development roles</link></li>
+            <li><link href="guide-administrator.html">Administrator Guide</link></li>
+            <li><link href="guide-deployers.html">Application Deployer Guide</link></li>
+            <li><link href="mx/index.html">JMX Management Guide</link></li>
+            <li><link href="assemblers/index.html">Server Application Assembler Guide</link></li>
+            <li><link href="bdg/index.html">Block Developer Guide</link></li>
+            <li><link href="guide-example-configuration.html">Example Configuration.</link></li>
+          </ol>
+        </section>
+    </section>
+    <section><title>Avalon Phoenix Reference Documentation</title>
+      <p>
+         Besides the
+         <link href="api/index.html">Javadocs</link>, we have the
+         <link href="guide-architecture.html">Architectural overview</link> to look at.
+      </p>
+    </section>
+  </body>
+</document>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+  <header>
+    <title>Guide - Creating a Block</title>
+      
+  <authors><person name="Phoenix Documentation Team" email="avalon-phoenix-dev@jakarta.apache.org"/></authors></header>
+  <body>
+    <section><title>Introduction</title>
+      <p>
+        This document will describe the process for creating your first block. There
+        are essentially three steps that must be completed before your block is ready
+        for assembling.
+      </p>
+      <ol>
+        <li>Write the Block component.</li>
+        <li>Write the BlockInfo meta-info description file.</li>
+        <li>Package the component and related resources into a block jar file.</li>
+      </ol>
+    </section>
+    <section><title>Writing the Block component</title>
+      <p>
+        Writing the Block is the main task you will be called to do. It follows all
+        the rules of writing a standard Avalon component. If a block implements the
+        Contextualizable interface it will be passed an instance of
+        <code>org.apache.avalon.phoenix.BlockContext</code> which is an extended version
+        of <code>org.apache.avalon.Context</code>. Other than this minor change the
+        Block's container (the Phoenix Kernel) supports all the Avalon lifecycle
+        methods or will in the near future (at the moment suspend/resume is not yet
+        supported).
+      </p>
+      <p>
+        The block can implement an interface if it wishes to export a service to external blocks. It is
+        also possible to aquire services from other blocks in the <code>service()</code> method.
+      </p>
+    </section>
+    <section><title>Write the BlockInfo</title>
+      <p>
+        You must create this file to indicate which services this Block depends upon
+        and those services which it offers. It is more fully documented in the
+        <link href="blockinfo-specification.html">BlockInfo Specification</link> document.
+      </p>
+    </section>
+    <section><title>Create the jar package</title>
+      <p>
+        The final step is packaging up the implementation files, BlockInfos and other
+        resources into a jar file.
+      </p>
+    </section>
+     <section><title>Guide Contents</title>
+       <ol>
+        <li><link href="what-is-a-block.html">What is a block?</link></li>
+        <li><link href="what-is-a-block-listener.html">What is a block listener?</link></li>
+        <li><link href="what-is-an-application-listener.html">What is an application listener?</link></li>
+        <li>How do I create a block?</li>
+        <li><link href="making-phoenix-compatible-comps.html">How do I make my components phoenix-compatible?</link></li>
+        <li><link href="blockinfo-specification.html">BlockInfo specification</link></li>
+       </ol>
+      </section>
+  </body>
+</document>
