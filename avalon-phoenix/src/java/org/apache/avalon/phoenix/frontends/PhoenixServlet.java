@@ -11,15 +11,18 @@ import java.io.File;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.avalon.framework.ExceptionUtil;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.AvalonFormatter;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.phoenix.components.embeddor.SingleAppEmbeddor;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.log.Hierarchy;
@@ -51,7 +54,7 @@ public class PhoenixServlet
                                      final String defaultValue )
     {
         final String value = getInitParameter( name );
-        if( null == value )
+        if ( null == value )
         {
             return defaultValue;
         }
@@ -73,7 +76,7 @@ public class PhoenixServlet
         final String logPriority = getInitParameter( "log-priority", "INFO" );
         final String appName = getInitParameter( "application-name", "default" );
         final String appLoc = getInitParameter( "application-location", phoenixHome + "/" + appName );
-        final String configFile = getInitParameter( "config-file", phoenixHome + "/conf/kernel.xml");
+        final String configFile = getInitParameter( "config-file", phoenixHome + "/conf/kernel.xml" );
 
         m_parameters = new Parameters();
         m_parameters.setParameter( "phoenix.home", context.getRealPath( phoenixHome ) );
@@ -84,23 +87,25 @@ public class PhoenixServlet
 
         try
         {
-			Configuration conf = getConfigurationFor(configFile).getChild("embeddor");
-			m_embeddor = (Embeddor) Class.forName(conf.getAttribute("class")).newInstance();
+            final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+            final Configuration conf = builder.buildFromFile( context.getRealPath( configFile ) ).getChild( "embeddor" );
+            m_embeddor = (SingleAppEmbeddor)Class.forName( conf.getAttribute( "class" ) ).newInstance();
             m_embeddor.enableLogging( createLogger( m_parameters ) );
 
-            if( m_embeddor instanceof Parameterizable )
+            if ( m_embeddor instanceof Parameterizable )
             {
                 ( (Parameterizable)m_embeddor ).parameterize( m_parameters );
             }
-			if (m_embeddor instanceof Configurable) {
-				((Configurable) m_embeddor).configure(conf);
-			}
+            if ( m_embeddor instanceof Configurable )
+            {
+                ( (Configurable)m_embeddor ).configure( conf );
+            }
             m_embeddor.initialize();
 
             final Thread thread = new Thread( this, "Phoenix" );
             thread.start();
         }
-        catch( final Throwable throwable )
+        catch ( final Throwable throwable )
         {
             log( REZ.getString( "main.exception.header" ) );
             log( "---------------------------------------------------------" );
@@ -119,7 +124,7 @@ public class PhoenixServlet
         {
             m_embeddor.execute();
         }
-        catch( final Throwable throwable )
+        catch ( final Throwable throwable )
         {
             log( REZ.getString( "main.exception.header" ) );
             log( "---------------------------------------------------------" );
@@ -142,7 +147,7 @@ public class PhoenixServlet
             m_embeddor = null;
             m_parameters = null;
         }
-        catch( final Throwable throwable )
+        catch ( final Throwable throwable )
         {
             log( REZ.getString( "main.exception.header" ) );
             log( "---------------------------------------------------------" );
