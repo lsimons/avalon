@@ -38,7 +38,7 @@
 	    <dependency>
 	      <groupId>cornerstone-connection</groupId>
 	      <artifactId>cornerstone-connection-api</artifactId>
-	      <version>1.0</version>
+	      <version>SNAPSHOT</version>
 	    </dependency>
 	    
     </dependencies>
