@@ -20,6 +20,6 @@ if [ "$MERLIN_HOME" = "" ] ; then
   exit 1
 fi
 
-RUN_CMD="$JAVA_HOME/bin/java -Djava.security.policy=$MERLIN_HOME/bin/security.policy -Dmerlin.home=$MERLIN_HOME -Djava.ext.dirs=$MERLIN_HOME/ext -jar $MERLIN_HOME/bin/lib/merlin-bootstrap-1.1.jar $*"
+RUN_CMD="$JAVA_HOME/bin/java -Djava.security.policy=$MERLIN_HOME/bin/security.policy -Dmerlin.home=$MERLIN_HOME -Djava.ext.dirs=$MERLIN_HOME/ext -jar $MERLIN_HOME/bin/lib/merlin-cli-3.2.jar $*"
 echo "RUN CMD IS: $RUN_CMD"
 exec $RUN_CMD

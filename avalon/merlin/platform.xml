@@ -240,7 +240,7 @@
 
     <packageGroup>
       <title>Merlin Service Management Platform</title>
-      <packages>org.apache.avalon.merlin.*</packages>
+      <packages>org.apache.avalon.merlin,org.apache.avalon.merlin.*</packages>
     </packageGroup>
 
     <packageGroup>
