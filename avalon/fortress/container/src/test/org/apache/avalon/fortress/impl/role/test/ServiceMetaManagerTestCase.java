@@ -47,53 +47,54 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.fortress.impl.role;
+package org.apache.avalon.fortress.impl.role.test;
 
-import org.apache.avalon.fortress.MetaInfoEntry;
-import org.apache.avalon.fortress.MetaInfoManager;
-import org.apache.avalon.fortress.RoleEntry;
-import org.apache.avalon.fortress.RoleManager;
+import org.apache.avalon.fortress.impl.role.ServiceMetaManager;
+import org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler;
+import org.apache.avalon.fortress.impl.handler.PoolableComponentHandler;
+import org.apache.avalon.fortress.impl.handler.FactoryComponentHandler;
+import org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler;
+import org.apache.avalon.fortress.test.data.*;
+import org.apache.avalon.framework.container.ContainerUtil;
+import org.apache.avalon.framework.logger.NullLogger;
 
 /**
- * Role2MetaInfoManagerTestCase does XYZ
+ * ServiceMetaManagerTestCase does XYZ
  *
  * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
- * @version CVS Revision: 1.1 $
+ * @version CVS $ Revision: 1.1 $
  */
-public final class Role2MetaInfoManager implements MetaInfoManager
+public class ServiceMetaManagerTestCase extends AbstractMetaInfoManagerTestCase
 {
-    private final RoleManager m_manager;
-
-    public Role2MetaInfoManager( final RoleManager manager )
+    public ServiceMetaManagerTestCase( String name )
     {
-        m_manager = manager;
+        super( name );
     }
 
-    /**
-     * Get a <code>MetaInfoEntry</code> for a short name.  The short name is an
-     * alias for a component type.
-     *
-     * @param shortname  The shorthand name for the component type.
-     *
-     * @return the proper {@link RoleEntry}
-     */
-    public MetaInfoEntry getMetaInfoForShortName( final String shortname )
+    public void setUp() throws Exception
     {
-        return new MetaInfoEntry( m_manager.getRoleForShortName( shortname ) );
+        m_manager = new ServiceMetaManager();
+        ContainerUtil.enableLogging(m_manager, new NullLogger());
+        ContainerUtil.initialize(m_manager);
     }
 
-    /**
-     * Get a <code>MetaInfoEntry</code> for a component type.  This facilitates
-     * self-healing configuration files where the impl reads the
-     * configuration and translates all <code>&lt;component/&gt;</code>
-     * entries to use the short hand name for readability.
-     *
-     * @param classname  The component type name
-     *
-     * @return the proper {@link RoleEntry}
-     */
-    public MetaInfoEntry getMetaInfoForClassname( final String classname )
+    public void testTestRoles() throws Exception
     {
-        return new MetaInfoEntry( m_manager.getRoleForClassname( classname ) );
+        String[] roles = new String[] {Role1.class.getName()};
+        checkRole("component1", roles, Component1.class.getName(), ThreadSafeComponentHandler.class.getName());
+
+        roles[0] = Role2.class.getName();
+        checkRole("component2", roles, Component2.class.getName(), PoolableComponentHandler.class.getName());
+
+        roles[0] = Role4.class.getName();
+        checkRole("component4", roles, Component4.class.getName(), FactoryComponentHandler.class.getName());
+
+        roles = new String[]
+        {
+            Role3.class.getName(),
+            BaseRole.class.getName()
+        };
+
+        checkRole("component3", roles, Component3.class.getName(), PerThreadComponentHandler.class.getName());
     }
 }

@@ -55,7 +55,7 @@ import org.apache.avalon.fortress.RoleEntry;
 import org.apache.avalon.fortress.RoleManager;
 
 /**
- * Role2MetaInfoManager does XYZ
+ * Role2MetaInfoManagerTestCase does XYZ
  *
  * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
  * @version CVS Revision: 1.1 $

@@ -47,53 +47,60 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.fortress.impl.role;
+package org.apache.avalon.fortress.impl.role.test;
 
-import org.apache.avalon.fortress.MetaInfoEntry;
+import junit.framework.TestCase;
 import org.apache.avalon.fortress.MetaInfoManager;
-import org.apache.avalon.fortress.RoleEntry;
-import org.apache.avalon.fortress.RoleManager;
+import org.apache.avalon.fortress.MetaInfoEntry;
 
 /**
- * Role2MetaInfoManagerTestCase does XYZ
+ * AbstractMetaInfoManagerTestCase does XYZ
  *
  * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
- * @version CVS Revision: 1.1 $
+ * @version CVS $ Revision: 1.1 $
  */
-public final class Role2MetaInfoManager implements MetaInfoManager
+public abstract class AbstractMetaInfoManagerTestCase extends TestCase
 {
-    private final RoleManager m_manager;
+    private boolean m_informixClassExists = false;
+    protected MetaInfoManager m_manager;
 
-    public Role2MetaInfoManager( final RoleManager manager )
+    public AbstractMetaInfoManagerTestCase( String name )
     {
-        m_manager = manager;
+        super( name );
+
+        try
+        {
+            Class.forName( "org.apache.avalon.excalibur.datasource.InformixDataSource" );
+            m_informixClassExists = true;
+        }
+        catch ( Exception e )
+        {
+            m_informixClassExists = false;
+        }
     }
 
-    /**
-     * Get a <code>MetaInfoEntry</code> for a short name.  The short name is an
-     * alias for a component type.
-     *
-     * @param shortname  The shorthand name for the component type.
-     *
-     * @return the proper {@link RoleEntry}
-     */
-    public MetaInfoEntry getMetaInfoForShortName( final String shortname )
+    protected boolean isInformixClassExists()
     {
-        return new MetaInfoEntry( m_manager.getRoleForShortName( shortname ) );
+        return m_informixClassExists;
     }
 
-    /**
-     * Get a <code>MetaInfoEntry</code> for a component type.  This facilitates
-     * self-healing configuration files where the impl reads the
-     * configuration and translates all <code>&lt;component/&gt;</code>
-     * entries to use the short hand name for readability.
-     *
-     * @param classname  The component type name
-     *
-     * @return the proper {@link RoleEntry}
-     */
-    public MetaInfoEntry getMetaInfoForClassname( final String classname )
+    protected void checkRole( final String shortname,
+                              final String[] roles,
+                              final String className,
+                              final String handlerClassname )
+        throws ClassNotFoundException
     {
-        return new MetaInfoEntry( m_manager.getRoleForClassname( classname ) );
+        final MetaInfoEntry metaEntry = m_manager.getMetaInfoForShortName(shortname);
+        assertNotNull( "MetaInfoEntry", metaEntry );
+
+        assertEquals( "componentClass:",
+            metaEntry.getComponentClass(), Class.forName( className ) );
+
+        for (int i = 0; i < roles.length; i++)
+        {
+            assertTrue( "Role:", metaEntry.containsRole( roles[i] ) );
+        }
+        assertEquals( "Handler:",
+            metaEntry.getHandlerClass(), Class.forName( handlerClassname ) );
     }
 }
