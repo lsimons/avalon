@@ -16,6 +16,7 @@
         <pathelement location="${logkit.jar}"/>
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
+        <pathelement location="${mail.jar}"/>
         <pathelement path="${java.class.path}"/>
     </path>
 
@@ -52,6 +53,9 @@
             <classpath refid="project.class.path"/>
         </available>
         <available property="datasource.present" classname="javax.sql.DataSource">
+            <classpath refid="project.class.path"/>
+        </available>
+        <available property="javamail.present" classname="javax.mail.Session">
             <classpath refid="project.class.path"/>
         </available>
     </target>
@@ -95,6 +99,8 @@
                      unless="jms.present"/>
             <exclude name="org/apache/avalon/excalibur/logger/factory/JDBCTargetFactory.java"
                      unless="datasource.present"/>
+            <exclude name="org/apache/avalon/excalibur/logger/factory/SMTPTargetFactory.java"
+                     unless="javamail.present"/>
                 
         </javac>
 
