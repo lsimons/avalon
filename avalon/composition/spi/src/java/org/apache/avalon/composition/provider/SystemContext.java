@@ -32,7 +32,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Defintion of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/04/01 04:06:52 $
+ * @version $Revision: 1.7 $ $Date: 2004/04/04 23:33:56 $
  */
 public interface SystemContext extends Context
 {
@@ -156,6 +156,15 @@ public interface SystemContext extends Context
     * @exception Exception if a deployment error occurs
     */
     Object resolve( DeploymentModel model ) throws Exception;
+
+   /**
+    * Request resolution of an object from the runtime.
+    * @param model the deployment model
+    * @param proxy if TRUE the return value will be proxied if the 
+    *   underlying component typoe suppports proxy representation 
+    * @exception Exception if a deployment error occurs
+    */
+    Object resolve( DeploymentModel model, boolean proxy ) throws Exception;
 
    /**
     * Request the release of an object from the runtime.

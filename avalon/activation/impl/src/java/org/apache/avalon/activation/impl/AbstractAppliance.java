@@ -26,7 +26,7 @@ import org.apache.avalon.framework.logger.Logger;
 /**
  * Abstract appliance.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/03/17 10:30:07 $
+ * @version $Revision: 1.4 $ $Date: 2004/04/04 23:33:56 $
  */
 public abstract class AbstractAppliance implements Appliance
 {
@@ -81,6 +81,14 @@ public abstract class AbstractAppliance implements Appliance
      * @throws Exception if an error occurs
      */
     public abstract Object resolve() throws Exception;
+
+   /**
+    * Request resolution of an object from the runtime.
+    * @param proxy if TRUE the return value will be proxied if the 
+    *   underlying component typoe suppports proxy representation 
+    * @exception Exception if a deployment error occurs
+    */
+    public abstract Object resolve( boolean proxy ) throws Exception;
 
     /**
      * Release an object

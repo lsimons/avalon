@@ -226,6 +226,7 @@ public class SimpleDeploymentModel
     }
 
     public Object resolve() throws Exception{ return null; }
+    public Object resolve( boolean proxy ) throws Exception{ return null; }
     public void release( Object object ){};
 
     public void commission() throws Exception

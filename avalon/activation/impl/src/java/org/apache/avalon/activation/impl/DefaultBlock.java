@@ -35,7 +35,7 @@ import org.apache.avalon.util.i18n.Resources;
 /**
  * Composite appliance.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/03/17 10:30:07 $
+ * @version $Revision: 1.5 $ $Date: 2004/04/04 23:33:56 $
  */
 public class DefaultBlock extends AbstractAppliance
 {
@@ -151,6 +151,17 @@ public class DefaultBlock extends AbstractAppliance
             throw new IllegalStateException( error );
         }
         return m_proxy;
+    }
+
+    /**
+     * Resolve a object to a value.
+     *
+     * @return the resolved object
+     * @throws Exception if an error occurs
+     */
+    public Object resolve( boolean proxy ) throws Exception
+    {
+        return resolve();
     }
 
     /**

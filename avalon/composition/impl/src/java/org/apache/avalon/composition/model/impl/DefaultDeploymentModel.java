@@ -41,7 +41,7 @@ import org.apache.avalon.logging.provider.LoggingManager;
  * Abstract model base class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.21 $ $Date: 2004/03/17 10:39:10 $
+ * @version $Revision: 1.22 $ $Date: 2004/04/04 23:33:56 $
  */
 public abstract class DefaultDeploymentModel
   implements DeploymentModel
@@ -144,6 +144,19 @@ public abstract class DefaultDeploymentModel
     public Object resolve() throws Exception
     {
         return m_context.getSystemContext().resolve( this );
+    }
+
+    /**
+     * Resolve a object to a value.
+     *
+     * @param proxy if TRUE ruturn a proxied reference if the underlying component
+     *   suppports proxied representation otherwise return the raw component instance
+     * @return the resolved object
+     * @throws Exception if an error occurs
+     */
+    public Object resolve( boolean proxy ) throws Exception
+    {
+        return m_context.getSystemContext().resolve( this, proxy );
     }
 
     /**

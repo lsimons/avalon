@@ -22,7 +22,7 @@ package org.apache.avalon.composition.model;
  * release.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Revision: 1.2 $ $Date: 2004/04/04 23:33:56 $
  */
 public interface Resolver
 {
@@ -33,6 +33,16 @@ public interface Resolver
      * @throws Exception if an error occurs
      */
     Object resolve() throws Exception;
+
+    /**
+     * Resolve a object to a value.
+     *
+     * @param proxy if TRUE ruturn a proxied reference if the underlying component
+     *   suppports proxied representation otherwise return the raw component instance
+     * @return the resolved object
+     * @throws Exception if an error occurs
+     */
+    Object resolve( boolean proxy ) throws Exception;
 
     /**
      * Release an object
