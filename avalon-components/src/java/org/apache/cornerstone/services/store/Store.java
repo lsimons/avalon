@@ -7,9 +7,9 @@
  */
 package org.apache.cornerstone.services.store;
 
-import org.apache.avalon.Component;
-import org.apache.avalon.ComponentManagerException;
-import org.apache.avalon.ComponentSelector;
+import org.apache.avalon.component.Component;
+import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.component.ComponentSelector;
 import org.apache.phoenix.Service;
 
 /**
@@ -29,5 +29,5 @@ public interface Store
      * </repository>
      */
     Component select( Object hint )
-        throws ComponentManagerException;
+        throws ComponentException;
 }

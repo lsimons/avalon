@@ -17,19 +17,19 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
-import org.apache.avalon.AbstractLoggable;
-import org.apache.avalon.ComponentManager;
-import org.apache.avalon.ComponentManagerException;
-import org.apache.avalon.Composer;
-import org.apache.avalon.Context;
-import org.apache.avalon.Contextualizable;
 import org.apache.avalon.Initializable;
 import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.component.ComponentManager;
+import org.apache.avalon.component.Composable;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
-import org.apache.excalibur.io.ExtensionFileFilter;
+import org.apache.avalon.context.Context;
+import org.apache.avalon.context.Contextualizable;
+import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.cornerstone.services.store.Repository;
+import org.apache.excalibur.io.ExtensionFileFilter;
 import org.apache.phoenix.Block;
 import org.apache.phoenix.BlockContext;
 
@@ -41,7 +41,7 @@ import org.apache.phoenix.BlockContext;
  */
 public abstract class AbstractFileRepository
     extends AbstractLoggable
-    implements Block, Repository, Contextualizable, Composer, Configurable, Initializable
+    implements Block, Repository, Contextualizable, Composable, Configurable, Initializable
 {
     protected static final boolean      DEBUG          = false;
 
@@ -143,7 +143,7 @@ public abstract class AbstractFileRepository
         }
 
         try { child.compose( m_componentManager ); }
-        catch( final ComponentManagerException cme )
+        catch( final ComponentException cme )
         {
             throw new RuntimeException( "Cannot compose child " +
                                         "repository " + childName +

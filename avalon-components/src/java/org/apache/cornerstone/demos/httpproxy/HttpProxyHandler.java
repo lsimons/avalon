@@ -12,8 +12,8 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import org.apache.avalon.AbstractLoggable;
-import org.apache.avalon.Component;
+import org.apache.avalon.component.Component;
+import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.cornerstone.services.connection.ConnectionHandler;
 
 /**

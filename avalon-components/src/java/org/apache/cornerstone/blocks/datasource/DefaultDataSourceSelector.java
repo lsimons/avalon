@@ -10,15 +10,15 @@ package org.apache.cornerstone.blocks.datasource;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import org.apache.avalon.AbstractLoggable;
-import org.apache.avalon.Component;
 import org.apache.avalon.Disposable;
 import org.apache.avalon.Initializable;
+import org.apache.avalon.component.Component;
 import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
-import org.apache.excalibur.datasource.DataSourceComponent;
+import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.cornerstone.services.datasource.DataSourceSelector;
+import org.apache.excalibur.datasource.DataSourceComponent;
 import org.apache.phoenix.Block;
 
 /**

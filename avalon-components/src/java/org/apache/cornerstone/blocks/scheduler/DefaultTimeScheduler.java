@@ -9,18 +9,18 @@ package org.apache.cornerstone.blocks.scheduler;
 
 import java.util.Hashtable;
 import java.util.NoSuchElementException;
-import org.apache.avalon.AbstractLoggable;
 import org.apache.avalon.Disposable;
 import org.apache.avalon.Initializable;
 import org.apache.avalon.Startable;
 import org.apache.avalon.Stoppable;
+import org.apache.avalon.logger.AbstractLoggable;
+import org.apache.cornerstone.services.scheduler.Target;
+import org.apache.cornerstone.services.scheduler.TimeScheduler;
+import org.apache.cornerstone.services.scheduler.TimeTrigger;
 import org.apache.excalibur.collections.BinaryHeap;
 import org.apache.excalibur.collections.PriorityQueue;
 import org.apache.excalibur.collections.SynchronizedPriorityQueue;
 import org.apache.excalibur.thread.ThreadContext;
-import org.apache.cornerstone.services.scheduler.Target;
-import org.apache.cornerstone.services.scheduler.TimeScheduler;
-import org.apache.cornerstone.services.scheduler.TimeTrigger;
 import org.apache.log.Logger;
 import org.apache.phoenix.Block;
 

@@ -9,22 +9,22 @@ package org.apache.cornerstone.services.connection;
 
 import java.net.InetAddress;
 import java.net.ServerSocket;
-import org.apache.avalon.AbstractLoggable;
-import org.apache.avalon.Component;
-import org.apache.avalon.ComponentManager;
-import org.apache.avalon.ComponentManagerException;
-import org.apache.avalon.Composer;
-import org.apache.avalon.Context;
-import org.apache.avalon.Contextualizable;
 import org.apache.avalon.Disposable;
 import org.apache.avalon.Initializable;
-import org.apache.avalon.Loggable;
+import org.apache.avalon.component.Component;
+import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.component.ComponentManager;
+import org.apache.avalon.component.Composable;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
-import org.apache.excalibur.thread.ThreadPool;
+import org.apache.avalon.context.Context;
+import org.apache.avalon.context.Contextualizable;
+import org.apache.avalon.logger.AbstractLoggable;
+import org.apache.avalon.logger.Loggable;
 import org.apache.cornerstone.services.sockets.ServerSocketFactory;
 import org.apache.cornerstone.services.sockets.SocketManager;
+import org.apache.excalibur.thread.ThreadPool;
 import org.apache.log.Logger;
 import org.apache.phoenix.Block;
 import org.apache.phoenix.BlockContext;
@@ -36,7 +36,7 @@ import org.apache.phoenix.BlockContext;
  */
 public abstract class AbstractService
     extends AbstractLoggable
-    implements Block, Contextualizable, Composer, Configurable, Initializable, Disposable
+    implements Block, Contextualizable, Composable, Configurable, Initializable, Disposable
 {
     protected ConnectionManager        m_connectionManager;
     protected SocketManager            m_socketManager;
@@ -87,7 +87,7 @@ public abstract class AbstractService
     }
 
     public void compose( final ComponentManager componentManager )
-        throws ComponentManagerException
+        throws ComponentException
     {
         m_connectionManager = (ConnectionManager)componentManager.
             lookup( "org.apache.cornerstone.services.connection.ConnectionManager" );
@@ -95,9 +95,9 @@ public abstract class AbstractService
         m_socketManager = (SocketManager)componentManager.
             lookup( "org.apache.cornerstone.services.sockets.SocketManager" );
 
-        if( m_factory instanceof Composer )
+        if( m_factory instanceof Composable )
         {
-            ((Composer)m_factory).compose( componentManager );
+            ((Composable)m_factory).compose( componentManager );
         }
     }
 

@@ -7,8 +7,6 @@
  */
 package org.apache.cornerstone.services.scheduler;
 
-import org.apache.avalon.configuration.Configuration;
-
 /**
  * This is the interface to implement to receive notification trigger.
  *

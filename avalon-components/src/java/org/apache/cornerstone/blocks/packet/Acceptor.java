@@ -12,11 +12,11 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.ArrayList;
 import java.util.Iterator;
-import org.apache.avalon.AbstractLoggable;
-import org.apache.avalon.Component;
-import org.apache.excalibur.thread.ThreadPool;
+import org.apache.avalon.component.Component;
+import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.cornerstone.services.packet.PacketHandler;
 import org.apache.cornerstone.services.packet.PacketHandlerFactory;
+import org.apache.excalibur.thread.ThreadPool;
 
 /**
  * Support class for the DefaultPacketManager.

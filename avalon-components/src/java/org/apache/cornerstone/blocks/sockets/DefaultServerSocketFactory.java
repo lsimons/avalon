@@ -10,7 +10,7 @@ package org.apache.cornerstone.blocks.sockets;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
-import org.apache.avalon.Component;
+import org.apache.avalon.component.Component;
 import org.apache.cornerstone.services.sockets.ServerSocketFactory;
 
 /**

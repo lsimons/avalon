@@ -11,17 +11,17 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
-import org.apache.avalon.AbstractLoggable;
-import org.apache.avalon.Component;
-import org.apache.avalon.ComponentManager;
-import org.apache.avalon.Composer;
-import org.apache.avalon.Context;
-import org.apache.avalon.Contextualizable;
 import org.apache.avalon.Initializable;
+import org.apache.avalon.component.Component;
 import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.component.ComponentManager;
+import org.apache.avalon.component.Composable;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
+import org.apache.avalon.context.Context;
+import org.apache.avalon.context.Contextualizable;
+import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.cornerstone.services.store.Repository;
 import org.apache.cornerstone.services.store.Store;
 import org.apache.phoenix.Block;
@@ -32,7 +32,7 @@ import org.apache.phoenix.Block;
  */
 public class RepositoryManager
     extends AbstractLoggable
-    implements Block, Store, Contextualizable, Composer, Configurable
+    implements Block, Store, Contextualizable, Composable, Configurable
 {
     private static final String   REPOSITORY_NAME  = "Repository";
     private static long           id               = 0;
@@ -168,9 +168,9 @@ public class RepositoryManager
                         ((Contextualizable)reply).contextualize( m_context );
                     }
 
-                    if( reply instanceof Composer )
+                    if( reply instanceof Composable )
                     {
-                        ((Composer)reply).compose( m_componentManager );
+                        ((Composable)reply).compose( m_componentManager );
                     }
 
                     if( reply instanceof Configurable )

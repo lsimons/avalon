@@ -12,8 +12,8 @@ import java.io.InterruptedIOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
-import org.apache.avalon.AbstractLoggable;
-import org.apache.avalon.Component;
+import org.apache.avalon.component.Component;
+import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.cornerstone.services.connection.ConnectionHandler;
 
 /**

@@ -12,11 +12,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Iterator;
-import org.apache.avalon.AbstractLoggable;
-import org.apache.avalon.Component;
-import org.apache.excalibur.thread.ThreadPool;
+import org.apache.avalon.component.Component;
+import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.cornerstone.services.connection.ConnectionHandler;
 import org.apache.cornerstone.services.connection.ConnectionHandlerFactory;
+import org.apache.excalibur.thread.ThreadPool;
 
 /**
  * Support class for the DefaultConnectionManager.

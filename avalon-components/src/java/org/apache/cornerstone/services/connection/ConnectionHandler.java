@@ -10,7 +10,7 @@ package org.apache.cornerstone.services.connection;
 import java.io.IOException;
 import java.net.ProtocolException;
 import java.net.Socket;
-import org.apache.avalon.Component;
+import org.apache.avalon.component.Component;
 
 /**
  * This interface is the way in which handlers are created.
