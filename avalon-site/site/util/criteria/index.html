@@ -436,7 +436,77 @@
       
       
     <p>
-      IN PREPARATION
+      
+        The criteria package contains a parameterize Map implementation.
+        A set of parameters are supplied on creation that are used by the 
+        implementation to (a) qualify values supplied, and (b) resolve values
+        that are requested.
+        
+    </p>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Example">Example</a>
+        </h4>
+      
+      
+    <p>
+      
+        The criteria object created below is now restricted to 
+        the two keys "name" and "home".  The user of the class can 
+        assign String values which will be resolved to the type of 
+        object declared by the corresponding parameter object.
+        
+    </p>
+   
+    <div id="source">
+      <pre>
+Parameter[] params = new Parameter[]{
+  new Parameter( "name", String.class, null ),
+  new Parameter( "home", 
+   File.class, new File( System.getProperty( "user.dir" ) ) ) };
+Map criteria = new Criteria( params );
+        </pre>
+    </div>
+  
+    <p>
+      
+        For example:
+        
+    </p>
+   
+    <div id="source">
+      <pre>
+public void setParameters( Map map )
+{
+    map.put( "home", "my-directory" );
+
+    //
+    // now just for fun - lets get the value using the "home"
+    // key as a File
+    //
+
+    File home = (File) map.get( "home" );
+
+    //
+    // and just to prove the point - we can also put values
+    // directory into the map the correspond to the parameterized 
+    // type .. e.g.:
+    // 
+
+    map.put( "home", home );
+
+}</pre>
+    </div>
+  
+    <p>
+      
+        What all this means is that a we have a type safe Map implementation.
+        
     </p>
    
     </div>
