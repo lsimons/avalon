@@ -49,42 +49,44 @@
 */
 package org.apache.avalon.apps.sevak;
 
-import java.io.File;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.context.Context;
 
 /**
- * Sevak defines an interface that servlet containers can be wrapped behind
+ * Holder class for objects to be used when creating servlets under Sevak
  *
- * @author  Vinay Chandrasekharan<vinayc77@yahoo.com>
- * @version 1.0
+ * If a servlet is LogEnabled then the logger is set on the servlet.
+ * If a servlet is Servicable then the serviceManager is set on the servlet.
+ * If a servlet is Contextualizable then the context is set on the servlet
+ * @author Ben Hogan
  */
-public interface Sevak
+public class SevakContext
 {
-    /** Role of the Sevak Service*/
-    String ROLE = Sevak.class.getName();
+    private ServiceManager m_serviceManager;
+    private Logger m_logger;
+    private Context m_context;
 
-    /**
-     * Deploy the given Web Application
-     * @param context Context for the the webapp
-     * @param pathToWebAppFolder path can be a war-archive or exploded directory
-     * @throws SevakException Thrown when context already exists
-     */
-    void deploy( String context, File pathToWebAppFolder ) throws SevakException;
+    public SevakContext( Context context, ServiceManager serviceManager, Logger logger )
+    {
+        m_context = context;
+        m_serviceManager = serviceManager;
+        m_logger = logger;
+    }
 
-    /**
-     * Deploy the given Web Application
-     * @param context Context for the the webapp
-     * @param pathToWebAppFolder path can be a war-archive or exploded directory
-     * @param sevakContext the context that is applied to the servlet on instantiation.
-     * @throws SevakException Thrown when context already exists
-     */
-    void deploy( String context, File pathToWebAppFolder, SevakContext sevakContext )
-        throws SevakException;
+    public ServiceManager getServiceManager()
+    {
+        return m_serviceManager;
+    }
 
+    public Logger getLogger()
+    {
+        return m_logger;
+    }
 
-    /**
-     * Undeploy the given WebApp
-     * @param context Context for the the webapp
-     * @throws SevakException Thrown if context does NOT exist
-     */
-    void undeploy( String context ) throws SevakException;
+    public Context getContext()
+    {
+        return m_context;
+    }
 }
+
