@@ -452,7 +452,8 @@ public class Parameters
      * @param elementName   the element name for the parameters
      * @return This <code>Parameters</code> instance.
      */
-    public static Parameters fromConfiguration( final Configuration configuration, final String elementName )
+    public static Parameters fromConfiguration( final Configuration configuration, 
+                                                final String elementName )
         throws ConfigurationException
     {
         if( null == configuration )
