@@ -1,49 +1,16 @@
-// ============================================================================
-//                   The Apache Software License, Version 1.1
-// ============================================================================
+// Copyright 2004 Apache Software Foundation
 // 
-// Copyright (C) 2002-2003 The Apache Software Foundation. All rights reserved.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 // 
-// Redistribution and use in source and binary forms, with or without modifica-
-// tion, are permitted provided that the following conditions are met:
+//     http://www.apache.org/licenses/LICENSE-2.0
 // 
-// 1. Redistributions of  source code must  retain the above copyright  notice,
-//    this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright notice,
-//    this list of conditions and the following disclaimer in the documentation
-//    and/or other materials provided with the distribution.
-// 
-// 3. The end-user documentation included with the redistribution, if any, must
-//    include  the following  acknowledgment:  "This product includes  software
-//    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
-//    Alternately, this  acknowledgment may  appear in the software itself,  if
-//    and wherever such third-party acknowledgments normally appear.
-// 
-// 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"  
-//    must not be used to endorse or promote products derived from this  software 
-//    without  prior written permission. For written permission, please contact 
-//    apache@apache.org.
-// 
-// 5. Products  derived from this software may not  be called "Apache", nor may
-//    "Apache" appear  in their name,  without prior written permission  of the
-//    Apache Software Foundation.
-// 
-// THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
-// INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
-// FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
-// APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
-// INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
-// DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
-// OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
-// ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
-// (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
-// THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-// 
-// This software  consists of voluntary contributions made  by many individuals
-// on  behalf of the Apache Software  Foundation. For more  information on the 
-// Apache Software Foundation, please see <http://www.apache.org/>.
-// ============================================================================
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 namespace Apache.Avalon.Meta
 {
@@ -57,7 +24,6 @@ namespace Apache.Avalon.Meta
 	/// <ul>
 	/// <li>a symbolic name</li>
 	/// <li>classname</li>
-	/// <li>version</li>
 	/// </ul>
 	/// 
 	/// <p>The InfoDescriptor also includes an arbitrary set
@@ -69,7 +35,7 @@ namespace Apache.Avalon.Meta
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.2 $ $Date: 2004/01/19 01:19:41 $
+	/// <version>  $Revision: 1.3 $ $Date: 2004/01/31 18:59:17 $
 	/// </version>
 	[Serializable]
 	public sealed class InfoDescriptor : Descriptor
@@ -85,10 +51,7 @@ namespace Apache.Avalon.Meta
 		private System.String m_name;
 		
 		/// <summary> The implementation classname.</summary>
-		private System.String m_typename;
-		
-		/// <summary> The version of component that descriptor describes.</summary>
-		private Version m_version;
+		private System.Type m_type;
 		
 		/// <summary> The component lifestyle.</summary>
 		private Lifestyle m_lifestyle;
@@ -112,7 +75,7 @@ namespace Apache.Avalon.Meta
 		// constructor
 		//-------------------------------------------------------------------
 		
-		/// <summary> Creation of a new info descriptor using a supplied name, key, version
+		/// <summary> Creation of a new info descriptor using a supplied name, key
 		/// and attribute set.
 		/// 
 		/// </summary>
@@ -120,22 +83,20 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <param name="classname">the implemetation classname
 		/// </param>
-		/// <param name="version">the implementation version
-		/// </param>
 		/// <param name="attributes">a set of attributes associated with the component type
 		/// </param>
 		/// <exception cref=""> IllegalArgumentException if the implementation key is not a classname
 		/// @since 1.2
 		/// </exception>
-		public InfoDescriptor(System.String name, System.String typename, 
-			Version version, Lifestyle lifestyle, CollectionPolicy collection, 
-			System.String schema, 
+		public InfoDescriptor(System.String name, 
+			System.Type type, Lifestyle lifestyle, 
+			CollectionPolicy collection, System.String schema, 
 			System.Collections.Specialized.NameValueCollection attributes) : 
 			base(attributes, null)
 		{
-			if (null == (System.Object) typename)
+			if (null == (System.Object) type)
 			{
-				throw new System.ArgumentNullException("typename");
+				throw new System.ArgumentNullException("type");
 			}
 			if (null == (System.Object) name)
 			{
@@ -144,8 +105,7 @@ namespace Apache.Avalon.Meta
 			
 			m_name = name;
 			m_collection = collection;
-			m_typename = typename;
-			m_version = version;
+			m_type = type;
 			m_schema = schema;
 			m_lifestyle = lifestyle;
 		}
@@ -168,7 +128,7 @@ namespace Apache.Avalon.Meta
 		/// </returns>
 		public override System.String ToString()
 		{
-			return "[" + Name + "] " + Typename + ":" + Version;
+			return "[" + Name + "] " + Type;
 		}
 		
 		/// <summary> Test is the supplied object is equal to this object.</summary>
@@ -181,19 +141,10 @@ namespace Apache.Avalon.Meta
 			if (isEqual)
 			{
 				InfoDescriptor info = (InfoDescriptor) other;
-				isEqual = isEqual && m_typename.Equals(info.m_typename);
+				isEqual = isEqual && m_type.Equals(info.m_type);
 				isEqual = isEqual && (m_collection == info.m_collection);
 				isEqual = isEqual && m_name.Equals(info.m_name);
 				isEqual = isEqual && m_lifestyle.Equals(info.m_lifestyle);
-				
-				if (null == m_version)
-				{
-					isEqual = isEqual && null == info.m_version;
-				}
-				else
-				{
-					isEqual = isEqual && m_version.Equals(info.m_version);
-				}
 			}
 			
 			return isEqual;
@@ -206,7 +157,7 @@ namespace Apache.Avalon.Meta
 		{
 			int hash = base.GetHashCode();
 			
-			hash ^= m_typename.GetHashCode();
+			hash ^= m_type.GetHashCode();
 			
 			if (null != (System.Object) m_name)
 			{
@@ -216,11 +167,6 @@ namespace Apache.Avalon.Meta
 			if (null != (System.Object) m_lifestyle)
 			{
 				hash ^= m_lifestyle.GetHashCode();
-			}
-			
-			if (null != m_version)
-			{
-				hash ^= m_version.GetHashCode();
 			}
 			
 			return hash;
@@ -258,27 +204,15 @@ namespace Apache.Avalon.Meta
 		/// </summary>
 		/// <returns> the implementation class name
 		/// </returns>
-		public System.String Typename
+		public System.Type Type
 		{
 			get
 			{
-				return m_typename;
+				return m_type;
 			}
 			
 		}
-		/// <summary> Return the version of component.
-		/// 
-		/// </summary>
-		/// <returns> the version of component.
-		/// </returns>
-		public Version Version
-		{
-			get
-			{
-				return m_version;
-			}
-			
-		}
+
 		/// <summary> Return the component lifestyle.
 		/// 
 		/// </summary>

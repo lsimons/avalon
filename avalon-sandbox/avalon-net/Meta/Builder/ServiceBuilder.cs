@@ -12,17 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Meta
+namespace Apache.Avalon.Meta.Builder
 {
 	using System;
 
 	/// <summary>
-	/// Summary description for ReferencePolicy.
+	/// Summary description for ServiceBuilder.
 	/// </summary>
-	public enum ReferencePolicy
+	public class ServiceBuilder
 	{
-		Weak,
-		Soft,
-		Hard
+		public ServiceBuilder()
+		{
+		}
+
+		public Service CreateService( Type targetType )
+		{
+			if (targetType == null)
+			{
+				throw new ArgumentNullException("targetType");
+			}
+
+			// TODO: Check the real necessity for this.
+
+			return null;
+		}
 	}
 }
