@@ -397,9 +397,9 @@ class ContainerComponent implements Component, Initializable, Disposable
         <para>
           The ComponentHandler interface is very simple to deal with.  You
           initialize the Constructor with the Java class, the Configuration
-          object, the ConfigurationManager, a Context object, and a
-          RoleManager.  If you know that your Component will not need any of
-          the aforementioned items, you can pass a null in its place.  After
+          object, the ComponentManager, a Context object, and a RoleManager.
+          If you know that your Component will not need any of the
+          aforementioned items, you can pass a null in its place.  After
           that, when you need a reference to the Component, you call the "get"
           method.  After you are done with it, you call the "put" method and
           pass the Component back to the ComponentHandler.  The following code
@@ -646,7 +646,7 @@ Configuration roleConfig = builder.build(
             this.getClass().getClassLoader()
             .getResourceAsStream("/org/apache/bizserver/docs/document.roles"));
 
-RoleManager roles = new DefaultRoleManager();
+DefaultRoleManager roles = new DefaultRoleManager();
 roles.setLogger(Hierarchy.getDefaultHierarchy().getLoggerFor("document.roles"));
 roles.configure(roleConfig);
 
