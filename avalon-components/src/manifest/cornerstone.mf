@@ -18,3 +18,4 @@ Avalon-Block: true
 
 Name: org/apache/avalon/cornerstone/blocks/datasource/DefaultDataSourceSelector.class
 Avalon-Block: true
+
