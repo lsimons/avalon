@@ -7,10 +7,10 @@
  */
 package org.apache.avalon.excalibur.component;
 
-import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
 
 /**
@@ -20,7 +20,7 @@ import org.apache.avalon.framework.context.Context;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/09/24 20:39:53 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/11/10 14:21:08 $
  * @since 4.0
  */
 public class DefaultComponentHandler
@@ -161,12 +161,7 @@ public class DefaultComponentHandler
     {
         try
         {
-            // do nothing here
-
-            if( m_factory instanceof Disposable )
-            {
-                ( (Disposable)m_factory ).dispose();
-            }
+            ContainerUtil.dispose( m_factory );
         }
         catch( final Exception e )
         {
