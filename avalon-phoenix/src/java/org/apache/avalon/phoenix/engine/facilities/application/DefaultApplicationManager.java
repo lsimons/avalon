@@ -34,7 +34,7 @@ public class DefaultApplicationManager
     public void contextualize( final Context context )
         throws ContextException
     {
-        m_name = (String)context.get( "name" );
+        m_name = (String)context.get( "app.name" );
     }
 
     public void compose( final ComponentManager componentManager )
