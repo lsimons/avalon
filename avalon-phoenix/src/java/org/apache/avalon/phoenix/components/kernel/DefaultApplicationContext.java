@@ -24,6 +24,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
+import org.apache.avalon.phoenix.interfaces.SystemManager;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Hierarchy;
 import org.apache.log.Logger;
@@ -41,21 +42,24 @@ class DefaultApplicationContext
         ResourceManager.getPackageResources( DefaultApplicationContext.class );
 
     ///Map of thread pools for application
-    private HashMap m_threadPools = new HashMap();
+    private final HashMap m_threadPools = new HashMap();
 
-    //LogKitManager for application
-    private Hierarchy m_hierarchy;
+    //Log HIerarchy for application
+    private final Hierarchy m_hierarchy;
 
     ///ClassLoader for application
-    private ClassLoader m_classLoader;
+    private final ClassLoader m_classLoader;
 
     ///ThreadContext for application
-    private ThreadContext m_threadContext;
+    private final ThreadContext m_threadContext;
 
     //Repository of configuration data to access
     private ConfigurationRepository m_repository;
 
-    private SarMetaData m_metaData;
+    ///Place to expose Management beans
+    private SystemManager m_systemManager;
+
+    private final SarMetaData m_metaData;
 
     protected DefaultApplicationContext( final SarMetaData metaData,
                                          final ClassLoader classLoader,
@@ -75,6 +79,7 @@ class DefaultApplicationContext
         throws ComponentException
     {
         m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
+        m_systemManager = (SystemManager)componentManager.lookup( SystemManager.ROLE );
     }
 
     /**
@@ -133,6 +138,46 @@ class DefaultApplicationContext
     public Logger getLogger( final String category )
     {
         return m_hierarchy.getLoggerFor( category );
+    }
+
+    /**
+     * Export specified object into management system.
+     * The object is exported using specifed interface 
+     * and using the specified name.
+     *
+     * @param name the name of object to export
+     * @param interfaceClass the interface of object with which to export
+     * @param object the actual object to export
+     */
+    public void exportObject( final String name, 
+                              final Class service,
+                              final Object object )
+        throws Exception
+    {
+        final String longName = getServiceName( name, service );
+        m_systemManager.register( longName, object, new Class[] { service } );
+    }
+
+    /**
+     * Unexport specified object from management system.
+     *
+     * @param name the name of object to unexport
+     * @param interfaceClass the interface of object with which to unexport
+     */
+    public void unexportObject( final String name, final Class service )
+        throws Exception
+    {
+        final String longName = getServiceName( name, service );
+        m_systemManager.unregister( longName );
+    }
+
+    /**
+     * Utility method to get the JMX-ized name of service to export
+     */
+    private String getServiceName( final String name, final Class service )
+    {
+        return name + ",application=" + getMetaData().getName() +
+            ",role=" + service.getName();
     }
 
     /**

@@ -30,6 +30,27 @@ public interface ApplicationContext
     ThreadContext getThreadContext();
 
     /**
+     * Export specified object into management system.
+     * The object is exported using specifed interface 
+     * and using the specified name.
+     *
+     * @param name the name of object to export
+     * @param interfaceClass the interface of object with which to export
+     * @param object the actual object to export
+     */
+    void exportObject( String name, Class interfaceClass, Object object )
+        throws Exception;
+
+    /**
+     * Unexport specified object from management system.
+     *
+     * @param name the name of object to unexport
+     * @param interfaceClass the interface of object with which to unexport
+     */
+    void unexportObject( String name, Class interfaceClass )
+        throws Exception;
+
+    /**
      * Get ClassLoader for the current application.
      *
      * @return the ClassLoader
