@@ -74,8 +74,8 @@
     README.TXT
     LICENSE.TXT
   /plugins
-    avalon-meta-plugin-1.2.jar
-    merlin-plugin-3.2.2-dev.jar
+    avalon-meta-plugin-1.3.1.jar
+    merlin-plugin-3.2.3.jar
 ]]></source>
 
         <p>
@@ -136,8 +136,8 @@ Maven platform.  These plugins should be placed in the Maven plugin
 directory (%MAVEN_HOME%\plugins).
         </p>
 <source><![CDATA[
-  %MAVEN_HOME%\plugins\avalon-meta-plugin-1.2.jar
-  %MAVEN_HOME%\plugins\merlin-plugin-3.2.2-dev.jar
+  %MAVEN_HOME%\plugins\avalon-meta-plugin-1.3.1.jar
+  %MAVEN_HOME%\plugins\merlin-plugin-3.2.3.jar
 ]]></source>
 
         <p>
@@ -147,8 +147,8 @@ Maven platform.  These plugins should be placed in the Maven plugin
 directory (%MAVEN_HOME%\plugins).
         </p>
 <source><![CDATA[
-  %MAVEN_HOME%\plugins\avalon-meta-plugin-1.2.jar
-  %MAVEN_HOME%\plugins\merlin-plugin-3.2.2-dev.jar
+  %MAVEN_HOME%\plugins\avalon-meta-plugin-1.3.1.jar
+  %MAVEN_HOME%\plugins\merlin-plugin-3.2.3.jar
 ]]></source>
 
         <p>

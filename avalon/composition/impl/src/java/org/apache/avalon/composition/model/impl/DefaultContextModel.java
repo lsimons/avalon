@@ -75,7 +75,7 @@ import org.apache.avalon.composition.data.ConstructorDirective;
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/01 23:34:45 $
  */
 public class DefaultContextModel extends AbstractLogEnabled implements ContextModel
 {
@@ -129,6 +129,15 @@ public class DefaultContextModel extends AbstractLogEnabled implements ContextMo
       ContextDirective directive, DeploymentContext context )
       throws ModelException
     {
+        if( null == logger ) 
+          throw new NullPointerException( "logger" );
+
+        if( null == descriptor ) 
+          throw new NullPointerException( "descriptor" );
+
+        if( null == context ) 
+          throw new NullPointerException( "context" );
+
         enableLogging( logger );
 
         m_descriptor = descriptor;
@@ -174,45 +183,61 @@ public class DefaultContextModel extends AbstractLogEnabled implements ContextMo
 
                 EntryDirective entryDirective = 
                   directive.getEntryDirective( key );
-                if( entryDirective == null )
+                if( null == entryDirective )
                 {
-                    final String error = 
-                      REZ.getString( 
-                        "context.missing-directive.error", key );
-                    throw new ModelException( error );
-                }
-
-                //
-                // there are only two context entry models - import
-                // and constructor - identify the model to use then add
-                // the resolved model to the map
-                //
-
-                if( entryDirective instanceof ImportDirective )
-                {
-                    ImportDirective importDirective = 
-                      (ImportDirective) entryDirective;
-                    DefaultImportModel model = 
-                      new DefaultImportModel( entry, importDirective, context, m_map );
-                    m_context.register( model );
-                    m_map.put( key, model.getValue() );
-                }
-                else if( entryDirective instanceof ConstructorDirective )
-                {
-                    ConstructorDirective constructor = 
-                      (ConstructorDirective) entryDirective;
-                    DefaultConstructorModel model = 
-                      new DefaultConstructorModel( entry, constructor, context, m_map );
-                    m_context.register( model );
-                    m_map.put( key, model.getValue() );
+                    if( entry.isRequired() )
+                    {
+                        final String error = 
+                          REZ.getString( 
+                            "context.missing-directive.error", key );
+                        throw new ModelException( error );
+                    }
                 }
                 else
                 {
-                    String modelClass = entryDirective.getClass().getName();
-                    final String error = 
-                      REZ.getString( 
-                        "context.unsupported-directive.error", key, modelClass );
-                    throw new ModelException( error );
+
+                    //
+                    // there are only two context entry models - import
+                    // and constructor - identify the model to use then add
+                    // the resolved model to the map
+                    //
+
+                    if( entryDirective instanceof ImportDirective )
+                    {
+                        ImportDirective importDirective = 
+                          (ImportDirective) entryDirective;
+                        DefaultImportModel model = 
+                          new DefaultImportModel( 
+                            entry, 
+                            importDirective, 
+                            context, 
+                            m_map );
+                        m_context.register( model );
+                        m_map.put( key, model.getValue() );
+                    }
+                    else if( entryDirective instanceof ConstructorDirective )
+                    {
+                        ConstructorDirective constructor = 
+                          (ConstructorDirective) entryDirective;
+                        DefaultConstructorModel model = 
+                          new DefaultConstructorModel( 
+                            entry, 
+                            constructor, 
+                            context, 
+                            m_map );
+                        m_context.register( model );
+                        m_map.put( key, model.getValue() );
+                    }
+                    else
+                    {
+                        String modelClass = 
+                          entryDirective.getClass().getName();
+                        final String error = 
+                          REZ.getString( 
+                            "context.unsupported-directive.error", 
+                            key, modelClass );
+                        throw new ModelException( error );
+                    }
                 }
             }
         }
@@ -387,7 +412,7 @@ public class DefaultContextModel extends AbstractLogEnabled implements ContextMo
             return DEFAULT_CONTEXT_CLASS;
         }
 
-        final String classname = m_directive.getClassname();
+        final String classname = directive.getClassname();
         if( classname == null )
         {
             return DEFAULT_CONTEXT_CLASS;

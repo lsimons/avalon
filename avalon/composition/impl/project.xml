@@ -8,7 +8,7 @@
   <id>avalon-composition-impl</id>
   <name>Avalon Composition Framework</name>
   <package>org.apache.avalon.composition</package>
-  <currentVersion>1.2.3</currentVersion>
+  <currentVersion>1.2.4</currentVersion>
 
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Avalon Composition Framework.</shortDescription>
@@ -62,7 +62,7 @@
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-impl</artifactId>
-      <version>1.3</version>
+      <version>1.3.1</version>
     </dependency>
 
     <dependency>
