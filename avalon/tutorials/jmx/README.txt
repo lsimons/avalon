@@ -22,35 +22,24 @@ Build the project using the following command:
 
 $ maven
 
-The above command triggers the default goal jar:jar which will 
-create a jar file under the target directory named 
-merlin-hello-tutorial-1.0.jar.  The jar file contains a single
-component, generated .xinfo descriptor, and a bundled block.xml 
-deployment descriptor. 
+The above command triggers the default goal jar:install which will 
+create a jar file and copy it to your local Maven repository,
+named jmx-hello-1.0.jar.  
 
 Runtime
 -------
 
-To see Merlin in action, execute Merlin and give it either the 
-jar file of the target/classes directory as the deployment 
-argument.  
+To see Merlin in action
 
-$ merlin target\classes -execute
+$ merlin --offline conf/hello.block
 
-Or:
+This will start the small HelloComponent and have it registered as
+a JMX MBean in the embedded MBeanServer. You can view the content
+by starting your favourite browser, and connect to;
 
-$ merlin target\merlin-hello-tutorial-1.0.jar -execute
-
-The -execute parameter in the above command line simply tells 
-Merlin to deploy and decomission the component.  If we didn't
-include the -execute option, then Merlin would stay running
-until we forced termination using ^C.
-
-To get an idea of what is happening behing the scenes you can
-override the logging priorities using a configuration override
-argument.  In addition, the -debug CLI parameter presents a 
-summary of the resources pulling together to handle deployment:
-
-$ merlin target\classes -execute -debug -config conf\config.xml
+   http://localhost:8082/
+   
+In there, you can locate the HelloComponent, set the output string
+and execute the sayHello() method.
 
 
