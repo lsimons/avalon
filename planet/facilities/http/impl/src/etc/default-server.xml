@@ -35,8 +35,12 @@
     
   <component name="server" class="org.apache.avalon.http.impl.HttpServerImpl" />
   
+<!-- For Linux systems.
   <component name="mimetypes" class="org.apache.avalon.http.impl.SystemMimeTypes" />
-  
+-->  
+
+  <component name="mimetypes" class="org.apache.avalon.http.impl.ConfigurationMimeTypes" />
+
   <component name="context" class="org.apache.avalon.http.impl.HttpContextImpl" >
     <configuration>
       <context-path>/niclas/testing</context-path>
