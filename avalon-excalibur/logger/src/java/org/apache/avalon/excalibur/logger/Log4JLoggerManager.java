@@ -64,7 +64,7 @@ import org.apache.log4j.spi.LoggerRepository;
  * leaves that as an excercise for Log4J's construction.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.10 $ $Date: 2003/02/25 16:28:24 $
+ * @version CVS $Revision: 1.11 $ $Date: 2003/03/16 11:00:07 $
  * @since 4.1
  */
 public class Log4JLoggerManager
@@ -118,7 +118,7 @@ public class Log4JLoggerManager
                                final LoggerRepository hierarchy )
     {
         this( prefix, hierarchy,
-              new Log4JLogger( hierarchy.getLogger( "" ) ) );
+              new Log4JLogger( hierarchy.getRootLogger() ) );
     }
 
     /**
