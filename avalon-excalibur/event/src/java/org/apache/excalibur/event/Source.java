@@ -106,10 +106,9 @@ public interface Source
     Object[] dequeue( int num );
 
     /**
-     * Returns the number of elements waiting in this queue.
+     * Returns the number of elements waiting in this Source.
      *
-     * @return the number of elements in the queue
+     * @return the number of elements in the Source
      */
     int size();
-
 }

@@ -67,7 +67,7 @@ package org.apache.excalibur.event;
 public interface Sink
 {
     /**
-     * Enqueues the given element onto the queue.
+     * Enqueues the given element onto the Sink.
      *
      * @param element  The elements to enqueue
      * @throws SinkFullException Indicates that the sink is temporarily full.
@@ -114,7 +114,7 @@ public interface Sink
      * set of elements on the queue and then performs some work to "fill in"
      * those elements before performing a commit. This can also be used
      * to perform multi-queue transactional enqueue operations, with an
-     * "all-or-nothing" strategy for enqueueing events on multiple queues.
+     * "all-or-nothing" strategy for enqueueing events on multiple Sinks.
      * </p>
      *
      * <p>This method would generally be used in the following manner:</p>
@@ -163,7 +163,7 @@ public interface Sink
      * Like maxSize(), this is also informational, and isFull() returning
      * false does not guarantee that future enqueue operations will succeed.
      * Clearly, isFull() returning true does not guarantee that they will
-     * fail, since the queue may be serviced in the meantime.
+     * fail, since the Sink may be serviced in the meantime.
      *
      * @return true if the Sink is full
      */
@@ -177,4 +177,11 @@ public interface Sink
      * @return the number of elements the Sink can accept
      */
     int canAccept();
+
+    /**
+     * Returns the number of elements waiting in this Sink.
+     *
+     * @return the number of elements in the Sink
+     */
+    int size();
 }
