@@ -37,5 +37,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Lifestyle.Default
 		{
 			return m_componentFactory.Incarnate();
 		}
+
+		public abstract void Dispose();
 	}
 }

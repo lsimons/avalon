@@ -94,6 +94,11 @@
         <Files>
             <Include>
                 <File
+                    RelPath = "AbstractKernelEvents.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "AssemblyInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -130,6 +135,11 @@
                 />
                 <File
                     RelPath = "IKernelEvents.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "IKernelFacility.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -265,6 +275,26 @@
                 />
                 <File
                     RelPath = "Factory\Default\SimpleComponentFactory.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Graph\Edge.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Graph\SimpleGraph.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Graph\TopologicalSort.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Graph\Vertex.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

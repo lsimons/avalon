@@ -36,6 +36,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 
         public virtual void ReleaseHandler( IHandler handler )
         {
+			handler.Dispose();
         }
 
 		#endregion

@@ -15,6 +15,7 @@
 namespace Apache.Avalon.Castle.MicroKernel.Model
 {
 	using System;
+	using System.Collections;
 
 	using Apache.Avalon.Framework;
 
@@ -68,5 +69,10 @@ namespace Apache.Avalon.Castle.MicroKernel.Model
 		/// of the component
 		/// </summary>
 		IConstructionModel ConstructionModel { get; }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		IDictionary Properties { get; }
 	}
 }

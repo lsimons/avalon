@@ -24,5 +24,9 @@ namespace Apache.Avalon.Castle.MicroKernel.Lifestyle.Default
 		public TransientLifestyleManager(IComponentFactory componentFactory) : base(componentFactory)
 		{
 		}
+
+		public override void Dispose()
+		{
+		}
 	}
 }
