@@ -85,10 +85,10 @@ Legal:
   <property name="framework.jar" value="${lib.dir}/avalon-framework.jar"/>
   <property name="logkit.jar" value="${lib.dir}/logkit.jar"/>
   <property name="xerces.jar" value="${tools.dir}/lib/xerces.jar"/>
-  <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.1.0.jar"/>
+  <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.2.0-dev.jar"/>
   <property name="bsf.jar" value="${tools.dir}/lib/bsf.jar"/>
   <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
-  <property name="junit.jar" value="${tools.dir}/lib/junit.jar"/>
+  <property name="junit.jar" value="${tools.dir}/lib/junit-3.7.jar"/>
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
   <property name="announce2txt" value="${tools.dir}/announcement2txt.xsl"/>
@@ -115,6 +115,7 @@ Legal:
   <path id="tools.class.path">
     <pathelement location="${xerces.jar}"/>
     <pathelement location="${testlet.jar}"/>
+    <pathelement location="${junit.jar}"/>
     <pathelement location="${tools.jar}"/>
     <fileset dir="${tools.dir}/lib">
       <include name="*.jar" />
@@ -267,16 +268,11 @@ Legal:
 
   <target name="test" depends="compile" > 
     <echo message="Performing Unit Tests" />
-    <test showSuccess="true" showBanner="false" showTrace="true" forceShowTrace="true" > 
-       <classpath refid="test.class.path" />
-       <testlet>org.apache.avalon.excalibur.cli.test.ClutilTestlet</testlet>
-       <testlet>org.apache.avalon.excalibur.collections.test.BinaryHeapTestlet</testlet>
-       <!-- <testlet>org.apache.avalon.excalibur.datasource.test.DataSourceTestlet</testlet> -->
-       <testlet>org.apache.avalon.excalibur.io.test.FileUtilTestlet</testlet>
-       <testlet>org.apache.avalon.excalibur.io.test.IOUtilTestlet</testlet>
-       <testlet>org.apache.avalon.excalibur.property.test.PropertyUtilTestlet</testlet>
-       <testlet>org.apache.avalon.cadastre.rmi.RMIContextTestlet</testlet>
-    </test>
+    <junit fork="true" printsummary="yes">
+      <formatter type="plain"/>
+      <classpath refid="test.class.path"/>
+      <test name="org.apache.avalon.excalibur.test.ExcaliburTestSuite"/>
+    </junit>
   </target>
 
   <!-- Creates the clutil.jar file -->
