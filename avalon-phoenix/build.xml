@@ -165,7 +165,7 @@ Legal:
         <available property="servlet.present" classname="javax.servlet.Servlet">
             <classpath refid="project.class.path"/>
         </available>
-        <available property="wrapper.present" classname="com.silveregg.wrapper.WrapperManager">
+        <available property="wrapper.present" classname="org.tanukisoftware.wrapper.WrapperManager">
             <classpath refid="project.class.path"/>
         </available>
         <available property="beanshell.present" classname="bsh.util.JConsole">

@@ -57,7 +57,7 @@
               <p>
                 Another option for starting and stopping Phoenix is to build
                 it with support for the
-                <link href="http://wrapper.sourceforge.net/">Java Service Wrapper</link>.
+                <link href="http://wrapper.tanukisoftware.org/">Java Service Wrapper</link>.
               </p>
               <p>
                 The main benifit of using the Java Service Wrapper is that it can
@@ -73,7 +73,7 @@
 
 <source>
 # ${base.path} points to the root of the Phoenix source tree
-wrapper.home=${base.path}/wrapper_linux_2.2.3
+wrapper.home=${base.path}/wrapper_linux_3.0.0
 wrapper.jar=${wrapper.home}/lib/wrapper.jar
 
 # If you're using Linux/Solaris:

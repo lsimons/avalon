@@ -254,8 +254,8 @@ subsystem (ie JMS) by making their blocks declare (Management-access-points/)
   </action>
   <action dev="PD" type="change">
     Add native daemon support by using the daemon created in the
-    http://wrapper.sourceforge.net/ project. Submitted By:
-    Leif Mortenson (leif@silveregg.co.jp)
+    http://wrapper.tanukisoftware.org/ project. Submitted By:
+    Leif Mortenson (leif@apache.org)
   </action>
   <action dev="PD" type="fix">
     Fixed bug where application names were inapropriately prefixed

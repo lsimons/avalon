@@ -6,7 +6,7 @@
 # modules that Phoenix depends on.  Copy this file to ".ant.properties"
 # in the top-level source directory, and customize it as needed.
 #
-# $Id: ant.properties.sample,v 1.16 2003/03/02 12:33:21 hammant Exp $
+# $Id: ant.properties.sample,v 1.17 2003/03/06 12:27:28 leif Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Environment Flags -----
@@ -25,8 +25,8 @@ base.path=/opt
 #xerces.lib=${xerces.home}
 #xerces.jar=${xerces.lib}/xerces.jar
 
-# ----- Java Service Wrapper, version 2.2.3 or later -----
-#wrapper.home=${base.path}/wrapper_linux_2.2.3
+# ----- Java Service Wrapper, version 3.0.0 or later -----
+#wrapper.home=${base.path}/wrapper_linux_3.0.0
 #wrapper.jar=${wrapper.home}/lib/wrapper.jar
 
 # Linux/Solaris
