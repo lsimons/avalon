@@ -112,7 +112,7 @@
      <!-- Declaration that deployment should allow for 2500ms for 
           any component or container to start-up, before interrupting
           or failing.  -->
-     <parameter name="urn:avalon:composition.timeout" value="2500" />
+     <parameter name="urn:composition:deployment.timeout" value="2500" />
    </parameters>
   </kernel>
 ]]></source>
