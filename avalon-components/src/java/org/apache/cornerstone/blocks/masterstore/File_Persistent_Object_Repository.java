@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.StreamCorruptedException;
+import java.io.ObjectStreamClass;
 import java.io.OutputStream;
 import org.apache.cornerstone.services.Store;
 import org.apache.cornerstone.services.store.ObjectRepository;
@@ -23,11 +25,11 @@ import org.apache.cornerstone.services.store.ObjectRepository;
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:paul_hammant@yahoo.com">Paul Hammant</a>
  */
-public class File_Persistent_Object_Repository 
-    extends AbstractFileRepository  
+public class File_Persistent_Object_Repository
+    extends AbstractFileRepository
     implements Store.ObjectRepository, ObjectRepository
 {
-    protected String getExtensionDecorator() 
+    protected String getExtensionDecorator()
     {
         return ".FileObjectStore";
     }
@@ -45,7 +47,7 @@ public class File_Persistent_Object_Repository
             {
                 final ObjectInputStream stream = new ObjectInputStream( inputStream );
                 final Object object = stream.readObject();
-                if( DEBUG ) 
+                if( DEBUG )
                 {
                     getLogger().debug( "returning object " + object + " for key " + key );
                 }
@@ -55,16 +57,44 @@ public class File_Persistent_Object_Repository
             {
                 inputStream.close();
             }
-        } 
+        }
         catch( final Exception e )
         {
             throw new RuntimeException( "Exception caught while retrieving an object: " + e );
         }
     }
-   
+
+    public synchronized Object get( final String key , final ClassLoader classLoader )
+    {
+        try
+        {
+            final InputStream inputStream = getInputStream( key );
+
+            try
+            {
+                final ObjectInputStream stream = new FileStoreObjectInputStream( classLoader, inputStream );
+                final Object object = stream.readObject();
+                if( DEBUG )
+                {
+                    getLogger().debug( "returning object " + object + " for key " + key );
+                }
+                return object;
+            }
+            finally
+            {
+                inputStream.close();
+            }
+        }
+        catch( final Exception e )
+        {
+            throw new RuntimeException( "Exception caught while retrieving an object: " + e );
+        }
+
+    }
+
     /**
      * Store the given object and associates it to the given key
-     */ 
+     */
     public synchronized void put( final String key, final Object value )
     {
         try
@@ -81,10 +111,11 @@ public class File_Persistent_Object_Repository
             {
                 outputStream.close();
             }
-        } 
+        }
         catch( final Exception e )
         {
             throw new RuntimeException( "Exception caught while storing an object: " + e );
         }
     }
+
 }

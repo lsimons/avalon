@@ -14,10 +14,12 @@ import java.util.Iterator;
  *
  * @author Federico Barbieri <fede@apache.org>
  */
-public interface ObjectRepository 
+public interface ObjectRepository
     extends Repository
 {
     Object get( String key );
+
+    Object get( String key , ClassLoader classLoader );
 
     void put( String key, Object value );
 
