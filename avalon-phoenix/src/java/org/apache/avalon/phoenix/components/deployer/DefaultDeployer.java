@@ -38,6 +38,7 @@ import org.apache.avalon.phoenix.interfaces.DeployerMBean;
 import org.apache.avalon.phoenix.interfaces.DeploymentException;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.LogManager;
+import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
@@ -45,6 +46,7 @@ import org.apache.avalon.phoenix.tools.assembler.Assembler;
 import org.apache.avalon.phoenix.tools.assembler.AssemblyException;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
+import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.log.Hierarchy;
 import org.apache.excalibur.containerkit.verifier.VerifyException;
 
@@ -69,6 +71,7 @@ public class DefaultDeployer
     private Kernel m_kernel;
     private ConfigurationRepository m_repository;
     private ClassLoaderManager m_classLoaderManager;
+    private ConfigurationValidator m_validator;
 
     /**
      * The directory which is used as the base for
@@ -136,6 +139,7 @@ public class DefaultDeployer
         m_classLoaderManager = (ClassLoaderManager)serviceManager.
             lookup( ClassLoaderManager.ROLE );
         m_logManager = (LogManager)serviceManager.lookup( LogManager.ROLE );
+        m_validator = (ConfigurationValidator) serviceManager.lookup( ConfigurationValidator.ROLE );
     }
 
     public void initialize()
@@ -203,8 +207,9 @@ public class DefaultDeployer
 
             for( int i = 0; i < blocks.length; i++ )
             {
-                //remove configuration from repository
+                //remove configuration and schema from repository and validator
                 m_repository.storeConfiguration( name, blocks[ i ], null );
+                m_validator.storeSchema( name, blocks[ i ], null );
             }
 
             m_installer.uninstall( installation );
@@ -346,6 +351,55 @@ public class DefaultDeployer
         throws VerifyException
     {
         m_verifier.verifySar( metaData, classLoader );
+
+        storeConfigurationSchemas( metaData );
+    }
+
+    /**
+     * Store the configuration schemas for this application
+     *
+     * @param metaData the application metaData
+     * @throws VerifyException upon invalid schema
+     */
+    private void storeConfigurationSchemas( final SarMetaData metaData ) throws VerifyException
+    {
+        final BlockMetaData[] blocks = metaData.getBlocks();
+        int i = 0;
+
+        try
+        {
+            for( i = 0; i < blocks.length; i++ )
+            {
+                m_validator.storeSchema( metaData.getName(),
+                                         blocks[i].getName(),
+                                         blocks[i].getBlockInfo().getConfigurationSchema()
+                );
+            }
+        }
+        catch( ConfigurationException e ) //uh-oh, bad schema bad bad!
+        {
+            while( --i >= 0 ) //back out any schemas that we have already stored for this app
+            {
+                try
+                {
+                    m_validator.storeSchema( metaData.getName(),
+                                             blocks[i].getName(),
+                                             blocks[i].getBlockInfo().getConfigurationSchema()
+                    );
+                }
+                catch( ConfigurationException e1 ) // we *really* don't expect any errors here.. but you never know!
+                {
+                    final String message = REZ.getString( "deploy.error.config.schema.backoutfail",
+                                                          blocks[i].getName() );
+
+                    getLogger().error( message, e1 );
+                }
+            }
+
+            final String message = REZ.getString( "deploy.error.config.schema.invalid", blocks[i].getName() );
+
+            throw new VerifyException( message, e );
+        }
     }
 
     /**
@@ -381,6 +435,8 @@ public class DefaultDeployer
                                      final Configuration[] configurations )
         throws DeploymentException
     {
+        final String application = metaData.getName();
+
         for( int i = 0; i < configurations.length; i++ )
         {
             final Configuration configuration = configurations[ i ];
@@ -397,9 +453,18 @@ public class DefaultDeployer
 
             try
             {
-                m_repository.storeConfiguration( metaData.getName(),
-                                                 name,
-                                                 configuration );
+                if( m_validator.isFeasiblyValid( application, name, configuration ) )
+                {
+                    m_repository.storeConfiguration( application,
+                                                     name,
+                                                     configuration );
+                }
+                else
+                {
+                    final String message = REZ.getString( "deploy.error.config.invalid", name );
+
+                    throw new DeploymentException( message );
+                }
             }
             catch( final ConfigurationException ce )
             {
