@@ -49,9 +49,6 @@ public class ArtifactDescriptor implements Serializable
     private final String c_domain;
     private final String c_version;
 
-    private final String m_group;
-    private final String m_name;
-    private final String m_version;
     private final String m_build;
 
     private final Artifact m_artifact;
@@ -92,13 +89,13 @@ public class ArtifactDescriptor implements Serializable
                 throw new MetaException( error );
             }
 
-            m_group = getAttribute( attributes, Artifact.GROUP_KEY, "" );
-            m_name = getAttribute( attributes, Artifact.NAME_KEY, "" );
-            m_version = getAttribute( attributes, Artifact.VERSION_KEY, "" );
             m_build = getAttribute( attributes, BUILD_KEY, "" );
 
-            m_artifact = Artifact.createArtifact( m_group, m_name, m_version );
+            String group = getAttribute( attributes, Artifact.GROUP_KEY, "" );
+            String name = getAttribute( attributes, Artifact.NAME_KEY, "" );
+            String version = getAttribute( attributes, Artifact.VERSION_KEY, "" );
 
+            m_artifact = Artifact.createArtifact( group, name, version );
         }
         catch( NamingException e )
         {
@@ -167,9 +164,8 @@ public class ArtifactDescriptor implements Serializable
             ArtifactDescriptor meta = (ArtifactDescriptor) other;
             isEqual = isEqual && c_domain.equals( meta.c_domain );
             isEqual = isEqual && c_version.equals( meta.c_version );
-            isEqual = isEqual && m_group.equals( meta.m_version );
-            isEqual = isEqual && m_name.equals( meta.m_name );
-            isEqual = isEqual && m_version.equals( meta.m_version );
+            isEqual = isEqual && m_build.equals( meta.m_build );
+            isEqual = isEqual && m_artifact.equals( meta.m_artifact );
         }
         return isEqual;
     }
@@ -186,13 +182,12 @@ public class ArtifactDescriptor implements Serializable
         hash >>>= 13;
         hash ^= c_version.hashCode();
         hash >>>= 13;
-        hash ^= m_group.hashCode();
-        hash >>>= 13;
-        hash ^= m_version.hashCode();
-        hash >>>= 13;
         hash ^= m_build.hashCode();
         hash >>>= 13;
+        hash ^= m_artifact.hashCode();
+        hash >>>= 13;
         return hash;
+
     }
 
    /**

@@ -25,6 +25,7 @@ import javax.naming.NamingException;
 
 import junit.framework.TestCase;
 
+import org.apache.avalon.repository.Artifact;
 
 /**
  * 
@@ -85,18 +86,26 @@ public class MetaTest extends TestCase
 
     public void testIntegrity() throws Exception
     {
-        String domain = "aaa";
-        String version = "123";
+        String metadomain = "aaa";
+        String metaversion = "123";
+        String metabuild = "789";
+        String group = "bbb";
+        String name = "ccc";
+        String version = "ddd";
 
         Attributes attributes = new BasicAttributes();
-        attributes.put( ArtifactDescriptor.DOMAIN_KEY, domain );
-        attributes.put( ArtifactDescriptor.VERSION_KEY, version );
+        attributes.put( ArtifactDescriptor.DOMAIN_KEY, metadomain );
+        attributes.put( ArtifactDescriptor.VERSION_KEY, metaversion );
+        attributes.put( ArtifactDescriptor.BUILD_KEY, metabuild );
+        attributes.put( Artifact.GROUP_KEY, group );
+        attributes.put( Artifact.NAME_KEY, name );
+        attributes.put( Artifact.VERSION_KEY, version );
 
         try
         {
             ArtifactDescriptor meta = new ArtifactDescriptor( attributes );
-            assertEquals( "domain", meta.getDomain(), domain );
-            assertEquals( "version", meta.getVersion(), version );
+            assertEquals( "domain", meta.getDomain(), metadomain );
+            assertEquals( "version", meta.getVersion(), metaversion );
             assertEquals( "equals", meta, meta );
         }
         catch( Throwable e )
