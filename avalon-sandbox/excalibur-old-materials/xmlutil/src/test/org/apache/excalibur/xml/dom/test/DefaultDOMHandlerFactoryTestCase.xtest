@@ -25,7 +25,7 @@
 	</logkit>
 	<roles>
 		<role name="org.apache.excalibur.xml.dom.DOMHandlerFactory" shorthand="domhandler-factory" default-class="org.apache.excalibur.xml.dom.DefaultDOMHandlerFactory"/>
-		<role name="org.apache.excalibur.xml.sax.Parser" shorthand="parser" default-class="org.apache.excalibur.xml.impl.JaxpParser"/>
+		<role name="org.apache.excalibur.xml.sax.SAXParser" shorthand="parser" default-class="org.apache.excalibur.xml.impl.JaxpParser"/>
 	</roles>
 	<components>
 		<parser logger="test">

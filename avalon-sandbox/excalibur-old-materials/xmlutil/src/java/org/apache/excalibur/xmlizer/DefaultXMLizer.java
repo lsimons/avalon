@@ -16,7 +16,7 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
-import org.apache.excalibur.xml.sax.Parser;
+import org.apache.excalibur.xml.sax.SAXParser;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -34,7 +34,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/01/15 10:37:34 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/01/22 02:31:27 $
  */
 public final class DefaultXMLizer extends AbstractLogEnabled
         implements XMLizer, Serviceable, Configurable, ThreadSafe, Component
@@ -63,7 +63,7 @@ public final class DefaultXMLizer extends AbstractLogEnabled
         }
         if ( getLogger().isDebugEnabled() )
         {
-            getLogger().debug("XMLizer: Default parser is '"+Parser.ROLE+"'.");
+            getLogger().debug("XMLizer: Default parser is '"+SAXParser.ROLE+"'.");
         }
     }
 
@@ -101,12 +101,12 @@ public final class DefaultXMLizer extends AbstractLogEnabled
                         ", guessing text/xml";
                 getLogger().debug( message );
             }
-            parserRole = Parser.ROLE;
+            parserRole = SAXParser.ROLE;
         }
 
         try
         {
-            final Parser parser = (Parser) m_serviceManager.lookup( parserRole );
+            final SAXParser parser = (SAXParser) m_serviceManager.lookup( parserRole );
 
             final InputSource inputSource = new InputSource( stream );
             inputSource.setSystemId( systemID );
