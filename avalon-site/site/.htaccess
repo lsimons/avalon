@@ -1,8 +1,8 @@
 RedirectMatch ^/apps(.*) http://avalon.apache.org/phoenix/applications.html
-RedirectMatch ^/sandbox/meta(.*) http://avalon.apache.org/meta
-RedirectMatch ^/sandbox/merlin(.*) http://avalon.apache.org/merlin
-RedirectMatch ^/sandbox/api(.*) http://avalon.apache.org/merlin/api
-RedirectMatch ^/cornerstone(.*) http://avalon.apache.org/components
+RedirectMatch ^/sandbox/meta(.*) http://avalon.apache.org/meta/
+RedirectMatch ^/sandbox/merlin(.*) http://avalon.apache.org/merlin/
+RedirectMatch ^/sandbox/api(.*) http://avalon.apache.org/merlin/api/
+RedirectMatch ^/cornerstone(.*) http://avalon.apache.org/components/
 RedirectMatch ^/fortress(.*) http://avalon.apache.org/excalibur/fortress$1
 RedirectMatch ^/excalibur/compatibility(.*) http://avalon.apache.org/excalibur/no-docs-available.html
 RedirectMatch ^/excalibur/component(.*) http://avalon.apache.org/excalibur/no-docs-available.html
@@ -19,5 +19,6 @@ RedirectMatch ^/excalibur/store(.*) http://avalon.apache.org/excalibur/no-docs-a
 RedirectMatch ^/excalibur/thread(.*) http://avalon.apache.org/excalibur/no-docs-available.html
 RedirectMatch ^/excalibur/xfc(.*) http://avalon.apache.org/excalibur/no-docs-available.html
 RedirectMatch ^/downloads.cgi(.*) http://avalon.apache.org/download.cgi$1
-
-
+RedirectMatch ^/bindownload.cgi(.*) http://avalon.apache.org/download.cgi$1
+RedirectMatch ^/srcdownload.cgi(.*) http://avalon.apache.org/download.cgi$1
+RedirectMatch ^/containers(.*) http://avalon.apache.org/product/containers/
