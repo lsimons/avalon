@@ -628,11 +628,9 @@ Legal:
        <fileset dir="${build.testdocs}"/>
     </copy>
 
-<!--
     <copy todir="${dist.docs}">
       <fileset dir="${build.docs}"/>
     </copy>
--->
 
     <copy todir="${dist.javadocs}">
       <fileset dir="${build.javadocs}"/>
@@ -747,11 +745,9 @@ Legal:
       <fileset dir="${src.dir}"/>
     </copy>
 
-<!--
     <copy todir="${src.dist.docs}">
       <fileset dir="${build.docs}"/>
     </copy>
--->
 
     <copy todir="${src.dist.javadocs}">
       <fileset dir="${build.javadocs}"/>
