@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Main-Class: org.apache.merlin.magic.Main
+Main-Class: org.apache.avalon.magic.Main
 Class-Path: avalon-framework-api-4.2.0.jar bsh-2.0b1.jar junit.jar
   avalon-framework-impl-4.2.0.jar ant.jar ant-trax.jar tools.jar
 
