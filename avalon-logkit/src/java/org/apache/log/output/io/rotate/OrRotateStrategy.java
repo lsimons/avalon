@@ -10,11 +10,11 @@ package org.apache.log.output.io.rotate;
 import java.io.File;
 
 /**
- * Hierarchical Rotation stragety.
+ * Hierarchical rotation strategy.
  * This object is initialised with several rotation strategy objects.
  * The <code>isRotationNeeded</code> method checks the first rotation
  * strategy object. If a rotation is needed, this result is returned.
- * If not the next rotation strategy object is asked and so on.
+ * If not, the next rotation strategy object is checked, and so on.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  */

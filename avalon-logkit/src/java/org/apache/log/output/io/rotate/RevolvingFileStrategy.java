@@ -13,7 +13,7 @@ import java.text.FieldPosition;
 import java.text.NumberFormat;
 
 /**
- * strategy for naming log files based on appending revolving suffix.
+ * Strategy for naming log files based on appending a revolving suffix.
  *
  * @author <a href="mailto:bh22351@i-one.at">Bernhard Huber</a>
  */
