@@ -5,7 +5,7 @@
   <property file="build.properties"/>
 
   <target name="bootstrap">
-    <ant dir="${basedir}/tools/project"/>
+    <ant dir="${basedir}/tools/project" antfile="bootstrap.xml"/>
   </target>
 
   <target name="integrity-check">
