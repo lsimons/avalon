@@ -75,12 +75,7 @@
       </fileset>
     </copy>
 
-    <!--
-    TODO - build the demonstrations to include the the repository
-    directory (which is also linked to completing the documentation 
-    on getting started and the finalization of the block service access
-    and the finalization of repository semantics).
-    -->
+    <chmod file="${merlin.build.inst.dir}/bin/merlin.sh" perm="ugo+rx"/>
 
   </goal>
 
