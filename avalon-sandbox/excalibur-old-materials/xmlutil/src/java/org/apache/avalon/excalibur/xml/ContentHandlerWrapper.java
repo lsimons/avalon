@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.excalibur.xml;
 
-import org.apache.avalon.excalibur.pool.Recyclable;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
@@ -20,13 +19,14 @@ import org.xml.sax.ext.LexicalHandler;
  * its {@link XMLConsumer}s interface.
  * <br>
  *
+ * @deprecated Moved to org.apache.excalibur.xml.sax package. Modified to be 
+ * thread safe.
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
  *         (Apache Software Foundation, Computer Associates)
- * @version CVS $Revision: 1.4 $ $Date: 2002/08/06 18:13:02 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/10/15 23:19:45 $
  */
 public class ContentHandlerWrapper
     extends AbstractXMLConsumer
-    implements Recyclable
 {
     /** The current {@link ContentHandler}. */
     private ContentHandler m_contentHandler;
@@ -89,12 +89,6 @@ public class ContentHandlerWrapper
             throw new IllegalStateException();
         }
         m_lexicalHandler = lexicalHandler;
-    }
-
-    public void recycle()
-    {
-        m_contentHandler = null;
-        m_lexicalHandler = null;
     }
 
     /**
