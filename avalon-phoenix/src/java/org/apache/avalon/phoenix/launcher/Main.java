@@ -52,13 +52,10 @@ public final class Main
      * @param blocking false if the current thread is expected to return.
      *
      * @return the exit code which should be used to exit the JVM
-     *
-     * @throws Exception if an error occurs
      */
     protected static final int startup( final String[] args,
                                         final Map data,
                                         final boolean blocking )
-        throws Exception
     {
         int exitCode;
         try

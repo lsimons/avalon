@@ -22,17 +22,17 @@ import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 final class DefaultBlockContext
     implements BlockContext
 {
-    private String m_name;
-    private ApplicationContext m_applicationContext;
+    private final String m_name;
+    private final ApplicationContext m_applicationContext;
 
-    protected DefaultBlockContext( final String name,
+    DefaultBlockContext( final String name,
                                    final ApplicationContext frame )
     {
         m_name = name;
         m_applicationContext = frame;
     }
 
-    public Object get( Object key )
+    public Object get( final Object key )
         throws ContextException
     {
         if( BlockContext.APP_NAME.equals( key ) )

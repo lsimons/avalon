@@ -15,7 +15,7 @@ import org.apache.avalon.framework.context.Resolvable;
  * This provides utility methods for properties.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/08/06 11:57:39 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/02/22 04:03:26 $
  * @since 4.0
  */
 final class PropertyUtil
@@ -85,67 +85,6 @@ final class PropertyUtil
         return sb.toString();
     }
 
-    /**
-     * Resolve a string property. This recursively evaluates all property
-     * substitutions based on specified context.
-     *
-     * @param property the property to resolve
-     * @param context the context in which to resolve property
-     * @param ignoreUndefined if false will throw an Exception if property is not found
-     * @return the reolved property
-     * @exception Exception if an error occurs
-     */
-    public static Object recursiveResolveProperty( final String property,
-                                                   final Context context,
-                                                   final boolean ignoreUndefined )
-        throws Exception
-    {
-        int start = findBeginning( property, 0 );
-        if( -1 == start )
-        {
-            return property;
-        }
-
-        int end = findNestedEnding( property, start );
-
-        final int length = property.length();
-
-        if( 0 == start && end == (length - 1) )
-        {
-            final String propertyName = property.substring( start + 2, end );
-            final Object key = recursiveResolveProperty( propertyName, context, ignoreUndefined );
-            return resolveValue( key.toString(), context, ignoreUndefined );
-        }
-
-        final StringBuffer sb = new StringBuffer( length * 2 );
-
-        int lastPlace = 0;
-
-        while( true )
-        {
-            final String propertyName = property.substring( start + 2, end );
-            final Object key = recursiveResolveProperty( propertyName, context, ignoreUndefined );
-            final Object value = resolveValue( key.toString(), context, ignoreUndefined );
-
-            sb.append( property.substring( lastPlace, start ) );
-            sb.append( value );
-
-            lastPlace = end + 1;
-
-            start = findBeginning( property, lastPlace );
-            if( -1 == start )
-            {
-                break;
-            }
-
-            end = findNestedEnding( property, start );
-        }
-
-        sb.append( property.substring( lastPlace, length ) );
-
-        return sb.toString();
-    }
-
     private static int findBeginning( final String property, final int currentPosition )
     {
         //TODO: Check if it is commented out
@@ -163,43 +102,6 @@ final class PropertyUtil
         }
 
         return index;
-    }
-
-    private static int findNestedEnding( final String property, final int currentPosition )
-        throws Exception
-    {
-        final int length = property.length();
-        final int start = currentPosition + 2;
-
-        int weight = 1;
-        for( int i = start; (weight > 0) && (i < length); i++ )
-        {
-            final char ch = property.charAt( i );
-            switch( ch )
-            {
-                case '}':
-                    //TODO: Check if it is commented out
-                    weight--;
-                    if( weight == 0 )
-                    {
-                        return i;
-                    }
-                    break;
-
-                case '$':
-                    {
-                        //TODO: Check if it is commented out
-                        final int next = i + 1;
-                        if( next < length && '{' == property.charAt( next ) )
-                        {
-                            weight++;
-                        }
-                    }
-                    break;
-            }
-        }
-
-        throw new Exception( "Malformed property with mismatched }'s" );
     }
 
     /**

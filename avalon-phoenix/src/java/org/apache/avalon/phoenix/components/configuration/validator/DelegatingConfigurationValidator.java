@@ -35,13 +35,13 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
     private static final Resources REZ =
         ResourceManager.getPackageResources( DelegatingConfigurationValidator.class );
 
-    private Map m_blockTypeMap = Collections.synchronizedMap( new HashMap() );
+    private final Map m_blockTypeMap = Collections.synchronizedMap( new HashMap() );
 
-    private Map m_delegates = new HashMap();
+    private final Map m_delegates = new HashMap();
 
     private String m_supportedTypes;
 
-    public void configure( Configuration configuration )
+    public void configure( final Configuration configuration )
         throws ConfigurationException
     {
         final Configuration[] delegates = configuration.getChildren( "delegate" );
@@ -93,7 +93,7 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
         }
     }
 
-    public void addSchema( String application, String block, String schemaType, String url )
+    public void addSchema( final String application, final String block, final String schemaType, final String url )
         throws ConfigurationException
     {
         final DelegateEntry entry = (DelegateEntry)this.m_delegates.get( schemaType );
@@ -111,7 +111,7 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
         this.m_blockTypeMap.put( createKey( application, block ), schemaType );
     }
 
-    public boolean isFeasiblyValid( String application, String block, Configuration configuration )
+    public boolean isFeasiblyValid( final String application, final String block, final Configuration configuration )
         throws ConfigurationException
     {
         final ConfigurationValidator delegate = getDelegate( application, block );
@@ -119,7 +119,7 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
         return delegate.isFeasiblyValid( application, block, configuration );
     }
 
-    public boolean isValid( String application, String block, Configuration configuration )
+    public boolean isValid( final String application, final String block, final Configuration configuration )
         throws ConfigurationException
     {
         final ConfigurationValidator delegate = getDelegate( application, block );
@@ -127,7 +127,7 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
         return delegate.isValid( application, block, configuration );
     }
 
-    public void removeSchema( String application, String block )
+    public void removeSchema( final String application, final String block )
     {
         final String type = (String)m_blockTypeMap.get( createKey( application, block ) );
 
@@ -139,7 +139,7 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
         }
     }
 
-    private ConfigurationValidator getDelegate( String application, String block )
+    private ConfigurationValidator getDelegate( final String application, final String block )
         throws ConfigurationException
     {
         final String type = (String)this.m_blockTypeMap.get( createKey( application, block ) );
@@ -154,12 +154,12 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
         return ((DelegateEntry)this.m_delegates.get( type )).getValidator();
     }
 
-    private String createKey( String application, String block )
+    private String createKey( final String application, final String block )
     {
         return application + "." + block;
     }
 
-    public String getSchema( String application, String block )
+    public String getSchema( final String application, final String block )
     {
         final String type = (String)m_blockTypeMap.get( createKey( application, block ) );
 
@@ -179,7 +179,7 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
         return null;
     }
 
-    public String getSchemaType( String application, String block )
+    public String getSchemaType( final String application, final String block )
     {
         return (String)this.m_blockTypeMap.get( createKey( application, block ) );
     }

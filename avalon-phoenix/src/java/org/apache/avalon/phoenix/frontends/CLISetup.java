@@ -50,10 +50,10 @@ class CLISetup
     private static final int APPLICATION_OPT = 3;
 
     ///Parameters created by parsing CLI options
-    private Parameters m_parameters = new Parameters();
+    private final Parameters m_parameters = new Parameters();
 
     ///Command used to execute program
-    private String m_command;
+    private final String m_command;
 
     public CLISetup( final String command )
     {

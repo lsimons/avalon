@@ -44,7 +44,7 @@ import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
  * </ul>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/18 16:43:44 $
+ * @version $Revision: 1.2 $ $Date: 2003/02/22 04:03:29 $
  */
 public class AssemblyVerifier
     extends AbstractLogEnabled
@@ -63,7 +63,7 @@ public class AssemblyVerifier
     public void verifyAssembly( final ComponentProfile[] components )
         throws VerifyException
     {
-        String message = null;
+        String message;
 
         message = REZ.getString( "assembly.valid-names.notice" );
         getLogger().info( message );

@@ -68,7 +68,7 @@ class PolicyClassLoader
         super.addURL( url );
     }
 
-    protected final Logger getLogger()
+    private Logger getLogger()
     {
         return m_logger;
     }

@@ -11,7 +11,6 @@ import java.io.File;
 import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
-import java.net.URL;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
@@ -57,7 +56,7 @@ public class DefaultEmbeddor
 
     private static final String DEFAULT_APPS_PATH = "/apps";
 
-    private EmbeddorObservable m_observable = new EmbeddorObservable();
+    private final EmbeddorObservable m_observable = new EmbeddorObservable();
 
     private Parameters m_parameters;
 
@@ -569,8 +568,6 @@ public class DefaultEmbeddor
     {
         try
         {
-            final URL url =
-                getClass().getClassLoader().getResource( classname.replace('.','/') + ".class" );
             final Object object = Class.forName( classname ).newInstance();
             if( !service.isInstance( object ) )
             {

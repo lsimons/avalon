@@ -7,13 +7,12 @@
  */
 package org.apache.avalon.phoenix.tools.punit;
 
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.avalon.phoenix.BlockContext;
-
 import java.io.File;
 import java.io.InputStream;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.phoenix.BlockContext;
 
 /**
  * PUnitBlockContext
@@ -23,7 +22,6 @@ public class PUnitBlockContext
     extends DefaultContext
     implements BlockContext
 {
-
     public File getBaseDirectory()
     {
         try
@@ -52,17 +50,17 @@ public class PUnitBlockContext
     {
     }
 
-    public InputStream getResourceAsStream( String name )
+    public InputStream getResourceAsStream( final String name )
     {
         return null;
     }
 
-    public Logger getLogger( String name )
+    public Logger getLogger( final String name )
     {
         throw new UnsupportedOperationException();
     }
 
-    public ClassLoader getClassLoader( String name )
+    public ClassLoader getClassLoader( final String name )
         throws Exception
     {
         return null;

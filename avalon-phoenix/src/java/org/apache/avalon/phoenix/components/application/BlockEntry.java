@@ -7,10 +7,10 @@
  */
 package org.apache.avalon.phoenix.components.application;
 
-import org.apache.avalon.phoenix.components.ContainerConstants;
 import org.apache.avalon.framework.info.Attribute;
 import org.apache.avalon.framework.info.ComponentInfo;
 import org.apache.avalon.framework.info.ServiceDescriptor;
+import org.apache.avalon.phoenix.components.ContainerConstants;
 import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
 
 /**
@@ -21,7 +21,7 @@ import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
 class BlockEntry
 {
     private Object m_object;
-    private ComponentProfile m_componentProfile;
+    private final ComponentProfile m_componentProfile;
     private BlockInvocationHandler m_invocationHandler;
 
     public BlockEntry( final ComponentProfile componentProfile )
@@ -91,7 +91,7 @@ class BlockEntry
         return false;
     }
 
-    protected synchronized void invalidate()
+    synchronized void invalidate()
     {
         if( null != m_invocationHandler )
         {

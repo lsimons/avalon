@@ -26,7 +26,7 @@ class SarPolicy
     implements LogEnabled, Initializable
 {
     private Logger m_logger;
-    private Map m_grants;
+    private final Map m_grants;
 
     public SarPolicy( final Map grants )
         throws Exception

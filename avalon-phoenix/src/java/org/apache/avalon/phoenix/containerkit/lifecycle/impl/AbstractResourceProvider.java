@@ -44,7 +44,7 @@ import org.apache.avalon.phoenix.containerkit.metadata.DependencyMetaData;
  * {@link org.apache.avalon.phoenix.containerkit.verifier.AssemblyVerifier}</p>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/18 16:43:44 $
+ * @version $Revision: 1.2 $ $Date: 2003/02/22 04:03:28 $
  */
 public abstract class AbstractResourceProvider
     extends AbstractLogEnabled
@@ -55,6 +55,11 @@ public abstract class AbstractResourceProvider
 
     private final ComponentFactory m_factory;
 
+    /**
+     * Create an abstract provider which the specified ComponentFactory.
+     *
+     * @param factory the ComponentFactory
+     */
     protected AbstractResourceProvider( final ComponentFactory factory )
     {
         if( null == factory )
@@ -113,7 +118,7 @@ public abstract class AbstractResourceProvider
      * @return a new Parameters object for component
      * @throws Exception if unable to create resource
      */
-    public Parameters createParameters( Object entry )
+    public Parameters createParameters( final Object entry )
         throws Exception
     {
         final ComponentMetaData component = getMetaData( entry );
@@ -136,7 +141,7 @@ public abstract class AbstractResourceProvider
      * @return a new Configuration object for component
      * @throws Exception if unable to create resource
      */
-    public Configuration createConfiguration( Object entry )
+    public Configuration createConfiguration( final Object entry )
         throws Exception
     {
         final ComponentMetaData component = getMetaData( entry );

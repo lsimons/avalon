@@ -19,9 +19,9 @@ import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.ConfigurationUtil;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.configuration.DefaultConfigurationSerializer;
-import org.apache.avalon.framework.configuration.ConfigurationUtil;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
@@ -69,7 +69,7 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
 
     private File m_storageDirectory;
 
-    public void contextualize( Context context )
+    public void contextualize( final Context context )
         throws ContextException
     {
         m_context = context;
@@ -141,7 +141,7 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
         }
     }
 
-    private void loadConfigurations( File appPath )
+    private void loadConfigurations( final File appPath )
         throws IOException, SAXException, ConfigurationException
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
@@ -181,7 +181,7 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
         serializer.serializeToFile( new File( directory, block + ".xml" ), configuration );
     }
 
-    public void removeConfiguration( String application, String block )
+    public void removeConfiguration( final String application, final String block )
         throws ConfigurationException
     {
         m_transientConfigurations.removeConfiguration( application, block );
@@ -301,7 +301,7 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
         }
     }
 
-    public boolean hasConfiguration( String application, String block )
+    public boolean hasConfiguration( final String application, final String block )
     {
         return m_mergedConfigurations.hasConfiguration( application, block )
             || m_transientConfigurations.hasConfiguration( application, block )

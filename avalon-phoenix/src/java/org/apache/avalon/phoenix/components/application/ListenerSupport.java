@@ -11,10 +11,10 @@ import org.apache.avalon.phoenix.ApplicationEvent;
 import org.apache.avalon.phoenix.ApplicationListener;
 import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.avalon.phoenix.BlockListener;
-import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.components.util.ComponentInfoConverter;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
+import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.avalon.phoenix.metainfo.BlockInfo;
 
 /**
  * Manage a set of {@link ApplicationListener} objects and propogate
@@ -175,7 +175,7 @@ final class ListenerSupport
      *
      * @param event the ApplicationEvent
      */
-    public synchronized void applicationStarting( final ApplicationEvent event )
+    private synchronized void applicationStarting( final ApplicationEvent event )
         throws Exception
     {
         for( int i = 0; i < m_listeners.length; i++ )
@@ -224,7 +224,7 @@ final class ListenerSupport
      * Notification that the application has failed
      *
      */
-    public synchronized void applicationFailure( Exception causeOfFailure )
+    public synchronized void applicationFailure( final Exception causeOfFailure )
     {
         for( int i = 0; i < m_listeners.length; i++ )
         {
@@ -238,7 +238,7 @@ final class ListenerSupport
      *
      * @param event the BlockEvent
      */
-    public synchronized void blockAdded( final BlockEvent event )
+    private synchronized void blockAdded( final BlockEvent event )
     {
         for( int i = 0; i < m_listeners.length; i++ )
         {
@@ -258,7 +258,7 @@ final class ListenerSupport
      *
      * @param event the BlockEvent
      */
-    public synchronized void blockRemoved( final BlockEvent event )
+    private synchronized void blockRemoved( final BlockEvent event )
     {
         for( int i = 0; i < m_listeners.length; i++ )
         {

@@ -111,13 +111,10 @@ public final class CLIMain
 
     /**
      * Actually create and execute the main component of embeddor.
-     *
-     * @throws Exception if an error occurs
      */
     private void execute( final Parameters parameters,
                           final Map data,
                           final boolean blocking )
-        throws Exception
     {
         if( !startup( parameters, data ) )
         {
@@ -331,9 +328,9 @@ public final class CLIMain
 final class ShutdownHook
     extends Thread
 {
-    private CLIMain m_main;
+    private final CLIMain m_main;
 
-    protected ShutdownHook( CLIMain main )
+    protected ShutdownHook( final CLIMain main )
     {
         m_main = main;
     }

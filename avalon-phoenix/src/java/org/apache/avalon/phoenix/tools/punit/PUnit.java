@@ -7,8 +7,8 @@
  */
 package org.apache.avalon.phoenix.tools.punit;
 
-import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleException;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleException;
 
 /**
  * PUnit helper
@@ -16,7 +16,6 @@ import org.apache.avalon.framework.configuration.Configuration;
  */
 public interface PUnit
 {
-
     /**
      * Query the log
      * @param startsWith For an expression that starts with this
@@ -38,17 +37,16 @@ public interface PUnit
      * @param serviceName The service name (for lookup)
      * @param configuration The configuration
      */
-    void addBlock( final String blockName,
-                             final String serviceName,
-                             final Object block,
-                             final Configuration configuration );
+    void addBlock( String blockName,
+                   String serviceName,
+                   Object block,
+                   Configuration configuration );
 
     /**
      * Run blocks thru startup.
      * @throws LifecycleException If a problem
      */
     void startup() throws LifecycleException;
-
 
     /**
      * Run blocks thru shutdown

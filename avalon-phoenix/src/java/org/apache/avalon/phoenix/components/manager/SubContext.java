@@ -68,7 +68,7 @@ class SubContext
      *            classes, the name is already registered etc.
      * @throws IllegalArgumentException if object or interfaces is null
      */
-    public void register( String name, Object object, Class[] interfaces )
+    public void register( final String name, final Object object, final Class[] interfaces )
         throws ManagerException, IllegalArgumentException
     {
         m_parent.register( jmxName( name ), object, interfaces );
@@ -85,7 +85,7 @@ class SubContext
      * @throws ManagerException if an error occurs such as name already registered.
      * @throws IllegalArgumentException if object is null
      */
-    public void register( String name, Object object )
+    public void register( final String name, final Object object )
         throws ManagerException, IllegalArgumentException
     {
         m_parent.register( jmxName( name ), object );
@@ -97,7 +97,7 @@ class SubContext
      * @param name the name of object to unregister
      * @throws ManagerException if an error occurs such as when no such object registered.
      */
-    public void unregister( String name )
+    public void unregister( final String name )
         throws ManagerException
     {
         m_parent.unregister( jmxName( name ) );

@@ -25,7 +25,7 @@ class DelegateEntry
 
     private ConfigurationValidator m_validator;
 
-    public DelegateEntry( String schemaType, String className, Configuration configuration )
+    public DelegateEntry( final String schemaType, final String className, final Configuration configuration )
     {
         this.m_className = className;
         this.m_configuration = configuration;
@@ -52,7 +52,7 @@ class DelegateEntry
         return this.m_validator;
     }
 
-    public void setValidator( ConfigurationValidator validator )
+    public void setValidator( final ConfigurationValidator validator )
     {
         this.m_validator = validator;
     }

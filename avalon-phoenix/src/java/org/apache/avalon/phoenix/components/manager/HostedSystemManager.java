@@ -10,12 +10,6 @@ package org.apache.avalon.phoenix.components.manager;
 import java.util.ArrayList;
 import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.Contextualizable;
 
 /**
  * This is a hosted version of System Manager. It assumes
@@ -29,7 +23,7 @@ public class HostedSystemManager
     protected MBeanServer createMBeanServer()
         throws Exception
     {
-        ArrayList serverList = MBeanServerFactory.findMBeanServer( null );
+        final ArrayList serverList = MBeanServerFactory.findMBeanServer( null );
 
         if( serverList.size() == 0 )
         {

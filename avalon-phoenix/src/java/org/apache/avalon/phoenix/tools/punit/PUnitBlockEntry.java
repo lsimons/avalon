@@ -16,9 +16,9 @@ import org.apache.avalon.phoenix.containerkit.lifecycle.ResourceProvider;
  */
 public class PUnitBlockEntry
 {
-    private String m_blockName;
-    private Object m_block;
-    private ResourceProvider m_resourceProvider;
+    private final String m_blockName;
+    private final Object m_block;
+    private final ResourceProvider m_resourceProvider;
 
     /**
      * Construct a PUnitBlockEntry

@@ -12,8 +12,6 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.tools.verifier.InfoVerifier;
 import org.apache.avalon.framework.tools.verifier.VerifyException;
-import org.apache.avalon.phoenix.Block;
-import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.components.ContainerConstants;
 import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
 import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
@@ -46,13 +44,18 @@ import org.apache.avalon.phoenix.containerkit.verifier.AssemblyVerifier;
  * </ul>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.30 $ $Date: 2003/01/25 15:47:18 $
+ * @version $Revision: 1.31 $ $Date: 2003/02/22 04:03:30 $
  */
 public class SarVerifier
     extends AssemblyVerifier
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( SarVerifier.class );
+
+    private static final Class BLOCK_CLASS =
+        getClass( "org.apache.avalon.phoenix.Block" );
+    private static final Class BLOCKLISTENER_CLASS =
+        getClass( "org.apache.avalon.phoenix.BlockListener" );
 
     private final InfoVerifier m_infoVerifier = new InfoVerifier();
 
@@ -68,6 +71,7 @@ public class SarVerifier
      * in the Class javadocs.
      *
      * @param profile the Sar profile
+     * @param classLoader the classloader to load types from
      * @throws VerifyException if an error occurs
      */
     public void verifySar( final PartitionProfile profile,
@@ -79,7 +83,7 @@ public class SarVerifier
         final ComponentProfile[] listeners =
             profile.getPartition( ContainerConstants.LISTENER_PARTITION ).getComponents();
 
-        String message = null;
+        String message;
 
         message = REZ.getString( "verify-valid-names" );
         getLogger().info( message );
@@ -106,6 +110,7 @@ public class SarVerifier
      * advertised interfaces.
      *
      * @param blocks the ComponentProfile objects for the blocks
+     * @param classLoader the Classloader to load type from
      * @throws VerifyException if an error occurs
      */
     private void verifyBlocksType( final ComponentProfile[] blocks,
@@ -123,6 +128,7 @@ public class SarVerifier
      * advertised interfaces.
      *
      * @param block the BlockMetaData object for the blocks
+     * @param classLoader the classloader to load type from
      * @throws VerifyException if an error occurs
      */
     private void verifyBlockType( final ComponentProfile block,
@@ -137,7 +143,7 @@ public class SarVerifier
                                    block.getInfo(),
                                    classLoader );
 
-        if( Block.class.isAssignableFrom( clazz ) )
+        if( BLOCK_CLASS.isAssignableFrom( clazz ) )
         {
             final String message =
                 REZ.getString( "verifier.implements-block.error",
@@ -171,6 +177,7 @@ public class SarVerifier
      * Verfiy that all listeners implement BlockListener.
      *
      * @param listeners the BlockListenerMetaData objects for the listeners
+     * @param classLoader the classloader to load type from
      * @throws VerifyException if an error occurs
      */
     private void verifyListenersType( final ComponentProfile[] listeners,
@@ -187,6 +194,7 @@ public class SarVerifier
      * Verfiy that specified Listener class implements the BlockListener interface.
      *
      * @param listener the BlockListenerMetaData object for the listener
+     * @param classLoader the classloader to laod type from
      * @throws VerifyException if an error occurs
      */
     private void verifyListenerType( final ComponentProfile listener,
@@ -195,7 +203,7 @@ public class SarVerifier
     {
         final ComponentMetaData metaData = listener.getMetaData();
         final Class clazz = loadClass( "listener", metaData, classLoader );
-        if( !BlockListener.class.isAssignableFrom( clazz ) )
+        if( !BLOCKLISTENER_CLASS.isAssignableFrom( clazz ) )
         {
             final String message =
                 REZ.getString( "listener-noimpl-listener",
@@ -310,6 +318,27 @@ public class SarVerifier
                 final String message = REZ.getString( "duplicate-name", name );
                 throw new VerifyException( message );
             }
+        }
+    }
+
+    /**
+     * Load class with specified name and throw a
+     * IllegalStateException if unable to load class.
+     *
+     * @param classname the name of class to load
+     * @return the Class object
+     */
+    private static Class getClass( final String classname )
+    {
+        try
+        {
+            return Class.forName( classname );
+        }
+        catch( final ClassNotFoundException cnfe )
+        {
+            final String message = "Unable to lcoate class " +
+                classname + " due to " + cnfe;
+            throw new IllegalStateException( message );
         }
     }
 }

@@ -78,7 +78,7 @@ public class JarvConfigurationValidator
      * @see <a href="http://iso-relax.sourceforge.net/apiDoc/org/iso_relax/verifier/VerifierFactory.html#newInstance(java.lang.String)">
      *    http://iso-relax.sourceforge.net/apiDoc/org/iso_relax/verifier/VerifierFactory.html#newInstance(java.lang.String)</a>
      */
-    public void configure( Configuration configuration )
+    public void configure( final Configuration configuration )
         throws ConfigurationException
     {
         m_debugPath = configuration.getChild( "debug-output-path" ).getValue( null );
@@ -115,12 +115,12 @@ public class JarvConfigurationValidator
         m_serializer.setIndent( true );
     }
 
-    private String createKey( String application, String block )
+    private String createKey( final String application, final String block )
     {
         return application + "." + block;
     }
 
-    public void addSchema( String application, String block, String schemaType, String url )
+    public void addSchema( final String application, final String block, final String schemaType, final String url )
         throws ConfigurationException
     {
         if( !m_schemaType.equals( schemaType ) )
@@ -204,7 +204,7 @@ public class JarvConfigurationValidator
 
             verifier.setErrorHandler( new ErrorHandler()
             {
-                public void warning( SAXParseException exception )
+                public void warning( final SAXParseException exception )
                     throws SAXException
                 {
                     if( getLogger().isWarnEnabled() )
@@ -215,7 +215,7 @@ public class JarvConfigurationValidator
                     }
                 }
 
-                public void error( SAXParseException exception )
+                public void error( final SAXParseException exception )
                     throws SAXException
                 {
                     if( getLogger().isErrorEnabled() )
@@ -287,7 +287,7 @@ public class JarvConfigurationValidator
         }
     }
 
-    public void removeSchema( String application, String block )
+    public void removeSchema( final String application, final String block )
     {
         final String key = createKey( application, block );
         m_schemaURLs.remove( key );
@@ -301,12 +301,12 @@ public class JarvConfigurationValidator
         }
     }
 
-    public String getSchemaType( String application, String block )
+    public String getSchemaType( final String application, final String block )
     {
         return m_schemaType;
     }
 
-    public String getSchema( String application, String block )
+    public String getSchema( final String application, final String block )
     {
         final String key = createKey( application, block );
         final String url = (String)m_schemaURLs.get( key );

@@ -35,8 +35,8 @@ import org.apache.excalibur.loader.metadata.ClassLoaderMetaData;
 import org.apache.excalibur.loader.metadata.ClassLoaderSetMetaData;
 import org.apache.excalibur.loader.metadata.FileSetMetaData;
 import org.apache.excalibur.loader.metadata.JoinMetaData;
-import org.apache.excalibur.loader.verifier.ClassLoaderVerifier;
 import org.apache.excalibur.loader.reader.ClassLoaderSetReader;
+import org.apache.excalibur.loader.verifier.ClassLoaderVerifier;
 import org.apache.excalibur.policy.builder.PolicyBuilder;
 import org.apache.excalibur.policy.metadata.PolicyMetaData;
 import org.apache.excalibur.policy.reader.PolicyReader;
@@ -113,7 +113,7 @@ public class DefaultClassLoaderManager
      * @param context the context
      * @throws ContextException if context does not contain common classloader
      */
-    public void contextualize( Context context )
+    public void contextualize( final Context context )
         throws ContextException
     {
         m_commonClassLoader = (ClassLoader)context.get( "common.classloader" );

@@ -26,9 +26,9 @@ public class MBeanScripter
     private final static Converter c_valueConverter =
         new SimpleMasterConverter();
 
-    private MBeanServer m_mBeanServer;
-    private Configuration m_configuration;
-    private ObjectName m_objectName;
+    private final MBeanServer m_mBeanServer;
+    private final Configuration m_configuration;
+    private final ObjectName m_objectName;
 
     public MBeanScripter( final MBeanServer mBeanServer,
                           final Configuration configuration )

@@ -17,17 +17,17 @@ import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
 import javax.management.ObjectName;
 import javax.management.ReflectionException;
+import mx4j.adaptor.rmi.jrmp.JRMPAdaptorMBean;
+import mx4j.log.Log;
+import mx4j.util.StandardMBeanProxy;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-import mx4j.adaptor.rmi.jrmp.JRMPAdaptorMBean;
-import mx4j.log.Log;
-import mx4j.util.StandardMBeanProxy;
 
 /**
  * This component is responsible for managing phoenix instance.
@@ -58,7 +58,7 @@ public class MX4JSystemManager
     private String m_password;
     private String m_username;
 
-    public void contextualize( Context context )
+    public void contextualize( final Context context )
         throws ContextException
     {
         m_homeDir = (File)context.get( "phoenix.home" );
@@ -69,7 +69,7 @@ public class MX4JSystemManager
     {
         m_host = configuration.getChild( "manager-adaptor-host" ).
             getValue( DEFAULT_HTTPADAPTER_HOST );
-        
+
         m_port = configuration.getChild( "manager-adaptor-port" ).
             getValueAsInteger( DEFAULT_HTTPADAPTER_PORT );
 
@@ -199,7 +199,7 @@ public class MX4JSystemManager
         // Create the JRMP adaptor
         final ObjectName adaptor = new ObjectName( "Adaptor:protocol=JRMP" );
         server.createMBean( "mx4j.adaptor.rmi.jrmp.JRMPAdaptor", adaptor, null );
-        JRMPAdaptorMBean mbean =
+        final JRMPAdaptorMBean mbean =
             (JRMPAdaptorMBean)StandardMBeanProxy.create( JRMPAdaptorMBean.class,
                                                          server,
                                                          adaptor );

@@ -7,21 +7,21 @@
  */
 package org.apache.avalon.phoenix.components.application;
 
+import java.util.ArrayList;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.CascadingException;
-import org.apache.avalon.framework.tools.infobuilder.LegacyUtil;
 import org.apache.avalon.framework.info.ServiceDescriptor;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.phoenix.interfaces.ApplicationContext;
+import org.apache.avalon.framework.tools.infobuilder.LegacyUtil;
 import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
-import java.util.ArrayList;
+import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 
 /**
  * Utility class to help with exporting Blocks to management subsystem.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/01/25 15:47:17 $
+ * @version $Revision: 1.5 $ $Date: 2003/02/22 04:03:25 $
  */
 class ExportHelper
     extends AbstractLogEnabled
@@ -102,8 +102,7 @@ class ExportHelper
      * services, into management system.
      */
     void unexportBlock( final ApplicationContext context,
-                        final ComponentProfile profile,
-                        final Object block )
+                        final ComponentProfile profile )
     {
         final String name = profile.getMetaData().getName();
         try

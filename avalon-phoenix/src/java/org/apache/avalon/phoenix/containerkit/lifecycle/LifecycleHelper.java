@@ -62,6 +62,7 @@ public class LifecycleHelper
      * @param name the name of the component
      * @param entry the entry representing object
      * @param provider the resource provider
+     * @return the newly created component 
      * @throws LifecycleException if an error occurs when the component passes
      *     through a specific lifecycle stage
      */
@@ -167,6 +168,7 @@ public class LifecycleHelper
      *
      * @param name the name of the component
      * @param object the component to shutdown
+     * @throws LifecycleException if unable to process component
      */
     public void shutdown( final String name,
                           final Object object )

@@ -17,17 +17,17 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.containerkit.lifecycle.ResourceProvider;
 import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
 import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
+import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 
 /**
  * The accessor used to access resources for a particular
  * Block or Listener.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003/01/26 23:32:43 $
+ * @version $Revision: 1.7 $ $Date: 2003/02/22 04:03:25 $
  */
 class ListenerResourceProvider
     extends AbstractLogEnabled
@@ -83,7 +83,7 @@ class ListenerResourceProvider
         return m_context.getLogger( name );
     }
 
-    public Context createContext( Object entry )
+    public Context createContext( final Object entry )
         throws Exception
     {
         throw new UnsupportedOperationException();

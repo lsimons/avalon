@@ -48,7 +48,7 @@ public class JMXLauncher
     /**
      * MBean accessor to set the Phoenix home directory
      */
-    public void setPhoenixHome( String value )
+    public void setPhoenixHome( final String value )
     {
         m_phoenixHome = value;
     }
@@ -64,7 +64,7 @@ public class JMXLauncher
     /**
      * MBean accessor to set the Phoenix ConfigFile directory
      */
-    public void setPhoenixConfigFile( String value )
+    public void setPhoenixConfigFile( final String value )
     {
         m_phoenixConfigFile = value;
     }
@@ -80,7 +80,7 @@ public class JMXLauncher
     /**
      * MBean accessor to set the Phoenix applications directory
      */
-    public void setAppsPath( String value )
+    public void setAppsPath( final String value )
     {
         m_appsPath = value;
     }
@@ -96,7 +96,7 @@ public class JMXLauncher
     /**
      * MBean accessor to set the name of the Phoenix log file
      */
-    public void setLogFilename( String value )
+    public void setLogFilename( final String value )
     {
         m_logFilename = value;
     }
@@ -112,7 +112,7 @@ public class JMXLauncher
     /**
      * MBean accessor to set the Phoenix debug flag
      */
-    public void setPhoenixDebug( String value )
+    public void setPhoenixDebug( final String value )
     {
         m_debugPhoenix = new Boolean( value ).booleanValue();
     }
@@ -176,7 +176,9 @@ public class JMXLauncher
             args[ idx++ ] = "--disable-hook";
 
             if( m_debugPhoenix )
-                args[ idx++ ] = "-d";
+            {
+                args[ idx ] = "-d";
+            }
 
             System.setProperty( "phoenix.home", m_phoenixHome );
 
@@ -234,7 +236,7 @@ public class JMXLauncher
     /**
      * Runs the thread which launches James
      */
-    private void startPhoenix( String[] args, Map data )
+    private void startPhoenix( final String[] args, final Map data )
     {
         int exitCode;
 

@@ -67,7 +67,7 @@ public class DefaultConfigurationRepository
         return configuration;
     }
 
-    public boolean hasConfiguration( String application, String block )
+    public boolean hasConfiguration( final String application, final String block )
     {
         final String name = application + "." + block;
 

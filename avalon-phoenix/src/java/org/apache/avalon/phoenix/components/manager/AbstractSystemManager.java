@@ -96,7 +96,7 @@ public abstract class AbstractSystemManager
      * @throws ManagerException if context cannot be created or retrieved
      * @return  the subcontext with the specified name
      */
-    public SystemManager getSubContext( String parent, String type )
+    public SystemManager getSubContext( final String parent, final String type )
         throws ManagerException
     {
         return m_subContext.getSubContext( parent, type );

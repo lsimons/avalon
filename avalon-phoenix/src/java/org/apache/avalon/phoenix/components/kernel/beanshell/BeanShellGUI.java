@@ -23,15 +23,15 @@ import org.apache.avalon.phoenix.interfaces.Kernel;
 
 /**
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class BeanShellGUI
     extends JPanel
     implements ActionListener
 {
-    private JConsole m_jConsole;
+    private final JConsole m_jConsole;
 
-    private Interpreter m_interpreter;
+    private final Interpreter m_interpreter;
 
     private Thread m_thread;
 
@@ -40,7 +40,7 @@ public class BeanShellGUI
     /**
      * Construct a BeanShellGUI with a handle on the Kernel.
      */
-    public BeanShellGUI( Kernel kernel )
+    public BeanShellGUI( final Kernel kernel )
     {
         setPreferredSize( new Dimension( 600, 480 ) );
 
@@ -70,9 +70,9 @@ public class BeanShellGUI
         m_frame.setDefaultCloseOperation( JFrame.DO_NOTHING_ON_CLOSE );
         m_frame.getContentPane().add( this, BorderLayout.CENTER );
 
-        JMenuBar menubar = new JMenuBar();
-        JMenu menu = new JMenu( "File" );
-        JMenuItem mi = new JMenuItem( "Close" );
+        final JMenuBar menubar = new JMenuBar();
+        final JMenu menu = new JMenu( "File" );
+        final JMenuItem mi = new JMenuItem( "Close" );
 
         mi.addActionListener( this );
         menu.add( mi );

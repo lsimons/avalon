@@ -13,15 +13,15 @@ package org.apache.avalon.phoenix.tools.metagenerate;
  */
 public class NamedXmlSnippet implements Comparable
 {
-    private String m_name;
-    private String m_xml;
+    private final String m_name;
+    private final String m_xml;
 
     /**
      * Construct an NamedXmlSnippet
      * @param name The node name
      * @param xml the XML
      */
-    public NamedXmlSnippet(String name, String xml)
+    public NamedXmlSnippet(final String name, final String xml)
     {
         this.m_name = name;
         this.m_xml = xml;
@@ -50,9 +50,9 @@ public class NamedXmlSnippet implements Comparable
      * @param object The object to compare to.
      * @return whichever is order precidence
      */
-    public int compareTo(Object object)
+    public int compareTo(final Object object)
     {
-        NamedXmlSnippet attr = (NamedXmlSnippet) object;
+        final NamedXmlSnippet attr = (NamedXmlSnippet) object;
         return m_name.compareTo(attr.getName());
     }
 }

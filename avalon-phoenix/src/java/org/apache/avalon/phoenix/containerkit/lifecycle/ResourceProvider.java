@@ -19,10 +19,11 @@ import org.apache.avalon.framework.service.ServiceManager;
  * are aquired.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/18 16:43:43 $
+ * @version $Revision: 1.2 $ $Date: 2003/02/22 04:03:28 $
  */
 public interface ResourceProvider
 {
+    /** Role string used to access service. */
     String ROLE = ResourceProvider.class.getName();
 
     /**
