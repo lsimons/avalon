@@ -37,7 +37,6 @@ public class MxInfoSubTask
         final URL resource = getClass().getResource( DEFAULT_TEMPLATE_FILE );
         setTemplateURL( resource );
         setDestinationFile( GENERATED_FILE_NAME );
-        setHavingClassTag( "phoenix:mx-topic" );
 
         final TemplateSubTask.ExtentTypes extent = new TemplateSubTask.ExtentTypes();
         extent.setValue( "hierarchy" );
@@ -100,13 +99,9 @@ public class MxInfoSubTask
     protected boolean matchesGenerationRules( final XClass clazz )
         throws XDocletException
     {
-        if( !super.matchesGenerationRules( clazz ) )
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        // need to do this here instead of setting setHavingClassTag() because want to match on either
+        // phoenix:mx-topic or phoenix:mx-proxy.
+        return super.matchesGenerationRules( clazz ) &&
+                ( clazz.doc().hasTag("phoenix:mx-topic", false) || clazz.doc().hasTag("phoenix:mx-proxy", false) );
     }
 }
