@@ -1,9 +1,9 @@
-/* 
- * Copyright (C) The Apache Software Foundation. All rights reserved. 
- * 
- * This software is published under the terms of the Apache Software License 
- * version 1.1, a copy of which has been included with this distribution in 
- * the LICENSE file. 
+/*
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included with this distribution in
+ * the LICENSE file.
  */
 package org.apache.phoenix.engine.facilities.classloader;
 
@@ -11,13 +11,13 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.Policy;
-import org.apache.avalon.ComponentManager;
-import org.apache.avalon.ComponentManagerException;
-import org.apache.avalon.Composer;
-import org.apache.avalon.Context;
-import org.apache.avalon.Contextualizable;
 import org.apache.avalon.Initializable;
 import org.apache.avalon.atlantis.Facility;
+import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.component.ComponentManager;
+import org.apache.avalon.component.Composable;
+import org.apache.avalon.context.Context;
+import org.apache.avalon.context.Contextualizable;
 import org.apache.excalibur.io.ExtensionFileFilter;
 import org.apache.phoenix.engine.SarContextResources;
 import org.apache.phoenix.engine.facilities.PolicyManager;
@@ -29,7 +29,7 @@ import org.apache.phoenix.engine.facilities.PolicyManager;
  */
 public class SarClassLoader
     extends PolicyClassLoader
-    implements Facility, Contextualizable, Composer, Initializable
+    implements Facility, Contextualizable, Composable, Initializable
 {
     protected File              m_baseDirectory;
 
@@ -44,7 +44,7 @@ public class SarClassLoader
     }
 
     public void compose( final ComponentManager componentManager )
-        throws ComponentManagerException
+        throws ComponentException
     {
         final PolicyManager policyManager = (PolicyManager)componentManager.
             lookup( "org.apache.phoenix.engine.facilities.PolicyManager" );

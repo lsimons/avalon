@@ -9,16 +9,17 @@ package org.apache.phoenix.engine.blocks;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import org.apache.avalon.AbstractLoggable;
-import org.apache.avalon.ComponentManager;
-import org.apache.avalon.ComponentManagerException;
-import org.apache.avalon.Composer;
 import org.apache.avalon.camelot.Container;
 import org.apache.avalon.camelot.ContainerException;
+import org.apache.avalon.component.Component;
+import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.component.ComponentManager;
+import org.apache.avalon.component.Composable;
+import org.apache.avalon.logger.AbstractLoggable;
+import org.apache.avalon.util.Enum;
 import org.apache.phoenix.Block;
 import org.apache.phoenix.metainfo.DependencyDescriptor;
 import org.apache.phoenix.metainfo.ServiceDescriptor;
-import org.apache.avalon.util.Enum;
 
 /**
  * This is the dependency graph for blocks.
@@ -27,7 +28,7 @@ import org.apache.avalon.util.Enum;
  */
 public class BlockDAG
     extends AbstractLoggable
-    implements Composer
+    implements Component, Composable
 {
     public final static Traversal  FORWARD     = new Traversal( "FORWARD" );
     public final static Traversal  REVERSE     = new Traversal( "REVERSE" );
@@ -45,7 +46,7 @@ public class BlockDAG
     private Container       m_container;
 
     public void compose( final ComponentManager componentManager )
-        throws ComponentManagerException
+        throws ComponentException
     {
         m_container = (Container)componentManager.lookup( "org.apache.avalon.camelot.Container" );
     }
@@ -53,7 +54,7 @@ public class BlockDAG
     public void walkGraph( final BlockVisitor visitor, final Traversal traversal )
         throws Exception
     {
-        //temporary storage to record those 
+        //temporary storage to record those
         //that are already traversed
         final ArrayList completed = new ArrayList();
 
@@ -111,7 +112,7 @@ public class BlockDAG
      * @param name name of BlockEntry
      * @param entry the BlockEntry
      */
-    private void visitReverseDependencies( final String name, 
+    private void visitReverseDependencies( final String name,
                                            final BlockVisitor visitor,
                                            final ArrayList completed )
         throws Exception

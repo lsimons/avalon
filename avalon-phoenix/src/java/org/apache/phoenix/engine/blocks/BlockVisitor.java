@@ -8,7 +8,7 @@
 package org.apache.phoenix.engine.blocks;
 
 import org.apache.avalon.atlantis.ApplicationException;
-import org.apache.avalon.Component;
+import org.apache.avalon.component.Component;
 
 /**
  * Visitor interface that objects implement to walk the DAG.

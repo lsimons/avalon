@@ -7,18 +7,18 @@
  */
 package org.apache.phoenix.engine.phases;
 
-import org.apache.avalon.AbstractLoggable;
-import org.apache.avalon.ComponentManager;
-import org.apache.avalon.ComponentManagerException;
-import org.apache.avalon.Composer;
 import org.apache.avalon.Disposable;
 import org.apache.avalon.Stoppable;
 import org.apache.avalon.atlantis.ApplicationException;
+import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.component.ComponentManager;
+import org.apache.avalon.component.Composable;
+import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.excalibur.thread.ThreadContext;
-import org.apache.phoenix.engine.facilities.ThreadManager;
 import org.apache.phoenix.engine.blocks.BlockEntry;
 import org.apache.phoenix.engine.blocks.BlockVisitor;
 import org.apache.phoenix.engine.facilities.ClassLoaderManager;
+import org.apache.phoenix.engine.facilities.ThreadManager;
 
 /**
  *
@@ -26,13 +26,13 @@ import org.apache.phoenix.engine.facilities.ClassLoaderManager;
  */
 public class ShutdownPhase
     extends AbstractLoggable
-    implements BlockVisitor, Composer
+    implements BlockVisitor, Composable
 {
     private ClassLoader                 m_classLoader;
     private ThreadManager               m_threadManager;
 
     public void compose( final ComponentManager componentManager )
-        throws ComponentManagerException
+        throws ComponentException
     {
         final ClassLoaderManager classLoaderManager = (ClassLoaderManager)componentManager.
             lookup( "org.apache.phoenix.engine.facilities.ClassLoaderManager" );

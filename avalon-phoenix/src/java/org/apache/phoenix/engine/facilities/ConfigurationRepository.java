@@ -7,8 +7,8 @@
  */
 package org.apache.phoenix.engine.facilities;
 
-import org.apache.avalon.Component;
 import org.apache.avalon.camelot.Entry;
+import org.apache.avalon.component.Component;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
 

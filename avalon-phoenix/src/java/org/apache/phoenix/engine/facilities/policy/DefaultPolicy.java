@@ -25,15 +25,14 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.PropertyPermission;
 import java.util.StringTokenizer;
-import org.apache.avalon.Component;
-import org.apache.avalon.Context;
-import org.apache.avalon.Contextualizable;
-import org.apache.avalon.DefaultContext;
 import org.apache.avalon.Initializable;
 import org.apache.avalon.atlantis.Facility;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
+import org.apache.avalon.context.Context;
+import org.apache.avalon.context.Contextualizable;
+import org.apache.avalon.context.DefaultContext;
 import org.apache.avalon.util.PropertyException;
 import org.apache.avalon.util.PropertyUtil;
 

@@ -9,11 +9,11 @@ package org.apache.phoenix.engine.facilities.thread;
 
 import java.util.Hashtable;
 import java.util.Iterator;
-import org.apache.avalon.AbstractLoggable;
 import org.apache.avalon.atlantis.Facility;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
+import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.excalibur.thread.DefaultThreadPool;
 import org.apache.excalibur.thread.ThreadPool;
 import org.apache.phoenix.engine.facilities.ThreadManager;
@@ -73,7 +73,7 @@ public class DefaultThreadManager
 
         if( null == threadPool )
         {
-            //Should this be a ComponentNotFoundException ????
+            //Should this be a ComponentException ????
             throw new IllegalArgumentException( "No such thread group " + name );
         }
 

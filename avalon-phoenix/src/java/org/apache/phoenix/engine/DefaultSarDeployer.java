@@ -19,29 +19,29 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import org.apache.avalon.ComponentManager;
-import org.apache.avalon.ComponentManagerException;
-import org.apache.avalon.Composer;
-import org.apache.avalon.Composer;
-import org.apache.avalon.DefaultComponentManager;
-import org.apache.avalon.DefaultContext;
 import org.apache.avalon.atlantis.Application;
 import org.apache.avalon.atlantis.Kernel;
 import org.apache.avalon.camelot.AbstractDeployer;
 import org.apache.avalon.camelot.CamelotUtil;
 import org.apache.avalon.camelot.Container;
-import org.apache.avalon.camelot.Info;
 import org.apache.avalon.camelot.ContainerException;
 import org.apache.avalon.camelot.DefaultRegistry;
 import org.apache.avalon.camelot.Deployer;
 import org.apache.avalon.camelot.DeployerUtil;
 import org.apache.avalon.camelot.DeploymentException;
+import org.apache.avalon.camelot.Info;
 import org.apache.avalon.camelot.Locator;
 import org.apache.avalon.camelot.Registry;
 import org.apache.avalon.camelot.RegistryException;
+import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.component.ComponentManager;
+import org.apache.avalon.component.Composable;
+import org.apache.avalon.component.Composable;
+import org.apache.avalon.component.DefaultComponentManager;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
 import org.apache.avalon.configuration.DefaultConfigurationBuilder;
+import org.apache.avalon.context.DefaultContext;
 import org.apache.excalibur.io.FileUtil;
 import org.apache.excalibur.io.IOUtil;
 import org.apache.phoenix.BlockContext;
@@ -57,7 +57,7 @@ import org.apache.phoenix.metainfo.BlockInfo;
  */
 public class DefaultSarDeployer
     extends AbstractDeployer
-    implements Composer
+    implements Composable
 {
     protected File            m_deployDirectory;
     protected Container       m_container;
@@ -75,10 +75,10 @@ public class DefaultSarDeployer
      * Retrieve relevent services needed to deploy.
      *
      * @param componentManager the ComponentManager
-     * @exception ComponentManagerException if an error occurs
+     * @exception ComponentException if an error occurs
      */
     public void compose( final ComponentManager componentManager )
-        throws ComponentManagerException
+        throws ComponentException
     {
         m_container = (Container)componentManager.
             lookup( "org.apache.avalon.camelot.Container" );
@@ -246,7 +246,7 @@ public class DefaultSarDeployer
             final Configuration[] blocks = configuration.getChildren( "block" );
             handleBlocks( application, entry, blocks, registry );
         }
-        catch( final ComponentManagerException cme )
+        catch( final ComponentException cme )
         {
             throw new DeploymentException( "Error setting up registries", cme );
         }
@@ -259,9 +259,9 @@ public class DefaultSarDeployer
     protected void addEntry( final String name, final ServerApplicationEntry entry )
         throws DeploymentException
     {
-        try 
-        { 
-            m_container.add( name, entry ); 
+        try
+        {
+            m_container.add( name, entry );
         }
         catch( final ContainerException ce )
         {
@@ -291,14 +291,14 @@ public class DefaultSarDeployer
         final Deployer deployer = new DefaultBlockDeployer();
         setupLogger( deployer );
 
-        if( deployer instanceof Composer )
+        if( deployer instanceof Composable )
         {
             final DefaultComponentManager componentManager = new DefaultComponentManager();
             componentManager.put( "org.apache.avalon.camelot.Registry", registry );
 
             try
             {
-                ((Composer)deployer).compose( componentManager ); 
+                ((Composable)deployer).compose( componentManager );
             }
             catch( final Exception e )
             {
@@ -311,9 +311,9 @@ public class DefaultSarDeployer
 
     protected void handleBlocks( final Application application,
                                  final ServerApplicationEntry saEntry,
-                                 final Configuration[] blocks, 
+                                 final Configuration[] blocks,
                                  final Registry registry )
-        throws ComponentManagerException, ConfigurationException, DeploymentException
+        throws ComponentException, ConfigurationException, DeploymentException
     {
         for( int i = 0; i < blocks.length; i++ )
         {

@@ -7,7 +7,7 @@
  */
 package org.apache.phoenix.engine.listeners;
 
-import org.apache.avalon.AbstractLoggable;
+import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.phoenix.engine.listeners.ContainerListener;
 
 /**

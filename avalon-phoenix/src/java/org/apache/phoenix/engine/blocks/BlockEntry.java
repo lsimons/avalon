@@ -26,7 +26,7 @@ public class BlockEntry
     //UGLY HACK should be stored in another server Facility (ie ConfigurationRepository)
     protected Configuration               m_configuration;
 
-    public BlockEntry( final RoleEntry[] roleEntrys ) 
+    public BlockEntry( final RoleEntry[] roleEntrys )
     {
         m_roleEntrys = roleEntrys;
     }
@@ -56,7 +56,7 @@ public class BlockEntry
                 return m_roleEntrys[ i ];
             }
         }
-        
+
         return null;
     }
 
@@ -64,7 +64,7 @@ public class BlockEntry
     {
         return m_roleEntrys;
     }
- 
+
     public Configuration getConfiguration()
     {
         return m_configuration;

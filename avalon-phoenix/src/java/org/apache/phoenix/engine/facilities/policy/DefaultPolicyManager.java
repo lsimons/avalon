@@ -8,14 +8,14 @@
 package org.apache.phoenix.engine.facilities.policy;
 
 import java.security.Policy;
-import org.apache.avalon.Context;
-import org.apache.avalon.Contextualizable;
-import org.apache.avalon.DefaultContext;
 import org.apache.avalon.Initializable;
-import org.apache.avalon.Loggable;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
+import org.apache.avalon.context.Context;
+import org.apache.avalon.context.Contextualizable;
+import org.apache.avalon.context.DefaultContext;
+import org.apache.avalon.logger.Loggable;
 import org.apache.log.Logger;
 import org.apache.phoenix.engine.facilities.PolicyManager;
 

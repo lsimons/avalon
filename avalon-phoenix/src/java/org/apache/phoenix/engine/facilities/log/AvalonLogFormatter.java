@@ -8,7 +8,7 @@
 package org.apache.phoenix.engine.facilities.log;
 
 import java.util.Date;
-import org.apache.avalon.util.StringUtil;
+import org.apache.avalon.ExceptionUtil;
 import org.apache.log.format.PatternFormatter;
 
 /**
@@ -22,7 +22,7 @@ public class AvalonLogFormatter
     protected String getStackTrace( final Throwable throwable, final String format )
     {
         if( null == throwable ) return "";
-        return StringUtil.printStackTrace( throwable, 8, true );
+        return ExceptionUtil.printStackTrace( throwable, 8, true );
     }
 
     /**
