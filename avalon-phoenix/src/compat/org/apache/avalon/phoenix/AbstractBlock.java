@@ -23,7 +23,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/09/11 12:47:26 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/10/17 10:40:45 $
  * @deprecated As Block interface is deprecated this class is also
  *             deprecated with no replacement.
  */
@@ -32,9 +32,7 @@ public abstract class AbstractBlock
     implements Block, Contextualizable, Composable, Configurable
 {
     private BlockContext m_context;
-
     private Configuration m_configuration;
-
     private ComponentManager m_componentManager;
 
     public void contextualize( final Context context )
@@ -59,6 +57,12 @@ public abstract class AbstractBlock
         return m_context;
     }
 
+    /**
+     * Retrieve the supplied {@link ComponentManager}.
+     *
+     * @return the supplied {@link ComponentManager}.
+     * @deprecated {@link ComponentManager} is deprecated and no block should be using it.
+     */
     protected final ComponentManager getComponentManager()
     {
         return m_componentManager;
