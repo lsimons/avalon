@@ -8,6 +8,13 @@
   <body>
     <section name="Avalon Products">
       <p>
+        <strong><em>WARNING: Documents in this section are no longer 
+        up-to-date.</em></strong>
+        <em>We are working on moving the essential content into the main
+        site documentation, especially the "Developing with Avalon"
+        book.</em>
+      </p>
+      <p>
         Avalon consists of a number of products and sub-projects 
         supporting service and component management.
       </p>
