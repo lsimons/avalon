@@ -32,8 +32,7 @@ import org.apache.phoenix.Block;
  */
 public class RepositoryManager
     extends AbstractLoggable
-    implements Block, Store, Contextualizable, Composer, Configurable,
-    org.apache.cornerstone.services.Store
+    implements Block, Store, Contextualizable, Composer, Configurable
 {
     private static final String   REPOSITORY_NAME  = "Repository";
     private static long           id               = 0;
@@ -97,11 +96,11 @@ public class RepositoryManager
         }
     }
 
-    public void release( Component component )
+    public void release( final Component component )
     {
     }
 
-    public Component select( Object hint )
+    public Component select( final Object hint )
         throws ComponentException
     {
         Configuration repConf = null;
@@ -114,6 +113,7 @@ public class RepositoryManager
             throw new ComponentException( "Hint is of the wrong type. " +
                                           "Must be a Configuration", cce );
         }
+
         URL destination = null;
         try
         {

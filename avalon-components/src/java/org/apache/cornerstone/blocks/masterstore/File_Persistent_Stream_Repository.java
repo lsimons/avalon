@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import org.apache.cornerstone.services.Store;
 import org.apache.cornerstone.services.store.StreamRepository;
 import org.apache.avalon.util.io.IOUtil;
 
@@ -26,7 +25,7 @@ import org.apache.avalon.util.io.IOUtil;
  */
 public class File_Persistent_Stream_Repository 
     extends AbstractFileRepository  
-    implements Store.StreamRepository, StreamRepository
+    implements StreamRepository
 {
     protected final HashMap             m_inputs  = new HashMap();
     protected final HashMap             m_outputs = new HashMap();

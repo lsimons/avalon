@@ -29,7 +29,6 @@ import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
 import org.apache.avalon.util.io.ExtensionFileFilter;
-import org.apache.cornerstone.services.Store;
 import org.apache.cornerstone.services.store.Repository;
 import org.apache.phoenix.Block;
 import org.apache.phoenix.BlockContext;
