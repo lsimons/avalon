@@ -3,5 +3,5 @@
                   "http://jakarta.apache.org/phoenix/assembly_1_0.dtd">
 
 <assembly>
-  <block class="org.apache.avalon.apps.sevak.blocks.CatalinaSevakImpl" name="sevak"/>
+  <block class="org.apache.avalon.apps.sevak.blocks.catalina.CatalinaSevakImpl" name="sevak"/>
 </assembly>

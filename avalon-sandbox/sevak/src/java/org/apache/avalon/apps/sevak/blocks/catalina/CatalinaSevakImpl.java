@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.apps.sevak.blocks;
+package org.apache.avalon.apps.sevak.blocks.catalina;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -62,7 +62,7 @@ public class CatalinaSevakImpl
     private String m_host = null;
 
     /**
-     * @see org.apache.avalon.framework.context.Contextualizable#contextualize(Context)
+     * @see org.apache.avalon.framework.context.Contextualizable#contextualize(org.apache.avalon.framework.context.Context)
      */
 
     public void contextualize(final Context context)
@@ -72,7 +72,7 @@ public class CatalinaSevakImpl
     }
 
     /**
-     * @see org.apache.avalon.framework.configuration.Configurable#configure(Configuration)
+     * @see org.apache.avalon.framework.configuration.Configurable#configure(org.apache.avalon.framework.configuration.Configuration)
      */
 
     public void configure(final Configuration configuration)
@@ -121,7 +121,7 @@ public class CatalinaSevakImpl
             confDir.mkdir();
             getLogger().info("Created conf/ folder");
             InputStream in= CatalinaSevakImpl.class.getResourceAsStream("default-web.xml");
-            FileOutputStream fos = 
+            FileOutputStream fos =
                         new FileOutputStream(new File(confDir,"web.xml").getAbsolutePath());
             byte[] bytes= new byte[512];
             int read=0;
@@ -190,7 +190,7 @@ public class CatalinaSevakImpl
      * Deploy the given Web Application
      * @param context Context for the the webapp
      * @param dirToWebAppFolder path can be a war-archive or exploded directory
-     * @throws SevakException Thrown when the context already exists
+     * @throws org.apache.avalon.apps.sevak.SevakException Thrown when the context already exists
      */
     public void deploy(String context, File dirToWebAppFolder)
         throws SevakException
@@ -240,7 +240,7 @@ public class CatalinaSevakImpl
     /**
      * Undeploy the given WebApp 
      * @param context Webapp context
-     * @throws SevakException Thrown when context does NOT exist
+     * @throws org.apache.avalon.apps.sevak.SevakException Thrown when context does NOT exist
      */
     public void undeploy(String context) throws SevakException
     {
