@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+
 <document>
-  <properties>
-    <title>LogKit - Introduction</title>
-    
-      <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
-    
-  </properties>
+
+ <header>
+  <title>Logkit - Introduction</title>
+
+  <authors>
+    <person name="Avalon Documentation Team" email="dev@avalon.apache.org"/>
+  </authors>
+  
+ </header>
+
   <body>
-    <section name="Introduction">
+    <section><title>Introduction</title>
       <p>
         LogKit is a logging toolkit designed for secure performance oriented logging
         in applications. To get started using LogKit, it is recomended that you read the 
-        <link href="whitepaper.html" type="simple" show="replace" actuate="user">whitepaper</link> and browse the 
-        <link href="http://avalon.apache.org/logkit/api/index.html" type="simple" show="replace" actuate="user">API docs</link>.
+        <link href="whitepaper.html">whitepaper</link> and browse the 
+        <link href="http://avalon.apache.org/logkit/api/index.html">API docs</link>.
       </p>
     </section>
   </body>
