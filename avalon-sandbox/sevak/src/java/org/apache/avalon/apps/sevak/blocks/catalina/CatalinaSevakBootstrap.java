@@ -21,6 +21,7 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.phoenix.BlockContext;
 
 import java.io.File;
@@ -195,6 +196,11 @@ public class CatalinaSevakBootstrap
         } catch( Exception e ) {
             throw new SevakException( "Unable to deploy", e );
         }
+    }
+
+    public void deploy(String context, File pathToWebAppFolder, ServiceManager serviceManager) throws SevakException
+    {
+        throw new UnsupportedOperationException();
     }
 
     public void undeploy( String host, String context ) throws SevakException {

@@ -7,6 +7,8 @@
  */
 package org.apache.avalon.apps.sevak;
 
+import org.apache.avalon.framework.service.ServiceManager;
+
 import java.io.File;
 
 /**
@@ -26,6 +28,16 @@ public interface Sevak
      * @throws SevakException Thrown when context already exists
      */
     void deploy(String context, File pathToWebAppFolder) throws SevakException;
+
+    /**
+     * Deploy the given Web Application
+     * @param context Context for the the webapp
+     * @param pathToWebAppFolder path can be a war-archive or exploded directory
+     * @param serviceManager The service manager to use for (optional) Serviceable servlets.
+     * @throws SevakException Thrown when context already exists
+     */
+    void deploy(String context, File pathToWebAppFolder, ServiceManager serviceManager) throws SevakException;
+
 
     /**
      * Undeploy the given WebApp
