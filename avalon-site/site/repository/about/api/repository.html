@@ -517,10 +517,142 @@
       
     <p>
       
-          IN PREPARATION
+          The 
+    <a href="../../api/org/apache/avalon/repository/Repository.html">Repository</a>
+   
+          interface provides a simple protocol independent API against which a client can 
+          retrieve physical artifacts, artifact metadata, and composite objects derived from 
+          metadata information.
           
     </p>
    
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Get an artifact.">Get an artifact.</a>
+        </h4>
+      
+      
+    <p>
+      The getResource( Artifact artifact ) operation provides a simple
+          protocol independent method to get a concrete url to a resource.  The 
+          actual url returned to the client is a function of the repository 
+          implementation established at runtime.
+    </p>
+   
+    <div id="source">
+      <pre>
+    /**
+     * Get a resource url relative to the supplied artifact.
+     * 
+     * @param artifact the artifact describing the resource
+     * @return the resource url
+     */
+    URL getResource( Artifact artifact ) throws RepositoryException;</pre>
+    </div>
+  
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Artifact Attribute Retrival.">Artifact Attribute Retrival.</a>
+        </h4>
+      
+      
+    <p>
+      The getAttributes operation provides support for 
+                the retrival of a set of attributes corresponding to 
+                metadata about an artifact. This information is used 
+                to construct higher level objecets such as classloaders
+                based on dependencies declaring in metadata.
+    </p>
+   
+    <div id="source">
+      <pre>
+   /**
+    * Return the metadata of an artifact as attributes.
+    * @param artifact the artifact
+    * @return the attributes resolved relative to the artifact address
+    * @exception RepositoryException if an error occurs while resolving
+    *   artifact metadata attributes
+    */
+    Attributes getAttributes( Artifact artifact ) 
+        throws RepositoryException;</pre>
+    </div>
+  
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Classloader creation.">Classloader creation.</a>
+        </h4>
+      
+      
+    <p>
+      Using matadata associated with an artifact, the repository
+                can construct a component classloader tree that can be used 
+                in the subsequent deployment of compoents and applications.
+    </p>
+   
+    <div id="source">
+      <pre>
+    /**
+     * Creates a ClassLoader chain returning the lowest ClassLoader containing 
+     * the jar artifact in the loader's path.  The dependencies of the argument 
+     * artifact jar and an api, spi and implementation attribute on the jar and 
+     * its dependencies are used to construct the ClassLoaders.
+     * 
+     * @param artifact the implementation artifact
+     * @return the lowest ClassLoader in a chain
+     * @throws RepositoryException if there is a problem caching and accessing
+     * repository artifacts and reading their attributes.
+     */
+    ClassLoader getClassLoader( Artifact artifact )
+        throws RepositoryException;</pre>
+    </div>
+  
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Classloader creation (using a parent).">Classloader creation (using a parent).</a>
+        </h4>
+      
+      
+    <p>
+      This function is equivalent to the basic getClassloader
+                operation except that it allows the declaration of the parent 
+                classloader to be used when constructing the new classloader 
+                chain.
+    </p>
+   
+    <div id="source">
+      <pre>
+    /**
+     * Creates a ClassLoader chain returning the lowest ClassLoader containing 
+     * the jar artifact in the loader's path.  The dependencies of the argument 
+     * artifact jar and an api, spi and implementation attribute on the jar and 
+     * its dependencies are used to construct the ClassLoaders.
+     * 
+     * @param parent the parent classloader
+     * @param artifact the implementation artifact
+     * @return the lowest ClassLoader in a chain
+     * @throws RepositoryException if there is a problem caching and accessing
+     * repository artifacts and reading their attributes.
+     */
+    ClassLoader getClassLoader( ClassLoader parent, Artifact artifact )
+        throws RepositoryException ;</pre>
+    </div>
+  
     </div>
   
     </div>
