@@ -148,23 +148,4 @@ public class ResourceHandler
         super.stop();
         m_Context.removeHandler( this );
     }
-   
-    public void handle( String pathInContext, String pathParams, 
-                        HttpRequest request, HttpResponse response ) 
-        throws HttpException, IOException
-    {
-        getLogger().info( "(ResourceHandler): " + pathInContext + ", " + pathParams );
-        super.handle( pathInContext, pathParams, request, response );
-    }
-
-    public void handleGet( HttpRequest request, HttpResponse response,
-                           String pathInContext, String pathParams,
-                           Resource resource 
-                         ) 
-        throws IOException
-    {
-        getLogger().info( "(ResourceHandler)/GET: " + pathInContext + ", " + pathParams + ", " + resource);
-        super.handleGet( request, response, pathInContext, pathParams, resource );
-    }
-
 }

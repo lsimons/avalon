@@ -4,7 +4,7 @@
     <configuration>
       <name>Primary</name>
       <message>I'm an avalon component.</message>
-      <link>/test/secondary</link>
+      <link>/niclas/testing/secondary</link>
     </configuration>
   </profile>
 
@@ -12,7 +12,7 @@
     <configuration>
       <name>Secondary</name>
       <message>I'm an avalon component too!</message>
-      <link>/test/primary</link>
+      <link>/niclas/testing/primary</link>
     </configuration>
   </profile>
 

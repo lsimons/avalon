@@ -23,7 +23,7 @@ package org.apache.avalon.http;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.1 $ $Date: 2004/04/04 15:00:56 $
  */
-public class HttpRequestHandlerException extends Exception
+public class HttpRequestHandlerException extends java.io.IOException
 {
 
      private final Throwable m_cause;
