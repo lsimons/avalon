@@ -117,7 +117,7 @@ public abstract class ValuedEnum
      */
     public String toString()
     {
-        return getClass().getName() + "[" + m_name + "=" + m_value + "]";
+        return getClass().getName() + "[" + getName() + "=" + m_value + "]";
     }
 }
 
