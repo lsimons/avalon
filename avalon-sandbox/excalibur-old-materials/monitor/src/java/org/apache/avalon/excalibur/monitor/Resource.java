@@ -22,16 +22,31 @@ import java.util.Set;
  * last modified property will be enough.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: Resource.java,v 1.10 2002/09/07 12:14:01 donaldp Exp $
+ * @version $Id: Resource.java,v 1.11 2002/09/07 12:28:36 donaldp Exp $
  */
 public abstract class Resource
     implements Modifiable
 {
-    private static final Set m_propertyListeners = Collections.synchronizedSet( new HashSet() );
     protected static final String MODIFIED = "last-modified";
 
+    private static final Set m_propertyListeners = Collections.synchronizedSet( new HashSet() );
+
+    /**
+     * @deprecated Developers should use the setter/getters
+     *             associated with field.
+     */
     protected PropertyChangeSupport m_eventSupport = new PropertyChangeSupport( this );
+
+    /**
+     * The resource key is the identifier of the resource.
+     * ie A FileResource would have the filename as the resourceKey.
+     */
     private final String m_resourceKey;
+
+    /**
+     * @deprecated Developers should use the setter/getters
+     *             associated with field.
+     */
     protected long m_previousModified = 0L;
 
     /**
@@ -39,9 +54,9 @@ public abstract class Resource
      * the specific resource monitor.  For instance, a FileResource will be able
      * to convert a string representation of a path to the proper File object.
      */
-    public Resource( String location ) throws Exception
+    public Resource( final String resourceKey ) throws Exception
     {
-        m_resourceKey = location;
+        m_resourceKey = resourceKey;
     }
 
     /**
@@ -63,12 +78,12 @@ public abstract class Resource
     public void testModifiedAfter( long time )
     {
         final long lastModified = lastModified();
-        if( lastModified > m_previousModified || lastModified > time )
+        if( lastModified > getPreviousModified() || lastModified > time )
         {
-            m_eventSupport.firePropertyChange( Resource.MODIFIED,
-                                               new Long( m_previousModified ),
+            getEventSupport().firePropertyChange( Resource.MODIFIED,
+                                               new Long( getPreviousModified() ),
                                                new Long( lastModified ) );
-            m_previousModified = lastModified;
+            setPreviousModified( lastModified );
         }
     }
 
@@ -93,7 +108,7 @@ public abstract class Resource
      */
     public final void addPropertyChangeListener( PropertyChangeListener listener )
     {
-        m_eventSupport.addPropertyChangeListener( listener );
+        getEventSupport().addPropertyChangeListener( listener );
         m_propertyListeners.add( listener );
     }
 
@@ -103,7 +118,7 @@ public abstract class Resource
      */
     protected void addPropertyChangeListener( String property, PropertyChangeListener listener )
     {
-        m_eventSupport.addPropertyChangeListener( property, listener );
+        getEventSupport().addPropertyChangeListener( property, listener );
         m_propertyListeners.add( listener );
     }
 
@@ -113,7 +128,7 @@ public abstract class Resource
      */
     public final void removePropertyChangeListener( PropertyChangeListener listener )
     {
-        m_eventSupport.removePropertyChangeListener( listener );
+        getEventSupport().removePropertyChangeListener( listener );
         m_propertyListeners.remove( listener );
     }
 
@@ -123,7 +138,7 @@ public abstract class Resource
      */
     protected void removePropertyChangeListener( String property, PropertyChangeListener listener )
     {
-        m_eventSupport.removePropertyChangeListener( property, listener );
+        getEventSupport().removePropertyChangeListener( property, listener );
         m_propertyListeners.remove( listener );
     }
 
@@ -132,7 +147,7 @@ public abstract class Resource
      */
     public final boolean hasListeners()
     {
-        return m_eventSupport.hasListeners( getResourceKey() );
+        return getEventSupport().hasListeners( getResourceKey() );
     }
 
     /**
@@ -155,6 +170,21 @@ public abstract class Resource
      */
     protected boolean hasListeners( String property )
     {
-        return m_eventSupport.hasListeners( property );
+        return getEventSupport().hasListeners( property );
+    }
+
+    protected final long getPreviousModified()
+    {
+        return m_previousModified;
+    }
+
+    protected final void setPreviousModified( final long previousModified )
+    {
+        m_previousModified = previousModified;
+    }
+
+    protected final PropertyChangeSupport getEventSupport()
+    {
+        return m_eventSupport;
     }
 }

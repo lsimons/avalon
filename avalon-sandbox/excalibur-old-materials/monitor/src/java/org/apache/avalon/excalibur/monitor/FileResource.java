@@ -26,7 +26,7 @@ import java.io.Writer;
  * OutputStream has been closed.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: FileResource.java,v 1.5 2002/05/13 12:17:40 donaldp Exp $
+ * @version $Id: FileResource.java,v 1.6 2002/09/07 12:28:36 donaldp Exp $
  */
 public class FileResource
     extends StreamResource
@@ -47,7 +47,7 @@ public class FileResource
     {
         super( resource.getCanonicalPath() );
         m_file = resource;
-        m_previousModified = m_file.lastModified();
+        setPreviousModified( m_file.lastModified() );
     }
 
     /**
