@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="Excalibur Info" default="main" basedir=".">
+<project name="AvalonDataSource" default="main" basedir=".">
 
     <property file="${user.home}/build.properties"/>
     <property file="${basedir}/../ant.properties"/>
@@ -35,22 +35,9 @@
     <target name="main" depends="jar" description="Build the project"/>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
 
-    <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkI18N"/>
-    </target>
-
-    <target name="dependencies-test" depends="dist-jar, dependencies"
-        description="Check unit test dependencies" unless="skip.dependencies">
-        <!-- Need the jar to prevent recursive deps. -->
-
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkJUnit"/>
-    </target>
-
 
     <!-- Compiles the source code -->
-    <target name="compile" depends="dependencies" description="Compiles the source code">
+    <target name="compile" description="Compiles the source code">
 
         <mkdir dir="${build.classes}"/>
 
@@ -76,7 +63,7 @@
     </target>
 
     <!-- Compiles the unit test source code -->
-    <target name="compile-test" depends="compile, dependencies-test" description="Compiles the source code">
+    <target name="compile-test" depends="compile" description="Compiles the source code">
         <mkdir dir="${build.testsrc}"/>
 
         <!-- Copy over all of the tests applying test filters -->
