@@ -6,7 +6,7 @@
   </properties> 
 
   <body>
-    <section name="Legacy Avalon Products">
+    <section name="Legacy Products">
       <p>
        Several Apache Avalon products have been either retired or
        spun off into their own Apache projects.  For a more detailed
@@ -52,16 +52,6 @@
 	     <a href="http://loom.codehaus.org">Loom</a> project, a 
 	     fork of Phoenix.
          </td>
-	</tr>
-	<tr>
-	 <td>Logkit</td>
-	 <td>LogKit is a full logging framework similar to Log4J.</td>
-	 <td>LogKit is stable and used in many products but not
-	 actively developed.  Many logkit utilities (ie- Excalibur
-	 Logging) are now part of the
-	   <a href="http://excalibur.apache.org">Apache Excalibur</a>
-	   Project.	 
-	 </td>
 	</tr>
       </table>
     </section>

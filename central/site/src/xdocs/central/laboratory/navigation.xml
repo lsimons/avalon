@@ -23,8 +23,8 @@
 
   <body>
     <menu>
-      <item name="Magic" href="magic/index.html"/>
       <item name="Studio" href="studio/index.html"/>
+      <item name="Discovery" href="discovery/index.html"/>
     </menu>
   </body>
 

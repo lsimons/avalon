@@ -414,5 +414,5 @@ public class XdocTask extends SystemTask
             m = m_Excludes.matcher( fullpath );
             return ! m.matches() ;
         }
-    } 
+    }
 }

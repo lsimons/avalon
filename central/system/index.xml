@@ -90,9 +90,6 @@
       <group>avalon</group>
       <name>site</name>
     </info>
-    <dependencies>
-      <include key="avalon-runtime"/>
-    </dependencies>
   </project>
 
   <!--
