@@ -1,9 +1,0 @@
-.ant.properties
-gen
-*.el
-dist
-build
-distributions
-docs
-*.ipr
-maven.log
