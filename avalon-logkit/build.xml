@@ -4,7 +4,7 @@
   ]>
 
 <!-- 
- Copyright 2004 Apache Software Foundation
+ Copyright 2004 The Apache Software Foundation
  Licensed  under the  Apache License,  Version 2.0  (the "License");
  you may not use  this file  except in  compliance with the License.
  You may obtain a copy of the License at 
@@ -347,9 +347,9 @@
       <exclude name="**/test/*" />
       <manifest>
         <attribute name="Extension-Name" value="avalon-logkit"/>
-        <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
+        <attribute name="Specification-Vendor" value="The Apache Software Foundation"/>
         <attribute name="Specification-Version" value="1.0"/>
-        <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+        <attribute name="Implementation-Vendor" value="The Apache Software Foundation"/>
         <attribute name="Implementation-Vendor-Id" value="ASF"/>
         <attribute name="Implementation-Version" value="${version}"/>
       </manifest>

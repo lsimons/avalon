@@ -1,5 +1,5 @@
 /* 
- * Copyright 1999-2004 Apache Software Foundation
+ * Copyright 1999-2004 The Apache Software Foundation
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at 
@@ -31,7 +31,7 @@ import org.apache.log.output.AbstractOutputTarget;
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: SMTPOutputLogTarget.java,v 1.8 2004/02/24 19:06:24 cziegeler Exp $
+ * @version CVS $Id: SMTPOutputLogTarget.java,v 1.9 2004/02/28 11:31:25 cziegeler Exp $
  * @since 1.1.0
  */
 public class SMTPOutputLogTarget extends AbstractOutputTarget

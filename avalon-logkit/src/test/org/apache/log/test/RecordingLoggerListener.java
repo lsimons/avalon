@@ -1,5 +1,5 @@
 /* 
- * Copyright 1999-2004 Apache Software Foundation
+ * Copyright 1999-2004 The Apache Software Foundation
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at 
@@ -25,7 +25,7 @@ import org.apache.log.util.LoggerListener;
  * A logger listener that records the log messages it receives.
  *
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2004/02/24 19:13:29 $
+ * @version $Revision: 1.6 $ $Date: 2004/02/28 11:31:24 $
  */
 class RecordingLoggerListener
     extends LoggerListener
