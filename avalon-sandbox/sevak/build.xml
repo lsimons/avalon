@@ -46,7 +46,7 @@
     <path id="project.class.path">
         <pathelement path="${java.class.path}"/>
         <pathelement path="${build.classes}"/>
-        <fileset dir="../common/lib">
+        <fileset dir="lib">
             <include name="*.jar"/>
         </fileset>
         <fileset dir="${tomcat.jars.dir}">
@@ -66,7 +66,7 @@
     </path>
 
     <path id="test.class.path">
-        <fileset dir="../common/lib">
+        <fileset dir="lib">
             <include name="**/*.jar"/>
         </fileset>
         <pathelement path="${build.lib}/sevak-api.jar"/>
