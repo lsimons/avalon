@@ -57,7 +57,7 @@ import org.apache.avalon.meta.info.Type;
  * A utility class that handles creation of a component model context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/07 17:44:13 $
+ * @version $Revision: 1.3 $ $Date: 2004/02/07 17:46:24 $
  */
 class ComponentModelContextHelper
 {
@@ -66,7 +66,7 @@ class ComponentModelContextHelper
     //-------------------------------------------------------------------
 
     private static final Resources REZ =
-      ResourceManager.getPackageResources( ComponentContextHelper.class );
+      ResourceManager.getPackageResources( ComponentModelContextHelper.class );
 
     //-------------------------------------------------------------------
     // immutable state
