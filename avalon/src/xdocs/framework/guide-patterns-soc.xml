@@ -4,7 +4,7 @@
 
 <document>
   <header>
-    <title>Avalon Framework - Multi Dimensional Separation of Concerns</title>
+    <title>Avalon Framework - Guide - Multi Dimensional Separation of Concerns</title>
     <authors>
       <person name="Berin Loritsch" email="bloritsch@apache.org"/>
     </authors>
@@ -61,7 +61,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.6 $ $Date: 2002/04/02 11:20:19 $
+      $Revision: 1.1 $ $Date: 2002/05/03 10:19:53 $
     </legal>
   </footer>
 </document>

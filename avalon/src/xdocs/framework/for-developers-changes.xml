@@ -11,6 +11,7 @@
     <person name="Paul Hammant" email="hammant@apache.org" id="PH"/>
     <person name="Leif Mortenson" email="leif@apache.org" id="LM"/>
     <person name="Carston Ziegeler" email="cziegeler@apache.org" id="CZ"/>
+    <person name="Leo Simons" email="leosimons@apache.org" id="LS"/>
   </devs>
   <release version="4.1.2" date="January 31, 2002">
     <action dev="BL" type="udpate">

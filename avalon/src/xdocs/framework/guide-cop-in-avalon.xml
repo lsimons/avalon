@@ -4,14 +4,108 @@
 
 <document>
   <header>
-    <title>Avalon Framework - What is Composable?</title>
-    <version>3.0</version>
+    <title>Avalon Framework - Guide - COP in Avalon</title>
     <authors>
-      <person id="BL" name="Berin Loritsch" email="bloritsch@apache.org"/>
+      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
+      <person name="Leo Simons" email="leosimons@apache.org"/>
     </authors>
   </header>
   <body>
-    <s1 title="Introduction"> 
+    <s1 title="Components in Avalon">
+      <p>
+        At the core of the Avalon framework is the Component. We define it as "a
+        passive entity that performs a specific role". This is important to grasp
+        because it requires a specific way of thinking.
+      </p>
+      <s2 title="A passive API">
+        <p>
+          A passive entity must employ a passive API. A passive API is one that is
+          acted upon, versus one that acts itself. See the
+          <link href="guide-patterns-ioc.html">Inversion of Control</link> pattern
+          for an explanation.
+        </p>
+      </s2>
+      <s2 title="A specific Role">
+        <p>
+          The concept of roles come from the theater.  A play, musical,
+          or movie will have a certain number of roles that actors play.
+          Although there never seems to be a shortage of actors, there
+          are a finite number of roles.  I am not going to make reference
+          to different types of roles at this point, but simply bring
+          the concept to light.  The function or action of a role is
+          defined by it's script.
+        </p>
+        <p>
+          We are introducing this concept now because you need to have it
+          in mind when you are designing your system architecture.  Think
+          of the different roles in your system, and you will have your
+          "cast" of components so to speak.
+        </p>
+        <p>
+          For each role, you need to specify it's script, or interface to
+          the rest of the system.  To be honest the interface is not enough.
+          There are specific contracts that you must define and keep in mind
+          when you specify your interfaces.  In other words, what users
+          of the Component must provide, and what the Component produces.
+          When the interface and contract are defined, you can work on your
+          implementation.
+        </p>
+      </s2>
+    </s1>
+
+
+    <s1 title="The Component">
+      <p>
+        John Donne wrote, "No man is an island." to communicate that we
+        are all interdependent.  The same is true for the Component.  That
+        is why there are different concerns regarding the Component.  In
+        the section on roles we specified one of the concerns: the role.
+        The concerns directly supported by the Avalon Framework are:
+        configuration, external component use, management, and execution.
+      </p>
+      <note>
+        We used to have an marker interface Component. This has been deprecated
+        because requiring all components extend this interface makes
+        integrating Avalon with other component systems like
+        <link href="http://www.corba.org">CORBA</link> very cumbersome.
+      </note>
+      <p>
+        As you might of guessed, each one of these concerns has a separate
+        interface that describes that concern.  We will delve deeper into
+        the interfaces and the reasoning behind them in other sections.  It
+        is important to know the order of precedence for the concerns so
+        that you know the overall contracts of how they are put together.
+      </p>
+      <ol>
+        <li>
+          <strong>Configurable:</strong> marks an object that can be configured.
+        </li>
+        <li>
+          <strong>Composable:</strong> marks an object that uses Components.
+        </li>
+        <li>
+          <strong>Initializable:</strong> marks an object that can be initialized.
+        </li>
+        <li>
+          <strong>Disposable:</strong> marks an object that can be disposed.
+        </li>
+        <li>
+          <strong>Stoppable:</strong> marks an object that can be started and stopped.
+        </li>
+      </ol>
+      <p>
+        The contract surrounding this order means that the methods defined
+        by each of those interfaces are called in a specific order by the object
+        that created the Component.  Each interface represents a narrow view
+        of the Component or object being controlled.
+      </p>
+      <note>
+        Notice that each interface is separate from Component, so you can use
+        them for simple objects.
+      </note>
+    </s1>
+
+    <s1 title="The Composable"> 
       <p>
         In Avalon, Composable is defined as an active entity that controls
         or uses Components.  Its best analogy is that of a musical composer.
@@ -31,6 +125,7 @@
         requests to set the ComponentManager after it is successfully set.
       </note>
     </s1>
+
     <s1 title="Finding your Component">
       <s2 title="The Component Manager">
         <p>
@@ -132,6 +227,7 @@ finally
 	</p>
       </s2>
     </s1>
+
     <s1 title="Populating the ComponentManager">
       <p>
         It is the responsibility of the entity that creates the Composable to give it a
@@ -180,7 +276,7 @@ finally
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.6 $ $Date: 2002/04/02 11:20:19 $
+      $Revision: 1.1 $ $Date: 2002/05/03 10:19:53 $
     </legal>
   </footer>
 </document>
