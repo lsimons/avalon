@@ -10,7 +10,7 @@
 # building all components. These values are overridable in component-specific
 # ant.properties files.
 #
-# $Id: ant.properties.sample,v 1.23 2003/02/05 00:10:57 hammant Exp $
+# $Id: ant.properties.sample,v 1.24 2003/02/08 14:40:38 hammant Exp $
 # -----------------------------------------------------------------------------
 
 
@@ -27,75 +27,75 @@ base.path=../..
 # --------------------------------------------------
 
 # ----- Xerces -----
-xerces.home=${base.path}/jakarta-avalon/tools/lib/
+xerces.home=${base.path}/avalon/tools/lib/
 xerces.jar=${xerces.home}/xerces-2.0.1.jar
 
 # ----- XML-APIs -----
-xml-apis.home=${base.path}/jakarta-avalon/tools/lib/
+xml-apis.home=${base.path}/avalon/tools/lib/
 xml-apis.jar=${xml-apis.home}/xml-apis.jar
 
 # ----- Xalan -----
-xalan.home=${base.path}/jakarta-avalon/tools/lib/
+xalan.home=${base.path}/avalon/tools/lib/
 xalan.jar=${xalan.home}/xalan-2.3.1.jar
 
 # ----- Logkit -----
-logkit.home=${base.path}/jakarta-avalon-logkit/build/lib
+logkit.home=${base.path}/avalon-logkit/build/lib
 logkit.jar=${logkit.home}/logkit.jar
 
 # ----- Avalon Framework -----
-avalon-framework.home=${base.path}/jakarta-avalon/target/lib
+avalon-framework.home=${base.path}/avalon/target/lib
 avalon-framework.jar=${avalon-framework.home}/avalon-framework.jar
 
 # ----- Avalon Excalibur -----
-avalon-excalibur.home=${base.path}/jakarta-avalon-excalibur/all/build/lib
+avalon-excalibur.home=${base.path}/avalon-excalibur/all/build/lib
 avalon-excalibur.jar=${avalon-excalibur.home}/avalon-excalibur.jar
 
 # ----- Excalibur Collections -----
-excalibur-collections.home=${base.path}/jakarta-avalon-excalibur/collections/build/lib
+excalibur-collections.home=${base.path}/avalon-excalibur/collections/build/lib
 excalibur-collections.jar=${excalibur-collections.home}/excalibur-collections-1.0.jar
 
 # ----- Excalibur Lang -----
-excalibur-lang.home=${base.path}/jakarta-avalon-excalibur/lang/build/lib
+excalibur-lang.home=${base.path}/avalon-excalibur/lang/build/lib
 excalibur-lang.jar=${excalibur-lang.home}/excalibur-lang-1.0.jar
 
 # ----- Excalibur Thread -----
-excalibur-thread.home=${base.path}/jakarta-avalon-excalibur/thread/build/lib
+excalibur-thread.home=${base.path}/avalon-excalibur/thread/build/lib
 excalibur-thread.jar=${excalibur-thread.home}/excalibur-thread-1.1.jar
 
 # ----- Excalibur Pool -----
-excalibur-pool.home=${base.path}/jakarta-avalon-excalibur/pool/build/lib
+excalibur-pool.home=${base.path}/avalon-excalibur/pool/build/lib
 excalibur-pool.jar=${excalibur-pool.home}/excalibur-pool-1.1.jar
 
 # ----- Excalibur Logger -----
-excalibur-logger.home=${base.path}/jakarta-avalon-excalibur/logger/build/lib
+excalibur-logger.home=${base.path}/avalon-excalibur/logger/build/lib
 excalibur-logger.jar=${excalibur-logger.home}/excalibur-logger-1.0.jar
 
 # ----- Excalibur Logger -----
-excalibur-util.home=${base.path}/jakarta-avalon-excalibur/util/build/lib
+excalibur-util.home=${base.path}/avalon-excalibur/util/build/lib
 excalibur-util.jar=${excalibur-util.home}/excalibur-util-1.0.jar
 
 # ----- Excalibur Logger -----
-excalibur-i18n.home=${base.path}/jakarta-avalon-excalibur/i18n/build/lib
+excalibur-i18n.home=${base.path}/avalon-excalibur/i18n/build/lib
 excalibur-i18n.jar=${excalibur-i18n.home}/excalibur-i18n-1.0.jar
 
 # ----- Excalibur Component -----
-excalibur-component.home=${base.path}/jakarta-avalon-excalibur/component/build/lib
+excalibur-component.home=${base.path}/avalon-excalibur/component/build/lib
 excalibur-component.jar=${excalibur-component.home}/excalibur-component-1.0.jar
 
 # ----- Excalibur Event -----
-excalibur-event.home=${base.path}/jakarta-avalon-excalibur/event/build/lib
+excalibur-event.home=${base.path}/avalon-excalibur/event/build/lib
 excalibur-event.jar=${excalibur-event.home}/excalibur-event-1.0a.jar
 
 # ----- Excalibur Concurrent -----
-excalibur-concurrent.home=${base.path}/jakarta-avalon-excalibur/concurrent/build/lib
+excalibur-concurrent.home=${base.path}/avalon-excalibur/concurrent/build/lib
 excalibur-concurrent.jar=${excalibur-concurrent.home}/excalibur-concurrent-1.0.jar
 
 # ----- Excalibur Instrument -----
-excalibur-instrument.home=${base.path}/jakarta-avalon-excalibur/instrument/build/lib
+excalibur-instrument.home=${base.path}/avalon-excalibur/instrument/build/lib
 excalibur-instrument.jar=${excalibur-instrument.home}/excalibur-instrument-0.3.jar
 
 # ----- Excalibur Instrument Manager -----
-excalibur-instrument-manager.home=${base.path}/jakarta-avalon-excalibur/instrument-manager/build/lib
+excalibur-instrument-manager.home=${base.path}/avalon-excalibur/instrument-manager/build/lib
 excalibur-instrument-manager.jar=${excalibur-instrument-manager.home}/excalibur-instrument-manager-0.3.jar
 excalibur-instrument-manager-interfaces.jar=${excalibur-instrument-manager.home}/excalibur-instrument-manager-interfaces-0.3.jar
 
