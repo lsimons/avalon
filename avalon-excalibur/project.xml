@@ -175,12 +175,13 @@
             <include>**/*.dtd</include>
             <include>**/*.properties</include>
             <include>**/*.xinfo</include>
+            <include>**/*.xtest</include>
             <include>**/*.xtype</include>
             <include>**/*.xprofile</include>
             <include>**/*.xconfig</include>
             <include>**/*.xml</include>
-	      <include>**/*.xservice</include>
-	      <include>**/*.rng</include>
+            <include>**/*.xservice</include>
+            <include>**/*.rng</include>
           </includes>
         </resource>
       </resources>
@@ -199,8 +200,8 @@
           <include>**/*.xprofile</include>
           <include>**/*.xconfig</include>
           <include>**/*.xml</include>
-	    <include>**/*.xservice</include>
-	    <include>**/*.rng</include>
+          <include>**/*.xservice</include>
+          <include>**/*.rng</include>
         </includes>
       </resource>
       <resource>

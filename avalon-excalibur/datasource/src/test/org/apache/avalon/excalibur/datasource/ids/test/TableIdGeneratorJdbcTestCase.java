@@ -56,7 +56,7 @@ public class TableIdGeneratorJdbcTestCase
     public void setUp() throws Exception
     {
         super.setUp();
-
+System.out.println( "Niclas" );        
         // Get a reference to a data source
         m_dbSelector = (ComponentSelector)manager.lookup( DataSourceComponent.ROLE + "Selector" );
         m_dataSource = (DataSourceComponent)m_dbSelector.select( "test-db" );
