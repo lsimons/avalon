@@ -56,9 +56,11 @@ package org.apache.excalibur.source.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -74,7 +76,7 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * Description of a source which is described by an URL.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.25 $ $Date: 2003/07/03 15:23:34 $
+ * @version CVS $Revision: 1.26 $ $Date: 2003/11/07 08:18:45 $
  */
 public class URLSource extends AbstractSource implements Source
 {
@@ -179,9 +181,8 @@ public class URLSource extends AbstractSource implements Source
                 if (null == m_connection)
                 {
                     m_connection = m_url.openConnection();
-                    String userInfo = m_url.getUserInfo();
-                    if (m_url.getProtocol().startsWith("http") && userInfo != null)
-                    {
+                    String userInfo = getUserInfo();
+                    if (m_url.getProtocol().startsWith("http") && userInfo != null){
                         m_connection.setRequestProperty("Authorization", "Basic " + SourceUtil.encodeBASE64(userInfo));
                     }
                 }
@@ -226,7 +227,7 @@ public class URLSource extends AbstractSource implements Source
         {
             m_connection = m_url.openConnection();
 
-            String userInfo = m_url.getUserInfo();
+            String userInfo = getUserInfo();
             if (m_url.getProtocol().startsWith("http") && userInfo != null)
             {
                 m_connection.setRequestProperty("Authorization", "Basic " + SourceUtil.encodeBASE64(userInfo));
@@ -322,5 +323,27 @@ public class URLSource extends AbstractSource implements Source
     public String getMimeType()
     {
         return m_mimeType;
+    }
+    
+    /**
+     * The decoded userinfo for this source.
+     * null, if no userinfo exists 
+     */
+    protected String getUserInfo() 
+    {
+	    if (m_url == null) return null;
+	    String ui = m_url.getUserInfo();
+	    if (ui == null) return null;
+	
+	    try 
+        {
+	        ui = URLDecoder.decode(ui,"UTF-8");
+	    } 
+        catch (UnsupportedEncodingException e)
+        {
+	        // Platform does not support UTF-8. This should never happen.
+	        // e.printStackTrace();
+	    }
+	    return ui;
     }
 }
