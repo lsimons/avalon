@@ -316,7 +316,7 @@ Legal:
 
 
     <!-- Create the lite build -->
-    <target name="dist-mx4j" if="mx4j.present">
+    <target name="dist-mx4j" description="Copies MX4J jars" if="mx4j.present">
 	<copy file="${mx4j.jar}" todir="${bin.dist.bin}/lib"/>
 	<copy file="${mx4j-tools.jar}" todir="${bin.dist.bin}/lib"/>
     </target>
