@@ -21,7 +21,7 @@ import java.io.Writer;
  * OutputStream has been closed.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: StreamResource.java,v 1.5 2002/05/13 12:17:40 donaldp Exp $
+ * @version $Id: StreamResource.java,v 1.6 2002/09/07 12:28:36 donaldp Exp $
  */
 public abstract class StreamResource
     extends Resource
@@ -68,10 +68,10 @@ public abstract class StreamResource
     {
         long lastModified = System.currentTimeMillis();
 
-        m_eventSupport.firePropertyChange( Resource.MODIFIED,
-                                           new Long( m_previousModified ),
+        getEventSupport().firePropertyChange( Resource.MODIFIED,
+                                           new Long( getPreviousModified() ),
                                            new Long( lastModified ) );
 
-        m_previousModified = lastModified;
+        setPreviousModified( lastModified );
     }
 }
