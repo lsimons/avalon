@@ -72,8 +72,8 @@
             <td>Creating and associating a deployment template with a component.</td>
           </tr>
           <tr>
-            <td><a href="selectors.html">Profile Selectors</a></td>
-            <td>Using profile selectors to influence and/or override the assembly process.</td>
+            <td><a href="selection.html">Profile Selection</a></td>
+            <td>Demonstration of the selection of a packaged profile by name.</td>
           </tr>
           <tr>
             <td><a href="includes.html">Block Includes</a></td>
