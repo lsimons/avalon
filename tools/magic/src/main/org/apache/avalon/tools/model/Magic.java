@@ -67,8 +67,9 @@ public class Magic extends DataType
             SYSTEM = new Magic( project );
         }
 
+        File system = SYSTEM.getSystemDirectory();
         project.setProperty( 
-          KEY, SYSTEM.getSystemDirectory().toString() );
+          KEY, system.toString() );
 
         File main = SYSTEM.getRepository().getCacheDirectory();
         project.setProperty( 
@@ -79,14 +80,14 @@ public class Magic extends DataType
           DOCS_CACHE_KEY, Context.getCanonicalPath( docs ) );
 
         project.setProperty( 
-          TEMPLATES_KEY, getTemplatePath( main ) );
+          TEMPLATES_KEY, getTemplatePath( system ) );
         project.addReference( KEY, SYSTEM );
         return SYSTEM;
     }
 
-    private static String getTemplatePath( File cache )
+    private static String getTemplatePath( File system )
     {
-        File templates = new File( cache, "avalon/tools/templates" );
+        File templates = new File( system, "templates" );
         return Context.getCanonicalPath( templates ); 
     }
 
