@@ -10,7 +10,7 @@
 # It is overridden by ../ant.properties and ~/build.properties
 # It overrides all default.properties files and ~/.ant.properties
 #
-# $Id: ant.properties.sample,v 1.7 2002/08/07 16:31:38 proyal Exp $
+# $Id: ant.properties.sample,v 1.8 2003/01/24 11:46:32 jefft Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Control Flags -----
@@ -41,6 +41,13 @@ excalibur-concurrent.jar=${excalibur-concurrent.home}/excalibur-concurrent-1.0.j
 # ----- Excalibur Instrument -----
 excalibur-instrument.home=../instrument/build/lib
 excalibur-instrument.jar=${excalibur-instrument.home}/excalibur-instrument-0.3.jar
+
+# ----- Commons Collections -----
+commons-collections.home=${base.path}/commons-collections-2.1
+commons-collections.lib=${commons-collections.home}/lib
+commons-collections.jar=${commons-collections.lib}/commons-collections-2.1.jar
+
+
 
 # --------------------------------------------------
 #                OPTIONAL LIBRARIES
