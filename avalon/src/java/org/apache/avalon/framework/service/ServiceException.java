@@ -147,7 +147,7 @@ public class ServiceException
         }
         else
         {
-            return super.getMessage() + " (Role='" + m_key + "')";
+            return super.getMessage() + " (Key='" + m_key + "')";
         }
     }
 }
