@@ -92,8 +92,8 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
      *   </tr>
      *   <tr>
      *     <td>processors</td>
-     *     <td>Number of processors (Rewritten to 1 if less than one)</td>
-     *     <td>System property named "os.arch.cpus", otherwise 1</td>
+     *     <td>Number of processors (autodetected if less than one)</td>
+     *     <td>Results from SystemUtil.numProcessors()</td>
      *   </tr>
      *   <tr>
      *     <td>threads-per-processor</td>
