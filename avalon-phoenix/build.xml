@@ -72,6 +72,7 @@ Legal:
   <property name="javadocs.dir" value="${docs.dir}/api"/>
 
   <property name="dist.name" value="${name}-${version}"/>
+  <property name="dist.base" value="distributions"/>
 
   <property name="constants.file" value="org/apache/phoenix/engine/Constants.java"/>
 
@@ -102,15 +103,15 @@ Legal:
     <echo message=""/>
     <echo message=" available targets are:"/>
     <echo message=""/>
-    <echo message="   jar        --> generates the ${Name} jar files"/>
-    <echo message="   test       --> perform unit tests"/>
-    <echo message="   compile    --> compiles the source code"/>
-    <echo message="   javadocs   --> generates the API documentation (java 1.2+ only)"/>
-    <echo message="   docs       --> generates the ${Name} Documentation"/>
-    <echo message="   dist-lite  --> generates the ${Name} distribution without the javadocs (default)"/>
-    <echo message="   dist       --> generates the ${Name} distribution"/>
-    <echo message="   clean      --> cleans up the created directories"/>
-    <echo message="   real-clean --> cleans up all genereated files and directories"/>
+    <echo message="   jars          -> generates the ${Name} jar files"/>
+    <echo message="   test          -> perform unit tests"/>
+    <echo message="   compile       -> compiles the source code"/>
+    <echo message="   javadocs      -> generates the API documentation (java 1.2+ only)"/>
+    <echo message="   docs          -> generates the ${Name} Documentation"/>
+    <echo message="   dist-lite     -> generates the ${Name} distribution without the javadocs (default)"/>
+    <echo message="   distributions -> generates the ${Name} distributions (src and binary versions)"/>
+    <echo message="   clean         -> cleans up the created directories"/>
+    <echo message="   real-clean    -> cleans up all genereated files and directories"/>
     <echo message=""/>
     <echo message="-------------------------------------------------------------"/>
     <echo message=""/>
@@ -248,7 +249,7 @@ Legal:
   </target>
 
   <target name="docs">
-    <echo message="Todo: Docs" />
+    <mkdir dir="${build.docs}"/>
   </target>
 
   <!--
@@ -321,6 +322,7 @@ Legal:
        ===================================================================
   -->
   <target name="dist" depends="dist-lite,javadocs,docs">
+
     <mkdir dir="${dist.docs}"/>
     <mkdir dir="${dist.javadocs}"/>
 
@@ -341,11 +343,6 @@ Legal:
 
     <chmod dir="${dist.dir}" perm="go-rwx" />
 
-    <zip zipfile="${dist.name}-bin.zip" basedir="${dist.dir}/.." includes="${dist.dir}/**"/>
-    <tar tarfile="${dist.name}-bin.tar" basedir="${dist.dir}/.." includes="${dist.dir}/**"/>
-    <gzip zipfile="${dist.name}-bin.tar.gz" src="${dist.name}-bin.tar"/>
-    <delete file="${dist.name}-bin.tar"/>
-
   </target>
 
   <!--
@@ -353,9 +350,11 @@ Legal:
                             Create the source distribution
        ===================================================================
   -->
-  <target name="src-dist" depends="docs,setup-properties">
+  <target name="src-dist" depends="javadocs,docs,setup-properties">
 
     <mkdir dir="${src.dist.dir}" />
+    <mkdir dir="${src.dist.docs}"/>
+    <mkdir dir="${src.dist.javadocs}"/>
 
     <copy todir="${src.dist.tools}">
       <fileset dir="${tools.dir}"/>
@@ -393,6 +392,7 @@ Legal:
 
     <fixcrlf srcdir="${src.dist.dir}" includes="build.sh" cr="remove"/>
     <fixcrlf srcdir="${src.dist.dir}" includes="build.bat" cr="add"/>
+
     <chmod perm="+x">
       <fileset dir="${src.dist.dir}">
         <include name="build.sh" />
@@ -403,10 +403,6 @@ Legal:
 
     <chmod dir="${src.dist.dir}" perm="go-rwx" />
 
-    <zip zipfile="${dist.name}-src.zip"
-         basedir="${src.dist.dir}/.."
-         includes="${src.dist.dir}/**"/>
-    <delete dir="${src.dist.dir}" />
   </target>
 
   <!--
@@ -414,15 +410,57 @@ Legal:
                  Completely build all dists
        ===================================================================
   -->
-  <target name="full-dist">
-    <antcall target="src-dist">
-      <param name="src.dist.dir" value="${dist.name}" />
-    </antcall>
+  <target name="distributions">
+    <mkdir dir="${dist.base}"/>
 
     <antcall target="dist">
       <param name="dist.dir" value="${dist.name}" />
     </antcall>
+
+    <zip zipfile="${dist.base}/${dist.name}-bin.zip" 
+         basedir="${dist.name}/.." 
+         includes="${dist.name}/**"/>
+
+    <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-bin.tar">
+      <tarfileset dir="${dist.name}/.." mode="755" username="avalon" group="avalon">
+        <include name="${dist.name}/bin/run.sh"/>
+      </tarfileset> 
+      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon"> 
+        <include name="${dist.name}/**"/>
+        <exclude name="${dist.name}/bin/run.sh"/>
+      </tarfileset> 
+    </tar>
+
+    <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz" 
+          src="${dist.base}/${dist.name}-bin.tar"/>
+
+    <delete file="${dist.base}/${dist.name}-bin.tar"/>
     <delete dir="${dist.name}" />
+
+    <antcall target="src-dist">
+      <param name="src.dist.dir" value="${dist.name}" />
+    </antcall>
+
+    <zip zipfile="${dist.base}/${dist.name}-src.zip" 
+         basedir="${dist.name}/.." 
+         includes="${dist.name}/**"/>
+
+    <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-src.tar" >
+      <tarfileset dir="${dist.name}/.." mode="755" username="avalon" group="avalon">
+        <include name="${dist.name}/build.sh"/>
+      </tarfileset> 
+      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon"> 
+        <include name="${dist.name}/**"/>
+        <exclude name="${dist.name}/build.sh"/>
+      </tarfileset>
+    </tar> 
+
+    <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz" 
+          src="${dist.base}/${dist.name}-src.tar"/>
+
+    <delete file="${dist.base}/${dist.name}-src.tar"/>
+    <delete dir="${dist.name}" />
+
   </target>
 
   <!--
@@ -445,9 +483,7 @@ Legal:
   -->
   <target name="real-clean" depends="clean">
     <delete dir="${docs.dir}" />
-    <delete file="${dist.name}-bin.tar.gz" />
-    <delete file="${dist.name}-bin.zip" />
-    <delete file="${dist.name}-src.zip" />
+    <delete dir="${dist.base}" />
   </target>
 
 </project>
