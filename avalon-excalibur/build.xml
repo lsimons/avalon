@@ -271,6 +271,12 @@ Legal:
       <classpath refid="project.class.path" />
     </rmic>
 
+    <rmic base="${build.cadastre}"
+          classname="org.apache.avalon.excalibur.naming.rmi.server.RMINamingProviderImpl"
+          stubVersion="1.2">
+      <classpath refid="project.class.path" />
+    </rmic>
+
   </target>
 
   <target name="test" depends="compile" >
@@ -486,7 +492,7 @@ Legal:
     <mkdir dir="${dist.docs}/test"/>
 
     <copy todir="${dist.docs}/test">
-       <fileset="${build.testdocs}"/>
+       <fileset dir="${build.testdocs}"/>
     </copy>
 
 <!--
