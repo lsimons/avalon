@@ -198,6 +198,7 @@
       <include key="avalon-util-configuration"/>
       <include key="org.mortbay.jetty"/>
       <include key="org.mortbay.jaas"/>
+      <include key="servletapi" runtime="true" build="false" />
       <include key="commons-logging" build="false" runtime="true"/>
       <include key="jsp-api" runtime="true" build="false" />
       <include key="jasper-runtime" runtime="true" build="false" />
