@@ -38,6 +38,21 @@
         <font face="arial,helvetica,sanserif" color="#525D76"><i><xsl:value-of select="subtitle"/></i></font><br/>
       </xsl:if>
 
+      <font color="#000000" face="arial,helvetica,sanserif" size="-2">
+        <p>
+          <xsl:for-each select="//authorgroup/author">
+            <xsl:choose>
+              <xsl:when test="position()=1">by</xsl:when>
+              <xsl:default>, </xsl:default>
+          </xsl:for-each>
+          <a href="mailto:{address/email}">
+            <xsl:if test="honorific"><xsl:value-of select="honorific"/>. </xsl:if>
+            <xsl:if test="firstname"><xsl:value-of select="firstname"/> </xsl:if>
+            <xsl:value-of select="surname"/>
+          </a>
+        </p>
+      </font>
+
       <font color="#000000" face="arial,helvetica,sanserif">
         <xsl:apply-templates select="para"/>
       </font><br/>
