@@ -7,6 +7,15 @@
     <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
   </devs>
+<release version="1.0b4" date="Unreleased">
+  <action dev="PD" type="add">
+    Added XMLFormatter to enable writing logs in XML format.
+  </action>
+  <action dev="PD" type="update">
+    Implemented ContextStack.toString() and ContextStack.toString(int) to convert stack 
+    into string.
+  </action>
+</release>
 <release version="1.0b3" date="July 22, 2001">
   <action dev="PD" type="update">
     Added setPriority() method to Priority filter to allow modification of 
