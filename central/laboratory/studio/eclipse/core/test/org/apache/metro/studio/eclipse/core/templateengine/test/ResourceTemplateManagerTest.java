@@ -312,6 +312,12 @@ public class ResourceTemplateManagerTest extends TestCase
         rt.addResource(r);
 
         r = new Resource();
+        r.setRootSegment("src");
+        r.setSourceFilePathName(baseDir+"templates/context/standard/HelloComponent.xinfo");
+        r.setPackageName("tutorial");
+        rt.addResource(r);
+
+        r = new Resource();
         r.setRootSegment("src/BLOCK-INF");
         r.setSourceFilePathName(baseDir+"templates/context/standard/block.xml");
         r.setPackageName("");
