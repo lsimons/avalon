@@ -25,8 +25,9 @@ Legal:
 
   <property name="name" value="logkit"/>
   <property name="Name" value="LogKit"/>
-  <property name="version" value="1.0b2"/>
+  <property name="version" value="1.0b3"/>
   <property name="year" value="1999-2001"/>
+  <property name="status" value="Beta"/>
 
   <!--
     these are here only for those who use jikes compiler. For other
@@ -65,6 +66,9 @@ Legal:
 
   <property name="dist.name" value="${Name}-${version}"/>
   <property name="dist.base" value="distributions"/>
+
+  <property name="announce2txt" value="${tools.dir}/announcement2txt.xsl"/>
+  <property name="announce2header" value="${tools.dir}/announcement2header.xsl"/>
 
   <path id="project.class.path">
     <pathelement path="${java.class.path}" />
@@ -415,6 +419,31 @@ Legal:
     <delete dir="${dist.name}" />
 
   </target>
+
+  <!-- Create the announcements and HEADER.html -->
+  <target name="announcement" depends="setup-properties">
+
+    <filter token="Name" value="${Name}"/>
+    <filter token="name" value="${name}"/>
+    <filter token="version" value="${version}"/>
+    <filter token="year" value="${year}"/>
+    <filter token="status" value="${status}"/>
+
+    <mkdir dir="${build.dir}" />
+    <mkdir dir="${dist.base}" />
+
+    <copy todir="${build.xdocs}" filtering="on">
+      <fileset dir="${xdocs.dir}">
+        <exclude name="**/images/**"/>
+      </fileset>
+    </copy>
+
+    <style style="${announce2txt}" in="${build.xdocs}/announcement.xml" out="Announcement.txt"/>
+    <style style="${announce2header}" in="${build.xdocs}/announcement.xml" 
+           out="${dist.base}/HEADER.html"/>
+
+  </target>
+
 
   <!-- Cleans up build and distribution directories -->
   <target name="clean">
