@@ -57,7 +57,11 @@
 
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkAltrmiServer"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkAltrmiCommon"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkAltrmiClient"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkAltrmiGenerator"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
             <property name="proj.jar.name" value="excalibur-altrmi-client-impl.jar"/>
             <property name="path" value="${excalibur-altrmi-client-impl.jar}"/>

@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.33 $
+                   Version $Revision: 1.34 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -342,7 +342,7 @@ To use it, type 'ant -f depchecker.xml'
     </target>
     <target name="checkInstrumentManager">
        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
-            <property name="proj.jar.name" value="excalibur-instrument-manager-0.1.jar"/>
+            <property name="proj.jar.name" value="excalibur-instrument-manager-0.2.jar"/>
             <property name="class" value="org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentManagerClient"/>
             <property name="classpath" value="${cp}"/>
         </ant>
@@ -554,7 +554,7 @@ To use it, type 'ant -f depchecker.xml'
         <mkdir dir="${jardir}"/>
         <copy file="${path}" todir="${jardir}"/>
     </target>
- 
+
     <!-- =================================================================== -->
     <!-- Script called to recursively call another depencency.xml file in    -->
     <!-- another project, and then run the 'dist.lite' target.               -->

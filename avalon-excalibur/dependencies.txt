@@ -13,7 +13,7 @@ Current at: Thu Jun  27 13:22:23 EST 2002
 * context -> framework
 * extension -> .
 * i18n -> .
-* instrument -> .
+* instrument -> framework, alt-rmi-client-impl, altrmi-client-interfaces, altrmi-common, altrmi-generator, altrmi-manager-interfaces, logkit, logger, collections, altrmi-server-impl, altrmi-server-interfaces, component, pool
 * io -> .
 * threadcontext -> .
 * naming -> .
@@ -28,9 +28,7 @@ Current at: Thu Jun  27 13:22:23 EST 2002
 * event -> collections, concurrent, core, framework, event, util, thread, threadcontext, pool
 * all -> framework, component, logkit, logger, xmlbundle, i18n, sourceresolve [Unit tests: junit, testcase]
 * component -> logkit, framework, collections, logger, pool [Unit tests: junit, util, testcase, instrument (runtime)]
-* fortress -> instrument, instrument-manager, framework, event (recursive on mpool in scratchpad), component (test class), logger, util [Unit tests: junit, testcase, pool, datasource, cache, monitor, xmlbundle]
-instrument-client -> framework, altrmi-client-impl, altrmi-client-interfaces, altrmi-common, altrmi-generator, altrmi-manager-interfaces
-* instrument-manager -> logkit, logger, framework, core, collections, instrument, altrmi-common, altrmi-server-impl, altrmi-server-interfaces, component, pool
+* fortress -> instrument, framework, event (recursive on mpool in scratchpad), component (test class), logger, util [Unit tests: junit, testcase, pool, datasource, cache, monitor, xmlbundle]
 * logger -> logkit, framework. [Unit tests: junit, testcase, component, collections, pool]
 * thread -> pool, instrument, threadcontext, logkit, framework
 * pool -> framework, collections, logkit, instrument [Unit tests: junit, testcase, junitperf]
