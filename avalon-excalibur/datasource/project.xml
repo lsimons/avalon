@@ -48,7 +48,6 @@ necessary issues from there.
         <dependency>
             <id>avalon-framework</id>
             <version>4.1.4</version>
-            <groupId>framework</groupId>
         </dependency>
         <dependency>
             <groupId>avalon-logkit</groupId>
