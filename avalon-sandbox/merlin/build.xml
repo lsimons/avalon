@@ -433,7 +433,7 @@ the LICENSE.txt file.
           description="Generates the javadocs" unless="skip.javadocs">
     <mkdir dir="${build.javadocs}"/>
     <javadoc sourcepath="${java.dir}" packagenames="*,*.*"
-       destdir="${build.javadocs}" overview="${java.dir}/package.html">
+       destdir="${build.javadocs}">
      <classpath refid="project.class.path" />
       <group title="Kernel">
         <package name=""/>
