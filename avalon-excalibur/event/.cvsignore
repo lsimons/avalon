@@ -1,8 +1,4 @@
-ant.properties
-build
-checkstyle.cache
-distributions
-dist
-excalibur-*
-*.el
-*.ipr
+maven.log
+velocity.log
+build.properties
+target
