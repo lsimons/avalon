@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+	<header>
+		<title>Avalon - Getting Started</title>
+			<authors>
+				<person name="Leo Simons" email="leosimons@apache.org"/>
+			</authors>
+	</header>
+	<body>
+		<section>
+<title>Introduction</title>
+			<p>We've worked hard to write complete documentation for all the
+			different parts of avalon. Unfortunately, this means there is quite
+			a bit of documentation to sort through =)</p>
+		</section>
+
+		<section>
+<title>Avalon for Beginners</title>
+			<p>An effort is underway to write a concise, example-oriented guide
+			to avalon that will get you up and running in about 2 minutes. You
+			can find the draft
+			<link href="@AVALON_BASE@/excalibur/tweety/avalon-for-beginners.html">here</link>.</p>
+		</section>
+
+		<section>
+<title>Developing with Avalon</title>
+			<p>Another really neat document is our
+			<link href="@AVALON_BASE@/developing/">Developing with Avalon whitepaper</link>.
+			It's quite extensive, but very thorough and well-written. If you're an
+			experienced software engineer, you'll definately appreciate it.</p>
+		</section>
+
+		<section>
+<title>Other documentation</title>
+			<p>All the various subproject contain quite a bit of documentation
+			as well. I'll point you in the direction of the getting started
+			documentation for each of them.</p>
+
+			<section>
+<title>Avalon Framework</title>
+				<p>Both the Avalon for Beginners and the Developing with Avalon
+				paper introduce you to avalon framework. We suggest you start
+				with one of these.</p>
+			</section>
+
+			<section>
+<title>Avalon Excalibur</title>
+				<p>Unfortunately, the Excalibur documentation as a whole is in
+				bad shape, though some of the components it contains have really
+				complete documentation otherwise.</p>
+			</section>
+
+			<section>
+<title>Avalon Cornerstone</title>
+				<p>Much the same is true for the cornerstone documentation. We
+				suggest you read the
+				<link href="@AVALON_BASE@/cornerstone">overview</link>, then
+				browse the
+				<link href="@AVALON_BASE@/cornerstone/api">javadocs</link>
+				for more information.</p>
+			</section>
+
+			<section>
+<title>Avalon Phoenix</title>
+				<p>The
+				<link href="@AVALON_BASE@/phoenix/getting-started.html">Avalon Phoenix getting started document</link>
+				desribes the HelloWorld demo Service demo. Tt will take you
+				through downloading, installing and then running the demo step
+				by step so it is an easy place tp start</p>
+			</section>
+
+			<section>
+<title>Avalon Logkit</title>
+				<p>You will most likely not use logkit by itself, but
+				rather with Phoenix or another container, so you don't normally
+				need to learn much about logkit. If you are interested in learning
+				more about it, there's a really good
+				<link href="@AVALON_BASE@/logkit/whitepaper.html">whitepaper</link>
+				on it (it doesn't have a real 'getting started' document).</p>
+			</section>
+
+			<section>
+<title>Avalon Applications</title>
+				<p>The Phoenix documentation takes you through setting up the
+				Demo application; for the others there is no getting started
+				documentation.</p>
+			</section>
+		</section>
+
+		<section>
+<title>When you do get lost...</title>
+			<p>When you get stuck in sources, documentation, and the mailing list archive,
+			post your questions to the user mailing list (information on it is
+			<link href="http://jakarta.apache.org/site/mail.html">here</link>). For
+			many, Avalon poses a steep learning curve, and we'll try and help you
+			flatten it as much as we can.</p>
+		</section>
+	</body>
+</document>
