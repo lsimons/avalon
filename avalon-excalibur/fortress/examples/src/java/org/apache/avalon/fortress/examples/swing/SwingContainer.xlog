@@ -15,7 +15,7 @@
 
     <categories>
       <!-- Log output from the default logger -->
-      <category name="" log-level="DEBUG">
+      <category name="" log-level="INFO">
         <log-target id-ref="console"/>
       </category>
 
