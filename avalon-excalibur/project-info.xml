@@ -64,7 +64,7 @@
         <work nested="collections/build/testclasses"/>
         <work nested="monitor/build/classes"/>
 
-        <jar name="avalon-excalibure.jar"/>
+        <jar name="avalon-excalibur.jar"/>
 
         <javadoc nested="build/javadocs" module="jakarta-avalon"/>
 
