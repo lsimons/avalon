@@ -50,9 +50,9 @@
 
 package org.apache.avalon.cornerstone.blocks.sockets;
 
-import com.sun.net.ssl.KeyManagerFactory;
-import com.sun.net.ssl.SSLContext;
-import com.sun.net.ssl.TrustManagerFactory;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -264,7 +264,7 @@ public class SSLFactoryBuilder extends AbstractLogEnabled
     /**
      * Builds a keystore loaded from the given stream. The passphrase
      * is used to verify the keystore file integrity.
-     * @param file to load from
+     * @param keyStream to load from
      * @param passphrase for the store integrity verification (or null if
      *                   integrity check is not wanted)
      * @param keystoreFormat the type of keystore
