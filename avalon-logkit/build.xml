@@ -26,6 +26,7 @@ Legal:
   <property name="name" value="logkit"/>
   <property name="Name" value="LogKit"/>
   <property name="version" value="0.7"/>
+  <property name="year" value="1999-2001"/>
 
   <!--
     these are here only for those who use jikes compiler. For other
@@ -52,6 +53,7 @@ Legal:
   <property name="build.classes" value="${build.dir}/classes"/>
   <property name="build.javadocs" value="${build.dir}/javadocs"/>
   <property name="build.docs" value="${build.dir}/docs"/>
+  <property name="build.xdocs" value="${build.dir}/xdocs"/>
 
   <!--
        ===================================================================
@@ -64,6 +66,8 @@ Legal:
   <property name="tools.dir" value="tools"/>
   <property name="docs.dir" value="docs"/>
   <property name="www.dir" value="www"/>
+  <property name="avalon.skin" value="${tools.dir}/lib/jakarta-style.jar"/>
+  <property name="xdocs.dir" value="${src.dir}/xdocs"/>
   <property name="javadocs.dir" value="${docs.dir}/api"/>
 
   <property name="dist.name" value="${Name}-${version}"/>
@@ -227,10 +231,66 @@ Legal:
 
   <!--
        ===================================================================
+                     Prepares the documentation directory
+       ===================================================================
+  -->
+  <target name="xdocs">
+     
+    <mkdir dir="${build.xdocs}"/>
+    <mkdir dir="${build.docs}"/>
+
+    <filter token="year" value="${year}"/>
+    <filter token="AVALON_BASE" value="http://jakarta.apache.org/avalon"/>
+    <filter token="FRAMEWORK_BASE" value="http://jakarta.apache.org/avalon/framework"/>
+
+    <copy todir="${build.xdocs}" filtering="on">
+      <fileset dir="${xdocs.dir}">
+        <exclude name="**/images/**"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${build.docs}" filtering="off">
+      <fileset dir="${xdocs.dir}">
+        <include name="**/images/**"/>
+      </fileset>
+    </copy>
+
+    <stylebook targetdirectory="${build.docs}"
+               book="${build.xdocs}/book.xml"
+               skindirectory="${avalon.skin}">
+      <classpath refid="project.class.path" />
+    </stylebook>
+
+  </target>
+
+  <!--
+       ===================================================================
+       Create the Local site documentation
+       ===================================================================
+  -->
+  <target name="local-xdocs" depends="xdocs">
+
+    <delete>
+      <fileset dir="${docs.dir}">
+        <exclude name="api/**"/>
+      </fileset>
+    </delete>
+    <mkdir dir="${docs.dir}"/>
+
+    <copy todir="${docs.dir}">
+      <fileset dir="${build.docs}" />
+    </copy>
+
+  </target>
+
+  <target name="local-docs" depends="local-javadocs,local-xdocs"/>
+
+  <!--
+       ===================================================================
        Update the www directory
        ===================================================================
   -->
-  <target name="site-docs" depends="local-javadocs">
+  <target name="site-docs" depends="local-docs">
 
     <!-- delete all old documents but keep CVS directories -->
     <!-- note that by doing an include the defaultexcludes (CVS dirs) will be kept -->
