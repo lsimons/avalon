@@ -26,7 +26,7 @@ import java.util.Map;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.12 $ $Date: 2002/03/16 00:05:40 $
+ * @version CVS $Revision: 1.13 $ $Date: 2003/02/14 19:23:27 $
  * @since 4.0
  */
 public class Jdbc3Connection
@@ -42,6 +42,7 @@ public class Jdbc3Connection
     {
         final Statement temp = m_connection.createStatement();
         m_lastUsed = System.currentTimeMillis();
+        registerAllocatedStatement( temp );
         return temp;
     }
 
@@ -50,6 +51,7 @@ public class Jdbc3Connection
     {
         final PreparedStatement temp = m_connection.prepareStatement( sql );
         m_lastUsed = System.currentTimeMillis();
+        registerAllocatedStatement( temp );
         return temp;
     }
 
@@ -58,6 +60,7 @@ public class Jdbc3Connection
     {
         final CallableStatement temp = m_connection.prepareCall( sql );
         m_lastUsed = System.currentTimeMillis();
+        registerAllocatedStatement( temp );
         return temp;
     }
 
@@ -156,6 +159,7 @@ public class Jdbc3Connection
         );
 
         m_lastUsed = System.currentTimeMillis();
+        registerAllocatedStatement( temp );
         return temp;
     }
 
@@ -169,6 +173,7 @@ public class Jdbc3Connection
         );
 
         m_lastUsed = System.currentTimeMillis();
+        registerAllocatedStatement( temp );
         return temp;
     }
 
@@ -182,6 +187,7 @@ public class Jdbc3Connection
         );
 
         m_lastUsed = System.currentTimeMillis();
+        registerAllocatedStatement( temp );
         return temp;
     }
 
@@ -244,6 +250,7 @@ public class Jdbc3Connection
         );
 
         m_lastUsed = System.currentTimeMillis();
+        registerAllocatedStatement( temp );
         return temp;
     }
 
@@ -272,6 +279,7 @@ public class Jdbc3Connection
         );
 
         m_lastUsed = System.currentTimeMillis();
+        registerAllocatedStatement( temp );
         return temp;
     }
 
@@ -284,6 +292,7 @@ public class Jdbc3Connection
         );
 
         m_lastUsed = System.currentTimeMillis();
+        registerAllocatedStatement( temp );
         return temp;
     }
 
@@ -296,6 +305,7 @@ public class Jdbc3Connection
         );
 
         m_lastUsed = System.currentTimeMillis();
+        registerAllocatedStatement( temp );
         return temp;
     }
 
@@ -308,6 +318,7 @@ public class Jdbc3Connection
         );
 
         m_lastUsed = System.currentTimeMillis();
+        registerAllocatedStatement( temp );
         return temp;
     }
 }
