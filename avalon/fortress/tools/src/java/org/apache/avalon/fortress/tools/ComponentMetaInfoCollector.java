@@ -54,11 +54,17 @@
  */
 package org.apache.avalon.fortress.tools;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Properties;
@@ -72,6 +78,7 @@ import org.apache.avalon.fortress.impl.role.ServiceRoleManager;
 import org.apache.avalon.framework.thread.SingleThreaded;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
 
 import com.thoughtworks.qdox.ant.AbstractQdoxTask;
 import com.thoughtworks.qdox.model.DocletTag;
@@ -90,6 +97,11 @@ public class ComponentMetaInfoCollector extends AbstractQdoxTask
      * The services to write the meta info for.
      */
     private Set m_services = new HashSet();
+    
+    /**
+     * The components to write the meta info for.
+     */
+    private Set m_components = new HashSet();
     
     /**
      * The destination directory for metadata files.
@@ -114,25 +126,35 @@ public class ComponentMetaInfoCollector extends AbstractQdoxTask
     {
         validate();
 
-        final String message =
-            "Writing Info descriptors as property files (.meta).";
-        log( message );
+        log( "Writing Info descriptors as property files (.meta)." );
 
         super.execute();
 
         try
         {
             writeInfoMetaData();
+            ClassLoader loader = getClassLoader();
             
             PrintWriter writer = new PrintWriter( new FileWriter( m_serviceFile ) );
+            int numServices = 0;
             
             Iterator it = m_services.iterator();
             while (it.hasNext())
             {
                 writer.println(it.next());
+                numServices++;
             }
             
             writer.close();
+            
+            if (numServices == 0)
+            {
+                m_serviceFile.delete();
+            }
+
+            log( "Collecting service information." );
+            collectClassLoaderServices( loader );
+            collectServices( loader );
         }
         catch( final Exception e )
         {
@@ -140,7 +162,7 @@ public class ComponentMetaInfoCollector extends AbstractQdoxTask
         }
     }
 
-    /**
+	/**
      * Validate that the parameters are valid.
      */
     private void validate()
@@ -200,8 +222,9 @@ public class ComponentMetaInfoCollector extends AbstractQdoxTask
                 tag = javaClass.getTagByName( "avalon.component" );
                 if( null != tag )
                 {
+                    m_components.add(javaClass.getFullyQualifiedName());
+
                     Properties meta = new Properties();
-                    
                     prepareMetaInfo(meta, javaClass);
                     
                     File metaFile = getOutputFileForClass(javaClass.getFullyQualifiedName());
@@ -277,5 +300,124 @@ public class ComponentMetaInfoCollector extends AbstractQdoxTask
         
         filename += ".meta";
         return new File( m_destDir, filename ).getCanonicalFile();
+    }
+
+    /**
+     * Return the classloader used to determine the services info.
+     * 
+     * @return URLClassLoader
+     */
+    private ClassLoader getClassLoader() throws MalformedURLException {
+        final URL[] urls = new URL[] {m_destDir.toURL()};
+        return new URLClassLoader(urls, getClass().getClassLoader());
+    }
+    
+    /**
+     * Collect all the services and write out the implementations.
+     */
+    private void collectServices( final ClassLoader loader ) throws MalformedURLException
+    {
+        final File baseDir = new File(m_destDir, "META-INF/services/");
+        final Iterator services = m_services.iterator();
+        baseDir.mkdirs();
+        
+        while(services.hasNext())
+        {
+            String service = (String)services.next();
+            log("Processing service " + service, Project.MSG_VERBOSE);
+            try
+            {
+                Class role = loader.loadClass(service);
+                    
+                if ( role.isInterface() )
+                {
+                    File serviceFile = new File(baseDir, service);
+                    collectComponents(serviceFile, role);
+                }
+                else
+                {
+                    log(service + " is not an interface", Project.MSG_WARN);
+                }
+            }
+            catch(Exception e)
+            {
+                log(service + " could not be found", Project.MSG_WARN);
+            }
+        }
+    }
+
+    /**
+	 * 
+	 */
+	private void collectClassLoaderServices(ClassLoader loader)
+        throws IOException
+    {
+		Enumeration enum = loader.getResources("services.list");
+        while (enum.hasMoreElements())
+        {
+            URL entry = (URL)enum.nextElement();
+            BufferedReader reader = new BufferedReader(
+                 new InputStreamReader( entry.openStream() ) );
+            String line;
+                 
+            while ( (line = reader.readLine()) != null )
+            {
+                if (line.trim().length() > 0)
+                {
+                    m_services.add(line);
+                }
+            }
+        }
+	}
+
+	/**
+     * Output all the components that implement the service.
+     * 
+     * @param serviceFile
+     * @param role
+     * @throws IOException
+     */
+    private void collectComponents(final File serviceFile, Class role)
+        throws IOException
+    {
+        final ClassLoader loader = role.getClassLoader();
+        int numComponents = 0;
+        log("Opening file: " + serviceFile.getAbsolutePath(), Project.MSG_DEBUG);
+        PrintWriter writer = new PrintWriter( new FileWriter( serviceFile ) );
+            
+        final Iterator components = m_components.iterator();
+        while( components.hasNext() )
+        {
+            String comp = (String)components.next();
+            
+            try
+            {
+                Class component = loader.loadClass(comp);
+                if ( role.isAssignableFrom(component) )
+                {
+                    log(comp + " is a(n) " + role.getName(), Project.MSG_DEBUG);
+                    writer.println(comp);
+                    numComponents++;
+                }
+                else
+                {
+                    log(comp + " is not a(n) " + role.getName(), Project.MSG_DEBUG);
+                }
+            }
+            catch (Exception e)
+            {
+                log(comp + " could not be found", Project.MSG_WARN);
+            }
+        }
+        
+        writer.close();
+        log("Closing file: " + serviceFile.getAbsolutePath(), Project.MSG_DEBUG);
+        log("Had " + numComponents + " components", Project.MSG_DEBUG);
+        
+        if ( numComponents == 0 )
+        {
+            log("No components for role " + role.getName() + ", deleting service entry.", Project.MSG_VERBOSE);
+            serviceFile.delete();
+        }
     }
 }
