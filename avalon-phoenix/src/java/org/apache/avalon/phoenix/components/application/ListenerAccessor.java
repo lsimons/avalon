@@ -27,7 +27,7 @@ import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
  * Block or Listener.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/05/19 02:00:43 $
+ * @version $Revision: 1.2 $ $Date: 2002/05/19 02:03:02 $
  */
 public class ListenerAccessor
     extends AbstractLogEnabled
@@ -78,7 +78,7 @@ public class ListenerAccessor
     public Logger createLogger( final Object entry )
         throws Exception
     {
-        final BlockListenerMetaData metaData = (BlockListenerMetaData)entry;
+        final BlockListenerMetaData metaData = getMetaData( entry );
         final String name = metaData.getName();
         return new LogKitLogger( m_context.getLogger( name ) );
     }
@@ -113,7 +113,7 @@ public class ListenerAccessor
     public Configuration createConfiguration( final Object entry )
         throws Exception
     {
-        final BlockListenerMetaData metaData = (BlockListenerMetaData)entry;
+        final BlockListenerMetaData metaData = getMetaData( entry );
         final String name = metaData.getName();
         try
         {
@@ -138,5 +138,16 @@ public class ListenerAccessor
             Parameters.fromConfiguration( configuration );
         parameters.makeReadOnly();
         return parameters;
+    }
+
+    /**
+     * Get meta data for entry.
+     *
+     * @param entry the entry
+     * @return the metadata
+     */
+    private BlockListenerMetaData getMetaData( final Object entry )
+    {
+        return (BlockListenerMetaData)entry;
     }
 }
