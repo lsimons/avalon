@@ -70,7 +70,7 @@ import org.apache.avalon.phoenix.framework.tools.infobuilder.LegacyUtil;
  *
  * @author Paul Hammant
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003/04/09 23:29:00 $
+ * @version $Revision: 1.6 $ $Date: 2003/04/10 13:09:27 $
  */
 public class LegacyInfoBuilder
     extends AbstractInfoBuilder
@@ -115,11 +115,19 @@ public class LegacyInfoBuilder
     private ServiceDescriptor[] buildServices( final JavaClass javaClass )
     {
         final ArrayList services = new ArrayList();
-        final DocletTag[] tags = javaClass.getTagsByName( "phoenix:service" );
-        for( int i = 0; i < tags.length; i++ )
+        final DocletTag[] serviceTags = javaClass.getTagsByName( "phoenix:service" );
+        for( int i = 0; i < serviceTags.length; i++ )
         {
-            final String type = getNamedParameter( tags[ i ], "name" );
+            final String type = getNamedParameter( serviceTags[ i ], "name" );
             final ServiceDescriptor service = new ServiceDescriptor( type, Attribute.EMPTY_SET );
+            services.add( service );
+        }
+        final DocletTag[] mxTags = javaClass.getTagsByName( "phoenix:mx" );
+        for( int i = 0; i < mxTags.length; i++ )
+        {
+            final String type = getNamedParameter( mxTags[ i ], "name" );
+            final ServiceDescriptor service =
+                    new ServiceDescriptor( type, new Attribute[]{LegacyUtil.MX_ATTRIBUTE} );
             services.add( service );
         }
         return (ServiceDescriptor[])services.toArray( new ServiceDescriptor[ services.size() ] );
