@@ -13,6 +13,7 @@ import org.apache.avalon.framework.logger.NullLogger;
 import org.apache.avalon.excalibur.concurrent.Mutex;
 import org.apache.avalon.excalibur.thread.*;
 import org.apache.avalon.excalibur.thread.impl.ResourceLimitingThreadPool;
+import org.apache.avalon.excalibur.util.SystemUtil;
 
 import org.apache.avalon.excalibur.event.Source;
 import org.apache.avalon.excalibur.event.EventHandler;
@@ -44,18 +45,7 @@ public final class TPCThreadManager implements Runnable, ThreadManager, Disposab
      */
     public TPCThreadManager()
     {
-        this( Integer.parseInt( System.getProperty( "os.arch.cpus", "1" ) ) , 1 );
-    }
-
-    /**
-     * This constructor assumes there is a parameter named "os.arch.cpus"
-     * that has a default for the number of CPUs on a system.  Otherwise, the value
-     * is 1.
-     */
-    public TPCThreadManager(Parameters params)
-    {
-        this( params.getParameterAsInteger( "os.arch.cpus", 1 ) ,
-              params.getParameterAsInteger( "container.threadsPerCPU", 2 ) );
+        this( SystemUtil.numProcessors() );
     }
 
     /**
