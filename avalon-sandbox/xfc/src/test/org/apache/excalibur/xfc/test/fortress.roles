@@ -40,9 +40,6 @@
     <component shorthand="j2ee"
                class="org.apache.avalon.excalibur.datasource.J2eeDataSource"
                handler="org.apache.excalibur.fortress.handler.ThreadSafeComponentHandler"/>
-    <component shorthand="informix"
-               class="org.apache.avalon.excalibur.datasource.InformixDataSource"
-               handler="org.apache.excalibur.fortress.handler.ThreadSafeComponentHandler"/>
   </role>
 
 </role-list>

@@ -32,9 +32,8 @@
   <role name="org.apache.avalon.excalibur.datasource.DataSourceComponentSelector"
         shorthand="datasources"
         default-class="org.apache.avalon.excalibur.component.ExcaliburComponentSelector">
-	<hint shorthand="jdbc" class="org.apache.avalon.excalibur.datasource.ResourceLimitingJdbcDataSource"/>
+    <hint shorthand="jdbc" class="org.apache.avalon.excalibur.datasource.ResourceLimitingJdbcDataSource"/>
     <hint shorthand="j2ee" class="org.apache.avalon.excalibur.datasource.J2eeDataSource"/>
-    <hint shorthand="informix" class="org.apache.avalon.excalibur.datasource.InformixDataSource"/>
   </role>
 
 </role-list>
