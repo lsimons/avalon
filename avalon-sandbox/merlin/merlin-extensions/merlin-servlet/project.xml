@@ -23,8 +23,7 @@ Servlet implementation that initializes an embedded Merlin Kernel.
   <dependencies>
 
     <dependency>
-      <groupId>avalon</groupId>
-      <artifactId>avalon-framework</artifactId>
+      <id>avalon-framework</id>
       <version>4.1.4</version>
       <properties>
         <war.bundle.jar>true</war.bundle.jar>
@@ -32,8 +31,7 @@ Servlet implementation that initializes an embedded Merlin Kernel.
     </dependency>
 
     <dependency>
-      <groupId>servletapi</groupId>
-      <artifactId>servletapi</artifactId>
+      <id>servletapi</id>
       <version>2.3</version>
     </dependency>
 
@@ -54,8 +52,7 @@ Servlet implementation that initializes an embedded Merlin Kernel.
     <!-- unit test -->
 
     <dependency>
-      <groupId>avalon</groupId>
-      <artifactId>avalon-logkit</artifactId>
+      <id>logkit</id>
       <version>1.2</version>
       <properties>
         <war.bundle.jar>true</war.bundle.jar>
@@ -63,8 +60,7 @@ Servlet implementation that initializes an embedded Merlin Kernel.
     </dependency>
 
     <dependency>
-      <groupId>avalon</groupId>
-      <artifactId>avalon-lifecycle</artifactId>
+      <id>excalibur-lifecycle</id>
       <version>1.0</version>
       <properties>
         <war.bundle.jar>true</war.bundle.jar>
@@ -108,8 +104,7 @@ Servlet implementation that initializes an embedded Merlin Kernel.
     </dependency>
     
     <dependency>
-      <groupId>excalibur</groupId>
-      <artifactId>excalibur-i18n</artifactId>
+      <id>excalibur-i18n</id>
       <version>1.0</version>
       <properties>
         <war.bundle.jar>true</war.bundle.jar>
@@ -117,9 +112,8 @@ Servlet implementation that initializes an embedded Merlin Kernel.
     </dependency>
     
     <dependency>
-      <groupId>excalibur</groupId>
-      <artifactId>excalibur-event</artifactId>
-      <version>2.0</version>
+      <id>excalibur-event</id>
+      <version>1.0.3</version>
       <properties>
         <war.bundle.jar>true</war.bundle.jar>
       </properties>
@@ -135,8 +129,7 @@ Servlet implementation that initializes an embedded Merlin Kernel.
     </dependency>
 
     <dependency>
-      <groupId>excalibur</groupId>
-      <artifactId>excalibur-configuration</artifactId>
+      <id>excalibur-configuration</id>
       <version>1.0</version>
       <properties>
         <war.bundle.jar>true</war.bundle.jar>
@@ -144,8 +137,7 @@ Servlet implementation that initializes an embedded Merlin Kernel.
     </dependency>
     
     <dependency>
-      <groupId>excalibur</groupId>
-      <artifactId>excalibur-extension</artifactId>
+      <id>excalibur-extension</id>
       <version>1.0</version>
       <properties>
         <war.bundle.jar>true</war.bundle.jar>
