@@ -147,7 +147,7 @@ public void testServiceResolution() throws Exception
         file to your basedir.
         </p>
         <p>
-        </i>Example merlin.properties</i>
+        <i>Example merlin.properties</i>
         </p>
 <source><![CDATA[
 merlin.info = true
