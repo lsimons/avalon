@@ -49,7 +49,7 @@ class BlockEntry
     {
         invalidate();
 
-        if( null != object )
+        if( null != object && ! getMetaData().isDisableProxy() )
         {
             final BlockInfo blockInfo = getMetaData().getBlockInfo();
             final Class[] interfaces = getServiceClasses( object, blockInfo.getServices() );
@@ -60,13 +60,20 @@ class BlockEntry
 
     public synchronized Object getProxy()
     {
-        if( null != m_invocationHandler )
+        if ( getMetaData().isDisableProxy() )
         {
-            return m_invocationHandler.getProxy();
+            return m_object;
         }
         else
         {
-            return null;
+            if( null != m_invocationHandler )
+            {
+                return m_invocationHandler.getProxy();
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 

@@ -20,14 +20,18 @@ public class BlockMetaData
 
     private final DependencyMetaData[] m_dependencies;
 
-    private BlockInfo m_blockInfo;
+    private final boolean m_disableProxy;
+
+    private final BlockInfo m_blockInfo;
 
     public BlockMetaData( final String name,
                           final DependencyMetaData[] dependencies,
+                          final boolean disableProxy, 
                           final BlockInfo blockInfo )
     {
         m_name = name;
         m_dependencies = dependencies;
+        m_disableProxy = disableProxy;
         m_blockInfo = blockInfo;
     }
 
@@ -62,5 +66,10 @@ public class BlockMetaData
     public DependencyMetaData[] getDependencies()
     {
         return m_dependencies;
+    }
+
+    public boolean isDisableProxy()
+    {
+        return m_disableProxy;
     }
 }
