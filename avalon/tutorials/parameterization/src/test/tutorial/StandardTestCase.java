@@ -78,7 +78,7 @@ public class StandardTestCase extends AbstractMerlinTestCase
 
     public void testServiceResolution() throws Exception
     {
-        Object hello = resolve( "hello" );
+        Object hello = resolve( "/tutorial/hello" );
         assertNotNull( "hello", hello );
     }
 }
