@@ -93,7 +93,7 @@
 <title>Subclasses Should be Specializations</title>
       <p>
         A [subclass] "is a" [superclass].  If what you
-        are trying to do is make a Component into a ComponentManager,
+        are trying to do is make a component into a ServiceManager,
         then you are violating the spirit of the framework.  A better
         approach is to use containment in that case (i.e. a [class]
         "has a" [external class]).
@@ -129,7 +129,7 @@
       </p>
     </section>
     <section>
-<title>Send Messages to Components instead of to This</title>
+<title>Send Messages to components instead of to This</title>
       <p>
         The point of this point is that you want to build your framework
         based on components, and not inheritance.  Avalon takes this
