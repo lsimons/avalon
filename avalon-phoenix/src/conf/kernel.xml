@@ -84,6 +84,7 @@
             <!--
             <enable-rmi-adaptor>true</enable-rmi-adaptor>
             <rmi-naming-factory>com.sun.jndi.rmi.registry.RegistryContextFactory</rmi-naming-factory>
+            <rmi-registry-port>1099</rmi-registry-port>
             -->
 
         </component>
