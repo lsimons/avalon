@@ -36,18 +36,16 @@ public abstract class AbstractPolicy
     extends Policy
     implements Component, Loggable
 {
-    protected final static boolean     DEBUG         = true;
-
-    protected final ArrayList        m_entries     = new ArrayList();
+    private final ArrayList        m_entries  = new ArrayList();
     private Logger                 m_logger;
 
     /**
      * Internal Policy Entry holder class.
      */
-    protected final static class PolicyEntry
+    private static class PolicyEntry
     {
-        CodeSource                      m_codeSource;
-        Permissions                     m_permissions;
+        CodeSource   m_codeSource;
+        Permissions  m_permissions;
     }
 
     public void setLogger( final Logger logger )
@@ -77,22 +75,10 @@ public abstract class AbstractPolicy
         for( int i = 0; i < size; i++ )
         {
             final PolicyEntry entry = (PolicyEntry)m_entries.get( i );
-
             if( entry.m_codeSource.implies( codeSource ) )
             {
-                if( DEBUG )
-                {
-                    getLogger().debug( entry.m_codeSource.getLocation() + " implies " +
-                                       codeSource.getLocation() );
-                }
-
                 copyPermissions( permissions, entry.m_permissions );
             }
-        }
-
-        if( DEBUG )
-        {
-            getLogger().debug( codeSource.getLocation() + " permissions = " + permissions );
         }
 
         return permissions;
@@ -112,7 +98,7 @@ public abstract class AbstractPolicy
      * @param codeSource the codeSource to be normalized
      * @return the normalized codeSource
      */
-    protected CodeSource normalize( final CodeSource codeSource )
+    private CodeSource normalize( final CodeSource codeSource )
     {
         final URL initialLocation = codeSource.getLocation();
 
@@ -181,13 +167,11 @@ public abstract class AbstractPolicy
     protected Permissions createPermissionSetFor( final URL url,
                                                   final Certificate[] signers )
     {
+        getLogger().debug( "createPermissionSetFor(" + url + ");" );
+
         final PolicyEntry entry = new PolicyEntry();
         entry.m_codeSource = new CodeSource( url, signers );
         entry.m_codeSource = normalize( entry.m_codeSource );
-
-        getLogger().debug( "createPermissionSetFor(" +
-                           entry.m_codeSource.getLocation() + ");" );
-
         entry.m_permissions = new Permissions();
 
         m_entries.add( entry );
