@@ -179,9 +179,9 @@ public class SAXConfigurationHandler
             final String trimmedValue = accumulatedValue.trim();
             if( trimmedValue.length() > 0 )
             {
-                throw new SAXException( "Not allowed to define mixed content in the " +
-                                        "element " + finishedConfiguration.getName() + " at " +
-                                        finishedConfiguration.getLocation() );
+                throw new SAXException( "Not allowed to define mixed content in the "
+                                        + "element " + finishedConfiguration.getName() + " at "
+                                        + finishedConfiguration.getLocation() );
             }
         }
 
@@ -313,9 +313,9 @@ public class SAXConfigurationHandler
         else
         {
             return
-                m_locator.getSystemId() + ":" +
-                m_locator.getLineNumber() + ":" +
-                m_locator.getColumnNumber();
+                m_locator.getSystemId() + ":"
+                + m_locator.getLineNumber() + ":"
+                + m_locator.getColumnNumber();
         }
     }
 }
