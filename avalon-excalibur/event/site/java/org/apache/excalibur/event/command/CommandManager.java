@@ -56,6 +56,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.NullLogger;
 import org.apache.commons.collections.Buffer;
 import org.apache.commons.collections.UnboundedFifoBuffer;
 import org.apache.excalibur.event.*;
@@ -90,12 +92,14 @@ import EDU.oswego.cs.dl.util.concurrent.ReentrantLock;
  //
 
  CommandManager commandManager = new CommandManager();
+ commandManager.enableLogging( getLogger().getChildLogger("commandmanager") );
  threadManager.register( commandManager );
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public class CommandManager implements EventPipeline, Disposable, EnqueuePredicate
+public class CommandManager extends AbstractLogEnabled
+    implements EventPipeline, Disposable, EnqueuePredicate
 {
     private final Queue m_queue;
     private final HashMap m_signalHandlers;
@@ -118,6 +122,9 @@ public class CommandManager implements EventPipeline, Disposable, EnqueuePredica
         m_failureHandler = NullCommandFailureHandler.SHARED_INSTANCE;
         m_queue.setEnqueuePredicate(this);
         m_isAccepting = true;
+
+        // if no logger is set ensure a valid one is there.
+        enableLogging( new NullLogger() );
     }
 
     /**
@@ -294,7 +301,10 @@ public class CommandManager implements EventPipeline, Disposable, EnqueuePredica
                     }
                     catch( Exception e )
                     {
-                        // ignore for now
+                        if ( getLogger().isWarnEnabled() )
+                        {
+                            getLogger().warn( "Exception during Command.execute()", e );
+                        }
                     }
 
                     command.m_numExecutions++;
