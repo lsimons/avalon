@@ -369,7 +369,7 @@
     <dependencies>
       <include key="avalon-framework-impl"/>
       <include key="avalon-util-i18n"/>
-      <include key="mx4j-jmx"/>
+      <include key="mx4j-tools"/>
     </dependencies>
   </project>
 
