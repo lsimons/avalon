@@ -1,0 +1,212 @@
+
+<!--
+Merlin demonstration kernal configuration.
+
+This configuration assembles a set of component instance within a container 
+hierachy and is used as one of several validation points.  The example includes
+demonstration of some of the main Merlin features:
+
+  a) automatic component assembly
+  b) multiple candidate resolution
+  c) lifestyle support
+  d) lifecycle extension
+  e) custom containers
+  f) dynamic component addition
+  g) context management
+  h) configuration management
+  i) use of explicit, packaged and implicit profiles
+  j) nested containers
+
+-->
+
+<kernel>
+
+   <!--
+   Declaration of the domain name that this kernel is operating within.
+   -->
+
+   <system>
+     <host>localhost</host>
+   </system>
+
+   <!--
+   Optional logging catagory creation directive.  The logging element declares
+   the application wide default logging priority.  
+   A target element enables defintion of a logging file to which log entries will 
+   be directed.  The target name attribute is the name referenced by category elements
+   defined within the loggers element. 
+
+   The target defaults of "default" which corresponds to a internal default logging 
+   target that issue messages to System.out (unless overriden by a target named default).  
+   If the target is declared inside a catagory element, it must refer to a named target 
+   element.  The priority attribute may contain one of the values <code>DEBUG</code>
+   <code>INFO</code>, <code>WARN</code>, or <code>ERROR</code> and declares the system 
+   wide default logging priority.
+
+   The target must contain a single file element with the attribute <code>location</code>
+   the corresponds to the name of the logging file to which log entries shall be written.
+   -->
+
+   <logging priority="INFO" target="default">
+      <category name="/sys/logger" priority="WARN"/>
+      <target name="kernel">
+        <file location="kernel.log" />
+      </target>
+   </logging>
+
+   <categories priority="WARN">
+     <category priority="DEBUG"  name="/sys" />
+   </categories>
+
+   <engine>
+
+     <!--
+     Declaration of installed extension directories and kernel level classpath.
+     In this demo we are referencing the Merlin classes in the embedded demo so 
+     we need to include Merlin and its' extension depedencies in directory 
+     referenced within the library element.
+     -->
+
+     <library dir=".">
+       <include name="extensions"/>
+     </library>
+
+     <!--
+     Defintion of the lifestyle manager.
+     The lifestyles class attribute must reference a class implementing the
+     interface org.apache.excalibur.merlin.resource.LifestyleManager. 
+     -->
+
+     <lifestyles class="org.apache.excalibur.merlin.resource.DefaultLifestyleManager"/>
+
+     <!--
+     Declaration of the root container.
+     -->
+
+   </engine>
+
+   <container name="root">
+
+     <!--
+     A container has a number of internal logging catagories that you can modify to
+     see what's going on. In practice you will probably only declare categories under
+     components, however - the container level logging categories are presented here 
+     for completness. 
+     -->
+
+     <categories priority="INFO">
+       <category priority="WARN"  name="loader" />
+       <category priority="WARN"  name="loader.services" />
+       <category priority="WARN"  name="loader.deployment" />
+       <category priority="WARN"  name="loader.lifecycle" />
+       <category priority="WARN"  name="loader.resource" />
+       <category priority="WARN"  name="loader.types" />
+     </categories>
+
+     <!--
+     Declaration of the classpath for this container.
+     -->
+
+     <classpath>
+       <fileset dir="build/lib">
+         <include name="demo.jar"/>
+       </fileset>
+     </classpath>
+
+     <!--
+     Declaration of the services hosted by this container.  Service container here 
+     will be managed relative to other provider components at the same level and 
+     may be serviced by components declared in parent container.
+     -->
+
+     <component name="complex" class="org.apache.excalibur.playground.ComplexComponent" activation="startup">
+
+        <categories priority="DEBUG">
+          <category name="init" priority="DEBUG" />
+        </categories>
+
+        <!--
+        Include the following context value in the context supplied a component using this 
+        profile.  Context entries are normally only required in the case where the component
+        type declares a required context type and entry values. Generally speaking, a component
+        will normally qualify it's instantiation criteria through a configuration declaration.
+        Any context values defined at this level will override context values supplied by the
+        container.
+        -->
+
+        <context>
+          <entry key="location" value="Paris"/>
+        </context>
+
+        <!--
+        Apply the following configuration when instantiating the component.  This configuration
+        will be applied as the primary configuration in a cascading configuration chain.  A 
+        type may declare a default configuration under a "classname".xconfig file that will be 
+        used to dereference any configuration requests not resolvable by the configuration 
+        supplied here.
+        -->
+
+        <configuration>
+          <message value="Hello"/>
+        </configuration>
+
+        <!--
+        The parameterization criteria from this instance of the component type.
+        -->
+
+        <parameters/>
+
+     </component>
+
+     <!--
+     A containers declaration will cause the creation of a new registry holding the 
+     child container instances.
+     -->
+
+     <container name="custom" class="org.apache.excalibur.playground.CustomContainer">
+
+       <container name="demo">
+
+         <categories priority="INFO">
+           <category priority="WARN"  name="loader" />
+         </categories>
+
+         <!--
+         Including the next entry demonstrates the resolution of a dependency via a profile
+         resolved from a parent container. SimpleComponent needs BasicService with is available
+         from either TerminalComponent or BasicComponent implicitly created in the parent 
+         container path (due to a depenency declared by ComplexComponent).  In addition, this
+         profile demonstrates the use of a cascading configuration.  The configuration passed
+         to the instantiated component is based primarily on this configuration declared here 
+         with defaults derived from SimpleComponent.xconfig.
+         -->
+         <component name="simple" 
+           class="org.apache.excalibur.playground.SimpleComponent" 
+           enabled="true" 
+           activation="true">
+
+           <configuration>
+             <message>This is a custom message.</message>
+           </configuration>
+
+         </component>
+
+       </container>
+
+     </container>
+
+     <component name="basic-sample" class="org.apache.excalibur.playground.BasicComponent" activation="startup">
+
+       <categories priority="DEBUG">
+         <category priority="WARN"  name="loader" />
+       </categories>
+
+       <context class="org.apache.excalibur.playground.BasicContext">
+         <entry key="location">My Place</entry>
+         <import name="avalon:home" key="home"/>
+       </context>
+     </component>
+
+   </container>
+
+</kernel>
