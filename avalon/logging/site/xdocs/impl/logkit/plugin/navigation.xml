@@ -46,6 +46,7 @@
           </item>
           <item name="Formatter" href="/impl/logkit/formatter.html"/>
         </item>
+        <item name="Log4J" href="/impl/log4j/index.html"/>
       </item>
       <item name="Examples" href="/examples/index.html"/>
     </menu>
