@@ -62,7 +62,7 @@ import java.io.StringWriter;
  *
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @author <a href="mailto:stuart.roebuck@adolos.com">Stuart Roebuck</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/02/03 17:40:17 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/02/03 19:07:28 $
  */
 public final class StackIntrospector
 {
@@ -129,6 +129,20 @@ public final class StackIntrospector
     public static final Class getCallerClass( final Class clazz )
         throws SecurityException
     {
+        return getCallerClass(clazz, 0);
+    }
+
+    /**
+     * Find the caller of the passed in Class.
+     * May return null if caller not found on execution stack
+     *
+     * @param clazz the Class to search for on stack to find caller of
+     * @param stackDepthOffset Offset call-stack depth to find caller
+     * @return the Class of object that called parrameter class
+     * @exception SecurityException if an existing SecurityManager disallows construction
+     *            of another SecurityManager and thus blocks method results
+     */
+    public static final Class getCallerClass(final Class clazz, int stackDepthOffset) {
         final Class[] stack = getCallStack().get();
 
         // Traverse the call stack in reverse order until we find clazz
@@ -137,7 +151,7 @@ public final class StackIntrospector
             if( clazz.isAssignableFrom( stack[ i ] ) )
             {
                 // Found : the caller is the previous stack element
-                return stack[ i + 1 ];
+                return stack[ i + 1 + stackDepthOffset];
             }
         }
 
