@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+
+ <title>Apache Avalon Products - Runtime</title>
+
+ <body>
+    <menu>
+      <item name="Avalon Logging" href="system/index.html"/>
+      <item name="LogKit" href="logkit/index.html"/>
+    </menu>
+ </body>
+
+</project>
