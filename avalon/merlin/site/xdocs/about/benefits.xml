@@ -129,8 +129,8 @@ The above code demonstrates the elimination of knowledge about the component dep
 
   <footer>
     <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2003/09/24 09:34:14 $
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.2 $ $Date: 2003/10/30 00:48:32 $
     </legal>
   </footer>
 
