@@ -72,6 +72,8 @@
         maven excalibur:seed
             # create a new component; see below for more info
 
+        maven excalibur:write-gump-module.xml
+            # create a module descriptor for gump; see below for more info
 
     Creating a distribution
     =======================
@@ -166,6 +168,49 @@
             -Dcomponent.id=my-component \
             -Dcomponent.dir=mycomponent \
             excalibur:seed
+
+    Note that existing files in the specified directory will *not*
+    be replaced. So if you are converting an existing component to
+    build using maven, you will need to remove any existing ant
+    build.xml file, for example.
+
+    Gump integration
+    ================
+
+    Since gump cannot directly call maven, this script contains
+    functionality for generating basic ant buildfiles as well as gump
+    descriptors.
+
+    When you call the 'excalibur:seed' goal, a build.xml file is
+    generated for you which can be called from gump. Since Gump handles
+    classpath management, there is no need to do so in the buildfile,
+    keeping it nice and simple.
+
+    Once you have added dependency information to your project.xml
+    file, change into the component subdirectory and run the
+    'excalibur:seed-gump' target. You have to specify the
+    component.dir property once again. This will generate a file
+    gump-integration/project/${component.id}.xml that contains a gump
+    descriptor for your component.
+
+    Example:
+
+        cd mycomponent
+        maven excalibur:seed-gump
+            -Dcomponent.dir=mycomponent
+
+    After creating this descriptor, you still need to reference it from
+    the gump module descriptor at
+
+        gump-integration/project/avalon-excalibur.xml
+
+    One way to do this is to autogenerate the file based on the
+    contents of the 'gump-integration/project' directory:
+
+        cd ~/cvs/avalon-excalibur/
+        maven excalibur:write-gump-module.xml
+
+    Note this won't work if the file mentioned above already exists.
 </ant:echo>
     </goal>
 
@@ -258,6 +303,23 @@
         <ant:mkdir dir="${component.dir}/src/test"/>
         <ant:mkdir dir="${component.dir}/src/xdocs"/>
 
+        <!-- write files -->
+        <attainGoal name="excalibur:seed-project.xml"/>
+        <attainGoal name="excalibur:seed-maven.xml"/>
+        <attainGoal name="excalibur:seed-project.properties"/>
+        <attainGoal name="excalibur:seed-build.xml"/>
+<!-- doesn't work!        <attainGoal name="excalibur:seed-gump-project.xml"/> -->
+        <attainGoal name="excalibur:seed-.cvsignore"/>
+
+        <j:if test="${use.forrest}">
+            <attainGoal name="excalibur:seed-forrest"/>
+        </j:if>
+
+        <!-- info to stdout -->
+        <attainGoal name="excalibur:seed-info"/>
+    </goal>
+
+    <goal name="excalibur:seed-project.xml">
         <!-- create project.xml -->
         <ant:available file="${component.dir}/project.xml"
                 property="project.exists"/>
@@ -282,11 +344,17 @@ This project doesn't have a description yet. Edit the file
 to add one.
     </description>
 
+    <dependencies>
+        <!-- add dependencies here! -->
+    </dependencies>
+
 </project>
         </j:whitespace>
         </j:file>
         </j:if>
+    </goal>
 
+    <goal name="excalibur:seed-maven.xml">
         <!-- create maven.xml -->
         <ant:available file="${component.dir}/maven.xml"
                 property="maven.exists"/>
@@ -295,7 +363,9 @@ to add one.
         <j:if test="${not mexists}">
         <ant:copy file="maven-template.xml" tofile="${component.dir}/maven.xml"/>
         </j:if>
+    </goal>
 
+    <goal name="excalibur:seed-project.properties">
         <!-- create project.properties -->
         <ant:available file="${component.dir}/project.properties"
                 property="props.exists"/>
@@ -312,7 +382,9 @@ maven.repo.remote = http://lsd.student.utwente.nl/repository,http://www.apache.o
 project.name=${component.id}
         </ant:echo>
         </j:if>
+    </goal>
 
+    <goal name="excalibur:seed-build.xml">
         <!-- create build.xml for gump integration-->
         <ant:available file="${component.dir}/build.xml"
                 property="build.exists"/>
@@ -361,11 +433,9 @@ project.name=${component.id}
             </j:whitespace>
             </j:file>
         </j:if>
+    </goal>
 
-        <j:if test="${use.forrest}">
-            <attainGoal name="excalibur:seed-forrest"/>
-        </j:if>
-
+    <goal name="excalibur:seed-.cvsignore">
         <!-- create .cvsignore -->
         <ant:echo file="${component.dir}/.cvsignore">
 target
@@ -375,9 +445,6 @@ target
 *.classpath
 *.project
         </ant:echo>
-
-        <attainGoal name="excalibur:seed-info"/>
-
     </goal>
 
     <goal name="excalibur:seed-forrest"
@@ -465,6 +532,47 @@ describes your project.
    excalibur cvs
 ===================================================================
         </ant:echo>
+    </goal>
+
+    <goal name="excalibur:write-gump-module.xml"
+            description="creates a gump-module.xml referencing all gump-project.xml files">
+
+        <mkdir dir="gump-integration"/>
+        <mkdir dir="gump-integration/project"/>
+
+        <!-- create avalon-excalibur.xml -->
+        <ant:available file="gump-integration/project/avalon-excalibur.xml"
+                property="gumpmodule.exists"/>
+        <j:set var="gmexists" value="${gumpmodule.exists}"/>
+        <j:if test="${gmexists}"><ant:echo>Warning: gump-integration/project/avalon-excalibur.xml already exists!</ant:echo></j:if>
+        <j:if test="${not gmexists}">
+
+            <ant:fileScanner var="projectfiles">
+                <ant:fileset dir="gump-integration/project/">
+                    <ant:patternset>
+                        <ant:include name="*.xml"/>
+                        <ant:exclude name="avalon-excalibur.xml"/>
+                    </ant:patternset>
+                </ant:fileset>
+            </ant:fileScanner>
+
+            <j:file name="gump-integration/project/avalon-excalibur.xml">
+            <j:whitespace xmlns="dummy">
+<module name="avalon-excalibur">
+    <url href="http://avalon.apache.org/excalibur/"/>
+    <description>
+      Avalon's repository of reusable components.
+    </description>
+    <cvs repository="avalon"/>
+
+<j:forEach var="file" items="${projectfiles.iterator()}">
+    <project href="./${file.name}"/>
+</j:forEach>
+
+</module>
+            </j:whitespace>
+            </j:file>
+        </j:if>
     </goal>
 
 </project>

@@ -162,6 +162,25 @@ http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon-excalibur/forrest.properties
     </postGoal>
 
     <!-- ==========================================================
+          Build customization
+         ========================================================== -->
+
+    <!-- copy additional test resources -->
+    <postGoal name="test:prepare-filesystem">
+        <echo>
+            copy additional unit test resources
+            from ${pom.build.unitTestSourceDirectory}
+            to ${maven.test.dest}
+        </echo>
+        <copy todir="${maven.build.dir}/test-classes">
+            <fileset dir="${pom.build.unitTestSourceDirectory}">
+                <exclude name="**/*.java"/>
+                <exclude name="**/package.html"/>
+            </fileset>
+        </copy>
+    </postGoal>
+
+    <!-- ==========================================================
           Distribution customization
          ========================================================== -->
 
@@ -239,7 +258,7 @@ http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon-excalibur/forrest.properties
         <attainGoal name="excalibur:version-override"/>
 
         <!-- generate checksums -->
-        <ant:checksum filext="md5">
+        <ant:checksum fileext="md5">
             <fileset dir="target/distributions">
                 <include name="*.zip"/>
                 <include name="*.gz"/>
@@ -304,52 +323,52 @@ about PGP and deploying distributions!
 
         <!-- -src.tar.gz to basedir -->
         <ant:exec dir="." executable="${maven.ssh.executable}">
-            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/source/${maven.final.name}-src.tar.gz ${repodir}/${pom.artifactId}/${maven.final.name}-src.tar.gz"/>
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.artifactId}/source/${maven.final.name}-src.tar.gz ${repodir}/${pom.artifactId}/${maven.final.name}-src.tar.gz"/>
         </ant:exec>
         <!-- basedir/$v-src.tar.gz to basedir/latest-src.tar.gz -->
         <ant:exec dir="." executable="${maven.ssh.executable}">
-            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/${maven.final.name}-src.tar.gz ${repodir}/${pom.artifactId}/${pom.artifactId}-latest-src.tar.gz"/>
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.artifactId}/${maven.final.name}-src.tar.gz ${repodir}/${pom.artifactId}/${pom.artifactId}-latest-src.tar.gz"/>
         </ant:exec>
         <!-- -src.tar.gz.asc to basedir -->
         <ant:exec dir="." executable="${maven.ssh.executable}">
-            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/source/${maven.final.name}-src.tar.gz.asc ${repodir}/${pom.artifactId}/${maven.final.name}-src.tar.gz.asc"/>
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.artifactId}/source/${maven.final.name}-src.tar.gz.asc ${repodir}/${pom.artifactId}/${maven.final.name}-src.tar.gz.asc"/>
         </ant:exec>
         <!-- basedir/$v-src.tar.gz.asc to basedir/latest-src.tar.gz.asc -->
         <ant:exec dir="." executable="${maven.ssh.executable}">
-            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/${maven.final.name}-src.tar.gz.asc ${repodir}/${pom.artifactId}/${pom.artifactId}-latest-src.tar.gz.asc"/>
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.artifactId}/${maven.final.name}-src.tar.gz.asc ${repodir}/${pom.artifactId}/${pom.artifactId}-latest-src.tar.gz.asc"/>
         </ant:exec>
         <!-- -src.tar.gz.md5 to basedir -->
         <ant:exec dir="." executable="${maven.ssh.executable}">
-            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/source/${maven.final.name}-src.tar.gz.md5 ${repodir}/${pom.artifactId}/${maven.final.name}-src.tar.gz.md5"/>
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.artifactId}/source/${maven.final.name}-src.tar.gz.md5 ${repodir}/${pom.artifactId}/${maven.final.name}-src.tar.gz.md5"/>
         </ant:exec>
         <!-- basedir/$v-src.tar.gz.md5 to basedir/latest-src.tar.gz.md5 -->
         <ant:exec dir="." executable="${maven.ssh.executable}">
-            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/${maven.final.name}-src.tar.gz.md5 ${repodir}/${pom.artifactId}/${pom.artifactId}-latest-src.tar.gz.md5"/>
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.artifactId}/${maven.final.name}-src.tar.gz.md5 ${repodir}/${pom.artifactId}/${pom.artifactId}-latest-src.tar.gz.md5"/>
         </ant:exec>
 
         <!-- -src.zip to basedir -->
         <ant:exec dir="." executable="${maven.ssh.executable}">
-            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/source/${maven.final.name}-src.zip ${repodir}/${pom.artifactId}/${maven.final.name}-src.zip"/>
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.artifactId}/source/${maven.final.name}-src.zip ${repodir}/${pom.artifactId}/${maven.final.name}-src.zip"/>
         </ant:exec>
         <!-- basedir/$v-src.zip to basedir/latest-src.zip -->
         <ant:exec dir="." executable="${maven.ssh.executable}">
-            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/${maven.final.name}-src.zip ${repodir}/${pom.artifactId}/${pom.artifactId}-latest-src.zip"/>
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.artifactId}/${maven.final.name}-src.zip ${repodir}/${pom.artifactId}/${pom.artifactId}-latest-src.zip"/>
         </ant:exec>
         <!-- -src.zip.md5 to basedir -->
         <ant:exec dir="." executable="${maven.ssh.executable}">
-            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/source/${maven.final.name}-src.zip.md5 ${repodir}/${pom.artifactId}/${maven.final.name}-src.zip.md5"/>
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.artifactId}/source/${maven.final.name}-src.zip.md5 ${repodir}/${pom.artifactId}/${maven.final.name}-src.zip.md5"/>
         </ant:exec>
         <!-- basedir/$v-src.zip.md5 to basedir/latest-src.zip.md5 -->
         <ant:exec dir="." executable="${maven.ssh.executable}">
-            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/${maven.final.name}-src.zip.md5 ${repodir}/${pom.artifactId}/${pom.artifactId}-latest-src.zip.md5"/>
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.artifactId}/${maven.final.name}-src.zip.md5 ${repodir}/${pom.artifactId}/${pom.artifactId}-latest-src.zip.md5"/>
         </ant:exec>
         <!-- -src.zip.asc to basedir -->
         <ant:exec dir="." executable="${maven.ssh.executable}">
-            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/source/${maven.final.name}-src.zip.asc ${repodir}/${pom.artifactId}/${maven.final.name}-src.zip.asc"/>
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.artifactId}/source/${maven.final.name}-src.zip.asc ${repodir}/${pom.artifactId}/${maven.final.name}-src.zip.asc"/>
         </ant:exec>
         <!-- basedir/$v-src.zip.asc to basedir/latest-src.zip.asc -->
         <ant:exec dir="." executable="${maven.ssh.executable}">
-            <arg line="${sshopts} ${hostname} ln -s ${repodir}/${pom.artifactId}/${maven.final.name}-src.zip.asc ${repodir}/${pom.artifactId}/${pom.artifactId}-latest-src.zip.asc"/>
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.artifactId}/${maven.final.name}-src.zip.asc ${repodir}/${pom.artifactId}/${pom.artifactId}-latest-src.zip.asc"/>
         </ant:exec>
 
         <!-- create announcment -->
@@ -388,12 +407,71 @@ http://avalon.apache.org/download.cgi
         <!-- e-mail announcement -->
 
         <j:if test="${mailannounce}">
+<ant:echo>
+    Attempting to send
+</ant:echo>
             <ant:mail
                 from="Avalon Development Team &gt;dev@avalon.apache.org&lt;"
-                toList="leosimons@apache.org"
+                toList="Avalon Development List &gt;dev@avalon.apache.org&lt;, Avalon User List &gt;users@avalon.apache.org&lt;"
                 messageFile="${maven.build.dir}/announcement-${pom.currentVersion}.txt"
                 subject="[Announce] ${pom.artifactId} ${pom.currentVersion} released"/>
         </j:if>
     </goal>
+
+
+    <!-- ==========================================================
+          Gump Integration
+         ========================================================== -->
+
+    <goal name="excalibur:seed-gump">
+        <mkdir dir="${basedir}/../gump-integration"/>
+        <mkdir dir="${basedir}/../gump-integration/project"/>
+        <!-- create gump-project.xml -->
+        <ant:available file="${basedir}/../gump-integration/project/${pom.artifactId}.xml"
+                property="gump.exists"/>
+        <j:set var="gexists" value="${gump.exists}"/>
+        <j:if test="${gexists}"><ant:echo>Warning: ${basedir}/../gump-integration/project/${pom.artifactId}.xml already exists!</ant:echo></j:if>
+        <j:if test="${not gexists}">
+
+            <!-- copied from the maven gump plugin -->
+            <j:new var="dependentProjects" className="java.util.TreeSet" />
+            <j:forEach var="dependency" items="${pom.dependencies}">
+              <j:set var="gumpDepName">${dependency.groupId}</j:set>
+              <j:set var="dummy">${dependentProjects.add(gumpDepName)}</j:set>
+            </j:forEach>
+
+            <j:file name="${basedir}/../gump-integration/project/${pom.artifactId}.xml">
+            <j:whitespace xmlns="dummy">
+<project name="${pom.artifactId}">
+    <package>${pom.package}</package>
+    <ant basedir="${pom.artifactId}" target="dist">
+        <property name="project.version" value="@@DATE@@"/>
+    </ant>
+
+    <!-- common dependencies -->
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xalan2"/>
+    <depend project="xml-xerces"/>
+
+    <!-- dump out the set of dependencies -->
+    <j:forEach var="dependency" items="${dependentProjects}">
+      <depend project="${dependency}" runtime="true"/>
+    </j:forEach>
+
+    <work nested="${component.dir}/target/classes"/>
+    <work nested="${component.dir}/target/test-classes"/>
+
+    <home nested="${component.dir}"/>
+    <jar name="target/${component.id}-@@DATE@@.jar"/>
+    <javadoc nested="${component.dir}/target/docs/apidocs"/>
+
+    <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+            to="dev@avalon.apache.org"/>
+</project>
+            </j:whitespace>
+            </j:file>
+        </j:if>
+    </goal>
+
 
 </project>
