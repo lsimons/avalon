@@ -24,6 +24,11 @@
     <property name="jakarta-site.dir" value="../jakarta-site"/>
     <property name="dist.base" value="distributions"/>    
 
+    <property name="announce2txt" value="tools/announcement2txt.xsl"/>
+    <property name="announce2header" value="tools/announcement2header.xsl"/>
+    <property name="announce2readme" value="tools/announcement2readme.xsl"/>
+    <property name="announce2site" value="tools/announcement2site.xsl"/>
+
     <path id="project.class.path">
                 <fileset dir="${jakarta-site.dir}/lib">
                     <include name="*.jar"/>
@@ -60,7 +65,7 @@
             style="docs.vsl"
             projectfile="stylesheets/project.xml"
             includes="**/*.xml"
-            excludes="stylesheets/** history/** changes.xml"
+            excludes="stylesheets/** history/** changes.xml announcement.xml"
             velocitypropertiesfile="${xdocs.dir}/stylesheets/velocity.properties"
             />
 
@@ -124,18 +129,19 @@
         <mkdir dir="${build.dir}" />
         <mkdir dir="${dist.base}" />
     
-        <copy todir="${build.xdocs}" overwrite="true" filtering="on">
+        <copy todir="${build.dir}" filtering="on">
           <fileset dir="${xdocs.dir}">
-            <exclude name="**/images/**"/>
+            <include name="announcement.xml"/>
+            <include name="changes.xml"/>
           </fileset>
         </copy>
     
-        <style style="${announce2txt}" in="${build.xdocs}/announcement.xml" out="Announcement.txt"/>
-        <style style="${announce2header}" in="${build.xdocs}/announcement.xml"
+        <style style="${announce2txt}" in="${build.dir}/announcement.xml" out="Announcement.txt"/>
+        <style style="${announce2header}" in="${build.dir}/announcement.xml"
                out="${dist.base}/HEADER.html"/>
-        <style style="${announce2readme}" in="${build.xdocs}/announcement.xml"
+        <style style="${announce2readme}" in="${build.dir}/announcement.xml"
                out="${dist.base}/README.html"/>
-        <style style="${announce2site}" in="${build.xdocs}/announcement.xml"
+        <style style="${announce2site}" in="${build.dir}/announcement.xml"
                out="jakarta-news.xml"/>
     
       </target>
