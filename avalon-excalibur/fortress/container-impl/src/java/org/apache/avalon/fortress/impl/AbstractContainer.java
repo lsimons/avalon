@@ -93,7 +93,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/01/27 20:22:43 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/01/27 21:11:43 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled
@@ -327,7 +327,7 @@ public abstract class AbstractContainer
 
             // create the appropriate handler instance
             final ComponentHandler targetHandler =
-                    (ComponentHandler)handlerInstance;
+                    (ComponentHandler)roleEntry.getHandlerClass().newInstance();
 
             // do the handler lifecycle
             ContainerUtil.contextualize( targetHandler, m_context );
