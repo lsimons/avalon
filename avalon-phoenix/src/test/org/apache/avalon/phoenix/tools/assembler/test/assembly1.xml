@@ -12,6 +12,8 @@
     </block>
 
     <block class="org.apache.avalon.phoenix.tools.assembler.test.data.Component2"
-        name="c2"/>
+        name="c2">
+        <proxy disable="true"/>
+    </block>
 
 </assembly>
