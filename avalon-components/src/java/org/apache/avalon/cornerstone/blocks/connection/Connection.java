@@ -90,9 +90,8 @@ class Connection
             try
             {
                 final Socket socket = m_serverSocket.accept();
-                final ConnectionHandler handler = m_handlerFactory.createConnectionHandler();
                 final ConnectionRunner runner =
-                    new ConnectionRunner( socket, m_runners, handler, m_handlerFactory );
+                    new ConnectionRunner( socket, m_runners, m_handlerFactory );
                 setupLogger( runner );
                 m_threadPool.execute( runner );
             }
@@ -125,17 +124,14 @@ class ConnectionRunner
     private Socket m_socket;
     private Thread m_thread;
     private List m_runners;
-    private ConnectionHandler m_handler;
     private ConnectionHandlerFactory m_handlerFactory;
 
     ConnectionRunner( final Socket socket,
                       final List runners,
-                      final ConnectionHandler handler,
                       final ConnectionHandlerFactory handlerFactory )
     {
         m_socket = socket;
         m_runners = runners;
-        m_handler = handler;
         m_handlerFactory = handlerFactory;
     }
 
@@ -159,6 +155,7 @@ class ConnectionRunner
 
     public void run()
     {
+        ConnectionHandler handler = null;
         try
         {
             m_thread = Thread.currentThread();
@@ -171,7 +168,9 @@ class ConnectionRunner
                     m_socket.getInetAddress().getHostAddress();
                 getLogger().debug( message );
             }
-            m_handler.handleConnection( m_socket );
+
+            handler = m_handlerFactory.createConnectionHandler();
+            handler.handleConnection( m_socket );
 
             if( getLogger().isDebugEnabled() )
             {
@@ -180,7 +179,7 @@ class ConnectionRunner
                     m_socket.getInetAddress().getHostAddress();
                 getLogger().debug( message );
             }
-            m_handlerFactory.releaseConnectionHandler( m_handler );
+
         }
         catch( final Exception e )
         {
@@ -188,7 +187,11 @@ class ConnectionRunner
         }
         finally
         {
-            m_handlerFactory = null;
+            if( null != handler )
+            {
+                m_handlerFactory.releaseConnectionHandler( handler );
+            }
+
             try
             {
                 m_socket.close();
