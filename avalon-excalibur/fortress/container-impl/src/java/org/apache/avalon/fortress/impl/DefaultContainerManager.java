@@ -51,10 +51,8 @@ package org.apache.avalon.fortress.impl;
 
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.fortress.InitializationException;
-import org.apache.avalon.fortress.RoleManager;
 import org.apache.avalon.fortress.MetaInfoManager;
 import org.apache.avalon.fortress.util.ContextManager;
-import org.apache.avalon.fortress.util.ContextManagerConstants;
 import org.apache.avalon.fortress.util.LifecycleExtensionManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
@@ -73,11 +71,12 @@ import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.mpool.PoolManager;
 
 /**
- * This is the default implementation of the {@link org.apache.avalon.fortress.ContainerManager} interface.
+ * This is the default implementation of the
+ * {@link org.apache.avalon.fortress.ContainerManager} interface.
  * See that interface for a description.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.15 $ $Date: 2003/04/21 13:35:51 $
+ * @version CVS $Revision: 1.16 $ $Date: 2003/04/21 20:27:57 $
  */
 public class DefaultContainerManager
     implements Initializable, Disposable, org.apache.avalon.fortress.ContainerManager, org.apache.avalon.fortress.ContainerManagerConstants

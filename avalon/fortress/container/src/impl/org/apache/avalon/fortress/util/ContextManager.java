@@ -51,12 +51,12 @@ package org.apache.avalon.fortress.util;
 
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
-import org.apache.avalon.fortress.RoleManager;
 import org.apache.avalon.fortress.MetaInfoManager;
-import org.apache.avalon.fortress.impl.role.FortressRoleManager;
-import org.apache.avalon.fortress.impl.role.ServiceMetaManager;
+import org.apache.avalon.fortress.RoleManager;
 import org.apache.avalon.fortress.impl.role.ConfigurableRoleManager;
+import org.apache.avalon.fortress.impl.role.FortressRoleManager;
 import org.apache.avalon.fortress.impl.role.Role2MetaInfoManager;
+import org.apache.avalon.fortress.impl.role.ServiceMetaManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -120,7 +120,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.20 $ $Date: 2003/04/18 20:02:30 $
+ * @version CVS $Revision: 1.21 $ $Date: 2003/04/21 20:27:57 $
  * @since 4.1
  */
 public final class ContextManager
