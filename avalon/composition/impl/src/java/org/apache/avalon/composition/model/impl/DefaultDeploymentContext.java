@@ -73,7 +73,7 @@ import org.apache.avalon.meta.info.EntryDescriptor;
  * Default implementation of a deployment context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/04 13:37:42 $
  */
 public class DefaultDeploymentContext extends DefaultContext 
   implements DeploymentContext
@@ -339,8 +339,12 @@ public class DefaultDeploymentContext extends DefaultContext
         {
             key = entry.getKey();
         }
-        
-        if( key.equals( NAME_KEY ) )
+
+        if( key.startsWith( "urn:merlin:" ) )
+        {
+            return getSystemContext().get( key );
+        }
+        else if( key.equals( NAME_KEY ) )
         {
             return getName();
         }
