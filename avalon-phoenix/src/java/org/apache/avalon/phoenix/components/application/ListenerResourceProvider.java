@@ -20,28 +20,28 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
-import org.apache.excalibur.containerkit.lifecycle.ResourceAccessor;
+import org.apache.excalibur.containerkit.lifecycle.ResourceProvider;
 
 /**
  * The accessor used to access resources for a particular
  * Block or Listener.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2002/06/04 07:51:07 $
+ * @version $Revision: 1.1 $ $Date: 2002/06/18 03:51:44 $
  */
-class ListenerAccessor
+class ListenerResourceProvider
     extends AbstractLogEnabled
-    implements ResourceAccessor
+    implements ResourceProvider
 {
     private static final Resources REZ =
-        ResourceManager.getPackageResources( ListenerAccessor.class );
+        ResourceManager.getPackageResources( ListenerResourceProvider.class );
 
     /**
      * Context in which Blocks/Listeners operate.
      */
     private final ApplicationContext m_context;
 
-    public ListenerAccessor( final ApplicationContext context )
+    public ListenerResourceProvider( final ApplicationContext context )
     {
         if( null == context )
         {
