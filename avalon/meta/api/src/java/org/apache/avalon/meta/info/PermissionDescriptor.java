@@ -1,0 +1,175 @@
+/* 
+ * Copyright 2004 Apache Software Foundation
+ * Licensed  under the  Apache License,  Version 2.0  (the "License");
+ * you may not use  this file  except in  compliance with the License.
+ * You may obtain a copy of the License at 
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed  under the  License is distributed on an "AS IS" BASIS,
+ * WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ * implied.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.apache.avalon.meta.info;
+
+import java.io.Serializable;
+import java.util.StringTokenizer;
+import java.util.ArrayList;
+
+/**
+ * A descriptor that describes a value that must be placed
+ * in components Context. It contains information about;
+ * <ul>
+ *   <li>key: the key that component uses to look up entry</li>
+ *   <li>classname: the class/interface of the entry</li>
+ *   <li>isOptional: true if entry is optional rather than required</li>
+ * </ul>
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.1 $ $Date: 2004/02/24 15:25:00 $
+ */
+public final class PermissionDescriptor
+        implements Serializable
+{
+
+    /**
+     * The permission classname.
+     */
+    private final String m_classname;
+
+    /**
+     * The permission name (saantics relative to the permission classname).
+     */
+    private final String m_name;
+
+    /**
+     * Permission actions.
+     */
+    private final String[] m_actions;
+
+    /**
+     * Construct a new PermissionDescriptor
+     * @param class the permission class
+     * @param name the permission name
+     * @param actions the permission actions
+     */
+    public PermissionDescriptor( 
+      final String classname, final String name, final String actions )
+    {
+        if ( null == classname )
+        {
+            throw new NullPointerException( "classname" );
+        }
+
+        m_classname = classname;
+        m_name = name;
+        m_actions = expandActions( actions );
+    }
+
+    /**
+     * Return the classname of the permission.
+     * 
+     * @return the classname
+     */
+    public String getClassname()
+    {
+        return m_classname;
+    }
+
+    /**
+     * Return the permission name.  The value returned is relative to
+     * the permission class.  If no permission name is declared a null 
+     * value will be returned.
+     *
+     * @return the name
+     */
+    public String getName()
+    {
+        return m_name;
+    }
+
+    /**
+     * Return the set of actions associated with the permission.
+     *
+     * @return a string array representing the actions assigned to 
+     *   this permission
+     */
+    public String[] getActions()
+    {
+        return m_actions;
+    }
+
+   /**
+    * Test is the supplied object is equal to this object.
+    * @param other the object to compare with this instance
+    * @return true if the object are equivalent
+    */
+    public boolean equals( Object other )
+    {
+        boolean isEqual = other instanceof PermissionDescriptor;
+
+        if ( isEqual )
+        {
+            PermissionDescriptor permission = (PermissionDescriptor) other;
+
+            isEqual = isEqual && m_classname.equals( permission.m_classname );
+            if ( null == m_name )
+            {
+                isEqual = isEqual && null == permission.m_name;
+            }
+            else
+            {
+                isEqual = isEqual && m_name.equals( permission.m_name );
+            }
+
+            isEqual = isEqual && m_actions.length ==  permission.m_actions.length;
+            if( isEqual )
+            {
+                for( int i=0; i<m_actions.length; i++ )
+                {
+                    String action = m_actions[i];
+                    if( !action.equals( permission.m_actions[i] ) ) return false;
+                }        
+            }
+        }
+
+        return isEqual;
+    }
+
+   /**
+    * Return the hashcode for the object.
+    * @return the hashcode value
+    */
+    public int hashCode()
+    {
+        int hash = super.hashCode();
+        hash >>>= 13;
+        hash ^= m_classname.hashCode();
+        hash >>>= 13;
+        hash ^= ( null != m_name ) ? m_name.hashCode() : 0;
+        hash >>>= 13;
+        for( int i=0; i<m_actions.length; i++ )
+        {
+            hash ^= m_actions[i].hashCode();
+            hash >>>= 13;
+        }
+        return hash;
+    }
+
+    private static String[] expandActions( String arg )
+    {
+        if( null == arg ) return new String[0];
+        ArrayList list = new ArrayList();
+        StringTokenizer tokenizer = new StringTokenizer( arg, "," );
+        while( tokenizer.hasMoreTokens() )
+        {
+            list.add( tokenizer.nextToken() );
+        }
+        return (String[]) list.toArray( new String[0] );
+    }
+}
