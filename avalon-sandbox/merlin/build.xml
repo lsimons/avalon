@@ -10,7 +10,7 @@ the LICENSE.txt file.
 @version 1.0 12/03/2001
 -->
 
-<project name="assembly" default="main" basedir=".">
+<project name="merlin" default="main" basedir=".">
 
   <property file="${basedir}/../ant.properties"/>
   <property file="${basedir}/ant.properties"/>
@@ -61,11 +61,27 @@ the LICENSE.txt file.
     <ant dir="../assembly" inheritAll="false"/>
   </target>
 
-  <target name="dependencies" depends="assembly" description="Check dependencies" />
+  <target name="meta-context">
+    <uptodate property="meta-uptodate" targetfile="${avalon-meta.jar}">
+      <srcfiles dir="${avalon-meta.home}/src">
+        <include name="**/*.*"/>
+      </srcfiles>
+    </uptodate>
+  </target>
+
+  <target name="meta" depends="meta-context" description="Meta dependency" unless="meta-uptodate">
+    <ant dir="../meta" inheritAll="false"/>
+  </target>
+
+  <target name="dependencies" depends="meta,assembly" description="Check dependencies" />
 
   <target name="context">
+    <mkdir dir="${lib.dir}"/>
     <uptodate property="uptodate" targetfile="${build.lib}/${jar.name}">
       <srcfiles dir="${src.dir}">
+        <include name="**/*.*"/>
+      </srcfiles>
+      <srcfiles dir="${lib.dir}">
         <include name="**/*.*"/>
       </srcfiles>
     </uptodate>
@@ -104,7 +120,7 @@ the LICENSE.txt file.
   </target>
 
   <!-- Creates all the .jar file -->
-  <target name="jar" depends="compile" description="Generates the jar files" unless="uptodate">
+  <target name="jar" depends="compile, deploy" description="Generates the jar files" unless="uptodate">
 
     <mkdir dir="${build.conf}"/>
     <copy todir="${build.conf}" flatten="true">
@@ -124,9 +140,43 @@ the LICENSE.txt file.
       <zipfileset dir="${build.conf}" prefix="META-INF/">
         <include name="LICENSE.txt"/>
       </zipfileset>
+      <zipfileset dir="${lib.dir}" prefix="BLOCK-INFO/lib">
+        <include name="*.jar"/>
+      </zipfileset>
+      <zipfileset dir="${common.dir}" prefix="BLOCK-INFO/common">
+        <include name="*.jar"/>
+      </zipfileset>
     </jar>
+  </target>
+
+  <target name="deploy">
+
+     <mkdir dir="${common.dir}"/>
+     <copy todir="${common.dir}" file="${avalon-framework.jar}"/>
+     <copy todir="${common.dir}" file="${avalon-meta.jar}"/>
+     <copy todir="${common.dir}" file="${excalibur-configuration.jar}"/>
+     <copy todir="${common.dir}" file="${excalibur-i18n.jar}"/>
+     <copy todir="${common.dir}" preservelastmodified="true">
+       <fileset dir="${tools.dir}/lib">
+         <include name="xerces-2.0.1.jar"/>
+         <include name="xml-apis.jar"/>
+         <include name="xalan-2.3.1.jar"/>
+       </fileset>
+     </copy>
+
+     <mkdir dir="${lib.dir}"/>
+     <copy todir="${lib.dir}" file="${logkit.jar}"/>
+     <copy todir="${lib.dir}" file="${excalibur-extension.jar}"/>
+     <copy todir="${lib.dir}" file="${excalibur-logger.jar}"/>
+     <copy todir="${lib.dir}" file="${excalibur-event.jar}"/>
+     <copy todir="${lib.dir}" file="${commons-collections.jar}"/>
+     <copy todir="${lib.dir}" file="${util.concurrent.jar}"/>
+     <copy todir="${lib.dir}" file="${excalibur-thread.jar}"/>
+     <copy todir="${lib.dir}" file="${avalon-lifecycle.jar}"/>
+     <copy todir="${lib.dir}" file="${avalon-assembly.jar}"/>
 
   </target>
+
 
   <!-- Creates all the Javadocs -->
   <target name="javadocs" depends="compile" 
@@ -241,6 +291,8 @@ the LICENSE.txt file.
   <target name="clean" description="Cleans up the project">
     <delete file="checkstyle.cache"/>
     <delete dir="${build.dir}" />
+    <delete dir="${lib.dir}" />
+    <delete dir="${common.dir}" />
     <delete dir="${dist.dir}" />
     <delete dir="test" /> <!-- unit testing output directory -->
     <delete>
@@ -373,8 +425,8 @@ the LICENSE.txt file.
 
   <target name="patch">
     <replace dir="src" summary="true"
-       token="Apache Avalon Project"
-       value="Apache Avalon Project" >
+       token="xxxx"
+       value="yyyy" >
      <include name="**/*.*"/>
     </replace>
   </target>
