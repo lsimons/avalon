@@ -1,4 +1,4 @@
-package org.apache.avalon.phoenix.components.packages;
+package org.apache.avalon.phoenix.components.extensions;
 
 import java.io.File;
 import org.apache.avalon.excalibur.extension.DefaultPackageRepository;
@@ -16,7 +16,7 @@ import org.apache.avalon.phoenix.interfaces.PackageRepository;
  * PhoenixPackageRepository
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2001/11/21 10:52:59 $
+ * @version $Revision: 1.1 $ $Date: 2001/11/21 11:05:26 $
  */
 public class PhoenixPackageRepository
     extends DefaultPackageRepository
