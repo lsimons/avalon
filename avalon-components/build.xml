@@ -118,6 +118,10 @@
         classpathref="project.class.path"
         property="SAXParserFactory.present"/>
 
+    <available classname="rg.apache.commons.altrmi.common.MethodReply"
+        classpathref="project.class.path"
+        property="AltRMI.present"/>
+
     <available classname="java.beans.XMLDecoder"
         classpathref="project.class.path"
         property="LTPJB.present"/>
@@ -145,6 +149,8 @@
                unless="SAXParserFactory.present" />
       <exclude name="org/apache/avalon/cornerstone/blocks/masterstore/xml/**.java"
                unless="LTPJB.present" />
+      <exclude name="org/apache/avalon/cornerstone/blocks/transport/**/*.java"
+               unless="AltRMI.present" />               
 
 
     </javac>
