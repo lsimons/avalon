@@ -1,0 +1,359 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--*** This is a generated file.  Do not edit.  ***-->
+<link rel="stylesheet" href="../skin/tigris.css" type="text/css">
+<link rel="stylesheet" href="../skin/mysite.css" type="text/css">
+<link rel="stylesheet" href="../skin/site.css" type="text/css">
+<link media="print" rel="stylesheet" href="../skin/print.css" type="text/css">
+<title>Guide - Creating a Server Application</title>
+</head>
+<body bgcolor="white" class="composite">
+<!--================= start Banner ==================-->
+<div id="banner">
+<table width="100%" cellpadding="8" cellspacing="0" summary="banner" border="0">
+<tbody>
+<tr>
+<!--================= start Group Logo ==================-->
+<td align="left">
+<div class="groupLogo">
+<a href="http://avalon.apache.org/"><img border="0" class="logoImage" alt="Apache Avalon-Phoenix" src="../images/apache-avalon-logo.png"></a>
+</div>
+</td>
+<!--================= end Group Logo ==================-->
+<!--================= start Project Logo ==================--><td align="right">
+<div class="projectLogo">
+<a href="http://apachecon.com/2003/US/index.html"><img border="0" class="logoImage" alt="Visit ApacheCon 2003!" src="http://www.apache.org/~ceki/ac2003/ac2003-150.gif"></a>
+</div>
+</td>
+<!--================= end Project Logo ==================-->
+</tr>
+</tbody>
+</table>
+</div>
+<!--================= end Banner ==================-->
+<!--================= start Main ==================-->
+<table width="100%" cellpadding="0" cellspacing="0" border="0" summary="nav" id="breadcrumbs">
+<tbody>
+<!--================= start Status ==================-->
+<tr class="status">
+<td>
+<!--================= start BreadCrumb ==================--><a href="http://www.apache.org/">Apache Main</a> | <a href="http://avalon.apache.org/">Avalon Main</a> | <a href="../">Up</a>
+<!--================= end BreadCrumb ==================--></td><td id="tabs">
+<!--================= start Tabs ==================-->
+<div class="tab">
+<span class="unselectedTab"><a href="http://www.apache.org/">Apache</a></span> | <span class="unselectedTab"><a href="http://avalon.apache.org/">Avalon</a></span> | <span class="unselectedTab"><a href="http://avalon.apache.org/product/framework/">Framework</a></span> | <span class="unselectedTab"><a href="http://avalon.apache.org/product/containers/">Containers</a></span> | <span class="unselectedTab"><a href="http://avalon.apache.org/product/components/">Components</a></span>
+</div>
+<!--================= end Tabs ==================-->
+</td>
+</tr>
+</tbody>
+</table>
+<!--================= end Status ==================-->
+<table id="main" width="100%" cellpadding="8" cellspacing="0" summary="" border="0">
+<tbody>
+<tr valign="top">
+<!--================= start Menu ==================-->
+<td id="leftcol">
+<div id="navcolumn">
+<div class="menuBar">
+<div class="menu">
+<span class="menuLabel">Essentials</span>
+
+<div class="menuItem">
+<a href="../index.html">Overview</a>
+</div>
+
+<div class="menuItem">
+<a href="../features.html">Features</a>
+</div>
+
+<div class="menuItem">
+<a href="../getting-started.html">Getting started</a>
+</div>
+
+<div class="menuItem">
+<a href="http://avalon.apache.org/bindownload.cgi">Download</a>
+</div>
+
+<div class="menuItem">
+<a href="../install.html">Install</a>
+</div>
+
+</div>
+<div class="menu">
+<span class="menuLabel">Guide</span>
+
+<div class="menuItem">
+<a href="../guide-architecture.html">Architectural Overview</a>
+</div>
+
+<div class="menuItem">
+<a href="../guide-roles.html">Development Roles</a>
+</div>
+
+<div class="menuItem">
+<a href="../guide-administrator.html">for Administrators</a>
+</div>
+
+<div class="menuItem">
+<a href="../guide-deployers.html">for Deployers</a>
+</div>
+
+<div class="menuItem">
+<a href="../assemblers/index.html">for Assemblers</a>
+</div>
+
+<div class="menuItem">
+<a href="../bdg/index.html">for Block Developers</a>
+</div>
+
+<div class="menuItem">
+<a href="../mx/index.html">Management Guide</a>
+</div>
+
+<div class="menuItem">
+<a href="../guide-example-configuration.html">Example configuration</a>
+</div>
+
+<div class="menuItem">
+<a href="../guide-punit.html">PUnit unit testing</a>
+</div>
+
+</div>
+<div class="menu">
+<span class="menuLabel">Reference</span>
+
+<div class="menuItem">
+<a href="../api/index.html">API Docs</a>
+</div>
+
+<div class="menuItem">
+<a href="../assemblers/config-xml-specification.html">config.xml Specification</a>
+</div>
+
+<div class="menuItem">
+<a href="../assemblers/assembly-xml-specification.html">assembly.xml Specification</a>
+</div>
+
+<div class="menuItem">
+<a href="../assemblers/environment-xml-specification.html">environment.xml Specification</a>
+</div>
+
+<div class="menuItem">
+<a href="../bdg/blockinfo-specification.html">BlockInfo Specification</a>
+</div>
+
+</div>
+<div class="menu">
+<span class="menuLabel">For Developers</span>
+
+<div class="menuItem">
+<a href="../changes.html">Changes</a>
+</div>
+
+<div class="menuItem">
+<a href="http://avalon.apache.org/code-standards.html">Coding standards</a>
+</div>
+
+<div class="menuItem">
+<a href="../for-developers-project-structure.html">Project Structure</a>
+</div>
+
+<div class="menuItem">
+<a href="http://jakarta.apache.org/site/cvsindex.html">CVS Repositories</a>
+</div>
+
+<div class="menuItem">
+<a href="http://jakarta.apache.org/site/mail.html">Mailing Lists</a>
+</div>
+
+<div class="menuItem">
+<a href="http://nagoya.apache.org/bugzilla/buglist.cgi?bug_status=UNCONFIRMED&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bug_status=RESOLVED&product=Avalon&component=Phoenix">TODO</a>
+</div>
+
+<div class="menuItem">
+<a href="http://jira.werken.com/secure/BrowseProject.jspa?id=10081">Issue Tracker (Bug and Enhancement List)</a>
+</div>
+
+<div class="menuItem">
+<a href="../for-developers-alternate-kernel.html">Alternate Kernels</a>
+</div>
+
+</div>
+</div>
+</div>
+</td>
+<!--================= end Menu ==================-->
+<!--================= start Content ==================--><td>
+<div id="bodycol">
+<div class="app">
+<div align="center">
+<h1>Guide - Creating a Server Application</h1>
+</div>
+<div class="h3">
+  
+  
+    
+<div class="h3">
+<h3>Introduction</h3>
+</div>
+      
+<p>
+        This document will describe the process for assembling your first Server
+        Application. There is a number of steps in creating a Server Application.
+        These are;
+      </p>
+      
+<ol>
+        
+<li>Select the blocks you wish to assemble.</li>
+        
+<li>Write the config.xml file.</li>
+        
+<li>Write the assembly.xml file.</li>
+        
+<li>Write the environment.xml file.</li>
+        
+<li>Package the component and related resources into a sar file.</li>
+      
+</ol>
+    
+    
+<div class="h3">
+<h3>Select the Blocks to Assemble</h3>
+</div>
+      
+<p>
+        As a assembler it is your responsibility to select the particular Blocks
+        required to build your application. You may aquire the Blocks from a number
+        of sources depending on your resources. You may use the core Blocks supplied
+        with Phoenix, contract someone to build the component or download the Block
+        from an online repository.
+      </p>
+    
+    
+<div class="h3">
+<h3>Write the config.xml file</h3>
+</div>
+      
+<p>
+        Configuration data for blocks is stored in the config.xml file.
+        For more detail on the format of config.xml see the
+        <a href="config-xml-specification.html">specification</a>.
+      </p>
+    
+    
+<div class="h3">
+<h3>Write the assembly.xml file</h3>
+</div>
+      
+<p>
+        The next stage is to write the assembly.xml file. The assembly.xml specifies
+        the instances of Blocks that are part of the Server Application. Each
+        Block has a name. Each block may also have dependencies that need to be
+        satisfied and this can be done via the 'provide' sub-elements. The
+        provide element maps block instances from the Server Application namespace
+        to the Block role namespace specified in BlockInfo files. For more detail
+        on the format of assembly.xml see the <a href="assembly-xml-specification.html">
+        specification</a>.
+      </p>
+    
+    
+<div class="h3">
+<h3>Write the environment.xml file</h3>
+</div>
+      
+<p>
+        The next stage is to write the environment.xml file. The environment.xml is used to
+        configure the code-based security policy, log management and thread pooling.
+        For more detail on the format of environment.xml see the
+        <a href="environment-xml-specification.html">specification</a>.
+      </p>
+    
+    
+<div class="h3">
+<h3>Create the sar file</h3>
+</div>
+      
+<p>
+        The sar file format is the standard distribution format of Phoenix Server
+        Applications. It is a standard Jar file with a specific directory layout.
+        The config.xml, environment.xml and assembly.xml file must be stored in
+        <span class="codefrag">SAR-INF/</span> directory of the archive. All jar files, including
+        both those that contain blocks and those that contain support classes
+        should be stored in the <span class="codefrag">SAR-INF/lib/</span> directory.
+      </p>
+    
+     
+<div class="h3">
+<h3>Guide Contents</h3>
+</div>
+       
+<ol>
+        
+<li>
+<a href="what-is-a-server-application.html">What is a Server Application?</a>
+</li>
+        
+<li>How do I create a Server Application?</li>
+        
+<li>
+<a href="config-xml-specification.html">config.xml specification</a>
+</li>
+        
+<li>
+<a href="assembly-xml-specification.html">assembly.xml specification</a>
+</li>
+        
+<li>
+<a href="environment-xml-specification.html">environment.xml specification</a>
+</li>
+       
+</ol>
+      
+  
+
+<div id="authors" align="right">by&nbsp;Peter Donald</div>
+</div>
+</div>
+</div>
+</td>
+<!--================= end Content ==================-->
+</tr>
+</tbody>
+</table>
+<!--================= end Main ==================-->
+<!--================= start Footer ==================-->
+<div id="footer">
+<table summary="footer" cellspacing="0" cellpadding="4" width="100%" border="0">
+<tbody>
+<tr>
+<!--================= start Copyright ==================-->
+<td colspan="2">
+<div align="center">
+<div class="copyright">
+              Copyright &copy; 2002-2003&nbsp;The Apache Software Foundation.. All rights reserved.
+            </div>
+</div>
+</td>
+<!--================= end Copyright ==================-->
+</tr>
+<tr>
+<td align="left">
+<!--================= start Host ==================-->
+<!--================= end Host ==================--></td><td align="right">
+<!--================= start Credits ==================-->
+<div align="right">
+<div class="credit"></div>
+</div>
+<!--================= end Credits ==================-->
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!--================= end Footer ==================-->
+</body>
+</html>
