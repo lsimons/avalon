@@ -63,7 +63,6 @@ import org.apache.log.format.XMLFormatter;
  */
 public class FormatterFactory
 {
-
     //Format of default formatter
     private static final String FORMAT =
         "%7.7{priority} %5.5{time}   [%8.8{category}] (%{context}): %{message}\\n%{throwable}";
@@ -72,15 +71,13 @@ public class FormatterFactory
     {
         final String type = conf.getAttribute( "type", "pattern" );
         final String format = conf.getValue( FORMAT );
-
         if( "avalon".equals( type ) )
         {
-            int depth = conf.getAttributeAsInteger( "depth", AvalonFormatter.DEFAULT_STACK_DEPTH );
-            boolean printCascading = conf.getAttributeAsBoolean( "cascading", AvalonFormatter.DEFAULT_PRINT_CASCADING );
+            final int depth = conf.getAttributeAsInteger( "depth", AvalonFormatter.DEFAULT_STACK_DEPTH );
+            final boolean printCascading = conf.getAttributeAsBoolean( "cascading", AvalonFormatter.DEFAULT_PRINT_CASCADING );
             return new AvalonFormatter( format, depth, printCascading );
         }
-
-        if( "extended".equals( type ) )
+        else if( "extended".equals( type ) )
         {
             /*Normally ExtendPatternFormatter would look for callers
              *of Logger.class.  But when Excalibur Logger provides a
@@ -90,24 +87,25 @@ public class FormatterFactory
              */
             return new ExtendedPatternFormatter( format, 1 );
         }
-
-        if( "raw".equals( type ) )
+        else if( "raw".equals( type ) )
         {
             return new RawFormatter();
         }
-
-        if( "xml".equals( type ) )
+        else if( "xml".equals( type ) )
         {
             return new XMLFormatter();
         }
-
-        if( "syslog".equals( type ) )
+        else if( "syslog".equals( type ) )
         {
             return new SyslogFormatter();
         }
-
-        // default formatter
-        return new PatternFormatter( format );
+        else if( "pattern".equals( type ) )
+        {
+            return new PatternFormatter( format );
+        }
+        else
+        {
+            throw new IllegalArgumentException( "Unknown formatter type " + type );
+        }
     }
-
 }
