@@ -86,7 +86,7 @@ import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
  * </ul>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003/04/06 11:39:44 $
+ * @version $Revision: 1.7 $ $Date: 2003/06/12 15:43:24 $
  */
 public class InfoVerifier
     extends AbstractLogEnabled
