@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Block Developers Guide</title>
+    <subtitle>What is an Application Listener?</subtitle>
+    <authors>
+      <person id="PH" name="Paul Hammant" email="Paul_Hammant@yahoo.com"/>      
+    </authors>
+  </header>
+  <body>
+    <s1 title="Introduction">
+      <p>
+        This is very similar to <em>BlockListener</em> in that it is notified
+        during lifecycle of blocks and application.  In Java terms the 
+        <em>ApplicationListener</em> interface extends <em>BlockListener</em>
+        so it is always informd of both types of events
+      </p>
+    </s1>
+    <s1 title="Events notified">
+      <p>
+        ApplicationListener components are created before any Blocks are 
+        created in an Application. They receive notifications before and
+        after the Applictaion is started and stopped.
+      </p>
+    </s1>
+    <s1 title="How to make a block listener">
+      <p>
+        Like normal blocks, an application listener can be <em>LogEnabled</em> 
+        and take configuration via <em>Configurable</em>.  The special feature
+        is that it must implement <em>ApplicationListener</em> and implement
+        the four methods that are a consequence of that (as well as four from
+        <em>BlockListener</em>).  The following section in assembly.xml causes
+        instantiation of the application listener.  It is exactly the same as
+        that for <em>BlockListener</em>:
+      </p>
+      <source>
+        &lt;listener class="pkg.MyApplicationListener" name="a-suitable-name" /&gt;      
+      </source>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2002/02/02 12:20:24 $
+    </legal>
+  </footer>
+</document>
