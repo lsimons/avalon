@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <extend>${basedir}/../project.xml</extend>
+  <id>avalon-meta-spi</id>
+  <name>Avalon Meta Model SPI</name>
+  <package>org.apache.avalon.meta</package>
+
+  <currentVersion>1.1</currentVersion>
+  <inceptionYear>2002</inceptionYear>
+  <shortDescription>Meta Model SPI</shortDescription>
+  
+  <description>
+Component meta model classes used by the assembly package.  The meta model includes a meta information and meta data model supporting the component abstraction.  The meta information model describes type level depedencies (context, service, logging, etc.) together with component type attributes.  The meta-data model provides a framework for declaring component deployment templates that can be used to automate the assembly and commissioning of components at runtime.
+  </description>
+  
+  <dependencies>
+
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-api</artifactId>
+      <version>4.1.5</version>
+    </dependency>
+
+    <dependency>
+      <groupId>avalon-meta</groupId>
+      <artifactId>avalon-meta-api</artifactId>
+      <version>1.1</version>
+    </dependency>
+
+  </dependencies>
+  
+</project>
