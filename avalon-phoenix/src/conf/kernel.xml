@@ -53,10 +53,10 @@
           <manager-adaptor-port>8082</manager-adaptor-port>
 
             <!--
-              If you wish to disable the HTTP adaptor altogether
-              then uncomment the following line.
+              If you wish to enable the HTTP adaptor altogether
+              then comment the following line.
             -->
-          <!--<enable-http-adaptor>false</enable-http-adaptor>-->
+          <enable-http-adaptor>false</enable-http-adaptor>
 
           <!--
             The Http Adaptor will use the $PHOENIX_HOME/conf/xsl directory
