@@ -18,15 +18,16 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
-import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.containerkit.lifecycle.ResourceProvider;
+import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
+import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
 
 /**
  * The accessor used to access resources for a particular
  * Block or Listener.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003/01/25 15:47:17 $
+ * @version $Revision: 1.6 $ $Date: 2003/01/26 23:32:43 $
  */
 class ListenerResourceProvider
     extends AbstractLogEnabled
@@ -60,7 +61,7 @@ class ListenerResourceProvider
     public Object createObject( final Object entry )
         throws Exception
     {
-        final BlockListenerMetaData metaData = getMetaData( entry );
+        final ComponentMetaData metaData = getMetaData( entry );
         final ClassLoader classLoader = m_context.getClassLoader();
         final Class clazz =
             classLoader.loadClass( metaData.getImplementationKey() );
@@ -77,7 +78,7 @@ class ListenerResourceProvider
     public Logger createLogger( final Object entry )
         throws Exception
     {
-        final BlockListenerMetaData metaData = getMetaData( entry );
+        final ComponentMetaData metaData = getMetaData( entry );
         final String name = metaData.getName();
         return m_context.getLogger( name );
     }
@@ -112,7 +113,7 @@ class ListenerResourceProvider
     public Configuration createConfiguration( final Object entry )
         throws Exception
     {
-        final BlockListenerMetaData metaData = getMetaData( entry );
+        final ComponentMetaData metaData = getMetaData( entry );
         final String name = metaData.getName();
         try
         {
@@ -145,8 +146,8 @@ class ListenerResourceProvider
      * @param entry the entry
      * @return the metadata
      */
-    private BlockListenerMetaData getMetaData( final Object entry )
+    private ComponentMetaData getMetaData( final Object entry )
     {
-        return (BlockListenerMetaData)entry;
+        return ( (ComponentProfile)entry ).getMetaData();
     }
 }
