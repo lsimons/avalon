@@ -68,7 +68,7 @@ import org.apache.avalon.util.i18n.Resources;
  * A factory enabling the establishment of component instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.12 $ $Date: 2004/04/19 10:49:50 $
+ * @version $Revision: 1.13 $ $Date: 2004/05/06 21:02:30 $
  */
 public class DefaultComponentFactory implements ComponentFactory
 {
@@ -405,7 +405,7 @@ public class DefaultComponentFactory implements ComponentFactory
 
             if( Startable.class.isAssignableFrom( clazz ) )
             {
-                getLogger().debug( "applying statup" );
+                getLogger().debug( "applying startup" );
                 if( m_secure )
                 {
                     AccessController.doPrivileged( 
@@ -423,6 +423,7 @@ public class DefaultComponentFactory implements ComponentFactory
                 {
                     ContainerUtil.start( instance );
                 }
+                getLogger().debug( "component startup completed" );
             }
             else if( Executable.class.isAssignableFrom( clazz ) )
             {
@@ -444,6 +445,7 @@ public class DefaultComponentFactory implements ComponentFactory
                 {
                     ContainerUtil.execute( instance );
                 }
+                getLogger().debug( "component execution completed" );
             }
         }
         catch( Throwable e )
@@ -454,6 +456,8 @@ public class DefaultComponentFactory implements ComponentFactory
                 m_model.getQualifiedName() );
              throw new LifecycleException( error, e );
         }
+
+        getLogger().debug( "incarnation complete" );
 
         return instance;
     }

@@ -65,7 +65,7 @@ public class HelloComponent extends AbstractLogEnabled
         getLogger().info( "execution" );
         m_color = params.getParameter( "color" );
         m_size = params.getParameter( "size" );
-    } 
+    }
 
    /**
     * Initialization of the component by the container.
