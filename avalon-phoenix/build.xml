@@ -112,7 +112,7 @@ Legal:
         <available property="jmx.present" classname="javax.management.MBeanException">
             <classpath refid="project.class.path"/>
         </available>
-        <available property="mx4j.present" classname="mx4j.MBeanServerImpl">
+        <available property="mx4j.present" classname="mx4j.server.MBeanServerImpl">
             <classpath refid="project.class.path"/>
         </available>
         <available property="wrapper.present" classname="com.silveregg.wrapper.WrapperManager">
@@ -189,7 +189,7 @@ Legal:
             <exclude name="org/apache/avalon/phoenix/components/manager/MX4JSystemManager.java"
                 unless="mx4j.present"/>
             <exclude name="org/apache/avalon/phoenix/components/manager/DefaultManager.java"
-                unless="jmx.present"/>
+                unless="jmx-ri.present"/>
             <exclude name="org/apache/avalon/phoenix/launcher/DaemonLauncher.java"
                 unless="wrapper.present"/>
             <exclude name="org/apache/avalon/phoenix/components/kernel/beanshell/*.java"
