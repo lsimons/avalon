@@ -21,8 +21,8 @@
 
     <home nested="framework"/>
     <jar name="target/avalon-framework-@@DATE@@.jar" id="combined"/>
-    <jar name="target/avalon-framework-api-@@DATE@@.jar" id="api"/>
-    <jar name="target/avalon-framework-impl-@@DATE@@.jar" id="impl"/>
+    <jar name="api/target/avalon-framework-api-@@DATE@@.jar" id="api"/>
+    <jar name="impl/target/avalon-framework-impl-@@DATE@@.jar" id="impl"/>
     <javadoc nested="framework/target/docs/apidocs"/>
     <junitreport nested="framework/target/docs/junitreports"/>
 
