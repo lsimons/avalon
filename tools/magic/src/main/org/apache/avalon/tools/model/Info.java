@@ -142,9 +142,7 @@ public class Info
 
    /**
     * Return the version identifier. If the build policy is SNAPSHOT
-    * the version value returned is appended with "-DEV".  If the version is 
-    * is null and SNAPSHOT policy is enabled the returned version is DEV otherwise
-    * the versiojn returned is null.
+    * the version value returned is replaced with "SNAPSHOT".
     *
     * @return a string identifying the build version. 
     */
@@ -152,14 +150,7 @@ public class Info
     {
         if( isaSnapshot() )
         {
-            if( null == m_version )
-            {
-                return "DEV";
-            }
-            else
-            {
-                return m_version + "-DEV";
-            }
+            return "SNAPSHOT";
         }
         else
         {
