@@ -38,7 +38,8 @@ public class Parameters
     public static final Parameters EMPTY_PARAMETERS;
 
     /** Static initializer to initialize the empty Parameters object */
-    static {
+    static
+    {
         EMPTY_PARAMETERS = new Parameters();
         EMPTY_PARAMETERS.makeReadOnly();
     }
