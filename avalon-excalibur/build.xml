@@ -271,7 +271,7 @@ Legal:
       <classpath refid="project.class.path" />
     </rmic>
 
-    <rmic base="${build.cadastre}"
+    <rmic base="${build.classes}"
           classname="org.apache.avalon.excalibur.naming.rmi.server.RMINamingProviderImpl"
           stubVersion="1.2">
       <classpath refid="project.class.path" />
