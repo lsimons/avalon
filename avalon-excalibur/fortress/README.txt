@@ -11,21 +11,22 @@ What is it?
 
 Layout
 
-  cli		- command line bootloader for Fortress (empty)
-  container	- Fortress container source code
-  docs		- Fortress xdocs
-  examples	- Several Fortress examples
-  new		- A anika version of Fortress documentation
-  platform	- Fortress installation/platform utilities (empty)
-  servlet	- Fortress servlet environment (empty)
-  tools		- Fortress meta-builder tools and ant tasks
+  bean              - A Fortress Bean for easier embedding.
+  cli               - command line bootloader for Fortress (empty)
+  container-api     - Fortress container API source code
+  container-impl    - Fortress container Implementation source code
+  container-test    - Fortress container unittests source code
+  examples          - Several Fortress examples
+  site              - Fortress documentation
+  platform	        - Fortress installation/platform utilities (empty)
+  servlet           - Fortress servlet environment (empty)
+  meta              - Fortress meta-builder tools and ant tasks
 
 To Build:
 
   You will need Apache Maven [http://maven.apache.org]
 
-  1. move to the 'container' directory
-  2. run 'maven jar:jar' 
+  2. run 'maven multiproject:install' 
 
 
-Please send questions or comments to the Avalon user list.
+Please send questions or comments to the Avalon user list, users@avalon.apache.org.

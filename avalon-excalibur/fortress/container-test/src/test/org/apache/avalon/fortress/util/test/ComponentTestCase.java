@@ -29,7 +29,7 @@ import org.apache.avalon.framework.service.DefaultServiceManager;
  * within your own code.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/28 15:16:27 $
+ * @version CVS $Revision: 1.1 $ $Date: 2004/03/29 17:04:15 $
  */
 public final class ComponentTestCase
     extends TestCase

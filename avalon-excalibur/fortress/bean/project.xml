@@ -27,6 +27,7 @@ Bean for working with Avalon-Fortress.
     </description>
 
     <dependencies>
+    
         <dependency>
             <groupId>excalibur-fortress</groupId>
             <artifactId>excalibur-fortress-container-api</artifactId>
@@ -124,6 +125,7 @@ Bean for working with Avalon-Fortress.
             <id>junit</id>
             <version>3.8.1</version>
         </dependency>
+        
     </dependencies>
 
 </project>

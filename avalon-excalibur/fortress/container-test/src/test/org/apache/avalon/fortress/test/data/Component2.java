@@ -19,16 +19,15 @@ package org.apache.avalon.fortress.test.data;
 
 /**
  * @avalon.component
- * @avalon.service type=Role3
- * @avalon.service type=org.apache.avalon.fortress.test.data.BaseRole
- * @x-avalon.lifestyle type=thread
- * @x-avalon.info name=component3
+ * @avalon.service type=org.apache.avalon.fortress.test.data.Role2
+ * @x-avalon.lifestyle type=pooled
+ * @x-avalon.info name=component2
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.14 $ $Date: 2004/02/28 15:16:26 $
+ * @version $Revision: 1.1 $ $Date: 2004/03/29 17:04:15 $
  */
-public class Component3
-    implements Role3
+public class Component2
+    implements Role2
 {
     public long getID()
     {

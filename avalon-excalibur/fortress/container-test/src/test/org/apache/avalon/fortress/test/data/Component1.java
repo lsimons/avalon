@@ -18,11 +18,19 @@
 package org.apache.avalon.fortress.test.data;
 
 /**
+ * @avalon.component
+ * @avalon.service type=Role1
+ * @x-avalon.lifestyle type=singleton
+ * @x-avalon.info name=component1
+ *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.11 $ $Date: 2004/02/28 15:16:26 $
+ * @version $Revision: 1.1 $ $Date: 2004/03/29 17:04:15 $
  */
-public interface Role1
-    extends org.apache.avalon.fortress.test.data.BaseRole
+public class Component1
+    implements Role1
 {
-    String ROLE = Role1.class.getName();
+    public long getID()
+    {
+        return hashCode();
+    }
 }
