@@ -602,7 +602,7 @@ public class DefaultComponentModel extends DefaultDeploymentModel
     * parameters value.
     *
     * @param parameters the supplied parameters
-    * @param policy if TRUE the supplied parameters are merged with existing 
+    * @param merge if TRUE the supplied parameters are merged with existing 
     *    parameters otherwise the supplied parameters replace any existing
     *    parameters
     * @exception IllegalStateException if the component type backing the 
