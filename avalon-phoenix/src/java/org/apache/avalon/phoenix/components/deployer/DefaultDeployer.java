@@ -102,7 +102,7 @@ public class DefaultDeployer
             
             m_kernel.removeApplication( name );
             
-            for ( int i = 0; i < blocks.length; i++ )
+            for( int i = 0; i < blocks.length; i++ )
             {                
                 //remove configuration from repository
                 m_repository.storeConfiguration( name, blocks[i], null );
@@ -112,9 +112,9 @@ public class DefaultDeployer
             m_installer.uninstall( installation );
             
             //erase installation information
-            m_recorder.recordInstallation( name, null);
+            m_recorder.recordInstallation( name, null );
         }
-        catch ( final Exception e )
+        catch( final Exception e )
         {
             throw new DeploymentException( e.getMessage(), e );
         }
