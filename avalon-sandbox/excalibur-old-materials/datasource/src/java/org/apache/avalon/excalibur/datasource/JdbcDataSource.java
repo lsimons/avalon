@@ -28,6 +28,7 @@ import org.apache.avalon.framework.logger.Loggable;
  *     &lt;pool-controller min="<i>5</i>" max="<i>10</i>" connection-class="<i>my.overrided.ConnectionClass</i>"&gt;
  *       &lt;keep-alive disable="false"&gt;select 1&lt;/keep-alive&gt;
  *     &lt;/pool-controller&gt;
+ *     &lt;auto-commit&gt;<i>true</i>&lt;/auto-commit&gt;
  *     &lt;driver&gt;<i>com.database.jdbc.JdbcDriver</i>&lt;/driver&gt;
  *     &lt;dburl&gt;<i>jdbc:driver://host/mydb</i>&lt;/dburl&gt;
  *     &lt;user&gt;<i>username</i>&lt;/user&gt;
@@ -57,6 +58,11 @@ import org.apache.avalon.framework.logger.Loggable;
  *  to make sure that it is still alive.  Setting the <code>disable</code> attribute to true will
  *  disable this feature.  (Defaults to a query of "SELECT 1" and being enabled)</li>
  *
+ * <li>The <code>auto-commit</code> element is used to override the default (<code>true</code>)
+ *  value of the auto-commit policy.  It ensures that the database connection that is returned
+ *  to you is already in the proper mode.  If you use transactions in your queries, you must
+ *  set this to false.</li>
+ *
  * <li>The <code>driver</code> element is used to specify the driver to use when connecting to the
  *  database.  The specified class must be in the classpath.  (Required)</li>
  *
@@ -68,7 +74,7 @@ import org.apache.avalon.framework.logger.Loggable;
  * </ul>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.18 $ $Date: 2002/03/16 00:05:40 $
+ * @version CVS $Revision: 1.19 $ $Date: 2002/05/02 16:02:40 $
  * @since 4.0
  */
 public class JdbcDataSource
