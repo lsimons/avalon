@@ -10,9 +10,9 @@
 #
 # <-- starts a comment
 
-# servletapi.jar=
-# mail.jar=
-# jms.jar=
-# junit.jar=
-# jdbc.jar=
-# log4j.jar=
+#servletapi.jar=
+#mail.jar=
+#jms.jar=
+#junit.jar=
+#jdbc.jar=
+#log4j.jar=
