@@ -52,6 +52,7 @@ package org.apache.avalon.fortress.impl.handler;
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.fortress.util.LifecycleExtensionManager;
 import org.apache.avalon.framework.component.WrapperComponentManager;
+import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
@@ -70,7 +71,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/03/19 12:50:56 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/03/19 12:51:52 $
  * @since 4.0
  */
 public class ComponentFactory
@@ -128,9 +129,9 @@ public class ComponentFactory
         m_componentClass = componentClass;
         m_configuration = configuration;
         m_serviceManager = serviceManager;
-        m_context = new DefaultContext(context);
-        ((DefaultContext)m_context).put("component.name", configuration.getAttribute("id", componentClass.getName()));
-        ((DefaultContext)m_context).makeReadOnly();
+        m_context = new DefaultContext( context );
+        ( (DefaultContext)m_context ).put( "component.name", configuration.getAttribute( "id", componentClass.getName() ) );
+        ( (DefaultContext)m_context ).makeReadOnly();
         m_loggerManager = loggerManager;
         m_extManager = extManager;
         enableLogging( m_loggerManager.getLoggerForCategory( "system.factory" ) );
@@ -139,20 +140,20 @@ public class ComponentFactory
         m_newInstance = new CounterInstrument( "creates" );
         m_dispose = new CounterInstrument( "destroys" );
 
-        setInstrumentableName("factory");
+        setInstrumentableName( "factory" );
 
-        addInstrument(m_newInstance);
-        addInstrument(m_dispose);
+        addInstrument( m_newInstance );
+        addInstrument( m_dispose );
     }
 
-   /**
-    * Returns a new instance of a component and optionally applies a logging channel,
-    * instrumentation, context, a component or service manager, configuration, parameters,
-    * lifecycle extensions, initialization, and execution phases based on the interfaces
-    * implemented by the component class.
-    *
-    * @return the new instance
-    */
+    /**
+     * Returns a new instance of a component and optionally applies a logging channel,
+     * instrumentation, context, a component or service manager, configuration, parameters,
+     * lifecycle extensions, initialization, and execution phases based on the interfaces
+     * implemented by the component class.
+     *
+     * @return the new instance
+     */
     public Object newInstance()
         throws Exception
     {
@@ -166,7 +167,7 @@ public class ComponentFactory
             getLogger().debug( message );
         }
 
-        ContainerUtil.enableLogging(component, m_componentLogger);
+        ContainerUtil.enableLogging( component, m_componentLogger );
 
         if( component instanceof Loggable )
         {
@@ -183,10 +184,20 @@ public class ComponentFactory
         }
 
         ContainerUtil.contextualize( component, m_context );
-        ContainerUtil.compose( component, new WrapperComponentManager( m_serviceManager ) );
+        if( component instanceof Composable )
+        {
+            final String message = "WARNING: " + m_componentClass.getName() +
+                " implements the Composable lifecycle stage. This is " +
+                " a deprecated feature that will be removed in the future. " +
+                " Please upgrade to using Serviceable.";
+            getLogger().warn( message );
+            System.out.println( message );
+
+            ContainerUtil.compose( component, new WrapperComponentManager( m_serviceManager ) );
+        }
         ContainerUtil.service( component, m_serviceManager );
         ContainerUtil.configure( component, m_configuration );
-        ContainerUtil.parameterize(component, Parameters.fromConfiguration(m_configuration));
+        ContainerUtil.parameterize( component, Parameters.fromConfiguration( m_configuration ) );
 
         m_extManager.executeCreationExtensions( component, m_context );
 
@@ -227,20 +238,20 @@ public class ComponentFactory
         return logger;
     }
 
-   /**
-    * Returns the component class.
-    * @return the class
-    */
+    /**
+     * Returns the component class.
+     * @return the class
+     */
     public final Class getCreatedClass()
     {
         return m_componentClass;
     }
 
-   /**
-    * Disposal of the supplied component instance.
-    * @param component the component to dispose of
-    * @exception Exception if a disposal error occurs
-    */
+    /**
+     * Disposal of the supplied component instance.
+     * @param component the component to dispose of
+     * @exception Exception if a disposal error occurs
+     */
     public final void dispose( final Object component )
         throws Exception
     {
