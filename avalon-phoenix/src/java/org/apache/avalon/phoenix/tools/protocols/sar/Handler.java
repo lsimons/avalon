@@ -18,9 +18,10 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * This is the connection factory for the <code>sar</code> protocol.
  *
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/10/14 00:42:39 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/10/27 13:58:54 $
  */
-public class Handler extends URLStreamHandler
+public class Handler 
+    extends URLStreamHandler
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( Handler.class );
