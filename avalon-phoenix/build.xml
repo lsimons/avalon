@@ -222,7 +222,7 @@ Legal:
         <!-- thats why you are required to define do.checkstyle property to generate the report -->
         <taskdef name="checkstyle"
             classname="com.puppycrawl.tools.checkstyle.CheckStyleTask">
-            <classpath refid="tools.class.path"/>
+            <classpath refid="project.class.path"/>
         </taskdef>
         <checkstyle
             lcurlyType="nl"
