@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 
 <document>
-  <header>
+  <properties>
     <title>A future</title>
     <author name="Paul Hammant" email="Paul_Hammant@yahoo.com"/>
-  </header>
+  </properties>
   <body>
     <section name="Introduction">
       <p>

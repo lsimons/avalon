@@ -2,12 +2,12 @@
 
 <document>
 
- <header>
+ <properties>
   <title>Installation</title>
 
    <author name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/>
 
- </header>
+ </properties>
 
 <body>
 

@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 
 <document>
-  <header>
+  <properties>
     <title>Guide - What is an Application Listener?</title>
 
       <person id="PH" name="Paul Hammant" email="Paul_Hammant@yahoo.com"/>
 
-  </header>
+  </properties>
   <body>
     <section name="Introduction">
       <p>

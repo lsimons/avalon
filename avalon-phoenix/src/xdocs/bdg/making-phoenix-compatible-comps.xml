@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 
 <document>
-  <header>
+  <properties>
     <title>Guide - Making components that are Phoenix compatible</title>
 
       <author name="Paul Hammant" email="hammant@apache.org"/>
 
-  </header>
+  </properties>
   <body>
     <section name="Introduction">
       <p>

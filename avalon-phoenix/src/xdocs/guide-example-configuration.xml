@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 
 <document>
-  <header>
+  <properties>
     <title>Guide - Example Configuration</title>
     <author name="Stephen McConnell" email="mcconnell@osm.net"/>
     <author name="Gerhard Froehlich" email="g-froehlich@gmx.de"/>
-  </header>
+  </properties>
   <body>
     <section name="Introduction">
       <p>This page contains a real production example of a block
