@@ -8,12 +8,12 @@
 package org.apache.avalon.excalibur.event;
 
 /**
- * A Sink implements the side of an event queue where QueueElements are
+ * A BlockingSink implements the side of an event queue where QueueElements are
  * dequeued operations only.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public interface Sink {
+public interface BlockingSink {
 
   /**
    * Dequeues the next element, or returns <code>null</code> if there is
@@ -21,7 +21,7 @@ public interface Sink {
    *
    * @return the next <code>QueueElement</code> on the queue
    */
-  public QueueElement dequeue();
+  public QueueElement dequeue(int millis);
 
   /**
    * Dequeues all available elements, or returns <code>null</code> if there is
@@ -29,7 +29,7 @@ public interface Sink {
    *
    * @return all pending <code>QueueElement</code>s on the queue
    */
-  public QueueElement[] dequeueAll();
+  public QueueElement[] dequeueAll(int millis);
 
   /**
    * Dequeues at most <code>num</code> available elements, or returns
@@ -37,11 +37,6 @@ public interface Sink {
    *
    * @return At most <code>num</code> <code>QueueElement</code>s on the queue
    */
-  public QueueElement[] dequeue(int num);
-
-  /**
-   * Returns the number of elements waiting in this queue.
-   */
-  public int size();
+  public QueueElement[] dequeue(int num, int millis);
 
 }
