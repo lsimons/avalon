@@ -18,24 +18,30 @@ import java.util.HashMap;
  */
 public final class Namespace implements Serializable
 {
+    private static final    boolean VALIDATE_PREFIX = true;
+    private static final    boolean IGNORE_PREFIX   = false;
+    private static volatile boolean m_policy        = VALIDATE_PREFIX;
+
     private final        String  m_prefix;
     private final        String  m_uri;
+    private final        boolean m_validate_prefix;
 
     /**
      * Hide constructor so that the default factory methods must be used
      */
     private Namespace()
     {
-        this("", "");
+        this("", "", true);
     }
 
     /**
      * Create a Namespace object with a prefix and uri.
      */
-    private Namespace( final String prefix, final String uri )
+    private Namespace( final String prefix, final String uri, final boolean validatePrefix )
     {
         this.m_prefix = prefix;
         this.m_uri = uri;
+        this.m_validate_prefix = validatePrefix;
     }
 
     /**
@@ -71,11 +77,19 @@ public final class Namespace implements Serializable
         if ( check instanceof Namespace )
         {
             Namespace other = (Namespace) check;
-            isEqual = this.getPrefix().equals( other.getPrefix() );
 
-            if (isEqual)
+            if ( m_validate_prefix )
             {
-               isEqual = this.getURI().equals( other.getURI() );
+                isEqual = this.getPrefix().equals( other.getPrefix() );
+
+                if (isEqual)
+                {
+                    isEqual = this.getURI().equals( other.getURI() );
+                }
+            }
+            else
+            {
+                isEqual = this.getURI().equals( other.getURI() );
             }
         }
         else if ( check instanceof String )
@@ -185,6 +199,16 @@ public final class Namespace implements Serializable
             loc = "";
         }
 
-        return new Namespace( pre, loc );
+        return new Namespace( pre, loc, true );
+    }
+
+    public static final synchronized void setPolicy( final boolean prefixValidating )
+    {
+        Namespace.m_policy = prefixValidating;
+    }
+
+    public static final synchronized boolean getPolicy()
+    {
+        return Namespace.m_policy;
     }
 }
