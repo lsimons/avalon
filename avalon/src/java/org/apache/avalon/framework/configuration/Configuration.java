@@ -69,7 +69,7 @@ public interface Configuration
     Configuration getChild( String child, boolean createNew );
 
     /**
-     * Return an <code>Iterator</code> of <code>Configuration<code>
+     * Return an <code>Array</code> of <code>Configuration</code>
      * elements containing all node children.
      *
      * @return The child nodes with name
@@ -77,7 +77,7 @@ public interface Configuration
     Configuration[] getChildren();
 
     /**
-     * Return an <code>Iterator</code> of <code>Configuration<code>
+     * Return an <code>Array</code> of <code>Configuration</code>
      * elements containing all node children with the specified name.
      *
      * @pre name != null
