@@ -32,7 +32,7 @@ import org.apache.avalon.phoenix.metadata.DependencyMetaData;
  * Block or Listener.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/05/19 02:04:22 $
+ * @version $Revision: 1.2 $ $Date: 2002/05/19 02:21:00 $
  */
 public class BlockAccessor
     extends AbstractLogEnabled
@@ -219,6 +219,6 @@ public class BlockAccessor
      */
     private BlockMetaData getMetaDataFor( final Object entry )
     {
-        return (BlockMetaData)entry;
+        return ( (BlockEntry)entry ).getMetaData();
     }
 }
