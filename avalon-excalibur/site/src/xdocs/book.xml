@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<book software="Excalibur"
+      title="Excalibur Documentation"
+      copyright="@year@ The Apache Software Foundation">
+
+  <project label="Back to Avalon" href="@AVALON_BASE@" />
+
+  <menu label="About">
+    <menu-item label="Overview" href="index.html"/>  
+  </menu>
+
+  <menu label="Sub Projects">
+    <menu-item label="AltRMI" href="altrmi/index.html"/>  
+  </menu>
+  
+  
+</book>
+
+
