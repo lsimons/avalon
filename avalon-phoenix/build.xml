@@ -1001,7 +1001,7 @@ Legal:
         <delete dir="${dist.name.wrapper}"/>
     </target>
     <target name="dist" depends="dist-wrapper-windows, dist-wrapper-unix"
-        description="generates the Phoenix distribution">
+        description="generates the Phoenix distribution (src, bin, and bin with wrapper)">
         
         <delete dir="${dist.name}"/>
     </target>
