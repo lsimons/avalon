@@ -37,7 +37,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
 /**
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class DefaultInitialContextTest extends TestCase
 {
@@ -128,7 +128,7 @@ public class DefaultInitialContextTest extends TestCase
     private static String[] getDefaultHosts()
     {
         return new String[]{ 
-          "http://dpml.net/",
+          "http://www.dpml.net/",
           "http://www.ibiblio.org/maven/"
         };
     }

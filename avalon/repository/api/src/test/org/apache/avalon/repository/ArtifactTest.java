@@ -25,7 +25,7 @@ import junit.framework.TestCase;
  * Create of a new Artifact test case.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ArtifactTest extends TestCase
 {
@@ -71,8 +71,8 @@ public class ArtifactTest extends TestCase
         assertNotNull( artifact );
         assertEquals( 
           "url",
-          artifact.getURL( "http://dpml.net" ),
-            "http://dpml.net/xxx/jars/yyy-zzz.jar" );
+          artifact.getURL( "http://www.dpml.net" ),
+            "http://www.dpml.net/xxx/jars/yyy-zzz.jar" );
     }
 
     public void testURLFromEmptyRepository() throws Exception
