@@ -83,26 +83,26 @@
       When defining subcategory manually, it is required to specify log
       targets, because they are not inherited in this case.
     -->
-    <category name="core" log-level="DEBUG">
+    <category name="core" log-level="WARN">
       <!-- Startup component manager logger -->
       <category name="startup" log-level="DEBUG">
         <log-target id-ref="core"/>
         <log-target id-ref="error"/>
       </category>
 
-      <category name="roles" log-level="DEBUG">
+      <category name="roles" log-level="WARN">
         <log-target id-ref="core"/>
         <log-target id-ref="error"/>
       </category>
 
       <!-- Cocoon component manager logger -->
-      <category name="manager" log-level="DEBUG">
+      <category name="manager" log-level="WARN">
         <log-target id-ref="core"/>
         <log-target id-ref="error"/>
       </category>
 
       <!-- Cocoon cache and stores logger -->
-      <category name="store" log-level="DEBUG">
+      <category name="store" log-level="WARN">
         <log-target id-ref="core"/>
         <log-target id-ref="error"/>
       </category>
@@ -127,7 +127,12 @@
       <log-target id-ref="error"/>
     </category> 
 
-    <category name="flow" log-level="DEBUG">
+    <category name="modules.input" log-level="WARN">
+      <log-target id-ref="access"/>
+      <log-target id-ref="error"/>
+    </category> 
+
+    <category name="flow" log-level="WARN">
       <log-target id-ref="flow"/>
       <log-target id-ref="error"/>
     </category>
