@@ -17,17 +17,23 @@
 
 package org.apache.avalon.fortress.impl.role;
 
+import org.apache.avalon.excalibur.pool.Poolable;
 import org.apache.avalon.fortress.RoleManager;
+import org.apache.avalon.fortress.impl.handler.FactoryComponentHandler;
+import org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler;
+import org.apache.avalon.fortress.impl.handler.PoolableComponentHandler;
 import org.apache.avalon.fortress.impl.role.AbstractRoleManager;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.thread.SingleThreaded;
+import org.apache.avalon.framework.thread.ThreadSafe;
 
 /**
  * This role manager implementation is able to read ECM based role files. 
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.1 $ $Date: 2004/04/03 18:10:35 $
+ * @version CVS $Revision: 1.2 $ $Date: 2004/04/05 08:46:06 $
  */
 public class ECMRoleManager
         extends AbstractRoleManager
@@ -93,17 +99,54 @@ public class ECMRoleManager
         {
             final String role = roles[i].getAttribute( "name" );
             final String shorthand = roles[i].getAttribute( "shorthand" );
-            final String className = roles[i].getAttribute( "default-class", null );
-            
-            if ( ! addRole( shorthand, role, className, null ) ) 
+            final String defaultClassName = roles[i].getAttribute( "default-class", null );
+                        
+            if ( ! addRole( shorthand, role, defaultClassName,  getComponentHandlerClassName(defaultClassName)) ) 
             {
-                
+                    
                 final String message = "Configuration error on invalid entry:\n\tRole: " + role +
                         "\n\tShorthand: " + shorthand +
-                        "\n\tDefault Class: " + className;
+                        "\n\tDefault Class: " + defaultClassName;
 
                 getLogger().warn(message);
             }
+            
         }
+    }
+    
+    protected String getComponentHandlerClassName(final String defaultClassName) 
+    {
+        if ( defaultClassName == null )
+        {
+            return null;
+        }
+        Class clazz;
+        try
+        {
+            clazz = getLoader().loadClass( defaultClassName );
+        }
+        catch ( final Exception e )
+        {
+            final String message =
+                "Unable to load class " + defaultClassName + ". Using dfault component handler.";
+            getLogger().warn( message );
+            return null;
+        }
+        
+        if ( ThreadSafe.class.isAssignableFrom( clazz ) )
+        {
+            return PerThreadComponentHandler.class.getName();
+        }
+        else if ( Poolable.class.isAssignableFrom( clazz ) )
+        {
+            return PoolableComponentHandler.class.getName();
+        }
+        else if ( SingleThreaded.class.isAssignableFrom( clazz) )
+        {            
+            return FactoryComponentHandler.class.getName();
+        }
+        
+        // Don't know, use default
+        return null ;
     }
 }
