@@ -196,6 +196,7 @@ Legal:
   </target>
 
   <target name="jar-clutil" depends="compile-clutil">
+    <mkdir dir="${build.lib}"/>
     <jar jarfile="${build.lib}/clutil.jar" basedir="${build.classes}">
       <include name="org/apache/avalon/util/cli/*" />
       <exclude name="org/apache/avalon/util/cli/AbstractMain.class" />
