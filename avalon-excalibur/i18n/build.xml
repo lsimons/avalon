@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="Excalibur i18n" default="main" basedir=".">
+<project default="main" basedir=".">
 
     <!-- load per-project properties -->
     <property file="project.properties"/>
@@ -12,7 +12,7 @@
     <property file="ant.properties"/>
     <property file="../ant.properties"/>
     <property file="${user.home}/.ant.properties"/>
-    
+
     <!-- Settings used to configure compile environment -->
     <property name="build.debug" value="on"/>
     <property name="build.optimize" value="off"/>
@@ -49,12 +49,13 @@
         <pathelement location="${junit.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
     </path>
-        
+
     <target name="main" depends="dist" description="Build the project"/>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
 
     <!-- Compiles the source code -->
     <target name="compile" description="Compiles the source code">
+
         <mkdir dir="${build.classes}"/>
 
         <!-- Compile all classes including the tests. -->
@@ -122,15 +123,15 @@
     </target>
 
     <target name="test" depends="compile" description="Perform the unit tests">
-        
+
         <echo message="Performing Unit Tests" />
-        
+
         <mkdir dir="${build.tests}"/>
-        
-        <junit fork="true" 
-               haltonfailure="${junit.failonerror}"
-               printsummary="yes" 
-               dir="${build.tests}">
+
+        <junit fork="true"
+            haltonfailure="${junit.failonerror}"
+            printsummary="yes"
+            dir="${build.tests}">
             <classpath refid="project.class.path"/>
 
             <formatter type="xml"/>    <!-- xml reports for junitreport -->
@@ -143,13 +144,13 @@
                 </fileset>
             </batchtest>
         </junit>
-        
+
     </target>
 
     <target name="test-reports" depends="test" description="Generate Reports for the unit tests">
-        
+
         <mkdir dir="${build.reports}/junit"/>
-        
+
         <junitreport todir="${build.reports}/junit">
             <fileset dir="${build.tests}">
                 <include name="TEST-*.xml"/>
@@ -164,7 +165,7 @@
             <fileset dir="${build.tests}" includes="TESTS-*.xml"/>
         </delete>
         -->
-        
+
     </target>
 
     <target name="jdepend" if="do.jdepend" description="Generate Dependency Analysis Report">
@@ -179,69 +180,70 @@
         </jdepend>
 
         <mkdir dir="${build.reports}/jdepend"/>
-        <style in="${build.dir}/jdepend-results.xml" 
-               processor="trax" 
-               out="${build.reports}/jdepend/delete-me.txt" 
-               style="${ant.home}/etc/jdepend-frames.xsl"/>
+        <style in="${build.dir}/jdepend-results.xml"
+            processor="trax"
+            out="${build.reports}/jdepend/delete-me.txt"
+            style="${ant.home}/etc/jdepend-frames.xsl"/>
     </target>
 
-	<target name="checkstyle" if="do.checkstyle" description="Checkstyle">
-    
+    <target name="checkstyle" if="do.checkstyle" description="Checkstyle">
+
         <!-- this invocation of checkstyle requires that checkstyle be downloaded and setup -->
         <!-- thats why you are required to define do.checkstyle property to generate the report -->
-		<taskdef name="checkstyle"
-			classname="com.puppycrawl.tools.checkstyle.CheckStyleTask">
-			<classpath refid="project.class.path"/>
-		</taskdef>
-		<checkstyle
-			lcurlyType="nl"
-			lcurlyMethod="nl"
-			lcurlyOther="nl"
-			rcurly="ignore"
-			allowProtected="false"
-			allowPackage="false"
-			allowNoAuthor="false"
-			maxLineLen="100"
-			maxMethodLen="100"
-			maxConstructorLen="100"
-			memberPattern="^m_[a-z][a-zA-Z0-9]*$"
-			staticPattern="^c_[a-z][a-zA-Z0-9]*$"
-			constPattern="(^c_[a-z][a-zA-Z0-9]*$)|([A-Z_]*$)"
-			ignoreImportLen="true"
-			allowTabs="false"
-			javadocScope="protected"
-			ignoreWhitespace="true"
-			cacheFile="checkstyle.cache"
-			failOnViolation="false"
-			ignoreCastWhitespace="true">
-			<fileset dir="${java.dir}">
-				<include name="**/*.java"/>
-			</fileset>
+        <taskdef name="checkstyle"
+            classname="com.puppycrawl.tools.checkstyle.CheckStyleTask">
+            <classpath refid="project.class.path"/>
+        </taskdef>
+        <checkstyle
+            lcurlyType="nl"
+            lcurlyMethod="nl"
+            lcurlyOther="nl"
+            rcurly="ignore"
+            allowProtected="false"
+            allowPackage="false"
+            allowNoAuthor="false"
+            maxLineLen="100"
+            maxMethodLen="100"
+            maxConstructorLen="100"
+            memberPattern="^m_[a-z][a-zA-Z0-9]*$"
+            staticPattern="^c_[a-z][a-zA-Z0-9]*$"
+            constPattern="(^c_[a-z][a-zA-Z0-9]*$)|([A-Z_]*$)"
+            ignoreImportLen="true"
+            allowTabs="false"
+            javadocScope="protected"
+            ignoreWhitespace="true"
+            cacheFile="checkstyle.cache"
+            failOnViolation="false"
+            ignoreCastWhitespace="true">
+            <fileset dir="${java.dir}">
+                <include name="**/*.java"/>
+            </fileset>
             <formatter type="plain"/>
             <formatter type="xml" toFile="build/checkstyle-results.xml"/>
-		</checkstyle>
-	</target>
+        </checkstyle>
+    </target>
 
-	<target name="checkstyle-report" 
-            depends="checkstyle" 
-            if="do.checkstyle" 
-            description="Generate Checkstyle Report">
+    <target name="checkstyle-report"
+        depends="checkstyle"
+        if="do.checkstyle"
+        description="Generate Checkstyle Report">
 
-		<mkdir dir="${build.reports}/checkstyle"/>
-		<style style="../tools/etc/checkstyle-frames.xsl" in="build/checkstyle-results.xml"
-			out="${build.reports}/checkstyle/delete-me.html"/>
+        <mkdir dir="${build.reports}/checkstyle"/>
+        <style style="../tools/etc/checkstyle-frames.xsl" in="build/checkstyle-results.xml"
+            out="${build.reports}/checkstyle/delete-me.html"/>
 
-	</target>
+    </target>
 
     <!-- Creates the distribution -->
-    <target name="dist" 
-            depends="jar, test-reports, jdepend, checkstyle-report, javadocs" 
-            description="Generates the jar files">
+    <target name="dist"
+        depends="jar, test-reports, jdepend, checkstyle-report, javadocs"
+        description="Generates the jar files">
 
         <mkdir dir="${dist.dir}"/>
         <copy file="${build.lib}/${dist.name}.jar" todir="${dist.dir}"/>
         <copy file="../LICENSE.txt" todir="${dist.dir}"/>
         <copy file="../KEYS" todir="${dist.dir}"/>
+        <copy file="README.txt" todir="${dist.dir}"/>
 
         <mkdir dir="${dist.base}"/>
 
@@ -249,6 +251,27 @@
             <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
         </zip>
 
+        <!--
+          Not supported by released ant but when it is we should enable this across
+          all of the products
+        <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-bin.tar">
+          <tarfileset dir="${dist.dir}"
+                      prefix="${dist.name}"
+                      username="avalon"
+                      group="avalon"/>
+        </tar>
+
+        <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz"
+              src="${dist.name}-bin.tar"/>
+        <bzip2 zipfile="${dist.base}/${dist.name}-bin.tar.gz"
+               src="${dist.name}-bin.tar"/>
+
+        <delete file="${dist.base}/${dist.name}-bin.tar"/>
+
+        <checksum fileext=".md5">
+          <fileset dir="${dist.base}" />
+        </checksum>
+        -->
         <delete dir="${dist.dir}" />
 
     </target>
