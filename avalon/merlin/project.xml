@@ -141,6 +141,7 @@
     <developer>
       <name>Niclas Hedhman</name>
       <email>niclas@hedhman.org</email>
+      <id>niclas</id>
       <roles>
         <role>Patches improving build procedures, validating and enhancing cross-platform builds, resolving maven bugs, and enhancements to the repository subsystem.</role>
         <role>Kernel improvements in deployment and security.</role>
