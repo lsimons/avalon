@@ -11,23 +11,11 @@ import org.apache.avalon.framework.activity.Executable;
 import org.apache.avalon.excalibur.event.Signal;
 
 /**
- * A Signal is a specific type of QueueElement that denotes a Control code for
- * the Queue system.
+ * A Command is a specific type of Signal that denotes an asynchronous execution
+ * unit that must be performed by the CommandManager.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
 public interface Command extends Signal, Executable
 {
-    /**
-     * Test whether this command is repeatable.  If so, it will be placed back
-     * on the CommandQueue to be issued again when it is time.
-     */
-    boolean isRepeatable();
-
-    /**
-     * Gets the repeat interval so that the CommandQueue keeps it for the specified
-     * amount of time before enqueuing it.  If the Command is not repeatable,
-     * then the repeat interval is -1.
-     */
-    long getRepeatInterval();
 }

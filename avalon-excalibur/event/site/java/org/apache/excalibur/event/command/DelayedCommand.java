@@ -11,11 +11,17 @@ import org.apache.avalon.framework.activity.Executable;
 import org.apache.avalon.excalibur.event.Signal;
 
 /**
- * A Command is a specific type of Signal that denotes an asynchronous execution
- * unit that must be performed by the CommandManager.
+ * A DelayedCommand is a specific type of Command that denotes a an execution
+ * unit that will be delayed at least X number of milliseconds.  The mechanism
+ * is not guaranteed to be deterministic.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public interface Command extends Signal, Executable
+public interface DelayedCommand extends Command
 {
+    /**
+     * Sets the initial delay for the Command.  This defaults to 0 milliseconds.
+     * The value must be positive.
+     */
+    long getDelayInterval();
 }
