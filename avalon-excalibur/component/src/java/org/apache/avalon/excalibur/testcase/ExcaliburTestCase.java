@@ -259,7 +259,7 @@ import org.apache.log.output.io.StreamTarget;
  * @deprecated ECM is no longer supported
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version $Id: ExcaliburTestCase.java,v 1.1 2003/11/09 12:45:27 leosimons Exp $
+ * @version $Id: ExcaliburTestCase.java,v 1.2 2003/12/12 09:41:02 stephan Exp $
  */
 public class ExcaliburTestCase
     extends TestCase
@@ -281,12 +281,11 @@ public class ExcaliburTestCase
     {
         super( name );
 
-        ArrayList methodList = (ArrayList)ExcaliburTestCase.m_tests.get( ExcaliburTestCase.class );
-
-        Method[] methods = ExcaliburTestCase.class.getMethods();
+        ArrayList methodList = (ArrayList)ExcaliburTestCase.m_tests.get( getClass() );
 
         if( null == methodList )
         {
+            Method[] methods = getClass().getMethods();
             methodList = new ArrayList( methods.length );
 
             for( int i = 0; i < methods.length; i++ )
@@ -301,7 +300,7 @@ public class ExcaliburTestCase
                 }
             }
 
-            ExcaliburTestCase.m_tests.put( ExcaliburTestCase.class, methodList );
+            ExcaliburTestCase.m_tests.put( getClass(), methodList );
         }
     }
 
@@ -326,8 +325,8 @@ public class ExcaliburTestCase
     protected void prepare()
         throws Exception
     {
-        final String resourceName = ExcaliburTestCase.class.getName().replace( '.', '/' ) + ".xtest";
-        URL resource = ExcaliburTestCase.class.getClassLoader().getResource( resourceName );
+        final String resourceName = getClass().getName().replace( '.', '/' ) + ".xtest";
+        URL resource = getClass().getClassLoader().getResource( resourceName );
 
         if( resource != null )
         {
@@ -409,7 +408,7 @@ public class ExcaliburTestCase
      */
     final public void run( TestResult result )
     {
-        ArrayList methodList = (ArrayList)ExcaliburTestCase.m_tests.get( ExcaliburTestCase.class );
+        ArrayList methodList = (ArrayList)ExcaliburTestCase.m_tests.get( getClass() );
 
         if( null == methodList || methodList.isEmpty() )
         {
@@ -417,7 +416,7 @@ public class ExcaliburTestCase
         }
 
         // Set the logger for the initialization phase.
-        setCurrentLogger( getBaseClassName( ExcaliburTestCase.class ) );
+        setCurrentLogger( getBaseClassName( getClass() ) );
 
         try
         {
@@ -480,7 +479,7 @@ public class ExcaliburTestCase
         }
 
         methodList.clear();
-        ExcaliburTestCase.m_tests.put( ExcaliburTestCase.class, methodList );
+        ExcaliburTestCase.m_tests.put( getClass(), methodList );
     }
 
     /**
@@ -541,7 +540,7 @@ public class ExcaliburTestCase
             if( value == null )
             {
                 String clazz = confs[ i ].getAttribute( "class" );
-                Object obj = ExcaliburTestCase.class.getClassLoader().loadClass( clazz ).newInstance();
+                Object obj = getClass().getClassLoader().loadClass( clazz ).newInstance();
                 context.put( key, obj );
                 if( getLogger().isInfoEnabled() )
                     getLogger().info( "ExcaliburTestCase: added an instance of class " + clazz + " to context entry " + key );
