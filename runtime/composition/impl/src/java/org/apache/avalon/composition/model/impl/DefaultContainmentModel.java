@@ -836,18 +836,15 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         if( model.equals( this ) ) 
             return model;
 
-        synchronized( m_commissioned )
+        m_dirty.setEnabled( true );
+        ModelRepository repository = m_context.getModelRepository();
+        synchronized( repository )
         {
-            m_dirty.setEnabled( true );
-            ModelRepository repository = m_context.getModelRepository();
-            synchronized( repository )
-            {
-                repository.addModel( name, model );
-                m_context.getDependencyGraph().add( model );
-                CompositionEvent event = new CompositionEvent( this, model );
-                fireModelAddedEvent( event );
-                return model;
-            }
+            repository.addModel( name, model );
+            m_context.getDependencyGraph().add( model );
+            CompositionEvent event = new CompositionEvent( this, model );
+            fireModelAddedEvent( event );
+            return model;
         }
     }
 
