@@ -26,13 +26,7 @@ Legal:
   <property file=".ant.properties"/>
   <property file="${user.home}/.ant.properties"/>
 
-  <property name="name" value="phoenix"/>
-  <property name="Name" value="Phoenix"/>
-  <property name="version" value="4.0a4"/>
-  <property name="year" value="1999-2001"/>
-  <property name="status" value="alpha"/>
-  <property name="release" value="4th"/>
-  <property name="short.version" value="4.0a"/>
+  <property file="project.properties"/>
 
   <property name="build.debug" value="on"/>
   <property name="build.optimize" value="off"/>
@@ -73,7 +67,7 @@ Legal:
   <property name="xerces.file" value="xerces.jar"/>
   <property name="xerces.jar" value="${xerces.dir}/${xerces.file}"/>
   <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.2.0-D8.jar"/>
-  <property name="framework.jar" value="${lib.dir}/avalon-framework-20011110.jar"/>
+  <property name="framework.jar" value="${lib.dir}/avalon-framework-20011115.jar"/>
   <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur-20011120.jar"/>
   <property name="scratchpad.jar" value="${lib.dir}/avalon-scratchpad-20011122.jar"/>
   <property name="logkit.jar" value="${lib.dir}/logkit-1.0.jar"/>
@@ -112,7 +106,7 @@ Legal:
   </path>
 
   <!-- Main target -->
-  <target name="main" depends="wrapper-dist" 
+  <target name="main" depends="wrapper-dist"
           description="generates the Phoenix distribution without the javadocs"/>
   <target name="all" depends="dist-lite,docs" description="generates the Phoenix distribution" />
 
@@ -215,9 +209,9 @@ Legal:
       <fileset dir="${xdocs.dir}"/>
     </copy>
 
-    <style style="${announce2txt}" in="${build.context}/xdocs/announcement.xml" 
+    <style style="${announce2txt}" in="${build.context}/xdocs/announcement.xml"
            out="Announcement.txt"/>
-    <style style="${announce2header}" in="${build.context}/xdocs/announcement.xml" 
+    <style style="${announce2header}" in="${build.context}/xdocs/announcement.xml"
            out="${dist.base}/HEADER.html"/>
     <style style="${announce2readme}" in="${build.context}/xdocs/announcement.xml"
            out="${dist.base}/README.html"/>
@@ -243,9 +237,9 @@ Legal:
       <exclude name="org/apache/avalon/phoenix/frontends/ComposableServlet.java" unless="servlet.present"/>
       <exclude name="org/apache/jmx/**" unless="jmx.present"/>
       <exclude name="**/*MBean.java" unless="jmx.present"/>
-      <exclude name="org/apache/avalon/phoenix/components/manager/DefaultManager.java" 
+      <exclude name="org/apache/avalon/phoenix/components/manager/DefaultManager.java"
                unless="jmx.present"/>
-      <exclude name="org/apache/avalon/phoenix/launcher/DaemonLauncher.java" 
+      <exclude name="org/apache/avalon/phoenix/launcher/DaemonLauncher.java"
                unless="wrapper.present"/>
     </javac>
 
@@ -260,8 +254,8 @@ Legal:
   <target name="rmic" depends="compile" if="jmx.present"
           description="runs rmic on JMX Adaptor">
 
-    <rmic base="${build.classes}" 
-          classname="org.apache.jmx.adaptor.RMIAdaptorImpl" 
+    <rmic base="${build.classes}"
+          classname="org.apache.jmx.adaptor.RMIAdaptorImpl"
           stubVersion="1.2">
       <classpath refid="project.class.path" />
     </rmic>
@@ -283,7 +277,7 @@ Legal:
        <param name="-version"/>
        <param name="-doctitle" value="${Name}"/>
        <param name="-windowtitle" value="${Name} API"/>
-       <param name="-bottom" 
+       <param name="-bottom"
               value="&quot;Copyright &#169; 2001 Apache Jakarta Project. All Rights Reserved.&quot;"/>
       </doclet>
     </javadoc>
@@ -426,7 +420,7 @@ Legal:
   </target>
 
   <!-- Create the lite build -->
-  <target name="dist-lite" depends="jars" 
+  <target name="dist-lite" depends="jars"
           description="generates the Phoenix distribution without the javadocs">
 
     <property name="bin.dist.bin" value="${bin.dist.dir}/bin"/>
@@ -474,7 +468,7 @@ Legal:
   <!-- Create the lite build -->
   <target name="wrapper-dist" depends="dist-lite" if="wrapper.present"
           description="generates the Phoenix binary distribution without the javadocs and with wrapper">
-          
+
     <copy file="${wrapper.jar}" todir="${bin.dist.bin}"/>
     <copy file="${wrapper.exe}" todir="${bin.dist.bin}"/>
     <copy file="${wrapper.dll}" todir="${bin.dist.bin}"/>
@@ -588,21 +582,21 @@ Legal:
       <param name="bin.dist.dir" value="${dist.name}" />
     </antcall>
 
-    <zip file="${dist.base}/${dist.name}-bin.zip" 
-         basedir="${dist.name}/.." 
+    <zip file="${dist.base}/${dist.name}-bin.zip"
+         basedir="${dist.name}/.."
          includes="${dist.name}/**"/>
 
     <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-bin.tar">
       <tarfileset dir="${dist.name}/.." mode="755" username="avalon" group="avalon">
         <include name="${dist.name}/bin/run.sh"/>
-      </tarfileset> 
-      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon"> 
+      </tarfileset>
+      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon">
         <include name="${dist.name}/**"/>
         <exclude name="${dist.name}/bin/run.sh"/>
-      </tarfileset> 
+      </tarfileset>
     </tar>
 
-    <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz" 
+    <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz"
           src="${dist.base}/${dist.name}-bin.tar"/>
 
     <delete file="${dist.base}/${dist.name}-bin.tar"/>
@@ -612,17 +606,17 @@ Legal:
       <param name="src.dist.dir" value="${dist.name}" />
     </antcall>
 
-    <zip file="${dist.base}/${dist.name}-src.zip" 
-         basedir="${dist.name}/.." 
+    <zip file="${dist.base}/${dist.name}-src.zip"
+         basedir="${dist.name}/.."
          includes="${dist.name}/**"/>
 
     <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-src.tar" >
-      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon"> 
+      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon">
         <include name="${dist.name}/**"/>
       </tarfileset>
-    </tar> 
+    </tar>
 
-    <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz" 
+    <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz"
           src="${dist.base}/${dist.name}-src.tar"/>
 
     <delete file="${dist.base}/${dist.name}-src.tar"/>
@@ -643,9 +637,9 @@ Legal:
       </fileset>
       <fileset dir="build">
         <include name="lib/phoenix-client.jar"/>
-      </fileset>      
+      </fileset>
     </zip>
-    
+
   </target>
 
   <!-- Cleans up build and distribution directories -->
