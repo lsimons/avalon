@@ -18,6 +18,9 @@ import org.apache.avalon.camelot.pipeline.ComponentManagerBuilder;
 import org.apache.phoenix.engine.ServerApplication;
 import org.apache.phoenix.engine.blocks.BlockEntry;
 import org.apache.phoenix.engine.blocks.RoleEntry;
+import org.apache.phoenix.metainfo.BlockInfo;
+import org.apache.phoenix.metainfo.BlockUtil;
+import org.apache.phoenix.metainfo.ServiceInfo;
 
 /**
  * Component responsible for building componentManager information for entry.
@@ -47,12 +50,16 @@ public class DefaultComponentManagerBuilder
     public ComponentManager createComponentManager( String name, Entry entry )
         throws ComponentManagerException
     {
-        final DefaultComponentManager componentManager = new DefaultComponentManager();       
-        final RoleEntry[] roleEntrys = ((BlockEntry)entry).getRoleEntrys();
+        final DefaultComponentManager componentManager = new DefaultComponentManager();
+        final BlockEntry blockEntry = (BlockEntry)entry;
+        final BlockInfo info = (BlockInfo)blockEntry.getInfo();
+        final RoleEntry[] roleEntrys = blockEntry.getRoleEntrys();
         
         for( int i = 0; i < roleEntrys.length; i++ )
         {
             final String dependencyName = roleEntrys[ i ].getName();
+            final ServiceInfo serviceInfo = 
+                info.getDependency( roleEntrys[ i ].getRole() ).getService();
 
             try
             {
@@ -60,6 +67,16 @@ public class DefaultComponentManagerBuilder
                 //is validated at entry time
                 final BlockEntry dependency = 
                     (BlockEntry)m_serverApplication.getEntry( dependencyName );
+
+                //make sure that the block offers service it supposed to be providing
+                final ServiceInfo[] services = dependency.getBlockInfo().getServices();
+                if( !BlockUtil.hasMatchingService( services, serviceInfo ) )
+                {
+                    throw new ComponentManagerException( "Dependency " + name + 
+                                                         " does not offer service required: " + 
+                                                         serviceInfo );
+                }
+
                 componentManager.put( roleEntrys[ i ].getRole(), dependency.getBlock() );
             }
             catch( final ContainerException ce ) {}
