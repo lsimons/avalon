@@ -1,0 +1,612 @@
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  
+      
+  
+
+      
+      
+      
+      
+      
+      
+        
+         
+      
+      
+
+      
+      
+      
+      
+
+      
+      
+      
+
+      
+
+  
+  
+
+  
+  
+
+   
+   
+
+
+    
+	
+	
+
+    
+    
+      
+	
+	
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+    <html>
+      <head>
+        
+        
+          <title>
+            Merlin - 
+          Avalon Logging
+        
+          </title>
+        
+        
+        
+        <style type="text/css">
+          @import url("../style/tigris.css");
+          @import url("../style/maven.css");
+        </style>
+        
+        
+        
+        
+        
+        <link rel="stylesheet" href="../style/print.css" type="text/css" media="print"></link>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></meta>
+        
+          <meta name="author" content="Stephen McConnell"></meta>
+          <meta name="email" content="mcconnell@apache.org"></meta>
+        
+        
+        
+        
+      </head>
+
+      <body class="composite">
+
+        <div id="banner">
+          <table height="103" border="0" width="100%" cellpadding="8" cellspacing="0">
+            <tr>
+              
+              <td>
+                
+                
+                  
+                  
+                  
+                    
+                  
+                  
+                  
+                  
+                  
+                  <a href="http://avalon.apache.org/">
+                    <img border="0" alt="Apache Software Foundation" src="http://avalon.apache.org/images/apache-avalon-logo.png" align="left"></img>
+                  </a>
+                
+              </td>
+
+              <td></td>
+              
+
+            </tr>
+          </table>
+        </div>
+        <div id="breadcrumbs">
+          <table border="0" width="100%" cellpadding="4" cellspacing="0">
+            <tr>
+              
+              <td>
+                <div align="right">
+                  
+                  
+                  
+                    
+    
+    
+      
+      
+      
+      <a href="http://apache.org/">Apache</a>
+      
+    
+      |
+      
+      
+      <a href="http://avalon.apache.org/">Avalon</a>
+      
+    
+      |
+      
+      
+      <a href="http://avalon.apache.org/product/framework/">Framework</a>
+      
+    
+      |
+      
+      
+      <a href="http://avalon.apache.org/product/containers/">Containers</a>
+      
+    
+      |
+      
+      
+      <a href="http://avalon.apache.org/product/components/">Components</a>
+      
+    
+  
+                  
+                  
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        
+        <table border="0" width="100%" cellpadding="8" cellspacing="0"> 
+          <tr valign="top">
+            <td width="20%" id="leftcol">
+              <div id="navcolumn">
+                
+
+                
+                  
+    <div>
+      <strong>About Avalon Logging</strong>
+      
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../index.html">Overview</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../spec/index.html">Specification</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../impl/index.html">Implementations</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../examples/index.html">Examples</a>
+      	
+      </small>
+	  
+        
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../examples/code.html">Code Example</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      		<b><a href="../examples/logkit.html">LogKit Example</a></b>
+      	
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+      
+    </div>
+  
+    </div>
+  
+    <div>
+      <strong>Resources</strong>
+      
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../api/index.html">Javadoc</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../download.html">Download</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    </div>
+  
+    <div>
+      <strong>Related Projects</strong>
+      
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="http://avalon.apache.org/merlin">Merlin</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="http://avalon.apache.org/repository">Repository</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="http://avalon.apache.org/util">Utilities</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    </div>
+  
+                
+                
+                
+                
+
+                
+                
+                <div>
+                  <strong>Project Documentation</strong>
+                  
+                  <div>
+                    <small>
+                      <a href="../project-info.html">Project Info</a>
+                    </small>
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                  </div>
+                  <div>
+                    <small>
+                      <a href="../maven-reports.html">Project Reports</a>
+                    </small>
+                    
+					
+                    
+                    
+                      
+                      
+                    
+                    
+                    
+                    
+                  </div>
+                  
+                    
+                  
+                  
+                </div>
+              
+              
+                
+                
+                
+                
+              
+                
+              </div>
+            </td>
+            <td rowspan="2">
+              <div id="bodycol">
+                
+                <div class="app">
+                  
+                  
+    <div class="h3">
+      
+      
+        <h3>
+          <a name="Avalon Logging">Avalon Logging</a>
+        </h3>
+      
+      
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Logkit Configuration Example">Logkit Configuration Example</a>
+        </h4>
+      
+      
+    <p>
+      
+        The following is an example of a LogKit configuration. The example
+        establishes three target, a file target, a console stream target, 
+        and a multicast target.  Logging events are assigned to the multicast 
+        target resulting in event delivery to both the file and console. The
+        formats of the respective targets are selected for the relative roles.
+        The file target handles full reporting with stack trace information. 
+        The console target handles a more consolidated error reporting scheme.
+        
+    </p>
+   
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="XML">XML</a>
+        </h4>
+      
+      
+    <div id="source">
+      <pre>
+&lt;logging&gt;
+
+  &lt;!--
+  Declaration of a set of logging targets.
+  --&gt;
+
+  &lt;targets&gt;
+
+    &lt;!--
+    This target establishes output to the the System.out stream.
+    The format argument ensures that we don't get stack traces -
+    but just the error report.
+    --&gt;
+    &lt;stream id="standard"&gt;
+       &lt;name&gt;System.out&lt;/name&gt;
+       &lt;format type="console"/&gt;
+    &lt;/stream&gt;
+
+    &lt;!--
+    This target logs to a rotating file located in 
+    target/simple-XXX.log
+    --&gt; 
+    &lt;file id="simple"&gt;
+      &lt;filename&gt;simple.log&lt;/filename&gt;
+      &lt;append&gt;true&lt;/append&gt;
+      &lt;rotation type="revolving" init="1" max="10"&gt;
+        &lt;size&gt;100k&lt;/size&gt;
+      &lt;/rotation&gt;
+    &lt;/file&gt;
+
+    &lt;!--
+    The multicast target redirects log event to a set of 
+    named targets.
+    --&gt;
+    &lt;multicast id="multicast"&gt;
+      &lt;targetref id="standard"/&gt;
+      &lt;targetref id="simple"/&gt;
+    &lt;/multicast&gt;
+
+  &lt;/targets&gt;
+
+  &lt;!--
+  Declaration of the initial logging categories.  These categories
+  and the respective priorities and assigned targets are used by the 
+  testcase to validate that the logging system is functioning properly.
+  --&gt;
+  &lt;categories priority="info" target="multicast"&gt;
+    &lt;categories name="kernel"&gt;
+      &lt;categories name="logger" priority="warn"&gt;
+        &lt;category name="test" priority="fatal_error"/&gt;
+      &lt;/categories&gt;
+      &lt;category name="roger-ramjet" priority="debug"/&gt;
+    &lt;/categories&gt;
+  &lt;/categories&gt;
+
+  &lt;!--
+  Selection of the logging channel for use by the logging
+  system following establishment of inital targets and categories.
+  --&gt;
+
+  &lt;logger name="kernel.logger"/&gt;
+
+&lt;/logging&gt;
+</pre>
+    </div>
+  
+    </div>
+  
+    </div>
+  
+                  
+                  
+                  
+                  
+                  
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <div id="footer">
+          <table border="0" style="width:100%" cellpadding="4" cellspacing="0">
+            
+            <tr>
+              <td>
+                
+                  
+                    
+                    
+                      © 1997-2004, Apache Software Foundation
+                    
+                  
+                  
+                
+
+                
+              </td>
+              
+            </tr>
+          </table>
+        </div>
+      </body>
+    </html>
+  
