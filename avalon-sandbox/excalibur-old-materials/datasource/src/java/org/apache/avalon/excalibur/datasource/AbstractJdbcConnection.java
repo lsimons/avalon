@@ -29,7 +29,7 @@ import org.apache.avalon.framework.logger.Logger;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/01/08 18:06:07 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/01/15 17:07:04 $
  * @since 4.1
  */
 public abstract class AbstractJdbcConnection
@@ -38,9 +38,9 @@ public abstract class AbstractJdbcConnection
 {
     protected Connection         m_connection;
     protected Pool               m_pool;
-    protected PreparedStatement  m_test_statement;
-    protected SQLException       m_test_exception;
-    protected int                m_num_uses        = 15;
+    protected PreparedStatement  m_testStatement;
+    protected SQLException       m_testException;
+    protected long               m_lastUsed        = System.currentTimeMillis();
 
     /**
      * Private default constructor so that it cannot be instantiated any
@@ -67,18 +67,18 @@ public abstract class AbstractJdbcConnection
         {
             try
             {
-                m_test_statement = prepareStatement(keepAlive);
+                m_testStatement = prepareStatement(keepAlive);
             }
             catch ( final SQLException se )
             {
-                m_test_statement = null;
-                m_test_exception = se;
+                m_testStatement = null;
+                m_testException = se;
             }
         }
         else
         {
-            m_test_statement = null;
-            m_test_exception = null;
+            m_testStatement = null;
+            m_testException = null;
         }
     }
 
@@ -88,24 +88,24 @@ public abstract class AbstractJdbcConnection
     {
         super.enableLogging(log);
 
-        if (m_test_statement == null && m_test_exception != null)
+        if (m_testStatement == null && m_testException != null)
         {
             if (getLogger().isWarnEnabled())
             {
-                getLogger().warn("Could not prepare test statement", m_test_exception);
+                getLogger().warn("Could not prepare test statement, connection recycled on basis of time.", m_testException);
             }
-            m_test_exception = null;
+            m_testException = null;
         }
     }
 
     protected void setPool(Pool pool)
     {
-        this.m_pool = pool;
+        m_pool = pool;
     }
 
     public void recycle() {
-        this.m_num_uses--;
-        this.m_test_exception = null;
+        m_lastUsed = System.currentTimeMillis();
+        m_testException = null;
         try
         {
             m_connection.clearWarnings();
@@ -124,17 +124,18 @@ public abstract class AbstractJdbcConnection
             return true;
         }
 
-        if ( this.m_num_uses <= 0 )
+        if ( System.currentTimeMillis - m_lastUsed
+               > 1000*60*60 ) // over an hour?
         {
             this.dispose();
             return true;
         }
 
-        if (m_test_statement != null)
+        if (m_testStatement != null)
         {
             try
             {
-                m_test_statement.executeQuery();
+                m_testStatement.executeQuery();
             }
             catch (final SQLException se)
             {
