@@ -207,7 +207,6 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     public void commission() throws Exception
     {
         assemble();
-
         synchronized( m_commissioned )
         {
             if( m_commissioned.isEnabled() ) return;
@@ -217,9 +216,8 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
             // we locate the locally scoped models 
             // and deploy them
             //
-            
             DeploymentModel[] startup = getStartupGraph();
-
+            
             Commissioner commissioner = 
               new Commissioner( getLogger(), true );
 
@@ -235,7 +233,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
             {
                 commissioner.dispose();
             }
-
+            
             //
             // all subsidary model and runtime structures are not
             // fully commissioned and we can proceed with the 
