@@ -12,7 +12,6 @@ import java.net.URL;
 import org.apache.avalon.excalibur.container.State;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.lang.ThreadContext;
 import org.apache.avalon.framework.CascadingException;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
@@ -40,9 +39,9 @@ import org.apache.avalon.phoenix.metadata.DependencyMetaData;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class StartupPhase
+class StartupPhase
     extends AbstractLoggable
-    implements BlockVisitor, Composable
+    implements BlockVisitor
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( StartupPhase.class );
@@ -56,11 +55,11 @@ public class StartupPhase
      */
     private Application          m_application;
 
-    public void compose( final ComponentManager componentManager )
-        throws ComponentException
+    protected StartupPhase( final Application application, 
+                            final ApplicationFrame frame )
     {
-        m_application = (Application)componentManager.lookup( Application.ROLE );
-        m_frame = (ApplicationFrame)componentManager.lookup( ApplicationFrame.ROLE );
+        m_application = application;
+        m_frame = frame;
     }
 
     /**
@@ -74,92 +73,70 @@ public class StartupPhase
     {
         if( State.VOID != entry.getState() ) return;
 
-        final String name = entry.getMetaData().getName();
-
-        if( getLogger().isInfoEnabled() )
-        {
-            final String message = REZ.getString( "startup.notice.processing.name", name );
-            getLogger().info( message );
-        }
-
-        //TODO: remove this and place in deployer/application
-        if( getLogger().isDebugEnabled() )
-        {
-            final String message =
-                REZ.getString( "startup.notice.processing.classloader", m_frame.getClassLoader() );
-            getLogger().debug( message );
-        }
-
-        ThreadContext.setThreadContext( m_frame.getThreadContext() );
-
         final BlockMetaData metaData = entry.getMetaData();
+        final String name = metaData.getName();
+
+        //The number of stage currently at
+        //(Used in constructing error messages) 
+        int stage = 0;
+        
         try
         {
             //Creation stage
-            getLogger().debug( REZ.getString( "startup.notice.create.pre" ) );
+            stage = 0;
+            notice( name, stage );
             final Block block = createBlock( name, metaData );
-            getLogger().debug( REZ.getString( "startup.notice.create.success" ) );
 
             //Loggable stage
+            stage = 1;
             if( block instanceof Loggable )
             {
-                getLogger().debug( REZ.getString( "startup.notice.log.pre" ) );
+                notice( name, stage );
                 ((Loggable)block).setLogger( m_frame.getLogger( name ) );
-                getLogger().debug( REZ.getString( "startup.notice.log.success" ) );
             }
 
             //Contextualize stage
+            stage = 2;
             if( block instanceof Contextualizable )
             {
-                getLogger().debug( REZ.getString( "startup.notice.context.pre" ) );
+                notice( name, stage );
                 final BlockContext context = m_frame.createBlockContext( name );
                 ((Contextualizable)block).contextualize( context );
-                getLogger().debug( REZ.getString( "startup.notice.context.success" ) );
             }
 
             //Composition stage
+            stage = 3;
             if( block instanceof Composable )
             {
-                getLogger().debug( REZ.getString( "startup.notice.compose.pre" ) );
+                notice( name, stage );
                 final ComponentManager componentManager =
                     createComponentManager( name, metaData );
                 ((Composable)block).compose( componentManager );
-                getLogger().debug( REZ.getString( "startup.notice.compose.success" ) );
             }
 
             //Configuring stage
+            stage = 4;
             if( block instanceof Configurable )
             {
-                getLogger().debug( REZ.getString( "startup.notice.config.pre" ) );
-                Configuration configuration = null;
-                try
-                {
-                    configuration = m_frame.getConfiguration( name );
-                }
-                catch( final ConfigurationException ce )
-                {
-                    final String message = REZ.getString( "startup.error.block.noconfiguration", name );
-                    throw new ConfigurationException( message, ce );
-                }
-
+                notice( name, stage );
+                final Configuration configuration = getConfiguration( name );
                 ((Configurable)block).configure( configuration );
-                getLogger().debug( REZ.getString( "startup.notice.config.success" ) );
             }
 
             //Initialize stage
+            stage = 5;
             if( block instanceof Initializable )
             {
-                getLogger().debug( REZ.getString( "startup.notice.init.pre" ) );
+                notice( name, stage );
                 ((Initializable)block).initialize();
-                getLogger().debug( REZ.getString( "startup.notice.init.success" ) );
             }
 
             //Start stage
+            stage = 6;
             if( block instanceof Startable )
             {
-                getLogger().debug( REZ.getString( "startup.notice.start.pre" ) );
+                notice( name, stage );
                 ((Startable)block).start();
-                getLogger().debug( REZ.getString( "startup.notice.start.success" ) );
             }
 
             entry.setState( State.STARTED );
@@ -169,10 +146,10 @@ public class StartupPhase
                 new BlockEvent( name, entry.getProxy(), metaData.getBlockInfo() );
             m_frame.blockAdded( event );
         }
-        catch( final Exception e )
+        catch( final Throwable t )
         {
-            final String message = REZ.getString( "startup.error.load.fail", name );
-            throw new CascadingException( message, e );
+            entry.setState( State.FAILED );
+            fail( name, stage, t );
         }
     }
 
@@ -183,9 +160,22 @@ public class StartupPhase
         //Thread.currentThread().getContextClassLoader();
         final Class clazz = classLoader.loadClass( metaData.getClassname() );
         final Block block = (Block)clazz.newInstance();
-        getLogger().debug( REZ.getString( "startup.notice.block.created" ) );
 
         return block;
+    }
+
+    private Configuration getConfiguration( final String name )
+        throws ConfigurationException
+    {
+        try
+        {
+            return m_frame.getConfiguration( name );
+        }
+        catch( final ConfigurationException ce )
+        {
+            final String message = REZ.getString( "missing-block-configuration", name );
+            throw new ConfigurationException( message, ce );
+        }
     }
 
     /**
@@ -209,5 +199,25 @@ public class StartupPhase
         }
 
         return componentManager;
+    }
+
+    private void notice( final String name, final int stage )
+    {
+        if( getLogger().isDebugEnabled() )
+        {
+            final String message = 
+                REZ.getString( "lifecycle-stage.notice", name, new Integer( stage ) );
+            getLogger().debug( message );
+        }
+    }
+
+    private void fail( final String name, final int stage, final Throwable t )
+        throws Exception
+    {
+        final String reason = t.getMessage();
+        final String message = 
+            REZ.getString( "lifecycle-fail.error", name, new Integer( stage ), reason );
+        getLogger().error( message );
+        throw new CascadingException( message, t );
     }
 }

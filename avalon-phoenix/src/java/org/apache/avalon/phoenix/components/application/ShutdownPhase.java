@@ -13,32 +13,28 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.lang.ThreadContext;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockEvent;
-import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
+import org.apache.avalon.phoenix.metadata.BlockMetaData;
 
 /**
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class ShutdownPhase
+class ShutdownPhase
     extends AbstractLoggable
-    implements BlockVisitor, Composable
+    implements BlockVisitor
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( ShutdownPhase.class );
 
     private ApplicationFrame  m_frame;
 
-    public void compose( final ComponentManager componentManager )
-        throws ComponentException
+    protected ShutdownPhase( final ApplicationFrame frame )
     {
-        m_frame = (ApplicationFrame)componentManager.lookup( ApplicationFrame.ROLE );
+        m_frame = frame;
     }
 
     /**
@@ -53,66 +49,72 @@ public class ShutdownPhase
     {
         if( State.STARTED != entry.getState() ) return;
 
-        final String name = entry.getMetaData().getName();
-
-        if( getLogger().isInfoEnabled() )
-        {
-            final String message = REZ.getString( "shutdown.notice.processing.name", name );
-            getLogger().info( message );
-        }
-
-        ThreadContext.setThreadContext( m_frame.getThreadContext() );
+        final BlockMetaData metaData = entry.getMetaData();
+        final String name = metaData.getName();
 
         final BlockEvent event =
-            new BlockEvent( name, entry.getProxy(), entry.getMetaData().getBlockInfo() );
+            new BlockEvent( name, entry.getProxy(), metaData.getBlockInfo() );
         m_frame.blockRemoved( event );
 
         final Block block = entry.getBlock();
 
+        //Invalidate entry. This will invalidate
+        //and null out Proxy object aswell as nulling out
+        //block property
         entry.invalidate();
 
         //Stoppable stage
         if( block instanceof Startable )
         {
-            getLogger().debug( REZ.getString( "shutdown.notice.stop.pre" ) );
-
+            notice( name, 7 );
             try
             {
                 entry.setState( State.STOPPING );
                 ((Startable)block).stop();
                 entry.setState( State.STOPPED );
-
-                getLogger().debug( REZ.getString( "shutdown.notice.stop.success" ) );
             }
-            catch( final Exception e )
+            catch( final Throwable t )
             {
                 entry.setState( State.FAILED );
-                final String message = REZ.getString( "shutdown.error.stop.fail", name );
-                getLogger().warn( message, e );
+                fail( name, 7, t );
             }
         }
 
         //Disposable stage
         if( block instanceof Disposable )
         {
-            getLogger().debug( REZ.getString( "shutdown.notice.dispose.pre" ) );
-
+            notice( name, 8 );
             try
             {
                 entry.setState( State.DESTROYING );
                 ((Disposable)block).dispose();
-
-                getLogger().debug( REZ.getString( "shutdown.notice.dispose.success" ) );
             }
             catch( final Throwable t )
             {
-                final String message = REZ.getString( "shutdown.error.dispose.fail", name );
-                getLogger().warn( message, t );
+                entry.setState( State.FAILED );
+                fail( name, 8, t );
             }
         }
 
+        notice( name, 9 );
         entry.setState( State.DESTROYED );
-        final String message = REZ.getString( "shutdown.error.phase.completed", name );
-        getLogger().info( message );
+    }
+
+    private void notice( final String name, final int stage )
+    {
+        if( getLogger().isDebugEnabled() )
+        {
+            final String message =
+                REZ.getString( "lifecycle-stage.notice", name, new Integer( stage ) );
+            getLogger().debug( message );
+        }
+    }
+
+    private void fail( final String name, final int stage, final Throwable t )
+    {
+        final String reason = t.getMessage();
+        final String message =
+            REZ.getString( "lifecycle-fail.error", name, new Integer( stage ), reason );
+        getLogger().error( message );
     }
 }
