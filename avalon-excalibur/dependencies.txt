@@ -22,7 +22,7 @@ Current at: Thu Apr  4 23:02:23 EST 2002
 * util -> framework
 * baxter -> jmxri.jar
 * event -> collections, concurrent
-* all -> collections, concurrent, instrument, event, component, pool, logkit, logger (recursive on fortress, commented out)
+* all -> collections, concurrent, instrument, event, component, pool, logkit, logger, (recursive on fortress, commented out)
 * command -> collections, concurrent, core, framework, event, util, thread, pool
 * component -> logkit, framework, collections, logger, pool
 ** fortress -> instrument, instrument-manager, framework, testcase, command, event (recursive on mpool in scratchpad), component (test class), logger, util
