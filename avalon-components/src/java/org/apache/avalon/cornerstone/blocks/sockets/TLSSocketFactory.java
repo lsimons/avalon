@@ -22,7 +22,6 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.security.cert.X509Certificate;
 import org.apache.avalon.cornerstone.services.sockets.SocketFactory;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -30,8 +29,6 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.BlockContext;
-
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 
 /**
  * Factory implementation for client TLS TCP sockets.
@@ -46,27 +43,26 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
  */
 public class TLSSocketFactory
     extends AbstractLogEnabled
-    implements SocketFactory, Component, Contextualizable, Configurable, Initializable
+    implements SocketFactory, Contextualizable, Configurable, Initializable
 {
-    
-    protected SSLSocketFactory m_factory;
-    
-    protected File m_baseDirectory;
-    
-    protected String m_keyStoreFile;
-    protected String m_keyStorePassword;
-    protected String m_keyPassword;
-    protected String m_keyStoreType;
-    protected String m_keyStoreProtocol;
-    protected String m_keyStoreAlgorithm;
-    protected boolean m_keyStoreAuthenticateClients;
-    
-    public void contextualize ( final Context context )
+    private SSLSocketFactory m_factory;
+
+    private File m_baseDirectory;
+
+    private String m_keyStoreFile;
+    private String m_keyStorePassword;
+    private String m_keyPassword;
+    private String m_keyStoreType;
+    private String m_keyStoreProtocol;
+    private String m_keyStoreAlgorithm;
+    private boolean m_keyStoreAuthenticateClients;
+
+    public void contextualize( final Context context )
     {
         final BlockContext blockContext = (BlockContext)context;
-        m_baseDirectory = blockContext.getBaseDirectory ();
+        m_baseDirectory = blockContext.getBaseDirectory();
     }
-    
+
     /**
      * Configure factory. Sample config is
      *
@@ -83,93 +79,93 @@ public class TLSSocketFactory
      * @param configuration the Configuration
      * @exception ConfigurationException if an error occurs
      */
-    public void configure ( final Configuration configuration )
+    public void configure( final Configuration configuration )
         throws ConfigurationException
     {
-        final Configuration keyStore = configuration.getChild ( "keystore" );
-        m_keyStoreFile = keyStore.getChild ( "file" ).getValue ( "conf/keystore" );
-        m_keyStorePassword = keyStore.getChild ( "password" ).getValue ();
-        m_keyPassword = keyStore.getChild ( "key-password" ).getValue (null);
-        m_keyStoreType = keyStore.getChild ( "type" ).getValue ( "JKS" );
-        m_keyStoreProtocol = keyStore.getChild ( "protocol" ).getValue ( "TLS" );
-        m_keyStoreAlgorithm = keyStore.getChild ( "algorithm" ).getValue ( "SunX509" );
-        m_keyStoreAuthenticateClients 
-            = keyStore.getChild ( "authenticate-client" ).getValueAsBoolean ( false );
-        
+        final Configuration keyStore = configuration.getChild( "keystore" );
+        m_keyStoreFile = keyStore.getChild( "file" ).getValue( "conf/keystore" );
+        m_keyStorePassword = keyStore.getChild( "password" ).getValue();
+        m_keyPassword = keyStore.getChild( "key-password" ).getValue( null );
+        m_keyStoreType = keyStore.getChild( "type" ).getValue( "JKS" );
+        m_keyStoreProtocol = keyStore.getChild( "protocol" ).getValue( "TLS" );
+        m_keyStoreAlgorithm = keyStore.getChild( "algorithm" ).getValue( "SunX509" );
+        m_keyStoreAuthenticateClients
+            = keyStore.getChild( "authenticate-client" ).getValueAsBoolean( false );
+
     }
-    
-    public void initialize ()
+
+    public void initialize()
         throws Exception
     {
-        final KeyStore keyStore = initKeyStore ();
-        initSSLFactory ( keyStore );
+        final KeyStore keyStore = initKeyStore();
+        initSSLFactory( keyStore );
     }
-    
-    
-    protected KeyStore initKeyStore ()
-    throws Exception
+
+    private KeyStore initKeyStore()
+        throws Exception
     {
         try
         {
-            final KeyStore keyStore = KeyStore.getInstance ( m_keyStoreType );
-            File keyStoreFile = new File ( m_baseDirectory, m_keyStoreFile );
-            if (!keyStoreFile.exists () ) keyStoreFile = new File ( m_baseDirectory + m_keyStoreFile );
-            final FileInputStream input = new FileInputStream ( keyStoreFile );
-            
-            keyStore.load ( input, m_keyStorePassword.toCharArray () );
-            getLogger ().info ( "Keystore loaded from: " + keyStoreFile );
-            
+            final KeyStore keyStore = KeyStore.getInstance( m_keyStoreType );
+            File keyStoreFile = new File( m_baseDirectory, m_keyStoreFile );
+            if( !keyStoreFile.exists() ) keyStoreFile = new File( m_baseDirectory + m_keyStoreFile );
+            final FileInputStream input = new FileInputStream( keyStoreFile );
+
+            keyStore.load( input, m_keyStorePassword.toCharArray() );
+            getLogger().info( "Keystore loaded from: " + keyStoreFile );
+
             return keyStore;
         }
         catch( final Exception e )
         {
-            getLogger ().error ( "Exception loading keystore from: " + m_keyStoreFile, e );
+            getLogger().error( "Exception loading keystore from: " + m_keyStoreFile, e );
             throw e;
         }
     }
-    
-    protected void initSSLFactory ( final KeyStore keyStore )
-    throws Exception
+
+    private void initSSLFactory( final KeyStore keyStore )
+        throws Exception
     {
-        
-        java.security.Security.addProvider ( new sun.security.provider.Sun () );
-        java.security.Security.addProvider ( new com.sun.net.ssl.internal.ssl.Provider () );
-        
+
+        java.security.Security.addProvider( new sun.security.provider.Sun() );
+        java.security.Security.addProvider( new com.sun.net.ssl.internal.ssl.Provider() );
+
         // set up key manager to do server authentication
-        final SSLContext sslContext = SSLContext.getInstance ( m_keyStoreProtocol );
-        final KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance ( m_keyStoreAlgorithm );
-        
-        if ( null == m_keyPassword )
+        final SSLContext sslContext = SSLContext.getInstance( m_keyStoreProtocol );
+        final KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance( m_keyStoreAlgorithm );
+
+        if( null == m_keyPassword )
         {
-            keyManagerFactory.init ( keyStore, m_keyStorePassword.toCharArray () );
-        } else
-        {
-            keyManagerFactory.init ( keyStore, m_keyPassword.toCharArray () );
+            keyManagerFactory.init( keyStore, m_keyStorePassword.toCharArray() );
         }
-        
-        final TrustManagerFactory tmf = TrustManagerFactory.getInstance ( m_keyStoreAlgorithm );
-        tmf.init ( keyStore );
-        
-        sslContext.init ( keyManagerFactory.getKeyManagers (),
-                          tmf.getTrustManagers (),
-                          new java.security.SecureRandom () );
-        
+        else
+        {
+            keyManagerFactory.init( keyStore, m_keyPassword.toCharArray() );
+        }
+
+        final TrustManagerFactory tmf = TrustManagerFactory.getInstance( m_keyStoreAlgorithm );
+        tmf.init( keyStore );
+
+        sslContext.init( keyManagerFactory.getKeyManagers(),
+                         tmf.getTrustManagers(),
+                         new java.security.SecureRandom() );
+
         // Create socket factory
-        m_factory = sslContext.getSocketFactory ();
+        m_factory = sslContext.getSocketFactory();
     }
-    
-    protected void initSocket ( final Socket socket )
+
+    private void initSocket( final Socket socket )
     {
-        final SSLSocket sslSocket = (SSLSocket) socket;
-        
+        final SSLSocket sslSocket = (SSLSocket)socket;
+
         // Enable all available cipher suites when the socket is connected
-        final String[] cipherSuites = sslSocket.getSupportedCipherSuites ();
-        sslSocket.setEnabledCipherSuites ( cipherSuites );
-        
+        final String[] cipherSuites = sslSocket.getSupportedCipherSuites();
+        sslSocket.setEnabledCipherSuites( cipherSuites );
+
         // Set client authentication if necessary
-        sslSocket.setNeedClientAuth ( m_keyStoreAuthenticateClients );
+        sslSocket.setNeedClientAuth( m_keyStoreAuthenticateClients );
     }
-    
+
     /**
      * Returns a socket layered over an existing socket connected to the named
      * host, at the given port. This constructor can be used when tunneling SSL
@@ -185,13 +181,13 @@ public class TLSSocketFactory
      * @exception IOException - if the connection can't be established
      * @exception UnknownHostException - if the host is not known
      */
-    public Socket createSocket (Socket s, String host, int port, boolean autoClose) throws IOException
+    public Socket createSocket( Socket s, String host, int port, boolean autoClose ) throws IOException
     {
-        final Socket socket = m_factory.createSocket ( s, host, port, autoClose );
-        initSocket ( socket );
+        final Socket socket = m_factory.createSocket( s, host, port, autoClose );
+        initSocket( socket );
         return socket;
     }
-    
+
     /**
      * Returns a socket connected to a ServerSocket at the specified network
      * address and port. This socket is configured using the socket options
@@ -203,12 +199,12 @@ public class TLSSocketFactory
      * @exception IOException - if the connection can't be established
      * @exception UnknownHostException - if the host is not known
      */
-    public Socket createSocket (String host, int port) throws IOException, UnknownHostException
+    public Socket createSocket( String host, int port ) throws IOException, UnknownHostException
     {
-        InetAddress address = InetAddress.getByName (host);
-        return this.createSocket (address, port);
+        InetAddress address = InetAddress.getByName( host );
+        return this.createSocket( address, port );
     }
-    
+
     /**
      * Returns a socket connected to a ServerSocket on the named host, at the
      * given port. The client address address is the specified host and port.
@@ -223,14 +219,14 @@ public class TLSSocketFactory
      * @exception IOException - if the connection can't be established
      * @exception UnknownHostException - if the host is not known
      */
-    public Socket createSocket (String host, int port, InetAddress localAddress, int localPort)
-    throws IOException, UnknownHostException
+    public Socket createSocket( String host, int port, InetAddress localAddress, int localPort )
+        throws IOException, UnknownHostException
     {
-        InetAddress address = InetAddress.getByName (host);
-        return this.createSocket (address, port, localAddress, localPort);
-        
+        InetAddress address = InetAddress.getByName( host );
+        return this.createSocket( address, port, localAddress, localPort );
+
     }
-    
+
     /**
      * Create a socket and connect to remote address specified.
      *
@@ -239,13 +235,13 @@ public class TLSSocketFactory
      * @return the socket
      * @exception IOException if an error occurs
      */
-    public Socket createSocket (InetAddress address, int port) throws IOException
+    public Socket createSocket( InetAddress address, int port ) throws IOException
     {
-        final Socket socket = m_factory.createSocket ( address, port );
-        initSocket ( socket );
+        final Socket socket = m_factory.createSocket( address, port );
+        initSocket( socket );
         return socket;
     }
-    
+
     /**
      * Create a socket and connect to remote address specified
      * originating from specified local address.
@@ -257,12 +253,12 @@ public class TLSSocketFactory
      * @return the socket
      * @exception IOException if an error occurs
      */
-    public Socket createSocket (InetAddress address, int port, InetAddress localAddress, int localPort) throws IOException
+    public Socket createSocket( InetAddress address, int port, InetAddress localAddress, int localPort ) throws IOException
     {
-        final Socket socket = m_factory.createSocket ( address, port, localAddress, localPort );
-        initSocket ( socket );
+        final Socket socket = m_factory.createSocket( address, port, localAddress, localPort );
+        initSocket( socket );
         return socket;
     }
-    
+
 }
 

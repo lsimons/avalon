@@ -21,7 +21,6 @@ import javax.net.ssl.SSLServerSocketFactory;
 import javax.security.cert.X509Certificate;
 import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -43,7 +42,7 @@ import org.apache.avalon.phoenix.BlockContext;
  */
 public class TLSServerSocketFactory
     extends AbstractLogEnabled
-    implements ServerSocketFactory, Component, Contextualizable, Configurable, Initializable
+    implements ServerSocketFactory, Contextualizable, Configurable, Initializable
 {
     protected SSLServerSocketFactory m_factory;
     protected File m_baseDirectory;
