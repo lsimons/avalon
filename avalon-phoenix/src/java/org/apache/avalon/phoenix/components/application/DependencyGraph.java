@@ -8,9 +8,9 @@
 package org.apache.avalon.phoenix.components.application;
 
 import java.util.ArrayList;
-import org.apache.avalon.phoenix.metadata.BlockMetaData;
-import org.apache.avalon.phoenix.metadata.DependencyMetaData;
-import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
+import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
+import org.apache.avalon.phoenix.containerkit.metadata.DependencyMetaData;
+import org.apache.avalon.framework.info.DependencyDescriptor;
 
 /**
  *
@@ -33,7 +33,8 @@ class DependencyGraph
      * @param blocks the blocks to traverse
      * @return the ordered node names
      */
-    public static String[] walkGraph( final boolean forward, final BlockMetaData[] blocks )
+    public static String[] walkGraph( final boolean forward,
+                                      final ComponentProfile[] blocks )
     {
         final ArrayList result = new ArrayList();
 
@@ -49,14 +50,14 @@ class DependencyGraph
         return (String[])result.toArray( new String[ 0 ] );
     }
 
-    private static void visitBlock( final BlockMetaData block,
-                                    final BlockMetaData[] blocks,
+    private static void visitBlock( final ComponentProfile block,
+                                    final ComponentProfile[] blocks,
                                     final boolean forward,
                                     final ArrayList done,
                                     final ArrayList order )
     {
         //If already visited this block then bug out early
-        final String name = block.getName();
+        final String name = block.getMetaData().getName();
         if( done.contains( name ) )
         {
             return;
@@ -80,16 +81,17 @@ class DependencyGraph
      *
      * @param block the BlockMetaData
      */
-    private static void visitDependencies( final BlockMetaData block,
-                                           final BlockMetaData[] blocks,
+    private static void visitDependencies( final ComponentProfile block,
+                                           final ComponentProfile[] blocks,
                                            final ArrayList done,
                                            final ArrayList order )
     {
-        final DependencyDescriptor[] descriptors = block.getBlockInfo().getDependencies();
+        final DependencyDescriptor[] descriptors = block.getInfo().getDependencies();
         for( int i = 0; i < descriptors.length; i++ )
         {
-            final DependencyMetaData dependency = block.getDependency( descriptors[ i ].getRole() );
-            final BlockMetaData other = getBlock( dependency.getName(), blocks );
+            final String key = descriptors[ i ].getKey();
+            final DependencyMetaData dependency = block.getMetaData().getDependency( key );
+            final ComponentProfile other = getBlock( dependency.getProviderName(), blocks );
             visitBlock( other, blocks, true, done, order );
         }
     }
@@ -98,23 +100,23 @@ class DependencyGraph
      * Traverse all reverse dependencies of specified block.
      * A reverse dependency are those that dependend on block.
      *
-     * @param block the BlockMetaData
+     * @param block the ComponentProfile
      */
-    private static void visitReverseDependencies( final BlockMetaData block,
-                                                  final BlockMetaData[] blocks,
+    private static void visitReverseDependencies( final ComponentProfile block,
+                                                  final ComponentProfile[] blocks,
                                                   final ArrayList done,
                                                   final ArrayList order )
     {
-        final String name = block.getName();
+        final String name = block.getMetaData().getName();
 
         for( int i = 0; i < blocks.length; i++ )
         {
-            final BlockMetaData other = blocks[ i ];
-            final DependencyMetaData[] roles = other.getDependencies();
+            final ComponentProfile other = blocks[ i ];
+            final DependencyMetaData[] roles = other.getMetaData().getDependencies();
 
             for( int j = 0; j < roles.length; j++ )
             {
-                final String depends = roles[ j ].getName();
+                final String depends = roles[ j ].getProviderName();
                 if( depends.equals( name ) )
                 {
                     visitBlock( other, blocks, false, done, order );
@@ -130,11 +132,12 @@ class DependencyGraph
      * @param blocks the Block array
      * @return the Block
      */
-    private static BlockMetaData getBlock( final String name, final BlockMetaData[] blocks )
+    private static ComponentProfile getBlock( final String name,
+                                              final ComponentProfile[] blocks )
     {
         for( int i = 0; i < blocks.length; i++ )
         {
-            if( blocks[ i ].getName().equals( name ) )
+            if( blocks[ i ].getMetaData().getName().equals( name ) )
             {
                 return blocks[ i ];
             }

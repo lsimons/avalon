@@ -34,7 +34,8 @@ import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.KernelMBean;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
+import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
 
 /**
  * The ServerKernel is the core of the Phoenix system.
@@ -142,7 +143,7 @@ public class DefaultKernel
         //lock for application startup and shutdown
         synchronized( entry )
         {
-            final String name = entry.getMetaData().getName();
+            final String name = entry.getProfile().getMetaData().getName();
 
             Application application = entry.getApplication();
             if( null == application )
@@ -170,7 +171,7 @@ public class DefaultKernel
 
                     final String message =
                         REZ.getString( "kernel.error.entry.initialize",
-                                       entry.getMetaData().getName() );
+                                       entry.getProfile().getMetaData().getName() );
                     throw new CascadingException( message, t );
                 }
 
@@ -181,7 +182,8 @@ public class DefaultKernel
                 catch( final Throwable t )
                 {
                     final String message =
-                        REZ.getString( "kernel.error.entry.start", entry.getMetaData().getName() );
+                        REZ.getString( "kernel.error.entry.start",
+                                       entry.getProfile().getMetaData().getName() );
 
                     if( m_addInvalidApplications )
                     {
@@ -232,22 +234,25 @@ public class DefaultKernel
             {
                 final String message =
                     REZ.getString( "kernel.error.entry.nostop",
-                                   entry.getMetaData().getName() );
+                                   entry.getProfile().getMetaData().getName() );
                 getLogger().warn( message );
             }
         }
     }
 
-    public void addApplication( final SarMetaData metaData,
+    public void addApplication( final PartitionProfile profile,
+                                final File homeDirectory,
                                 final File workDirectory,
                                 final ClassLoader classLoader,
                                 final Logger logger,
                                 final Map classloaders )
         throws Exception
     {
-        final String name = metaData.getName();
+
+        final String name = profile.getMetaData().getName();
         final SarEntry entry =
-            new SarEntry( metaData, workDirectory, classLoader,
+            new SarEntry( profile, homeDirectory,
+                          workDirectory, classLoader,
                           logger, classloaders );
         m_entries.put( name, entry );
 
@@ -266,11 +271,11 @@ public class DefaultKernel
     private ApplicationContext createApplicationContext( final SarEntry entry )
         throws Exception
     {
-        final SarMetaData metaData = entry.getMetaData();
-        final String name = metaData.getName();
+        final String name = entry.getProfile().getMetaData().getName();
 
         final DefaultApplicationContext context =
-            new DefaultApplicationContext( metaData,
+            new DefaultApplicationContext( entry.getProfile(),
+                                           entry.getHomeDirectory(),
                                            entry.getWorkDirectory(),
                                            entry.getClassLoader(),
                                            entry.getLogger(),

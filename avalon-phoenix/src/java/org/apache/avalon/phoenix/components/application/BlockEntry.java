@@ -7,9 +7,11 @@
  */
 package org.apache.avalon.phoenix.components.application;
 
-import org.apache.avalon.phoenix.metadata.BlockMetaData;
-import org.apache.avalon.phoenix.metainfo.BlockInfo;
-import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
+import org.apache.avalon.phoenix.components.ContainerConstants;
+import org.apache.avalon.framework.info.Attribute;
+import org.apache.avalon.framework.info.ComponentInfo;
+import org.apache.avalon.framework.info.ServiceDescriptor;
+import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
 
 /**
  * This is the structure describing each block before it is loaded.
@@ -19,23 +21,23 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
 class BlockEntry
 {
     private Object m_object;
-    private BlockMetaData m_blockMetaData;
+    private ComponentProfile m_componentProfile;
     private BlockInvocationHandler m_invocationHandler;
 
-    public BlockEntry( final BlockMetaData blockMetaData )
+    public BlockEntry( final ComponentProfile componentProfile )
     {
         invalidate();
-        m_blockMetaData = blockMetaData;
+        m_componentProfile = componentProfile;
     }
 
     public String getName()
     {
-        return getMetaData().getName();
+        return getProfile().getMetaData().getName();
     }
 
-    public BlockMetaData getMetaData()
+    public ComponentProfile getProfile()
     {
-        return m_blockMetaData;
+        return m_componentProfile;
     }
 
     public synchronized Object getObject()
@@ -47,9 +49,9 @@ class BlockEntry
     {
         invalidate();
 
-        if( null != object && ! getMetaData().isDisableProxy() )
+        if( null != object && ! isDisableProxy() )
         {
-            final BlockInfo blockInfo = getMetaData().getBlockInfo();
+            final ComponentInfo blockInfo = m_componentProfile.getInfo();
             final Class[] interfaces = getServiceClasses( object, blockInfo.getServices() );
             m_invocationHandler = new BlockInvocationHandler( object, interfaces );
         }
@@ -58,7 +60,7 @@ class BlockEntry
 
     public synchronized Object getProxy()
     {
-        if ( getMetaData().isDisableProxy() )
+        if ( isDisableProxy() )
         {
             return m_object;
         }
@@ -75,6 +77,20 @@ class BlockEntry
         }
     }
 
+    private boolean isDisableProxy()
+    {
+        final Attribute[] attributes = getProfile().getMetaData().getAttributes();
+        for( int i = 0; i < attributes.length; i++ )
+        {
+            final Attribute attribute = attributes[ i ];
+            if( attribute.getName().equals( ContainerConstants.DISABLE_PROXY_ATTR  ) )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     protected synchronized void invalidate()
     {
         if( null != m_invocationHandler )
@@ -85,7 +101,8 @@ class BlockEntry
         m_object = null;
     }
 
-    private Class[] getServiceClasses( final Object block, final ServiceDescriptor[] services )
+    private Class[] getServiceClasses( final Object block,
+                                       final ServiceDescriptor[] services )
     {
         final Class[] classes = new Class[ services.length + 1 ];
         final ClassLoader classLoader = block.getClass().getClassLoader();
@@ -94,7 +111,7 @@ class BlockEntry
         {
             try
             {
-                classes[ i ] = classLoader.loadClass( services[ i ].getName() );
+                classes[ i ] = classLoader.loadClass( services[ i ].getType() );
             }
             catch( final Throwable throwable )
             {
