@@ -277,7 +277,7 @@ final class BCELWrapperGenerator
      */
     private JavaClass lookupClass( final Class clazz )
     {
-        return Repository.lookupClass( clazz );
+        return Repository.lookupClass( clazz.getName() );
     }
 
     /**
