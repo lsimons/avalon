@@ -115,7 +115,7 @@ import org.apache.log.Priority;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/03/19 12:55:48 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/03/19 17:46:29 $
  * @since 4.1
  */
 public class ContextManager
@@ -762,24 +762,9 @@ public class ContextManager
                 }
             }
 
-            // Resolve the prefix to use for this Logger Manager
-            String logPrefix = (String)get( m_rootContext, LOG_CATEGORY,
-                                            get( m_childContext, LOG_CATEGORY, null ) );
-
             // Resolve a name for the logger, taking the logPrefix into account
-            String lmDefaultLoggerName;
-            String lmLoggerName;
-            if( logPrefix == null )
-            {
-                lmDefaultLoggerName = "";
-                lmLoggerName = loggerManagerConfig.getAttribute( "logger", "system.logkit" );
-            }
-            else
-            {
-                lmDefaultLoggerName = logPrefix;
-                lmLoggerName = logPrefix + org.apache.log.Logger.CATEGORY_SEPARATOR
-                    + loggerManagerConfig.getAttribute( "logger", "system.logkit" );
-            }
+            String lmDefaultLoggerName = "";
+            String lmLoggerName = loggerManagerConfig.getAttribute( "logger", "system.logkit" );
 
             // Create the default logger for the Logger Manager.
             org.apache.log.Logger lmDefaultLogger =
@@ -796,7 +781,7 @@ public class ContextManager
 
             // Setup the Logger Manager
             LoggerManager logManager = new LogKitLoggerManager(
-                logPrefix, Hierarchy.getDefaultHierarchy(),
+                lmDefaultLoggerName, Hierarchy.getDefaultHierarchy(),
                 new LogKitLogger( lmDefaultLogger ), new LogKitLogger( lmLogger ) );
             ContainerUtil.contextualize( logManager, m_rootContext );
             ContainerUtil.configure( logManager, loggerManagerConfig );
