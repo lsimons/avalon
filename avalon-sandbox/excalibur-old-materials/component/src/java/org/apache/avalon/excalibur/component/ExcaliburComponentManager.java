@@ -37,7 +37,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.22 $ $Date: 2003/02/05 02:28:35 $
+ * @version CVS $Revision: 1.23 $ $Date: 2003/02/15 17:34:16 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
@@ -870,5 +870,35 @@ public class ExcaliburComponentManager
                 getLogger().warn( "Could not set up Component for role [" + role + "]", e );
             }
         }
+    }
+
+    private Lookup parseRole( String role )
+    {
+        Lookup lookup = new Lookup();
+        lookup.role = role;
+        lookup.hint = AbstractContainer.DEFAULT_ENTRY;
+
+        if ( role.endsWith("Selector") )
+        {
+            lookup.role = role.substring(0, role.length() - "Selector".length());
+            lookup.hint = AbstractContainer.SELECTOR_ENTRY;
+        }
+
+        int index = role.lastIndexOf("/");
+
+        // needs to be further than the first character
+        if ( index > 0 )
+        {
+            lookup.role = role.substring(0, index);
+            lookup.hint = role.substring(index + 1);
+        }
+
+        return lookup;
+    }
+
+    private final static class Lookup
+    {
+        public String role;
+        public String hint;
     }
 }

@@ -62,7 +62,7 @@ import org.apache.avalon.fortress.impl.handler.ComponentHandler;
  * the references.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/07 16:08:12 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/15 17:34:16 $
  */
 public class FortressServiceSelector
     implements ServiceSelector
@@ -100,7 +100,7 @@ public class FortressServiceSelector
         {
             final ComponentHandler handler = getHandler( hint );
             final Object component = handler.get();
-            m_used.put( component, handler );
+            m_used.put( component.toString(), handler );
             return component;
         }
         catch( final ServiceException ce )
@@ -123,7 +123,7 @@ public class FortressServiceSelector
     public void release( Object component )
     {
         final ComponentHandler handler =
-            (ComponentHandler)m_used.remove( component );
+            (ComponentHandler)m_used.remove( component.toString() );
         if( null != handler )
         {
             handler.put( component );
