@@ -8,17 +8,14 @@
 package org.apache.phoenix.engine.phases;
 
 import org.apache.avalon.camelot.State;
-import org.apache.avalon.component.Component;
-import org.apache.phoenix.engine.blocks.BlockVisitor;
 
 /**
- * This represents a phase in applications lifecycle.
+ * This contains a list of constants representing phases in applications lifecycle.
  * Each phase is made up of a number of stages.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public interface Phase
-    extends BlockVisitor, Component
+public interface Phases
 {
     State      BASE        = new State( "BASE", 0 );
     State      STARTEDUP   = new State( "STARTEDUP", 10 );
