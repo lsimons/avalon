@@ -31,7 +31,7 @@ Legal:
   <property name="testlets.name" value="${name}-framework-excalibur-test"/>
   <property name="scratchpad.name" value="${name}-scratchpad"/>
   <property name="Name" value="Avalon"/>
-  <property name="version" value="4.0b2rc1"/>
+  <property name="version" value="4.0b2"/>
   <property name="year" value="1999-2001"/>
 
   <!--
@@ -77,7 +77,7 @@ Legal:
   <property name="tools.dir" value="tools"/>
   <property name="docs.dir" value="docs"/>
   <property name="www.dir" value="www"/>
-  <property name="javadocs.dir" value="${docs.dir}/framework/api"/>
+  <property name="javadocs.dir" value="${docs.dir}/api"/>
   <property name="skins.dir" value="${src.dir}/skins"/>
   <property name="avalon.skin" value="${skins.dir}/avalon/"/>
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>
@@ -86,7 +86,7 @@ Legal:
   <property name="dist.name" value="${Name}-${version}"/>
   <property name="dist.base" value="distributions"/>
 
-  <property name="logkit.jar" value="${lib.dir}/logkit.jar"/>
+  <property name="logkit.jar" value="${lib.dir}/logkit-1.0b2.jar"/>
   <property name="xerces.jar" value="${lib.dir}/xerces.jar"/>
   <property name="xalan.jar" value="${tools.dir}/lib/xalan_1_2_D02.jar"/>
   <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
@@ -348,7 +348,7 @@ Legal:
 
     <delete>
       <fileset dir="${docs.dir}">
-        <exclude name="framework/api/**"/>
+        <exclude name="api/**"/>
       </fileset>
     </delete>
     <mkdir dir="${docs.dir}"/>

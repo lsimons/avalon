@@ -8,7 +8,7 @@
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
     <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
   </devs>
-  <release version="4.0b2" date="unreleased">
+  <release version="4.0b2" date="June 4, 2001">
    <action dev="BL" type="add">
      Added KEYS file so that we can sign our releases
    </action>
