@@ -58,7 +58,6 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.excalibur.threadcontext.ThreadContext;
 
 /**
  * Default implementation of ThreadManager.
@@ -85,21 +84,14 @@ public class DefaultThreadManager
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
-        ThreadContext threadContext = ThreadContext.getThreadContext();
-        if( null != threadContext )
-        {
-            threadContext = threadContext.duplicate();
-        }
-
         final Configuration[] groups = configuration.getChildren( "thread-group" );
         for( int i = 0; i < groups.length; i++ )
         {
-            configureThreadPool( groups[ i ], threadContext );
+            configureThreadPool( groups[ i ] );
         }
     }
 
-    private void configureThreadPool( final Configuration configuration,
-                                      final ThreadContext threadContext )
+    private void configureThreadPool( final Configuration configuration )
         throws ConfigurationException
     {
         final String name = configuration.getChild( "name" ).getValue();
@@ -117,7 +109,7 @@ public class DefaultThreadManager
         try
         {
             final DefaultThreadPool threadPool =
-                new DefaultThreadPool( name, minThreads, maxThreads, threadContext );
+                new DefaultThreadPool( name, minThreads, maxThreads );
             threadPool.setDaemon( isDaemon );
             threadPool.enableLogging( getLogger() );
             m_threadPools.put( name, threadPool );
