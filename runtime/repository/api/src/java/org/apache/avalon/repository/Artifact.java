@@ -316,7 +316,8 @@ public class Artifact implements Serializable
 
     private static String createBase( String group, String type )
     {
-        if( type == null ) return group;
+        if( type == null ) 
+            return group;
         return group + Artifact.SEP + type + "s";
     }
 

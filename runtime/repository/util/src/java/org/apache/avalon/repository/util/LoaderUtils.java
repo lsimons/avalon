@@ -99,8 +99,9 @@ public class LoaderUtils
                 // ignore
             }
         }
-
-        if( destination.exists() ) return getURL( destination );
+        
+        if( destination.exists() ) 
+            return getURL( destination );
         
         final String error =
           "Unknown artifact: [" 
@@ -174,7 +175,8 @@ public class LoaderUtils
             }
         }
 
-        if( destination.exists() ) return getURL( destination );
+        if( destination.exists() ) 
+            return getURL( destination );
         
         final String error =
           "Unknown artifact: [" 
