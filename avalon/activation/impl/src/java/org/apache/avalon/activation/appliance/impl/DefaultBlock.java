@@ -79,7 +79,7 @@ import org.apache.avalon.framework.logger.Logger;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/01/13 18:43:15 $
+ * @version $Revision: 1.10 $ $Date: 2004/01/19 21:45:07 $
  */
 public class DefaultBlock extends AbstractBlock implements Home
 {
@@ -197,7 +197,8 @@ public class DefaultBlock extends AbstractBlock implements Home
         * @param block the underlying block implementation
         * @exception if an invocation handler establishment error occurs
         */
-        protected BlockInvocationHandler( final Logger logger, final DefaultBlock block )
+        protected BlockInvocationHandler( final Logger logger, 
+                                          final DefaultBlock block )
             throws Exception
         {
             if( block == null ) 
@@ -243,7 +244,8 @@ public class DefaultBlock extends AbstractBlock implements Home
 
             String path = service.getServiceDirective().getPath();
             Appliance provider = (Appliance) m_block.locate( path );
-            m_logger.debug( "delegating: " +  method.getName() );
+            if( m_logger.isDebugEnabled() )
+                m_logger.debug( "delegating: " +  method.getName() );
 
             //
             // resolve the service object from the appliance

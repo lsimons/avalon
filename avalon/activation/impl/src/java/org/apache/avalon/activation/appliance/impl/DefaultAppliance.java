@@ -55,6 +55,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.security.AccessControlContext;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.security.PrivilegedExceptionAction;
 import java.util.Hashtable;
 import java.util.ArrayList;
 import java.util.Map;
@@ -103,7 +107,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.19 $ $Date: 2004/01/19 01:27:01 $
+ * @version $Revision: 1.20 $ $Date: 2004/01/19 21:45:06 $
  */
 public class DefaultAppliance extends AbstractAppliance implements Appliance
 {
@@ -151,6 +155,8 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
 
     private Object m_instance;
 
+    private AccessControlContext m_accessControlContext;
+    
     //-------------------------------------------------------------------
     // mutable state
     //-------------------------------------------------------------------
@@ -182,11 +188,31 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
     // constructor
     //-------------------------------------------------------------------
 
-    public DefaultAppliance( ComponentModel model, Engine engine )
+    public DefaultAppliance( ComponentModel model, 
+                             Engine engine, 
+                             AccessControlContext access )
     {
         super( model );
         m_model = (ComponentModel) model;
         m_engine = engine;
+        m_accessControlContext = access;
+        
+        // Enabled the SecurityManager is none already exists, and that
+        // the kernel setting for enabling the secure execution has been
+        // set. The parameter in the kernel is urn:composition:security.enabled
+        if( System.getSecurityManager() == null )
+        {
+            System.setSecurityManager( new SecurityManager() );
+        }
+    }
+
+    public DefaultAppliance( ComponentModel model, 
+                             Engine engine )
+    {
+        super( model );
+        m_model = (ComponentModel) model;
+        m_engine = engine;
+        m_accessControlContext = null;
     }
 
     //-------------------------------------------------------------------
@@ -431,8 +457,10 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
      */
     private void release( Object instance, boolean finalized )
     {
-        if( instance == null ) return;
-        if( !m_deployment.isEnabled() ) return;
+        if( instance == null ) 
+            return;
+        if( !m_deployment.isEnabled() ) 
+            return;
         releaseInstance( getProviderInstance( instance ) );
         m_lifestyle.release( instance, finalized );
     }
@@ -515,7 +543,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
         }
     }
 
-    private void applyLogger( Object instance )
+    private void applyLogger( final Object instance )
     {
         if( instance instanceof LogEnabled )
         {
@@ -525,20 +553,34 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
                 getLogger().debug( "applying logger to: " + id );
             }
             final Logger logger = m_model.getLogger();
-            ((LogEnabled)instance).enableLogging( logger );
+            if( m_accessControlContext == null )
+            {
+                ((LogEnabled)instance).enableLogging( logger );
+            }
+            else
+            {
+                AccessController.doPrivileged( new PrivilegedAction()
+                {
+                    public Object run()
+                    {
+                        ((LogEnabled)instance).enableLogging( logger );
+                        return null;
+                    }
+                }, m_accessControlContext );
+            }
         }
     }
 
-    private void applyContext( Object instance ) 
+    private void applyContext( final Object instance ) 
       throws Exception
     {
-        if( instance == null ) throw new NullPointerException( "context" );
-
+        if( instance == null ) 
+            throw new NullPointerException( "context" );
         final ContextModel model = m_model.getContextModel();
+        if( model == null ) 
+            return;
 
-        if( model == null ) return;
-
-        Context context = model.getContext();
+        final Context context = model.getContext();
         if( m_contextualization != null )
         {
             if( getLogger().isDebugEnabled() )
@@ -548,7 +590,21 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
             }
             try
             {
-                m_contextualization.contextualize( instance, context );
+                if( m_accessControlContext == null )
+                {
+                    m_contextualization.contextualize( instance, context );
+                }
+                else
+                {
+                    AccessController.doPrivileged( new PrivilegedExceptionAction()
+                    {
+                        public Object run() throws Exception
+                        {
+                            m_contextualization.contextualize( instance, context );
+                            return null;
+                        }
+                    }, m_accessControlContext );
+                }
             }
             catch( Throwable e )
             {
@@ -569,7 +625,21 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
 
             try
             {
-                ((Contextualizable)instance).contextualize( context );
+                if( m_accessControlContext == null )
+                {
+                    ((Contextualizable)instance).contextualize( context );
+                }
+                else
+                {
+                    AccessController.doPrivileged( new PrivilegedExceptionAction()
+                    {
+                        public Object run() throws Exception
+                        {
+                            ((Contextualizable)instance).contextualize( context );
+                            return null;
+                        }
+                    }, m_accessControlContext );
+                }
             }
             catch( Throwable e )
             {
@@ -582,7 +652,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
         }
     }
 
-    private void applyServices( Object instance ) 
+    private void applyServices( final Object instance ) 
       throws Exception
     {
         if( instance instanceof Serviceable )
@@ -594,12 +664,26 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
             }
 
             Map providers = getServiceProviders();
-            ServiceManager manager = new DefaultServiceManager( getLogger(), providers );
-            ((Serviceable)instance).service( manager );
+            final ServiceManager manager = new DefaultServiceManager( getLogger(), providers );
+            if( m_accessControlContext == null )
+            {
+                ((Serviceable)instance).service( manager );
+            }
+            else
+            {
+                AccessController.doPrivileged( new PrivilegedExceptionAction()
+                {
+                    public Object run() throws Exception
+                    {
+                        ((Serviceable)instance).service( manager );
+                        return null;
+                    }
+                }, m_accessControlContext );
+            }
         }
     }
 
-    private void applyConfiguration( Object instance ) 
+    private void applyConfiguration( final Object instance ) 
       throws Exception
     {
         if( instance instanceof Configurable )
@@ -609,11 +693,25 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
                 int id = System.identityHashCode( instance );
                 getLogger().debug( "applying configuration to: " + id );
             }
-            ((Configurable)instance).configure( m_model.getConfiguration() );
+            if( m_accessControlContext == null )
+            {
+                ((Configurable)instance).configure( m_model.getConfiguration() );
+            }
+            else
+            {
+                AccessController.doPrivileged( new PrivilegedExceptionAction()
+                {
+                    public Object run() throws Exception
+                    {
+                        ((Configurable)instance).configure( m_model.getConfiguration() );
+                        return null;
+                    }
+                }, m_accessControlContext );
+            }
         }
     }
 
-    private void applyParameters( Object instance ) 
+    private void applyParameters( final Object instance ) 
       throws Exception
     {
         if( instance instanceof Parameterizable )
@@ -623,7 +721,21 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
                 int id = System.identityHashCode( instance );
                 getLogger().debug( "applying parameters to: " + id );
             }
-            ((Parameterizable)instance).parameterize( m_model.getParameters() );
+            if( m_accessControlContext == null )
+            {
+                ((Parameterizable)instance).parameterize( m_model.getParameters() );
+            }
+            else
+            {
+                AccessController.doPrivileged( new PrivilegedExceptionAction()
+                {
+                    public Object run() throws Exception
+                    {
+                        ((Parameterizable)instance).parameterize( m_model.getParameters() );
+                        return null;
+                    }
+                }, m_accessControlContext );
+            }
         }
     }
 
@@ -807,7 +919,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
         return instance;
     }
 
-    private void applyInitialization( Object instance ) 
+    private void applyInitialization( final Object instance ) 
       throws LifecycleException
     {
         if( instance instanceof Initializable )
@@ -819,7 +931,21 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
             }
             try
             {
-                ((Initializable)instance).initialize();
+                if( m_accessControlContext == null )
+                {
+                    ((Initializable)instance).initialize();
+                }
+                else
+                {
+                    AccessController.doPrivileged( new PrivilegedExceptionAction()
+                    {
+                        public Object run() throws Exception
+                        {
+                            ((Initializable)instance).initialize();
+                            return null;
+                        }
+                    }, m_accessControlContext );
+                }
             }
             catch( Throwable e )
             {
@@ -830,7 +956,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
         }
     }
 
-    private void applyStart( Object instance ) 
+    private void applyStart( final Object instance ) 
       throws LifecycleException
     {
         if( instance instanceof Startable )
@@ -842,7 +968,21 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
             }
             try
             {
-                ((Startable)instance).start();
+                if( m_accessControlContext == null )
+                {
+                    ((Startable)instance).start();
+                }
+                else
+                {
+                    AccessController.doPrivileged( new PrivilegedExceptionAction()
+                    {
+                        public Object run() throws Exception
+                        {
+                            ((Startable)instance).start();
+                            return null;
+                        }
+                    }, m_accessControlContext );
+                }
             }
             catch( Throwable e )
             {
@@ -860,7 +1000,21 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
             }
             try
             {
-                ((Executable)instance).execute();
+                if( m_accessControlContext == null )
+                {
+                    ((Executable)instance).execute();
+                }
+                else
+                {
+                    AccessController.doPrivileged( new PrivilegedExceptionAction()
+                    {
+                        public Object run() throws Exception
+                        {
+                            ((Executable)instance).execute();
+                            return null;
+                        }
+                    }, m_accessControlContext );
+                }
             }
             catch( Throwable e )
             {
@@ -871,7 +1025,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
         }
     }
 
-    private void applyStop( Object instance ) 
+    private void applyStop( final Object instance ) 
     {
         if( instance instanceof Startable )
         {
@@ -882,7 +1036,21 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
             }
             try
             {
-                ((Startable)instance).stop();
+                if( m_accessControlContext == null )
+                {
+                    ((Startable)instance).stop();
+                }
+                else
+                {
+                    AccessController.doPrivileged( new PrivilegedExceptionAction()
+                    {
+                        public Object run() throws Exception
+                        {
+                            ((Startable)instance).stop();
+                            return null;
+                        }
+                    }, m_accessControlContext );
+                }
             }
             catch( Throwable e )
             {
@@ -893,7 +1061,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
         }
     }
 
-    private void applyDispose( Object instance ) 
+    private void applyDispose( final Object instance ) 
     {
         if( instance instanceof Disposable )
         {
@@ -904,7 +1072,21 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
             }
             try
             {
-                ((Disposable)instance).dispose();
+                if( m_accessControlContext == null )
+                {
+                    ((Disposable)instance).dispose();
+                }
+                else
+                {
+                    AccessController.doPrivileged( new PrivilegedExceptionAction()
+                    {
+                        public Object run() throws Exception
+                        {
+                            ((Disposable)instance).dispose();
+                            return null;
+                        }
+                    }, m_accessControlContext );
+                }
             }
             catch( Throwable e )
             {
@@ -1057,13 +1239,16 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
                 final Object[] args )
                 throws Throwable
         {
-            if( proxy == null ) throw new NullPointerException( "proxy" );
-            if( method == null ) throw new NullPointerException( "method" );
-            if( m_destroyed ) throw new IllegalStateException( "destroyed" );
+            if( proxy == null ) 
+                throw new NullPointerException( "proxy" );
+            if( method == null ) 
+                throw new NullPointerException( "method" );
+            if( m_destroyed ) 
+                throw new IllegalStateException( "destroyed" );
 
             try
             {
-                return method.invoke( m_instance, args );
+                return secureInvocation( method, m_instance, args );
             }
             catch( UndeclaredThrowableException e )
             {
@@ -1076,7 +1261,8 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
             catch( InvocationTargetException e )
             {
                 Throwable cause = e.getTargetException();
-                if( cause != null ) throw cause;
+                if( cause != null ) 
+                    throw cause;
                 final String error = 
                   "Delegation error raised by component: " + m_model.getQualifiedName();
                 throw new ApplianceException( error, e );
@@ -1117,6 +1303,27 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
         void notifyDestroyed()
         {
             m_destroyed = true;
+        }
+        
+        private Object secureInvocation( final Method method, final Object object, final Object[] args )
+            throws Exception
+        {
+            if( m_accessControlContext == null )
+            {
+                return method.invoke( object, args );
+            }
+            else
+            {
+                Object result = AccessController.doPrivileged( 
+                new PrivilegedExceptionAction()
+                {
+                    public Object run() throws Exception
+                    {
+                        return method.invoke( object, args );
+                    }
+                }, m_accessControlContext );
+                return result;
+            }
         }
     }
 
