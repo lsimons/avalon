@@ -146,8 +146,8 @@ public class DefaultEmbeddor
 
             //Uncomment next bit to try registering...
             //TODO: Logger and SystemManager itself aswell???
-            //m_systemManager.register( "Phoenix.Kernel", m_kernel );
-            //m_systemManager.register( "Phoenix.Embeddor", this );
+            m_systemManager.register( "Phoenix.Kernel", m_kernel );
+            m_systemManager.register( "Phoenix.Embeddor", this );
         }
         catch( final Exception e )
         {
