@@ -41,6 +41,10 @@
     -->
 
 <release version="4.1alpha" date="unreleased">
+    <action dev="PR" type="add">
+        Fix redeploying when only a single application is deployed. A lock was added to the
+        kernel to prevent it from shutting down during redeployment.
+    </action>
     <action dev="PD" type="update">
         Schema types should now be the URI (ie "http://relaxng.org/ns/structure/1.0")
         rather than a shorthand (ie "relax-ng"). The old form is still supported but

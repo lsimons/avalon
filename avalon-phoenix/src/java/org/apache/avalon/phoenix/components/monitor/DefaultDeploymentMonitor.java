@@ -81,7 +81,7 @@ import org.apache.avalon.phoenix.interfaces.Deployer;
  * application as necessary.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003/04/08 09:48:48 $
+ * @version $Revision: 1.6 $ $Date: 2003/04/17 02:11:47 $
  */
 public class DefaultDeploymentMonitor
     extends AbstractLogEnabled
@@ -249,8 +249,7 @@ public class DefaultDeploymentMonitor
                                name,
                                file );
             getLogger().info( message );
-            m_deployer.undeploy( name );
-            m_deployer.deploy( name, file.toURL() );
+            m_deployer.redeploy( name, file.toURL() );
         }
         catch( final Exception e )
         {

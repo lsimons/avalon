@@ -77,7 +77,17 @@ public interface Deployer
         throws DeploymentException;
 
     /**
-     * undeploy a resource from a location.
+     * Undeploy and deploy an installation.
+     *
+     * @param name the name of deployment
+     * @param location the installation to redeploy
+     * @throws DeploymentException if an error occurs
+     */
+    void redeploy( String name, URL location )
+        throws DeploymentException;
+
+    /**
+     * Undeploy a resource from a location.
      *
      * @param name the name of deployment
      * @throws DeploymentException if an error occurs

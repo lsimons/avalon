@@ -126,7 +126,14 @@ public class DefaultKernel
 
     private final HashMap m_entries = new HashMap();
 
+    //Allow applications that fail to startup to remain in the kernel in a stopped state?
     private boolean m_addInvalidApplications;
+
+    //Counter to provide simple locking. when the count is 0, the kernel is unlocked
+    private int m_lockCount;
+
+    //List of applications to return when the kernel is locked
+    private String[] m_lockedApplications;
 
     public void service( final ServiceManager serviceManager )
         throws ServiceException
@@ -170,9 +177,59 @@ public class DefaultKernel
         }
     }
 
+    /**
+     * Lock the kernel, temporarily preserving the list of applications running in the container
+     */
+    public void lock()
+    {
+        synchronized( this )
+        {
+            m_lockedApplications = getApplicationNames();
+            m_lockCount++;
+
+            if( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "Kernel locked [count:" + m_lockCount + "]" );
+            }
+        }
+    }
+
+    /**
+     * Unlock the kernel, restoring the list of applications to be the current active list
+     */
+    public void unlock()
+    {
+        synchronized( this )
+        {
+            m_lockCount--;
+
+            if( m_lockCount < 0 )
+            {
+                throw new IllegalStateException( REZ.getString( "kernel.error.negativelock") );
+            }
+
+            if( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "Kernel unlocked [count:" + m_lockCount + "]" );
+            }
+        }
+    }
+
     public String[] getApplicationNames()
     {
-        return (String[])m_entries.keySet().toArray( new String[ 0 ] );
+        if( isLocked() )
+        {
+            return m_lockedApplications;
+        }
+        else
+        {
+            return (String[])m_entries.keySet().toArray( new String[ 0 ] );
+        }
+    }
+
+    private boolean isLocked()
+    {
+        return m_lockCount > 0;
     }
 
     public Application getApplication( final String name )
