@@ -99,24 +99,6 @@
             <include name="**/*.java"/>
         </javac>
 
-    </target>
-
-    <!-- Compiles the unit test source code -->
-    <target name="compile-test" depends="compile, dependencies-test" description="Compiles the source code">
-
-        <mkdir dir="${build.classes}"/>
-
-        <!-- Compile all classes including the tests. -->
-        <javac srcdir="${test.dir}"
-            destdir="${build.classes}"
-            debug="${build.debug}"
-            optimize="${build.optimize}"
-            deprecation="${build.deprecation}"
-            target="1.2">
-            <classpath refid="project.class.path" />
-            <include name="**/*.java"/>
-        </javac>
-
         <copy todir="${build.classes}">
             <fileset dir="${test.dir}">
                 <exclude name="**/*.java"/>
