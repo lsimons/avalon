@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
@@ -49,7 +50,7 @@ import org.apache.avalon.framework.logger.Logger;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/08/23 10:03:48 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/10/17 15:56:17 $
  * @since 4.1
  */
 class InstrumentClientFrame
@@ -699,6 +700,112 @@ class InstrumentClientFrame
             frames[ i ].setVisible( false );
             frames[ i ].dispose();
         }
+    }
+    
+    /**
+     * Tile all open frames
+     */
+    void tileFrames()
+    {
+        ArrayList openframes = getOpenFrames();
+        
+        int count = openframes.size();
+        if( count == 0) return;
+        
+        // Determine the number of rows and columns
+        int rows = (int) Math.sqrt( count );
+        int cols = rows;
+        
+        // Be sure to have enough grid positions
+        if ( rows*cols < count )
+        {
+            rows++;
+            if ( rows*cols < count )
+            {
+                cols++;
+            }
+        }
+
+        reorganizeFrames( rows, cols, openframes );
+    }
+    
+    /**
+     * Get a list with all open frames. 
+     *
+     * @return ArrayList with references to all open internal frames
+     */
+    ArrayList getOpenFrames()
+    {
+        JInternalFrame[] frames = m_desktopPane.getAllFrames();
+        int count = frames.length;
+        
+        // No frames
+        if (count == 0) return new ArrayList();
+    
+        // add only open frames to the list
+        ArrayList openframes = new ArrayList();
+        for ( int i = 0; i < count; i++ )
+        {
+            JInternalFrame f = frames[i];
+            if( ( f.isClosed() == false ) && ( f.isIcon() == false ) )
+                openframes.add( f );
+        }
+        return openframes;
+    }
+    
+    /**
+     * Reorganizes a list of internal frames to a specific
+     * number of rows and columns.
+     *
+     * @param rows number of rows to use
+     * @param cols number of columns to use
+     * @param frames list with <code>JInternalFrames</code>
+     */  
+    void reorganizeFrames( int rows, int cols, ArrayList frames )
+    {
+        // Determine the size of one windows
+        Dimension desktopsize = m_desktopPane.getSize();
+        int w = desktopsize.width / cols;
+        int h = desktopsize.height / rows;
+        int x = 0;
+        int y = 0;
+        int count = frames.size();
+
+        for ( int i = 0; i < rows; ++i)
+        {
+            for ( int j = 0; j < cols && ( (i * cols ) + j < count ); ++j) 
+            {
+                JInternalFrame f = (JInternalFrame) frames.get( ( i * cols ) + j );
+                m_desktopPane.getDesktopManager().resizeFrame( f, x, y, w, h );
+                x += w;
+            }
+            y += h;
+            x = 0;   
+        }
+    }
+    
+    /**
+     * Tiles all internal frames horizontally
+     */
+    void tileFramesH()
+    {
+        ArrayList openframes=getOpenFrames();
+        
+        int count = openframes.size();
+        if( count == 0) return; 
+        reorganizeFrames( count,1,openframes );
+    }
+    
+    /**
+     * Tiles all internal frames vertically
+     */
+    void tileFramesV()
+    {
+        ArrayList openframes = getOpenFrames();
+        
+        int count=openframes.size();
+        if( count == 0) return;
+        reorganizeFrames( 1, count, openframes );
     }
     
     InstrumentManagerConnection[] getInstrumentManagerConnections()
