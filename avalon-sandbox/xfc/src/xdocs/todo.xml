@@ -8,7 +8,7 @@
     </authors>
   </header>
   <body>
-    <s1 title="Current XFC TODO list">
+    <section><title>Current XFC TODO list</title>
 	  <ol>
 		<li>Lots of testing :)</li>
 		<li>Merlin module</li>
@@ -17,12 +17,12 @@
 		  XFC uses to store component data in, rather than the custom one
 		  built in org.apache.excalibur.xfc.model.</li>
 	  </ol>
-    </s1>
+    </section>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/10/23 16:08:20 $
+      $Revision: 1.2 $ $Date: 2003/02/20 15:45:02 $
     </legal>
   </footer>
 </document>

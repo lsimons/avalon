@@ -336,7 +336,7 @@
 
     <!-- Prepares the documentation directory -->
     <target name="docs" depends="setup-filters" description="Generates the Docs">
-    <ant antfile="${basedir}/../cocoonbuild.xml"/>
+    <ant antfile="${basedir}/../forrestbuild.xml"/>
 
       <copy todir="${docs.dir}">
         <fileset dir="${build.docs}">

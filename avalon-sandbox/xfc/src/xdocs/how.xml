@@ -8,7 +8,7 @@
     </authors>
   </header>
   <body>
-    <s1 title="Basic concepts">
+    <section><title>Basic concepts</title>
       <p>
         XFC works via input &amp; output modules. Input &amp; output modules define
         the format style XFC should read and write to. Currently, modules for
@@ -37,8 +37,8 @@
 		  alias: <code>fortress</code>.
 		</p>
 	  </ol>
-    </s1>
-    <s1 title="Modules">
+    </section>
+    <section><title>Modules</title>
       <p>
         Input &amp; output modules adhere to the <code>org.apache.excalibur.xfc.Module</code>
         interface, which defines operations for creating and serializing a
@@ -54,12 +54,12 @@
         The Model object and it's consituents are defined in the 
         <code>org.apache.excalibur.xfc.model</code> package.
       </p>
-    </s1>
+    </section>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/10/23 16:08:20 $
+      $Revision: 1.2 $ $Date: 2003/02/20 15:45:02 $
     </legal>
   </footer>
 </document>

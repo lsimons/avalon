@@ -9,7 +9,7 @@
     </authors>
   </header>
   <body>
-    <s1 title="Introduction">
+    <section><title>Introduction</title>
       <p>
         Find Avalon Excalibur's Pool implementations in the
     <code>org.apache.avalon.excalibur.pool</code> package.
@@ -33,12 +33,12 @@
     open JDBC Connections exceeds the limit, an exception is
     thrown.
       </p>
-    </s1>
+    </section>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2002/04/05 08:21:05 $
+      $Revision: 1.5 $ $Date: 2003/02/20 15:38:32 $
     </legal>
   </footer>
 </document>

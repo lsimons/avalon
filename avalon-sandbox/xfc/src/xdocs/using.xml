@@ -8,7 +8,7 @@
     </authors>
   </header>
   <body>
-    <s1 title="Calling XFC from the command line">
+    <section><title>Calling XFC from the command line</title>
       <p>
         The XFC distribution includes a script called runconverter.sh/bat which can
 		be used to invoke XFC from the command line. It accepts two parameters naming
@@ -47,8 +47,8 @@
   		  ]]>
 </source>
 	  </p>
-    </s1>
-    <s1 title="Calling XFC from an ANT task">
+    </section>
+    <section><title>Calling XFC from an ANT task</title>
       <p>
         The XFC distribution includes an ANT task (defined in the 
         <code>org.apache.excalibur.xfc.ant.XFCTask</code> class).
@@ -77,20 +77,20 @@
   </xfc>
 		]]>
 	  </source>
-    </s1>
-    <s1 title="Calling XFC from Java">
+    </section>
+    <section><title>Calling XFC from Java</title>
       <p>
         It's also possible to invoke XFC from within Java. To do this call the
         method <code>org.apache.excalibur.xfc.Main.main</code>, and pass as an
         array of String objects the same parameters you would normally give on
         the command line.
       </p>
-    </s1>
+    </section>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/10/23 16:08:20 $
+      $Revision: 1.2 $ $Date: 2003/02/20 15:45:02 $
     </legal>
   </footer>
 </document>

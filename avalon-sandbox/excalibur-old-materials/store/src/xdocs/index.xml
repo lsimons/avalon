@@ -8,16 +8,16 @@
     </authors>
   </header>
   <body>
-    <s1 title="Introduction">
+    <section><title>Introduction</title>
       <p>
         This is the store component donated by the Apache Cocoon project.
       </p>
-    </s1>
+    </section>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/05/02 08:55:39 $
+      $Revision: 1.2 $ $Date: 2003/02/20 15:41:25 $
     </legal>
   </footer>
 </document>
