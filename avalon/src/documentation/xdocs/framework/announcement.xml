@@ -52,7 +52,7 @@ of the @Name@.</abstract>
       </para>
     </description>
     <changes version="@version@" file="changes.xml"/>
-    <downloads base="http://jakarta.apache.org/builds/jakarta-avalon/release/@name@"/>
+    <downloads name="Avalon" base="http://jakarta.apache.org/builds/jakarta-avalon/release/@name@"/>
   </project>
 
 </announcement>
