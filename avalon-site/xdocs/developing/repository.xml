@@ -73,11 +73,15 @@
           Just make sure you have the merlin-cli-N.n.jar, and type;
         </p>
 <source>
-    java -jar merlin-cli-3.3.jar -impl "merlin:merlin-impl;3.3"
+    java -jar merlin-cli-3.3.jar -impl "merlin:merlin-impl;3.3" -execute block.xml
 </source>
         <p>
           Please note that the first delimiter is a colon (:) and the second
           one is a semicolon (;).
+        </p>
+        <p>
+          And the <code>block.xml</code> can either be a local file or a remote
+          URL, such as <code>http://myhost.org/blocks/someApp/block.xml</code>
         </p>
       </section>
     </section>
