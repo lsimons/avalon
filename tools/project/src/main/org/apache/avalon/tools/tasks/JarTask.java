@@ -21,9 +21,11 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.tools.ant.Task;
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Jar;
+import org.apache.tools.ant.taskdefs.Checksum;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
@@ -38,6 +40,29 @@ import org.apache.avalon.tools.project.Definition;
  */
 public class JarTask extends HomeTask
 {
+    public static final String MD5_EXT = "md5";
+    public static final String JAR_EXT = "jar";
+
+    public static String getJarFilename( Definition def )
+    {
+        String name = def.getInfo().getName();
+        if( null != def.getInfo().getVersion() )
+        {
+            return name + "-" + def.getInfo().getVersion() + "." + JAR_EXT;
+        }
+        else
+        {
+            return name + "." + JAR_EXT;
+        }
+    }
+
+    public static File getJarFile( Project project, Definition def )
+    {
+        File target = PrepareTask.getTargetDirectory( project );
+        String filename = getJarFilename( def );
+        return new File( target, filename );
+    }
+
     public void execute() throws BuildException 
     {
         File classes = 
@@ -46,22 +71,13 @@ public class JarTask extends HomeTask
         if( classes.exists() )
         {
             jar( classes, jarFile );
+            checksum( jarFile );
         }
     }
 
     private File getJarFile()
     {
-        File target = PrepareTask.getTargetDirectory( getProject() );
-        Definition def = getDefinition();
-        String name = def.getInfo().getName();
-        if( null != def.getInfo().getVersion() )
-        {
-            return new File( target, name + "-" + def.getInfo().getVersion() + ".jar" );
-        } 
-        else
-        {
-            return new File( target, name + ".jar" );
-        }
+        return getJarFile( getProject(), getDefinition() );
     }
 
     private void jar( File classes, File jarFile )
@@ -71,5 +87,14 @@ public class JarTask extends HomeTask
         jar.setBasedir( classes );
         jar.init();
         jar.execute();
+    }
+
+    private void checksum( File jarFile )
+    {
+        Checksum checksum = (Checksum) getProject().createTask( "checksum" );
+        checksum.setFile( jarFile );
+        checksum.setFileext( "." + MD5_EXT );
+        checksum.init();
+        checksum.execute();
     }
 }

@@ -5,4 +5,5 @@
   <taskdef name="prepare" classname="org.apache.avalon.tools.tasks.PrepareTask"/> 
   <taskdef name="javac" classname="org.apache.avalon.tools.tasks.JavacTask"/> 
   <taskdef name="jar" classname="org.apache.avalon.tools.tasks.JarTask"/> 
+  <taskdef name="install" classname="org.apache.avalon.tools.tasks.InstallTask"/> 
 </antlib> 
