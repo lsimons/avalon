@@ -38,7 +38,6 @@
   
   <menu name="Utilities">
     <item name="AltRMI" href="http://a/altrmi/index.html"/>
-    <item name="BZip2" href="http://a/bzip2/index.html"/>
     <item name="Baxter" href="http://a/baxter/index.html"/>
     <item name="CLI" href="http://a/cli/index.html"/>
     <item name="Collections" href="http://a/collections/index.html"/>
@@ -53,10 +52,8 @@
     <item name="Meta" href="http://a/meta/index.html"/>
     <item name="Pool" href="http://a/pool/index.html"/>
     <item name="Source Resolver" href="http://a/sourceresolve/index.html"/>
-    <item name="TAR" href="http://a/tar/index.html"/>
     <item name="Thread" href="http://a/thread/index.html"/>
     <item name="Util" href="http://a/util/index.html"/>
-    <item name="ZIP" href="http://a/zip/index.html"/>
   </menu>
   </body>
 </project>
