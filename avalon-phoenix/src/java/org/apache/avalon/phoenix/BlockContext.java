@@ -75,6 +75,18 @@ public interface BlockContext
     Logger getLogger( String name );
 
     /**
+     * This method gives the block access to a named {@link ClassLoader}.
+     * The {@link ClassLoader}s for an application are declared in the
+     * <tt>environment.xml</tt> descriptor. See the Specification for details.
+     *
+     * @param name the name of the classloader
+     * @return the classloader
+     * @throws Exception if no such {@link ClassLoader}
+     */
+    ClassLoader getClassLoader( String name )
+        throws Exception;
+
+    /**
      * Retrieve the proxy for this object.
      * Each Block is referenced by other Blocks via their Proxy. When Phoenix
      * shuts down the Block, it can automatically invalidate the proxy. Thus
@@ -112,13 +124,6 @@ public interface BlockContext
      * getProxy( Object other )
      */
     //Object getProxy( Object other, Class[] interfaces );
-
-    /**
-     * This method gives you access to a named ClassLoader. The ClassLoaders
-     * for an application are declared in the <tt>environment.xml</tt>
-     * descriptor.
-     */
-    //ClassLoader getClassLoader( String name );
 
     /**
      * Retrieve the MBeanServer for this application.

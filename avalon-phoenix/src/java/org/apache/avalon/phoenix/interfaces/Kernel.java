@@ -8,7 +8,7 @@
 package org.apache.avalon.phoenix.interfaces;
 
 import java.io.File;
-import org.apache.avalon.framework.configuration.Configuration;
+import java.util.Map;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 
@@ -25,7 +25,8 @@ public interface Kernel
     void addApplication( SarMetaData metaData,
                          File workDirectory,
                          ClassLoader classLoader,
-                         Logger logger )
+                         Logger logger,
+                         Map classloaders )
         throws Exception;
 
     /**

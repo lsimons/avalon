@@ -8,6 +8,7 @@
 package org.apache.avalon.phoenix.components.kernel.beanshell;
 
 import java.io.File;
+import java.util.Map;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.interfaces.Application;
@@ -30,7 +31,8 @@ public class BeanShellKernelProxy
     public void addApplication( final SarMetaData metaData,
                                 final File workDirectory,
                                 final ClassLoader classLoader,
-                                final Logger logger )
+                                final Logger logger,
+                                final Map classloaders )
         throws Exception
     {
         throw new UnsupportedOperationException( "This is not supported for non-kernel visitors" );

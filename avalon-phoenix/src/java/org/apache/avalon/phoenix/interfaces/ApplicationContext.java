@@ -61,6 +61,14 @@ public interface ApplicationContext
     ClassLoader getClassLoader();
 
     /**
+     * This method grants access to a named ClassLoader. The ClassLoaders
+     * for an application are declared in the <tt>environment.xml</tt>
+     * descriptor. See the Specification for details.
+     */
+    ClassLoader getClassLoader( String name )
+        throws Exception;
+
+    /**
      * Retrieve a resource from the SAR file. The specified
      * name is relative the root of the archive. So you could
      * use it to retrieve a html page from within sar by loading

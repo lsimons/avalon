@@ -85,13 +85,14 @@ final class DefaultBlockContext
         return m_applicationContext.getResourceAsStream( name );
     }
 
-    /**
-     * Retrieve logger coresponding to named category.
-     *
-     * @return the logger
-     */
     public Logger getLogger( final String name )
     {
         return m_applicationContext.getLogger( getName() ).getChildLogger( name );
+    }
+
+    public ClassLoader getClassLoader( final String name )
+        throws Exception
+    {
+        return m_applicationContext.getClassLoader( name );
     }
 }
