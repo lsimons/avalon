@@ -139,11 +139,17 @@ public final class CLIMain
     /**
      * Shut the embeddor down.
      */
-    protected synchronized void forceShutdown()
+    protected void forceShutdown()
     {
         final String message = REZ.getString( "main.abnormal-exit.notice" );
         System.out.println( message );
         System.out.flush();
+        
+        //Null hook so it is not tried to be removed
+        //when we are shutting down. (Attempting to remove
+        //hook during shutdown raises an exception).
+        m_hook = null;
+
         shutdown();
     }
 
