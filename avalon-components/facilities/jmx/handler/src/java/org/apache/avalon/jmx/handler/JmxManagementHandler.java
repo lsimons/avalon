@@ -25,11 +25,11 @@ import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;
 
-import org.apache.avalon.framework.activity.Startable;
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
@@ -40,53 +40,50 @@ import org.apache.avalon.jmx.ComponentRegistrationException;
 /**
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  *
- * @avalon.component name="JmxManagementHandler" version="0.1" lifestyle="singleton"
+ * @avalon.component name="jmx-handler" lifestyle="singleton"
  */
-
-public class JmxManagementHandler extends AbstractLogEnabled 
-    implements CompositionListener, Contextualizable, Serviceable, Startable
+public class JmxManagementHandler 
+    implements CompositionListener, Disposable
 {
     private static final Resources REZ = ResourceManager.getPackageResources(
         JmxManagementHandler.class );
         
     private ContainmentModel m_model;
     private ComponentRegistrationManager m_manager;
+    private Logger m_logger;
 
     /**
-     * Contextualizes this component.
+     * Creation of a new handler.
+     *
+     * @param logger the logging channel
      * @param context the Context for this component
+     * @avalon.entry key="urn:composition:containment.model" 
+     *   type="org.apache.avalon.composition.model.ContainmentModel"
+     * @param manager the ServiceManager from which to retrieve service dependencies
+     * @avalon.dependency key="registry" 
+     *    type="org.apache.avalon.jmx.ComponentRegistrationManager" 
      * @throws ContextException if a required context entry is not available
-     *
-     * @avalon.entry key="urn:composition:containment.model" type="org.apache.avalon.composition.model.ContainmentModel"
-     */
-    public void contextualize( Context context ) throws ContextException
-    {
-        m_model = ( ContainmentModel ) context.get( "urn:composition:containment.model" );
-    }
-
-    /**
-     * Retrieves service dependencies for this component.
-     * @param serviceManager the ServiceManager from which to retrieve service dependencies
      * @throws ServiceException if a required service is not available
-     *
-     * @avalon.dependency key="ComponentRegistrationManager" type="org.apache.avalon.merlin.jmx.ComponentRegistrationManager" optional="false"
      */
-    public void service( ServiceManager serviceManager ) throws ServiceException
+    public JmxManagementHandler( 
+      Logger logger, Context context, ServiceManager manager ) 
+      throws ContextException, ServiceException
     {
-        m_manager = ( ComponentRegistrationManager ) serviceManager.lookup( "ComponentRegistrationManager" );
-    }
-
-    public void start() throws Exception
-    {
+        m_logger = logger;
+        m_model = 
+          (ContainmentModel) context.get( 
+            "urn:composition:containment.model" );
+        m_manager = 
+          (ComponentRegistrationManager) manager.lookup( "registry" );
         synchronized ( m_model )
         {
             processModel( m_model, true );
         }
     }
 
-    public void stop() throws Exception
+    public void dispose()
     {
         synchronized ( m_model )
         {
@@ -120,7 +117,8 @@ public class JmxManagementHandler extends AbstractLogEnabled
     {
         if ( model instanceof ContainmentModel )
         {
-            ContainmentModel containment = ( ContainmentModel ) model;
+            ContainmentModel containment = 
+              (ContainmentModel) model;
             if ( flag )
             {
                 containment.addCompositionListener( this );
@@ -137,7 +135,8 @@ public class JmxManagementHandler extends AbstractLogEnabled
         }
         else if ( model instanceof ComponentModel )
         {
-            final ComponentModel componentModel = ( ComponentModel ) model;
+            final ComponentModel componentModel = 
+              (ComponentModel)model;
 
             if ( flag )
             {
@@ -147,8 +146,10 @@ public class JmxManagementHandler extends AbstractLogEnabled
                 }
                 catch ( ComponentRegistrationException cme )
                 {
-                    final String message = REZ.getString( "compositionlistener.error.register",
-                                                          componentModel.getQualifiedName() );
+                    final String message = 
+                      REZ.getString( 
+                        "compositionlistener.error.register",
+                        componentModel.getQualifiedName() );
                     getLogger().debug( message, cme );
                 }
             }
@@ -161,11 +162,18 @@ public class JmxManagementHandler extends AbstractLogEnabled
                 }
                 catch ( ComponentRegistrationException cme )
                 {
-                    final String message = REZ.getString( "compositionlistener.error.unregister",
-                                                          componentModel.getQualifiedName() );
+                    final String message = 
+                      REZ.getString( 
+                        "compositionlistener.error.unregister",
+                        componentModel.getQualifiedName() );
                     getLogger().debug( message, cme );
                 }
             }
         }
+    }
+
+    private Logger getLogger()
+    {
+        return m_logger;
     }
 }

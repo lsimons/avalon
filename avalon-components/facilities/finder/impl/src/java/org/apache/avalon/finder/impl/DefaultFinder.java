@@ -17,6 +17,9 @@
 
 package org.apache.avalon.finder.impl;
 
+import java.lang.reflect.Proxy;
+import java.lang.reflect.InvocationHandler;
+
 import org.apache.avalon.finder.Finder;
 import org.apache.avalon.finder.FinderException;
 
@@ -25,6 +28,7 @@ import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.ProviderNotFoundException;
 import org.apache.avalon.composition.model.AssemblyException;
+import org.apache.avalon.composition.model.Reclaimer;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.context.Context;
@@ -43,9 +47,9 @@ import org.apache.avalon.meta.info.ReferenceDescriptor;
  * @avalon.component name="finder" lifestyle="singleton"
  * @avalon.service type="org.apache.avalon.finder.Finder"
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/04/04 15:00:55 $
+ * @version $Revision: 1.2 $ $Date: 2004/04/08 08:35:15 $
  */
-public class DefaultFinder implements Finder, Contextualizable
+public class DefaultFinder implements Finder
 {
     //---------------------------------------------------------
     // immutable state
@@ -70,32 +74,24 @@ public class DefaultFinder implements Finder, Contextualizable
     * Creation of a new default finder.
     * 
     * @param logger the container assigned logging channel
-    */
-    public DefaultFinder( final Logger logger )
-    {
-        if( null == logger )
-        {
-            throw new NullPointerException( "logger" );
-        }
-
-        m_logger = logger;
-    }
-
-    //---------------------------------------------------------
-    // Contextualizable
-    //---------------------------------------------------------
-
-   /**
-    * Contextulaization of the facility by the container during 
-    * which we are supplied with the relative root containment model.
-    *
     * @param context the supplied context
     * @avalon.entry key="urn:composition:containment.model" 
     *    type="org.apache.avalon.composition.model.ContainmentModel" 
     * @exception ContextException if a contextualization error occurs
     */
-    public void contextualize( Context context ) throws ContextException
+    public DefaultFinder( final Logger logger, Context context )
+      throws ContextException
     {
+        if( null == logger )
+        {
+            throw new NullPointerException( "logger" );
+        }
+        if( null == context )
+        {
+            throw new NullPointerException( "context" );
+        }
+
+        m_logger = logger;
         m_model = 
          (ContainmentModel) context.get( 
            "urn:composition:containment.model" );
@@ -122,7 +118,31 @@ public class DefaultFinder implements Finder, Contextualizable
         }
     }
 
-    public DeploymentModel resolveModel( Class type ) throws FinderException
+   /**
+    * Release an object that was resolved using the find operation.
+    * 
+    * @param instance the object to release
+    */
+    public void release( Object instance )
+    {
+        if( Proxy.isProxyClass( instance.getClass() ) )
+        {
+            InvocationHandler handler = 
+                Proxy.getInvocationHandler( instance );
+            if( handler instanceof Reclaimer )
+            { 
+                Reclaimer source = (Reclaimer) handler;
+                source.release();
+            }
+        }
+    }
+
+    //---------------------------------------------------------
+    // private implementation
+    //---------------------------------------------------------
+
+    private DeploymentModel resolveModel( Class type ) 
+      throws FinderException
     {
         ReferenceDescriptor reference = 
           new ReferenceDescriptor( type.getName() );
@@ -149,10 +169,6 @@ public class DefaultFinder implements Finder, Contextualizable
             throw new FinderException( error, e );
         }
     }
-
-    //---------------------------------------------------------
-    // private implementation
-    //---------------------------------------------------------
 
     private Logger getLogger()
     {

@@ -22,9 +22,9 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  *
- * @avalon.component name="JMXTestComponent" version="0.1" lifestyle="singleton"
+ * @avalon.component name="JMXTestComponent" lifestyle="singleton"
  * @avalon.service type="org.apache.avalon.playground.jmxtest.JMXTestService"
  * @avalon.service type="org.apache.avalon.playground.jmxtest.JMXTestComponentMBean"
  */
