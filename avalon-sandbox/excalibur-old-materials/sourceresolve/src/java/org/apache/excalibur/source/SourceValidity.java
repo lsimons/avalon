@@ -75,14 +75,16 @@ import java.io.Serializable;
  * <code>0</code> !
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/01/29 06:56:01 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/05/16 11:45:38 $
  */
 public interface SourceValidity
     extends Serializable
 {
     final int VALID   = +1;
     final int INVALID = -1;
+    /** @deprecated because it has been misspelled, use UNKNOWN of course */
     final int UNKNWON = 0;
+    final int UNKNOWN = 0;
     
     /**
      * Check if the component is still valid. The possible results are :
