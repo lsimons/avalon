@@ -79,7 +79,7 @@ public class AnotherTestComponent extends AbstractLogEnabled
     public void service( ServiceManager man )
         throws ServiceException
     {
-        m_TestService = (TestService) man.lookup( "org.apache.avalon.activation.appliance.grant.components.TestService" ); 
+        m_TestService = (TestService) man.lookup( "TestService" ); 
     }
     
     public String getJavaVersion()
