@@ -20,12 +20,12 @@ package org.apache.avalon.composition.model.impl;
 import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.ContainmentContext;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.ModelRepository;
 import org.apache.avalon.composition.model.ModelSelector;
 import org.apache.avalon.composition.model.TypeRepository;
+import org.apache.avalon.composition.provider.ContainmentContext;
 
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
@@ -37,7 +37,7 @@ import org.apache.avalon.meta.info.DependencyDescriptor;
  * a supplied path.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/07 20:21:03 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/10 16:23:33 $
  */
 class DefaultContainmentModelExportHelper
 {

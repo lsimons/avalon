@@ -36,14 +36,16 @@ import org.apache.avalon.composition.data.IncludeDirective;
 import org.apache.avalon.composition.data.PermissionDirective;
 import org.apache.avalon.composition.data.RepositoryDirective;
 import org.apache.avalon.composition.data.ResourceDirective;
-import org.apache.avalon.composition.model.ClassLoaderContext;
 import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.TypeRepository;
 import org.apache.avalon.composition.model.ServiceRepository;
 import org.apache.avalon.composition.model.ModelException;
+import org.apache.avalon.composition.provider.ClassLoaderContext;
 import org.apache.avalon.composition.util.StringHelper;
+
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.Repository;
+
 import org.apache.avalon.extension.Extension;
 import org.apache.avalon.extension.manager.ExtensionManager;
 import org.apache.avalon.extension.manager.OptionalPackage;
@@ -82,7 +84,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and the extensions package.
  * </p>
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Revision: 1.9 $ $Date: 2004/02/10 16:23:33 $
  */
 public class DefaultClassLoaderModel extends AbstractLogEnabled 
     implements ClassLoaderModel
@@ -94,12 +96,11 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
     private static final Resources REZ =
             ResourceManager.getPackageResources( DefaultClassLoaderModel.class );
 
-    public static ClassLoaderModel createClassLoaderModel( 
-      ClassLoaderContext context ) throws ModelException
-    {
-        return new DefaultClassLoaderModel( context );
-    }
-
+    //private static ClassLoaderModel createClassLoaderModel( 
+    //  ClassLoaderContext context ) throws ModelException
+    //{
+    //    return new DefaultClassLoaderModel( context );
+    //}
 
     //==============================================================
     // state
@@ -231,7 +232,7 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
     //==============================================================
 
    /**
-    * Creation of a classloader context using this model as the 
+    * Creation of a classloader model using this model as the 
     * relative parent.
     *
     * @param logger the loggiong channel
@@ -239,18 +240,13 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
     * @param implied a sequence of implied urls
     * @return a new classloader context
     */
-    public ClassLoaderContext createChildContext( 
+    public ClassLoaderModel createClassLoaderModel( 
        Logger logger, ContainmentProfile profile, URL[] implied )
+       throws ModelException
     {
-        Repository repository = m_context.getRepository();
-        File base = m_context.getBaseDirectory();
-        OptionalPackage[] packages = getOptionalPackages();
-        ClassLoaderDirective directive = 
-          profile.getClassLoaderDirective();
-
-        return new DefaultClassLoaderContext( 
-          logger, repository, base, m_classLoader, packages,
-          m_extension, m_types, m_services, directive, implied );
+        ClassLoaderContext context = 
+          createChildContext( logger, profile, implied );
+        return new DefaultClassLoaderModel( context );
     }
 
    /**
@@ -371,6 +367,29 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
     //==============================================================
     // private implementation
     //==============================================================
+
+   /**
+    * Creation of a classloader context using this model as the 
+    * relative parent.
+    *
+    * @param logger the loggiong channel
+    * @param profile the profile directive
+    * @param implied a sequence of implied urls
+    * @return a new classloader context
+    */
+    private ClassLoaderContext createChildContext( 
+       Logger logger, ContainmentProfile profile, URL[] implied )
+    {
+        Repository repository = m_context.getRepository();
+        File base = m_context.getBaseDirectory();
+        OptionalPackage[] packages = getOptionalPackages();
+        ClassLoaderDirective directive = 
+          profile.getClassLoaderDirective();
+
+        return new DefaultClassLoaderContext( 
+          logger, repository, base, m_classLoader, packages,
+          m_extension, m_types, m_services, directive, implied );
+    }
 
     private String[] getClassPath()
     {

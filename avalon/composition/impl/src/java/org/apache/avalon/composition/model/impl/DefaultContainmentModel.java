@@ -46,29 +46,32 @@ import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
 import org.apache.avalon.composition.event.CompositionEvent;
 import org.apache.avalon.composition.event.CompositionListener;
 import org.apache.avalon.composition.model.AssemblyException;
-import org.apache.avalon.composition.model.ClassLoaderContext;
 import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.ComponentContext;
-import org.apache.avalon.composition.model.ContainmentContext;
 import org.apache.avalon.composition.model.ContextModel;
 import org.apache.avalon.composition.model.DependencyModel;
 import org.apache.avalon.composition.model.DependencyGraph;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ModelException;
-import org.apache.avalon.composition.model.ModelFactory;
 import org.apache.avalon.composition.model.ModelRuntimeException;
 import org.apache.avalon.composition.model.ModelRepository;
 import org.apache.avalon.composition.model.ModelSelector;
 import org.apache.avalon.composition.model.ProfileSelector;
 import org.apache.avalon.composition.model.ServiceModel;
-import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.StageModel;
 import org.apache.avalon.composition.model.TypeRepository;
 import org.apache.avalon.composition.model.TypeUnknownException;
-import org.apache.avalon.logging.provider.LoggingManager;
+import org.apache.avalon.composition.provider.ModelFactory;
+import org.apache.avalon.composition.provider.SystemContext;
+import org.apache.avalon.composition.provider.ComponentContext;
+import org.apache.avalon.composition.provider.ClassLoaderContext;
+import org.apache.avalon.composition.provider.ContainmentContext;
 import org.apache.avalon.composition.util.StringHelper;
+import org.apache.avalon.composition.util.DefaultState;
+
+import org.apache.avalon.logging.provider.LoggingManager;
+
 import org.apache.avalon.repository.Repository;
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.RepositoryException;
@@ -94,7 +97,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.30 $ $Date: 2004/02/07 22:46:42 $
+ * @version $Revision: 1.31 $ $Date: 2004/02/10 16:23:33 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -143,6 +146,8 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     private final String m_partition;
 
     private final ServiceModel[] m_services;
+
+    private final DefaultState m_commissioned = new DefaultState();
 
     //--------------------------------------------------------------
     // state
@@ -198,6 +203,99 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         DefaultContainmentModelExportHelper helper =
           new DefaultContainmentModelExportHelper( m_context, this );
         m_services = helper.createServiceExport();
+    }
+
+    //--------------------------------------------------------------
+    // Commissionable
+    //--------------------------------------------------------------
+
+   /**
+    * Commission the appliance. 
+    *
+    * @exception Exception if a commissioning error occurs
+    */
+    public void commission() throws Exception
+    {
+        if( !isAssembled() ) assemble();
+
+        synchronized( m_commissioned )
+        {
+            if( m_commissioned.isEnabled() ) return;
+
+            //
+            // get the startup sequence and from this
+            // we locate the locally scoped models 
+            // and deploy them
+            //
+            
+            DeploymentModel[] startup = getStartupGraph();
+
+            Commissioner commissioner = 
+              new Commissioner( getLogger(), true );
+
+            try
+            {
+                for( int i=0; i<startup.length; i++ )
+                {
+                    final DeploymentModel child = startup[i];
+                    commissioner.commission( child );
+                }
+            }
+            finally
+            {
+                commissioner.dispose();
+            }
+
+            //
+            // all subsidary model and runtime structures are not
+            // fully commissioned and we can proceed with the 
+            // commissioning of our own runtime
+            //
+
+            super.commission();
+            m_commissioned.setEnabled( true );
+        }
+    }
+
+   /**
+    * Decommission the appliance.  Once an appliance is 
+    * decommissioned it may be re-commissioned.
+    */
+    public void decommission()
+    {
+        synchronized( m_commissioned )
+        {
+            if( !m_commissioned.isEnabled() ) return;
+
+            if( getLogger().isDebugEnabled() )
+            {
+                String message = "decommissioning";
+                getLogger().debug( message );
+            }
+
+            super.decommission();
+
+            DeploymentModel[] shutdown = getShutdownGraph();
+            long timeout = getDeploymentTimeout();
+
+            Commissioner commissioner = 
+              new Commissioner( getLogger(), false );
+
+            try
+            {
+                for( int i=0; i<shutdown.length; i++ )
+                {
+                    final DeploymentModel child = shutdown[i];
+                    child.decommission();
+                }
+            }
+            finally
+            {
+                commissioner.dispose();
+            }
+
+            m_commissioned.setEnabled( false );
+        }
     }
 
     //--------------------------------------------------------------
@@ -809,12 +907,10 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         
         try
         {
-            ClassLoaderContext cntx = 
-              m_context.getClassLoaderModel().createChildContext( 
+            final ClassLoaderModel classLoaderModel = 
+              m_context.getClassLoaderModel().createClassLoaderModel(
                 log, profile, implicit );
 
-            final ClassLoaderModel classLoaderModel = 
-              DefaultClassLoaderModel.createClassLoaderModel( cntx );
             final File home = new File( m_context.getHomeDirectory(), name );
             final File temp = new File( m_context.getTempDirectory(), name );
             final Logger logger = getLogger().getChildLogger( name );

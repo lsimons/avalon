@@ -15,19 +15,19 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.composition.model.util;
+package org.apache.avalon.composition.model.test;
 
 import java.io.File;
 import java.net.URL;
 import java.util.Map;
 
-import org.apache.avalon.logging.provider.LoggingManager;
-import org.apache.avalon.logging.data.CategoryDirective;
-
-import org.apache.avalon.composition.model.ModelFactory;
-import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.impl.DefaultSystemContext;
+import org.apache.avalon.composition.provider.ModelFactory;
+import org.apache.avalon.composition.provider.SystemContext;
+
+import org.apache.avalon.logging.provider.LoggingManager;
+import org.apache.avalon.logging.data.CategoryDirective;
 
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.Repository;
@@ -48,7 +48,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/07 14:02:30 $
+ * @version $Revision: 1.1 $ $Date: 2004/02/10 16:24:48 $
  */
 public class SystemContextBuilder
 {
@@ -69,7 +69,7 @@ public class SystemContextBuilder
     */
     public static SystemContext createSystemContext( 
       InitialContext context, File base, File root,
-      int priority, boolean secure, long deploymenttimeout ) 
+      int priority, boolean secure, long timeout ) 
       throws Exception
     {
         //
@@ -88,10 +88,10 @@ public class SystemContextBuilder
 
         final File home = new File( base, "home" );
         final File temp = new File( base, "temp" );
-
+ 
         return new DefaultSystemContext( 
-          logging, base, home, temp, repository, "system", 
-          false, deploymenttimeout, secure );
+          context, null, logging, base, home, temp, repository, "system", 
+          false, timeout, secure );
     }
 
     private static CacheManager createCacheManager( 

@@ -22,17 +22,20 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.avalon.composition.model.ProfileSelector;
-import org.apache.avalon.composition.model.TypeRepository;
-import org.apache.avalon.composition.model.TypeUnknownException;
-import org.apache.avalon.composition.model.ProfileUnknownException;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.composition.data.ProfilePackage;
 import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.data.ComponentProfile;
 import org.apache.avalon.composition.data.builder.ProfilePackageBuilder;
+import org.apache.avalon.composition.model.ProfileSelector;
+import org.apache.avalon.composition.model.TypeRepository;
+import org.apache.avalon.composition.model.TypeUnknownException;
+import org.apache.avalon.composition.model.ProfileUnknownException;
+
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+
+import org.apache.avalon.framework.logger.Logger;
+
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
@@ -43,7 +46,7 @@ import org.apache.avalon.meta.info.Type;
  * storage and retrival of component types.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Revision: 1.7 $ $Date: 2004/02/10 16:23:34 $
  */
 class DefaultTypeRepository implements TypeRepository
 {

@@ -17,11 +17,12 @@
 
 package org.apache.avalon.composition.model.impl;
 
-import org.apache.avalon.composition.model.ProfileSelector;
-import org.apache.avalon.meta.info.DependencyDescriptor;
-import org.apache.avalon.meta.info.StageDescriptor;
 import org.apache.avalon.composition.data.Mode;
 import org.apache.avalon.composition.data.DeploymentProfile;
+import org.apache.avalon.composition.model.ProfileSelector;
+
+import org.apache.avalon.meta.info.DependencyDescriptor;
+import org.apache.avalon.meta.info.StageDescriptor;
 
 /**
  * Default profile selector class. The default selector selects profiles based
@@ -30,7 +31,7 @@ import org.apache.avalon.composition.data.DeploymentProfile;
  * the first profile matching the category is returned.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Revision: 1.5 $ $Date: 2004/02/10 16:23:33 $
  */
 class DefaultProfileSelector implements ProfileSelector
 {

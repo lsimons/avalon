@@ -19,13 +19,14 @@ package org.apache.avalon.composition.model.impl;
 
 import org.apache.avalon.composition.model.EntryModel;
 import org.apache.avalon.composition.model.ModelException;
+
 import org.apache.avalon.meta.info.EntryDescriptor;
 
 /**
  * Abstract implementation of a the context entry model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Revision: 1.4 $ $Date: 2004/02/10 16:23:33 $
  */
 public abstract class DefaultEntryModel implements EntryModel
 {

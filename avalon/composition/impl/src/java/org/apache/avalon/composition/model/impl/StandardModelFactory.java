@@ -28,15 +28,15 @@ import org.apache.avalon.composition.data.ClassLoaderDirective;
 import org.apache.avalon.composition.data.builder.ContainmentProfileBuilder;
 import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
 import org.apache.avalon.composition.model.ClassLoaderModel;
-import org.apache.avalon.composition.model.ClassLoaderContext;
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.ContainmentContext;
-import org.apache.avalon.composition.model.ComponentContext;
 import org.apache.avalon.composition.model.ComponentModel;
-import org.apache.avalon.composition.model.ModelFactory;
 import org.apache.avalon.composition.model.ModelException;
-import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.DependencyGraph;
+import org.apache.avalon.composition.provider.SystemContext;
+import org.apache.avalon.composition.provider.ModelFactory;
+import org.apache.avalon.composition.provider.ContainmentContext;
+import org.apache.avalon.composition.provider.ComponentContext;
+import org.apache.avalon.composition.provider.ClassLoaderContext;
 
 import org.apache.avalon.logging.provider.LoggingManager;
 import org.apache.avalon.logging.data.CategoriesDirective;
@@ -57,9 +57,9 @@ import org.apache.avalon.meta.info.Type;
  * A factory enabling the establishment of new composition model instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/07 17:41:28 $
+ * @version $Revision: 1.1 $ $Date: 2004/02/10 16:23:34 $
  */
-public class DefaultModelFactory extends AbstractLogEnabled 
+public class StandardModelFactory 
   implements ModelFactory
 {
     //-------------------------------------------------------------------
@@ -73,26 +73,28 @@ public class DefaultModelFactory extends AbstractLogEnabled
       new ContainmentProfileBuilder();
 
     private static final Resources REZ =
-      ResourceManager.getPackageResources( DefaultModelFactory.class );
+      ResourceManager.getPackageResources( StandardModelFactory.class );
 
     //-------------------------------------------------------------------
     // immutable state
     //-------------------------------------------------------------------
 
-    final SystemContext m_system;
+    private final SystemContext m_system;
+
+    private final Logger m_logger;
 
     //-------------------------------------------------------------------
     // constructor
     //-------------------------------------------------------------------
 
-    public DefaultModelFactory( final SystemContext system )
+    public StandardModelFactory( final SystemContext system )
     {
         if( system == null )
         {
             throw new NullPointerException( "system" );
         }
         m_system = system;
-        enableLogging( system.getLogger() );
+        m_logger = system.getLogger();
     }
 
     //-------------------------------------------------------------------
@@ -271,5 +273,10 @@ public class DefaultModelFactory extends AbstractLogEnabled
                 profile.getName() );
             throw new ModelException( error, e );
         }
+    }
+
+    private Logger getLogger()
+    {
+        return m_logger;
     }
 }

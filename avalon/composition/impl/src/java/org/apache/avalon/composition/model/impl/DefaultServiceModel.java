@@ -17,15 +17,15 @@
 
 package org.apache.avalon.composition.model.impl;
 
+import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.model.ServiceModel;
 import org.apache.avalon.composition.model.DeploymentModel;
-import org.apache.avalon.composition.data.ServiceDirective;
 
 /**
  * Service model exposes an exported service class.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Revision: 1.5 $ $Date: 2004/02/10 16:23:33 $
  */
 public class DefaultServiceModel implements ServiceModel
 {

@@ -21,30 +21,34 @@ import java.util.Map;
 import java.util.Hashtable;
 import java.lang.reflect.Constructor;
 
-import org.apache.avalon.composition.model.ContextModel;
-import org.apache.avalon.composition.model.ComponentModel;
-import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.ModelException;
-import org.apache.avalon.composition.model.ComponentContext;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.meta.info.ContextDescriptor;
-import org.apache.avalon.meta.info.EntryDescriptor;
 import org.apache.avalon.composition.data.ContextDirective;
 import org.apache.avalon.composition.data.EntryDirective;
 import org.apache.avalon.composition.data.ImportDirective;
 import org.apache.avalon.composition.data.ConstructorDirective;
+import org.apache.avalon.composition.model.ContextModel;
+import org.apache.avalon.composition.model.ComponentModel;
+import org.apache.avalon.composition.model.ContainmentModel;
+import org.apache.avalon.composition.model.ModelException;
+import org.apache.avalon.composition.provider.ComponentContext;
+
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.Logger;
+
+import org.apache.avalon.meta.info.ContextDescriptor;
+import org.apache.avalon.meta.info.EntryDescriptor;
+
 
 /**
  * <p>Specification of a context model from which a 
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2004/02/07 14:03:42 $
+ * @version $Revision: 1.9 $ $Date: 2004/02/10 16:23:33 $
  */
 public class DefaultContextModel extends DefaultDependent implements ContextModel
 {

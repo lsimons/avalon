@@ -19,11 +19,13 @@ package org.apache.avalon.composition.model.impl;
 
 import java.util.ArrayList;
 
+import org.apache.avalon.composition.data.Mode;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ModelSelector;
+
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
-import org.apache.avalon.composition.data.Mode;
+
 
 /**
  * Default selector class. The default selector selcts profiles based
@@ -32,7 +34,7 @@ import org.apache.avalon.composition.data.Mode;
  * the first profile matching the category is returned.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Revision: 1.4 $ $Date: 2004/02/10 16:23:33 $
  */
 class DefaultModelSelector implements ModelSelector
 {

@@ -22,8 +22,10 @@ import java.util.List;
 
 import org.apache.avalon.composition.model.ServiceUnknownException;
 import org.apache.avalon.composition.model.ServiceRepository;
+
 import org.apache.avalon.framework.Version;
 import org.apache.avalon.framework.logger.Logger;
+
 import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.Service;
 
@@ -32,7 +34,7 @@ import org.apache.avalon.meta.info.Service;
  * of service defintions.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Revision: 1.4 $ $Date: 2004/02/10 16:23:33 $
  */
 public class DefaultServiceRepository implements ServiceRepository
 {

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.Dependent;
+
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 
@@ -28,7 +29,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Default dependent model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Revision: 1.4 $ $Date: 2004/02/10 16:23:33 $
  */
 public class DefaultDependent extends AbstractLogEnabled implements Dependent
 {

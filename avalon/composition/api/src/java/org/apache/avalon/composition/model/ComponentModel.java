@@ -28,7 +28,7 @@ import org.apache.avalon.meta.info.Type;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:25 $
+ * @version $Revision: 1.4 $ $Date: 2004/02/10 16:23:33 $
  */
 public interface ComponentModel extends DeploymentModel
 {
@@ -158,12 +158,11 @@ public interface ComponentModel extends DeploymentModel
     void setParameters( Parameters parameters, boolean policy );
 
    /**
-    * Return the configuration to be applied to the component.
-    * The implementation returns the current configuration state.
+    * Return the parameters to be applied to the component.
     * If the the component type does not implementation the 
-    * Configurable interface, the implementation returns null. 
+    * Parameterizable interface, the implementation returns null. 
     *
-    * @return the qualified configuration
+    * @return the assigned parameters
     */
     Parameters getParameters();
 

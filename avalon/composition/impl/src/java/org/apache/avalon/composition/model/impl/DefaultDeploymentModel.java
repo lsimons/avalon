@@ -17,12 +17,12 @@
 
 package org.apache.avalon.composition.model.impl;
 
-import org.apache.avalon.composition.model.DeploymentModel;
-import org.apache.avalon.composition.model.DeploymentContext;
-import org.apache.avalon.composition.model.DependencyGraph;
-import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.data.Mode;
-import org.apache.avalon.composition.runtime.Commissionable;
+import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.model.DependencyGraph;
+import org.apache.avalon.composition.model.Commissionable;
+import org.apache.avalon.composition.provider.DeploymentContext;
+import org.apache.avalon.composition.provider.SystemContext;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
@@ -35,7 +35,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Abstract model base class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.14 $ $Date: 2004/02/06 15:27:14 $
+ * @version $Revision: 1.15 $ $Date: 2004/02/10 16:23:33 $
  */
 public abstract class DefaultDeploymentModel
   implements DeploymentModel
@@ -76,6 +76,58 @@ public abstract class DefaultDeploymentModel
             throw new NullPointerException( "context" );
         }
         m_context = context;
+    }
+
+    //--------------------------------------------------------------
+    // Commssionable
+    //--------------------------------------------------------------
+
+   /**
+    * Commission the model. 
+    *
+    * @exception Exception if a commissioning error occurs
+    */
+    public void commission() throws Exception
+    {
+        m_context.getSystemContext().commission( this );
+        //getRuntime().commission();
+    }
+
+   /**
+    * Decommission the model.  Once an model is 
+    * decommissioned it may be re-commissioned.
+    */
+    public void decommission()
+    {
+        m_context.getSystemContext().decommission( this );
+        //getRuntime().decommission();
+    }
+
+    //--------------------------------------------------------------
+    // Resolver
+    //--------------------------------------------------------------
+
+    /**
+     * Resolve a object to a value.
+     *
+     * @return the resolved object
+     * @throws Exception if an error occurs
+     */
+    public Object resolve() throws Exception
+    {
+        return m_context.getSystemContext().resolve( this );
+        //return getRuntime().resolve();
+    }
+
+    /**
+     * Release an object
+     *
+     * @param instance the object to be released
+     */
+    public void release( Object instance )
+    {
+        m_context.getSystemContext().release( this, instance );
+        //getRuntime().release( this );
     }
 
     //--------------------------------------------------------------
@@ -195,5 +247,4 @@ public abstract class DefaultDeploymentModel
         SystemContext system = m_context.getSystemContext();
         return system.getDefaultDeploymentTimeout();
     }
-
 }

@@ -18,7 +18,8 @@
 package org.apache.avalon.composition.model;
 
 import org.apache.avalon.composition.data.Mode;
-import org.apache.avalon.composition.runtime.Commissionable;
+import org.apache.avalon.composition.model.Commissionable;
+import org.apache.avalon.composition.model.Resolver;
 
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
@@ -30,9 +31,9 @@ import org.apache.avalon.framework.logger.Logger;
  * Model desribing a deployment scenario.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.12 $ $Date: 2004/02/06 15:27:14 $
+ * @version $Revision: 1.13 $ $Date: 2004/02/10 16:23:33 $
  */
-public interface DeploymentModel
+public interface DeploymentModel extends Commissionable, Resolver
 {
     String SEPARATOR = "/";
 
@@ -61,18 +62,6 @@ public interface DeploymentModel
     * @return the mode
     */
     Mode getMode();
-
-   /**
-    * Set the runtime handler for the model.
-    * @param handler the runtime handler
-    */
-    void setHandler( Commissionable handler );
-
-   /**
-    * Get the assigned runtime handler for the model.
-    * @return the runtime handler
-    */
-    Commissionable getHandler();
 
    /**
     * Return the assigned logging channel.
