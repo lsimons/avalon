@@ -184,11 +184,21 @@ public class Home extends DataType
         return (Resource[]) m_resources.values().toArray( new Resource[0] );
     }
 
+   /**
+    * Return TRUE if the suppied resource ref references a project
+    * definition.
+    * @return TRUE is the resource is a definition
+    */
     public boolean isaDefinition( final ResourceRef ref )
     {
         return ( getResource( ref ) instanceof Definition );
     }
 
+   /**
+    * Return all definitions with the home.
+    *
+    * @return array of know definitions
+    */
     public Definition[] getDefinitions()
       throws BuildException
     {
@@ -205,6 +215,11 @@ public class Home extends DataType
         return (Definition[]) list.toArray( new Definition[0] );
     }
 
+   /**
+    * Return a resource matching the supplied key.
+    * @return the resource mathing the key
+    * @exception BuildException if the resource is unknown
+    */
     public Resource getResource( final String key )
       throws BuildException
     {
@@ -212,6 +227,11 @@ public class Home extends DataType
         return getResource( ref );
     }
 
+   /**
+    * Return a resource matching the supplied reference.
+    * @return the resource mathing the reference
+    * @exception BuildException if the resource is unknown
+    */
     public Resource getResource( final ResourceRef ref )
       throws BuildException
     {
@@ -224,6 +244,11 @@ public class Home extends DataType
         return resource;
     }
 
+   /**
+    * Return a definition matching the supplied key.
+    * @return the definition mathing the key
+    * @exception BuildException if the definition is unknown
+    */
     public Definition getDefinition( final String key )
       throws BuildException
     {
@@ -231,6 +256,11 @@ public class Home extends DataType
         return getDefinition( ref );
     }
 
+   /**
+    * Return a definition matching the supplied reference.
+    * @return the definition mathing the reference
+    * @exception BuildException if the definition is unknown
+    */
     public Definition getDefinition( final ResourceRef ref )
       throws BuildException
     {
@@ -247,6 +277,11 @@ public class Home extends DataType
         }
     }
 
+   /**
+    * Return a plugin matching the supplied reference.
+    * @return the plugin mathing the reference
+    * @exception BuildException if the plugin is unknown
+    */
     public Plugin getPlugin( final ResourceRef ref )
       throws BuildException
     {
@@ -523,7 +558,6 @@ public class Home extends DataType
         //
         
         throw new UnsupportedOperationException();
-
     }
 
     /*

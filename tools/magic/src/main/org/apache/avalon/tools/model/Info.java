@@ -27,10 +27,23 @@ import org.apache.tools.ant.BuildException;
  */
 public class Info 
 {
+   /**
+    * The static immutable element value to declare a SNAPSHOT artifact.
+    */
     public static final String SNAPSHOT = "SNAPSHOT";
  
+   /**
+    * The static immutable value of the artifact protocol.
+    */
     public static final String PROTOCOL = "artifact";
 
+   /**
+    * Creation of a new info instance relative to a supplied home 
+    * and artifact specification.
+    * @param home the home
+    * @param id the artiact identifier
+    * @return the immutable info descriptor
+    */
     public static Info create( Home home, final String id )
     {
         final int i = id.indexOf( ":" );
@@ -45,6 +58,14 @@ public class Info
         return Info.create( home, protocol, spec );
     }
 
+   /**
+    * Creation of a new info instance relative to a supplied home, 
+    * type, and artifact specification.
+    * @param home the home
+    * @param type the artifact type
+    * @param id the artiact identifier
+    * @return the immutable info descriptor
+    */
     public static Info create( Home home, final String type, final String id )
     {
         final int n = getGroupIndex( id );
@@ -56,6 +77,16 @@ public class Info
           SNAPSHOT.equalsIgnoreCase( version ) );
     }
 
+   /**
+    * Creation of a new info instance relative to a supplied set of parameters.
+    * @param home the home
+    * @param group the artifact group
+    * @param name the artifact name
+    * @param version the artifact version
+    * @param type the artifact type
+    * @param snapshot the artiact snapshot status
+    * @return the immutable info descriptor
+    */
     public static Info create(
       final Home home, final String group, final String name, final String version, 
       final String type, boolean snapshot )
@@ -91,19 +122,31 @@ public class Info
         m_snapshot = snapshot;
     }
 
+   /**
+    * Return the name of the artifact group.
+    * @return the group name
+    */
     public String getGroup()
     {
         return m_group;
     }
     
+   /**
+    * Return the name of the artifact.
+    * @return the artifact name
+    */
     public String getName()
     {
         return m_name;
     }
 
    /**
-    * Return the version identifier.
-    * @return a string identifying the build version.
+    * Return the version identifier. If the build policy is SNAPSHOT
+    * the version value returned is appended with "-DEV".  If the version is 
+    * is null and SNAPSHOT policy is enabled the returned version is DEV otherwise
+    * the versiojn returned is null.
+    *
+    * @return a string identifying the build version. 
     */
     public String getVersion()
     {
@@ -125,7 +168,7 @@ public class Info
     }
 
    /**
-    * Return the snampshot staus of this artifact.
+    * Return the snapshot staus of this artifact.
     * @return true if this artifact is marked as a snapshot
     */
     public boolean isaSnapshot()
@@ -133,6 +176,10 @@ public class Info
         return m_snapshot;
     }
 
+   /**
+    * Return a string identifying the aritfact type.
+    * @return the artifact type
+    */
     public String getType()
     {
         if( null == m_type )
@@ -145,6 +192,11 @@ public class Info
         } 
     }
 
+   /**
+    * Return a string corresponding to the name and version of this artifact
+    * without type information.
+    * @return the artifact short name
+    */
     public String getShortFilename()
     {
         final StringBuffer buffer = new StringBuffer( getName() );
@@ -156,6 +208,12 @@ public class Info
         return buffer.toString();
     }
 
+   /**
+    * Return the full filename of the artifact in the form
+    * [name]-[version].[type] or in the case of a null version 
+    * [name].[type].
+    * @return the artifact filename
+    */
     public String getFilename()
     {
         final String shortFilename = getShortFilename();
@@ -165,6 +223,10 @@ public class Info
         return buffer.toString();
     }
 
+   /**
+    * Return the path to the artifact in the form [group]/[type]s/[filename].
+    * @return the artifact relative path
+    */
     public String getPath()
     {
         final String filename = getFilename();
@@ -176,6 +238,10 @@ public class Info
         return buffer.toString();
     }
 
+   /**
+    * Return the artifact uri in the form "artifact:[type]:[spec].
+    * @return the artifact uri
+    */
     public String getURI()
     {
         final StringBuffer buffer = new StringBuffer( PROTOCOL );
@@ -186,11 +252,22 @@ public class Info
         return buffer.toString();
     }
 
+   /**
+    * Return the artifact specification in the form [group]/[name]#[version].
+    * @return the artifact spec
+    */
     public String getSpec()
     {
         return getSpecification( "/", "#" );
     }
 
+   /**
+    * Return the artifact specification using the supplied group and 
+    * version separators.
+    * @param groupSeparator the group separator
+    * @param versionSeparator the version separator
+    * @return a derived specification
+    */
     public String getSpecification( 
       String groupSeparator, String versionSeparator )
     {
@@ -205,11 +282,20 @@ public class Info
         return buffer.toString();
     }
 
+   /**
+    * Return the string representation of this info instance.
+    * @return a string representation
+    */
     public String toString()
     {
         return getURI();
     }
 
+   /**
+    * Return true if this info instance is equal to the supplied object.
+    * @param other the object to compare against this instance
+    * @return TRUE if equal
+    */
     public boolean equals( final Object other )
     {
         if( other instanceof Info )
@@ -233,6 +319,10 @@ public class Info
             return false;
         }
     }
+
+    //-------------------------------------------------------------------
+    // internal
+    //-------------------------------------------------------------------
 
     private void assertNotNull( final String key, final Object object )
     {
