@@ -9,7 +9,26 @@
     <person name="Peter Donald" email="peter@apache.org" id="PD"/>
     <person name="Jeff Turner" email="jefft@apache.org" id="JT"/>
     <person name="Paul Hammant" email="hammant@apache.org" id="PH"/>
+    <person name="Leif Mortenson" email="leif@apache.org" id="LM"/>
+    <person name="Carston Ziegeler" email="cziegeler@apache.org" id="CZ"/>
   </devs>
+  <release version="4.1.2" date="January 31, 2002">
+    <action dev="BL" type="udpate">
+      Updated the build jars.
+    </action>
+    <action dev="CZ" type="add">
+      Add EMPTY_PARAMETERS constant object to the Parameters object.
+    </action>
+    <action dev="PD" type="update">
+      Made it configurable whether you print nested exceptions or not,
+      and specify the depth that the AvalonFormatter will go with nested
+      exceptions (defaults to 8).
+    </action>
+    <action dev="LM" type="update">
+      Update build to have a "compress.jars" property (defaults to
+      true by default).
+    <action>
+  </release>
   <release version="4.1.1" date="December 21, 2001">
     <action dev="BL" type="fix">
       Force build process to produce JDK 1.2 compliant class files.

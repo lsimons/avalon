@@ -49,7 +49,7 @@
         <td align="center">
           <font face="arial,helvetica,sanserif" size="-1" color="#525D76">
             <i>
-              Copyright &#169;1999-2001 by the Apache Software Foundation.
+              Copyright &#169;1999-2002 by the Apache Software Foundation.
               All Rights Reserved.
             </i>
           </font>
