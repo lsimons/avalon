@@ -39,5 +39,9 @@
 
   <target name="dist" depends="install,site"/>
 
+  <target name="javadoc" depends="prepare">
+    <x:javadoc/>
+  </target>
+
 </project>
 
