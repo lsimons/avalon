@@ -70,11 +70,11 @@ import org.apache.log.Priority;
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/08/07 13:36:59 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/08/22 01:20:07 $
  * @since 4.0
  */
 public class LogKitLoggerManager
-    implements LoggerManager, Contextualizable, Configurable
+    implements LoggerManager, LogEnabled, Contextualizable, Configurable
 {
     /** Map for name to logger mapping */
     final private Map m_loggers = new HashMap();
@@ -92,7 +92,7 @@ public class LogKitLoggerManager
     final private Logger m_defaultLogger;
 
     /** The logger used to log output from the logger manager. */
-    final private Logger m_logger;
+    private Logger m_logger;
 
     /**
      * Creates a new <code>DefaultLogKitManager</code>. It will use a new <code>Hierarchy</code>.
@@ -149,6 +149,16 @@ public class LogKitLoggerManager
         m_prefix = prefix;
         m_hierarchy = hierarchy;
         m_defaultLogger = defaultLogger;
+        m_logger = logger;
+    }
+
+    /**
+     * Provide a logger.
+     *
+     * @param logger the logger
+     **/
+    public void enableLogging( final Logger logger )
+    {
         m_logger = logger;
     }
 
