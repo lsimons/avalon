@@ -29,11 +29,17 @@
     </description>
 
     <dependencies>
-        <dependency>
-            <id>avalon-framework</id>
-            <version>4.1.4</version>
-            <groupId>framework</groupId>
-        </dependency>
+      <dependency>
+        <groupId>avalon-framework</groupId>
+        <artifactId>avalon-framework-api</artifactId>
+        <version>4.1.5</version>
+      </dependency>
+      <dependency>
+        <groupId>avalon-framework</groupId>
+        <artifactId>avalon-framework-impl</artifactId>
+        <version>4.1.5</version>
+      </dependency>
+
         <dependency>
             <!-- testing only -->
             <id>logkit</id>
@@ -48,12 +54,6 @@
             <version>2.1</version>
         </dependency>
         <dependency>
-            <!-- testing only -->
-            <id>excalibur-testcase</id>
-            <version>1.2</version>
-            <groupId>excalibur-component</groupId>
-        </dependency>
-        <dependency>
             <id>excalibur-instrument</id>
             <version>1.0</version>
         </dependency>
@@ -63,17 +63,17 @@
             <version>1.8</version>
         </dependency>
 
-
+        <!--
         <dependency>
-            <!-- for metadata generation only -->
             <id>excalibur-fortress-tools</id>
             <version>1.0</version>
             <groupId>excalibur-fortress</groupId>
         </dependency>
         <dependency>
-            <!-- for metadata generation only -->
             <id>qdox</id>
             <version>1.1</version>
         </dependency>
+        -->
+
     </dependencies>
 </project>
