@@ -36,7 +36,7 @@ import org.apache.avalon.phoenix.interfaces.Installer;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2002/09/21 02:48:22 $
+ * @version $Revision: 1.9 $ $Date: 2002/09/25 12:46:00 $
  */
 public class DefaultInstaller
     extends AbstractLogEnabled
@@ -113,6 +113,18 @@ public class DefaultInstaller
         throws Exception
     {
         initWorkDirectory();
+        try
+        {
+            FileUtil.cleanDirectory( m_baseWorkDirectory );
+        }
+        catch( final IOException ioe )
+        {
+            final String message =
+                REZ.getString( "nodelete-workdir.error",
+                               m_baseWorkDirectory,
+                               ioe.getMessage() );
+            getLogger().warn( message, ioe );
+        }
     }
 
     /**
