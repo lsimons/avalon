@@ -311,9 +311,36 @@
         </resources>
       </dependencies>
       <tasks>
-        <taskdef name="meta" class="org.apache.avalon.meta.info.MetaTask"/>
+        <taskdef name="meta" class="org.apache.avalon.meta.info.ant.MetaTask"/>
       </tasks>
     </plugin>
+
+    <project basedir="../../runtime/meta/test/dynamics">
+      <info>
+        <group>avalon/meta/test</group>
+        <name>avalon-test-dynamics</name>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-framework-impl"/>
+        </projects>
+        <plugins>
+          <pluginref key="avalon-meta-tools"/>
+        </plugins>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/meta/test/playground">
+      <info>
+        <group>avalon/meta/test</group>
+        <name>avalon-test-playground</name>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-framework-impl"/>
+        </projects>
+      </dependencies>
+    </project>
 
     <!--
     Avalon Repository.
