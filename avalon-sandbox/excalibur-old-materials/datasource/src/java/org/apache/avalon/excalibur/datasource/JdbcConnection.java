@@ -25,13 +25,12 @@ import java.util.Map;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/01/23 15:49:52 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/01/26 16:00:31 $
  * @since 4.0
  */
 public class JdbcConnection
     extends AbstractJdbcConnection
 {
-
     public JdbcConnection( final Connection connection, final String keepAlive )
     {
         super( connection, keepAlive );
@@ -282,3 +281,4 @@ public class JdbcConnection
     }
 @JDBC3_END@
 }
+
