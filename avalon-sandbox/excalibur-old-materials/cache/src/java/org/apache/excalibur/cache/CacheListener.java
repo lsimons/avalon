@@ -19,11 +19,15 @@ public interface CacheListener
 {
     /**
      * Added new item.
+     *
+     * @param event the cache event
      */
     void added( CacheEvent event );
 
     /**
      * Removed item.
+     *
+     * @param event the cache event
      */
     void removed( CacheEvent event );
 }
