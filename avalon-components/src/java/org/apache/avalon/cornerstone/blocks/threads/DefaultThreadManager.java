@@ -8,13 +8,14 @@
 package org.apache.avalon.cornerstone.blocks.threads;
 
 import java.util.HashMap;
+
 import org.apache.avalon.cornerstone.services.threads.ThreadManager;
-import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.excalibur.thread.impl.DefaultThreadPool;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.excalibur.thread.ThreadPool;
 import org.apache.excalibur.threadcontext.ThreadContext;
 
 /**

@@ -10,15 +10,16 @@ package org.apache.avalon.cornerstone.blocks.packet;
 import java.net.DatagramSocket;
 import java.util.HashMap;
 import java.util.Iterator;
+
 import org.apache.avalon.cornerstone.services.packet.PacketHandlerFactory;
 import org.apache.avalon.cornerstone.services.packet.PacketManager;
 import org.apache.avalon.cornerstone.services.threads.ThreadManager;
-import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.excalibur.thread.ThreadPool;
 
 /**
  * This is the service through which PacketManagement occurs.

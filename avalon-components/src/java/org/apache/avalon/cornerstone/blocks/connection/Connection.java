@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Vector;
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandler;
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandlerFactory;
-import org.apache.avalon.excalibur.thread.ThreadPool;
+import org.apache.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**

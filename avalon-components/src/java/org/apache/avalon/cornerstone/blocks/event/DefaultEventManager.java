@@ -57,7 +57,6 @@ import org.apache.avalon.cornerstone.services.event.EventManager;
 import org.apache.avalon.cornerstone.services.event.Publisher;
 import org.apache.avalon.cornerstone.services.event.Register;
 import org.apache.avalon.cornerstone.services.event.Subscriber;
-import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
