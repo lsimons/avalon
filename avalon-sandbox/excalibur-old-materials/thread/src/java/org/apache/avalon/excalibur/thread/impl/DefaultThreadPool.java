@@ -22,8 +22,6 @@ import org.apache.excalibur.threadcontext.ThreadContext;
 /**
  * This class is the public frontend for the thread pool code.
  *
- * TODO: Should this be configured with min threads, max threads and min spare threads ?
- *
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
@@ -32,8 +30,11 @@ public class DefaultThreadPool
     implements ObjectFactory, Loggable, LogEnabled, Disposable, ThreadPool
 {
     private SoftResourceLimitingPool m_pool;
+
     private int m_level;
+
     private Logger m_logger;
+
     private ThreadContext m_context;
 
     public DefaultThreadPool( final int capacity )
@@ -97,7 +98,7 @@ public class DefaultThreadPool
     {
         if( object instanceof WorkerThread )
         {
-            ( (WorkerThread)object ).dispose();
+            ((WorkerThread)object).dispose();
         }
     }
 
@@ -140,10 +141,7 @@ public class DefaultThreadPool
     {
         try
         {
-            final WorkerThread worker = (WorkerThread)m_pool.get();
-            //TODO: Remove next line
-            worker.setContextClassLoader( Thread.currentThread().getContextClassLoader() );
-            return worker;
+            return (WorkerThread)m_pool.get();
         }
         catch( final Exception e )
         {
