@@ -992,6 +992,10 @@ public class DefaultFactory implements Factory
                   {
                       // ignore it
                   }
+                  finally
+                  {
+                      System.runFinalization();
+                  }
               }
           }
         );
