@@ -245,15 +245,6 @@ public class NamespacedSAXConfigurationHandler
         m_elements.add( configuration );
         m_values.add( new StringBuffer() );
 
-        if( preserveSpace )
-        {
-            m_preserveSpace.set( depth );
-        }
-        else
-        {
-            m_preserveSpace.clear( depth );
-        }
-        
         final ArrayList prefixes = new ArrayList();
         AttributesImpl componentAttr = new AttributesImpl();
 
@@ -265,6 +256,10 @@ public class NamespacedSAXConfigurationHandler
                 this.startPrefixMapping( attributes.getLocalName( i ),
                                          attributes.getValue( i ) );
             }
+            else if ( attributes.getQName( i ).equals( "xml:space" ) )
+            {
+                preserveSpace = attributes.getValue( i ).equals( "preserve" );
+            }
             else
             {
                 componentAttr.addAttribute( attributes.getURI( i ),
@@ -273,6 +268,15 @@ public class NamespacedSAXConfigurationHandler
                                             attributes.getType( i ),
                                             attributes.getValue( i ) );
             }
+        }
+
+        if( preserveSpace )
+        {
+            m_preserveSpace.set( depth );
+        }
+        else
+        {
+            m_preserveSpace.clear( depth );
         }
 
         m_prefixes.add( prefixes );
