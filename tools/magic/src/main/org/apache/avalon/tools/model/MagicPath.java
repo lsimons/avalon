@@ -21,6 +21,7 @@ import java.io.File;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
+import org.apache.tools.ant.types.Reference;
 import org.apache.tools.ant.types.Path;
 
 /**
@@ -114,11 +115,28 @@ public class MagicPath extends Path
     // private
     //------------------------------------------------------------
 
+    public Object clone()
+    {
+        setup();
+        return super.clone();
+    }
 
     public String[] list()
     {
         setup();
         return super.list();
+    }
+
+    public int size()
+    {
+        setup();
+        return super.size();
+    }
+
+    public String toString()
+    {
+        setup();
+        return super.toString();
     }
 
     private int getMode()

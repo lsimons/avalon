@@ -70,14 +70,6 @@ public class ReplicateTask extends Task
    /**
     * The id of a repository based path.
     */
-    public void setRefid( Path path )
-    {
-        m_path = path;
-    }
-    
-   /**
-    * The id of a repository based path.
-    */
     public void setRefid( String id )
         throws BuildException
     {
@@ -130,6 +122,8 @@ public class ReplicateTask extends Task
 
     private FileSet createFileSet( final File cache, final Path path )
     {
+        getProject().log( "using replication path: " + m_path, Project.MSG_VERBOSE );
+
         String root = cache.toString();
         String sequence = path.toString();
         String[] translation = Path.translatePath( getProject(), sequence );
