@@ -9,8 +9,6 @@ package org.apache.avalon.cornerstone.services.scheduler;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
 
 /**
  * Factory for <code>TimeTrigger</code>s.
@@ -20,7 +18,7 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 public class TimeTriggerFactory
 {
     /**
-     * Create <code>TimeTrigger</code> with configuration.
+     * Create <code>TimeTrigger</code> from configuration.
      *
      * @param conf configuration for time trigger
      */
