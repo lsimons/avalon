@@ -55,14 +55,13 @@ import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.NullLogger;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.DefaultServiceManager;
-import org.apache.avalon.fortress.test.util.FullLifecycleComponent;
 
 /**
  * This class provides basic facilities for enforcing Avalon's contracts
  * within your own code.
  *
  * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/04/21 17:52:09 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/04/21 18:05:03 $
  */
 public final class ComponentTestCase
     extends TestCase
