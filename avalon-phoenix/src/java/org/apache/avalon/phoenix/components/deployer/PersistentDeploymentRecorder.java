@@ -33,7 +33,8 @@ public class PersistentDeploymentRecorder extends AbstractLogEnabled implements 
         ResourceManager.getPackageResources( PersistentDeploymentRecorder.class );
 
     private final static String PHOENIX_HOME  = System.getProperty( "phoenix.home", ".." );
-    private final static String VAR_PATH      =  PHOENIX_HOME + File.separator + "var";
+    private final static String VAR_PATH      =  PHOENIX_HOME + File.separator + 
+        "conf" + File.separator + "installs";
     private final static String DIGEST_SUFFIX = "install.log";
     
     private final static String SOURCE      = "source";
@@ -96,9 +97,9 @@ public class PersistentDeploymentRecorder extends AbstractLogEnabled implements 
             }            
             configuration.addChild( digests );
             
-            //create 'var' directory if not present
+            //create 'conf/installs' directory if not present
             final File var = new File( VAR_PATH );
-            if( !var.exists() ) var.mkdir();
+            if( !var.exists() ) var.mkdirs();
                         
             m_serializer.serializeToFile( file, configuration );
             
