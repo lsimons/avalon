@@ -46,9 +46,9 @@ Legal:
   <property name="build.compiler.depend" value="true"/>
   <property name="build.compiler.fulldepend" value="true"/>
 
-  <property name="debug" value="on"/>
-  <property name="optimize" value="off"/>
-  <property name="deprecation" value="off"/>
+  <property name="build.debug" value="on"/>
+  <property name="build.optimize" value="off"/>
+  <property name="build.deprecation" value="off"/>
 
   <!-- Set the properties for intermediate directory -->
   <property name="build.dir" value="build"/>
@@ -130,7 +130,7 @@ Legal:
   </path>
 
   <!-- Main target -->
-  <target name="main" depends="jar" />
+  <target name="main" depends="all" />
 
   <!-- Help on usage -->
   <target name="usage">
@@ -140,16 +140,15 @@ Legal:
     <echo message=""/>
     <echo message=" available targets are:"/>
     <echo message=""/>
-    <echo message="   jar          -> generates the ${Name} jar files"/>
-    <echo message="   test         -> perform unit tests"/>
+    <echo message="   all          -> generates the ${Name} jar files"/>
+    <echo message="   check        -> perform unit tests"/>
     <echo message="   compile      -> compiles the source code"/>
     <echo message="   javadocs     -> generates the API documentation"/>
     <echo message="   docs         -> generates the ${Name} Documentation"/>
-    <echo message="   main         -> generates the ${Name} distribution without the javadocs (default)"/>
+    <echo message="   printerdocs  -> generates the ${Name} printer Documentation"/>
     <echo message="   dist         -> generates the ${Name} distribution"/>
     <echo message="   clean        -> cleans up the created directories"/>
-    <echo message="   real-clean   -> cleans up all genereated files and directories"/>
-    <echo message="   proposal     -> generates the ${Name} proposal distribution without the javadocs"/>
+    <echo message="   distclean    -> cleans up all genereated files and directories"/>
     <echo message=""/>
     <echo message="-------------------------------------------------------------"/>
     <echo message=""/>
@@ -287,7 +286,9 @@ Legal:
 
   </target>
 
-  <target name="test" depends="compile" >
+  <target name="test" depends="check"/>
+
+  <target name="check" depends="compile" >
     <mkdir dir="${build.reports}"/>
 
     <echo message="Performing Unit Tests" />
@@ -426,7 +427,7 @@ Legal:
 
   </target>
 
-  <target name="local-docs" depends="local-javadocs,xdocs">
+  <target name="local-docs" depends="local-javadocs,docs">
     <copy todir="${docs.dir}">
       <fileset dir="${build.docs}"/>
     </copy>
@@ -492,7 +493,7 @@ Legal:
   </target>
 
   <!-- Creates all the .jar files -->
-  <target name="jar" depends="compile">
+  <target name="all" depends="compile">
 
     <mkdir dir="${build.lib}"/>
 
@@ -508,7 +509,7 @@ Legal:
 
   </target>
 
-  <target name="install" depends="jar,install-check-cjan">
+  <target name="install" depends="all,install-check-cjan">
 
     <mkdir dir="${cjan.lib}" />
     <copy file="${build.lib}/avalon-excalibur.jar" todir="${cjan.lib}"/>
@@ -520,8 +521,13 @@ Legal:
     <fail message="cjan.lib not specified." />
   </target>
 
+  <target name="uninstall" depends="install-check-cjan">
+    <delete file="${build.lib}/avalon-excalibur.jar" dir="${cjan.lib}"/>
+    <delete file="${build.lib}/${scratchpad.name}.jar" dir="${cjan.lib}"/>
+  </target>
+
   <!-- Create the distribution -->
-  <target name="dist" depends="jar,javadocs,test-report">
+  <target name="dist-base" depends="all,javadocs,test-report">
 
     <mkdir dir="${dist.dir}"/>
     <copy file="${build.lib}/avalon-excalibur.jar" tofile="${dist.dir}/avalon-excalibur-${version}.jar"/>
@@ -560,9 +566,12 @@ Legal:
 
   </target>
 
+  <target name="printerdocs" depends="javadocs">
+    <echo message="Printer friendly docs are not yet implemented"/>
+  </target>
 
   <!-- Prepares the documentation directory -->
-  <target name="xdocs">
+  <target name="docs" depends="javadocs">
 
     <mkdir dir="${build.context}"/>
     <mkdir dir="${build.xdocs}"/>
@@ -680,10 +689,10 @@ Legal:
   </target>
 
   <!-- Completely build all dists -->
-  <target name="distributions" depends="announcement,site-docs">
+  <target name="dist" depends="announcement,site-docs">
     <mkdir dir="${dist.base}"/>
 
-    <antcall target="dist">
+    <antcall target="dist-base">
       <param name="dist.dir" value="${dist.name}" />
     </antcall>
 
@@ -752,7 +761,7 @@ Legal:
   </target>
 
   <!-- Cleans absolutely everything up -->
-  <target name="real-clean" depends="clean">
+  <target name="distclean" depends="clean">
     <delete dir="${docs.dir}" />
     <delete dir="${dist.base}" />
     <delete dir="${src.dist.dir}" />
