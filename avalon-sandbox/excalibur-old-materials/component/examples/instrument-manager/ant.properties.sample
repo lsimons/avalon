@@ -9,7 +9,7 @@
 # The ant.properties values in this directory apply only to this component, and
 # override the defaults in ../ant.properties.
 #
-# $Id: ant.properties.sample,v 1.5 2003/02/08 14:40:39 hammant Exp $
+# $Id: ant.properties.sample,v 1.6 2003/08/01 06:05:22 leif Exp $
 # -----------------------------------------------------------------------------
 
 # --------------------------------------------------
@@ -28,70 +28,6 @@ base.path=/opt
 # --------------------------------------------------
 #                REQUIRED LIBRARIES
 # --------------------------------------------------
-
-# ----- Xerces -----
-xerces.home=../../../../avalon/tools/lib/
-xerces.jar=${xerces.home}/xerces-2.0.1.jar
-
-# ----- XML-APIs -----
-xml-apis.home=../../../../avalon/tools/lib/
-xml-apis.jar=${xml-apis.home}/xml-apis.jar
-
-# ----- Xalan -----
-xalan.home=../../../../avalon/tools/lib/
-xalan.jar=${xalan.home}/xalan-2.3.1.jar
-
-# ----- Logkit -----
-logkit.home=../../../../avalon-logkit/build/lib
-logkit.jar=${logkit.home}/logkit.jar
-
-# ----- Avalon Framework -----
-avalon-framework.home=../../../../avalon/build/lib
-avalon-framework.jar=${avalon-framework.home}/avalon-framework.jar
-
-# ----- Excalibur Concurrent -----
-excalibur-concurrent.home=../../../concurrent/build/lib
-excalibur-concurrent.jar=${excalibur-concurrent.home}/excalibur-concurrent-1.0.jar
-
-# ----- Excalibur Collections -----
-excalibur-collections.home=../../../collections/build/lib
-excalibur-collections.jar=${excalibur-collections.home}/excalibur-collections-1.0.jar
-
-# ----- Excalibur Component -----
-excalibur-component.home=../../../component/build/lib
-excalibur-component.jar=${excalibur-component.home}/excalibur-component-1.0.jar
-
-# ----- Excalibur Logger -----
-excalibur-logger.home=../../../logger/build/lib
-excalibur-logger.jar=${excalibur-logger.home}/excalibur-logger-1.0.jar
-
-# ----- Excalibur Pool -----
-excalibur-pool.home=../../../pool/build/lib
-excalibur-pool.jar=${excalibur-pool.home}/excalibur-pool-1.1.jar
-
-# ----- Excalibur instrument -----
-excalibur-instrument.home=../../../instrument/dist
-excalibur-instrument.lib=${excalibur-instrument.home}
-excalibur-instrument.jar=${excalibur-instrument.lib}/excalibur-instrument-0.3.jar
-
-# ----- Excalibur instrument-manager -----
-excalibur-instrument-manager.home=../../../instrument-manager/dist
-excalibur-instrument-manager.lib=${excalibur-instrument-manager.home}
-excalibur-instrument-manager.jar=${excalibur-instrument-manager.lib}/excalibur-instrument-manager-0.3.jar
-excalibur-instrument-manager-interfaces.jar=${excalibur-instrument-manager.lib}/excalibur-instrument-manager-interfaces-0.3.jar
-
-# ----- AltRMI -----
-excalibur-altrmi.home=../../../altrmi/build/lib
-excalibur-altrmi-common.jar=${excalibur-altrmi.home}/excalibur-altrmi-common-0.7.jar
-excalibur-altrmi-server-impl.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-impl-0.7.jar
-excalibur-altrmi-server-interfaces.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-interfaces-0.7.jar
-
-# ----- JUnit Unit Test Suite, version 3.7 or later -----
-junit.home=${base.path}/junit3.7
-junit.lib=${junit.home}
-junit.jar=${junit.lib}/junit.jar
-
-
 
 # --------------------------------------------------
 #                OPTIONAL LIBRARIES

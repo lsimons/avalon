@@ -75,11 +75,17 @@
             todir="${lib.dir}" preservelastmodified="yes"/>
 
         <!-- Avalon Excalibur Container -->
+        <!--
         <copy file="${excalibur-container.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
+        -->
 
         <!-- Avalon Excalibur Logger -->
         <copy file="${excalibur-logger.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+
+        <!-- Avalon Excalibur i18n -->
+        <copy file="${excalibur-i18n.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
 
         <!-- Avalon Excalibur Pool -->
@@ -97,11 +103,19 @@
             todir="${lib.dir}" preservelastmodified="yes"/>
 
         <!-- Altrmi Jars -->
-        <copy file="${excalibur-altrmi-common.jar}"
+        <copy file="${altrmi-common.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
-        <copy file="${excalibur-altrmi-server-impl.jar}"
+        <copy file="${altrmi-server-impl.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
-        <copy file="${excalibur-altrmi-server-interfaces.jar}"
+        <copy file="${altrmi-server-interfaces.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Doug Lea's Concurrent Utils -->
+        <copy file="${util.concurrent.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Commons collections -->
+        <copy file="${commons-collections.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
     </target>
 
