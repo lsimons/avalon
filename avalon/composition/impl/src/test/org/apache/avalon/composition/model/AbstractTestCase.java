@@ -82,7 +82,7 @@ public abstract class AbstractTestCase extends TestCase
                   SystemContextBuilder.createSystemContext( 
                     context, base, root, PRIORITY, true, 1000 );
                 ModelFactory factory = system.getModelFactory();
-                m_model = factory.createContainmentModel( source.toURL() );
+                m_model = factory.createRootContainmentModel( source.toURL() );
             }
             catch( Throwable e )
             {

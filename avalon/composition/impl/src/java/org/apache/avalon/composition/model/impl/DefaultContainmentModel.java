@@ -91,7 +91,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.25 $ $Date: 2004/02/07 06:06:30 $
+ * @version $Revision: 1.26 $ $Date: 2004/02/07 17:41:28 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -968,59 +968,13 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     private ComponentModel createComponentModel( final ComponentProfile profile ) 
       throws ModelException
     {
-        if( null == profile )
-        {
-            throw new NullPointerException( "profile" );
-        }
-
-        final String name = profile.getName();
-        final String partition = getPartition();
-
-        LoggingManager logging = m_context.getSystemContext().getLoggingManager();
-        CategoriesDirective categories = profile.getCategories();
-        if( null != categories )
-        {   
-            logging.addCategories( partition, profile.getCategories() );
-        }
-        Logger logger = logging.getLoggerForCategory( partition + name );
-        if( getLogger().isDebugEnabled() )
-        {
-            final String message = 
-              StringHelper.toString( REZ.getString( "containment.add", name ) );
-            getLogger().debug(  message );
-        }
-
-        try
-        {
-            ClassLoader classLoader = m_context.getClassLoader();
-            Class base = classLoader.loadClass( profile.getClassname() );
-            Type type = 
-              m_context.getClassLoaderModel().getTypeRepository().getType( base );
-            final File home = new File( m_context.getHomeDirectory(), name );
-            final File temp = new File( m_context.getTempDirectory(), name );
-
-            DefaultComponentContext context = 
-              new DefaultComponentContext( 
-                logger, name, m_context, this, 
-                profile, type, base, home, temp, partition );
-
-            //
-            // TODO: lookup the profile for a factory declaration, then 
-            // use the factory to create the model using the context as 
-            // the argument.
-            //
-
-            return new DefaultComponentModel( context );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              REZ.getString( 
-                "containment.deployment.create.error", 
-                getPath(), 
-                profile.getName() );
-            throw new ModelException( error, e );
-        }
+        ComponentModelContextHelper helper = 
+          new ComponentModelContextHelper( m_context, this );
+        ComponentContext context = 
+          helper.createComponentContext( profile );
+        ModelFactory factory = 
+          m_context.getSystemContext().getModelFactory();
+        return factory.createComponentModel( context );
     }
 
    /**

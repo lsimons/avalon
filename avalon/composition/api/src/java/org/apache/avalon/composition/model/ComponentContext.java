@@ -33,7 +33,7 @@ import org.apache.avalon.meta.info.Type;
  * Defintion of a component deployment context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/06 15:27:14 $
+ * @version $Revision: 1.5 $ $Date: 2004/02/07 17:41:28 $
  */
 public interface ComponentContext extends DeploymentContext
 {
@@ -68,13 +68,6 @@ public interface ComponentContext extends DeploymentContext
     * @return the system context
     */
     SystemContext getSystemContext();
-
-   /**
-    * Return the containment context.
-    *
-    * @return the containment context
-    */
-    ContainmentContext getContainmentContext();
 
    /**
     * Return the working directory for the component.
