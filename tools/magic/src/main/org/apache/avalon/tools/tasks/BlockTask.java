@@ -326,6 +326,7 @@ public class BlockTask extends DeclareTask
     private void writeService( final Writer writer, final Service service )
         throws IOException
     {
+        writer.write( "\n" );
         writer.write( "\n  <services>" );
         writer.write( "\n    <service type=\"" + service.getType() + "\">" );
         writer.write( "\n      <source>" + service.getSource() + "</source>" );
