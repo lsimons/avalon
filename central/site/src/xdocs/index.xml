@@ -20,21 +20,21 @@
          <td class="header" valign="top">
            <center>
              <a href="central/about/index.html">
-               <img src="images/central-text.png"/>
+               <img alt="central" src="images/central-text.png"/>
              </a>
            </center>
          </td>
          <td class="header"  valign="top" align="center">
            <center>
              <a href="planet/index.html">
-               <img src="images/products-text.png"/>
+               <img alt="planet" src="images/products-text.png"/>
              </a>
            </center>
          </td>
          <td class="header"  valign="top" align="center">
            <center>
              <a href="planet/index.html">
-               <img src="images/planet-text.png"/>
+               <img alt="planet" src="images/planet-text.png"/>
              </a>
            </center>
          </td>
@@ -45,28 +45,28 @@
              <tr>
                <td>
                  <a class="doclink" href="central/about/tutorials/index.html">
-                   <img src="images/tutorials.png"/>
+                   <img alt="tutorials" src="images/tutorials.png"/>
                  </a>
                </td>
              </tr>
              <tr>
                <td>
                  <a class="doclink" href="central/resources/mailing-lists.html">
-                   <img src="images/mail_issues.png"/>
+                   <img alt="mailing-lists" src="images/mail_issues.png"/>
                  </a>
                </td>
              </tr>
              <tr>
                <td>
                  <a class="doclink" href="download.cgi">
-                   <img src="images/downloads.png"/>
+                   <img alt="download" src="images/downloads.png"/>
                  </a>
                </td>
              </tr>
              <tr>
                <td>
                  <a class="doclink" href="central/tools/index.html">
-                   <img src="images/tools-text.png"/>
+                   <img alt="tools" src="images/tools-text.png"/>
                  </a>
                </td>
              </tr>
@@ -77,7 +77,7 @@
              <tr>
                <td>
                  <a class="doclink" href="products/runtime/index.html">
-                   <img src="images/merlin-label.png"/>
+                   <img alt="runtime" src="images/merlin-label.png"/>
                  </a>
                </td>
              </tr>
@@ -88,14 +88,14 @@
              <tr>
                <td>
                  <a class="doclink" href="planet/components/index.html">
-                   <img src="images/library.png"/>
+                   <img alt="components" src="images/library.png"/>
                  </a>
                </td>
              </tr>
              <tr>
                <td>
                  <a class="doclink" href="planet/facilities/index.html">
-                   <img src="images/facilities-text.png"/>
+                   <img alt="facilities" src="images/facilities-text.png"/>
                  </a>
                </td>
              </tr>
@@ -103,38 +103,6 @@
          </td>
        </tr>
      </table>
-
-     <!--
-     <table>
-      <tr>
-        <th><a href="central/about/index.html">CENTRAL</a></th>
-        <th><a href="central/runtime/index.html">PRODUCTS</a></th>
-        <th><a href="central/components/index.html">PLANET</a></th>
-      </tr>
-      <tr>
-        <td>
-          <p>
-          <a href="central/about/tutorials/index.html">Tutorials</a><br/>
-          <a href="central/resources/mailing-lists.html">Mailing Lists</a><br/>
-          <a href="central/resources/issues.html">Issue Tracking</a><br/>
-          <a href="central/download.cgi">Downloads</a><br/>
-          <a href="central/tools/index.html">Tools</a>
-          </p>
-        </td>
-        <td>
-          <p>
-          <a href="products/runtime/index.html">Merlin Runtime</a>
-          </p>
-        </td>
-        <td>
-          <p>
-          <a href="planet/components/index.html">Component Library</a><br/>
-          <a href="planet/facilities/index.html">Facilities</a>
-          </p>
-        </td>
-      </tr>
-     </table>
-     -->
 
      </section>
 
