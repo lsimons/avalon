@@ -27,8 +27,6 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.container.ContainerUtil;
-import org.apache.avalon.phoenix.components.lifecycle.ComponentEntry;
-import org.apache.avalon.phoenix.components.lifecycle.ResourceAccessor;
 
 /**
  * This is a class to help an Application manage lifecycle of
@@ -71,7 +69,7 @@ public class LifecycleHelper
      *            through a specific lifecycle stage
      */
     public Object startup( final String name,
-                           final ComponentEntry entry,
+                           final Object entry,
                            final ResourceAccessor accessor )
         throws Exception
     {
@@ -173,14 +171,11 @@ public class LifecycleHelper
      * Avalon Lifecycle methods and updating State property of BlockEntry.
      * Errors that occur during shutdown will be logged appropraitely.
      *
-     * @param entry the entry containing Block
+     * @param object the component to shutdown
      */
     public void shutdown( final String name,
-                          final ComponentEntry entry )
+                          final Object object )
     {
-        final Object object = entry.getObject();
-        entry.invalidate();
-
         //Stoppable stage
         if( object instanceof Startable )
         {
