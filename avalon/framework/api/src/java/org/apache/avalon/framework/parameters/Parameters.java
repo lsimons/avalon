@@ -7,6 +7,7 @@
  */
 package org.apache.avalon.framework.parameters;
 
+import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -24,6 +25,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class Parameters
+    implements Serializable
 {
     ///Underlying store of parameters
     private HashMap            m_parameters = new HashMap();
