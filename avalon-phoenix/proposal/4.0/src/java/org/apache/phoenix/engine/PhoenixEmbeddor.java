@@ -16,6 +16,7 @@ import org.apache.framework.parameters.Parameters;
 import org.apache.framework.parameters.ParameterException;
 
 import org.apache.framework.context.Context;
+import org.apache.framework.context.Contextualizable;
 import org.apache.framework.context.DefaultContext;
 import org.apache.framework.context.ContextualizationException;
 
@@ -43,6 +44,7 @@ import org.apache.avalon.atlantis.facilities.Manager;
 import org.apache.avalon.atlantis.core.Kernel;
 import org.apache.avalon.atlantis.core.Embeddor;
 import org.apache.phoenix.engine.facilities.ManagerImpl;
+import org.apache.phoenix.engine.facilities.ThreadManagerImpl;
 
 import org.apache.avalon.aut.log.AvalonLogFormatter;
 import org.apache.log.output.FileOutputLogTarget;
@@ -417,7 +419,7 @@ public class PhoenixEmbeddor
                 ((Configurable)this.kernel).configure( configuration );
             }
             catch( Exception e ) { throw new StartException(
-                        "Unable to configuration kernel from "+kernelConfigLocation, e ); }
+                        "Unable to configure kernel from "+kernelConfigLocation, e ); }
         }
         if( this.kernel instanceof Contextualizable )
         {
@@ -425,7 +427,12 @@ public class PhoenixEmbeddor
             // create them here and put them in the kernel's Context.
             this.createKernelContext();
             final Contextualizable contextualizable = (Contextualizable)this.kernel;
+            try
+            {
             contextualizable.contextualize( this.kernelContext );
+            }
+            catch( Exception e ) { throw new StartException(
+                        "Unable to contextualize kernel", e ); }
         }
 
         try
@@ -442,6 +449,7 @@ public class PhoenixEmbeddor
         this.kernelContext = new DefaultContext();
 
         kernelContext.put( "facilities.manager", this.manager );
+        kernelContext.put( "facilities.threadManager", new ThreadManagerImpl() );
     }
 
     /**
