@@ -32,13 +32,6 @@ Issues:
 * How do components in Scratchpad be promoted to Excalibur?
   In other words, what are the exit criteria?
 
-* Should we update to use Velocity rather than Stylebook
-
-  - Considering the recent move to Cocoon/DocBook, I would
-    be -1 on Velocity.  Although, Cocoon can use velocity. (BL)
-
-  - Sounds good to me (PD)
-
 * Should we wait for commons to build component directory 
   or do it ourselves?
 
@@ -47,9 +40,6 @@ Issues:
     component repository) but we don't have a nice easily integratable
     interface lookup/discover and download components separately. (ie
     think combination of RpmFind, CPAN and tucows) (PD)
-
-* should we write our own doclet to better integrate documentation
-  of distributed src files.
 
 * Should we support download of resources via JNLP/CJAN/JJAN
 
@@ -69,8 +59,6 @@ Issues:
     an easy migration path.  DocBook affords a better semantic view of the
     documentation plus more tools to create alternate formats. (BL)
   - +1 (PD)
-
-* Should we move stylebook sheets into jakarta-site CVS
 
 * Enhance Parameters so that it can be built from writer/inputstream in such a
   way that it reads in velocity/turbine style parameters
