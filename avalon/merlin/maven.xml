@@ -377,7 +377,7 @@
       </ant:exec>
     </j:if>
 
-    <!-- TODO 644 for .sh files and 755 for directories -->
+    <!-- TODO 755 for .sh files -->
 
     <ant:echo>Building tar distribution: ${package.name}</ant:echo>
     <ant:tar longfile="gnu" tarfile="${maven.build.dir}/${package.name}.tar">
