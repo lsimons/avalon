@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.activation.csi.grant.components;
+package org.apache.avalon.activation.impl.test.components;
 
 import java.io.File;
 

@@ -23,18 +23,18 @@ Example block deployment descriptor.
 
   <container name="Component1" >
     <services>
-      <service type="org.apache.avalon.activation.csi.grant.components.TestService">
+      <service type="org.apache.avalon.activation.impl.test.components.TestService">
         <source>test</source>
       </service>
     </services>
     <component name="test"
-       class="org.apache.avalon.activation.csi.grant.components.TestComponent"
+       class="org.apache.avalon.activation.impl.test.components.TestComponent"
        activation="startup"/>
   </container>
 
   <container name="Component2" >
     <component name="anothertest"
-       class="org.apache.avalon.activation.csi.grant.components.AnotherTestComponent"
+       class="org.apache.avalon.activation.impl.test.components.AnotherTestComponent"
        activation="startup">
     </component>
   </container>

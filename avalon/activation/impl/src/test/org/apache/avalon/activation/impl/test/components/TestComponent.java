@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.activation.csi.grant.components;
+package org.apache.avalon.activation.impl.test.components;
 
 import java.io.File;
 
@@ -30,7 +30,7 @@ import org.apache.avalon.framework.context.Context;
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @avalon.component name="test" lifestyle="singleton"
- * @avalon.service type="org.apache.avalon.activation.csi.grant.components.TestService"
+ * @avalon.service type="org.apache.avalon.activation.impl.test.components.TestService"
  */
 public class TestComponent extends AbstractLogEnabled 
   implements Contextualizable, TestService
