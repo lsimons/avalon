@@ -162,12 +162,12 @@
   <!-- Get catalina jars from apache repository -->
   <target name="get-catalina">
  
-    <mkdir  dir="tmp-dir-to-delete"/>
+    <mkdir  dir="catalina-download"/>
     <mkdir dir="${lib.dir}"/>
     <mkdir dir="${tomcat.jars.dir}"/>
 
     <get src="http://jakarta.apache.org/builds/jakarta-tomcat-4.0/release/v4.0.3/bin/jakarta-tomcat-4.0.3.zip" 
-    dest="tmp-dir-to-delete/jakarta-tomcat.zip" 
+    dest="catalina-download/jakarta-tomcat.zip" 
     verbose="true"
     usetimestamp="true"/>
     
@@ -198,16 +198,14 @@
     />
 
 
-    <unzip src="tmp-dir-to-delete/jakarta-tomcat.zip" dest="tmp-dir-to-delete" />
+    <unzip src="catalina-download/jakarta-tomcat.zip" dest="catalina-download" />
     
     <copy todir="${tomcat.jars.dir}" flatten="true">
-      <fileset dir="tmp-dir-to-delete">
+      <fileset dir="catalina-download">
         <include  name="**/bin/*.jar"/>
         <include  name="**/lib/*.jar"/>
       </fileset>
-    </copy>
-    
-    <delete dir="tmp-dir-to-delete"/>
+    </copy>   
     
   </target>
  
@@ -312,9 +310,13 @@
         <include name="*.jar"/>
       </lib>
 
+      <!-- 
+
       <lib dir="${java.home}/../lib/">
         <include name="tools.jar"/>
       </lib>
+      
+      -->
     </sar>
     
     <mkdir dir="dist"/>
@@ -713,13 +715,8 @@
       <lib dir="${tomcat.jars.dir}">
         <include name="*.jar"/>
       </lib>
-
-      
-      <lib dir="${java.home}/../lib/">
-        <include name="tools.jar"/>
-      </lib>
     
-      <zipfileset dir="${demo.dir}/webapps/" prefix="webapps"/>
+      <zipfileset dir="catalina-download/jakarta-tomcat-4.0.3/webapps" prefix="webapps"/>
 
     </sar>
 
