@@ -4,6 +4,10 @@
     <embeddor role="org.apache.avalon.phoenix.interfaces.Embeddor"
         class="org.apache.avalon.phoenix.components.embeddor.DefaultEmbeddor">
 
+        <component role="org.apache.avalon.phoenix.interfaces.Installer"
+            class="org.apache.avalon.phoenix.components.installer.DefaultInstaller"
+            logger="installer"/>
+
         <component role="org.apache.avalon.phoenix.interfaces.Deployer"
             class="org.apache.avalon.phoenix.components.deployer.DefaultDeployer"
             logger="deployer"/>

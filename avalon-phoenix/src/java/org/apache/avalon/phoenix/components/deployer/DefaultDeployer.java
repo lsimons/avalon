@@ -8,7 +8,6 @@
 package org.apache.avalon.phoenix.components.deployer;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
@@ -23,15 +22,9 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.parameters.ParameterException;
-import org.apache.avalon.framework.parameters.Parameterizable;
-import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.phoenix.interfaces.Installation;
-import org.apache.avalon.phoenix.interfaces.InstallationException;
-import org.apache.avalon.phoenix.components.installer.DefaultInstaller;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
@@ -39,6 +32,9 @@ import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
 import org.apache.avalon.phoenix.interfaces.Deployer;
 import org.apache.avalon.phoenix.interfaces.DeployerMBean;
 import org.apache.avalon.phoenix.interfaces.DeploymentException;
+import org.apache.avalon.phoenix.interfaces.Installation;
+import org.apache.avalon.phoenix.interfaces.InstallationException;
+import org.apache.avalon.phoenix.interfaces.Installer;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
@@ -58,71 +54,20 @@ import org.apache.avalon.phoenix.tools.verifier.VerifyException;
  */
 public class DefaultDeployer
     extends AbstractLogEnabled
-    implements Deployer, Parameterizable, Serviceable, Initializable, Disposable, DeployerMBean
+    implements Deployer, Serviceable, Initializable, Disposable, DeployerMBean
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultDeployer.class );
 
     private final Assembler m_assembler = new Assembler();
     private final SarVerifier m_verifier = new SarVerifier();
-    private final DefaultInstaller m_installer = new DefaultInstaller();
     private final Map m_installations = new Hashtable();
     private LogManager m_logManager;
     private Kernel m_kernel;
+    private Installer m_installer;
     private ConfigurationRepository m_repository;
     private ClassLoaderManager m_classLoaderManager;
     private ConfigurationValidator m_validator;
-
-    /**
-     * The directory which is used as the base for
-     * extracting all temporary files from archives. It is
-     * expected that the temporary files will be deleted when
-     * the .sar file is undeployed.
-     */
-    private File m_baseWorkDirectory;
-
-    /**
-     * The base directory in which applications are deployed.
-     */
-    private File m_baseDirectory;
-
-    /**
-     * Retrieve parameter that specifies work directory.
-     *
-     * @param parameters the parameters to read
-     * @throws ParameterException if invlaid work directory
-     */
-    public void parameterize( final Parameters parameters )
-        throws ParameterException
-    {
-        final String phoenixHome = parameters.getParameter( "phoenix.home" );
-        final String defaultWorkDir = phoenixHome + File.separator + "work";
-        final String defaultAppsDir = phoenixHome + File.separator + "apps";
-        final String rawWorkDir =
-            parameters.getParameter( "phoenix.work.dir", defaultWorkDir );
-        final String rawAppsDir =
-            parameters.getParameter( "phoenix.apps.dir", defaultAppsDir );
-
-        final File workDir = new File( rawWorkDir );
-        try
-        {
-            m_baseWorkDirectory = workDir.getCanonicalFile();
-        }
-        catch( final IOException ioe )
-        {
-            m_baseWorkDirectory = workDir.getAbsoluteFile();
-        }
-
-        final File appsDir = new File( rawAppsDir );
-        try
-        {
-            m_baseDirectory = appsDir.getCanonicalFile();
-        }
-        catch( final IOException ioe )
-        {
-            m_baseDirectory = appsDir.getAbsoluteFile();
-        }
-    }
 
     /**
      * Retrieve relevant services needed to deploy.
@@ -133,25 +78,21 @@ public class DefaultDeployer
     public void service( final ServiceManager serviceManager )
         throws ServiceException
     {
-        m_kernel = (Kernel)serviceManager.lookup( Kernel.ROLE );
-        m_repository = (ConfigurationRepository)serviceManager.
+        m_kernel = (Kernel) serviceManager.lookup( Kernel.ROLE );
+        m_repository = (ConfigurationRepository) serviceManager.
             lookup( ConfigurationRepository.ROLE );
-        m_classLoaderManager = (ClassLoaderManager)serviceManager.
+        m_classLoaderManager = (ClassLoaderManager) serviceManager.
             lookup( ClassLoaderManager.ROLE );
-        m_logManager = (LogManager)serviceManager.lookup( LogManager.ROLE );
-        m_validator = (ConfigurationValidator)serviceManager.lookup( ConfigurationValidator.ROLE );
+        m_logManager = (LogManager) serviceManager.lookup( LogManager.ROLE );
+        m_validator = (ConfigurationValidator) serviceManager.lookup( ConfigurationValidator.ROLE );
+        m_installer = (Installer) serviceManager.lookup( Installer.ROLE );
     }
 
     public void initialize()
         throws Exception
     {
-        initWorkDirectory();
-
-        setupLogger( m_installer );
         setupLogger( m_assembler );
         setupLogger( m_verifier );
-        m_installer.setBaseDirectory( m_baseDirectory );
-        m_installer.setBaseWorkDirectory( m_baseWorkDirectory );
     }
 
     /**
@@ -162,7 +103,7 @@ public class DefaultDeployer
     {
         final Set set = m_installations.keySet();
         final String[] applications =
-            (String[])set.toArray( new String[ set.size() ] );
+            (String[]) set.toArray( new String[ set.size() ] );
         for( int i = 0; i < applications.length; i++ )
         {
             final String name = applications[ i ];
@@ -191,7 +132,7 @@ public class DefaultDeployer
         throws DeploymentException
     {
         final Installation installation =
-            (Installation)m_installations.get( name );
+            (Installation) m_installations.get( name );
         if( null == installation )
         {
             final String message =
@@ -220,7 +161,7 @@ public class DefaultDeployer
         throws DeploymentException
     {
         final Installation installation =
-            (Installation)m_installations.remove( name );
+            (Installation) m_installations.remove( name );
         if( null == installation )
         {
             final String message =
@@ -569,38 +510,5 @@ public class DefaultDeployer
         }
 
         return false;
-    }
-
-    /**
-     * Make sure that the work directory is created and not a file.
-     *
-     * @throws Exception if work directory can not be created or is a file
-     */
-    private void initWorkDirectory()
-        throws Exception
-    {
-        if( !m_baseWorkDirectory.exists() )
-        {
-            final String message =
-                REZ.getString( "deploy.create-dir.notice",
-                               m_baseWorkDirectory );
-            getLogger().info( message );
-
-            if( !m_baseWorkDirectory.mkdirs() )
-            {
-                final String error =
-                    REZ.getString( "deploy.workdir-nocreate.error",
-                                   m_baseWorkDirectory );
-                throw new Exception( error );
-            }
-        }
-
-        if( !m_baseWorkDirectory.isDirectory() )
-        {
-            final String message =
-                REZ.getString( "deploy.workdir-notadir.error",
-                               m_baseWorkDirectory );
-            throw new Exception( message );
-        }
     }
 }
