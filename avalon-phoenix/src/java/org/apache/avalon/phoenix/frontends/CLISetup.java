@@ -32,6 +32,7 @@ class CLISetup
     private static final int HELP_OPT = 'h';
     private static final int LOG_FILE_OPT = 'l';
     private static final int APPS_PATH_OPT = 'a';
+    private static final int PERSISTENT_OPT = 'p';
     private static final int REMOTE_MANAGER_OPT = 1;
     private static final int DISABLE_HOOK_OPT = 2;
     private static final int APPLICATION_OPT = 3;
@@ -62,7 +63,7 @@ class CLISetup
      */
     private CLOptionDescriptor[] createCLOptions()
     {
-        final CLOptionDescriptor options[] = new CLOptionDescriptor[ 7 ];
+        final CLOptionDescriptor options[] = new CLOptionDescriptor[ 8 ];
         options[ 0 ] =
             new CLOptionDescriptor( "help",
                                     CLOptionDescriptor.ARGUMENT_DISALLOWED,
@@ -103,6 +104,12 @@ class CLISetup
                                     CLOptionDescriptor.ARGUMENT_REQUIRED,
                                     APPLICATION_OPT,
                                     REZ.getString( "cli.opt.application.desc" ) );
+
+        options[ 7 ] =
+            new CLOptionDescriptor( "persistent",
+                                    CLOptionDescriptor.ARGUMENT_DISALLOWED,
+                                    PERSISTENT_OPT,
+                                    REZ.getString( "cli.opt.persistent.desc" ) );
 
         return options;
     }
@@ -164,6 +171,10 @@ class CLISetup
 
                 case APPLICATION_OPT:
                     m_parameters.setParameter( "application-location", option.getArgument() );
+                    break;
+
+                case PERSISTENT_OPT:
+                    m_parameters.setParameter( "persistent", "true" );
                     break;
 
                 case DISABLE_HOOK_OPT:
