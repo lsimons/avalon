@@ -52,7 +52,25 @@
     <home nested="io"/>
     <jar name="build/lib/excalibur-extension-@@DATE@@.jar"/>
   </project>
-  
+
+  <project name="excalibur-cache">
+    <package>org.apache.avalon.excalibur.cache</package>
+
+    <ant basedir="cache">
+      <depend property="framework.jar" project="jakarta-avalon"/>
+      <depend property="junit.jar" project="junit"/>
+      <property name="version" value="@@DATE@@"/>
+      <property name="junit.failonerror" value="true"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <work nested="build/classes"/>
+
+    <home nested="cache"/>
+    <jar name="build/lib/excalibur-cache-@@DATE@@.jar"/>
+  </project>
+
   <project name="excalibur-cli">
     <package>org.apache.avalon.excalibur.cli</package>
 
@@ -74,7 +92,7 @@
     <package>org.apache.avalon.excalibur.io</package>
 
     <ant basedir="io">
-      <depend property="junit.jar"   project="junit"/>
+      <depend property="junit.jar" project="junit"/>
       <property name="version" value="@@DATE@@"/>
       <property name="junit.failonerror" value="true"/>
     </ant>
@@ -91,7 +109,7 @@
     <package>org.apache.avalon.excalibur.i18n</package>
 
     <ant basedir="i18n">
-      <depend property="junit.jar"   project="junit"/>
+      <depend property="junit.jar" project="junit"/>
       <property name="version" value="@@DATE@@"/>
       <property name="junit.failonerror" value="true"/>
     </ant>
@@ -100,7 +118,7 @@
     <depend project="xml-xerces"/>
     <work nested="build/classes"/>
 
-    <home nested="io"/>
+    <home nested="i18n"/>
     <jar name="build/lib/excalibur-i18n-@@DATE@@.jar"/>
   </project>
 
@@ -108,7 +126,7 @@
     <package>org.apache.avalon.excalibur.naming</package>
 
     <ant basedir="naming">
-      <depend property="junit.jar"   project="junit"/>
+      <depend property="junit.jar" project="junit"/>
       <property name="version" value="@@DATE@@"/>
       <property name="junit.failonerror" value="true"/>
     </ant>
@@ -117,9 +135,8 @@
     <depend project="xml-xerces"/>
     <work nested="build/classes"/>
 
-    <home nested="io"/>
+    <home nested="naming"/>
     <jar name="build/lib/excalibur-naming-@@DATE@@.jar"/>
   </project>
 
 </module>
-
