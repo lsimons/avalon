@@ -114,7 +114,7 @@ import org.xml.sax.XMLFilter;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.33 2003/06/06 09:10:43 cziegeler Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.34 2003/10/21 08:27:00 cziegeler Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
@@ -597,11 +597,20 @@ public class XSLTProcessorImpl
                     isValid = false;
                     if( valid == 0 )
                     {
-                        SourceValidity included = m_resolver.resolveURI( (String)pair[ 0 ] ).getValidity();
-                        if( included != null )
+                        Source includedSource = null;
+                        try 
                         {
-                            valid = storedValidity.isValid( included );
-                            isValid = ( valid == 1 );
+                            includedSource = m_resolver.resolveURI( (String)pair[ 0 ] );
+                            SourceValidity included = includedSource.getValidity();
+                            if( included != null )
+                            {
+                                valid = storedValidity.isValid( included );
+                                isValid = ( valid == 1 );
+                            }                            
+                        } 
+                        finally 
+                        {
+                            m_resolver.release(includedSource);
                         }
                     }
                     else
