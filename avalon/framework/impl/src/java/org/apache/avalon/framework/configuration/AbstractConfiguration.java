@@ -16,7 +16,7 @@ package org.apache.avalon.framework.configuration;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version CVS $Revision: 1.17 $ $Date: 2002/06/26 09:22:18 $
+ * @version CVS $Revision: 1.18 $ $Date: 2002/07/12 19:43:20 $
  */
 public abstract class AbstractConfiguration
     implements Configuration
@@ -203,11 +203,12 @@ public abstract class AbstractConfiguration
         throws ConfigurationException
     {
         final String value = getValue().trim();
-        if( value.trim().equals( "true" ) )
+
+        if( isTrue( value ) )
         {
             return true;
         }
-        else if( value.trim().equals( "false" ) )
+        else if( isFalse( value ) )
         {
             return false;
         }
@@ -443,11 +444,11 @@ public abstract class AbstractConfiguration
     {
         final String value = getAttribute( name );
 
-        if( value.equalsIgnoreCase( "true" ) )
+        if( isTrue( value ) )
         {
             return true;
         }
-        else if( value.equalsIgnoreCase( "false" ) )
+        else if( isFalse( value ) )
         {
             return false;
         }
@@ -457,6 +458,22 @@ public abstract class AbstractConfiguration
                                               "\" as a boolean in the attribute \"" +
                                               name + "\" at " + getLocation() );
         }
+    }
+
+    private boolean isTrue( final String value )
+    {
+        return value.equalsIgnoreCase( "true" )
+          || value.equalsIgnoreCase( "yes" )
+          || value.equalsIgnoreCase( "on" )
+          || value.equalsIgnoreCase( "1" );
+    }
+
+    private boolean isFalse( final String value )
+    {
+        return value.equalsIgnoreCase( "false" )
+          || value.equalsIgnoreCase( "no" )
+          || value.equalsIgnoreCase( "off" )
+          || value.equalsIgnoreCase( "0" );
     }
 
     /**
