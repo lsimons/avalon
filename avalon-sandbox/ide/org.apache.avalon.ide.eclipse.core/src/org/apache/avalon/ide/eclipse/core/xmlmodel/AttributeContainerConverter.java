@@ -43,6 +43,7 @@
 package org.apache.avalon.ide.eclipse.core.xmlmodel;
 
 import com.thoughtworks.xstream.alias.ClassMapper;
+import com.thoughtworks.xstream.alias.ElementMapper;
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.ConverterLookup;
 import com.thoughtworks.xstream.objecttree.ObjectTree;
@@ -60,10 +61,12 @@ public class AttributeContainerConverter implements Converter
 	 * @uml property=classMapper associationEnd={multiplicity={(1 1)}}
 	 */
     private ClassMapper classMapper;
+    private ElementMapper elementMapper;
 
-    public AttributeContainerConverter(ClassMapper classMapper)
+    public AttributeContainerConverter(ClassMapper classMapper, ElementMapper elementMapper)
     {
         this.classMapper = classMapper;
+        this.elementMapper = elementMapper;
     }
     public boolean canConvert(Class type)
     {
@@ -73,6 +76,7 @@ public class AttributeContainerConverter implements Converter
     public void toXML(ObjectTree objectGraph, XMLWriter xmlWriter, ConverterLookup converterLookup)
     {
         String[] fieldNames = objectGraph.fieldNames();
+        //        circularityTracker.track(objectGraph.get());
         for (int i = 0; i < fieldNames.length; i++)
         {
             String fieldName = fieldNames[i];
@@ -81,7 +85,11 @@ public class AttributeContainerConverter implements Converter
 
             if (objectGraph.get() != null)
             {
-                writeFieldAsXML(xmlWriter, fieldName, objectGraph, converterLookup);
+                writeFieldAsXML(
+                    xmlWriter,
+                    elementMapper.toXml(fieldName),
+                    objectGraph,
+                    converterLookup);
             }
 
             objectGraph.pop();
@@ -94,9 +102,25 @@ public class AttributeContainerConverter implements Converter
         ObjectTree objectGraph,
         ConverterLookup converterLookup)
     {
+        xmlWriter.startElement(fieldName);
 
-        xmlWriter.addAttribute(fieldName, (String) objectGraph.get());
+        writeClassAttributeInXMLIfNotDefaultImplementation(objectGraph, xmlWriter);
+        Converter converter = converterLookup.lookupConverterForType(objectGraph.type());
+        converter.toXML(objectGraph, xmlWriter, converterLookup);
 
+        xmlWriter.endElement();
+    }
+
+    protected void writeClassAttributeInXMLIfNotDefaultImplementation(
+        ObjectTree objectGraph,
+        XMLWriter xmlWriter)
+    {
+        Class actualType = objectGraph.get().getClass();
+        Class defaultType = classMapper.lookupDefaultType(objectGraph.type());
+        if (!actualType.equals(defaultType))
+        {
+            xmlWriter.addAttribute("class", classMapper.lookupName(actualType));
+        }
     }
 
     public void fromXML(
@@ -116,16 +140,19 @@ public class AttributeContainerConverter implements Converter
                 objectGraph.set(xmlReader.attribute(fieldName));
                 objectGraph.pop();
                 //xmlReader.pop();
-            } else if (xmlReader.childExists(fieldName))
+            } else
             {
-                objectGraph.push(fieldName);
-                xmlReader.child(fieldName);
-                Class type = determineWhichImplementationToUse(xmlReader, objectGraph);
-                Converter converter = converterLookup.lookupConverterForType(type);
-                converter.fromXML(objectGraph, xmlReader, converterLookup, type);
+                while (xmlReader.nextChild())
+                {
+                    objectGraph.push(elementMapper.fromXml(xmlReader.name()));
 
-                xmlReader.pop();
-                objectGraph.pop();
+                    Class type = determineWhichImplementationToUse(xmlReader, objectGraph);
+                    Converter converter = converterLookup.lookupConverterForType(type);
+                    converter.fromXML(objectGraph, xmlReader, converterLookup, type);
+                    objectGraph.pop();
+
+                    xmlReader.pop();
+                }
             }
         }
     }
@@ -144,13 +171,5 @@ public class AttributeContainerConverter implements Converter
             type = classMapper.lookupType(classAttribute);
         }
         return type;
-    }
-
-    private int read(String field, XMLReader reader)
-    {
-        reader.child(field);
-        int result = Integer.parseInt(reader.text());
-        reader.pop();
-        return result;
     }
 }
