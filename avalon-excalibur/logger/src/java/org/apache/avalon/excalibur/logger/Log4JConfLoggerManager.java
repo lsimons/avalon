@@ -64,7 +64,7 @@ import org.w3c.dom.NodeList;
  * using specified configuration.
  *
  * @author <a href="mailto:Ole.Bulbuk at ebp.de">Ole Bulbuk</a>
- * @version $Revision: 1.5 $ $Date: 2003/06/10 08:29:37 $
+ * @version $Revision: 1.6 $ $Date: 2003/06/11 10:52:10 $
  */
 public class Log4JConfLoggerManager
     extends Log4JLoggerManager

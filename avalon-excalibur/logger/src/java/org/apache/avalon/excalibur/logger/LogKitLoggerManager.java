@@ -63,6 +63,7 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.excalibur.logger.util.LoggerUtil;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Priority;
@@ -77,8 +78,8 @@ import org.apache.log.LogEvent;
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @author <a href="mailto:tagunov at apache.org">Anton Tagunov</a>
- * @version CVS $Revision: 1.17 $ $Date: 2003/06/10 08:29:37 $
+ * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
+ * @version CVS $Revision: 1.18 $ $Date: 2003/06/11 10:52:10 $
  * @since 4.0
  */
 public class LogKitLoggerManager extends AbstractLoggerManager
@@ -92,9 +93,6 @@ public class LogKitLoggerManager extends AbstractLoggerManager
 
     /** The hierarchy private to LogKitManager */
     private final Hierarchy m_hierarchy;
-
-    /** The error handler we will supply to m_hierarchy if we create it locally.*/
-    private OurErrorHandler m_errorHandler;
 
     /**
      * Creates a new <code>LogKitLoggerManager</code>;
@@ -389,8 +387,8 @@ public class LogKitLoggerManager extends AbstractLoggerManager
         {
             m_hierarchy = new Hierarchy();
             m_hierarchy.getRootLogger().unsetLogTargets( true );
-            m_errorHandler = new OurErrorHandler( getLogger() );
-            m_hierarchy.setErrorHandler( m_errorHandler );
+            final ErrorHandler errorHandler = new OurErrorHandler( getLogger() );
+            m_hierarchy.setErrorHandler( errorHandler );
         }
         else
         {
@@ -410,7 +408,7 @@ public class LogKitLoggerManager extends AbstractLoggerManager
      * @throws ContextException if the context is malformed
      */
     public final void contextualize( final Context context )
-        throws ContextException
+            throws ContextException
     {
         m_context = context;
     }
@@ -447,11 +445,6 @@ public class LogKitLoggerManager extends AbstractLoggerManager
                       category,
                       true,
                       categories.getAttributeAsBoolean( "additive", false ) );
-
-        /**
-         * This is the last configuration stage, if we to initialize() or start()
-         * we would call it from that method.
-         */
     }
 
     /**
@@ -547,7 +540,8 @@ public class LogKitLoggerManager extends AbstractLoggerManager
                 rootLoggerAlive = true;
             }
 
-            final String fullCategory = getFullCategoryName( parentCategory, category );
+            final String fullCategory = 
+                    LoggerUtil.getFullCategoryName( parentCategory, category );
 
             final org.apache.log.Logger logger = m_hierarchy.getLoggerFor( fullCategory );
             m_loggers.put( fullCategory, new LogKitLogger( logger ) );
@@ -574,6 +568,9 @@ public class LogKitLoggerManager extends AbstractLoggerManager
         }
     }
 
+    /**
+     * Closes all our LogTargets.
+     */
     public void dispose()
     {
         final Iterator iterator = m_targets.iterator();
@@ -584,7 +581,6 @@ public class LogKitLoggerManager extends AbstractLoggerManager
             {
                 ( (Closeable)target ).close();
             }
-
         }
     }
 
@@ -595,13 +591,6 @@ public class LogKitLoggerManager extends AbstractLoggerManager
          * that is really reliable.
          */
         private Logger m_reliableLogger;
-        private boolean m_wasError = false;
-        /**
-         * Access to this variable is not synchronized. Justification: it is only
-         * intended to be accessed from postConfigure when only one thread
-         * is assumed to be using the whole LogKitLoggerManager.
-         */
-        public boolean getWasError() { return m_wasError; }
 
         OurErrorHandler( final Logger reliableLogger )
         {
@@ -614,8 +603,6 @@ public class LogKitLoggerManager extends AbstractLoggerManager
 
         public void error( final String message, final Throwable throwable, final LogEvent event )
         {
-            // let them know if they are interested
-            m_wasError = true;
             // let them know we're not OK
             m_reliableLogger.fatalError( message, throwable );
 
