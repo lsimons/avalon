@@ -16,7 +16,6 @@ import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.component.Component; // backward compatibility
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
@@ -33,7 +32,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  */
 public class DefaultSocketManager
     extends AbstractLogEnabled
-    implements SocketManager, Contextualizable, Configurable, Initializable, Component
+    implements SocketManager, Contextualizable, Configurable, Initializable
 {
     protected final HashMap m_serverSockets = new HashMap();
     protected final HashMap m_sockets = new HashMap();

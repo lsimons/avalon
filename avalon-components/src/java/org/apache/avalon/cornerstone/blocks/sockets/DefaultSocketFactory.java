@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import org.apache.avalon.cornerstone.services.sockets.SocketFactory;
-import org.apache.avalon.framework.component.Component;
 
 /**
  * The vanilla implementation of SocketFactory.
@@ -19,7 +18,7 @@ import org.apache.avalon.framework.component.Component;
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public class DefaultSocketFactory
-    implements SocketFactory, Component
+    implements SocketFactory
 {
     /**
      * Create a socket and connect to remote address specified.

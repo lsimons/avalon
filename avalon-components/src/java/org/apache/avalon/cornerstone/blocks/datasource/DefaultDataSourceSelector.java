@@ -48,7 +48,7 @@ import org.apache.avalon.framework.logger.LogEnabled;
  */
 public class DefaultDataSourceSelector
     extends AbstractLogEnabled
-    implements DataSourceSelector, Configurable, Initializable, Disposable, Component
+    implements DataSourceSelector, Configurable, Initializable, Disposable
 {
     private Configuration m_configuration;
     private Map m_dataSources;
