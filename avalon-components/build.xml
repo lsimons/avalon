@@ -745,7 +745,7 @@
   -->
   <target name="apps-jars" depends="jars, ftpserver"/>
   
-  <target name="ftpserver" depends="dist-dirs">
+  <target name="ftpserver" depends="compile, dist-dirs">
     <ant antfile="build.xml" dir="apps/ftpserver" target="jars"/>
   </target>  
 
@@ -753,14 +753,14 @@
     <ant antfile="build.xml" dir="apps/ftpserver" target="deploy"/>
   </target>    
   
-  <target name="jesktop" depends="dist-dirs">
+  <target name="jesktop" depends="compile, dist-dirs">
     <ant antfile="build.xml" dir="apps/jesktop" target="jars"/>
   </target> 
   <target name="jesktop-clean">
     <ant antfile="build.xml" dir="apps/jesktop" target="clean"/>
   </target>   
   <target name="jesktop-deploy">
-    <ant antfile="build.xml" dir="apps/jesktop" target="deploy"/>
+    <ant antfile="build.xml" dir="compile, apps/jesktop" target="deploy"/>
   </target>   
   <target name="jesktop-xdocs">
     <ant antfile="build.xml" dir="apps/jesktop" target="xdocs"/>
