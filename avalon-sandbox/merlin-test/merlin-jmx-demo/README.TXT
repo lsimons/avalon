@@ -11,3 +11,4 @@ To execute the demo:
   $ maven clean jar
   $ merlin target\merlin-jmx-demo-1.0.jar
 
+Launch a JMX client (using either HTTP or RMI to see the components).
