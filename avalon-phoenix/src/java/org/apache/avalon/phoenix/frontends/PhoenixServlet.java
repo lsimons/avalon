@@ -7,19 +7,12 @@
  */
 package org.apache.avalon.phoenix.frontends;
 
-import java.io.IOException;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.apache.avalon.framework.CascadingRuntimeException;
-import org.apache.avalon.framework.ExceptionUtil;
-import org.apache.avalon.framework.parameters.ParameterException;
-import org.apache.avalon.framework.parameters.Parameterizable;
-import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.CascadingRuntimeException;
+import org.apache.avalon.framework.ExceptionUtil;
+import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.components.embeddor.SingleAppEmbeddor;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 
@@ -35,14 +28,14 @@ public class PhoenixServlet
     private static final Resources REZ =
         ResourceManager.getPackageResources( PhoenixServlet.class );
 
-    private Parameters              m_parameters;
-    private SingleAppEmbeddor       m_embeddor;
+    private Parameters m_parameters;
+    private SingleAppEmbeddor m_embeddor;
 
     private String getInitParameter( final String name,
                                      final String defaultValue )
     {
         final String value = getInitParameter( name );
-        if ( null == value )
+        if( null == value )
         {
             return defaultValue;
         }
@@ -51,7 +44,7 @@ public class PhoenixServlet
             return value;
         }
     }
-    
+
     public void init()
         throws ServletException
     {
@@ -73,15 +66,15 @@ public class PhoenixServlet
         try
         {
             m_embeddor = new SingleAppEmbeddor();
-            if ( m_embeddor instanceof Parameterizable )
+            if( m_embeddor instanceof Parameterizable )
             {
-                ((Parameterizable)m_embeddor).parameterize( m_parameters );
+                ( (Parameterizable)m_embeddor ).parameterize( m_parameters );
             }
             m_embeddor.initialize();
 
             new Thread( this ).start();
         }
-        catch ( final Throwable throwable )
+        catch( final Throwable throwable )
         {
             log( REZ.getString( "main.exception.header" ) );
             log( "---------------------------------------------------------" );
@@ -100,7 +93,7 @@ public class PhoenixServlet
         {
             m_embeddor.execute();
         }
-        catch ( final Throwable throwable )
+        catch( final Throwable throwable )
         {
             log( REZ.getString( "main.exception.header" ) );
             log( "---------------------------------------------------------" );
@@ -123,7 +116,7 @@ public class PhoenixServlet
             m_embeddor = null;
             m_parameters = null;
         }
-        catch ( final Throwable throwable )
+        catch( final Throwable throwable )
         {
             log( REZ.getString( "main.exception.header" ) );
             log( "---------------------------------------------------------" );

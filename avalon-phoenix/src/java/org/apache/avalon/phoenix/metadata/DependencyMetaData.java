@@ -14,8 +14,8 @@ package org.apache.avalon.phoenix.metadata;
  */
 public final class DependencyMetaData
 {
-    private final String        m_name;
-    private final String        m_role;
+    private final String m_name;
+    private final String m_role;
 
     public DependencyMetaData( final String name, final String role )
     {

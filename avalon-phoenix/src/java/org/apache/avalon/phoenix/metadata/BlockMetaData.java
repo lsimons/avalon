@@ -7,7 +7,7 @@
  */
 package org.apache.avalon.phoenix.metadata;
 
-import  org.apache.avalon.phoenix.metainfo.BlockInfo;
+import org.apache.avalon.phoenix.metainfo.BlockInfo;
 
 /**
  * This is the structure describing each block.
@@ -16,11 +16,11 @@ import  org.apache.avalon.phoenix.metainfo.BlockInfo;
  */
 public class BlockMetaData
 {
-    private final String               m_name;
-    private final String               m_classname;
+    private final String m_name;
+    private final String m_classname;
     private final DependencyMetaData[] m_dependencies;
 
-    private BlockInfo                  m_blockInfo;
+    private BlockInfo m_blockInfo;
 
     public BlockMetaData( final String name,
                           final String classname,

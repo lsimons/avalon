@@ -9,7 +9,6 @@ package org.apache.avalon.phoenix.interfaces;
 
 import java.net.URL;
 import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.phoenix.tools.installer.Installation;
 
 /**
  * A Deployer is responsible for taking a URL (ie a jar/war/ear) and deploying

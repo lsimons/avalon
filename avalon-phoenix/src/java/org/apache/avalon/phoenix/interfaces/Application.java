@@ -29,6 +29,8 @@ public interface Application
     String ROLE = "org.apache.avalon.phoenix.interfaces.Application";
 
     void setApplicationContext( ApplicationContext frame );
+
     String[] getBlockNames();
+
     Block getBlock( String name );
 }

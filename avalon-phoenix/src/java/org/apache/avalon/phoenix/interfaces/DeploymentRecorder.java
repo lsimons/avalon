@@ -15,15 +15,16 @@ import org.apache.avalon.phoenix.tools.installer.Installation;
  *
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
  */
-public interface DeploymentRecorder extends Component {
+public interface DeploymentRecorder extends Component
+{
 
     String ROLE = "org.apache.avalon.phoenix.interfaces.DeploymentRecorder";
-    
-    void recordInstallation( String name, Installation installation ) 
+
+    void recordInstallation( String name, Installation installation )
         throws DeploymentException;
-    
-    Installation fetchInstallation( String name ) 
+
+    Installation fetchInstallation( String name )
         throws DeploymentException;
-    
+
 }
 
