@@ -32,6 +32,7 @@
       <j:forEach var="child" items="${reactorProjects}">
         <ant:fileset dir="${child.file.parentFile}/target">
           <ant:include name="${child.artifactId}-${child.currentVersion}.jar"/>
+          <ant:include name="${child.artifactId}-${child.currentVersion}.jar.meta"/>
         </ant:fileset>
       </j:forEach>
     </ant:copy>
