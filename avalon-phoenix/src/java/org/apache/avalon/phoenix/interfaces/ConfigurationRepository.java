@@ -19,9 +19,30 @@ public interface ConfigurationRepository
 {
     String ROLE = ConfigurationRepository.class.getName();
 
+    /**
+     * Retrieve configuration information from the repository
+     *
+     * @param application Application name
+     * @param block Block name to get configuration for
+     *
+     * @return Configuration information
+     *
+     * @throws org.apache.avalon.framework.configuration.Configuration if no configuration could be found
+     */
     Configuration getConfiguration( String application, String block )
         throws ConfigurationException;
 
+    /**
+     * Store configuration information in the repository
+     *
+     * @param application Application name
+     * @param block Block name to store configuration for
+     * @param configuration information to store.
+     *
+     * Question: Is the storing of a null value to remove configuration information part of the contract?
+     *
+     * @throws org.apache.avalon.framework.configuration.Configuration if configuration could not be stored
+     */
     void storeConfiguration( String application, String block, Configuration configuration )
         throws ConfigurationException;
 }
