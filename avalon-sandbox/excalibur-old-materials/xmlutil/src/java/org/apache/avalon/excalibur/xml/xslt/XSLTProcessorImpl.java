@@ -62,7 +62,7 @@ import org.xml.sax.XMLFilter;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.10 2002/07/10 08:53:17 donaldp Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.11 2002/07/10 09:27:50 donaldp Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
@@ -97,6 +97,8 @@ public final class XSLTProcessorImpl
     /** Map of pairs of System ID's / validities of the included stylesheets */
     private Map m_includesMap = new HashMap();
 
+    private XMLizer m_xmlizer;
+
     /**
      * Compose. Try to get the store
      */
@@ -104,6 +106,7 @@ public final class XSLTProcessorImpl
         throws ComponentException
     {
         m_manager = manager;
+        m_xmlizer = (XMLizer)manager.lookup( XMLizer.ROLE );
         m_errorHandler = new TraxErrorHandler( getLogger() );
         m_resolver = (SourceResolver)manager.lookup( SourceResolver.ROLE );
     }
@@ -293,18 +296,10 @@ public final class XSLTProcessorImpl
         }
         else
         {
-            final XMLizer xmlizer = (XMLizer)m_manager.lookup( XMLizer.ROLE );
-            try
-            {
                 final InputStream inputStream = source.getInputStream();
                 final String mimeType = source.getMimeType();
                 final String systemId = source.getSystemId();
-                xmlizer.toSAX( inputStream, mimeType, systemId, handler );
-            }
-            finally
-            {
-                m_manager.release( xmlizer );
-            }
+                m_xmlizer.toSAX( inputStream, mimeType, systemId, handler );
         }
     }
 
