@@ -128,7 +128,7 @@ public class DefaultKernel
                     new DefaultApplication( entry.getMetaData() );
 
                 final Logger childLogger = getLogger().getChildLogger( name );
-                ContainerUtil.logEnable( newApp, childLogger );
+                ContainerUtil.enableLogging( newApp, childLogger );
 
                 final ApplicationContext context = createApplicationContext( entry );
                 newApp.setApplicationContext( context );
@@ -219,7 +219,7 @@ public class DefaultKernel
                                            entry.getClassLoader(),
                                            entry.getHierarchy() );
 
-        ContainerUtil.logEnable( context, createContextLogger( name ) );
+        ContainerUtil.enableLogging( context, createContextLogger( name ) );
         ContainerUtil.service( context, createServiceManager() );
         return context;
     }

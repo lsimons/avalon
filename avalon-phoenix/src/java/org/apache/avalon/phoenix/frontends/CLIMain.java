@@ -178,7 +178,7 @@ public final class CLIMain
             final String embeddorClassname = configuration.getAttribute( "class" );
             m_embeddor = (Embeddor)Class.forName( embeddorClassname ).newInstance();
 
-            ContainerUtil.logEnable( m_embeddor,
+            ContainerUtil.enableLogging( m_embeddor,
                                      createLogger( parameters ) );
             ContainerUtil.contextualize( m_embeddor,
                                          new DefaultContext( data ) );
