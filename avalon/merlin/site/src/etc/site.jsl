@@ -291,6 +291,7 @@
                       </j:if>
                     </j:if>
                   </j:if>
+                  <!--
                   <j:set var="devProcess" value="false"/>
                   <util:available file="${maven.docs.src}/development-process.xml">
                     <j:set var="devProcess" value="true"/>
@@ -310,6 +311,7 @@
                       </small>
                     </div>
                   </j:if>
+                  -->
                 </div>
               </j:if>
               
