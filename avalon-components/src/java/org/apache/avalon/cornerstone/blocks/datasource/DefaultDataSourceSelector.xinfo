@@ -2,11 +2,10 @@
 
 <blockinfo>
 
-  <meta>
-    <contributors>
-      <author name="Eung-ju Park" email="colus@isoft.co.kr"/>
-    </contributors>
-  </meta>
+  <!-- section to describe block -->
+  <block>
+    <version>1.0</version>
+  </block>
 
   <services>
     <service name="org.apache.avalon.cornerstone.services.datasource.DataSourceSelector" version="1.0"/>
