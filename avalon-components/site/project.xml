@@ -6,7 +6,7 @@
 
   <groupId>cornerstone</groupId>
   <id>cornerstone</id>
-  <name>Avalon Components Site</name>
+  <name>Avalon Components Suite</name>
   <package>org.apache.avalon.cornerstone</package>
 
   <inceptionYear>2001</inceptionYear>
@@ -63,59 +63,6 @@
     </dependency>
 
   </dependencies>
-
-
-  <build>
-
-    <nagEmailAddress>dev@avalon.apache.org</nagEmailAddress>
-    <sourceDirectory>${basedir}/src/java</sourceDirectory>
-    <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
-    <integrationUnitTestSourceDirectory/>
-    <aspectSourceDirectory/>
-
-    <unitTest>
-      <includes>
-        <include>**/*TestCase*</include>
-      </includes>
-      <excludes>
-      </excludes>
-      <resources>
-        <resource>
-          <directory>${basedir}/src/test</directory>
-          <includes> 
-            <include>**/*.dtd</include>
-            <include>**/*.properties</include>
-            <include>**/*.xinfo</include>
-            <include>**/*.xtype</include>
-            <include>**/*.xprofile</include>
-            <include>**/*.xconfig</include>
-            <include>**/*.xml</include>
-            <include>**/*.xservice</include>
-          </includes>
-        </resource>
-      </resources>
-    </unitTest>
-
-    <integrationUnitTestPatterns></integrationUnitTestPatterns>
-    
-    <resources>
-      <resource>
-        <directory>${basedir}/src/java</directory>
-        <includes>
-          <include>**/*.dtd</include>
-          <include>**/*.properties</include>
-          <include>**/*.xinfo</include>
-          <include>**/*.xtype</include>
-          <include>**/*.xprofile</include>
-          <include>**/*.xconfig</include>
-          <include>**/*.xml</include>
-          <include>**/*.xservice</include>
-        </includes>
-      </resource>
-    </resources>
-    
-    <jars></jars>
-  </build>
 
   <reports>
     <report>maven-changelog-plugin</report>
