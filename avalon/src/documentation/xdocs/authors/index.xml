@@ -49,12 +49,16 @@ The table is listed in alphabetic order.
     <td><link href="mailto:pier@apache.org">pier@apache.org</link></td>
 </tr>    
 <tr>
-    <td>Serge Knystautas</td>
-    <td><link href="mailto:sergek@lokitech.com">sergek@lokitech.com</link></td>
-</tr>    
+    <td><link href="hammant.html">Paul Hammant</link></td>
+    <td><link href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</link></td>
+</tr>  
 <tr>
     <td>Roberto Lo Giacco</td>
     <td><link href="mailto:rlogiacco@mail.com">rlogiacco@mail.com</link></td>
+</tr>    
+<tr>
+    <td>Serge Knystautas</td>
+    <td><link href="mailto:sergek@lokitech.com">sergek@lokitech.com</link></td>
 </tr>    
 <tr>
     <td><link href="bloritsch.html">Berin Loritsch</link></td>
@@ -67,7 +71,7 @@ The table is listed in alphabetic order.
 <tr>
     <td>Leo Simons</td>
     <td><link href="mailto:mail@leosimons.com">mail@leosimons.com</link></td>
-</tr>
+</tr>  
 </table>
 
 </p>
