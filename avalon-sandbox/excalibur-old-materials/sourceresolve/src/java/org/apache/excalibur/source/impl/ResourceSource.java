@@ -19,7 +19,7 @@ import org.apache.excalibur.source.impl.validity.NOPValidity;
  * FIXME: Get mime-type, content-length, lastModified
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/06/12 09:24:14 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/06/13 12:59:10 $
  */
 
 public final class ResourceSource
@@ -48,7 +48,7 @@ public final class ResourceSource
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         if( loader == null )
         {
-            loader = this.getClass().getClassLoader();
+            loader = getClass().getClassLoader();
         }
         return loader.getResourceAsStream( this.location );
     }

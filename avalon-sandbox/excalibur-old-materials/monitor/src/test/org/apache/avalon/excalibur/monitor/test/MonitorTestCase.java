@@ -21,13 +21,13 @@ import org.apache.avalon.excalibur.testcase.ExcaliburTestCase;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentSelector;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
  * Junit TestCase for all the monitors in Excalibur.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: MonitorTestCase.java,v 1.9 2002/03/24 09:56:42 donaldp Exp $
+ * @version $Id: MonitorTestCase.java,v 1.10 2002/06/13 12:59:10 bloritsch Exp $
  */
 public class MonitorTestCase extends ExcaliburTestCase
 {
@@ -114,7 +114,7 @@ public class MonitorTestCase extends ExcaliburTestCase
             thirdWheel.createNewFile();
 
             MonitorTestCaseListener listener = new MonitorTestCaseListener();
-            listener.setLogger( getLogger() );
+            listener.enableLogging( this.getLogEnabledLogger() );
 
             FileResource resource = new FileResource( "test.txt" );
             resource.addPropertyChangeListener( listener );
@@ -229,7 +229,7 @@ public class MonitorTestCase extends ExcaliburTestCase
     }
 
     public static class MonitorTestCaseListener
-        extends AbstractLoggable
+        extends AbstractLogEnabled
         implements PropertyChangeListener
     {
         private volatile boolean m_hasChanged = false;
