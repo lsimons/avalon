@@ -309,9 +309,10 @@ public class ConsoleImpl extends AbstractLogEnabled
         boolean running = true;
         while( running )
         {
+            Socket socket = null;
             try
             {
-                Socket socket = m_ServerSocket.accept();
+                socket = m_ServerSocket.accept();
                 validateHost( socket.getInetAddress() );
                 CommandInterpreterImpl intp = new CommandInterpreterImpl( socket, m_Welcome, m_Commands, m_RootModel );
                 synchronized( m_Interpreters )
@@ -325,6 +326,8 @@ public class ConsoleImpl extends AbstractLogEnabled
             } catch( DeniedHostException e )
             {
                 getLogger().warn( e.getMessage() );
+                socket.close();
+                
             } catch( Exception e )
             {
                 getLogger().warn( "", e );
