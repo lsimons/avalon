@@ -57,7 +57,7 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.excalibur.instrument.AbstractInstrumentable;
+import org.apache.excalibur.instrument.AbstractLogEnabledInstrumentable;
 import org.apache.excalibur.instrument.CounterInstrument;
 import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.mpool.ObjectFactory;
@@ -67,11 +67,11 @@ import org.apache.excalibur.mpool.ObjectFactory;
  * and destroyed correctly.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/02/25 16:28:26 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/03/06 19:42:08 $
  * @since 4.0
  */
 public abstract class AbstractComponentHandler
-    extends AbstractInstrumentable
+    extends AbstractLogEnabledInstrumentable
     implements Serviceable, Initializable, Disposable, ComponentHandler
 {
     private CounterInstrument m_request = new CounterInstrument("requests");

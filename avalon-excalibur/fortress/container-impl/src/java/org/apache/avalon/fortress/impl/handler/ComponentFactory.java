@@ -55,7 +55,6 @@ import org.apache.avalon.framework.component.WrapperComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.LogKit2AvalonLoggerAdapter;
 import org.apache.avalon.framework.logger.Loggable;
@@ -63,9 +62,8 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.excalibur.instrument.AbstractLogEnabledInstrumentable;
 import org.apache.excalibur.instrument.CounterInstrument;
-import org.apache.excalibur.instrument.Instrument;
 import org.apache.excalibur.instrument.InstrumentManageable;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.instrument.Instrumentable;
@@ -76,12 +74,12 @@ import org.apache.excalibur.mpool.ObjectFactory;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/02/25 16:28:26 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/03/06 19:42:08 $
  * @since 4.0
  */
 public class ComponentFactory
-    extends AbstractLogEnabled
-    implements ObjectFactory, ThreadSafe, Instrumentable
+    extends AbstractLogEnabledInstrumentable
+    implements ObjectFactory
 {
     private CounterInstrument m_newInstance;
     private CounterInstrument m_dispose;
@@ -152,6 +150,9 @@ public class ComponentFactory
 
         m_newInstance = new CounterInstrument( "creates" );
         m_dispose = new CounterInstrument( "destroys" );
+        
+        addInstrument(m_newInstance);
+        addInstrument(m_dispose);
     }
 
    /**
@@ -311,46 +312,5 @@ public class ComponentFactory
                 "not come from this ObjectFactory";
             throw new IllegalArgumentException( message );
         }
-    }
-
-   /**
-    * Set the instrumentable name
-    * @param name the name
-    */
-    public final void setInstrumentableName( String name )
-    {
-        // ignore
-    }
-
-   /**
-    * Returns the instrumentable name
-    * @return the name
-    */
-    public final String getInstrumentableName()
-    {
-        return m_instrumentableName;
-    }
-
-   /**
-    * Returns the set of instruments assigned to the component factory.
-    * @return the instruments
-    */
-   public final Instrument[] getInstruments()
-    {
-        return new Instrument[]
-        {
-            m_newInstance,
-            m_dispose
-        };
-    }
-
-   /**
-    * Returns the set of child instrumentables. The default implementation
-    * simply returns an empty instrumentable array.
-    * @return the instrumentables
-    */
-    public final Instrumentable[] getChildInstrumentables()
-    {
-        return Instrumentable.EMPTY_INSTRUMENTABLE_ARRAY;
     }
 }
