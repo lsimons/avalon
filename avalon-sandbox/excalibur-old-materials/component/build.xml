@@ -18,6 +18,8 @@
         <pathelement location="${excalibur-collections.jar}"/>
         <pathelement location="${excalibur-logger.jar}"/>
         <pathelement location="${excalibur-instrument.jar}"/>
+        <pathelement location="${excalibur-instrument-manager.jar}"/>
+        <pathelement location="${excalibur-instrument-manager-interfaces.jar}"/>
         <pathelement location="${excalibur-pool.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
         <pathelement path="${java.class.path}"/>
@@ -36,6 +38,8 @@
         <pathelement location="${excalibur-util.jar}"/>
         <pathelement location="${excalibur-testcase.jar}"/>
         <pathelement location="${excalibur-instrument.jar}"/>
+        <pathelement location="${excalibur-instrument-manager.jar}"/>
+        <pathelement location="${excalibur-instrument-manager-interfaces.jar}"/>
         <path refid="project.class.path"/>
     </path>
     <property name="cp" refid="test.class.path"/>
@@ -47,6 +51,8 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkLogkit"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrument"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrumentManager"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCollections"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkLogger"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkPool"/>
@@ -368,7 +374,7 @@
 
     <!-- Prepares the documentation directory -->
     <target name="docs" depends="setup-filters" description="Generates the Docs">
-	<ant antfile="${basedir}/../cocoonbuild.xml"/>
+    <ant antfile="${basedir}/../cocoonbuild.xml"/>
 
       <copy todir="${docs.dir}">
         <fileset dir="${build.docs}">
