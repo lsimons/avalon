@@ -480,7 +480,7 @@ class InstrumentManagerTreeModel
             {
                 updateInstrumentModelClient( client, m_root, m_lastClientStateVersion );
             }
-            catch ( InvocationException e )
+            catch ( org.apache.altrmi.client.InvocationException e )
             {
                 System.out.println( "Error updating the Instrumentables on " +
                     m_connection.getHost() + ":" + m_connection.getPort() + ": " +

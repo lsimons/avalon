@@ -38,8 +38,8 @@ import org.apache.altrmi.client.impl.socket.SocketCustomStreamHostContext;
 import org.apache.altrmi.client.impl.ClientSideClassFactory;
 import org.apache.altrmi.client.impl.DefaultClientMonitor;
 import org.apache.altrmi.common.ConnectionException;
-import org.apache.altrmi.common.InvocationException;
-import org.apache.altrmi.common.ConnectionRefusedException;
+import org.apache.altrmi.client.InvocationException;
+import org.apache.altrmi.client.ConnectionRefusedException;
 
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
@@ -50,7 +50,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleUtils;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.15 $ $Date: 2003/02/25 16:28:20 $
+ * @version CVS $Revision: 1.16 $ $Date: 2003/02/27 12:03:33 $
  * @since 4.1
  */
 class InstrumentManagerConnection

@@ -29,7 +29,7 @@ import com.sun.jdi.InvocationException;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/02/25 16:28:20 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/02/27 12:03:33 $
  * @since 4.1
  */
 public class MenuBar
@@ -324,7 +324,7 @@ public class MenuBar
                 }
             }
         }
-        catch ( InvocationException e )
+        catch ( org.apache.altrmi.client.InvocationException e )
         {
             // Something went wrong, so close the connection.
             connection.close();
@@ -395,7 +395,7 @@ public class MenuBar
                 }
             }
         }
-        catch ( InvocationException e )
+        catch ( org.apache.altrmi.client.InvocationException e )
         {
             // Something went wrong, so close the connection.
             connection.close();
@@ -477,7 +477,7 @@ public class MenuBar
                 }
             }
         }
-        catch ( InvocationException e )
+        catch ( org.apache.altrmi.client.InvocationException e )
         {
             // Something went wrong, so close the connection.
             connection.close();
