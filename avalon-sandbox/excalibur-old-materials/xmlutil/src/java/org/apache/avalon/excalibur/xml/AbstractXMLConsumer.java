@@ -16,9 +16,10 @@ import org.xml.sax.SAXException;
  * This abstract class provides default implementation of the methods specified
  * by the <code>XMLConsumer</code> interface.
  *
+ * @deprecated Can be constructed using no operation handlers.
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  *         (Apache Software Foundation, Exoffice Technologies)
- * @version CVS $Revision: 1.2 $ $Date: 2002/07/07 07:17:32 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/10/15 23:20:41 $
  */
 public abstract class AbstractXMLConsumer
     extends AbstractLogEnabled
