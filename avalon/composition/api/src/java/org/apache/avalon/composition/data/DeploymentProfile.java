@@ -127,7 +127,7 @@ import org.apache.avalon.meta.info.InfoDescriptor;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2003/12/14 14:09:59 $
+ * @version $Revision: 1.7 $ $Date: 2004/01/01 13:06:13 $
  */
 public class DeploymentProfile extends Profile
 {
@@ -232,6 +232,11 @@ public class DeploymentProfile extends Profile
     {
         super( name, activation, mode );
 
+        if( null == classname )
+        {
+            throw new NullPointerException( "classname" );
+        }
+
         m_collection = collection;
         m_classname = classname;
         m_categories = categories;
@@ -239,7 +244,7 @@ public class DeploymentProfile extends Profile
         m_parameters = parameters;
         m_configuration = config;
 
-        if( dependencies == null )
+        if( null == dependencies )
         {
             m_dependencies = new DependencyDirective[0];
         }
@@ -248,7 +253,7 @@ public class DeploymentProfile extends Profile
             m_dependencies = dependencies;
         }
 
-        if( stages == null )
+        if( null == stages )
         {
             m_stages = new StageDirective[0];
         }
