@@ -19,23 +19,43 @@
 
 <document>
 
-  <header>
-    <title>Merlin Overview</title>
-    <authors>
-      <person name="Stephen McConnell" email="mcconnell@apache.org"/>
-    </authors>
-  </header>
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Specification</title>
+  </properties>
 
   <body>
-    <section name="Merlin System">
-      <subsection name="UML">
-        <p>
-        <i>UML diagram of the principal abstractions within the 
-        Merlin platform.</i>
-        </p>
-        <img src="../images/uml-top-level.gif"/>
+
+    <section name="Merlin Platform">
+
+      <subsection name="Index">
+        <table>
+          <tr><th>Topic</th><th>Summary</th></tr>
+          <tr>
+            <td><a href="uml.html">Object Model</a></td>
+            <td>
+              The object model dealing with the notion of a composite
+              component.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="system/index.html">Subsystems</a></td>
+            <td>
+              Introduction to the respective substems and relationships with
+              the Merlin system.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="deployment/index.html">Embedded</a></td>
+            <td>
+              Introduction to a set of available applications solutions
+              the include an embedded Merlin Kernel.
+            </td>
+          </tr>
+        </table>
       </subsection>
     </section>
+
   </body>
 
 </document>

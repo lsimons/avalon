@@ -65,31 +65,19 @@ The above container-side code is making a lot of assumptions about the component
 The solution to the above is a framework that automates the process of component deployment.  The end result is that container side code becomes independent of the component deployment strategy and component dependencies.
 </p>
 
-<p>Consider the following code fragment:</p>
+<p>Consider the following code fragment in which we create a service description, locate component model that provides the service, commission the model and resolve the service instance.</p>
 
 <source>
+  ReferenceDescriptor reference = 
+    new ReferenceDescriptor( Widget.class.getName() );
+  ComponentModel model = (ComponentModel) m_model.getModel( reference );
+  model.commission();
 
-   // add an implementation component to the engine
-
-   engine.register( "org.apache.avalon.playground.BasicComponent" );
-
-   // get an appliance handling the versioned service we want
-
-   Appliance appliance = m_engine.resolve( 
-     new DependencyDescriptor( 
-       "demo", 
-       "org.apache.avalon.playground.BasicService", 
-       Version.getVersion( "1.1" ) ) 
-   );
-
-   // get the fully prepared component
-
-   Object object = appliance.access( dependency );
-
+  Widget widget = (Widget) model.resolve();
 </source>
 
 <p>
-The above code demonstrates the elimination of knowledge about the component deployment strategy.  All aspect concerning the component logging, configuration, parameterization, contexulization, dependency composition, initialization, startup, shutdown, and disposal are managed by the engine.
+The above code demonstrates the elimination of knowledge about the component deployment strategy.  All aspect concerning the component logging, configuration, parameterization, contexulization, dependency composition, initialization, startup, shutdown, and disposal are managed by the container.
 </p>
 
      </subsection>
@@ -99,7 +87,7 @@ The above code demonstrates the elimination of knowledge about the component dep
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.3 $ $Date: 2004/01/25 13:28:47 $
+      $Revision: 1.4 $ $Date: 2004/04/03 04:34:08 $
     </legal>
   </footer>
 

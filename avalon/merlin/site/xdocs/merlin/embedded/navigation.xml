@@ -35,12 +35,14 @@
       <item name="Overview" href="/about/index.html"/>
       <item name="Getting Started" href="/starting/index.html"/>
       <item name="Merlin System" href="/merlin/index.html">
-        <item name="Kernel" href="/merlin/kernel/index.html">
-          <item name="Embedding" href="/merlin/kernel/embedding/index.html"/>
-          <item name="NT Service" href="/merlin/kernel/nt.html"/>
+        <item name="Object Model" href="/merlin/uml.html"/>
+        <item name="Subsystems"/>
+        <item name="Embedding">
+          <item name="CLI" href="/merlin/embedded/cli.html"/>
+          <item name="Application" href="/merlin/embedded/main.html"/>
+          <item name="Servlet" href="/merlin/embedded/servlet.html"/>
+          <item name="Unit" href="/merlin/embedded/unit.html"/>
         </item>
-        <item name="Block" href="/merlin/block/index.html"/>
-        <item name="Appliance" href="/merlin/appliance/index.html"/>
       </item>
       <item name="Tools" href="/tools/index.html"/>
       <item name="Extensions" href="/extensions/index.html" />
