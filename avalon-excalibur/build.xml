@@ -231,6 +231,12 @@ Legal:
       </fileset>
     </copy>
 
+    <copy todir="${build.scratchpad}">
+      <fileset dir="${scratchpad.dir}">
+        <include name="**/test/*.mf"/>
+      </fileset>
+    </copy>
+
 <!--
     <depend closure="yes"
             cache="${dep}"
