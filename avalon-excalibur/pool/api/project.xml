@@ -24,7 +24,7 @@ limitations under the License.
   <name>Excalibur Pool API</name>
   <package>org.apache.avalon.excalibur.pool</package>
   <inceptionYear>2001</inceptionYear>
-  <shortDescription>Excalibur Pool API</shortDescription
+  <shortDescription>Excalibur Pool API</shortDescription>
   <currentVersion>2.0</currentVersion>
 
   <dependencies>
