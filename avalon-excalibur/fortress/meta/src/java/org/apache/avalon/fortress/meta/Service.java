@@ -58,9 +58,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Encapsulate the Service information, and encapsulate all the
@@ -88,7 +88,7 @@ final class Service
         
         m_loader = Thread.currentThread().getContextClassLoader();
         m_type = m_loader.loadClass(type);
-        m_components = new TreeSet();
+        m_components = new HashSet();
         m_isRole = isRole;
         m_areRolesCollected = false;
     }
