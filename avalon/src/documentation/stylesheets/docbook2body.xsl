@@ -349,17 +349,26 @@
     </div>
   </xsl:template>
 
-  <xsl:template match="graphic">
+  <xsl:template match="figure">
     <div align="center">
       <table border="0" cellpadding="2" cellspacing="2">
         <tr>
-	  <td><img border="0" alt="{@srccredit}" src="{@fileref}"/></td>
+	  <td bgcolor="#525D76"><font color="#ffffff" size="0"><xsl:value-of select="title"/></font></td>
 	</tr>
-	<tr>
-	  <td><ul><li><xsl:value-of select="@srccredit"/></li></ul></td>
-	</tr>
+	<xsl:apply-templates/>
       </table>
     </div>
+  </xsl:template>
+
+  <xsl:template match="graphic">
+        <tr>
+	  <td><img border="0" alt="{@srccredit}" src="{@fileref}"/></td>
+	</tr>
+	<xsl:if test="@srccredit">
+	  <tr>
+	    <td><font size="-1"><ul><li><xsl:value-of select="@srccredit"/></li></ul></font></td>
+	  </tr>
+	</xsl:if>
   </xsl:template>
 
   <xsl:template match="table">
