@@ -16,24 +16,37 @@
 
     <!-- Build default targets of all subprojects. -->
     <target name="build-subprojects-dist">
+        <!-- Sub projects which do not depend on any other excalibur sub projects. -->
+        <ant dir="altrmi" target="dist"/>
+        <ant dir="collections" target="dist"/>
+        <ant dir="concurrent" target="dist"/>
+        <ant dir="instrument" target="dist"/>
+        <ant dir="lang" target="dist"/>
+        <ant dir="logger" target="dist"/>
+        
+        <!-- Sub projects with dependencies. -->
+        <ant dir="pool" target="dist"/>               <!-- collections, concurrent -->
+        <ant dir="thread" target="dist"/>             <!-- lang, pool -->
+        <ant dir="component" target="dist"/>          <!-- collections, logger, pool -->
+        <ant dir="util" target="dist"/>               <!-- component -->
+        <ant dir="testcase" target="dist"/>           <!-- logger, component -->
+        <ant dir="event" target="dist"/>              <!-- collections, concurrent -->
+        <ant dir="command" target="dist"/>            <!-- collections, concurrent, lang, pool, thread, util, event -->
+        <ant dir="instrument-manager" target="dist"/> <!-- altrmi, collections, instrument, logger, pool, component -->
+        <ant dir="instrument-client" target="dist"/>  <!-- instrument-manager -->
+        
+        <ant dir="all"/>                <!-- collections, command, concurrent, event, instrument -->
 
-        <ant dir="collections"/>
-        <ant dir="concurrent"/>
-        <ant dir="altrmi"/>
-        <ant dir="instrument"/>
-        <ant dir="all"/>                <!-- depends on instrument -->
-        <ant dir="instrument-manager"/> <!-- depends on instrument, all -->
-        <!--ant dir="instrument-client"/-->  <!-- depends on instrument-manager -->
-        <ant dir="baxter"/>
-        <ant dir="bzip2"/>
-        <ant dir="cache"/>
-        <ant dir="cli"/>
-        <ant dir="extension"/>
-        <ant dir="i18n"/>
-        <ant dir="io"/>
-        <ant dir="naming"/>
-        <ant dir="tar"/>
-        <ant dir="zip"/>
+        <ant dir="baxter" target="dist"/>
+        <ant dir="bzip2" target="dist"/>
+        <ant dir="cache" target="dist"/>
+        <ant dir="cli" target="dist"/>
+        <ant dir="extension" target="dist"/>
+        <ant dir="i18n" target="dist"/>
+        <ant dir="io" target="dist"/>
+        <ant dir="naming" target="dist"/>
+        <ant dir="tar" target="dist"/>
+        <ant dir="zip" target="dist"/>
     </target>
 
     <target name="jdepend" if="do.jdepend" description="Generate Dependency Analysis Report">
@@ -201,9 +214,9 @@
         <ant dir="testcase" target="real-clean"/>
         <ant dir="event" target="real-clean"/>
         <ant dir="command" target="real-clean"/>
-        <ant dir="all" target="distclean"/>
         <ant dir="instrument-manager" target="real-clean"/>
         <ant dir="instrument-client" target="real-clean"/>
+        <ant dir="all" target="distclean"/>
         
         <ant dir="baxter" target="real-clean"/>
         <ant dir="bzip2" target="real-clean"/>
