@@ -44,6 +44,7 @@ public class PluginServiceManager extends AbstractLogEnabled
             
         DUMMY = new Object();
         m_FacadeFactory = factory;
+        m_GlobalProperties = globalProps;
         
         m_PluginsByKey = new HashMap();
         m_PluginsByValue = new HashMap();
@@ -158,15 +159,19 @@ public class PluginServiceManager extends AbstractLogEnabled
     {
         File pluginDir;
         if( service.equals( "" ) || service.equals( "." ) )
+        {
             pluginDir = m_ProjectDir;
+        }
         else
+        {
             pluginDir = new File( m_LocalPlugins, service );
+            appendProperties( m_GlobalProperties, pluginDir );
+        }
         if( pluginDir == null )
             throw new ServiceException( "Plugin '" + service + "' is not present in " + m_LocalPlugins + "." );
             
         PluginProperties props = new PluginProperties( m_GlobalProperties );
         
-        appendProperties( props, pluginDir );
         appendProperties( props, m_ProjectDir );
         String projectName = props.getProperty( "project.name" );
         

@@ -8,7 +8,7 @@ import org.apache.merlin.magic.AbstractPlugin;
 import org.apache.merlin.magic.Plugin;
 import org.apache.merlin.magic.PluginContext;
 
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.Logger;
 
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.service.ServiceException;
@@ -38,35 +38,19 @@ public class JavacPlugin extends AbstractPlugin
             return;
         PreparePlugin prepare = (PreparePlugin) m_PreparePlugin;
         prepare.init();
+        
         notifyPreMethod( "compile" );
-        copySources();
-        notifyStep( "compile", "sources-copied" );
         executeCompile();    
         notifyPostMethod( "compile" );
         m_Compiled = true;
     }
     
-    private void copySources()
-    {
-        String destdirname = m_Context.getProperty( "java.build.src.dir" );
-        File toDir = new File( destdirname ); 
-        String srcdirname = m_Context.getProperty( "java.src.dir" );
-        File fromDir = new File( srcdirname ); 
-        
-        FileSet from = new FileSet();
-        from.setDir( fromDir );
-        from.setIncludes( "**/*" );
-        toDir.mkdirs();  /* ensure that the directory exists. */
-
-        Copy copy = (Copy) m_Project.createTask( "copy" );
-        copy.setTodir( toDir );
-        copy.addFileset( from );
-        copy.init();
-        copy.execute();
-    }
-    
     private void executeCompile()
     {
+        Logger logger = getLogger();
+        if( logger.isDebugEnabled() )
+            logger.debug( "Starting Compile." );
+            
         String destdirname = m_Context.getProperty( "java.build.dest.dir" );
         File toDir = new File( destdirname ); 
         toDir.mkdirs();
