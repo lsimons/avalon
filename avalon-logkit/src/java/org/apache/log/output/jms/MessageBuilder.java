@@ -13,7 +13,7 @@ import javax.jms.Session;
 import org.apache.log.LogEvent;
 
 /**
- * Interface that classes implement to build JMS Messages.
+ * Interface that classes implement to buildFromResource JMS Messages.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
