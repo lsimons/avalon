@@ -37,6 +37,7 @@ Legal:
 
     <!-- Set the properties for intermediate directory -->
     <property name="target.dir" value="target"/>
+    <property name="target.mx" value="${target.dir}/mx-temp"/>
     <property name="target.lib" value="${target.dir}/lib"/>
     <property name="target.src" value="${target.dir}/src"/>
     <property name="target.classes" value="${target.dir}/classes"/>
@@ -491,9 +492,9 @@ Legal:
             <fileset dir="${lib.dir}/deploy/lib"/>
         </copy>
 
-	<delete dir="mx4j-tools-temp"/>
-	<unzip src="${mx4j-tools.jar}" dest="mx4j-tools-temp"/>
-	<property name="strings_en.xml" value="mx4j-tools-temp/mx4j/adaptor/http/xsl/strings_en.xml"/>
+	<delete dir="${target.mx}"/>
+	<unzip src="${mx4j-tools.jar}" dest="${target.mx}"/>
+	<property name="strings_en.xml" value="${target.mx}/mx4j/adaptor/http/xsl/strings_en.xml"/>
 	<replace file="${strings_en.xml}" token="MX4J/Http Adaptor" value="Apache's Phoenix Server"/>
 	<replace file="${strings_en.xml}" token="mx4jlogo" value="phoenixlogo"/>
 	<replace file="${strings_en.xml}" token="MX4J logo" value="Phoenix Logo"/>
@@ -503,10 +504,10 @@ Legal:
 	<replace file="${strings_en.xml}" token="100" value=""/>
 	<replace file="${strings_en.xml}" token="50" value=""/>
 	<replace file="${strings_en.xml}" token="mx4j.sourceforge.net" value="jakarta.apache.org/avalon/phoenix"/>
-	<replace file="mx4j-tools-temp/mx4j/adaptor/http/xsl/stylesheet.css" token="183,187,184" value="white"/>
-        <copy file="src/logos/phoenix.gif" todir="mx4j-tools-temp/mx4j/adaptor/http/xsl"/>
+	<replace file="${target.mx}/mx4j/adaptor/http/xsl/stylesheet.css" token="183,187,184" value="white"/>
+        <copy file="src/logos/phoenix.gif" todir="${target.mx}/mx4j/adaptor/http/xsl"/>
 
-	<zip destfile="${target.lib}/mx4j-tools.jar" basedir="mx4j-tools-temp"/>
+	<zip destfile="${target.lib}/mx4j-tools.jar" basedir="${target.mx}"/>
 
         <copy file="${mx4j.jar}" todir="${bin.dist.bin}/lib"/>
         <copy file="${target.lib}/mx4j-tools.jar" todir="${bin.dist.bin}/lib"/>
