@@ -364,6 +364,7 @@ public class ReadWriteLockTestCase
      */
     public void testDeadLock() throws Exception
     {
+        System.out.println( "testDeadLock():" );
         ReadWriteLock lock = new ReadWriteLock();
         TriesReadLock rla = new TriesReadLock( lock );
         TriesReadLock rlb = new TriesReadLock( lock );
