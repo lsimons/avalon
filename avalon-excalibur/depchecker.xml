@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.40 $
+                   Version $Revision: 1.41 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -398,14 +398,14 @@ To use it, type 'ant -f depchecker.xml'
     </target>
     <target name="checkContainer">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name.jar.name" value="excalibur-container.jar"/>
+            <property name="proj.jar.name" value="excalibur-container.jar"/>
             <property name="path" value="${excalibur-container.jar}"/>
             <property name="proj.home" value="${basedir}/../container"/>
         </ant>
     </target>
     <target name="checkMeta">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name.jar.name" value="excalibur-meta.jar"/>
+            <property name="proj.jar.name" value="excalibur-meta.jar"/>
             <property name="path" value="${excalibur-meta.jar}"/>
             <property name="proj.home" value="${basedir}/../meta"/>
         </ant>
