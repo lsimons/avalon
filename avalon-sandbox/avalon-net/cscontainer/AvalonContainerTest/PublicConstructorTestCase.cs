@@ -75,7 +75,7 @@ namespace Apache.Avalon.Container.Test
 			{
 				// Ok, expected.
 			}
-			catch(Exception e)
+			catch(Exception)
 			{
 				Assertion.Fail( "We should receive a LookupException exception." );
 			}
