@@ -1,0 +1,2 @@
+<!ENTITY template-api "0.1.0">
+<!ENTITY % version-entities SYSTEM "file:../version.ent"> %version-entities;

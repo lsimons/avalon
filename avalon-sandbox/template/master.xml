@@ -55,4 +55,52 @@
     </developer>
   </developers>
 
+  <build>
+
+    <nagEmailAddress>dev@avalon.apache.org</nagEmailAddress>
+    <sourceDirectory>${basedir}/src/java</sourceDirectory>
+    <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
+
+    <unitTest>
+      <includes>
+        <include>**/*TestCase.*</include>
+      </includes>
+      <excludes>
+        <exclude>**/Abstract*.*</exclude>
+      </excludes>
+      <resources>
+        <resource>
+          <directory>${basedir}/src/test</directory>
+          <includes> 
+            <include>**/*.dtd</include>
+            <include>**/*.properties</include>
+            <include>**/*.x*</include>
+          </includes>
+        </resource>
+      </resources>
+    </unitTest>
+    
+    <resources>
+      <resource>
+        <directory>${basedir}/src/java</directory>
+        <includes>
+          <include>**/*.dtd</include>
+          <include>**/*.properties</include>
+          <include>**/*.x*</include>
+        </includes>
+      </resource>
+      <resource>
+        <filtering>true</filtering>
+        <directory>${basedir}/conf</directory>
+        <targetPath>BLOCK-INF</targetPath>
+        <includes>
+          <include>block.xml</include>
+        </includes>
+      </resource>
+    </resources>
+    
+    <jars></jars>
+  </build>
+
+
 </project>

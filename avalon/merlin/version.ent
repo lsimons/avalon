@@ -1,0 +1,11 @@
+
+<!ENTITY merlin-id "merlin">
+
+<!ENTITY merlin-api-id "merlin-api">
+<!ENTITY merlin-api-version "3.3.0">
+
+<!ENTITY merlin-impl-id "merlin-impl">
+<!ENTITY merlin-impl-version "3.3.0">
+
+<!ENTITY merlin-unit-id "merlin-unit">
+<!ENTITY merlin-unit-version "3.3.0">
