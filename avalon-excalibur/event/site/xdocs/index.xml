@@ -26,17 +26,16 @@
         your code can safely process Commands (a type of event) in the
         background.  MPool, short for Managed Pool, houses code for a
         pool implementation that manages its size asynchronously so you
-        don't have to worry about it.  Thread is the thread pool code
-        which uses MPool to keep track of the threads.  Lastly, Util
-        provides some basic utilities so that we can programatically
-        determine the number of processors your hardware has.
+        don't have to worry about it.  Lastly, Util provides some basic
+        utilities so that we can programatically determine the number
+        of processors your hardware has.
       </p>
     </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.5 $ $Date: 2002/09/25 18:03:47 $
+      $Revision: 1.6 $ $Date: 2002/09/30 20:43:10 $
     </legal>
   </footer>
 </document>
