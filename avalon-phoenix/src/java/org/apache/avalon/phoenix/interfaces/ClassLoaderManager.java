@@ -13,6 +13,11 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
 
 /**
+ * Interface for component that creates and manages the 
+ * <code>ClassLoader</code> for an Application. The specific
+ * mechanism by which the <code>ClassLoader</code> is created
+ * is dependent on the type of <code>Embeddor</code> and the 
+ * deployment format.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
@@ -21,6 +26,15 @@ public interface ClassLoaderManager
 {
     String ROLE = "org.apache.avalon.phoenix.interfaces.ClassLoaderManager";
 
+    /**
+     * Create a <code>ClassLoader</code> for a specific application.
+     * 
+     * @param server the configuration "server.xml" for the application
+     * @param baseDirectory the base directory of application
+     * @param classPath the list of URLs in applications deployment
+     * @return the ClassLoader created
+     * @exception Exception if an error occurs
+     */
     ClassLoader createClassLoader( Configuration server, File baseDirectory, URL[] classPath )
         throws Exception;
 }
