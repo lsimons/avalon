@@ -13,7 +13,6 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.phoenix.BlockContext;
-import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Logger;
 
@@ -23,25 +22,9 @@ import org.apache.log.Logger;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public interface ApplicationFrame
-    extends Component, BlockListener
+    extends Component
 {
     String ROLE = "org.apache.avalon.phoenix.components.frame.ApplicationFrame";
-
-    /**
-     * Add a BlockListener to those requiring notification of
-     * <code>BlockEvent</code>s.
-     *
-     * @param listener the BlockListener
-     */
-    void addBlockListener( BlockListener listener );
-
-    /**
-     * Remove a BlockListener from those requiring notification of
-     * <code>BlockEvent</code>s.
-     *
-     * @param listener the BlockListener
-     */
-    void removeBlockListener( BlockListener listener );
 
     /**
      * Get ThreadContext for the current application.

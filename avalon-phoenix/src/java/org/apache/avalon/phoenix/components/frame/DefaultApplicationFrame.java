@@ -35,7 +35,6 @@ import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.BlockEvent;
-import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Logger;
@@ -77,7 +76,6 @@ public class DefaultApplicationFrame
     private ConfigurationRepository m_repository;
 
     private SarMetaData m_metaData;
-    private BlockListenerSupport m_listenerSupport;
 
     public DefaultApplicationFrame( final ClassLoader classLoader, final SarMetaData metaData )
     {
@@ -122,7 +120,6 @@ public class DefaultApplicationFrame
     public void initialize()
         throws Exception
     {
-        m_listenerSupport = new BlockListenerSupport();
         //base context that all block contexts inherit from
         final DefaultContext context = new DefaultContext();
         context.put( BlockContext.APP_NAME, m_metaData.getName() );
@@ -137,50 +134,6 @@ public class DefaultApplicationFrame
         //Configure thread pools
         final Configuration threads = m_configuration.getChild( "threads" );
         configureThreadPools( threads );
-    }
-
-    /**
-     * Add a BlockListener to those requiring notification of
-     * <code>BlockEvent</code>s.
-     *
-     * @param listener the BlockListener
-     */
-    public void addBlockListener( final BlockListener listener )
-    {
-        m_listenerSupport.addBlockListener( listener );
-    }
-
-    /**
-     * Remove a BlockListener from those requiring notification of
-     * <code>BlockEvent</code>s.
-     *
-     * @param listener the BlockListener
-     */
-    public void removeBlockListener( final BlockListener listener )
-    {
-        m_listenerSupport.removeBlockListener( listener );
-    }
-
-    /**
-     * Notification that a block has just been added
-     * to Server Application.
-     *
-     * @param event the BlockEvent
-     */
-    public void blockAdded( final BlockEvent event )
-    {
-        m_listenerSupport.blockAdded( event );
-    }
-
-    /**
-     * Notification that a block is just about to be
-     * removed from Server Application.
-     *
-     * @param event the BlockEvent
-     */
-    public void blockRemoved( final BlockEvent event )
-    {
-        m_listenerSupport.blockRemoved( event );
     }
 
     /**
