@@ -1,5 +1,5 @@
 /* 
- * Copyright 2004 Apache Software Foundation
+ * Copyright 1999-2004 Apache Software Foundation
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at 
@@ -78,7 +78,7 @@ import java.io.Writer;
  *
  * @author Peter Donald
  * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
- * @version CVS $Revision: 1.3 $ $Date: 2004/02/18 02:51:40 $
+ * @version CVS $Revision: 1.4 $ $Date: 2004/02/18 03:27:16 $
  * @since 4.0
  */
 

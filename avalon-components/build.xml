@@ -7,6 +7,7 @@
 
 <project default="jar" name="cornerstone" basedir=".">
 
+
   <property name="version" value="1.0"/>
   <property name="build.dir" value="build"/>
   <property name="lib.dir" value="${build.dir}/lib"/>
@@ -16,6 +17,15 @@
   <property name="dist.dir" value="${build.dir}/dist"/>
   <property name="javadoc.dir" value="${dist.dir}/docs/api"/>
   <property name="final.name" value="cornerstone-${version}"/>
+
+  <target name="patch">
+    <replace summary="true" dir="."
+        token="Copyright 2004 Apache"
+        value="Copyright 1999-2004 Apache">
+      <include name="**/*.java"/>
+      <exclude name="**/target/**"/>
+    </replace>
+  </target>
 
   <path id="src.path">
     <pathelement location="${basedir}/connection-api/src/java"/>
