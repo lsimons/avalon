@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+
+  <extend>${basedir}/../project.xml</extend>
+
+  <id>excalibur-i18n</id>
+  <name>Excalibur i18n</name>
+  <package>org.apache.avalon.excalibur.i18n</package>
+  <currentVersion>1.1-RC1</currentVersion>
+
+  <inceptionYear>2002</inceptionYear>
+  <shortDescription>
+    Internationalization utility for Avalon.
+  </shortDescription>
+
+  <siteDirectory>${root.site.directory}/excalibur/i18n</siteDirectory>
+
+  <repository>
+    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:avalon-excalibur/i18n</connection>
+    <url>http://cvs.apache.org/viewcvs/avalon-excalibur/i18n/</url>
+  </repository>
+
+  <reports>
+    <report>maven-changelog-plugin</report>
+    <report>maven-file-activity-plugin</report>
+    <report>maven-developer-activity-plugin</report>
+  </reports>
+
+</project>
