@@ -1,18 +1,15 @@
-<?xml version="1.0"?>
-
-<!DOCTYPE changes SYSTEM "dtd/changes-v10.dtd">
-
+<?xml version="1.0" encoding="UTF-8"?>
 <changes title="LogKit History of Changes">
   <devs>
-    <person name="Peter Donald" email="peter@apache.org" id="PD"/>
-    <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
-    <person name="Stuart Roebuck" email="stuart.roebuck@adolos.co.uk" id="SR"/>
-    <person name="Eung-ju Park" email="colus@apache.org" id="EP"/>
-    <person name="Leif Mortenson" email="leif@apache.org" id="LM"/>
-    <person name="Giacomo Pati" email="giacomo@apache.org" id="GP"/>
-    <person name="Marcus Crafter" email="crafterm@apache.org" id="MC"/>
+    <author email="peter@apache.org">Peter Donald</author>
+    <author email="bloritsch@apache.org">Berin Loritsch</author>
+    <author email="stuart.roebuck@adolos.co.uk">Stuart Roebuck</author>
+    <author email="colus@apache.org">Eung-ju Park</author>
+    <author email="leif@apache.org">Leif Mortenson</author>
+    <author email="giacomo@apache.org">Giacomo Pati</author>
+    <author email="crafterm@apache.org">Marcus Crafter</author>
   </devs>
-  <release version="1.1">
+  <release version="1.1" date="Unreleased">
     <action dev="MC" type="add">
       Added SMTPOutputLogTarget to enable logging to email addresses.
     </action>

@@ -1,16 +1,13 @@
-<?xml version="1.0"?>
-
-<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
-
+<?xml version="1.0" encoding="UTF-8"?>
 <document>
-  <header>
+  <properties>
     <title>LogKit - Whitepaper</title>
-    <authors>
-      <person name="Peter Donald" email="peter@apache.org"/>
-    </authors>
-  </header>
+    
+      <author email="peter@apache.org">Peter Donald</author>
+    
+  </properties>
   <body>
-    <s1 title="Abstract">
+    <section name="Abstract">
       <p>
         Logging is an integral component to any software development project. 
         During the development stages it offers a valuable source of debugging
@@ -18,8 +15,8 @@
         operational data that allows administrators to diagnose problems as they 
         arise. This whitepaper describes the design and implementation of LogKit.
       </p>
-    </s1>
-    <s1 title="Introduction">
+    </section>
+    <section name="Introduction">
 
       <p>
         LogKit, began life as a facade for a more complex logging toolkit. During
@@ -43,9 +40,9 @@
         serialization of events.
       </p>
 
-    </s1>
+    </section>
 
-    <s1 title="Structure and Elements">
+    <section name="Structure and Elements">
 
       <p>
         The most basic components of LogKit are the Logger, the LogEvent and the
@@ -54,9 +51,9 @@
         are routed to a LogTarget. The LogTarget decides what to do with the LogEvent,
         usually it is recorded to a file, a database or transmitted over the network.
       </p>
-    </s1>
+    </section>
 
-    <s1 title="Priorities">
+    <section name="Priorities">
       <p>
         One of the advantages of a logging toolkit is fine grain control over which
         statements get printed. At some times during development you may wish to enable 
@@ -123,7 +120,7 @@
         "is<em>Priority</em>Enabled()". An example use case is displayed below.
       </p>
 
-<source><![CDATA[
+<source xml:space="preserve">
 if( logger.isDebugEnabled() )
 {
   //Construct a message (expensive operation)
@@ -131,11 +128,11 @@ if( logger.isDebugEnabled() )
                          "\tVar3 value: " + var3 + ".";
   logger.debug( message );
 }
-]]></source>
+</source>
 
-    </s1>
+    </section>
 
-    <s1 title="Categories">
+    <section name="Categories">
 
       <p>
         In a complex system it is often not enough to suppress logging based on priority.
@@ -176,9 +173,9 @@ if( logger.isDebugEnabled() )
         loggers.
       </p>
 
-    </s1>
+    </section>
 
-    <s1 title="Log Targets">
+    <section name="Log Targets">
 
       <p>
         In LogKit, LogTargets are the destination of LogEvents. Decoupling LogEvent 
@@ -194,7 +191,7 @@ if( logger.isDebugEnabled() )
         runtime performance penalty.
       </p>
 
-      <s2 title="Filters">
+      <subsection name="Filters">
 
         <p>
           Filters are a special kind of LogTarget. Instead of writing to an output 
@@ -212,9 +209,9 @@ if( logger.isDebugEnabled() )
           for pager log target.          
         </p>
       
-      </s2>
+      </subsection>
 
-      <s2 title="AsyncLogTarget">
+      <subsection name="AsyncLogTarget">
 
         <p>
           AsyncLogTarget is another kind of special LogTarget. It takes a log event
@@ -228,7 +225,7 @@ if( logger.isDebugEnabled() )
           in another thread.
         </p>
 
-<source><![CDATA[
+<source xml:space="preserve">
 LogTarget mySlowTarget = ...;
 AsyncLogTarget asyncTarget = new AsyncLogTarget( mySlowTarget );
 Thread thread = new Thread( asyncTarget );
@@ -236,12 +233,12 @@ thread.setPriority( Thread.MIN_PRIORITY );
 thread.start();
 
 logger.setLogTargets( new LogTarget[] { asyncTarget } );
-]]></source>
-      </s2>
+</source>
+      </subsection>
 
-    </s1> 
+    </section> 
 
-    <s1 title="Formatters">
+    <section name="Formatters">
 
       <p>
         LogTargets that write to a serial or unstructured store (ie filesystem or 
@@ -275,7 +272,7 @@ logger.setLogTargets( new LogTarget[] { asyncTarget } );
         and actual output.
       </p>
 
-<source><![CDATA[
+<source xml:space="preserve">
 format: "%7.7{priority} %5.5{rtime} [%8.8{category}]: %{message}\n%{throwable}"
 output: DEBUG   123   [network.]: This is a debug message
 
@@ -286,7 +283,7 @@ output: DEBUG   123   [network]: This is another debug message
 format: "%7.7{priority} %5.5{rtime} [%10.{category}]: %{message}\n"
 output: DEBUG   123   [network.interceptor.connected]: This is a debug message
 output: DEBUG   123   [network   ]: This is another debug message
-]]></source>
+</source>
 
       <p>
         There is also ExtendedPatternFormatter that allows two extra fields, namely
@@ -295,9 +292,9 @@ output: DEBUG   123   [network   ]: This is another debug message
         the name of the current thread.
       </p>
 
-    </s1>
+    </section>
 
-    <s1 title="Context">
+    <section name="Context">
 
       <p>
         In many systems you need to include extra information depending in logs that depends
@@ -324,7 +321,7 @@ output: DEBUG   123   [network   ]: This is another debug message
         illustrated below.
       </p>
 
-<source><![CDATA[
+<source xml:space="preserve">
 format: "%7.7{priority} [%{context:hostname}]: %{message}\n"
 output: DEBUG   [helm.realityforge.org]: This is a debug message
 
@@ -335,7 +332,7 @@ output: DEBUG   [203.121.1.2]: This is logging about external network interface
 
 format: "%7.7{priority} [%{context:user}]: %{message}\n"
 output: DEBUG   [Barney Rubble]: This is a debug message
-]]></source>
+</source>
 
       <p>
         <em>Warning:</em> Older versions of LogKit also incorporated a ContextStack
@@ -365,7 +362,7 @@ output: DEBUG   [Barney Rubble]: This is a debug message
         Below is an example of how a user can create and bind a ContextMap.
       </p>
 
-<source><![CDATA[
+<source xml:space="preserve">
 final ContextMap context = new ContextMap();
 context.set( "user", "Fred Flinstone" );
 context.set( "interface", myInterface );
@@ -375,11 +372,11 @@ context.makeReadOnly();
 
 //bind new ContextMap to current thread and subthreads
 ContextMap.bind( context );
-]]></source>
+</source>
 
-    </s1> 
+    </section> 
 
-    <s1 title="Examples">
+    <section name="Examples">
 
       <p>
         One of the best ways to learn how to use a toolkit is to see an 
@@ -388,13 +385,13 @@ ContextMap.bind( context );
         The servlet example demonstrates the usage of filters.
       </p>
 
-<source><![CDATA[
+<source xml:space="preserve">
 Logger logger = Hierarchy.getDefaultHierarchy().getLoggerFor("myCategory");
 logger.setPriority( Priority.DEBUG );
 logger.debug( "This is a debug message" );
-]]></source>
+</source>
 
-<source><![CDATA[
+<source xml:space="preserve">
 //Create a Log filter that writes to servlet Containers log
 //If priority greater than ERROR
 PriorityFilter filter = new PriorityFilter(Priority.ERROR);
@@ -427,11 +424,11 @@ if( null == logLevel ) logLevel = "DEBUG";
 //Set log targets parameter based on init parameters
 Priority priority = Priority.getPriorityForName( logLevel );
 myLogger.setPriority( priority );
-]]></source>
+</source>
 
-    </s1>
+    </section>
 
-    <s1 title="Conclusion">
+    <section name="Conclusion">
 
       <p>
         LogKit is a friendly, easy to use logging toolkit. It is high performing and 
@@ -441,13 +438,8 @@ myLogger.setPriority( priority );
         limiting client access to hierarchies. 
       </p>
 
-    </s1>
+    </section>
 
   </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.7 $ $Date: 2002/04/02 11:03:32 $
-    </legal>
-  </footer>
+  
 </document>

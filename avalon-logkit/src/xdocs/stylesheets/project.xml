@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project href="http://jakarta.apache.org/avalon/logkit" 
+         name="LogKit">
+ <title>LogKit</title>
+ <logo href="images/header.gif">LogKit</logo>
+ <body>
+  <menu name="About">
+    <item name="Overview" href="/index.html"/>
+    <item name="Features" href="/features.html"/>
+    <item name="Download" href="http://jakarta.apache.org/builds/jakarta-avalon/release/logkit/latest"/>
+    <item name="Whitepaper" href="/whitepaper.html"/>
+    <item name="Changes" href="/changes.html"/>
+    <item name="API Docs" href="http://jakarta.apache.org/avalon/logkit/api/index.html"/>
+  </menu>
+ </body>
+</project>

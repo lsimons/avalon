@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-
+<?xml version="1.0" encoding="UTF-8"?>
 <announcement>
   <title>@Name@ @version@</title>
   <abstract>The Avalon team is proud to announce the @version@ @status@ release of @Name@.</abstract>
@@ -28,4 +27,3 @@ into existing products with minimal impact.
   </project>
 
 </announcement>
-

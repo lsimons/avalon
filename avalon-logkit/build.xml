@@ -85,6 +85,7 @@ Legal:
 
   <property name="servlet.jar" value="${lib.dir}/servlet.jar"/>
   <property name="mail.jar" value="${lib.dir}/mail.jar"/>
+  <property name="jakarta-site.dir" value="../jakarta-site"/>
 
   <path id="project.class.path">
     <pathelement path="${java.class.path}" />
@@ -100,9 +101,7 @@ Legal:
   </path>
 
   <path id="tools.class.path">
-    <pathelement location="${tools.jar}"/>
-    <pathelement location="${junit.jar}"/>
-    <fileset dir="${tools.dir}/lib"/>
+    <fileset dir="${jakarta-site.dir}/lib"/>
   </path>
 
   <path id="test.class.path">
@@ -422,87 +421,59 @@ Legal:
 
   </target>
 
-  <!-- Create the Local API documentation -->
-  <target name="local-javadocs" depends="javadocs">
+    <target name="anakia-avail">
+        <available classname="org.apache.velocity.anakia.AnakiaTask"
+            property="AnakiaTask.present">
+            <classpath refid="tools.class.path"/>
+        </available>
+    </target>
 
-    <delete dir="${javadocs.dir}"/>
-    <mkdir dir="${javadocs.dir}"/>
+    <target name="anakia-check" depends="anakia-avail" unless="AnakiaTask.present">
+        <echo>
+            AnakiaTask is not present! Please check to make sure that
+            velocity.jar is in your classpath. The easiest way to build
+            the documentation is to checkout jakarta-site CVS and specify
+            jakarta-site.dir property.
+        </echo>
+    </target>
 
-    <copy todir="${javadocs.dir}">
-      <fileset dir="${build.javadocs}" />
-    </copy>
+    <target name="docs" depends="anakia-check" description="Generate documentation and website">
+        <taskdef name="anakia"
+            classname="org.apache.velocity.anakia.AnakiaTask">
+            <classpath refid="tools.class.path"/>
+        </taskdef>
 
-  </target>
+        <anakia basedir="${xdocs.dir}"
+            destdir="${docs.dir}"
+            style="docs.vsl"
+            projectfile="stylesheets/project.xml"
+            includes="**/*.xml"
+            excludes="stylesheets/**, changes.xml, announcement.xml"
+            velocitypropertiesfile="src/xdocs/stylesheets/velocity.properties"
+            />
 
-  <target name="printerdocs" depends="javadocs,all">
-    <echo message="Printer friendly documentation not implemented yet"/>
-  </target>
+        <anakia basedir="${xdocs.dir}"
+            destdir="${docs.dir}"
+            style="changes.vsl"
+            projectfile="stylesheets/project.xml"
+            includes="changes.xml"
+            velocitypropertiesfile="${xdocs.dir}/stylesheets/velocity.properties"
+            />
 
-  <!-- Prepares the documentation directory -->
-  <target name="docs" depends="javadocs,all">
-
-    <mkdir dir="${build.context}"/>
-    <mkdir dir="${build.xdocs}"/>
-    <mkdir dir="${build.docs}"/>
-    <mkdir dir="${build.dir}/work"/>
-
-    <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
-    <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
-    <property name="framework.base" value="http://jakarta.apache.org/avalon/framework"/>
-    <property name="phoenix.base" value="http://jakarta.apache.org/avalon/phoenix"/>
-    <property name="cornerstone.base" value="http://jakarta.apache.org/avalon/cornerstone"/>
-    <property name="logkit.base" value="http://jakarta.apache.org/avalon/logkit"/>
-    <property name="testlet.base" value="http://jakarta.apache.org/avalon/testlet"/>
-
-    <filter token="year" value="${year}"/>
-    <filter token="AVALON_BASE" value="${avalon.base}"/>
-    <filter token="FRAMEWORK_BASE" value="${framework.base}"/>
-    <filter token="PHOENIX_BASE" value="${phoenix.base}"/>
-    <filter token="CORNERSTONE_BASE" value="${cornerstone.base}"/>
-    <filter token="LOGKIT_BASE" value="${logkit.base}"/>
-    <filter token="TESTLET_BASE" value="${testlet.base}"/>
-
-    <copy todir="${build.context}" overwrite="true" filtering="on">
-      <fileset dir="${context.dir}">
-        <exclude name="**/*.gif"/>
-        <exclude name="**/*.jpg"/>
-        <exclude name="**/*.png"/>
-      </fileset>
-    </copy>
-    <copy todir="${build.context}" filtering="off">
-      <fileset dir="${context.dir}">
+     <copy todir="${docs.dir}" filtering="off">
+      <fileset dir="${xdocs.dir}">
+        <include name="**/images/**"/>
         <include name="**/*.gif"/>
         <include name="**/*.jpg"/>
         <include name="**/*.png"/>
+        <include name="**/*.css"/>
+        <include name="**/*.js"/>
       </fileset>
     </copy>
-    <copy todir="${build.xdocs}" filtering="on" overwrite="true">
-      <fileset dir="${xdocs.dir}"/>
-    </copy>
-
-    <java classname="org.apache.cocoon.Main" fork="true">
-      <arg value="-c${build.context}/"/>
-      <arg value="-d${build.docs}"/>
-      <arg value="-w${build.dir}/work"/>
-      <arg value="-l${build.dir}/work/cocoon.log"/>
-      <arg value="-uINFO"/>
-      <arg value="index.html"/>
-      <classpath>
-        <path refid="tools.class.path"/>
-        <fileset dir="${build.lib}"/>
-        <fileset dir="${tools.dir}/ext"/>
-      </classpath>
-    </java>
-  </target>
-
-  <target name="local-docs" depends="local-javadocs,docs">
-    <copy todir="${docs.dir}">
-      <fileset dir="${build.docs}"/>
-    </copy>
-  </target>
+    </target>
 
   <!-- Update the www directory -->
-  <target name="site-docs" depends="local-docs">
+  <target name="site-docs" depends="docs,javadocs">
 
     <mkdir dir="${www.dir}"/>
 
@@ -516,7 +487,7 @@ Legal:
 
     <mkdir dir="${www.dir}"/>
     <copy todir="${www.dir}">
-      <fileset dir="${docs.dir}" />
+      <fileset dir="${build.docs}" />
     </copy>
 
   </target>
@@ -697,6 +668,7 @@ Legal:
     <delete dir="${build.dir}" />
     <delete dir="test" /> <!-- cleanup unit test directory -->
     <delete>
+      <fileset dir="." includes="velocity.log*"/>
       <fileset dir="." includes="**/*~" defaultexcludes="no"/>
     </delete>
   </target>

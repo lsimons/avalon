@@ -1,21 +1,18 @@
-<?xml version="1.0"?>
-
-<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
-
+<?xml version="1.0" encoding="UTF-8"?>
 <document>
 
- <header>
+ <properties>
   <title>Logkit - Features</title>
-  <authors>
-    <person name="Peter Donald" email="peter@apache.org"/>
-  </authors>
- </header>
+  
+    <author email="peter@apache.org">Peter Donald</author>
+  
+ </properties>
 
 <body>
 
-<s1 title="Features">
+<section name="Features">
   <p>
-    <strong>This document is under construction!</strong><br />
+    <strong>This document is under construction!</strong><br/>
     The LogKit provides the following features:
   </p>
   <ul>
@@ -61,7 +58,7 @@
     </li>
   </ul>
 
-</s1>
+</section>
 
 </body>
 </document>
