@@ -108,8 +108,7 @@ public class Logger
      */
     public final void debug( final String message, final Throwable throwable )
     {
-        if( m_category.getPriority().isLowerOrEqual( Priority.DEBUG ) &&
-            m_engine.getGlobalPriority().isLowerOrEqual( Priority.DEBUG ) )
+        if( isDebugEnabled() )
         {
             output( Priority.DEBUG, message, throwable );
         }
@@ -122,8 +121,7 @@ public class Logger
      */
     public final void debug( final String message )
     {
-        if( m_category.getPriority().isLowerOrEqual( Priority.DEBUG ) &&
-            m_engine.getGlobalPriority().isLowerOrEqual( Priority.DEBUG ) )
+        if( isDebugEnabled() )
         {
             output( Priority.DEBUG, message, null );
         }
@@ -137,8 +135,7 @@ public class Logger
      */
     public final void error( final String message, final Throwable throwable )
     {
-        if( m_category.getPriority().isLowerOrEqual( Priority.ERROR ) &&
-            m_engine.getGlobalPriority().isLowerOrEqual( Priority.ERROR ) )
+        if( isErrorEnabled() )
         {
             output( Priority.ERROR, message, throwable );
         }
@@ -151,8 +148,7 @@ public class Logger
      */
     public final void error( final String message )
     {
-        if( m_category.getPriority().isLowerOrEqual( Priority.ERROR ) &&
-            m_engine.getGlobalPriority().isLowerOrEqual( Priority.ERROR ) )
+        if( isErrorEnabled() )
         {
             output( Priority.ERROR, message, null );
         }
@@ -166,8 +162,7 @@ public class Logger
      */
     public final void fatalError( final String message, final Throwable throwable )
     {
-        if( m_category.getPriority().isLowerOrEqual( Priority.FATAL_ERROR ) &&
-            m_engine.getGlobalPriority().isLowerOrEqual( Priority.FATAL_ERROR ) )
+        if( isFatalErrorEnabled() )
         {
             output( Priority.FATAL_ERROR, message, throwable );
         }
@@ -180,8 +175,7 @@ public class Logger
      */
     public final void fatalError( final String message )
     {
-        if( m_category.getPriority().isLowerOrEqual( Priority.FATAL_ERROR ) &&
-            m_engine.getGlobalPriority().isLowerOrEqual( Priority.FATAL_ERROR ) )
+        if( isFatalErrorEnabled() )
         {
             output( Priority.FATAL_ERROR, message, null );
         }
@@ -205,8 +199,7 @@ public class Logger
      */
     public final void info( final String message )
     {
-        if( m_category.getPriority().isLowerOrEqual( Priority.INFO ) &&
-            m_engine.getGlobalPriority().isLowerOrEqual( Priority.INFO ) )
+        if( isInfoEnabled() )
         {
             output( Priority.INFO, message, null );
         }
@@ -281,6 +274,9 @@ public class Logger
 
     protected final void output( final LogEntry entry )
     {
+        //cache a copy of targets for thread safety
+        //It is now possible for another thread
+        //to replace m_logTargets
         final LogTarget[] targets = m_logTargets;
 
         if( null == targets )
@@ -313,8 +309,7 @@ public class Logger
      */
     public final void warn( final String message, final Throwable throwable )
     {
-        if( m_category.getPriority().isLowerOrEqual( Priority.WARN ) &&
-            m_engine.getGlobalPriority().isLowerOrEqual( Priority.WARN ) )
+        if( isWarnEnabled() )
         {
             output( Priority.WARN, message, throwable );
         }
@@ -327,11 +322,70 @@ public class Logger
      */
     public final void warn( final String message )
     {
-        if( m_category.getPriority().isLowerOrEqual( Priority.WARN ) &&
-            m_engine.getGlobalPriority().isLowerOrEqual( Priority.WARN ) )
+        if( isWarnEnabled() )
         {
             output( Priority.WARN, message, null );
         }
+    }
+
+    /**
+     * Determine if messages of priority DEBUG will be logged.
+     *
+     * @return true if DEBUG messages will be logged
+     */
+    public final boolean isDebugEnabled()
+    {
+        return
+            ( m_category.getPriority().isLowerOrEqual( Priority.DEBUG ) &&
+              m_engine.getGlobalPriority().isLowerOrEqual( Priority.DEBUG ) );
+    }
+
+    /**
+     * Determine if messages of priority INFO will be logged.
+     *
+     * @return true if INFO messages will be logged
+     */
+    public final boolean isInfoEnabled()
+    {
+        return
+            ( m_category.getPriority().isLowerOrEqual( Priority.INFO ) &&
+              m_engine.getGlobalPriority().isLowerOrEqual( Priority.INFO ) );
+    }
+
+    /**
+     * Determine if messages of priority WARN will be logged.
+     *
+     * @return true if WARN messages will be logged
+     */
+    public final boolean isWarnEnabled()
+    {
+        return
+            ( m_category.getPriority().isLowerOrEqual( Priority.WARN ) &&
+              m_engine.getGlobalPriority().isLowerOrEqual( Priority.WARN ) );
+    }
+
+    /**
+     * Determine if messages of priority ERROR will be logged.
+     *
+     * @return true if ERROR messages will be logged
+     */
+    public final boolean isErrorEnabled()
+    {
+        return
+            ( m_category.getPriority().isLowerOrEqual( Priority.ERROR ) &&
+              m_engine.getGlobalPriority().isLowerOrEqual( Priority.ERROR ) );
+    }
+
+    /**
+     * Determine if messages of priority FATAL_ERROR will be logged.
+     *
+     * @return true if FATAL_ERROR messages will be logged
+     */
+    public final boolean isFatalErrorEnabled()
+    {
+        return
+            ( m_category.getPriority().isLowerOrEqual( Priority.FATAL_ERROR ) &&
+              m_engine.getGlobalPriority().isLowerOrEqual( Priority.FATAL_ERROR ) );
     }
 
     /**
@@ -344,11 +398,21 @@ public class Logger
         m_logTargets = logTargets;
     }
 
+    /**
+     * Retrieve a list of log targets associated with this Logger.
+     *
+     * @return an array LogTargets
+     */
     public final LogTarget[] getLogTargets()
     {
         return m_logTargets;
     }
 
+    /**
+     * Add an individual log target to logtarget list.
+     *
+     * @param target target to be added
+     */
     public final void addLogTarget( final LogTarget target )
     {
         if( null == m_logTargets ) m_logTargets = new LogTarget[] { target };
@@ -361,6 +425,13 @@ public class Logger
         }
     }
 
+    /**
+     * Create a new child logger.
+     * The category of child logger is [current-category].subcategory
+     *
+     * @param subcategory the subcategory of this logger
+     * @return the new logger
+     */
     public Logger getChildLogger( final String subcategory )
     {
         final String categoryName = 
