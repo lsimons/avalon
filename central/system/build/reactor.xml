@@ -3,18 +3,14 @@
 
   <x:home/>
 
-  <target name="init">
-   <!--
-     this wasn't being called.  why?
+  <target name="init" depends="init-proxy">
+   <!--       
+ 
+    currently not used.  (why?)
+
     <x:home/>
     <x:reactor target="init"/>
    -->
-
-    <setproxy proxyhost="${project.proxy.host}"
-              proxyport="${project.proxy.port}"
-	      proxyuser="${project.proxy.user}"
-	      proxypassword="${project.proxy.password}"/>
-
   </target>
 
   <target name="clean">
@@ -55,6 +51,13 @@
   <target name="dist">
     <x:home/>
     <x:reactor target="dist"/>
+  </target>
+
+  <target name="init-proxy" if="${project.proxy.host}">
+    <setproxy proxyhost="${project.proxy.host}"
+              proxyport="${project.proxy.port}"
+	      proxyuser="${project.proxy.user}"
+	      proxypassword="${project.proxy.password}"/>
   </target>
 
 </project>
