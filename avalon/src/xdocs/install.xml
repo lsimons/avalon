@@ -23,11 +23,10 @@
 
 <p>
     Everything required to run Avalon and develope Avalon based products comes with the 
-    <link href="http://java.apache.org/framework/dist/">distribution</link>. If you wish 
+    <link href="http://jakarta.apache.org/build/avalon/">distribution</link>. If you wish 
     to help develop Avalon then it is recomended that you obtain the full source tree from
     <link href="http://jakarta.apache.org/getinvolved/cvsindex.html">CVS</link> or from the
-    <link href="http://jakarta.apache.org/builds/jakarta-avalon/nightly/">nightly builds
-    </link>
+    <link href="http://jakarta.apache.org/builds/avalon/nightly/">nightly builds</link>.
 </p>
 
 </s1>
