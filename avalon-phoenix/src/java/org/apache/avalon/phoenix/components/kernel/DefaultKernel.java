@@ -10,7 +10,7 @@ package org.apache.avalon.phoenix.components.kernel;
 import java.util.HashMap;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.CascadingException;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
@@ -103,7 +103,7 @@ public class DefaultKernel
      *
      * @param name the name of application
      * @param entry the entry for application
-     * @exception ContainerException if an error occurs
+     * @exception Exception if an error occurs
      */
     private void startup( final SarEntry entry )
         throws Exception
@@ -134,7 +134,7 @@ public class DefaultKernel
 
                 final String message =
                     REZ.getString( "kernel.error.entry.initialize", entry.getMetaData().getName() );
-                throw new Exception( message/*, t*/ );
+                throw new CascadingException( message, t );
             }
         }
     }
@@ -183,7 +183,7 @@ public class DefaultKernel
                                            entry.getClassLoader(),
                                            entry.getHierarchy() );
 
-        setupLogger( entry.getApplication(), entry.getMetaData().getName() + ".frame" );
+        setupLogger( context, entry.getMetaData().getName() + ".frame" );
 
         if( context instanceof Composable )
         {
