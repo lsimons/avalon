@@ -83,7 +83,7 @@ public class JavacTask extends HomeTask
 
     private File getTargetSrcMainDirectory()
     {
-        String src = getProject().getProperty( "avalon.target.src.main" );
+        String src = getProject().getProperty( PrepareTask.TARGET_SRC_MAIN_KEY );
         return new File( getProject().getBaseDir(), src );
     }
 

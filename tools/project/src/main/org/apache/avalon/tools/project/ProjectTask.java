@@ -176,13 +176,18 @@ public class ProjectTask extends Sequential
 
     private void setProjectProperties( Home home, Definition definition )
     {
-        File root = home.getHomeDirectory();
-        File lib = new File( root, "library" );
+        if( null == home )
+        {
+            throw new NullPointerException( "home" );
+        }
+        if( null == definition )
+        {
+            throw new NullPointerException( "definition" );
+        }
 
+        File root = home.getHomeDirectory();
         getProject().setProperty( 
           "avalon.home", root.toString() );
-        getProject().setProperty( 
-          "avalon.library", lib.toString() );
 
         getProject().setProperty( 
           "avalon.project.key", definition.getKey() );
@@ -190,8 +195,11 @@ public class ProjectTask extends Sequential
           "avalon.project.name", definition.getInfo().getName() );
         getProject().setProperty( 
           "avalon.project.group", definition.getInfo().getGroup() );
-        getProject().setProperty( 
-          "avalon.project.version", definition.getInfo().getVersion() );
+        if( null != definition.getInfo().getVersion() )
+        {
+            getProject().setProperty( 
+              "avalon.project.version", definition.getInfo().getVersion() );
+        }
     }
 
     private void buildProject( Home home, Definition definition )
