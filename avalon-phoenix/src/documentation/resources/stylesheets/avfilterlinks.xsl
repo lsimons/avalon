@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 
 <!--
-This stylesheet filters all references to the javadocs
-and the samples.
+This stylesheet filters all references to the javadocs, the samples, and any
+other links that shouldn't be traversed.  It is referenced from the customized
+sitemap.
 -->
 <xsl:stylesheet
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -10,7 +11,7 @@ and the samples.
 
     <xsl:template match="@src|@href|@background">
         <xsl:if test="not(contains(., '/api/')) and
-                      not(starts-with(., 'api/'))">
+                      not(starts-with(., 'api/')) and not(. = '..')">
             <xsl:copy>
                 <xsl:apply-templates select="."/>
             </xsl:copy>
