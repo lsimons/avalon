@@ -18,19 +18,24 @@
 package org.apache.avalon.tools.model;
 
 import org.apache.tools.ant.BuildException;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+
 import java.util.ArrayList;
+import java.util.Properties;
 
 /**
  * Utility class supporting the translation of DOM content into local child, children, 
@@ -279,11 +284,6 @@ public class ElementHelper
     
     static String normalize( String value, Properties props )
     {
-        if( value.indexOf( '$' ) < 0 )
-            return value;
-        int pos = value.indexOf( "$" );
-        if( pos < 0 )
-            return value;
-        return value;
+        return PropertyResolver.resolve( props, value );
     }
 }
