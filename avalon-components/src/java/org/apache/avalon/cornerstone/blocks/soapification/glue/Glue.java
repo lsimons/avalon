@@ -56,13 +56,17 @@ public class Glue
 
     public void start() throws IOException
     {
-        mWebServer = WebServer.startWebServer( "http://"+ mBindingAddress +":"+ mPort +"/soap" );
-        mWebServer.startup();
+        String svr = "http://"+ mBindingAddress +":"+ mPort +"/soap";
+        //mWebServer = WebServer.startWebServer( svr );
+        //mWebServer.startup();
+        HTTP.startup( "http://127.0.0.1:"+ mPort +"/soap" );    
+        getLogger().info("WebServer started as " + svr );
     }
 
     public void stop() throws IOException
     {
-        mWebServer.shutdown();
+        //mWebServer.shutdown();
+        HTTP.shutdown();
     }
 
     /**
