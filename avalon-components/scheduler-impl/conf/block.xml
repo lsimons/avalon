@@ -21,7 +21,7 @@ Thread Block deployment directive.
 
    <implementation>
 
-     <engine>
+     <classloader>
        <classpath>
          <repository>
            <resource id="avalon-framework:avalon-framework-impl" version="SNAPSHOT"/>
@@ -30,7 +30,7 @@ Thread Block deployment directive.
            <resource id="excalibur-thread:excalibur-thread" version="1.1.1"/>
          </repository>
        </classpath>
-     </engine>
+     </classloader>
 
      <component name="manager" 
         class="org.apache.avalon.cornerstone.blocks.scheduler.DefaultTimeScheduler" 

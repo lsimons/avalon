@@ -11,7 +11,7 @@ Thread Tutorial.
 
    <implementation>
 
-     <engine>
+     <classloader>
        <classpath>
          <repository>
            <resource id="avalon-framework:avalon-framework-impl" version="SNAPSHOT"/>
@@ -20,11 +20,9 @@ Thread Tutorial.
            <resource id="excalibur-event:excalibur-event" version="1.0.3"/>
          </repository>
        </classpath>
-     </engine>
+     </classloader>
 
-     <include name="threads">
-       <resource id="cornerstone-threads:cornerstone-threads-impl" version="SNAPSHOT"/>
-     </include>
+     <include name="threads" id="cornerstone-threads:cornerstone-threads-impl" version="SNAPSHOT"/>
 
      <component name="test" 
         class="org.apache.avalon.cornerstone.threads.tutorial.ThreadConsumer" 
