@@ -142,6 +142,27 @@
         </jlink>
     </target>
 
+    <!-- Generate all docs -->
+    <target name="docs" description="Generate all the docs">
+     <!--   <ant dir="instrument" target="docs"/>  -->
+     <!--   <ant dir="concurrent" target="docs"/>  -->
+     <!--   <ant dir="collections" target="docs"/> -->
+        <ant dir="all" target="docs"/>                <!-- depends on instrument -->
+        <ant dir="instrument-manager" target="docs"/> <!-- depends on instrument, all -->
+        <!--ant dir="instrument-client" target="docs"/-->  <!-- depends on instrument-manager -->
+        <ant dir="baxter" target="docs"/>
+        <ant dir="bzip2" target="docs"/>
+        <ant dir="cache" target="docs"/>
+        <ant dir="cli" target="docs"/>
+        <ant dir="extension" target="docs"/>
+        <ant dir="i18n" target="docs"/>
+        <ant dir="io" target="docs"/>
+        <ant dir="naming" target="docs"/>
+        <ant dir="tar" target="docs"/>
+        <ant dir="zip" target="docs"/>
+
+    </target>
+
     <target name="clean">
         <delete dir="${build.dir}" />
 
