@@ -441,6 +441,32 @@
             to="avalon-dev@jakarta.apache.org"/>
     </project>
 
+    <project name="excalibur-sourceresolve">
+        <package>org.apache.excalibur.source</package>
+
+        <ant basedir="sourceresolve">
+            <depend property="junit.jar" project="junit"/>
+            <depend property="checkstyle.jar" project="checkstyle"/>
+            <depend property="avalon-framework.jar" project="jakarta-avalon" runtime="true"/>
+            <depend property="excalibur-pool.jar" project="excalibur-pool" runtime="true"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="sourceresolve/build/classes"/>
+
+        <home nested="sourceresolve"/>
+        <jar name="build/lib/excalibur-sourceresolving-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
     <project name="excalibur-threadcontext">
         <package>org.apache.excalibur.threadcontext</package>
 
@@ -648,6 +674,36 @@
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
     </project>
+
+    <project name="excalibur-xmlbundle">
+        <package>org.apache.avalon.excalibur.xml</package>
+
+        <ant basedir="xmlbundle">
+            <depend property="junit.jar" project="junit"/>
+            <depend property="checkstyle.jar" project="checkstyle"/>
+            <depend property="avalon-framework.jar" project="jakarta-avalon"/>
+			<depend property="excalibur-logger.jar" project="excalibur-logger"/>
+            <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
+            <depend property="excalibur-component.jar" project="excalibur-component"/>
+            <depend property="excalibur-pool.jar" project="excalibur-pool"/>
+			<depend property="excalibur-sourceresolve.jar" project="excalibur-sourceresolve"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="xmlbundle/build/classes"/>
+
+        <home nested="xmlbundle"/>
+        <jar name="build/lib/excalibur-xmlbundle-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+	</project>
 
     <project name="excalibur-zip">
         <package>org.apache.excalibur.zip</package>
