@@ -1,27 +1,36 @@
-<module name="avalon-cornerstone">
+<module name="avalon-components">
 
-  <url href="http://jakarta.apache.org/avalon/"/>
+  <url href="http://avalon.apache.org/"/>
   <description>
-    Set of default services for Avalon/Phoenix
+    A set of cause-grain components.
   </description>
 
-  <cvs repository="jakarta"/>
+  <cvs repository="avalon-components"/>
   
-  <project name="avalon-cornerstone">
+  <project name="avalon-components">
     <package>org.apache.avalon.cornerstone</package>
 
     <ant />
 
-    <depend project="avalon"/>
-    <depend project="avalon-logkit"/>
-    <depend project="xml-xerces" id="parser"/>
+    <depend project="avalon-framework" runtime="true" id="combined"/>
+    <depend project="avalon-logkit" runtime="true"/>
+    <depend project="xml-xerces" id="parser" runtime="true"/>
     <depend project="junit"/>
-    <depend project="excalibur-io"/>
+    <depend project="excalibur-datasource" runtime="true"/>
+    <depend project="excalibur-i18n" runtime="true"/>
+    <depend project="excalibur-thread" runtime="true"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
+    <option project="excalibur-event"/>
+    <option project="jakarta-bcel"/>
+    <option project="jsse"/>
+
+    <!-- buildtime dependencies -->
+    <depend project="junit"/>
     <depend project="excalibur-datasource"/>
     <depend project="excalibur-i18n"/>
     <depend project="excalibur-thread"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
     <option project="excalibur-event"/>
+    <depend project="ant" inherit="runtime"/>
     <option project="jakarta-bcel"/>
     <option project="jsse"/>
 
@@ -29,9 +38,11 @@
 
     <home nested="build/lib"/>
     <jar name="cornerstone.jar"/>
+    <javadoc nested="build/docs/api" module="avalon"/>
+    <license name="LICENSE.txt"/>
 
-    <nag from="Avalon Components &lt;dev@avalon.apache.org&gt;"
-         to="dev@avalon.apache.org"/>
+    <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+            to="dev@avalon.apache.org"/>
   </project>
 
 </module>
