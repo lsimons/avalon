@@ -220,7 +220,7 @@
       <xsl:otherwise>
         <div class="menu">
           <xsl:if test="count( item ) = 0" >
-            <xsl:attribute name="border">none</xsl:attribute>
+            <xsl:attribute name="class">no-border</xsl:attribute>
             <span class="dummy" />
           </xsl:if>
           <xsl:apply-templates select="menu" >

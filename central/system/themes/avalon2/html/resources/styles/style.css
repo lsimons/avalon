@@ -140,7 +140,7 @@ table.logobar
     border-bottom: 1px black solid;
 }
 
-div[border="none"]
+div.no-border
 {
     border: none;
 }
