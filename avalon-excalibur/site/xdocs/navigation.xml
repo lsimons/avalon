@@ -14,11 +14,15 @@
     </links>
 
     <menu name="About Excalibur">
-      <item name="Overview" href="/index.html">
-        <item name="Configuration" href="configuration/index.html"/>
-        <item name="I18N" href="i18n/index.html"/>
-        <item name="ECM" href="component.html"/>
-      </item>
+      <item name="Overview" href="/index.html"/>
+      <item name="Configuration" href="configuration/index.html"/>
+      <item name="I18N" href="i18n/index.html"/>
+      <item name="Sourceresolver" href="sourceresolve-index.html"/>
+      <item name="Store" href="store-index.html"/>
+      <item name="ECM" href="component.html"/>
+    </menu>
+
+    <menu name="Project">
       <item name="Download" href="http://avalon.apache.org/download.cgi"/>
       <item name="Where's my documentation???" href="/no-docs-available.html"/>
       <item name="Javadocs" href="http://avalon.apache.org/excalibur/api/"/>
