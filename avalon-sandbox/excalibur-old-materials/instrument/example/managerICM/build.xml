@@ -98,6 +98,8 @@
             todir="${lib.dir}" preservelastmodified="yes"/>
         <copy file="${excalibur-instrument-manager.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
+        <copy file="${excalibur-instrument-manager-interfaces.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
 
         <!-- Altrmi Jars -->
         <copy file="${excalibur-altrmi-common.jar}"

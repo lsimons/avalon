@@ -245,6 +245,7 @@
               <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
               <attribute name="Implementation-Version" value="${package-version}"/>
             </manifest>
+            <exclude name="**/interfaces/**"/>
             <exclude name="**/test/**"/>
             <zipfileset dir="${build.conf}" prefix="META-INF/">
                 <include name="LICENSE.txt"/>

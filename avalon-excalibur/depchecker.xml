@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.34 $
+                   Version $Revision: 1.35 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -335,14 +335,14 @@ To use it, type 'ant -f depchecker.xml'
     </target>
     <target name="checkInstrument">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="proj.jar.name" value="excalibur-instrument.jar"/>
+            <property name="proj.jar.name" value="excalibur-instrument-0.3.jar"/>
             <property name="path" value="${excalibur-instrument.jar}"/>
             <property name="proj.home" value="${basedir}/../instrument"/>
         </ant>
     </target>
     <target name="checkInstrumentManager">
        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
-            <property name="proj.jar.name" value="excalibur-instrument-manager-0.2.jar"/>
+            <property name="proj.jar.name" value="excalibur-instrument-manager-0.3.jar"/>
             <property name="class" value="org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentManagerClient"/>
             <property name="classpath" value="${cp}"/>
         </ant>
