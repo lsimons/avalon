@@ -3,9 +3,7 @@
 <document>
   <header>
     <title>Reference - Specification of assembly.xml </title>
-
-      <person id="PD" name="Peter Donald" email="peter@apache.org"/>
-
+      <person name="Peter Donald" email="peter@apache.org"/>
   </header>
   <body>
     <section name="Introduction">
@@ -18,7 +16,7 @@
         below for a sample assembly.xml file.
       </p>
       <p>
-        The <code>assembly.xml</code> can also specify <code>BlockListener</code>
+        The <code>assembly.xml</code> can also specify <code>ApplicationListener</code>
         objects that will be created for application. The listeners need a name and
         a classname.
       </p>
@@ -33,9 +31,9 @@
 
 <assembly>
 
-    <block-listener name="myListener"
+    <listener name="myListener"
            class="com.biz.cornerstone.listeners.MyListener">
-    </block-listener>
+    </listener>
 
     <block name="myAuthorizer"
            class="com.biz.cornerstone.blocks.MyAuthorizer">
