@@ -47,6 +47,13 @@ public interface ApplicationMBean
     String getHomeDirectory();
 
     /**
+     * Get the names of the blocks that compose this Application
+     *
+     * @return list of block names
+     */
+    String[] getBlockNames();
+
+    /**
      * Return true if the application is
      * running or false otherwise.
      *
