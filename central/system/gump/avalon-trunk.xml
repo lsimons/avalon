@@ -57,6 +57,7 @@
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="metro-reflector-api"><noclasspath/></depend>
     <depend project="metro-reflector-spi"><noclasspath/></depend>
     <depend project="avalon-composition-api"><noclasspath/></depend>
@@ -65,8 +66,6 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-http-spi"><noclasspath/></depend>
     <depend project="avalon-http-api"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
@@ -102,9 +101,8 @@
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <!-- end for -->
     <home nested="runtime/meta/api/target/deliverables"/>
     <jar name="jars/avalon-meta-api-@@DATE@@.jar"/>
@@ -141,6 +139,7 @@
     <!-- for gump -->
     <depend project="avalon-util-lifecycle"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-util-i18n"><noclasspath/></depend>
     <depend project="avalon-util-defaults"><noclasspath/></depend>
     <depend project="avalon-util-env"><noclasspath/></depend>
@@ -152,8 +151,6 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-logging-spi"><noclasspath/></depend>
     <depend project="avalon-activation-api"><noclasspath/></depend>
     <depend project="avalon-composition-impl"><noclasspath/></depend>
@@ -222,9 +219,8 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-util-i18n"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
@@ -245,15 +241,6 @@
       <depend property="gump.resource.excalibur-thread-api" project="excalibur-thread-api">
         <noclasspath/>
       </depend>
-      <depend property="gump.resource.excalibur-thread-impl" project="excalibur-thread-impl">
-        <noclasspath/>
-      </depend>
-      <depend property="gump.resource.excalibur-pool-impl" project="excalibur-pool-impl">
-        <noclasspath/>
-      </depend>
-      <depend property="gump.resource.excalibur-pool-api" project="excalibur-pool-api">
-        <noclasspath/>
-      </depend>
       <depend property="gump.resource.mailapi" project="javamail">
         <noclasspath/>
       </depend>
@@ -264,6 +251,15 @@
         <noclasspath/>
       </depend>
       <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.excalibur-thread-impl" project="excalibur-thread-impl">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.excalibur-pool-impl" project="excalibur-pool-impl">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.excalibur-pool-api" project="excalibur-pool-api">
         <noclasspath/>
       </depend>
       <depend property="gump.resource.commons-collections" project="commons-collections">
@@ -283,10 +279,9 @@
     <depend project="cornerstone-sockets-api"><noclasspath/></depend>
     <depend project="cornerstone-threads-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="cornerstone-threads-impl"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/cornerstone/connection/impl/target/deliverables"/>
@@ -321,7 +316,6 @@
     <!-- for gump -->
     <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-tutorial-location-api"><noclasspath/></depend>
     <depend project="avalon-tutorial-publisher-api"><noclasspath/></depend>
@@ -359,14 +353,13 @@
     <!-- for gump -->
     <depend project="avalon-finder-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-composition-api"><noclasspath/></depend>
     <depend project="avalon-util-extension-api"><noclasspath/></depend>
     <depend project="avalon-repository-api"><noclasspath/></depend>
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/facilities/finder/impl/target/deliverables"/>
@@ -382,11 +375,25 @@
       <property name="build.sysclasspath" value="last"/> 
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/cornerstone/scheduler/api/target/deliverables"/>
     <jar name="jars/cornerstone-scheduler-api-@@DATE@@.jar"/>
@@ -444,9 +451,8 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-http-util"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
@@ -490,6 +496,7 @@
     <!-- for gump -->
     <depend project="avalon-runtime"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-util-lifecycle"><noclasspath/></depend>
     <depend project="avalon-util-extension-api"><noclasspath/></depend>
     <depend project="avalon-merlin-api"><noclasspath/></depend>
@@ -498,8 +505,6 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-spi"><noclasspath/></depend>
     <depend project="avalon-repository-spi"><noclasspath/></depend>
     <depend project="avalon-logging-spi"><noclasspath/></depend>
@@ -554,9 +559,6 @@
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
       <!-- external references -->
-      <depend property="gump.resource.org.mortbay.jetty" project="packaged-jetty">
-        <noclasspath/>
-      </depend>
       <depend property="gump.resource.mailapi" project="javamail">
         <noclasspath/>
       </depend>
@@ -567,6 +569,9 @@
         <noclasspath/>
       </depend>
       <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.org.mortbay.jetty" project="packaged-jetty">
         <noclasspath/>
       </depend>
       <depend property="gump.resource.org.mortbay.jaas" project="packaged-jetty-jaas">
@@ -589,6 +594,7 @@
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-http-api"><noclasspath/></depend>
     <depend project="avalon-http-impl"><noclasspath/></depend>
     <depend project="avalon-http-spi"><noclasspath/></depend>
@@ -598,8 +604,6 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-http-util"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <!-- end for -->
@@ -637,7 +641,6 @@
     <!-- for gump -->
     <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-util-i18n"><noclasspath/></depend>
     <!-- end for -->
@@ -708,7 +711,6 @@
     <!-- for gump -->
     <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
@@ -757,7 +759,6 @@
     <depend project="avalon-util-defaults"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-repository-cli"><noclasspath/></depend>
     <!-- end for -->
@@ -811,7 +812,6 @@
     <!-- for gump -->
     <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-util-lifecycle"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
@@ -848,7 +848,6 @@
     <!-- for gump -->
     <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
@@ -869,6 +868,18 @@
       <depend property="gump.resource.excalibur-thread-api" project="excalibur-thread-api">
         <noclasspath/>
       </depend>
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
@@ -876,6 +887,7 @@
     <depend project="cornerstone-sockets-api"><noclasspath/></depend>
     <depend project="cornerstone-threads-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/cornerstone/connection/api/target/deliverables"/>
     <jar name="jars/cornerstone-connection-api-@@DATE@@.jar"/>
@@ -924,7 +936,6 @@
     <depend project="avalon-util-defaults"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <!-- end for -->
     <home nested="runtime/logging/logkit/impl/target/deliverables"/>
     <jar name="jars/avalon-logging-logkit-impl-@@DATE@@.jar"/>
@@ -939,11 +950,25 @@
       <property name="build.sysclasspath" value="last"/> 
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="runtime/test/testcyclic/target/deliverables"/>
@@ -963,15 +988,6 @@
       <depend property="gump.resource.excalibur-thread-api" project="excalibur-thread-api">
         <noclasspath/>
       </depend>
-      <depend property="gump.resource.excalibur-thread-impl" project="excalibur-thread-impl">
-        <noclasspath/>
-      </depend>
-      <depend property="gump.resource.excalibur-pool-impl" project="excalibur-pool-impl">
-        <noclasspath/>
-      </depend>
-      <depend property="gump.resource.excalibur-pool-api" project="excalibur-pool-api">
-        <noclasspath/>
-      </depend>
       <depend property="gump.resource.mailapi" project="javamail">
         <noclasspath/>
       </depend>
@@ -982,6 +998,15 @@
         <noclasspath/>
       </depend>
       <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.excalibur-thread-impl" project="excalibur-thread-impl">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.excalibur-pool-impl" project="excalibur-pool-impl">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.excalibur-pool-api" project="excalibur-pool-api">
         <noclasspath/>
       </depend>
       <depend property="gump.resource.commons-collections" project="commons-collections">
@@ -996,9 +1021,8 @@
     <!-- for gump -->
     <depend project="cornerstone-threads-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/cornerstone/threads/impl/target/deliverables"/>
@@ -1053,11 +1077,25 @@
       <property name="build.sysclasspath" value="last"/> 
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/facilities/http/blocks/hash-form/target/deliverables"/>
     <nag to="dev@avalon.apache.org"
@@ -1110,9 +1148,8 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/facilities/jms/impl/target/deliverables"/>
@@ -1148,7 +1185,6 @@
     <depend project="avalon-test-playground"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-util-lifecycle"><noclasspath/></depend>
     <depend project="avalon-test-testa"><noclasspath/></depend>
@@ -1191,7 +1227,6 @@
     <depend project="avalon-tutorial-location-impl"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-tutorial-location-api"><noclasspath/></depend>
     <depend project="avalon-tutorial-publisher-api"><noclasspath/></depend>
@@ -1211,6 +1246,19 @@
       <property name="build.sysclasspath" value="last"/> 
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
@@ -1219,6 +1267,7 @@
     <depend project="avalon-repository-spi"><noclasspath/></depend>
     <depend project="avalon-repository-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <!-- end for -->
     <home nested="runtime/logging/spi/target/deliverables"/>
     <jar name="jars/avalon-logging-spi-@@DATE@@.jar"/>
@@ -1256,14 +1305,13 @@
     <depend project="avalon-finder-impl"><noclasspath/></depend>
     <depend project="avalon-finder-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-composition-api"><noclasspath/></depend>
     <depend project="avalon-util-extension-api"><noclasspath/></depend>
     <depend project="avalon-repository-api"><noclasspath/></depend>
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-merlin-unit"><noclasspath/></depend>
     <depend project="avalon-repository-main"><noclasspath/></depend>
     <depend project="avalon-repository-spi"><noclasspath/></depend>
@@ -1338,7 +1386,6 @@
     <!-- for gump -->
     <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
@@ -1399,9 +1446,8 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-http-util"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
@@ -1458,7 +1504,6 @@
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <!-- end for -->
     <home nested="runtime/framework/impl/target/deliverables"/>
@@ -1529,6 +1574,7 @@
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="metro-reflector-api"><noclasspath/></depend>
     <depend project="metro-reflector-spi"><noclasspath/></depend>
     <depend project="metro-reflector-typehandlers"><noclasspath/></depend>
@@ -1538,8 +1584,6 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="metro-reflector-impl"><noclasspath/></depend>
     <depend project="avalon-http-spi"><noclasspath/></depend>
     <depend project="avalon-http-api"><noclasspath/></depend>
@@ -1579,9 +1623,8 @@
     <depend project="avalon-meta-spi"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-util-i18n"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <!-- end for -->
@@ -1617,7 +1660,6 @@
     <!-- for gump -->
     <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-util-lifecycle"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
@@ -1654,7 +1696,6 @@
     <!-- for gump -->
     <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-composition-api"><noclasspath/></depend>
     <depend project="avalon-util-extension-api"><noclasspath/></depend>
@@ -1720,9 +1761,8 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-http-util"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
@@ -1801,11 +1841,25 @@
       <property name="build.sysclasspath" value="last"/> 
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/facilities/http/blocks/hash-digest/target/deliverables"/>
     <nag to="dev@avalon.apache.org"
@@ -1838,7 +1892,6 @@
     <!-- for gump -->
     <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
@@ -1855,11 +1908,25 @@
       <property name="build.sysclasspath" value="last"/> 
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/cornerstone/store/api/target/deliverables"/>
     <jar name="jars/cornerstone-store-api-@@DATE@@.jar"/>
@@ -1878,12 +1945,6 @@
       <depend property="gump.resource.org.mortbay.jetty" project="packaged-jetty">
         <noclasspath/>
       </depend>
-      <depend property="gump.resource.geronimo-spec-jms" project="jms">
-        <noclasspath/>
-      </depend>
-      <depend property="gump.resource.commons-messenger" project="commons-messenger">
-        <noclasspath/>
-      </depend>
       <depend property="gump.resource.mailapi" project="javamail">
         <noclasspath/>
       </depend>
@@ -1891,6 +1952,12 @@
         <noclasspath/>
       </depend>
       <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.commons-messenger" project="commons-messenger">
         <noclasspath/>
       </depend>
       <depend property="gump.resource.mx4j-jmx" project="mx4j" id="mx4j-jmx">
@@ -1953,6 +2020,7 @@
     <depend project="avalon-dbcp-api"><noclasspath/></depend>
     <depend project="avalon-finder-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-jms-api"><noclasspath/></depend>
     <depend project="avalon-jmx-api"><noclasspath/></depend>
     <depend project="avalon-composition-api"><noclasspath/></depend>
@@ -1961,8 +2029,6 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-jmx-spi"><noclasspath/></depend>
     <depend project="avalon-jmx-util"><noclasspath/></depend>
     <depend project="avalon-util-i18n"><noclasspath/></depend>
@@ -2035,6 +2101,19 @@
       <property name="build.sysclasspath" value="last"/> 
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
@@ -2044,6 +2123,7 @@
     <depend project="avalon-repository-spi"><noclasspath/></depend>
     <depend project="avalon-repository-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-repository-main"><noclasspath/></depend>
     <depend project="avalon-repository-util"><noclasspath/></depend>
     <depend project="avalon-util-exception"><noclasspath/></depend>
@@ -2065,11 +2145,25 @@
       <property name="build.sysclasspath" value="last"/> 
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/tutorials/parameterization/target/deliverables"/>
@@ -2170,9 +2264,8 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/facilities/jms/test/target/deliverables"/>
@@ -2248,9 +2341,8 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-http-util"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <!-- end for -->
@@ -2299,6 +2391,7 @@
     <depend project="avalon-util-defaults"><noclasspath/></depend>
     <depend project="avalon-merlin-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-util-lifecycle"><noclasspath/></depend>
     <depend project="avalon-util-extension-api"><noclasspath/></depend>
     <depend project="avalon-merlin-api"><noclasspath/></depend>
@@ -2306,8 +2399,6 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-spi"><noclasspath/></depend>
     <depend project="avalon-logging-spi"><noclasspath/></depend>
     <depend project="avalon-logging-impl"><noclasspath/></depend>
@@ -2368,6 +2459,7 @@
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="metro-reflector-spi"><noclasspath/></depend>
     <depend project="metro-reflector-api"><noclasspath/></depend>
     <depend project="avalon-composition-api"><noclasspath/></depend>
@@ -2376,8 +2468,6 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/facilities/reflector/typehandlers/target/deliverables"/>
@@ -2424,6 +2514,7 @@
     <depend project="avalon-util-defaults"><noclasspath/></depend>
     <depend project="avalon-merlin-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-util-lifecycle"><noclasspath/></depend>
     <depend project="avalon-util-extension-api"><noclasspath/></depend>
     <depend project="avalon-merlin-api"><noclasspath/></depend>
@@ -2431,8 +2522,6 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-spi"><noclasspath/></depend>
     <depend project="avalon-logging-spi"><noclasspath/></depend>
     <depend project="avalon-logging-impl"><noclasspath/></depend>
@@ -2494,7 +2583,6 @@
     <!-- for gump -->
     <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
@@ -2515,15 +2603,6 @@
       <depend property="gump.resource.excalibur-thread-api" project="excalibur-thread-api">
         <noclasspath/>
       </depend>
-      <depend property="gump.resource.excalibur-thread-impl" project="excalibur-thread-impl">
-        <noclasspath/>
-      </depend>
-      <depend property="gump.resource.excalibur-pool-impl" project="excalibur-pool-impl">
-        <noclasspath/>
-      </depend>
-      <depend property="gump.resource.excalibur-pool-api" project="excalibur-pool-api">
-        <noclasspath/>
-      </depend>
       <depend property="gump.resource.mailapi" project="javamail">
         <noclasspath/>
       </depend>
@@ -2534,6 +2613,15 @@
         <noclasspath/>
       </depend>
       <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.excalibur-thread-impl" project="excalibur-thread-impl">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.excalibur-pool-impl" project="excalibur-pool-impl">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.excalibur-pool-api" project="excalibur-pool-api">
         <noclasspath/>
       </depend>
       <depend property="gump.resource.commons-collections" project="commons-collections">
@@ -2548,10 +2636,9 @@
     <!-- for gump -->
     <depend project="cornerstone-threads-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="cornerstone-threads-impl"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/cornerstone/threads/tutorial/target/deliverables"/>
@@ -2632,9 +2719,8 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-logging-spi"><noclasspath/></depend>
     <depend project="avalon-repository-spi"><noclasspath/></depend>
     <!-- end for -->
@@ -2674,9 +2760,8 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <!-- end for -->
     <home nested="runtime/merlin/api/target/deliverables"/>
     <jar name="jars/avalon-merlin-api-@@DATE@@.jar"/>
@@ -2726,7 +2811,6 @@
     <!-- for gump -->
     <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-composition-api"><noclasspath/></depend>
     <depend project="avalon-util-extension-api"><noclasspath/></depend>
@@ -2766,6 +2850,7 @@
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-console-api"><noclasspath/></depend>
     <depend project="avalon-composition-api"><noclasspath/></depend>
     <depend project="avalon-util-extension-api"><noclasspath/></depend>
@@ -2773,8 +2858,6 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/facilities/console/commands/target/deliverables"/>
@@ -2808,14 +2891,13 @@
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-composition-api"><noclasspath/></depend>
     <depend project="avalon-util-extension-api"><noclasspath/></depend>
     <depend project="avalon-repository-api"><noclasspath/></depend>
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/facilities/console/api/target/deliverables"/>
     <jar name="jars/avalon-console-api-@@DATE@@.jar"/>
@@ -3008,9 +3090,8 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-logging-spi"><noclasspath/></depend>
     <depend project="avalon-repository-spi"><noclasspath/></depend>
     <depend project="avalon-repository-main"><noclasspath/></depend>
@@ -3095,11 +3176,25 @@
       <property name="build.sysclasspath" value="last"/> 
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/tutorials/composition/publisher/api/target/deliverables"/>
     <jar name="jars/avalon-tutorial-publisher-api-@@DATE@@.jar"/>
@@ -3152,7 +3247,6 @@
     <depend project="avalon-util-defaults"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logging-log4j"><noclasspath/></depend>
     <depend project="avalon-logging-logkit-syslog"><noclasspath/></depend>
     <depend project="avalon-logging-logkit-socket"><noclasspath/></depend>
@@ -3172,9 +3266,25 @@
       <property name="build.sysclasspath" value="last"/> 
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
+    <!-- for gump -->
+    <depend project="avalon-logkit"><noclasspath/></depend>
+    <!-- end for -->
     <home nested="runtime/framework/api/target/deliverables"/>
     <jar name="jars/avalon-framework-api-@@DATE@@.jar"/>
     <nag to="dev@avalon.apache.org"
@@ -3215,9 +3325,8 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-jmx-util"><noclasspath/></depend>
     <depend project="avalon-util-i18n"><noclasspath/></depend>
     <!-- end for -->
@@ -3234,11 +3343,25 @@
       <property name="build.sysclasspath" value="last"/> 
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/tutorials/selection/target/deliverables"/>
@@ -3254,11 +3377,25 @@
       <property name="build.sysclasspath" value="last"/> 
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/facilities/http/blocks/hash-basic/target/deliverables"/>
     <nag to="dev@avalon.apache.org"
@@ -3312,9 +3449,8 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-jmx-util"><noclasspath/></depend>
     <depend project="avalon-util-i18n"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
@@ -3332,11 +3468,25 @@
       <property name="build.sysclasspath" value="last"/> 
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/cornerstone/datasources/api/target/deliverables"/>
     <jar name="jars/cornerstone-datasources-api-@@DATE@@.jar"/>
@@ -3373,9 +3523,8 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <!-- end for -->
     <home nested="runtime/composition/api/target/deliverables"/>
     <jar name="jars/avalon-composition-api-@@DATE@@.jar"/>
@@ -3434,9 +3583,8 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-http-util"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <!-- end for -->
@@ -3472,7 +3620,6 @@
     <depend project="cornerstone-sockets-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
@@ -3489,11 +3636,25 @@
       <property name="build.sysclasspath" value="last"/> 
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/facilities/http/blocks/hash-clientcert/target/deliverables"/>
     <nag to="dev@avalon.apache.org"
@@ -3549,9 +3710,8 @@
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <!-- end for -->
     <home nested="runtime/util/configuration/target/deliverables"/>
     <jar name="jars/avalon-util-configuration-@@DATE@@.jar"/>
@@ -3566,11 +3726,25 @@
       <property name="build.sysclasspath" value="last"/> 
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="runtime/test/components/target/deliverables"/>
@@ -3610,9 +3784,8 @@
     <depend project="avalon-meta-spi"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-util-i18n"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <!-- end for -->
@@ -3662,6 +3835,7 @@
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-jmx-mx4j"><noclasspath/></depend>
     <depend project="avalon-jmx-spi"><noclasspath/></depend>
     <depend project="avalon-jmx-api"><noclasspath/></depend>
@@ -3671,8 +3845,6 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-jmx-util"><noclasspath/></depend>
     <depend project="avalon-util-i18n"><noclasspath/></depend>
     <depend project="avalon-jmx-handler"><noclasspath/></depend>
@@ -3717,7 +3889,6 @@
     <depend project="avalon-dbcp-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
@@ -3757,9 +3928,8 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/tutorials/dynamics/target/deliverables"/>
@@ -3793,6 +3963,7 @@
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-console-api"><noclasspath/></depend>
     <depend project="avalon-composition-api"><noclasspath/></depend>
     <depend project="avalon-util-extension-api"><noclasspath/></depend>
@@ -3800,8 +3971,6 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/facilities/console/impl/target/deliverables"/>
@@ -3940,9 +4109,8 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/facilities/jmx/api/target/deliverables"/>
     <jar name="jars/avalon-jmx-api-@@DATE@@.jar"/>
@@ -3957,11 +4125,25 @@
       <property name="build.sysclasspath" value="last"/> 
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/tutorials/profiles/target/deliverables"/>
@@ -4007,9 +4189,8 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/facilities/db/hsql/target/deliverables"/>
@@ -4064,7 +4245,6 @@
     <depend project="avalon-logging-impl"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logging-log4j"><noclasspath/></depend>
     <depend project="avalon-activation-impl"><noclasspath/></depend>
     <depend project="avalon-util-lifecycle"><noclasspath/></depend>
@@ -4150,9 +4330,8 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/facilities/http/spi/target/deliverables"/>
@@ -4187,7 +4366,6 @@
     <!-- for gump -->
     <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
@@ -4225,6 +4403,7 @@
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-util-lifecycle"><noclasspath/></depend>
     <depend project="avalon-util-extension-api"><noclasspath/></depend>
     <depend project="avalon-merlin-api"><noclasspath/></depend>
@@ -4233,8 +4412,6 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-spi"><noclasspath/></depend>
     <depend project="avalon-repository-spi"><noclasspath/></depend>
     <depend project="avalon-logging-spi"><noclasspath/></depend>
@@ -4289,9 +4466,6 @@
       <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
         <noclasspath/>
       </depend>
-      <depend property="gump.resource.org.mortbay.jetty" project="packaged-jetty">
-        <noclasspath/>
-      </depend>
       <depend property="gump.resource.mailapi" project="javamail">
         <noclasspath/>
       </depend>
@@ -4299,6 +4473,9 @@
         <noclasspath/>
       </depend>
       <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.org.mortbay.jetty" project="packaged-jetty">
         <noclasspath/>
       </depend>
       <depend property="gump.resource.org.mortbay.jaas" project="packaged-jetty-jaas">
@@ -4322,6 +4499,7 @@
     <!-- for gump -->
     <depend project="avalon-http-server"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-http-api"><noclasspath/></depend>
     <depend project="avalon-http-impl"><noclasspath/></depend>
     <depend project="avalon-http-spi"><noclasspath/></depend>
@@ -4331,8 +4509,6 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-http-util"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <depend project="avalon-http-servlet"><noclasspath/></depend>
@@ -4350,11 +4526,25 @@
       <property name="build.sysclasspath" value="last"/> 
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/tutorials/context/avalon/target/deliverables"/>
@@ -4389,7 +4579,6 @@
     <!-- for gump -->
     <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
@@ -4407,9 +4596,6 @@
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
       <!-- external references -->
-      <depend property="gump.resource.org.mortbay.jetty" project="packaged-jetty">
-        <noclasspath/>
-      </depend>
       <depend property="gump.resource.mailapi" project="javamail">
         <noclasspath/>
       </depend>
@@ -4420,6 +4606,9 @@
         <noclasspath/>
       </depend>
       <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.org.mortbay.jetty" project="packaged-jetty">
         <noclasspath/>
       </depend>
       <depend property="gump.resource.org.mortbay.jaas" project="packaged-jetty-jaas">
@@ -4442,6 +4631,7 @@
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-http-api"><noclasspath/></depend>
     <depend project="avalon-http-impl"><noclasspath/></depend>
     <depend project="avalon-http-spi"><noclasspath/></depend>
@@ -4451,8 +4641,6 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-http-util"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <!-- end for -->
@@ -4469,18 +4657,6 @@
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
       <!-- external references -->
-      <depend property="gump.resource.excalibur-thread-api" project="excalibur-thread-api">
-        <noclasspath/>
-      </depend>
-      <depend property="gump.resource.excalibur-thread-impl" project="excalibur-thread-impl">
-        <noclasspath/>
-      </depend>
-      <depend property="gump.resource.excalibur-pool-impl" project="excalibur-pool-impl">
-        <noclasspath/>
-      </depend>
-      <depend property="gump.resource.excalibur-pool-api" project="excalibur-pool-api">
-        <noclasspath/>
-      </depend>
       <depend property="gump.resource.mailapi" project="javamail">
         <noclasspath/>
       </depend>
@@ -4491,6 +4667,18 @@
         <noclasspath/>
       </depend>
       <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.excalibur-thread-api" project="excalibur-thread-api">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.excalibur-thread-impl" project="excalibur-thread-impl">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.excalibur-pool-impl" project="excalibur-pool-impl">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.excalibur-pool-api" project="excalibur-pool-api">
         <noclasspath/>
       </depend>
       <depend property="gump.resource.commons-collections" project="commons-collections">
@@ -4505,11 +4693,10 @@
     <!-- for gump -->
     <depend project="cornerstone-scheduler-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="cornerstone-threads-impl"><noclasspath/></depend>
     <depend project="cornerstone-threads-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/cornerstone/scheduler/impl/target/deliverables"/>
@@ -4548,9 +4735,8 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <!-- end for -->
     <home nested="runtime/activation/api/target/deliverables"/>
     <jar name="jars/avalon-activation-api-@@DATE@@.jar"/>
@@ -4584,9 +4770,8 @@
     <!-- for gump -->
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <!-- end for -->
     <home nested="runtime/meta/spi/target/deliverables"/>
     <jar name="jars/avalon-meta-spi-@@DATE@@.jar"/>
@@ -4620,7 +4805,6 @@
     <!-- for gump -->
     <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
@@ -4641,11 +4825,24 @@
       <depend property="gump.resource.excalibur-thread-api" project="excalibur-thread-api">
         <noclasspath/>
       </depend>
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/cornerstone/threads/api/target/deliverables"/>
     <jar name="jars/cornerstone-threads-api-@@DATE@@.jar"/>
@@ -4679,10 +4876,9 @@
     <!-- for gump -->
     <depend project="avalon-test-testa"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="runtime/test/teste/target/deliverables"/>
@@ -4717,10 +4913,9 @@
     <!-- for gump -->
     <depend project="avalon-test-testa"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="runtime/test/testd/target/deliverables"/>
@@ -4755,10 +4950,9 @@
     <!-- for gump -->
     <depend project="avalon-test-testa"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-test-testb"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
@@ -4775,11 +4969,25 @@
       <property name="build.sysclasspath" value="last"/> 
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="runtime/test/testb/target/deliverables"/>
@@ -4795,11 +5003,25 @@
       <property name="build.sysclasspath" value="last"/> 
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <!-- end for -->
     <home nested="runtime/util/lifecycle/target/deliverables"/>
     <jar name="jars/avalon-util-lifecycle-@@DATE@@.jar"/>
@@ -4832,10 +5054,9 @@
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-util-configuration"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="runtime/test/testa/target/deliverables"/>
@@ -4871,7 +5092,6 @@
     <depend project="avalon-tutorial-config-injection"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/tutorials/configuration/override/target/deliverables"/>
@@ -4905,7 +5125,6 @@
     <!-- for gump -->
     <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-tutorial-publisher-api"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
@@ -4955,6 +5174,7 @@
     <depend project="avalon-util-defaults"><noclasspath/></depend>
     <depend project="avalon-merlin-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-util-lifecycle"><noclasspath/></depend>
     <depend project="avalon-util-extension-api"><noclasspath/></depend>
     <depend project="avalon-merlin-api"><noclasspath/></depend>
@@ -4962,8 +5182,6 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-spi"><noclasspath/></depend>
     <depend project="avalon-logging-spi"><noclasspath/></depend>
     <depend project="avalon-logging-impl"><noclasspath/></depend>
@@ -5044,6 +5262,7 @@
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="metro-reflector-api"><noclasspath/></depend>
     <depend project="metro-reflector-spi"><noclasspath/></depend>
     <depend project="metro-reflector-typehandlers"><noclasspath/></depend>
@@ -5053,8 +5272,6 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="metro-reflector-impl"><noclasspath/></depend>
     <depend project="avalon-http-spi"><noclasspath/></depend>
     <depend project="avalon-http-api"><noclasspath/></depend>
@@ -5098,11 +5315,25 @@
       <property name="build.sysclasspath" value="last"/> 
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/tutorials/composition/location/api/target/deliverables"/>
     <jar name="jars/avalon-tutorial-location-api-@@DATE@@.jar"/>
@@ -5156,7 +5387,6 @@
     <!-- for gump -->
     <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
@@ -5173,11 +5403,25 @@
       <property name="build.sysclasspath" value="last"/> 
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/facilities/finder/api/target/deliverables"/>
     <jar name="jars/avalon-finder-api-@@DATE@@.jar"/>
@@ -5210,6 +5454,7 @@
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-console-api"><noclasspath/></depend>
     <depend project="avalon-composition-api"><noclasspath/></depend>
     <depend project="avalon-util-extension-api"><noclasspath/></depend>
@@ -5217,8 +5462,6 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-console-impl"><noclasspath/></depend>
     <depend project="avalon-console-commands"><noclasspath/></depend>
     <!-- end for -->
@@ -5235,12 +5478,6 @@
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
       <!-- external references -->
-      <depend property="gump.resource.excalibur-pool-impl" project="excalibur-pool-impl">
-        <noclasspath/>
-      </depend>
-      <depend property="gump.resource.excalibur-pool-api" project="excalibur-pool-api">
-        <noclasspath/>
-      </depend>
       <depend property="gump.resource.mailapi" project="javamail">
         <noclasspath/>
       </depend>
@@ -5251,6 +5488,12 @@
         <noclasspath/>
       </depend>
       <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.excalibur-pool-impl" project="excalibur-pool-impl">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.excalibur-pool-api" project="excalibur-pool-api">
         <noclasspath/>
       </depend>
       <depend property="gump.resource.commons-collections" project="commons-collections">
@@ -5268,9 +5511,8 @@
     <!-- for gump -->
     <depend project="cornerstone-datasources-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/cornerstone/datasources/impl/target/deliverables"/>
@@ -5328,7 +5570,6 @@
     <depend project="cornerstone-sockets-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="cornerstone-connection-impl"><noclasspath/></depend>
     <depend project="cornerstone-connection-api"><noclasspath/></depend>
@@ -5368,9 +5609,8 @@
     <!-- for gump -->
     <depend project="cornerstone-store-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
-    <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
     <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/cornerstone/store/impl/target/deliverables"/>
@@ -5386,11 +5626,25 @@
       <property name="build.sysclasspath" value="last"/> 
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/tutorials/context/alias/target/deliverables"/>
@@ -5443,6 +5697,7 @@
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-util-lifecycle"><noclasspath/></depend>
     <depend project="avalon-util-extension-api"><noclasspath/></depend>
     <depend project="avalon-merlin-api"><noclasspath/></depend>
@@ -5451,8 +5706,6 @@
     <depend project="avalon-logging-api"><noclasspath/></depend>
     <depend project="avalon-meta-api"><noclasspath/></depend>
     <depend project="avalon-framework-impl"><noclasspath/></depend>
-    <depend project="avalon-framework-legacy"><noclasspath/></depend>
-    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-spi"><noclasspath/></depend>
     <depend project="avalon-repository-spi"><noclasspath/></depend>
     <depend project="avalon-logging-spi"><noclasspath/></depend>
@@ -5505,11 +5758,25 @@
       <property name="build.sysclasspath" value="last"/> 
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
     <!-- for gump -->
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-meta-tools"><noclasspath/></depend>
     <!-- end for -->
     <home nested="planet/tutorials/context/injection/target/deliverables"/>
@@ -5526,7 +5793,16 @@
       <property name="magic.home" reference="home" project="magic"/>
       <property name="gump.signature" value="@@DATE@@"/>
       <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
       <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
         <noclasspath/>
       </depend>
       <!-- end for -->
@@ -5539,6 +5815,7 @@
     <depend project="avalon-repository-spi"><noclasspath/></depend>
     <depend project="avalon-repository-api"><noclasspath/></depend>
     <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
     <depend project="avalon-repository-main"><noclasspath/></depend>
     <depend project="avalon-repository-util"><noclasspath/></depend>
     <depend project="avalon-util-exception"><noclasspath/></depend>
