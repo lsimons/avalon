@@ -72,7 +72,7 @@ import org.apache.log.Priority;
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Revision: 1.9 $ $Date: 2002/10/07 17:50:05 $
+ * @version CVS $Revision: 1.10 $ $Date: 2002/10/07 17:58:52 $
  * @since 4.0
  */
 public class LogKitLoggerManager
@@ -324,7 +324,7 @@ public class LogKitLoggerManager
     /**
      * Setup Loggers
      *
-\     * @param categories []  The array object of configurations for categories.
+     * @param categories []  The array object of configurations for categories.
      * @throws ConfigurationException if the configuration is malformed
      */
     private final void setupLoggers( final LogTargetManager targetManager,
