@@ -39,9 +39,11 @@ import org.apache.avalon.composition.data.PermissionDirective;
 import org.apache.avalon.composition.data.PKCS7Directive;
 import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.data.X509Directive;
+import org.apache.avalon.composition.data.SecurityProfile;
 import org.apache.avalon.composition.data.builder.XMLTargetsCreator;
 import org.apache.avalon.composition.data.builder.XMLComponentProfileCreator;
 import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
+import org.apache.avalon.composition.data.builder.XMLSecurityProfileBuilder;
 import org.apache.avalon.composition.provider.ContainmentContext;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
@@ -55,8 +57,10 @@ import org.apache.avalon.composition.model.impl.DefaultContainmentModel;
 import org.apache.avalon.composition.model.impl.DefaultClassLoaderModel;
 import org.apache.avalon.composition.model.impl.DefaultClassLoaderContext;
 import org.apache.avalon.composition.model.impl.DefaultModelRepository;
+import org.apache.avalon.composition.model.impl.DefaultSystemContextFactory;
 import org.apache.avalon.composition.provider.SecurityModel;
 import org.apache.avalon.composition.provider.SystemContext;
+import org.apache.avalon.composition.provider.SystemContextFactory;
 import org.apache.avalon.composition.provider.ClassLoaderContext;
 import org.apache.avalon.composition.util.StringHelper;
 
@@ -69,6 +73,8 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.activity.Disposable;
 
@@ -110,6 +116,9 @@ public class DefaultFactory implements Factory
 
     private static final XMLContainmentProfileCreator CONTAINER_CREATOR = 
       new XMLContainmentProfileCreator();
+
+    private static final XMLSecurityProfileBuilder SECURITY_CREATOR = 
+      new XMLSecurityProfileBuilder();
 
     private static final XMLTargetsCreator TARGETS = 
       new XMLTargetsCreator();
@@ -394,34 +403,69 @@ public class DefaultFactory implements Factory
       LoggingManager logging, Configuration config, String name ) throws Exception
     {
 
+        SystemContextFactory factory = 
+          new DefaultSystemContextFactory( context );
+
+        //
+        // add the security profiles
+        //
+
+        Configuration secConfig = config.getChild( "security" );
+        SecurityProfile[] profiles = 
+          SECURITY_CREATOR.createSecurityProfiles( secConfig );
+        factory.setSecurityProfiles( profiles );
+
         //
         // create the application repository
         //
 
         Configuration repositoryConfig = 
           config.getChild( "repository" );
-
         File root = criteria.getRepositoryDirectory();
         File cache = getCacheDirectory( root, repositoryConfig.getChild( "cache" ) );
-
         Repository repository = 
           createApplicationRepository( context, cache, hosts );
-
         getLogger().debug( 
           "repository established: " + repository );
+        factory.setRepository( repository );
 
         //
-        // build the security grants directive
+        // assign the runtime
         //
 
-        Configuration securityConfig = config.getChild( "security" );
-        SecurityModel security = createSecurityModel( criteria, securityConfig );
+        Artifact runtime = criteria.getRuntimeImplementation();
+        factory.setRuntime( runtime );
+
+        //
+        // set name, logging impl, timeout, debug status, working and 
+        // temp directories, etc.
+        //
+
+        factory.setName( name );
+        factory.setLoggingManager( logging );
+        factory.setDefaultDeploymentTimeout( criteria.getDeploymentTimeout() );
+        factory.setTraceEnabled( criteria.isDebugEnabled() );
+        factory.setWorkingDirectory( criteria.getContextDirectory() );
+        factory.setTemporaryDirectory( criteria.getTempDirectory() );
+
+        //
+        // create the parent context
+        //
+
+        DefaultContext parent = new DefaultContext();
+        parent.put( "urn:composition:dir", criteria.getWorkingDirectory() );
+        parent.put( "urn:composition:anchor", criteria.getAnchorDirectory() );
+        parent.makeReadOnly();
+        factory.setParentContext( parent );
 
         //
         // create the system context
         //
 
-        Artifact runtime = criteria.getRuntimeImplementation();
+        SystemContext system = factory.createSystemContext();
+        return system;
+
+        /*
         File anchor = criteria.getAnchorDirectory();
 
         DefaultSystemContext system = 
@@ -440,22 +484,9 @@ public class DefaultFactory implements Factory
 
         system.put( "urn:composition:dir", criteria.getWorkingDirectory() );
         system.put( "urn:composition:anchor", criteria.getAnchorDirectory() );
-        system.makeReadOnly();
 
         return system;
-    }
-
-    private SecurityModel createSecurityModel( 
-      KernelCriteria criteria, Configuration config ) throws Exception
-    {
-        if( !criteria.isCodeSecurityEnabled() )
-        {
-            return new DefaultSecurityModel();
-        }
-        else
-        {
-            return DefaultSecurityModel.createSecurityModel( config );
-        }
+        */
     }
 
     private ContainmentModel createApplicationModel( 
@@ -466,9 +497,11 @@ public class DefaultFactory implements Factory
         final Logger logger = logging.getLoggerForCategory("");
         ClassLoader api = system.getAPIClassLoader();
         ContainmentProfile profile = getContainmentProfile( config );
-        ContainmentContext context = 
-          createContainmentContext( system, logger, api, profile );
-        return new DefaultContainmentModel( context );
+
+        return system.getModelFactory().createRootContainmentModel( profile );
+        //ContainmentContext context = 
+        //  createContainmentContext( system, logger, api, profile );
+        //return new DefaultContainmentModel( context );
     }
 
    /**

@@ -27,6 +27,8 @@ import java.lang.reflect.Method ;
 import org.apache.avalon.logging.provider.LoggingManager;
 import org.apache.avalon.logging.data.CategoryDirective;
 
+import org.apache.avalon.composition.data.SecurityProfile;
+import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.impl.DefaultModelFactory;
@@ -44,6 +46,7 @@ import org.apache.avalon.repository.provider.Factory;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.ConsoleLogger;
+import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.parameters.Parameters;
 
@@ -54,7 +57,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.22 $ $Date: 2004/02/27 22:39:36 $
+ * @version $Revision: 1.23 $ $Date: 2004/02/29 22:25:26 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext
@@ -92,7 +95,7 @@ public class DefaultSystemContext extends DefaultContext
 
     private final long m_timeout;
 
-    private final SecurityModel m_security;
+    private final boolean m_secure;
 
     //--------------------------------------------------------------
     // mutable state
@@ -119,8 +122,9 @@ public class DefaultSystemContext extends DefaultContext
     * @param category the kernel logging category name
     * @param trace flag indicating if internal logging is enabled
     * @param timeout a system wide default deployment timeout
-    * @param security the security model
+    * @param security the security profiles
     */
+    /*
     public DefaultSystemContext( 
       InitialContext context,
       Artifact artifact, 
@@ -132,12 +136,15 @@ public class DefaultSystemContext extends DefaultContext
       String category, 
       boolean trace, 
       long timeout, 
-      SecurityModel security ) throws SystemException
+      SecurityProfile[] security,
+      TargetDirective[] targets ) throws SystemException
     {
         this( 
           context, artifact, null, logging, base, home, temp, 
-          repository, category, trace, timeout, security );
+          repository, category, trace, timeout, security,
+          targets );
     }
+    */
 
    /**
     * Creation of a new system context.
@@ -153,8 +160,9 @@ public class DefaultSystemContext extends DefaultContext
     * @param category the kernel logging category name
     * @param trace flag indicating if internal logging is enabled
     * @param timeout a system wide default deployment timeout
-    * @param security the security model
+    * @param security the security profiles
     */
+    /*
     public DefaultSystemContext( 
       Class clazz, 
       LoggingManager logging, 
@@ -165,12 +173,14 @@ public class DefaultSystemContext extends DefaultContext
       String category, 
       boolean trace, 
       long timeout, 
-      SecurityModel security ) throws SystemException
+      SecurityProfile[] security,
+      TargetDirective[] targets ) throws SystemException
     {
         this( 
           null, null, clazz, logging, base, home, temp, repository, category, 
-          trace, timeout, security );
+          trace, timeout, security, targets );
     }
+    */
 
    /**
     * Creation of a new system context.
@@ -188,10 +198,11 @@ public class DefaultSystemContext extends DefaultContext
     * @param category the kernel logging category name
     * @param trace flag indicating if internal logging is enabled
     * @param timeout a system wide default deployment timeout
-    * @param security the security model
+    * @param security the security profiles
     */
     DefaultSystemContext( 
       InitialContext context, 
+      Context parent, 
       Artifact artifact, 
       Class runtime, 
       LoggingManager logging, 
@@ -202,8 +213,10 @@ public class DefaultSystemContext extends DefaultContext
       String category, 
       boolean trace, 
       long timeout, 
-      SecurityModel security ) throws SystemException
+      SecurityProfile[] security,
+      TargetDirective[] targets ) throws SystemException
     {
+        super( parent );
         if( base == null )
         {
             throw new NullPointerException( "base" );
@@ -230,12 +243,25 @@ public class DefaultSystemContext extends DefaultContext
         m_repository = repository;
         m_logging = logging;
         m_timeout = timeout;
-        m_security = security;
 
         m_logger = m_logging.getLoggerForCategory( category );
         m_system = SystemContext.class.getClassLoader();
         m_common = DeploymentModel.class.getClassLoader();
-        m_factory = new DefaultModelFactory( this );
+
+        if( security.length > 0 )
+        {
+            m_secure = true;
+            if( System.getSecurityManager() == null )
+            {
+                System.setSecurityManager( new SecurityManager() );
+            }
+        }
+        else
+        {
+            m_secure = false;
+        }
+
+        m_factory = new DefaultModelFactory( this, security, targets );
 
         //
         // use avalon-repository to load the runtime
@@ -259,6 +285,15 @@ public class DefaultSystemContext extends DefaultContext
     //--------------------------------------------------------------
     // SystemContext
     //--------------------------------------------------------------
+
+   /**
+    * Return the enabled status of the code security policy.
+    * @return the code security enabled status
+    */
+    public boolean isCodeSecurityEnabled()
+    {
+        return m_secure;
+    }
 
    /**
     * Return the model factory.
@@ -381,15 +416,6 @@ public class DefaultSystemContext extends DefaultContext
     public long getDefaultDeploymentTimeout()
     {
         return m_timeout;
-    }
-
-   /**
-    * Return the system default grants directive.
-    * @return the grants directive
-    */
-    public SecurityModel getSecurityModel()
-    {
-        return m_security;
     }
 
     //------------------------------------------------------------------

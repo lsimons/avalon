@@ -30,6 +30,8 @@ import org.apache.avalon.logging.provider.LoggingCriteria;
 import org.apache.avalon.logging.provider.LoggingManager;
 import org.apache.avalon.logging.data.CategoryDirective;
 
+import org.apache.avalon.composition.data.SecurityProfile;
+import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ModelRuntimeException;
@@ -49,6 +51,7 @@ import org.apache.avalon.repository.provider.Factory;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.ConsoleLogger;
+import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.parameters.Parameters;
 
@@ -59,7 +62,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/27 22:39:36 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/29 22:25:26 $
  */
 public class DefaultSystemContextFactory implements SystemContextFactory
 {
@@ -101,6 +104,12 @@ public class DefaultSystemContextFactory implements SystemContextFactory
 
     private String m_name = "system";
 
+    private SecurityProfile[] m_profiles;
+
+    private TargetDirective[] m_targets;
+
+    private Context m_parent;
+
     //--------------------------------------------------------------
     // constructor
     //--------------------------------------------------------------
@@ -118,6 +127,11 @@ public class DefaultSystemContextFactory implements SystemContextFactory
     //--------------------------------------------------------------
     // SystemContextFactory
     //--------------------------------------------------------------
+
+    public void setParentContext( Context parent )
+    {
+        m_parent = parent;
+    }
 
     public void setRuntime( Artifact artifact )
     {
@@ -174,11 +188,32 @@ public class DefaultSystemContextFactory implements SystemContextFactory
         m_name = name;
     }
 
+    public void setSecurityProfiles( SecurityProfile[] profiles )
+    {
+        m_profiles = profiles;
+    }
+
+   /**
+    * Set the initial set of target override directives.
+    * @param targets the target overrides
+    */
+    public void setTargetDirectives( TargetDirective[] targets )
+    {
+        m_targets = targets;
+    }
+
+   /**
+    * Creation of a new system context using supplied and default
+    * values.
+    * @return a new system context instance
+    * @exception SystemException if a stytem context creation error occurs
+    */
     public SystemContext createSystemContext()
       throws SystemException
     {
         return new DefaultSystemContext( 
           m_context, 
+          getParentContext(), 
           getRuntimeArtifact(), 
           getRuntimeClass(), 
           getLoggingManager(), 
@@ -189,7 +224,14 @@ public class DefaultSystemContextFactory implements SystemContextFactory
           getName(), 
           isTraceEnabled(), 
           getDefaultDeploymentTimeout(), 
-          getSecurityModel() );
+          getSecurityProfiles(), 
+          getTargetDirectives()
+        );
+    }
+
+    public Context getParentContext()
+    {
+        return m_parent;
     }
 
    /**
@@ -200,6 +242,23 @@ public class DefaultSystemContextFactory implements SystemContextFactory
     public String getName()
     {
         return m_name;
+    }
+
+    public TargetDirective[] getTargetDirectives()
+    {
+        return m_targets;
+    }
+
+   /**
+    * Return the assigned security profiles. If not profiles has been 
+    * assigned the implementation returns an empty profile array.
+    *
+    * @return the security profiles
+    */
+    public SecurityProfile[] getSecurityProfiles()
+    {
+        if( null != m_profiles ) return m_profiles;
+        return new SecurityProfile[0];
     }
 
    /**

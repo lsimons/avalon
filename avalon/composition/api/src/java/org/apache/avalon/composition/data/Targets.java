@@ -29,7 +29,7 @@ import org.apache.avalon.logging.data.CategoryDirective;
  * configuration is to be applied to.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/24 22:18:21 $
+ * @version $Revision: 1.5 $ $Date: 2004/02/29 22:25:26 $
  */
 public class Targets
 {
@@ -121,7 +121,8 @@ public class Targets
                        new TargetDirective( 
                           getKey( name ), 
                           target.getConfiguration(),
-                          target.getCategoriesDirective() ) );
+                          target.getCategoriesDirective(),
+                          target.getSecurityProfileName() ) );
                 }
             }
         }

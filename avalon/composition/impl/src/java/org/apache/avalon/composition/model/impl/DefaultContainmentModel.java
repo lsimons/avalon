@@ -63,6 +63,7 @@ import org.apache.avalon.composition.model.StageModel;
 import org.apache.avalon.composition.model.TypeRepository;
 import org.apache.avalon.composition.model.TypeUnknownException;
 import org.apache.avalon.composition.provider.ModelFactory;
+import org.apache.avalon.composition.provider.SecurityModel;
 import org.apache.avalon.composition.provider.SystemContext;
 import org.apache.avalon.composition.provider.ComponentContext;
 import org.apache.avalon.composition.provider.ClassLoaderContext;
@@ -98,7 +99,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.36 $ $Date: 2004/02/23 15:03:22 $
+ * @version $Revision: 1.37 $ $Date: 2004/02/29 22:25:26 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -167,10 +168,11 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     *   the structural association of this containment model
     *   within a parent scope
     */
-    public DefaultContainmentModel( final ContainmentContext context )
+    public DefaultContainmentModel( 
+      final ContainmentContext context, final SecurityModel security )
       throws ModelException
     {
-        super( context );
+        super( context, security );
 
         m_context = context;
 

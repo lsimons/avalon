@@ -19,19 +19,31 @@ package org.apache.avalon.composition.provider;
 
 import java.io.File;
 
+import org.apache.avalon.composition.data.TargetDirective;
+import org.apache.avalon.composition.data.SecurityProfile;
+
 import org.apache.avalon.logging.provider.LoggingManager;
 
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.Repository;
 
+import org.apache.avalon.framework.context.Context;
+
+
 /**
  * Defintion of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/27 22:39:36 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/29 22:25:26 $
  */
 public interface SystemContextFactory 
 {
+   /**
+    * Set the parent context.
+    * @param context a parent context instance 
+    */
+    void setParentContext( Context context );
+
    /**
     * Set the runtime using a supplied artifact.
     * @param artifact a factory artifact supporting 
@@ -73,10 +85,16 @@ public interface SystemContextFactory
     void setTraceEnabled( boolean trace );
 
    /**
-    * Set the security model.
-    * @param security the security model
+    * Set the security profiles.
+    * @param profiles the security profiles
     */
-    void setSecurityModel( SecurityModel security );
+    void setSecurityProfiles( SecurityProfile[] profiles );
+
+   /**
+    * Set the initial set of target override directives.
+    * @param targets the target overrides
+    */
+    void setTargetDirectives( TargetDirective[] targets );
 
    /**
     * Set the working directory.

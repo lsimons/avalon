@@ -37,6 +37,7 @@ import org.apache.avalon.composition.provider.SystemContext;
 import org.apache.avalon.composition.provider.ContainmentContext;
 import org.apache.avalon.composition.provider.ComponentContext;
 import org.apache.avalon.composition.provider.ClassLoaderContext;
+import org.apache.avalon.composition.provider.SecurityModel;
 
 import org.apache.avalon.logging.provider.LoggingManager;
 import org.apache.avalon.logging.data.CategoriesDirective;
@@ -57,7 +58,7 @@ import org.apache.avalon.meta.info.Type;
  * A utility class that handles creation of a component model context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Revision: 1.3 $ $Date: 2004/02/29 22:25:26 $
  */
 class DefaultContainmentModelComponentHelper
 {

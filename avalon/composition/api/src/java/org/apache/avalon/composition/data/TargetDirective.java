@@ -19,8 +19,6 @@ package org.apache.avalon.composition.data;
 
 import java.io.Serializable;
 
-import org.apache.avalon.composition.data.GrantDirective;
-
 import org.apache.avalon.framework.configuration.Configuration;
 
 import org.apache.avalon.logging.data.CategoriesDirective;
@@ -32,7 +30,7 @@ import org.apache.avalon.logging.data.CategoryDirective;
  * configuration is to be applied to.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/25 22:54:09 $
+ * @version $Revision: 1.6 $ $Date: 2004/02/29 22:25:26 $
  */
 public class TargetDirective implements Serializable
 {
@@ -56,34 +54,13 @@ public class TargetDirective implements Serializable
     private final CategoriesDirective m_categories;
 
     /**
-     * Supplimentary permissions assignable to a classloader.
+     * The name of a security profile to assign to a target.
      */
-    private final GrantDirective m_grant;
+    private final String m_profile;
 
     //========================================================================
     // constructors
     //========================================================================
-
-    /**
-     * Create a new null Target instance.
-     *
-     * @param path target path
-     */
-    public TargetDirective( final String path )
-    {
-        this( path, null );
-    }
-
-    /**
-     * Create a new Target instance.
-     *
-     * @param path target path
-     * @param configuration the configuration 
-     */
-    public TargetDirective( final String path, final Configuration configuration )
-    {
-        this( path, configuration, null );
-    }
 
     /**
      * Create a new Target instance.
@@ -95,30 +72,13 @@ public class TargetDirective implements Serializable
     public TargetDirective( 
       final String path, 
       final Configuration configuration, 
-      final CategoriesDirective categories )
+      final CategoriesDirective categories,
+      final String profile )
     {
         m_path = path;
         m_config = configuration;
         m_categories = categories;
-        m_grant = null;
-    }
-
-    /**
-     * Create a new Target instance applyable to a container.
-     *
-     * @param path target container path
-     * @param categories the logging category directives 
-     * @param grant a grant directive
-     */
-    public TargetDirective( 
-      final String path, 
-      final CategoriesDirective categories, 
-      final GrantDirective grant )
-    {
-        m_path = path;
-        m_categories = categories;
-        m_grant = grant;
-        m_config = null;
+        m_profile = profile;
     }
 
     //========================================================================
@@ -146,15 +106,13 @@ public class TargetDirective implements Serializable
     }
 
     /**
-     * Return an optional grant directive that may be applied as 
-     * a supplimentary security context during the establishment of 
-     * a new container classloader.
+     * Return the name of the assigned security profile.
      *
-     * @return the grant directive (possibly null)
+     * @return the assigned profile name (possibly null)
      */
-    public GrantDirective getGrantDirective()
+    public String getSecurityProfileName()
     {
-        return m_grant;
+        return m_profile;
     }
 
     /**
@@ -176,7 +134,7 @@ public class TargetDirective implements Serializable
         return "[target: " + getPath() + ", " 
           + (getConfiguration() != null ) + ", " 
           + (getCategoriesDirective() != null ) + ", " 
-          + (getGrantDirective() != null )
+          + (getSecurityProfileName() != null )
           + " ]";
     }
 }

@@ -22,6 +22,7 @@ import java.security.PermissionCollection;
 import java.security.Policy;
 import java.security.ProtectionDomain;
 
+import java.util.Map;
 import java.util.HashMap;
 
 import org.apache.avalon.composition.model.ClassLoaderModel;
@@ -30,7 +31,7 @@ import org.apache.avalon.composition.model.DeploymentModel;
 
 public class CodeSecurityPolicy extends Policy 
 {
-    private HashMap m_permissions;
+    private Map m_permissions;
     private ContainmentModel m_model;
     
     public CodeSecurityPolicy( ContainmentModel model )

@@ -24,7 +24,9 @@ import junit.framework.TestCase;
 import org.apache.avalon.activation.impl.DefaultRuntime;
 
 import org.apache.avalon.composition.data.ContainmentProfile;
+import org.apache.avalon.composition.data.SecurityProfile;
 import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
+import org.apache.avalon.composition.data.builder.XMLSecurityProfileBuilder;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.impl.DefaultSystemContextFactory;
@@ -32,7 +34,6 @@ import org.apache.avalon.composition.model.impl.DefaultSecurityModel;
 import org.apache.avalon.composition.provider.ModelFactory;
 import org.apache.avalon.composition.provider.SystemContext;
 import org.apache.avalon.composition.provider.SystemContextFactory;
-import org.apache.avalon.composition.provider.SecurityModel;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -63,6 +64,10 @@ public abstract class AbstractTestCase extends TestCase
 
     public static final File SYS_CONF = 
       new File( BASEDIR, "src/test/conf/system/kernel.xml" );
+
+    private static final XMLSecurityProfileBuilder SECURITY_BUILDER = 
+      new XMLSecurityProfileBuilder();
+
 
    //-------------------------------------------------------
    // state
@@ -144,15 +149,20 @@ public abstract class AbstractTestCase extends TestCase
 
         SystemContextFactory factory = 
           new DefaultSystemContextFactory( context );
+
+        Configuration secConfig = config.getChild( "security" );
+
+        if( m_secured )
+        {
+            SecurityProfile[] profiles = 
+              SECURITY_BUILDER.createSecurityProfiles( config );
+            factory.setSecurityProfiles( profiles );
+        }
+
         Repository repository = 
           createTestRepository( context, new File( base, "repository" ) );
         factory.setRepository( repository );
-        Configuration secConfig = config.getChild( "security" );
-        if( m_secured )
-        {
-            SecurityModel security = DefaultSecurityModel.createSecurityModel( secConfig );
-            factory.setSecurityModel( security );
-        }
+
         factory.setRuntime( DefaultRuntime.class );
         m_system = factory.createSystemContext();
         m_logger = m_system.getLogger();

@@ -7,6 +7,10 @@
     </configuration>
   </target>
 
+  <target path="/ccc/sss">
+    <security profile="default"/>
+  </target>
+
   <target path="/ccc/sss/xxx">
     <configuration>
       <source>External configuration target for XXX.</source>

@@ -94,7 +94,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and the extensions package.
  * </p>
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.11 $ $Date: 2004/02/25 18:55:40 $
+ * @version $Revision: 1.12 $ $Date: 2004/02/29 22:25:26 $
  */
 public class DefaultClassLoaderModel extends AbstractLogEnabled 
     implements ClassLoaderModel
@@ -344,11 +344,23 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
     * resolved relative to the classpath directives in the meta-data
     * and any parent classloader models.
     *
+    * WARNING: lots of updates needed to properly populate the returned
+    * code source with certificates used to verify repository content which
+    * means updating the extension utilities and the repository package.
+    * Currently the code sources returned contain an empty certificates 
+    * array.
+    *
     * @return an array of URL representing the complete classpath 
     */
-    public URL[] getQualifiedClassPath()
+    public CodeSource[] getQualifiedClassPath()
     {
-        return m_urls;
+        CodeSource[] sources = new CodeSource[ m_urls.length ];
+        for( int i=0; i<m_urls.length; i++ )
+        {
+            URL url = m_urls[i];
+            sources[i] = new CodeSource( url, new Certificate[0] ); 
+        }
+        return sources;
     }
 
    /**

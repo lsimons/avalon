@@ -30,6 +30,7 @@ import org.apache.avalon.composition.model.DependencyGraph;
 import org.apache.avalon.composition.provider.SystemContext;
 import org.apache.avalon.composition.provider.ContainmentContext;
 import org.apache.avalon.composition.provider.ComponentContext;
+import org.apache.avalon.composition.provider.SecurityModel;
 
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.DefaultContext;
@@ -50,7 +51,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/22 16:12:58 $
+ * @version $Revision: 1.8 $ $Date: 2004/02/29 22:25:26 $
  */
 public class DefaultComponentContext extends DefaultDeploymentContext 
   implements ComponentContext
@@ -92,9 +93,10 @@ public class DefaultComponentContext extends DefaultDeploymentContext
     * @param system the system context
     * @param classloader the containers classloader
     * @param graph the containers dependency graph
-    * @param profile the deployment profile
+    * @param model the parent containment model
+    * @param profile the component deployment profile
     * @param type the underlying component type
-    * @param clazz the compoent deployment class
+    * @param clazz the component deployment class
     * @param home the home working directory
     * @param temp a temporary directory 
     * @param partition the partition name 
@@ -102,7 +104,8 @@ public class DefaultComponentContext extends DefaultDeploymentContext
     public DefaultComponentContext( 
       Logger logger, String name, SystemContext system, ClassLoader classloader, 
       DependencyGraph graph, ContainmentModel model, ComponentProfile profile, 
-      Type type, Class clazz, File home, File temp, String partition )
+      Type type, Class clazz, File home, File temp, 
+      String partition )
     {
         super( 
           logger, system, partition, name, profile.getMode(), graph );
@@ -154,9 +157,9 @@ public class DefaultComponentContext extends DefaultDeploymentContext
         m_model = model;
     }
 
-    //==============================================================
-    // ContainmentContext
-    //==============================================================
+    //--------------------------------------------------------------
+    // ComponentContext
+    //--------------------------------------------------------------
 
    /**
     * Return the enclosing containment model.

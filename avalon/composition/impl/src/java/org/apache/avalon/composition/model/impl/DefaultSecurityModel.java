@@ -17,32 +17,31 @@
 
 package org.apache.avalon.composition.model.impl;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ByteArrayInputStream;
 import java.security.Permission;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.security.Permission;
+import java.security.Permissions;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.net.URL;
 
+import org.apache.avalon.composition.data.SecurityProfile;
 import org.apache.avalon.composition.provider.SecurityModel;
+import org.apache.avalon.composition.provider.SystemRuntimeException;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
 import org.apache.avalon.logging.data.CategoriesDirective;
 
+import org.apache.avalon.meta.info.PermissionDescriptor;
+
 /**
  * <p>Implementation of the default security model.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/27 22:39:36 $
+ * @version $Revision: 1.5 $ $Date: 2004/02/29 22:25:26 $
  */
 public final class DefaultSecurityModel implements SecurityModel
 {
@@ -50,100 +49,39 @@ public final class DefaultSecurityModel implements SecurityModel
     // static
     //-------------------------------------------------------------------
 
-    private static final String PERMISSIONS_ELEMENT = "permissions";
-    private static final String PERMISSION_ELEMENT = "permission";
-    private static final String CLASS_ATTRIBUTE = "class";
-    private static final String NAME_ATTRIBUTE = "name";
-    private static final String ACTION_ELEMENT = "action";
-    private static final String CERTIFICATES_ELEMENT = "certificates";
-    private static final String PKCS7_ELEMENT = "pkcs7";
-    private static final String X509_ELEMENT = "x509";
-
     private static final Permission[] EMPTY_PERMISSIONS = new Permission[0];
-    private static final Certificate[] EMPTY_CERTIFICATES = new Certificate[0];
-
-   /**
-    * Utility method to construct a new {@link SecurityManager} from a supplied
-    * configuration. The configuration fragment may contain an optional 
-    * &lt;certificates&gt; element and an optional &lt;permissions&gt; element.
-    * The &lt;certificates&gt; element may contain 0..n &lt;certificate&gt; 
-    * elements.  The &lt;permissions&gt; element may contain 0..n &lt;permission&gt;
-    * elements. 
-    *
-    * @param config the security manager configuration
-    * @return a new security manager
-    */
-    public static SecurityModel createSecurityModel( Configuration config )
-      throws Exception
-    {
-        if( null == config ) return new DefaultSecurityModel();
-        Configuration certs = config.getChild( CERTIFICATES_ELEMENT );
-        Certificate[] certificates = createCertificates( certs );
-        Configuration grant = config.getChild( PERMISSIONS_ELEMENT );
-        Permission[] permissions = createPermissions( grant );
-        return new DefaultSecurityModel( certificates, permissions );
-    }
 
     //-------------------------------------------------------------------
     // immutable state
     //-------------------------------------------------------------------
 
-    private final Certificate[] m_certificates;
-    private final Permission[] m_permissions;
-    private final boolean m_enabled;
+    private final Permissions m_permissions;
+    private final String m_name;
  
     //-------------------------------------------------------------------
     // constructor
     //-------------------------------------------------------------------
 
    /**
-    * Creation of a new security model.
+    * Creation of a disabled security model.
     */
     public DefaultSecurityModel()
     {
-        this( null, null, false );
+        m_permissions = new Permissions();
+        m_name = "default";
     }
 
    /**
     * Creation of a new security model.
     * 
-    * @param certificates the set of trusted certificates
-    * @param permissions the default permissions
+    * @param profile the security profile
     */
-    public DefaultSecurityModel( 
-      Certificate[] certificates, Permission[] permissions )
+    public DefaultSecurityModel( SecurityProfile profile )
     {
-        this( certificates, permissions, true );
-    }
-
-   /**
-    * Creation of a new security model.
-    * 
-    * @param certificates the set of trusted certificates
-    * @param permissions the default permissions
-    * @param flag if TRUE code security is enabled
-    */
-    public DefaultSecurityModel( 
-      Certificate[] certificates, Permission[] permissions, boolean flag )
-    {
-        m_enabled = flag;
-        if( null == permissions )
-        {
-            m_permissions = EMPTY_PERMISSIONS;
-        }
-        else
-        {
-            m_permissions = permissions;
-        }
-
-        if( null == certificates )
-        {
-            m_certificates = EMPTY_CERTIFICATES;
-        }
-        else
-        {
-            m_certificates = certificates;
-        }
+        m_name = profile.getName();
+        PermissionDescriptor[] permissions = 
+          profile.getPermissionDescriptors();
+        m_permissions = buildPermissions( permissions );
     }
 
     //-------------------------------------------------------------------
@@ -151,12 +89,12 @@ public final class DefaultSecurityModel implements SecurityModel
     //-------------------------------------------------------------------
 
    /**
-    * Return the enabled status of the code security policy.
-    * @return the code security enabled status
+    * Return the name of the security profile backing the model.
+    * @return the profile name
     */
-    public boolean isCodeSecurityEnabled()
+    public String getName()
     {
-        return m_enabled;
+        return m_name;
     }
 
    /**
@@ -164,156 +102,59 @@ public final class DefaultSecurityModel implements SecurityModel
     * 
     * @return the permissions
     */
-    public Permission[] getDefaultPermissions()
+    public Permissions getPermissions()
     {
         return m_permissions;
-    }
-
-   /**
-    * Return the set of trusted certificates.
-    * 
-    * @return the trusted certificates
-    */
-    public Certificate[] getTrustedCertificates()
-    {
-        return m_certificates;
     }
 
     //-------------------------------------------------------------------
     // internals
     //-------------------------------------------------------------------
 
-    private static Certificate[] createCertificates( Configuration config ) 
-      throws Exception
+    private Permissions buildPermissions( 
+      PermissionDescriptor[] descriptors ) throws SystemRuntimeException
     {
-        ArrayList list = new ArrayList();
-        Configuration[] children = config.getChildren();
-        for( int i=0; i<children.length; i++ )
+        Permissions permissions = new Permissions();
+        for( int i=0; i<descriptors.length; i++ )
         {
-            Configuration child = children[i];
-            String name = child.getName();
-            if( name.equals( PKCS7_ELEMENT ) )
+            PermissionDescriptor descriptor = descriptors[i];
+            try
             {
-                Certificate[] certs = 
-                  DefaultSecurityModel.createPKCS7( child );
-                for( int j=0; j<certs.length; j++ )
-                {
-                    list.add( certs[j] );
-                }
+                Permission permission = createPermission( descriptors[i] );
+                permissions.add( permission );
             }
-            else if( name.equals( X509_ELEMENT ) )
+            catch( Throwable e )
             {
-                Certificate[] certs = 
-                  DefaultSecurityModel.createX509( child );
-                for( int j=0; j<certs.length; j++ )
-                {
-                    list.add( certs[j] );
-                }
+                final String error = 
+                  "Invalid permission descriptor [" + descriptor + "].";
+                throw new SystemRuntimeException( error, e );
             }
-            else
-            {
-                final String error =
-                  "Unrecognized certificate type [" + name + "].";
-                throw new ConfigurationException( error );
-            }
-        }
-        return (Certificate[]) list.toArray( new Certificate[0] );
-    }
-
-   /**
-    * Static utility method to construct a PKCS7 certificate set from a 
-    * supplied configuration.
-    *
-    * @param config a configuration describing the PKCS7 certificate
-    */
-    private static Certificate[] createPKCS7( Configuration config ) throws Exception
-    {
-        String href = config.getAttribute( "href" );
-        InputStream in = null;
-        try
-        {
-            URL url = new URL( href );
-            in = url.openStream();
-
-            CertificateFactory cf = CertificateFactory.getInstance("X.509");
-            Collection certs = cf.generateCertificates(in);
-            Certificate[] certificates = new Certificate[ certs.size() ];
-            return (Certificate[]) certs.toArray( certificates );
-        } 
-        finally
-        {
-            if( in != null ) in.close();
-        }
-    }
-
-   /**
-    * Static utility method to construct a X509 certificate set for a 
-    * supplied configuration.
-    *
-    * @param config a configuration describing the PKCS7 certificate
-    */
-    private static Certificate[] createX509( Configuration config ) 
-      throws ConfigurationException, CertificateException, IOException
-    {
-        String href = config.getAttribute( "href", "" );
-        String data = config.getValue();
-
-        InputStream in = null;
-        try
-        {
-            if( href == null || "".equals( href ) )
-            {
-                in = new ByteArrayInputStream( data.getBytes("UTF-8") );
-            }
-            else
-            {
-                URL url = new URL( href );
-                in = url.openStream();
-            }
-            CertificateFactory cf = CertificateFactory.getInstance( "X.509" );
-            Collection certs = cf.generateCertificates( in );
-            Certificate[] certificates = new Certificate[ certs.size() ];
-            return (Certificate[]) certs.toArray( certificates );
-        } 
-        finally
-        {
-            if( in != null ) in.close();
-        }
-    }
-
-    private static Permission[] createPermissions( Configuration config ) throws Exception
-    {
-        Configuration[] children = config.getChildren( "permission" );
-        Permission[] permissions = new Permission[ children.length ];
-        for( int i=0; i<children.length; i++ )
-        {
-            permissions[i] = createPermission( children[i] );
         }
         return permissions;
     }
 
-    private static Permission createPermission( Configuration config ) throws Exception
+    private Permission createPermission( PermissionDescriptor descriptor ) throws Exception
     {
-        String classname = config.getAttribute( CLASS_ATTRIBUTE );
-        String name = config.getAttribute( NAME_ATTRIBUTE, null );
-        String actions = getActions( config );
+        String classname = descriptor.getClassname();
+        String name = descriptor.getName();
+        String actions = getActions( descriptor );
         return createPermission( classname, name, actions );
     }
 
-    private static String getActions( Configuration config ) throws ConfigurationException
+    private String getActions( PermissionDescriptor descriptor )
     {
-        Configuration[] actions = config.getChildren( ACTION_ELEMENT );
+        String[] actions = descriptor.getActions();
         if( actions.length == 0 ) return null;
         String result = "";
         for( int i=0 ; i < actions.length ; i ++ )
         {
             if( i > 0 )
             {
-                result = result + "," + actions[i].getValue();
+                result = result + "," + actions[i];
             }
             else
             {
-                result = result + actions[i].getValue();
+                result = result + actions[i];
             }
         }
         return result;
