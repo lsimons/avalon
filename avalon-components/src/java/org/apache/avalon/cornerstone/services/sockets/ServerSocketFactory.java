@@ -10,7 +10,6 @@ package org.apache.avalon.cornerstone.services.sockets;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
-import org.apache.avalon.framework.component.Component;
 
 /**
  * The interface used to create server sockets.
@@ -18,7 +17,6 @@ import org.apache.avalon.framework.component.Component;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface ServerSocketFactory
-    extends Component
 {
     /**
      * Creates a socket on specified port.

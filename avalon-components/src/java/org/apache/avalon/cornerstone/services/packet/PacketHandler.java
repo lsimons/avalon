@@ -10,7 +10,6 @@ package org.apache.avalon.cornerstone.services.packet;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.ProtocolException;
-import org.apache.avalon.framework.component.Component;
 
 /**
  * This interface is the way in which handlers are created.
@@ -18,7 +17,6 @@ import org.apache.avalon.framework.component.Component;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface PacketHandler
-    extends Component
 {
     /**
      * Handle a datgram packet.

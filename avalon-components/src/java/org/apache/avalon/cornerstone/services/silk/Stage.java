@@ -8,7 +8,6 @@
 package org.apache.avalon.cornerstone.services.silk;
 
 import org.apache.excalibur.event.EventHandler;
-import org.apache.avalon.framework.component.Component;
 
 /**
  * The Stage is a specialized type of Component.  It allows the system to be set
@@ -34,10 +33,11 @@ import org.apache.avalon.framework.component.Component;
  * </p>
  *
  * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/06/20 17:08:41 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/07/12 00:07:42 $
  */
 
-public interface Stage extends Component, EventHandler
+public interface Stage
+    extends EventHandler
 {
     /**
      * Sets the SourceMap for the Stage.  This allows the stage to specify

@@ -7,8 +7,6 @@
  */
 package org.apache.avalon.cornerstone.services.sockets;
 
-import org.apache.avalon.framework.component.ComponentException;
-
 /**
  * Service to manager the socket factories.
  *
@@ -23,18 +21,18 @@ public interface SocketManager
      *
      * @param name the name of server socket factory
      * @return the ServerSocketFactory
-     * @exception ComponentException if server socket factory is not available
+     * @exception Exception if server socket factory is not available
      */
     ServerSocketFactory getServerSocketFactory( String name )
-        throws ComponentException;
+        throws Exception;
 
     /**
      * Retrieve a client socket factory by name.
      *
      * @param name the name of client socket factory
      * @return the SocketFactory
-     * @exception ComponentException if socket factory is not available
+     * @exception Exception if socket factory is not available
      */
     SocketFactory getSocketFactory( String name )
-        throws ComponentException;
+        throws Exception;
 }
