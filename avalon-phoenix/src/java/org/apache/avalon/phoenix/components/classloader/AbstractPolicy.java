@@ -34,15 +34,6 @@ abstract class AbstractPolicy
     private final ArrayList m_entries = new ArrayList();
     private Logger m_logger;
 
-    /**
-     * Internal Policy Entry holder class.
-     */
-    private static class PolicyEntry
-    {
-        CodeSource m_codeSource;
-        Permissions m_permissions;
-    }
-
     public void enableLogging( final Logger logger )
     {
         m_logger = logger;
@@ -70,9 +61,9 @@ abstract class AbstractPolicy
         for( int i = 0; i < size; i++ )
         {
             final PolicyEntry entry = (PolicyEntry)m_entries.get( i );
-            if( entry.m_codeSource.implies( codeSource ) )
+            if( entry.getCodeSource().implies( codeSource ) )
             {
-                copyPermissions( permissions, entry.m_permissions );
+                copyPermissions( permissions, entry.getPermissions() );
             }
         }
 
@@ -108,13 +99,11 @@ abstract class AbstractPolicy
     {
         getLogger().debug( "createPermissionSetFor(" + url + ");" );
 
-        final PolicyEntry entry = new PolicyEntry();
-        entry.m_codeSource = new CodeSource( url, signers );
-        entry.m_codeSource = normalize( entry.m_codeSource );
-        entry.m_permissions = new Permissions();
-
+        CodeSource codeSource = new CodeSource( url, signers );
+        codeSource = normalize( codeSource );
+        final PolicyEntry entry = new PolicyEntry( codeSource, new Permissions() );
         m_entries.add( entry );
-        return entry.m_permissions;
+        return entry.getPermissions();
     }
 
     protected final Logger getLogger()
