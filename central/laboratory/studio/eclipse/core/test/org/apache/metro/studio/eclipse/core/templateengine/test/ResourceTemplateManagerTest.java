@@ -72,14 +72,15 @@ public class ResourceTemplateManagerTest extends TestCase
 
         rm.addResourceTemplate(createHelloWorldResources());
         //rm.addResourceTemplate(createCompositionApplicationResources());
-        rm.addResourceTemplate(createConfigurationResources());
+        //rm.addResourceTemplate(createConfigurationResources());
         rm.addResourceTemplate(createStandardContextResources());
+        /*
         rm.addResourceTemplate(createCustomContextResources());
         rm.addResourceTemplate(createCastingContextResources());
         rm.addResourceTemplate(createAliasContextResources());
         rm.addResourceTemplate(createPlusContextResources());
         rm.addResourceTemplate(createStrategyContextResources());
-
+        */
         try
         {
             Writer out = new FileWriter(resourcesLocation);
@@ -123,7 +124,7 @@ public class ResourceTemplateManagerTest extends TestCase
 
     public final void testCreateStandardContextProject()
     {
-        project = BlockProjectManager.create("Standard Context Tutorial", "Standard Context Tutorial");
+        project = BlockProjectManager.create("Context Tutorial (Standard)", "Context Tutorial (Standard)");
         assertNotNull("project was not created", project);
         
         String testpath;
@@ -222,7 +223,7 @@ public class ResourceTemplateManagerTest extends TestCase
     private ResourceTemplate createCustomContextResources()
     {
         ResourceTemplate rt = new ResourceTemplate();
-        rt.setTemplateId("Custom Context Tutorial");
+        rt.setTemplateId("Context Tutorial(Custom)");
         rt.setDescription("This tutorial presents information about the management of the runtime context supplied to your component.");
         rt.setDirectoryType("StandardBlock");
         Library library = new Library();
@@ -256,7 +257,7 @@ public class ResourceTemplateManagerTest extends TestCase
     private ResourceTemplate createCastingContextResources()
     {
         ResourceTemplate rt = new ResourceTemplate();
-        rt.setTemplateId("Casting Context Tutorial");
+        rt.setTemplateId("Context Tutorial (Casting)");
         rt.setDescription("This tutorial covers the declaration of context casting criteria and the creation of a typed context.");
         rt.setDirectoryType("StandardBlock");
         Library library = new Library();
@@ -296,7 +297,7 @@ public class ResourceTemplateManagerTest extends TestCase
     private ResourceTemplate createStandardContextResources()
     {
         ResourceTemplate rt = new ResourceTemplate();
-        rt.setTemplateId("Standard Context Tutorial");
+        rt.setTemplateId("Context Tutorial (Standard)");
         rt.setDescription("This tutorial presents information about the management of the runtime context supplied to your component.");
         rt.setDirectoryType("StandardBlock");
         Library library = new Library();
@@ -353,7 +354,7 @@ public class ResourceTemplateManagerTest extends TestCase
     private ResourceTemplate createAliasContextResources()
     {
         ResourceTemplate rt = new ResourceTemplate();
-        rt.setTemplateId("Alias Context Tutorial");
+        rt.setTemplateId("Context Tutorial  (Alias)");
         rt.setDescription("This tutorial covers usage of standard context entries using a constructor supplied context (as opposed to the classic Contextualization delivery mecahanism).");
         rt.setDirectoryType("StandardBlock");
 
@@ -377,7 +378,7 @@ public class ResourceTemplateManagerTest extends TestCase
     private ResourceTemplate createPlusContextResources()
     {
         ResourceTemplate rt = new ResourceTemplate();
-        rt.setTemplateId("Plus Context Tutorial");
+        rt.setTemplateId("Context Tutorial (Plus)");
         rt.setDescription("This tutorial covers usage of context entries using a constructor supplied custom context");
         rt.setDirectoryType("StandardBlock");
         Library library = new Library();
@@ -417,7 +418,7 @@ public class ResourceTemplateManagerTest extends TestCase
     private ResourceTemplate createStrategyContextResources()
     {
         ResourceTemplate rt = new ResourceTemplate();
-        rt.setTemplateId("Strategy Context Tutorial");
+        rt.setTemplateId("Context Tutorial (Strategy)");
         rt.setDescription("This tutorial covers the declaration of custom contextualization strategy.");
         rt.setDirectoryType("StandardBlock");
         Library library = new Library();
