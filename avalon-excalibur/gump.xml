@@ -234,6 +234,29 @@
             to="avalon-dev@jakarta.apache.org"/>
     </project>
 
+    <project name="excalibur-concurrent">
+        <package>org.apache.avalon.excalibur.concurrent</package>
+
+        <ant basedir="concurrent">
+            <depend property="junit.jar" project="junit"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <depend project="checkstyle"/>
+        <work nested="concurrent/build/classes"/>
+
+        <home nested="concurrent"/>
+        <jar name="build/lib/excalibur-concurrent-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
     <project name="excalibur-naming">
         <package>org.apache.avalon.excalibur.naming</package>
 
