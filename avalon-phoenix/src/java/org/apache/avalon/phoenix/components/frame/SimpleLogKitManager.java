@@ -1,3 +1,10 @@
+/*
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included with this distribution in
+ * the LICENSE file.
+ */
 package org.apache.avalon.phoenix.components.frame;
 
 import java.io.File;
@@ -21,14 +28,17 @@ import org.apache.log.Priority;
 import org.apache.log.output.io.FileTarget;
 
 /**
+ * Support for old style configuration. 
+ *
  * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
+ * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class SimpleLogKitManager
     extends AbstractLoggable
     implements LogKitManager, Contextualizable, Configurable
 {
     private static final Resources REZ =
-        ResourceManager.getPackageResources( DefaultPolicy.class );
+        ResourceManager.getPackageResources( SimpleLogKitManager.class );
 
     private final static String  DEFAULT_FORMAT =
         "%{time} [%7.7{priority}] <<%{category}>> (%{context}): %{message}\\n%{throwable}";
