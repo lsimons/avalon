@@ -15,19 +15,13 @@ package org.apache.log.output.io.rotate;
 public class RotateStrategyByTime 
     implements RotateStrategy
 {
-    /**
-     * time interval when rotation is triggered.
-     */
+    ///time interval when rotation is triggered.
     private long     m_timeInterval;
 
-    /**
-     * time when logging started.
-     */
+    ///time when logging started.
     private long     m_startingTime;
 
-    /**
-     * rotation count.
-     */
+    ///rotation count.
     private long     m_currentRotation;
 
     /**

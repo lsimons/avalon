@@ -25,24 +25,27 @@ public interface FilenameStrategy
     String BASE_FILE_NAME_DEFAULT = "default.log";
 
     /**
-     *  get 'calculated' log file name
-     *  @return File file which has been calculated from a given
-     *  base file name.
+     * Get 'calculated' log file name.
+     *
+     * @return File file which has been calculated from a given
+     *         base file name.
      */
     File getLogFileName();
 
     /**
-     * get log file name as specifed by user.
+     * Get log file name as specifed by user.
+     *
      * @return File return base file name
      */
     File getBaseFileName();
 
     /**
-     * set log file name.
-     * @param base_file_name the new base file name, used in 'calculating'
-     * the real file name.
+     * Set log file name.
+     *
+     * @param baseFileName the new base file name, used in 'calculating'
+     *                     the real file name.
      */
-    void setBaseFileName( File base_file_name );
+    void setBaseFileName( File baseFileName );
 }
 
 
