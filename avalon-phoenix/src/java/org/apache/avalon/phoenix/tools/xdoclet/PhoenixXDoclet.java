@@ -12,7 +12,7 @@ import org.apache.tools.ant.types.Path;
 
 /**
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
- * @version $Revision: 1.8 $ $Date: 2002/08/25 05:56:40 $
+ * @version $Revision: 1.9 $ $Date: 2002/08/25 06:30:42 $
  */
 public class PhoenixXDoclet
     extends DocletTask
@@ -42,7 +42,7 @@ public class PhoenixXDoclet
         return m_mxinfoSubTask;
     }
 
-    public void addClasspathRef( final Path path )
+    public void setClasspathRef( final Path path )
     {
        System.out.println( "WARNING: classpathRef no longer required due to changes in underlying xdoclet" );
     }
