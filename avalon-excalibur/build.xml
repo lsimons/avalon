@@ -20,7 +20,7 @@
         <ant dir="instrument"/>
         <ant dir="all"/>                <!-- depends on instrument -->
         <ant dir="instrument-manager"/> <!-- depends on instrument, all -->
-        <ant dir="instrument-client"/>  <!-- depends on instrument-manager -->
+        <!--ant dir="instrument-client"/-->  <!-- depends on instrument-manager -->
         <ant dir="baxter"/>
         <ant dir="bzip2"/>
         <ant dir="cache"/>
@@ -112,7 +112,7 @@
         <ant dir="instrument" target="jar"/>
         <ant dir="all" target="all"/>                <!-- depends on instrument -->
         <ant dir="instrument-manager" target="jar"/> <!-- depends on instrument, all -->
-        <ant dir="instrument-client" target="jar"/>  <!-- depends on instrument-manager -->
+        <!--ant dir="instrument-client" target="jar"/-->  <!-- depends on instrument-manager -->
         <ant dir="baxter" target="jar"/>
         <ant dir="bzip2" target="jar"/>
         <ant dir="cache" target="jar"/>
