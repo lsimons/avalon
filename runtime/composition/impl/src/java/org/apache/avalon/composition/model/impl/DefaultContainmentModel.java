@@ -209,7 +209,8 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         assemble();
         synchronized( m_commissioned )
         {
-            if( m_commissioned.isEnabled() ) return;
+            if( m_commissioned.isEnabled() ) 
+                return;
 
             //
             // get the startup sequence and from this
@@ -685,12 +686,14 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     * @param name the name of the subsidiary model to be removed
     * @exception IllegalArgumentException if the supplied name is unknown
     */
-    public void removeModel( String name ) throws IllegalArgumentException
+    public void removeModel( String name ) 
+        throws IllegalArgumentException
     {
         ModelRepository repository = m_context.getModelRepository();
+        DeploymentModel model = null;
         synchronized( repository )
         {
-            DeploymentModel model = (DeploymentModel) repository.getModel( name );
+            model = (DeploymentModel) repository.getModel( name );
             if( null == model )
             {
                 final String error = 
@@ -699,14 +702,23 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
                   + this + "].";
                 throw new IllegalArgumentException( error ); 
             }
-            else
+            if( model instanceof ContainmentModel )
             {
-                m_context.getDependencyGraph().remove( model );
-                repository.removeModel( model );
-                CompositionEvent event = new CompositionEvent( this, model );
-                fireModelRemovedEvent( event );
-            }
+                ContainmentModel container = (ContainmentModel) model;
+                removeChildModels( container );
+            }            
+            m_context.getDependencyGraph().remove( model );
+            repository.removeModel( model );
         }
+        CompositionEvent event = new CompositionEvent( this, model );
+        fireModelRemovedEvent( event );
+    }
+    
+    private void removeChildModels( ContainmentModel container )
+    {
+        DeploymentModel[] children = container.getModels();
+        for( int i = 0 ; i < children.length ; i++ )
+            container.removeModel( children[i].getName() );
     }
 
    /**
@@ -848,10 +860,10 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         {
             repository.addModel( name, model );
             m_context.getDependencyGraph().add( model );
-            CompositionEvent event = new CompositionEvent( this, model );
-            fireModelAddedEvent( event );
-            return model;
         }
+        CompositionEvent event = new CompositionEvent( this, model );
+        fireModelAddedEvent( event );
+        return model;
     }
 
     private void fireModelAddedEvent( CompositionEvent event )
@@ -872,6 +884,9 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
                 getLogger().warn( error, e );
             }
         }
+        ContainmentModel parent = m_context.getParentContainmentModel();
+        if( parent instanceof DefaultContainmentModel )
+            ((DefaultContainmentModel) parent).fireModelAddedEvent( event );
     }
 
     private void fireModelRemovedEvent( CompositionEvent event )
@@ -892,6 +907,9 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
                 getLogger().warn( error, e );
             }
         }
+        ContainmentModel parent = m_context.getParentContainmentModel();
+        if( parent instanceof DefaultContainmentModel )
+            ((DefaultContainmentModel) parent).fireModelRemovedEvent( event );
     }
 
    /**
