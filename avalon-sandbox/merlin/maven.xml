@@ -20,7 +20,7 @@
     <mkdir dir="${merlin.build.inst.dir}/lib/system"/>
     <mkdir dir="${merlin.build.inst.dir}/lib/shared"/>
     <copy toDir="${merlin.build.inst.dir}/lib">
-      <fileset dir="${basedir}/merlin-smp/lib"/>
+      <fileset dir="${basedir}/merlin-platform/lib"/>
     </copy>
 
     <!--
@@ -32,7 +32,7 @@
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
-      excludes="merlin-smp/*,merlin-plugin/*"
+      excludes="merlin-platform/*,merlin-plugin/*"
       goals="merlin-propergate"
       banner="Installing:"
       ignoreFailures="false" />
@@ -44,7 +44,7 @@
 
     <maven:reactor
       basedir="${basedir}"
-      includes="merlin-smp/project.xml"
+      includes="merlin-platform/project.xml"
       goals="merlin-import-external-jars"
       banner="Resolving dependencies:"
       ignoreFailures="false"/>
@@ -65,12 +65,12 @@
     -->
 
     <copy toDir="${merlin.build.inst.dir}">
-      <fileset dir="${basedir}/merlin-smp/src">
+      <fileset dir="${basedir}/merlin-platform/src">
         <include name="bin/**/*"/>
         <include name="config/**/*"/>
         <include name="repository/**/*"/>
       </fileset>
-      <fileset dir="${basedir}/merlin-smp/src/etc">
+      <fileset dir="${basedir}/merlin-platform/src/etc">
         <include name="LICENSE.txt"/>
       </fileset>
     </copy>
@@ -86,7 +86,7 @@
 
   <goal name="testing">
     <copy toDir="${merlin.build.inst.dir}" flatten="true">
-      <fileset dir="${basedir}/merlin-smp/src/etc">
+      <fileset dir="${basedir}/merlin-platform/src/etc">
         <include name="LICENSE.txt"/>
       </fileset>
     </copy>
@@ -129,7 +129,7 @@
     description="Build the Merlin site.">
     <maven:reactor
       basedir="${basedir}"
-      includes="merlin-smp/project.xml"
+      includes="merlin-platform/project.xml"
       goals="xjavadoc,site"
       banner="Building site."
       ignoreFailures="false"/>
@@ -140,7 +140,7 @@
     description="Build the Merlin site.">
     <maven:reactor
       basedir="${basedir}"
-      includes="merlin-smp/project.xml"
+      includes="merlin-platform/project.xml"
       goals="site"
       banner="Building site."
       ignoreFailures="false"/>
@@ -151,7 +151,7 @@
     description="Build the Merlin site.">
     <maven:reactor
       basedir="${basedir}"
-      includes="merlin-smp/project.xml"
+      includes="merlin-platform/project.xml"
       goals="xjavadoc"
       banner="Building site."
       ignoreFailures="false"/>
@@ -168,7 +168,7 @@
 
     <maven:reactor
       basedir="${basedir}"
-      includes="merlin-smp/project.xml"
+      includes="merlin-platform/project.xml"
       goals="site:fsdeploy"
       banner="Deploying site."
       ignoreFailures="false"/>
@@ -289,7 +289,7 @@
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
-      excludes="merlin-smp/*"
+      excludes="merlin-platform/*"
       goals="jar"
       banner="Building jar:"
       ignoreFailures="false"/>
@@ -299,7 +299,7 @@
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
-      excludes="merlin-smp/*"
+      excludes="merlin-platform/*"
       goals="jar:snapshot"
       banner="Building shapshot:"
       ignoreFailures="false"/>
@@ -309,7 +309,7 @@
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
-      excludes="merlin-smp/*"
+      excludes="merlin-platform/*"
       goals="jar:install-snapshot"
       banner="Installing snapshot:"
       ignoreFailures="false"/>
@@ -319,7 +319,7 @@
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
-      excludes="merlin-smp/*"
+      excludes="merlin-platform/*"
       goals="clean,jar:install"
       banner="Installing jar:"
       ignoreFailures="false"/>
