@@ -13,17 +13,16 @@ import org.apache.excalibur.source.SourceValidity;
  * A validation object for time-stamps.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/06/04 08:42:13 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/07/06 03:55:06 $
  */
 public final class TimeStampValidity
     implements SourceValidity
 {
+    private long m_timeStamp;
 
-    private long timeStamp;
-
-    public TimeStampValidity( long timeStamp )
+    public TimeStampValidity( final long timeStamp )
     {
-        this.timeStamp = timeStamp;
+        m_timeStamp = timeStamp;
     }
 
     /**
@@ -42,19 +41,20 @@ public final class TimeStampValidity
     {
         if( newValidity instanceof TimeStampValidity )
         {
-            return this.timeStamp == ( (TimeStampValidity)newValidity ).getTimeStamp();
+            final long timeStamp =
+                ( (TimeStampValidity)newValidity ).getTimeStamp();
+            return m_timeStamp == timeStamp;
         }
         return false;
     }
 
     public long getTimeStamp()
     {
-        return this.timeStamp;
+        return m_timeStamp;
     }
 
     public String toString()
     {
-        return "TimeStampValidity: " + this.timeStamp;
+        return "TimeStampValidity: " + m_timeStamp;
     }
-
 }

@@ -54,7 +54,7 @@ import org.apache.excalibur.source.SourceResolver;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.9 2002/06/13 17:24:52 bloritsch Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.10 2002/07/06 03:55:06 donaldp Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
@@ -65,7 +65,6 @@ public class SourceResolverImpl
     SourceResolver,
     ThreadSafe
 {
-
     /** The component manager */
     protected ComponentManager m_manager;
 
@@ -130,9 +129,6 @@ public class SourceResolverImpl
         m_factorySelector = (ComponentSelector)m_manager.lookup( SourceFactory.ROLE + "Selector" );
     }
 
-    /**
-     * Dispose
-     */
     public void dispose()
     {
         if( m_manager != null )
@@ -142,9 +138,6 @@ public class SourceResolverImpl
         }
     }
 
-    /**
-     * Configure
-     */
     public void parameterize( Parameters pars )
         throws ParameterException
     {
@@ -372,5 +365,4 @@ public class SourceResolverImpl
             ( (Disposable)source ).dispose();
         }
     }
-
 }

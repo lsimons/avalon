@@ -51,11 +51,10 @@ import java.util.Iterator;
  * validity object must be the same until discardValidity is called!
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/06/13 17:24:52 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/07/06 03:55:06 $
  */
 public interface Source
 {
-
     /**
      * Return an <code>InputStream</code> object to read from the source.
      * This is the data at the point of invocation of this method,
@@ -109,14 +108,14 @@ public interface Source
      * Using this it is possible to get custom information provided by the
      * source implementation, like an expires date, HTTP headers etc.
      */
-    String getParameter(String name);
+    String getParameter( String name );
 
     /**
      * Get the value of a parameter.
      * Using this it is possible to get custom information provided by the
      * source implementation, like an expires date, HTTP headers etc.
      */
-    long getParameterAsLong(String name);
+    long getParameterAsLong( String name );
 
     /**
      * Get parameter names

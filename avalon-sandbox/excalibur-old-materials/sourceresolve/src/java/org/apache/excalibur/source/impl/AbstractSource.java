@@ -10,23 +10,22 @@ package org.apache.excalibur.source.impl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
+import java.util.Collections;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
-import org.apache.excalibur.source.SourceParameters;
 import org.apache.excalibur.source.SourceValidity;
 
 /**
  * Abstract base class for a source implementation.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/06/12 10:03:45 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/07/06 03:55:06 $
  */
 
 public abstract class AbstractSource
     implements Source
 {
-
-    protected boolean gotInfos = false;
+    protected boolean gotInfos;
 
     protected long lastModificationDate;
 
@@ -49,7 +48,7 @@ public abstract class AbstractSource
     {
         if( !this.gotInfos )
         {
-            this.getInfos();
+            getInfos();
             this.gotInfos = true;
         }
     }
@@ -57,7 +56,7 @@ public abstract class AbstractSource
     /**
      * Return an <code>InputStream</code> object to read from the source.
      *
-     * @throws ResourceNotFoundException if file not found or
+     * @throws SourceException if file not found or
      *         HTTP location does not exist.
      * @throws IOException if I/O error occured.
      */
@@ -66,7 +65,6 @@ public abstract class AbstractSource
     {
         return null;
     }
-
 
     /**
      * Return the unique identifer for this source
@@ -112,7 +110,7 @@ public abstract class AbstractSource
      */
     public long getContentLength()
     {
-        this.checkInfos();
+        checkInfos();
         return this.contentLength;
     }
 
@@ -122,7 +120,7 @@ public abstract class AbstractSource
      */
     public long getLastModified()
     {
-        this.checkInfos();
+        checkInfos();
         return this.lastModificationDate;
     }
 
@@ -131,8 +129,9 @@ public abstract class AbstractSource
      * Using this it is possible to get custom information provided by the
      * source implementation, like an expires date, HTTP headers etc.
      */
-    public String getParameter(String name) {
-        this.checkInfos();
+    public String getParameter( final String name )
+    {
+        checkInfos();
         return null;
     }
 
@@ -141,8 +140,9 @@ public abstract class AbstractSource
      * Using this it is possible to get custom information provided by the
      * source implementation, like an expires date, HTTP headers etc.
      */
-    public long getParameterAsLong(String name) {
-        this.checkInfos();
+    public long getParameterAsLong( final String name )
+    {
+        checkInfos();
         return 0;
     }
 
@@ -151,11 +151,9 @@ public abstract class AbstractSource
      * Using this it is possible to get custom information provided by the
      * source implementation, like an expires date, HTTP headers etc.
      */
-    public Iterator getParameterNames() {
-        this.checkInfos();
-        return java.util.Collections.EMPTY_LIST.iterator();
-
+    public Iterator getParameterNames()
+    {
+        checkInfos();
+        return Collections.EMPTY_LIST.iterator();
     }
-
-
 }

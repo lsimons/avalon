@@ -23,12 +23,11 @@ import org.apache.avalon.framework.parameters.Parameters;
  * more than one value for a parameter.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: SourceParameters.java,v 1.1 2002/04/19 09:05:37 cziegeler Exp $
+ * @version $Id: SourceParameters.java,v 1.2 2002/07/06 03:55:06 donaldp Exp $
  */
 public final class SourceParameters
     implements Serializable, Cloneable
 {
-
     /** The parameter names are the keys and the value is a List object */
     private Map names = new HashMap( 5 );
 

@@ -13,12 +13,11 @@ import org.apache.excalibur.source.SourceValidity;
  * A validation object which is always valid.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/06/04 08:42:13 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/07/06 03:55:06 $
  */
 public final class NOPValidity
     implements SourceValidity
 {
-
     public static final SourceValidity SHARED_INSTANCE = new NOPValidity();
 
     /**
@@ -33,7 +32,7 @@ public final class NOPValidity
         return 1;
     }
 
-    public boolean isValid( SourceValidity newValidity )
+    public boolean isValid( final SourceValidity newValidity )
     {
         return newValidity instanceof NOPValidity;
     }
@@ -42,5 +41,4 @@ public final class NOPValidity
     {
         return "NOPValidity";
     }
-
 }

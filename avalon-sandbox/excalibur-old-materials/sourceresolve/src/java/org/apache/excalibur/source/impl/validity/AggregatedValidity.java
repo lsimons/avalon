@@ -16,22 +16,16 @@ import org.apache.excalibur.source.SourceValidity;
  * A validation object using a List.
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/06/04 08:42:13 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/07/06 03:55:06 $
  */
 public final class AggregatedValidity
     implements SourceValidity
 {
+    private final List m_list = new ArrayList();
 
-    private List a;
-
-    public AggregatedValidity()
+    public void add( final SourceValidity validity )
     {
-        this.a = new ArrayList();
-    }
-
-    public void add( SourceValidity validity )
-    {
-        this.a.add( validity );
+        m_list.add( validity );
     }
 
     /**
@@ -43,27 +37,36 @@ public final class AggregatedValidity
      */
     public int isValid()
     {
-        for( Iterator i = a.iterator(); i.hasNext(); )
+        for( final Iterator i = m_list.iterator(); i.hasNext(); )
         {
-            final int v = ((SourceValidity)i.next() ).isValid();
-            if (v < 1) return v;
+            final int v = ( (SourceValidity)i.next() ).isValid();
+            if( v < 1 )
+            {
+                return v;
+            }
         }
         return 1;
     }
 
-    public boolean isValid( SourceValidity validity )
+    public boolean isValid( final SourceValidity validity )
     {
         if( validity instanceof AggregatedValidity )
         {
-            List b = ( (AggregatedValidity)validity ).a;
-            if( a.size() != b.size() )
+            final AggregatedValidity other = (AggregatedValidity)validity;
+            final List otherList = other.m_list;
+            if( m_list.size() != otherList.size() )
+            {
                 return false;
-            for( Iterator i = a.iterator(), j = b.iterator(); i.hasNext(); )
+            }
+
+            for( final Iterator i = m_list.iterator(), j = otherList.iterator(); i.hasNext(); )
             {
                 final SourceValidity srcA = (SourceValidity)i.next();
                 final SourceValidity srcB = (SourceValidity)j.next();
                 if( srcA.isValid() < 1 && !srcA.isValid( srcB ) )
+                {
                     return false;
+                }
             }
             return true;
         }
@@ -72,13 +75,13 @@ public final class AggregatedValidity
 
     public String toString()
     {
-        StringBuffer b = new StringBuffer( "SourceValidity " );
-        for( Iterator i = a.iterator(); i.hasNext(); )
+        final StringBuffer sb = new StringBuffer( "SourceValidity " );
+        for( final Iterator i = m_list.iterator(); i.hasNext(); )
         {
-            b.append( i.next() );
-            if( i.hasNext() ) b.append( ':' );
+            sb.append( i.next() );
+            if( i.hasNext() ) sb.append( ':' );
         }
-        return b.toString();
+        return sb.toString();
     }
 }
 
