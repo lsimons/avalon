@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.logger.LogKitManager;
+import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -21,6 +21,7 @@ import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.AvalonFormatter;
+import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
@@ -36,7 +37,7 @@ import org.apache.log.output.io.FileTarget;
  */
 public class SimpleLogKitManager
     extends AbstractLogEnabled
-    implements LogKitManager, Contextualizable, Configurable
+    implements LoggerManager, Contextualizable, Configurable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( SimpleLogKitManager.class );
@@ -49,7 +50,11 @@ public class SimpleLogKitManager
     private File m_baseDirectory;
 
     ///Hierarchy of Application logging
-    private Hierarchy m_logHierarchy = new Hierarchy();
+
+    private final Hierarchy m_hierarchy = new Hierarchy();
+    private final Logger m_logkitLogger = m_hierarchy.getLoggerFor( "" );
+    private org.apache.avalon.framework.logger.Logger m_logger =
+        new LogKitLogger( m_logkitLogger );
 
     public void contextualize( final Context context )
         throws ContextException
@@ -66,9 +71,15 @@ public class SimpleLogKitManager
         configureCategories( categories, targetSet );
     }
 
-    public Hierarchy getHierarchy()
+    public org.apache.avalon.framework.logger.Logger
+        getLoggerForCategory( final String categoryName )
     {
-        return m_logHierarchy;
+        return m_logger.getChildLogger( categoryName );
+    }
+
+    public org.apache.avalon.framework.logger.Logger getDefaultLogger()
+    {
+        return m_logger;
     }
 
     /**
@@ -136,7 +147,8 @@ public class SimpleLogKitManager
             final String target = category.getAttribute( "target" );
             final String priorityName = category.getAttribute( "priority" );
 
-            final Logger logger = getLogger( name );
+            final Logger logger =
+                m_logkitLogger.getChildLogger( name );
 
             final LogTarget logTarget = (LogTarget)targets.get( target );
             if( null == target )
@@ -161,8 +173,8 @@ public class SimpleLogKitManager
 
             if( name.equals( "" ) )
             {
-                m_logHierarchy.setDefaultPriority( priority );
-                m_logHierarchy.setDefaultLogTarget( logTarget );
+                m_hierarchy.setDefaultPriority( priority );
+                m_hierarchy.setDefaultLogTarget( logTarget );
             }
             else
             {
@@ -170,10 +182,5 @@ public class SimpleLogKitManager
                 logger.setLogTargets( new LogTarget[]{logTarget} );
             }
         }
-    }
-
-    public Logger getLogger( final String category )
-    {
-        return m_logHierarchy.getLoggerFor( category );
     }
 }

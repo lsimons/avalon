@@ -21,6 +21,7 @@ import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
@@ -297,11 +298,11 @@ public class DefaultDeployer
             setupConfiguration( metaData, config.getChildren() );
 
             final Configuration logs = environment.getChild( "logs" );
-            final Hierarchy hierarchy =
+            final Logger logger =
                 m_logManager.createHierarchy( metaData, logs, classLoader );
 
             //Finally add application to kernel
-            m_kernel.addApplication( metaData, classLoader, hierarchy, environment );
+            m_kernel.addApplication( metaData, classLoader, logger, environment );
 
             m_installations.put( metaData.getName(), installation );
 

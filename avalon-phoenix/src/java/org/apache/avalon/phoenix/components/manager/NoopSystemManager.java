@@ -17,11 +17,6 @@ import org.apache.avalon.phoenix.interfaces.ManagerException;
 public class NoopSystemManager
     extends AbstractSystemManager
 {
-    public void initialize()
-        throws Exception
-    {
-    }
-
     public void start()
     {
     }

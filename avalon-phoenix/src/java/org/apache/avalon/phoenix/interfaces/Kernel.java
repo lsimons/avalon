@@ -8,11 +8,10 @@
 package org.apache.avalon.phoenix.interfaces;
 
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
-import org.apache.log.Hierarchy;
 
 /**
- *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface Kernel
@@ -21,7 +20,7 @@ public interface Kernel
 
     void addApplication( SarMetaData metaData,
                          ClassLoader classLoader,
-                         Hierarchy hierarchy,
+                         Logger hierarchy,
                          Configuration server )
         throws Exception;
 

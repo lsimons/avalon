@@ -16,7 +16,6 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.DefaultServiceManager;
@@ -32,7 +31,7 @@ import org.apache.excalibur.containerkit.lifecycle.ResourceProvider;
  * Block or Listener.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/06/18 03:51:44 $
+ * @version $Revision: 1.2 $ $Date: 2002/07/14 02:27:16 $
  */
 class BlockResourceProvider
     extends AbstractLogEnabled
@@ -98,7 +97,7 @@ class BlockResourceProvider
     {
         final BlockMetaData metaData = getMetaDataFor( entry );
         final String name = metaData.getName();
-        return new LogKitLogger( m_context.getLogger( name ) );
+        return m_context.getLogger( name );
     }
 
     /**
