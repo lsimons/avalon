@@ -7,17 +7,14 @@
  */
 package org.apache.avalon.excalibur.monitor;
 
-import org.apache.avalon.framework.component.Component;
-
 /**
  * The Monitor is used to actively check a set of resources to see if they have
  * changed.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: Monitor.java,v 1.9 2002/09/07 12:14:01 donaldp Exp $
+ * @version $Id: Monitor.java,v 1.10 2002/09/09 21:23:41 donaldp Exp $
  */
 public interface Monitor
-    extends Component
 {
     String ROLE = Monitor.class.getName();
 
