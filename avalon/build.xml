@@ -196,7 +196,7 @@ Legal:
 
   <target name="jar-exceptionutil" depends="compile-exceptionutil">
     <mkdir dir="${build.lib}"/>
-    <jar jarfile="${build.lib}/exceptionutil.jar" basedir="${build.classes}">
+    <jar file="${build.lib}/exceptionutil.jar" basedir="${build.classes}">
       <include name="org/apache/avalon/framework/ExceptionUtil.class" />
       <include name="org/apache/avalon/framework/Cascading*" />
     </jar>
@@ -378,7 +378,7 @@ Legal:
   <!-- Creates all the .jar files -->
   <target name="all" depends="compile">
     <mkdir dir="${build.lib}"/>
-    <jar jarfile="${build.lib}/${framework.name}.jar" basedir="${build.classes}">
+    <jar file="${build.lib}/${framework.name}.jar" basedir="${build.classes}">
       <include name="org/apache/avalon/framework/**"/>
       <exclude name="**/test/*"/>
     </jar>
@@ -497,7 +497,7 @@ Legal:
 
     <copy file="${build.lib}/avalon-framework.jar" tofile="${tools.dir}/ext/avalon-framework.jar"/>
 
-    <zip zipfile="${dist.base}/${dist.name}-bin.zip"
+    <zip file="${dist.base}/${dist.name}-bin.zip"
          basedir="${dist.name}/.."
          includes="${dist.name}/**"/>
 
@@ -507,7 +507,7 @@ Legal:
       </tarfileset>
     </tar>
 
-    <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz"
+    <gzip file="${dist.base}/${dist.name}-bin.tar.gz"
           src="${dist.base}/${dist.name}-bin.tar"/>
 
     <delete file="${dist.base}/${dist.name}-bin.tar"/>
@@ -521,7 +521,7 @@ Legal:
       <fileset dir="${src.dist.dir}"/>
     </copy>
 
-    <zip zipfile="${dist.base}/${dist.name}-src.zip"
+    <zip file="${dist.base}/${dist.name}-src.zip"
          basedir="${dist.name}/.."
          includes="${dist.name}/**"/>
 
@@ -535,7 +535,7 @@ Legal:
       </tarfileset>
     </tar>
 
-    <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz"
+    <gzip file="${dist.base}/${dist.name}-src.tar.gz"
           src="${dist.base}/${dist.name}-src.tar"/>
 
     <delete file="${dist.base}/${dist.name}-src.tar"/>
