@@ -14,7 +14,6 @@
         <pathelement location="${build.classes}"/>
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${excalibur-pool.jar}"/>
-        <pathelement location="${excalibur-io.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
         <pathelement path="${java.class.path}"/>
     </path>
@@ -40,7 +39,6 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkPool"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkIO"/>
     </target>
 
     <target name="dependencies-test" depends="dist-jar, dependencies"

@@ -7,26 +7,23 @@
  */
 package org.apache.excalibur.store.impl;
 
-import org.apache.avalon.excalibur.io.FileUtil;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.excalibur.store.Store;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.util.BitSet;
 import java.util.Enumeration;
 
 /**
  * Stores objects on the filesystem: String objects as text files,
- * all other objects are serialized.
+ * all other objects are serialized. This class must be subclassed
+ * in order to set the directory the store should work on.
  *
  * @author ?
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: FilesystemStore.java,v 1.1 2002/05/02 08:55:39 cziegeler Exp $
+ * @version CVS $Id: AbstractFilesystemStore.java,v 1.1 2002/05/02 10:04:05 cziegeler Exp $
  */
-public class FilesystemStore
+public abstract class AbstractFilesystemStore
 extends AbstractLogEnabled
 implements Store, ThreadSafe {
 
@@ -50,7 +47,7 @@ implements Store, ThreadSafe {
         this.directoryFile = directory;
 
         /* Save directory path prefix */
-        this.directoryPath = FileUtil.getFullFilename(this.directoryFile);
+        this.directoryPath = this.getFullFilename(this.directoryFile);
         this.directoryPath += File.separator;
 
         /* Does directory exist? */
@@ -93,9 +90,7 @@ implements Store, ThreadSafe {
                 getLogger().debug("Found file: " + key);
             }
             try {
-                // FIXME
-                return null;
-                //return IOUtils.deserializeObject(file);
+                return this.deserializeObject(file);
             } catch (Exception any) {
                 getLogger().error("Error during deseralization.", any);
             }
@@ -136,12 +131,10 @@ implements Store, ThreadSafe {
             file.mkdir();
         } else if (value instanceof String) {
             /* Text file */
-            // FIXME
-            //IOUtils.serializeString(file, (String) value);
+            this.serializeString(file, (String) value);
         } else {
             /* Serialized Object */
-            // FIXME
-            //IOUtils.serializeObject(file, value);
+            this.serializeObject(file, value);
         }
     }
 
@@ -266,8 +259,7 @@ implements Store, ThreadSafe {
     throws IOException {
         final File file = (File) this.fileFromKey(key);
         if (file != null) {
-            // FIXME
-            //return IOUtils.deserializeString(file);
+            return this.deserializeString(file);
         }
 
         return null;
@@ -280,8 +272,7 @@ implements Store, ThreadSafe {
     {
         final File file = (File) this.fileFromKey(key);
         if (file != null) {
-            // FIXME
-            //return IOUtils.deserializeObject(file);
+            return this.deserializeObject(file);
         }
 
         return null;
@@ -380,6 +371,110 @@ implements Store, ThreadSafe {
         }
 
         return out.toString();
+    }
+
+    /**
+     * Dump a <code>String</code> to a text file.
+     *
+     * @param file The output file
+     * @param string The string to be dumped
+     * @exception IOException IO Error
+     */
+    public void serializeString(File file, String string)
+    throws IOException {
+        final Writer fw = new FileWriter(file);
+        try {
+            fw.write(string);
+            fw.flush();
+        } finally {
+            if (fw != null) fw.close();
+        }
+    }
+
+    /**
+     * Load a text file contents as a <code>String<code>.
+     * This method does not perform enconding conversions
+     *
+     * @param file The input file
+     * @return The file contents as a <code>String</code>
+     * @exception IOException IO Error
+     */
+    public String deserializeString(File file)
+    throws IOException {
+        int len;
+        char[] chr = new char[4096];
+        final StringBuffer buffer = new StringBuffer();
+        final FileReader reader = new FileReader(file);
+        try {
+            while ((len = reader.read(chr)) > 0) {
+                buffer.append(chr, 0, len);
+            }
+        } finally {
+            if (reader != null) reader.close();
+        }
+        return buffer.toString();
+    }
+
+    /**
+     * This method serializes an object to an output stream.
+     *
+     * @param file The output file
+     * @param object The object to be serialized
+     * @exception IOException IOError
+     */
+
+    public void serializeObject(File file, Object object)
+    throws IOException {
+        FileOutputStream fos = new FileOutputStream(file);
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(fos));
+            oos.writeObject(object);
+            oos.flush();
+        } finally {
+            if (fos != null) fos.close();
+        }
+    }
+
+    /**
+     * This method deserializes an object from an input stream.
+     *
+     * @param file The input file
+     * @return The deserialized object
+     * @exception IOException IOError
+     */
+    public Object deserializeObject(File file)
+    throws IOException, ClassNotFoundException {
+        FileInputStream fis = new FileInputStream(file);
+        Object object = null;
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(fis));
+            object = ois.readObject();
+        } finally {
+            if (fis != null) fis.close();
+        }
+        return object;
+    }
+
+    /**
+     * Get the complete filename corresponding to a (typically relative)
+     * <code>File</code>.
+     * This method accounts for the possibility of an error in getting
+     * the filename's <i>canonical</i> path, returning the io/error-safe
+     * <i>absolute</i> form instead
+     *
+     * @param file The file
+     * @return The file's absolute filename
+     */
+    public String getFullFilename(File file)
+    {
+        try
+        {
+            return file.getCanonicalPath();
+        }
+        catch (Exception e)
+        {
+            return file.getAbsolutePath();
+        }
     }
 
 }
