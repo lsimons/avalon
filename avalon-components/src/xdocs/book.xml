@@ -20,8 +20,6 @@
   </menu>
   <menu label="Demo Applications">
     <menu-item label="Applications" href="apps.html"/>
-    <menu-item label="HTTP Proxy" href="demo-httpproxy.html"/>
-    <menu-item label="Simple Server" href="demo-simpleserver.html"/>
   </menu>
 
 </book>
