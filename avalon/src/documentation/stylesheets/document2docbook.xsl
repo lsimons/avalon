@@ -106,7 +106,19 @@
   </xsl:template>
 
   <xsl:template match="figure">
-    <graphic fileref="{@src}" srccredit="{@alt}"/>
+    <xsl:choose>
+      <xsl:when test="@src">
+        <figure>
+	  <title><xsl:value-of select="@alt"/></title>
+          <graphic fileref="{@src}" srccredit="{@alt}"/>
+	</figure>
+      </xsl:when>
+      <xsl:otherwise>
+        <figure>
+	  <xsl:apply-templates/>
+	</figure>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="fixme">
