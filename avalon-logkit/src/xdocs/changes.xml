@@ -19,7 +19,68 @@
 <release version="1.0b1" date="May 11, 2001">
 
   <action dev="PD" type="add">First public release.</action>
-
+  <action dev="PD" type="update">
+  Renamed LogEntry to LogEvent. This was done as Entry was a misnomer.
+  It was a misnomer as each Entry could in fact never be placed in
+  logs or placed in multiple logs. It is up to the LogTargets how to 
+  treat the event and whether or not to convert the event into an entry.
+  Updated all interfaces that referred to entry to refer to event.
+  </action>
+  <action dev="PD" type="add">
+  Added getCurrentContextStack() to ContextStack class and made the
+  method with same name in LogKit delegate to ContextStack.getCurrentContextStack()
+  </action>
+  <action dev="PD" type="add">
+  Added getDefaultLogEngine() to LogEngine and made the method with same name
+  in LogKit delegate to LogEngine.getDefaultLogEngine()
+  </action>
+  <action dev="PD" type="update">
+  Made Priority a class in place of Priority.Enum class. Converted constants
+  to use this interface. Added getPriorityForName() method and made LogKit
+  method of same name delegate to it.
+  </action>
+  <action dev="PD" type="update">
+  Made ContextStack contain objects other than strings.
+  </action>
+  <action dev="PD" type="update">
+  Made each hierarchy extend from a root Logger about category "". Also put
+  default log target into this Logger. Thus no longer *need* getDefaultLogTarget
+  method in LogEngine/LogKit - thus it was removed.
+  </action>
+  <action dev="PD" type="update">
+  Made each logger cache a version of logTargets. Combine this with the root logger
+  containing default log target means that you no longer have to recursively
+  check parents to get LogTargets or check the engine. This is considerably 
+  faster.
+  </action>
+  <action dev="PD" type="update">
+  Made "category" behave identically to logTarget inheritance wise.
+  Each logger caches priority when it is inherited from parents. This is
+  slightly faster than old version.
+  </action>
+  <action dev="PD" type="remove">
+  Merged "Category" object into Logger. This required adding getPriority to 
+  Logger and making Logger.getCategory() return name of category rather than
+  Category object.
+  </action>
+  <action dev="PD" type="fix">
+  Protected logger manipulation by synchronized sections
+  </action>
+  <action dev="PD" type="update">
+  Made ServletOutputTarget not filter - leave that to a separate FilterTarget
+  </action>
+  <action dev="PD" type="update">
+  Moved instance variables to private instead of protected were appopriate.
+  This allows to decrease maintanence cost justt in case someone inherits
+  from one of our classes.
+  </action>
+  <action dev="PD" type="remove">
+  Removed the hashtable that stored log targets as it can be easily done
+  by users of LogKit and wasn't serving any real purpose.
+  </action>
+  <action dev="PD" type="update">
+  Renamed LogEngine to Hierarchy to match Log4j and allow easy cross migration
+  </action>
 </release>
 
 </changes>
