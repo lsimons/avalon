@@ -49,23 +49,13 @@
 */
 package org.apache.avalon.merlin.servlet;
 
-import java.io.File;
-import java.net.URL;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.avalon.assembly.locator.DefaultLocator;
-import org.apache.avalon.merlin.block.Block;
-import org.apache.avalon.merlin.kernel.Kernel;
-import org.apache.avalon.merlin.kernel.impl.DefaultKernel;
 
 /**
  * Servlet implementing the Merlin Kernel interface.
@@ -77,7 +67,7 @@ public class TestServlet extends MerlinServlet
 
     /**
      * Respond to a GET request for the content produced by
-     * this servlet.  This method should be overidden in a 
+     * this servlet.  This method should be overidden in a
      *
      * @param request The servlet request we are processing
      * @param response The servlet response we are producing
@@ -139,7 +129,7 @@ public class TestServlet extends MerlinServlet
 	writer.println("<h1>Context Deconstructor</h1>");
 	writer.println("<table border=\"0\" width=\"100%\">");
 	names = getServletContext().getAttributeNames();
-	while (names.hasMoreElements()) 
+	while (names.hasMoreElements())
       {
 	    String name = (String) names.nextElement();
 	    writer.println("<tr>");

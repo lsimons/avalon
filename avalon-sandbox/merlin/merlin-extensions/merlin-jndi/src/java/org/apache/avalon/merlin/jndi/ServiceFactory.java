@@ -53,7 +53,6 @@ package org.apache.avalon.merlin.jndi;
 import javax.naming.*;
 import javax.naming.spi.ObjectFactory;
 import java.util.Hashtable;
-import java.util.Enumeration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -68,9 +67,9 @@ import java.lang.reflect.Method;
  * This is an object factory that when given a reference for a service
  * object, will create an instance of the corresponding service.
  */
-public class ServiceFactory implements ObjectFactory 
+public class ServiceFactory implements ObjectFactory
 {
-    private static final String MERLIN_KERNEL_LOADER_CLASSNAME = 
+    private static final String MERLIN_KERNEL_LOADER_CLASSNAME =
       "org.apache.avalon.merlin.kernel.impl.DefaultKernelLoader";
 
     private Object m_kernel;
@@ -81,7 +80,7 @@ public class ServiceFactory implements ObjectFactory
     *
     */
     public Object getObjectInstance(
-     Object object, final Name name, Context context, final Hashtable environment ) throws Exception 
+     Object object, final Name name, Context context, final Hashtable environment ) throws Exception
     {
         if( m_kernel == null )
         {
@@ -165,10 +164,10 @@ public class ServiceFactory implements ObjectFactory
         }
         catch( Throwable e )
         {
-            final String error = 
+            final String error =
               "Unexpected error while bootstrapping the kernel.";
             final String message = ExceptionHelper.packException( error, e );
-            throw new Exception( message ); 
+            throw new Exception( message );
         }
     }
 
@@ -188,7 +187,7 @@ public class ServiceFactory implements ObjectFactory
         }
         catch( Throwable e )
         {
-            final String error = 
+            final String error =
               "Internal error during loader class creation.";
             throw new RuntimeException( error, e );
         }
@@ -204,7 +203,7 @@ public class ServiceFactory implements ObjectFactory
         }
         catch( Throwable e )
         {
-            final String error = 
+            final String error =
               "Internal error during loader instantiation.";
             throw new RuntimeException( error, e );
         }
@@ -220,9 +219,9 @@ public class ServiceFactory implements ObjectFactory
         }
         catch( Throwable e )
         {
-            final String error = 
+            final String error =
               "Internal error during kernel resolution.";
-            throw new RuntimeException( error, e );         
+            throw new RuntimeException( error, e );
         }
     }
 
@@ -295,7 +294,7 @@ public class ServiceFactory implements ObjectFactory
         }
         return new File( value );
     }
-   
+
     private URL getURL( String key, Reference reference ) throws Exception
     {
         RefAddr ref = reference.get( key );
@@ -309,7 +308,7 @@ public class ServiceFactory implements ObjectFactory
             throw new Exception( "Null " + key + " ref value.");
         }
         return new URL( value );
-    }    
+    }
 
     private String getString( String key, Reference reference ) throws Exception
     {
@@ -324,6 +323,6 @@ public class ServiceFactory implements ObjectFactory
             throw new Exception( "Null " + key + " ref value.");
         }
         return value;
-    }    
+    }
 
 }
