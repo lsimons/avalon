@@ -98,7 +98,7 @@ import java.util.Map;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.23 $ $Date: 2003/04/22 16:11:22 $
+ * @version CVS $Revision: 1.24 $ $Date: 2003/05/02 04:15:20 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled
@@ -622,32 +622,46 @@ public abstract class AbstractContainer
             try
             {
                 final ComponentHandler handler = entry.getHandler();
-                // if the component is not lazy, prepare it now,
-                // otherwise, don't do anything yet
-                if ( !entry.getMetaData().isLazyActivation() )
+                
+                // Depending on the activation policy of the component decide
+                //  how to initialize the component.  Make sure that we can
+                //  perform the specified activation policy, if not modify it.
+                int activation = entry.getMetaData().getActivation();
+                if ( activation == ComponentHandlerMetaData.ACTIVATION_BACKGROUND )
                 {
-                    // if we're doing queueing, enqueue, otherwise tell
-                    // the handler to prepare itself and its components.
-                    if ( null != m_commandQueue )
+                    // If a queue is not set then we must change to inline.
+                    if ( null == m_commandQueue )
                     {
-                        final PrepareHandlerCommand element =
-                            new PrepareHandlerCommand( handler, getLogger() );
-                        m_commandQueue.enqueue( element );
-                    }
-                    else
-                    {
-                        handler.prepareHandler();
+                        activation = ComponentHandlerMetaData.ACTIVATION_INLINE;
                     }
                 }
-                else
+                
+                // We now have an activation policy we can handle.
+                switch ( activation )
                 {
+                case ComponentHandlerMetaData.ACTIVATION_BACKGROUND:
+                    // Add a command to initialize the component to the command
+                    //  queue so it will be initialized asynchronously in the
+                    //  background.
+                    final PrepareHandlerCommand element =
+                        new PrepareHandlerCommand( handler, getLogger() );
+                    m_commandQueue.enqueue( element );
+                    break;
+                    
+                case ComponentHandlerMetaData.ACTIVATION_INLINE:
+                    // Initialize the component now.
+                    handler.prepareHandler();
+                    break;
+                    
+                default: // ComponentHandlerMetaData.ACTIVATION_LAZY
                     if ( getLogger().isDebugEnabled() )
                     {
                         final String message = "ComponentHandler (" + handler +
-                            ") has specified request time initialization policy, " +
-                            "initialization deferred till first use";
+                            ") has specified a lazy activation policy, " +
+                            "initialization deferred until first use";
                         getLogger().debug( message );
                     }
+                    break;
                 }
             }
             catch ( final Exception e )
