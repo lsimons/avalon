@@ -32,7 +32,7 @@ import org.apache.avalon.framework.Version;
  * name of container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/24 21:35:31 $
+ * @version $Revision: 1.2 $ $Date: 2004/03/12 08:01:59 $
  */
 public final class SecurityDescriptor extends Descriptor
 {
@@ -62,7 +62,7 @@ public final class SecurityDescriptor extends Descriptor
      * and attribute set.
      *
      * @param permissions the set of permissions
-     * @param supplimentary security attributes
+     * @param attributes supplimentary security attributes
      * @since 1.4
      */
     public SecurityDescriptor( 

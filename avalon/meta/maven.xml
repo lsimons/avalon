@@ -228,17 +228,15 @@
     <j:choose>
       <j:when test="${avalon.snapshot}">
         <maven:snapshot project="${pom}"/>
-        <j:set var="timestamp" value="${snapshotSignature.substring(12)}"/>
+        <j:set var="timestamp" value="${snapshotSignature.substring(12,20)}"/>
         <j:set var="build.name" value="${maven.final.name}-${timestamp}"/>
-        <echo>Snapshot Packaging: ${timestamp}</echo>
       </j:when>
       <j:otherwise>
         <j:set var="build.name" value="${maven.final.name}"/>
-        <echo>Release Packaging: ${pom.currentVersion}</echo>
       </j:otherwise>
     </j:choose>
+    <echo>Packaging: ${build.name}</echo>
   </goal>
-
 
   <goal
     name="xdist:build-bin" 
