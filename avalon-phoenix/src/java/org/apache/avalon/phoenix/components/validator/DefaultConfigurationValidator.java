@@ -44,7 +44,7 @@ import java.io.InputStream;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:proyal at apache.org">Peter Royal</a>
- * @version $Revision: 1.2 $ $Date: 2003/04/08 18:38:43 $
+ * @version $Revision: 1.3 $ $Date: 2003/04/16 08:07:22 $
  * @phoenix.component
  */
 public class DefaultConfigurationValidator
@@ -75,6 +75,14 @@ public class DefaultConfigurationValidator
         }
     }
 
+    /**
+     * Check to see if configuration is valid for specified component.
+     *
+     * @param component the ComponentProfile
+     * @param classLoader the ClassLoader (to load schema from if necessary)
+     * @return true if configuration is valid
+     * @throws ConfigurationException if expected schema is missing
+     */
     public boolean isValid( final ComponentProfile component,
                             final ClassLoader classLoader )
         throws ConfigurationException
