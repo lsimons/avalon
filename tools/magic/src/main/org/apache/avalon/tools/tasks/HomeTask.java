@@ -69,6 +69,7 @@ public class HomeTask extends ContextualTask
             setupProperties( project, system );
             if( null == HOME )
             {
+                log( "Building system definition." );
                 setupSystemProperties( project, system );
                 HOME = new Home( project, system, index );
             }

@@ -11,8 +11,9 @@
       <p>
       A set of tasks are provided that support plugin meta-data generation,
       initialization of dependendent plugin loading relative to a project
-      defintion, plugin classloader creation and plugin deployment, and 
-      tasks supporting repository-enabled factory meta-data creation. 
+      defintion, plugin classloader creation and plugin deployment, 
+      tasks supporting repository-enabled factory meta-data creation, and
+      a reactor task supporting muti-project builds.
       </p>
     </section>
   </body>

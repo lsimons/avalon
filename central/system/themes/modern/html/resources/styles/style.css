@@ -180,7 +180,7 @@ div.no-border
 {
     background-color: white;
     color: black;
-    margin-right: 200px;
+    margin-right: 210px;
     min-height: 400px;
 }
 
@@ -197,7 +197,7 @@ div.no-border
     text-align:left; 
     border-bottom:solid 1px #333333; 
     margin-left: -1em;
-    margin-right: 1em;
+    margin-right: 0em;
     padding-left: 10px; 
     padding-right: 10px; 
     padding-top: 30px;
@@ -221,7 +221,7 @@ div.no-border
     border-top: 1px solid;
     margin-top: 30px;
     margin-bottom: 20px;
-    margin-right: 220px;
+    margin-right: 210px;
     margin-left: 1em;
     padding-top: 2px;
     padding-bottom: 30px; 
@@ -483,6 +483,8 @@ a.menuitem-selected:focus
     outline: none;
 }
 
+/* comment out doclink until problems are fixed */
+/*
 a.doclink {
 	text-decoration: none;
 	color: #000;
@@ -513,7 +515,7 @@ a.doclink:focus {
 	padding: 1px 2px 1px 2px;
 	margin: 0px;
 }
-
+*/
 
 img
 {

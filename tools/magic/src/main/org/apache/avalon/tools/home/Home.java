@@ -98,7 +98,6 @@ public class Home extends DataType
     {
         setProject( project );
         m_index = index;
-        log( "Building system definition." );
 
         m_system = system;
 

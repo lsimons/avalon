@@ -57,8 +57,8 @@ public class Context extends Task
     public static final String SRC_MAIN = "main";
     public static final String SRC_MAIN_KEY = "project.src.main";
 
-    public static final String SRC_CONFIG_KEY = "project.src.config";
-    public static final String SRC_CONFIG = "config";
+    public static final String SRC_CONFIG_KEY = "project.src.conf";
+    public static final String SRC_CONFIG = "conf";
 
     public static final String SRC_TEST_KEY = "project.src.test";
     public static final String SRC_TEST = "test";

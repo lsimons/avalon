@@ -43,7 +43,6 @@ public class Info
         return Info.create( protocol, spec);
     }
 
-
     public static Info create( String type, String id )
     {
         int n = getGroupIndex( id );
