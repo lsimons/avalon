@@ -9,13 +9,12 @@ package org.apache.avalon.phoenix.components.classloader;
 
 import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
-import org.apache.avalon.phoenix.tools.protocols.sar.Handler;
 
 /**
  * Factory for <code>sar:</code> URL stream protocol handler.
  *
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/10/27 14:12:41 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/10/27 15:20:38 $
  */
 class SarURLStreamHandlerFactory
     implements URLStreamHandlerFactory
@@ -33,7 +32,7 @@ class SarURLStreamHandlerFactory
     {
         if ( "sar".equals( protocol ) )
         {
-            return new Handler();
+            return new SarURLStreamHandler();
         }
 
         return null;
