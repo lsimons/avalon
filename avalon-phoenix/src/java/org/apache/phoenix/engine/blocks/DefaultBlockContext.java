@@ -84,10 +84,22 @@ public class DefaultBlockContext
         return getThreadPool( "default" );
     }
 
+
+    /**
+     * Retrieve logger coresponding to named category.
+     *
+     * @return the logger
+     */
+    public Logger getLogger( final String name )
+    {
+        return m_baseLogger.getChildLogger( name );
+    }
+
     /**
      * Retrieve logger coresponding to root category of application.
      *
      * @return the base logger
+     * @deprecated Use the getLogger(String) version
      */
     public Logger getBaseLogger()
     {

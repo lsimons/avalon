@@ -57,9 +57,17 @@ public interface BlockContext
     ThreadPool getDefaultThreadPool();
 
     /**
+     * Retrieve logger coresponding to named category.
+     *
+     * @return the logger
+     */
+    Logger getLogger( String name );
+
+    /**
      * Retrieve logger coresponding to root category of application.
      *
      * @return the base logger
+     * @deprecated Use the getLogger(String) version
      */
     Logger getBaseLogger();
 }
