@@ -51,7 +51,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleUtils;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/09/06 02:14:09 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/09/06 02:35:17 $
  * @since 4.1
  */
 class InstrumentManagerConnection
@@ -688,6 +688,7 @@ class InstrumentManagerConnection
         }
         
         sampleFrame.show();
+        // Need to restore the frame if it is an icon.
         if ( sampleFrame.isIcon() )
         {
             // Restore the sample frame.
@@ -696,6 +697,16 @@ class InstrumentManagerConnection
                 sampleFrame.setIcon( false );
             }
             catch ( PropertyVetoException e ) {}
+        }
+        
+        // Set the focus of the frame so that it is selected and on top.
+        try
+        {
+            sampleFrame.setSelected( true );
+        }
+        catch ( PropertyVetoException e )
+        {
+            // Shouldn't happen, but ignore if it does.
         }
     }
     
