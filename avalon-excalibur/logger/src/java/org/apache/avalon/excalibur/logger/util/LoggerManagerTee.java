@@ -47,73 +47,44 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.excalibur.logger.logkit;
+package org.apache.avalon.excalibur.logger.util;
 
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.excalibur.logger.LoggerManager;
-import org.apache.avalon.framework.logger.LogKitLogger;
-import org.apache.log.Hierarchy;
+import org.apache.avalon.framework.logger.Logger;
 
 /**
- * This class sits on top of an existing LogKit Hierarchy
- * and returns logger wrapping LogKit loggers.
+ * An AvalonTee object is not usefull by itself as it does not
+ * implement any component interface. Its primary use is to
+ * serve as a base class for objects proxing not only
+ * lifecycle but also some "meaningfull" interfaces.
+ * This object proxies LoggerManager interface.
  *
- * Attach PrefixDecorator and/or CachingDecorator if desired.
- *
- * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/06/11 12:14:45 $
+ * @version CVS $Revision: 1.1 $ $Date: 2003/06/11 12:14:45 $
  * @since 4.0
  */
-public class LogKitAdapter extends AbstractLogEnabled implements LoggerManager
+public class LoggerManagerTee extends AvalonTee implements LoggerManager
 {
-    /**
-     * The hierarchy that really produces loggers.
-     */
-    protected final Hierarchy m_hierarchy;
+    /* The wrapped LoggerManager to delegate all the work to.*/
+    private final LoggerManager m_loggerManager;
 
     /**
-     * Initialized <code>LogKitAdapter</code> to operate
-     * of a certain LogKit <code>Hierarchy</code>.
+     * Creates a new instance of LoggerManagerTee. Adds the supplied
+     * LoggerManager as the first tee. (It will receive the lifecycle
+     * events first of all tees).
      */
-    public LogKitAdapter( final Hierarchy hierarchy )
+    public LoggerManagerTee( final LoggerManager loggerManager )
     {
-        if ( hierarchy == null ) throw new NullPointerException( "hierarchy" );
-        m_hierarchy = hierarchy;
+        addTee( loggerManager );
+        m_loggerManager = loggerManager;
     }
 
     /**
      * Return the Logger for the specified category.
-     * <p>
-     *
-     * In LogKit getRootLogger() and getLoggerFor("")
-     * unless the logger for category "" has been explicitly
-     * configured return identically configured but different
-     * loggers.
-     *
-     * <p>
-     * Our LogKitConfHelper configures getRootLogger(), not getLoggerFor("").
-     * We think this is a reasonable behavior and expect that LogKit
-     * Hierarchies configured by other means then LogKitConfHelper are
-     * configured in the same way.
-     * 
-     * <p>
-     * This justifies our decision to return getRootLogger() when given
-     * "" category name.
      */
     public Logger getLoggerForCategory( final String categoryName )
     {
-        if ( categoryName == null || categoryName.length() == 0 )
-        {
-            return getDefaultLogger();
-        }
-        else
-        {
-            return new LogKitLogger( m_hierarchy.getLoggerFor( categoryName ) );
-        }
+        return m_loggerManager.getLoggerForCategory( categoryName );
     }
 
     /**
@@ -122,6 +93,6 @@ public class LogKitAdapter extends AbstractLogEnabled implements LoggerManager
      */
     public Logger getDefaultLogger()
     {
-        return new LogKitLogger( m_hierarchy.getRootLogger() );
+        return m_loggerManager.getDefaultLogger();
     }
 }
