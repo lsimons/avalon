@@ -32,9 +32,10 @@ import junit.framework.TestCase;
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.provider.InitialContext;
+import org.apache.avalon.repository.provider.InitialContextFactory;
 import org.apache.avalon.repository.provider.Factory;
 import org.apache.avalon.repository.RepositoryException;
-import org.apache.avalon.repository.main.DefaultInitialContext;
+import org.apache.avalon.repository.main.DefaultInitialContextFactory;
 import org.apache.avalon.repository.main.DefaultBuilder;
 
 import org.apache.avalon.util.env.Env;
@@ -46,7 +47,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.24 $
+ * @version $Revision: 1.25 $
  */
 public abstract class AbstractMerlinTestCase extends TestCase
 {
@@ -96,17 +97,20 @@ public abstract class AbstractMerlinTestCase extends TestCase
         try
         {
             File repository = new File( getMavenHome(), "repository" );
+            File basedir = getBaseDirectory();
 
             Artifact artifact = 
               DefaultBuilder.createImplementationArtifact( 
                 classloader, 
                 getMerlinHome(),
-                getBaseDirectory(), 
+                basedir, 
                 MERLIN_PROPERTIES, 
                 IMPLEMENTATION_KEY );
 
-            InitialContext context = 
-               new DefaultInitialContext( repository );
+            InitialContextFactory icFactory = 
+              new DefaultInitialContextFactory( "merlin", basedir );
+            icFactory.setCacheDirectory( repository );
+            InitialContext context = icFactory.createInitialContext();
 
             Builder builder = new DefaultBuilder( context, artifact );
             m_classloader = builder.getClassLoader();

@@ -37,9 +37,10 @@ import org.apache.avalon.merlin.KernelCriteria;
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.provider.InitialContext;
+import org.apache.avalon.repository.provider.InitialContextFactory;
 import org.apache.avalon.repository.provider.Factory;
 import org.apache.avalon.repository.RepositoryException;
-import org.apache.avalon.repository.main.DefaultInitialContext;
+import org.apache.avalon.repository.main.DefaultInitialContextFactory;
 import org.apache.avalon.repository.main.DefaultBuilder;
 
 import org.apache.avalon.util.exception.ExceptionHelper;
@@ -84,17 +85,29 @@ public class MerlinServlet extends HttpServlet
     public void init()
         throws ServletException
     {
-        ClassLoader classloader = MerlinServlet.class.getClassLoader();
-
         try
         {
+            //
+            // get the working directory and classloader
+            //
+
+            ClassLoader classloader = MerlinServlet.class.getClassLoader();
             String path = getServletContext().getRealPath( "." );
             File base = new File( path );
-            File system = getMerlinSystemRepository();
 
-            InitialContext context = 
-                   new DefaultInitialContext( 
-                     base, classloader, null, system, null );
+            //
+            // create the initial context using the merlin system as the 
+            // initial cache
+            //
+
+            InitialContextFactory initial = 
+              new DefaultInitialContextFactory( "merlin", base );
+            initial.setParentClassLoader( classloader );
+            InitialContext context = initial.createInitialContext();
+
+            //
+            // grab the merlin implmentation artifact descriptor
+            //
 
             Artifact artifact = 
               DefaultBuilder.createImplementationArtifact( 
@@ -104,11 +117,13 @@ public class MerlinServlet extends HttpServlet
                 MERLIN_PROPERTIES, 
                 IMPLEMENTATION_KEY );
 
+            //
+            // create and customize the kernel criteria
+            //
+
             Builder builder = context.newBuilder( artifact );
             Factory factory = builder.getFactory();
-
             m_criteria = (KernelCriteria) factory.createDefaultCriteria();
-
             m_criteria.put( "merlin.server", "true" );
             m_criteria.put( "merlin.info", "true" );
             m_criteria.put( "merlin.debug", "false" );
@@ -120,8 +135,14 @@ public class MerlinServlet extends HttpServlet
             //
 
             m_kernel = (Kernel) factory.create( m_criteria );
-            
             System.out.println("kernel established");
+
+            //
+            // publish the root containment model as a context attribute
+            // (this is basically exposing too much - need to wrap this
+            // in a holder that allows lookup by service interface and 
+            // version
+            //
 
             getServletContext().setAttribute( 
               "urn:composition:root", m_kernel.getModel() );

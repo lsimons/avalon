@@ -540,7 +540,6 @@
 	  </classpath>
 
 	  <link href="${sun.j2se.link}" />
-	  <link href="${sun.j2ee.link}" />
 	  <link href="${avalon.framework.link}" />
 	  <link href="${avalon.meta.link}" />
 	  <link href="${avalon.repository.link}" />
