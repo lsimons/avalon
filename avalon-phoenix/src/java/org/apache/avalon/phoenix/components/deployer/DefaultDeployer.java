@@ -219,12 +219,6 @@ public class DefaultDeployer
             final String[] blocks = application.getBlockNames();
 
             m_kernel.removeApplication( name );
-
-            for( int i = 0; i < blocks.length; i++ )
-            {
-                m_repository.removeConfiguration( name, blocks[ i ] );
-            }
-
             m_installer.uninstall( installation );
         }
         catch( final Exception e )
