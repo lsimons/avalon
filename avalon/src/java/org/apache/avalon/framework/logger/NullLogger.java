@@ -88,6 +88,6 @@ public final class NullLogger implements Logger
 
     public Logger getChildLogger(String name)
     {
-        return new NullLogger();
+        return this;
     }
 }
