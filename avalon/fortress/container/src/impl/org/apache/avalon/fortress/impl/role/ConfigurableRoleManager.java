@@ -60,7 +60,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * in the org.apache.avalon.component package.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/04/18 20:02:30 $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/05/20 20:26:08 $
  * @since 4.1
  */
 public class ConfigurableRoleManager
@@ -72,9 +72,20 @@ public class ConfigurableRoleManager
      */
     public ConfigurableRoleManager()
     {
-        super( null );
+        super( null, null );
     }
-
+    
+    /**
+     * Alternate constructor--this RoleManager has the specified
+     * classloader.
+     *
+     * @param parent  The parent <code>RoleManager</code>.
+     */
+    public ConfigurableRoleManager( final ClassLoader loader )
+    {
+        super( null, loader );
+    }
+    
     /**
      * Alternate constructor--this RoleManager has the specified
      * parent.
