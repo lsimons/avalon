@@ -11,7 +11,7 @@ import org.apache.avalon.framework.component.Component;
 
 /**
  * This is a cache that caches objects for reuse.
- * Key is must not <code>null. Value is possible to <code>null</code>.
+ * Key is must not <code>null</code>. Value is possible to <code>null</code>.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
@@ -38,7 +38,7 @@ public interface Cache
      * @return capacity of cache
      */
     int capacity();
-   
+
     /**
      * Return size of cache.
      *
@@ -48,6 +48,7 @@ public interface Cache
 
     /**
      * Puts a new item in the cache. If the cache is full, remove the selected item.
+     *
      * @param key key for the item
      * @param value item
      * @return old value. null if old value not exists.
