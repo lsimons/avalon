@@ -56,7 +56,7 @@ import org.apache.avalon.fortress.impl.DefaultContainerManager;
  * via a simple swing gui.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version $Id: Main.java,v 1.2 2003/02/25 16:28:50 bloritsch Exp $
+ * @version $Id: Main.java,v 1.3 2003/03/07 18:57:25 bloritsch Exp $
  */
 public final class Main
 {
@@ -78,6 +78,7 @@ public final class Main
             config.setContainerConfiguration( "resource://org/apache/avalon/fortress/examples/viewer/ComponentViewer.xconf" );
             config.setLoggerManagerConfiguration( "resource://org/apache/avalon/fortress/examples/viewer/ComponentViewer.xlog" );
             config.setRoleManagerConfiguration( "resource://org/apache/avalon/fortress/examples/viewer/ComponentViewer.roles" );
+            config.setInstrumentManagerConfiguration( "resource://org/apache/avalon/fortress/examples/viewer/ComponentViewer.instruments" );
 
             cm = new DefaultContainerManager( config.getContext() );
             org.apache.avalon.framework.container.ContainerUtil.initialize( cm );
