@@ -615,7 +615,7 @@ this.manager.initialize();
 ]]>
 	  </programlisting>
 	  <para>
-	    Since we added fixe more lines of code, we need to see what it
+	    Since we added six more lines of code, we need to see what it
 	    bought us.  Our final configuration file can be written like this:
 	  </para>
 	  <programlisting>
