@@ -96,7 +96,7 @@ import java.util.*;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.34 $ $Date: 2003/05/29 21:09:28 $
+ * @version CVS $Revision: 1.35 $ $Date: 2003/06/04 13:15:12 $
  */
 public abstract class AbstractContainer
         extends AbstractLogEnabled
@@ -294,9 +294,6 @@ public abstract class AbstractContainer
          * throw something like an IllegalArgumentException.
          */
         m_extManager.addCreatorExtension( new InstrumentableCreator( m_instrumentManager ) );
-
-        // just to be on the safe side
-        m_extManager.makeReadOnly();
     }
 
     /**
@@ -618,6 +615,9 @@ public abstract class AbstractContainer
         // go over all components
         final Iterator i = m_components.iterator();
         final BoundedFifoBuffer buffer = new BoundedFifoBuffer( Math.max( m_components.size(), 1 ) );
+
+        // just to be on the safe side
+        m_extManager.makeReadOnly();
 
         verifyComponents();
 

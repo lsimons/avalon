@@ -61,10 +61,11 @@ import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.mpool.PoolManager;
 
 import java.io.File;
+import java.net.URL;
 
 /**
  * Helper class to create a m_context for the ContextManager.
- * @version CVS $Revision: 1.16 $ $Date: 2003/05/28 19:03:48 $
+ * @version CVS $Revision: 1.17 $ $Date: 2003/06/04 13:15:14 $
  */
 public final class FortressConfig
 {
@@ -210,6 +211,11 @@ public final class FortressConfig
     public void setContextDirectory( final String directory )
     {
         m_context.put( ContextManagerConstants.CONTEXT_DIRECTORY, new File( directory ) );
+    }
+
+    public void setContextRootURL( final URL url )
+    {
+        m_context.put( ContextManagerConstants.CONTEXT_DIRECTORY, url );
     }
 
     public void setLoggerCategory( final String category )

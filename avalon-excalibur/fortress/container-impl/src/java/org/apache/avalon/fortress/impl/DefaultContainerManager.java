@@ -65,6 +65,7 @@ import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.excalibur.logger.LoggerManager;
 
 /**
  * This is the default implementation of the
@@ -72,7 +73,7 @@ import org.apache.avalon.framework.service.ServiceManager;
  * See that interface for a description.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.23 $ $Date: 2003/05/28 16:18:50 $
+ * @version CVS $Revision: 1.24 $ $Date: 2003/06/04 13:15:12 $
  */
 public class DefaultContainerManager
     implements Initializable, Disposable, ContainerManager, ContainerManagerConstants
@@ -198,11 +199,14 @@ public class DefaultContainerManager
         try
         {
             final Context implContext = m_contextManager.getChildContext();
-            ContainerUtil.enableLogging( instance, m_logger );
-            ContainerUtil.contextualize( instance, implContext );
 
             final ServiceManager serviceManager =
                     (ServiceManager) getContextEntry( managerContext, SERVICE_MANAGER );
+            final LoggerManager loggerManager = 
+                    (LoggerManager) serviceManager.lookup( LoggerManager.ROLE );
+
+            ContainerUtil.enableLogging( instance, loggerManager.getDefaultLogger() );
+            ContainerUtil.contextualize( instance, implContext );
 
             ContainerUtil.service( instance, serviceManager );
 
