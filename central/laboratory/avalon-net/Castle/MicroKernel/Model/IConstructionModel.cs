@@ -26,14 +26,14 @@ namespace Apache.Avalon.Castle.MicroKernel.Model
 		/// <summary>
 		/// Implementation type
 		/// </summary>
-		Type Implementation { get; }
+        Type Implementation { get; set; }
 
-		/// <summary>
+        /// <summary>
 		/// The best constructor selected.
 		/// </summary>
-		ConstructorInfo SelectedConstructor { get; }
+        ConstructorInfo SelectedConstructor { get; set; }
 
-		/// <summary>
+        /// <summary>
 		/// Properties that will be used to satisfy dependencies.
 		/// </summary>
 		PropertyInfo[] SelectedProperties { get; }

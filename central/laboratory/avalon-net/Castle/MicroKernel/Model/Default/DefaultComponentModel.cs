@@ -77,36 +77,64 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 		public Lifestyle SupportedLifestyle
 		{
 			get { return m_lifestyle; }
-		}
+            set
+            {
+                AssertUtil.ArgumentNotNull(value, "value");
+                m_lifestyle = value;
+            }
+        }
 
 		public Activation ActivationPolicy
 		{
 			get { return m_activation; }
-		}
+            set
+            {
+                AssertUtil.ArgumentNotNull(value, "value");
+                m_activation = value;
+            }
+        }
 
 		public ILogger Logger
 		{
 			get { return m_logger; }
-			set { m_logger = value; }
-		}
+            set
+            {
+                AssertUtil.ArgumentNotNull(value, "value");
+                m_logger = value;
+            }
+        }
 
-		public IConfiguration Configuration
+        public IConfiguration Configuration
 		{
 			get { return m_config; }
-			set { m_config = value; }
-		}
+            set
+            {
+                AssertUtil.ArgumentNotNull(value, "value");
+                m_config = value;
+            }
+        }
 
-		public IContext Context
+        public IContext Context
 		{
 			get { return m_context; }
-		}
+            set
+            {
+                AssertUtil.ArgumentNotNull(value, "value");
+                m_context = value;
+            }
+        }
 
-		public IDependencyModel[] Dependencies
+        public IDependencyModel[] Dependencies
 		{
 			get { return m_dependencies; }
-		}
+            set
+            {
+                AssertUtil.ArgumentNotNull(value, "value");
+                m_dependencies = value;
+            }
+        }
 
-		public IConstructionModel ConstructionModel
+        public IConstructionModel ConstructionModel
 		{
 			get { return m_constructionModel; }
 		}

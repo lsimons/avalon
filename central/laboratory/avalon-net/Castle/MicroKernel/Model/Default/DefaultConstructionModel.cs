@@ -45,7 +45,12 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 			{
 				return m_implementation;
 			}
-		}
+            set
+            {
+                AssertUtil.ArgumentNotNull(value, "value");
+                m_implementation = value;
+            }
+        }
 
 		public ConstructorInfo SelectedConstructor
 		{
@@ -53,9 +58,14 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 			{
 				return m_constructor;
 			}
-		}
+            set
+            {
+                AssertUtil.ArgumentNotNull(value, "value");
+                m_constructor = value;
+            }
+        }
 
-		public PropertyInfo[] SelectedProperties
+        public PropertyInfo[] SelectedProperties
 		{
 			get
 			{
