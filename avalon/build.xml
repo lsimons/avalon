@@ -122,6 +122,7 @@ Legal:
     <echo message="Use the -projecthelp option instead"/>
   </target>
 
+  <target name="dist.lite" depends="main"/>
   <target name="help" depends="usage"/>
 
   <!-- Set up dist properties -->
