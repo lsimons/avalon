@@ -84,6 +84,9 @@ public class JavacPlugin extends AbstractPlugin
         Path depPath = ap.getClassPath( deps );
         cp.add( depPath );
         
+        if( getLogger().isDebugEnabled() )
+            getLogger().debug( "Resolved Dependencies: " + cp.toString() );        
+        
         /* Add the source path */
         Path src = javac.createSrc();
         Path.PathElement srcPE = src.createPathElement();
