@@ -1,0 +1,14 @@
+BODY {background: #FFFFFF}
+A:visited {color: #000000}
+TD.inner {background: #eeeeee}
+.title {text-decoration: none;font-size: 16pt;font-style: bold}
+.info {text-decoration: none;font-size: 14pt;font-style: bold}
+
+.banner { font-family: Arial, Helvetica, sans-serif; font-size: 12pt; font-style: normal; color: #000000; font-weight: bold}
+
+.section-header { font-family: Arial, Helvetica, sans-serif; font-size: 12pt; font-style: normal; background-color: #F3DD61; color: #000000; font-weight: bold}
+.section-bars { background-color: #525D76 }
+
+.sub-section-header { font-family: Arial, Helvetica, sans-serif; font-size: 12pt; font-style: normal; background-color: #525D76; color: #FFFFFF; font-weight: bold}
+
+.statusMessage { font-family: Arial, Helvetica, sans-serif; font-size: 10pt; font-style: normal; background-color: #eeeeee; color: #000000; text-align: center}
