@@ -437,30 +437,6 @@ Legal:
         </copy>
 
     </target>
-    
-  <target name="docswar" depends="prepare-html-docs" 
-          description="Create a .war package out of the docs">
-          
-    <mkdir dir="${target.context}/WEB-INF"/>
-    <move file="${target.context}/web.xml" todir="${target.context}/WEB-INF"/>
-    <move file="${target.context}/cocoon.xconf" todir="${target.context}/WEB-INF"/>
-    <move file="${target.context}/logkit.xconf" todir="${target.context}/WEB-INF"/>
-            
-    <war warfile="${target.dir}/${name}.war"
-         webxml="${target.context}/WEB-INF/web.xml"
-         compress="false">
-
-      <fileset dir="${target.context}">
-        <exclude name="WEB-INF/web.xml"/>
-      </fileset>
-      <lib dir="tools/ext"/>
-      <lib dir="tools/lib"/>
-
-      <!--<classes dir="${target.context}/WEB-INF/classes/"/>-->
-
-    </war>
-
-  </target>
   
     <!-- Create the API documentation -->
     <target name="javadocs" description="generates the API documentation (java 1.2+ only)">
