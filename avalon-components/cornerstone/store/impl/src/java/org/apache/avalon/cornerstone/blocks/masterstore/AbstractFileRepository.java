@@ -73,7 +73,7 @@ public abstract class AbstractFileRepository
     * which the working home directory will be provided.
     *
     * @param context the supplied context object
-    * @avalon.context key="urn:avalon:home" type="java.io.File"
+    * @avalon.entry key="urn:avalon:home" type="java.io.File"
     */
     public void contextualize( final Context context ) throws ContextException
     {

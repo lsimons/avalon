@@ -12,7 +12,7 @@
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
-      excludes="site/*"
+      excludes="project.xml,site/*"
       goals="jar:install-snapshot"
       banner="Installing:"
       ignoreFailures="false" />

@@ -92,10 +92,18 @@ public class SSLFactoryBuilder extends AbstractLogEnabled
     /**
      * Requires a BlockContext. We'll see how we end up expressing
      * these dependencies.
+     * @avalon.entry key="urn:avalon:home"
      */
     public void contextualize( final Context context ) throws ContextException
     {
-        m_baseDirectory = (File)context.get( "app.home" );
+        try
+        {
+            m_baseDirectory = (File) context.get( "urn:avalon:home" );
+        }
+        catch( ContextException ce )
+        {
+            m_baseDirectory = (File)context.get( "app.home" );
+        }
     }
 
     public void configure( final Configuration configuration )
