@@ -37,13 +37,13 @@
         <XDtMethod:ifDoesntHaveMethodTag tagName="phoenix:mx-description" >
         description="<XDtMethod:methodComment no-comment-signs="true" />"
         </XDtMethod:ifDoesntHaveMethodTag>
-        type="<XDtMethod:methodType/>"
+        type="<XDtMethod:methodType fullQualifiedFormat="true"/>"
       >
         <XDtParameter:forAllMethodParams>
         <param
           name="<XDtParameter:methodParamName/>"
           description="<XDtParameter:methodParamDescription/>"
-          type="<XDtParameter:methodParamType/>"
+          type="<XDtParameter:methodParamType fullQualifiedFormat="true"/>"
         />
         </XDtParameter:forAllMethodParams>
       </operation>
