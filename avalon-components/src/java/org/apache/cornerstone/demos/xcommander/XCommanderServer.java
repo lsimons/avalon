@@ -14,15 +14,15 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import org.apache.avalon.AbstractLoggable;
-import org.apache.avalon.Component;
-import org.apache.avalon.ComponentManager;
-import org.apache.avalon.ComponentManagerException;
-import org.apache.avalon.Composer;
+import org.apache.avalon.Initializable;
+import org.apache.avalon.component.Component;
+import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.component.ComponentManager;
+import org.apache.avalon.component.Composable;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
-import org.apache.avalon.Initializable;
+import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.cornerstone.demos.xcommander.xcommands.Chat;
 import org.apache.cornerstone.demos.xcommander.xcommands.Echo;
 import org.apache.cornerstone.services.connection.ConnectionHandler;
@@ -43,8 +43,8 @@ import org.apache.phoenix.Block;
  */
 public class XCommanderServer
     extends AbstractLoggable
-    implements Block, Composer, Configurable, Initializable,
-    ConnectionHandlerFactory, XCommanderService, CommandHandler
+    implements Block, Composable, Configurable, Initializable,
+               ConnectionHandlerFactory, XCommanderService, CommandHandler
 {
     // block stuff
     protected Configuration           m_configuration;
@@ -56,7 +56,7 @@ public class XCommanderServer
 
     // BLOCK METHODS
     public void compose( final ComponentManager componentManager )
-        throws ComponentManagerException
+        throws ComponentException
     {
         m_socketManager = (SocketManager)componentManager.
             lookup( "org.apache.cornerstone.services.sockets.SocketManager" );
@@ -83,7 +83,7 @@ public class XCommanderServer
             this.addCommand("org.apache.cornerstone.demos.xcommander.roles.Echo", Echo.class );
             this.addCommand("xcommander.Chat", Chat.class );
             this.addCommand("org.apache.cornerstone.demos.xcommander.roles.Chat", Chat.class );
-        } 
+        }
         catch( final Exception e )
         {
             // never happens...
@@ -120,18 +120,18 @@ public class XCommanderServer
         return handler;
     }
 
-    void addClient( final XCommanderHandler handler ) 
+    void addClient( final XCommanderHandler handler )
     {
         m_clients.add( handler );
     }
 
-    void removeClient( final XCommanderHandler handler ) 
+    void removeClient( final XCommanderHandler handler )
     {
         m_clients.remove( handler );
     }
 
-    public void handleCommand( final String type, 
-                               final String identifier, 
+    public void handleCommand( final String type,
+                               final String identifier,
                                final Object result )
     {
         if( result instanceof GlobalResult )
@@ -157,14 +157,14 @@ public class XCommanderServer
      * @throws IllegalArgumentException if the specified command is not
      * an instance of XCommand.
      */
-    public Object addCommand ( final String commandName, 
-                               final Class command ) 
+    public Object addCommand ( final String commandName,
+                               final Class command )
         throws IllegalArgumentException
     {
         if( XCommand.class.isAssignableFrom( command ) )
         {
             return m_xcommands.put( commandName, command );
-        } 
+        }
         else
         {
             throw new IllegalArgumentException();

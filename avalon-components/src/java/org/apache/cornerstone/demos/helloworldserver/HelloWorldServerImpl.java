@@ -10,16 +10,16 @@ package org.apache.cornerstone.demos.helloworldserver;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.UnknownHostException;
-import org.apache.avalon.AbstractLoggable;
-import org.apache.avalon.ComponentManager;
-import org.apache.avalon.ComponentManagerException;
-import org.apache.avalon.Composer;
-import org.apache.avalon.Context;
-import org.apache.avalon.Contextualizable;
 import org.apache.avalon.Initializable;
+import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.component.ComponentManager;
+import org.apache.avalon.component.Composable;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
+import org.apache.avalon.context.Context;
+import org.apache.avalon.context.Contextualizable;
+import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.cornerstone.services.connection.ConnectionHandler;
 import org.apache.cornerstone.services.connection.ConnectionHandlerFactory;
 import org.apache.cornerstone.services.connection.ConnectionManager;
@@ -36,7 +36,7 @@ import org.apache.phoenix.BlockContext;
 public class HelloWorldServerImpl
     extends AbstractLoggable
     implements Block, HelloWorldServer,
-               Contextualizable, Composer, Configurable, Initializable, ConnectionHandlerFactory
+               Contextualizable, Composable, Configurable, Initializable, ConnectionHandlerFactory
 {
     protected SocketManager       m_socketManager;
     protected ConnectionManager   m_connectionManager;
@@ -73,7 +73,7 @@ public class HelloWorldServerImpl
     }
 
     public void compose( final ComponentManager componentManager )
-        throws ComponentManagerException
+        throws ComponentException
     {
         getLogger().info("HelloWorldServer.compose()");
 

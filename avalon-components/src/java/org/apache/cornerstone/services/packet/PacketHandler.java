@@ -10,7 +10,7 @@ package org.apache.cornerstone.services.packet;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.ProtocolException;
-import org.apache.avalon.Component;
+import org.apache.avalon.component.Component;
 
 /**
  * This interface is the way in which handlers are created.

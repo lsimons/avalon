@@ -16,9 +16,9 @@ import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.net.Socket;
 import java.net.SocketException;
-import org.apache.avalon.AbstractLoggable;
-import org.apache.avalon.Component;
 import org.apache.avalon.Initializable;
+import org.apache.avalon.component.Component;
+import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.cornerstone.services.connection.ConnectionHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -66,21 +66,21 @@ public class XCommanderHandler
         }
     }
 
-    public void handleCommand( String type, String identifier, Object result ) 
+    public void handleCommand( String type, String identifier, Object result )
     {
         if(result instanceof GlobalResult)
         {
             System.out.println( "Sending result " + result + " to main server." );
             m_parent.handleCommand( type, identifier, result );
-        } 
+        }
         else
         {
-            getLogger().info( "handling command: " + identifier + 
+            getLogger().info( "handling command: " + identifier +
                               " - sending results: " + result.toString() );
             if( m_out != null )
             {
                 String results = "<?xml version=\"1.0\" ?>\n";
-                results += 
+                results +=
                     "<results type=\"" + type + "\" identifier=\"" + identifier + "\">\n";
                 results += result.toString() + "\n</results>";
 
@@ -108,7 +108,7 @@ public class XCommanderHandler
                 {
                     getLogger().warn( "Exception on socket: " + e.getMessage(), e );
                 }
-            } 
+            }
             else
             {
                 getLogger().info( "Exception: Socket not available." );
@@ -162,7 +162,7 @@ public class XCommanderHandler
                 {
                     streamResult = m_in.read( buf, 0, 1 );
                     inputLine += buf[0];
-                } 
+                }
                 while( buf[0] != '\u0000' );
 
                 inputLine = inputLine.substring(0,(inputLine.length()-1));
@@ -214,7 +214,7 @@ public class XCommanderHandler
             }
 
             try { m_parent.removeClient( this ); }
-            catch( final Exception e ) 
+            catch( final Exception e )
             {
             }
         }

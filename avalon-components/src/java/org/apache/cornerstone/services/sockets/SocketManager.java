@@ -23,7 +23,7 @@ public interface SocketManager
      *
      * @param name the name of server socket factory
      * @return the ServerSocketFactory
-     * @exception ComponentNotFoundException if server socket factory is not available
+     * @exception ComponentException if server socket factory is not available
      */
     ServerSocketFactory getServerSocketFactory( String name )
         throws ComponentException;
@@ -33,7 +33,7 @@ public interface SocketManager
      *
      * @param name the name of client socket factory
      * @return the SocketFactory
-     * @exception ComponentNotFoundException if socket factory is not available
+     * @exception ComponentException if socket factory is not available
      */
     SocketFactory getSocketFactory( String name )
         throws ComponentException;

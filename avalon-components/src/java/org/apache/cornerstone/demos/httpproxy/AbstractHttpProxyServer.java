@@ -10,16 +10,16 @@ package org.apache.cornerstone.demos.httpproxy;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.UnknownHostException;
-import org.apache.avalon.AbstractLoggable;
-import org.apache.avalon.ComponentManager;
-import org.apache.avalon.ComponentManagerException;
-import org.apache.avalon.Composer;
-import org.apache.avalon.Context;
-import org.apache.avalon.Contextualizable;
 import org.apache.avalon.Initializable;
+import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.component.ComponentManager;
+import org.apache.avalon.component.Composable;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
+import org.apache.avalon.context.Context;
+import org.apache.avalon.context.Contextualizable;
+import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.cornerstone.services.connection.ConnectionHandler;
 import org.apache.cornerstone.services.connection.ConnectionHandlerFactory;
 import org.apache.cornerstone.services.connection.ConnectionManager;
@@ -35,7 +35,7 @@ import org.apache.phoenix.Service;
  */
 public abstract class AbstractHttpProxyServer
     extends AbstractLoggable
-    implements Block, Contextualizable, Composer, Configurable, Service, 
+    implements Block, Contextualizable, Composable, Configurable, Service,
                Initializable, ConnectionHandlerFactory
 {
     protected SocketManager       m_socketManager;
@@ -62,12 +62,12 @@ public abstract class AbstractHttpProxyServer
     {
         m_port = configuration.getChild( "listen-port" ).getValueAsInt( 8000 );
 
-        try 
-        { 
+        try
+        {
             final String bindAddress = configuration.getChild( "bind" ).getValue();
-            m_bindTo = InetAddress.getByName( bindAddress ); 
+            m_bindTo = InetAddress.getByName( bindAddress );
         }
-        catch( final UnknownHostException unhe ) 
+        catch( final UnknownHostException unhe )
         {
             throw new ConfigurationException( "Malformed bind parameter", unhe );
         }
@@ -76,8 +76,8 @@ public abstract class AbstractHttpProxyServer
         m_forwardToAnotherProxy = forward.getValue("");
     }
 
-    public void compose( final ComponentManager componentManager ) 
-        throws ComponentManagerException
+    public void compose( final ComponentManager componentManager )
+        throws ComponentException
     {
         getLogger().info( "HttpProxyServer-" + m_name + ".compose()" );
 
@@ -87,14 +87,14 @@ public abstract class AbstractHttpProxyServer
         m_connectionManager = (ConnectionManager)componentManager.
             lookup( "org.apache.cornerstone.services.connection.ConnectionManager" );
     }
-    
+
     public void init()
         throws Exception
     {
         final ServerSocketFactory factory =
             m_socketManager.getServerSocketFactory( "plain" );
         final ServerSocket serverSocket = factory.createServerSocket( m_port, 5, m_bindTo );
-        
+
         m_connectionManager.connect( "HttpProxyListener-" + m_name, serverSocket, this );
     }
 

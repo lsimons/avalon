@@ -7,8 +7,8 @@
  */
 package org.apache.cornerstone.services.datasource;
 
-import org.apache.avalon.ComponentManagerException;
-import org.apache.avalon.ComponentSelector;
+import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.component.ComponentSelector;
 import org.apache.excalibur.datasource.DataSourceComponent;
 import org.apache.phoenix.Service;
 
@@ -26,5 +26,5 @@ public interface DataSourceSelector
      * @return data source
      */
     DataSourceComponent selectDataSource( Object hint )
-        throws ComponentManagerException;
+        throws ComponentException;
 }

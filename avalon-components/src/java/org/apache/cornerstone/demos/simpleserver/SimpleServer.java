@@ -14,15 +14,15 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.Iterator;
 import java.util.StringTokenizer;
-import org.apache.avalon.AbstractLoggable;
-import org.apache.avalon.Component;
-import org.apache.avalon.ComponentManager;
-import org.apache.avalon.ComponentManagerException;
-import org.apache.avalon.Composer;
 import org.apache.avalon.Initializable;
+import org.apache.avalon.component.Component;
+import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.component.ComponentManager;
+import org.apache.avalon.component.Composable;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
+import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.cornerstone.services.connection.ConnectionHandler;
 import org.apache.cornerstone.services.connection.ConnectionHandlerFactory;
 import org.apache.cornerstone.services.connection.ConnectionManager;
@@ -51,7 +51,7 @@ import org.apache.phoenix.Block;
  */
 public class SimpleServer
     extends AbstractLoggable
-    implements Block, SimpleService, Composer, Configurable, Initializable,
+    implements Block, SimpleService, Composable, Configurable, Initializable,
                ConnectionHandlerFactory, ConnectionHandler, Target
 {
     protected TimeScheduler           m_timeScheduler;
@@ -65,7 +65,7 @@ public class SimpleServer
     protected int                     m_count;
 
     public void compose( final ComponentManager componentManager )
-        throws ComponentManagerException
+        throws ComponentException
     {
         m_testStore =
             (Store)componentManager.lookup( "org.apache.cornerstone.services.store.Store" );

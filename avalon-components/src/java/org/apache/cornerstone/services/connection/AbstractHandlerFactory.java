@@ -7,17 +7,17 @@
  */
 package org.apache.cornerstone.services.connection;
 
-import org.apache.avalon.AbstractLoggable;
-import org.apache.avalon.Component;
-import org.apache.avalon.ComponentManager;
-import org.apache.avalon.ComponentManagerException;
-import org.apache.avalon.Composer;
-import org.apache.avalon.Context;
-import org.apache.avalon.Contextualizable;
 import org.apache.avalon.Initializable;
+import org.apache.avalon.component.Component;
+import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.component.ComponentManager;
+import org.apache.avalon.component.Composable;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
+import org.apache.avalon.context.Context;
+import org.apache.avalon.context.Contextualizable;
+import org.apache.avalon.logger.AbstractLoggable;
 
 /**
  * Helper class to extend to create handler factorys.
@@ -26,7 +26,7 @@ import org.apache.avalon.configuration.ConfigurationException;
  */
 public abstract class AbstractHandlerFactory
     extends AbstractLoggable
-    implements Component, Contextualizable, Composer, Configurable, ConnectionHandlerFactory
+    implements Component, Contextualizable, Composable, Configurable, ConnectionHandlerFactory
 {
     protected Context             m_context;
     protected ComponentManager    m_componentManager;
@@ -38,7 +38,7 @@ public abstract class AbstractHandlerFactory
     }
 
     public void compose( final ComponentManager componentManager )
-        throws ComponentManagerException
+        throws ComponentException
     {
         m_componentManager = componentManager;
     }
@@ -67,9 +67,9 @@ public abstract class AbstractHandlerFactory
             ((Contextualizable)handler).contextualize( m_context );
         }
 
-        if( handler instanceof Composer )
+        if( handler instanceof Composable )
         {
-            ((Composer)handler).compose( m_componentManager );
+            ((Composable)handler).compose( m_componentManager );
         }
 
         if( handler instanceof Configurable )

@@ -7,7 +7,7 @@
  */
 package org.apache.cornerstone.services.store;
 
-import org.apache.avalon.Component;
+import org.apache.avalon.component.Component;
 
 /**
  * Generic Repository interface
