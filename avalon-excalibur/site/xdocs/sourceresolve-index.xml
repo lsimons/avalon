@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<document>
+
+    <properties>
+        <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+        <title>Excalibur Source Resolving - Overview</title>
+    </properties>
+
+  <body>
+    <section name="Introduction">
+      <p>
+        A very common problem is resolving a source, which means
+        finding a source using a URI.
+      </p>
+      <p>
+        The source resolver of Avalon Excalibur is a component
+        helping you in this task. It resolves sources from a given
+        URI. The URI can use all available protocols of the JRE.
+        In addition own protocols can be plugged-in. So using
+        the standard protocols like HTTP, FTP or file can be handled
+        in the same way, like dealing with custom, self-build
+        protocols such as myxmldatabase://root/documents/test.xml.
+      </p>
+      <p>
+        The main advantage in comparisson to the mechanisms provided
+        by the JRE is that the source resolver can be used without
+        any problems with web application servers. Each web
+        application can use it's own configured version of this
+        component avoiding any possible conflicts between these
+        applications.
+      </p>
+      <p>
+        The architecture of this package is simple but powerful.
+        The main component is the SourceResolver. It is used
+        to resolve any URI. If the SourceResolver can resolve the
+        protocol of the URI, it returns a Source object. This Source
+        object is an abstraction of the underlying resource. This
+        resource can be accessed by a provided InputStream.
+      </p>
+      <p>
+        Own protocols can be configured using the SourceFactory interface.
+        Whenever the SourceResolver finds a protocol that it can't handle
+        by itself, it gets a role selector for a SourceFactory and tries
+        to get a component with the role name of the protocol.
+        If such a factory exists, the source creation is passed on to this
+        factory.
+      </p>
+      <p>
+        The Source object is handled similar to Avalon components.
+        After it has been used it must be released using the SourceResolver.
+        The SourceResolver in turn passed on the release of the
+        object to the SourceFactory that created it.
+      </p>
+      <p>
+        The Source object is a lightwight object which can be extended with
+        several interface. For example the XMLizable interface from the XML
+        package to generate SAX events from the Source. Or the Monitorable
+        interface from the monitor package to monitor the resource.
+      </p>
+      <p>
+        For caching purposes the Source object offers a SourceValidity object
+        which can be used in addition to the system ID of the Source to verify
+        if a cache contains a valid version of the Source object.
+      </p>
+    </section>
+    <section name="Projects">
+      <p>You can see the source resolving in action in the Apache Cocoon
+        project.
+      </p>
+    </section>
+  </body>
+</document>
+

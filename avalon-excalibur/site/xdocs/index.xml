@@ -111,7 +111,7 @@ supporting configuration management.
     based on specific rules.
       </p>
                 </td></tr>
-                <tr><td>Sourceresolver</td><td>
+                <tr><td><a href="sourceresolve-index.html">Sourceresolver</a></td><td>
       <p>
         A very common problem is resolving a source, which means
         finding a source using a URI.
