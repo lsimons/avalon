@@ -75,18 +75,6 @@ public class VertexTest extends TestCase
     {
     }
 
-    public void testVisit()
-    {
-        Vertex v = new Vertex( "Test" );
-        assertTrue( !v.hasBeenVisited() );
-
-        v.visit();
-        assertTrue( v.hasBeenVisited() );
-
-        v.reset();
-        assertTrue( !v.hasBeenVisited() );
-    }
-
     public void testSortMethods()
     {
         Vertex v = new Vertex( "Root" );

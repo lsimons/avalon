@@ -49,10 +49,7 @@
 */
 package org.apache.avalon.fortress.util.dag;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * DirectedAcyclicGraphVerifier provides methods to verify that any set of
@@ -74,8 +71,8 @@ public class DirectedAcyclicGraphVerifier
      */
     public static void verify( Vertex vertex ) throws CyclicDependencyException
     {
-        vertex.visit();
-        verify( vertex.getDependencies() );
+        List list = new ArrayList(1);
+        topologicalSort(list);
     }
 
     /**
@@ -86,21 +83,7 @@ public class DirectedAcyclicGraphVerifier
      */
     public static void verify( List verteces ) throws CyclicDependencyException
     {
-        Iterator it = verteces.iterator();
-
-        while ( it.hasNext() )
-        {
-            Vertex v = (Vertex) it.next();
-
-            if ( v.hasBeenVisited() )
-            {
-                throw new CyclicDependencyException();
-            }
-
-            v.visit();
-
-            verify( v.getDependencies() );
-        }
+        topologicalSort(verteces);
     }
 
     /**
