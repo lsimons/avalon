@@ -822,6 +822,18 @@
     </dependencies>
   </project>
 
+  <project basedir="merlin/legacy">
+    <info>
+      <group>merlin</group>
+      <name>merlin-unit</name>
+      <version>3.3.1</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-merlin-unit" build="false"/>
+    </dependencies>
+  </project>
+  
   <project basedir="main" key="avalon-runtime">
     <info>
       <group>avalon</group>
