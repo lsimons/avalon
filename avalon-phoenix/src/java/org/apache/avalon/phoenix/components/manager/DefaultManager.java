@@ -31,6 +31,8 @@ import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.Deployer;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.avalon.phoenix.interfaces.Kernel;
+import org.apache.avalon.phoenix.interfaces.PackageRepository;
+import org.apache.avalon.phoenix.interfaces.ExtensionManagerMBean;
 import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.interfaces.ManagerException;
 import org.apache.jmx.adaptor.RMIAdaptorImpl;
@@ -70,6 +72,7 @@ public class DefaultManager
     private Kernel m_kernel;
     private ConfigurationRepository m_repository;
     private ClassLoaderManager m_classLoaderManager;
+    private PackageRepository m_extensionManager;
 
     public void parameterize( final Parameters parameters )
         throws ParameterException
@@ -92,6 +95,7 @@ public class DefaultManager
         m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
         m_classLoaderManager = (ClassLoaderManager)componentManager.lookup( ClassLoaderManager.ROLE );
         m_logManager = (LogManager)componentManager.lookup( LogManager.ROLE );
+        m_extensionManager = (PackageRepository)componentManager.lookup( PackageRepository.ROLE );
     }
 
     public void initialize()
@@ -117,6 +121,7 @@ public class DefaultManager
 
         //TODO: SystemManager itself aswell???
         register( "Kernel", m_kernel );
+        register( "ExtensionManager", m_extensionManager, new Class[]{ ExtensionManagerMBean.class } );
         register( "Embeddor", m_embeddor, new Class[]{ EmbeddorMBean.class } );
         register( "Deployer", m_deployer, new Class[]{ Deployer.class } );
         register( "LogManager", m_logManager );
