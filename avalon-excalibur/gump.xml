@@ -18,6 +18,8 @@
             <depend property="excalibur-collections.jar"    project="excalibur-collections"/>
             <depend property="excalibur-event.jar"    project="excalibur-event"/>
             <depend property="excalibur-instrument.jar"    project="excalibur-instrument"/>
+            <depend property="excalibur-component.jar"    project="excalibur-component"/>
+            <depend property="excalibur-event.jar"    project="excalibur-event"/>
         </ant>
 
         <depend project="jakarta-ant"/>
