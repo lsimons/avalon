@@ -56,19 +56,18 @@ import java.security.Policy;
 import java.util.Arrays;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.packagemanager.PackageManager;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.components.util.ResourceUtil;
-import org.realityforge.classman.builder.DefaultLoaderResolver;
+import org.apache.avalon.phoenix.components.extensions.pkgmgr.PackageManager;
 
 /**
  * a LoaderResolver that knows about Phoenixs environment,
  * and the way it is split across multiple directories.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003/04/11 06:49:37 $
+ * @version $Revision: 1.7 $ $Date: 2003/04/30 10:15:19 $
  */
 class SarLoaderResolver
     extends DefaultLoaderResolver

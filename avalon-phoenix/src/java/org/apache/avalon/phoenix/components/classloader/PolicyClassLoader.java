@@ -47,7 +47,6 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-
 package org.apache.avalon.phoenix.components.classloader;
 
 import java.io.IOException;

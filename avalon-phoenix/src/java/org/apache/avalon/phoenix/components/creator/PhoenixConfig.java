@@ -53,9 +53,11 @@ import java.util.Map;
 import java.util.HashMap;
 
 /**
+ * Utility classed used to creat the initial configuration for a Phoenix
+ * container.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/04/11 01:06:57 $
+ * @version $Revision: 1.2 $ $Date: 2003/04/30 10:15:19 $
  */
 public class PhoenixConfig
 {
@@ -72,7 +74,7 @@ public class PhoenixConfig
         validate();
         return m_data;
     }
-        
+
     private void validate()
     {
     }
