@@ -110,6 +110,10 @@ public class PropertyTask extends SystemTask
         {
             return resource.getInfo().getGroup();
         }
+        else if( m_feature.equals( "type" ) )
+        {
+            return resource.getInfo().getType();
+        }
         else if( m_feature.equals( "version" ) )
         {
             final String version = resource.getInfo().getVersion();
@@ -128,111 +132,19 @@ public class PropertyTask extends SystemTask
         {
             return resource.getInfo().getSpec();
         }
-        else if( resource instanceof Definition )
+        else if( m_feature.equals( "filename" ) )
         {
-            final Definition def = (Definition) resource;
-            if( m_feature.equals( "system-classpath-for-windows" ) )
-            {
-                return getPath( def, true );
-            }
-            else if( m_feature.equals( "system-classpath-for-unix" ) )
-            {
-                return getPath( def, false );
-            }
+            return resource.getInfo().getFilename();
         }
-        return null;
-    }
-
-    private String getPath( final Definition def, final boolean windows )
-    {
-        final StringBuffer buffer = new StringBuffer();
-        final ResourceRef[] refs =
-          def.getResourceRefs( getProject(), Policy.RUNTIME, ResourceRef.ANY, true );
-        for( int i=0; i<refs.length; i++ )
+        else if( m_feature.equals( "short-filename" ) )
         {
-            if( i>0 )
-            {
-                buffer.append( ";" );
-            }
-
-            final ResourceRef ref = refs[i];
-            final Resource resource = getHome().getResource( ref );
-            final String path = getNativePath( windows, resource );
-            buffer.append( path );
-        }
-
-        if( refs.length > 0 )
-        {
-            buffer.append( ";" );
-        }
-
-        buffer.append( getNativePath( windows, def ) ); 
-        return buffer.toString();
-    }
-
-    private String getNativePath( final boolean windows, final Resource resource )
-    {
-        final String symbol = getPlatformCacheSymbol( windows );
-        final StringBuffer buffer = new StringBuffer( symbol );
-        final String path = resource.getInfo().getPath();
-        if( windows )
-        {
-            buffer.append( "\\" );
-            buffer.append( path.replace( '/', '\\' ) );
+            return resource.getInfo().getShortFilename();
         }
         else
         {
-            buffer.append( "/" );
-            buffer.append( path );
-        }
-        return buffer.toString();
-    }
-
-    private String getPlatformCacheSymbol( final boolean windows )
-    {
-        if( windows )
-        {
-            return "%MAGIC_SCD%";
-        }
-        else
-        {
-            return "$MAGIC_SCD";
-        } 
-    }
-    
-    public static class Attribute
-    {
-        private String m_name;
-        private String m_value;
-       
-        public Attribute()
-        {
-        }
-
-        public Attribute( final String name, final String value )
-        {
-            m_name = name;
-            m_value = value;
-        }
-
-        public void setName( final String name )
-        {
-            m_name = name;
-        }
-
-        public void setValue( final String value )
-        {
-            m_value = value;
-        }
-
-        public String getName()
-        {
-            return m_name;
-        }
-
-        public String getValue()
-        {
-            return m_value;
+            final String error = 
+              "Invalid property name [" + m_feature + "].";
+            throw new BuildException( error );
         }
     }
 }
