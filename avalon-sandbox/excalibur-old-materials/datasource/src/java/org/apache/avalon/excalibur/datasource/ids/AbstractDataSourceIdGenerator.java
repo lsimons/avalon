@@ -65,7 +65,7 @@ import org.apache.avalon.framework.service.Serviceable;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.10 $ $Date: 2003/05/31 07:03:07 $
+ * @version CVS $Revision: 1.11 $ $Date: 2003/05/31 10:05:05 $
  * @since 4.1
  */
 public abstract class AbstractDataSourceIdGenerator
@@ -114,7 +114,7 @@ public abstract class AbstractDataSourceIdGenerator
      *  is controlling it.
      *
      * @param manager which curently owns the component.
-     * @avalon.dependency type="org.apache.avalon.excalibur.datasource.DataSourceComponentSelector"
+     * @avalon.dependency type="org.apache.avalon.excalibur.datasource.DataSourceComponent"
      */
     public void service( final ServiceManager manager )
         throws ServiceException

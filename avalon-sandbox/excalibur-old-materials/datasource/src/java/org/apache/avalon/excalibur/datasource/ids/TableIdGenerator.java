@@ -110,12 +110,12 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * </pre>
  * 
  * @avalon.component
- * @avalon.service type=org.apache.avalon.excalibur.datasource.ids.IDGenerator
+ * @avalon.service type=org.apache.avalon.excalibur.datasource.ids.IdGenerator
  * @x-avalon.info name=table-id-generator
  * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/05/20 20:44:43 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/05/31 10:05:06 $
  * @since 4.1
  */
 public class TableIdGenerator
