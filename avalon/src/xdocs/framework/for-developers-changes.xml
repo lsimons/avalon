@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
 
-<!DOCTYPE changes SYSTEM "dtd/changes-v10.dtd">
-
 <changes title="Avalon Framework - History of Changes">
   <devs>
     <person name="Federico Barbieri" email="fede@apache.org" id="FB"/>
