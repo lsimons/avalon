@@ -9,6 +9,7 @@ package org.apache.avalon.phoenix.components.application;
 
 import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.avalon.phoenix.BlockListener;
+import org.apache.avalon.phoenix.metadata.BlockMetaData;
 
 /**
  * Manage a set of <code>BlockListener</code> objects and propogate
@@ -20,6 +21,39 @@ final class BlockListenerSupport
 {
     //Set of listeners. Must be accessed from synchronized code
     private BlockListener[] m_listeners = new BlockListener[ 0 ];
+
+    /**
+     * fire Event indicating that Block represented by
+     * specific entry has been added.
+     *
+     * @param entry the entry
+     */
+    void fireBlockAddedEvent( final BlockEntry entry )
+    {
+        final BlockMetaData metaData = entry.getMetaData();
+        final Object proxy = entry.getProxy();
+        final BlockEvent event =
+            new BlockEvent( metaData.getName(),
+                            proxy,
+                            metaData.getBlockInfo() );
+        blockAdded( event );
+    }
+
+    /**
+     * fire Event indicating that Block represented by
+     * specific entry is being removed.
+     *
+     * @param entry the entry
+     */
+    void fireBlockRemovedEvent( final BlockEntry entry )
+    {
+        final BlockMetaData metaData = entry.getMetaData();
+        final BlockEvent event =
+            new BlockEvent( metaData.getName(),
+                            entry.getProxy(),
+                            metaData.getBlockInfo() );
+        blockRemoved( event );
+    }
 
     /**
      * Add a BlockListener to those requiring notification of
