@@ -22,7 +22,7 @@ import java.util.Set;
  * last modified property will be enough.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: Resource.java,v 1.14 2002/09/08 00:29:43 donaldp Exp $
+ * @version $Id: Resource.java,v 1.15 2002/09/08 00:39:41 donaldp Exp $
  */
 public abstract class Resource
     implements Modifiable
@@ -56,6 +56,11 @@ public abstract class Resource
      */
     public Resource( final String resourceKey ) throws Exception
     {
+        if( null == resourceKey )
+        {
+            throw new NullPointerException( "resourceKey" );
+        }
+
         m_resourceKey = resourceKey;
     }
 
