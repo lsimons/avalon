@@ -116,6 +116,7 @@ public class DefaultManager
         }
 
         //TODO: SystemManager itself aswell???
+        //FIXME: All this stuff should be done by embeddor and read out of a config file
         register( "Kernel", m_kernel );
         register( "ExtensionManager", m_extensionManager, new Class[]{ ExtensionManagerMBean.class } );
         register( "Embeddor", m_embeddor, new Class[]{ EmbeddorMBean.class } );
@@ -186,7 +187,7 @@ public class DefaultManager
             }
 
             final ObjectName objectName =
-                new ObjectName( m_domain + ":type=" + name );
+                new ObjectName( m_domain + ":name=" + name );
             m_mBeanServer.registerMBean( mBean, objectName );
             return mBean;
         }
