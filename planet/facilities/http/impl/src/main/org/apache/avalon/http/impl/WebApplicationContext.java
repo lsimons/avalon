@@ -191,8 +191,7 @@ public class WebApplicationContext
         configureWelcomeFiles( welcomeFiles );
         
         String resourceBase = conf.getChild( "resource-base").getValue( "." );
-        File rsrc = new File( resourceBase );
-        setResourceBase( rsrc.getAbsolutePath() );
+        setResourceBase( resourceBase );
         
         int maxCachedFilesize = conf.getChild( "max-cached-filesize" ).getValueAsInteger( -1 );
         if( maxCachedFilesize > 0 )
