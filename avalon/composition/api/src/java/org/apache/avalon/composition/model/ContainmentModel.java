@@ -64,7 +64,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2003/10/28 12:53:48 $
+ * @version $Revision: 1.5 $ $Date: 2003/11/22 12:52:55 $
  */
 public interface ContainmentModel extends Model
 {
@@ -111,19 +111,19 @@ public interface ContainmentModel extends Model
    /**
     * Return a model relative to a supplied dependency.
     * @return a matching model or null if the dependency is unresolvable
-    * @exception ModelException if an error occurs during model establishment
+    * @exception ModelRuntimeException if an error occurs during model establishment
     */
     Model getModel( DependencyDescriptor dependency ) 
-      throws ModelException;
+      throws ModelRuntimeException;
 
    /**
     * Return a model relative to a supplied stage descriptor.
     * @param stage the stage descriptor
     * @return model of a an stage handler or null if the stage is unresolvable
-    * @exception ModelException if an error occurs during model establishment
+    * @exception ModelRuntimeException if an error occurs during model establishment
     */
     Model getModel( StageDescriptor stage ) 
-      throws ModelException;
+      throws ModelRuntimeException;
 
    /**
     * Addition of a new subsidiary model within

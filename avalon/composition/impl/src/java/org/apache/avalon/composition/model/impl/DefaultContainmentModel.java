@@ -80,6 +80,7 @@ import org.apache.avalon.composition.model.ContainmentContext;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.ModelException;
+import org.apache.avalon.composition.model.ModelRuntimeException;
 import org.apache.avalon.composition.model.ModelSelector;
 import org.apache.avalon.composition.model.ProfileSelector;
 import org.apache.avalon.composition.model.TypeRepository;
@@ -103,7 +104,7 @@ import org.apache.avalon.meta.info.Type;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.6 $ $Date: 2003/11/22 12:52:55 $
  */
 public class DefaultContainmentModel extends DefaultModel 
   implements ContainmentModel
@@ -831,9 +832,10 @@ public class DefaultContainmentModel extends DefaultModel
    /**
     * Get a local model relative to a supplied service dependency.
     * @param dependency the service dependency descriptor
-    * @exception ModelException if an error occurs during model creation
+    * @exception ModelRuntimeException if an error occurs during model establishment
     */
-    public Model getModel( DependencyDescriptor dependency ) throws ModelException
+    public Model getModel( DependencyDescriptor dependency )
+      throws ModelRuntimeException
     {
         //
         // if an existing model exists return it
@@ -886,7 +888,7 @@ public class DefaultContainmentModel extends DefaultModel
                 "containment.model.create.error", 
                 getPath(), 
                 dependency.toString() );
-            throw new ModelException( error, e );
+            throw new ModelRuntimeException( error, e );
         }
     }
 
@@ -894,10 +896,10 @@ public class DefaultContainmentModel extends DefaultModel
     * Return a model relative to a supplied stage descriptor.
     * @param stage the stage descriptor
     * @return model of a an stage handler or null if the stage is unresolvable
-    * @exception ModelException if an error occurs during model establishment
+    * @exception ModelRuntimeException if an error occurs during model establishment
     */
     public Model getModel( StageDescriptor stage ) 
-      throws ModelException
+      throws ModelRuntimeException
     {
         //
         // if an existing model exists return it
@@ -951,7 +953,7 @@ public class DefaultContainmentModel extends DefaultModel
                 "containment.model.create.error", 
                 getPath(), 
                 stage.toString() );
-            throw new ModelException( error, e );
+            throw new ModelRuntimeException( error, e );
         }
     }
 

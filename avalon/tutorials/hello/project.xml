@@ -7,7 +7,7 @@
   <id>hello</id>
   <name>Merlin Hello Tutorials</name>
   <package>tutorial</package>
-  <currentVersion>1.0</currentVersion>
+  <currentVersion>1.1</currentVersion>
 
   <inceptionYear>2003</inceptionYear>
   <shortDescription>Merlin Hello Tutorial</shortDescription>

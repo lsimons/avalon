@@ -85,7 +85,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/11/04 01:07:52 $
+ * @version $Revision: 1.4 $ $Date: 2003/11/22 12:52:55 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
   implements Block, Composite
@@ -164,10 +164,14 @@ public abstract class AbstractBlock extends AbstractAppliance
    /**
     * Return an appliance relative to a supplied dependency model.
     * @param dependency the dependency model
+    * @exception NoProviderDefinitionException if no provider an be found
+    *    for the supplied dependency
+    * @exception ApplianceException if an error occurs during appliance
+    *    resolution
     * @return the appliance
     */
     public Appliance locate( DependencyModel dependency )
-      throws Exception
+      throws NoProviderDefinitionException, ApplianceException
     {
         final String path = dependency.getPath();
         if( path != null )
@@ -186,10 +190,11 @@ public abstract class AbstractBlock extends AbstractAppliance
     * @return the appliance
     * @exception NoProviderDefinitionException if no provider an be found
     *    for the supplied dependency
-    * @exception Exception if an error occurs
+    * @exception ApplianceException if an error occurs during appliance
+    *    resolution
     */
     public Appliance locate( DependencyDescriptor dependency )
-      throws Exception
+      throws NoProviderDefinitionException, ApplianceException
     {
         if( getLogger().isDebugEnabled() )
         {
@@ -216,7 +221,7 @@ public abstract class AbstractBlock extends AbstractAppliance
             appliance = createAppliance( model );
             if( appliance instanceof Composite )
             {
-                ((Composite)appliance).assemble();
+               ((Composite)appliance).assemble();
             }
             m_repository.addAppliance( appliance );
             return appliance;
@@ -241,10 +246,14 @@ public abstract class AbstractBlock extends AbstractAppliance
    /**
     * Return an appliance relative to a supplied stage model.
     * @param stage the stage model
+    * @exception NoProviderDefinitionException if no provider an be found
+    *    for the supplied stage
+    * @exception ApplianceException if an error occurs during appliance
+    *    resolution
     * @return the appliance
     */
     public Appliance locate( StageModel stage )
-      throws Exception
+      throws NoProviderDefinitionException, ApplianceException
     {
         final String path = stage.getPath();
         if( path != null )
@@ -263,10 +272,12 @@ public abstract class AbstractBlock extends AbstractAppliance
     * @return the appliance
     * @exception NoProviderDefinitionException if no provider an be found
     *    for the supplied stage
+    * @exception ApplianceException if an error occurs during appliance
+    *    resolution
     * @exception Exception if an error occurs
     */
     public Appliance locate( StageDescriptor stage )
-      throws NoProviderDefinitionException, Exception
+      throws NoProviderDefinitionException, ApplianceException
     {
         if( getLogger().isDebugEnabled() )
         {
@@ -316,10 +327,12 @@ public abstract class AbstractBlock extends AbstractAppliance
     * Return an appliance relative to a specific path.
     * @param source the appliance path
     * @return the appliance
-    * @exception Exception if an error occurs
+    * @exception IllegalArgumentException if the supplied path is invalid
+    * @exception ApplianceException if an error occurs during appliance
+    *    resolution
     */
     public Appliance locate( String source )
-      throws Exception
+      throws IllegalArgumentException, ApplianceException
     {
         String path = source;
         if(( source.length() > 1 ) && source.endsWith( "/" ))
@@ -344,16 +357,16 @@ public abstract class AbstractBlock extends AbstractAppliance
             int j = name.indexOf( "/" );
             if( j == -1 )
             {
-                return m_repository.getLocalAppliance( name );
+                return getLocalAppliance( name );
             }
             else if( j == 0 )
             {
-                return m_repository.getLocalAppliance( name.substring( 1 ) );
+                return getLocalAppliance( name.substring( 1 ) );
             }
             else
             {
                 final String root = name.substring( 0, j );
-                Appliance child = m_repository.getLocalAppliance( root );
+                Appliance child = getLocalAppliance( root );
                 if( child instanceof Engine )
                 {
                     return ((Engine)child).locate( path );
@@ -361,7 +374,7 @@ public abstract class AbstractBlock extends AbstractAppliance
                 else
                 {
                     final String error = "Not a container: " + path;
-                    throw new ApplianceException( error );
+                    throw new IllegalArgumentException( error );
                 }
             }
         }
@@ -394,9 +407,18 @@ public abstract class AbstractBlock extends AbstractAppliance
                 // its a relative reference
                 //
 
-                return m_repository.getLocalAppliance( path );
+                return getLocalAppliance( path );
             }
         }
+    }
+
+    private Appliance getLocalAppliance( final String name )
+      throws IllegalArgumentException
+    {
+        Appliance appliance = m_repository.getLocalAppliance( name );
+        if( appliance != null ) return appliance;
+        final String error = "Unknown name: [" + name + "]";
+        throw new IllegalArgumentException( error );
     }
 
     //-------------------------------------------------------------------

@@ -67,10 +67,16 @@ import org.apache.avalon.framework.activity.Initializable;
  * that all lifecycle stages are optional.
  *
  * @avalon.component version="1.0" name="hello" lifestyle="singleton"
+ * @avalon.service type="tutorial.Hello"
  */
 public class HelloComponent 
-  implements LogEnabled, Initializable, Executable, Disposable
+  implements LogEnabled, Initializable, Executable, Disposable, Hello
 {
+
+    public void sayHello()
+    {
+        getLogger().info( "HELLO" );
+    }
 
    /**
     * Internal reference to the logging channel supplied to us 
