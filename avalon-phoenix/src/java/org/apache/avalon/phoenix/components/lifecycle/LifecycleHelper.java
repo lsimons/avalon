@@ -9,7 +9,6 @@ package org.apache.avalon.phoenix.components.lifecycle;
 
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.CascadingException;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
@@ -17,6 +16,7 @@ import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
@@ -26,7 +26,6 @@ import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.framework.container.ContainerUtil;
 
 /**
  * This is a class to help an Application manage lifecycle of
@@ -65,13 +64,13 @@ public class LifecycleHelper
      *
      * @param name the name o f the component
      * @param entry the entry representing object
-     * @throws Exception if an error occurs when block passes
+     * @throws LifecycleException if an error occurs when block passes
      *            through a specific lifecycle stage
      */
     public Object startup( final String name,
                            final Object entry,
                            final ResourceAccessor accessor )
-        throws Exception
+        throws LifecycleException
     {
         int stage = 0;
         try
@@ -175,7 +174,14 @@ public class LifecycleHelper
      */
     public void shutdown( final String name,
                           final Object object )
+        throws LifecycleException
     {
+        //Stage at which failure occured
+        int stage = 0;
+
+        //Failure exception
+        Throwable failure = null;
+
         //Stoppable stage
         if( object instanceof Startable )
         {
@@ -187,6 +193,8 @@ public class LifecycleHelper
             catch( final Throwable t )
             {
                 safeFail( name, STAGE_STOP, t );
+                failure = t;
+                stage = STAGE_STOP;
             }
         }
 
@@ -201,10 +209,17 @@ public class LifecycleHelper
             catch( final Throwable t )
             {
                 safeFail( name, STAGE_DISPOSE, t );
+                failure = t;
+                stage = STAGE_DISPOSE;
             }
         }
 
         notice( name, STAGE_DESTROY );
+
+        if( null != failure )
+        {
+            fail( name, stage, failure );
+        }
     }
 
     /**
@@ -250,10 +265,10 @@ public class LifecycleHelper
      * @param name the name of block that caused failure
      * @param stage the stage
      * @param t the exception thrown
-     * @throws java.lang.Exception containing error
+     * @throws LifecycleException containing error
      */
     private void fail( final String name, final int stage, final Throwable t )
-        throws Exception
+        throws LifecycleException
     {
         //final String reason = t.getMessage();
         final String reason = t.toString();
@@ -262,6 +277,6 @@ public class LifecycleHelper
                            name,
                            new Integer( stage ), reason );
         getLogger().error( message );
-        throw new CascadingException( message, t );
+        throw new LifecycleException( message, t );
     }
 }
