@@ -14,7 +14,7 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/22 16:50:38 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/08/23 09:47:43 $
  * @since 4.1
  */
 public class Main
@@ -43,7 +43,7 @@ public class Main
         File defaultStateFile = new File( defaultStateFileName );
         
         InstrumentClientFrame client = new InstrumentClientFrame( "Instrument Client" );
-        client.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DEBUG ) );
+        client.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_INFO ) );
         client.setDefaultStateFile( defaultStateFile );
         client.show();
     }
