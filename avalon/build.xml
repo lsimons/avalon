@@ -671,7 +671,7 @@ Legal:
     </target>
 
     <!-- Completely build all dists -->
-    <target name="dist" depends="announcement,site-docs" description="generates the Avalon distribution">
+    <target name="dist" depends="site-docs, setup-properties" description="generates the Avalon distribution">
         <mkdir dir="${dist.base}"/>
 
         <antcall target="bin-dist">
