@@ -34,6 +34,22 @@ public class DefaultLogManager
         ResourceManager.getPackageResources( DefaultLogManager.class );
 
     /**
+     * Constant used to define LogManager class to use original log format.
+     */
+    private static final String VERSION_1 = SimpleLogKitManager.class.getName();
+
+    /**
+     * Constant used to define LogManager class to use excaliburs log format.
+     */
+    private static final String VERSION_1_1 = LogKitLoggerManager.class.getName();
+
+    /**
+     * Constant used to define LogManager class to use log4j log format and system.
+     */
+    private static final String VERSION_LOG4J =
+        "org.apache.avalon.excalibur.logger.Log4jConfLoggerManager";
+
+    /**
      * Create a Logger hierarchy for specified application.
      *
      * @param metaData the metadata for application
@@ -71,15 +87,49 @@ public class DefaultLogManager
         return loggerManager.getDefaultLogger();
     }
 
+    /**
+     * Create a {@link LoggerManager} for specified version string.
+     *
+     * @param version the version string
+     * @return the created {@link LoggerManager}
+     */
     private LoggerManager createLoggerManager( final String version )
+    {
+        final String classname = getClassname( version );
+        try
+        {
+            final ClassLoader classLoader = getClass().getClassLoader();
+            final Class clazz = classLoader.loadClass( classname );
+            return (LoggerManager)clazz.newInstance();
+        }
+        catch( final Exception e )
+        {
+            final String message =
+                REZ.getString( "no-create-manager", version, e );
+            throw new IllegalArgumentException( message );
+        }
+    }
+
+    /**
+     * Get the classname of {@link LoggerManager} that coresponds
+     * to specified version.
+     *
+     * @param version the version string
+     * @return the classname of {@link LoggerManager}
+     */
+    private String getClassname( final String version )
     {
         if( version.equals( "1.0" ) )
         {
-            return new SimpleLogKitManager();
+            return VERSION_1;
         }
         else if( version.equals( "1.1" ) )
         {
-            return new LogKitLoggerManager();
+            return VERSION_1_1;
+        }
+        else if( version.equals( "log4j" ) )
+        {
+            return VERSION_LOG4J;
         }
         else
         {
