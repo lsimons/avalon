@@ -86,14 +86,14 @@ public class DefaultClassLoaderManager
     public void contextualize( Context context )
         throws ContextException
     {
-        m_commonClassLoader = (ClassLoader)context.get( "common.classloader" );
+        m_commonClassLoader = (ClassLoader) context.get( "common.classloader" );
     }
 
     public void service( final ServiceManager serviceManager )
         throws ServiceException
     {
         final ExtensionManager packageRepository =
-            (ExtensionManager)serviceManager.lookup( ExtensionManager.ROLE );
+            (ExtensionManager) serviceManager.lookup( ExtensionManager.ROLE );
         m_packageManager = new PackageManager( packageRepository );
     }
 
@@ -191,7 +191,7 @@ public class DefaultClassLoaderManager
             final int size = unsatisfied.size();
             for( int i = 0; i < size; i++ )
             {
-                final Extension extension = (Extension)unsatisfied.get( i );
+                final Extension extension = (Extension) unsatisfied.get( i );
                 final Object[] params = new Object[]
                 {
                     extension.getExtensionName(),
@@ -212,7 +212,7 @@ public class DefaultClassLoaderManager
         }
 
         final OptionalPackage[] packages =
-            (OptionalPackage[])dependencies.toArray( new OptionalPackage[ 0 ] );
+            (OptionalPackage[]) dependencies.toArray( new OptionalPackage[ 0 ] );
         return OptionalPackage.toFiles( packages );
     }
 
@@ -230,7 +230,7 @@ public class DefaultClassLoaderManager
                 try
                 {
                     final URL url = new URL( "jar:" + element + "!/" );
-                    final JarURLConnection connection = (JarURLConnection)url.openConnection();
+                    final JarURLConnection connection = (JarURLConnection) url.openConnection();
                     final Manifest manifest = connection.getManifest();
                     if( null != manifest )
                     {
@@ -246,7 +246,7 @@ public class DefaultClassLoaderManager
             }
         }
 
-        return (Manifest[])manifests.toArray( new Manifest[ 0 ] );
+        return (Manifest[]) manifests.toArray( new Manifest[ 0 ] );
     }
 
     /**
@@ -262,17 +262,20 @@ public class DefaultClassLoaderManager
         throws ConfigurationException
     {
         final SarPolicyResolver resolver =
-            new SarPolicyResolver(baseDirectory, workDirectory );
+            new SarPolicyResolver( baseDirectory, workDirectory );
         setupLogger( resolver );
         final PolicyBuilder builder = new PolicyBuilder();
         final PolicyReader reader = new PolicyReader();
+        final SarPolicyVerifier verifier = new SarPolicyVerifier();
+        setupLogger( verifier );
 
         final Element element = ConfigurationUtil.toElement( configuration );
         element.setAttribute( "version", "1.0" );
         try
         {
-            final PolicyMetaData policyMetaData = reader.readPolicy( element );
-            return builder.buildPolicy( policyMetaData, resolver );
+            final PolicyMetaData policy = reader.readPolicy( element );
+            verifier.verifyPolicy( policy );
+            return builder.buildPolicy( policy, resolver );
         }
         catch( final Exception e )
         {
