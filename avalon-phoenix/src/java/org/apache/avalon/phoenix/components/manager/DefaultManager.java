@@ -19,28 +19,16 @@ import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.extension.PackageRepository;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.components.kernel.DefaultKernel;
 import org.apache.avalon.phoenix.components.kernel.DefaultKernelMBean;
 import org.apache.avalon.phoenix.components.manager.rmiadaptor.RMIAdaptorImpl;
-import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
-import org.apache.avalon.phoenix.interfaces.Deployer;
-import org.apache.avalon.phoenix.interfaces.DeployerMBean;
-import org.apache.avalon.phoenix.interfaces.Embeddor;
-import org.apache.avalon.phoenix.interfaces.EmbeddorMBean;
-import org.apache.avalon.phoenix.interfaces.ExtensionManagerMBean;
-import org.apache.avalon.phoenix.interfaces.Kernel;
-import org.apache.avalon.phoenix.interfaces.KernelMBean;
-import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.interfaces.ManagerException;
 import org.apache.excalibur.baxter.JavaBeanMBean;
 
@@ -53,7 +41,7 @@ import org.apache.excalibur.baxter.JavaBeanMBean;
  */
 public class DefaultManager
     extends AbstractSystemManager
-    implements Parameterizable, Configurable, Serviceable
+    implements Parameterizable, Configurable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultManager.class );
@@ -77,12 +65,6 @@ public class DefaultManager
 
     private String m_domain = "Phoenix";
 
-    private Embeddor m_embeddor;
-    private Deployer m_deployer;
-    private LogManager m_logManager;
-    private Kernel m_kernel;
-    private ConfigurationRepository m_repository;
-    private PackageRepository m_extensionManager;
     private Configuration m_configuration;
 
     public void parameterize( final Parameters parameters )
@@ -97,25 +79,6 @@ public class DefaultManager
         m_configuration = configuration;
     }
 
-    /**
-     * Retrieve relevant services needed to deploy.
-     *
-     * @param serviceManager the ComponentManager
-     * @throws ServiceException if an error occurs
-     */
-    public void service( final ServiceManager serviceManager )
-        throws ServiceException
-    {
-        m_embeddor = (Embeddor)serviceManager.lookup( Embeddor.ROLE );
-        m_kernel = (Kernel)serviceManager.lookup( Kernel.ROLE );
-        m_deployer = (Deployer)serviceManager.lookup( Deployer.ROLE );
-        m_repository = (ConfigurationRepository)serviceManager.
-            lookup( ConfigurationRepository.ROLE );
-        m_logManager = (LogManager)serviceManager.lookup( LogManager.ROLE );
-        m_extensionManager = (PackageRepository)serviceManager.
-            lookup( PackageRepository.ROLE );
-    }
-    
     public void initialize()
         throws Exception
     {
