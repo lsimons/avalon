@@ -79,6 +79,13 @@ public class DefaultClassLoaderManager
                                           final String[] classPath )
         throws Exception
     {
+        if( getLogger().isDebugEnabled() )
+        {
+            final String message = 
+                REZ.getString( "classpath-entries", Arrays.asList( classPath ) );
+            getLogger().debug( message );
+        }
+
         //Configure policy
         final Configuration policyConfig = server.getChild( "policy" );
         final Policy policy = configurePolicy( policyConfig, homeDirectory );
