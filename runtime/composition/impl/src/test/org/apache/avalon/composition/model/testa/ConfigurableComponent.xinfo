@@ -1,0 +1,7 @@
+
+<type>
+  <info>
+    <name>conf-test</name>
+    <lifestyle>singleton</lifestyle>
+  </info>
+</type>
