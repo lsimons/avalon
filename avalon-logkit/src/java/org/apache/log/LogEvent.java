@@ -62,6 +62,7 @@ import java.io.Serializable;
  * LogEvents usually originate at a Logger and are routed
  * to LogTargets.
  *
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public final class LogEvent
@@ -257,8 +258,14 @@ public final class LogEvent
     private Object readResolve()
         throws ObjectStreamException
     {
-        if( null == m_category ) m_category = "";
-        if( null == m_message ) m_message = "";
+        if( null == m_category )
+        {
+            m_category = "";
+        }
+        if( null == m_message ) 
+        {
+            m_message = "";
+        }
 
         String priorityName = "";
         if( null != m_priority )

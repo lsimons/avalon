@@ -59,16 +59,19 @@ import org.apache.log.util.LoggerListener;
 /**
  * The object interacted with by client objects to perform logging.
  *
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class Logger
 {
     private static final Logger[] EMPTY_SET = new Logger[ 0 ];
 
-    ///Separator character use to separate different categories
+   /**
+    * Separator character use to separate different categories
+    */
     public static final char CATEGORY_SEPARATOR = '.';
 
-    ///The ErrorHandler associated with Logger
+    // The ErrorHandler associated with Logger
     private final ErrorHandler m_errorHandler;
 
     ///The ErrorHandler associated with Logger
@@ -181,6 +184,7 @@ public class Logger
      * Log a info priority event.
      *
      * @param message the message
+     * @param throwable the throwable
      */
     public final void info( final String message, final Throwable throwable )
     {
@@ -341,8 +345,8 @@ public class Logger
     /**
      * Log a event at specific priority with a certain message and throwable.
      *
-     * @param message the message
      * @param priority the priority
+     * @param message the message
      * @param throwable the throwable
      */
     public final void log( final Priority priority,
@@ -358,8 +362,8 @@ public class Logger
     /**
      * Log a event at specific priority with a certain message.
      *
-     * @param message the message
      * @param priority the priority
+     * @param message the message
      */
     public final void log( final Priority priority, final String message )
     {

@@ -63,14 +63,15 @@ import org.apache.log.util.LoggerListener;
  * This class encapsulates a basic independent log hierarchy.
  * The hierarchy is essentially a safe wrapper around root logger.
  *
- *  @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class Hierarchy
 {
     ///Format of default formatter
     private static final String FORMAT =
-        "%7.7{priority} %23.23{time:yyyy-MM-dd' 'HH:mm:ss.SSS} [%8.8{category}] (%{context}): " +
-        "%{message}\n%{throwable}";
+        "%7.7{priority} %23.23{time:yyyy-MM-dd' 'HH:mm:ss.SSS} [%8.8{category}] (%{context}): " 
+        + "%{message}\n%{throwable}";
 
     ///The instance of default hierarchy
     private static final Hierarchy c_hierarchy = new Hierarchy();

@@ -74,6 +74,7 @@ import java.util.Hashtable;
  * The context is bound to a thread (and inherited by sub-threads) but
  * it can also be added to by LogTargets.
  *
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public final class ContextMap
@@ -198,9 +199,13 @@ public final class ContextMap
         final Object object = get( key );
 
         if( null != object )
+        {
             return object;
+        }
         else
+        {
             return defaultObject;
+        }
     }
 
     /**

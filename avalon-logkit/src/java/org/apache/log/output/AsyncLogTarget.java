@@ -75,6 +75,7 @@ import org.apache.log.LogTarget;
  * logger.setLogTargets( new LogTarget[] { asyncTarget } );
  * </pre>
  *
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class AsyncLogTarget
@@ -85,11 +86,20 @@ public class AsyncLogTarget
     private final int m_queueSize;
     private final LogTarget m_logTarget;
 
+   /**
+    * Creation of a new async log target.
+    * @param logTarget the underlying target
+    */
     public AsyncLogTarget( final LogTarget logTarget )
     {
         this( logTarget, 15 );
     }
 
+   /**
+    * Creation of a new async log target.
+    * @param logTarget the underlying target
+    * @param queueSize the queue size
+    */
     public AsyncLogTarget( final LogTarget logTarget, final int queueSize )
     {
         m_logTarget = logTarget;
@@ -148,6 +158,9 @@ public class AsyncLogTarget
         }
     }
 
+   /**
+    * Thread startup.
+    */
     public void run()
     {
         //set this variable when thread is interupted
