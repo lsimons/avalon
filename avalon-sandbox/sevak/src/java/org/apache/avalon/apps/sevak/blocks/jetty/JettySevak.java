@@ -1,37 +1,78 @@
 /*
- * Copyright (C) The Apache Software Foundation. All rights reserved.
- *
- * This software is published under the terms of the Apache Software License
- * version 1.1, a copy of which has been included with this distribution in
- * the LICENSE file.
- */
+
+ ============================================================================
+                   The Apache Software License, Version 1.1
+ ============================================================================
+
+ Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without modifica-
+ tion, are permitted provided that the following conditions are met:
+
+ 1. Redistributions of  source code must  retain the above copyright  notice,
+    this list of conditions and the following disclaimer.
+
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+ 3. The end-user documentation included with the redistribution, if any, must
+    include  the following  acknowledgment:  "This product includes  software
+    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
+    Alternately, this  acknowledgment may  appear in the software itself,  if
+    and wherever such third-party acknowledgments normally appear.
+
+ 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"
+    must not be used to endorse or promote products derived from this  software
+    without  prior written permission. For written permission, please contact
+    apache@apache.org.
+
+ 5. Products  derived from this software may not  be called "Apache", nor may
+    "Apache" appear  in their name,  without prior written permission  of the
+    Apache Software Foundation.
+
+ THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
+ INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
+ APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
+ INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
+ DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
+ ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
+ (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ This software  consists of voluntary contributions made  by many individuals
+ on  behalf of the Apache Software  Foundation. For more  information on the
+ Apache Software Foundation, please see <http://www.apache.org/>.
+
+*/
 package org.apache.avalon.apps.sevak.blocks.jetty;
 
-import org.apache.avalon.framework.activity.Startable;
+import java.io.File;
+import java.util.HashMap;
+
+import org.apache.avalon.apps.sevak.Sevak;
+import org.apache.avalon.apps.sevak.SevakException;
+import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.CascadingRuntimeException;
-import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.apps.sevak.Sevak;
-import org.apache.avalon.apps.sevak.SevakException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.BlockContext;
 
-import java.io.File;
-import java.util.HashMap;
-
+import org.mortbay.http.SocketListener;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.servlet.WebApplicationContext;
-import org.mortbay.util.MultiException;
 import org.mortbay.util.Log;
-import org.mortbay.http.SocketListener;
-
+import org.mortbay.util.MultiException;
 
 
 /**
@@ -47,8 +88,8 @@ import org.mortbay.http.SocketListener;
  * @author  Ulrich Mayring
  * @version 1.0
  */
-public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, Contextualizable,
-        Configurable, Initializable, Serviceable
+public class JettySevak extends AbstractLogEnabled
+    implements Sevak, Startable, Contextualizable, Configurable, Initializable, Serviceable
 {
 
     private Server m_server;
@@ -63,19 +104,13 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
     private File m_sarRootDir;
     private ServiceManager m_serviceManager;
 
-
-    /**
-     * Contruct a Jetty block
-     */
-    public JettySevak()
-    {
-    }
-
     /**
      * @param serviceManager
      * @throws ServiceException
+     *
+     * @phoenix:dependency name="org.apache.avalon.apps.sevak.blocks.jetty.RequestLogger"
      */
-    public void service(ServiceManager serviceManager) throws ServiceException
+    public void service( ServiceManager serviceManager ) throws ServiceException
     {
         m_serviceManager = serviceManager;
     }
@@ -84,23 +119,29 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
      * Contextualize
      * @param context the context
      */
-
-    public void contextualize(final Context context)
+    public void contextualize( final Context context )
     {
-        m_sarRootDir = ((BlockContext) context).getBaseDirectory();
+        m_sarRootDir = ( ( BlockContext ) context ).getBaseDirectory();
     }
 
     /**
      * Configure
      * @param configuration the configuration
      * @throws ConfigurationException if a problem
+     *
+     * @phoenix:configuration-schema type="http://relaxng.org/ns/structure/1.0"
      */
-    public void configure(final Configuration configuration) throws ConfigurationException
+    public void configure( final Configuration configuration ) throws ConfigurationException
     {
-        m_hostName = configuration.getChild("hostname").getValue( null );
-        m_port = configuration.getChild("port").getValueAsInteger(8080);
-        m_minThreads = configuration.getChild("minthreads").getValueAsInteger(5);
-        m_maxThreads = configuration.getChild("maxthreads").getValueAsInteger(250);
+        m_hostName = configuration.getChild( "hostname" ).getValue( null );
+        m_port = configuration.getChild( "port" ).getValueAsInteger( 8080 );
+        m_minThreads = configuration.getChild( "minthreads" ).getValueAsInteger( 5 );
+        m_maxThreads = configuration.getChild( "maxthreads" ).getValueAsInteger( 250 );
+
+        if( m_maxThreads < m_minThreads )
+        {
+            throw new ConfigurationException( "maxthreads must be greater than minthreads" );
+        }
     }
 
     /**
@@ -111,13 +152,17 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
     {
         m_server = new Server();
         SocketListener listener = new SocketListener();
-        listener.setPort(m_port);
-        listener.setMinThreads(m_minThreads);
-        listener.setMaxThreads(m_maxThreads);
-        m_server.addListener(listener);
+        listener.setPort( m_port );
+        listener.setMinThreads( m_minThreads );
+        listener.setMaxThreads( m_maxThreads );
+        m_server.addListener( listener );
         PhoenixLogSink phoenixLogSink = new PhoenixLogSink();
-        phoenixLogSink.enableLogging(getLogger());
-        Log.instance().add(phoenixLogSink);
+        phoenixLogSink.enableLogging( getLogger() );
+        Log.instance().add( phoenixLogSink );
+
+        RequestLogger logger = ( RequestLogger )
+            m_serviceManager.lookup( RequestLogger.ROLE );
+        m_server.setRequestLog( new JettyRequestLogAdapter( logger ) );
     }
 
     /**
@@ -129,9 +174,9 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
         {
             m_server.start();
         }
-        catch (MultiException e)
+        catch( MultiException e )
         {
-            throw new CascadingRuntimeException("Some problem starting Jetty", e);
+            throw new CascadingRuntimeException( "Some problem starting Jetty", e );
         }
     }
 
@@ -144,9 +189,9 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
         {
             m_server.stop();
         }
-        catch (InterruptedException e)
+        catch( InterruptedException e )
         {
-            throw new CascadingRuntimeException("Some problem stopping Jetty", e);
+            throw new CascadingRuntimeException( "Some problem stopping Jetty", e );
         }
     }
 
@@ -156,9 +201,9 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
      * @param pathToWebAppFolder the path to it
      * @throws SevakException if a problem
      */
-    public void deploy(String context, File pathToWebAppFolder) throws SevakException
+    public void deploy( String context, File pathToWebAppFolder ) throws SevakException
     {
-        deploy(context, pathToWebAppFolder, m_serviceManager);
+        deploy( context, pathToWebAppFolder, m_serviceManager );
     }
 
     /**
@@ -168,7 +213,8 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
      * @param serviceManager The service manager to use for (optional) Serviceable servlets.
      * @throws SevakException if a problem
      */
-    public void deploy(String context, File pathToWebAppFolder, ServiceManager serviceManager) throws SevakException
+    public void deploy( String context, File pathToWebAppFolder, ServiceManager serviceManager )
+        throws SevakException
     {
         String webAppURL = null;
 
@@ -178,20 +224,23 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
             // This still does not work.
 
             WebApplicationContext ctx =
-                new SevakWebApplicationContext(serviceManager, m_sarRootDir, webAppURL);
-            ctx.setContextPath(context);
-            m_server.addContext(m_hostName,ctx);
+                new SevakWebApplicationContext( serviceManager, m_sarRootDir, webAppURL );
+            ctx.setContextPath( context );
+            m_server.addContext( m_hostName, ctx );
 
-            System.out.println("deploying context=" + context + ", webapp=" + webAppURL
-                + " to host=" + ( m_hostName == null ? "(All Hosts)" : m_hostName ) );
+            if( getLogger().isInfoEnabled() )
+                getLogger().info( "deploying context=" + context + ", webapp=" + webAppURL
+                                  + " to host=" + ( m_hostName == null ? "(All Hosts)" : m_hostName ) );
 
-            ctx.setExtractWAR(true);
-            m_webapps.put(context, ctx);
+            ctx.setExtractWAR( true );
+            m_webapps.put( context, ctx );
             ctx.start();
         }
-        catch (Exception e)
+        catch( Exception e )
         {
-            throw new SevakException("Problem deploying web application (" + webAppURL + ") in Jetty", e);
+            final String msg = "Problem deploying web application (" + webAppURL + ") in Jetty";
+
+            throw new SevakException( msg, e );
         }
     }
 
@@ -200,20 +249,22 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
      * @param context the context
      * @throws SevakException if a problem
      */
-    public void undeploy(String context) throws SevakException
+    public void undeploy( String context ) throws SevakException
     {
-        WebApplicationContext ctx = (WebApplicationContext) m_webapps.get(context);
+        WebApplicationContext ctx = ( WebApplicationContext ) m_webapps.get( context );
+
         try
         {
             ctx.stop();
         }
-        catch (InterruptedException e)
+        catch( InterruptedException e )
         {
-            throw new SevakException("Problem stopping web application in Jetty", e);
+            throw new SevakException( "Problem stopping web application in Jetty", e );
         }
-        m_server.removeContext(ctx);
+
+        m_server.removeContext( ctx );
         ctx.destroy();
-        m_webapps.remove(context);
+        m_webapps.remove( context );
     }
 
 }
