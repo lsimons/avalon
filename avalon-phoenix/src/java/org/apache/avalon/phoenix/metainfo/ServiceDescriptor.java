@@ -11,13 +11,13 @@ import org.apache.avalon.framework.Version;
 
 /**
  * This interface describes a particular service that a component offers.
- * 
+ *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public final class ServiceDescriptor 
+public final class ServiceDescriptor
 {
-    private final Version    m_version;
-    private final String     m_name;
+    private final Version m_version;
+    private final String m_name;
 
     public ServiceDescriptor( final String name, final Version version )
     {
@@ -36,7 +36,7 @@ public final class ServiceDescriptor
     }
 
     /**
-     * Return name of Service (which coresponds to the interface 
+     * Return name of Service (which coresponds to the interface
      * name eg org.apache.block.Logger)
      *
      * @return the name of the Service
@@ -46,7 +46,6 @@ public final class ServiceDescriptor
         return m_name;
     }
 
-    
     /**
      * Determine if other service will match this service.
      * To match a service has to have same name and must comply with version.
@@ -56,7 +55,7 @@ public final class ServiceDescriptor
      */
     public boolean matches( final ServiceDescriptor other )
     {
-        return 
+        return
             other.getName().equals( m_name ) &&
             other.getVersion().complies( m_version );
     }
