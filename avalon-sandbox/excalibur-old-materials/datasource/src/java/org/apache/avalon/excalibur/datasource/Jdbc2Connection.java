@@ -31,7 +31,7 @@ import org.apache.log.Logger;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.4 $ $Date: 2001/08/07 10:57:07 $
+ * @version CVS $Revision: 1.5 $ $Date: 2001/08/14 16:26:09 $
  * @since 4.0
  */
 public class JdbcConnection
@@ -44,28 +44,37 @@ public class JdbcConnection
     protected SQLException       m_test_exception;
     protected int                m_num_uses        = 15;
 
+    /**
+     * @deprecated Use the version with keepAlive specified
+     */
     public JdbcConnection( final Connection connection, final boolean oradb )
+    {
+        this(connection, (oradb) ? "select 1 from dual" : "select 1");
+    }
+
+    public JdbcConnection( final Connection connection, final String keepAlive )
     {
         m_connection = connection;
 
         // subclasses can override initialize()
         this.initialize();
 
-        try
+        if (null != keepAlive && "".equals(keepAlive.trim()))
         {
-            if (oradb)
+            try
             {
-                m_test_statement = prepareStatement("select 1 from dual");
+                m_test_statement = prepareStatement(keepAlive);
             }
-            else
+            catch ( final SQLException se )
             {
-                m_test_statement = prepareStatement("select 1");
+                m_test_statement = null;
+                m_test_exception = se;
             }
         }
-        catch ( final SQLException se )
+        else
         {
             m_test_statement = null;
-            m_test_exception = se;
+            m_test_exception = null;
         }
     }
 
@@ -85,7 +94,7 @@ public class JdbcConnection
     {
         super.setLogger(log);
 
-        if (m_test_statement == null)
+        if (m_test_statement == null && m_test_exception != null)
         {
             if (getLogger().isWarnEnabled())
             {
@@ -170,8 +179,14 @@ public class JdbcConnection
     public final boolean isClosed()
         throws SQLException
     {
-        if ( m_connection.isClosed() || this.m_num_uses <= 0 )
+        if ( m_connection.isClosed())
         {
+            return true;
+        }
+
+        if ( this.m_num_uses <= 0 )
+        {
+            this.dispose();
             return true;
         }
 
@@ -183,6 +198,7 @@ public class JdbcConnection
             }
             catch (final SQLException se)
             {
+                this.dispose();
                 return true;
             }
         }
