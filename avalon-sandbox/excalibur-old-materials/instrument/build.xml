@@ -466,37 +466,7 @@
       <mkdir dir="${build.dir}/work"/>
 
       <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
-      <copy todir="${build.context}" filtering="on">
-        <fileset dir="${context.dir}">
-          <exclude name="diagrams/**"/>
-          <exclude name="resources/**"/>
-          <exclude name="xdocs"/>
-        </fileset>
-      </copy>
-
-      <copy todir="${build.context}/xdocs" filtering="on" overwrite="yes">
-        <fileset dir="${xdocs.dir}"/>
-      </copy>
-
-      <copy todir="${build.context}/resources" filtering="off" overwrite="yes">
-        <fileset dir="${context.dir}/resources"/>
-        <fileset dir="${xdocs.dir}">
-          <include name="**/images/**"/>
-        </fileset>
-      </copy>
-
-      <java classname="org.apache.cocoon.Main" fork="true">
-        <arg value="-c${build.context}/"/>
-        <arg value="-d${build.docs}"/>
-        <arg value="-w${build.dir}/work"/>
-        <arg value="-l${build.dir}/work/cocoon.log"/>
-        <arg value="-uINFO"/>
-        <arg value="-f${xdocs.dir}/${dir-name}.uris"/>
-        <classpath>
-          <path refid="tools.class.path"/>
-          <fileset dir="${tools.dir}/ext"/>
-        </classpath>
-      </java>
+      <ant antfile="../cocoonbuild.xml"/>
 
       <copy todir="${docs.dir}">
         <fileset dir="${build.docs}">

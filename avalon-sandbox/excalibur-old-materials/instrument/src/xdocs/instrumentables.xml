@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+
+<document>
+  <header>
+    <title>Excalibur Instrument - Enable Instrumenting</title>
+    <authors>
+      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Coding for Instrumentation">
+      <p>
+        There are different types of instrumentation we need to use, depending
+        on our purposes.  Excalibur Instrument has two basic types:
+        <code>CounterInstrument</code> and <code>ValueInstrument</code>.  The
+        <code>CounterInstrument</code> allows us to take samples that represent
+        a count of events.  The <code>ValueInstrument</code> allows you to take
+        samples that represent the current value.
+      </p>
+      <p>
+        Excalibur Instrument knows how to take the raw samples, and bring them
+        in line with more useable numbers.  It is not uncommon to want an average
+        value, a maximum value, or a minimum value for each sample period.  You
+        do not have to do anything in your code to explicitly do that.
+      </p>
+    </s1>
+    <s1 title="Getting Started">
+      <p>
+        You will need to import the relavant classes from the avalon-instrument.jar
+        file.
+      </p>
+      <source>
+<![CDATA[
+import org.apache.excalibur.instrument.CounterInstrument;
+import org.apache.excalibur.instrument.Instrumentable;
+import org.apache.excalibur.instrument.Instrument;
+import org.apache.excalibur.instrument.ValueInstrument;
+]]>
+      </source>
+      <p>
+        Once you do that, you need to implement the <code>Instrumentable</code>
+        interface, and set up your instrumentation points.  The InstrumentManager,
+        or the parent Instrumentable will assign the name to your Instrumentable.
+        That way we can easily determine what the heirarchy is.
+      </p>
+      <source>
+<![CDATA[
+public class DefaultExampleInstrumentable
+    implements Instrumentable
+{
+    public static final String INSTRUMENT_VALUE_NAME   = "value";
+    public static final String INSTRUMENT_COUNTER_NAME = "counter";
+
+    /** Instrumentable Name assigned to this Instrumentable */
+    private String m_instrumentableName;
+
+    /** Instrument used to profile values */
+    private ValueInstrument m_valueInstrument = new ValueInstrument( INSTRUMENT_VALUE_NAME );
+
+    /** Instrument used to profile a count of actions. */
+    private CounterInstrument m_counterInstrument = new CounterInstrument( INSTRUMENT_COUNTER_VALUE );
+
+    /*---------------------------------------------------------------
+     * Constructors
+     *-------------------------------------------------------------*/
+    public DefaultExampleInstrumentable()
+    {}
+
+    // Skip a bunch of other stuff....
+
+    /*---------------------------------------------------------------
+     * Instrumentable Methods
+     *-------------------------------------------------------------*/
+    /**
+     * Sets the name for the Instrumentable.  The Instrumentable Name is used
+     *  to uniquely identify the Instrumentable during the configuration of
+     *  the InstrumentManager and to gain access to an InstrumentableDescriptor
+     *  through the InstrumentManager.  The value should be a string which does
+     *  not contain spaces or periods.
+     * <p>
+     * This value may be set by a parent Instrumentable, or by the
+     *  InstrumentManager using the value of the 'instrumentable' attribute in
+     *  the configuration of the component.
+     *
+     * @param name The name used to identify a Instrumentable.
+     */
+    public void setInstrumentableName( String name )
+    {
+        m_instrumentableName = name;
+    }
+
+    /**
+     * Gets the name of the Instrumentable.
+     *
+     * @return The name used to identify a Instrumentable.
+     */
+    public String getInstrumentableName()
+    {
+        return m_instrumentableName;
+    }
+
+    /**
+     * Obtain a reference to all the Instruments that the Instrumentable object
+     *  wishes to expose.  All sampling is done directly through the
+     *  Instruments as opposed to the Instrumentable interface.
+     *
+     * @return An array of the Instruments available for profiling.  Should
+     *         never be null.  If there are no Instruments, then
+     *         EMPTY_INSTRUMENT_ARRAY can be returned.  This should never be
+     *         the case though unless there are child Instrumentables with
+     *         Instruments.
+     */
+    public Instrument[] getInstruments()
+    {
+        return new Instrument[]
+        {
+            m_valueInstrument,
+            m_counterInstrument
+        };
+    }
+
+    /**
+     * Any Object which implements Instrumentable can also make use of other
+     *  Instrumentable child objects.  This method is used to tell the
+     *  InstrumentManager about them.
+     *
+     * @return An array of child Instrumentables.  This method should never
+     *         return null.  If there are no child Instrumentables, then
+     *         EMPTY_INSTRUMENTABLE_ARRAY can be returned.
+     */
+    public Instrumentable[] getChildInstrumentables()
+    {
+        // This instrumentable does not have any children.
+        return Instrumentable.EMPTY_INSTRUMENTABLE_ARRAY;
+    }
+}
+]]>
+      </source>
+    </s1>
+    <s1 title="Using Instruments">
+      <p>
+        Lastly, you need to use your instrumentables.  Excalibur Instrument will
+        skip the sampling and processing of values if no Manager or Client is
+        attached to them.
+      </p>
+      <source>
+<![CDATA[
+/**
+ * Method that uses the instrumentables we have set up so far
+ */
+Object lookup(String name)
+{
+    // Do critical stuff
+    m_valueInstrument.setValue( m_dictionary.size() );
+    m_counterInstrument.increment();
+
+    return m_dictionary.get( name );
+}
+]]>
+      </source>
+    </s1>
+  </body>
+</document>
