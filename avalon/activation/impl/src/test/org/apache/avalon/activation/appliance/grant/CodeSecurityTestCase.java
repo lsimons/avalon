@@ -48,22 +48,28 @@
 
 */
 
-package org.apache.avalon.activation.appliance;
+package org.apache.avalon.activation.appliance.grant;
 
+import org.apache.avalon.activation.appliance.Appliance;
+import org.apache.avalon.activation.appliance.Block;
+import org.apache.avalon.activation.appliance.impl.DefaultBlock;
+import org.apache.avalon.activation.appliance.AbstractTestCase;
 import org.apache.avalon.util.exception.ExceptionHelper;
 
-public class PlaygroundTestCase extends AbstractTestCase
+import org.apache.avalon.activation.appliance.grant.components.TestService;
+
+public class CodeSecurityTestCase extends AbstractTestCase
 {
    //-------------------------------------------------------
    // constructor
    //-------------------------------------------------------
 
-    public PlaygroundTestCase( )
+    public CodeSecurityTestCase( )
     {
-        this( "model" );
+        this( "secure" );
     }
 
-    public PlaygroundTestCase( String name )
+    public CodeSecurityTestCase( String name )
     {
         super( name );
     }
@@ -79,7 +85,7 @@ public class PlaygroundTestCase extends AbstractTestCase
     */
     public void setUp() throws Exception
     {
-        super.setUp( "playground.xml" );
+        super.setUp( "secure.xml" );
     }
 
    //-------------------------------------------------------
@@ -90,18 +96,44 @@ public class PlaygroundTestCase extends AbstractTestCase
     * Create, assembly, deploy and decommission the block 
     * defined by getPath().
     */
-    public void testDeploymentCycle() throws Exception
+    public void testCodeSecurity() throws Exception
     {
+        TestService test = setupTestService();
+
         try
         {
-            executeDeploymentCycle();
+            test.doPrimary(); // test something in component
         }
         catch( Throwable e )
         {
-            final String error = "Playground test failure.";
+            final String error = "CodeSecurityTest primary failure.";
             final String message = ExceptionHelper.packException( error, e, true );
             getLogger().error( message );
             throw new Exception( message );
         }
+
+        try
+        {
+            test.doSecondary(); // test something in component
+        }
+        catch( Throwable e )
+        {
+            final String error = "CodeSecurityTest secondary failure.";
+            final String message = ExceptionHelper.packException( error, e, true );
+            getLogger().error( message );
+            throw new Exception( message );
+        }
+
     }
+
+    private TestService setupTestService() throws Exception
+    {
+        m_model.assemble();
+        Block block = new DefaultBlock( m_model );
+        block.deploy();
+        Appliance appliance = block.locate( "/test" );
+        Object test = appliance.resolve();
+        return (TestService) appliance.resolve();
+    }
+
 }
