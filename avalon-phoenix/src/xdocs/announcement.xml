@@ -2,7 +2,7 @@
 
 <announcement>
   <title>Phoenix @version@</title>
-  <abstract>The Avalon team is proud to announce the @version@ @status@ release
+  <abstract>The Avalon team is proud to announce the @version@ release
 of Phoenix.</abstract>
 
   <project site="http://jakarta.apache.org/avalon">
