@@ -335,6 +335,10 @@ public class SMTPOutputLogTarget extends AbstractOutputTarget
         catch( MessagingException e )
         {
             getErrorHandler().error( "Error sending message", e, null );
+            
+            // Always clear the message in the event there is an error as the
+            //  problem will most likely repeat.
+            m_message = null;
         }
     }
 }
