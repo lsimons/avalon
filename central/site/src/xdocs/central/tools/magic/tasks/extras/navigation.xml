@@ -23,11 +23,8 @@
 
  <body>
     <menu>
-      <item name="Home" href="home.html"/>
-      <item name="Info" href="info.html"/>
-      <item name="Filter" href="filter.html"/>
-      <item name="Prepare" href="prepare.html"/>
-      <item name="Clean" href="clean.html"/>
+      <item name="Reactor" href="reactor.html"/>
+      <item name="Plugin" href="plugin.html"/>
     </menu>
  </body>
 
