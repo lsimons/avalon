@@ -6,7 +6,7 @@
   <groupId>avalon</groupId>
   <id>avalon-repository</id>
   <name>Avalon Repository</name>
-  <currentVersion>1.2-RC5</currentVersion>
+  <currentVersion>1.2-RC6</currentVersion>
 
   <organization>
     <name>Apache Software Foundation</name>
@@ -69,6 +69,13 @@
       </roles>
     </developer>
   </developers>
+
+  <releases>
+    <release>
+      <version>1.2-RC6</version>
+      <tag>SNAPSHOT_20031225</tag>
+    </release>
+  </releases>
 
   <build>
 
