@@ -462,13 +462,28 @@ public class Logger
      * Get a copy of log targets for this logger.
      *
      * @return the child loggers
+     * @deprecated This method is deprecated and will be removed in Future version. 
+     *             Previously it allowed unsafe access to logtargets which permitted 
+     *             masqurade attacks. It currently returns a zero sized array.
      */
-    public synchronized LogTarget[] getLogTargets()
+    public LogTarget[] getLogTargets()
+    {
+        return new LogTarget[ 0 ];
+    }
+
+    /**
+     * Retrieve logtarget array contained in logger.
+     * This method is provided so that child Loggers can access a 
+     * copy of  parents LogTargets.
+     *
+     * @return the array of LogTargets
+     */
+    private synchronized LogTarget[] safeGetLogTargets()
     {
         if( null == m_logTargets ) 
         {
             if( null == m_parent ) return new LogTarget[ 0 ];
-            else return m_parent.getLogTargets();
+            else return m_parent.safeGetLogTargets();
         }
         else
         {
@@ -513,7 +528,7 @@ public class Logger
             return;
         }
 
-        m_logTargets = m_parent.getLogTargets();
+        m_logTargets = m_parent.safeGetLogTargets();
         resetChildLogTargets( recursive );
     }
 
@@ -524,6 +539,9 @@ public class Logger
      */
     public synchronized void setLogTargets( final LogTarget[] logTargets )
     {
+        //Create a new duplicate array containing the same elements
+        //m_logTargets = new LogTarget[ logTargets.length ];
+        //System.arraycopy( targets, 0, logTargets, 0, logTargets.length );
         m_logTargets = logTargets;
         m_logTargetsForceSet = true;
         resetChildLogTargets( false );
@@ -546,7 +564,7 @@ public class Logger
      */
     public synchronized void unsetLogTargets( final boolean recursive )
     {
-        if( null != m_parent ) m_logTargets = m_parent.getLogTargets();
+        if( null != m_parent ) m_logTargets = m_parent.safeGetLogTargets();
         else m_logTargets = null;
 
         m_logTargetsForceSet = false;
