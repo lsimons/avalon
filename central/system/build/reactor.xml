@@ -36,6 +36,11 @@
     <x:reactor target="install"/>
   </target>
 
+  <target name="default">
+    <x:home/>
+    <x:reactor/>
+  </target>
+
   <!--
   <target name="site">
     <x:home/>

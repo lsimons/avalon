@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="runtime" default="dist" basedir="." xmlns:x="antlib:org.apache.avalon.tools">
+<project name="runtime" default="default" basedir="." xmlns:x="antlib:org.apache.avalon.tools">
 
   <property file="${basedir}/user.properties"/>
   <property file="${basedir}/build.properties"/>
@@ -51,8 +51,8 @@
     <ant dir="." antfile="${reactor.path}" target="install"/>
   </target>
 
-  <target name="dist" depends="verify">
-    <ant dir="." antfile="${reactor.path}" target="dist"/>
+  <target name="default" depends="verify">
+    <ant dir="." antfile="${reactor.path}" target="default"/>
   </target>
 
 </project>

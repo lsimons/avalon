@@ -32,7 +32,7 @@
   </target>
 
   <target name="install" depends="test">
-    <x:install docs="false"/>
+    <x:install/>
   </target>
 
   <target name="javadoc" depends="prepare">
