@@ -55,7 +55,7 @@
 package org.apache.avalon.fortress.impl.extensions;
 
 import org.apache.avalon.framework.context.Context;
-import org.apache.excalibur.container.lifecycle.Creator;
+import org.apache.excalibur.container.lifecycle.AbstractCreator;
 import org.apache.excalibur.instrument.InstrumentManageable;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.instrument.Instrumentable;
@@ -64,7 +64,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * The InstrumentableCreator is used as a standard lifecycle
  * extension for containers that support it.
  */
-public class InstrumentableCreator implements Creator
+public class InstrumentableCreator extends AbstractCreator
 {
     private final InstrumentManager m_instrumentManager;
     private final boolean m_instrumentEnabled;
@@ -98,10 +98,4 @@ public class InstrumentableCreator implements Creator
         }
 
     }
-    
-    /**
-     * Not used.
-     */
-    public void destroy(Object object, Context context)
-    {}
 }

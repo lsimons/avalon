@@ -58,14 +58,13 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.excalibur.container.lifecycle.LifecycleExtensionManager;
 import org.apache.excalibur.event.Queue;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.mpool.PoolManager;
 
 /**
  * Helper class to create a m_context for the ContextManager.
- * @version CVS $Revision: 1.4 $ $Date: 2003/03/07 13:14:22 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/03/07 20:21:26 $
  */
 public class FortressConfig
 {
