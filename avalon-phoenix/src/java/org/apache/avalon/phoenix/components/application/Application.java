@@ -7,10 +7,11 @@
  */
 package org.apache.avalon.phoenix.components.application;
 
+import org.apache.avalon.excalibur.container.Container;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.excalibur.container.Container;
+import org.apache.avalon.phoenix.components.kapi.BlockListenerEntry;
 
 /**
  * The Application is a self-contained component that performs a specific
@@ -25,4 +26,5 @@ import org.apache.avalon.excalibur.container.Container;
 public interface Application
     extends Container, Initializable, Startable, Disposable
 {
+    void addBlockListenerEntrys( BlockListenerEntry[] listeners );
 }
