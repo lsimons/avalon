@@ -33,8 +33,8 @@ import org.apache.avalon.tools.home.Context;
 import org.apache.avalon.tools.project.Definition;
 
 /**
- * Install the target/deliverables content into the local repository
- * cache. 
+ * Install the ${basedir}/target/deliverables content into the local 
+ * repository cache. 
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
@@ -42,38 +42,17 @@ import org.apache.avalon.tools.project.Definition;
 public class InstallTask extends SystemTask
 {
     private String m_id;
-    private String m_target;
-    private boolean m_deliverables = true;
-    private boolean m_docs = true;
 
     public void setId( String id )
     {
         m_id = id;
     }
 
-    public void setDeliverables( boolean flag )
-    {
-        m_deliverables = flag;
-    }
-
-    public void setDocs( boolean flag )
-    {
-        m_docs = flag;
-    }
-
     public void execute() throws BuildException 
     {
         Definition definition = getReferenceDefinition();
-        if( m_deliverables )
-        {
-            log( "installing deliverables" );
-            installDeliverables( definition );
-        }
-        if( m_docs )
-        {
-            log( "installing docs" );
-            installDocs( definition );
-        }
+        log( "installing deliverables" );
+        installDeliverables( definition );
     }
 
     private Definition getReferenceDefinition()
@@ -101,26 +80,6 @@ public class InstallTask extends SystemTask
             fileset.createInclude().setName( "**/*" );
             String group = getHome().getDefinition( getKey() ).getInfo().getGroup();
             File destination = new File( cache, group );
-            copy( destination, fileset );
-        }
-    }
-
-    private void installDocs( Definition definition )
-    {
-        File cache = getHome().getDocsRepository().getCacheDirectory();
-        File basedir = definition.getBasedir();
-        File target = new File( basedir, Context.TARGET );
-        File source = new File( target, Context.DOCS );
-
-        if( source.exists() )
-        {
-            FileSet fileset = new FileSet();
-            fileset.setDir( source );
-            fileset.createInclude().setName( "**/*" );
-            String group = definition.getInfo().getGroup();
-            String name = definition.getInfo().getName();
-            File parent = new File( cache, group );
-            File destination = new File( parent, name );
             copy( destination, fileset );
         }
     }
