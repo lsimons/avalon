@@ -34,6 +34,16 @@
     <property name="conf.dir" value="${src.dir}/conf"/>
     <property name="test.dir" value="${src.dir}/test"/>
 
+    <!-- needed by Cocoon -->
+    <property name="build.context" value="${build.dir}/documentation"/>
+    <property name="build.docs" value="${build.dir}/docs"/>
+    <property name="build.xdocs" value="${build.dir}/xdocs"/>
+    <property name="context.dir" value="../../jakarta-avalon/src/documentation"/>
+    <property name="tools.dir" value="../../jakarta-avalon/tools"/>
+    <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
+    <property name="docs.dir" value="docs"/>
+    <property name="xdocs.dir" value="${src.dir}/xdocs"/>      
+
     <!-- Set the properties for distribution directories -->
     <property name="dist.dir" value="dist"/>
     <property name="dist.javadocs" value="${dist.dir}/docs/api"/>
@@ -57,6 +67,13 @@
         <pathelement location="${excalibur-pool.jar}"/>
         <pathelement location="${junit.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
+    </path>
+
+    <path id="tools.class.path">
+        <pathelement location="${junit.jar}"/>
+        <pathelement location="${tools.jar}"/>
+        <fileset dir="${tools.dir}/lib"/>
+        <fileset dir="${tools.dir}/ext"/>
     </path>
 
     <target name="main" depends="jar" description="Build the project"/>
@@ -295,6 +312,94 @@
         <copy file="../KEYS" todir="${dist.dir}"/>
         <copy file="README.txt" todir="${dist.dir}"/>
 
+    </target>
+
+    <!-- Setup the filters -->
+    <target name="setup-filters">
+      <filter token="Name" value="Avalon ${Name}"/>
+      <filter token="name" value="${dir-name}"/>
+      <filter token="version" value="${version}"/>
+      <filter token="year" value="${year}"/>
+      <filter token="status" value="${status}"/>
+      <filter token="release" value="${release}"/>
+      <filter token="short-version" value="${short.version}"/>
+
+      <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
+      <property name="framework.base" value="http://jakarta.apache.org/avalon/framework"/>
+      <property name="phoenix.base" value="http://jakarta.apache.org/avalon/phoenix"/>
+      <property name="cornerstone.base" value="http://jakarta.apache.org/avalon/cornerstone"/>
+      <property name="logkit.base" value="http://jakarta.apache.org/avalon/logkit"/>
+      <property name="testlet.base" value="http://jakarta.apache.org/avalon/testlet"/>
+
+      <filter token="year" value="${year}"/>
+      <filter token="AVALON_BASE" value="${avalon.base}"/>
+      <filter token="FRAMEWORK_BASE" value="${framework.base}"/>
+      <filter token="PHOENIX_BASE" value="${phoenix.base}"/>
+      <filter token="CORNERSTONE_BASE" value="${cornerstone.base}"/>
+      <filter token="LOGKIT_BASE" value="${logkit.base}"/>
+      <filter token="TESTLET_BASE" value="${testlet.base}"/>
+    </target>
+    
+    
+    <!-- Prepares the documentation directory -->
+    <target name="docs" depends="setup-filters"> <!-- depends="javadocs" description="Generates the Docs" -->
+      <mkdir dir="${docs.dir}"/>
+
+      <mkdir dir="${build.context}"/>
+      <mkdir dir="${build.xdocs}"/>
+      <mkdir dir="${build.docs}"/>
+      <mkdir dir="${build.dir}/work"/>
+  
+      <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
+      <copy todir="${build.context}" filtering="on">
+        <fileset dir="${context.dir}">
+          <exclude name="diagrams/**"/>
+          <exclude name="resources/**"/>
+          <exclude name="xdocs"/>
+        </fileset>
+      </copy>
+  
+      <copy todir="${build.context}/xdocs" filtering="on" overwrite="yes">
+        <fileset dir="${xdocs.dir}"/>
+      </copy>
+
+      <copy todir="${build.context}/resources" filtering="off" overwrite="yes">
+        <fileset dir="${context.dir}/resources"/>
+        <fileset dir="${xdocs.dir}">
+          <include name="**/images/**"/>
+        </fileset>
+      </copy>
+
+      <java classname="org.apache.cocoon.Main" fork="true">
+        <arg value="-c${build.context}/"/>
+        <arg value="-d${build.docs}"/>
+        <arg value="-w${build.dir}/work"/>
+        <arg value="-l${build.dir}/work/cocoon.log"/>
+        <arg value="-uINFO"/>
+        <arg value="-f${xdocs.dir}/${dir-name}.uris"/>
+        <classpath>
+          <path refid="tools.class.path"/>
+          <fileset dir="${tools.dir}/ext"/>
+        </classpath>
+      </java>
+
+      <copy todir="docs">
+        <fileset dir="${build.docs}">
+          <include name="**"/>
+        </fileset>
+      </copy>    
+     
+    </target>
+    
+    <target name="site" depends="docs" description=" Places Docs ready for hosting on website">  
+  
+      <mkdir dir="../site/docs/${dir-name}"/>     
+      <copy todir="../site/docs/${dir-name}">
+        <fileset dir="docs">
+          <include name="**"/>
+        </fileset>
+      </copy>        
+  
     </target>
 
     <!-- Cleans up build and distribution directories -->
