@@ -13,6 +13,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
+import org.apache.avalon.phoenix.interfaces.ConfigurationRepositoryMBean;
 
 /**
  * Repository from which all configuration data is retrieved.
@@ -20,7 +21,7 @@ import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class DefaultConfigurationRepository
-    implements ConfigurationRepository
+    implements ConfigurationRepository, ConfigurationRepositoryMBean
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultConfigurationRepository.class );
@@ -43,6 +44,13 @@ public class DefaultConfigurationRepository
         }
     }
 
+    public synchronized void removeConfiguration( final String application,
+                                                  final String block )
+        throws ConfigurationException
+    {
+        m_configurations.remove( application + "." + block );
+    }
+
     public synchronized Configuration getConfiguration( final String application,
                                                         final String block )
         throws ConfigurationException
@@ -57,5 +65,12 @@ public class DefaultConfigurationRepository
         }
 
         return configuration;
+    }
+
+    public boolean hasConfiguration( String application, String block )
+    {
+        final String name = application + "." + block;
+
+        return m_configurations.containsKey( name );
     }
 }
