@@ -209,26 +209,12 @@ Legal:
     <mkdir dir="${build.scratchpad}"/>
 
     <copy file="${java.dir}/org/apache/avalon/excalibur/datasource/AbstractJdbcConnection.java"
-          tofile="${java.dir}/org/apache/avalon/excalibur/datasource/AbstractJdbcConnection.tmp"
-          filtering="no"
-          overwrite="yes"
-          preservelastmodified="yes"/>
-    <copy file="${java.dir}/org/apache/avalon/excalibur/datasource/AbstractJdbcConnection.tmp"
-          tofile="${java.dir}/org/apache/avalon/excalibur/datasource/AbstractJdbcConnection.java"
-          filtering="yes"
-          overwrite="yes"
-          preservelastmodified="yes"/>
+          tofile="${build.src}/org/apache/avalon/excalibur/datasource/AbstractJdbcConnection.java"
+          filtering="yes"/>
 
     <copy file="${java.dir}/org/apache/avalon/excalibur/datasource/JdbcConnection.java"
-          tofile="${java.dir}/org/apache/avalon/excalibur/datasource/JdbcConnection.tmp"
-          filtering="no"
-          overwrite="yes"
-          preservelastmodified="yes"/>
-    <copy file="${java.dir}/org/apache/avalon/excalibur/datasource/JdbcConnection.tmp"
-          tofile="${java.dir}/org/apache/avalon/excalibur/datasource/JdbcConnection.java"
-          filtering="yes"
-          overwrite="yes"
-          preservelastmodified="yes"/>
+          tofile="${build.src}/org/apache/avalon/excalibur/datasource/JdbcConnection.java"
+          filtering="yes"/>
 
     <copy todir="${build.scratchpad}">
       <fileset dir="${scratchpad.dir}">
@@ -258,6 +244,7 @@ Legal:
            deprecation="${build.deprecation}">
       <classpath refid="project.class.path" />
       <src path="${test.dir}"/>
+      <src path="${build.src}"/>
       <exclude name="org/apache/avalon/excalibur/datasource/J2eeDataSource.java"
                unless="j2ee.present"/>
       <exclude name="org/apache/avalon/excalibur/datasource/InformixDataSource.java"
@@ -269,7 +256,6 @@ Legal:
                unless="xpath.present"/>
       <exclude name="org/apache/avalon/excalibur/datasource/Jdbc3Connection.java"
                unless="jdbc3.present"/>
-      <exclude name="java/sql/Savepoint.java" if="jdbc3.present"/>
       <exclude name="org/apache/avalon/excalibur/logger/factory/ServletTargetFactory.java"
                unless="servlet.present"/>
       <exclude name="org/apache/avalon/excalibur/logger/factory/JMSTargetFactory.java"
@@ -278,6 +264,8 @@ Legal:
                unless="datasource.present"/>
       <exclude name="org/apache/avalon/excalibur/xml/xpath/JaxenProcessorImpl.java"
                unless="jaxen.present"/>
+      <exclude name="org/apache/avalon/excalibur/datasource/AbstractJdbcConnection.java"/>
+      <exclude name="org/apache/avalon/excalibur/datasource/JdbcConnection.java"/>
     </javac>
 
     <javac srcdir="${scratchpad.dir}"
@@ -294,23 +282,6 @@ Legal:
       <classpath refid="project.class.path" />
     </rmic>
 
-    <copy file="${java.dir}/org/apache/avalon/excalibur/datasource/AbstractJdbcConnection.tmp"
-          tofile="${java.dir}/org/apache/avalon/excalibur/datasource/AbstractJdbcConnection.java"
-          filtering="no"
-          overwrite="yes"
-          preservelastmodified="yes"/>
-
-    <copy file="${java.dir}/org/apache/avalon/excalibur/datasource/JdbcConnection.tmp"
-          tofile="${java.dir}/org/apache/avalon/excalibur/datasource/JdbcConnection.java"
-          filtering="no"
-          overwrite="yes"
-          preservelastmodified="yes"/>
-
-    <delete>
-      <fileset dir="${java.dir}/org/apache/avalon/excalibur/datasource">
-        <include name="*.tmp"/>
-      </fileset>
-    </delete>
   </target>
 
   <target name="test" depends="check"/>
