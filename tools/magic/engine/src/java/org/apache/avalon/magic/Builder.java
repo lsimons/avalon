@@ -63,28 +63,33 @@ public class Builder
     public void execute()
         throws Exception
     {
-        PluginProperties props = new PluginProperties();
+        PluginProperties propset1 = new PluginProperties();
+        PluginProperties propset2 = new PluginProperties();
+        PluginProperties propset3 = new PluginProperties();
         
         // This is included twice, so a reference to other parts
         // can be obtained in the local project properties file.
-        loadProjectLocalProperties( props );
+        loadProjectLocalProperties( propset1 );
         
-        loadGlobalProperties( props );
-        loadMagicSystemProperties( props );
-        loadMagicPluginProperties( props );
-        loadProjectSystemProperties( props );
-        loadProjectLocalProperties( props );
-        loadUserProjectProperties( props );
-        loadUserSystemProperties( props );
-        loadUserHomeProperties( props );
+        loadGlobalProperties( propset1 );
+        loadMagicSystemProperties( propset1 );
         
-        m_AntProject = initializeAntProject( props );
+        String projSys = propset1.getProperty( "project.system" );
+        loadProjectSystemProperties( propset2, projSys );
+        loadProjectLocalProperties( propset2 );
+        
+        loadUserHomeProperties( propset3 );
+        loadUserSystemProperties( propset3);
+        loadUserProjectSystemProperties( propset3, projSys  );
+        loadUserProjectProperties( propset3 );
+        
+        m_AntProject = initializeAntProject( propset1 );
         
         FacadeFactory factory = new FacadeFactory();
         if( factory instanceof LogEnabled )
             ((LogEnabled) factory).enableLogging( m_Logger );
             
-        PluginServiceManager sm = new PluginServiceManager( factory, props, m_AntProject );
+        PluginServiceManager sm = new PluginServiceManager( factory, propset1, propset2, propset3, m_AntProject );
         sm.enableLogging( m_Logger );
         
         for( int i=0 ; i < m_CallMethods.length ; i++ )
@@ -95,8 +100,19 @@ public class Builder
             String pluginname = ".";
             if( pos <= 0 )
             {
-                // project method
-                plugin = sm.lookupPlugin( "." );
+                if( pluginname.startsWith( "@" ) )
+                {
+                    // indirect file
+                    String filename = pluginname.substring(1);
+                    File sequenceFile = new File( m_ProjectDir, filename );
+                    Main.sequence( m_ProjectDir, sequenceFile );
+                    continue;
+                }
+                else
+                {
+                    // project method
+                    plugin = sm.lookupPlugin( "." );
+                }
             }
             else
             {   
@@ -153,23 +169,8 @@ public class Builder
             load( props, file );
     }
     
-    private void loadMagicPluginProperties( PluginProperties props )
+    private void loadProjectSystemProperties( PluginProperties props, String projSys )
     {
-/*  I think this happens in the servicemanager.lookup(), which would
-    mean on demand only = much faster.
-        File[] plugins = m_SystemDir.listFiles();
-        for( int i=0 ; i < plugins.length ; i++ )
-        {
-            File file = new File( plugins[i], "magic.properties" );
-            if( file.exists() )
-                load( props, file );
-        }
-*/       
-    }
-    
-    private void loadProjectSystemProperties( PluginProperties props )
-    {
-        String projSys = props.getProperty( "project.system.dir" );
         if( projSys == null )
             return;
         File dir = new File( projSys );
@@ -192,6 +193,18 @@ public class Builder
             load( props, file );
     }
     
+    private void loadUserProjectSystemProperties( PluginProperties props, String projSys )
+    {
+        if( projSys == null )
+            return;
+        File dir = new File( projSys );
+        File file = new File( dir, "user-magic.properties" );
+        if( file.exists() )
+        {
+            load( props, file );
+        }
+    }
+    
     private void loadUserSystemProperties( PluginProperties props )
     {
         File file = new File( m_SystemDir, "user-magic.properties" );
@@ -201,7 +214,7 @@ public class Builder
     
     private void loadUserHomeProperties( PluginProperties props )
     {
-        File dir = new File( System.getProperty( "user.dir" ) );
+        File dir = new File( System.getProperty( "user.home" ) );
         File file = new File( dir, ".magic.properties" );
         if( file.exists() )
             load( props, file );

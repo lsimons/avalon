@@ -46,29 +46,52 @@ public class PluginServiceManager extends AbstractLogEnabled
     private File m_LocalPlugins;
     private File m_TempDir;
 
-    private PluginProperties m_GlobalProperties;
+    private PluginProperties m_AllProperties;
+    
+    /* Properties that have lower priority than the Plugin Properties */
+    private PluginProperties m_CommonProperties;
+    /* Properties that are defined inside the Plugins, gets aggregated here. */
+    private PluginProperties m_PluginProperties;
+    /* Properties that have higher priority than the Plugin Properties */
+    private PluginProperties m_ProjectProperties;
+    /* Properties that have the highest priority  */
+    private PluginProperties m_UserProperties;
+    
     private FacadeFactory m_FacadeFactory;
     private Project m_AntProject;
     
-    PluginServiceManager( FacadeFactory factory, PluginProperties globalProps, Project ant )
+    PluginServiceManager( FacadeFactory factory, PluginProperties commonProps, PluginProperties projProps, PluginProperties userProps, Project ant )
     {
         if( factory == null )
             throw new IllegalArgumentException( "Null argument: factory" );
-        if( globalProps == null )
-            throw new IllegalArgumentException( "Null argument: globalProps" );
+        if( commonProps == null )
+            throw new IllegalArgumentException( "Null argument: commonProps" );
+        if( projProps == null )
+            throw new IllegalArgumentException( "Null argument: projProps" );
+        if( userProps == null )
+            throw new IllegalArgumentException( "Null argument: userProps" );
         if( ant == null )
             throw new IllegalArgumentException( "Null argument: ant" );
             
         DUMMY = new Object();
         m_FacadeFactory = factory;
-        m_GlobalProperties = globalProps;
+        m_ProjectProperties = projProps;
+        m_CommonProperties = commonProps;
+        m_UserProperties = userProps;
+        m_PluginProperties = new PluginProperties();
+        m_AllProperties = new PluginProperties();
+        try
+        {
+            repopulateProperties( null );
+        } catch( Exception e )
+        {}
         
         m_PluginsByKey = new HashMap();
         m_PluginsByValue = new HashMap();
-        m_SystemDir = new File( globalProps.getProperty( "magic.home.dir" ) );
-        m_LocalPlugins = new File( globalProps.getProperty( "magic.plugins.dir" ) );;
-        m_ProjectDir = new File( globalProps.getProperty( "magic.project.dir" ) );;
-        m_TempDir = new File( globalProps.getProperty( "magic.temp.dir" ) );;
+        m_SystemDir = new File( commonProps.getProperty( "magic.home.dir" ) );
+        m_LocalPlugins = new File( commonProps.getProperty( "magic.plugins.dir" ) );;
+        m_ProjectDir = new File( commonProps.getProperty( "magic.project.dir" ) );;
+        m_TempDir = new File( commonProps.getProperty( "magic.temp.dir" ) );;
         m_AntProject = ant;
     }
         
@@ -149,7 +172,9 @@ public class PluginServiceManager extends AbstractLogEnabled
         throws CreationException
     {
         PluginContext ctx = new PluginContext( scriptDir );
-        
+        if( ctx instanceof LogEnabled )
+            ((LogEnabled) ctx).enableLogging( getLogger() );
+            
         PluginFacade facade = m_FacadeFactory.create( ctx );
         return facade;
     }
@@ -182,17 +207,15 @@ public class PluginServiceManager extends AbstractLogEnabled
         else
         {
             pluginDir = new File( m_LocalPlugins, service );
-            appendProperties( m_GlobalProperties, pluginDir );
+            appendProperties( m_PluginProperties, pluginDir );
         }
         if( pluginDir == null )
             throw new ServiceException( "Plugin '" + service + "' is not present in " + m_LocalPlugins + "." );
             
-        PluginProperties props = new PluginProperties( m_GlobalProperties );
+        repopulateProperties( m_ProjectDir );
         
-        appendProperties( props, m_ProjectDir );
-        
-        String projectName = props.getProperty( "project.name" );
-        String psLoc = props.getProperty( "project.system" ) ;
+        String projectName = m_AllProperties.getProperty( "project.name" );
+        String psLoc = m_AllProperties.getProperty( "project.system" ) ;
         File projectSystemDir;
         
         if( psLoc != null )
@@ -207,8 +230,10 @@ public class PluginServiceManager extends AbstractLogEnabled
             throw new IllegalArgumentException( "The required Project System Directory (Can be set with ${project.system}) doesn't exist : " + projectSystemDir.getAbsolutePath() );
         
         PluginContext ctx = new PluginContext( projectName, m_ProjectDir, 
-            projectSystemDir.getAbsoluteFile(), props, service, pluginDir, 
+            projectSystemDir.getAbsoluteFile(), m_AllProperties, service, pluginDir, 
             m_SystemDir, m_TempDir, m_AntProject );
+        if( ctx instanceof LogEnabled )
+            ((LogEnabled) ctx).enableLogging( getLogger() );
         
         try
         {
@@ -252,5 +277,17 @@ public class PluginServiceManager extends AbstractLogEnabled
             } catch( IOException e )
             {} // Ignore.
         }
+    }
+    
+    private void repopulateProperties( File dir )
+        throws ServiceException
+    {
+        m_AllProperties.putAll( m_CommonProperties );
+        m_AllProperties.putAll( m_PluginProperties );
+        m_AllProperties.putAll( m_ProjectProperties );
+        if( dir != null )
+            appendProperties( m_AllProperties, dir );
+        m_AllProperties.putAll( m_UserProperties );
+        String user = m_AllProperties.getProperty( "artifact.remote.username" );
     }
 } 

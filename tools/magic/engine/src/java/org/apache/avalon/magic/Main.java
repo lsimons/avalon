@@ -30,18 +30,15 @@ public class Main
     static private Builder m_Application;
 
     static public void main( String[] args )
-        throws Exception
     {
-        long t0 = System.currentTimeMillis();
         try
         {
             File projectDir = getProjectDir();
             process( args, projectDir );
-        } finally
+        } catch( Throwable e )
         {
-            long t1 = System.currentTimeMillis();
-            System.out.println( "Build Time: " + (t1 - t0) + " ms." );
-        }
+            print( e );
+        } 
     }
     
     static private File getProjectDir()
@@ -56,7 +53,8 @@ public class Main
     {
         if( args.length == 0 )
         {
-            String[] jobs = sequence( dir );
+            File sequenceFile = new File( dir, "magic.sequence" );
+            String[] jobs = sequence( dir, sequenceFile );
             for( int i = 0 ; i < jobs.length ; i++ )
             {
                 doJob( jobs[i], dir );
@@ -69,10 +67,9 @@ public class Main
         }
     }
 
-    static String[] sequence( File projDir )
+    static String[] sequence( File projDir, File sequenceFile )
         throws Exception
     {
-        File sequenceFile = new File( projDir, "magic.sequence" );
         if( ! sequenceFile.exists() )
             return new String[0];
         FileReader reader = null;
@@ -86,7 +83,9 @@ public class Main
             String line;
             while( (line = br.readLine() ) != null )
             {
-                result.add( line.trim() );
+                line = line.trim();
+                if( ! line.startsWith( "#" ) )
+                    result.add( line );
             }
             String[] retVal = new String[ result.size() ];
             result.toArray( retVal );
@@ -125,5 +124,13 @@ public class Main
         // requested dir.
         File newProjectDir = new File( dir, subdir );
         process( result, newProjectDir );
+    }
+    
+    static private void print( Throwable e )
+    {
+        e.printStackTrace();
+        Throwable f = e.getCause();
+        if( f != null )
+            print( f );
     }
 } 

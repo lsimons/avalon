@@ -16,8 +16,12 @@ limitations under the License.
 */
  
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.avalon.magic.AbstractPlugin;
+import org.apache.avalon.magic.Artifact;
+import org.apache.avalon.magic.ArtifactException;
+import org.apache.avalon.magic.BuildException;
 import org.apache.avalon.magic.Plugin;
 import org.apache.avalon.magic.PluginContext;
 import org.apache.avalon.magic.PluginFacade;
@@ -62,84 +66,101 @@ public class PluginPlugin extends AbstractPlugin
     
     /* Copies the plugin to a Java file and tries to compile it */
     public void validate()
-        throws ServiceException
+        throws ServiceException, IOException, BuildException
     {
-        notifyPreMethod( "validate" );
-        getLogger().info( "Validating plugin: " + m_Context.getProjectName() );
-        
-        File srcDir = new File( m_Context.getProjectDir(), "src/dist/" );
-        File srcFile = new File( srcDir, "magic.bsh" );
-        File destDir = m_Context.getTempDir();
+        try
+        {
+            notifyPreMethod( "validate" );
+            getLogger().info( "Validating plugin: " + m_Context.getProjectName() );
 
-        /* Remove any existing content in the Temp dir. */
-        Delete delete = m_Project.createTask( "delete" );
-        delete.setDir( destDir );
-        delete.init();
-        delete.execute();
-        destDir.mkdirs();
+            File srcDir = new File( m_Context.getProjectDir(), "src/dist/" );
+            File srcFile = new File( srcDir, "magic.bsh" );
+            File destDir = m_Context.getTempDir();
 
-        PluginServiceManager sm = m_ServiceManager;
-        
-        PluginFacade pf = sm.getFacade( srcDir );
-        String classname = pf.getPluginClassname();
-        
-        File classfile = new File( destDir, classname + ".java" );
-        
-        Copy copy = m_Project.createTask( "copy" );
-        copy.setVerbose( true );
-        copy.setTofile( classfile  );
-        copy.setFile( srcFile );
-        copy.execute();
-        
-        File cache = new File( m_Context.getSystemDir(), "cache" );
-        cache.mkdirs();
-        
-        String classpath = m_Context.getProperty( "java.class.path" );
-        
-        Javac javac = (Javac) m_Project.createTask( "javac" );
-        /* Set the destination */
-        javac.setDestdir( cache );
-        javac.setDeprecation( true );
-        javac.setDebug( true );
-        javac.setVerbose( false );
-        
-        /* Add Class path defined in the magic.properties  */
-        Path cp = javac.createClasspath();
-        Path.PathElement pe = cp.createPathElement();
-        pe.setPath( cache.getAbsolutePath() + "/" );
-        pe = cp.createPathElement();
-        pe.setPath( classpath );
-        /* Later; also add dependency Jars */
-        
-        /* Add the source path */
-        Path src = javac.createSrc();
-        Path.PathElement srcPE = src.createPathElement();
-        srcPE.setLocation( destDir );
-        javac.init();
-        javac.execute(); 
-        
-        notifyPostMethod( "validate" );
+            /* Remove any existing content in the Temp dir. */
+            Delete delete = (Delete) m_Project.createTask( "delete" );
+            delete.setDir( destDir );
+            delete.init();
+            delete.execute();
+            destDir.mkdirs();
+
+            PluginServiceManager sm = m_ServiceManager;
+
+            PluginFacade pf = sm.getFacade( srcDir );
+            String classname = pf.getPluginClassname();
+
+            File classfile = new File( destDir, classname + ".java" );
+
+            Copy copy = (Copy) m_Project.createTask( "copy" );
+            copy.setVerbose( true );
+            copy.setTofile( classfile  );
+            copy.setFile( srcFile );
+            copy.execute();
+
+            File cache = new File( m_Context.getSystemDir(), "cache" );
+            cache.mkdirs();
+
+            String classpath = m_Context.getProperty( "java.class.path" );
+
+            Javac javac = (Javac) m_Project.createTask( "javac" );
+            /* Set the destination */
+            javac.setDestdir( cache );
+            javac.setDeprecation( true );
+            javac.setDebug( true );
+            javac.setVerbose( false );
+
+            /* Add Class path defined in the magic.properties  */
+            Path cp = javac.createClasspath();
+            Path.PathElement pe = cp.createPathElement();
+            pe.setPath( cache.getAbsolutePath() + "/" );
+            pe = cp.createPathElement();
+            pe.setPath( classpath );
+
+            Artifact artifact = Artifact.resolve( m_Context, m_Context.getProjectName() );       
+            Artifact[] deps = artifact.getDependencies();
+            Path depsPath = new Path( m_Project );
+            for( int i=0 ; i < deps.length ; i++ )
+            {
+                File localFile = deps[i].getContentFile();
+                Path.PathElement fpe = depsPath.createPathElement();
+                fpe.setLocation( localFile );
+            }
+            cp.add( depsPath );
+            System.out.println( cp );
+            /* Add the source path */
+            Path src = javac.createSrc();
+            Path.PathElement srcPE = src.createPathElement();
+            srcPE.setLocation( destDir );
+            javac.init();
+            javac.execute(); 
+
+            notifyPostMethod( "validate" );
+        } catch( Exception e )
+        {
+            e.printStackTrace();
+            throw e;
+        }
     }
     
     public void install()
+        throws ServiceException, IOException, BuildException
     {
         validate();
-        notifyPreMethod( "install" );
+        notifyPreMethod( "install" );   
         
         getLogger().info( "Installing plugin: " + m_Context.getProjectName() );
 
-        String projectName = m_Context.getProjectName();
+        String projectName = m_Context.getProperty( "project.name" );
         File systemDir = m_Context.getSystemDir();
         File localpluginrepo = new File( systemDir, "plugins/" + projectName );
         File srcDir = new File( m_Context.getProjectDir(), "src/dist" );
         FileSet src = new FileSet();
         src.setDir( srcDir );
-        Copy copy = m_Project.createTask( "copy" );
+        Copy copy = (Copy) m_Project.createTask( "copy" );
         copy.setVerbose( true );
         copy.setTodir( localpluginrepo );
         copy.addFileset( src );
         copy.execute();        
         notifyPostMethod( "install" );
     }
-
 }

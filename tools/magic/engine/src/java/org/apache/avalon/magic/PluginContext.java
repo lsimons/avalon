@@ -18,6 +18,8 @@ limitations under the License.
 package org.apache.avalon.magic;
 
 import java.io.File;
+import java.io.IOException;
+
 import java.util.Iterator;
 import java.util.Stack;
 import java.util.StringTokenizer;
