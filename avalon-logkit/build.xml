@@ -443,21 +443,18 @@ Legal:
     <filter token="LOGKIT_BASE" value="${logkit.base}"/>
     <filter token="TESTLET_BASE" value="${testlet.base}"/>
 
-    <copy todir="${build.context}" filtering="on">
+    <copy todir="${build.context}" overwrite="true" filtering="on">
       <fileset dir="${context.dir}">
-        <exclude name="resources/**"/>
-        <exclude name="xdocs/**"/>
+        <exclude name="**/*.gif"/>
+        <exclude name="**/*.jpg"/>
+        <exclude name="**/*.png"/>
       </fileset>
     </copy>
-
-    <copy todir="${build.context}/xdocs" filtering="on" overwrite="yes">
-      <fileset dir="${xdocs.dir}"/>
-    </copy>
-
-    <copy todir="${build.context}/resources" filtering="off" overwrite="yes">
-      <fileset dir="${context.dir}/resources"/>
-      <fileset dir="${xdocs.dir}">
-        <include name="**/images/**"/>
+    <copy todir="${build.context}" filtering="off">
+      <fileset dir="${context.dir}">
+        <include name="**/*.gif"/>
+        <include name="**/*.jpg"/>
+        <include name="**/*.png"/>
       </fileset>
     </copy>
 
