@@ -41,7 +41,6 @@ import org.apache.avalon.phoenix.metadata.DependencyMetaData;
  */
 class StartupPhase
     extends AbstractLoggable
-    implements BlockVisitor
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( StartupPhase.class );

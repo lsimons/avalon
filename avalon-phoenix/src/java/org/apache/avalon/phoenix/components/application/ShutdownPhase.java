@@ -25,7 +25,6 @@ import org.apache.avalon.phoenix.metadata.BlockMetaData;
  */
 class ShutdownPhase
     extends AbstractLoggable
-    implements BlockVisitor
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( ShutdownPhase.class );
