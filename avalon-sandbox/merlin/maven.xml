@@ -1,5 +1,9 @@
 <project default="merlin:build" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
+  <ant:property name="merlin.bootstrap.jar" value="merlin-bootstrap-1.0.jar"/>
+  <ant:property name="merlin.plugin.jar" value="merlin-plugin-1.0.jar"/>
+  <ant:property name="meta.plugin.jar" value="avalon-meta-plugin-1.1.jar"/>
+
   <ant:property file="project.properties"/>
   <ant:property name="maven.docs.src" value="${basedir}/merlin-platform/xdocs"/>
   <ant:property name="merlin.build.inst" value="merlin"/>
@@ -73,7 +77,7 @@
 
     <!-- import bootstrap jar -->
     <ant:copy 
-       file="${basedir}/kernel/bootstrap/target/merlin-bootstrap-3.0.jar" 
+       file="${basedir}/kernel/bootstrap/target/${merlin.bootstrap.jar}" 
        toDir="${merlin.build.inst.dir}/bin/lib"/>
 
     <!-- import subproject jar files -->
@@ -131,9 +135,13 @@
   </goal>
 
   <goal name="merlin:package">
+
+    <!--
     <maven:snapshot project="${pom}"/>
     <j:set var="timestamp" value="${snapshotSignature.substring(7,15)}"/>
     <j:set var="package.name" value="${maven.final.name}-dist-${timestamp}"/>
+    -->
+    <j:set var="package.name" value="${maven.final.name}-dist"/>
 
     <ant:echo>Building distribution: ${package.name}.zip</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${package.name}.zip">
@@ -142,10 +150,10 @@
         <include name="INSTALLATION.TXT"/>
       </fileset>
       <fileset dir="${basedir}/kernel/plugin/target">
-        <include name="*.jar"/>
+        <include name="${merlin.plugin.jar}"/>
       </fileset>
       <fileset dir="${basedir}/../meta/plugin/target">
-        <include name="*.jar"/>
+        <include name="${meta.plugin.jar}"/>
       </fileset>
     </ant:zip>
     <ant:tar tarfile="${maven.build.dir}/${package.name}.tar">
@@ -154,10 +162,10 @@
         <include name="INSTALLATION.TXT"/>
       </fileset>
       <fileset dir="${basedir}/kernel/plugin/target">
-        <include name="*.jar"/>
+        <include name="${merlin.plugin.jar}"/>
       </fileset>
       <fileset dir="${basedir}/../meta/plugin/target">
-        <include name="*.jar"/>
+        <include name="${meta.plugin.jar}"/>
       </fileset>
     </ant:tar>
     <ant:gzip 
@@ -165,7 +173,9 @@
       src="${maven.build.dir}/${package.name}.tar"/>
     <ant:delete file="${maven.build.dir}/${package.name}.tar"/>
 
-    <j:set var="docs.name" value="${maven.final.name}-docs-${timestamp}"/>
+    <!--<j:set var="docs.name" value="${maven.final.name}-docs-${timestamp}"/>-->
+    <j:set var="docs.name" value="${maven.final.name}-docs"/>
+
     <ant:echo>Building doc kit: ${docs.name}.zip</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${docs.name}.zip">
       <zipfileset dir="${maven.build.dir}/docs" prefix="docs"/>
@@ -178,7 +188,9 @@
       src="${maven.build.dir}/${docs.name}.tar"/>
     <ant:delete file="${maven.build.dir}/${docs.name}.tar"/>
 
-    <j:set var="tutorial.name" value="${maven.final.name}-tutorial-${timestamp}"/>
+    <!--<j:set var="tutorial.name" value="${maven.final.name}-tutorial-${timestamp}"/>-->
+    <j:set var="tutorial.name" value="${maven.final.name}-tutorial"/>
+
     <ant:echo>Building tutorial kit: ${tutorial.name}.zip</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${tutorial.name}.zip">
       <zipfileset dir="${basedir}/target/tutorials" prefix="tutorial"/>
