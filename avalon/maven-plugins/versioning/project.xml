@@ -19,7 +19,8 @@
 
 
 <project>
-  <extend>../project.xml</extend>
+  <extend>../project-common.xml</extend>
+  <groupId>avalon-versioning-plugin</groupdId>
   <id>avalon-versioning-plugin</id>
   <name>Avalon Versioning Maven Plugin</name>
   <currentVersion>1.0.dev-6</currentVersion>
