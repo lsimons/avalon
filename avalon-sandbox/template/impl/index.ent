@@ -1,2 +1,0 @@
-<!ENTITY % template-entities SYSTEM "file:../version.ent"> %template-entities;
-<!ENTITY % merlin-entities SYSTEM "file:../../../avalon/merlin/version.ent"> %merlin-entities;
