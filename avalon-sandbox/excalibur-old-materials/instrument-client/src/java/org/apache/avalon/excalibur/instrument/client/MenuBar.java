@@ -30,7 +30,7 @@ import org.apache.commons.altrmi.common.AltrmiInvocationException;
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/03/26 11:32:24 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/03/28 03:15:40 $
  * @since 4.1
  */
 public class MenuBar
@@ -157,7 +157,7 @@ public class MenuBar
             public void actionPerformed( ActionEvent event )
             {
                 // For now, skip the dialog
-                m_frame.openInstrumentManagerConnection( "localhost", 15555 );
+                m_frame.showConnectDialog();
             }
         };
         
