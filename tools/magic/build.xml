@@ -21,12 +21,6 @@
   </target>
   -->
 
-  <!--
-  <target name="build" depends="standard.build">
-    <x:artifact factory="xyz"/>
-  </target>
-  -->
-
   <target name="package" depends="standard.package">
     <x:bar/>
   </target>
