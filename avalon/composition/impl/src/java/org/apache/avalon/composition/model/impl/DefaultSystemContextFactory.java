@@ -63,7 +63,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/03/07 00:00:59 $
+ * @version $Revision: 1.6 $ $Date: 2004/03/07 22:10:39 $
  */
 public class DefaultSystemContextFactory implements SystemContextFactory
 {
@@ -133,16 +133,36 @@ public class DefaultSystemContextFactory implements SystemContextFactory
     // SystemContextFactory
     //--------------------------------------------------------------
 
+   /**
+    * Set the security enabled status.  If TRUE component level 
+    * security policies will be enabled.  If FALSE security will 
+    * disabled.  The default value is FALSE.
+    *
+    * @param secure the security enabled status
+    */
     public void setSecurityEnabled( boolean secure )
     {
         m_secure = secure;
     }
 
+   /**
+    * Set the parent context of the system context.  If undefined
+    * the system context will be created using a null parent.
+    *
+    * @param parent the parent context
+    */
     public void setParentContext( Context parent )
     {
         m_parent = parent;
     }
 
+   /**
+    * Set the runtime artifact.  The runtime artifact is a reference
+    * to a runtime system capable of supporting component lifestyle 
+    * and lifecycle management. 
+    * 
+    * @param artifact an artifact referencing the runtime
+    */
     public void setRuntime( Artifact artifact )
     {
         m_artifact = artifact;

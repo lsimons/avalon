@@ -25,6 +25,7 @@ import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.AssemblyException;
+import org.apache.avalon.composition.model.ProviderNotFoundException;
 import org.apache.avalon.composition.model.ModelRepository;
 import org.apache.avalon.composition.model.ContextModel;
 import org.apache.avalon.composition.model.DependencyModel;
@@ -51,7 +52,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * a supplied path.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/21 23:54:42 $
+ * @version $Revision: 1.5 $ $Date: 2004/03/07 22:10:39 $
  */
 class DefaultContainmentModelAssemblyHelper
 {
@@ -296,7 +297,7 @@ class DefaultContainmentModelAssemblyHelper
             {
                 final String error = 
                   "Nested assembly failure while attempting to construct model"
-                  + " for the profile: [" + profile + "] for the dependency: ["
+                  + " for the profile: " + profile + " for the dependency: ["
                   + dependency + "].";
                 throw new AssemblyException( error, ae );
             }
@@ -304,7 +305,7 @@ class DefaultContainmentModelAssemblyHelper
             {
                 final String error = 
                   "Nested model failure while attempting to add model"
-                  + " for the profile: [" + profile + "] for the dependency: ["
+                  + " for the profile: " + profile + " for the dependency: ["
                   + dependency + "].";
                 throw new AssemblyException( error, me );
             }
@@ -369,7 +370,7 @@ class DefaultContainmentModelAssemblyHelper
             {
                 final String error = 
                   "Nested model failure while attempting to add model"
-                  + " for the profile: [" + profile + "] for the reference: ["
+                  + " for the profile: " + profile + " for the reference: ["
                   + reference + "].";
                 throw new AssemblyException( error, me );
             }
@@ -379,7 +380,7 @@ class DefaultContainmentModelAssemblyHelper
             final String error = 
               "Unable to locate a service provider for the reference: [ "
               + reference + "].";
-            throw new AssemblyException( error );
+            throw new ProviderNotFoundException( error );
         }
     }
 
@@ -452,8 +453,8 @@ class DefaultContainmentModelAssemblyHelper
             {
                 final String error = 
                   "Nested model failure while attempting to add model"
-                  + " for the extension profile: [" + profile 
-                  + "] for the stage dependency: ["
+                  + " for the extension profile: " + profile 
+                  + " for the stage dependency: ["
                   + stage + "].";
                 throw new AssemblyException( error, me );
             }
@@ -463,7 +464,7 @@ class DefaultContainmentModelAssemblyHelper
             final String error = 
               "Unable to locate a extension provider for the stage: [ "
               + stage + "].";
-            throw new AssemblyException( error );
+            throw new ProviderNotFoundException( error );
         }
     }
 

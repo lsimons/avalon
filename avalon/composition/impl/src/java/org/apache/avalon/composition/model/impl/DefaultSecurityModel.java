@@ -41,7 +41,7 @@ import org.apache.avalon.meta.info.PermissionDescriptor;
  * <p>Implementation of the default security model.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/03/07 03:02:42 $
+ * @version $Revision: 1.7 $ $Date: 2004/03/07 22:10:39 $
  */
 public final class DefaultSecurityModel implements SecurityModel
 {
@@ -133,7 +133,8 @@ public final class DefaultSecurityModel implements SecurityModel
         return permissions;
     }
 
-    private Permission createPermission( PermissionDescriptor descriptor ) throws Exception
+    private Permission createPermission( 
+      PermissionDescriptor descriptor ) throws Exception
     {
         String classname = descriptor.getClassname();
         String name = descriptor.getName();
@@ -177,8 +178,9 @@ public final class DefaultSecurityModel implements SecurityModel
      * @throws InvocationTargetException, if the constructor in the Permission
      *         class throws an exception.
      */
-    private static Permission createPermission( String classname, String name, String action )
-        throws InstantiationException, IllegalAccessException, ClassNotFoundException,
+    private static Permission createPermission( 
+      String classname, String name, String action )
+      throws InstantiationException, IllegalAccessException, ClassNotFoundException,
           ClassCastException, InvocationTargetException
     {
         if( classname == null )
@@ -208,7 +210,8 @@ public final class DefaultSecurityModel implements SecurityModel
         }
     }
 
-    private static Constructor getConstructor( Constructor[] constructors, int noOfParameters )
+    private static Constructor getConstructor( 
+      Constructor[] constructors, int noOfParameters )
     {
         for ( int i=0 ; i < constructors.length ; i++ )
         {

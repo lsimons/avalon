@@ -57,7 +57,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.26 $ $Date: 2004/03/07 00:00:58 $
+ * @version $Revision: 1.27 $ $Date: 2004/03/07 22:10:39 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext
@@ -494,7 +494,7 @@ public class DefaultSystemContext extends DefaultContext
         }
 
         //
-        // log target factories only have one constructor
+        // runtime class may has one constructor
         //
 
         Constructor constructor = constructors[0];
