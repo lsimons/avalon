@@ -1,8 +1,11 @@
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.io.IOException;
 
@@ -13,6 +16,7 @@ import java.net.URLConnection;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Properties;
 
 import org.apache.merlin.magic.AbstractPlugin;
 import org.apache.merlin.magic.Artifact;
@@ -23,6 +27,86 @@ import org.apache.tools.ant.types.Path;
 
 public class ArtifactPlugin extends AbstractPlugin
 {
+    public Artifact locate( String artifactId )
+        throws IOException
+    {
+        File definitionsDir = new File( m_Context.getProjectSystemDir(), "definitions" );
+        File file = new File( definitionsDir, artifactId );
+        FileInputStream fis = new FileInputStream( file );
+        Properties p = new Properties();
+        try
+        {
+            p.load( fis );
+        } finally
+        {
+            if( fis != null )
+                fis.close();
+        }
+        String repository = p.getProperty( "artifact.repository" );
+        if( repository == null )
+            repository = m_Context.getProperty( "artifact.repository" );
+
+        String groupId = p.getProperty( "artifact.group" );
+        if( groupId == null )
+            groupId = artifactId;
+
+        String version = p.getProperty( "artifact.version" );
+        if( version == null )
+            version = "1.0.dev-0";
+
+        String type = p.getProperty( "artifact.type" );
+        if( type == null )
+            type = "jar";
+
+        Artifact artifact = new Artifact( artifactId, groupId, version, type, repository );
+        System.out.println( "Artifact: " + artifact );
+        return artifact;
+    }
+    
+    
+    public Artifact[] getDependencies( Artifact artifact )
+        throws IOException
+    {
+        File definitionsDir = new File( m_Context.getProjectSystemDir(), "dependencies" );
+        File file = new File( definitionsDir, artifact.getArtifactId() );
+        if( ! file.exists() )
+            return new Artifact[0];
+        FileReader reader = null;
+        BufferedReader br = null;
+        ArrayList deps = new ArrayList();
+        try
+        {
+            reader = new FileReader( file );
+            br = new BufferedReader( reader );
+            String line;
+            while( ( line = br.readLine() ) != null )
+            {
+                line = line.trim();
+                if( ! line.equals( "" ) )
+                    deps.add( line );
+            }
+        } catch( IOException e )
+        {
+            e.printStackTrace();
+            throw e;
+        } finally
+        {
+            if( reader != null )
+                reader.close();
+            if( br != null )
+                br.close();
+        }
+        Artifact[] result = new Artifact[ deps.size() ];
+        Iterator list = deps.iterator();
+        for( int i=0 ; list.hasNext() ; i++ )
+        {
+            String dep = (String) list.next();
+            result[i] = locate( dep );
+        }
+        return result;
+    }
+    
+    
     public ClassLoader getClassloader( Artifact[] artifacts )
         throws IOException
     {
@@ -47,15 +131,22 @@ public class ArtifactPlugin extends AbstractPlugin
         Path result = new Path( m_Project );
         for( int i=0 ; i < artifacts.length ; i++ )
         {
+            System.out.print( artifacts[i] );
             File localFile = toLocalFile( artifacts[i] );
             if( ! localFile.exists() )
             {
+                System.out.println( "    NOT exists." );
                 localFile.getParentFile().mkdirs();
                 download( artifacts[i], localFile );
+            }
+            else
+            {
+                System.out.println( "    exists." );
             }
             Path.PathElement pe = result.createPathElement();
             pe.setLocation( localFile );
         }
+        System.out.println( "Dep Classpath: " + result );
         return result;
     }
     

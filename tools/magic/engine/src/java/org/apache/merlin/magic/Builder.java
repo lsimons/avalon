@@ -118,6 +118,9 @@ public class Builder
         props.put( "magic.repository.dir", new File( m_SystemDir, "repository" ).toString() );
         props.put( "magic.project.dir", m_ProjectDir.getAbsolutePath() );
         props.put( "magic.temp.dir", m_TempDir.getAbsolutePath() );
+        props.put( "user.home", System.getProperty( "user.home" ) );
+        props.put( "java.home", System.getProperty( "java.home" ) );
+        props.put( "java.version", System.getProperty( "java.version" ) );
     }
     
     private void loadMagicSystemProperties( PluginProperties props )
