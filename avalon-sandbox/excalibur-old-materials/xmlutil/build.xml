@@ -322,7 +322,6 @@
 
 
         <copy file="${build.conf}/LICENSE.txt" todir="${dist.dir}"/>
-        <copy file="../avalon/KEYS" todir="${dist.dir}"/>
 
         <zip zipfile="${dist.dir}/src.zip" compress="false">
             <zipfileset dir="src/java"/>
@@ -333,6 +332,10 @@
         <zip zipfile="${dist.base}/${dist.name}.zip" compress="true">
             <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
         </zip>
+
+        <checksum fileext=".md5">
+          <fileset dir="${dist.base}"/>
+        </checksum>
     </target>
 
     <!-- Creates a mini jar-only distribution -->
@@ -351,53 +354,43 @@
         description="Generates a minimal distribution (jar + javadocs)">
 
         <copy file="../LICENSE.txt" todir="${dist.dir}"/>
-        <copy file="../avalon/KEYS" todir="${dist.dir}"/>
 
     </target>
 
+    <!-- Setup the filters -->
+    <target name="setup-filters">
+      <filter token="Name" value="Avalon ${Name}"/>
+      <filter token="name" value="${dir-name}"/>
+      <filter token="version" value="${version}"/>
+      <filter token="year" value="${year}"/>
+      <filter token="status" value="${status}"/>
+      <filter token="release" value="${release}"/>
+      <filter token="short-version" value="${short.version}"/>
 
-    <target name="anakia-avail">
-        <available classname="org.apache.velocity.anakia.AnakiaTask"
-            property="AnakiaTask.present">
-            <classpath refid="tools.class.path"/>
-        </available>
+      <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
+      <property name="framework.base" value="http://jakarta.apache.org/avalon/framework"/>
+      <property name="phoenix.base" value="http://jakarta.apache.org/avalon/phoenix"/>
+      <property name="cornerstone.base" value="http://jakarta.apache.org/avalon/cornerstone"/>
+      <property name="logkit.base" value="http://jakarta.apache.org/avalon/logkit"/>
+      <property name="testlet.base" value="http://jakarta.apache.org/avalon/testlet"/>
+
+      <filter token="year" value="${year}"/>
+      <filter token="AVALON_BASE" value="${avalon.base}"/>
+      <filter token="FRAMEWORK_BASE" value="${framework.base}"/>
+      <filter token="PHOENIX_BASE" value="${phoenix.base}"/>
+      <filter token="CORNERSTONE_BASE" value="${cornerstone.base}"/>
+      <filter token="LOGKIT_BASE" value="${logkit.base}"/>
+      <filter token="TESTLET_BASE" value="${testlet.base}"/>
     </target>
 
-    <target name="anakia-check" depends="anakia-avail" unless="AnakiaTask.present">
-        <echo>
-            AnakiaTask is not present! Please check to make sure that
-            velocity.jar is in your classpath. The easiest way to build
-            the documentation is to checkout jakarta-site CVS and specify
-            jakarta-site.dir property.
-        </echo>
-    </target>
+    <target depends="setup-filters" name="docs" description="Generate documentation and website">
+      <ant antfile="${basedir}/../forrestbuild.xml"/>
 
-    <target name="docs" depends="anakia-check" description="Generate documentation and website">
-        <taskdef name="anakia"
-            classname="org.apache.velocity.anakia.AnakiaTask">
-            <classpath refid="tools.class.path"/>
-        </taskdef>
-
-        <anakia basedir="${xdocs.dir}"
-            destdir="${docs.dir}"
-            style="docs.vsl"
-            projectfile="menu.xml"
-            includes="**/*.xml"
-        excludes="menu.xml"
-            velocitypropertiesfile="../site/src/stylesheets/velocity.properties"
-            />
-
-     <copy todir="${docs.dir}" filtering="off">
-      <fileset dir="../site/src" includes="css/*.css" />
-      <fileset dir="${xdocs.dir}">
-        <include name="**/images/**"/>
-        <include name="**/*.gif"/>
-        <include name="**/*.jpg"/>
-        <include name="**/*.png"/>
-        <include name="**/*.css"/>
-        <include name="**/*.js"/>
-      </fileset>
-    </copy>
+      <copy todir="${docs.dir}">
+        <fileset dir="${build.docs}">
+          <include name="**"/>
+        </fileset>
+      </copy>
     </target>
 
     <target name="site" depends="docs" description=" Places Docs ready for hosting on website">
