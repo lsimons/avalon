@@ -1,9 +1,9 @@
 <?xml version="1.0" standalone="no"?>
 
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1//EN"
-                         "http://www.oasis-open.org/docbook/xml/4.0/docbookx.dtd">
+                         "./dtd/docbookx.dtd">
 
-<chapter id="introduction">
+<chapter id="introduction.html">
   <title>Introduction and Overview</title>
   <subtitle>
     A brief history of Avalon and overview of the design
@@ -94,7 +94,7 @@
       </para>
     </section>
     <section>
-      <title>Testlet</testlet>
+      <title>Testlet</title>
       <para>
         Avalon Testlet is a simple test framework designed to work with
 	Apache Ant.  It is used to unit test the Framework and Components
@@ -298,7 +298,7 @@
       </para>
       <blockquote>
         <title>Service</title>
-	<orderdlist>
+	<orderedlist>
 	  <listitem>
 	    <para>
 	      Work or duties performed for others.

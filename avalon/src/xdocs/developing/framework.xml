@@ -1,9 +1,9 @@
 <?xml version="1.0" standalone="no"?>
 
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1//EN"
-                         "http://www.oasis-open.org/docbook/xml/4.0/docbookx.dtd">
+                         "./dtd/docbookx.dtd">
 
-<chapter>
+<chapter id="framework.html">
   <title>Framework and Foundations</title>
   <subtitle>
     We will describe Avalon's contracts and interfaces so we have a foundation
@@ -116,7 +116,7 @@ public interface DocumentRepository {
 		separate roles.  A Role is the Component's purpose in the
 		system.  Each role name will start with the original role
 		name, but the purpose name of the role will be appended
-		with a "/<parameter>${purpose}</parameter>".  By example
+		with a <parameter>/${purpose}</parameter>.  By example
 		we could have the following purposes for our
 		DocumentRepository: PurchaseOrder and Bill.  Our two roles
 		would be expressed as
@@ -225,12 +225,6 @@ public interface DocumentRepository {
 	  any of the Re* stages.
 	</para>
 	<orderedlist>
-	  <listitem>
-	    <para>
-	      <function>suspend</function>
-	      [<classname>Suspendable</classname>]
-	    </para>
-	  </listitem>
 	  <listitem>
 	    <para>
 	      <function>suspend</function>
@@ -542,7 +536,7 @@ public interface DocumentRepository {
 	    <classname>Context</classname>.
 	  </para>
 	  <para>
-            There is no set contract with the <classname>Context</cassname>
+            There is no set contract with the <classname>Context</classname>
 	    other than it should always be <emphasis>read-only</emphasis> by
 	    the child Component.  If you extend Avalon's
 	    <classname>Context</classname>, please respect that contract.  It

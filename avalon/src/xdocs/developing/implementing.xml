@@ -1,9 +1,9 @@
 <?xml version="1.0" standalone="no"?>
 
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1//EN"
-                         "http://www.oasis-open.org/docbook/xml/4.0/docbookx.dtd">
+                         "./dtd/docbookx.dtd">
 
-<chapter>
+<chapter id="implementing.html">
   <title>Implementing the Dream</title>
   <subtitle>
     We will show how you can use Avalon Framework and Avalon Excalibur to
@@ -109,7 +109,7 @@ implements DocumentRepository , Configurable, Composable, Initializable,
      */
     public final void configure(Configuration conf)
     throws ConfigurationException {
-        if (initialized || disposed) {
+        if (!initialized || disposed) {
             throw new IllegalStateException ("Illegal call");
         }
 
