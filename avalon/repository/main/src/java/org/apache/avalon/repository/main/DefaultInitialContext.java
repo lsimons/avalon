@@ -68,7 +68,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.19 $
+ * @version $Revision: 1.20 $
  */
 public class DefaultInitialContext extends AbstractBuilder implements InitialContext
 {
@@ -142,6 +142,11 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     //------------------------------------------------------------------
     // immutable state 
     //------------------------------------------------------------------
+
+   /** 
+    * The application key.
+    */
+    private final String m_key;
         
    /** 
     * The instantiated delegate repository factory.
@@ -251,6 +256,8 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
       File base, ClassLoader loader, Artifact artifact, File cache, String[] hosts ) 
       throws RepositoryException
     {
+        m_key = "avalon";
+
         m_base = setupBaseDirectory( base );
         m_cache = setupCache( cache, base );
         m_hosts = setupHosts( hosts, base );
@@ -340,15 +347,17 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
      * @throws RepositoryException if an error occurs during establishment
      */
     DefaultInitialContext( 
-      ClassLoader parent, Artifact artifact, File base, File cache, String[] hosts ) 
+      String key, ClassLoader parent, Artifact artifact, File base, File cache, String[] hosts ) 
       throws RepositoryException
     {
+        if( null == key ) throw new NullPointerException( "key" ); 
         if( null == base ) throw new NullPointerException( "base" ); 
         if( null == parent ) throw new NullPointerException( "parent" ); 
         if( null == artifact ) throw new NullPointerException( "artifact" ); 
         if( null == cache ) throw new NullPointerException( "cache" ); 
         if( null == hosts ) throw new NullPointerException( "hosts" ); 
 
+        m_key = key;
         m_base = base;
         m_cache = cache;
         m_hosts = hosts;
@@ -416,6 +425,18 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     // ------------------------------------------------------------------------
     // InitialContext
     // ------------------------------------------------------------------------
+
+    /**
+     * Return the application key.  The value of the key may be used 
+     * to resolve property files by using the convention 
+     * [key].properties.
+     * 
+     * @return the application key.
+     */
+    public String getApplicationKey()
+    {
+        return m_key;
+    }
 
     /**
      * Return the base working directory.

@@ -16,7 +16,7 @@ import org.apache.avalon.util.env.Env;
  * DefaultsBuilderTestCase
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DefaultInitialContextFactoryTestCase extends TestCase
 {
@@ -42,6 +42,7 @@ public class DefaultInitialContextFactoryTestCase extends TestCase
         System.out.println( "" );
         System.out.println( "InitialContextFactory" );
         System.out.println( "---------------------" );
+        System.out.println( "  key: " + factory.getApplicationKey() );
         System.out.println( "  home: " + factory.getHomeDirectory() );
         System.out.println( "  cache: " + factory.getCacheDirectory() );
         System.out.println( "  work: " + factory.getWorkingDirectory() );
