@@ -132,7 +132,7 @@ public class DefaultConfigurationSerializer
         }
         else
         {
-            qName = prefix + ":" + localName;
+            qName = nsPrefix + ":" + localName;
         }
 
         this.m_handler.startElement(nsURI, localName, qName, attr);
