@@ -319,10 +319,9 @@ public class PhoenixEmbeddor
                                  "(%{context}): %{message}\\n%{throwable}" );
             logTarget.setFormatter( formatter );
 
-            LogKit.addLogTarget( logDestination, logTarget );
-            final Logger logger =
-                LogKit.createLogger( LogKit.createCategory( "Phoenix", Priority.DEBUG ),
-                                     new LogTarget[] { logTarget } );
+            final Logger logger = LogKit.getLoggerFor( "Phoenix" );
+            logger.setLogTargets( new LogTarget[] { logTarget } );
+
             logger.info( "Logger started" );
             return logger;
         }

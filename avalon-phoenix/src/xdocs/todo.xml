@@ -84,11 +84,6 @@ If you need more detailed help, please send mail to the mailing list
     </li>
 
     <li>
-      Create Avalon/Phoenix icons and images for documentations/servers. We need a
-      standard icon for "powered by Phoenix" that meshes with our logo!
-    </li>
-
-    <li>
       Define and implement needed stuff to allow hot and warm reconfiguration at
       runtime.
     </li>
@@ -104,11 +99,6 @@ If you need more detailed help, please send mail to the mailing list
       will provide a standard and flexible connection service and
       messaging service. It allows for both point to point messaging
       and multicast messaging (subscriber/provider). 
-    </li>
-
-    <li>
-      Connection Pooling for JDBC connections, Socket connections, JMS
-      connections, etc. (Maybe extending the store interface?)
     </li>
 
     <li>
