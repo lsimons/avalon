@@ -4,9 +4,9 @@
   <extend>${basedir}/../project.xml</extend>
   <pomVersion>3</pomVersion>
   <groupId>avalon-util</groupId>
-  <id>avalon-plugin</id>
+  <id>avalon-util-plugin</id>
   <name>Avalon Plugin</name>
-  <currentVersion>1.0</currentVersion>
+  <currentVersion>1.0-SNAPSHOT</currentVersion>
   <description>Avalon Plugin for Maven</description>
   <shortDescription>Avalon Plugin</shortDescription>
   <package>org.apache.avalon</package>
