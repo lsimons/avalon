@@ -1,58 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 
-<!-- 
-Test application
--->
+<project name="avalon-tutorial-profiles" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
 
-<project name="tutorial" default="jar" basedir=".">
+  <property name="project.home" value=".."/>
+  <import file="${project.home}/standard.xml"/>
 
-  <property name="src.dir"  value="${basedir}/src" />
-  <property name="java.dir"  value="${src.dir}/java" />
-  <property name="build.dir"  value="${basedir}/build" />
-  <property name="classes.dir"  value="${build.dir}/classes" />
-  <property name="config.dir"  value="${src.dir}/config" />
-
-  <property environment="env"/>
-  <property name="merlin.home"  value="${env.MERLIN_HOME}"/>
-
-  <property name="framework.jar"
-    value="${merlin.home}/lib/shared/avalon-framework-4.1.4.jar" />
-
-  <path id="project.class.path">
-    <pathelement path="${java.class.path}" />
-    <pathelement location="${framework.jar}"/>
-    <fileset dir="${classes.dir}"/>
-  </path>
-
-  <target name="compile" >
-    <mkdir dir="${classes.dir}" />
-    <copy toDir="${classes.dir}">
-      <fileset dir="${java.dir}">
-        <include name="**/*.xinfo"/>
-        <include name="**/*.xprofile"/>
-      </fileset>
-    </copy>
-    <mkdir dir="${classes.dir}/BLOCK-INF" />
-    <copy toDir="${classes.dir}/BLOCK-INF">
-      <fileset dir="${config.dir}">
-        <include name="*.xml"/>
-      </fileset>
-    </copy>
-    <mkdir dir="${classes.dir}" />
-    <javac debug="on" destdir="${classes.dir}" >
-        <classpath>
-          <path refid="project.class.path"/>
-	  </classpath>
-        <src path="${src.dir}" />
-    </javac>
+  <target name="build" depends="standard.build">
+    <x:block name="tutorial" embed="MAIN">
+      <x:component name="hello" class="tutorial.HelloComponent"/>
+    </x:block>
   </target>
 
-  <target name="jar" depends="compile">
-    <jar jarfile="tutorial.jar" basedir="${classes.dir}"/>
-  </target>
+</project>
 
-  <target name="clean">
-    <delete dir="${build.dir}"/>
-    <delete file="tutorial.jar"/>
-  </target>
-
- </project>
