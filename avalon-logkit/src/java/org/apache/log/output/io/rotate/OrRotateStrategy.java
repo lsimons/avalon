@@ -7,6 +7,8 @@
  */
 package org.apache.log.output.io.rotate;
 
+import java.io.File;
+
 /**
  * Hierarchical Rotation stragety.
  * This object is initialised with several rotation strategy objects.
@@ -55,7 +57,7 @@ public class OrRotateStrategy
      *  @param data the last message written to the log system
      *  @return boolean return true if log rotation is neccessary, else false
      */
-    public boolean isRotationNeeded( final String data )
+    public boolean isRotationNeeded( final String data, final File file )
     {
         m_usedRotation = -1;
 
@@ -64,7 +66,7 @@ public class OrRotateStrategy
             final int length = m_strategies.length;
             for( int i = 0; i < length; i++ )
             {
-                if( true == m_strategies[ i ].isRotationNeeded( data ) )
+                if( true == m_strategies[ i ].isRotationNeeded( data, file ) )
                 {
                     m_usedRotation = i;
                     return true;
