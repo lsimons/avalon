@@ -68,7 +68,7 @@ import java.util.*;
  * Represents a component, and output the meta information.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/05/29 19:29:32 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/05/29 19:56:23 $
  */
 final class Component
 {
@@ -141,9 +141,8 @@ final class Component
     {
         JavaClass currClass = m_javaClass;
 
-        while ( ! currClass.getFullyQualifiedName().equals("java.lang.Object") )
+        while ( currClass != null && discoverDependencies( currClass ) )
         {
-            discoverDependencies( currClass );
             currClass = currClass.getSuperJavaClass();
         }
     }
@@ -153,8 +152,10 @@ final class Component
      *
      * @param fromClass  The JavaClass object to gather the dependency set from.
      */
-    private void discoverDependencies( final JavaClass fromClass )
+    private boolean discoverDependencies( final JavaClass fromClass )
     {
+        boolean isSuccessful = true;
+
         JavaMethod[] methods = fromClass.getMethods();
         for ( int i = 0; i < methods.length; i++ )
         {
@@ -169,11 +170,20 @@ final class Component
                                 dependencies[d].getNamedParameter( ATTR_TYPE ) );
                         //String optional = dependencies[d].getNamedParameter("optional");
 
-                        m_dependencyNames.add( type );
+                        if ( null == type )
+                        {
+                            isSuccessful = false;
+                        }
+                        else
+                        {
+                            m_dependencyNames.add( type );
+                        }
                     }
                 }
             }
         }
+
+        return isSuccessful;
     }
 
     private void discoverNameInfo()
@@ -354,7 +364,7 @@ final class Component
      */
     protected String resolveClassName( final JavaSource sourceCode, final String serviceName )
     {
-        if ( null == sourceCode ) throw new NullPointerException( "sourceCode" );
+        if ( null == sourceCode ) return null;
         if ( null == serviceName ) throw new BuildException( "You must specify the service name with the \"type\" parameter" );
 
         String className = stripQuotes( serviceName );
