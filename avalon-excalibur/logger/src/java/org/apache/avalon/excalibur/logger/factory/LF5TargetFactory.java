@@ -73,7 +73,7 @@ import org.apache.log.output.lf5.LF5LogTarget;
  * format the log event for display on the "NDC" line in the Swing GUI.
  *
  * @author <a href="sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/23 09:10:14 $
+ * @version CVS $Revision: 1.1 $ $Date: 2003/01/23 09:40:14 $
  */
 
 public class LF5TargetFactory implements LogTargetFactory
