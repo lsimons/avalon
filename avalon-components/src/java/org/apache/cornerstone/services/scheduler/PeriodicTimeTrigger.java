@@ -16,25 +16,16 @@ package org.apache.cornerstone.services.scheduler;
 public class PeriodicTimeTrigger
     implements TimeTrigger
 {
-    protected final long    m_startTime;
+    protected final long    m_offset;
     protected final long    m_period;
-    private   final long    m_triggerTime;
+    private   long          m_triggerTime;
     
     public PeriodicTimeTrigger( final int offset, final int period )
     {
-        final long current = System.currentTimeMillis();
-
-        if( -1 == offset )
-        {
-            m_triggerTime = current;
-        }
-        else
-        {
-            m_triggerTime = current + offset;
-        }
-
-        m_startTime = offset;
+        m_offset = offset;
         m_period = period;
+
+        reset();
     }
 
     /**
@@ -57,13 +48,21 @@ public class PeriodicTimeTrigger
     }
 
     /**
-     * Get a clone of the original TimeTrigger with adjusted time sensitive info.
-     *
-     * @return a new copy of this TimeTrigger
+     * Reset the original TimeTrigger.
+     * This will recalculate the activation time for this trigger.
      */
-    public TimeTrigger getClone()
+    public void reset()
     {
-        return new PeriodicTimeTrigger( (int) m_startTime, (int) m_period );
+        final long current = System.currentTimeMillis();
+
+        if( -1 == m_offset )
+        {
+            m_triggerTime = current;
+        }
+        else
+        {
+            m_triggerTime = current + m_offset;
+        }
     }
 
     public String toString()
@@ -71,8 +70,12 @@ public class PeriodicTimeTrigger
         final StringBuffer sb = new StringBuffer();
         sb.append( "PeriodicTimeTrigger[ " );
 
-        sb.append( "start=" );
-        sb.append( m_startTime );
+        sb.append( "trigger time=" );
+        sb.append( m_triggerTime );
+        sb.append( " " );
+
+        sb.append( "offset=" );
+        sb.append( m_offset );
         sb.append( " " );
 
         if( -1 != m_period )

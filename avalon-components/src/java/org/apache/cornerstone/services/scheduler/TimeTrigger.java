@@ -8,14 +8,13 @@
 package org.apache.cornerstone.services.scheduler;
 
 /**
- * This is the marker interface for Triggers.
- * Triggers can be time-based, event-based or other.
+ * This is the marker interface for time-based Triggers.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mailto:ram.chidambaram@telus.com">Ram Chidambaram</a>
  */
 public interface TimeTrigger
-    extends Trigger, Cloneable
+    extends Trigger
 {
     /**
      * Retrieve the next time at trigger activates relative to another time.
@@ -23,13 +22,4 @@ public interface TimeTrigger
      * @return the time at which the trigger activates
      */
     long getTimeAfter( long time );
-
-    /**
-     * Get a clone of the original TimeTrigger with adjusted time sensitive info.
-     *
-     * @return a new copy of the TimeTrigger
-     * @exception CloneNotSupportedException if trigger cannot be cloned
-     */
-    TimeTrigger getClone()
-        throws CloneNotSupportedException;
 }

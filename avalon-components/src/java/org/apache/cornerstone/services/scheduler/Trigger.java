@@ -12,7 +12,13 @@ package org.apache.cornerstone.services.scheduler;
  * Triggers can be time-based, event-based or other.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:ram.chidambaram@telus.com">Ram Chidambaram</a>
  */
 public interface Trigger
 {
+    /**
+     * Reset the Trigger. The Triggers can be time-based, 
+     * event-based or other.
+     */
+    void reset();
 }
