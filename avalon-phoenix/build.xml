@@ -265,6 +265,8 @@ Legal:
           <classpath refid="test.class.path" />
       </taskdef>
 
+      <mkdir dir="${build.test-metagenerate}"/>
+
       <generatemeta dest="${build.test-metagenerate}">
         <fileset dir="src/test">
           <include name="**/*.java"/>
