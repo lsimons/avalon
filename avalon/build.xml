@@ -437,6 +437,7 @@ Legal:
                 <param name="-windowtitle" value="${Name} API"/>
                 <param name="-bottom"
                     value="&quot;Copyright &#169; 2001 Apache Jakarta Project. All Rights Reserved.&quot;"/>
+                <param name="-link" value="http://java.sun.com/j2se/1.4/docs/api/"/>
             </doclet>
         </javadoc>
 
@@ -569,6 +570,7 @@ Legal:
               <attribute name="Specification-Version" value="1.0"/>
               <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
               <attribute name="Implementation-Version" value="${version}"/>
+              <attribute name="Implementation-Vendor-Id" value="ASF"/>
             </manifest>
             <exclude name="**/test/*"/>
             <include name="org/apache/avalon/framework/**"/>
