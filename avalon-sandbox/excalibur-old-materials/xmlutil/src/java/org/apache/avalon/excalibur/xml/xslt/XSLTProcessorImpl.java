@@ -59,7 +59,7 @@ import org.apache.excalibur.store.Store;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.4 2002/05/02 10:56:40 cziegeler Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.5 2002/05/02 11:12:55 cziegeler Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
@@ -101,7 +101,6 @@ public class XSLTProcessorImpl
       throws ComponentException
     {
         this.manager = manager;
-        this.store = (Store)manager.lookup(Store.TRANSIENT_STORE);
         this.errorHandler = new TraxErrorHandler( this.getLogger() );
         this.resolver = (SourceResolver)this.manager.lookup( SourceResolver.ROLE );
     }
@@ -128,9 +127,20 @@ public class XSLTProcessorImpl
     public void parameterize( Parameters params )
       throws ParameterException
     {
-        this.useStore = params.getParameterAsBoolean( "use-store", true );
-        this.incrementalProcessing = params.getParameterAsBoolean( "incremental-processing", false );
+        this.useStore = params.getParameterAsBoolean( "use-store", this.useStore );
+        this.incrementalProcessing = params.getParameterAsBoolean( "incremental-processing", this.incrementalProcessing );
         this.factory = getTransformerFactory(params.getParameter("transformer-factory", null));
+        if ( this.useStore ) {
+            try
+            {
+                this.store = (Store)manager.lookup(Store.TRANSIENT_STORE);
+            }
+            catch (ComponentException ce)
+            {
+                throw new ParameterException("XSLTProcessor: use-store is set to true, "
+                          +"but the lookup of the Store failed.", ce);
+            }
+        }
     }
 
     /**
