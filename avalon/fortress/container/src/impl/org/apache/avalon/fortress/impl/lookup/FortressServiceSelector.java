@@ -63,7 +63,7 @@ import org.apache.commons.collections.StaticBucketMap;
  * the references.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/02/25 16:28:31 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/02/27 20:04:53 $
  */
 public class FortressServiceSelector
     implements ServiceSelector
@@ -101,7 +101,7 @@ public class FortressServiceSelector
         {
             final ComponentHandler handler = getHandler( hint );
             final Object component = handler.get();
-            m_used.put( component.toString(), handler );
+            m_used.put( new ComponentKey(component), handler );
             return component;
         }
         catch( final ServiceException ce )
@@ -124,7 +124,7 @@ public class FortressServiceSelector
     public void release( Object component )
     {
         final ComponentHandler handler =
-            (ComponentHandler)m_used.remove( component.toString() );
+            (ComponentHandler)m_used.remove( new ComponentKey(component) );
         if( null != handler )
         {
             handler.put( component );
