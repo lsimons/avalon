@@ -20,8 +20,8 @@ import org.apache.avalon.framework.context.Context;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/06/02 06:03:01 $
+ * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
+ * @version CVS $Revision: 1.4 $ $Date: 2002/08/06 16:28:38 $
  * @since 4.0
  */
 public class ThreadSafeComponentHandler

@@ -4,7 +4,7 @@
 <!-- Container Example build file!                                           -->
 <!-- ======================================================================= -->
 
-<project name="instrument-example-ecm" default="main" basedir=".">
+<project name="example-instrument-manager" default="main" basedir=".">
 
     <!--property name="avalon-framework.home" value="${basedir}/../../../../jakarta-avalon"/-->
     <!--
@@ -30,7 +30,7 @@
     <path id="project.class.path">
         <fileset dir="${lib.dir}">
             <include name="**/*.jar"/>
-            <exclude name="instrument-manager-example-ecm.jar"/>
+            <exclude name="example-instrument-manager.jar"/>
         </fileset>
         <pathelement path="${build.classes.dir}" />
     </path>
@@ -147,7 +147,7 @@
     <target name="jar" depends="compile" description="Builds the jar archive.">
         <mkdir dir="${lib.dir}"/>
 
-        <jar jarfile="${lib.dir}/instrument-manager-example.jar"
+        <jar jarfile="${lib.dir}/example-instrument-manager.jar"
             basedir="${build.classes.dir}"
             includes="**/*.class,**/*.properties,**/*.xml,**/*.jpg,**/*.gif,**/*.roles"
             />

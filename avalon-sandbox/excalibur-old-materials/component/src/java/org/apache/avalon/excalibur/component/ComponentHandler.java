@@ -8,6 +8,7 @@
 package org.apache.avalon.excalibur.component;
 
 import org.apache.avalon.excalibur.pool.Poolable;
+
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
@@ -17,30 +18,101 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.thread.SingleThreaded;
 import org.apache.avalon.framework.thread.ThreadSafe;
 
+import org.apache.excalibur.instrument.CounterInstrument;
+import org.apache.excalibur.instrument.Instrumentable;
+import org.apache.excalibur.instrument.InstrumentManager;
+import org.apache.excalibur.instrument.ValueInstrument;
+
 /**
  * This class acts like a Factory to instantiate the correct version
  * of the ComponentHandler that you need.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/06/02 06:03:01 $
+ * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
+ * @version CVS $Revision: 1.4 $ $Date: 2002/08/06 16:28:37 $
  * @since 4.0
  */
 public abstract class ComponentHandler
-    extends AbstractDualLogEnabled
+    extends AbstractDualLogEnabledInstrumentable
     implements Initializable, Disposable
 {
     private Object m_referenceSemaphore = new Object();
     private int m_references = 0;
 
-    public static ComponentHandler getComponentHandler(
-        final Class componentClass,
-        final Configuration config,
-        final ComponentManager manager,
-        final Context context,
-        final RoleManager roles,
-        final LogkitLoggerManager logkit )
+    /** Instrument used to profile the number of outstanding references. */
+    private ValueInstrument m_referencesInstrument;
+
+    /** Instrument used to profile the number of gets. */
+    private CounterInstrument m_getsInstrument;
+
+    /** Instrument used to profile the number of puts. */
+    private CounterInstrument m_putsInstrument;
+    
+    /*---------------------------------------------------------------
+     * Static Methods
+     *-------------------------------------------------------------*/
+    /**
+     * Looks up and returns a component handler for a given component class.
+     *
+     * @param componentClass Class of the component for which the handle is
+     *                       being requested.
+     * @param configuration The configuration for this component.
+     * @param componentManager The ComponentLocator which will be managing
+     *                         the Component.
+     * @param context The current context object.
+     * @param roleManager The current RoleManager.
+     * @param loggerManager The current LogKitLoggerManager.
+     * @param instrumentManager The current InstrumentManager.
+     * @param instrumentableName The name of the handler.
+     *
+     * @throws Exception If there were any problems obtaining a ComponentHandler
+     *
+     * @deprecated This method has been deprecated in favor of the version below which
+     *             handles instrumentation.
+     */
+    public static ComponentHandler getComponentHandler( final Class componentClass,
+                                                        final Configuration configuration,
+                                                        final ComponentManager componentManager,
+                                                        final Context context,
+                                                        final RoleManager roleManager,
+                                                        final LogkitLoggerManager loggerManager )
+        throws Exception
+    {
+        return ComponentHandler.getComponentHandler( componentClass,
+                                                     configuration,
+                                                     componentManager,
+                                                     context,
+                                                     roleManager,
+                                                     loggerManager,
+                                                     null,
+                                                     "N/A" );
+    }
+    
+    /**
+     * Looks up and returns a component handler for a given component class.
+     *
+     * @param componentClass Class of the component for which the handle is
+     *                       being requested.
+     * @param configuration The configuration for this component.
+     * @param componentManager The ComponentLocator which will be managing
+     *                         the Component.
+     * @param context The current context object.
+     * @param roleManager The current RoleManager.
+     * @param loggerManager The current LogKitLoggerManager.
+     * @param instrumentManager The current InstrumentManager (May be null).
+     * @param instrumentableName The name of the handler.
+     *
+     * @throws Exception If there were any problems obtaining a ComponentHandler
+     */
+    public static ComponentHandler getComponentHandler( final Class componentClass,
+                                                        final Configuration configuration,
+                                                        final ComponentManager componentManager,
+                                                        final Context context,
+                                                        final RoleManager roleManager,
+                                                        final LogkitLoggerManager loggerManager,
+                                                        final InstrumentManager instrumentManager,
+                                                        final String instrumentableName )
         throws Exception
     {
         int numInterfaces = 0;
@@ -65,33 +137,35 @@ public abstract class ComponentHandler
             throw new Exception( "[CONFLICT] lifestyle interfaces: " + componentClass.getName() );
         }
 
+        // Create the factory to use to create the instances of the Component.
+        DefaultComponentFactory factory =
+            new DefaultComponentFactory( componentClass,
+                                         configuration,
+                                         componentManager,
+                                         context,
+                                         roleManager,
+                                         loggerManager,
+                                         instrumentManager,
+                                         instrumentableName );
+
+        ComponentHandler handler;
         if( Poolable.class.isAssignableFrom( componentClass ) )
         {
-            return new PoolableComponentHandler( componentClass,
-                                                 config,
-                                                 manager,
-                                                 context,
-                                                 roles,
-                                                 logkit );
+            handler = new PoolableComponentHandler( factory, configuration );
         }
         else if( ThreadSafe.class.isAssignableFrom( componentClass ) )
         {
-            return new ThreadSafeComponentHandler( componentClass,
-                                                   config,
-                                                   manager,
-                                                   context,
-                                                   roles,
-                                                   logkit );
+            handler = new ThreadSafeComponentHandler( factory, configuration );
         }
         else // This is a SingleThreaded component
         {
-            return new DefaultComponentHandler( componentClass,
-                                                config,
-                                                manager,
-                                                context,
-                                                roles,
-                                                logkit );
+            handler = new DefaultComponentHandler( factory, configuration );
         }
+
+        // Set the instrumentable name of the handler.
+        ((Instrumentable)handler).setInstrumentableName( instrumentableName );
+
+        return handler;
     }
 
     public static ComponentHandler getComponentHandler(
@@ -122,7 +196,24 @@ public abstract class ComponentHandler
 
         return new ThreadSafeComponentHandler( componentInstance );
     }
+    
+    /*---------------------------------------------------------------
+     * Constructors
+     *-------------------------------------------------------------*/
+    /**
+     * Creates a new ComponentHandler.
+     */
+    public ComponentHandler()
+    {
+        // Initialize the Instrumentable elements.
+        addInstrument( m_referencesInstrument = new ValueInstrument( "references" ) );
+        addInstrument( m_getsInstrument = new CounterInstrument( "gets" ) );
+        addInstrument( m_putsInstrument = new CounterInstrument( "puts" ) );
+    }
 
+    /*---------------------------------------------------------------
+     * Methods
+     *-------------------------------------------------------------*/
     /**
      * Get an instance of the type of component handled by this handler.
      * <p>
@@ -142,6 +233,10 @@ public abstract class ComponentHandler
         {
             m_references++;
         }
+        
+        // Notify the instrument manager
+        m_getsInstrument.increment();
+        m_referencesInstrument.setValue( m_references );
 
         return component;
     }
@@ -170,6 +265,10 @@ public abstract class ComponentHandler
         {
             m_references--;
         }
+        
+        // Notify the instrument manager
+        m_putsInstrument.increment();
+        m_referencesInstrument.setValue( m_references );
 
         try
         {
@@ -203,16 +302,6 @@ public abstract class ComponentHandler
     {
         // This method is not abstract to make the class backwards compatible.
         throw new IllegalStateException( "This method must be overridden." );
-    }
-
-    /**
-     * Returns the current number of references.
-     *
-     * @return The current number of references.
-     */
-    protected int getReferences()
-    {
-        return m_references;
     }
 
     /**

@@ -77,9 +77,9 @@ import org.apache.avalon.framework.context.Context;
  * </ul>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
+ * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/06/02 06:03:01 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/08/06 16:28:38 $
  * @since 4.0
  */
 public class PoolableComponentHandler
@@ -140,6 +140,8 @@ public class PoolableComponentHandler
 
         m_pool = new ResourceLimitingPool( m_factory, poolMax, poolMaxStrict, poolBlocking,
                                            poolTimeout, poolTrimInterval );
+        // Initialize the Instrumentable elements.
+        addChildInstrumentable( m_pool );
     }
 
     /**
@@ -213,15 +215,5 @@ public class PoolableComponentHandler
         }
 
         m_disposed = true;
-    }
-
-    /**
-     * Gives subclasses access to the pool.
-     *
-     * @return The internal pool
-     */
-    protected ResourceLimitingPool getPool()
-    {
-        return m_pool;
     }
 }

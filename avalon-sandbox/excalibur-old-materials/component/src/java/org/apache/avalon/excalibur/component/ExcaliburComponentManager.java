@@ -8,12 +8,15 @@
 package org.apache.avalon.excalibur.component;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+
 import org.apache.avalon.excalibur.collections.BucketMap;
 import org.apache.avalon.excalibur.logger.LogKitManageable;
 import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
+
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
@@ -26,6 +29,11 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 
+import org.apache.excalibur.instrument.Instrument;
+import org.apache.excalibur.instrument.Instrumentable;
+import org.apache.excalibur.instrument.InstrumentManageable;
+import org.apache.excalibur.instrument.InstrumentManager;
+
 /**
  * Default component manager for Avalon's components.
  *
@@ -33,7 +41,7 @@ import org.apache.avalon.framework.context.Contextualizable;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.10 $ $Date: 2002/08/06 14:02:12 $
+ * @version CVS $Revision: 1.11 $ $Date: 2002/08/06 16:28:37 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
@@ -44,7 +52,9 @@ public class ExcaliburComponentManager
     Initializable,
     Disposable,
     RoleManageable,
-    LogKitManageable
+    LogKitManageable,
+    InstrumentManageable,
+    Instrumentable
 {
     /** The parent ComponentLocator */
     private final ComponentManager m_parentManager;
@@ -77,6 +87,12 @@ public class ExcaliburComponentManager
 
     /** Is the Manager initialized? */
     private boolean m_initialized;
+
+    /** Instrument Manager being used by the Component Manager. */
+    private InstrumentManager m_instrumentManager;
+
+    /** Instrumentable Name assigned to this Instrumentable */
+    private String m_instrumentableName = "component-manager";
 
     /*---------------------------------------------------------------
      * Constructors
@@ -468,6 +484,11 @@ public class ExcaliburComponentManager
     public void initialize()
         throws Exception
     {
+        if ( m_instrumentManager != null )
+        {
+            m_instrumentManager.registerInstrumentable( this, m_instrumentableName );
+        }
+        
         synchronized( this )
         {
             m_initialized = true;
@@ -598,6 +619,86 @@ public class ExcaliburComponentManager
     }
     
     /*---------------------------------------------------------------
+     * InstrumentManageable Methods
+     *-------------------------------------------------------------*/
+    /**
+     * Sets the InstrumentManager for child components.  Can be for special
+     * purpose components, however it is used mostly internally.
+     *
+     * @param instrumentManager The InstrumentManager for the component to use.
+     */
+    public void setInstrumentManager( InstrumentManager instrumentManager )
+    {
+        m_instrumentManager = instrumentManager;
+    }
+
+    /*---------------------------------------------------------------
+     * Instrumentable Methods
+     *-------------------------------------------------------------*/
+    /**
+     * Sets the name for the Instrumentable.  The Instrumentable Name is used
+     *  to uniquely identify the Instrumentable during the configuration of
+     *  the InstrumentManager and to gain access to an InstrumentableDescriptor
+     *  through the InstrumentManager.  The value should be a string which does
+     *  not contain spaces or periods.
+     * <p>
+     * This value may be set by a parent Instrumentable, or by the
+     *  InstrumentManager using the value of the 'instrumentable' attribute in
+     *  the configuration of the component.
+     *
+     * @param name The name used to identify a Instrumentable.
+     */
+    public void setInstrumentableName( String name )
+    {
+        m_instrumentableName = name;
+    }
+
+    /**
+     * Gets the name of the Instrumentable.
+     *
+     * @return The name used to identify a Instrumentable.
+     */
+    public String getInstrumentableName()
+    {
+        return m_instrumentableName;
+    }
+
+    /**
+     * Obtain a reference to all the Instruments that the Instrumentable object
+     *  wishes to expose.  All sampling is done directly through the
+     *  Instruments as opposed to the Instrumentable interface.
+     *
+     * @return An array of the Instruments available for profiling.  Should
+     *         never be null.  If there are no Instruments, then
+     *         EMPTY_INSTRUMENT_ARRAY can be returned.  This should never be
+     *         the case though unless there are child Instrumentables with
+     *         Instruments.
+     */
+    public Instrument[] getInstruments()
+    {
+        return Instrumentable.EMPTY_INSTRUMENT_ARRAY;
+    }
+
+    /**
+     * Any Object which implements Instrumentable can also make use of other
+     *  Instrumentable child objects.  This method is used to tell the
+     *  InstrumentManager about them.
+     *
+     * @return An array of child Instrumentables.  This method should never
+     *         return null.  If there are no child Instrumentables, then
+     *         EMPTY_INSTRUMENTABLE_ARRAY can be returned.
+     */
+    public Instrumentable[] getChildInstrumentables()
+    {
+        // Get the values. This set is created for this call and thus thread safe.
+        Collection values = m_componentHandlers.values();
+        Instrumentable[] children = new Instrumentable[ values.size() ];
+        values.toArray( children );
+
+        return children;
+    }
+    
+    /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
     private void removeDisposedHandlers( List disposed )
@@ -643,22 +744,17 @@ public class ExcaliburComponentManager
                                                     final LogkitLoggerManager logkitManager )
         throws Exception
     {
+        String instrumentableName =
+            configuration.getAttribute( "instrumentable", configuration.getName() );
+        
         return ComponentHandler.getComponentHandler( componentClass,
                                                      configuration,
                                                      this,
                                                      context,
                                                      roleManager,
-                                                     logkitManager );
-    }
-
-    /**
-     * Makes the ComponentHandlers available to subclasses.
-     *
-     * @return A collection of the reference to the componentHandler Map.
-     */
-    protected BucketMap getComponentHandlers()
-    {
-        return m_componentHandlers;
+                                                     logkitManager,
+                                                     m_instrumentManager,
+                                                     instrumentableName );
     }
 
     /**

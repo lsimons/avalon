@@ -1,6 +1,6 @@
 <instrument logger="im">
-    <name>instrument-manager-example-icm</name>
-    <description>ICM Example Instrument Application</description>
+    <name>example-instrument-manager</name>
+    <description>ECM Example Instrument Application</description>
     
     <connectors>
         <connector class="altrmi" port="15555"/>

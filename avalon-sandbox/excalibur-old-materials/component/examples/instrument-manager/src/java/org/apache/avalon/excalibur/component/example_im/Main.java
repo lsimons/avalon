@@ -5,15 +5,14 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.excalibur.instrument.example_icm;
+package org.apache.avalon.excalibur.component.example_im;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 
 import org.apache.avalon.excalibur.component.DefaultRoleManager;
-import org.apache.excalibur.instrument.component.InstrumentComponentManager;
-import org.apache.excalibur.instrument.manager.DefaultInstrumentManager;
+import org.apache.avalon.excalibur.component.ExcaliburComponentManager;
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.excalibur.concurrent.ThreadBarrier;
 
@@ -22,6 +21,8 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.LogKitLogger;
+
+import org.apache.excalibur.instrument.manager.DefaultInstrumentManager;
 
 import org.apache.log.Hierarchy;
 import org.apache.log.Logger;
@@ -35,13 +36,13 @@ import org.apache.log.Priority;
  * <p>
  * Note, this code ignores exceptions to keep the code simple.
  *
- * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/08/05 11:56:21 $
+ * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
+ * @version CVS $Revision: 1.1 $ $Date: 2002/08/06 16:28:37 $
  * @since 4.1
  */
 public class Main
 {
-    private static InstrumentComponentManager           m_componentManager;
+    private static ExcaliburComponentManager            m_componentManager;
     private static DefaultInstrumentManager             m_instrumentManager;
 
     /*---------------------------------------------------------------
@@ -99,7 +100,7 @@ public class Main
         roleManager.configure( rolesConfig );
 
         // Set up the ComponentManager
-        InstrumentComponentManager componentManager = new InstrumentComponentManager();
+        ExcaliburComponentManager componentManager = new ExcaliburComponentManager();
         componentManager.enableLogging(
             logManager.getLoggerForCategory( componentsConfig.getAttribute( "logger", "cm" ) ) );
         componentManager.setLoggerManager( logManager );
@@ -120,7 +121,7 @@ public class Main
     public static void main( String[] args )
         throws Exception
     {
-        System.out.println( "Running the AltProfile Example Application" );
+        System.out.println( "Running the InstrumentManager Example Application" );
 
         // Create the ComponentManager
         createComponentManager();
@@ -133,7 +134,8 @@ public class Main
             boolean quit = false;
             while ( !quit )
             {
-                System.out.println( "Enter the number of times that exampleAction should be called, or 'q' to quit." );
+                System.out.println( "Enter the number of times that exampleAction should be "
+                    + "called, or 'q' to quit." );
                 BufferedReader in = new BufferedReader( new InputStreamReader( System.in ) );
                 System.out.print( " : " );
                 String cntStr = in.readLine();
