@@ -29,7 +29,7 @@ import org.apache.avalon.repository.Artifact;
  * new initial context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public interface InitialContextFactory
 {
@@ -50,7 +50,6 @@ public interface InitialContextFactory
 
    /**
     * Register a factory artifict.
-    * @param key the artifact service identifier
     * @param artifact the artifact reference
     */
     void addFactoryArtifact( Artifact artifact );
