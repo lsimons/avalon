@@ -1,20 +1,32 @@
 <?xml version="1.0"?>
 
+<!--
+    Issue the command 'maven excalibur:info' for more information
+    about this file.
+-->
+
 <project default="excalibur:info"
     xmlns:j="jelly:core"
-    xmlns:ant="jelly:ant">
+    xmlns:ant="jelly:ant"
+    xmlns:maven="jelly:maven">
 
     <!-- ==========================================================
           Documentation
          ========================================================== -->
 
+    <goal name="excalibur:header">
+        <ant:echo>
+===================================================================
+ Avalon Excalibur Build System, the Maven Edition
+===================================================================
+        </ant:echo>
+    </goal>
+
     <goal name="excalibur:info"
             description="Build documentation kept right in the buildfile">
 
+        <attainGoal name="excalibur:header"/>
 <ant:echo>
-    ===================================================================
-     Avalon Excalibur Build System, the Maven Edition
-    ===================================================================
                               !!! WARNING !!!
 
     excalibur is built using ant; the maven build system is still in
@@ -39,13 +51,13 @@
     Building all components
     =======================
 
-    Change into the main excalibur directory, and use maven as normal;
-    note not all goals are available. A maven reactor will be started
-    to build all components. Common usage includes:
+    Change into the main excalibur directory and use one of the goals
+    listed below. A maven reactor will be started
+    to build all components. Available goals:
 
-        maven java:jar      # builds all jars
-        maven site          # builds the website, including javadocs
-        maven dist          # builds source and binary distributions
+        maven excalibur:jars      # builds all jars
+        maven excalibur:site      # builds the website, including javadocs
+        maven excalibur:dist      # builds source and binary distributions
 
 
     Special goals
@@ -87,7 +99,7 @@
     Once you are satisfied that the release is correct, you need to
     upload the file to the official avalon distribution location.
     This requires an SSH account on the daedalus.apache.org
-    installation, a working 'ssh' command on your path, and a running
+    installation, a working 'scp' command on your path, and a running
     ssh-agent (like the ssh-agent program that comes with OpenSSH or
     the Pageant utility that comes with Putty) so you do not have to
     enter your SSH key password.
@@ -158,12 +170,53 @@
     </goal>
 
     <!-- ==========================================================
+          Reactor builds
+         ========================================================== -->
+
+    <goal name="excalibur:jars"
+            description="builds all jars">
+
+        <attainGoal name="excalibur:header"/>
+        <maven:reactor
+          basedir="${basedir}"
+          includes="*/project.xml"
+          goals="java:jar"
+          banner="Excalibur is building jar:"
+          ignoreFailures="false"/>
+    </goal>
+
+    <goal name="excalibur:dist"
+            description="builds all distributions">
+
+        <attainGoal name="excalibur:header"/>
+        <maven:reactor
+          basedir="${basedir}"
+          includes="*/project.xml"
+          goals="dist"
+          banner="Excalibur is building distribution:"
+          ignoreFailures="false"/>
+    </goal>
+
+    <goal name="excalibur:site"
+            description="builds all websites">
+
+        <attainGoal name="excalibur:header"/>
+        <maven:reactor
+          basedir="${basedir}"
+          includes="*/project.xml"
+          goals="site"
+          banner="Excalibur is building site:"
+          ignoreFailures="false"/>
+    </goal>
+
+    <!-- ==========================================================
           Repository management
          ========================================================== -->
 
     <goal name="excalibur:seed"
             description="Creates a new component. Try excalibur:info for more information">
 
+        <attainGoal name="excalibur:header"/>
         <!-- argument verification -->
         <j:set var="cname" value="${component.name}"/>
         <j:if test="${empty(cname)}">
@@ -206,13 +259,18 @@
         <ant:mkdir dir="${component.dir}/src/xdocs"/>
 
         <!-- create project.xml -->
+        <ant:available file="${component.dir}/project.xml"
+                property="project.exists"/>
+        <j:set var="pexists" value="${project.exists}"/>
+        <j:if test="${pexists}"><ant:echo>Warning: ${component.dir}/project.xml already exists!</ant:echo></j:if>
+        <j:if test="${not pexists}">
         <j:file name="${component.dir}/project.xml">
         <j:whitespace xmlns="dummy">
 <project>
-    <extend>../project-common.xml</extend>
+    <extend>$${basedir}/../project-common.xml</extend>
 
     <name>${component.name}</name>
-    <id>${component.name}</id>
+    <id>${component.id}</id>
     <currentVersion>1.0-dev</currentVersion>
     <inceptionYear>${inception.year}</inceptionYear>
     <shortDescription>Excalibur's ${component.name} component</shortDescription>
@@ -227,56 +285,85 @@ to add one.
 </project>
         </j:whitespace>
         </j:file>
+        </j:if>
 
         <!-- create maven.xml -->
+        <ant:available file="${component.dir}/maven.xml"
+                property="maven.exists"/>
+        <j:set var="mexists" value="${maven.exists}"/>
+        <j:if test="${mexists}"><ant:echo>Warning: ${component.dir}/maven.xml already exists!</ant:echo></j:if>
+        <j:if test="${not mexists}">
         <ant:copy file="maven-template.xml" tofile="${component.dir}/maven.xml"/>
+        </j:if>
 
         <!-- create project.properties -->
+        <ant:available file="${component.dir}/project.properties"
+                property="props.exists"/>
+        <j:set var="prexists" value="${props.exists}"/>
+        <j:if test="${prexists}"><ant:echo>Warning: ${component.dir}/project.properties already exists!</ant:echo></j:if>
+        <j:if test="${not prexists}">
         <ant:echo file="${component.dir}/project.properties">
 # -------------------------------------------------------------------
 # P R O J E C T  P R O P E R T I E S
 # -------------------------------------------------------------------
 maven.repo.remote = http://lsd.student.utwente.nl/repository,http://www.apache.org/dist/avalon,http://www.ibiblio.org/maven
+
+# gump integration
+project.name=${component.id}
         </ant:echo>
+        </j:if>
 
-        <!-- create src/xdocs/tabs.xml -->
-        <j:if test="${use.forrest}">
-            <j:file name="${component.dir}/src/xdocs/tabs.xml">
+        <!-- create build.xml for gump integration-->
+        <ant:available file="${component.dir}/build.xml"
+                property="build.exists"/>
+        <j:set var="bexists" value="${build.exists}"/>
+        <j:if test="${bexists}"><ant:echo>Warning: ${component.dir}/build.xml already exists!</ant:echo></j:if>
+        <j:if test="${not bexists}">
+            <j:file name="${component.dir}/build.xml">
             <j:whitespace xmlns="dummy">
-<tabs software="${component.name}"
-    title="${component.name}">
+<!-- support for building this project using Gump. You normally
+     do not need to hand-edit this file. -->
+<project name="Gump Build Support - DO NOT HAND-EDIT!!!" default="warning" basedir=".">
 
-    <tab label="Avalon Home" href="http://avalon.apache.org/"/>
-    <tab label="Framework" href="http://avalon.apache.org/framework/"/>
-    <tab label="Components" href="http://avalon.apache.org/components/"/>
-    <tab label="Phoenix" href="http://avalon.apache.org/phoenix/"/>
-    <tab label="SECA" href="http://avalon.apache.org/seca/"/>
+    <property file="$${basedir}/project.properties"/>
 
-</tabs>
+    <!-- include the default project settings -->
+    <property file="$${basedir}/../project.properties"/>
+    <property file="$${basedir}/../../project.properties"/>
+    <property file="$${basedir}/../../../project.properties"/>
+    <property file="$${basedir}/../../../../project.properties"/>
+
+    <!-- defers to common buildfile -->
+    <target name="delegate">
+        <ant antfile="../maven-common-gump-build.xml"
+            target="excalibur:$${target}" inheritAll="true"
+            inheritRefs="true"/>
+    </target>
+
+    <target name="warning">
+        <antcall target="delegate">
+            <param name="target" value="warning"/>
+        </antcall>
+    </target>
+
+    <target name="jar">
+        <antcall target="delegate">
+            <param name="target" value="jar"/>
+        </antcall>
+    </target>
+
+    <target name="javadocs">
+        <antcall target="delegate">
+            <param name="target" value="javadocs"/>
+        </antcall>
+    </target>
+</project>
             </j:whitespace>
             </j:file>
         </j:if>
 
-        <!-- create src/xdocs/book.xml -->
         <j:if test="${use.forrest}">
-            <j:file name="${component.dir}/src/xdocs/book.xml">
-            <j:whitespace xmlns="dummy">
-<book software="${component.name}" title="${component.name}" copyright="${inception.year} The Apache Software Foundation">
-
-    <menu label="Essentials">
-        <menu-item label="Overview" href="index.html"/>
-        <menu-item label="Download" href="http://avalon.apache.org/download.cgi"/>
-        <menu-item label="API Docs" href="http://avalon.apache.org/excalibur/${component.dir}/apidocs/"/>
-        <menu-item label="CVS Access" href="cvs-usage.html"/>
-    </menu>
-
-    <menu label="Reports">
-        <menu-item href="maven-reports.html" label="Maven-generated reports"/>
-        <menu-item href="project-info.html" label="Maven-generated project info"/>
-    </menu>
-</book>
-            </j:whitespace>
-            </j:file>
+            <attainGoal name="excalibur:seed-forrest"/>
         </j:if>
 
         <!-- create .cvsignore -->
@@ -287,6 +374,96 @@ target
 *.iws
 *.classpath
 *.project
+        </ant:echo>
+
+        <attainGoal name="excalibur:seed-info"/>
+
+    </goal>
+
+    <goal name="excalibur:seed-forrest"
+            description="Sets up forrest docs">
+
+        <!-- create src/xdocs/tabs.xml -->
+        <!-- always overwrite this bugger as it should be
+             common to all projects! -->
+        <j:file name="${component.dir}/src/xdocs/tabs.xml">
+        <j:whitespace xmlns="dummy">
+<tabs software="${component.name}"
+title="${component.name}">
+
+<tab label="Avalon Home" href="http://avalon.apache.org/"/>
+<tab label="Framework" href="http://avalon.apache.org/framework/"/>
+<tab label="Components" href="http://avalon.apache.org/components/"/>
+<tab label="Phoenix" href="http://avalon.apache.org/phoenix/"/>
+<tab label="SECA" href="http://avalon.apache.org/seca/"/>
+
+</tabs>
+        </j:whitespace>
+        </j:file>
+
+        <!-- create src/xdocs/book.xml -->
+        <ant:available file="${component.dir}/src/xdocs/book.xml"
+                property="book.exists"/>
+        <j:set var="exists" value="${book.exists}"/>
+        <j:if test="${mexists}"><ant:echo>Warning: ${component.dir}/src/xdocs/book.xml already exists!</ant:echo></j:if>
+        <j:if test="${not exists}">
+        <j:file name="${component.dir}/src/xdocs/book.xml">
+        <j:whitespace xmlns="dummy">
+<book software="${component.name}" title="${component.name}" copyright="${inception.year} The Apache Software Foundation">
+
+<menu label="Essentials">
+    <menu-item label="Overview" href="index.html"/>
+    <menu-item label="Download" href="http://avalon.apache.org/download.cgi"/>
+    <menu-item label="API Docs" href="http://avalon.apache.org/excalibur/${component.dir}/apidocs/"/>
+    <menu-item label="CVS Access" href="cvs-usage.html"/>
+</menu>
+
+<menu label="Reports">
+    <menu-item href="maven-reports.html" label="Maven-generated reports"/>
+    <menu-item href="project-info.html" label="Maven-generated project info"/>
+</menu>
+</book>
+        </j:whitespace>
+        </j:file>
+        </j:if>
+    </goal>
+
+    <goal name="excalibur:seed-info"
+            description="Outlines the steps to take after seeding a new component">
+        <ant:echo>
+===================================================================
+ Avalon Excalibur Build System, the Maven Edition
+===================================================================
+
+A blank component project has been generated for you in
+
+            ${component.dir}/
+
+Things you should do now:
+
+1) edit project.xml and write a more sensible description that
+describes your project.
+
+<j:if test="${use.forrest}">
+2) create ${component.dir}/src/xdocs/index.xml in the forrest
+   document format to get your website started
+</j:if>
+<j:if test="${not use.forrest}">
+2) create ${component.dir}/src/xdocs/index.xml in the anakia
+   document format to get your website started
+</j:if>
+
+3) write unit tests and place them in ${component.dir}/src/test
+
+4) write the component and place it in ${component.dir}/src/java
+
+5) run the common maven goals ('site', 'java:jar', 'dist') on
+   your project and make sure you like the results
+
+6) add the new component to cvs, or zip it up and send it to
+   dev@avalon.apache.org if you do not have write access to the
+   excalibur cvs
+===================================================================
         </ant:echo>
     </goal>
 
