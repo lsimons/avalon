@@ -283,6 +283,10 @@
         <copy file="${build.conf}/LICENSE.txt" todir="${dist.dir}"/>
         <copy file="../KEYS" todir="${dist.dir}"/>
 
+        <zip zipfile="${dist.dir}/src.zip" compress="false">
+            <zipfileset dir="src/java"/>
+        </zip>
+
         <mkdir dir="${dist.base}"/>
 
         <zip zipfile="${dist.base}/${dist.name}-bin.zip" compress="true">
