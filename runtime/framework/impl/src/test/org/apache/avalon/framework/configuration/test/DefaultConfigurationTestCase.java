@@ -241,8 +241,8 @@ public final class DefaultConfigurationTestCase extends TestCase
     public void testEquals()
         throws Exception
     {
-        DefaultConfiguration a = createSimple( "1", "2" );
-        DefaultConfiguration b = createSimple( "1", "2" );
+        DefaultConfiguration a = createSimple( "a1", "a2" );
+        DefaultConfiguration b = createSimple( "a1", "a2" );
         
         assertEquals( "equal test", a, b );
         
@@ -251,16 +251,16 @@ public final class DefaultConfigurationTestCase extends TestCase
         
         assertEquals( "value equality", value1, value2 );
         
-        a = createSimple( "1", "2" );
-        b = createSimple( "2", "1" );
+        a = createSimple( "a1", "a2" );
+        b = createSimple( "a2", "a1" );
         
         assertTrue( "order test", ! a.equals( b ) );
         
         value1 = a.getChild( "child" ).getValue();
         value2 = b.getChild( "child" ).getValue();
         
-        assertEquals( "value equality", "1", value1 );
-        assertEquals( "value equality", "2", value2 );
+        assertEquals( "value equality", "a1", value1 );
+        assertEquals( "value equality", "a2", value2 );
     }
     
     private DefaultConfiguration createSimple( String value1, String value2 )
@@ -269,10 +269,19 @@ public final class DefaultConfigurationTestCase extends TestCase
         DefaultConfiguration conf = new DefaultConfiguration( "root", "0:0", "http://root", "root" );
         DefaultConfiguration child1 = new DefaultConfiguration( "child", "0:1", "http://root/child", "child" );
         child1.setValue( value1 );
+        child1.setAttribute( value1, value1 );
+        child1.setAttribute( value2, value2 );
+        child1.setAttribute( value1, value2 );
+        child1.setAttribute( value2, value1 );
         conf.addChild( child1 );
         
         DefaultConfiguration child2 = new DefaultConfiguration( "child", "0:2", "http://root/child", "child" );
         child2.setValue( value2 );
+        child1.setAttribute( value2, value2 );
+        child1.setAttribute( value1, value1 );
+        child1.setAttribute( value2, value1 );
+        child1.setAttribute( value1, value2 );
+        child2.setAttribute( value2, value2 );
         conf.addChild( child2 );
         
         conf.makeReadOnly();
