@@ -54,7 +54,7 @@ package org.apache.avalon.fortress.impl.handler;
  * and destroyed correctly.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/07 16:08:12 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/03/19 12:53:31 $
  * @since 4.0
  */
 public final class FactoryComponentHandler
@@ -72,7 +72,7 @@ public final class FactoryComponentHandler
 
     /**
      * Return a reference of the desired Component
-     * @param componet the compoent to return to the handler
+     * @param component the compoent to return to the handler
      */
     protected void doPut( final Object component )
     {
