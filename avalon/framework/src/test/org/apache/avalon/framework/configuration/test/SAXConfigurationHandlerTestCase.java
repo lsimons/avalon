@@ -89,7 +89,7 @@ public final class SAXConfigurationHandlerTestCase extends TestCase
         final Configuration configuration = m_handler.getConfiguration();
         assertEquals( attValue, configuration.getAttribute(attqName));
         assertEquals( childvalue, configuration.getChild(childlocal).getValue());
-        assertEquals( Namespace.getNamespace("child", childURI), configuration.getChild(childlocal).getNamespace() );
+        assertEquals( childURI, configuration.getChild(childlocal).getNamespace() );
         assertEquals( rootraw, configuration.getName());
     }
 }

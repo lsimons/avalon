@@ -27,7 +27,8 @@ public class DefaultConfiguration
 
     private final String                     m_name;
     private final String                     m_location;
-    private final Namespace                  m_namespace;
+    private final String                     m_namespace;
+    private final String                     m_prefix;
     private HashMap                          m_attributes;
     private ArrayList                        m_children;
     private String                           m_value;
@@ -38,17 +39,18 @@ public class DefaultConfiguration
      */
     public DefaultConfiguration( final String name, final String location )
     {
-        this (name, location, Namespace.getNamespace(null));
+        this (name, location, "", "");
     }
 
     /**
      * Create a new <code>DefaultConfiguration</code> instance.
      */
-    public DefaultConfiguration( final String name, final String location, final Namespace ns )
+    public DefaultConfiguration( final String name, final String location, final String ns, final String prefix )
     {
         m_name = name;
         m_location = location;
         m_namespace = ns;
+        m_prefix = prefix;  // only used as a serialization hint
     }
 
     /**
@@ -62,9 +64,17 @@ public class DefaultConfiguration
     /**
      * Returns the namespace of this configuration element
      */
-    public Namespace getNamespace()
+    public String getNamespace()
     {
         return m_namespace;
+    }
+
+    /**
+     * Returns the prefix of the namespace
+     */
+    protected String getPrefix()
+    {
+        return m_prefix;
     }
 
     /**

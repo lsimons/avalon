@@ -123,8 +123,7 @@ public class SAXConfigurationHandler
                                                         final String location )
     {
         final String    prefix    = m_namespaceSupport.getPrefix( namespaceURI );
-        final Namespace namespace = Namespace.getNamespace( prefix, namespaceURI );
-        return new DefaultConfiguration( localName, location, namespace );
+        return new DefaultConfiguration( localName, location, namespaceURI, prefix );
     }
 
     public void startElement( final String namespaceURI,
