@@ -20,6 +20,7 @@
 <document>
   <properties>
     <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <author email="niclas@apache.org">Niclas Hedhman</author>
     <title>Avalon Logging</title>
   </properties>
   <body>
@@ -43,6 +44,17 @@
             a multiplex target, and a plugin target.  The plugin target provides
             support for the dynamic loading of new targets based on a artifact
             identifier.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="log4j/index.html">Log4J</a></td>
+            <td>
+              The Log4J plugin is a very thin wrapper of the extensive
+              Log4J Logging subsystem. Since Log4J's configuration is 
+              used as-is, all configurable features are supported.
+              For more information about Log4J
+              and how it is configured, please visit the
+              <a href="http://logging.apache.org/log4j/">Log4J project</a>.
             </td>
           </tr>
         </table>

@@ -36,6 +36,7 @@
       <item name="Specification" href="/spec/index.html"/>
       <item name="Implementations" href="/impl/index.html">
         <item name="LogKit" href="/impl/logkit/index.html"/>
+        <item name="Log4J" href="/impl/log4j/index.html"/>
       </item>
       <item name="Examples" href="/examples/index.html"/>
     </menu>
