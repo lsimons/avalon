@@ -8,14 +8,19 @@
 # respectively.
 #
 
-#usage VARIABLE=`find_maven_repo "property_file" "property_name" "default_value"`
-function find_property()
+#usage VARIABLE=`find_property "property_file" "property_name" "default_value"`
+find_property()
 {
-       VAL=${3}
-       if [ -f ${1} ] ; then
-               VAL=`cat ${1} | grep ^${2} | cut -d= -f2`
+       VAL=
+       if [ -f "${1}" ] ; then
+               VAL=`cat "${1}" | grep "^${2}" | cut -d= -f2`
        fi
-       echo ${VAL}
+
+       if [ "${VAL}" = "" ] ; then
+               echo "${3}"
+       else
+               echo "${VAL}"
+       fi
 }
 
 #
