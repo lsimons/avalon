@@ -132,6 +132,7 @@ public class DataSourceTestCase
         Thread seven = new Thread( new ConnectionThread( this, ds ) );
         Thread eight = new Thread( new ConnectionThread( this, ds ) );
         Thread nine = new Thread( new ConnectionThread( this, ds ) );
+        Thread ten = new Thread( new ConnectionThread( this, ds ) );
 
         one.start();
         two.start();
@@ -142,10 +143,11 @@ public class DataSourceTestCase
         seven.start();
         eight.start();
         nine.start();
+        ten.start();
 
         while( one.isAlive() || two.isAlive() || three.isAlive() || four.isAlive() ||
                five.isAlive() || six.isAlive() || seven.isAlive() || eight.isAlive() ||
-               nine.isAlive() )
+               nine.isAlive() || ten.isAlive() )
         {
             try
             {
