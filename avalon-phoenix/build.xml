@@ -61,7 +61,7 @@ Legal:
     <property name="framework.jar" value="${lib.dir}/avalon-framework-20020713.jar"/>
     <property name="logkit.jar" value="${lib.dir}/logkit-1.1a.jar"/>
     <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
-    
+
     <!-- Invoke 'ant get-mx4j' to get these -->
     <property name="mx4j.jar" value="mx4j\mx4j-1.1\lib\mx4j-jmx.jar"/>
     <property name="mx4j-tools.jar" value="mx4j\mx4j-1.1\lib\mx4j-tools.jar"/>
@@ -111,13 +111,13 @@ Legal:
         <echo>**************************</echo>
         <echo>* Please execute target  *</echo>
         <echo>* 'get-mx4j' in the main *</echo>
-        <echo>* build.xml build file   *</echo>    
+        <echo>* build.xml build file   *</echo>
         <echo>* to download one and    *</echo>
         <echo>* a half Mb of MX4J      *</echo>
-        <echo>**************************</echo> 
-        <fail message="MX4J needed. See above."/>   
-    </target>    
-        
+        <echo>**************************</echo>
+        <fail message="MX4J needed. See above."/>
+    </target>
+
     <!-- Check requirements of environment -->
     <target name="check-environment" depends="check-mx4j">
         <available property="xerces.present" type="file" file="${xerces.jar}"/>
@@ -135,42 +135,42 @@ Legal:
         </available>
     </target>
 
-  <!-- Get the jars from the MX4J project. -->
-  <!-- For licensing reasons, we are unable to put these Jars in our CVS or source distributions. -->
-  <target name="get-mx4j">  
-    <mkdir  dir="mx4j"/>  
-    <get src="http://telia.dl.sourceforge.net/sourceforge/mx4j/mx4j-1.1.tar.gz" 
-	dest="mx4j/mx4j.tar.gz" 
-	verbose="true"
-	usetimestamp="true"/>	
-    <gunzip src="mx4j/mx4j.tar.gz" dest="mx4j" />
-    <untar src="mx4j/mx4j.tar" dest="mx4j"/>   	
-  </target>
+    <!-- Get the jars from the MX4J project. -->
+    <!-- For licensing reasons, we are unable to put these Jars in our CVS or source distributions. -->
+    <target name="get-mx4j">
+        <mkdir  dir="mx4j"/>
+        <get src="http://telia.dl.sourceforge.net/sourceforge/mx4j/mx4j-1.1.tar.gz"
+            dest="mx4j/mx4j.tar.gz"
+            verbose="true"
+            usetimestamp="true"/>
+        <gunzip src="mx4j/mx4j.tar.gz" dest="mx4j" />
+        <untar src="mx4j/mx4j.tar" dest="mx4j"/>
+    </target>
 
 
     <target name="pretty">
-       <taskdef name="pretty"
-          classname="org.acm.seguin.ant.Pretty"
-          classpath="${jrefactory.jar}" />
-       <pretty settingsDir="tools/etc" cvs="true" compileDir="${build.classes}">
-          <fileset dir="${src.dir}">
-             <include name="**/*.java" />
-             <!--<exclude name="org/**/*.java" />-->
-          </fileset>
-       </pretty>
+        <taskdef name="pretty"
+            classname="org.acm.seguin.ant.Pretty"
+            classpath="${jrefactory.jar}" />
+        <pretty settingsDir="tools/etc" cvs="true" compileDir="${build.classes}">
+            <fileset dir="${src.dir}">
+                <include name="**/*.java" />
+                <!--<exclude name="org/**/*.java" />-->
+            </fileset>
+        </pretty>
     </target>
 
     <target name="changelog">
         <!-- specific to ant1.5.1 -->
         <cvschangelog dir="."
-                    destfile="changelog.xml"
-                    start="13 Nov 2001"/>
+            destfile="changelog.xml"
+            start="13 Nov 2001"/>
         <style in="changelog.xml"
-               out="changelog.html"
-               style="${ant.home}/etc/changelog.xsl">
-          <param name="title" expression="Phoenix ChangeLog"/>
-          <param name="module" expression="jakarta-avalon-phoenix"/>
-          <param name="cvsweb" expression="http://cvs.apache.org/viewcvs/"/>
+            out="changelog.html"
+            style="${ant.home}/etc/changelog.xsl">
+            <param name="title" expression="Phoenix ChangeLog"/>
+            <param name="module" expression="jakarta-avalon-phoenix"/>
+            <param name="cvsweb" expression="http://cvs.apache.org/viewcvs/"/>
         </style>
 
     </target>
@@ -220,7 +220,7 @@ Legal:
             <exclude name="org/apache/avalon/phoenix/components/manager/MX4JSystemManager.java"
                 unless="mx4j.present"/>
             <exclude name="org/apache/avalon/phoenix/components/manager/MX4JLoggerAdapter.java"
-                unless="mx4j.present"/>                
+                unless="mx4j.present"/>
             <exclude name="org/apache/avalon/phoenix/launcher/DaemonLauncher.java"
                 unless="wrapper.present"/>
             <exclude name="org/apache/avalon/phoenix/components/kernel/beanshell/*.java"
@@ -230,7 +230,7 @@ Legal:
         <copy todir="${build.classes}">
             <fileset dir="${java.dir}">
                 <include name="**/*.properties" />
-                <include name="**/*.j" />
+                <include name="**/*.xdt" />
             </fileset>
         </copy>
 
@@ -239,23 +239,22 @@ Legal:
     <!-- Make .xinfo, .mxinfo and manifest automatically for blocks -->
     <target name="phoenix-xdoclet" depends="compile">
 
-      <mkdir dir="${build.xdoclet}"/>
+        <mkdir dir="${build.xdoclet}"/>
 
-      <taskdef name="phoenix-blocks"
-               classname="org.apache.avalon.phoenix.tools.xdoclet.PhoenixXDoclet"
-               classpathref="project.class.path"/>
+        <taskdef name="phoenix-blocks"
+            classname="org.apache.avalon.phoenix.tools.xdoclet.PhoenixXDoclet"
+            classpathref="project.class.path"/>
 
-      <phoenix-blocks
-         destdir="${build.xdoclet}"
-          classpathref="project.class.path">
-        <fileset dir="${java.dir}">
-        <include name="**" />
-        </fileset>
-        <blockinfo/>
-        <mxinfo/>
-      </phoenix-blocks>
+        <phoenix-blocks
+            destdir="${build.xdoclet}">
+            <fileset dir="${java.dir}">
+                <include name="**" />
+            </fileset>
+            <blockinfo/>
+            <mxinfo/>
+        </phoenix-blocks>
 
-    </target>  
+    </target>
 
     <!-- Creates all the .jar files -->
     <target name="jars" depends="phoenix-xdoclet">
@@ -275,7 +274,7 @@ Legal:
         <jar jarfile="${build.lib}/phoenix-loader.jar"
             basedir="${build.classes}">
             <manifest>
-              <attribute name="Main-Class" value="org.apache.avalon.phoenix.launcher.Main"/>
+                <attribute name="Main-Class" value="org.apache.avalon.phoenix.launcher.Main"/>
             </manifest>
             <include name="org/apache/avalon/phoenix/launcher/**"/>
 
@@ -351,13 +350,13 @@ Legal:
 
     <!-- Copy MX4J jars to the bin/lin dir (and modify) -->
     <target name="dist-mx4j" description="Copies MX4J jars" if="mx4j.present">
-	<copy file="${mx4j.jar}" todir="${bin.dist.bin}/lib"/>
-	<copy file="${mx4j-tools.jar}" todir="${bin.dist.bin}/lib"/>
+        <copy file="${mx4j.jar}" todir="${bin.dist.bin}/lib"/>
+        <copy file="${mx4j-tools.jar}" todir="${bin.dist.bin}/lib"/>
         <jar jarfile="${bin.dist.bin}/lib/mx4j-tools.jar" update="true">
             <zipfileset dir="src/mx4j/xsl" prefix="mx4j/adaptor/http/xsl/">
                 <include name="common.xsl"/>
-            </zipfileset>        
-        </jar>	
+            </zipfileset>
+        </jar>
     </target>
 
     <!-- Copy BeanShell jars -->
@@ -393,19 +392,19 @@ Legal:
         <copy file="${logkit.jar}" todir="${bin.dist.lib}"/>
         <copy file="${framework.jar}" todir="${bin.dist.lib}"/>
         <copy todir="${bin.dist.lib}">
-          <fileset dir="${lib.dir}">
-            <include name="excalibur*.jar"/>
-          </fileset>
-          <fileset dir="${lib.dir}/jing">
-            <include name="*.jar"/>
-          </fileset>
+            <fileset dir="${lib.dir}">
+                <include name="excalibur*.jar"/>
+            </fileset>
+            <fileset dir="${lib.dir}/jing">
+                <include name="*.jar"/>
+            </fileset>
         </copy>
 
         <copy file="${xerces.jar}" todir="${bin.dist.lib}"/>
         <copy file="${xml-api.jar}" todir="${bin.dist.lib}"/>
         <copy file="${xalan.jar}" todir="${bin.dist.lib}"/>
         <filter token="KERNEL-CLASS" value="${kernel.impl.class}"/>
-        <filter token="SYSTEM-MANAGER-CLASS" value="${system.manager.impl.class}"/>        
+        <filter token="SYSTEM-MANAGER-CLASS" value="${system.manager.impl.class}"/>
         <copy todir="${bin.dist.conf}" filtering="on">
             <fileset dir="${conf.dir}">
                 <include name="kernel.xml"/>
@@ -520,24 +519,24 @@ Legal:
         <copy file="${xalan.jar}" todir="${src.dist.lib}/"/>
         <copy file="${framework.jar}" todir="${src.dist.lib}"/>
         <copy todir="${src.dist.lib}">
-          <fileset dir="${lib.dir}">
-            <include name="excalibur*.jar"/>
-            <include name="xdoclet/*.*"/>
-            <include name="README.txt"/>
-          </fileset>
+            <fileset dir="${lib.dir}">
+                <include name="excalibur*.jar"/>
+                <include name="xdoclet/*.*"/>
+                <include name="README.txt"/>
+            </fileset>
         </copy>
         <mkdir dir="${src.dist.lib}/jing" />
         <copy todir="${src.dist.lib}">
-          <fileset dir="${lib.dir}/jing">
-            <include name="**"/>
-          </fileset>          
+            <fileset dir="${lib.dir}/jing">
+                <include name="**"/>
+            </fileset>
         </copy>
-        
+
         <mkdir dir="${src.dist.lib}/xdoclet" />
         <copy todir="${src.dist.lib}/xdoclet">
-          <fileset dir="${lib.dir}/xdoclet">
-            <include name="**"/>
-          </fileset>                    
+            <fileset dir="${lib.dir}/xdoclet">
+                <include name="**"/>
+            </fileset>
         </copy>
         <copy file="${logkit.jar}" todir="${src.dist.lib}"/>
 
@@ -623,7 +622,7 @@ Legal:
         <zip zipfile="${dist.base}/${dist.name}-src.zip"
             basedir="${dist.name}/.."
             includes="${dist.name}/**"/>
-            
+
         <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-src.tar" >
             <tarfileset dir="${dist.name}/.." username="avalon" group="avalon">
                 <include name="${dist.name}/**"/>
