@@ -78,7 +78,7 @@ Legal:
   <property name="dist.name" value="${name}-${version}"/>
   <property name="dist.base" value="distributions"/>
 
-  <property name="constants.file" value="org/apache/phoenix/engine/Constants.java"/>
+  <property name="constants.file" value="org/apache/avalon/phoenix/engine/Constants.java"/>
   <property name="xerces.jar" value="${lib.dir}/xerces_1_2_3.jar"/>
   <property name="avalonapi.jar" value="${lib.dir}/avalonapi.jar"/>
   <property name="logkit.jar" value="${lib.dir}/logkit.jar"/>
@@ -333,13 +333,13 @@ Legal:
     <mkdir dir="${build.lib}"/>
 
     <jar jarfile="${build.lib}/phoenix-client.jar" basedir="${build.classes}">
-      <include name="org/apache/phoenix/*"/>
+      <include name="org/apache/avalon/phoenix/*"/>
     </jar>
 
     <jar jarfile="${build.lib}/phoenix-loader.jar"
          basedir="${build.classes}"
          manifest="${manifest.dir}/loader-Manifest.mf" >
-      <include name="org/apache/phoenix/engine/loader/**"/>
+      <include name="org/apache/avalon/phoenix/engine/loader/**"/>
     </jar>
 
     <jar jarfile="${build.lib}/avalon-jmx.jar" basedir="${build.classes}">
@@ -351,11 +351,11 @@ Legal:
          manifest="${manifest.dir}/engine-Manifest.mf" >
 
       <!-- temporary hack until camelot/atlantis stabilizes -->
-      <include name="org/apache/avalon/**"/>
+      <include name="org/apache/avalon/framework/**"/>
 
-      <include name="org/apache/phoenix/metainfo/**"/>
-      <include name="org/apache/phoenix/engine/**"/>
-      <exclude name="org/apache/phoenix/engine/loader/**"/>
+      <include name="org/apache/avalon/phoenix/metainfo/**"/>
+      <include name="org/apache/avalon/phoenix/engine/**"/>
+      <exclude name="org/apache/avalon/phoenix/engine/loader/**"/>
     </jar>
 
   </target>
