@@ -1,3 +1,10 @@
+/*
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included with this distribution in
+ * the LICENSE file.
+ */
 package org.apache.log.output.io.rotate;
 
 import java.io.File;
@@ -8,9 +15,10 @@ import org.apache.log.Logger;
 import org.apache.log.format.PatternFormatter;
 import org.apache.log.output.io.rotate.RotatingFileOutputLogTarget;
 
-/** Just a junit test template
-  This test does nothing
-*/
+/** 
+ * 
+ * @author <a href="mailto:bh22351@i-one.at">Bernhard Huber</a>
+ */
 public class TestRotatingFileOutputLogTarget extends TestCase {
     Logger logger;
     RotatingFileOutputLogTarget target;
