@@ -20,14 +20,12 @@ package org.apache.avalon.composition.data;
 import java.io.Serializable;
 
 import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
 
 /**
  * Description of the Certificates description.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/23 13:00:31 $
+ * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:08 $
  */
 public final class CertsDirective implements Serializable
 {

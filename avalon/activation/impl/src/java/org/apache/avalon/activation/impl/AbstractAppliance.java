@@ -20,14 +20,13 @@ package org.apache.avalon.activation.impl;
 import org.apache.avalon.activation.Appliance;
 
 import org.apache.avalon.composition.model.DeploymentModel;
-import org.apache.avalon.composition.provider.LifestyleManager;
 
 import org.apache.avalon.framework.logger.Logger;
 
 /**
  * Abstract appliance.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/04 03:42:30 $
+ * @version $Revision: 1.3 $ $Date: 2004/03/17 10:30:07 $
  */
 public abstract class AbstractAppliance implements Appliance
 {

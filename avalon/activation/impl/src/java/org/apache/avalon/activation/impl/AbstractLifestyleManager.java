@@ -26,7 +26,6 @@ import org.apache.avalon.activation.LifecycleException;
 import org.apache.avalon.activation.ComponentFactory;
 
 import org.apache.avalon.composition.model.ComponentModel;
-import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.StageModel;
 import org.apache.avalon.composition.provider.LifestyleManager;
 
@@ -45,7 +44,7 @@ import org.apache.avalon.util.i18n.Resources;
  * Abstract implentation class for a lifestyle handler.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/03/11 18:13:14 $
+ * @version $Revision: 1.7 $ $Date: 2004/03/17 10:30:07 $
  */
 public abstract class AbstractLifestyleManager implements LifestyleManager
 {

@@ -17,10 +17,6 @@
 
 package org.apache.avalon.logging.log4j.test;
 
-import java.io.File;
-import java.net.URL;
-import java.util.Map;
-
 import junit.framework.TestCase;
 
 import org.apache.avalon.framework.logger.Logger;
@@ -29,21 +25,11 @@ import org.apache.avalon.logging.LoggingManagerHelper;
 import org.apache.avalon.logging.provider.LoggingManager;
 import org.apache.avalon.logging.provider.LoggingException;
 
-import org.apache.avalon.repository.Artifact;
-import org.apache.avalon.repository.provider.Factory;
-import org.apache.avalon.repository.provider.InitialContext;
-import org.apache.avalon.repository.provider.Builder;
-import org.apache.avalon.repository.main.DefaultInitialContext;
-import org.apache.avalon.repository.main.DefaultBuilder;
-
-import org.apache.avalon.util.env.Env;
-import org.apache.avalon.util.exception.ExceptionHelper;
-
 /**
  * 
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class DefaultLoggingManagerTestCase extends TestCase
 {

@@ -17,19 +17,13 @@
 
 package org.apache.avalon.activation.impl;
 
-import java.util.Map;
-import java.util.Hashtable;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException ;
-import java.lang.reflect.Method ;
 
-import java.security.AccessControlContext;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.security.PrivilegedExceptionAction;
 
 import org.apache.avalon.activation.ComponentFactory;
-import org.apache.avalon.activation.RuntimeFactory;
 import org.apache.avalon.activation.LifecycleException;
 
 import org.apache.avalon.composition.info.DeliveryDescriptor;
@@ -37,12 +31,9 @@ import org.apache.avalon.composition.info.NativeDeliveryDescriptor;
 import org.apache.avalon.composition.info.StagedDeliveryDescriptor;
 import org.apache.avalon.composition.info.InjectorDeliveryDescriptor;
 import org.apache.avalon.composition.info.NullDeliveryDescriptor;
-import org.apache.avalon.composition.model.ModelException;
-import org.apache.avalon.composition.model.ModelRuntimeException;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.ContextModel;
-import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.StageModel;
 import org.apache.avalon.composition.model.ContextualizationHandler;
 import org.apache.avalon.composition.model.LifecycleCreateExtension;
@@ -69,8 +60,6 @@ import org.apache.avalon.framework.service.ServiceManager;
 
 import org.apache.avalon.lifecycle.Creator;
 
-import org.apache.avalon.repository.Artifact;
-
 import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;
 
@@ -79,7 +68,7 @@ import org.apache.avalon.util.i18n.Resources;
  * A factory enabling the establishment of component instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/03/13 23:26:56 $
+ * @version $Revision: 1.10 $ $Date: 2004/03/17 10:30:07 $
  */
 public class DefaultComponentFactory implements ComponentFactory
 {

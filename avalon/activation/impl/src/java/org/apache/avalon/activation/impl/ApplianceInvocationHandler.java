@@ -21,19 +21,16 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.security.PrivilegedActionException;
 import java.security.AccessController;
 import java.security.PrivilegedExceptionAction;
 
-import org.apache.avalon.activation.Appliance;
 import org.apache.avalon.activation.ApplianceException;
 import org.apache.avalon.activation.TransientApplianceException;
 
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.TransientRuntimeException;
 
-import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.Logger;
 
 /**
@@ -41,7 +38,7 @@ import org.apache.avalon.framework.logger.Logger;
  * by one, some or all of it's interfaces.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/03/13 23:26:56 $
+ * @version $Revision: 1.8 $ $Date: 2004/03/17 10:30:07 $
  */
 public final class ApplianceInvocationHandler implements InvocationHandler
 {

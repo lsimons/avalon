@@ -18,14 +18,10 @@
 package org.apache.avalon.logging.logkit.factory.syslog;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 import org.apache.log.LogEvent;
-import org.apache.log.Priority;
 import org.apache.log.format.Formatter;
-import org.apache.log.output.AbstractOutputTarget;
 import org.apache.log.output.net.DatagramOutputTarget;
 
 /**

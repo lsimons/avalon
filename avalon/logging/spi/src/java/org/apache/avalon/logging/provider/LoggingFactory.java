@@ -17,10 +17,6 @@
 
 package org.apache.avalon.logging.provider;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Map;
-
 import org.apache.avalon.repository.provider.Factory;
 
 
@@ -28,7 +24,7 @@ import org.apache.avalon.repository.provider.Factory;
  * Convinience interface to construct a logging manager.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public interface LoggingFactory extends Factory
 {

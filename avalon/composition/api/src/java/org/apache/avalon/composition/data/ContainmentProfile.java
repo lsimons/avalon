@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import org.apache.avalon.meta.info.ServiceDescriptor;
 
 import org.apache.avalon.logging.data.CategoriesDirective;
-import org.apache.avalon.logging.data.CategoryDirective;
 
 /**
  * A containment profile describes a containment context including
@@ -30,7 +29,7 @@ import org.apache.avalon.logging.data.CategoryDirective;
  * the a container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/03/11 01:30:38 $
+ * @version $Revision: 1.10 $ $Date: 2004/03/17 10:30:08 $
  */
 public class ContainmentProfile extends DeploymentProfile
 {

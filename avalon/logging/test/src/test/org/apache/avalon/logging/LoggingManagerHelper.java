@@ -18,12 +18,7 @@
 package org.apache.avalon.logging;
 
 import java.io.File;
-import java.net.URL;
 import java.util.Map;
-
-import junit.framework.TestCase;
-
-import org.apache.avalon.framework.logger.Logger;
 
 import org.apache.avalon.logging.provider.LoggingManager;
 
@@ -32,7 +27,6 @@ import org.apache.avalon.repository.provider.Factory;
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.main.DefaultInitialContextFactory;
-import org.apache.avalon.repository.main.DefaultBuilder;
 
 import org.apache.avalon.util.env.Env;
 import org.apache.avalon.util.exception.ExceptionHelper;
@@ -45,7 +39,7 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
  * 
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class LoggingManagerHelper
 {

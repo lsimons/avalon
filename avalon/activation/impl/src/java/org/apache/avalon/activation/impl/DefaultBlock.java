@@ -17,24 +17,16 @@
 
 package org.apache.avalon.activation.impl;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.lang.reflect.UndeclaredThrowableException;
 import java.util.ArrayList;
 
-import org.apache.avalon.activation.Appliance;
-import org.apache.avalon.activation.ApplianceException;
 import org.apache.avalon.activation.ApplianceRuntimeException;
 
-import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ServiceModel;
 import org.apache.avalon.composition.provider.SystemContext;
 import org.apache.avalon.composition.util.DefaultState;
 
-import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.Logger;
 
 import org.apache.avalon.util.i18n.ResourceManager;
@@ -43,7 +35,7 @@ import org.apache.avalon.util.i18n.Resources;
 /**
  * Composite appliance.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/03/15 12:58:43 $
+ * @version $Revision: 1.4 $ $Date: 2004/03/17 10:30:07 $
  */
 public class DefaultBlock extends AbstractAppliance
 {

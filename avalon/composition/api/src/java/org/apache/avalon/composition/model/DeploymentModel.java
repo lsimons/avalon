@@ -17,8 +17,6 @@
 
 package org.apache.avalon.composition.model;
 
-import java.util.List;
-import java.security.Permissions;
 import java.security.AccessControlContext;
 
 import org.apache.avalon.composition.data.Mode;
@@ -39,7 +37,7 @@ import org.apache.avalon.logging.data.CategoriesDirective;
  * Model desribing a deployment scenario.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.19 $ $Date: 2004/03/13 23:26:56 $
+ * @version $Revision: 1.20 $ $Date: 2004/03/17 10:30:08 $
  */
 public interface DeploymentModel extends Commissionable, Resolver
 {

@@ -17,25 +17,11 @@
 
 package org.apache.avalon.activation.impl;
 
-import java.io.File;
-import java.net.URL;
-import java.util.Map;
-
 import org.apache.avalon.activation.RuntimeFactory;
 
-import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
-import org.apache.avalon.composition.provider.ModelFactory;
 import org.apache.avalon.composition.provider.SystemContext;
 import org.apache.avalon.composition.provider.Runtime;
-
-import org.apache.avalon.logging.provider.LoggingManager;
-import org.apache.avalon.logging.data.CategoryDirective;
-
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.avalon.framework.parameters.Parameters;
 
 import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;
@@ -44,7 +30,7 @@ import org.apache.avalon.util.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/03/08 11:28:35 $
+ * @version $Revision: 1.4 $ $Date: 2004/03/17 10:30:07 $
  */
 public class DefaultRuntime implements Runtime
 {

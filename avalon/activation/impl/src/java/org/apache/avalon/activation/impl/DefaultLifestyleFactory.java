@@ -26,14 +26,12 @@ import org.apache.avalon.composition.provider.LifestyleManager;
 
 import org.apache.avalon.meta.info.InfoDescriptor;
 
-import org.apache.avalon.framework.logger.Logger;
-
 
 /**
  * A factory enabling the establishment of runtime handlers.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/03/04 03:42:30 $
+ * @version $Revision: 1.4 $ $Date: 2004/03/17 10:30:07 $
  */
 public class DefaultLifestyleFactory implements LifestyleFactory
 {
