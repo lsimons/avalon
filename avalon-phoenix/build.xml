@@ -106,8 +106,8 @@ Legal:
     <property name="cli.jar" value="${repo.dir}/cli/cli-1.0/cli-1.0.jar"/>
 
     <!-- Invoke ant get-configkit' to get these -->
-    <property name="configkit.jar" value="${repo.dir}/spice-configkit/spice-configkit-1.1.1/spice-configkit-1.1.1.jar"/>
-    <fileset id="configkit.fileset" dir="${lib.dir}" includes="repo/spice-configkit/spice-configkit-1.1.1/lib/*.jar"/>
+    <property name="configkit.jar" value="${repo.dir}/spice-configkit/spice-configkit-1.1.2/spice-configkit-1.1.2.jar"/>
+    <fileset id="configkit.fileset" dir="${lib.dir}" includes="repo/spice-configkit/spice-configkit-1.1.2/lib/*.jar"/>
 
     <!-- Invoke ant get-classman' to get these -->
     <property name="classman.jar" value="${repo.dir}/spice-classman/spice-classman-1.0/spice-classman-1.0.jar"/>
@@ -462,7 +462,7 @@ Legal:
     <!-- Get the jars from the configkit project. -->
     <target name="get-configkit" description="Get the Spice ConfigKit distribution from SourceForge.">
         <mkdir dir="${repo.dir}/spice-configkit"/>
-        <get src="http://osdn.dl.sourceforge.net/sourceforge/spice/spice-configkit-1.1.1.tar.gz"
+        <get src="http://osdn.dl.sourceforge.net/sourceforge/spice/spice-configkit-1.1.2.tar.gz"
             dest="${repo.dir}/spice-configkit/spice-configkit.tar.gz"
             verbose="true"
             usetimestamp="true"/>
